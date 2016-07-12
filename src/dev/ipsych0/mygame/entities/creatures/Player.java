@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -8,9 +9,15 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemSlot;
 
 public class Player extends Creature{
+	
+	private ItemSlot itemSlots;
+	private InventoryWindow inventoryWindow;
+	private Item item;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight;
@@ -19,7 +26,7 @@ public class Player extends Creature{
 	private Animation attDown, attUp, attLeft, attRight;
 	
 	// Attack timer
-	private long lastAttackTimer, attackCooldown = 1000, attackTimer = attackCooldown;
+	private long lastAttackTimer, attackCooldown = 666, attackTimer = attackCooldown;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -63,7 +70,7 @@ public class Player extends Creature{
 		checkAttacks();
 		
 		// Pickup listener
-		pickUp();
+//		pickUp();
 	}
 	
 	private void checkAttacks(){
@@ -114,43 +121,33 @@ public class Player extends Creature{
 	}
 	
 	
-	// TODO: Get this method working to pick up items from the world into the player's inventory.
-	public void pickUp(){
-		
-		Rectangle cb = getCollisionBounds(0,0);
-		Rectangle ar = new Rectangle();
-		int arSize = 16;
-		ar.width = arSize;
-		ar.height = arSize;
-		
-		if(handler.getKeyManager().aUp){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y - arSize;
-		}
-		else if(handler.getKeyManager().aDown){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y + cb.height;
-		}
-		else if(handler.getKeyManager().aLeft){
-			ar.x = cb.x - arSize;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else if(handler.getKeyManager().aRight){
-			ar.x = cb.x + cb.width;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else{
-			return;
-		}
-		
-		// TODO: For every item in the world, check if the player has collision with item, if yes, pick it up
-		for(Item i : handler.getWorld().getItemManager().getItems()){
-			if(getCollisionBounds(0, 0).intersects(ar)){
-				i.;
-				return;
-			}
-		}
-	}
+//	// TODO: Get this method working to pick up items from the world into the player's inventory.
+//	public void pickUp(){
+//		
+////		Rectangle cb = getCollisionBounds(0,0);
+////		Rectangle ar = new Rectangle();
+////		int arSize = 16;
+////		ar.width = arSize;
+////		ar.height = arSize;
+////		
+////		if(handler.getKeyManager().pickUp){
+////			System.out.println("PickupKey pressed!");
+////			ar.x = cb.x + cb.width / 2 - arSize / 2;
+////			ar.y = cb.y - arSize;
+////		}
+////		else{
+////			return;
+////		}
+//		
+//		// TODO: For every item in the world, check if the player has collision with item, if yes, pick it up
+//		for(Item i : handler.getWorld().getItemManager().getItems()){
+//			if(handler.getKeyManager().pickUp){
+//				item.pickUpItem(Item.woodItem, 10);
+//				return;
+//			}
+//		}
+//		return;
+//	}
 	
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
@@ -183,7 +180,7 @@ public class Player extends Creature{
 	public void render(Graphics g) {
 		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-//		g.setColor(Color.red);
+		g.setColor(Color.red);
 //		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 //				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}

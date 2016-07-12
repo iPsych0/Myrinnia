@@ -23,6 +23,10 @@ public class ItemStack {
 		return item;
 	}
 
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}

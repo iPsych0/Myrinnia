@@ -21,8 +21,9 @@ public class InventoryWindow {
 	private int numCols = 12;
 	private int numRows = 4;
 	
-	private ArrayList<ItemSlot> itemSlots;
+	private static ArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
+	private Item items;
 	
 	public InventoryWindow(Handler handler, int x, int y){
 		this.x = x;
@@ -45,10 +46,31 @@ public class InventoryWindow {
 		}	
 		width = numCols * (ItemSlot.SLOTSIZE + 10);
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
-		
+	
 		// TODO: Remove this
-		itemSlots.get(0).addItem(Item.woodItem, 10);
+		//itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		
+		for (int k = 0; k < itemSlots.size(); k++){
+			System.out.println("itemSlots contain: " + itemSlots.get(k).getItemStack() );
+		}
+		
 	}
+	
+	public boolean pickUpItem (Item item, int amount) {
+        int inventoryIndex = InventoryWindow.findFreeSlot();
+        System.out.println("invIndex = "+inventoryIndex);
+        if (inventoryIndex >= 0) {
+            if(item.getName() == items.getName()){
+            	System.out.println("Found an item: " + item.getName());
+            	itemSlots.get(inventoryIndex).addItem(item, amount);
+            	item.count = -1;
+            	return true;
+        	}
+            return false;
+        }
+    	System.out.println("Inventory is full!");
+    	return false;
+    }
 	
 	
 	public void tick(){
@@ -103,6 +125,27 @@ public class InventoryWindow {
 				g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
 			}
 		}
+	}
+	
+	public static int findFreeSlot() {
+        for (int i = 0; i < itemSlots.size(); i++) {
+             if (itemSlots.get(i).getItemStack() == null) {
+            	 System.out.println("Free slot found = " + "[" + i + "]");
+                 return i;
+             }
+        }
+        System.out.println("Something went wrong checking for free slots (or bag is full)");
+        return -1;
+   }
+
+
+	public ArrayList<ItemSlot> getItemSlots() {
+		return itemSlots;
+	}
+
+
+	public void setItemSlots(ArrayList<ItemSlot> itemSlots) {
+		this.itemSlots = itemSlots;
 	}
 
 }

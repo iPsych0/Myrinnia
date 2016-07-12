@@ -20,10 +20,16 @@ public class ItemManager {
 		Iterator<Item> it = items.iterator();
 		while(it.hasNext()){
 			Item i = it.next();
-			i.tick();
+			if(handler.getKeyManager().pickUp){
+				System.out.println("Current rendering item = " + i.getName());
+				i.pickUpItem(Item.woodItem, 10);
+			}
 			// If item is picked up, remove from world and add to inventory, but for now remove it.
-			if(i.getCount() == Item.PICKED_UP)
+			if(i.getCount() == Item.PICKED_UP){
+				// pickUp function to add to player's inventory, then remove from world with it.remove();
 				it.remove();
+			}
+			i.tick();
 		}
 	}
 	

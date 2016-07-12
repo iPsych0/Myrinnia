@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -12,6 +14,8 @@ public class Item {
 	
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
+	private InventoryWindow inventoryWindow;
+	private ArrayList<ItemSlot> itemSlots;
 	
 	// Class
 	
@@ -31,6 +35,7 @@ public class Item {
 		count = 1;
 		
 		items[id] = this;
+		itemSlots = new ArrayList<ItemSlot>();
 	}
 	
 	public void tick(){
@@ -64,27 +69,27 @@ public class Item {
 	// TODO: find a way to include the arraylist of item slots, to check what item the player is standing on, then
 	// add that item to the player's inventory at the given index
 	
-	public boolean pickUp (Item item, int amount) {
-        int inventoryIndex = findFreeSlot();
+	public boolean pickUpItem (Item item, int amount) {
+		for (int i = 0; i < itemSlots.size(); i++){
+			System.out.println("itemSlots contains: " + itemSlots.get(i).getItemStack());
+		}
+		System.out.println("item = " + item + " and amount = " + amount);
+        int inventoryIndex = InventoryWindow.findFreeSlot();
+        System.out.println("invIndex = "+inventoryIndex);
         if (inventoryIndex >= 0) {
-            itemSlots.get(inventoryIndex).addItem(item, amount);
-            return true;
-        }else{
-        	return false;
+            if(item.getName() == name){
+            	System.out.println("Found an item: " + item.getName() + " (equals " + name + ")");
+            	itemSlots.get(inventoryIndex).getItemStack().setItem(item);
+            	itemSlots.get(inventoryIndex).getItemStack().setAmount(amount);
+            	item.count = PICKED_UP;
+            	return true;
+        	}
+            return false;
         }
-	}
-    
-	// Finds a free slot in the player's inventory
-	// TODO: Find a way to include the array of inventory slots to check for free inventory slots to add the item to.
+    	System.out.println("Inventory is full!");
+    	return false;
+    }
 	
-    private int findFreeSlot() {
-        for (int i=0;i<itemSlots.size();i++) {
-             if (itemSlots.get(i) == null) {
-                  return i;
-             }
-        }
-        return -1;
-   }
 	
 	// Getters & Setters
 
