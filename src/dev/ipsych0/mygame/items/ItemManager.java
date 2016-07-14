@@ -26,8 +26,15 @@ public class ItemManager {
 			}
 			// If item is picked up, remove from world and add to inventory, but for now remove it.
 			if(i.getCount() == Item.PICKED_UP){
+				System.out.println("Item is picked up!");
 				// pickUp function to add to player's inventory, then remove from world with it.remove();
+				for(int j = 0; j < getItems().size(); j++){
+					System.out.println("item list before removal: " + getItems().get(j));
+				}
 				it.remove();
+				for(int j = 0; j < getItems().size(); j++){
+					System.out.println("item list after removal: " + getItems().get(j));
+				}
 			}
 			i.tick();
 		}

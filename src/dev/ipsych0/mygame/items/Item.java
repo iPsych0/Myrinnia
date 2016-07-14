@@ -15,7 +15,6 @@ public class Item {
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
 	private InventoryWindow inventoryWindow;
-	private ArrayList<ItemSlot> itemSlots;
 	
 	// Class
 	
@@ -25,7 +24,6 @@ public class Item {
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
-	
 	protected int x, y, count;
 	
 	public Item(BufferedImage texture, String name, int id){
@@ -35,7 +33,6 @@ public class Item {
 		count = 1;
 		
 		items[id] = this;
-		itemSlots = new ArrayList<ItemSlot>();
 	}
 	
 	public void tick(){
@@ -70,8 +67,15 @@ public class Item {
 	// add that item to the player's inventory at the given index
 	
 	public boolean pickUpItem (Item item, int amount) {
-		for (int i = 0; i < itemSlots.size(); i++){
-			System.out.println("itemSlots contains: " + itemSlots.get(i).getItemStack());
+		inventoryWindow = new InventoryWindow(handler, 80, 64);
+		System.out.println("itemSlots size = " + inventoryWindow.getItemSlots().size());
+		for (int i = 0; i < inventoryWindow.getItemSlots().size(); i++){
+			if(inventoryWindow.getItemSlots().get(i).getItemStack() != null){
+				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i));
+				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack());
+				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack().getItem());
+				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack().getItem().getName());
+			}
 		}
 		System.out.println("item = " + item + " and amount = " + amount);
         int inventoryIndex = InventoryWindow.findFreeSlot();
@@ -79,9 +83,8 @@ public class Item {
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	System.out.println("Found an item: " + item.getName() + " (equals " + name + ")");
-            	itemSlots.get(inventoryIndex).getItemStack().setItem(item);
-            	itemSlots.get(inventoryIndex).getItemStack().setAmount(amount);
-            	item.count = PICKED_UP;
+            	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
+            	item.setCount(PICKED_UP);
             	return true;
         	}
             return false;

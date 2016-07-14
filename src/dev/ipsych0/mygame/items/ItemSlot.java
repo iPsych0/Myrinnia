@@ -34,8 +34,8 @@ public class ItemSlot {
 		
 	}
 	
-	public void setItem(ItemStack item){
-		this.itemStack = item;
+	public void setItem(ItemStack is){
+		this.itemStack = is;
 	}
 	
 	public boolean addItem(Item item, int amount){
@@ -47,7 +47,9 @@ public class ItemSlot {
 				return false;
 			}
 		} else{
-			this.itemStack = new ItemStack(item, amount);
+			System.out.println("itemname = " + item.getName());
+			setItem(new ItemStack(item, amount));
+			System.out.println("NEW ITEM STACK = " + this.itemStack.getItem().getName());
 			return true;
 		}
 	}

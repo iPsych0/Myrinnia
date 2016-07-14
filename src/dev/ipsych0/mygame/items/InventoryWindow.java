@@ -48,29 +48,25 @@ public class InventoryWindow {
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 	
 		// TODO: Remove this
-		//itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
-		
-		for (int k = 0; k < itemSlots.size(); k++){
-			System.out.println("itemSlots contain: " + itemSlots.get(k).getItemStack() );
-		}
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
 		
 	}
 	
-	public boolean pickUpItem (Item item, int amount) {
-        int inventoryIndex = InventoryWindow.findFreeSlot();
-        System.out.println("invIndex = "+inventoryIndex);
-        if (inventoryIndex >= 0) {
-            if(item.getName() == items.getName()){
-            	System.out.println("Found an item: " + item.getName());
-            	itemSlots.get(inventoryIndex).addItem(item, amount);
-            	item.count = -1;
-            	return true;
-        	}
-            return false;
-        }
-    	System.out.println("Inventory is full!");
-    	return false;
-    }
+//	public boolean pickUpItem (Item item, int amount) {
+//        int inventoryIndex = InventoryWindow.findFreeSlot();
+//        System.out.println("invIndex = "+inventoryIndex);
+//        if (inventoryIndex >= 0) {
+//            if(item.getName() == items.getName()){
+//            	System.out.println("Found an item: " + item.getName());
+//            	itemSlots.get(inventoryIndex).addItem(item, amount);
+//            	item.count = -1;
+//            	return true;
+//        	}
+//            return false;
+//        }
+//    	System.out.println("Inventory is full!");
+//    	return false;
+//    }
 	
 	
 	public void tick(){

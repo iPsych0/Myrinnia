@@ -114,7 +114,7 @@ public class Player extends Creature{
 			if(e.equals(this))
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
-				e.damage(20);
+				e.damage(100);
 				return;
 			}
 		}
