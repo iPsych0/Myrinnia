@@ -9,6 +9,7 @@ public class ItemSlot {
 	
 	private int x, y;
 	private ItemStack itemStack;
+	private InventoryWindow inventoryWindow;
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
@@ -40,6 +41,7 @@ public class ItemSlot {
 	
 	public boolean addItem(Item item, int amount){
 		if(itemStack != null){
+			System.out.println("WE ALREADY HAD THIS ITEM!");
 			if(item.getName() == itemStack.getItem().getName()){
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				return true;

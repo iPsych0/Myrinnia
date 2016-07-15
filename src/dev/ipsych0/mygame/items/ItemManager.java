@@ -21,21 +21,23 @@ public class ItemManager {
 		while(it.hasNext()){
 			Item i = it.next();
 			if(handler.getKeyManager().pickUp){
-				System.out.println("Current rendering item = " + i.getName());
 				i.pickUpItem(Item.woodItem, 10);
-			}
-			// If item is picked up, remove from world and add to inventory, but for now remove it.
-			if(i.getCount() == Item.PICKED_UP){
-				System.out.println("Item is picked up!");
-				// pickUp function to add to player's inventory, then remove from world with it.remove();
-				for(int j = 0; j < getItems().size(); j++){
-					System.out.println("item list before removal: " + getItems().get(j));
+				if(i.getCount() == Item.PICKED_UP){
+					System.out.println("Item is picked up!");
+					// pickUp function to add to player's inventory, then remove from world with it.remove();
+					for(int j = 0; j < getItems().size(); j++){
+						System.out.println("item list before removal: " + getItems().get(j).getName());
+					}
+					it.remove();
+					for(int j = 0; j < getItems().size(); j++){
+						System.out.println("item list after removal: " + getItems().get(j).getName());
+					}
 				}
-				it.remove();
-				for(int j = 0; j < getItems().size(); j++){
-					System.out.println("item list after removal: " + getItems().get(j));
+				else{
+				System.out.println("Skipped if-statement that checks pickups!");
 				}
 			}
+			
 			i.tick();
 		}
 	}

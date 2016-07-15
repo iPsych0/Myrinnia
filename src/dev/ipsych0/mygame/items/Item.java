@@ -24,7 +24,8 @@ public class Item {
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
-	protected int x, y, count;
+	protected int x, y;
+	private static int count;
 	
 	public Item(BufferedImage texture, String name, int id){
 		this.texture = texture;
@@ -68,21 +69,14 @@ public class Item {
 	
 	public boolean pickUpItem (Item item, int amount) {
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
-		System.out.println("itemSlots size = " + inventoryWindow.getItemSlots().size());
 		for (int i = 0; i < inventoryWindow.getItemSlots().size(); i++){
 			if(inventoryWindow.getItemSlots().get(i).getItemStack() != null){
-				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i));
-				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack());
-				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack().getItem());
 				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack().getItem().getName());
 			}
 		}
-		System.out.println("item = " + item + " and amount = " + amount);
         int inventoryIndex = InventoryWindow.findFreeSlot();
-        System.out.println("invIndex = "+inventoryIndex);
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
-            	System.out.println("Found an item: " + item.getName() + " (equals " + name + ")");
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
             	item.setCount(PICKED_UP);
             	return true;
@@ -141,7 +135,7 @@ public class Item {
 	}
 
 	public void setCount(int count) {
-		this.count = count;
+		Item.count = count;
 	}
 
 	public int getId() {

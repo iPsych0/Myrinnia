@@ -47,8 +47,8 @@ public class InventoryWindow {
 		width = numCols * (ItemSlot.SLOTSIZE + 10);
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 	
-		// TODO: Remove this
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+//		TODO: Remove this
+//		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
 		
 	}
 	
@@ -141,7 +141,7 @@ public class InventoryWindow {
 
 
 	public void setItemSlots(ArrayList<ItemSlot> itemSlots) {
-		this.itemSlots = itemSlots;
+		InventoryWindow.itemSlots = itemSlots;
 	}
 
 }
