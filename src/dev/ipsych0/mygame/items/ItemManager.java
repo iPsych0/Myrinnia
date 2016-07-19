@@ -20,17 +20,11 @@ public class ItemManager {
 		Iterator<Item> it = items.iterator();
 		while(it.hasNext()){
 			Item i = it.next();
+			// Checks player's position for any items nearby to pick up
 			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
-				// HARDCODED WOODITEM, DOESN'T PICK UP ROCK ITEMS, BECAUSE IT'S HARDCODED.
 				i.pickUpItem(i, 10);
 				if(i.getCount() == Item.PICKED_UP){
-					for(int j = 0; j < getItems().size(); j++){
-						System.out.println("item list before removal: " + getItems().get(j).getName());
-					}
 					it.remove();
-					for(int j = 0; j < getItems().size(); j++){
-						System.out.println("item list after removal: " + getItems().get(j).getName());
-					}
 				}
 				else{
 				System.out.println("Picked_Up value is not set to -1.");

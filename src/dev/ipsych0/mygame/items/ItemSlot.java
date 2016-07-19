@@ -38,8 +38,8 @@ public class ItemSlot {
 	
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
-			System.out.println("WE ALREADY HAD THIS ITEM!");
 			if(item.getName() == itemStack.getItem().getName()) {
+				System.out.println("We already had this item! Stacked " + item.getName() + " with the current stack of: " + itemStack.getItem().getName());
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				return true;
 			} else {

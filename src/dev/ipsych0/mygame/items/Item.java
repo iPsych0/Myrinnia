@@ -68,8 +68,8 @@ public class Item {
 	
 	public Rectangle itemPosition(float xOffset, float yOffset){
 		//
-		bounds.x = 10;
-		bounds.y = 10;
+		bounds.x = 1;
+		bounds.y = 1;
 		bounds.width = 24;
 		bounds.height = 24;
 		
