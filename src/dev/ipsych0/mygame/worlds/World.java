@@ -39,6 +39,7 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 96, 160));
 		entityManager.addEntity(new Tree(handler, 96, 192));
 		entityManager.addEntity(new Rock(handler, 224, 160));
+		entityManager.addEntity(new Rock(handler, 256, 160));
 		
 		loadWorld(path);
 		
@@ -80,6 +81,8 @@ public class World {
 		inventory.render(g);
 	}
 	
+	
+	// IMPORTANT SHIT FOR PICKING UP ITEMS!!!!!!!
 	public Tiles getTile(int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
 			return Tiles.grassTile;

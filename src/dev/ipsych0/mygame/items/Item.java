@@ -20,7 +20,7 @@ public class Item {
 	
 	// Class
 	
-	public static final int ITEMWIDTH = 16, ITEMHEIGHT = 16, PICKED_UP = -1;
+	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
 	
 	protected Handler handler;
 	protected BufferedImage texture;

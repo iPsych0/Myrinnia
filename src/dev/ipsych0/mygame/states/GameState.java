@@ -15,7 +15,7 @@ public class GameState extends State{
 		super(handler);
 		world = new World(handler, "res/worlds/world1.txt");
 		handler.setWorld(world);
-		myFont = new Font("Serif", Font.BOLD, 20);
+		myFont = new Font("SansSerif", Font.BOLD, 64);
 	}
 	
 	@Override

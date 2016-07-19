@@ -46,6 +46,15 @@ public class InventoryWindow {
 		width = numCols * (ItemSlot.SLOTSIZE + 10);
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 	
+		// HARDCODED, REMOVE!!!
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
 		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
 		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
 		
