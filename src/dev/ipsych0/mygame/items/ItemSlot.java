@@ -10,6 +10,7 @@ public class ItemSlot {
 	private int x, y;
 	private ItemStack itemStack;
 	private InventoryWindow inventoryWindow;
+	public static boolean stackable = true;
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
@@ -35,25 +36,26 @@ public class ItemSlot {
 		
 	}
 	
-	public void setItem(ItemStack is){
-		this.itemStack = is;
-	}
-	
-	public boolean addItem(Item item, int amount){
-		if(itemStack != null){
+	public boolean addItem(Item item, int amount) {
+		if(itemStack != null && stackable == true) {
 			System.out.println("WE ALREADY HAD THIS ITEM!");
-			if(item.getName() == itemStack.getItem().getName()){
+			if(item.getName() == itemStack.getItem().getName()) {
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				return true;
-			} else{
+			} else {
+				System.out.println(item.getName() + " cannot be stacked with " + itemStack.getItem().getName());
+				stackable = false;
 				return false;
 			}
-		} else{
+		} else {
 			System.out.println("itemname = " + item.getName());
-			setItem(new ItemStack(item, amount));
-			System.out.println("NEW ITEM STACK = " + this.itemStack.getItem().getName());
+			this.itemStack = new ItemStack(item, amount);
 			return true;
 		}
+	}
+	
+	public void setItem(ItemStack item){
+		this.itemStack = item;
 	}
 
 	public ItemStack getItemStack() {

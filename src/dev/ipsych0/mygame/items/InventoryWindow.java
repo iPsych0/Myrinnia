@@ -21,15 +21,14 @@ public class InventoryWindow {
 	private int numCols = 12;
 	private int numRows = 4;
 	
-	private static ArrayList<ItemSlot> itemSlots;
+	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
-	private Item items;
 	
 	public InventoryWindow(Handler handler, int x, int y){
 		this.x = x;
 		this.y = y;
 		this.handler = handler;
-		itemSlots = new ArrayList<ItemSlot>();
+		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		
 		for(int i = 0; i < numCols; i++){
 			for(int j = 0; j < numRows; j++){
@@ -47,62 +46,58 @@ public class InventoryWindow {
 		width = numCols * (ItemSlot.SLOTSIZE + 10);
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 	
-//		TODO: Remove this
-//		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
+		
 		
 	}
 	
-//	public boolean pickUpItem (Item item, int amount) {
-//        int inventoryIndex = InventoryWindow.findFreeSlot();
-//        System.out.println("invIndex = "+inventoryIndex);
-//        if (inventoryIndex >= 0) {
-//            if(item.getName() == items.getName()){
-//            	System.out.println("Found an item: " + item.getName());
-//            	itemSlots.get(inventoryIndex).addItem(item, amount);
-//            	item.count = -1;
-//            	return true;
-//        	}
-//            return false;
-//        }
-//    	System.out.println("Inventory is full!");
-//    	return false;
-//    }
+
 	
+	/*
+	 * PAY ATTENTION HERE FOR ITEM-TO-PLAYER COLLISION AS WELL!!!!!!!!!!!!!!!!!!!!!!
+	 */
 	
-	public void tick(){
-		if(isOpen){
+	public void tick() {
+		if(isOpen) {
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
-			for(ItemSlot is : itemSlots){
+			
+			for(ItemSlot is : itemSlots) {
 				is.tick();
 				
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				if(handler.getMouseManager().isLeftPressed()){
-					
-					if(temp2.contains(temp) && !hasBeenPressed){
+					if(temp2.contains(temp) && !hasBeenPressed) {
 						hasBeenPressed = true;
-						if(is.getItemStack() != null){
-							if(currentSelectedSlot == null){
+						
+						if(currentSelectedSlot == null) {
+							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
 								
 								is.setItem(null);
 							} 
-						} else{
-								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())){	
+						} else {
+								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 								} else {
+									if(ItemSlot.stackable == false){
+										return;
+									}
 									is.setItem(currentSelectedSlot);
 								}
 								
 								currentSelectedSlot = null;
-							}
 						}
 					}
 				}
 			}
-			if(hasBeenPressed && !handler.getMouseManager().isLeftPressed()){
+			
+			if(hasBeenPressed && !handler.getMouseManager().isLeftPressed()) {
 				hasBeenPressed = false;
 			}
+			ItemSlot.stackable = true;
 		}
+	}
 	
 	public void render(Graphics g){
 		if(isOpen){
@@ -135,12 +130,12 @@ public class InventoryWindow {
    }
 
 
-	public ArrayList<ItemSlot> getItemSlots() {
+	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
 		return itemSlots;
 	}
 
 
-	public void setItemSlots(ArrayList<ItemSlot> itemSlots) {
+	public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
 		InventoryWindow.itemSlots = itemSlots;
 	}
 

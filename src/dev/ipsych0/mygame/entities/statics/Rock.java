@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Rock extends StaticEntity {
@@ -24,7 +25,7 @@ public class Rock extends StaticEntity {
 	
 	@Override
 	public void die(){
-		
+		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
 	}
 
 	@Override

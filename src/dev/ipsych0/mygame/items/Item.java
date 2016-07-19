@@ -14,7 +14,9 @@ public class Item {
 	
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1);
 	private InventoryWindow inventoryWindow;
+
 	
 	// Class
 	
@@ -69,18 +71,15 @@ public class Item {
 	
 	public boolean pickUpItem (Item item, int amount) {
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
-		for (int i = 0; i < inventoryWindow.getItemSlots().size(); i++){
-			if(inventoryWindow.getItemSlots().get(i).getItemStack() != null){
-				System.out.println("itemSlots contains: " + inventoryWindow.getItemSlots().get(i).getItemStack().getItem().getName());
-			}
-		}
         int inventoryIndex = InventoryWindow.findFreeSlot();
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
+            	System.out.println("itemstack = " + inventoryWindow.getItemSlots().get(inventoryIndex).getItemStack().getItem().getName());
             	item.setCount(PICKED_UP);
             	return true;
         	}
+            System.out.println("Something went wrong picking up this item.");
             return false;
         }
     	System.out.println("Inventory is full!");

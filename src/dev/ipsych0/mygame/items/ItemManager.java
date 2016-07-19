@@ -21,10 +21,9 @@ public class ItemManager {
 		while(it.hasNext()){
 			Item i = it.next();
 			if(handler.getKeyManager().pickUp){
-				i.pickUpItem(Item.woodItem, 10);
+				// HARDCODED WOODITEM, DOESN'T PICK UP ROCK ITEMS, BECAUSE IT'S HARDCODED.
+				i.pickUpItem(i, 10);
 				if(i.getCount() == Item.PICKED_UP){
-					System.out.println("Item is picked up!");
-					// pickUp function to add to player's inventory, then remove from world with it.remove();
 					for(int j = 0; j < getItems().size(); j++){
 						System.out.println("item list before removal: " + getItems().get(j).getName());
 					}
@@ -34,7 +33,7 @@ public class ItemManager {
 					}
 				}
 				else{
-				System.out.println("Skipped if-statement that checks pickups!");
+				System.out.println("Picked_Up value is not set to -1.");
 				}
 			}
 			

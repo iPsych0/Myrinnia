@@ -23,6 +23,7 @@ public class Assets {
 	
 	// Item images
 	public static BufferedImage wood;
+	public static BufferedImage ore;
 	
 	public static void init(){
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
@@ -41,6 +42,7 @@ public class Assets {
 		// Item Sprites
 		
 		wood = item_sheet.crop(0, 0, width, height);
+		ore = item_sheet.crop(0, height, width, height);
 		
 		// Player Sprites
 		
