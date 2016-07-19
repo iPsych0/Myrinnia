@@ -44,7 +44,7 @@ public class World {
 		loadWorld(path);
 		
 		entityManager.getPlayer().setX(spawnX);
-		entityManager.getPlayer().setX(spawnY);
+		entityManager.getPlayer().setY(spawnY);
 		
 		inventory = new InventoryWindow(handler, 80, 64);
 	}
@@ -82,7 +82,6 @@ public class World {
 	}
 	
 	
-	// IMPORTANT SHIT FOR PICKING UP ITEMS!!!!!!!
 	public Tiles getTile(int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
 			return Tiles.grassTile;

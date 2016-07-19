@@ -20,7 +20,7 @@ public class ItemManager {
 		Iterator<Item> it = items.iterator();
 		while(it.hasNext()){
 			Item i = it.next();
-			if(handler.getKeyManager().pickUp){
+			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
 				// HARDCODED WOODITEM, DOESN'T PICK UP ROCK ITEMS, BECAUSE IT'S HARDCODED.
 				i.pickUpItem(i, 10);
 				if(i.getCount() == Item.PICKED_UP){

@@ -69,6 +69,12 @@ public class Player extends Creature{
 		// Attacks
 		checkAttacks();
 		
+		// Player position
+		if(handler.getKeyManager().position){
+			System.out.println("Current X and Y coordinates are: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and " + 
+		handler.getWorld().getEntityManager().getPlayer().getY());
+		}
+		
 		// Pickup listener
 //		pickUp();
 	}

@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +17,8 @@ public class Item {
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1);
 	private InventoryWindow inventoryWindow;
-
+	public static boolean pickUpKeyPressed = false;
+	protected Rectangle bounds;
 	
 	// Class
 	
@@ -36,6 +38,7 @@ public class Item {
 		count = 1;
 		
 		items[id] = this;
+		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
 	}
 	
 	public void tick(){
@@ -61,6 +64,21 @@ public class Item {
 	public void setPosition(int x, int y){
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Rectangle itemPosition(float xOffset, float yOffset){
+		//
+		bounds.x = 10;
+		bounds.y = 10;
+		bounds.width = 24;
+		bounds.height = 24;
+		
+		Rectangle ir = new Rectangle();
+		int arSize = ITEMWIDTH;
+		ir.width = arSize;
+		ir.height = arSize;
+		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		
 	}
 	
 	// TODO: pickUp function that is executed when the player and the item overlap. Remove the item from the world,

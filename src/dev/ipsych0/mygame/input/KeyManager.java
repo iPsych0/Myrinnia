@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 
 public class KeyManager implements KeyListener{
 
@@ -12,6 +13,7 @@ public class KeyManager implements KeyListener{
 	public boolean aUp, aDown, aLeft, aRight;
 	public boolean interact;
 	public boolean pickUp;
+	public boolean position;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -34,6 +36,9 @@ public class KeyManager implements KeyListener{
 		interact = keys[KeyEvent.VK_SPACE];
 		pickUp = keys[KeyEvent.VK_F];
 		
+		// Coordinate keys
+		position = keys[KeyEvent.VK_P];
+		
 	}
 	
 	@Override
@@ -47,6 +52,16 @@ public class KeyManager implements KeyListener{
 			}
 			else {
 				InventoryWindow.isOpen = false;
+			}
+		}
+		
+		// Ensures only 
+		if(e.getKeyCode() == KeyEvent.VK_F){
+			if(!Item.pickUpKeyPressed){
+				Item.pickUpKeyPressed = true;
+			}
+			else {
+				Item.pickUpKeyPressed = false;
 			}
 		}
 	}
