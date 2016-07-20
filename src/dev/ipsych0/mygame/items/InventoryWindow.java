@@ -47,7 +47,7 @@ public class InventoryWindow {
 		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 	
 		// HARDCODED, REMOVE!!!
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
+		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 50);
 		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
 		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
 		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
@@ -110,7 +110,7 @@ public class InventoryWindow {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(Color.LIGHT_GRAY);
+			g.setColor(Color.DARK_GRAY);
 			g.fillRect(x - 16, y - 16, width + 32, height + 32);
 			g.setColor(Color.BLACK);
 			g.drawRect(x - 16, y - 16, width + 32, height + 32);

@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.states.GameState;
+
 public class ItemSlot {
 	
 	public static final int SLOTSIZE = 32;
@@ -31,7 +33,16 @@ public class ItemSlot {
 		
 		if(itemStack != null){
 			g.drawImage(itemStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
-			g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 16, y + SLOTSIZE - 16);
+			if(itemStack.getAmount() >= 100){
+				g.setFont(GameState.myFont);
+				g.setColor(Color.GREEN);
+				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 20, y + SLOTSIZE - 16);
+			}
+			else{
+				g.setFont(GameState.myFont);
+				g.setColor(Color.YELLOW);
+				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 13, y + SLOTSIZE - 18);
+			}
 		}
 		
 	}

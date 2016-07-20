@@ -12,12 +12,14 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.teleports.TeleportManager;
 
 public class Player extends Creature{
 	
 	private ItemSlot itemSlots;
 	private InventoryWindow inventoryWindow;
 	private Item item;
+	private TeleportManager teleportManager;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight;
@@ -75,8 +77,13 @@ public class Player extends Creature{
 		handler.getWorld().getEntityManager().getPlayer().getY());
 		}
 		
-		// Pickup listener
-//		pickUp();
+		// Teleport at bottom of the map
+		if(getX() >= 374 && getY() >= 1247){
+			if(getX() <= 423 && getY() >= 1247){
+				setX(931);
+				setY(852);
+			}
+		}
 	}
 	
 	private void checkAttacks(){
@@ -125,35 +132,6 @@ public class Player extends Creature{
 			}
 		}
 	}
-	
-	
-//	// TODO: Get this method working to pick up items from the world into the player's inventory.
-//	public void pickUp(){
-//		
-////		Rectangle cb = getCollisionBounds(0,0);
-////		Rectangle ar = new Rectangle();
-////		int arSize = 16;
-////		ar.width = arSize;
-////		ar.height = arSize;
-////		
-////		if(handler.getKeyManager().pickUp){
-////			System.out.println("PickupKey pressed!");
-////			ar.x = cb.x + cb.width / 2 - arSize / 2;
-////			ar.y = cb.y - arSize;
-////		}
-////		else{
-////			return;
-////		}
-//		
-//		// TODO: For every item in the world, check if the player has collision with item, if yes, pick it up
-//		for(Item i : handler.getWorld().getItemManager().getItems()){
-//			if(handler.getKeyManager().pickUp){
-//				item.pickUpItem(Item.woodItem, 10);
-//				return;
-//			}
-//		}
-//		return;
-//	}
 	
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
