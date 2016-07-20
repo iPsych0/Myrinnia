@@ -7,7 +7,7 @@ public class Assets {
 	private static final int width = 32, height = 32;
 
 	// Tile images
-	public static BufferedImage lava, dirt, grass, stone, water, cave, ice, sand, snow;
+	public static BufferedImage lava, dirt, grass, stone, water, cave, ice, sand, snow, black;
 	
 	// Map item images (trees, rocks, etc)
 	public static BufferedImage tree, rock;
@@ -95,6 +95,7 @@ public class Assets {
 		ice = texture_sheet.crop(width * 3, height * 3, width, height);
 		sand = texture_sheet.crop(width * 3, height * 4, width, height);
 		snow = texture_sheet.crop(width * 3, height * 5, width, height);
+		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
 		// Map icons like trees, rocks, etc
 		

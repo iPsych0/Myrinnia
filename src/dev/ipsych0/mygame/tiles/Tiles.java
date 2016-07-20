@@ -17,6 +17,7 @@ public class Tiles {
 	public static Tiles iceTile = new IceTile(6);
 	public static Tiles sandTile = new SandTile(7);
 	public static Tiles snowTile = new SnowTile(8);
+	public static Tiles blackTile = new BlackTile(9);
 	
 	//CLASS
 	

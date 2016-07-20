@@ -78,19 +78,19 @@ public class Player extends Creature{
 		}
 		
 		// Check teleports
-		teleportTo();
+		// teleportTo();
 		
 	}
 	
-	private void teleportTo(){
-		// Teleport at bottom of the map
-		if(getX() >= 374 && getY() >= 1247){
-			if(getX() <= 423 && getY() >= 1247){
-				setX(931);
-				setY(852);
-			}
-		}
-	}
+//	private void teleportTo(){
+//		// Teleport at bottom of the map
+//		if(getX() >= 374 && getY() >= 1247){
+//			if(getX() <= 423 && getY() >= 1247){
+//				setX(931);
+//				setY(852);
+//			}
+//		}
+//	}
 	
 	private void checkAttacks(){
 		// Attack timers
