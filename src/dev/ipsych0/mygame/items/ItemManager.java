@@ -27,7 +27,7 @@ public class ItemManager {
 					it.remove();
 				}
 				else{
-				System.out.println("Picked_Up value is not set to -1.");
+				System.out.println("Picked_UP value is not set to -1.");
 				}
 			}
 			

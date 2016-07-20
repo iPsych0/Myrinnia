@@ -8,11 +8,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.states.GameState;
 
 public class InventoryWindow {
 	
 	public static boolean isOpen = false;
 	private boolean hasBeenPressed = false;
+	public static boolean isCreated = false;
 	
 	private int x, y;
 	private int width, height;
@@ -25,47 +27,34 @@ public class InventoryWindow {
 	private ItemStack currentSelectedSlot;
 	
 	public InventoryWindow(Handler handler, int x, int y){
-		this.x = x;
-		this.y = y;
-		this.handler = handler;
-		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
-		
-		for(int i = 0; i < numCols; i++){
-			for(int j = 0; j < numRows; j++){
-				if(j == (numRows - 1)){
-					y += 32;
+		if(isCreated == false){
+			this.x = x;
+			this.y = y;
+			this.handler = handler;
+			itemSlots = new CopyOnWriteArrayList<ItemSlot>();
+			
+			for(int i = 0; i < numCols; i++){
+				for(int j = 0; j < numRows; j++){
+					if(j == (numRows - 1)){
+						y += 32;
+					}
+					
+					itemSlots.add(new ItemSlot(x + (i * (ItemSlot.SLOTSIZE)), y + (j * ItemSlot.SLOTSIZE), null));
+					
+					if(j == (numRows - 1)){
+						y -= 32;
+					}
 				}
-				
-				itemSlots.add(new ItemSlot(x + (i * (ItemSlot.SLOTSIZE)), y + (j * ItemSlot.SLOTSIZE), null));
-				
-				if(j == (numRows - 1)){
-					y -= 32;
-				}
-			}
-		}	
-		width = numCols * (ItemSlot.SLOTSIZE + 10);
-		height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
-	
-		// HARDCODED, REMOVE!!!
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 50);
-		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.woodItem, 10);
-		itemSlots.get(findFreeSlot()).addItem(Item.oreItem, 10);
+			}	
+			width = numCols * (ItemSlot.SLOTSIZE + 10);
+			height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
 		
-		
+			// Prevents multiple instances of the inventory being created over and over when picking up items
+			isCreated = true;
+			
+		}
 	}
 	
-
-	
-	/*
-	 * PAY ATTENTION HERE FOR ITEM-TO-PLAYER COLLISION AS WELL!!!!!!!!!!!!!!!!!!!!!!
-	 */
 	
 	public void tick() {
 		if(isOpen) {
@@ -122,21 +111,36 @@ public class InventoryWindow {
 			if(currentSelectedSlot != null){
 				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
 						handler.getMouseManager().getMouseY(), null);
-				g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+				if(currentSelectedSlot.getAmount() >= 100){
+					g.setFont(GameState.myFont);
+					g.setColor(Color.GREEN);
+					g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+				}
+				else{
+					g.setFont(GameState.myFont);
+					g.setColor(Color.YELLOW);
+					g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+				}
 			}
 		}
 	}
 	
-	public static int findFreeSlot() {
+	public static int findFreeSlot(Item item) {
         for (int i = 0; i < itemSlots.size(); i++) {
-             if (itemSlots.get(i).getItemStack() == null) {
-            	 System.out.println("Free slot found = " + "[" + i + "]");
-                 return i;
-             }
-        }
-        System.out.println("Something went wrong checking for free slots (or bag is full)");
-        return -1;
-   }
+        	if(itemSlots.get(i).getItemStack() != null){
+        		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
+        			System.out.println("We already have this item in our inventory!");
+            		return i;
+        		}
+        	}
+            if (itemSlots.get(i).getItemStack() == null) {
+            	System.out.println("Free slot found = " + "[" + i + "]");
+                return i;
+            }
+       }
+       System.out.println("Something went wrong checking for free slots (or bag is full)");
+       return -1;
+	}
 
 
 	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {

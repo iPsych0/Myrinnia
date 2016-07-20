@@ -89,11 +89,10 @@ public class Item {
 	
 	public boolean pickUpItem (Item item, int amount) {
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
-        int inventoryIndex = InventoryWindow.findFreeSlot();
+        int inventoryIndex = InventoryWindow.findFreeSlot(item);
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
-            	System.out.println("itemstack = " + inventoryWindow.getItemSlots().get(inventoryIndex).getItemStack().getItem().getName());
             	item.setCount(PICKED_UP);
             	return true;
         	}

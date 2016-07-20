@@ -28,7 +28,7 @@ public class Player extends Creature{
 	private Animation attDown, attUp, attLeft, attRight;
 	
 	// Attack timer
-	private long lastAttackTimer, attackCooldown = 666, attackTimer = attackCooldown;
+	private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -77,6 +77,12 @@ public class Player extends Creature{
 		handler.getWorld().getEntityManager().getPlayer().getY());
 		}
 		
+		// Check teleports
+		teleportTo();
+		
+	}
+	
+	private void teleportTo(){
 		// Teleport at bottom of the map
 		if(getX() >= 374 && getY() >= 1247){
 			if(getX() <= 423 && getY() >= 1247){

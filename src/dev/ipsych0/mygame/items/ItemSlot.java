@@ -36,7 +36,7 @@ public class ItemSlot {
 			if(itemStack.getAmount() >= 100){
 				g.setFont(GameState.myFont);
 				g.setColor(Color.GREEN);
-				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 20, y + SLOTSIZE - 16);
+				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 20, y + SLOTSIZE - 18);
 			}
 			else{
 				g.setFont(GameState.myFont);
@@ -59,7 +59,6 @@ public class ItemSlot {
 				return false;
 			}
 		} else {
-			System.out.println("itemname = " + item.getName());
 			this.itemStack = new ItemStack(item, amount);
 			return true;
 		}
