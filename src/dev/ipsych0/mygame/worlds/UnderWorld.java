@@ -14,7 +14,7 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 
-public class World {
+public class UnderWorld {
 	
 	private Handler handler;
 	private int width, height;
@@ -30,7 +30,7 @@ public class World {
 	private ItemManager itemManager;
 	private InventoryWindow inventory;
 	
-	public World(Handler handler, String path){
+	public UnderWorld(Handler handler, String path){
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));

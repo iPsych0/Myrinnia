@@ -1,14 +1,20 @@
 package dev.ipsych0.mygame;
 
+import java.util.Random;
+
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
+import dev.ipsych0.mygame.worlds.UnderWorld;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Handler {
 	
 	private Game game;
 	private World world;
+	private UnderWorld underWorld;
+	private int min = 1, max = 6;
+	Random rand = new Random();
 	
 	public Handler(Game game){
 		this.game = game;
@@ -33,7 +39,6 @@ public class Handler {
 	public GameCamera getGameCamera(){
 		return game.getGameCamera();
 	}
-	
 
 	public Game getGame() {
 		return game;
@@ -49,6 +54,19 @@ public class Handler {
 
 	public void setWorld(World world) {
 		this.world = world;
+	}
+	
+	public UnderWorld getUnderWorld() {
+		return underWorld;
+	}
+
+	public void setUnderWorld(UnderWorld underWorld) {
+		this.underWorld = underWorld;
+	}
+	
+	public int getRandomSupplyAmount(){
+		int randomNumber = rand.nextInt((max - min) + 1) + min;
+		return randomNumber;
 	}
 
 }

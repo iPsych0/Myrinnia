@@ -22,7 +22,7 @@ public class ItemManager {
 			Item i = it.next();
 			// Checks player's position for any items nearby to pick up
 			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
-				i.pickUpItem(i, 10);
+				i.pickUpItem(i, handler.getRandomSupplyAmount());
 				if(i.getCount() == Item.PICKED_UP){
 					it.remove();
 				}

@@ -18,6 +18,9 @@ public class Tiles {
 	public static Tiles sandTile = new SandTile(7);
 	public static Tiles snowTile = new SnowTile(8);
 	public static Tiles blackTile = new BlackTile(9);
+	public static Tiles greenHouseRoof = new GreenHouseRoof(10);
+	public static Tiles greenHouseWall = new GreenHouseWall(11);
+	public static Tiles greenHouseEntrance = new GreenHouseEntrance(12);
 	
 	//CLASS
 	

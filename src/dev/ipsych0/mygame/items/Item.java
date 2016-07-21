@@ -5,31 +5,32 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
 public class Item {
 	
-	// Handler
+	// ItemList
 	
+	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1);
-	private InventoryWindow inventoryWindow;
-	public static boolean pickUpKeyPressed = false;
-	protected Rectangle bounds;
 	
 	// Class
-	
-	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
 	
 	protected Handler handler;
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
 	protected int x, y;
+	protected Rectangle bounds;
 	private static int count;
+	private InventoryWindow inventoryWindow;
+	public static boolean pickUpKeyPressed = false;
+	
 	
 	public Item(BufferedImage texture, String name, int id){
 		this.texture = texture;
@@ -80,12 +81,6 @@ public class Item {
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 		
 	}
-	
-	// TODO: pickUp function that is executed when the player and the item overlap. Remove the item from the world,
-	// Add it to the player's inventory.
-	
-	// TODO: find a way to include the arraylist of item slots, to check what item the player is standing on, then
-	// add that item to the player's inventory at the given index
 	
 	public boolean pickUpItem (Item item, int amount) {
 		inventoryWindow = new InventoryWindow(handler, 80, 64);

@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+import java.util.concurrent.ThreadLocalRandom;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -8,6 +9,9 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Tree extends StaticEntity {
+	
+	private Item item;
+	private Tree tree;
 
 	public Tree(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);

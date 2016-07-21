@@ -78,19 +78,19 @@ public class Player extends Creature{
 		}
 		
 		// Check teleports
-		// teleportTo();
+		teleportTo();
 		
 	}
 	
-//	private void teleportTo(){
-//		// Teleport at bottom of the map
-//		if(getX() >= 374 && getY() >= 1247){
-//			if(getX() <= 423 && getY() >= 1247){
-//				setX(931);
-//				setY(852);
-//			}
-//		}
-//	}
+	private void teleportTo(){
+		// Teleport at bottom of the map
+		if(getX() <= 487 && getY() >= 506){
+			if(getX() >= 470 && getY() <= 512){
+				setX(544);
+				setY(64);
+			}
+		}
+	}
 	
 	private void checkAttacks(){
 		// Attack timers
@@ -133,7 +133,8 @@ public class Player extends Creature{
 			if(e.equals(this))
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
-				e.damage(100);
+				e.damage(attackDamage + handler.getRandomSupplyAmount());
+				System.out.println("NPC's health is now: " + e.getHealth());
 				return;
 			}
 		}
@@ -170,7 +171,7 @@ public class Player extends Creature{
 	public void render(Graphics g) {
 		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-		g.setColor(Color.red);
+//		g.setColor(Color.red);
 //		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 //				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}
