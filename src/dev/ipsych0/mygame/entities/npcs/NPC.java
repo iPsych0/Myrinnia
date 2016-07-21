@@ -1,6 +1,5 @@
 package dev.ipsych0.mygame.entities.npcs;
 
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
@@ -13,8 +12,6 @@ public abstract class NPC extends Entity{
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
-	protected int health;
-	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
 	protected boolean attackable = false;
 
@@ -67,14 +64,6 @@ public abstract class NPC extends Entity{
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 
 	public boolean isActive() {

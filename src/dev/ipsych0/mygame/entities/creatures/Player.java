@@ -132,6 +132,8 @@ public class Player extends Creature{
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
+			if(!e.isAttackable())
+				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
 				e.damage(attackDamage + handler.getRandomSupplyAmount());
@@ -195,7 +197,6 @@ public class Player extends Creature{
 			return attUp.getCurrentFrame();
 		else
 			return aDown.getDefaultFrame();
-		
 	}
 
 	@Override

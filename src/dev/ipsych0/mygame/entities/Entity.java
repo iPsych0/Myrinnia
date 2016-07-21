@@ -112,4 +112,8 @@ public abstract class Entity {
 		this.active = active;
 	}
 	
+	public boolean isAttackable(){
+		return attackable;
+	}
+	
 }
