@@ -3,10 +3,11 @@ package dev.ipsych0.mygame.worlds;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.npcs.Lorraine;
+import dev.ipsych0.mygame.entities.npcs.NPC;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -16,6 +17,7 @@ import dev.ipsych0.mygame.utils.Utils;
 
 public class World {
 	
+	// Variables
 	private Handler handler;
 	private int width, height;
 	private int[][] tiles;
@@ -30,6 +32,8 @@ public class World {
 	private ItemManager itemManager;
 	private InventoryWindow inventory;
 	
+	// Actual code ---v
+	
 	public World(Handler handler, String path){
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
@@ -43,7 +47,8 @@ public class World {
 		entityManager.addEntity(new Rock(handler, 224, 160));
 		entityManager.addEntity(new Rock(handler, 256, 160));
 		entityManager.addEntity(new Scorpion(handler, 400, 400));
-		entityManager.addEntity(new Scorpion(handler, 420, 420));
+		entityManager.addEntity(new Scorpion(handler, 368, 400));
+		entityManager.addEntity(new Lorraine(handler, 512, 524));
 		
 		loadWorld(path);
 		

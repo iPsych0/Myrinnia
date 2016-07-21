@@ -38,4 +38,10 @@ public class Scorpion extends Creature {
 			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
 		}
 	}
+
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
 }

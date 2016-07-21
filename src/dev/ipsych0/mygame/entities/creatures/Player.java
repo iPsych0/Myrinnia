@@ -133,8 +133,8 @@ public class Player extends Creature{
 			if(e.equals(this))
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
+				// TODO: Change damage calculation formula
 				e.damage(attackDamage + handler.getRandomSupplyAmount());
-				System.out.println("NPC's health is now: " + e.getHealth());
 				return;
 			}
 		}
@@ -195,6 +195,11 @@ public class Player extends Creature{
 			return attUp.getCurrentFrame();
 		else
 			return aDown.getDefaultFrame();
+		
+	}
+
+	@Override
+	public void interact() {
 		
 	}
 	

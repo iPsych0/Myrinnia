@@ -1,11 +1,14 @@
-package dev.ipsych0.mygame.entities;
+package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Creature;
 
-public abstract class Entity {
-
+public abstract class NPC extends Entity{
+	
 	protected Handler handler;
 	protected float x, y;
 	protected int width, height;
@@ -13,31 +16,12 @@ public abstract class Entity {
 	protected int health;
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
-	protected boolean attackable = true;
-	
-	
-	public Entity(Handler handler, float x, float y, int width, int height){
-		this.handler = handler;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		health = DEFAULT_HEALTH;
-		
-		bounds = new Rectangle(0, 0, width, height);
+	protected boolean attackable = false;
+
+	public NPC(Handler handler, float x, float y, int width, int height) {
+		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		attackable = false;
 	}
-	
-	// Abstract Methods
-	
-	public abstract void tick();
-	
-	public abstract void render(Graphics g);
-	
-	public abstract void die();
-	
-	public abstract void interact();
-	
-	//Collision checker
 	
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
@@ -49,21 +33,10 @@ public abstract class Entity {
 		return false;
 	}
 	
-	public void damage(int damageDealt){
-		health -= damageDealt;
-		System.out.println("NPC's health is now: " + health);
-		if(health <= 0){
-			active = false;
-			die();
-		}
-	}
-	
-	// Getters & Setters
-	
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
-
+	
 	public float getX() {
 		return x;
 	}
@@ -111,5 +84,5 @@ public abstract class Entity {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 }

@@ -22,24 +22,27 @@ public class Assets {
 	public static BufferedImage[] btn_start;
 	
 	// Item images
-	public static BufferedImage wood;
-	public static BufferedImage ore;
+	public static BufferedImage wood, ore;
 	
-	// NPC images
+	// Enemy images
 	public static BufferedImage scorpion;
 	
-	// Green House
-	public static BufferedImage greenHouseRoof;
-	public static BufferedImage greenHouseWall;
-	public static BufferedImage greenHouseEntrance;
+	// NPC images
+	
+	public static BufferedImage lorraine;
+	
+	// Green House images
+	public static BufferedImage greenHouseRoof, greenHouseWall, greenHouseEntrance;
+	
 	
 	public static void init(){
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
 		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menusprites.png"));
 		SpriteSheet item_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/itemsprites.png"));
-		SpriteSheet npc_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/npcsprites.png"));
+		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
+		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
 		// Menu sprites
@@ -54,9 +57,13 @@ public class Assets {
 		wood = item_sheet.crop(0, 0, width, height);
 		ore = item_sheet.crop(0, height, width, height);
 		
+		// Enemy Sprites
+		
+		scorpion = enemy_sheet.crop(0, 0, width, height);
+		
 		// NPC Sprites
 		
-		scorpion = npc_sheet.crop(0, 0, width, height);
+		lorraine = lorraine_sprites.crop(width * 7, 0, width, height);
 		
 		// Player Sprites
 		

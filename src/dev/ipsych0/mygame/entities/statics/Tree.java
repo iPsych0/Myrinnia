@@ -38,4 +38,10 @@ public class Tree extends StaticEntity {
 				, width, height, null);
 	}
 
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
