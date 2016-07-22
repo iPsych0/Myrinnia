@@ -1,5 +1,7 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Rectangle;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -10,7 +12,7 @@ public abstract class Creature extends Entity {
 	public static final int DEFAULT_CREATURE_WIDTH = 32,
 							DEFAULT_CREATURE_HEIGHT = 32;
 	
-	public static final int DEFAULT_ATTACK = 20;
+	public static final int DEFAULT_ATTACK = 50;
 	protected int attackDamage;
 	
 	protected float speed;

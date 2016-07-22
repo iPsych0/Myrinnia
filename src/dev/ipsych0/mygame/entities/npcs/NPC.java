@@ -1,30 +1,40 @@
 package dev.ipsych0.mygame.entities.npcs;
 
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
-import dev.ipsych0.mygame.entities.creatures.Creature;
 
-public abstract class NPC extends Entity{
+public abstract class NPC {
 	
 	protected Handler handler;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
 	protected boolean active = true;
-	protected boolean attackable = false;
-
-	public NPC(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		attackable = false;
+	
+	
+	public NPC(Handler handler, float x, float y, int width, int height){
+		this.handler = handler;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		
+		bounds = new Rectangle(0, 0, width, height);
 	}
 	
+	// Abstract Methods
+	
+	public abstract void tick();
+	
+	public abstract void render(Graphics g);
+	
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
+		for(NPC npc : handler.getWorld().getNpcManager().getNPCs()){
+			if(npc.equals(this))
 				continue;
-			if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
+			if(npc.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
 				return true;
 		}
 		return false;
@@ -65,6 +75,7 @@ public abstract class NPC extends Entity{
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	
 
 	public boolean isActive() {
 		return active;

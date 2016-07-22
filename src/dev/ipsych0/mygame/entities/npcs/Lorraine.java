@@ -1,10 +1,13 @@
 package dev.ipsych0.mygame.entities.npcs;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.ChatWindow;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.states.GameState;
 
 public class Lorraine extends Creature {
 
@@ -20,8 +23,18 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.lorraine, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
-				, width, height, null);
+		g.drawImage(Assets.lorraine, (int) (x - handler.getGameCamera().getxOffset()),
+				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+//		g.setColor(Color.red);
+//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		
+		if(ChatWindow.isTalking){
+			// TODO: ADD NPC/PLAYER COORDINATE CHECK BEFORE INTERACTING
+				g.setFont(GameState.myFont);
+				g.setColor(Color.YELLOW);
+				g.drawString("Hello there, welcome to Myrinnia!", 160, 128/*288*/);
+		}
 	}
 
 	@Override

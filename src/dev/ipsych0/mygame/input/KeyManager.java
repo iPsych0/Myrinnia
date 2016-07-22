@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import dev.ipsych0.mygame.entities.creatures.ChatWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 
@@ -52,6 +53,16 @@ public class KeyManager implements KeyListener{
 			}
 			else {
 				InventoryWindow.isOpen = false;
+			}
+		}
+		
+		// Chat window toggle
+		if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			if(!ChatWindow.isTalking){
+				ChatWindow.isTalking = true;
+			}
+			else {
+				ChatWindow.isTalking = false;
 			}
 		}
 		

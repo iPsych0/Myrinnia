@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;

@@ -4,10 +4,11 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
+import dev.ipsych0.mygame.entities.creatures.ChatWindow;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
-import dev.ipsych0.mygame.entities.npcs.NPC;
+import dev.ipsych0.mygame.entities.npcs.NPCManager;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -26,11 +27,16 @@ public class World {
 	// Entities
 	
 	private EntityManager entityManager;
+	private NPCManager npcManager;
 	
 	// Items
 	
 	private ItemManager itemManager;
 	private InventoryWindow inventory;
+	
+	// NPC ChatWindow
+	
+	private ChatWindow chatWindow;
 	
 	// Actual code ---v
 	
@@ -38,6 +44,7 @@ public class World {
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
+		npcManager = new NPCManager(handler);
 		entityManager.addEntity(new Tree(handler, 192, 128));
 		entityManager.addEntity(new Tree(handler, 64, 160));
 		entityManager.addEntity(new Tree(handler, 64, 192));
@@ -56,12 +63,15 @@ public class World {
 		entityManager.getPlayer().setY(spawnY);
 		
 		inventory = new InventoryWindow(handler, 80, 64);
+		chatWindow = new ChatWindow(handler, 80, 64);
 	}
 	
 	public void tick(){
 		itemManager.tick();
 		entityManager.tick();
 		inventory.tick();
+		npcManager.tick();
+		chatWindow.tick();
 	}
 	
 	public void render(Graphics g){
@@ -85,9 +95,14 @@ public class World {
 		
 		// Entities
 		entityManager.render(g);
+		npcManager.render(g);
 		
 		// Inventory
 		inventory.render(g);
+		
+		// NPC ChatWindow
+		
+		chatWindow.render(g);
 	}
 	
 	
@@ -147,5 +162,13 @@ public class World {
 
 	public void setItemManager(ItemManager itemManager) {
 		this.itemManager = itemManager;
+	}
+
+	public NPCManager getNpcManager() {
+		return npcManager;
+	}
+
+	public void setNpcManager(NPCManager npcManager) {
+		this.npcManager = npcManager;
 	}
 }

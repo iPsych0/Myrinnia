@@ -79,7 +79,6 @@ public class Item {
 		ir.width = arSize;
 		ir.height = arSize;
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
-		
 	}
 	
 	public boolean pickUpItem (Item item, int amount) {

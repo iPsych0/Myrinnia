@@ -73,7 +73,7 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			System.out.println("Current X and Y coordinates are: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and " + 
+			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 		handler.getWorld().getEntityManager().getPlayer().getY());
 		}
 		
@@ -83,7 +83,7 @@ public class Player extends Creature{
 	}
 	
 	private void teleportTo(){
-		// Teleport at bottom of the map
+		// Teleport at the house
 		if(getX() <= 487 && getY() >= 506){
 			if(getX() >= 470 && getY() <= 512){
 				setX(544);
@@ -102,7 +102,7 @@ public class Player extends Creature{
 		// Set attack-box
 		Rectangle cb = getCollisionBounds(0,0);
 		Rectangle ar = new Rectangle();
-		int arSize = 16;
+		int arSize = Creature.DEFAULT_CREATURE_HEIGHT;
 		ar.width = arSize;
 		ar.height = arSize;
 		
