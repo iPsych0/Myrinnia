@@ -10,6 +10,7 @@ public class GameState extends State{
 
 	private World world;
 	public static Font myFont;
+	public static Font chatFont = new Font("SansSerif", Font.BOLD, 14);
 	
 	public GameState(Handler handler){
 		super(handler);

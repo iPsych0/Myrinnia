@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
@@ -31,9 +32,10 @@ public class Lorraine extends Creature {
 		
 		if(ChatWindow.isTalking){
 			// TODO: ADD NPC/PLAYER COORDINATE CHECK BEFORE INTERACTING
-				g.setFont(GameState.myFont);
+				g.setFont(GameState.chatFont);
 				g.setColor(Color.YELLOW);
-				g.drawString("Hello there, welcome to Myrinnia!", 160, 128/*288*/);
+				g.drawString("Lorraine", 230, 269);
+				g.drawString("Hello there, welcome to Myrinnia!", 128, 290);
 		}
 	}
 

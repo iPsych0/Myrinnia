@@ -12,6 +12,8 @@ public class ChatWindow {
 	private int x, y;
 	private int width, height;
 	private Handler handler;
+	int alpha = 127;
+	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	public ChatWindow(Handler handler, int x, int y){
 		this.handler = handler;
@@ -25,10 +27,12 @@ public class ChatWindow {
 	
 	public void render(Graphics g){
 		if(isTalking){
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(x + 64, y + 192, width + 224, height + 64);
+			g.setColor(interfaceColour);
+			g.fillRect(x + 16, y + 192, width + 304, height + 64);
 			g.setColor(Color.BLACK);
-			g.drawRect(x + 64, y + 192, width + 224, height + 64);
+			g.drawRect(x + 16, y + 192, width + 304, height + 64);
+			g.setColor(Color.BLACK);
+			g.drawRect(x + 16, y + 192, width + 304, height + 16);
 		}
 	}
 

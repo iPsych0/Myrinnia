@@ -13,6 +13,8 @@ public class ItemSlot {
 	private ItemStack itemStack;
 	private InventoryWindow inventoryWindow;
 	public static boolean stackable = true;
+	int alpha = 127;
+	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
@@ -25,7 +27,7 @@ public class ItemSlot {
 	}
 	
 	public void render(Graphics g){
-		g.setColor(Color.GRAY);
+		g.setColor(interfaceColour);
 		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		g.setColor(Color.BLACK);

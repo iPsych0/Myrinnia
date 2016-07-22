@@ -22,6 +22,8 @@ public class InventoryWindow {
 	
 	private int numCols = 12;
 	private int numRows = 4;
+	int alpha = 127;
+	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
@@ -99,7 +101,7 @@ public class InventoryWindow {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(Color.DARK_GRAY);
+			g.setColor(interfaceColour);
 			g.fillRect(x - 16, y - 16, width + 32, height + 32);
 			g.setColor(Color.BLACK);
 			g.drawRect(x - 16, y - 16, width + 32, height + 32);
