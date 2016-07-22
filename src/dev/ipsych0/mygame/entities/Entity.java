@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 
 public abstract class Entity {
 
@@ -14,6 +15,8 @@ public abstract class Entity {
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
 	protected boolean attackable = true;
+	protected boolean isNpc = false;
+	protected boolean isShop = false;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -37,7 +40,7 @@ public abstract class Entity {
 	
 	public abstract void interact();
 	
-	//Collision checker
+	// Collision checker
 	
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
@@ -49,6 +52,8 @@ public abstract class Entity {
 		return false;
 	}
 	
+	// Damage function
+	
 	public void damage(int damageDealt){
 		health -= damageDealt;
 		System.out.println("NPC's health is now: " + health);
@@ -57,6 +62,18 @@ public abstract class Entity {
 			die();
 		}
 	}
+	
+	public void talkTo(){
+		if(checkEntityCollisions(0,0)){
+			if(ChatWindow.isTalking){
+				if(isNpc){
+					
+				}
+			}
+		}
+	}
+	
+	
 	
 	// Getters & Setters
 	
@@ -114,6 +131,22 @@ public abstract class Entity {
 	
 	public boolean isAttackable(){
 		return attackable;
+	}
+
+	public boolean isNpc() {
+		return isNpc;
+	}
+
+	public void setNpc(boolean isNpc) {
+		this.isNpc = isNpc;
+	}
+
+	public boolean isShop() {
+		return isShop;
+	}
+
+	public void setShop(boolean isShop) {
+		this.isShop = isShop;
 	}
 	
 }

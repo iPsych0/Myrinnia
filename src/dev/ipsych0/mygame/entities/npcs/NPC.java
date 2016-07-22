@@ -30,7 +30,7 @@ public abstract class NPC {
 	
 	public abstract void render(Graphics g);
 	
-	public boolean checkEntityCollisions(float xOffset, float yOffset){
+	public boolean checkNPCCollisions(float xOffset, float yOffset){
 		for(NPC npc : handler.getWorld().getNpcManager().getNPCs()){
 			if(npc.equals(this))
 				continue;

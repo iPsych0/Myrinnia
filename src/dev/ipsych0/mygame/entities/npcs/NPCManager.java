@@ -9,6 +9,10 @@ import dev.ipsych0.mygame.Handler;
 
 public class NPCManager {
 	
+	// NPCs
+
+	
+	// Class stuff
 	private Handler handler;
 	private ArrayList<NPC> npcs;
 	private Comparator<NPC> renderSorter = new Comparator<NPC>(){
@@ -32,9 +36,6 @@ public class NPCManager {
 		while(it.hasNext()){
 			NPC npc = it.next();
 			npc.tick();
-			if(!npc.isActive()){
-				it.remove();
-			}
 		}
 		npcs.sort(renderSorter);
 	}

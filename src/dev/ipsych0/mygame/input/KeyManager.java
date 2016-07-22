@@ -3,7 +3,7 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import dev.ipsych0.mygame.entities.creatures.ChatWindow;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 

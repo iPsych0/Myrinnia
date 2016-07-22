@@ -1,9 +1,10 @@
-package dev.ipsych0.mygame.entities.creatures;
+package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.npcs.Lorraine;
 
 public class ChatWindow {
 	
@@ -33,6 +34,7 @@ public class ChatWindow {
 			g.drawRect(x + 16, y + 192, width + 304, height + 64);
 			g.setColor(Color.BLACK);
 			g.drawRect(x + 16, y + 192, width + 304, height + 16);
+			Lorraine.says(g, "Lorraine", "Hello! Welcome to Myrinnia!");
 		}
 	}
 
