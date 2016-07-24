@@ -33,6 +33,10 @@ public class Assets {
 	
 	// Green House images
 	public static BufferedImage greenHouseRoof, greenHouseWall, greenHouseEntrance;
+	//tryoutpaths
+	public static BufferedImage pathup;
+
+	public static BufferedImage pathup2; 
 	
 	
 	public static void init(){
@@ -43,6 +47,7 @@ public class Assets {
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
+		SpriteSheet texture_sheet2 = new SpriteSheet(ImageLoader.loadImage("/textures/npcgrid.png"));
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
 		// Menu sprites
@@ -117,6 +122,8 @@ public class Assets {
 		sand = texture_sheet.crop(width * 3, height * 4, width, height);
 		snow = texture_sheet.crop(width * 3, height * 5, width, height);
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
+		pathup = texture_sheet2.crop(0, 0, width, height);
+		pathup2 = texture_sheet2.crop(0, height, width, height);
 		
 		// Map icons like trees, rocks, etc
 		

@@ -21,6 +21,8 @@ public class Tiles {
 	public static Tiles greenHouseRoof = new GreenHouseRoof(110);
 	public static Tiles greenHouseWall = new GreenHouseWall(111);
 	public static Tiles greenHouseEntrance = new GreenHouseEntrance(112);
+	public static Tiles pathupTile = new PathupTile(113);
+	public static Tiles pathup2Tile = new PathupTile(114);
 	
 	//CLASS
 	
