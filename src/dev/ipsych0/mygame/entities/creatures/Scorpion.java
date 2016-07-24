@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
@@ -26,13 +27,20 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
-		checkAttacks();
+		//checkAttacks();
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(Assets.scorpion, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
+		g.setColor(Color.ORANGE);
+		g.setFont(Creature.hpFont);
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(e.equals(this))
+				g.drawString(Integer.toString(e.getHealth()),
+						(int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()));
+		}
 	}
 
 	@Override
@@ -47,6 +55,8 @@ public class Scorpion extends Creature {
 		}
 	}
 	
+	
+	/*
 	private void checkAttacks(){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -98,6 +108,7 @@ public class Scorpion extends Creature {
 			}
 		}
 	}
+	*/
 
 	@Override
 	public void interact() {

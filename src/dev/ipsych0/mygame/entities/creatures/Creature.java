@@ -1,6 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
-import java.awt.Rectangle;
+import java.awt.Font;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
@@ -13,6 +13,7 @@ public abstract class Creature extends Entity {
 							DEFAULT_CREATURE_HEIGHT = 32;
 	
 	public static final int DEFAULT_ATTACK = 50;
+	public static Font hpFont = new Font("SerifSans", Font.BOLD, 12);
 	protected int attackDamage;
 	
 	protected float speed;
