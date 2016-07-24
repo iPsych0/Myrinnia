@@ -26,16 +26,17 @@ public class Lorraine extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(Assets.lorraine, (int) (x - handler.getGameCamera().getxOffset()),
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-//		g.setColor(Color.red);
-//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		g.setColor(Color.red);
+		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}
 	
 	public static void says(Graphics g, String npcName, String npcText1){
-		if(ChatWindow.isTalking){
+		if(ChatWindow.talkButtonPressed){
+			if(talking)
 			// TODO: ADD NPC/PLAYER COORDINATE CHECK BEFORE INTERACTING
 				g.setFont(GameState.chatFont);
-				g.setColor(Color.YELLOW);
+				g.setColor(ChatWindow.chatColour);
 				g.drawString(npcName, 230, 269);
 				g.drawString(npcText1, 98, 290);
 		}

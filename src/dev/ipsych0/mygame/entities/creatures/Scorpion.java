@@ -34,7 +34,7 @@ public class Scorpion extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(Assets.scorpion, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
-		g.setColor(Color.ORANGE);
+		g.setColor(Creature.hpColor);
 		g.setFont(Creature.hpFont);
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))

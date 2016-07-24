@@ -4,17 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.npcs.Lorraine;
+import dev.ipsych0.mygame.entities.Entity;
 
 public class ChatWindow {
 	
-	public static boolean isTalking = false;
+	public static boolean talkButtonPressed = false;
 	
 	private int x, y;
 	private int width, height;
 	private Handler handler;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
+	public static Color chatColour = new Color(140, 0, 255);
 	
 	public ChatWindow(Handler handler, int x, int y){
 		this.handler = handler;
@@ -27,14 +28,17 @@ public class ChatWindow {
 	}
 	
 	public void render(Graphics g){
-		if(isTalking){
-			g.setColor(interfaceColour);
-			g.fillRect(x + 16, y + 192, width + 304, height + 64);
-			g.setColor(Color.BLACK);
-			g.drawRect(x + 16, y + 192, width + 304, height + 64);
-			g.setColor(Color.BLACK);
-			g.drawRect(x + 16, y + 192, width + 304, height + 16);
-			Lorraine.says(g, "Lorraine", "Hello! Welcome to Myrinnia!");
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(e.playerIsNearNpc())
+				if(talkButtonPressed){
+					g.setColor(interfaceColour);
+					g.fillRect(x + 16, y + 192, width + 304, height + 64);
+					g.setColor(Color.BLACK);
+					g.drawRect(x + 16, y + 192, width + 304, height + 64);
+					g.setColor(Color.BLACK);
+					g.drawRect(x + 16, y + 192, width + 304, height + 16);
+					Lorraine.says(g, "Lorraine", "Nelis is a fucking retard Kappa.");
+			}
 		}
 	}
 

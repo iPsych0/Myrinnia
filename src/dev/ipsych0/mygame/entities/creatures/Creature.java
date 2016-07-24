@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import dev.ipsych0.mygame.Handler;
@@ -14,6 +15,8 @@ public abstract class Creature extends Entity {
 	
 	public static final int DEFAULT_ATTACK = 50;
 	public static Font hpFont = new Font("SerifSans", Font.BOLD, 12);
+//	public static Color hpColor = new Color(255, 120, 0);
+	public static Color hpColor = new Color(140, 0, 255);
 	protected int attackDamage;
 	
 	protected float speed;

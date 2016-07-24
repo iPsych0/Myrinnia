@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Entity {
 
@@ -17,6 +18,7 @@ public abstract class Entity {
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
+	public static boolean talking = false;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -52,6 +54,26 @@ public abstract class Entity {
 		return false;
 	}
 	
+	public boolean playerIsNearNpc(){
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(e.equals(this))
+				continue;
+			if(!e.isNpc)
+				continue;
+			if(distanceToEntity((int)e.getX(), (int)e.getY(),
+					(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH){
+				System.out.println("Player and NPC '" + e + "' intersect!");
+				if(ChatWindow.talkButtonPressed){
+					talking = true;
+					return true;
+				}
+			}
+			ChatWindow.talkButtonPressed = false;
+			return false;
+		}
+		return false;
+	}
+	
 	// Damage function
 	
 	public void damage(int damageDealt){
@@ -63,14 +85,11 @@ public abstract class Entity {
 		}
 	}
 	
-	public void talkTo(){
-		if(checkEntityCollisions(0,0)){
-			if(ChatWindow.isTalking){
-				if(isNpc){
-					
-				}
-			}
-		}
+	public double distanceToEntity(int x1, int y1, int x2, int y2){
+		int dx = x2 - x1;
+	    int dy = y2 - y1;
+	    System.out.println("Distance between player and NPC is: " + Math.sqrt(dx * dx + dy * dy));
+	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	
 	

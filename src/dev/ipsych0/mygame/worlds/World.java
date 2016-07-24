@@ -52,9 +52,9 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 96, 160));
 		entityManager.addEntity(new Tree(handler, 96, 192));
 		entityManager.addEntity(new Rock(handler, 224, 160));
-		entityManager.addEntity(new Rock(handler, 256, 160));
-		entityManager.addEntity(new Scorpion(handler, 400, 400));
-		entityManager.addEntity(new Scorpion(handler, 368, 400));
+		// entityManager.addEntity(new Rock(handler, 256, 160)); // Irritante kut rots die het pad blokkeert, dus uitgecomment
+		entityManager.addEntity(new Scorpion(handler, 128, 576));
+		entityManager.addEntity(new Scorpion(handler, 96, 576));
 		entityManager.addEntity(new Lorraine(handler, 512, 524));
 		
 		loadWorld(path);

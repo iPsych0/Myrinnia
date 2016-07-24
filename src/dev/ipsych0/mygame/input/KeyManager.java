@@ -58,11 +58,11 @@ public class KeyManager implements KeyListener{
 		
 		// Chat window toggle
 		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			if(!ChatWindow.isTalking){
-				ChatWindow.isTalking = true;
+			if(!ChatWindow.talkButtonPressed){
+				ChatWindow.talkButtonPressed = true;
 			}
 			else {
-				ChatWindow.isTalking = false;
+				ChatWindow.talkButtonPressed = false;
 			}
 		}
 		
