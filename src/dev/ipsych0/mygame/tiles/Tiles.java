@@ -8,19 +8,19 @@ public class Tiles {
 	//STATIC VARIABLES
 	
 	public static Tiles[] tiles = new Tiles[256];
-	public static Tiles lavaTile = new LavaTile(0);
-	public static Tiles grassTile = new GrassTile(1);
-	public static Tiles dirtTile = new DirtTile(2);
-	public static Tiles rockTile = new RockTile(3);
-	public static Tiles waterTile = new WaterTile(4);
-	public static Tiles caveTile = new CaveTile(5);
-	public static Tiles iceTile = new IceTile(6);
-	public static Tiles sandTile = new SandTile(7);
-	public static Tiles snowTile = new SnowTile(8);
-	public static Tiles blackTile = new BlackTile(9);
-	public static Tiles greenHouseRoof = new GreenHouseRoof(10);
-	public static Tiles greenHouseWall = new GreenHouseWall(11);
-	public static Tiles greenHouseEntrance = new GreenHouseEntrance(12);
+	public static Tiles lavaTile = new LavaTile(100);
+	public static Tiles grassTile = new GrassTile(101);
+	public static Tiles dirtTile = new DirtTile(102);
+	public static Tiles rockTile = new RockTile(103);
+	public static Tiles waterTile = new WaterTile(104);
+	public static Tiles caveTile = new CaveTile(105);
+	public static Tiles iceTile = new IceTile(106);
+	public static Tiles sandTile = new SandTile(107);
+	public static Tiles snowTile = new SnowTile(108);
+	public static Tiles blackTile = new BlackTile(109);
+	public static Tiles greenHouseRoof = new GreenHouseRoof(110);
+	public static Tiles greenHouseWall = new GreenHouseWall(111);
+	public static Tiles greenHouseEntrance = new GreenHouseEntrance(112);
 	
 	//CLASS
 	
