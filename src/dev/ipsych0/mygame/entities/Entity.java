@@ -54,21 +54,27 @@ public abstract class Entity {
 		return false;
 	}
 	
+	
+	// If player is within 64px of an NPC, return true, else return false.
+	// TODO: Needs detection for multiple NPCs. If there are two NPCs, distance is <= 32 for one NPC, but not for the other so chatbox closes
 	public boolean playerIsNearNpc(){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
 			if(!e.isNpc)
 				continue;
+			
+			// TWEE IF-STATEMENTS HIERONDER OMWISSELEN ZODAT JE NIET 63479634x PER SECONDE CHECKT OP DISTANCE, MAAR ALLEEN
+			// WANNEER SPACEBAR INGEDRUKT WORDT!
 			if(distanceToEntity((int)e.getX(), (int)e.getY(),
-					(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH){
+					(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
 				System.out.println("Player and NPC '" + e + "' intersect!");
 				if(ChatWindow.talkButtonPressed){
 					talking = true;
 					return true;
 				}
 			}
-			ChatWindow.talkButtonPressed = false;
+			//ChatWindow.talkButtonPressed = false; // <---- TODO: FIX THIS
 			return false;
 		}
 		return false;
