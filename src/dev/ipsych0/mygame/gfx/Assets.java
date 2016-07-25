@@ -8,6 +8,9 @@ public class Assets {
 
 	// Tile images
 	public static BufferedImage lava, dirt, grass, stone, water, cave, ice, sand, snow, black;
+	public static BufferedImage pebblegrassTopLeft, pebblegrassTopMiddle, pebblegrassTopRight, pebblegrassMiddleLeft, pebblegrassMiddleMiddle, pebblegrassMiddleRight, pebblegrassDownLeft, pebblegrassDownMiddle, pebblegrassDownRight, pebblegrassSmall, pebblegrassBig, grassonly;   
+	public static BufferedImage hillgrassTopLeft, hillgrassTopMiddle, hillgrassMiddleMiddle, hillgrassMiddleRight, hillgrassDownLeft, hillgrassDownMiddle, hillgrassDownRight, hillgrassOutcrop, hillgrassFourway, hillgrassMiddleLeft, hillgrassTopRight;
+	
 	
 	// Map item images (trees, rocks, etc)
 	public static BufferedImage tree, rock;
@@ -48,6 +51,8 @@ public class Assets {
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
 		SpriteSheet texture_sheet2 = new SpriteSheet(ImageLoader.loadImage("/textures/npcgrid.png"));
+		SpriteSheet Textures_tile = new SpriteSheet(ImageLoader.loadImage("/textures/SpritesheetTiles.png"));
+		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
 		// Menu sprites
@@ -124,6 +129,29 @@ public class Assets {
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		pathup = texture_sheet2.crop(0, 0, width, height);
 		pathup2 = texture_sheet2.crop(0, height, width, height);
+		pebblegrassTopLeft = Textures_tile.crop(width * 9, height * 1, width, height);
+		pebblegrassTopMiddle = Textures_tile.crop(width * 10, height * 1, width, height);
+		pebblegrassTopRight = Textures_tile.crop(width * 11, height * 1, width, height);
+		pebblegrassMiddleLeft = Textures_tile.crop(width * 9, height * 2, width, height);
+		pebblegrassMiddleMiddle = Textures_tile.crop(width * 10, height * 2, width, height);
+		pebblegrassMiddleRight = Textures_tile.crop(width * 11, height * 2, width, height);
+		pebblegrassDownLeft = Textures_tile.crop(width * 9, height * 3, width, height);
+		pebblegrassDownMiddle = Textures_tile.crop(width * 10, height * 3, width, height);
+		pebblegrassDownRight = Textures_tile.crop(width * 11, height * 3, width, height);
+		pebblegrassSmall = Textures_tile.crop(width * 9, height * 0, width, height);
+		pebblegrassBig = Textures_tile.crop(width * 11, height * 0, width, height);
+		grassonly = Textures_tile.crop(width * 10, height * 0, width, height);
+		hillgrassTopLeft = Textures_tile.crop(width * 6, height * 5, width, height);
+		hillgrassTopMiddle = Textures_tile.crop(width * 7, height * 5, width, height);
+		hillgrassTopRight = Textures_tile.crop(width * 8, height * 5, width, height);
+		hillgrassMiddleLeft = Textures_tile.crop(width * 6, height * 6, width, height);
+		hillgrassMiddleMiddle = Textures_tile.crop(width * 7, height * 6, width, height);
+		hillgrassMiddleRight = Textures_tile.crop(width * 8, height * 6, width, height);
+		hillgrassDownLeft = Textures_tile.crop(width * 6, height * 7, width, height);
+		hillgrassDownMiddle = Textures_tile.crop(width * 7, height * 7, width, height);
+		hillgrassDownRight = Textures_tile.crop(width * 8, height * 7, width, height);
+		hillgrassOutcrop = Textures_tile.crop(width * 6, height * 4, width, height);
+		hillgrassFourway = Textures_tile.crop(width * 8, height * 4, width, height);
 		
 		// Map icons like trees, rocks, etc
 		
