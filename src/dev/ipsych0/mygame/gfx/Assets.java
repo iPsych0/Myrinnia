@@ -9,7 +9,7 @@ public class Assets {
 	// Tile images
 	public static BufferedImage lava, dirt, grass, stone, cave, ice, snow, black;
 	public static BufferedImage pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
-								pathGrassMiddleMiddle, pathGrassMiddleRight, pathGrassDownLeft, pathGrassDownMiddle,
+								path, pathGrassMiddleRight, pathGrassDownLeft, pathGrassDownMiddle,
 								pathGrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
 								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
 								waterSandTopMiddle, waterSandTopRight, waterSandMiddleLeft, waterSandMiddleRight, waterSandDownLeft, waterSandDownMiddle, 
@@ -121,18 +121,16 @@ public class Assets {
 		dirt = texture_sheet.crop(width, 0, width, height);
 		grass = texture_sheet.crop(width * 2, 0, width, height);
 		stone = texture_sheet.crop(width * 3, 0, width, height);
-		//water = texture_sheet.crop(width * 3, height, width, height);
 		cave = texture_sheet.crop(width * 3, height * 2, width, height);
 		ice = texture_sheet.crop(width * 3, height * 3, width, height);
-		// sand = texture_sheet.crop(width * 3, height * 4, width, height);
 		snow = texture_sheet.crop(width * 3, height * 5, width, height);
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
+		path = texture_tile.crop(width, height, width, height);
 		pathGrassTopLeft = texture_tile.crop(0, 0, width, height);
 		pathGrassTopMiddle = texture_tile.crop(width, 0, width, height);
 		pathGrassTopRight = texture_tile.crop(width * 2, 0, width, height);
 		pathGrassMiddleLeft = texture_tile.crop(0, height, width, height);
-		pathGrassMiddleMiddle = texture_tile.crop(width, height, width, height);
 		pathGrassMiddleRight = texture_tile.crop(width * 2, height, width, height);
 		pathGrassDownLeft = texture_tile.crop(0, height * 2, width, height);
 		pathGrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
