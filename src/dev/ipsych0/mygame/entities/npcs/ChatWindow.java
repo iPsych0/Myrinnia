@@ -30,14 +30,14 @@ public class ChatWindow {
 	public void render(Graphics g){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.playerIsNearNpc())
-				if(talkButtonPressed){
+				if(e.talking){
 					g.setColor(interfaceColour);
 					g.fillRect(x + 16, y + 192, width + 304, height + 64);
 					g.setColor(Color.BLACK);
 					g.drawRect(x + 16, y + 192, width + 304, height + 64);
 					g.setColor(Color.BLACK);
 					g.drawRect(x + 16, y + 192, width + 304, height + 16);
-					Lorraine.says(g, "Lorraine", "Nelis is a fucking retard Kappa.");
+					e.says(g, "Lorraine", "Nelis is a fucking retard Kappa.");
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
@@ -29,17 +30,6 @@ public class Lorraine extends Creature {
 //		g.setColor(Color.red);
 //		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 //				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
-	}
-	
-	public static void says(Graphics g, String npcName, String npcText1){
-		if(ChatWindow.talkButtonPressed){
-			if(talking)
-			// TODO: ADD NPC/PLAYER COORDINATE CHECK BEFORE INTERACTING
-				g.setFont(GameState.chatFont);
-				g.setColor(ChatWindow.chatColour);
-				g.drawString(npcName, 230, 269);
-				g.drawString(npcText1, 98, 290);
-		}
 	}
 
 	@Override

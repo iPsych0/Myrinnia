@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Entity {
@@ -18,7 +19,7 @@ public abstract class Entity {
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
-	public static boolean talking = false;
+	public boolean talking = false;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -63,17 +64,14 @@ public abstract class Entity {
 				continue;
 			if(!e.isNpc)
 				continue;
-			
-			// TWEE IF-STATEMENTS HIERONDER OMWISSELEN ZODAT JE NIET 63479634x PER SECONDE CHECKT OP DISTANCE, MAAR ALLEEN
-			// WANNEER SPACEBAR INGEDRUKT WORDT!
 			if(ChatWindow.talkButtonPressed){
 				if(distanceToEntity((int)e.getX(), (int)e.getY(),
 						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
 					talking = true;
 					return true;
 				}
+				talking = false;
 			}
-			// ChatWindow.talkButtonPressed = false; // <---- TODO: FIX THIS
 			return false;
 		}
 		return false;
@@ -95,6 +93,17 @@ public abstract class Entity {
 	    int dy = y2 - y1;
 	    System.out.println("Distance between player and NPC is: " + Math.sqrt(dx * dx + dy * dy));
 	    return Math.sqrt(dx * dx + dy * dy);
+	}
+	
+	public void says(Graphics g, String npcName, String npcText1){
+		for(Entity e : handler.getWorld().getEntityManager().getEntities())
+			if(ChatWindow.talkButtonPressed){
+				if(e.talking)
+					g.setFont(GameState.chatFont);
+					g.setColor(ChatWindow.chatColour);
+					g.drawString(npcName, 230, 269);
+					g.drawString(npcText1, 98, 290);
+			}
 	}
 	
 	
