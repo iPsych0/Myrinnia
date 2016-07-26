@@ -7,10 +7,14 @@ public class Assets {
 	private static final int width = 32, height = 32;
 
 	// Tile images
-	public static BufferedImage lava, dirt, grass, stone, water, cave, ice, sand, snow, black;
+	public static BufferedImage lava, dirt, grass, stone, cave, ice, snow, black;
 	public static BufferedImage pebblegrassTopLeft, pebblegrassTopMiddle, pebblegrassTopRight, pebblegrassMiddleLeft,
 								pebblegrassMiddleMiddle, pebblegrassMiddleRight, pebblegrassDownLeft, pebblegrassDownMiddle,
-								pebblegrassDownRight, grassOnly;
+								pebblegrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
+								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
+								waterSandTopMiddle, waterSandTopRight, waterSandMiddleLeft, waterSandMiddleRight, waterSandDownLeft, waterSandDownMiddle, 
+								waterSandDownRight; 
+
 	
 	
 	// Map item images (trees, rocks, etc)
@@ -117,10 +121,10 @@ public class Assets {
 		dirt = texture_sheet.crop(width, 0, width, height);
 		grass = texture_sheet.crop(width * 2, 0, width, height);
 		stone = texture_sheet.crop(width * 3, 0, width, height);
-		water = texture_sheet.crop(width * 3, height, width, height);
+		//water = texture_sheet.crop(width * 3, height, width, height);
 		cave = texture_sheet.crop(width * 3, height * 2, width, height);
 		ice = texture_sheet.crop(width * 3, height * 3, width, height);
-		sand = texture_sheet.crop(width * 3, height * 4, width, height);
+		// sand = texture_sheet.crop(width * 3, height * 4, width, height);
 		snow = texture_sheet.crop(width * 3, height * 5, width, height);
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
@@ -134,6 +138,26 @@ public class Assets {
 		pebblegrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
 		pebblegrassDownRight = texture_tile.crop(width * 2, height * 2, width, height);
 		grassOnly = texture_tile.crop(width * 9 , 0, width, height);
+		
+		sand = texture_tile.crop(width * 4, height, width, height);
+		sandGrassTopLeft = texture_tile.crop(width * 3, 0, width, height);
+		sandGrassTopMiddle = texture_tile.crop(width * 4, 0, width, height);
+		sandGrassTopRight = texture_tile.crop(width * 5, 0, width, height);
+		sandGrassMiddleLeft = texture_tile.crop(width * 3, height, width, height);
+		sandGrassMiddleRight = texture_tile.crop(width * 5, height, width, height);
+		sandGrassDownLeft = texture_tile.crop(width * 3, height * 2, width, height);
+		sandGrassDownMiddle = texture_tile.crop(width * 4, height * 2, width, height);
+		sandGrassDownRight = texture_tile.crop(width * 5, height * 2, width, height);
+		
+		water = texture_tile.crop(width * 7, height, width, height);
+		waterSandTopLeft = texture_tile.crop(width * 6, 0, width, height);
+		waterSandTopMiddle = texture_tile.crop(width * 7, 0, width, height);
+		waterSandTopRight = texture_tile.crop(width * 8, 0, width, height);
+		waterSandMiddleLeft = texture_tile.crop(width * 6, height * 1, width, height);
+		waterSandMiddleRight = texture_tile.crop(width * 8, height * 1, width, height);
+		waterSandDownLeft = texture_tile.crop(width * 6, height * 2, width, height);
+		waterSandDownMiddle = texture_tile.crop(width * 7, height * 2, width, height);
+		waterSandDownRight = texture_tile.crop(width * 8, height * 2, width, height);
 		
 		// Map icons like trees, rocks, etc
 		
