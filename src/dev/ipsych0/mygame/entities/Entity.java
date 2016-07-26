@@ -71,6 +71,7 @@ public abstract class Entity {
 					return true;
 				}
 				talking = false;
+				ChatWindow.talkButtonPressed = false;
 			}
 			return false;
 		}

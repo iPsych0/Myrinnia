@@ -56,7 +56,6 @@ public class World {
 		entityManager.addEntity(new Scorpion(handler, 128, 576));
 		entityManager.addEntity(new Scorpion(handler, 96, 576));
 		entityManager.addEntity(new Lorraine(handler, 512, 524));
-		entityManager.addEntity(new Lorraine(handler, 160, 576));
 		
 		loadWorld(path);
 		
