@@ -25,11 +25,11 @@ public class Tiles {
 	
 	// Grass and Path tiles
 	public static Tiles grassTile = new GrassTile(100);
-	public static Tiles path = new PathTile(105);
-	public static Tiles pathGrassTopLeftTile = new PathGrassTopLeftTile(101);
-	public static Tiles pathGrassTopMiddleTile = new PathGrassTopMiddleTile(102);
-	public static Tiles pathGrassTopRightTile = new PathGrassTopRightTile(103);
-	public static Tiles pathGrassMiddleLeftTile = new PathGrassMiddleLeftTile(104);
+	public static Tiles path = new PathTile(101);
+	public static Tiles pathGrassTopLeftTile = new PathGrassTopLeftTile(102);
+	public static Tiles pathGrassTopMiddleTile = new PathGrassTopMiddleTile(103);
+	public static Tiles pathGrassTopRightTile = new PathGrassTopRightTile(104);
+	public static Tiles pathGrassMiddleLeftTile = new PathGrassMiddleLeftTile(105);
 	public static Tiles pathGrassMiddleRightTile = new PathGrassMiddleRightTile(106);
 	public static Tiles pathGrassDownLeftTile = new PathGrassDownLeftTile(107);
 	public static Tiles pathGrassDownMiddleTile = new PathGrassDownMiddleTile(108);
