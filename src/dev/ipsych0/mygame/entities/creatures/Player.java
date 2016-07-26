@@ -90,6 +90,7 @@ public class Player extends Creature{
 				setY(64);
 			}
 		}
+		
 		// Teleport from black area back
 		if(getX() >= 534 && getY() <= 127)
 			if(getX() <= 583 && getY() >= 110){

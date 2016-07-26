@@ -8,9 +8,9 @@ public class Assets {
 
 	// Tile images
 	public static BufferedImage lava, dirt, grass, stone, cave, ice, snow, black;
-	public static BufferedImage pebblegrassTopLeft, pebblegrassTopMiddle, pebblegrassTopRight, pebblegrassMiddleLeft,
-								pebblegrassMiddleMiddle, pebblegrassMiddleRight, pebblegrassDownLeft, pebblegrassDownMiddle,
-								pebblegrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
+	public static BufferedImage pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
+								pathGrassMiddleMiddle, pathGrassMiddleRight, pathGrassDownLeft, pathGrassDownMiddle,
+								pathGrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
 								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
 								waterSandTopMiddle, waterSandTopRight, waterSandMiddleLeft, waterSandMiddleRight, waterSandDownLeft, waterSandDownMiddle, 
 								waterSandDownRight; 
@@ -128,15 +128,15 @@ public class Assets {
 		snow = texture_sheet.crop(width * 3, height * 5, width, height);
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
-		pebblegrassTopLeft = texture_tile.crop(0, 0, width, height);
-		pebblegrassTopMiddle = texture_tile.crop(width, 0, width, height);
-		pebblegrassTopRight = texture_tile.crop(width * 2, 0, width, height);
-		pebblegrassMiddleLeft = texture_tile.crop(0, height, width, height);
-		pebblegrassMiddleMiddle = texture_tile.crop(width, height, width, height);
-		pebblegrassMiddleRight = texture_tile.crop(width * 2, height, width, height);
-		pebblegrassDownLeft = texture_tile.crop(0, height * 2, width, height);
-		pebblegrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
-		pebblegrassDownRight = texture_tile.crop(width * 2, height * 2, width, height);
+		pathGrassTopLeft = texture_tile.crop(0, 0, width, height);
+		pathGrassTopMiddle = texture_tile.crop(width, 0, width, height);
+		pathGrassTopRight = texture_tile.crop(width * 2, 0, width, height);
+		pathGrassMiddleLeft = texture_tile.crop(0, height, width, height);
+		pathGrassMiddleMiddle = texture_tile.crop(width, height, width, height);
+		pathGrassMiddleRight = texture_tile.crop(width * 2, height, width, height);
+		pathGrassDownLeft = texture_tile.crop(0, height * 2, width, height);
+		pathGrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
+		pathGrassDownRight = texture_tile.crop(width * 2, height * 2, width, height);
 		grassOnly = texture_tile.crop(width * 9 , 0, width, height);
 		
 		sand = texture_tile.crop(width * 4, height, width, height);

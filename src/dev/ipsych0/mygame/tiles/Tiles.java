@@ -25,15 +25,15 @@ public class Tiles {
 	
 	// Grass and Path tiles
 	public static Tiles grassTile = new GrassTile(100);
-	public static Tiles pebblegrassTopLeftTile = new PebblegrassTopLeftTile(101);
-	public static Tiles pebblegrassTopMiddleTile = new PebblegrassTopMiddleTile(102);
-	public static Tiles PebblegrassTopRightTile = new PebblegrassTopRightTile(103);
-	public static Tiles pebblegrassMiddleLeftTile = new PebblegrassMiddleLeftTile(104);
-	public static Tiles pebblegrassMiddleMiddleTile = new PebblegrassMiddleMiddleTile(105);
-	public static Tiles pebblegrassMiddleRightTile = new PebblegrassMiddleRightTile(106);
-	public static Tiles pebblegrassDownLeftTile = new PebblegrassDownLeftTile(107);
-	public static Tiles pebblegrassDownMiddleTile = new PebblegrassDownMiddleTile(108);
-	public static Tiles pebblegrassDownRightTile = new PebblegrassDownRightTile(109);
+	public static Tiles pebblegrassTopLeftTile = new PathGrassTopLeftTile(101);
+	public static Tiles pebblegrassTopMiddleTile = new PathGrassTopMiddleTile(102);
+	public static Tiles PebblegrassTopRightTile = new PathGrassTopRightTile(103);
+	public static Tiles pebblegrassMiddleLeftTile = new PathGrassMiddleLeftTile(104);
+	public static Tiles pebblegrassMiddleMiddleTile = new PathGrassMiddleMiddleTile(105);
+	public static Tiles pebblegrassMiddleRightTile = new PathGrassMiddleRightTile(106);
+	public static Tiles pebblegrassDownLeftTile = new PathGrassDownLeftTile(107);
+	public static Tiles pebblegrassDownMiddleTile = new PathGrassDownMiddleTile(108);
+	public static Tiles pebblegrassDownRightTile = new PathGrassDownRightTile(109);
 	public static Tiles sandTile = new SandTile(110);
 	
 	public static Tiles sandGrassTopLeftTile = new SandGrassTopLeftTile(111);
