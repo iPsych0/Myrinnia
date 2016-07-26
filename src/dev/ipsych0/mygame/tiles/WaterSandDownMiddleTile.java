@@ -7,5 +7,9 @@ public class WaterSandDownMiddleTile extends Tiles {
 	public WaterSandDownMiddleTile(int id) {
 		super(Assets.waterSandDownMiddle, id);
 	}
+	@Override
+	public boolean isSolid(){
+		return true;
+	}
 
 }

@@ -2,10 +2,10 @@ package dev.ipsych0.mygame.tiles;
 
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class WaterSandMiddleRightTile extends Tiles {
+public class WaterSandDownLeftTile extends Tiles {
 
-	public WaterSandMiddleRightTile(int id) {
-		super(Assets.waterSandMiddleRight, id);
+	public WaterSandDownLeftTile(int id) {
+		super(Assets.waterSandDownLeft, id);
 	}
 	@Override
 	public boolean isSolid(){

@@ -7,5 +7,9 @@ public class WaterSandTopLeftTile extends Tiles {
 	public WaterSandTopLeftTile(int id) {
 		super(Assets.waterSandTopLeft, id);
 	}
+	@Override
+	public boolean isSolid(){
+		return true;
+	}
 
 }

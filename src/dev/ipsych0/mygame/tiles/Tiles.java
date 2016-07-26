@@ -12,10 +12,9 @@ public class Tiles {
 	public static Tiles lavaTile = new LavaTile(400);
 	public static Tiles dirtTile = new DirtTile(401);
 	public static Tiles rockTile = new RockTile(402);
-	public static Tiles waterTile = new WaterTile(403);
+	//public static Tiles waterTile = new WaterTile(403); kan weg?
 	public static Tiles caveTile = new CaveTile(404);
 	public static Tiles iceTile = new IceTile(405);
-	public static Tiles sandTile = new SandTile(406);
 	public static Tiles snowTile = new SnowTile(407);
 	public static Tiles blackTile = new BlackTile(408);
 	
@@ -35,6 +34,27 @@ public class Tiles {
 	public static Tiles pebblegrassDownLeftTile = new PebblegrassDownLeftTile(107);
 	public static Tiles pebblegrassDownMiddleTile = new PebblegrassDownMiddleTile(108);
 	public static Tiles pebblegrassDownRightTile = new PebblegrassDownRightTile(109);
+	public static Tiles sandTile = new SandTile(110);
+	
+	public static Tiles sandGrassTopLeftTile = new SandGrassTopLeftTile(111);
+	public static Tiles sandGrassTopMiddleTile = new SandGrassTopMiddleTile(112);
+	public static Tiles sandGrassTopRightTile = new SandGrassTopRightTile(113);
+	public static Tiles sandGrassMiddleLeftTile = new SandGrassMiddleLeftTile(114);
+	public static Tiles sandGrassMiddleRightTile = new SandGrassMiddleRightTile(115);
+	public static Tiles sandGrassDownLeftTile = new SandGrassDownLeftTile(116);
+	public static Tiles sandGrassDownMiddleTile = new SandGrassDownMiddleTile(117);
+	public static Tiles sandGrassDownRightTile = new SandGrassDownRightTile(118);
+	
+	public static Tiles waterTile = new WaterTile(120);
+	public static Tiles waterSandTopLeftTile = new WaterSandTopLeftTile(121);
+	public static Tiles waterSandTopMiddleTile = new WaterSandTopMiddleTile(122);
+	public static Tiles waterSandTopRightTile = new WaterSandTopRightTile(123);
+	public static Tiles waterSandMiddleLeftTile = new WaterSandMiddleLeftTile(124);
+	public static Tiles waterSandMiddleRightTile = new WaterSandMiddleRightTile(125);
+	public static Tiles waterSandDownLeftTile = new WaterSandDownLeftTile(126);
+	public static Tiles waterSandDownMiddleTile = new WaterSandDownMiddleTile(127);
+	public static Tiles waterSandDownRightTile = new WaterSandDownRightTile(128);
+	
 	//KK
 	
 	
