@@ -133,7 +133,7 @@ public class Assets {
 		pebblegrassDownLeft = texture_tile.crop(0, height * 2, width, height);
 		pebblegrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
 		pebblegrassDownRight = texture_tile.crop(width * 2, height * 2, width, height);
-		grassOnly = texture_tile.crop(0, height * 3, width, height);
+		grassOnly = texture_tile.crop(width * 9 , 0, width, height);
 		
 		// Map icons like trees, rocks, etc
 		
