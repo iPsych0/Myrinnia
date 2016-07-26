@@ -21,7 +21,7 @@ public class ChatWindow {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		// hoi
+		// hoi2
 	}
 	
 	public void tick(){
