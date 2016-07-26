@@ -90,6 +90,11 @@ public class Player extends Creature{
 				setY(64);
 			}
 		}
+		if(getX() >= 534 && getY() <= 127)
+			if(getX() <= 583 && getY() >= 110){
+				setX(64);
+				setY(64);
+			}
 	}
 	
 	private void checkAttacks(){
