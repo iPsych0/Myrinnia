@@ -66,15 +66,14 @@ public abstract class Entity {
 			
 			// TWEE IF-STATEMENTS HIERONDER OMWISSELEN ZODAT JE NIET 63479634x PER SECONDE CHECKT OP DISTANCE, MAAR ALLEEN
 			// WANNEER SPACEBAR INGEDRUKT WORDT!
-			if(distanceToEntity((int)e.getX(), (int)e.getY(),
-					(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
-				System.out.println("Player and NPC '" + e + "' intersect!");
-				if(ChatWindow.talkButtonPressed){
+			if(ChatWindow.talkButtonPressed){
+				if(distanceToEntity((int)e.getX(), (int)e.getY(),
+						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
 					talking = true;
 					return true;
 				}
 			}
-			//ChatWindow.talkButtonPressed = false; // <---- TODO: FIX THIS
+			// ChatWindow.talkButtonPressed = false; // <---- TODO: FIX THIS
 			return false;
 		}
 		return false;

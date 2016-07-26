@@ -1,0 +1,58 @@
+===Interfaces===
+
+- NPC chat interface afmaken
+- Inventory afmaken: Items usen/droppen
+- Bank syseem?
+- Random loot chests
+
+=== NPCs ===
+- NPC movement
+- NPC combat
+- ÉÉN RNG DICE MAKEN VAN 1 TOT 1000
+- Random loot chests
+- Shrines als teleport systeem
+
+=== Items ===
+
+- Random loot chests
+- Currency creëren
+- Items droppen on death, geen XP loss
+- Light Armour: Mage
+- Medium Armour: Ranger
+- Heavy Armour: Warrior
+
+=== Map interaction ===
+- Nieuwe werelden?
+- Fade-out/in bij teleports?(huisjes, nieuwe maps, etc)
+- Shrines als teleport systeem
+
+=== Skills ===
+
+- 3 main skill-trees: Artisan, Gathering, Combat.
+
+- Artisan: Woodcutting, Mining, Fishing, Salvaging.
+- Gathering: Smithing, Crafting, Brewing, Cooking.
+- Combat: Melee Damage, Magic Damage, Range Damage, Light Armour, Medium Armour, Heavy Armour, HP.
+
+- When cutting trees, mining rocks, etc: Small chance for "fine", "exquisite" or "rare" materials, used in better tier weapononry/armour.
+
+=== Abilities ===
+
+- Healing ability
+- Special Attacks?
+- Mage: "Impact" - AoE Meteor (+XX% damage & X seconds stun).
+- Ranger: "Pierce" - Piercing arrow (+XX% damage & +X% movement(of attack) speed for X seconds)
+- Warrior: "Berserk" - Berserker mode (+XX% damage for X seconds. Also heals XX% of outgoing damage while active)
+
+=== Passive bonuses (unlocks?) ===
+
+- Mining: Small chance to find gems that can be applied to armour or weapons to give boosts depending on which gem. (For example:
+  Sapphire = +5% def,	Emerald = +5% accuracy,		Ruby = +5% damage,		Diamond = +2.5% def, +2.5% accuracy, + 2.5% damage)
+  
+- Woodcutting: Small chance to find poisonous leaves. Chance to find fruits that restore health.
+
+=== In-Game Classes ===
+
+- Mage, Ranger, Warrior
+- Mage & Ranger gebruiken geen runes/arrows
+- 3 unique abilities? Mage: Teleport, Ranger: Dash, Warrior: Block?
