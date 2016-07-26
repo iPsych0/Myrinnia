@@ -37,7 +37,7 @@ public class ChatWindow {
 					g.drawRect(x + 16, y + 192, width + 304, height + 64);
 					g.setColor(Color.BLACK);
 					g.drawRect(x + 16, y + 192, width + 304, height + 16);
-					e.says(g, "Lorraine", "Nelis is a fucking retard Kappa.");
+					e.says(g, "Lorraine", "This is a test.");
 			}
 		}
 	}
