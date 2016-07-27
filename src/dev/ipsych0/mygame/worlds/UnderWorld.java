@@ -93,7 +93,7 @@ public class UnderWorld {
 		
 		Tiles t = Tiles.tiles[tiles[x][y]];
 		if(t == null)
-			return Tiles.dirtTile;
+			return Tiles.dirt;
 		return t;
 	}
 

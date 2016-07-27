@@ -13,8 +13,14 @@ public class Assets {
 								pathGrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
 								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
 								waterSandTopMiddle, waterSandTopRight, waterSandMiddleLeft, waterSandMiddleRight, waterSandDownLeft, waterSandDownMiddle, 
-								waterSandDownRight; 
-
+								waterSandDownRight, dirtSandTopLeft, dirtSandTopMiddle, dirtSandTopRight, dirtSandMiddleLeft, dirtSandMiddleRight, dirtSandDownLeft, 
+								dirtSandDownMiddle, dirtSandDownRight, dirtGrassTopLeft, dirtGrassTopMiddle, dirtGrassTopRight, dirtGrassmiddleLeft, dirtGrassMiddleRight,
+								dirtGrassDownLeft, dirtGrassDownMiddle, dirtGrassDownRight, pathDirtTopLeft, pathDirtTopMiddle, pathDirtTopRight, pathDirtMiddleLeft,
+								pathDirtMiddleRight, pathDirtDownLeft, pathDirtDownMiddle, pathDirtDownRight, lavaPathTopLeft, lavaPathTopMiddle, lavaPathTopRight, 
+								lavaPathMiddleLeft, lavaPathMiddleRight, lavaPathDownLeft, lavaPathDownMiddle, lavaPathDownRight, lavaSandTopLeft, lavaSandTopMiddle, 
+								lavaSandTopRight, lavaSandMiddleLeft, lavaSandMiddleRight, lavaSandDownLeft, lavaSandDownMiddle, lavaSandDownRight, waterDirtTopLeft, 
+								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight; 
+								
 	
 	
 	// Map item images (trees, rocks, etc)
@@ -156,6 +162,62 @@ public class Assets {
 		waterSandDownLeft = texture_tile.crop(width * 6, height * 2, width, height);
 		waterSandDownMiddle = texture_tile.crop(width * 7, height * 2, width, height);
 		waterSandDownRight = texture_tile.crop(width * 8, height * 2, width, height);
+		
+		dirtSandTopLeft = texture_tile.crop(0, height * 3, width, height);
+		dirtSandTopMiddle = texture_tile.crop(width, height * 3, width, height);
+		dirtSandTopRight = texture_tile.crop(width * 2, height * 3, width, height);
+		dirtSandMiddleLeft = texture_tile.crop(0, height * 4, width, height);
+		dirtSandMiddleRight = texture_tile.crop(width * 2, height * 4, width, height);
+		dirtSandDownLeft = texture_tile.crop(0, height * 5, width, height);
+		dirtSandDownMiddle = texture_tile.crop(width, height * 5, width, height);
+		dirtSandDownRight = texture_tile.crop(width * 2, height * 5, width, height);
+		
+		dirt = texture_tile.crop(width * 4, height * 4, width, height);
+		dirtGrassTopLeft = texture_tile.crop(width * 3, height * 3, width, height);
+		dirtGrassTopMiddle = texture_tile.crop(width * 4, height * 3, width, height);
+		dirtGrassTopRight = texture_tile.crop(width * 5, height * 3, width, height);
+		dirtGrassmiddleLeft = texture_tile.crop(width * 3, height * 4, width, height);
+		dirtGrassMiddleRight = texture_tile.crop(width * 5, height * 4, width, height);
+		dirtGrassDownLeft = texture_tile.crop(width * 3, height * 5, width, height);
+		dirtGrassDownMiddle = texture_tile.crop(width * 4, height * 5, width, height);
+		dirtGrassDownRight = texture_tile.crop(width * 5, height * 5, width, height);
+		
+		pathDirtTopLeft = texture_tile.crop(width * 6, height * 3, width, height);
+		pathDirtTopMiddle = texture_tile.crop(width * 7, height * 3, width, height);
+		pathDirtTopRight = texture_tile.crop(width * 8, height * 3, width, height);
+		pathDirtMiddleLeft = texture_tile.crop(width * 6, height * 4, width, height);
+		pathDirtMiddleRight = texture_tile.crop(width * 8, height * 4, width, height);
+		pathDirtDownLeft = texture_tile.crop(width * 6, height * 5, width, height);
+		pathDirtDownMiddle = texture_tile.crop(width * 7, height * 5, width, height);
+		pathDirtDownRight = texture_tile.crop(width * 8, height * 5, width, height);
+		
+		lavaPathTopLeft = texture_tile.crop(0, height * 6, width, height);
+		lavaPathTopMiddle = texture_tile.crop(width, height * 6, width, height);
+		lavaPathTopRight = texture_tile.crop(width * 2, height * 6, width, height);
+		lavaPathMiddleLeft = texture_tile.crop(0, height * 7, width, height);
+		lavaPathMiddleRight = texture_tile.crop(width * 2, height * 7, width, height);
+		lavaPathDownLeft = texture_tile.crop(0, height * 8, width, height);
+		lavaPathDownMiddle = texture_tile.crop(width, height * 8, width, height);
+		lavaPathDownRight = texture_tile.crop(width * 2, height * 8, width, height);
+		
+		lava = texture_tile.crop(width * 4, height * 7, width, height);
+		lavaSandTopLeft = texture_tile.crop(width * 3, height * 6, width, height);
+		lavaSandTopMiddle = texture_tile.crop(width * 4, height * 6, width, height);
+		lavaSandTopRight = texture_tile.crop(width * 5, height * 6, width, height);
+		lavaSandMiddleLeft = texture_tile.crop(width * 3, height * 7, width, height);
+		lavaSandMiddleRight = texture_tile.crop(width * 5, height * 7, width, height);
+		lavaSandDownLeft = texture_tile.crop(width * 3, height * 8, width, height);
+		lavaSandDownMiddle = texture_tile.crop(width * 4, height * 8, width, height);
+		lavaSandDownRight = texture_tile.crop(width * 5, height * 8, width, height);
+		
+		waterDirtTopLeft = texture_tile.crop(width * 6, height * 6, width, height);
+		waterDirtTopMiddle = texture_tile.crop(width * 7, height * 6, width, height);
+		waterDirtTopRight = texture_tile.crop(width * 8, height * 6, width, height);
+		waterDirtMiddleLeft = texture_tile.crop(width * 6, height * 7, width, height);
+		waterDirtMiddleRight = texture_tile.crop(width * 8, height * 7, width, height);
+		waterDirtDownLeft = texture_tile.crop(width * 6, height * 8, width, height);
+		waterDirtDownMiddle = texture_tile.crop(width * 7, height * 8, width, height);
+		waterDirtDownRight = texture_tile.crop(width * 8, height * 8, width, height);
 		
 		// Map icons like trees, rocks, etc
 		
