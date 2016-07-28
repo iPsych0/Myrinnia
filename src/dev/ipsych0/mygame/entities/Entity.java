@@ -82,7 +82,7 @@ public abstract class Entity {
 	
 	public void damage(int damageDealt){
 		health -= damageDealt;
-		System.out.println("NPC's health is now: " + health);
+		System.out.println(Entity.this + "'s health is now: " + health);
 		if(health <= 0){
 			active = false;
 			die();

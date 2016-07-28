@@ -12,16 +12,18 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Item {
 	
+	
 	// ItemList
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1);
+	public static Item woodItem = new Item(Assets.wood, "Wood", 0, ItemTypes.CRAFTING_MATERIAL);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL);
 	
 	// Class
 	
 	protected Handler handler;
+	protected ItemTypes itemType;
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
@@ -32,11 +34,11 @@ public class Item {
 	public static boolean pickUpKeyPressed = false;
 	
 	
-	public Item(BufferedImage texture, String name, int id){
+	public Item(BufferedImage texture, String name, int id, ItemTypes itemType){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
-		count = 1;
+		this.itemType = itemType;
 		
 		items[id] = this;
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
@@ -57,7 +59,7 @@ public class Item {
 	}
 	
 	public Item createNew(int x, int y){
-		Item i = new Item(texture, name, id);
+		Item i = new Item(texture, name, id, itemType);
 		i.setPosition(x, y);
 		return i;
 	}
@@ -87,6 +89,7 @@ public class Item {
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
+            	System.out.println("Picked up item '" + item.name + "' of type: " + item.itemType.toString());
             	item.setCount(PICKED_UP);
             	return true;
         	}

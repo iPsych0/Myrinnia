@@ -4,13 +4,14 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.npcs.NPCManager;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -33,6 +34,10 @@ public class World {
 	
 	private ItemManager itemManager;
 	private InventoryWindow inventory;
+	
+	// Equipment
+	
+	private EquipmentWindow equipment;
 	
 	// NPC ChatWindow
 	
@@ -62,7 +67,8 @@ public class World {
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
 		
-		inventory = new InventoryWindow(handler, 80, 64);
+		inventory = new InventoryWindow(handler, 80, 178);
+		equipment = new EquipmentWindow(handler, 370, 210);
 		chatWindow = new ChatWindow(handler, 80, 64);
 	}
 	
@@ -72,6 +78,7 @@ public class World {
 		inventory.tick();
 		npcManager.tick();
 		chatWindow.tick();
+		equipment.tick();
 	}
 	
 	public void render(Graphics g){
@@ -103,6 +110,10 @@ public class World {
 		// NPC ChatWindow
 		
 		chatWindow.render(g);
+		
+		// Equipment
+		
+		equipment.render(g);
 	}
 	
 	

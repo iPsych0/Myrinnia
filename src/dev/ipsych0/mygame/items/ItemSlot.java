@@ -52,7 +52,6 @@ public class ItemSlot {
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
 			if(item.getName() == itemStack.getItem().getName()) {
-				System.out.println("We already had this item! Stacked " + item.getName() + " with the current stack of: " + itemStack.getItem().getName());
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				return true;
 			} else {
@@ -63,6 +62,12 @@ public class ItemSlot {
 		} else {
 			this.itemStack = new ItemStack(item, amount);
 			return true;
+		}
+	}
+	
+	public void removeItemFromInventory(Item item){
+		if(itemStack != null){
+			item.getHandler().getWorld().getItemManager().getItems().remove(item);
 		}
 	}
 	

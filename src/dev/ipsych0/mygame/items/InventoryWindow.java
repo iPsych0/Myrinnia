@@ -20,7 +20,7 @@ public class InventoryWindow {
 	private int width, height;
 	private Handler handler;
 	
-	private int numCols = 12;
+	private int numCols = 8;
 	private int numRows = 4;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
@@ -37,19 +37,19 @@ public class InventoryWindow {
 			
 			for(int i = 0; i < numCols; i++){
 				for(int j = 0; j < numRows; j++){
-					if(j == (numRows - 1)){
-						y += 32;
+					if(j == (numRows)){
+						x += 8;
 					}
 					
 					itemSlots.add(new ItemSlot(x + (i * (ItemSlot.SLOTSIZE)), y + (j * ItemSlot.SLOTSIZE), null));
 					
-					if(j == (numRows - 1)){
-						y -= 32;
+					if(j == (numRows)){
+						x -= 8;
 					}
 				}
 			}	
-			width = numCols * (ItemSlot.SLOTSIZE + 10);
-			height = numRows * (ItemSlot.SLOTSIZE + 10) + 8;
+			width = numCols * (ItemSlot.SLOTSIZE + 10) - 78;
+			height = numRows * (ItemSlot.SLOTSIZE + 10);
 		
 			// Prevents multiple instances of the inventory being created over and over when picking up items
 			isCreated = true;
@@ -85,7 +85,6 @@ public class InventoryWindow {
 									}
 									is.setItem(currentSelectedSlot);
 								}
-								
 								currentSelectedSlot = null;
 						}
 					}
@@ -102,9 +101,12 @@ public class InventoryWindow {
 	public void render(Graphics g){
 		if(isOpen){
 			g.setColor(interfaceColour);
-			g.fillRect(x - 16, y - 16, width + 32, height + 32);
+			g.fillRect(x - 16, y - 16, width + 32, height);
 			g.setColor(Color.BLACK);
-			g.drawRect(x - 16, y - 16, width + 32, height + 32);
+			g.drawRect(x - 16, y - 16, width + 32, height);
+			g.setFont(GameState.myFont);
+			g.setColor(Color.WHITE);
+			g.drawString("Inventory", x + 104, y - 2);
 			
 			for(ItemSlot is : itemSlots){
 				is.render(g);
