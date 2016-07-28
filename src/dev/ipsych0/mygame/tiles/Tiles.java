@@ -3,9 +3,13 @@ package dev.ipsych0.mygame.tiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import dev.ipsych0.mygame.gfx.Assets;
+
 public class Tiles {
 	
 	public static Tiles[] tiles = new Tiles[512];
+	
+	public static Tiles testTile = new Tiles(Assets.cave, 444);
 	
 	// First try-out tiles
 	
@@ -110,8 +114,6 @@ public class Tiles {
 	public static Tiles waterDirtDownLeft = new WaterDirtDownLeft(186);
 	public static Tiles waterDirtDownMiddle = new WaterDirtDownMiddle(187);
 	public static Tiles waterDirtDownRight = new WaterDirtDownRight(188);
-	//KK
-	
 	
 	
 	//CLASS
