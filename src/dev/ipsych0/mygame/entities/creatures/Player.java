@@ -141,7 +141,6 @@ public class Player extends Creature{
 		attackTimer = 0;
 		
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			System.out.println("Scorpion's position: " + e.getX() + e.getY());
 			if(e.equals(this))
 				continue;
 			if(!e.isAttackable())
