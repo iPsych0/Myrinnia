@@ -33,6 +33,10 @@ public class Player extends Creature{
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
+		// Player combat/movement settings:
+		
+		speed = Creature.DEFAULT_SPEED + 2.0f;
+		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
 		bounds.y = 16;
@@ -137,6 +141,7 @@ public class Player extends Creature{
 		attackTimer = 0;
 		
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			System.out.println("Scorpion's position: " + e.getX() + e.getY());
 			if(e.equals(this))
 				continue;
 			if(!e.isAttackable())

@@ -14,7 +14,13 @@ public class Scorpion extends Creature {
 	
 	Random rand = new Random();
 	private int min = 1, max = 50;
+	
+	Random randMove = new Random();
+	
+	private long lastWalkTimer, walkCooldown = 600, walkTimer = walkCooldown;
+	
 	private Player player;
+	private int time = 0;
 	
 	Random randDirection = new Random();
 	
@@ -27,6 +33,17 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
+		time++;
+		if(time % 60 == 0)
+			if(!walkTimer())
+				return;
+			
+			xMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
+			yMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
+			move();
+			
+			walkTimer = 0;
+		
 		//checkAttacks();
 	}
 
@@ -53,6 +70,16 @@ public class Scorpion extends Creature {
 		if(randomNumber >= 11 && randomNumber <= 50){
 			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
 		}
+	}
+	
+	public boolean walkTimer(){
+		walkTimer += System.currentTimeMillis() - lastWalkTimer;
+		lastWalkTimer = System.currentTimeMillis();
+		
+		if(walkTimer < walkCooldown)
+			return false;
+		
+		return true;
 	}
 	
 	

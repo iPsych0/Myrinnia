@@ -59,7 +59,6 @@ public class World {
 		entityManager.addEntity(new Rock(handler, 224, 160));
 		// entityManager.addEntity(new Rock(handler, 256, 160)); // Irritante kut rots die het pad blokkeert, dus uitgecomment
 		entityManager.addEntity(new Scorpion(handler, 128, 576));
-		entityManager.addEntity(new Scorpion(handler, 96, 576));
 		entityManager.addEntity(new Lorraine(handler, 512, 524));
 		
 		loadWorld(path);
