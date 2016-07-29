@@ -34,15 +34,28 @@ public class Scorpion extends Creature {
 	@Override
 	public void tick() {
 		time++;
-		if(time % 60 == 0)
-			if(!walkTimer())
-				return;
+		if(time % (randMove.nextInt(30) + 30) == 0){
 			
 			xMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
 			yMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
-			move();
-			
-			walkTimer = 0;
+			if(randMove.nextInt(3) == 0){
+				xMove = 0;
+				yMove = 0;
+			}
+		}
+		if(xMove < 0){
+			direction = Direction.LEFT;
+		}
+		if(xMove > 0){
+			direction = Direction.RIGHT;
+		}
+		if(yMove > 0){
+			direction = Direction.DOWN;
+		}
+		if(yMove < 0){
+			direction = Direction.UP;
+		}
+		move();
 		
 		//checkAttacks();
 	}
