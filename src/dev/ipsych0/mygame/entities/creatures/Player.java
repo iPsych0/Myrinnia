@@ -35,7 +35,7 @@ public class Player extends Creature{
 		
 		// Player combat/movement settings:
 		
-		speed = Creature.DEFAULT_SPEED + 3.0f;
+		speed = Creature.DEFAULT_SPEED + 2.0f;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
