@@ -17,7 +17,6 @@ public abstract class Creature extends Entity {
 	public static Font hpFont = new Font("SerifSans", Font.BOLD, 12);
 	public static Color hpColor = new Color(140, 0, 255);
 	protected int attackDamage;
-	protected boolean walking = false;
 	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -44,7 +43,6 @@ public abstract class Creature extends Entity {
 	
 	public void moveX(){
 		if(xMove > 0){ // Moving right
-			walking = true;
 			direction = Direction.RIGHT;
 			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 			
@@ -56,7 +54,6 @@ public abstract class Creature extends Entity {
 			}
 			
 		}else if(xMove < 0){ // Moving left
-			walking = true;
 			direction = Direction.LEFT;
 			int tx = (int) (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 			
@@ -72,7 +69,6 @@ public abstract class Creature extends Entity {
 	
 	public void moveY(){
 		if(yMove < 0){ // Up
-			walking = true;
 			direction = Direction.UP;
 			int ty = (int) (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 			
@@ -84,7 +80,6 @@ public abstract class Creature extends Entity {
 			}
 			
 		}else if (yMove > 0){ // Down
-			walking = true;
 			direction = Direction.DOWN;
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 			

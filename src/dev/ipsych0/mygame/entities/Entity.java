@@ -102,8 +102,8 @@ public abstract class Entity {
 				if(e.talking)
 					g.setFont(GameState.chatFont);
 					g.setColor(ChatWindow.chatColour);
-					g.drawString(npcName, 230, 269);
-					g.drawString(npcText1, 98, 290);
+					g.drawString(npcName, 346, 525);
+					g.drawString(npcText1, 230, 544);
 			}
 	}
 	

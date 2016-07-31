@@ -31,6 +31,7 @@ public class Scorpion extends Creature {
 
 	public Scorpion(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		speed = DEFAULT_SPEED;
 	}
 
 	@Override
@@ -123,8 +124,8 @@ public class Scorpion extends Creature {
 		time++;
 		if(time % (randMove.nextInt(30) + 30) == 0){
 			
-			xMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
-			yMove = randMove.nextInt(3) - Scorpion.DEFAULT_SPEED;
+			xMove = randMove.nextInt(3) - speed;
+			yMove = randMove.nextInt(3) - speed;
 			if(randMove.nextInt(3) == 0){
 				xMove = 0;
 				yMove = 0;
@@ -146,16 +147,16 @@ public class Scorpion extends Creature {
 		
 		// Radius for NPC walking - TODO: Needs perfectioning
 		if(getX() > (xSpawn + xRadius)){
-			xMove = - Scorpion.DEFAULT_SPEED;
+			xMove = - speed;
 		}
 		else if(getX() < (xSpawn - xRadius)){
-			xMove = + Scorpion.DEFAULT_SPEED;
+			xMove = + speed;
 		}
 		else if(getY() > (ySpawn + yRadius)){
-			yMove = - Scorpion.DEFAULT_SPEED;
+			yMove = - speed;
 		}
 		else if(getY() < (ySpawn - yRadius)){
-			yMove = + Scorpion.DEFAULT_SPEED;
+			yMove = + speed;
 		}
 		move();
 		

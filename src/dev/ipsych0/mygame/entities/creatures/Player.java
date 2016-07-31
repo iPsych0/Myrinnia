@@ -1,6 +1,5 @@
 package dev.ipsych0.mygame.entities.creatures;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -9,17 +8,8 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.teleports.TeleportManager;
 
 public class Player extends Creature{
-	
-	private ItemSlot itemSlots;
-	private InventoryWindow inventoryWindow;
-	private Item item;
-	private TeleportManager teleportManager;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight;

@@ -32,11 +32,11 @@ public class ChatWindow {
 			if(e.playerIsNearNpc()){
 				if(e.talking){
 					g.setColor(interfaceColour);
-					g.fillRect(x + 16, y + 192, width + 304, height + 64);
+					g.fillRect(x - 1, y + 192, width + 304, height + 64);
 					g.setColor(Color.BLACK);
-					g.drawRect(x + 16, y + 192, width + 304, height + 64);
+					g.drawRect(x - 1, y + 192, width + 304, height + 64);
 					g.setColor(Color.BLACK);
-					g.drawRect(x + 16, y + 192, width + 304, height + 16);
+					g.drawRect(x - 1, y + 192, width + 304, height + 16);
 					e.says(g, "Lorraine", "This is a test.");
 				}
 			}

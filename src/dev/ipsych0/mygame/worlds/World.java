@@ -66,9 +66,9 @@ public class World {
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
 		
-		inventory = new InventoryWindow(handler, 80, 178);
-		equipment = new EquipmentWindow(handler, 370, 210);
-		chatWindow = new ChatWindow(handler, 80, 64);
+		inventory = new InventoryWindow(handler, 658, 112);
+		equipment = new EquipmentWindow(handler, 658, 466);
+		chatWindow = new ChatWindow(handler, 228, 320);
 	}
 	
 	public void tick(){
