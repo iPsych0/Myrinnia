@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.states.GameState;
 public class EquipmentWindow {
 	
 	public static boolean isCreated = false;
+	public static boolean isOpen = false;
 	private int x, y;
 	private int width, height;
 	private Handler handler;
@@ -57,11 +58,13 @@ public class EquipmentWindow {
 	}
 	
 	public void tick(){
-		
+		if(isOpen){
+			// TODO: Add system to equip/unequip items
+		}
 	}
 	
 	public void render(Graphics g){
-		if(isCreated){
+		if(isOpen){
 			g.setColor(interfaceColour);
 			g.fillRect(x - 16, y - 16, width + 32, height);
 			g.setColor(Color.BLACK);

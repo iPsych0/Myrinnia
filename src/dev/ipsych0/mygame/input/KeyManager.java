@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 
@@ -53,6 +54,16 @@ public class KeyManager implements KeyListener{
 			}
 			else {
 				InventoryWindow.isOpen = false;
+			}
+		}
+		
+		// Inventory toggle
+		if(e.getKeyCode() == KeyEvent.VK_E){
+			if(!EquipmentWindow.isOpen){
+				EquipmentWindow.isOpen = true;
+			}
+			else {
+				EquipmentWindow.isOpen = false;
 			}
 		}
 		

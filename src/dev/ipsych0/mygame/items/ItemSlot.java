@@ -11,7 +11,6 @@ public class ItemSlot {
 	
 	private int x, y;
 	private ItemStack itemStack;
-	private InventoryWindow inventoryWindow;
 	public static boolean stackable = true;
 	int alpha = 127;
 	Color interfaceColour = new Color(100, 100, 100, alpha);

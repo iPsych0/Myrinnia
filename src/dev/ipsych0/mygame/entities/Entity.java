@@ -19,7 +19,6 @@ public abstract class Entity {
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
-	public boolean talking = false;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -67,10 +66,10 @@ public abstract class Entity {
 			if(ChatWindow.talkButtonPressed){
 				if(distanceToEntity((int)e.getX(), (int)e.getY(),
 						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
-					talking = true;
+					ChatWindow.isTalking = true;
 					return true;
 				}
-				talking = false;
+				ChatWindow.isTalking = false;
 				ChatWindow.talkButtonPressed = false;
 			}
 			return false;
@@ -97,14 +96,14 @@ public abstract class Entity {
 	}
 	
 	public void says(Graphics g, String npcName, String npcText1){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities())
-			if(ChatWindow.talkButtonPressed){
-				if(e.talking)
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+				if(ChatWindow.isTalking){
 					g.setFont(GameState.chatFont);
 					g.setColor(ChatWindow.chatColour);
 					g.drawString(npcName, 346, 525);
-					g.drawString(npcText1, 230, 544);
-			}
+					g.drawString(npcText1, 168, 544);
+				}
+		}
 	}
 	
 	
