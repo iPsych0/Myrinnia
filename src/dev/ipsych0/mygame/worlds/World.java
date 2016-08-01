@@ -8,7 +8,6 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
-import dev.ipsych0.mygame.entities.npcs.NPCManager;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.items.EquipmentWindow;
@@ -28,7 +27,6 @@ public class World {
 	// Entities
 	
 	private EntityManager entityManager;
-	private NPCManager npcManager;
 	
 	// Items
 	
@@ -49,7 +47,6 @@ public class World {
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
-		npcManager = new NPCManager(handler);
 		entityManager.addEntity(new Tree(handler, 192, 128));
 		entityManager.addEntity(new Tree(handler, 64, 160));
 		entityManager.addEntity(new Tree(handler, 64, 192));
@@ -75,7 +72,6 @@ public class World {
 		itemManager.tick();
 		entityManager.tick();
 		inventory.tick();
-		npcManager.tick();
 		chatWindow.tick();
 		equipment.tick();
 	}
@@ -101,7 +97,6 @@ public class World {
 		
 		// Entities
 		entityManager.render(g);
-		npcManager.render(g);
 		
 		// Inventory
 		inventory.render(g);
@@ -172,13 +167,5 @@ public class World {
 
 	public void setItemManager(ItemManager itemManager) {
 		this.itemManager = itemManager;
-	}
-
-	public NPCManager getNpcManager() {
-		return npcManager;
-	}
-
-	public void setNpcManager(NPCManager npcManager) {
-		this.npcManager = npcManager;
 	}
 }

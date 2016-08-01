@@ -65,6 +65,7 @@ public class ChatWindow {
 					g.setFont(GameState.myFont);
 					g.setColor(Color.WHITE);
 					g.drawString("Chat", x, y + 182);
+					
 					for(TextSlot ts : textSlots){
 						ts.render(g);
 					}
