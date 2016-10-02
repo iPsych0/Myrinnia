@@ -8,7 +8,7 @@ import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
 	
-	private boolean leftPressed, rightPressed;
+	private boolean leftPressed, rightPressed, isDragged, isDoublePressed;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
 
@@ -23,11 +23,16 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// Left click
-		if(e.getButton() == MouseEvent.BUTTON1)
+		
+		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = true;
+			isDragged = true;
+		}
 		// Right click
-		else if(e.getButton() == MouseEvent.BUTTON3)
+		else if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = true;
+		}
+		
 	}
 	
 	// Getters & Setters
@@ -40,6 +45,14 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		return rightPressed;
 	}
 	
+	public boolean isDragged() {
+		return isDragged;
+	}
+
+	public boolean isDoublePressed() {
+		return isDoublePressed;
+	}
+
 	public int getMouseX(){
 		return mouseX;
 	}
@@ -52,10 +65,13 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	// Implemented methods
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1)
+		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = false;
-		else if(e.getButton() == MouseEvent.BUTTON3)
+			isDragged = false;
+		}
+		else if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = false;
+		}
 		
 		if(uiManager != null)
 			uiManager.onMouseRelease(e);
@@ -73,8 +89,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(isDragged){
+			mouseX = e.getX();
+			mouseY = e.getY();
+		}
 	}
 
 	@Override

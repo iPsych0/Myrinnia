@@ -63,11 +63,12 @@ public class InventoryWindow {
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots) {
+				
 				is.tick();
 				
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
-				if(handler.getMouseManager().isLeftPressed()){
+				if(handler.getMouseManager().isDragged()){
 					if(temp2.contains(temp) && !hasBeenPressed) {
 						hasBeenPressed = true;
 						
@@ -91,7 +92,7 @@ public class InventoryWindow {
 				}
 			}
 			
-			if(hasBeenPressed && !handler.getMouseManager().isLeftPressed()) {
+			if(hasBeenPressed && !handler.getMouseManager().isDragged()) {
 				hasBeenPressed = false;
 			}
 			ItemSlot.stackable = true;
