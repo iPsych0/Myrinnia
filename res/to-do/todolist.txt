@@ -1,7 +1,7 @@
 ===Interfaces===
 
 - NPC chat interface afmaken
-- Inventory afmaken: Items usen/droppen
+- Inventory afmaken: Items usen/droppen/draggen
 - Bank syseem?
 - Random loot chests
 
@@ -11,6 +11,8 @@
 - ……N RNG DICE MAKEN VAN 1 TOT 1000
 - Random loot chests
 - Shrines als teleport systeem
+- Player animations aanpassen bij lopen (last faced direction onthouden)
+- Player combat aanpassen naar 1 knop (last faced direction)
 
 === Items ===
 
