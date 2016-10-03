@@ -96,7 +96,7 @@ public class InventoryWindow {
 				hasBeenPressed = false;
 			}
 			ItemSlot.stackable = true;
-			// Fix this shitz
+			// Fix this shit
 		}
 	}
 	

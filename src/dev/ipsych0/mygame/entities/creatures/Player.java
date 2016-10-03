@@ -218,24 +218,21 @@ public class Player extends Creature{
 	
 	private BufferedImage getCurrentAnimationFrame(){
 		// Walk and Attack animations lol
-		if(xMove < 0){
-			return aLeft.getCurrentFrame();
-		}
-		else if(lastFaced == Direction.LEFT){
+		if(lastFaced == Direction.LEFT){
 			if(handler.getKeyManager().attack){
 				return attLeft.getCurrentFrame();
 			}
 		}
-		else if(xMove > 0){
-			return aRight.getCurrentFrame();
+		else if(xMove < 0){
+			return aLeft.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.RIGHT){
 			if(handler.getKeyManager().attack){
 				return attRight.getCurrentFrame();
 			}
 		}
-		else if(yMove < 0){
-			return aUp.getCurrentFrame();
+		else if(xMove > 0){
+			return aRight.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.DOWN){
 			if(handler.getKeyManager().attack){
@@ -249,6 +246,9 @@ public class Player extends Creature{
 			if(handler.getKeyManager().attack){
 				return attUp.getCurrentFrame();
 			}
+		}
+		else if(yMove < 0){
+			return aUp.getCurrentFrame();
 		}
 		
 		return aDefault.getDefaultFrame();
