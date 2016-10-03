@@ -12,7 +12,7 @@ public class KeyManager implements KeyListener{
 
 	private boolean[] keys;
 	public boolean up, down, left, right;
-	public boolean aUp, aDown, aLeft, aRight;
+	public boolean attack;
 	public boolean interact;
 	public boolean pickUp;
 	public boolean position;
@@ -29,10 +29,8 @@ public class KeyManager implements KeyListener{
 		right = keys[KeyEvent.VK_RIGHT];
 		
 		// Attack keys
-		aUp = keys[KeyEvent.VK_W];
-		aDown = keys[KeyEvent.VK_S];
-		aLeft = keys[KeyEvent.VK_A];
-		aRight = keys[KeyEvent.VK_D];
+		attack = keys[KeyEvent.VK_Z];
+
 		
 		// Interaction keys
 		interact = keys[KeyEvent.VK_SPACE];
@@ -77,7 +75,7 @@ public class KeyManager implements KeyListener{
 			}
 		}
 		
-		// Ensures only 
+		// Ensures pick-up key doesn't stick to active
 		if(e.getKeyCode() == KeyEvent.VK_F){
 			if(!Item.pickUpKeyPressed){
 				Item.pickUpKeyPressed = true;

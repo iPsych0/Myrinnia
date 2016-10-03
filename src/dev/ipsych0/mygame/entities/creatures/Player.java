@@ -129,19 +129,19 @@ public class Player extends Creature{
 		ar.height = arSize;
 		
 		// Attack box setters
-		if(handler.getKeyManager().aUp){
+		if(lastFaced == Direction.UP && handler.getKeyManager().attack){
 			ar.x = cb.x + cb.width / 2 - arSize / 2;
 			ar.y = cb.y - arSize;
 		}
-		else if(handler.getKeyManager().aDown){
+		else if(lastFaced == Direction.DOWN && handler.getKeyManager().attack){
 			ar.x = cb.x + cb.width / 2 - arSize / 2;
 			ar.y = cb.y + cb.height;
 		}
-		else if(handler.getKeyManager().aLeft){
+		else if(lastFaced == Direction.LEFT && handler.getKeyManager().attack){
 			ar.x = cb.x - arSize;
 			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}
-		else if(handler.getKeyManager().aRight){
+		else if(lastFaced == Direction.RIGHT && handler.getKeyManager().attack){
 			ar.x = cb.x + cb.width;
 			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}
@@ -217,24 +217,40 @@ public class Player extends Creature{
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
-		if(xMove < 0)
+		if(xMove < 0){
 			return aLeft.getCurrentFrame();
-		else if(handler.getKeyManager().aLeft)
-			return attLeft.getCurrentFrame();
-		else if(xMove > 0)
+		}
+		else if(lastFaced == Direction.LEFT){
+			if(handler.getKeyManager().attack){
+				return attLeft.getCurrentFrame();
+			}
+		}
+		else if(xMove > 0){
 			return aRight.getCurrentFrame();
-		else if(handler.getKeyManager().aRight)
-			return attRight.getCurrentFrame();
-		else if(yMove < 0)
+		}
+		else if(lastFaced == Direction.RIGHT){
+			if(handler.getKeyManager().attack){
+				return attRight.getCurrentFrame();
+			}
+		}
+		else if(yMove < 0){
 			return aUp.getCurrentFrame();
-		else if(handler.getKeyManager().aDown)
-			return attDown.getCurrentFrame();
-		else if(yMove > 0)
+		}
+		else if(lastFaced == Direction.DOWN){
+			if(handler.getKeyManager().attack){
+				return attDown.getCurrentFrame();
+			}
+		}
+		else if(yMove > 0){
 			return aDown.getCurrentFrame();
-		else if(handler.getKeyManager().aUp)
-			return attUp.getCurrentFrame();
-		else
-			return aDefault.getDefaultFrame();
+		}
+		else if(lastFaced == Direction.UP){
+			if(handler.getKeyManager().attack){
+				return attUp.getCurrentFrame();
+			}
+		}
+		
+		return aDefault.getDefaultFrame();
 	}
 
 	@Override
