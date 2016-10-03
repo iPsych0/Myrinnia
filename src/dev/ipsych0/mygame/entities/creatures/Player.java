@@ -12,10 +12,13 @@ import dev.ipsych0.mygame.gfx.Assets;
 public class Player extends Creature{
 	
 	// Walking Animations
-	private Animation aDown, aUp, aLeft, aRight;
+	private Animation aDown, aUp, aLeft, aRight, aDefault;
 	
 	// Attacking Animations
 	private Animation attDown, attUp, attLeft, attRight;
+	
+	// Last faced direction
+	private Direction lastFaced = direction;
 	
 	// Attack timer
 	private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
@@ -38,6 +41,7 @@ public class Player extends Creature{
 		aUp = new Animation(250, Assets.player_up);
 		aLeft = new Animation(250, Assets.player_left);
 		aRight = new Animation(250, Assets.player_right);
+		
 		attDown = new Animation(333, Assets.player_attackingDown);
 		attUp = new Animation(333, Assets.player_attackingUp);
 		attLeft = new Animation(333, Assets.player_attackingLeft);
@@ -47,11 +51,28 @@ public class Player extends Creature{
 	@Override
 	public void tick() {
 		
+		if(lastFaced == null){
+			aDefault = new Animation(250, Assets.player_down);
+		}
+		if(lastFaced == Direction.LEFT){
+			aDefault = new Animation(250, Assets.player_left);
+		}
+		if(lastFaced == Direction.RIGHT){
+			aDefault = new Animation(250, Assets.player_right);
+		}
+		if(lastFaced == Direction.DOWN){
+			aDefault = new Animation(250, Assets.player_down);
+		}
+		if(lastFaced == Direction.UP){
+			aDefault = new Animation(250, Assets.player_up);
+		}
+		
 		//Animations
 		aDown.tick();
 		aUp.tick();
 		aLeft.tick();
 		aRight.tick();
+		aDefault.tick();
 		attDown.tick();
 		attUp.tick();
 		attLeft.tick();
@@ -158,15 +179,23 @@ public class Player extends Creature{
 		
 		if(handler.getKeyManager().up){
 			yMove = -speed;
+			direction = Direction.UP;
+			lastFaced = Direction.UP;
 		}
 		if(handler.getKeyManager().down){
 			yMove = speed;
+			direction = Direction.DOWN;
+			lastFaced = Direction.DOWN;
 		}
 		if(handler.getKeyManager().left){
 			xMove = -speed;
+			direction = Direction.LEFT;
+			lastFaced = Direction.LEFT;
 		}
 		if(handler.getKeyManager().right){
 			xMove = speed;
+			direction = Direction.RIGHT;
+			lastFaced = Direction.RIGHT;
 		}
 	}
 
@@ -205,7 +234,7 @@ public class Player extends Creature{
 		else if(handler.getKeyManager().aUp)
 			return attUp.getCurrentFrame();
 		else
-			return aDown.getDefaultFrame();
+			return aDefault.getDefaultFrame();
 	}
 
 	@Override

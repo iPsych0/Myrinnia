@@ -131,21 +131,7 @@ public class Scorpion extends Creature {
 				yMove = 0;
 			}
 		}
-		if(xMove < 0){
-			direction = Direction.LEFT;
-		}
-		if(xMove > 0){
-			direction = Direction.RIGHT;
-		}
-		if(yMove > 0){
-			direction = Direction.DOWN;
-		}
-		if(yMove < 0){
-			direction = Direction.UP;
-		}
 		
-		
-		// Radius for NPC walking - TODO: Needs perfectioning
 		if(getX() > (xSpawn + xRadius)){
 			xMove = - speed;
 		}

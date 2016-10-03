@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Creature.Direction;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Creature extends Entity {
@@ -23,6 +24,9 @@ public abstract class Creature extends Entity {
 	}
 	
 	protected Direction direction;
+	
+	// Last faced direction
+	private Direction lastFaced;
 	
 	protected float speed;
 	protected float xMove, yMove;
@@ -64,6 +68,9 @@ public abstract class Creature extends Entity {
 				x = tx * Tiles.TILEWIDTH + Tiles.TILEWIDTH - bounds.x;
 			}
 		}
+		else if(xMove == 0){
+			direction = lastFaced;
+		}
 	}
 	
 	
@@ -89,6 +96,9 @@ public abstract class Creature extends Entity {
 			} else{
 				y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - 1;
 			}
+		}
+		else if(yMove == 0){
+			direction = lastFaced;
 		}
 	}
 	
