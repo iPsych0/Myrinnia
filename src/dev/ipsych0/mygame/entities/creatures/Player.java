@@ -217,7 +217,7 @@ public class Player extends Creature{
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
-		// Walk and Attack animations
+		// Walk and Attack animations lol
 		if(xMove < 0){
 			return aLeft.getCurrentFrame();
 		}
