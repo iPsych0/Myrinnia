@@ -27,6 +27,7 @@ public class InventoryWindow {
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
+	private boolean itemSelected;
 	
 	public InventoryWindow(Handler handler, int x, int y){
 		if(isCreated == false){
@@ -77,18 +78,28 @@ public class InventoryWindow {
 								currentSelectedSlot = is.getItemStack();
 								
 								is.setItem(null);
+								itemSelected = true;
 							} 
-						} else {
-								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
-								} else {
-									if(ItemSlot.stackable == false){
-										return;
-									}
-									is.setItem(currentSelectedSlot);
-								}
-								currentSelectedSlot = null;
 						}
 					}
+				} if(itemSelected && !handler.getMouseManager().isDragged()) {
+					System.out.println("mouse is not dragged anymore");
+					if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+					
+						if(ItemSlot.stackable == false){
+							return;
+						}
+						if(temp2.contains(temp)){
+							is.setItem(currentSelectedSlot);
+							currentSelectedSlot = null;
+							itemSelected = false;
+							System.out.println("Wel in een inv slot");
+						}
+						else{
+							System.out.println("Niet in een inv slot");
+						}
+					}
+					System.out.println("CurrentSelectedSlot & itemSelected reset");
 				}
 			}
 			

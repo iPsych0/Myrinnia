@@ -12,12 +12,9 @@ import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
 	
-	private boolean leftPressed, rightPressed, isDragged, isDoublePressed;
+	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
-	
-	// Double-click cooldown
-	private long lastClickedTimer, clickCooldown = 480, clickTimer = clickCooldown;
 
 	public MouseManager(){
 		
@@ -29,31 +26,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		clickTimer += System.currentTimeMillis() - lastClickedTimer;
-		lastClickedTimer = System.currentTimeMillis();
 		
-		
-		if(clickTimer < clickCooldown){
-			if(e.getClickCount() % 2 == 0 && !e.isConsumed()){
-				e.consume();
-				isDoublePressed = true;
-				clickTimer = 0;
-				System.out.println("Double-Clicked!");
-			}
-		}
-		else{
-			leftPressed = true;
-			isDragged = true;
-			clickTimer = 0;
-			System.out.println("Single Clicked!");
-		}
-		
-		
-		// Right Click
-		if(e.getButton() == MouseEvent.BUTTON3){
-			rightPressed = true;
-			System.out.println("Right Clicked!");
-		}
 	}
 	
 	// Getters & Setters
@@ -68,14 +41,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	public boolean isDragged() {
 		return isDragged;
-	}
-
-	public boolean isDoublePressed() {
-		return isDoublePressed;
-	}
-
-	public void setDoublePressed(boolean isDoublePressed) {
-		this.isDoublePressed = isDoublePressed;
 	}
 
 	public int getMouseX(){
@@ -114,16 +79,24 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(isDragged){
+		isDragged = true;
 			// Fix hier shit
 			mouseX = e.getX();
 			mouseY = e.getY();
-		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// Left Click
+		if(e.getButton() == MouseEvent.BUTTON1){
+			leftPressed = true;
+		}
 		
+		// Right Click
+		if(e.getButton() == MouseEvent.BUTTON3){
+			rightPressed = true;
+			System.out.println("Right Clicked!");
+		}
 	}
 
 	@Override
