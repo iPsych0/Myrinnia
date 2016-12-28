@@ -81,6 +81,7 @@ public class InventoryWindow {
 							} 
 						}
 					}
+					// Stacking werkt nog niet met unieke items, alleen met zelfde items
 				} if(itemSelected && !handler.getMouseManager().isDragged()) {
 						if(temp2.contains(temp)){
 							if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
