@@ -44,6 +44,9 @@ public class World {
 	// Actual code ---v
 	
 	public World(Handler handler, String path){
+		
+		loadWorld(path);
+		
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
@@ -56,9 +59,13 @@ public class World {
 		entityManager.addEntity(new Rock(handler, 224, 160));
 		// entityManager.addEntity(new Rock(handler, 256, 160)); // Irritante kut rots die het pad blokkeert, dus uitgecomment
 		entityManager.addEntity(new Scorpion(handler, 128, 576));
+		entityManager.addEntity(new Scorpion(handler, 128, 800));
+		entityManager.addEntity(new Scorpion(handler, 128, 888));
+		entityManager.addEntity(new Scorpion(handler, 128, 944));
+		entityManager.addEntity(new Scorpion(handler, 190, 944));
+		entityManager.addEntity(new Scorpion(handler, 190, 888));
+		entityManager.addEntity(new Scorpion(handler, 190, 800));
 		entityManager.addEntity(new Lorraine(handler, 512, 524));
-		
-		loadWorld(path);
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);

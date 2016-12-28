@@ -78,7 +78,11 @@ public class InventoryWindow {
 								currentSelectedSlot = is.getItemStack();
 								is.setItem(null);
 								itemSelected = true;
-							} 
+							}
+							else{
+								hasBeenPressed = false;
+								return;
+							}
 						}
 					}
 					// Stacking werkt nog niet met unieke items, alleen met zelfde items

@@ -30,6 +30,7 @@ public class Tree extends StaticEntity {
 	@Override
 	public void die(){
 		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y));
+		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(50);
 	}
 
 	@Override

@@ -11,6 +11,13 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Player extends Creature{
 	
+	// NPC killcounts
+	private int scorpionKC = 0;
+	
+	// Experience and levels
+	private int attackExperience;
+	private int attackLevel;
+	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
 	
@@ -29,6 +36,8 @@ public class Player extends Creature{
 		// Player combat/movement settings:
 		
 		speed = Creature.DEFAULT_SPEED + 2.0f;
+		attackExperience = 0;
+		attackLevel = 1;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
@@ -88,8 +97,10 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
-		handler.getWorld().getEntityManager().getPlayer().getY());
+//			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
+//		handler.getWorld().getEntityManager().getPlayer().getY());
+			System.out.println("Attack level = " + getAttackLevel());
+			System.out.println("Attack XP = " + getAttackExperience());
 		}
 		
 		// Check teleports
@@ -158,7 +169,8 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(attackDamage + handler.getRandomSupplyAmount());
+				e.damage(attackDamage + (int)(getAttackLevel() * 2.5));
+				System.out.println("Damage = " + (int)(getAttackLevel() * 2.5));
 				return;
 			}
 		}
@@ -168,6 +180,43 @@ public class Player extends Creature{
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
+	public int getScorpionKC() {
+		return scorpionKC;
+	}
+
+	public int getAttackExperience() {
+		return attackExperience;
+	}
+
+	public void addAttackExperience(int attackXP) {
+		this.attackExperience = attackExperience + attackXP;
+	}
+
+	public int getAttackLevel() {
+		// Checks player levels (hard-coded)
+		if(getAttackExperience() >= 50 && getAttackExperience() <= 99){
+			setAttackLevel(2);
+		}
+		if(getAttackExperience() >= 100 && getAttackExperience() <= 199){
+			setAttackLevel(3);
+		}
+		if(getAttackExperience() >= 200 && getAttackExperience() <= 449){
+			setAttackLevel(4);
+		}
+		if(getAttackExperience() >= 450 && getAttackExperience() <= 999){
+			setAttackLevel(5);
+		}
+		return attackLevel;
+	}
+
+	public void setAttackLevel(int level) {
+		attackLevel = level;
+	}
+
+	public void addScorpionKC() {
+		scorpionKC++;
+	}
+
 	@Override
 	public void die(){
 		System.out.println("You died!");
