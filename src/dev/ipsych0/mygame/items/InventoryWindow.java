@@ -76,40 +76,30 @@ public class InventoryWindow {
 						if(currentSelectedSlot == null) {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
-								
 								is.setItem(null);
 								itemSelected = true;
 							} 
 						}
 					}
 				} if(itemSelected && !handler.getMouseManager().isDragged()) {
-					System.out.println("mouse is not dragged anymore");
-					if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
-					
-						if(ItemSlot.stackable == false){
-							return;
-						}
 						if(temp2.contains(temp)){
-							is.setItem(currentSelectedSlot);
-							currentSelectedSlot = null;
-							itemSelected = false;
-							System.out.println("Wel in een inv slot");
+							if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+								if(is.getItemStack() == null)
+									is.setItem(currentSelectedSlot);
+									currentSelectedSlot = null;
+									itemSelected = false;
+									hasBeenPressed = false;
+									System.out.println("test2");
 						}
 						else{
-							System.out.println("Niet in een inv slot");
+							return;
 						}
 					}
-					System.out.println("CurrentSelectedSlot & itemSelected reset");
 				}
 			}
-			
-			if(hasBeenPressed && !handler.getMouseManager().isDragged()) {
-				hasBeenPressed = false;
-			}
-			ItemSlot.stackable = true;
-			// Fix this shit
 		}
 	}
+	
 	
 	public void render(Graphics g){
 		if(isOpen){

@@ -64,11 +64,11 @@ public class ItemSlot {
 		}
 	}
 	
-	public void removeItemFromInventory(Item item){
-		if(itemStack != null){
-			item.getHandler().getWorld().getItemManager().getItems().remove(item);
-		}
-	}
+//	public void removeItemFromInventory(Item item){
+//		if(itemStack != null){
+//			item.getHandler().getWorld().getItemManager().getItems().remove(item);
+//		}
+//	}
 	
 	public void setItem(ItemStack item){
 		this.itemStack = item;
