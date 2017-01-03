@@ -16,6 +16,8 @@ public class InventoryWindow {
 	private boolean hasBeenPressed = false;
 	public static boolean isCreated = false;
 	
+	private EquipmentWindow equipmentWindow;
+	
 	private int x, y;
 	private int width, height;
 	private Handler handler;
@@ -86,19 +88,24 @@ public class InventoryWindow {
 						}
 					}
 					// Stacking werkt nog niet met unieke items, alleen met zelfde items
-				} if(itemSelected && !handler.getMouseManager().isDragged()) {
-						if(temp2.contains(temp)){
-							if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
-								if(is.getItemStack() == null)
-									is.setItem(currentSelectedSlot);
-									currentSelectedSlot = null;
-									itemSelected = false;
-									hasBeenPressed = false;
-									System.out.println("test2");
+				}
+				if(itemSelected && !handler.getMouseManager().isDragged()) {
+					if(temp2.contains(temp)){
+						if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+							currentSelectedSlot = null;
+							itemSelected = false;
+							hasBeenPressed = false;
+							System.out.println("test2");
 						}
 						else{
 							return;
 						}
+					}
+				}
+				if(handler.getMouseManager().isRightPressed()){
+					if(!handler.getMouseManager().isDragged()){
+						equipmentWindow = new EquipmentWindow(handler, 658, 466);
+						System.out.println("Equipped item!");
 					}
 				}
 			}

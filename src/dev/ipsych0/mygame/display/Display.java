@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
+
 public class Display {
 	
 	private JFrame frame;

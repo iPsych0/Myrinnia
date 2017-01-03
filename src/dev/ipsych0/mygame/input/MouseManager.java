@@ -24,11 +24,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		this.uiManager = uiManager;
 	}
 	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		
-	}
-	
 	// Getters & Setters
 	
 	public boolean isLeftPressed(){
@@ -53,6 +48,20 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	
 	// Implemented methods
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// Left Click
+		if(e.getButton() == MouseEvent.BUTTON1){
+			leftPressed = true;
+		}
+		
+		// Right Click
+		if(e.getButton() == MouseEvent.BUTTON3){
+			rightPressed = true;
+			System.out.println("Right Clicked!");
+		}
+	}
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
@@ -87,16 +96,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// Left Click
-		if(e.getButton() == MouseEvent.BUTTON1){
-			leftPressed = true;
-		}
-		
-		// Right Click
-		if(e.getButton() == MouseEvent.BUTTON3){
-			rightPressed = true;
-			System.out.println("Right Clicked!");
-		}
+	
 	}
 
 	@Override

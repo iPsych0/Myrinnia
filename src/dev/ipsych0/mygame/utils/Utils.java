@@ -18,7 +18,7 @@ public class Utils {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		
+		System.out.println(builder.toString());
 		return builder.toString();
 	}
 	

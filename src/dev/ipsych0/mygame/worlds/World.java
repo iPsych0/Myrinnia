@@ -50,14 +50,19 @@ public class World {
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
+		inventory = new InventoryWindow(handler, 658, 112);
+		equipment = new EquipmentWindow(handler, 658, 466);
+		chatWindow = new ChatWindow(handler, 228, 320);
+		
 		entityManager.addEntity(new Tree(handler, 192, 128));
 		entityManager.addEntity(new Tree(handler, 64, 160));
 		entityManager.addEntity(new Tree(handler, 64, 192));
 		entityManager.addEntity(new Tree(handler, 96, 128));
 		entityManager.addEntity(new Tree(handler, 96, 160));
 		entityManager.addEntity(new Tree(handler, 96, 192));
+		
 		entityManager.addEntity(new Rock(handler, 224, 160));
-		// entityManager.addEntity(new Rock(handler, 256, 160)); // Irritante kut rots die het pad blokkeert, dus uitgecomment
+		
 		entityManager.addEntity(new Scorpion(handler, 128, 576));
 		entityManager.addEntity(new Scorpion(handler, 128, 800));
 		entityManager.addEntity(new Scorpion(handler, 128, 888));
@@ -65,14 +70,11 @@ public class World {
 		entityManager.addEntity(new Scorpion(handler, 190, 944));
 		entityManager.addEntity(new Scorpion(handler, 190, 888));
 		entityManager.addEntity(new Scorpion(handler, 190, 800));
+		
 		entityManager.addEntity(new Lorraine(handler, 512, 524));
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
-		
-		inventory = new InventoryWindow(handler, 658, 112);
-		equipment = new EquipmentWindow(handler, 658, 466);
-		chatWindow = new ChatWindow(handler, 228, 320);
 	}
 	
 	public void tick(){

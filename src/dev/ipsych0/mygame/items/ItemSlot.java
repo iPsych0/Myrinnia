@@ -52,6 +52,8 @@ public class ItemSlot {
 		if(itemStack != null && stackable == true) {
 			if(item.getName() == itemStack.getItem().getName()) {
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
+				stackable = true;
+				System.out.println("Items added to the stack");
 				return true;
 			} else {
 				System.out.println(item.getName() + " cannot be stacked with " + itemStack.getItem().getName());
@@ -59,9 +61,26 @@ public class ItemSlot {
 				return false;
 			}
 		} else {
+			if(itemStack != null){
+				if(item.getName() != itemStack.getItem().getName()){
+					stackable = false;
+					System.out.println("Dit item kan niet gestacked worden");
+					return false;
+				}
+				else{
+					if(item.getName() == itemStack.getItem().getName()){
+						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
+						System.out.println("Dit item is stackable");
+						stackable = true;
+						return true;
+					}
+				}
+			}
+			
 			this.itemStack = new ItemStack(item, amount);
+			System.out.println("Nieuwe stack gemaakt");
 			return true;
-		}
+			}
 	}
 	
 //	public void removeItemFromInventory(Item item){
