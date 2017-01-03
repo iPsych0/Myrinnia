@@ -13,6 +13,7 @@ import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
+import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 
@@ -20,6 +21,7 @@ public class World {
 	
 	// Variables
 	private Handler handler;
+	private MapLoader mapLoader;
 	private int width, height;
 	private int[][] tiles;
 	private int spawnX, spawnY;
@@ -45,6 +47,7 @@ public class World {
 	
 	public World(Handler handler, String path){
 		
+		mapLoader = new MapLoader();
 		loadWorld(path);
 		
 		this.handler = handler;
@@ -132,20 +135,23 @@ public class World {
 	}
 
 	private void loadWorld(String path){
-		String file = Utils.loadFileAsString(path);
+		String file = mapLoader.xmlParser(path);
+		//String file = Utils.loadFileAsString(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
-		String[] tokens = file.split("\\s+");
-		width = Utils.parseInt(tokens[0]);
-		height = Utils.parseInt(tokens[1]);
-		spawnX = Utils.parseInt(tokens[2]);
-		spawnY = Utils.parseInt(tokens[3]);
+		file = file.replace("\n", "").replace("\r", "");
+		String[] tokens = file.split(",");
+		
+		width = 50;//Utils.parseInt(tokens[0]);
+		height = 50;//Utils.parseInt(tokens[1]);
+		spawnX = 32;//Utils.parseInt(tokens[2]);
+		spawnY = 32;//Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
 			for (int x = 0; x < width; x++){
 				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
-				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
+				tiles[x][y] = Utils.parseInt(tokens[(x + y * width)]);
 			}
 		}
 	}

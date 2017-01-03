@@ -14,7 +14,7 @@ public class GameState extends State{
 	
 	public GameState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/MyrinniaTown.txt");
+		world = new World(handler, "res/worlds/testmap.tmx");
 		handler.setWorld(world);
 		myFont = new Font("SansSerif", Font.PLAIN, 12);
 	}
