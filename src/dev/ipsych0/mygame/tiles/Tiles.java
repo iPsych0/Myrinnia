@@ -7,22 +7,17 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Tiles {
 	
-	public static Tiles[] tiles = new Tiles[512];
+	public static Tiles[] tiles = new Tiles[256];
 	
 	// First try-out tiles
 	
-	//public static Tiles rockTile = new Tiles(Assets.stone, 402);
-	public static Tiles caveTile = new Tiles(Assets.cave, 404);
-	public static Tiles iceTile = new Tiles(Assets.ice, 405);
-	public static Tiles snowTile = new Tiles(Assets.snow, 407);
-	public static Tiles blackTile = new Tiles(Assets.black, 408);
+	public static Tiles rockTile = new Tiles(Assets.stone, 104);
+	public static Tiles caveTile = new Tiles(Assets.cave, 112);
+	public static Tiles iceTile = new Tiles(Assets.ice, 116);
+	public static Tiles snowTile = new Tiles(Assets.snow, 124);
+	public static Tiles blackTile = new Tiles(Assets.black, 128);
 	
-	// House tiles
-	//public static Tiles greenHouseRoof = new Tiles(Assets.greenHouseRoof, 409);
-	//public static Tiles greenHouseWall = new Tiles(Assets.greenHouseWall, 410);
-	//public static Tiles greenHouseEntrance = new Tiles(Assets.greenHouseEntrance, 411);
-	
-	// Grass and Path tiles
+	// Ground Tiles
 	public static Tiles grassTile = new Tiles(Assets.grassOnly, 10);
 	public static Tiles path = new Tiles(Assets.path, 12);
 	public static Tiles pathGrassTopLeftTile = new Tiles(Assets.pathGrassTopLeft, 1);
@@ -141,9 +136,9 @@ public class Tiles {
 				return true;
 			case 72:
 				return true;
-			case 409:
+			case 104:
 				return true;
-			case 410:
+			case 119:
 				return true;
 			case 120:
 				return true;

@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 
@@ -24,6 +25,7 @@ public class World {
 	private MapLoader mapLoader;
 	private int width, height;
 	private int[][] tiles;
+	private int[][] terrain;
 	private int spawnX, spawnY;
 	
 	// Entities
@@ -48,7 +50,8 @@ public class World {
 	public World(Handler handler, String path){
 		
 		mapLoader = new MapLoader();
-		loadWorld(path);
+		loadGroundTiles(path);
+		loadTerrainTiles(path);
 		
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
@@ -103,6 +106,14 @@ public class World {
 			}
 		}
 		
+		// Render the terrain
+		for(int y = yStart; y < yEnd; y++){
+			for(int x = xStart; x < xEnd; x++){
+				getTerrain(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+			}
+		}
+		
 		// Items
 		
 		itemManager.render(g);
@@ -125,7 +136,7 @@ public class World {
 	
 	public Tiles getTile(int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
-			return Tiles.grassTile;
+			return Tiles.blackTile;
 			
 		
 		Tiles t = Tiles.tiles[tiles[x][y]];
@@ -133,9 +144,20 @@ public class World {
 			return Tiles.dirt;
 		return t;
 	}
+	
+	public Terrain getTerrain(int x, int y){
+		if(x < 0 || y < 0 || x >= width || y >= height)
+			return Terrain.blackTile;
+			
+		
+		Terrain t = Terrain.terrain[terrain[x][y]];
+		if(t == null)
+			return Terrain.iceTile;
+		return t;
+	}
 
-	private void loadWorld(String path){
-		String file = mapLoader.xmlParser(path);
+	private void loadGroundTiles(String path){
+		String file = mapLoader.groundTileParser(path);
 		//String file = Utils.loadFileAsString(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
@@ -144,14 +166,31 @@ public class World {
 		
 		width = 50;//Utils.parseInt(tokens[0]);
 		height = 50;//Utils.parseInt(tokens[1]);
-		spawnX = 32;//Utils.parseInt(tokens[2]);
-		spawnY = 32;//Utils.parseInt(tokens[3]);
+		spawnX = 256;//Utils.parseInt(tokens[2]);
+		spawnY = 64;//Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
 			for (int x = 0; x < width; x++){
 				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width)]);
+			}
+		}
+	}
+	
+	private void loadTerrainTiles(String path){
+		String file = mapLoader.terrainTileParser(path);
+		//String file = Utils.loadFileAsString(path);
+		
+		// Splits worlds files by spaces and puts them all in an array
+		file = file.replace("\n", "").replace("\r", "");
+		String[] tokens = file.split(",");
+		
+		terrain = new int[width][height];
+		for (int y = 0; y < height; y++){
+			for (int x = 0; x < width; x++){
+				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
+				terrain[x][y] = Utils.parseInt(tokens[(x + y * width)]);
 			}
 		}
 	}

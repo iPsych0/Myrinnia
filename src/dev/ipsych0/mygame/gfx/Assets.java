@@ -19,7 +19,11 @@ public class Assets {
 								pathDirtMiddleRight, pathDirtDownLeft, pathDirtDownMiddle, pathDirtDownRight, lavaPathTopLeft, lavaPathTopMiddle, lavaPathTopRight, 
 								lavaPathMiddleLeft, lavaPathMiddleRight, lavaPathDownLeft, lavaPathDownMiddle, lavaPathDownRight, lavaSandTopLeft, lavaSandTopMiddle, 
 								lavaSandTopRight, lavaSandMiddleLeft, lavaSandMiddleRight, lavaSandDownLeft, lavaSandDownMiddle, lavaSandDownRight, waterDirtTopLeft, 
-								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight; 
+								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight;
+	
+	public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
+								waterMiddleLeft, waterMiddleMiddle, waterMiddleRight, waterBottomLeft, waterBottomMiddle, waterBottomRight, waterFlow1, waterFlow2,
+								waterFlow3;
 								
 	
 	
@@ -58,6 +62,7 @@ public class Assets {
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
 		SpriteSheet texture_tile = new SpriteSheet(ImageLoader.loadImage("/textures/texture_tiles.png"));
+		SpriteSheet terrain_tile = new SpriteSheet(ImageLoader.loadImage("/textures/terrain.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -218,6 +223,27 @@ public class Assets {
 		waterDirtDownLeft = texture_tile.crop(width * 6, height * 8, width, height);
 		waterDirtDownMiddle = texture_tile.crop(width * 7, height * 8, width, height);
 		waterDirtDownRight = texture_tile.crop(width * 8, height * 8, width, height);
+		
+		// Terrain tiles (water, lava, snow, sand, etc)
+		invisible = terrain_tile.crop(width * 7, height * 21, width, height);
+		
+		waterSmallTopLeft = terrain_tile.crop(width * 28, 0, width, height);
+		waterSmallTopRight = terrain_tile.crop(width * 29, 0, width, height);
+		waterSmallBottomLeft = terrain_tile.crop(width * 28, height, width, height);
+		waterSmallBottomRight = terrain_tile.crop(width * 29, height, width, height);
+		waterTopLeft = terrain_tile.crop(width * 27, height * 2, width, height);
+		waterTopMiddle = terrain_tile.crop(width * 28, height * 2, width, height);
+		waterTopRight = terrain_tile.crop(width * 29, height * 2, width, height);
+		waterMiddleLeft = terrain_tile.crop(width * 27, height * 3, width, height);
+		waterMiddleMiddle = terrain_tile.crop(width * 28, height * 3, width, height);
+		waterMiddleRight = terrain_tile.crop(width * 29, height * 3, width, height);
+		waterBottomLeft = terrain_tile.crop(width * 27, height * 4, width, height);
+		waterBottomMiddle = terrain_tile.crop(width * 28, height * 4, width, height);
+		waterBottomRight = terrain_tile.crop(width * 29, height * 4, width, height);
+		waterFlow1 = terrain_tile.crop(width * 27, height * 5, width, height);
+		waterFlow2 = terrain_tile.crop(width * 28, height * 5, width, height);
+		waterFlow3 = terrain_tile.crop(width * 29, height * 5, width, height);
+		
 		
 		// Map icons like trees, rocks, etc
 		

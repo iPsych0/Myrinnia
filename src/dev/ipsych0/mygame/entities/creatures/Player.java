@@ -77,15 +77,16 @@ public class Player extends Creature{
 		}
 		
 		//Animations
+		aDefault.tick();
 		aDown.tick();
 		aUp.tick();
 		aLeft.tick();
 		aRight.tick();
-		aDefault.tick();
 		attDown.tick();
 		attUp.tick();
 		attLeft.tick();
 		attRight.tick();
+		
 		
 		//Movement
 		getInput();
@@ -102,27 +103,6 @@ public class Player extends Creature{
 			System.out.println("Attack level = " + getAttackLevel());
 			System.out.println("Attack XP = " + getAttackExperience());
 		}
-		
-		// Check teleports
-		teleportTo();
-
-	}
-	
-	private void teleportTo(){
-		// Teleport at the house
-		if(getX() <= 487 && getY() >= 506){
-			if(getX() >= 470 && getY() <= 512){
-				setX(544);
-				setY(64);
-			}
-		}
-		
-		// Teleport from black area back
-		if(getX() >= 534 && getY() <= 127)
-			if(getX() <= 583 && getY() >= 110){
-				setX(64);
-				setY(64);
-			}
 	}
 	
 	private void checkAttacks(){
@@ -272,31 +252,31 @@ public class Player extends Creature{
 				return attLeft.getCurrentFrame();
 			}
 		}
-		else if(xMove < 0){
+		if(xMove < 0){
 			return aLeft.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.RIGHT){
+		if(lastFaced == Direction.RIGHT){
 			if(handler.getKeyManager().attack){
 				return attRight.getCurrentFrame();
 			}
 		}
-		else if(xMove > 0){
+		if(xMove > 0){
 			return aRight.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.DOWN){
+		if(lastFaced == Direction.DOWN){
 			if(handler.getKeyManager().attack){
 				return attDown.getCurrentFrame();
 			}
 		}
-		else if(yMove > 0){
+		if(yMove > 0){
 			return aDown.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.UP){
+		if(lastFaced == Direction.UP){
 			if(handler.getKeyManager().attack){
 				return attUp.getCurrentFrame();
 			}
 		}
-		else if(yMove < 0){
+		if(yMove < 0){
 			return aUp.getCurrentFrame();
 		}
 		

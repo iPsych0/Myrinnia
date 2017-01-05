@@ -18,7 +18,7 @@ public class MapLoader {
 		
 	}
 	
-	public String xmlParser(String path){
+	public String groundTileParser(String path){
 		String mapValues = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -27,8 +27,34 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node groundMap = maps.item(12);
+			Node groundMap = maps.item(11);
 			mapValues = groundMap.getTextContent();
+			return mapValues;
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapValues;
+	}
+	
+	public String terrainTileParser(String path){
+		String mapValues = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(path);
+			doc.normalize();
+			
+			NodeList maps = doc.getElementsByTagName("*");
+			Node terrainMap = maps.item(13);
+			mapValues = terrainMap.getTextContent();
+			System.out.println(mapValues);
 			return mapValues;
 			
 		} catch (ParserConfigurationException e) {
