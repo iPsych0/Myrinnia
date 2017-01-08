@@ -22,23 +22,44 @@ public class Terrain {
 	public static Terrain greenHouseEntrance = new Terrain(Assets.greenHouseEntrance, 411);
 
 	// Terrain
-	public static Terrain waterSmallTopLeft = new Terrain(Assets.waterSmallTopLeft, 185);
-	public static Terrain waterSmallTopRight = new Terrain(Assets.waterSmallTopRight, 186);
-	public static Terrain waterSmallBottomLeft = new Terrain(Assets.waterSmallBottomLeft, 217);
-	public static Terrain waterSmallBottomRIght = new Terrain(Assets.waterSmallBottomRight, 218);
-	public static Terrain waterTopLeft = new Terrain(Assets.waterTopLeft, 248);
-	public static Terrain waterTopMiddle = new Terrain(Assets.waterTopMiddle, 249);
-	public static Terrain waterTopRight = new Terrain(Assets.waterTopRight, 250);
-	public static Terrain waterMiddleLeft = new Terrain(Assets.waterMiddleLeft, 280);
-	public static Terrain waterMiddleMiddle = new Terrain(Assets.waterMiddleMiddle, 281);
-	public static Terrain waterMiddleRight = new Terrain(Assets.waterMiddleRight, 282);
-	public static Terrain waterBottomLeft = new Terrain(Assets.waterBottomLeft, 312);
-	public static Terrain waterBottomMiddle = new Terrain(Assets.waterBottomMiddle, 313);
-	public static Terrain waterBottomRight = new Terrain(Assets.waterBottomRight, 314);
-	public static Terrain waterFlow1 = new Terrain(Assets.waterFlow1, 344);
-	public static Terrain waterFlow2 = new Terrain(Assets.waterFlow2, 345);
-	public static Terrain waterFlow3 = new Terrain(Assets.waterFlow3, 346);
-	public static Terrain invisible = new Terrain(Assets.invisible, 836);
+	public static Terrain waterSmallTopLeft = new Terrain(Assets.waterSmallTopLeft, 85);
+	public static Terrain waterSmallTopRight = new Terrain(Assets.waterSmallTopRight, 86);
+	public static Terrain waterSmallBottomLeft = new Terrain(Assets.waterSmallBottomLeft, 117);
+	public static Terrain waterSmallBottomRIght = new Terrain(Assets.waterSmallBottomRight, 118);
+	public static Terrain waterTopLeft = new Terrain(Assets.waterTopLeft, 148);
+	public static Terrain waterTopMiddle = new Terrain(Assets.waterTopMiddle, 149);
+	public static Terrain waterTopRight = new Terrain(Assets.waterTopRight, 150);
+	public static Terrain waterMiddleLeft = new Terrain(Assets.waterMiddleLeft, 180);
+	public static Terrain waterMiddleMiddle = new Terrain(Assets.waterMiddleMiddle, 181);
+	public static Terrain waterMiddleRight = new Terrain(Assets.waterMiddleRight, 182);
+	public static Terrain waterBottomLeft = new Terrain(Assets.waterBottomLeft, 212);
+	public static Terrain waterBottomMiddle = new Terrain(Assets.waterBottomMiddle, 213);
+	public static Terrain waterBottomRight = new Terrain(Assets.waterBottomRight, 214);
+	public static Terrain waterFlow1 = new Terrain(Assets.waterFlow1, 244);
+	public static Terrain waterFlow2 = new Terrain(Assets.waterFlow2, 245);
+	public static Terrain waterFlow3 = new Terrain(Assets.waterFlow3, 246);
+	
+	public static Terrain lavaSmallTopLeft = new Terrain(Assets.lavaSmallTopLeft, 73);
+	public static Terrain lavaSmallTopRight = new Terrain(Assets.lavaSmallTopRight, 74);
+	public static Terrain lavaSmallBottomLeft = new Terrain(Assets.lavaSmallBottomLeft, 105);
+	public static Terrain lavaSmallBottomRight = new Terrain(Assets.lavaSmallBottomRight, 106);
+	public static Terrain lavaTopLeft = new Terrain(Assets.lavaTopLeft, 136);
+	public static Terrain lavaTopMiddle = new Terrain(Assets.lavaTopMiddle, 137);
+	public static Terrain lavaTopRight = new Terrain(Assets.lavaTopRight, 138);
+	public static Terrain lavaMiddleLeft = new Terrain(Assets.lavaMiddleLeft, 168);
+	public static Terrain lavaMiddleMiddle = new Terrain(Assets.lavaMiddleMiddle, 169);
+	public static Terrain lavaMiddleRight = new Terrain(Assets.lavaMiddleRight, 170);
+	public static Terrain lavaBottomLeft = new Terrain(Assets.lavaBottomLeft, 200);
+	public static Terrain lavaBottomMiddle = new Terrain(Assets.lavaBottomMiddle, 201);
+	public static Terrain lavaBottomRight = new Terrain(Assets.lavaBottomRight, 202);
+	public static Terrain lavaFlow1 = new Terrain(Assets.lavaFlow1, 232);
+	public static Terrain lavaFlow2 = new Terrain(Assets.lavaFlow2, 233);
+	public static Terrain lavaFlow3 = new Terrain(Assets.lavaFlow3, 234);
+	
+	public static Terrain darkGrassPatch1 = new Terrain(Assets.darkGrassPatch1, 417);
+	public static Terrain darkGrassPatch2 = new Terrain(Assets.darkGrassPatch2, 416);
+	public static Terrain darkGrassPatch3 = new Terrain(Assets.darkGrassPatch3, 415);
+	public static Terrain invisible = new Terrain(Assets.invisible, 736);
 	
 
 	//CLASS
@@ -67,53 +88,53 @@ public class Terrain {
 	
 	public boolean isSolid(){
 		switch(id){
-			case 346:
+			case 246:
 				return true;
-			case 248:
+			case 148:
 				return true;
-			case 249:
+			case 149:
 				return true;
-			case 250:
+			case 150:
 				return true;
-			case 280:
+			case 180:
 				return true;
-			case 281:
+			case 181:
 				return true;
-			case 282:
+			case 182:
 				return true;
-			case 312:
+			case 212:
 				return true;
-			case 313:
+			case 213:
 				return true;
-			case 314:
+			case 214:
 				return true;
-			case 126:
+			case 244:
 				return true;
-			case 127:
+			case 245:
 				return true;
-			case 128:
+			case 247:
 				return true;
-			case 160:
+			case 60:
 				return true;
-			case 161:
+			case 61:
 				return true;
-			case 162:
+			case 62:
 				return true;
-			case 163:
+			case 63:
 				return true;
-			case 164:
+			case 64:
 				return true;
-			case 165:
+			case 65:
 				return true;
-			case 166:
+			case 66:
 				return true;
-			case 167:
+			case 67:
 				return true;
-			case 168:
+			case 68:
 				return true;
-			case 171:
+			case 71:
 				return true;
-			case 172:
+			case 72:
 				return true;
 			case 173:
 				return true;
@@ -127,21 +148,17 @@ public class Terrain {
 				return true;
 			case 178:
 				return true;
-			case 181:
-				return true;
-			case 182:
-				return true;
 			case 183:
 				return true;
 			case 184:
 				return true;
-			case 185:
+			case 85:
 				return true;
-			case 186:
+			case 86:
 				return true;
-			case 217:
+			case 117:
 				return true;
-			case 218:
+			case 118:
 				return true;
 				
 		default: return false;

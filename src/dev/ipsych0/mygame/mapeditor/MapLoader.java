@@ -27,8 +27,9 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node groundMap = maps.item(11);
+			Node groundMap = maps.item(maps.getLength() - 5);
 			mapValues = groundMap.getTextContent();
+			System.out.println(mapValues);
 			return mapValues;
 			
 		} catch (ParserConfigurationException e) {
@@ -52,7 +53,33 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node terrainMap = maps.item(13);
+			Node terrainMap = maps.item(maps.getLength() - 3);
+			mapValues = terrainMap.getTextContent();
+			System.out.println(mapValues);
+			return mapValues;
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapValues;
+	}
+	
+	public String ambianceTileParser(String path){
+		String mapValues = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(path);
+			doc.normalize();
+			
+			NodeList maps = doc.getElementsByTagName("*");
+			Node terrainMap = maps.item(maps.getLength() - 1);
 			mapValues = terrainMap.getTextContent();
 			System.out.println(mapValues);
 			return mapValues;

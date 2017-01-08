@@ -19,11 +19,20 @@ public class Assets {
 								pathDirtMiddleRight, pathDirtDownLeft, pathDirtDownMiddle, pathDirtDownRight, lavaPathTopLeft, lavaPathTopMiddle, lavaPathTopRight, 
 								lavaPathMiddleLeft, lavaPathMiddleRight, lavaPathDownLeft, lavaPathDownMiddle, lavaPathDownRight, lavaSandTopLeft, lavaSandTopMiddle, 
 								lavaSandTopRight, lavaSandMiddleLeft, lavaSandMiddleRight, lavaSandDownLeft, lavaSandDownMiddle, lavaSandDownRight, waterDirtTopLeft, 
-								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight;
+								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight,
+								darkGrass, darkGrassPatch1, darkGrassPatch2, darkGrassPatch3;
 	
+	// Terrain images
 	public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
 								waterMiddleLeft, waterMiddleMiddle, waterMiddleRight, waterBottomLeft, waterBottomMiddle, waterBottomRight, waterFlow1, waterFlow2,
-								waterFlow3;
+								waterFlow3, lavaSmallTopLeft, lavaSmallTopRight, lavaSmallBottomLeft, lavaSmallBottomRight, lavaTopLeft, lavaTopMiddle, lavaTopRight,
+								lavaMiddleLeft, lavaMiddleMiddle, lavaMiddleRight, lavaBottomLeft, lavaBottomMiddle, lavaBottomRight, lavaFlow1, lavaFlow2, lavaFlow3;
+	
+	// Ambiance images
+	public static BufferedImage sparkleTile, redMushroom;
+	
+	// Animated ambiance images
+	public static BufferedImage[] sparkles;
 								
 	
 	
@@ -63,6 +72,8 @@ public class Assets {
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
 		SpriteSheet texture_tile = new SpriteSheet(ImageLoader.loadImage("/textures/texture_tiles.png"));
 		SpriteSheet terrain_tile = new SpriteSheet(ImageLoader.loadImage("/textures/terrain.png"));
+		SpriteSheet animated_terrain = new SpriteSheet(ImageLoader.loadImage("/textures/animated_terrain.png"));
+		SpriteSheet trees_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/trees.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -224,7 +235,12 @@ public class Assets {
 		waterDirtDownMiddle = texture_tile.crop(width * 7, height * 8, width, height);
 		waterDirtDownRight = texture_tile.crop(width * 8, height * 8, width, height);
 		
-		// Terrain tiles (water, lava, snow, sand, etc)
+		darkGrass = terrain_tile.crop(width * 7, height * 9, width, height);
+		darkGrassPatch1 = terrain_tile.crop(width * 8, height * 11, width, height);
+		darkGrassPatch2 = terrain_tile.crop(width * 7, height * 11, width, height);
+		darkGrassPatch3 = terrain_tile.crop(width * 6, height * 11, width, height);
+		
+		// Static terrain tiles (water, lava, snow, sand, etc)
 		invisible = terrain_tile.crop(width * 7, height * 21, width, height);
 		
 		waterSmallTopLeft = terrain_tile.crop(width * 28, 0, width, height);
@@ -243,6 +259,35 @@ public class Assets {
 		waterFlow1 = terrain_tile.crop(width * 27, height * 5, width, height);
 		waterFlow2 = terrain_tile.crop(width * 28, height * 5, width, height);
 		waterFlow3 = terrain_tile.crop(width * 29, height * 5, width, height);
+		
+		lavaSmallTopLeft = terrain_tile.crop(width * 16, height * 0, width, height);
+		lavaSmallTopRight = terrain_tile.crop(width * 17, height * 0, width, height);
+		lavaSmallBottomLeft = terrain_tile.crop(width * 16, height * 1, width, height);
+		lavaSmallBottomRight = terrain_tile.crop(width * 17, height * 1, width, height);
+		lavaTopLeft = terrain_tile.crop(width * 15, height * 2, width, height);
+		lavaTopMiddle = terrain_tile.crop(width * 16, height * 2, width, height);
+		lavaTopRight = terrain_tile.crop(width * 17, height * 2, width, height);
+		lavaMiddleLeft = terrain_tile.crop(width * 15, height * 3, width, height);
+		lavaMiddleMiddle = terrain_tile.crop(width * 16, height * 3, width, height);
+		lavaMiddleRight = terrain_tile.crop(width * 17, height * 3, width, height);
+		lavaBottomLeft = terrain_tile.crop(width * 15, height * 4, width, height);
+		lavaBottomMiddle = terrain_tile.crop(width * 16, height * 4, width, height);
+		lavaBottomRight = terrain_tile.crop(width * 17, height * 4, width, height);
+		lavaFlow1 = terrain_tile.crop(width * 15, height * 5, width, height);
+		lavaFlow2 = terrain_tile.crop(width * 16, height * 5, width, height);
+		lavaFlow3 = terrain_tile.crop(width * 17, height * 5, width, height);
+		
+		
+		
+		// Ambiance tiles
+		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);
+		redMushroom = trees_sheet.crop(width * 7, height * 6, width, height);
+		
+		// Animated ambiance details
+		sparkles = new BufferedImage[3];
+		sparkles[0] = animated_terrain.crop(0, 0, width, height);
+		sparkles[1] = animated_terrain.crop(width, 0, width, height);
+		sparkles[2] = animated_terrain.crop(width * 2, 0, width, height);
 		
 		
 		// Map icons like trees, rocks, etc

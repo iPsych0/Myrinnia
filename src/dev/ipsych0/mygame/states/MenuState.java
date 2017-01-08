@@ -2,6 +2,10 @@ package dev.ipsych0.mygame.states;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -24,6 +28,7 @@ public class MenuState extends State {
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().gameState);
+				play("res/music/myrinnia.wav");
 			}}));
 	}
 
@@ -37,5 +42,16 @@ public class MenuState extends State {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 768, 576);
 		uiManager.render(g);
+	}
+	
+	private void play(String pathToMusic) {
+		try {
+			File file = new File(pathToMusic);
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(file));
+			clip.start();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 }

@@ -10,10 +10,13 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.gfx.Animation;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
@@ -26,7 +29,9 @@ public class World {
 	private int width, height;
 	private int[][] tiles;
 	private int[][] terrain;
+	private int[][] ambiance;
 	private int spawnX, spawnY;
+	private Animation sparkles;
 	
 	// Entities
 	
@@ -52,6 +57,7 @@ public class World {
 		mapLoader = new MapLoader();
 		loadGroundTiles(path);
 		loadTerrainTiles(path);
+		loadAmbianceTiles(path);
 		
 		this.handler = handler;
 		itemManager = new ItemManager(handler);
@@ -61,15 +67,13 @@ public class World {
 		chatWindow = new ChatWindow(handler, 228, 320);
 		
 		entityManager.addEntity(new Tree(handler, 192, 128));
-		entityManager.addEntity(new Tree(handler, 64, 160));
-		entityManager.addEntity(new Tree(handler, 64, 192));
-		entityManager.addEntity(new Tree(handler, 96, 128));
-		entityManager.addEntity(new Tree(handler, 96, 160));
+		entityManager.addEntity(new Tree(handler, 128, 160));
 		entityManager.addEntity(new Tree(handler, 96, 192));
+		entityManager.addEntity(new Tree(handler, 96, 160));
 		
 		entityManager.addEntity(new Rock(handler, 224, 160));
 		
-		entityManager.addEntity(new Scorpion(handler, 128, 576));
+		entityManager.addEntity(new Scorpion(handler, 160, 576));
 		entityManager.addEntity(new Scorpion(handler, 128, 800));
 		entityManager.addEntity(new Scorpion(handler, 128, 888));
 		entityManager.addEntity(new Scorpion(handler, 128, 944));
@@ -81,6 +85,9 @@ public class World {
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
+		
+		// World Animations
+		sparkles = new Animation(250, Assets.sparkles);
 	}
 	
 	public void tick(){
@@ -89,6 +96,7 @@ public class World {
 		inventory.tick();
 		chatWindow.tick();
 		equipment.tick();
+		sparkles.tick();
 	}
 	
 	public void render(Graphics g){
@@ -106,10 +114,22 @@ public class World {
 			}
 		}
 		
-		// Render the terrain
+		// Render the terrain tiles
 		for(int y = yStart; y < yEnd; y++){
 			for(int x = xStart; x < xEnd; x++){
 				getTerrain(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+			}
+		}
+		
+		// Render the ambiance tiles
+		for(int y = yStart; y < yEnd; y++){
+			for(int x = xStart; x < xEnd; x++){
+				if(getAmbiance(x, y) == Ambiance.sparkleTile){
+					g.drawImage(sparkles.getCurrentFrame(), (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()), null);
+				}
+				getAmbiance(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 			}
 		}
@@ -152,13 +172,23 @@ public class World {
 		
 		Terrain t = Terrain.terrain[terrain[x][y]];
 		if(t == null)
-			return Terrain.iceTile;
+			return Terrain.invisible;
+		return t;
+	}
+	
+	public Ambiance getAmbiance(int x, int y){
+		if(x < 0 || y < 0 || x >= width || y >= height)
+			return Ambiance.blackTile;
+			
+		
+		Ambiance t = Ambiance.ambiance[ambiance[x][y]];
+		if(t == null)
+			return Ambiance.invisible;
 		return t;
 	}
 
 	private void loadGroundTiles(String path){
 		String file = mapLoader.groundTileParser(path);
-		//String file = Utils.loadFileAsString(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
@@ -167,7 +197,7 @@ public class World {
 		width = 50;//Utils.parseInt(tokens[0]);
 		height = 50;//Utils.parseInt(tokens[1]);
 		spawnX = 256;//Utils.parseInt(tokens[2]);
-		spawnY = 64;//Utils.parseInt(tokens[3]);
+		spawnY = 96;//Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
@@ -180,7 +210,6 @@ public class World {
 	
 	private void loadTerrainTiles(String path){
 		String file = mapLoader.terrainTileParser(path);
-		//String file = Utils.loadFileAsString(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
@@ -191,6 +220,22 @@ public class World {
 			for (int x = 0; x < width; x++){
 				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
 				terrain[x][y] = Utils.parseInt(tokens[(x + y * width)]);
+			}
+		}
+	}
+	
+	private void loadAmbianceTiles(String path){
+		String file = mapLoader.ambianceTileParser(path);
+		
+		// Splits worlds files by spaces and puts them all in an array
+		file = file.replace("\n", "").replace("\r", "");
+		String[] tokens = file.split(",");
+		
+		ambiance = new int[width][height];
+		for (int y = 0; y < height; y++){
+			for (int x = 0; x < width; x++){
+				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
+				ambiance[x][y] = Utils.parseInt(tokens[(x + y * width)]);
 			}
 		}
 	}

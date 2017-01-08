@@ -7,7 +7,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Tiles {
 	
-	public static Tiles[] tiles = new Tiles[256];
+	public static Tiles[] tiles = new Tiles[512];
 	
 	// First try-out tiles
 	
@@ -104,6 +104,11 @@ public class Tiles {
 	public static Tiles waterDirtDownLeft = new Tiles(Assets.waterDirtDownLeft, 87);
 	public static Tiles waterDirtDownMiddle = new Tiles(Assets.waterDirtDownMiddle, 88);
 	public static Tiles waterDirtDownRight = new Tiles(Assets.waterDirtDownRight, 89);
+	
+	public static Tiles darkGrass = new Tiles(Assets.darkGrass, 352);
+	public static Tiles darkGrassPatch1 = new Tiles(Assets.darkGrassPatch1, 415);
+	public static Tiles darkGrassPatch2 = new Tiles(Assets.darkGrassPatch2, 416);
+	public static Tiles darkGrassPatch3 = new Tiles(Assets.darkGrassPatch3, 417);
 	
 	
 	//CLASS
