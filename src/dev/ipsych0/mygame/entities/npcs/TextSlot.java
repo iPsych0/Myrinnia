@@ -12,8 +12,8 @@ public class TextSlot {
 	
 	private int x, y;
 	private NPCText npcText;
-	int alpha = 127;
-	Color interfaceColour = new Color(100, 100, 100, alpha);
+	int alpha = 16;
+	Color interfaceColour = new Color(160, 160, 160, alpha);
 	
 	public TextSlot(int x, int y, NPCText npcText){
 		this.x = x;
@@ -22,7 +22,7 @@ public class TextSlot {
 	}
 	
 	public void tick(){
-		
+
 	}
 	
 	public void render(Graphics g){
@@ -31,6 +31,9 @@ public class TextSlot {
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(x - 228, y + 184, textWidth, textHeight);
+		
+		g.setFont(GameState.myFont);
+		g.setColor(Color.WHITE);
 		
 		// TODO: Add render for npcTexts here
 	}

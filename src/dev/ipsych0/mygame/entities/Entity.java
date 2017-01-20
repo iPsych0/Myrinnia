@@ -59,17 +59,18 @@ public abstract class Entity {
 	// TODO: Needs detection for multiple NPCs. If there are two NPCs, distance is <= 32 for one NPC, but not for the other so chatbox closes
 	public boolean playerIsNearNpc(){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
+			if(e.equals(this)){
 				continue;
-			if(!e.isNpc)
+			}
+			if(!e.isNpc){
 				continue;
+			}
 			if(ChatWindow.talkButtonPressed){
 				if(distanceToEntity((int)e.getX(), (int)e.getY(),
 						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
-					ChatWindow.isTalking = true;
+					interact();
 					return true;
 				}
-				ChatWindow.isTalking = false;
 				ChatWindow.talkButtonPressed = false;
 			}
 			return false;
@@ -92,17 +93,6 @@ public abstract class Entity {
 	    int dy = y2 - y1;
 	    System.out.println("Distance between player and NPC is: " + Math.sqrt(dx * dx + dy * dy));
 	    return Math.sqrt(dx * dx + dy * dy);
-	}
-	
-	public void says(Graphics g, String npcName, String npcText1){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-				if(ChatWindow.isTalking){
-					g.setFont(GameState.chatFont);
-					g.setColor(ChatWindow.chatColour);
-					g.drawString(npcName, 346, 525);
-					g.drawString(npcText1, 168, 544);
-				}
-		}
 	}
 	
 	

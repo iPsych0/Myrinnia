@@ -28,14 +28,14 @@ public class Player extends Creature{
 	private Direction lastFaced = direction;
 	
 	// Attack timer
-	private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
+	private long lastAttackTimer, attackCooldown = 500, attackTimer = attackCooldown;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
 		// Player combat/movement settings:
 		
-		speed = Creature.DEFAULT_SPEED + 2.0f;
+		speed = Creature.DEFAULT_SPEED + 3.0f;
 		attackExperience = 0;
 		attackLevel = 1;
 		

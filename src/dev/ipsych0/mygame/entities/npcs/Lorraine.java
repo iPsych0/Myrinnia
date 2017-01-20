@@ -36,8 +36,7 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void interact() {
-		// TODO Auto-generated method stub
-		
+		handler.getWorld().getChatWindow().getTextSlots().get(1).getNpcText().setLine("Hello, this is a test.");
 	}
 
 }

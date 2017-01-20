@@ -15,6 +15,7 @@ public class Ambiance {
 	public static Ambiance invisible = new Ambiance(Assets.invisible, 736);
 	public static Ambiance sparkleTile = new Ambiance(Assets.sparkleTile, 649);
 	public static Ambiance redMushroom = new Ambiance(Assets.redMushroom, 1184);
+	public static Ambiance blueMushroom = new Ambiance(Assets.blueMushroom, 1168);
 	
 
 	//CLASS
@@ -45,7 +46,7 @@ public class Ambiance {
 		switch(id){
 			case 1184:
 				return true;
-			case 248:
+			case 1168:
 				return true;
 			case 249:
 				return true;

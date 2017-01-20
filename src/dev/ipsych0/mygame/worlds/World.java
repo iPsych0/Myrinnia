@@ -267,4 +267,12 @@ public class World {
 	public void setItemManager(ItemManager itemManager) {
 		this.itemManager = itemManager;
 	}
+
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public void setChatWindow(ChatWindow chatWindow) {
+		this.chatWindow = chatWindow;
+	}
 }

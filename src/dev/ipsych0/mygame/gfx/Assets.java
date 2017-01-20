@@ -29,7 +29,7 @@ public class Assets {
 								lavaMiddleLeft, lavaMiddleMiddle, lavaMiddleRight, lavaBottomLeft, lavaBottomMiddle, lavaBottomRight, lavaFlow1, lavaFlow2, lavaFlow3;
 	
 	// Ambiance images
-	public static BufferedImage sparkleTile, redMushroom;
+	public static BufferedImage sparkleTile, redMushroom, blueMushroom;
 	
 	// Animated ambiance images
 	public static BufferedImage[] sparkles;
@@ -282,6 +282,7 @@ public class Assets {
 		// Ambiance tiles
 		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);
 		redMushroom = trees_sheet.crop(width * 7, height * 6, width, height);
+		blueMushroom = trees_sheet.crop(width * 7, height * 5, width, height);
 		
 		// Animated ambiance details
 		sparkles = new BufferedImage[3];
