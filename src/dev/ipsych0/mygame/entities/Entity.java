@@ -14,6 +14,7 @@ public abstract class Entity {
 	protected int width, height;
 	protected Rectangle bounds;
 	protected int health;
+	protected boolean isTalking = false;
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
 	protected boolean attackable = true;
@@ -65,13 +66,16 @@ public abstract class Entity {
 			if(!e.isNpc){
 				continue;
 			}
-			if(ChatWindow.talkButtonPressed){
+			if(ChatWindow.chatIsOpen){
 				if(distanceToEntity((int)e.getX(), (int)e.getY(),
-						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
-					interact();
+						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY())
+						<= (Tiles.TILEWIDTH * 2)){
+					// Probleem zit hier -v continu de functie interact
+					e.interact();
+					System.out.println("Interacting");
 					return true;
 				}
-				ChatWindow.talkButtonPressed = false;
+				ChatWindow.chatIsOpen = false;
 			}
 			return false;
 		}
@@ -91,7 +95,6 @@ public abstract class Entity {
 	public double distanceToEntity(int x1, int y1, int x2, int y2){
 		int dx = x2 - x1;
 	    int dy = y2 - y1;
-	    System.out.println("Distance between player and NPC is: " + Math.sqrt(dx * dx + dy * dy));
 	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	

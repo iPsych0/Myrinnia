@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.states.GameState;
 
 public class TextSlot {
@@ -35,7 +36,14 @@ public class TextSlot {
 		g.setFont(GameState.myFont);
 		g.setColor(Color.WHITE);
 		
+		if(npcText != null){
+			g.drawString(npcText.getLine(), x - 228, y + 194);
+		}
 		// TODO: Add render for npcTexts here
+	}
+	
+	public void addTextSlot(String message){
+		this.npcText = new NPCText(message);
 	}
 
 	public NPCText getNpcText() {

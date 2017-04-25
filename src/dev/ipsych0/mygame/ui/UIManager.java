@@ -3,17 +3,18 @@ package dev.ipsych0.mygame.ui;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 
 public class UIManager {
 	
 	private Handler handler;
-	private ArrayList<UIObject> objects;
+	private CopyOnWriteArrayList<UIObject> objects;
 	
 	public UIManager(Handler handler){
 		this.handler = handler;
-		objects = new ArrayList<UIObject>();
+		objects = new CopyOnWriteArrayList<UIObject>();
 	}
 	
 	public void tick(){
@@ -52,11 +53,11 @@ public class UIManager {
 		this.handler = handler;
 	}
 
-	public ArrayList<UIObject> getObjects() {
+	public CopyOnWriteArrayList<UIObject> getObjects() {
 		return objects;
 	}
 
-	public void setObjects(ArrayList<UIObject> objects) {
+	public void setObjects(CopyOnWriteArrayList<UIObject> objects) {
 		this.objects = objects;
 	}
 }

@@ -6,17 +6,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
 
 public class ChatWindow {
 	
-	public static boolean talkButtonPressed = false;
+	public static boolean chatIsOpen = false;
 	private boolean isCreated = false;
 	
 	private int x, y;
 	private int width, height;
 	private Handler handler;
+	private static NPCText temporary;
 	int alpha = 16;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 
@@ -27,7 +30,7 @@ public class ChatWindow {
 	private static CopyOnWriteArrayList<TextSlot> textSlots;
 	
 	public ChatWindow(Handler handler, int x, int y){
-		if(isCreated == false){
+		if(!isCreated){
 			this.handler = handler;
 			this.x = x;
 			this.y = y;
@@ -54,9 +57,10 @@ public class ChatWindow {
 	}
 	
 	public void tick(){
-		if(talkButtonPressed){
+		if(chatIsOpen){
 			for(TextSlot ts : textSlots){
 				ts.tick();
+				
 			}
 		}
 	}
@@ -74,9 +78,47 @@ public class ChatWindow {
 				
 				for(TextSlot ts : textSlots){
 					ts.render(g);
+					
 				}
 			}
 		}
+	}
+	
+	public boolean sendMessage (String message) {
+        int chatIndex = freeTextSlot();
+        System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
+        if(chatIndex >= 0){
+	    	getTextSlots().get(chatIndex).addTextSlot(message);
+	    	System.out.println("Added the line '" + message + "'");
+	    	return true;
+        }
+        else{
+        	System.out.println("Something went wrong with the chatIndex in sendMessage:ChatWindow (negative index)");
+        	return false;
+        }
+    }
+	
+	// Free slots vrijmaken!
+	public static int freeTextSlot() {
+		// Als de chat leeg is, vul altijd de 1e slot
+		if(textSlots.get(textSlots.size() - 1).getNpcText() == null){
+			return (textSlots.size() - 1);
+		}
+        for (int i = 0; i < textSlots.size(); i++) {
+        	// Als textslot (i) != null is ...
+        	if (textSlots.get(i).getNpcText() != null) {
+        		// Als alle slots vol zijn, maak de bovenste slot dan "null" en ga door met het 1e vakje (die zet ie dan weer naar 0, etc. voor de rest)
+        		if(i == 0){
+        			textSlots.get(0).setNpcText(null);
+        			continue;
+        		}
+        		// Zet textslot (i) in temporary
+        		temporary = textSlots.get(i).getNpcText();
+        		// Zet slot i - 1 (0 - 1 = -1) naar temp
+        		textSlots.get(i - 1).setNpcText(temporary);
+            }
+        }
+        return (textSlots.size() - 1);
 	}
 	
 	public CopyOnWriteArrayList<TextSlot> getTextSlots(){

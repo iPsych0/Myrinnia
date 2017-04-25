@@ -15,8 +15,8 @@ public abstract class Creature extends Entity {
 							DEFAULT_CREATURE_HEIGHT = 32;
 	
 	public static final int DEFAULT_ATTACK = 50;
-	public static Font hpFont = new Font("SerifSans", Font.BOLD, 12);
-	public static Color hpColor = new Color(140, 0, 255);
+	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
+	public static Color hpColor = new Color(255, 255, 48);
 	protected int attackDamage;
 	
 	protected enum Direction{

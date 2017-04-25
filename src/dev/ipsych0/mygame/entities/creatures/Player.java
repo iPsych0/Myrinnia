@@ -98,10 +98,11 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
+//			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //		handler.getWorld().getEntityManager().getPlayer().getY());
-			System.out.println("Attack level = " + getAttackLevel());
-			System.out.println("Attack XP = " + getAttackExperience());
+//			System.out.println("Attack level = " + getAttackLevel());
+//			System.out.println("Attack XP = " + getAttackExperience());
 		}
 	}
 	
@@ -200,6 +201,7 @@ public class Player extends Creature{
 	@Override
 	public void die(){
 		System.out.println("You died!");
+		setHealth(100);
 	}
 	
 	private void getInput(){
@@ -285,7 +287,7 @@ public class Player extends Creature{
 
 	@Override
 	public void interact() {
-		
+		System.out.println("Oops, we're interacting with ourself. That's odd!");
 	}
 	
 

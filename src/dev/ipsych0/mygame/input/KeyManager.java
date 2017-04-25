@@ -33,7 +33,7 @@ public class KeyManager implements KeyListener{
 
 		
 		// Interaction keys
-		interact = keys[KeyEvent.VK_SPACE];
+		interact = keys[KeyEvent.VK_C];
 		pickUp = keys[KeyEvent.VK_F];
 		
 		// Coordinate keys
@@ -66,12 +66,12 @@ public class KeyManager implements KeyListener{
 		}
 		
 		// Chat window toggle
-		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			if(!ChatWindow.talkButtonPressed){
-				ChatWindow.talkButtonPressed = true;
+		if(e.getKeyCode() == KeyEvent.VK_C){
+			if(!ChatWindow.chatIsOpen){
+				ChatWindow.chatIsOpen = true;
 			}
 			else {
-				ChatWindow.talkButtonPressed = false;
+				ChatWindow.chatIsOpen = false;
 			}
 		}
 		
