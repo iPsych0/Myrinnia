@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.Item;
 
 public class Player extends Creature{
 	
@@ -34,8 +35,9 @@ public class Player extends Creature{
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
 		// Player combat/movement settings:
+		setNpc(false);
 		
-		speed = Creature.DEFAULT_SPEED + 3.0f;
+		speed = Creature.DEFAULT_SPEED + 2.3f;
 		attackExperience = 0;
 		attackLevel = 1;
 		
@@ -98,9 +100,10 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-//			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
+			handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int)x, (int)y));
+			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
-//		handler.getWorld().getEntityManager().getPlayer().getY());
+//					handler.getWorld().getEntityManager().getPlayer().getY());
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());
 		}
@@ -157,6 +160,7 @@ public class Player extends Creature{
 		}
 	}
 	
+	@Override
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
@@ -201,7 +205,19 @@ public class Player extends Creature{
 	@Override
 	public void die(){
 		System.out.println("You died!");
-		setHealth(100);
+		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
+			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+				continue;
+			}
+			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y));
+			handler.getWorld().getInventory().getItemSlots().get(i).setItem(null);
+		}
+		if(!active){
+			this.setActive(true);
+			setHealth(100);
+			this.setX(256);
+			this.setY(160);
+		}
 	}
 	
 	private void getInput(){
@@ -244,7 +260,7 @@ public class Player extends Creature{
 		*/
 		g.setColor(Creature.hpColor);
 		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()),
-				(int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+				(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){

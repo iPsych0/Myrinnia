@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
@@ -14,6 +15,8 @@ public class EquipmentWindow {
 	private int x, y;
 	private int width, height;
 	private Handler handler;
+	private InventoryWindow inventoryWindow;
+	private boolean hasBeenPressed = false;
 	
 	private int numCols = 3;
 	private int numRows = 3;
@@ -51,15 +54,37 @@ public class EquipmentWindow {
 			
 			
 			// TODO: Hardcoded, add dynamic functions for equipment
-			equipmentSlots.get(0).addItem(Item.woodItem, 1);
-			equipmentSlots.get(1).addItem(Item.oreItem, 1);
+			equipmentSlots.get(0).equipItem(Item.woodItem);
+			equipmentSlots.get(1).equipItem(Item.oreItem);
 			
 		}
 	}
 	
 	public void tick(){
-		if(isOpen){
-			// TODO: Add system to equip/unequip items
+		if(isOpen) {
+			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			for(EquipmentSlot es : equipmentSlots) {
+				
+				es.tick();
+				
+				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), EquipmentSlot.SLOTSIZE, EquipmentSlot.SLOTSIZE);
+				
+				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
+				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
+					if(es.getEquipmentStack() != null){
+						hasBeenPressed = true;
+						inventoryWindow = new InventoryWindow(handler, 658, 112);
+						inventoryWindow.getItemSlots().get(InventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), 1);
+						es.setItem(null);
+						hasBeenPressed = false;
+					}
+					else{
+						hasBeenPressed = false;
+						return;
+					}
+				}
+			}
 		}
 	}
 	
@@ -82,5 +107,29 @@ public class EquipmentWindow {
 						handler.getMouseManager().getMouseY(), null);
 			}
 		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public CopyOnWriteArrayList<EquipmentSlot> getEquipmentSlots() {
+		return equipmentSlots;
+	}
+
+	public void setEquipmentSlots(CopyOnWriteArrayList<EquipmentSlot> equipmentSlots) {
+		EquipmentWindow.equipmentSlots = equipmentSlots;
 	}
 }

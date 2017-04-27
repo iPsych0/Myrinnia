@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;
@@ -26,18 +27,20 @@ public class Scorpion extends Creature {
 	// Walking timer
 	private int time = 0;
 	
-	// Attack timer
-	// private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
+	 //Attack timer
+	 private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
 	public Scorpion(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		speed = DEFAULT_SPEED;
+		isNpc = false;
+		setNpc(false);
 	}
 
 	@Override
 	public void tick() {
 		randomWalk();
-		//checkAttacks();
+		checkAttacks();
 	}
 
 	@Override
@@ -49,7 +52,7 @@ public class Scorpion extends Creature {
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				g.drawString(Integer.toString(e.getHealth()),
-						(int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()));
+						(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset()));
 		}
 	}
 
@@ -63,14 +66,14 @@ public class Scorpion extends Creature {
 		if(randomNumber >= 11 && randomNumber <= 50){
 			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
 		}
-		
+		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y));
 		handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
 		
 	}
 	
 	
-	/*
+	
 	private void checkAttacks(){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -78,7 +81,7 @@ public class Scorpion extends Creature {
 		if(attackTimer < attackCooldown)
 			return;
 		
-		int direction = randDirection.nextInt((max - min) + 1) + min;
+		int direction = randMove.nextInt((max - min) + 1) + min;
 		
 		// Set attack-box
 		Rectangle cb = getCollisionBounds(0,0);
@@ -122,7 +125,7 @@ public class Scorpion extends Creature {
 			}
 		}
 	}
-	*/
+	
 	
 	private void randomWalk() {
 		time++;

@@ -2,16 +2,10 @@ package dev.ipsych0.mygame.items;
 
 public class EquipmentStack {
 	
-	private int amount;
 	private Item item;
 	
-	public EquipmentStack(Item item, int amount){
+	public EquipmentStack(Item item){
 		this.item = item;
-		this.amount = 1;
-	}
-
-	public int getAmount() {
-		return amount;
 	}
 
 	public Item getItem() {
@@ -21,9 +15,4 @@ public class EquipmentStack {
 	public void setItem(Item item) {
 		this.item = item;
 	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
 }

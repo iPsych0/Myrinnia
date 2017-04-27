@@ -2,9 +2,9 @@ package dev.ipsych0.mygame.entities;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Entity {
@@ -14,13 +14,13 @@ public abstract class Entity {
 	protected int width, height;
 	protected Rectangle bounds;
 	protected int health;
-	protected boolean isTalking = false;
+	public static int speakingTurn;
+	private ArrayList<Double> pythagoras;
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
-	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -29,6 +29,8 @@ public abstract class Entity {
 		this.width = width;
 		this.height = height;
 		health = DEFAULT_HEALTH;
+		speakingTurn = 0;
+		pythagoras = new ArrayList<Double>();
 		
 		bounds = new Rectangle(0, 0, width, height);
 	}
@@ -57,7 +59,7 @@ public abstract class Entity {
 	
 	
 	// If player is within 64px of an NPC, return true, else return false.
-	// TODO: Needs detection for multiple NPCs. If there are two NPCs, distance is <= 32 for one NPC, but not for the other so chatbox closes
+	// TODO: Needs detection for multiple NPCs.
 	public boolean playerIsNearNpc(){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this)){
@@ -66,15 +68,45 @@ public abstract class Entity {
 			if(!e.isNpc){
 				continue;
 			}
+			// TODO: ALWAYS CHECKS ALL NPCS, SO CHECK ALL DISTANCES AND ONLY RETURN THE CLOSEST ONE!!!!
 			if(ChatWindow.chatIsOpen){
-				if(distanceToEntity((int)e.getX(), (int)e.getY(),
-						(int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY())
-						<= (Tiles.TILEWIDTH * 2)){
-					// Probleem zit hier -v continu de functie interact
-					e.interact();
-					System.out.println("Interacting");
+				//System.out.println("Test 1: " + getSpeakingTurn());
+				if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
+					// Speaking Turns here
+					if(getSpeakingTurn() == 0){
+						e.interact();
+						//System.out.println("Test 2: " + getSpeakingTurn());
+						//System.out.println(getSpeakingTurn());
+						return true;
+					}if(getSpeakingTurn() == 1){
+						e.interact();
+						//System.out.println("Test 2: " + getSpeakingTurn());
+						//System.out.println(getSpeakingTurn());
+						return true;
+					}if(getSpeakingTurn() == 2){
+						e.interact();
+						//System.out.println("Test 2: " + getSpeakingTurn());
+						//System.out.println(getSpeakingTurn());
+						return true;
+					}if(getSpeakingTurn() == 3){
+						e.interact();
+						//System.out.println("Test 2: " + getSpeakingTurn());
+						//System.out.println(getSpeakingTurn());
+						return true;
+					}if(getSpeakingTurn() == 4){
+						e.interact();
+						//System.out.println("Test 2: " + getSpeakingTurn());
+						//System.out.println(getSpeakingTurn());
+						return true;
+					}
+					if(getSpeakingTurn() >= 5){
+						speakingTurn = 0;
+					}
+					// Return true if still within range, but waiting for updating speaking turn
 					return true;
 				}
+				// Out of range, so reset speaking turn & close chat
+				speakingTurn = 0;
 				ChatWindow.chatIsOpen = false;
 			}
 			return false;
@@ -98,6 +130,25 @@ public abstract class Entity {
 	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	
+	/*
+	 * Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
+	public Entity closestEntity(Entity e, int x1, int y1, int x2, int y2){
+		double closestDistance;
+		ArrayList<Entity> closestEntity;
+		for(int i = 0; i < handler.getWorld().getEntityManager().getEntities().size(); i++){
+			int dx = x2 - x1;
+		    int dy = y2 - y1;
+		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+		    Collections.sort(pythagoras);
+		    
+		    
+		}
+		System.out.println("Closest NPC is " + pythagoras.get(0) + " pixels away!");
+		closestDistance = pythagoras.get(0);
+		pythagoras.removeAll(pythagoras);
+		return closestEntity;
+	}
+	*/
 	
 	
 	// Getters & Setters
@@ -172,6 +223,10 @@ public abstract class Entity {
 
 	public void setShop(boolean isShop) {
 		this.isShop = isShop;
+	}
+
+	public int getSpeakingTurn() {
+		return speakingTurn;
 	}
 	
 }

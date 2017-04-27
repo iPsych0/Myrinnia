@@ -6,9 +6,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
-import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
 
 public class ChatWindow {
@@ -27,7 +24,7 @@ public class ChatWindow {
 	private int numRows = 6;
 	public static Color chatColour = new Color(140, 0, 255);
 	
-	private static CopyOnWriteArrayList<TextSlot> textSlots;
+	private CopyOnWriteArrayList<TextSlot> textSlots;
 	
 	public ChatWindow(Handler handler, int x, int y){
 		if(!isCreated){
@@ -58,27 +55,34 @@ public class ChatWindow {
 	
 	public void tick(){
 		if(chatIsOpen){
-			for(TextSlot ts : textSlots){
-				ts.tick();
-				
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+				if(e.playerIsNearNpc()){
+					for(TextSlot ts : textSlots){
+						ts.tick();
+						
+					}
+				}
 			}
 		}
 	}
 	
+	// Renders even if not within distance --> fix
 	public void render(Graphics g){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.playerIsNearNpc()){
-				g.setColor(Color.BLACK);
-				g.drawRect(x - 228, y + 170, width, height - 118);
-				g.setColor(interfaceColour);
-				g.fillRect(x - 228, y + 170, width, height - 118);
-				g.setFont(GameState.myFont);
-				g.setColor(Color.WHITE);
-				g.drawString("Chat", x, y + 182);
-				
-				for(TextSlot ts : textSlots){
-					ts.render(g);
+		if(chatIsOpen){
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+				if(e.playerIsNearNpc()){
+					g.setColor(Color.BLACK);
+					g.drawRect(x - 228, y + 170, width, height - 118);
+					g.setColor(interfaceColour);
+					g.fillRect(x - 228, y + 170, width, height - 118);
+					g.setFont(GameState.myFont);
+					g.setColor(Color.WHITE);
+					g.drawString(e.getClass().getSimpleName().toString(), x, y + 182);
 					
+					for(TextSlot ts : textSlots){
+						ts.render(g);
+						
+					}
 				}
 			}
 		}
@@ -86,10 +90,10 @@ public class ChatWindow {
 	
 	public boolean sendMessage (String message) {
         int chatIndex = freeTextSlot();
-        System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
+       // System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
         if(chatIndex >= 0){
 	    	getTextSlots().get(chatIndex).addTextSlot(message);
-	    	System.out.println("Added the line '" + message + "'");
+	    	//System.out.println("Added the line '" + message + "'");
 	    	return true;
         }
         else{
@@ -99,7 +103,7 @@ public class ChatWindow {
     }
 	
 	// Free slots vrijmaken!
-	public static int freeTextSlot() {
+	public int freeTextSlot() {
 		// Als de chat leeg is, vul altijd de 1e slot
 		if(textSlots.get(textSlots.size() - 1).getNpcText() == null){
 			return (textSlots.size() - 1);

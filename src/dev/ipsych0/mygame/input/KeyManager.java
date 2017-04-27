@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -11,11 +13,13 @@ import dev.ipsych0.mygame.items.Item;
 public class KeyManager implements KeyListener{
 
 	private boolean[] keys;
+	private Handler handler;
 	public boolean up, down, left, right;
 	public boolean attack;
-	public boolean interact;
+	public boolean chat;
 	public boolean pickUp;
 	public boolean position;
+	public boolean talk;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -33,11 +37,12 @@ public class KeyManager implements KeyListener{
 
 		
 		// Interaction keys
-		interact = keys[KeyEvent.VK_C];
+		chat = keys[KeyEvent.VK_C];
 		pickUp = keys[KeyEvent.VK_F];
 		
 		// Coordinate keys
 		position = keys[KeyEvent.VK_P];
+		talk = keys[KeyEvent.VK_SPACE];
 		
 	}
 	
@@ -93,7 +98,9 @@ public class KeyManager implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+		if(e.getKeyChar() == KeyEvent.VK_SPACE){
+			Entity.speakingTurn++;
+		}
 	}
 
 }

@@ -5,7 +5,6 @@ import java.awt.Font;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
-import dev.ipsych0.mygame.entities.creatures.Creature.Direction;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Creature extends Entity {
@@ -148,10 +147,12 @@ public abstract class Creature extends Entity {
 		this.yMove = yMove;
 	}
 
+	@Override
 	public int getHealth() {
 		return health;
 	}
 
+	@Override
 	public void setHealth(int health) {
 		this.health = health;
 	}

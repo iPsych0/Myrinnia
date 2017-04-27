@@ -8,8 +8,7 @@ public class Ambiance {
 	
 	public static Ambiance[] ambiance = new Ambiance[2048];
 	
-	public static Ambiance blackTile = new Ambiance(Assets.black, 128);
-	public static Ambiance iceTile = new Ambiance(Assets.ice, 116);
+	public static Ambiance blackTile = new Ambiance(Assets.black, 28);
 
 	// Ambience
 	public static Ambiance invisible = new Ambiance(Assets.invisible, 736);
@@ -44,6 +43,8 @@ public class Ambiance {
 	
 	public boolean isSolid(){
 		switch(id){
+			case 28:
+				return true;
 			case 1184:
 				return true;
 			case 1168:

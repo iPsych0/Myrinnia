@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.entities.creatures.Creature;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
 public class ItemSlot {
@@ -32,18 +34,27 @@ public class ItemSlot {
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
+		
 		if(itemStack != null){
-			g.drawImage(itemStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
-			if(itemStack.getAmount() >= 100){
-				g.setFont(GameState.myFont);
-				g.setColor(Color.GREEN);
-				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 20, y + SLOTSIZE - 18);
+			if(itemStack.getItem().getName() == "Coins"){
+				if(itemStack.getAmount() >= 1  && itemStack.getAmount() < 100){
+					itemStack.getItem().setTexture(Assets.coins[0]);
+				}
+				if(itemStack.getAmount() >= 100  && itemStack.getAmount() < 1000){
+					itemStack.getItem().setTexture(Assets.coins[1]);
+				}
+				if(itemStack.getAmount() >= 1000  && itemStack.getAmount() < 10000){
+					itemStack.getItem().setTexture(Assets.coins[2]);
+				}
+				if(itemStack.getAmount() >= 10000  && itemStack.getAmount() < 100000){
+					itemStack.getItem().setTexture(Assets.coins[3]);
+				}
 			}
-			else{
-				g.setFont(GameState.myFont);
-				g.setColor(Color.YELLOW);
-				g.drawString(Integer.toString(itemStack.getAmount()), x + SLOTSIZE - 13, y + SLOTSIZE - 18);
-			}
+			
+			g.drawImage(itemStack.getItem().texture, x, y + 4, SLOTSIZE -4, SLOTSIZE -4, null);
+			g.setFont(GameState.myFont);
+			g.setColor(Creature.hpColor);
+			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 		
 	}

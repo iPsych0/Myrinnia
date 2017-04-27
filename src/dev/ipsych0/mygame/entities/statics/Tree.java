@@ -1,8 +1,6 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
-import java.util.concurrent.ThreadLocalRandom;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
@@ -20,6 +18,8 @@ public class Tree extends StaticEntity {
 		bounds.y = 1;
 		bounds.width = 32;
 		bounds.height = 32;
+		isNpc = false;
+		setNpc(false);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class Tree extends StaticEntity {
 	
 	@Override
 	public void die(){
-		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y));
+		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x + 4, (int) y + 6));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(50);
 	}
 

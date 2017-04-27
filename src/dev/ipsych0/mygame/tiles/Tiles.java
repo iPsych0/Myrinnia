@@ -10,12 +10,8 @@ public class Tiles {
 	public static Tiles[] tiles = new Tiles[512];
 	
 	// First try-out tiles
-	
-	public static Tiles rockTile = new Tiles(Assets.stone, 104);
-	public static Tiles caveTile = new Tiles(Assets.cave, 112);
-	public static Tiles iceTile = new Tiles(Assets.ice, 116);
-	public static Tiles snowTile = new Tiles(Assets.snow, 124);
-	public static Tiles blackTile = new Tiles(Assets.black, 128);
+
+	public static Tiles blackTile = new Tiles(Assets.black, 28);
 	
 	// Ground Tiles
 	public static Tiles grassTile = new Tiles(Assets.grassOnly, 10);
@@ -49,16 +45,6 @@ public class Tiles {
 	public static Tiles waterSandDownMiddleTile = new Tiles(Assets.waterSandDownMiddle, 28);
 	public static Tiles waterSandDownRightTile = new Tiles(Assets.waterSandDownRight, 29);
 	
-	public static Tiles dirt = new Tiles(Assets.dirt, 42);
-	public static Tiles dirtSandTopLeft = new Tiles(Assets.dirtSandTopLeft, 31);
-	public static Tiles dirtSandTopMiddle = new Tiles(Assets.dirtSandTopMiddle, 32);
-	public static Tiles dirtSandTopRight = new Tiles(Assets.dirtSandTopRight, 33);
-	public static Tiles dirtSandMiddleLeft = new Tiles(Assets.dirtSandMiddleLeft, 41);
-	public static Tiles dirtSandMiddleRight = new Tiles(Assets.dirtSandMiddleRight, 43);
-	public static Tiles dirtSandDownLeft = new Tiles(Assets.dirtSandDownLeft, 51);
-	public static Tiles dirtSandDownMiddle = new Tiles(Assets.dirtSandDownMiddle, 52);
-	public static Tiles dirtSandDownRight = new Tiles(Assets.dirtSandDownRight, 53);
-	
 	public static Tiles dirtGrassTopLeft = new Tiles(Assets.dirtGrassTopLeft, 34);
 	public static Tiles dirtGrassTopMiddle = new Tiles(Assets.dirtGrassTopMiddle, 35);
 	public static Tiles dirtGrassTopRight = new Tiles(Assets.dirtGrassTopRight, 36);
@@ -76,16 +62,6 @@ public class Tiles {
 	public static Tiles pathDirtDownLeft = new Tiles(Assets.pathDirtDownLeft, 57);
 	public static Tiles pathDirtDownMiddle = new Tiles(Assets.pathDirtDownMiddle, 58);
 	public static Tiles pathDirtDownRight = new Tiles(Assets.pathDirtDownRight, 59);
-
-	public static Tiles lavaTile = new Tiles(Assets.lava, 72);
-	public static Tiles lavaPathTopLeft = new Tiles(Assets.lavaPathTopLeft, 61);
-	public static Tiles lavaPathTopMiddle = new Tiles(Assets.lavaPathTopMiddle, 62);
-	public static Tiles lavaPathTopRight = new Tiles(Assets.lavaPathTopRight, 63);
-	public static Tiles lavaPathMiddleLeft = new Tiles(Assets.lavaPathMiddleLeft, 71);
-	public static Tiles lavaPathMiddleRight = new Tiles(Assets.lavaPathMiddleRight, 73);
-	public static Tiles lavaPathDownLeft = new Tiles(Assets.lavaPathDownLeft, 81);
-	public static Tiles lavaPathDownMiddle = new Tiles(Assets.lavaPathDownMiddle, 82);
-	public static Tiles lavaPathDownRight = new Tiles(Assets.lavaPathDownRight, 83);
 	
 	public static Tiles lavaSandTopLeft = new Tiles(Assets.lavaSandTopLeft, 64);
 	public static Tiles lavaSandTopMiddle = new Tiles(Assets.lavaSandTopMiddle, 65);
@@ -137,6 +113,8 @@ public class Tiles {
 	
 	public boolean isSolid(){
 		switch(id){
+			case 28:
+				return true;
 			case 78:
 				return true;
 			case 72:

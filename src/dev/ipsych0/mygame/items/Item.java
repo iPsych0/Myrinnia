@@ -3,10 +3,6 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
@@ -19,6 +15,7 @@ public class Item {
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Wood", 0, ItemTypes.CRAFTING_MATERIAL);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemTypes.CURRENCY);
 	
 	// Class
 	
@@ -73,8 +70,8 @@ public class Item {
 		//
 		bounds.x = 1;
 		bounds.y = 1;
-		bounds.width = 24;
-		bounds.height = 24;
+		bounds.width = 48;
+		bounds.height = 48;
 		
 		Rectangle ir = new Rectangle();
 		int arSize = ITEMWIDTH;
@@ -85,7 +82,7 @@ public class Item {
 	
 	public boolean pickUpItem (Item item, int amount) {
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
-        int inventoryIndex = inventoryWindow.findFreeSlot(item);
+        int inventoryIndex = InventoryWindow.findFreeSlot(item);
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);

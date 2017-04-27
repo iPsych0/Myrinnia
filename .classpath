@@ -4,6 +4,5 @@
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="res"/>
-	<classpathentry kind="lib" path="C:/Users/Daniel/git/2DJavaGame/lib/junit4-4.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

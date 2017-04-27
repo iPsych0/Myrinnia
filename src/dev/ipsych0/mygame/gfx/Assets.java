@@ -7,8 +7,7 @@ public class Assets {
 	private static final int width = 32, height = 32;
 
 	// Tile images
-	public static BufferedImage lava, dirt, grass, stone, cave, ice, snow, black;
-	public static BufferedImage pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
+	public static BufferedImage black, pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
 								path, pathGrassMiddleRight, pathGrassDownLeft, pathGrassDownMiddle,
 								pathGrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
 								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
@@ -22,11 +21,25 @@ public class Assets {
 								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight,
 								darkGrass, darkGrassPatch1, darkGrassPatch2, darkGrassPatch3;
 	
-	// Terrain images
+	// Terrain images (paths, lava, water, etc)
 	public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
 								waterMiddleLeft, waterMiddleMiddle, waterMiddleRight, waterBottomLeft, waterBottomMiddle, waterBottomRight, waterFlow1, waterFlow2,
 								waterFlow3, lavaSmallTopLeft, lavaSmallTopRight, lavaSmallBottomLeft, lavaSmallBottomRight, lavaTopLeft, lavaTopMiddle, lavaTopRight,
-								lavaMiddleLeft, lavaMiddleMiddle, lavaMiddleRight, lavaBottomLeft, lavaBottomMiddle, lavaBottomRight, lavaFlow1, lavaFlow2, lavaFlow3;
+								lavaMiddleLeft, lavaMiddleMiddle, lavaMiddleRight, lavaBottomLeft, lavaBottomMiddle, lavaBottomRight, lavaFlow1, lavaFlow2, lavaFlow3,
+								sandWaterTopLeft, sandWaterTopMiddle, sandWaterTopRight, sandWaterMiddleLeft, sandWaterMiddleMiddle, sandWaterMiddleRight, sandWaterBottomLeft,
+								sandWaterBottomMiddle, sandWaterBottomRight, sandWaterSmallTopLeft, sandWaterSmallTopRight, sandWaterSmallBottomLeft, sandWaterSmallBottomRight,
+								holeTopLeft, holeTopMiddle, holeTopRight, holeMiddleLeft, holeMiddleMiddle, holeMiddleRight, holeBottomLeft, holeBottomMiddle, holeBottomRight,
+								holeSmallTopLeft, holeSmallTopRight, holeSmallBottomLeft, holeSmallBottomRight, transDirtTopLeft, transDirtTopMiddle, transDirtTopRight,
+								transDirtMiddleLeft, transDirtMiddleMiddle, transDirtMiddleRight, transDirtBottomLeft, transDirtBottomMiddle, transDirtBottomRight,
+								darkDirtTopLeft, darkDirtTopMiddle, darkDirtTopRight, darkDirtMiddleLeft, darkDirtMiddleMiddle, darkDirtMiddleRight, darkDirtBottomLeft,
+								darkDirtBottomMiddle, darkDirtBottomRight, redDirtTopLeft, redDirtTopMiddle, redDirtTopRight, redDirtMiddleLeft, redDirtMiddleMiddle,
+								redDirtMiddleRight, redDirtBottomLeft, redDirtBottomMiddle, redDirtBottomRight, greyDirtTopLeft, greyDirtTopMiddle, greyDirtTopRight,
+								greyDirtMiddleLeft, greyDirtMiddleMiddle, greyDirtMiddleRight, greyDirtBottomLeft, greyDirtBottomMiddle, greyDirtBottomRight,
+								greyDirtEffect1, greyDirtEffect2, greyDirtEffect3, redDirtEffect1, redDirtEffect2, redDirtEffect3, darkDirtEffect1, darkDirtEffect2,
+								darkDirtEffect3, redDirtSmallTopLeft, redDirtSmallTopRight, redDirtSmallBottomLeft, redDirtSmallBottomRight, greyDirtSmallTopLeft,
+								greyDirtSmallTopRight, greyDirtSmallBottomLeft, greyDirtSmallBottomRight, darkDirtSmallTopLeft, darkDirtSmallTopRight, darkDirtSmallBottomLeft,
+								darkDirtSmallBottomRight, transDirtSmallTopLeft, transDirtSmallTopRight, transDirtSmallBottomLeft, transDirtSmallBottomRight;
+	
 	
 	// Ambiance images
 	public static BufferedImage sparkleTile, redMushroom, blueMushroom;
@@ -50,6 +63,7 @@ public class Assets {
 	
 	// Item images
 	public static BufferedImage wood, ore;
+	public static BufferedImage[] coins;
 	
 	// Enemy images
 	public static BufferedImage scorpion;
@@ -86,8 +100,14 @@ public class Assets {
 		
 		// Item Sprites
 		
+		coins = new BufferedImage[4];
+		
 		wood = item_sheet.crop(0, 0, width, height);
 		ore = item_sheet.crop(0, height, width, height);
+		coins[0] = item_sheet.crop(width * 0, height * 2, width, height);
+		coins[1] = item_sheet.crop(width * 0, height * 3, width, height);
+		coins[2] = item_sheet.crop(width * 0, height * 4, width, height);
+		coins[3] = item_sheet.crop(width * 0, height * 5, width, height);
 		
 		// Enemy Sprites
 		
@@ -138,14 +158,6 @@ public class Assets {
 		player_right[2] = player_sheet.crop(width * 2, height * 2, width, height);
 		
 		// Tile Sprites
-		
-		lava = texture_sheet.crop(0, 0, width, height);
-		dirt = texture_sheet.crop(width, 0, width, height);
-		grass = texture_sheet.crop(width * 2, 0, width, height);
-		stone = texture_sheet.crop(width * 3, 0, width, height);
-		cave = texture_sheet.crop(width * 3, height * 2, width, height);
-		ice = texture_sheet.crop(width * 3, height * 3, width, height);
-		snow = texture_sheet.crop(width * 3, height * 5, width, height);
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
 		path = texture_tile.crop(width, height, width, height);
@@ -188,15 +200,6 @@ public class Assets {
 		dirtSandDownMiddle = texture_tile.crop(width, height * 5, width, height);
 		dirtSandDownRight = texture_tile.crop(width * 2, height * 5, width, height);
 		
-		dirt = texture_tile.crop(width * 4, height * 4, width, height);
-		dirtGrassTopLeft = texture_tile.crop(width * 3, height * 3, width, height);
-		dirtGrassTopMiddle = texture_tile.crop(width * 4, height * 3, width, height);
-		dirtGrassTopRight = texture_tile.crop(width * 5, height * 3, width, height);
-		dirtGrassmiddleLeft = texture_tile.crop(width * 3, height * 4, width, height);
-		dirtGrassMiddleRight = texture_tile.crop(width * 5, height * 4, width, height);
-		dirtGrassDownLeft = texture_tile.crop(width * 3, height * 5, width, height);
-		dirtGrassDownMiddle = texture_tile.crop(width * 4, height * 5, width, height);
-		dirtGrassDownRight = texture_tile.crop(width * 5, height * 5, width, height);
 		
 		pathDirtTopLeft = texture_tile.crop(width * 6, height * 3, width, height);
 		pathDirtTopMiddle = texture_tile.crop(width * 7, height * 3, width, height);
@@ -215,16 +218,6 @@ public class Assets {
 		lavaPathDownLeft = texture_tile.crop(0, height * 8, width, height);
 		lavaPathDownMiddle = texture_tile.crop(width, height * 8, width, height);
 		lavaPathDownRight = texture_tile.crop(width * 2, height * 8, width, height);
-		
-		lava = texture_tile.crop(width * 4, height * 7, width, height);
-		lavaSandTopLeft = texture_tile.crop(width * 3, height * 6, width, height);
-		lavaSandTopMiddle = texture_tile.crop(width * 4, height * 6, width, height);
-		lavaSandTopRight = texture_tile.crop(width * 5, height * 6, width, height);
-		lavaSandMiddleLeft = texture_tile.crop(width * 3, height * 7, width, height);
-		lavaSandMiddleRight = texture_tile.crop(width * 5, height * 7, width, height);
-		lavaSandDownLeft = texture_tile.crop(width * 3, height * 8, width, height);
-		lavaSandDownMiddle = texture_tile.crop(width * 4, height * 8, width, height);
-		lavaSandDownRight = texture_tile.crop(width * 5, height * 8, width, height);
 		
 		waterDirtTopLeft = texture_tile.crop(width * 6, height * 6, width, height);
 		waterDirtTopMiddle = texture_tile.crop(width * 7, height * 6, width, height);
@@ -277,7 +270,104 @@ public class Assets {
 		lavaFlow2 = terrain_tile.crop(width * 16, height * 5, width, height);
 		lavaFlow3 = terrain_tile.crop(width * 17, height * 5, width, height);
 		
+		sandWaterTopLeft = terrain_tile.crop(width * 21, height * 8, width, height);
+		sandWaterTopMiddle = terrain_tile.crop(width * 22, height * 8, width, height);
+		sandWaterTopRight = terrain_tile.crop(width * 23, height * 8, width, height);
+		sandWaterMiddleLeft = terrain_tile.crop(width * 21, height * 9, width, height);
+		sandWaterMiddleMiddle = terrain_tile.crop(width * 22, height * 9, width, height);
+		sandWaterMiddleRight = terrain_tile.crop(width * 23, height * 9, width, height);
+		sandWaterBottomLeft = terrain_tile.crop(width * 21, height * 10, width, height);
+		sandWaterBottomMiddle = terrain_tile.crop(width * 22, height * 10, width, height);
+		sandWaterBottomRight = terrain_tile.crop(width * 23, height * 10, width, height);
+		sandWaterSmallTopLeft = terrain_tile.crop(width * 22, height * 6, width, height);
+		sandWaterSmallTopRight = terrain_tile.crop(width * 23, height * 6, width, height);
+		sandWaterSmallBottomLeft = terrain_tile.crop(width * 22, height * 7, width, height);
+		sandWaterSmallBottomRight = terrain_tile.crop(width * 23, height * 7, width, height);
 		
+		holeSmallTopLeft = terrain_tile.crop(width * 19, height * 0, width, height);
+		holeSmallTopRight = terrain_tile.crop(width * 20, height * 0, width, height);
+		holeSmallBottomLeft = terrain_tile.crop(width * 19, height * 1, width, height);
+		holeSmallBottomRight = terrain_tile.crop(width * 20, height * 1, width, height);
+		holeTopLeft = terrain_tile.crop(width * 18, height * 2, width, height);
+		holeTopMiddle = terrain_tile.crop(width * 19, height * 2, width, height);
+		holeTopRight = terrain_tile.crop(width * 20, height * 2, width, height);
+		holeMiddleLeft = terrain_tile.crop(width * 18, height * 3, width, height);
+		holeMiddleMiddle = terrain_tile.crop(width * 19, height * 3, width, height);
+		holeMiddleRight = terrain_tile.crop(width * 20, height * 3, width, height);
+		holeBottomLeft = terrain_tile.crop(width * 18, height * 4, width, height);
+		holeBottomMiddle = terrain_tile.crop(width * 19, height * 4, width, height);
+		holeBottomRight = terrain_tile.crop(width * 20, height * 4, width, height);
+		
+		transDirtTopLeft = terrain_tile.crop(width * 0, height * 2, width, height);
+		transDirtTopMiddle = terrain_tile.crop(width * 1, height * 2, width, height);
+		transDirtTopRight = terrain_tile.crop(width * 2, height * 2, width, height);
+		transDirtMiddleLeft = terrain_tile.crop(width * 0, height * 3, width, height);
+		transDirtMiddleMiddle = terrain_tile.crop(width * 1, height * 3, width, height);
+		transDirtMiddleRight = terrain_tile.crop(width * 2, height * 3, width, height);
+		transDirtBottomLeft = terrain_tile.crop(width * 0, height * 4, width, height);
+		transDirtBottomMiddle = terrain_tile.crop(width * 1, height * 4, width, height);
+		transDirtBottomRight = terrain_tile.crop(width * 2, height * 4, width, height);
+		transDirtSmallTopLeft = terrain_tile.crop(width * 1, height * 0, width, height);
+		transDirtSmallTopRight = terrain_tile.crop(width * 2, height * 0, width, height);
+		transDirtSmallBottomLeft = terrain_tile.crop(width * 1, height * 1, width, height);
+		transDirtSmallBottomRight = terrain_tile.crop(width * 2, height * 1, width, height);
+		
+		redDirtTopLeft = terrain_tile.crop(width * 6, height * 2, width, height);
+		redDirtTopMiddle = terrain_tile.crop(width * 7, height * 2, width, height);
+		redDirtTopRight = terrain_tile.crop(width * 8, height * 2, width, height);
+		redDirtMiddleLeft = terrain_tile.crop(width * 6, height * 3, width, height);
+		redDirtMiddleMiddle = terrain_tile.crop(width * 7, height * 3, width, height);
+		redDirtMiddleRight = terrain_tile.crop(width * 8, height * 3, width, height);
+		redDirtBottomLeft = terrain_tile.crop(width * 6, height * 4, width, height);
+		redDirtBottomMiddle = terrain_tile.crop(width * 7, height * 4, width, height);
+		redDirtBottomRight = terrain_tile.crop(width * 8, height * 4, width, height);
+		redDirtEffect1 = terrain_tile.crop(width * 6, height * 5, width, height);
+		redDirtEffect2 = terrain_tile.crop(width * 7, height * 5, width, height);
+		redDirtEffect3 = terrain_tile.crop(width * 8, height * 5, width, height);
+		redDirtSmallTopLeft = terrain_tile.crop(width * 7, height * 0, width, height);
+		redDirtSmallTopRight = terrain_tile.crop(width * 8, height * 0, width, height);
+		redDirtSmallBottomLeft = terrain_tile.crop(width * 7, height * 1, width, height);
+		redDirtSmallBottomRight = terrain_tile.crop(width * 8, height * 1, width, height);
+
+		
+		greyDirtTopLeft = terrain_tile.crop(width * 9, height * 2, width, height);
+		greyDirtTopMiddle = terrain_tile.crop(width * 10, height * 2, width, height);
+		greyDirtTopRight = terrain_tile.crop(width * 11, height * 2, width, height);
+		greyDirtMiddleLeft = terrain_tile.crop(width * 9, height * 3, width, height);
+		greyDirtMiddleMiddle = terrain_tile.crop(width * 10, height * 3, width, height);
+		greyDirtMiddleRight = terrain_tile.crop(width * 11, height * 3, width, height);
+		greyDirtBottomLeft = terrain_tile.crop(width * 9, height * 4, width, height);
+		greyDirtBottomMiddle = terrain_tile.crop(width * 10, height * 4, width, height);
+		greyDirtBottomRight = terrain_tile.crop(width * 11, height * 4, width, height);
+		greyDirtEffect1 = terrain_tile.crop(width * 9, height * 5, width, height);
+		greyDirtEffect2 = terrain_tile.crop(width * 10, height * 5, width, height);
+		greyDirtEffect3 = terrain_tile.crop(width * 11, height * 5, width, height);
+		greyDirtSmallTopLeft = terrain_tile.crop(width * 10, height * 0, width, height);
+		greyDirtSmallTopRight = terrain_tile.crop(width * 11, height * 0, width, height);
+		greyDirtSmallBottomLeft = terrain_tile.crop(width * 10, height * 1, width, height);
+		greyDirtSmallBottomRight = terrain_tile.crop(width * 11, height * 1, width, height);
+
+		
+		darkDirtTopLeft = terrain_tile.crop(width * 3, height * 2, width, height);
+		darkDirtTopMiddle = terrain_tile.crop(width * 4, height * 2, width, height);
+		darkDirtTopRight = terrain_tile.crop(width * 5, height * 2, width, height);
+		darkDirtMiddleLeft = terrain_tile.crop(width * 3, height * 3, width, height);
+		darkDirtMiddleMiddle = terrain_tile.crop(width * 4, height * 3, width, height);
+		darkDirtMiddleRight = terrain_tile.crop(width * 5, height * 3, width, height);
+		darkDirtBottomLeft = terrain_tile.crop(width * 3, height * 4, width, height);
+		darkDirtBottomMiddle = terrain_tile.crop(width * 4, height * 4, width, height);
+		darkDirtBottomRight = terrain_tile.crop(width * 5, height * 4, width, height);
+		darkDirtEffect1 = terrain_tile.crop(width * 3, height * 5, width, height);
+		darkDirtEffect2 = terrain_tile.crop(width * 4, height * 5, width, height);
+		darkDirtEffect3 = terrain_tile.crop(width * 5, height * 5, width, height);
+		darkDirtSmallTopLeft = terrain_tile.crop(width * 4, height * 0, width, height);
+		darkDirtSmallTopRight = terrain_tile.crop(width * 5, height * 0, width, height);
+		darkDirtSmallBottomLeft = terrain_tile.crop(width * 4, height * 1, width, height);
+		darkDirtSmallBottomRight = terrain_tile.crop(width * 5, height * 1, width, height);
+
+
+
+
 		
 		// Ambiance tiles
 		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);
@@ -293,7 +383,7 @@ public class Assets {
 		
 		// Map icons like trees, rocks, etc
 		
-		tree = texture_sheet.crop(0, height, width, height);
+		tree = texture_sheet.crop(width, height * 2, width, height);
 		rock = texture_sheet.crop(0, height * 3, width, height);
 		
 		// House Spites

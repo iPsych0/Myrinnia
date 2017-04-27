@@ -3,11 +3,9 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.states.GameState;
 
 public class InventoryWindow {
@@ -95,20 +93,61 @@ public class InventoryWindow {
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
-							System.out.println("test2");
 						}
 						else{
 							return;
 						}
 					}
 				}
-				if(handler.getMouseManager().isRightPressed()){
-					if(!handler.getMouseManager().isDragged()){
+				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
+				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
+					if(is.getItemStack() != null){
+						hasBeenPressed = true;
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
-						System.out.println("Equipped item!");
+						equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem());
+						is.setItem(null);
+						hasBeenPressed = false;
+					}
+					else{
+						hasBeenPressed = false;
+						return;
 					}
 				}
 			}
+		}
+	}
+	
+	public int checkEquipmentSlot(Item item){
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 0;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 1;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 2;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 3;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 4;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 5;
+		}
+		if(item.itemType == ItemTypes.MELEE_WEAPON){
+			return 6;
+		}
+		if(item.itemType == ItemTypes.CURRENCY){
+			return 7;
+		}
+		if(item.itemType == ItemTypes.CRAFTING_MATERIAL){
+			return 8;
+		}
+		else{
+			System.out.println("This item cannot be equipped!");
+			return -1;
 		}
 	}
 	
@@ -130,16 +169,9 @@ public class InventoryWindow {
 			if(currentSelectedSlot != null){
 				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
 						handler.getMouseManager().getMouseY(), null);
-				if(currentSelectedSlot.getAmount() >= 100){
-					g.setFont(GameState.myFont);
-					g.setColor(Color.GREEN);
-					g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
-				}
-				else{
 					g.setFont(GameState.myFont);
 					g.setColor(Color.YELLOW);
 					g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
-				}
 			}
 		}
 	}

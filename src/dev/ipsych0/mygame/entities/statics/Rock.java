@@ -16,6 +16,8 @@ public class Rock extends StaticEntity {
 		bounds.y = 1;
 		bounds.width = 32;
 		bounds.height = 32;
+		isNpc = false;
+		setNpc(false);
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class Rock extends StaticEntity {
 	
 	@Override
 	public void die(){
-		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
+		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x + 4, (int) y + 6));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(100);
 	}
 
@@ -38,7 +40,6 @@ public class Rock extends StaticEntity {
 	@Override
 	public void interact() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

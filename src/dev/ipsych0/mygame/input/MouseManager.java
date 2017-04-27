@@ -1,12 +1,8 @@
 package dev.ipsych0.mygame.input;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import javax.swing.Timer;
 
 import dev.ipsych0.mygame.ui.UIManager;
 
@@ -69,6 +65,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			isDragged = false;
 		}
 		else if(e.getButton() == MouseEvent.BUTTON3){
+			isDragged = false;
 			rightPressed = false;
 		}
 		

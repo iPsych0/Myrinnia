@@ -3,8 +3,6 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import dev.ipsych0.mygame.states.GameState;
-
 public class EquipmentSlot {
 	
 	public static final int SLOTSIZE = 32;
@@ -34,25 +32,18 @@ public class EquipmentSlot {
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(equipmentStack != null){
-			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(equipmentStack.getItem().texture, x, y + 4, SLOTSIZE - 4, SLOTSIZE - 4, null);
 		}
 		
 	}
 	
-	public boolean addItem(Item item, int amount) {
-		if(equipmentStack != null && stackable == true) {
-			if(item.getName() == equipmentStack.getItem().getName()) {
-				this.equipmentStack.setAmount(this.equipmentStack.getAmount() + amount);
+	public boolean equipItem(Item item) {
+		if(equipmentStack == null){
+				this.equipmentStack = new EquipmentStack(item);
 				return true;
-			} else {
-				System.out.println(item.getName() + " cannot be stacked with " + equipmentStack.getItem().getName());
-				stackable = false;
-				return false;
-			}
-		} else {
-			this.equipmentStack = new EquipmentStack(item, amount);
-			return true;
 		}
+		System.out.println("We can't equip any more of item: " + item.getName().toString());
+		return false;
 	}
 	
 	public void setItem(EquipmentStack item){

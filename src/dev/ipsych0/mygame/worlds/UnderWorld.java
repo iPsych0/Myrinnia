@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.worlds;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
@@ -93,7 +92,7 @@ public class UnderWorld {
 		
 		Tiles t = Tiles.tiles[tiles[x][y]];
 		if(t == null)
-			return Tiles.dirt;
+			return Tiles.blackTile;
 		return t;
 	}
 

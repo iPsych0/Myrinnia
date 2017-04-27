@@ -36,8 +36,18 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void interact() {
-		handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
-		handler.getWorld().getChatWindow().sendMessage("Test1");
+		if(speakingTurn == 0){
+			handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
+		}
+		if(speakingTurn == 1){
+			handler.getWorld().getChatWindow().sendMessage("I'm looking for an item");
+		}
+		if(speakingTurn == 2){
+			handler.getWorld().getChatWindow().sendMessage("Do you have an axe for me?");
+		}
+		if(speakingTurn == 3){
+			handler.getWorld().getChatWindow().sendMessage("Yes / No");
+		}
 	}
 
 }

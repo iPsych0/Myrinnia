@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.io.InputStream;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
@@ -64,14 +65,17 @@ public class World {
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		inventory = new InventoryWindow(handler, 658, 112);
 		equipment = new EquipmentWindow(handler, 658, 466);
-		chatWindow = new ChatWindow(handler, 228, 320);
 		
-		entityManager.addEntity(new Tree(handler, 192, 128));
-		entityManager.addEntity(new Tree(handler, 128, 160));
+		
+		// ALLE ENTITIES ZORGEN ERVOOR DAT IK NIET KAN CHATTEN ---V
+		entityManager.addEntity(new Lorraine(handler, 732, 640));
+		
+		entityManager.addEntity(new Tree(handler, 160, 128));
+		entityManager.addEntity(new Tree(handler, 128, 128));
 		entityManager.addEntity(new Tree(handler, 96, 192));
 		entityManager.addEntity(new Tree(handler, 96, 160));
 		
-		entityManager.addEntity(new Rock(handler, 224, 160));
+		entityManager.addEntity(new Rock(handler, 448, 576));
 		
 		entityManager.addEntity(new Scorpion(handler, 160, 576));
 		entityManager.addEntity(new Scorpion(handler, 128, 800));
@@ -81,10 +85,13 @@ public class World {
 		entityManager.addEntity(new Scorpion(handler, 190, 888));
 		entityManager.addEntity(new Scorpion(handler, 190, 800));
 		
-		entityManager.addEntity(new Lorraine(handler, 512, 524));
-		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
+		
+		// Dit is hoe ik items in de world zelf spawn
+		// itemManager.addItem(Item.woodItem.createNew(512, 576));
+		
+		chatWindow = new ChatWindow(handler, 228, 320);
 		
 		// World Animations
 		sparkles = new Animation(250, Assets.sparkles);
@@ -161,7 +168,7 @@ public class World {
 		
 		Tiles t = Tiles.tiles[tiles[x][y]];
 		if(t == null)
-			return Tiles.dirt;
+			return Tiles.blackTile;
 		return t;
 	}
 	
@@ -197,7 +204,7 @@ public class World {
 		width = 50;//Utils.parseInt(tokens[0]);
 		height = 50;//Utils.parseInt(tokens[1]);
 		spawnX = 256;//Utils.parseInt(tokens[2]);
-		spawnY = 96;//Utils.parseInt(tokens[3]);
+		spawnY = 160;//Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
@@ -274,5 +281,13 @@ public class World {
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
+	}
+
+	public InventoryWindow getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryWindow inventory) {
+		this.inventory = inventory;
 	}
 }
