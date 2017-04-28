@@ -13,9 +13,9 @@ public class Item {
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Wood", 0, ItemTypes.CRAFTING_MATERIAL);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemTypes.CURRENCY);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemTypes.CRAFTING_MATERIAL, 10);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL, 10);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemTypes.CURRENCY, 10);
 	
 	// Class
 	
@@ -24,6 +24,7 @@ public class Item {
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
+	protected final int equipSlot;
 	protected int x, y;
 	protected Rectangle bounds;
 	private static int count;
@@ -31,11 +32,12 @@ public class Item {
 	public static boolean pickUpKeyPressed = false;
 	
 	
-	public Item(BufferedImage texture, String name, int id, ItemTypes itemType){
+	public Item(BufferedImage texture, String name, int id, ItemTypes itemType, int equipSlot){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
 		this.itemType = itemType;
+		this.equipSlot = equipSlot;
 		
 		items[id] = this;
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
@@ -56,7 +58,7 @@ public class Item {
 	}
 	
 	public Item createNew(int x, int y){
-		Item i = new Item(texture, name, id, itemType);
+		Item i = new Item(texture, name, id, itemType, equipSlot);
 		i.setPosition(x, y);
 		return i;
 	}
@@ -86,7 +88,7 @@ public class Item {
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
-            	System.out.println("Picked up item '" + item.name + "' of type: " + item.itemType.toString());
+            	handler.getWorld().getChatWindow().sendMessage("Picked up " + amount + " " + item.name.toLowerCase() + "s.");
             	item.setCount(PICKED_UP);
             	return true;
         	}

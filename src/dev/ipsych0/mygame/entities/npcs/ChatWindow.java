@@ -55,13 +55,9 @@ public class ChatWindow {
 	
 	public void tick(){
 		if(chatIsOpen){
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-				if(e.playerIsNearNpc()){
-					for(TextSlot ts : textSlots){
-						ts.tick();
-						
-					}
-				}
+			for(TextSlot ts : textSlots){
+				ts.tick();
+				
 			}
 		}
 	}
@@ -69,21 +65,17 @@ public class ChatWindow {
 	// Renders even if not within distance --> fix
 	public void render(Graphics g){
 		if(chatIsOpen){
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-				if(e.playerIsNearNpc()){
-					g.setColor(Color.BLACK);
-					g.drawRect(x - 228, y + 170, width, height - 118);
-					g.setColor(interfaceColour);
-					g.fillRect(x - 228, y + 170, width, height - 118);
-					g.setFont(GameState.myFont);
-					g.setColor(Color.WHITE);
-					g.drawString(e.getClass().getSimpleName().toString(), x, y + 182);
-					
-					for(TextSlot ts : textSlots){
-						ts.render(g);
-						
-					}
-				}
+			g.setColor(Color.BLACK);
+			g.drawRect(x - 228, y + 170, width, height - 118);
+			g.setColor(interfaceColour);
+			g.fillRect(x - 228, y + 170, width, height - 118);
+			g.setFont(GameState.myFont);
+			g.setColor(Color.WHITE);
+			g.drawString("Myrinnia", x, y + 182);
+			
+			for(TextSlot ts : textSlots){
+				ts.render(g);
+				
 			}
 		}
 	}

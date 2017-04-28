@@ -101,9 +101,14 @@ public class InventoryWindow {
 				}
 				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
+					hasBeenPressed = true;
 					if(is.getItemStack() != null){
-						hasBeenPressed = true;
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
+						if(is.getItemStack().getItem().equipSlot == 10){
+							handler.getWorld().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
+							hasBeenPressed = false;
+							return;
+						}
 						equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem());
 						is.setItem(null);
 						hasBeenPressed = false;
@@ -118,37 +123,34 @@ public class InventoryWindow {
 	}
 	
 	public int checkEquipmentSlot(Item item){
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 0){
 			return 0;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 1){
 			return 1;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 2){
 			return 2;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 3){
 			return 3;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 4){
 			return 4;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 5){
 			return 5;
 		}
-		if(item.itemType == ItemTypes.MELEE_WEAPON){
+		if(item.equipSlot == 6){
 			return 6;
 		}
-		if(item.itemType == ItemTypes.CURRENCY){
+		if(item.equipSlot == 7){
 			return 7;
 		}
-		if(item.itemType == ItemTypes.CRAFTING_MATERIAL){
+		if(item.equipSlot == 8){
 			return 8;
 		}
-		else{
-			System.out.println("This item cannot be equipped!");
-			return -1;
-		}
+		return -10;
 	}
 	
 	

@@ -38,7 +38,6 @@ public class TextSlot {
 		if(npcText != null){
 			g.drawString(npcText.getLine(), x - 227, y + 195);
 		}
-		// TODO: Add render for npcTexts here
 	}
 	
 	public void addTextSlot(String message){

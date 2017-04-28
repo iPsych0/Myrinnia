@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 
 public class Lorraine extends Creature {
@@ -36,16 +37,20 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void interact() {
-		if(speakingTurn == 0){
+		if(getSpeakingTurn() == 0){
+			System.out.println("0");
 			handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
 		}
-		if(speakingTurn == 1){
+		if(getSpeakingTurn() == 1){
+			System.out.println("1");
 			handler.getWorld().getChatWindow().sendMessage("I'm looking for an item");
 		}
-		if(speakingTurn == 2){
+		if(getSpeakingTurn() == 2){
+			System.out.println("2");
 			handler.getWorld().getChatWindow().sendMessage("Do you have an axe for me?");
 		}
-		if(speakingTurn == 3){
+		if(getSpeakingTurn() == 3){
+			System.out.println("3");
 			handler.getWorld().getChatWindow().sendMessage("Yes / No");
 		}
 	}

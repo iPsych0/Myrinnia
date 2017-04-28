@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.tiles.Tiles;
 
@@ -15,6 +16,7 @@ public abstract class Entity {
 	protected Rectangle bounds;
 	protected int health;
 	public static int speakingTurn;
+	public static boolean isCloseToNPC = false;
 	private ArrayList<Double> pythagoras;
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
@@ -60,58 +62,33 @@ public abstract class Entity {
 	
 	// If player is within 64px of an NPC, return true, else return false.
 	// TODO: Needs detection for multiple NPCs.
-	public boolean playerIsNearNpc(){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this)){
-				continue;
-			}
-			if(!e.isNpc){
-				continue;
-			}
+	public boolean playerIsNearNpc(Entity e){
 			// TODO: ALWAYS CHECKS ALL NPCS, SO CHECK ALL DISTANCES AND ONLY RETURN THE CLOSEST ONE!!!!
-			if(ChatWindow.chatIsOpen){
-				//System.out.println("Test 1: " + getSpeakingTurn());
-				if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
-					// Speaking Turns here
-					if(getSpeakingTurn() == 0){
-						e.interact();
-						//System.out.println("Test 2: " + getSpeakingTurn());
-						//System.out.println(getSpeakingTurn());
-						return true;
-					}if(getSpeakingTurn() == 1){
-						e.interact();
-						//System.out.println("Test 2: " + getSpeakingTurn());
-						//System.out.println(getSpeakingTurn());
-						return true;
-					}if(getSpeakingTurn() == 2){
-						e.interact();
-						//System.out.println("Test 2: " + getSpeakingTurn());
-						//System.out.println(getSpeakingTurn());
-						return true;
-					}if(getSpeakingTurn() == 3){
-						e.interact();
-						//System.out.println("Test 2: " + getSpeakingTurn());
-						//System.out.println(getSpeakingTurn());
-						return true;
-					}if(getSpeakingTurn() == 4){
-						e.interact();
-						//System.out.println("Test 2: " + getSpeakingTurn());
-						//System.out.println(getSpeakingTurn());
-						return true;
-					}
-					if(getSpeakingTurn() >= 5){
-						speakingTurn = 0;
-					}
-					// Return true if still within range, but waiting for updating speaking turn
+			//System.out.println("Test 1: " + getSpeakingTurn());
+			if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
+				// Interact with the respective speaking turn
+				if(getSpeakingTurn() == 0){
+					e.interact();
+					return true;
+				}if(getSpeakingTurn() == 1){
+					e.interact();
+					return true;
+				}if(getSpeakingTurn() == 2){
+					e.interact();
+					return true;
+				}if(getSpeakingTurn() == 3){
+					e.interact();
 					return true;
 				}
-				// Out of range, so reset speaking turn & close chat
-				speakingTurn = 0;
-				ChatWindow.chatIsOpen = false;
+				if(getSpeakingTurn() >= 4){
+					speakingTurn = 0;
+				}
 			}
+			// Out of range, so reset speaking turn
+			isCloseToNPC = false;
+			speakingTurn = 0;
 			return false;
-		}
-		return false;
+					
 	}
 	
 	// Damage function

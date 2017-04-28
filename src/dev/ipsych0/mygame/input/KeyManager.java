@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -60,7 +61,7 @@ public class KeyManager implements KeyListener{
 			}
 		}
 		
-		// Inventory toggle
+		// Equipment toggle
 		if(e.getKeyCode() == KeyEvent.VK_E){
 			if(!EquipmentWindow.isOpen){
 				EquipmentWindow.isOpen = true;
@@ -98,8 +99,10 @@ public class KeyManager implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(e.getKeyChar() == KeyEvent.VK_SPACE){
+		if(e.getKeyChar() == KeyEvent.VK_SPACE && ChatWindow.chatIsOpen && Entity.isCloseToNPC){
+			System.out.println("In KeyManager");
 			Entity.speakingTurn++;
+			Player.hasInteracted = false;
 		}
 	}
 

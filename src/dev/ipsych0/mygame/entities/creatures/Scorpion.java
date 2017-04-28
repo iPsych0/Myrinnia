@@ -58,6 +58,7 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void die() {
+		handler.getWorld().getChatWindow().sendMessage("You killed the " + this.getClass().getSimpleName().toString());
 		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		if(randomNumber <= 10){

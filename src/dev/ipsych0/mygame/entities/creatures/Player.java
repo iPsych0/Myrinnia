@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
@@ -18,6 +19,7 @@ public class Player extends Creature{
 	// Experience and levels
 	private int attackExperience;
 	private int attackLevel;
+	public static boolean hasInteracted = false;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -37,7 +39,7 @@ public class Player extends Creature{
 		// Player combat/movement settings:
 		setNpc(false);
 		
-		speed = Creature.DEFAULT_SPEED + 2.3f;
+		speed = Creature.DEFAULT_SPEED + 2.5f;
 		attackExperience = 0;
 		attackLevel = 1;
 		
@@ -106,6 +108,23 @@ public class Player extends Creature{
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());
+		}
+		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
+			for (Entity e: handler.getWorld().getEntityManager().getEntities()){
+				if(!e.isNpc()){
+					continue;
+				}
+				if(e.equals(this)){
+					continue;
+				}
+				System.out.println(hasInteracted);
+				if(!hasInteracted && e.playerIsNearNpc(e)){
+					Entity.isCloseToNPC = true;
+					hasInteracted = true;
+					System.out.println("In Player");
+					return;
+				}
+			}
 		}
 	}
 	
