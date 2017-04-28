@@ -77,11 +77,29 @@ public abstract class Entity {
 					e.interact();
 					return true;
 				}if(getSpeakingTurn() == 3){
-					e.interact();
-					return true;
+					if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() >= 5){
+						e.interact();
+						return true;
+					}
+					else{
+						speakingTurn -= 1;
+						e.interact();
+						return true;
+					}
+				}if(getSpeakingTurn() == 4){
+					if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
+						speakingTurn -= 1;
+						e.interact();
+						return true;
+					}else{
+						e.interact();
+						return true;
+					}
 				}
-				if(getSpeakingTurn() >= 4){
-					speakingTurn = 0;
+				if(getSpeakingTurn() >= 5){
+					e.interact();
+					speakingTurn = 5;
+					return true;
 				}
 			}
 			// Out of range, so reset speaking turn

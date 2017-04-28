@@ -119,6 +119,9 @@ public class Scorpion extends Creature {
 				continue;
 			if(!e.isAttackable())
 				continue;
+			if(!e.equals(handler.getWorld().getEntityManager().getPlayer())){
+				continue;
+			}
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
 				e.damage(5 + handler.getRandomSupplyAmount());

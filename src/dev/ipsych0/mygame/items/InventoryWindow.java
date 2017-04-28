@@ -28,6 +28,7 @@ public class InventoryWindow {
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
 	private boolean itemSelected;
+	private boolean useSelected;
 	
 	public InventoryWindow(Handler handler, int x, int y){
 		if(isCreated == false){
@@ -118,41 +119,24 @@ public class InventoryWindow {
 						return;
 					}
 				}
+				if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed && !is.isSelected){
+					hasBeenPressed = true;
+					if(is.getItemStack() != null){
+						if(is.getItemStack().getItem().itemType == ItemTypes.CRAFTING_MATERIAL){
+							is.setSelected(true);
+							hasBeenPressed = false;
+							return;
+						}
+						hasBeenPressed = false;
+					}
+					else{
+						hasBeenPressed = false;
+						return;
+					}
+				}
 			}
 		}
 	}
-	
-	public int checkEquipmentSlot(Item item){
-		if(item.equipSlot == 0){
-			return 0;
-		}
-		if(item.equipSlot == 1){
-			return 1;
-		}
-		if(item.equipSlot == 2){
-			return 2;
-		}
-		if(item.equipSlot == 3){
-			return 3;
-		}
-		if(item.equipSlot == 4){
-			return 4;
-		}
-		if(item.equipSlot == 5){
-			return 5;
-		}
-		if(item.equipSlot == 6){
-			return 6;
-		}
-		if(item.equipSlot == 7){
-			return 7;
-		}
-		if(item.equipSlot == 8){
-			return 8;
-		}
-		return -10;
-	}
-	
 	
 	public void render(Graphics g){
 		if(isOpen){
@@ -193,6 +177,37 @@ public class InventoryWindow {
        }
        System.out.println("Something went wrong checking for free slots (or bag is full)");
        return -1;
+	}
+	
+	public int checkEquipmentSlot(Item item){
+		if(item.equipSlot == 0){
+			return 0;
+		}
+		if(item.equipSlot == 1){
+			return 1;
+		}
+		if(item.equipSlot == 2){
+			return 2;
+		}
+		if(item.equipSlot == 3){
+			return 3;
+		}
+		if(item.equipSlot == 4){
+			return 4;
+		}
+		if(item.equipSlot == 5){
+			return 5;
+		}
+		if(item.equipSlot == 6){
+			return 6;
+		}
+		if(item.equipSlot == 7){
+			return 7;
+		}
+		if(item.equipSlot == 8){
+			return 8;
+		}
+		return -10;
 	}
 
 

@@ -13,8 +13,10 @@ public class ItemSlot {
 	
 	private int x, y;
 	private ItemStack itemStack;
+	public boolean isSelected = false;
 	public static boolean stackable = true;
 	int alpha = 127;
+	Color selectedColour = new Color(255, 127, 127, alpha);
 	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
@@ -28,8 +30,14 @@ public class ItemSlot {
 	}
 	
 	public void render(Graphics g){
-		g.setColor(interfaceColour);
-		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+		if(!isSelected){
+			g.setColor(interfaceColour);
+			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+		}
+		if(isSelected){
+			g.setColor(selectedColour);
+			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+		}
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
@@ -122,6 +130,14 @@ public class ItemSlot {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 	
 

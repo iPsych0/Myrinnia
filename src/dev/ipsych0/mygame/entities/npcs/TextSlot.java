@@ -22,7 +22,7 @@ public class TextSlot {
 	}
 	
 	public void tick(){
-
+		
 	}
 	
 	public void render(Graphics g){
