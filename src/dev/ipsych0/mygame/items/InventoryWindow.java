@@ -88,6 +88,7 @@ public class InventoryWindow {
 					}
 					// Stacking werkt nog niet met unieke items, alleen met zelfde items
 				}
+				
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(temp2.contains(temp)){
 						if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
@@ -101,7 +102,7 @@ public class InventoryWindow {
 					}
 				}
 				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
-				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
+				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 					hasBeenPressed = true;
 					if(is.getItemStack() != null){
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
@@ -162,7 +163,7 @@ public class InventoryWindow {
 		}
 	}
 	
-	public static int findFreeSlot(Item item) {
+	public int findFreeSlot(Item item) {
         for (int i = 0; i < itemSlots.size(); i++) {
         	if(itemSlots.get(i).getItemStack() != null){
         		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
@@ -177,6 +178,19 @@ public class InventoryWindow {
        }
        System.out.println("Something went wrong checking for free slots (or bag is full)");
        return -1;
+	}
+	
+	public boolean inventoryIsFull(){
+		int emptySlots = 0;
+		for (int i = 0; i < itemSlots.size(); i++){
+			if(itemSlots.get(i).getItemStack() == null){
+				emptySlots++;
+			}
+		}
+		if(emptySlots == 0)
+			return true;
+		else
+			return false;
 	}
 	
 	public int checkEquipmentSlot(Item item){

@@ -13,6 +13,7 @@ import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpscreen.StatScreen;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
@@ -51,6 +52,10 @@ public class World {
 	
 	private ChatWindow chatWindow;
 	
+	// HP Interface
+	
+	private StatScreen statScreen;
+	
 	// Actual code ---v
 	
 	public World(Handler handler, String path){
@@ -65,6 +70,7 @@ public class World {
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		inventory = new InventoryWindow(handler, 658, 112);
 		equipment = new EquipmentWindow(handler, 658, 466);
+		statScreen = new StatScreen(handler, 658, 0);
 		
 		
 		// ALLE ENTITIES ZORGEN ERVOOR DAT IK NIET KAN CHATTEN ---V
@@ -104,6 +110,7 @@ public class World {
 		inventory.tick();
 		chatWindow.tick();
 		equipment.tick();
+		statScreen.tick();
 		sparkles.tick();
 	}
 	
@@ -159,6 +166,9 @@ public class World {
 		// Equipment
 		
 		equipment.render(g);
+		
+		// HP Screen
+		statScreen.render(g);
 	}
 	
 	
@@ -290,5 +300,13 @@ public class World {
 
 	public void setInventory(InventoryWindow inventory) {
 		this.inventory = inventory;
+	}
+
+	public StatScreen getStatScreen() {
+		return statScreen;
+	}
+
+	public void setStatScreen(StatScreen statScreen) {
+		this.statScreen = statScreen;
 	}
 }

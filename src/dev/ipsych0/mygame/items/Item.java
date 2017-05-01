@@ -38,6 +38,7 @@ public class Item {
 		this.id = id;
 		this.itemType = itemType;
 		this.equipSlot = equipSlot;
+		inventoryWindow = new InventoryWindow(handler, 80, 64);
 		
 		items[id] = this;
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
@@ -83,8 +84,7 @@ public class Item {
 	}
 	
 	public boolean pickUpItem (Item item, int amount) {
-		inventoryWindow = new InventoryWindow(handler, 80, 64);
-        int inventoryIndex = InventoryWindow.findFreeSlot(item);
+        int inventoryIndex = inventoryWindow.findFreeSlot(item);
         if (inventoryIndex >= 0) {
             if(item.getName() == name){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);

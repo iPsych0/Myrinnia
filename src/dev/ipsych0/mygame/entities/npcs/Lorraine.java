@@ -10,7 +10,7 @@ import dev.ipsych0.mygame.items.Item;
 
 public class Lorraine extends Creature {
 	
-	private boolean scorpionsKilled = false;
+	public static boolean questStarted = false;
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -20,9 +20,7 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void tick() {
-		if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() >= 5){
-			scorpionsKilled = true;
-		}
+
 	}
 
 	@Override
@@ -50,6 +48,7 @@ public class Lorraine extends Creature {
 		}
 		if(getSpeakingTurn() == 2){
 			handler.getWorld().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
+			questStarted = true;
 		}
 		if(getSpeakingTurn() == 3){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
@@ -63,8 +62,13 @@ public class Lorraine extends Creature {
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
 				speakingTurn -= 1;
 			}else{
-				handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
-				handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
+				if(!handler.getWorld().getInventory().inventoryIsFull()){
+					handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
+					handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
+				}else{
+					handler.getWorld().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
+					speakingTurn -= 1;
+				}
 			}
 		}
 		if(getSpeakingTurn() >= 5){

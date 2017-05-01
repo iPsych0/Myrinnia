@@ -6,6 +6,7 @@ import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 
@@ -68,7 +69,11 @@ public class Scorpion extends Creature {
 			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y));
 		}
 		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y));
-		handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
+		
+		if(Lorraine.questStarted){
+			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
+		}
+		
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
 		
 	}

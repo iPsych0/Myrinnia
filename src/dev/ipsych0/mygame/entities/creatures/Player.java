@@ -102,7 +102,9 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int)x, (int)y));
+			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
+				handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 10);
+			}
 			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());

@@ -75,7 +75,7 @@ public class EquipmentWindow {
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
 						inventoryWindow = new InventoryWindow(handler, 658, 112);
-						inventoryWindow.getItemSlots().get(InventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), 1);
+						inventoryWindow.getItemSlots().get(inventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), 1);
 						es.setItem(null);
 						hasBeenPressed = false;
 					}

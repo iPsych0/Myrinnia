@@ -17,8 +17,8 @@ public class ChatWindow {
 	private int width, height;
 	private Handler handler;
 	private static NPCText temporary;
-	int alpha = 16;
-	Color interfaceColour = new Color(130, 130, 130, alpha);
+	int alpha = 127;
+	Color interfaceColour = new Color(100, 100, 100, alpha);
 
 	private int numCols = 1;
 	private int numRows = 6;
@@ -65,10 +65,10 @@ public class ChatWindow {
 	// Renders even if not within distance --> fix
 	public void render(Graphics g){
 		if(chatIsOpen){
-			g.setColor(Color.BLACK);
-			g.drawRect(x - 228, y + 170, width, height - 118);
 			g.setColor(interfaceColour);
 			g.fillRect(x - 228, y + 170, width, height - 118);
+			g.setColor(Color.BLACK);
+			g.drawRect(x - 228, y + 170, width, height - 118);
 			g.setFont(GameState.myFont);
 			g.setColor(Color.WHITE);
 			g.drawString("Myrinnia", x, y + 182);

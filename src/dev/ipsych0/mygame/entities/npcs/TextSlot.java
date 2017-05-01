@@ -12,8 +12,8 @@ public class TextSlot {
 	
 	private int x, y;
 	private NPCText npcText;
-	int alpha = 16;
-	Color interfaceColour = new Color(160, 160, 160, alpha);
+	int alpha = 127;
+	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
 	public TextSlot(int x, int y, NPCText npcText){
 		this.x = x;

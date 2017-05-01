@@ -22,12 +22,13 @@ public class ItemManager {
 			Item i = it.next();
 			// Checks player's position for any items nearby to pick up
 			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
-				i.pickUpItem(i, handler.getRandomSupplyAmount());
-				if(i.getCount() == Item.PICKED_UP){
-					it.remove();
-				}
-				else{
-				System.out.println("Picked_UP value is not set to -1.");
+				if(i.pickUpItem(i, handler.getRandomSupplyAmount())){
+					if(i.getCount() == Item.PICKED_UP){
+						it.remove();
+					}
+					else{
+					System.out.println("Picked_UP value is not set to -1.");
+					}
 				}
 			}
 			
