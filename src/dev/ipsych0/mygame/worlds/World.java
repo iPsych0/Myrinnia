@@ -18,6 +18,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -59,49 +60,50 @@ public class World {
 	// Actual code ---v
 	
 	public World(Handler handler, String path){
-		
-		mapLoader = new MapLoader();
-		loadGroundTiles(path);
-		loadTerrainTiles(path);
-		loadAmbianceTiles(path);
-		
-		this.handler = handler;
-		itemManager = new ItemManager(handler);
-		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
-		inventory = new InventoryWindow(handler, 658, 112);
-		equipment = new EquipmentWindow(handler, 658, 466);
-		statScreen = new StatScreen(handler, 658, 0);
-		
-		
-		// ALLE ENTITIES ZORGEN ERVOOR DAT IK NIET KAN CHATTEN ---V
-		entityManager.addEntity(new Lorraine(handler, 732, 640));
-		
-		entityManager.addEntity(new Tree(handler, 160, 128));
-		entityManager.addEntity(new Tree(handler, 128, 128));
-		entityManager.addEntity(new Tree(handler, 96, 192));
-		entityManager.addEntity(new Tree(handler, 96, 160));
-		
-		entityManager.addEntity(new Rock(handler, 448, 576));
-		
-		entityManager.addEntity(new Scorpion(handler, 160, 576));
-		entityManager.addEntity(new Scorpion(handler, 128, 800));
-		entityManager.addEntity(new Scorpion(handler, 128, 888));
-		entityManager.addEntity(new Scorpion(handler, 128, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 888));
-		entityManager.addEntity(new Scorpion(handler, 190, 800));
-		
-		entityManager.getPlayer().setX(spawnX);
-		entityManager.getPlayer().setY(spawnY);
-		
-		// Dit is hoe ik items in de world zelf spawn
-		// itemManager.addItem(Item.woodItem.createNew(512, 576));
-		
-		chatWindow = new ChatWindow(handler, 228, 320);
-		chatWindow.sendMessage("Welcome to Myrinnia!");
-		
-		// World Animations
-		sparkles = new Animation(250, Assets.sparkles);
+		if(State.getState() == handler.getGame().gameState){
+			mapLoader = new MapLoader();
+			loadGroundTiles(path);
+			loadTerrainTiles(path);
+			loadAmbianceTiles(path);
+			
+			this.handler = handler;
+			itemManager = new ItemManager(handler);
+			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
+			inventory = new InventoryWindow(handler, 658, 112);
+			equipment = new EquipmentWindow(handler, 658, 466);
+			statScreen = new StatScreen(handler, 658, 0);
+			
+			
+			// ALLE ENTITIES ZORGEN ERVOOR DAT IK NIET KAN CHATTEN ---V
+			entityManager.addEntity(new Lorraine(handler, 732, 640));
+			
+			entityManager.addEntity(new Tree(handler, 160, 128));
+			entityManager.addEntity(new Tree(handler, 128, 128));
+			entityManager.addEntity(new Tree(handler, 96, 192));
+			entityManager.addEntity(new Tree(handler, 96, 160));
+			
+			entityManager.addEntity(new Rock(handler, 448, 576));
+			
+			entityManager.addEntity(new Scorpion(handler, 160, 576));
+			entityManager.addEntity(new Scorpion(handler, 128, 800));
+			entityManager.addEntity(new Scorpion(handler, 128, 888));
+			entityManager.addEntity(new Scorpion(handler, 128, 944));
+			entityManager.addEntity(new Scorpion(handler, 190, 944));
+			entityManager.addEntity(new Scorpion(handler, 190, 888));
+			entityManager.addEntity(new Scorpion(handler, 190, 800));
+			
+			entityManager.getPlayer().setX(spawnX);
+			entityManager.getPlayer().setY(spawnY);
+			
+			// Dit is hoe ik items in de world zelf spawn
+			// itemManager.addItem(Item.woodItem.createNew(512, 576));
+			
+			chatWindow = new ChatWindow(handler, 228, 320);
+			chatWindow.sendMessage("Welcome to Myrinnia!");
+			
+			// World Animations
+			sparkles = new Animation(250, Assets.sparkles);
+		}
 	}
 	
 	public void tick(){

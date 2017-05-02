@@ -146,6 +146,54 @@ public class Terrain {
 	public static Terrain redDirtSmallTopRight = new Terrain(Assets.redDirtSmallTopRight, 65);
 	public static Terrain redDirtSmallBottomLeft = new Terrain(Assets.redDirtSmallBottomLeft, 96);
 	public static Terrain redDirtSmallBottomRight = new Terrain(Assets.redDirtSmallBottomRight, 97);
+	
+	public static Terrain snowSmallTopLeft = new Terrain(Assets.snowSmallTopLeft, 460);
+	public static Terrain snowSmallTopRight = new Terrain(Assets.snowSmallTopRight, 461);
+	public static Terrain snowSmallBottomLeft = new Terrain(Assets.snowSmallBottomLeft, 492);
+	public static Terrain snowSmallBottomRight = new Terrain(Assets.snowSmallBottomRight, 493);
+	public static Terrain snowTopLeft = new Terrain(Assets.snowTopLeft, 523);
+	public static Terrain snowTopMiddle = new Terrain(Assets.snowTopMiddle, 524);
+	public static Terrain snowTopRight = new Terrain(Assets.snowTopRight, 525);
+	public static Terrain snowMiddleLeft = new Terrain(Assets.snowMiddleLeft, 555);
+	public static Terrain snowMiddleMiddle = new Terrain(Assets.snowMiddleMiddle, 556);
+	public static Terrain snowMiddleRight = new Terrain(Assets.snowMiddleRight, 557);
+	public static Terrain snowBottomLeft = new Terrain(Assets.snowBottomLeft, 587);
+	public static Terrain snowBottomMiddle = new Terrain(Assets.snowBottomMiddle, 588);
+	public static Terrain snowBottomRight = new Terrain(Assets.snowBottomRight, 589);
+	public static Terrain snowPattern1 = new Terrain(Assets.snowPattern1, 619);
+	public static Terrain snowPattern2 = new Terrain(Assets.snowPattern2, 620);
+	public static Terrain snowPattern3 = new Terrain(Assets.snowPattern3, 621);
+	
+	public static Terrain sandSmallTopLeft = new Terrain(Assets.sandSmallTopLeft, 268);
+	public static Terrain sandSmallTopRight = new Terrain(Assets.sandSmallTopRight, 269);
+	public static Terrain sandSmallBottomLeft = new Terrain(Assets.sandSmallBottomLeft, 300);
+	public static Terrain sandSmallBottomRight = new Terrain(Assets.sandSmallBottomRight, 301);
+	public static Terrain sandTopLeft = new Terrain(Assets.sandTopLeft, 331);
+	public static Terrain sandTopMiddle = new Terrain(Assets.sandTopMiddle, 332);
+	public static Terrain sandTopRight = new Terrain(Assets.sandTopRight, 333);
+	public static Terrain sandMiddleLeft = new Terrain(Assets.sandMiddleLeft, 363);
+	public static Terrain sandMiddleMiddle = new Terrain(Assets.sandMiddleMiddle, 364);
+	public static Terrain sandMiddleRight = new Terrain(Assets.sandMiddleRight, 365);
+	public static Terrain sandBottomLeft = new Terrain(Assets.sandBottomLeft, 395);
+	public static Terrain sandBottomMiddle = new Terrain(Assets.sandBottomMiddle, 396);
+	public static Terrain sandBottomRight = new Terrain(Assets.sandBottomRight, 397);
+	public static Terrain sandPattern1 = new Terrain(Assets.sandPattern1, 427);
+	public static Terrain sandPattern2 = new Terrain(Assets.sandPattern2, 428);
+	public static Terrain sandPattern3 = new Terrain(Assets.sandPattern3, 429);
+
+	public static Terrain snowWaterSmallTopLeft = new Terrain(Assets.snowWaterSmallTopLeft, 623);
+	public static Terrain snowWaterSmallTopRight = new Terrain(Assets.snowWaterSmallTopRight, 624);
+	public static Terrain snowWaterSmallBottomLeft = new Terrain(Assets.snowWaterSmallBottomLeft, 655);
+	public static Terrain snowWaterSmallBottomRight = new Terrain(Assets.snowWaterSmallBottomRight, 656);
+	public static Terrain snowWaterTopLeft = new Terrain(Assets.snowWaterTopLeft, 686);
+	public static Terrain snowWaterTopMiddle = new Terrain(Assets.snowWaterTopMiddle, 687);
+	public static Terrain snowWaterTopRight = new Terrain(Assets.snowWaterTopRight, 688);
+	public static Terrain snowWaterMiddleLeft = new Terrain(Assets.snowWaterMiddleLeft, 718);
+	public static Terrain snowWaterMiddleMiddle = new Terrain(Assets.snowWaterMiddleMiddle, 719);
+	public static Terrain snowWaterMiddleRight = new Terrain(Assets.snowWaterMiddleRight, 720);
+	public static Terrain snowWaterBottomLeft = new Terrain(Assets.snowWaterBottomLeft, 750);
+	public static Terrain snowWaterBottomMiddle = new Terrain(Assets.snowWaterBottomMiddle, 751);
+	public static Terrain snowWaterBottomRight = new Terrain(Assets.snowWaterBottomRight, 752);
 
 	
 	public static Terrain darkGrassPatch1 = new Terrain(Assets.darkGrassPatch1, 417);

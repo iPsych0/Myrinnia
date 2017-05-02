@@ -38,7 +38,13 @@ public class Assets {
 								greyDirtEffect1, greyDirtEffect2, greyDirtEffect3, redDirtEffect1, redDirtEffect2, redDirtEffect3, darkDirtEffect1, darkDirtEffect2,
 								darkDirtEffect3, redDirtSmallTopLeft, redDirtSmallTopRight, redDirtSmallBottomLeft, redDirtSmallBottomRight, greyDirtSmallTopLeft,
 								greyDirtSmallTopRight, greyDirtSmallBottomLeft, greyDirtSmallBottomRight, darkDirtSmallTopLeft, darkDirtSmallTopRight, darkDirtSmallBottomLeft,
-								darkDirtSmallBottomRight, transDirtSmallTopLeft, transDirtSmallTopRight, transDirtSmallBottomLeft, transDirtSmallBottomRight;
+								darkDirtSmallBottomRight, transDirtSmallTopLeft, transDirtSmallTopRight, transDirtSmallBottomLeft, transDirtSmallBottomRight, 
+								sandTopLeft, sandTopMiddle, sandTopRight, sandMiddleLeft, sandMiddleMiddle, sandMiddleRight, sandBottomLeft, sandBottomMiddle, sandBottomRight,
+								sandSmallTopLeft, sandSmallTopRight, sandSmallBottomLeft, sandSmallBottomRight, sandPattern1, sandPattern2, sandPattern3, snowTopLeft, snowTopMiddle,
+								snowTopRight, snowMiddleLeft, snowMiddleMiddle, snowMiddleRight, snowBottomLeft, snowBottomMiddle, snowBottomRight, snowSmallTopLeft,
+								snowSmallTopRight, snowSmallBottomLeft, snowSmallBottomRight, snowPattern1, snowPattern2, snowPattern3, snowWaterTopLeft, snowWaterTopMiddle,
+								snowWaterTopRight, snowWaterMiddleLeft, snowWaterMiddleMiddle, snowWaterMiddleRight, snowWaterBottomLeft, snowWaterBottomMiddle, snowWaterBottomRight,
+								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight;
 	
 	
 	// Ambiance images
@@ -364,6 +370,54 @@ public class Assets {
 		darkDirtSmallTopRight = terrain_tile.crop(width * 5, height * 0, width, height);
 		darkDirtSmallBottomLeft = terrain_tile.crop(width * 4, height * 1, width, height);
 		darkDirtSmallBottomRight = terrain_tile.crop(width * 5, height * 1, width, height);
+		
+		snowTopLeft = terrain_tile.crop(width * 18, height * 14, width, height);
+		snowTopMiddle = terrain_tile.crop(width * 19, height * 14, width, height);
+		snowTopRight = terrain_tile.crop(width * 20, height * 14, width, height);
+		snowMiddleLeft = terrain_tile.crop(width * 18, height * 15, width, height);
+		snowMiddleMiddle = terrain_tile.crop(width * 19, height * 15, width, height);
+		snowMiddleRight = terrain_tile.crop(width * 20, height * 15, width, height);
+		snowBottomLeft = terrain_tile.crop(width * 18, height * 16, width, height);
+		snowBottomMiddle = terrain_tile.crop(width * 19, height * 16, width, height);
+		snowBottomRight = terrain_tile.crop(width * 20, height * 16, width, height);
+		snowSmallTopLeft = terrain_tile.crop(width * 19, height * 12, width, height);
+		snowSmallTopRight = terrain_tile.crop(width * 20, height * 12, width, height);
+		snowSmallBottomLeft = terrain_tile.crop(width * 19, height * 13, width, height);
+		snowSmallBottomRight = terrain_tile.crop(width * 20, height * 13, width, height);
+		snowPattern1 = terrain_tile.crop(width * 18, height * 17, width, height);
+		snowPattern2 = terrain_tile.crop(width * 19, height * 17, width, height);
+		snowPattern3 = terrain_tile.crop(width * 20, height * 17, width, height);
+		
+		snowWaterTopLeft = terrain_tile.crop(width * 21, height * 19, width, height);
+		snowWaterTopMiddle = terrain_tile.crop(width * 22, height * 19, width, height);
+		snowWaterTopRight = terrain_tile.crop(width * 23, height * 19, width, height);
+		snowWaterMiddleLeft = terrain_tile.crop(width * 21, height * 20, width, height);
+		snowWaterMiddleMiddle = terrain_tile.crop(width * 22, height * 20, width, height);
+		snowWaterMiddleRight = terrain_tile.crop(width * 23, height * 20, width, height);
+		snowWaterBottomLeft = terrain_tile.crop(width * 21, height * 21, width, height);
+		snowWaterBottomMiddle = terrain_tile.crop(width * 22, height * 21, width, height);
+		snowWaterBottomRight = terrain_tile.crop(width * 23, height * 21, width, height);
+		snowWaterSmallTopLeft = terrain_tile.crop(width * 22, height * 17, width, height);
+		snowWaterSmallTopRight = terrain_tile.crop(width * 23, height * 17, width, height);
+		snowWaterSmallBottomLeft = terrain_tile.crop(width * 22, height * 18, width, height);
+		snowWaterSmallBottomRight = terrain_tile.crop(width * 23, height * 18, width, height);
+		
+		sandTopLeft = terrain_tile.crop(width * 18, height * 8, width, height);
+		sandTopMiddle = terrain_tile.crop(width * 19, height * 8, width, height);
+		sandTopRight = terrain_tile.crop(width * 20, height * 8, width, height);
+		sandMiddleLeft = terrain_tile.crop(width * 18, height * 9, width, height);
+		sandMiddleMiddle = terrain_tile.crop(width * 19, height * 9, width, height);
+		sandMiddleRight = terrain_tile.crop(width * 20, height * 9, width, height);
+		sandBottomLeft = terrain_tile.crop(width * 18, height * 10, width, height);
+		sandBottomMiddle = terrain_tile.crop(width * 19, height * 10, width, height);
+		sandBottomRight = terrain_tile.crop(width * 20, height * 10, width, height);
+		sandSmallTopLeft = terrain_tile.crop(width * 19, height * 6, width, height);
+		sandSmallTopRight = terrain_tile.crop(width * 20, height * 6, width, height);
+		sandSmallBottomLeft = terrain_tile.crop(width * 19, height * 7, width, height);
+		sandSmallBottomRight = terrain_tile.crop(width * 20, height * 7, width, height);
+		sandPattern1 = terrain_tile.crop(width * 18, height * 11, width, height);
+		sandPattern2 = terrain_tile.crop(width * 19, height * 11, width, height);
+		sandPattern3 = terrain_tile.crop(width * 20, height * 11, width, height);
 
 
 
