@@ -3,6 +3,9 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -65,7 +68,7 @@ public abstract class Entity {
 	public boolean playerIsNearNpc(Entity e){
 			// TODO: ALWAYS CHECKS ALL NPCS, SO CHECK ALL DISTANCES AND ONLY RETURN THE CLOSEST ONE!!!!
 			//System.out.println("Test 1: " + getSpeakingTurn());
-			if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= (Tiles.TILEWIDTH * 2)){
+			if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
 				// Interact with the respective speaking turn
 				if(getSpeakingTurn() == 0){
 					e.interact();
@@ -106,6 +109,7 @@ public abstract class Entity {
 			isCloseToNPC = false;
 			speakingTurn = 0;
 			return false;
+			
 					
 	}
 	
@@ -125,26 +129,33 @@ public abstract class Entity {
 	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	
-	/*
-	 * Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
-	public Entity closestEntity(Entity e, int x1, int y1, int x2, int y2){
+	//Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
+	public Entity closestEntity(int x1, int y1, int x2, int y2){
+		System.out.println("Hoe vaak wordt dit geprint?");
 		double closestDistance;
-		ArrayList<Entity> closestEntity;
-		for(int i = 0; i < handler.getWorld().getEntityManager().getEntities().size(); i++){
+		Entity closestEntity = null;
+		Hashtable<Double, Entity> hashTable = new Hashtable<Double, Entity>();
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(!e.isNpc()){
+				continue;
+			}
+			if(e.equals(this)){
+				continue;
+			}
 			int dx = x2 - x1;
 		    int dy = y2 - y1;
+		    hashTable.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);
-		    
-		    
 		}
 		System.out.println("Closest NPC is " + pythagoras.get(0) + " pixels away!");
 		closestDistance = pythagoras.get(0);
 		pythagoras.removeAll(pythagoras);
+		closestEntity = hashTable.get(closestDistance);
+		System.out.println("closest Entity = " + hashTable.get(closestDistance));
+		hashTable.clear();
 		return closestEntity;
 	}
-	*/
-	
 	
 	// Getters & Setters
 	

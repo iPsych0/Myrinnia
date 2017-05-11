@@ -11,7 +11,7 @@ public class Item {
 	
 	// ItemList
 	
-	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24, PICKED_UP = -1;
+	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemTypes.CRAFTING_MATERIAL, 10);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL, 10);
@@ -28,6 +28,7 @@ public class Item {
 	protected int x, y;
 	protected Rectangle bounds;
 	private static int count;
+	protected boolean pickedUp = false;
 	private InventoryWindow inventoryWindow;
 	public static boolean pickUpKeyPressed = false;
 	
@@ -58,9 +59,11 @@ public class Item {
 		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
 	}
 	
-	public Item createNew(int x, int y){
+	
+	public Item createNew(int x, int y, int count){
 		Item i = new Item(texture, name, id, itemType, equipSlot);
 		i.setPosition(x, y);
+		i.setCount(count);
 		return i;
 	}
 	
@@ -83,13 +86,13 @@ public class Item {
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
-	public boolean pickUpItem (Item item, int amount) {
+	public boolean pickUpItem (Item item) {
         int inventoryIndex = inventoryWindow.findFreeSlot(item);
         if (inventoryIndex >= 0) {
-            if(item.getName() == name){
-            	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, amount);
-            	handler.getWorld().getChatWindow().sendMessage("Picked up " + amount + " " + item.name.toLowerCase() + "s.");
-            	item.setCount(PICKED_UP);
+            if(id == item.getId()){
+            	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
+            	handler.getWorld().getChatWindow().sendMessage("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
+            	pickedUp = true;
             	return true;
         	}
             System.out.println("Something went wrong picking up this item.");
@@ -152,6 +155,14 @@ public class Item {
 
 	public int getId() {
 		return id;
+	}
+
+	public boolean isPickedUp() {
+		return pickedUp;
+	}
+
+	public void setPickedUp(boolean pickedUp) {
+		this.pickedUp = pickedUp;
 	}
 
 }

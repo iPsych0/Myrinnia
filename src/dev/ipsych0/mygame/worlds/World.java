@@ -10,6 +10,8 @@ import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -74,7 +76,6 @@ public class World {
 			statScreen = new StatScreen(handler, 658, 0);
 			
 			
-			// ALLE ENTITIES ZORGEN ERVOOR DAT IK NIET KAN CHATTEN ---V
 			entityManager.addEntity(new Lorraine(handler, 732, 640));
 			
 			entityManager.addEntity(new Tree(handler, 160, 128));
@@ -91,6 +92,9 @@ public class World {
 			entityManager.addEntity(new Scorpion(handler, 190, 944));
 			entityManager.addEntity(new Scorpion(handler, 190, 888));
 			entityManager.addEntity(new Scorpion(handler, 190, 800));
+			
+			entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
+			entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 			
 			entityManager.getPlayer().setX(spawnX);
 			entityManager.getPlayer().setY(spawnY);

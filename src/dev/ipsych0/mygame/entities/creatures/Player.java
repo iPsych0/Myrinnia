@@ -230,7 +230,7 @@ public class Player extends Creature{
 			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y));
+			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
 			handler.getWorld().getInventory().getItemSlots().get(i).setItem(null);
 		}
 		if(!active){
