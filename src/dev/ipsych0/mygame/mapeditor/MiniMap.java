@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
@@ -56,6 +57,10 @@ public class MiniMap{
 					y = 0;
 				}
 				y += 4;
+			}
+			for(Item i : handler.getWorld().getItemManager().getItems()){
+				g.setColor(Color.RED);
+				g.fillRect((int)i.getX() / 8, (int)i.getY() / 8, 3, 3);
 			}
 			for(Entity e: handler.getWorld().getEntityManager().getEntities()){
 				if(!e.isDrawnOnMap()){

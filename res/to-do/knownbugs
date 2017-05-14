@@ -1,0 +1,7 @@
+=== CURRENTLY KNOWN BUGS ===
+
+1. When talking to an NPC, pressing "Space" increasing speaking turn. When you walk away, the speakingturn returns to 0. If a quest is finished,
+   it means it can be repeated over and over for rewards, without having to go through the quest conditions.
+2. Right-click on equip calls multiple instances instead of just one time.
+3. Cannot talk to NPCs when there is more than 1. Return an entity, not a distance? HashTable? Revamp interact system?
+4. 
