@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.hpscreen.StatScreen;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.mapeditor.MiniMap;
 
 public class KeyManager implements KeyListener{
 
@@ -82,6 +83,16 @@ public class KeyManager implements KeyListener{
 			}
 			else {
 				ChatWindow.chatIsOpen = false;
+			}
+		}
+		
+		// Chat window toggle
+		if(e.getKeyCode() == KeyEvent.VK_M){
+			if(!MiniMap.isOpen){
+				MiniMap.isOpen = true;
+			}
+			else {
+				MiniMap.isOpen = false;
 			}
 		}
 		

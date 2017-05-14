@@ -1,7 +1,6 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
-import java.io.InputStream;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
@@ -20,6 +19,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
@@ -59,10 +59,14 @@ public class World {
 	
 	private StatScreen statScreen;
 	
+	// MiniMap
+	private MiniMap miniMap;
+	
 	// Actual code ---v
 	
 	public World(Handler handler, String path){
 		if(State.getState() == handler.getGame().gameState){
+			
 			mapLoader = new MapLoader();
 			loadGroundTiles(path);
 			loadTerrainTiles(path);
@@ -74,6 +78,7 @@ public class World {
 			inventory = new InventoryWindow(handler, 658, 112);
 			equipment = new EquipmentWindow(handler, 658, 466);
 			statScreen = new StatScreen(handler, 658, 0);
+			miniMap = new MiniMap(handler, path, 0, 0, 400, 400);
 			
 			
 			entityManager.addEntity(new Lorraine(handler, 732, 640));
@@ -118,6 +123,7 @@ public class World {
 		equipment.tick();
 		statScreen.tick();
 		sparkles.tick();
+		miniMap.tick();
 	}
 	
 	public void render(Graphics g){
@@ -175,6 +181,9 @@ public class World {
 		
 		// HP Screen
 		statScreen.render(g);
+		
+		// MiniMap
+		miniMap.render(g);
 	}
 	
 	
@@ -211,17 +220,17 @@ public class World {
 		return t;
 	}
 
-	private void loadGroundTiles(String path){
+	public void loadGroundTiles(String path){
 		String file = mapLoader.groundTileParser(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
 		
-		width = 50;//Utils.parseInt(tokens[0]);
-		height = 50;//Utils.parseInt(tokens[1]);
-		spawnX = 256;//Utils.parseInt(tokens[2]);
-		spawnY = 160;//Utils.parseInt(tokens[3]);
+		width = 50;
+		height = 50;
+		spawnX = 256;
+		spawnY = 160;
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
@@ -232,7 +241,7 @@ public class World {
 		}
 	}
 	
-	private void loadTerrainTiles(String path){
+	public void loadTerrainTiles(String path){
 		String file = mapLoader.terrainTileParser(path);
 		
 		// Splits worlds files by spaces and puts them all in an array
@@ -248,7 +257,7 @@ public class World {
 		}
 	}
 	
-	private void loadAmbianceTiles(String path){
+	public void loadAmbianceTiles(String path){
 		String file = mapLoader.ambianceTileParser(path);
 		
 		// Splits worlds files by spaces and puts them all in an array

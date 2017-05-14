@@ -28,7 +28,7 @@ public class Rock extends StaticEntity {
 	@Override
 	public void die(){
 		handler.getWorld().getChatWindow().sendMessage("You mined the rock.");
-		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x + 4, (int) y + 6, 50));
+		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x + 4, (int) y + 6, handler.getRandomSupplyAmount()));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(100);
 	}
 

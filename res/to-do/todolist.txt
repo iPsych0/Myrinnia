@@ -1,12 +1,11 @@
 ===Interfaces===
 
-- NPC chat interface afmaken
-- Inventory afmaken: Items usen/droppen/draggen
-- Bank syseem?
+- NPC chat interface afmaken: Hashtable distance
+- Inventory afmaken: Items usen/droppen
+- Bank systeem?
 - Random loot chests
 
 === NPCs ===
-- NPC movement
 - NPC combat
 - ÉÉN RNG DICE MAKEN VAN 1 TOT 1000
 - Random loot chests
@@ -15,8 +14,6 @@
 === Items ===
 
 - Random loot chests
-- Currency creëren
-- Items droppen on death, geen XP loss
 - Light Armour: Mage
 - Medium Armour: Ranger
 - Heavy Armour: Warrior
@@ -56,3 +53,4 @@
 - Mage, Ranger, Warrior
 - Mage & Ranger gebruiken geen runes/arrows
 - 3 unique abilities? Mage: Teleport, Ranger: Dash, Warrior: Block?
+

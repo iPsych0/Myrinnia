@@ -111,6 +111,20 @@ public class Tiles {
 		g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
 	}
 	
+	public void renderMiniMap(Graphics g, int x, int y){
+		g.drawImage(texture, x, y, (int)TILEWIDTH * 25 / 100 , (int)TILEHEIGHT * 25 / 100 , null);
+	}
+	
+	public BufferedImage getTexture() {
+		return texture;
+	}
+
+
+	public void setTexture(BufferedImage texture) {
+		this.texture = texture;
+	}
+
+
 	public boolean isSolid(){
 		switch(id){
 			case 28:
