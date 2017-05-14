@@ -1,7 +1,9 @@
 package dev.ipsych0.mygame.items;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -24,6 +26,7 @@ public class InventoryWindow {
 	private int numRows = 10;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
+	Color itemHoverColour = new Color(0, 0, 255, 255);
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
@@ -149,9 +152,12 @@ public class InventoryWindow {
 			g.setColor(Color.WHITE);
 			g.drawString("Inventory", x + 26, y - 2);
 			
+			
+			
 			for(ItemSlot is : itemSlots){
 				is.render(g);
 			}
+			
 			
 			if(currentSelectedSlot != null){
 				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),

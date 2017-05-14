@@ -35,6 +35,7 @@ public abstract class Creature extends Entity {
 		attackDamage = DEFAULT_ATTACK;
 		xMove = 0;
 		yMove = 0;
+		drawnOnMap = true;
 	}
 
 	public void move(){

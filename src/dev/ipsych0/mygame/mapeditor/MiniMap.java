@@ -57,6 +57,23 @@ public class MiniMap{
 				}
 				y += 4;
 			}
+			for(Entity e: handler.getWorld().getEntityManager().getEntities()){
+				if(!e.isDrawnOnMap()){
+					continue;
+				}
+				if(!e.isNpc()){
+					g.setColor(Color.YELLOW);
+					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+				}
+				if(e.isNpc()){
+					g.setColor(Color.ORANGE);
+					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+				}
+				if(e.equals(handler.getWorld().getEntityManager().getPlayer())){
+					g.setColor(Color.WHITE);
+					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+				}
+			}
 			g.setColor(Color.BLACK);
 			g.drawRect(0, 0, width, height);
 		}

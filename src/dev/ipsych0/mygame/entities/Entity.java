@@ -26,6 +26,7 @@ public abstract class Entity {
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
+	protected boolean drawnOnMap = false;
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -233,6 +234,14 @@ public abstract class Entity {
 
 	public int getSpeakingTurn() {
 		return speakingTurn;
+	}
+
+	public boolean isDrawnOnMap() {
+		return drawnOnMap;
+	}
+
+	public void setDrawnOnMap(boolean drawnOnMap) {
+		this.drawnOnMap = drawnOnMap;
 	}
 	
 }
