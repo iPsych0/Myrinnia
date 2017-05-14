@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
@@ -38,25 +39,26 @@ public class MiniMap{
 	
 	public void render(Graphics g){
 		if(isOpen){
-			float alpha = 0.75f; //draw half transparent
+			y = 0;
+			float alpha = 1.0f; //draw half transparent
 			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 			((Graphics2D) g).setComposite(ac);
 			for(int j = 0; j < handler.getWorld().getHeight(); j++){
 				for(int i = 0; i < handler.getWorld().getWidth(); i++){
-					g.drawImage(handler.getWorld().getTile(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 , (int)Tiles.TILEHEIGHT * 25 / 100 , null);
-					g.drawImage(handler.getWorld().getTerrain(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 , (int)Tiles.TILEHEIGHT * 25 / 100 , null);
-					if(x == 400){
+					if(x == 200){
 						x = 0;
 					}
-					x += 8;
+					g.drawImage(handler.getWorld().getTile(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 / 2 , (int)Tiles.TILEHEIGHT * 25 / 100 / 2, null);
+					g.drawImage(handler.getWorld().getTerrain(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 / 2, (int)Tiles.TILEHEIGHT * 25 / 100 / 2, null);
+					x += 4;
 				}
-				if( y == 400){
+				if( y == 200){
 					y = 0;
 				}
-				y += 8;
+				y += 4;
 			}
 			g.setColor(Color.BLACK);
-			g.drawRect(8, 8, width, height);
+			g.drawRect(0, 0, width, height);
 		}
 		
 	}

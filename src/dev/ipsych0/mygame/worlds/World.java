@@ -78,7 +78,7 @@ public class World {
 			inventory = new InventoryWindow(handler, 658, 112);
 			equipment = new EquipmentWindow(handler, 658, 466);
 			statScreen = new StatScreen(handler, 658, 0);
-			miniMap = new MiniMap(handler, path, 0, 0, 400, 400);
+			miniMap = new MiniMap(handler, path, 0, 0, 200, 200);
 			
 			
 			entityManager.addEntity(new Lorraine(handler, 732, 640));
