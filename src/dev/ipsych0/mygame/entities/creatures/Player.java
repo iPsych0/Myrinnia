@@ -121,21 +121,13 @@ public class Player extends Creature{
 //			System.out.println("Attack XP = " + getAttackExperience());
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
-			for (Entity e: handler.getWorld().getEntityManager().getEntities()){
-				if(!e.isNpc()){
-					continue;
-				}
-				if(e.equals(this)){
-					continue;
-				}
 				System.out.println(hasInteracted);
-				if(!hasInteracted && e.playerIsNearNpc(e)){
+				if(!hasInteracted && playerIsNearNpc()){
 					Entity.isCloseToNPC = true;
 					hasInteracted = true;
 					System.out.println("In Player");
 					return;
 				}
-			}
 		}
 	}
 	

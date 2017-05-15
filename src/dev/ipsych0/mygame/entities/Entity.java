@@ -18,7 +18,6 @@ public abstract class Entity {
 	protected int width, height;
 	protected Rectangle bounds;
 	protected int health;
-	public static int speakingTurn;
 	public static boolean isCloseToNPC = false;
 	private ArrayList<Double> pythagoras;
 	public static final int DEFAULT_HEALTH = 100;
@@ -35,7 +34,6 @@ public abstract class Entity {
 		this.width = width;
 		this.height = height;
 		health = DEFAULT_HEALTH;
-		speakingTurn = 0;
 		pythagoras = new ArrayList<Double>();
 		
 		bounds = new Rectangle(0, 0, width, height);
@@ -66,12 +64,12 @@ public abstract class Entity {
 	
 	// If player is within 64px of an NPC, return true, else return false.
 	// TODO: Needs detection for multiple NPCs.
-	public boolean playerIsNearNpc(Entity e){
+	public boolean playerIsNearNpc(){
 			// TODO: ALWAYS CHECKS ALL NPCS, SO CHECK ALL DISTANCES AND ONLY RETURN THE CLOSEST ONE!!!!
 			//System.out.println("Test 1: " + getSpeakingTurn());
-			if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
+			if(distanceToEntity((int)closestEntity().getX(), (int)closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
 				// Interact with the respective speaking turn
-				e.interact();
+				closestEntity().interact();
 				return true;
 			}
 			// Out of range, so reset speaking turn
@@ -98,7 +96,7 @@ public abstract class Entity {
 	}
 	
 	//Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
-	public Entity closestEntity(int x1, int y1, int x2, int y2){
+	public Entity closestEntity(){
 		System.out.println("Hoe vaak wordt dit geprint?");
 		double closestDistance;
 		Entity closestEntity = null;
@@ -110,8 +108,9 @@ public abstract class Entity {
 			if(e.equals(this)){
 				continue;
 			}
-			int dx = x2 - x1;
-		    int dy = y2 - y1;
+			
+			int dx = (int) (handler.getWorld().getEntityManager().getPlayer().getX() - e.getX());
+		    int dy = (int) (handler.getWorld().getEntityManager().getPlayer().getY() - e.getY());
 		    hashTable.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);
@@ -197,10 +196,6 @@ public abstract class Entity {
 
 	public void setShop(boolean isShop) {
 		this.isShop = isShop;
-	}
-
-	public int getSpeakingTurn() {
-		return speakingTurn;
 	}
 
 	public boolean isDrawnOnMap() {

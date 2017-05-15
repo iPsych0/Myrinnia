@@ -11,9 +11,11 @@ import dev.ipsych0.mygame.items.Item;
 public class Lorraine extends Creature {
 	
 	public static boolean questStarted = false;
+	private int speakingTurn;
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		speakingTurn = 0;
 		attackable = false;
 		isNpc = true;
 	}
@@ -42,40 +44,47 @@ public class Lorraine extends Creature {
 	public void interact() {
 		if(this.getSpeakingTurn() == 0){
 			handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
+			speakingTurn++;
 		}
-		if(this.getSpeakingTurn() == 1){
+		else if(this.getSpeakingTurn() == 1){
 			handler.getWorld().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
+			speakingTurn++;
 		}
-		if(this.getSpeakingTurn() == 2){
+		else if(this.getSpeakingTurn() == 2){
 			handler.getWorld().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
+			speakingTurn++;
 			questStarted = true;
 		}
-		if(this.getSpeakingTurn() == 3){
+		else if(this.getSpeakingTurn() == 3){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
 				handler.getWorld().getChatWindow().sendMessage("Please come back when you have killed 5 scorpions");
-				speakingTurn -= 1;
 			}
 			else{
 				handler.getWorld().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
+				speakingTurn++;
 			}
 		}
-		if(this.getSpeakingTurn() == 4){
-			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-				speakingTurn -= 1;
+		else if(this.getSpeakingTurn() == 4){
+			if(!handler.getWorld().getEntityManager().getPlayer().getInventory().inventoryIsFull()){
+				handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots().get(handler.getWorld().getEntityManager().getPlayer().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
+				handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
+				speakingTurn++;
 			}else{
-				if(!handler.getWorld().getEntityManager().getPlayer().getInventory().inventoryIsFull()){
-					handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots().get(handler.getWorld().getEntityManager().getPlayer().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
-					handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
-				}else{
-					handler.getWorld().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
-					speakingTurn -= 1;
-				}
+				handler.getWorld().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
 			}
 		}
-		if(this.getSpeakingTurn() >= 5){
+		else if(this.getSpeakingTurn() >= 5){
 			handler.getWorld().getChatWindow().sendMessage("Thanks for helping!");
 			speakingTurn = 5;
 		}
+	}
+	
+	public int getSpeakingTurn() {
+		return speakingTurn;
+	}
+
+	public void setSpeakingTurn(int speakingTurn) {
+		this.speakingTurn = speakingTurn;
 	}
 
 }

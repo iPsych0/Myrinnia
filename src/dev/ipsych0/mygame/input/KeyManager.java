@@ -128,7 +128,6 @@ public class KeyManager implements KeyListener{
 	public void keyTyped(KeyEvent e) {
 		if(e.getKeyChar() == KeyEvent.VK_SPACE && ChatWindow.chatIsOpen && Entity.isCloseToNPC){
 			System.out.println("In KeyManager");
-			Entity.speakingTurn++;
 			Player.hasInteracted = false;
 		}
 	}

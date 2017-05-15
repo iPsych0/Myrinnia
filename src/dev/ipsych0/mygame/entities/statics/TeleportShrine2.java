@@ -7,16 +7,18 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TeleportShrine2 extends StaticEntity {
+	
+	private int speakingTurn;
 
 	public TeleportShrine2(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		
 		bounds.x = 1;
 		bounds.y = 1;
 		bounds.width = 32;
 		bounds.height = 32;
+		speakingTurn = 0;
 		attackable = false;
-		isNpc = false;
+		isNpc = true;
 	}
 
 	@Override
@@ -37,7 +39,24 @@ public class TeleportShrine2 extends StaticEntity {
 
 	@Override
 	public void interact() {
-		handler.getWorld().getChatWindow().sendMessage("You interact with the shrine.");
+		if(this.getSpeakingTurn() == 0){
+			handler.getWorld().getChatWindow().sendMessage("You interact with the shrine. Press Space again to teleport.");
+			speakingTurn++;
+		}
+		else if(this.getSpeakingTurn() == 1){
+			handler.getWorld().getEntityManager().getPlayer().setX(500);
+			handler.getWorld().getEntityManager().getPlayer().setY(500);
+			handler.getWorld().getChatWindow().sendMessage("Teleported!");
+			speakingTurn = 0;
+		}
+	}
+
+	public int getSpeakingTurn() {
+		return speakingTurn;
+	}
+
+	public void setSpeakingTurn(int speakingTurn) {
+		this.speakingTurn = speakingTurn;
 	}
 
 }
