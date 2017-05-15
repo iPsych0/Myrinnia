@@ -45,11 +45,6 @@ public class World {
 	// Items
 	
 	private ItemManager itemManager;
-	private InventoryWindow inventory;
-	
-	// Equipment
-	
-	private EquipmentWindow equipment;
 	
 	// NPC ChatWindow
 	
@@ -73,10 +68,8 @@ public class World {
 			loadAmbianceTiles(path);
 			
 			this.handler = handler;
-			itemManager = new ItemManager(handler);
 			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
-			inventory = new InventoryWindow(handler, 658, 112);
-			equipment = new EquipmentWindow(handler, 658, 466);
+			itemManager = new ItemManager(handler);
 			statScreen = new StatScreen(handler, 658, 0);
 			miniMap = new MiniMap(handler, path, 0, 0, 200, 200);
 			
@@ -118,9 +111,7 @@ public class World {
 	public void tick(){
 		itemManager.tick();
 		entityManager.tick();
-		inventory.tick();
 		chatWindow.tick();
-		equipment.tick();
 		statScreen.tick();
 		sparkles.tick();
 		miniMap.tick();
@@ -168,16 +159,9 @@ public class World {
 		// Entities
 		entityManager.render(g);
 		
-		// Inventory
-		inventory.render(g);
-		
 		// NPC ChatWindow
 		
 		chatWindow.render(g);
-		
-		// Equipment
-		
-		equipment.render(g);
 		
 		// HP Screen
 		statScreen.render(g);
@@ -307,14 +291,6 @@ public class World {
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
-	}
-
-	public InventoryWindow getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(InventoryWindow inventory) {
-		this.inventory = inventory;
 	}
 
 	public StatScreen getStatScreen() {

@@ -13,10 +13,13 @@ public abstract class Creature extends Entity {
 	public static final int DEFAULT_CREATURE_WIDTH = 32,
 							DEFAULT_CREATURE_HEIGHT = 32;
 	
-	public static final int DEFAULT_ATTACK = 50;
+	public static final int DEFAULT_DAMAGE = 10,
+							DEFAULT_OFFENSE = 0,
+							DEFAULT_DEFENCE = 0,
+							DEFAULT_VITALITY = 0;
 	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
 	public static Color hpColor = new Color(255, 255, 48);
-	protected int attackDamage;
+	protected int baseDamage, offense, defence, vitality;
 	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -32,7 +35,11 @@ public abstract class Creature extends Entity {
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
-		attackDamage = DEFAULT_ATTACK;
+		baseDamage = DEFAULT_DAMAGE;
+		offense = DEFAULT_OFFENSE;
+		defence = DEFAULT_DEFENCE;
+		vitality = DEFAULT_VITALITY;
+		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
 		drawnOnMap = true;

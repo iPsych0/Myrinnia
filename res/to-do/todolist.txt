@@ -29,7 +29,7 @@
 
 - Artisan: Woodcutting, Mining, Fishing, Salvaging.
 - Gathering: Smithing, Crafting, Brewing, Cooking.
-- Combat: Melee Damage, Magic Damage, Range Damage, Light Armour, Medium Armour, Heavy Armour, HP.
+- Combat: Power, Intelligence, Dexterity, Vitality.
 
 - When cutting trees, mining rocks, etc: Small chance for "fine", "exquisite" or "rare" materials, used in better tier weapononry/armour.
 
@@ -53,4 +53,42 @@
 - Mage, Ranger, Warrior
 - Mage & Ranger gebruiken geen runes/arrows
 - 3 unique abilities? Mage: Teleport, Ranger: Dash, Warrior: Block?
+
+Mage: Light armour -> negative Def, boosted Speed
+Ranger: Medium Armour -> normal Def, normal Speed
+Warrior: Heavy armour -> boosted Def, negative Speed
+ 
+=== Main Story ===
+Rifts to other dimensions (Underworld). Accessible from the overworld.
+ 
+Some rifts require certain levels or skills to go through (as you will need them in the rift). Some may even require items.
+Generally they require a certain combat level. Some rifts may require previous rift instances to be completed.
+Some may require certain overworld/underworld quests to be completed.
+ 
+Unlock abilities that help you progress in both the overworld and underworld (like crossing water, climbing rocks, etc).
+ 
+Primary enemies are cultists. Cultist shamans have opened rifts to the Underworld in the Overworld. Shamans are powerful enemies and can summon powerful enemy
+creatures from the Underworld.
+ 
+Dungeoneering/Raid-like levels, repeatable, not random but instanced.
+ 
+Ideas for name of “guild/group” of the good guys: “The Ascended”, “The Alliance”, meer ideëen?
+ 
+Ideas for name of “the cult”: “The Abyssal Cult”, “Infernal Cult”, “The Syndicate”(Refers to a group of organised ‘crime’. maybe multiple enemy cults?), “The Legion”
+ 
+Story ideas:
+The (name) Cult performed an ancient ritual that has opened rifts to (name Underworld) across (name Overworld). The cultists are attacking the overworld from the underworld,
+where they have allied with a powerful, unknown being. (A strong mage/creature from the underworld?)
+ 
+Every “Legion” of underworld creatures and cultists is led by a Legion Commander/General (boss). Defeating these will complete an instance and progress the main story.
+ 
+ 
+ 
+ 
+=== Background lore ===
+Landscape features for map name ideas:
+Valley, Plateau, Desert, Jungle, Mountains, Plains, Hills, Forest, Woods, Peninsula, Prairie, Coast, Island, Cape, Ice/Icy, Snow(y), Creek, Ridge, Outpost, Stronghold,
+Caverns, Cave, Catacombs, Fort, Lair, Mine, Sewers, Wasteland, Bridge, Canyon, Lake, Route, Gate, Swamp, Marshes, Road, Halls, Dungeon, Chasm, Rift, Dunes, Grotto,
+District, Province, Alpine, Refuge, Hideout, Keep, Monastery, Abbey, Port, Sanctuary, Mansion, Camp, Encampment, Meadows, Lowlands, Garrison, Ascent, Descent, Falls,
+Summit, Peaks, Glacier, Reef, Harbour, Timberline, Arctic/Polar, Cross(ing), Ste(a)d, Cathedral, Aether
 

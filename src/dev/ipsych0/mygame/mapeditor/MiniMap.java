@@ -41,7 +41,7 @@ public class MiniMap{
 	public void render(Graphics g){
 		if(isOpen){
 			y = 0;
-			float alpha = 1.0f; //draw half transparent
+			float alpha = 0.75f; //draw half transparent
 			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 			((Graphics2D) g).setComposite(ac);
 			for(int j = 0; j < handler.getWorld().getHeight(); j++){

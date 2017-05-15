@@ -71,44 +71,11 @@ public abstract class Entity {
 			//System.out.println("Test 1: " + getSpeakingTurn());
 			if(distanceToEntity((int)e.getX(), (int)e.getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
 				// Interact with the respective speaking turn
-				if(getSpeakingTurn() == 0){
-					e.interact();
-					return true;
-				}if(getSpeakingTurn() == 1){
-					e.interact();
-					return true;
-				}if(getSpeakingTurn() == 2){
-					e.interact();
-					return true;
-				}if(getSpeakingTurn() == 3){
-					if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() >= 5){
-						e.interact();
-						return true;
-					}
-					else{
-						speakingTurn -= 1;
-						e.interact();
-						return true;
-					}
-				}if(getSpeakingTurn() == 4){
-					if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-						speakingTurn -= 1;
-						e.interact();
-						return true;
-					}else{
-						e.interact();
-						return true;
-					}
-				}
-				if(getSpeakingTurn() >= 5){
-					e.interact();
-					speakingTurn = 5;
-					return true;
-				}
+				e.interact();
+				return true;
 			}
 			// Out of range, so reset speaking turn
 			isCloseToNPC = false;
-			speakingTurn = 0;
 			return false;
 			
 					

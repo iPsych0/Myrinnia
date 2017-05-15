@@ -40,30 +40,31 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void interact() {
-		if(getSpeakingTurn() == 0){
+		if(this.getSpeakingTurn() == 0){
 			handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
 		}
-		if(getSpeakingTurn() == 1){
+		if(this.getSpeakingTurn() == 1){
 			handler.getWorld().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
 		}
-		if(getSpeakingTurn() == 2){
+		if(this.getSpeakingTurn() == 2){
 			handler.getWorld().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
 			questStarted = true;
 		}
-		if(getSpeakingTurn() == 3){
+		if(this.getSpeakingTurn() == 3){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
 				handler.getWorld().getChatWindow().sendMessage("Please come back when you have killed 5 scorpions");
+				speakingTurn -= 1;
 			}
 			else{
 				handler.getWorld().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
 			}
 		}
-		if(getSpeakingTurn() == 4){
+		if(this.getSpeakingTurn() == 4){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
 				speakingTurn -= 1;
 			}else{
-				if(!handler.getWorld().getInventory().inventoryIsFull()){
-					handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
+				if(!handler.getWorld().getEntityManager().getPlayer().getInventory().inventoryIsFull()){
+					handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots().get(handler.getWorld().getEntityManager().getPlayer().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
 					handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
 				}else{
 					handler.getWorld().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
@@ -71,7 +72,7 @@ public class Lorraine extends Creature {
 				}
 			}
 		}
-		if(getSpeakingTurn() >= 5){
+		if(this.getSpeakingTurn() >= 5){
 			handler.getWorld().getChatWindow().sendMessage("Thanks for helping!");
 			speakingTurn = 5;
 		}

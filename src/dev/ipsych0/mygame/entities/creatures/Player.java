@@ -9,6 +9,8 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.EquipmentWindow;
+import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 
 public class Player extends Creature{
@@ -20,6 +22,10 @@ public class Player extends Creature{
 	private int attackExperience;
 	private int attackLevel;
 	public static boolean hasInteracted = false;
+	
+	// Inventory & Equipment
+	private InventoryWindow inventory;
+	private EquipmentWindow equipment;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -35,6 +41,10 @@ public class Player extends Creature{
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		
+		// Create inv & equipmentscreen
+		inventory = new InventoryWindow(handler, 658, 112);
+		equipment = new EquipmentWindow(handler, 658, 466);
 		
 		// Player combat/movement settings:
 		setNpc(false);
@@ -63,7 +73,8 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
-		
+		inventory.tick();
+		equipment.tick();
 		if(lastFaced == null){
 			aDefault = new Animation(250, Assets.player_down);
 		}
@@ -102,9 +113,7 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
-				handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 10);
-			}
+			getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 10);
 			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
@@ -174,7 +183,7 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(attackDamage + (int)(getAttackLevel() * 2.5));
+				e.damage(baseDamage + (int)(getAttackLevel() * 2.5));
 				System.out.println("Damage = " + (int)(getAttackLevel() * 2.5));
 				return;
 			}
@@ -226,12 +235,12 @@ public class Player extends Creature{
 	@Override
 	public void die(){
 		System.out.println("You died!");
-		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
-			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+		for(int i = 0; i < getInventory().getItemSlots().size(); i++){
+			if(getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
-			handler.getWorld().getInventory().getItemSlots().get(i).setItem(null);
+			handler.getWorld().getItemManager().addItem(getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, getInventory().getItemSlots().get(i).getItemStack().getAmount()));
+			getInventory().getItemSlots().get(i).setItem(null);
 		}
 		if(!active){
 			this.setActive(true);
@@ -284,6 +293,11 @@ public class Player extends Creature{
 				(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 	}
 	
+	public void postRender(Graphics g){
+		inventory.render(g);
+		equipment.render(g);
+	}
+	
 	private BufferedImage getCurrentAnimationFrame(){
 		// Walk and Attack animations lol
 		if(lastFaced == Direction.LEFT){
@@ -325,6 +339,22 @@ public class Player extends Creature{
 	@Override
 	public void interact() {
 		System.out.println("Oops, we're interacting with ourself. That's odd!");
+	}
+	
+	public InventoryWindow getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryWindow inventory) {
+		this.inventory = inventory;
+	}
+
+	public EquipmentWindow getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(EquipmentWindow equipment) {
+		this.equipment = equipment;
 	}
 	
 
