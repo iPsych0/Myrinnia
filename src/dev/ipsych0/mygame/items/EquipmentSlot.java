@@ -11,6 +11,7 @@ public class EquipmentSlot {
 	private EquipmentStack equipmentStack;
 	private EquipmentWindow equipmentWindow;
 	public boolean stackable = false;
+	public static boolean hasSwapped = false;
 	int alpha = 127;
 	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
@@ -32,17 +33,20 @@ public class EquipmentSlot {
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(equipmentStack != null){
-			g.drawImage(equipmentStack.getItem().texture, x, y + 4, SLOTSIZE - 4, SLOTSIZE - 4, null);
+			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE - 4, SLOTSIZE - 4, null);
 		}
 		
 	}
 	
 	public boolean equipItem(Item item) {
-		if(equipmentStack == null){
-				this.equipmentStack = new EquipmentStack(item);
-				return true;
+		if(this.equipmentStack != null){
+			if(item.equipSlot == equipmentStack.getItem().equipSlot){
+				return false;
+			}
+		}else{
+			this.equipmentStack = new EquipmentStack(item);
+			return true;
 		}
-		System.out.println("We can't equip any more of item: " + item.getName().toString());
 		return false;
 	}
 	

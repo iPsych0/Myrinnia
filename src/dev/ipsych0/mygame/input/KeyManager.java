@@ -15,7 +15,7 @@ import dev.ipsych0.mygame.mapeditor.MiniMap;
 
 public class KeyManager implements KeyListener{
 
-	private boolean[] keys;
+	private boolean[] keys, justPressed, cantPress;
 	private Handler handler;
 	public boolean up, down, left, right;
 	public boolean attack;
@@ -26,9 +26,28 @@ public class KeyManager implements KeyListener{
 	
 	public KeyManager(){
 		keys = new boolean[256];
+		justPressed = new boolean[keys.length];
+		cantPress = new boolean[keys.length];
 	}
 	
 	public void tick(){
+		
+		for(int i = 0; i < keys.length; i++){
+			if(cantPress[i] && !keys[i]){
+				cantPress[i] = false;
+			}else if(justPressed[i]){
+				cantPress[i] = true;
+				justPressed[i] = false;
+			}
+			if(!cantPress[i] && keys[i]){
+				justPressed[i] = true;
+			}
+		}
+		
+		if(keyJustPressed(KeyEvent.VK_E)){
+			// Maybe hier optimaliseren van interfaces
+		}
+		
 		// Movement keys
 		up = keys[KeyEvent.VK_UP];
 		down = keys[KeyEvent.VK_DOWN];
@@ -127,9 +146,15 @@ public class KeyManager implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if(e.getKeyChar() == KeyEvent.VK_SPACE && ChatWindow.chatIsOpen && Entity.isCloseToNPC){
-			System.out.println("In KeyManager");
 			Player.hasInteracted = false;
 		}
+	}
+	
+	public boolean keyJustPressed(int keyCode){
+		if(keyCode < 0 || keyCode >= keys.length){
+			return false;
+		}
+		return justPressed[keyCode];
 	}
 
 }

@@ -4,6 +4,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import dev.ipsych0.mygame.items.EquipmentSlot;
+import dev.ipsych0.mygame.items.EquipmentWindow;
+import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
@@ -54,6 +58,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		// Right Click
 		if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = true;
+			InventoryWindow.isEquipped = true;
 			System.out.println("Right Clicked!");
 		}
 	}
@@ -93,7 +98,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	
+		
 	}
 
 	@Override

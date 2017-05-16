@@ -73,6 +73,7 @@ public class Assets {
 	// Item images
 	public static BufferedImage wood, ore;
 	public static BufferedImage[] coins;
+	public static BufferedImage testSword;
 	
 	// Enemy images
 	public static BufferedImage scorpion;
@@ -98,6 +99,7 @@ public class Assets {
 		SpriteSheet animated_terrain = new SpriteSheet(ImageLoader.loadImage("/textures/animated_terrain.png"));
 		SpriteSheet trees_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/trees.png"));
 		SpriteSheet object_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites11.png"));
+		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -110,14 +112,14 @@ public class Assets {
 		
 		// Item Sprites
 		
-		coins = new BufferedImage[4];
-		
 		wood = item_sheet.crop(0, 0, width, height);
 		ore = item_sheet.crop(0, height, width, height);
+		coins = new BufferedImage[4];
 		coins[0] = item_sheet.crop(width * 0, height * 2, width, height);
 		coins[1] = item_sheet.crop(width * 0, height * 3, width, height);
 		coins[2] = item_sheet.crop(width * 0, height * 4, width, height);
 		coins[3] = item_sheet.crop(width * 0, height * 5, width, height);
+		testSword = test_sheet.crop(width * 0, height * 0, width, height);
 		
 		// Object Sprites
 		teleportShrine1 = object_sheet.crop(width * 7, height * 10, width, height);

@@ -13,9 +13,10 @@ public class Item {
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemTypes.CRAFTING_MATERIAL, 10);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemTypes.CRAFTING_MATERIAL, 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL, 10);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemTypes.CURRENCY, 10);
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemTypes.MELEE_WEAPON, 0);
 	
 	// Class
 	

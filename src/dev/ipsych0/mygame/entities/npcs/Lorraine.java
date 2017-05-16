@@ -57,7 +57,7 @@ public class Lorraine extends Creature {
 		}
 		else if(this.getSpeakingTurn() == 3){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-				handler.getWorld().getChatWindow().sendMessage("Please come back when you have killed 5 scorpions");
+				handler.getWorld().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
 			}
 			else{
 				handler.getWorld().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");

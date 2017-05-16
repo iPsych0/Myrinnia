@@ -64,7 +64,6 @@ public class ItemSlot {
 			g.setColor(Creature.hpColor);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
-		
 	}
 	
 	public boolean addItem(Item item, int amount) {

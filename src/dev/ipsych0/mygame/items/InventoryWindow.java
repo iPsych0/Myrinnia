@@ -13,6 +13,7 @@ import dev.ipsych0.mygame.states.GameState;
 public class InventoryWindow {
 	
 	public static boolean isOpen = false;
+	public static boolean isEquipped = false;
 	private boolean hasBeenPressed = false;
 	public static boolean isCreated = false;
 	
@@ -30,6 +31,12 @@ public class InventoryWindow {
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
+	private ItemStack firstItemSwap;
+	private EquipmentStack finalItemSwap;
+	private EquipmentStack firstEquipSwap;
+	private ItemStack finalEquipSwap;
+	private Item swap;
+	private int swapAmount;
 	private boolean itemSelected;
 	private boolean useSelected;
 	
@@ -105,24 +112,64 @@ public class InventoryWindow {
 					}
 				}
 				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
-				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
-					hasBeenPressed = true;
+				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 					if(is.getItemStack() != null){
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
 						if(is.getItemStack().getItem().equipSlot == 10){
 							handler.getWorld().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
+							isEquipped = false;
 							hasBeenPressed = false;
 							return;
 						}
-						equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem());
-						is.setItem(null);
-						hasBeenPressed = false;
+						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 9){
+							if(equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
+								is.setItem(null);
+								isEquipped = false;
+								hasBeenPressed = false;
+								return;
+							}
+							else{
+								//Store the inventory item in a temporary swap slot
+								firstItemSwap = is.getItemStack();
+								swap = firstItemSwap.getItem();
+								swapAmount = firstItemSwap.getAmount();
+								finalItemSwap = new EquipmentStack(swap);
+								
+								// Store the equipment item in a temporary swap slot
+								firstEquipSwap = equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
+								swap = firstEquipSwap.getItem();
+								swapAmount = 1;
+								finalEquipSwap = new ItemStack(swap);
+						
+								// Set the stacks
+								is.setItem(finalEquipSwap);
+								equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
+								
+								// Clearing variables
+								firstItemSwap = null;
+								swap = null;
+								finalItemSwap = null;
+								firstEquipSwap = null;
+								finalEquipSwap = null;
+								
+								isEquipped = false;
+								hasBeenPressed = false;
+								System.out.println("Hoe vaak?");
+							}
+						}
+						else{
+							isEquipped = false;
+							hasBeenPressed = false;
+							return;
+						}
 					}
 					else{
+						isEquipped = false;
 						hasBeenPressed = false;
 						return;
 					}
 				}
+				
 				if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed && !is.isSelected){
 					hasBeenPressed = true;
 					if(is.getItemStack() != null){
@@ -131,7 +178,10 @@ public class InventoryWindow {
 							hasBeenPressed = false;
 							return;
 						}
-						hasBeenPressed = false;
+						else{
+							hasBeenPressed = false;
+							return;
+						}
 					}
 					else{
 						hasBeenPressed = false;

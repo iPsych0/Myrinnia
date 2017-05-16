@@ -113,7 +113,7 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 10);
+			getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
@@ -121,11 +121,9 @@ public class Player extends Creature{
 //			System.out.println("Attack XP = " + getAttackExperience());
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
-				System.out.println(hasInteracted);
 				if(!hasInteracted && playerIsNearNpc()){
 					Entity.isCloseToNPC = true;
 					hasInteracted = true;
-					System.out.println("In Player");
 					return;
 				}
 		}
