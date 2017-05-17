@@ -13,15 +13,16 @@ public class Item {
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemTypes.CRAFTING_MATERIAL, 0);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemTypes.CRAFTING_MATERIAL, 10);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemTypes.CURRENCY, 10);
-	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemTypes.MELEE_WEAPON, 0);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 10);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 10);
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0);
 	
 	// Class
 	
 	protected Handler handler;
-	protected ItemTypes itemType;
+	protected ItemType itemType;
+	protected ItemRarity itemRarity;
 	protected BufferedImage texture;
 	protected String name;
 	protected final int id;
@@ -34,11 +35,12 @@ public class Item {
 	public static boolean pickUpKeyPressed = false;
 	
 	
-	public Item(BufferedImage texture, String name, int id, ItemTypes itemType, int equipSlot){
+	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
 		this.itemType = itemType;
+		this.itemRarity = itemRarity;
 		this.equipSlot = equipSlot;
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
 		
@@ -62,7 +64,7 @@ public class Item {
 	
 	
 	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemType, equipSlot);
+		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot);
 		i.setPosition(x, y);
 		i.setCount(count);
 		return i;
@@ -164,6 +166,22 @@ public class Item {
 
 	public void setPickedUp(boolean pickedUp) {
 		this.pickedUp = pickedUp;
+	}
+
+	public ItemType getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(ItemType itemType) {
+		this.itemType = itemType;
+	}
+
+	public ItemRarity getItemRarity() {
+		return itemRarity;
+	}
+
+	public void setItemRarity(ItemRarity itemRarity) {
+		this.itemRarity = itemRarity;
 	}
 
 }

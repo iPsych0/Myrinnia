@@ -16,6 +16,7 @@ public class InventoryWindow {
 	public static boolean isEquipped = false;
 	private boolean hasBeenPressed = false;
 	public static boolean isCreated = false;
+	private boolean isHovering = false;
 	
 	private EquipmentWindow equipmentWindow;
 	
@@ -154,7 +155,6 @@ public class InventoryWindow {
 								
 								isEquipped = false;
 								hasBeenPressed = false;
-								System.out.println("Hoe vaak?");
 							}
 						}
 						else{
@@ -173,7 +173,7 @@ public class InventoryWindow {
 				if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed && !is.isSelected){
 					hasBeenPressed = true;
 					if(is.getItemStack() != null){
-						if(is.getItemStack().getItem().itemType == ItemTypes.CRAFTING_MATERIAL){
+						if(is.getItemStack().getItem().itemType == ItemType.CRAFTING_MATERIAL){
 							is.setSelected(true);
 							hasBeenPressed = false;
 							return;
@@ -206,15 +206,14 @@ public class InventoryWindow {
 			
 			for(ItemSlot is : itemSlots){
 				is.render(g);
-			}
-			
-			
-			if(currentSelectedSlot != null){
-				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
-						handler.getMouseManager().getMouseY(), null);
-					g.setFont(GameState.myFont);
-					g.setColor(Color.YELLOW);
-					g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+				
+				if(currentSelectedSlot != null){
+					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
+							handler.getMouseManager().getMouseY(), null);
+						g.setFont(GameState.myFont);
+						g.setColor(Color.YELLOW);
+						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+				}
 			}
 		}
 	}
