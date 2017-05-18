@@ -15,6 +15,7 @@ public class Ambiance {
 	public static Ambiance sparkleTile = new Ambiance(Assets.sparkleTile, 649);
 	public static Ambiance redMushroom = new Ambiance(Assets.redMushroom, 1184);
 	public static Ambiance blueMushroom = new Ambiance(Assets.blueMushroom, 1168);
+	public static Ambiance smallRedRock = new Ambiance(Assets.smallRedRocks, 664);
 	
 
 	//CLASS

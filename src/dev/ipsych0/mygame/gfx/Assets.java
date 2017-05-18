@@ -51,7 +51,7 @@ public class Assets {
 	
 	
 	// Ambiance images
-	public static BufferedImage sparkleTile, redMushroom, blueMushroom;
+	public static BufferedImage sparkleTile, redMushroom, blueMushroom, smallRedRocks;
 	
 	// Animated ambiance images
 	public static BufferedImage[] sparkles;
@@ -442,6 +442,7 @@ public class Assets {
 		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);
 		redMushroom = trees_sheet.crop(width * 7, height * 6, width, height);
 		blueMushroom = trees_sheet.crop(width * 7, height * 5, width, height);
+		smallRedRocks = terrain_tile.crop(width * 31, height * 18, width, height);
 		
 		// Animated ambiance details
 		sparkles = new BufferedImage[3];
