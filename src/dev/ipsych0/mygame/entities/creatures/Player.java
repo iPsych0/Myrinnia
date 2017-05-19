@@ -12,6 +12,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemSlot;
 
 public class Player extends Creature{
 	
@@ -323,6 +324,18 @@ public class Player extends Creature{
 		}
 		
 		return aDefault.getDefaultFrame();
+	}
+	
+	public boolean hasItem(Item item, int quantity){
+		for(ItemSlot is : handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots()){
+			if(is.getItemStack() == null){
+				continue;
+			}
+			if(is.getItemStack().getItem().getName() == item.getName() && is.getItemStack().getAmount() >= quantity){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -12,8 +12,8 @@ public class TeleportShrine1 extends StaticEntity {
 	public TeleportShrine1(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 0;
-		bounds.y = 0;
+		bounds.x = 1;
+		bounds.y = 1;
 		bounds.width = 0;
 		bounds.height = 0;
 		attackable = false;
