@@ -173,8 +173,8 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(getAttackLevel() * 2.5));
-				System.out.println("Damage = " + (int)(getAttackLevel() * 2.5));
+				e.damage(baseDamage + (int)(getAttackLevel() * 3));
+				System.out.println("Damage = " + (baseDamage + (int)(getAttackLevel() * 3)));
 				return;
 			}
 		}

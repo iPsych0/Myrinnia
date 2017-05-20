@@ -101,7 +101,7 @@ public class World {
 			// itemManager.addItem(Item.woodItem.createNew(512, 576));
 			
 			chatWindow = new ChatWindow(handler, 228, 320);
-			chatWindow.sendMessage("Welcome to Myrinnia!");
+			chatWindow.sendMessage("Welcome back!");
 			
 			// World Animations
 			sparkles = new Animation(250, Assets.sparkles);

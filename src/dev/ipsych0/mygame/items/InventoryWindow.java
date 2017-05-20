@@ -235,6 +235,26 @@ public class InventoryWindow {
        return -1;
 	}
 	
+	public void removeItem(Item item, int amount){
+		for(int i = 0; i < itemSlots.size(); i++){
+			if(itemSlots.get(i).getItemStack() == null){
+				continue;
+			}
+			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
+				if((itemSlots.get(i).getItemStack().getAmount() - amount) <= 0){
+					handler.getWorld().getChatWindow().sendMessage("You don't have enough " + item.getName() + "s");
+					return;
+				}
+				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
+					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
+				}
+			}
+			else{
+				continue;
+			}
+		}
+	}
+	
 	public boolean inventoryIsFull(){
 		int emptySlots = 0;
 		for (int i = 0; i < itemSlots.size(); i++){
