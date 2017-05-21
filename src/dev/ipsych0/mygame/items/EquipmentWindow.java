@@ -19,7 +19,7 @@ public class EquipmentWindow {
 	private boolean hasBeenPressed = false;
 	
 	private int numCols = 3;
-	private int numRows = 3;
+	private int numRows = 4;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
@@ -47,7 +47,7 @@ public class EquipmentWindow {
 				}
 			}	
 			width = numCols * (ItemSlot.SLOTSIZE + 10) - 32;
-			height = numRows * (ItemSlot.SLOTSIZE + 10);
+			height = numRows * (ItemSlot.SLOTSIZE + 8);
 		
 			// Prevents multiple instances of the equipment window being created over and over when equipping items
 			isCreated = true;

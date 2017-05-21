@@ -25,7 +25,7 @@ public class InventoryWindow {
 	private Handler handler;
 	
 	private int numCols = 3;
-	private int numRows = 10;
+	private int numRows = 9;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 	Color itemHoverColour = new Color(0, 0, 255, 255);
@@ -61,8 +61,8 @@ public class InventoryWindow {
 					}
 				}
 			}	
-			width = numCols * (ItemSlot.SLOTSIZE + 10) - 29;
-			height = numRows * (ItemSlot.SLOTSIZE + 10) - 58;
+			width = numCols * (ItemSlot.SLOTSIZE + 11) - 29;
+			height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
 		
 			// Prevents multiple instances of the inventory being created over and over when picking up items
 			isCreated = true;
@@ -116,13 +116,13 @@ public class InventoryWindow {
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 					if(is.getItemStack() != null){
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
-						if(is.getItemStack().getItem().equipSlot == 10){
+						if(is.getItemStack().getItem().equipSlot == 12){
 							handler.getWorld().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
 							hasBeenPressed = false;
 							return;
 						}
-						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 9){
+						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
 							if(equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
 								is.setItem(null);
 								isEquipped = false;
@@ -211,8 +211,8 @@ public class InventoryWindow {
 					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
 							handler.getMouseManager().getMouseY(), null);
 						g.setFont(GameState.myFont);
-						g.setColor(Color.YELLOW);
-						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 16, handler.getMouseManager().getMouseY() + 16);
+						g.setColor(Color.BLACK);
+						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
 				}
 			}
 		}
@@ -295,6 +295,15 @@ public class InventoryWindow {
 		}
 		if(item.equipSlot == 8){
 			return 8;
+		}
+		if(item.equipSlot == 9){
+			return 9;
+		}
+		if(item.equipSlot == 10){
+			return 10;
+		}
+		if(item.equipSlot == 11){
+			return 11;
 		}
 		return -10;
 	}

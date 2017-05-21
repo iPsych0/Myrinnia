@@ -9,6 +9,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpscreen.StatScreen;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -24,9 +25,10 @@ public class Player extends Creature{
 	private int attackLevel;
 	public static boolean hasInteracted = false;
 	
-	// Inventory & Equipment
+	// Inventory, Equipment, Stats
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
+	private StatScreen statScreen;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -44,8 +46,10 @@ public class Player extends Creature{
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
 		// Create inv & equipmentscreen
-		inventory = new InventoryWindow(handler, 658, 112);
-		equipment = new EquipmentWindow(handler, 658, 466);
+		inventory = new InventoryWindow(handler, 658, 16);
+		equipment = new EquipmentWindow(handler, 658, 337);
+		//statScreen = new StatScreen(handler, 658, 482);
+		statScreen = new StatScreen(handler, 448, 482);
 		
 		// Player combat/movement settings:
 		setNpc(false);
@@ -76,6 +80,7 @@ public class Player extends Creature{
 	public void tick() {
 		inventory.tick();
 		equipment.tick();
+		statScreen.tick();
 		if(lastFaced == null){
 			aDefault = new Animation(250, Assets.player_down);
 		}
@@ -286,6 +291,7 @@ public class Player extends Creature{
 	public void postRender(Graphics g){
 		inventory.render(g);
 		equipment.render(g);
+		statScreen.render(g);
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
@@ -359,5 +365,12 @@ public class Player extends Creature{
 		this.equipment = equipment;
 	}
 	
+	public StatScreen getStatScreen() {
+		return statScreen;
+	}
+
+	public void setStatScreen(StatScreen statScreen) {
+		this.statScreen = statScreen;
+	}
 
 }

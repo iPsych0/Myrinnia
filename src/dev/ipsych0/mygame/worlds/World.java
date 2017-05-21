@@ -50,10 +50,6 @@ public class World {
 	
 	private ChatWindow chatWindow;
 	
-	// HP Interface
-	
-	private StatScreen statScreen;
-	
 	// MiniMap
 	private MiniMap miniMap;
 	
@@ -70,7 +66,6 @@ public class World {
 			this.handler = handler;
 			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 			itemManager = new ItemManager(handler);
-			statScreen = new StatScreen(handler, 658, 0);
 			miniMap = new MiniMap(handler, path, 0, 0, 200, 200);
 			
 			
@@ -112,7 +107,6 @@ public class World {
 		itemManager.tick();
 		entityManager.tick();
 		chatWindow.tick();
-		statScreen.tick();
 		sparkles.tick();
 		miniMap.tick();
 	}
@@ -162,9 +156,6 @@ public class World {
 		// NPC ChatWindow
 		
 		chatWindow.render(g);
-		
-		// HP Screen
-		statScreen.render(g);
 		
 		// MiniMap
 		miniMap.render(g);
@@ -291,13 +282,5 @@ public class World {
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
-	}
-
-	public StatScreen getStatScreen() {
-		return statScreen;
-	}
-
-	public void setStatScreen(StatScreen statScreen) {
-		this.statScreen = statScreen;
 	}
 }

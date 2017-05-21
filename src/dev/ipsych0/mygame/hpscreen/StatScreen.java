@@ -51,7 +51,7 @@ public class StatScreen {
 				testNumber++;
 			}
 			
-			width = (3 * 42) - 29;
+			width = (numCols * 42) - 29;
 			height = 96;
 			
 			// Prevents multiple instances of the statscreen being created

@@ -59,9 +59,9 @@ public class ItemSlot {
 				}
 			}
 			
-			g.drawImage(itemStack.getItem().texture, x, y + 4, SLOTSIZE -4, SLOTSIZE -4, null);
+			g.drawImage(itemStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
 			g.setFont(GameState.myFont);
-			g.setColor(Creature.hpColor);
+			g.setColor(Color.BLACK);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 	}

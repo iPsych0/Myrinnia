@@ -14,8 +14,8 @@ public class Item {
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
 	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 10);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 10);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12);
 	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0);
 	
 	// Class
