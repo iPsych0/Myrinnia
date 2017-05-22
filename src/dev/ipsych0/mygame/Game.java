@@ -17,8 +17,8 @@ public class Game implements Runnable {
 	private Display display;
 	private int width, height;
 	public String title;
-	public final int screenWidth = 768;
-	public final int screenHeight = 576;
+	public final int screenWidth = 960;//768
+	public final int screenHeight = 720;//576
 	public int posX = 0;
 	public int posY = 0;
 	

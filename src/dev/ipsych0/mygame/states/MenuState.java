@@ -22,13 +22,27 @@ public class MenuState extends State {
 		uiManager = new UIManager(handler);
 		handler.getMouseManager().setUIManager(uiManager);
 		
-		uiManager.addObject(new UIImageButton(272, 240, 226, 96, Assets.btn_start, new ClickListener(){
+		uiManager.addObject(new UIImageButton(367, 216, 226, 96, Assets.button_new_game, new ClickListener(){
 
 			@Override
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().gameState);
 				play("res/music/myrinnia.wav");
+			}}));
+		
+		uiManager.addObject(new UIImageButton(367, 312, 226, 96, Assets.button_continue, new ClickListener(){
+
+			@Override
+			public void onClick() {
+				//handler.getMouseManager().setUIManager(null);
+			}}));
+		
+		uiManager.addObject(new UIImageButton(367, 408, 226, 96, Assets.button_settings, new ClickListener(){
+
+			@Override
+			public void onClick() {
+				//handler.getMouseManager().setUIManager(null);
 			}}));
 	}
 
@@ -40,7 +54,7 @@ public class MenuState extends State {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 768, 576);
+		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 		uiManager.render(g);
 	}
 	

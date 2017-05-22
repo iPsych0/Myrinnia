@@ -8,7 +8,7 @@ import dev.ipsych0.mygame.states.GameState;
 public class TextSlot {
 	
 	public static final int textWidth = 432;
-	public static final int textHeight = 12;
+	public static final int textHeight = 13;
 	
 	private int x, y;
 	private NPCText npcText;

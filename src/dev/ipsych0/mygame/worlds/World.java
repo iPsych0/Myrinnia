@@ -14,7 +14,6 @@ import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.hpscreen.StatScreen;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
@@ -95,7 +94,7 @@ public class World {
 			// Dit is hoe ik items in de world zelf spawn
 			// itemManager.addItem(Item.woodItem.createNew(512, 576));
 			
-			chatWindow = new ChatWindow(handler, 228, 320);
+			chatWindow = new ChatWindow(handler, 228, 314); //228,
 			chatWindow.sendMessage("Welcome back!");
 			
 			// World Animations

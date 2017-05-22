@@ -22,7 +22,7 @@ public class ChatWindow {
 
 	private int numCols = 1;
 	private int numRows = 6;
-	public static Color chatColour = new Color(140, 0, 255);
+	public static Color chatColour = new Color(100, 100, 100);
 	
 	private CopyOnWriteArrayList<TextSlot> textSlots;
 	
@@ -40,7 +40,7 @@ public class ChatWindow {
 						x += 8;
 					}
 					
-					textSlots.add(new TextSlot(x + (i * (TextSlot.textWidth)), y + (j * 12), null));
+					textSlots.add(new TextSlot(x + (i * (TextSlot.textWidth)), y + (j * TextSlot.textHeight), null));
 					
 					if(j == (numRows)){
 						x -= 8;
@@ -66,12 +66,12 @@ public class ChatWindow {
 	public void render(Graphics g){
 		if(chatIsOpen){
 			g.setColor(interfaceColour);
-			g.fillRect(x - 228, y + 170, width, height - 118);
+			g.fillRect(x - 228, y + 167, width, height - 121); 
 			g.setColor(Color.BLACK);
-			g.drawRect(x - 228, y + 170, width, height - 118);
+			g.drawRect(x - 228, y + 167, width, height - 121);
 			g.setFont(GameState.myFont);
 			g.setColor(Color.WHITE);
-			g.drawString("Myrinnia", x, y + 182);
+			g.drawString("Myrinnia", x - 12, y + 180);
 			
 			for(TextSlot ts : textSlots){
 				ts.render(g);
