@@ -89,7 +89,7 @@ public class Assets {
 	public static void init(){
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
-		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites.png"));
+		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites_new.png"));
 		SpriteSheet item_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/itemsprites.png"));
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
@@ -109,11 +109,11 @@ public class Assets {
 		button_continue = new BufferedImage[2];
 		button_settings = new BufferedImage[2];
 		
-		button_new_game[0] = menu_sheet.crop(width * 7, 0, width * 7, height * 3);
-		button_new_game[1] = menu_sheet.crop(0, 0, width * 7, height * 3);
+		button_new_game[0] = menu_sheet.crop(width * 7, height * 3, width * 7, height * 3);
+		button_new_game[1] = menu_sheet.crop(0, height * 3, width * 7, height * 3);
 		
-		button_continue[0] = menu_sheet.crop(width * 7, height * 3, width * 7, height * 3);
-		button_continue[1] = menu_sheet.crop(0, height * 3, width * 7, height * 3);
+		button_continue[0] = menu_sheet.crop(width * 7, 0, width * 7, height * 3);
+		button_continue[1] = menu_sheet.crop(0, 0, width * 7, height * 3);
 		
 		button_settings[0] = menu_sheet.crop(width * 7, height * 6, width * 7, height * 3);
 		button_settings[1] = menu_sheet.crop(0, height * 6, width * 7, height * 3);
