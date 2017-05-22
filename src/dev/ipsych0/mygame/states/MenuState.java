@@ -53,8 +53,9 @@ public class MenuState extends State {
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+//		g.setColor(Color.BLACK);
+//		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+		g.drawImage(Assets.mainScreenBackground, 0, 0, 960, 720, null);
 		uiManager.render(g);
 	}
 	

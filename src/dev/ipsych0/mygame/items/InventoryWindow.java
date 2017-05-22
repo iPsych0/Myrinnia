@@ -194,7 +194,7 @@ public class InventoryWindow {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(interfaceColour);
+			g.setColor(Color.CYAN);
 			g.fillRect(x - 16, y - 16, width + 32, height - 8);
 			g.setColor(Color.BLACK);
 			g.drawRect(x - 16, y - 16, width + 32, height - 8);

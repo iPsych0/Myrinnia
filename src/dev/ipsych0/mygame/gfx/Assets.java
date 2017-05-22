@@ -67,7 +67,10 @@ public class Assets {
 	// Player attack images
 	public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
 	
-	// Menu images
+	// Main menu background
+	public static BufferedImage mainScreenBackground;
+	
+	// Menu menu buttons
 	public static BufferedImage[] button_new_game, button_continue, button_settings;
 	
 	// Item images
@@ -87,6 +90,7 @@ public class Assets {
 	
 	
 	public static void init(){
+		SpriteSheet main_screen = new SpriteSheet(ImageLoader.loadImage("/textures/dark_priest.png"));
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
 		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites_new.png"));
@@ -103,8 +107,12 @@ public class Assets {
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
-		// Menu sprites
+		// Main menu background
 		
+		mainScreenBackground = main_screen.crop(0, 0, 960, 720);
+		
+		// Menu sprites
+
 		button_new_game = new BufferedImage[2];
 		button_continue = new BufferedImage[2];
 		button_settings = new BufferedImage[2];
