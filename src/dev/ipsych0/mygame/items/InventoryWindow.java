@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
 public class InventoryWindow {
@@ -194,7 +195,7 @@ public class InventoryWindow {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(Color.CYAN);
+			g.setColor(interfaceColour);
 			g.fillRect(x - 16, y - 16, width + 32, height - 8);
 			g.setColor(Color.BLACK);
 			g.drawRect(x - 16, y - 16, width + 32, height - 8);
@@ -202,10 +203,12 @@ public class InventoryWindow {
 			g.setColor(Color.WHITE);
 			g.drawString("Inventory", x + 26, y - 2);
 			
-			
+			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots){
 				is.render(g);
+				
+				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				if(currentSelectedSlot != null){
 					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
@@ -213,6 +216,24 @@ public class InventoryWindow {
 						g.setFont(GameState.myFont);
 						g.setColor(Color.BLACK);
 						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
+				}
+				
+				if(temp2.contains(temp) && is.getItemStack() != null){
+					g.setColor(interfaceColour);
+					g.fillRect((int)temp.getX() - 80, (int)temp.getY(), 80, 128);
+					g.setColor(Color.CYAN);
+					g.drawRect((int)temp.getX() - 80, (int)temp.getY(), 80, 128);
+					if(is.getItemStack() != null){
+						g.setColor(Color.BLACK);
+						g.drawString(is.getItemStack().getItem().getName(), (int)temp.getX() - 78, (int)temp.getY() + 16);
+						g.drawString(is.getItemStack().getItem().getItemRarity().toString(), (int)temp.getX() - 78, (int)temp.getY() + 32);
+						g.drawString(is.getItemStack().getItem().getItemType().toString(), (int)temp.getX() - 78, (int)temp.getY() + 48);
+						g.drawString("Power: 10", (int)temp.getX() - 78, (int)temp.getY() + 64);
+						g.drawString("Defence: 0", (int)temp.getX() - 78, (int)temp.getY() + 80);
+						g.drawString("Vitality: 0", (int)temp.getX() - 78, (int)temp.getY() + 96);
+						g.drawString("Attack Speed: 3", (int)temp.getX() - 78, (int)temp.getY() + 112);
+						g.drawString("Movement Speed: 0", (int)temp.getX() - 78, (int)temp.getY() + 128);
+					}
 				}
 			}
 		}

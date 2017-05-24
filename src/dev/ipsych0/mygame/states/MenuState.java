@@ -22,51 +22,45 @@ public class MenuState extends State {
 		uiManager = new UIManager(handler);
 		handler.getMouseManager().setUIManager(uiManager);
 		
-		uiManager.addObject(new UIImageButton(367, 216, 226, 96, Assets.button_new_game, new ClickListener(){
+		uiManager.addObject(new UIImageButton(367, 400, 226, 96, Assets.button_new_game, new ClickListener(){ //367, 216, 226, 96
 
 			@Override
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().gameState);
-				play("res/music/myrinnia.wav");
+				handler.playMusic("res/music/ancient.wav");
 			}}));
 		
-		uiManager.addObject(new UIImageButton(367, 312, 226, 96, Assets.button_continue, new ClickListener(){
+		uiManager.addObject(new UIImageButton(367, 496, 226, 96, Assets.button_continue, new ClickListener(){ //367, 312, 226, 96
 
 			@Override
 			public void onClick() {
 				//handler.getMouseManager().setUIManager(null);
 			}}));
 		
-		uiManager.addObject(new UIImageButton(367, 408, 226, 96, Assets.button_settings, new ClickListener(){
+		uiManager.addObject(new UIImageButton(367, 592, 226, 96, Assets.button_settings, new ClickListener(){ //367, 408, 226, 96
 
 			@Override
 			public void onClick() {
 				//handler.getMouseManager().setUIManager(null);
 			}}));
+		
 	}
 
 	@Override
 	public void tick() {
-		uiManager.tick();
+		if(State.getState() == handler.getGame().menuState){
+			uiManager.tick();
+		}
 	}
 
 	@Override
 	public void render(Graphics g) {
+		if(State.getState() == handler.getGame().menuState){
 //		g.setColor(Color.BLACK);
 //		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-		g.drawImage(Assets.mainScreenBackground, 0, 0, 960, 720, null);
-		uiManager.render(g);
-	}
-	
-	private void play(String pathToMusic) {
-		try {
-			File file = new File(pathToMusic);
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			g.drawImage(Assets.mainScreenBackground, 0, 0, 960, 720, null);
+			uiManager.render(g);
 		}
 	}
 }

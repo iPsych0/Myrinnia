@@ -1,6 +1,10 @@
 package dev.ipsych0.mygame;
 
+import java.io.File;
 import java.util.Random;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -67,6 +71,17 @@ public class Handler {
 	public int getRandomSupplyAmount(){
 		int randomNumber = rand.nextInt((max - min) + 1) + min;
 		return randomNumber;
+	}
+	
+	public void playMusic(String pathToMusic) {
+		try {
+			File file = new File(pathToMusic);
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(file));
+			clip.start();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 }

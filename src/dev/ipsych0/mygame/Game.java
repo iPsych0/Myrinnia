@@ -31,6 +31,7 @@ public class Game implements Runnable {
 	// States
 	public State gameState;
 	public State menuState;
+	public State settingsState;
 	
 	//Input
 	private KeyManager keyManager;

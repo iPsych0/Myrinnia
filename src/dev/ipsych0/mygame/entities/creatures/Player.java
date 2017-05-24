@@ -285,8 +285,8 @@ public class Player extends Creature{
 	}
 	
 	public void postRender(Graphics g){
-		inventory.render(g);
 		equipment.render(g);
+		inventory.render(g);
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
