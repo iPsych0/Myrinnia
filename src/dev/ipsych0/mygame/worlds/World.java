@@ -94,7 +94,7 @@ public class World {
 			// Dit is hoe ik items in de world zelf spawn
 			// itemManager.addItem(Item.woodItem.createNew(512, 576));
 			
-			chatWindow = new ChatWindow(handler, 228, 314); //228,
+			chatWindow = new ChatWindow(handler, 228, 457); //228,314
 			chatWindow.sendMessage("Welcome back!");
 			
 			// World Animations

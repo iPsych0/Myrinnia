@@ -46,7 +46,7 @@ public class EquipmentWindow {
 					}
 				}
 			}	
-			width = numCols * (ItemSlot.SLOTSIZE + 10) - 32;
+			width = numCols * (ItemSlot.SLOTSIZE + 10) - 26;
 			height = numRows * (ItemSlot.SLOTSIZE + 8);
 		
 			// Prevents multiple instances of the equipment window being created over and over when equipping items

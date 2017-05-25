@@ -220,19 +220,19 @@ public class InventoryWindow {
 				
 				if(temp2.contains(temp) && is.getItemStack() != null){
 					g.setColor(interfaceColour);
-					g.fillRect(x - 96, y, 80, 128);
-					g.setColor(Color.CYAN);
-					g.drawRect(x - 96, y, 80, 128);
+					g.fillRect(x - 128, y - 16, 112, 130);
+					g.setColor(Color.BLACK);
+					g.drawRect(x - 128, y - 16, 112, 130);
 					if(is.getItemStack() != null){
-						g.setColor(Color.BLACK);
-						g.drawString(is.getItemStack().getItem().getName(), x - 94, y + 16);
-						g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 94, y + 32);
-						g.drawString(is.getItemStack().getItem().getItemType().toString(), x - 94, y + 48);
-						g.drawString("Power: 10", x - 94, y + 64);
-						g.drawString("Defence: 0", x - 94, y + 80);
-						g.drawString("Vitality: 0", x - 94, y + 96);
-						g.drawString("Attack Speed: 3", x - 94, y + 112);
-						g.drawString("Movement Speed: 0", x - 94, y + 128);
+						g.setColor(Color.YELLOW);
+						g.drawString(is.getItemStack().getItem().getName(), x - 126, y);
+						g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 126, y + 16);
+						g.drawString(is.getItemStack().getItem().getItemType().toString(), x - 126, y + 32);
+						g.drawString("Power: 10", x - 126, y + 48);
+						g.drawString("Defence: 0", x - 126, y + 64);
+						g.drawString("Vitality: 0", x - 126, y + 80);
+						g.drawString("ATK Speed: 3", x - 126, y + 96);
+						g.drawString("Mov. Speed: 0", x - 126, y + 112);
 					}
 				}
 			}
