@@ -31,19 +31,17 @@ public class StatScreen {
 			statSlots = new CopyOnWriteArrayList<StatSlot>();
 			
 			// Add statButtons here
-			statSlots.add(new StatSlot(x + 17, y + 6, 96, 32, null));
-			statSlots.add(new StatSlot(x + 17, y + 54, 96, 32, null));
-			statSlots.add(new StatSlot(x + 17, y + 102, 96, 32, null));
-			statSlots.add(new StatSlot(x + 17, y + 150, 96, 32, null));
-			statSlots.add(new StatSlot(x + 17, y + 198, 96, 32, null));
+			statSlots.add(new StatSlot(x + 17, y + 36, 96, 32, null));
+			statSlots.add(new StatSlot(x + 17, y + 84, 96, 32, null));
+			statSlots.add(new StatSlot(x + 17, y + 132, 96, 32, null));
+			statSlots.add(new StatSlot(x + 17, y + 180, 96, 32, null));
 			
 			
 			// Set the texture and text here
-			statSlots.get(0).addButton(Assets.black, "Button 1");
-			statSlots.get(1).addButton(Assets.black, "Button 2");
-			statSlots.get(2).addButton(Assets.black, "Button 3");
-			statSlots.get(3).addButton(Assets.black, "Button 4");
-			statSlots.get(4).addButton(Assets.black, "Button 5");
+			statSlots.get(0).addButton(Assets.black, "Quests");
+			statSlots.get(1).addButton(Assets.black, "Combat");
+			statSlots.get(2).addButton(Assets.black, "Gathering");
+			statSlots.get(3).addButton(Assets.black, "Artisan");
 		
 			isCreated = true;
 		}
@@ -65,7 +63,8 @@ public class StatScreen {
 			g.fillRect(x, y, 132, 238);
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, 132, 238);
-			g.drawString("Stats here:", x + 32, y + 16);
+			g.setColor(Color.WHITE);
+			g.drawString("Skills", x + 48, y + 16);
 			// for button : buttons, render(g)
 			
 			for(StatSlot ss : statSlots){

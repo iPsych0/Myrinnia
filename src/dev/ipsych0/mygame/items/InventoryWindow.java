@@ -206,7 +206,6 @@ public class InventoryWindow {
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots){
-				is.render(g);
 				
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
@@ -223,18 +222,115 @@ public class InventoryWindow {
 					g.fillRect(x - 128, y - 16, 112, 130);
 					g.setColor(Color.BLACK);
 					g.drawRect(x - 128, y - 16, 112, 130);
-					if(is.getItemStack() != null){
-						g.setColor(Color.YELLOW);
-						g.drawString(is.getItemStack().getItem().getName(), x - 126, y);
-						g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 126, y + 16);
-						g.drawString(is.getItemStack().getItem().getItemType().toString(), x - 126, y + 32);
-						g.drawString("Power: 10", x - 126, y + 48);
-						g.drawString("Defence: 0", x - 126, y + 64);
-						g.drawString("Vitality: 0", x - 126, y + 80);
-						g.drawString("ATK Speed: 3", x - 126, y + 96);
-						g.drawString("Mov. Speed: 0", x - 126, y + 112);
+					
+					g.setColor(Color.YELLOW);
+					g.drawString(is.getItemStack().getItem().getName(), x - 126, y);
+					
+					/*
+					 * Draw the colour of the item's rarity
+					 */
+					if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Common){
+						g.setColor(Color.WHITE);
+					}
+					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Uncommon){
+						g.setColor(Color.BLUE);
+					}
+					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Rare){
+						g.setColor(Color.ORANGE);
+					}
+					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Exquisite){
+						g.setColor(Color.GREEN);
+					}
+					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Unique){
+						g.setColor(Color.MAGENTA);
+					}
+					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 126, y + 16);
+					
+					if(is.getItemStack().getItem().getEquipSlot() != 12){
+						// Only compare stats if an item is actually equipped
+						if(handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack() != null){
+							/*
+							 * Draw power colour red/green if stats are lower/higher
+							 */
+					
+							if(is.getItemStack().getItem().getPower() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
+								g.setColor(Color.GREEN);
+							}
+							else if(is.getItemStack().getItem().getPower() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
+								g.setColor(Color.RED);
+							}else{
+								g.setColor(Color.YELLOW);
+							}
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);
+							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 36, y + 32);
+							
+							/*
+							 * Draw defence colour red/green if stats are lower/higher
+							 */
+							
+							if(is.getItemStack().getItem().getDefence() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
+								g.setColor(Color.GREEN);
+							}
+							else if(is.getItemStack().getItem().getDefence() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
+								g.setColor(Color.RED);
+							}else{
+								g.setColor(Color.YELLOW);
+							}
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 126, y + 48);
+							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 36, y + 48);
+							
+							/*
+							 * Draw vitality colour red/green if stats are lower/higher
+							 */
+							if(is.getItemStack().getItem().getVitality() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
+								g.setColor(Color.GREEN);
+							}
+							else if(is.getItemStack().getItem().getVitality() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
+								g.setColor(Color.RED);
+							}else{
+								g.setColor(Color.YELLOW);
+							}
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 126, y + 64);
+							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 36, y + 64);
+							
+							/*
+							 * Draw atk speed colour red/green if stats are lower/higher
+							 */
+							if(is.getItemStack().getItem().getAttackSpeed() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
+								g.setColor(Color.GREEN);
+							}
+							else if(is.getItemStack().getItem().getAttackSpeed() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
+								g.setColor(Color.RED);
+							}else{
+								g.setColor(Color.YELLOW);
+							}
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 126, y + 80);
+							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 36, y + 80);
+							
+							/*
+							 * Draw movement speed colour red/green if stats are lower/higher
+							 */
+							if(is.getItemStack().getItem().getMovementSpeed() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
+								g.setColor(Color.GREEN);
+							}
+							else if(is.getItemStack().getItem().getMovementSpeed() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
+								g.setColor(Color.RED);
+							}else{
+								g.setColor(Color.YELLOW);
+							}
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 126, y + 96);
+							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 36, y + 96);
+						}else{
+							g.setColor(Color.YELLOW);
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 126, y + 48);
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 126, y + 64);
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 126, y + 80);
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 126, y + 96);
+						}
 					}
 				}
+				is.render(g);
 			}
 		}
 	}

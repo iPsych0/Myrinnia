@@ -27,7 +27,7 @@ public class StatSlot {
 			g.drawImage(statButton.getButtonImage(), x, y, width, height, null);
 			g.setColor(Color.WHITE);
 			g.drawRect(x, y, width, height);
-			g.drawString(statButton.getButtonText(), x + 2, y + 16);
+			g.drawString(statButton.getButtonText(), x + 22, y + 20);
 		}
 	}
 	

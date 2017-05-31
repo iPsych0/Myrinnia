@@ -13,10 +13,10 @@ public class Item {
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12);
-	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0, 10, 10, 10, 10, 10);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0, 11, 9, 10, 10, 10);
 	
 	// Class
 	
@@ -27,6 +27,7 @@ public class Item {
 	protected String name;
 	protected final int id;
 	protected final int equipSlot;
+	protected final int power, defence, vitality, attackSpeed, movementSpeed;
 	protected int x, y;
 	protected Rectangle bounds;
 	private static int count;
@@ -35,13 +36,18 @@ public class Item {
 	public static boolean pickUpKeyPressed = false;
 	
 	
-	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot){
+	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, int attackSpeed, int movementSpeed){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
 		this.itemType = itemType;
 		this.itemRarity = itemRarity;
 		this.equipSlot = equipSlot;
+		this.power = power;
+		this.defence = defence;
+		this.vitality = vitality;
+		this.attackSpeed = attackSpeed;
+		this.movementSpeed = movementSpeed;
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
 		
 		items[id] = this;
@@ -64,7 +70,7 @@ public class Item {
 	
 	
 	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot);
+		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed);
 		i.setPosition(x, y);
 		i.setCount(count);
 		return i;
@@ -114,6 +120,30 @@ public class Item {
 
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+	public int getEquipSlot() {
+		return equipSlot;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public int getDefence() {
+		return defence;
+	}
+
+	public int getVitality() {
+		return vitality;
+	}
+
+	public int getAttackSpeed() {
+		return attackSpeed;
+	}
+
+	public int getMovementSpeed() {
+		return movementSpeed;
 	}
 
 	public BufferedImage getTexture() {
