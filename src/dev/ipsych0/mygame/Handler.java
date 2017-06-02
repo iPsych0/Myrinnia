@@ -9,14 +9,12 @@ import javax.sound.sampled.Clip;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
-import dev.ipsych0.mygame.worlds.UnderWorld;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Handler {
 	
 	private Game game;
 	private World world;
-	private UnderWorld underWorld;
 	private int min = 1, max = 6;
 	Random rand = new Random();
 	
@@ -58,14 +56,6 @@ public class Handler {
 
 	public void setWorld(World world) {
 		this.world = world;
-	}
-	
-	public UnderWorld getUnderWorld() {
-		return underWorld;
-	}
-
-	public void setUnderWorld(UnderWorld underWorld) {
-		this.underWorld = underWorld;
 	}
 	
 	public int getRandomSupplyAmount(){
