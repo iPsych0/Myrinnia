@@ -28,14 +28,14 @@ import dev.ipsych0.mygame.utils.Utils;
 public class World {
 	
 	// Variables
-	private Handler handler;
-	private MapLoader mapLoader;
-	private int width, height;
-	private int[][] tiles;
-	private int[][] terrain;
-	private int[][] ambiance;
-	private int spawnX, spawnY;
-	private Animation sparkles;
+	protected Handler handler;
+	protected MapLoader mapLoader;
+	protected int width, height;
+	protected int[][] tiles;
+	protected int[][] terrain;
+	protected int[][] ambiance;
+	protected int spawnX, spawnY;
+	protected Animation sparkles;
 	
 	// Entities
 	
@@ -201,8 +201,8 @@ public class World {
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
 		
-		width = 50;
-		height = 50;
+		width = mapLoader.getMapWidth(path);
+		height = mapLoader.getMapHeight(path);
 		spawnX = 256;
 		spawnY = 160;
 		

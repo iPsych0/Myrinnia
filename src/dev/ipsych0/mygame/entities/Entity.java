@@ -97,7 +97,6 @@ public abstract class Entity {
 	
 	//Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
 	public Entity closestEntity(){
-		System.out.println("Hoe vaak wordt dit geprint?");
 		double closestDistance;
 		Entity closestEntity = null;
 		Hashtable<Double, Entity> hashTable = new Hashtable<Double, Entity>();
@@ -115,11 +114,9 @@ public abstract class Entity {
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);
 		}
-		System.out.println("Closest NPC is " + pythagoras.get(0) + " pixels away!");
 		closestDistance = pythagoras.get(0);
 		pythagoras.removeAll(pythagoras);
 		closestEntity = hashTable.get(closestDistance);
-		System.out.println("closest Entity = " + hashTable.get(closestDistance));
 		hashTable.clear();
 		return closestEntity;
 	}

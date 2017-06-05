@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.statscreen.StatScreen;
+import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
 	
@@ -29,6 +30,7 @@ public class Player extends Creature{
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
 	private StatScreen statScreen;
+	private World world;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -74,6 +76,9 @@ public class Player extends Creature{
 		attUp = new Animation(333, Assets.player_attackingUp);
 		attLeft = new Animation(333, Assets.player_attackingLeft);
 		attRight = new Animation(333, Assets.player_attackingRight);
+		
+		// first test item
+		getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 	}
 
 	@Override
@@ -118,8 +123,7 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
-			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()) + " Y coords: " + Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
+			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 //			System.out.println("Attack level = " + getAttackLevel());
@@ -236,6 +240,13 @@ public class Player extends Creature{
 			}
 			handler.getWorld().getItemManager().addItem(getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, getInventory().getItemSlots().get(i).getItemStack().getAmount()));
 			getInventory().getItemSlots().get(i).setItem(null);
+		}
+		for(int i = 0; i < getEquipment().getEquipmentSlots().size(); i++){
+			if(getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+				continue;
+			}
+			handler.getWorld().getItemManager().addItem(getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getCount()));
+			getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		if(!active){
 			this.setActive(true);
