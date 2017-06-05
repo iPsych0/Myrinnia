@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.SaveManager;
 
 public class TeleportShrine2 extends StaticEntity {
 	
@@ -45,6 +46,12 @@ public class TeleportShrine2 extends StaticEntity {
 		}
 		else if(this.getSpeakingTurn() == 1){
 			// SAVE GAME HERE?
+			SaveManager.clearSaveData();
+			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
+			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
+			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
+			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
+			SaveManager.saveGame();
 			handler.getWorld().getChatWindow().sendMessage("Game Saved!");
 			speakingTurn = 0;
 		}

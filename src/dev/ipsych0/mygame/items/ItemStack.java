@@ -1,6 +1,13 @@
 package dev.ipsych0.mygame.items;
 
-public class ItemStack {
+import java.io.Serializable;
+
+public class ItemStack implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private int amount;
 	private Item item;

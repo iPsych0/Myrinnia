@@ -202,6 +202,10 @@ public class Player extends Creature{
 		return attackExperience;
 	}
 
+	public void setAttackExperience(int attackExperience) {
+		this.attackExperience = attackExperience;
+	}
+
 	public void addAttackExperience(int attackXP) {
 		this.attackExperience = attackExperience + attackXP;
 	}

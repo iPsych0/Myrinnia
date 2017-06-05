@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.utils.SaveManager;
 
 public class Game implements Runnable {
 
@@ -40,6 +41,8 @@ public class Game implements Runnable {
 	// Camera
 	private GameCamera gameCamera;
 	
+	private SaveManager saveManager;
+	
 	// Handler
 	
 	private Handler handler;
@@ -67,6 +70,7 @@ public class Game implements Runnable {
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
 		State.setState(menuState);
+		saveManager = new SaveManager(handler);
 	}
 	
 	private void tick(){

@@ -122,16 +122,6 @@ public class KeyManager implements KeyListener{
 			}
 		}
 		
-		// Ensures pick-up key doesn't stick to active
-		if(e.getKeyCode() == KeyEvent.VK_F){
-			if(!Item.pickUpKeyPressed){
-				Item.pickUpKeyPressed = true;
-			}
-			else {
-				Item.pickUpKeyPressed = false;
-			}
-		}
-		
 		if(e.getKeyCode() == KeyEvent.VK_H){
 			if(!StatScreen.isOpen){
 				StatScreen.isOpen = true;
