@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -13,7 +14,9 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.statscreen.StatScreen;
+import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -25,12 +28,12 @@ public class Player extends Creature{
 	private int attackExperience;
 	private int attackLevel;
 	public static boolean hasInteracted = false;
+	public static boolean worldLoaded = false;
 	
 	// Inventory, Equipment, Stats
-	private InventoryWindow inventory;
-	private EquipmentWindow equipment;
-	private StatScreen statScreen;
 	private World world;
+	private Rectangle newLevelTile;
+	private Rectangle oldLevelTile;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -46,11 +49,6 @@ public class Player extends Creature{
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		
-		// Create inv & equipmentscreen
-		inventory = new InventoryWindow(handler, 843, 16);
-		equipment = new EquipmentWindow(handler, 843, 337);
-		statScreen = new StatScreen(handler, 827, 481);
 		//448, 482
 		
 		// Player combat/movement settings:
@@ -66,6 +64,9 @@ public class Player extends Creature{
 		bounds.width = 14;
 		bounds.height = 16;
 		
+		newLevelTile = new Rectangle(1560, 1330, width, height); 
+		oldLevelTile = new Rectangle(280, 200, width, height);
+		
 		// Animations
 		aDown = new Animation(250, Assets.player_down);
 		aUp = new Animation(250, Assets.player_up);
@@ -78,14 +79,11 @@ public class Player extends Creature{
 		attRight = new Animation(333, Assets.player_attackingRight);
 		
 		// first test item
-		getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
+		//handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 	}
 
 	@Override
 	public void tick() {
-		inventory.tick();
-		equipment.tick();
-		statScreen.tick();
 		if(lastFaced == null){
 			aDefault = new Animation(250, Assets.player_down);
 		}
@@ -136,6 +134,23 @@ public class Player extends Creature{
 					return;
 				}
 		}
+		
+		if(this.getCollisionBounds(0, 0).intersects(newLevelTile)){
+			setX(40);
+			setY(400);
+			handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
+			//handler.getWorldHandler().getWorlds().get(1).setHandler(handler);
+			System.out.println("hoe vaak?");
+		}
+		if(this.getCollisionBounds(0, 0).intersects(oldLevelTile)){
+			setX(1525);
+			setY(1330);
+			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+			//handler.getWorldHandler().getWorlds().get(0).setHandler(handler);
+			System.out.println("hoe vaak?");
+		}
+		
+		
 	}
 	
 	private void checkAttacks(){
@@ -238,19 +253,19 @@ public class Player extends Creature{
 	@Override
 	public void die(){
 		System.out.println("You died!");
-		for(int i = 0; i < getInventory().getItemSlots().size(); i++){
-			if(getInventory().getItemSlots().get(i).getItemStack() == null){
+		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
+			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, getInventory().getItemSlots().get(i).getItemStack().getAmount()));
-			getInventory().getItemSlots().get(i).setItem(null);
+			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
+			handler.getWorld().getInventory().getItemSlots().get(i).setItem(null);
 		}
-		for(int i = 0; i < getEquipment().getEquipmentSlots().size(); i++){
-			if(getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
+			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getCount()));
-			getEquipment().getEquipmentSlots().get(i).setItem(null);
+			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getCount()));
+			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		if(!active){
 			this.setActive(true);
@@ -292,6 +307,9 @@ public class Player extends Creature{
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		g.setFont(Creature.hpFont);
 		
+		g.setColor(Color.RED);
+		g.drawRect((int) (newLevelTile.x - handler.getGameCamera().getxOffset()), (int) (newLevelTile.y - handler.getGameCamera().getyOffset()), width, height);
+		g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), width, height);
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		/*
 		g.setColor(Color.red);
@@ -304,9 +322,7 @@ public class Player extends Creature{
 	}
 	
 	public void postRender(Graphics g){
-		inventory.render(g);
-		equipment.render(g);
-		statScreen.render(g);
+
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
@@ -348,7 +364,7 @@ public class Player extends Creature{
 	}
 	
 	public boolean hasItem(Item item, int quantity){
-		for(ItemSlot is : handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots()){
+		for(ItemSlot is : handler.getWorld().getEntityManager().getPlayer().handler.getWorld().getInventory().getItemSlots()){
 			if(is.getItemStack() == null){
 				continue;
 			}
@@ -364,20 +380,9 @@ public class Player extends Creature{
 		System.out.println("Oops, we're interacting with ourself. That's odd!");
 	}
 	
-	public InventoryWindow getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(InventoryWindow inventory) {
-		this.inventory = inventory;
-	}
-
-	public EquipmentWindow getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(EquipmentWindow equipment) {
-		this.equipment = equipment;
+	public World getCurrentMap(){
+		return handler.getWorld();
+		
 	}
 
 }

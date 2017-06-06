@@ -20,12 +20,13 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.statscreen.StatScreen;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 
-public class World {
+public abstract class World {
 	
 	// Variables
 	protected Handler handler;
@@ -39,57 +40,38 @@ public class World {
 	
 	// Entities
 	
-	private EntityManager entityManager;
+	protected EntityManager entityManager;
 	
 	// Items
 	
-	private ItemManager itemManager;
+	protected ItemManager itemManager;
 	
 	// NPC ChatWindow
 	
-	private ChatWindow chatWindow;
+	protected ChatWindow chatWindow;
 	
 	// MiniMap
-	private MiniMap miniMap;
+	protected MiniMap miniMap;
+	
+	protected InventoryWindow inventory;
+	protected EquipmentWindow equipment;
+	protected StatScreen statScreen;
 	
 	// Actual code ---v
 	
-	public World(Handler handler, String path){
+	public World(Handler handler){
 		if(State.getState() == handler.getGame().gameState){
-			
-			mapLoader = new MapLoader();
-			loadGroundTiles(path);
-			loadTerrainTiles(path);
-			loadAmbianceTiles(path);
-			
 			this.handler = handler;
+			
+			// Create inv & equipmentscreen
+			inventory = new InventoryWindow(handler, 843, 16);
+			equipment = new EquipmentWindow(handler, 843, 337);
+			statScreen = new StatScreen(handler, 827, 481);
+			
 			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 			itemManager = new ItemManager(handler);
-			miniMap = new MiniMap(handler, path, 0, 0, 200, 200);
+			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 0, 0, 200, 200);
 			
-			
-			entityManager.addEntity(new Lorraine(handler, 732, 640));
-			
-			entityManager.addEntity(new Tree(handler, 160, 128));
-			entityManager.addEntity(new Tree(handler, 128, 128));
-			entityManager.addEntity(new Tree(handler, 96, 192));
-			entityManager.addEntity(new Tree(handler, 96, 160));
-			
-			entityManager.addEntity(new Rock(handler, 448, 576));
-			
-			entityManager.addEntity(new Scorpion(handler, 160, 576));
-			entityManager.addEntity(new Scorpion(handler, 128, 800));
-			entityManager.addEntity(new Scorpion(handler, 128, 888));
-			entityManager.addEntity(new Scorpion(handler, 128, 944));
-			entityManager.addEntity(new Scorpion(handler, 190, 944));
-			entityManager.addEntity(new Scorpion(handler, 190, 888));
-			entityManager.addEntity(new Scorpion(handler, 190, 800));
-			
-			entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
-			entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
-			
-			entityManager.getPlayer().setX(spawnX);
-			entityManager.getPlayer().setY(spawnY);
 			
 			// Dit is hoe ik items in de world zelf spawn
 			// itemManager.addItem(Item.woodItem.createNew(512, 576));
@@ -102,63 +84,9 @@ public class World {
 		}
 	}
 	
-	public void tick(){
-		itemManager.tick();
-		entityManager.tick();
-		chatWindow.tick();
-		sparkles.tick();
-		miniMap.tick();
-	}
+	public abstract void tick();
 	
-	public void render(Graphics g){
-		// Set variables for rendering only the tiles that show on screen
-		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
-		
-		// Render the tiles
-		for(int y = yStart; y < yEnd; y++){
-			for(int x = xStart; x < xEnd; x++){
-				getTile(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-			}
-		}
-		
-		// Render the terrain tiles
-		for(int y = yStart; y < yEnd; y++){
-			for(int x = xStart; x < xEnd; x++){
-				getTerrain(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-			}
-		}
-		
-		// Render the ambiance tiles
-		for(int y = yStart; y < yEnd; y++){
-			for(int x = xStart; x < xEnd; x++){
-				if(getAmbiance(x, y) == Ambiance.sparkleTile){
-					g.drawImage(sparkles.getCurrentFrame(), (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()), null);
-				}
-				getAmbiance(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-			}
-		}
-		
-		// Items
-		
-		itemManager.render(g);
-		
-		// Entities
-		entityManager.render(g);
-		
-		// NPC ChatWindow
-		
-		chatWindow.render(g);
-		
-		// MiniMap
-		miniMap.render(g);
-	}
+	public abstract void render(Graphics g);
 	
 	
 	public Tiles getTile(int x, int y){
@@ -281,5 +209,29 @@ public class World {
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
+	}
+
+	public InventoryWindow getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryWindow inventory) {
+		this.inventory = inventory;
+	}
+
+	public EquipmentWindow getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(EquipmentWindow equipment) {
+		this.equipment = equipment;
+	}
+
+	public StatScreen getStatScreen() {
+		return statScreen;
+	}
+
+	public void setStatScreen(StatScreen statScreen) {
+		this.statScreen = statScreen;
 	}
 }

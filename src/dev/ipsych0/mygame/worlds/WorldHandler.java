@@ -11,7 +11,7 @@ public class WorldHandler {
 	private ArrayList<World> worlds;
 	private SwampLand swampLand;
 
-	public WorldHandler(Handler handler){
+	public WorldHandler(Handler handler, SwampLand swampLand){
 		this.handler = handler;
 		worlds = new ArrayList<World>();
 		addWorld(swampLand);

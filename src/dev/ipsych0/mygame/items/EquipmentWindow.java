@@ -27,10 +27,12 @@ public class EquipmentWindow {
 	private EquipmentStack currentSelectedSlot;
 	
 	public EquipmentWindow(Handler handler, int x, int y){
+		this.x = x;
+		this.y = y;
+		this.handler = handler;
+		width = numCols * (ItemSlot.SLOTSIZE + 10) - 26;
+		height = numRows * (ItemSlot.SLOTSIZE + 8);
 		if(isCreated == false){
-			this.x = x;
-			this.y = y;
-			this.handler = handler;
 			equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
 			
 			for(int i = 0; i < numCols; i++){
@@ -46,8 +48,6 @@ public class EquipmentWindow {
 					}
 				}
 			}	
-			width = numCols * (ItemSlot.SLOTSIZE + 10) - 26;
-			height = numRows * (ItemSlot.SLOTSIZE + 8);
 		
 			// Prevents multiple instances of the equipment window being created over and over when equipping items
 			isCreated = true;
@@ -62,7 +62,7 @@ public class EquipmentWindow {
 	
 	public void tick(){
 		if(isOpen) {
-			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(EquipmentSlot es : equipmentSlots) {
 				

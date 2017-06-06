@@ -57,8 +57,8 @@ public class Game implements Runnable {
 	
 	private void init(){
 		display = new Display(title, width, height);
-		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseListener(mouseManager);
+		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
@@ -74,8 +74,8 @@ public class Game implements Runnable {
 	}
 	
 	private void tick(){
+		mouseManager.tick();
 		keyManager.tick();
-		
 		if(State.getState() != null){
 			State.getState().tick();
 		}

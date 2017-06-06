@@ -20,6 +20,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		
 	}
 	
+	public void tick(){
+		
+	}
+	
 	public void setUIManager(UIManager uiManager){
 		this.uiManager = uiManager;
 	}

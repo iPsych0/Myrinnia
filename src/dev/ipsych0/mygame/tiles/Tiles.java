@@ -7,7 +7,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Tiles {
 	
-	public static Tiles[] tiles = new Tiles[512];
+	public static Tiles[] tiles = new Tiles[1024];
 	
 	// First try-out tiles
 

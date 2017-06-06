@@ -43,10 +43,13 @@ public class InventoryWindow {
 	private boolean useSelected;
 	
 	public InventoryWindow(Handler handler, int x, int y){
+		this.handler = handler;
+		this.x = x;
+		this.y = y;
+		width = numCols * (ItemSlot.SLOTSIZE + 11) - 29;
+		height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
 		if(isCreated == false){
-			this.x = x;
-			this.y = y;
-			this.handler = handler;
+			
 			itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 			
 			for(int i = 0; i < numCols; i++){
@@ -62,8 +65,6 @@ public class InventoryWindow {
 					}
 				}
 			}	
-			width = numCols * (ItemSlot.SLOTSIZE + 11) - 29;
-			height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
 		
 			// Prevents multiple instances of the inventory being created over and over when picking up items
 			isCreated = true;
@@ -74,7 +75,7 @@ public class InventoryWindow {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots) {
 				
@@ -248,78 +249,78 @@ public class InventoryWindow {
 					
 					if(is.getItemStack().getItem().getEquipSlot() != 12){
 						// Only compare stats if an item is actually equipped
-						if(handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack() != null){
+						if(handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack() != null){
 							/*
 							 * Draw power colour red/green if stats are lower/higher
 							 */
 					
-							if(is.getItemStack().getItem().getPower() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
+							if(is.getItemStack().getItem().getPower() > handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
 								g.setColor(Color.GREEN);
 							}
-							else if(is.getItemStack().getItem().getPower() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
+							else if(is.getItemStack().getItem().getPower() < handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()){
 								g.setColor(Color.RED);
 							}else{
 								g.setColor(Color.YELLOW);
 							}
 							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);
-							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 36, y + 32);
+							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 36, y + 32);
 							
 							/*
 							 * Draw defence colour red/green if stats are lower/higher
 							 */
 							
-							if(is.getItemStack().getItem().getDefence() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
+							if(is.getItemStack().getItem().getDefence() > handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
 								g.setColor(Color.GREEN);
 							}
-							else if(is.getItemStack().getItem().getDefence() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
+							else if(is.getItemStack().getItem().getDefence() < handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()){
 								g.setColor(Color.RED);
 							}else{
 								g.setColor(Color.YELLOW);
 							}
 							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 126, y + 48);
-							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 36, y + 48);
+							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 36, y + 48);
 							
 							/*
 							 * Draw vitality colour red/green if stats are lower/higher
 							 */
-							if(is.getItemStack().getItem().getVitality() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
+							if(is.getItemStack().getItem().getVitality() > handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
 								g.setColor(Color.GREEN);
 							}
-							else if(is.getItemStack().getItem().getVitality() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
+							else if(is.getItemStack().getItem().getVitality() < handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()){
 								g.setColor(Color.RED);
 							}else{
 								g.setColor(Color.YELLOW);
 							}
 							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 126, y + 64);
-							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 36, y + 64);
+							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 36, y + 64);
 							
 							/*
 							 * Draw atk speed colour red/green if stats are lower/higher
 							 */
-							if(is.getItemStack().getItem().getAttackSpeed() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
+							if(is.getItemStack().getItem().getAttackSpeed() > handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
 								g.setColor(Color.GREEN);
 							}
-							else if(is.getItemStack().getItem().getAttackSpeed() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
+							else if(is.getItemStack().getItem().getAttackSpeed() < handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()){
 								g.setColor(Color.RED);
 							}else{
 								g.setColor(Color.YELLOW);
 							}
 							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 126, y + 80);
-							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 36, y + 80);
+							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 36, y + 80);
 							
 							/*
 							 * Draw movement speed colour red/green if stats are lower/higher
 							 */
-							if(is.getItemStack().getItem().getMovementSpeed() > handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
+							if(is.getItemStack().getItem().getMovementSpeed() > handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
 								g.setColor(Color.GREEN);
 							}
-							else if(is.getItemStack().getItem().getMovementSpeed() < handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
+							else if(is.getItemStack().getItem().getMovementSpeed() < handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()){
 								g.setColor(Color.RED);
 							}else{
 								g.setColor(Color.YELLOW);
 							}
 							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 126, y + 96);
-							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEntityManager().getPlayer().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 36, y + 96);
+							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 36, y + 96);
 						}else{
 							g.setColor(Color.YELLOW);
 							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);

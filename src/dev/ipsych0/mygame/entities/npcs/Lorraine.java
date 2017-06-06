@@ -66,8 +66,8 @@ public class Lorraine extends Creature {
 			}
 		}
 		else if(this.getSpeakingTurn() == 4){
-			if(!handler.getWorld().getEntityManager().getPlayer().getInventory().inventoryIsFull()){
-				handler.getWorld().getEntityManager().getPlayer().getInventory().getItemSlots().get(handler.getWorld().getEntityManager().getPlayer().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
+			if(!handler.getWorld().getInventory().inventoryIsFull()){
+				handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
 				handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
 				speakingTurn++;
 			}else{

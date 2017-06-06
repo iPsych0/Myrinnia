@@ -3,26 +3,19 @@ package dev.ipsych0.mygame.worlds;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.EntityManager;
-import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
-import dev.ipsych0.mygame.gfx.Animation;
-import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
-import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class SwampLand extends World{
+public class TestLand extends World {
 
-	public SwampLand(Handler handler, String path) {
+	public TestLand(Handler handler, String path) {
 		super(handler);
 		
 		mapLoader = new MapLoader();
@@ -39,35 +32,29 @@ public class SwampLand extends World{
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new Scorpion(handler, 160, 576));
-		entityManager.addEntity(new Scorpion(handler, 128, 800));
-		entityManager.addEntity(new Scorpion(handler, 128, 888));
-		entityManager.addEntity(new Scorpion(handler, 128, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 888));
-		entityManager.addEntity(new Scorpion(handler, 190, 800));
-		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
 	}
-	
-	public void tick(){
+
+	@Override
+	public void tick() {
 		if(handler.getWorld() == this){
-			inventory.tick();
-			equipment.tick();
 			itemManager.tick();
 			entityManager.tick();
 			chatWindow.tick();
 			sparkles.tick();
+			inventory.tick();
+			equipment.tick();
 			statScreen.tick();
 			miniMap.tick();
 		}
 	}
-	
-	public void render(Graphics g){
+
+	@Override
+	public void render(Graphics g) {
 		if(handler.getWorld() == this){
 			// Set variables for rendering only the tiles that show on screen
 			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
@@ -115,11 +102,11 @@ public class SwampLand extends World{
 			chatWindow.render(g);
 			
 			// MiniMap
+			miniMap.render(g);
 			
 			inventory.render(g);
 			equipment.render(g);
 			statScreen.render(g);
-			miniMap.render(g);
 		}
 	}
 }
