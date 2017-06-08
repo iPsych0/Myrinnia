@@ -23,7 +23,7 @@ public class TestLand extends World {
 		loadTerrainTiles(path);
 		loadAmbianceTiles(path);
 		
-		entityManager.addEntity(new Lorraine(handler, 732, 640));
+		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
 		entityManager.addEntity(new Tree(handler, 160, 128));
 		entityManager.addEntity(new Tree(handler, 128, 128));
@@ -34,9 +34,6 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
-		
-		entityManager.getPlayer().setX(spawnX);
-		entityManager.getPlayer().setY(spawnY);
 	}
 
 	@Override
@@ -101,12 +98,12 @@ public class TestLand extends World {
 			
 			chatWindow.render(g);
 			
-			// MiniMap
-			miniMap.render(g);
-			
 			inventory.render(g);
 			equipment.render(g);
 			statScreen.render(g);
+			
+			// MiniMap
+			miniMap.render(g);
 		}
 	}
 }

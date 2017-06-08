@@ -50,6 +50,7 @@ public class Player extends Creature{
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		//448, 482
+		this.handler = handler;
 		
 		// Player combat/movement settings:
 		setNpc(false);
@@ -78,8 +79,6 @@ public class Player extends Creature{
 		attLeft = new Animation(333, Assets.player_attackingLeft);
 		attRight = new Animation(333, Assets.player_attackingRight);
 		
-		// first test item
-		//handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 	}
 
 	@Override
@@ -136,18 +135,18 @@ public class Player extends Creature{
 		}
 		
 		if(this.getCollisionBounds(0, 0).intersects(newLevelTile)){
-			setX(40);
+			setX(140);
 			setY(400);
 			handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 			//handler.getWorldHandler().getWorlds().get(1).setHandler(handler);
-			System.out.println("hoe vaak?");
+			System.out.println("newTile");
 		}
 		if(this.getCollisionBounds(0, 0).intersects(oldLevelTile)){
 			setX(1525);
 			setY(1330);
 			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 			//handler.getWorldHandler().getWorlds().get(0).setHandler(handler);
-			System.out.println("hoe vaak?");
+			System.out.println("oldTile?");
 		}
 		
 		
@@ -264,7 +263,7 @@ public class Player extends Creature{
 			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getCount()));
+			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
 			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		if(!active){

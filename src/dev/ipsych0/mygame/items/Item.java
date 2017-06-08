@@ -30,7 +30,7 @@ public class Item {
 	protected final int power, defence, vitality, attackSpeed, movementSpeed;
 	protected int x, y;
 	protected Rectangle bounds;
-	private static int count;
+	protected int count;
 	protected boolean pickedUp = false;
 	private InventoryWindow inventoryWindow;
 	public static boolean pickUpKeyPressed = false;
@@ -183,7 +183,7 @@ public class Item {
 	}
 
 	public void setCount(int count) {
-		Item.count = count;
+		this.count = count;
 	}
 
 	public int getId() {

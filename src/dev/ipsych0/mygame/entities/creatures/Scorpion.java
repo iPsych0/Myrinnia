@@ -63,12 +63,12 @@ public class Scorpion extends Creature {
 		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		if(randomNumber <= 10){
-			handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y, 100));
+			handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y, 5));
 		}
 		if(randomNumber >= 11 && randomNumber <= 50){
-			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y, 100));
+			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y, 10));
 		}
-		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y, 100));
+		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y, 50));
 		
 		if(Lorraine.questStarted){
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();

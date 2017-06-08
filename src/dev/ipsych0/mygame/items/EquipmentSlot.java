@@ -33,7 +33,7 @@ public class EquipmentSlot {
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(equipmentStack != null){
-			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE - 4, SLOTSIZE - 4, null);
+			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
 		}
 		
 	}

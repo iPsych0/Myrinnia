@@ -84,22 +84,23 @@ public class InventoryWindow {
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				if(handler.getMouseManager().isDragged()){
-					if(temp2.contains(temp) && !hasBeenPressed) {
+					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
 						if(currentSelectedSlot == null) {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
+								System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
 								is.setItem(null);
 								itemSelected = true;
 							}
 							else{
+								System.out.println("Clicked on an empty item stack");
 								hasBeenPressed = false;
 								return;
 							}
 						}
 					}
-					// Stacking werkt nog niet met unieke items, alleen met zelfde items
 				}
 				
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
@@ -108,13 +109,19 @@ public class InventoryWindow {
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
-						}
-						else{
-							return;
+						
 						}
 					}
 				}
-				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
+				if(itemSelected && !handler.getMouseManager().isDragged()){
+					if(handler.getMouseManager().getMouseX() <= this.x && handler.getMouseManager().getMouseY() >= this.y){
+						handler.getWorld().getItemManager().addItem(currentSelectedSlot.getItem().createNew((int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY(), currentSelectedSlot.getAmount()));
+						currentSelectedSlot = null;
+						hasBeenPressed = false;
+						itemSelected = false;
+					}
+				}
+
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 					if(is.getItemStack() != null){
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
@@ -173,6 +180,9 @@ public class InventoryWindow {
 				}
 				
 				if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed && !is.isSelected){
+					if(handler.getMouseManager().isDragged()){
+						return;
+					}
 					hasBeenPressed = true;
 					if(is.getItemStack() != null){
 						if(is.getItemStack().getItem().itemType == ItemType.CRAFTING_MATERIAL){
@@ -207,6 +217,8 @@ public class InventoryWindow {
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots){
+				
+				is.render(g);
 				
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
@@ -331,7 +343,6 @@ public class InventoryWindow {
 						}
 					}
 				}
-				is.render(g);
 			}
 		}
 	}

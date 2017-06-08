@@ -30,14 +30,14 @@ public class ItemSlot {
 	}
 	
 	public void render(Graphics g){
-//		if(!isSelected){
-//			g.setColor(interfaceColour);
-//			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-//		}
-//		if(isSelected){
-//			g.setColor(selectedColour);
-//			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-//		}
+		if(!isSelected){
+			g.setColor(interfaceColour);
+			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+		}
+		if(isSelected){
+			g.setColor(selectedColour);
+			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+		}
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);

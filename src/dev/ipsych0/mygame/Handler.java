@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
