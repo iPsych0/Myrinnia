@@ -77,7 +77,7 @@ public class Handler {
 			File file = new File(pathToMusic);
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

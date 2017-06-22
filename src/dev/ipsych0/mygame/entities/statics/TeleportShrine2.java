@@ -45,12 +45,26 @@ public class TeleportShrine2 extends StaticEntity {
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 1){
-			// SAVE GAME HERE?
+			// Clear previous saved data in order to write the new data
+			SaveManager.clearInventoryItems();
 			SaveManager.clearSaveData();
+			
+			// Add the easy integers and strings
 			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
 			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
 			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
+			
+			// Add the inventory objects
+			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
+				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+					continue;
+				}
+				SaveManager.addInventoryItems(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+			}
+			
+			// Finally, save the game
+			SaveManager.saveInventory();
 			SaveManager.saveGame();
 			handler.getWorld().getChatWindow().sendMessage("Game Saved!");
 			speakingTurn = 0;

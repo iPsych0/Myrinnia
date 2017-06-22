@@ -3,11 +3,14 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class Item {
+public class Item implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	
 	// ItemList
 	
@@ -23,7 +26,7 @@ public class Item {
 	protected Handler handler;
 	protected ItemType itemType;
 	protected ItemRarity itemRarity;
-	protected BufferedImage texture;
+	protected transient BufferedImage texture;
 	protected String name;
 	protected final int id;
 	protected final int equipSlot;

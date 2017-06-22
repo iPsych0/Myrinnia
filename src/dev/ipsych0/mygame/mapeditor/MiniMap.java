@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -40,27 +41,21 @@ public class MiniMap{
 	
 	public void render(Graphics g){
 		if(isOpen){
-			y = 0;
-			float alpha = 0.75f; //draw half transparent
+			float alpha = 0.9f; //draw half transparent
 			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 			((Graphics2D) g).setComposite(ac);
-			for(int j = 0; j < handler.getWorld().getHeight(); j++){
-				for(int i = 0; i < handler.getWorld().getWidth(); i++){
-					if(x == 200){
-						x = 0;
-					}
-					g.drawImage(handler.getWorld().getTile(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 / 2 , (int)Tiles.TILEHEIGHT * 25 / 100 / 2, null);
-					g.drawImage(handler.getWorld().getTerrain(i, j).getTexture(), x, y, (int)Tiles.TILEWIDTH * 25 / 100 / 2, (int)Tiles.TILEHEIGHT * 25 / 100 / 2, null);
-					x += 4;
-				}
-				if( y == 200){
-					y = 0;
-				}
-				y += 4;
-			}
+			
+			/*
+			 * Om scrollbaar te maken:
+			 * TODO: Assets.swampland.getSubimage() iets daar doen en updaten!!!
+			 */
+			g.drawImage(Assets.swampLand, x, y, Assets.swampLand.getWidth() / 2, Assets.swampLand.getHeight() / 2, null);
+			
+			
+			
 			for(Item i : handler.getWorld().getItemManager().getItems()){
 				g.setColor(Color.RED);
-				g.fillRect((int)i.getX() / 8, (int)i.getY() / 8, 3, 3);
+				g.fillRect((int)(i.getX() / 4) + x, (int)(i.getY() / 4) + y, 3, 3);
 			}
 			for(Entity e: handler.getWorld().getEntityManager().getEntities()){
 				if(!e.isDrawnOnMap()){
@@ -68,19 +63,19 @@ public class MiniMap{
 				}
 				if(!e.isNpc()){
 					g.setColor(Color.YELLOW);
-					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+					g.fillRect((int)(e.getX() / 4) + x, (int)(e.getY() / 4) + y, 3, 3);
 				}
 				if(e.isNpc()){
 					g.setColor(Color.ORANGE);
-					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+					g.fillRect((int)(e.getX() / 4) + x, (int)(e.getY() / 4) + y, 3, 3);
 				}
 				if(e.equals(handler.getWorld().getEntityManager().getPlayer())){
 					g.setColor(Color.WHITE);
-					g.fillRect((int)(e.getX() / 8), (int)(e.getY() / 8), 3, 3);
+					g.fillRect((int)(e.getX() / 4) + x, (int)(e.getY() / 4) + y, 3, 3);
 				}
 			}
 			g.setColor(Color.BLACK);
-			g.drawRect(0, 0, width, height);
+			g.drawRect(x, y, width, height);
 		}
 		
 	}

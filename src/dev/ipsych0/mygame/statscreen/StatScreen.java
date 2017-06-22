@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.statscreen;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
@@ -18,6 +19,9 @@ public class StatScreen {
 	private int x, y;
 	private int width, height;
 	private Handler handler;
+	private boolean hasBeenPressed = false;
+	private boolean statSlotClicked = false;
+	private StatButton selectedButton;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
@@ -49,10 +53,22 @@ public class StatScreen {
 	
 	public void tick(){
 		if(isOpen){
+			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+
 			for(StatSlot ss : statSlots){
-				ss.tick();
+			
+				Rectangle temp2 = new Rectangle(ss.getX(), ss.getY(), ss.getWidth(), ss.getHeight());
+				
+				if(temp2.contains(temp) && !statSlotClicked && handler.getMouseManager().isLeftPressed()){
+					statSlotClicked = true;
+					selectedButton = ss.getStatButton();
+					hasBeenPressed = false;
+				}
+				else if(temp2.contains(temp) && statSlotClicked && handler.getMouseManager().isLeftPressed()){
+					selectedButton = ss.getStatButton();
+					hasBeenPressed = false;
+				}
 			}
-			// for button : buttons, tick()
 		}
 	}
 	
@@ -66,9 +82,22 @@ public class StatScreen {
 			g.setColor(Color.WHITE);
 			g.drawString("Skills", x + 48, y + 16);
 			// for button : buttons, render(g)
-			
+				
 			for(StatSlot ss : statSlots){
 				ss.render(g);
+				
+				if(statSlotClicked && selectedButton.getButtonText() == "Quests"){
+					g.setColor(Color.RED);
+					g.fillRect(200, 200, 200, 200);
+					g.setColor(Color.BLACK);
+					g.drawRect(200, 200, 200, 200);
+				}
+				if(statSlotClicked && selectedButton.getButtonText() == "Combat"){
+					g.setColor(Color.GREEN);
+					g.fillRect(200, 200, 200, 200);
+					g.setColor(Color.BLACK);
+					g.drawRect(200, 200, 200, 200);
+				}
 			}
 		}
 	}

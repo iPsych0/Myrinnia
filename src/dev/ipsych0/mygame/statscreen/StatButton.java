@@ -1,12 +1,15 @@
 package dev.ipsych0.mygame.statscreen;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import dev.ipsych0.mygame.Handler;
+
 public class StatButton {
 	
-	BufferedImage buttonImage;
-	String buttonText;
+	private BufferedImage buttonImage;
+	private String buttonText;
 	
 	public StatButton(BufferedImage buttonImage, String buttonText){
 		this.buttonImage = buttonImage;
@@ -15,11 +18,11 @@ public class StatButton {
 	}
 	
 	public void tick(){
-		
+
 	}
 	
 	public void render(Graphics g){
-		
+
 	}
 
 	public BufferedImage getButtonImage() {

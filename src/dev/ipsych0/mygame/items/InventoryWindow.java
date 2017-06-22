@@ -5,13 +5,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
-public class InventoryWindow {
+public class InventoryWindow implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static boolean isOpen = false;
 	public static boolean isEquipped = false;

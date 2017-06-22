@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 
 public class ItemManager {
 	
@@ -43,6 +44,16 @@ public class ItemManager {
 	public void addItem(Item i){
 		i.setHandler(handler);
 		items.add(i);
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                items.remove(i);
+		                
+		            }
+		        }, 
+		        300000
+		);
 	}
 	
 	// Getters & Setters

@@ -268,7 +268,7 @@ public class Player extends Creature{
 		}
 		if(!active){
 			this.setActive(true);
-			setHealth(100);
+			setHealth(DEFAULT_HEALTH);
 			this.setX(256);
 			this.setY(160);
 		}

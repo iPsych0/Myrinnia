@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
@@ -13,6 +14,8 @@ public class Lorraine extends Creature {
 	
 	public static boolean questStarted = false;
 	private int speakingTurn;
+	private int xSpawn = (int)getX();
+	private int ySpawn = (int)getY();
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -37,8 +40,16 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
-		
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));
+		                
+		            }
+		        }, 
+		        5000 
+		);
 	}
 
 	@Override

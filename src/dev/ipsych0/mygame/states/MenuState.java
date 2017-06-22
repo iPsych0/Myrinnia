@@ -45,6 +45,7 @@ public class MenuState extends State {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().gameState);
 				SaveManager.loadGame(handler);
+				SaveManager.loadInventory(handler);
 			}}));
 		
 		/*

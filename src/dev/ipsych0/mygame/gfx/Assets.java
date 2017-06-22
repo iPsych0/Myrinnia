@@ -88,9 +88,13 @@ public class Assets {
 	// Green House images
 	public static BufferedImage greenHouseRoof, greenHouseWall, greenHouseEntrance;
 	
+	// Minimap images
+	public static BufferedImage swampLand;
+	
 	
 	public static void init(){
 		SpriteSheet main_screen = new SpriteSheet(ImageLoader.loadImage("/textures/dark_priest.png"));
+		SpriteSheet swamp_land = new SpriteSheet(ImageLoader.loadImage("/textures/swampland.png"));
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
 		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites_new.png"));
@@ -110,6 +114,9 @@ public class Assets {
 		// Main menu background
 		
 		mainScreenBackground = main_screen.crop(0, 0, 960, 720);
+		
+		// Minimap images
+		swampLand = swamp_land.crop(0, 0, 800, 800);
 		
 		// Menu sprites
 

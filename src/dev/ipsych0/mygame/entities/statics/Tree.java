@@ -1,15 +1,17 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Tree extends StaticEntity {
 	
-	private Item item;
-	private Tree tree;
+	private int xSpawn = (int) getX();
+	private int ySpawn = (int) getY();
 
 	public Tree(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -32,6 +34,18 @@ public class Tree extends StaticEntity {
 		handler.getWorld().getChatWindow().sendMessage("You chopped the tree.");
 		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x + 4, (int) y + 6, 50));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(50);
+		
+		// Resapwn
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                handler.getWorld().getEntityManager().addEntity(new Tree(handler, xSpawn, ySpawn));
+		                
+		            }
+		        }, 
+		        5000 
+		);
 	}
 
 	@Override

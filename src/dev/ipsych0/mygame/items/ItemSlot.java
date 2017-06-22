@@ -2,13 +2,16 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
-public class ItemSlot {
-	
+public class ItemSlot implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final int SLOTSIZE = 32;
 	
 	private int x, y;

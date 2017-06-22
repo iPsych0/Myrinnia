@@ -70,7 +70,7 @@ public abstract class World {
 			
 			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 			itemManager = new ItemManager(handler);
-			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 0, 0, 200, 200);
+			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			
 			
 			// Dit is hoe ik items in de world zelf spawn

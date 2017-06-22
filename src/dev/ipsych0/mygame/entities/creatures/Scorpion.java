@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import com.sun.glass.ui.Timer;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
@@ -76,6 +78,16 @@ public class Scorpion extends Creature {
 		
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
 		
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                handler.getWorld().getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
+		                
+		            }
+		        }, 
+		        5000 
+		);
 	}
 	
 	
