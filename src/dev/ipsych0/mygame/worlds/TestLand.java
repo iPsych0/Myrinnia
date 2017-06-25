@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
@@ -14,6 +15,8 @@ import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TestLand extends World {
+	
+	private Rectangle oldLevelTile;
 
 	public TestLand(Handler handler, String path) {
 		super(handler);
@@ -25,15 +28,17 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
-		entityManager.addEntity(new Tree(handler, 160, 128));
-		entityManager.addEntity(new Tree(handler, 128, 128));
-		entityManager.addEntity(new Tree(handler, 96, 192));
-		entityManager.addEntity(new Tree(handler, 96, 160));
+		entityManager.addEntity(new Tree(handler, 360, 128));
+		entityManager.addEntity(new Tree(handler, 328, 128));
+		entityManager.addEntity(new Tree(handler, 296, 192));
+		entityManager.addEntity(new Tree(handler, 296, 160));
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		
+		oldLevelTile = new Rectangle(0, 70, 32, 350); 
 	}
 
 	@Override
@@ -47,6 +52,15 @@ public class TestLand extends World {
 			equipment.tick();
 			statScreen.tick();
 			miniMap.tick();
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
+				getEntityManager().getPlayer().setX(1480);
+				getEntityManager().getPlayer().setY(1300);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
+				getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
 		}
 	}
 
@@ -104,6 +118,8 @@ public class TestLand extends World {
 			
 			// MiniMap
 			miniMap.render(g);
+			
+			g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
 	}
 }

@@ -141,7 +141,7 @@ public class Scorpion extends Creature {
 			}
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + handler.getRandomSupplyAmount());
+				e.damage(baseDamage + handler.getRandomSupplyAmount(1, 3));
 				return;
 			}
 		}

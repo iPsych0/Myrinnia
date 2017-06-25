@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
@@ -22,6 +23,8 @@ import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class SwampLand extends World{
+	
+	private Rectangle nextLevelTile;
 
 	public SwampLand(Handler handler, String path) {
 		super(handler);
@@ -51,8 +54,7 @@ public class SwampLand extends World{
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 		
-		entityManager.getPlayer().setX(spawnX);
-		entityManager.getPlayer().setY(spawnY);
+		nextLevelTile = new Rectangle(1568, 1300, 32, 200); 
 		
 		getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 	}
@@ -67,6 +69,15 @@ public class SwampLand extends World{
 			sparkles.tick();
 			statScreen.tick();
 			miniMap.tick();
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
+				handler.getWorld().setHandler(handler);
+				getEntityManager().getPlayer().setX(140);
+				getEntityManager().getPlayer().setY(400);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
 		}
 	}
 	
@@ -123,6 +134,8 @@ public class SwampLand extends World{
 			equipment.render(g);
 			statScreen.render(g);
 			miniMap.render(g);
+			
+			g.drawRect((int) (nextLevelTile.x - handler.getGameCamera().getxOffset()), (int) (nextLevelTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}
 	}
 }

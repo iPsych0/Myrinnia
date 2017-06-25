@@ -1,4 +1,4 @@
 === CURRENTLY KNOWN BUGS ===
-1. When the player dies, it drops all items to the floor, but it drops all items with the quantity of the last item slot.
-2. More specific ^: Any item added to the world, something odd happens with "setCount" or "getCount". / Maybe pickup key?
-3. Minimap doesn’t scroll / isn’t resizaeble.
+1. Minimap doesn’t scroll / isn’t resizable.
+2. The first time a player enters a new map, a new instance of "Player" is created and
+   variables such as EXP and position (spawn in map) are reset to the World file.

@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
@@ -63,18 +64,18 @@ public abstract class World {
 		if(State.getState() == handler.getGame().gameState){
 			this.handler = handler;
 			
+			entityManager = new EntityManager(handler, new Player(handler, 400, 200));
+			
 			// Create inv & equipmentscreen
 			inventory = new InventoryWindow(handler, 843, 16);
 			equipment = new EquipmentWindow(handler, 843, 337);
 			statScreen = new StatScreen(handler, 827, 481);
-			
-			entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			
 			
 			// Dit is hoe ik items in de world zelf spawn
-			// itemManager.addItem(Item.woodItem.createNew(512, 576));
+			 itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
 			
 			chatWindow = new ChatWindow(handler, 228, 457); //228,314
 			chatWindow.sendMessage("Welcome back!");
@@ -131,8 +132,6 @@ public abstract class World {
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
-		spawnX = 256;
-		spawnY = 160;
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){

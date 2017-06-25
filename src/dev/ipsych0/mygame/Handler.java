@@ -21,7 +21,6 @@ public class Handler {
 	private World world;
 	private SwampLand swampLand;
 	private WorldHandler worldHandler;
-	private int min = 1, max = 6;
 	Random rand = new Random();
 	
 	public Handler(Game game){
@@ -67,7 +66,7 @@ public class Handler {
 		this.world = world;
 	}
 	
-	public int getRandomSupplyAmount(){
+	public int getRandomSupplyAmount(int min, int max){
 		int randomNumber = rand.nextInt((max - min) + 1) + min;
 		return randomNumber;
 	}

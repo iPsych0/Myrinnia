@@ -35,10 +35,10 @@ public class EntityManager {
 		Iterator<Entity> it = entities.iterator();
 		while(it.hasNext()){
 			Entity e = it.next();
-			e.tick();
 			if(!e.isActive()){
 				it.remove();
 			}
+			e.tick();
 		}
 		entities.sort(renderSorter);
 	}

@@ -29,11 +29,10 @@ public class Player extends Creature{
 	private int attackLevel;
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
+	private boolean isSpawned = false;
 	
 	// Inventory, Equipment, Stats
 	private World world;
-	private Rectangle newLevelTile;
-	private Rectangle oldLevelTile;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -51,7 +50,7 @@ public class Player extends Creature{
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		//448, 482
 		this.handler = handler;
-		
+			
 		// Player combat/movement settings:
 		setNpc(false);
 		
@@ -65,9 +64,6 @@ public class Player extends Creature{
 		bounds.width = 14;
 		bounds.height = 16;
 		
-		newLevelTile = new Rectangle(1560, 1330, width, height); 
-		oldLevelTile = new Rectangle(280, 200, width, height);
-		
 		// Animations
 		aDown = new Animation(250, Assets.player_down);
 		aUp = new Animation(250, Assets.player_up);
@@ -78,7 +74,6 @@ public class Player extends Creature{
 		attUp = new Animation(333, Assets.player_attackingUp);
 		attLeft = new Animation(333, Assets.player_attackingLeft);
 		attRight = new Animation(333, Assets.player_attackingRight);
-		
 	}
 
 	@Override
@@ -120,11 +115,11 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
-//			System.out.println("Attack level = " + getAttackLevel());
-//			System.out.println("Attack XP = " + getAttackExperience());
+			System.out.println("Attack level = " + getAttackLevel());
+			System.out.println("Attack XP = " + getAttackExperience());
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
 				if(!hasInteracted && playerIsNearNpc()){
@@ -132,21 +127,6 @@ public class Player extends Creature{
 					hasInteracted = true;
 					return;
 				}
-		}
-		
-		if(this.getCollisionBounds(0, 0).intersects(newLevelTile)){
-			setX(140);
-			setY(400);
-			handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
-			//handler.getWorldHandler().getWorlds().get(1).setHandler(handler);
-			System.out.println("newTile");
-		}
-		if(this.getCollisionBounds(0, 0).intersects(oldLevelTile)){
-			setX(1525);
-			setY(1330);
-			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-			//handler.getWorldHandler().getWorlds().get(0).setHandler(handler);
-			System.out.println("oldTile?");
 		}
 		
 		
@@ -307,8 +287,6 @@ public class Player extends Creature{
 		g.setFont(Creature.hpFont);
 		
 		g.setColor(Color.RED);
-		g.drawRect((int) (newLevelTile.x - handler.getGameCamera().getxOffset()), (int) (newLevelTile.y - handler.getGameCamera().getyOffset()), width, height);
-		g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), width, height);
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		/*
 		g.setColor(Color.red);
