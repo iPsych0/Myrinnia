@@ -1,9 +1,10 @@
 package dev.ipsych0.mygame.entities;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -12,7 +13,7 @@ public class EntityManager {
 	
 	private Handler handler;
 	private Player player;
-	private ArrayList<Entity> entities;
+	private CopyOnWriteArrayList<Entity> entities;
 	private Comparator<Entity> renderSorter = new Comparator<Entity>(){
 		@Override
 		public int compare(Entity a, Entity b) {
@@ -27,19 +28,21 @@ public class EntityManager {
 	public EntityManager(Handler handler, Player player){
 		this.handler = handler;
 		this.player = player;
-		entities = new ArrayList<Entity>();
+		entities = new CopyOnWriteArrayList<Entity>();
 		addEntity(player);
 	}
 	
 	public void tick(){
 		Iterator<Entity> it = entities.iterator();
+		Collection<Entity> deleted = new CopyOnWriteArrayList<Entity>();
 		while(it.hasNext()){
 			Entity e = it.next();
 			if(!e.isActive()){
-				it.remove();
+				deleted.add(e);
 			}
 			e.tick();
 		}
+		entities.removeAll(deleted);
 		entities.sort(renderSorter);
 	}
 	
@@ -52,6 +55,9 @@ public class EntityManager {
 	
 	public void addEntity(Entity e){
 		entities.add(e);
+//		ListIterator<Entity> it = entities.listIterator();
+//		it.add(e);
+//		it.previous();
 	}
 
 	// Getters & Setters
@@ -72,11 +78,11 @@ public class EntityManager {
 		this.player = player;
 	}
 
-	public ArrayList<Entity> getEntities() {
+	public CopyOnWriteArrayList<Entity> getEntities() {
 		return entities;
 	}
 
-	public void setEntities(ArrayList<Entity> entities) {
+	public void setEntities(CopyOnWriteArrayList<Entity> entities) {
 		this.entities = entities;
 	}
 
