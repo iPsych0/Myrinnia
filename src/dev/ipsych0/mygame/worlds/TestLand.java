@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
@@ -18,7 +19,7 @@ public class TestLand extends World {
 	
 	private Rectangle oldLevelTile;
 
-	public TestLand(Handler handler, String path) {
+	public TestLand(Handler handler, Player player, String path) {
 		super(handler);
 		
 		mapLoader = new MapLoader();
@@ -56,10 +57,10 @@ public class TestLand extends World {
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
-				getEntityManager().getPlayer().setX(1480);
-				getEntityManager().getPlayer().setY(1300);
+				handler.getPlayer().setX(1480);
+				handler.getPlayer().setY(1300);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
-				getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}

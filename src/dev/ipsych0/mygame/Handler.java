@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
@@ -21,13 +22,15 @@ public class Handler {
 	private World world;
 	private SwampLand swampLand;
 	private WorldHandler worldHandler;
-	Random rand = new Random();
+	private Player player;
+	private Random rand = new Random();
 	
 	public Handler(Game game){
 		this.game = game;
-		swampLand = new SwampLand(this, "res/worlds/testmap.tmx");
+		player = new Player(this, 400, 200);
+		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx");
 		worldHandler = new WorldHandler(this, swampLand);
-		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx"));
+		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx"));
 	}
 	
 	public int getWidth(){
@@ -88,6 +91,14 @@ public class Handler {
 
 	public void setWorldHandler(WorldHandler worldHandler) {
 		this.worldHandler = worldHandler;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }

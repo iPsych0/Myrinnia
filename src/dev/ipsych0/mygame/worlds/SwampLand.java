@@ -26,7 +26,7 @@ public class SwampLand extends World{
 	
 	private Rectangle nextLevelTile;
 
-	public SwampLand(Handler handler, String path) {
+	public SwampLand(Handler handler, Player player, String path) {
 		super(handler);
 		
 		mapLoader = new MapLoader();
@@ -73,10 +73,10 @@ public class SwampLand extends World{
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 				handler.getWorld().setHandler(handler);
-				getEntityManager().getPlayer().setX(140);
-				getEntityManager().getPlayer().setY(400);
+				handler.getPlayer().setX(140);
+				handler.getPlayer().setY(100);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}

@@ -64,7 +64,8 @@ public abstract class World {
 		if(State.getState() == handler.getGame().gameState){
 			this.handler = handler;
 			
-			entityManager = new EntityManager(handler, new Player(handler, 400, 200));
+			
+			entityManager = new EntityManager(handler, handler.getPlayer());
 			
 			// Create inv & equipmentscreen
 			inventory = new InventoryWindow(handler, 843, 16);
