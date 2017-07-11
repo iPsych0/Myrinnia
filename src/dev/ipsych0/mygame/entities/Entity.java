@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public abstract class Entity {
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
 	protected boolean drawnOnMap = false;
+	protected boolean damaged = false;
+	private int ty = 0;
+	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -83,10 +87,34 @@ public abstract class Entity {
 	
 	public void damage(int damageDealt){
 		health -= damageDealt;
+		damaged = true;
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		            	
+		                damaged = false;
+		                
+		            }
+		        }, 
+		        480 
+		);
 		if(health <= 0){
 			active = false;
 			die();
 		}
+	}
+	
+	public void drawDamage(Graphics g) {
+		if(damaged) {
+			ty--;
+			g.setColor(Color.BLACK);
+			g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 16, 16);
+			g.setColor(Color.RED);
+			g.drawString("-" + Integer.toString(handler.getPlayer().damageFormula()), (int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
+			return;
+		}
+		ty = 0;
 	}
 	
 	public double distanceToEntity(int x1, int y1, int x2, int y2){

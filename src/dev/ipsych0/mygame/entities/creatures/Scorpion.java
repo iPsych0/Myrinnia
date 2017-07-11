@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
@@ -11,6 +12,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
 	
@@ -64,6 +66,7 @@ public class Scorpion extends Creature {
 		handler.getWorld().getChatWindow().sendMessage("You killed the " + this.getClass().getSimpleName().toString());
 		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
+		
 		if(randomNumber <= 10){
 			handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y, 5));
 		}
@@ -78,11 +81,13 @@ public class Scorpion extends Creature {
 		
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
 		
+		World currentWorld = handler.getWorld();
+		
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		                handler.getWorld().getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
+		                currentWorld.getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
 		                
 		            }
 		        }, 
@@ -141,7 +146,7 @@ public class Scorpion extends Creature {
 			}
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + handler.getRandomSupplyAmount(1, 3));
+				e.damage(baseDamage + (int)(power * 3));
 				return;
 			}
 		}

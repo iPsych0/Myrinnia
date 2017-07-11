@@ -8,15 +8,11 @@ import java.awt.image.BufferedImage;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.EquipmentWindow;
-import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.states.GameState;
-import dev.ipsych0.mygame.statscreen.StatScreen;
-import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -27,12 +23,10 @@ public class Player extends Creature{
 	// Experience and levels
 	private int attackExperience;
 	private int attackLevel;
+	private int MAX_HEALTH;
+	
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
-	private boolean isSpawned = false;
-	
-	// Inventory, Equipment, Stats
-	private World world;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -46,15 +40,22 @@ public class Player extends Creature{
 	// Attack timer
 	private long lastAttackTimer, attackCooldown = 500, attackTimer = attackCooldown;
 	
+	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
+	
+	private int ty = 0;
+	
 	public Player(Handler handler, float x, float y) {
-		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 		//448, 482
 		this.handler = handler;
 			
 		// Player combat/movement settings:
 		setNpc(false);
 		
-		speed = Creature.DEFAULT_SPEED + 2.5f;
+		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+		health = MAX_HEALTH;
+		
+		speed = DEFAULT_SPEED + 2.5f;
 		attackExperience = 0;
 		attackLevel = 1;
 		
@@ -111,11 +112,12 @@ public class Player extends Creature{
 		move();
 		handler.getGameCamera().centerOnEntity(this);
 		// Attacks
+		regenHealth();
 		checkAttacks();
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			//handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 			System.out.println("Attack level = " + getAttackLevel());
@@ -130,6 +132,36 @@ public class Player extends Creature{
 		}
 		
 		
+	}
+	
+	private void checkEquipmentStats() {
+		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++) {
+			System.out.println("Iteration: " + i);
+			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i) != null){
+				attackSpeed = DEFAULT_ATTACKSPEED + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getAttackSpeed();
+				vitality = DEFAULT_VITALITY + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getVitality();
+				power = DEFAULT_POWER + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getPower();
+				defence = DEFAULT_DEFENCE + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getDefence();
+				speed = DEFAULT_SPEED + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getMovementSpeed();
+			}else {
+				continue;
+			}
+		}
+	}
+	
+	private void regenHealth() {
+		
+		if(health >= MAX_HEALTH) {
+			return;
+		}
+		regenTimer += System.currentTimeMillis() - lastRegenTimer;
+		lastRegenTimer = System.currentTimeMillis();
+		if(regenTimer < regenCooldown)
+			return;
+		
+		health += 1;
+		
+		regenTimer = 0;
 	}
 	
 	private void checkAttacks(){
@@ -176,8 +208,8 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(getAttackLevel() * 3));
-				System.out.println("Damage = " + (baseDamage + (int)(getAttackLevel() * 3)));
+				e.damage(baseDamage + (int)(power * 3));
+				System.out.println("Damage = " + (baseDamage + (int) power * 3));
 				return;
 			}
 		}
@@ -296,6 +328,7 @@ public class Player extends Creature{
 		g.setColor(Creature.hpColor);
 		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()),
 				(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+		
 	}
 	
 	public void postRender(Graphics g){

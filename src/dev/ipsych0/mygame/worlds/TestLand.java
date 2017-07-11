@@ -57,8 +57,8 @@ public class TestLand extends World {
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(1480);
-				handler.getPlayer().setY(1300);
+				handler.getPlayer().setX(1490);
+				handler.getPlayer().setY(1305);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
 				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}

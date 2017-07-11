@@ -49,6 +49,7 @@ public class EntityManager {
 	public void render(Graphics g){
 		for(Entity e : entities){
 			e.render(g);
+			e.drawDamage(g);
 		}
 		player.postRender(g);
 	}

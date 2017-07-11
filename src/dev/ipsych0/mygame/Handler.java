@@ -27,7 +27,7 @@ public class Handler {
 	
 	public Handler(Game game){
 		this.game = game;
-		player = new Player(this, 400, 200);
+		player = new Player(this, 260, 220);
 		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx");
 		worldHandler = new WorldHandler(this, swampLand);
 		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx"));

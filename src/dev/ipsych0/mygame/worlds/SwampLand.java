@@ -73,8 +73,8 @@ public class SwampLand extends World{
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(140);
-				handler.getPlayer().setY(100);
+				handler.getPlayer().setX(60);
+				handler.getPlayer().setY(164);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
