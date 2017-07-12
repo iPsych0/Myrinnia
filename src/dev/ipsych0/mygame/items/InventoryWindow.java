@@ -29,7 +29,7 @@ public class InventoryWindow implements Serializable {
 	private Handler handler;
 	
 	private int numCols = 3;
-	private int numRows = 9;
+	private int numRows = 10;
 	int alpha = 127;
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 	Color itemHoverColour = new Color(0, 0, 255, 255);
@@ -61,7 +61,7 @@ public class InventoryWindow implements Serializable {
 						x += 8;
 					}
 					
-					itemSlots.add(new ItemSlot(x + (i * (ItemSlot.SLOTSIZE)), y + (j * ItemSlot.SLOTSIZE), null));
+					itemSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 32 + (j * ItemSlot.SLOTSIZE), null));
 					
 					if(j == (numRows)){
 						x -= 8;
@@ -129,13 +129,14 @@ public class InventoryWindow implements Serializable {
 					if(is.getItemStack() != null){
 						equipmentWindow = new EquipmentWindow(handler, 658, 466);
 						if(is.getItemStack().getItem().equipSlot == 12){
-							handler.getWorld().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
+							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
 							hasBeenPressed = false;
 							return;
 						}
 						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
 							if(equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
+								handler.getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());
 								is.setItem(null);
 								isEquipped = false;
 								hasBeenPressed = false;
@@ -143,6 +144,7 @@ public class InventoryWindow implements Serializable {
 							}
 							else{
 								//Store the inventory item in a temporary swap slot
+								handler.getPlayer().removeEquipmentStats(is.getItemStack().getItem().getEquipSlot());
 								firstItemSwap = is.getItemStack();
 								swap = firstItemSwap.getItem();
 								swapAmount = firstItemSwap.getAmount();
@@ -158,15 +160,18 @@ public class InventoryWindow implements Serializable {
 								is.setItem(finalEquipSwap);
 								equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
 								
+								isEquipped = false;
+								hasBeenPressed = false;
+								
+								handler.getPlayer().addEquipmentStats(finalEquipSwap.getItem().getEquipSlot());
+								
+								
 								// Clearing variables
 								firstItemSwap = null;
 								swap = null;
 								finalItemSwap = null;
 								firstEquipSwap = null;
 								finalEquipSwap = null;
-								
-								isEquipped = false;
-								hasBeenPressed = false;
 							}
 						}
 						else{
@@ -209,13 +214,14 @@ public class InventoryWindow implements Serializable {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(interfaceColour);
-			g.fillRect(x - 16, y - 16, width + 32, height - 8);
-			g.setColor(Color.BLACK);
-			g.drawRect(x - 16, y - 16, width + 32, height - 8);
+			g.drawImage(Assets.invScreen, x, y, 132, height, null);
+//			g.setColor(interfaceColour);
+//			g.fillRect(x - 16, y - 16, width + 32, height - 8);
+//			g.setColor(Color.BLACK);
+//			g.drawRect(x - 16, y - 16, width + 32, height - 8);
 			g.setFont(GameState.myFont);
-			g.setColor(Color.WHITE);
-			g.drawString("Inventory", x + 26, y - 2);
+			g.setColor(Color.YELLOW);
+			g.drawString("Inventory", x + 42, y + 24);
 			
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
@@ -235,12 +241,12 @@ public class InventoryWindow implements Serializable {
 				
 				if(temp2.contains(temp) && is.getItemStack() != null){
 					g.setColor(interfaceColour);
-					g.fillRect(x - 128, y - 16, 112, 130);
+					g.fillRect(x - 145, y, 129, 130);
 					g.setColor(Color.BLACK);
-					g.drawRect(x - 128, y - 16, 112, 130);
+					g.drawRect(x - 145, y, 129, 130);
 					
 					g.setColor(Color.YELLOW);
-					g.drawString(is.getItemStack().getItem().getName(), x - 126, y);
+					g.drawString(is.getItemStack().getItem().getName(), x - 142, y);
 					
 					/*
 					 * Draw the colour of the item's rarity
@@ -260,7 +266,7 @@ public class InventoryWindow implements Serializable {
 					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Unique){
 						g.setColor(Color.MAGENTA);
 					}
-					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 126, y + 16);
+					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 16);
 					
 					if(is.getItemStack().getItem().getEquipSlot() != 12){
 						// Only compare stats if an item is actually equipped
@@ -277,8 +283,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);
-							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 36, y + 32);
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 32);
+							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 52, y + 32);
 							
 							/*
 							 * Draw defence colour red/green if stats are lower/higher
@@ -292,8 +298,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 126, y + 48);
-							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 36, y + 48);
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 48);
+							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 52, y + 48);
 							
 							/*
 							 * Draw vitality colour red/green if stats are lower/higher
@@ -306,8 +312,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 126, y + 64);
-							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 36, y + 64);
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 64);
+							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 52, y + 64);
 							
 							/*
 							 * Draw atk speed colour red/green if stats are lower/higher
@@ -320,8 +326,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 126, y + 80);
-							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 36, y + 80);
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 80);
+							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 52, y + 80);
 							
 							/*
 							 * Draw movement speed colour red/green if stats are lower/higher
@@ -334,15 +340,15 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 126, y + 96);
-							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 36, y + 96);
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 96);
+							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 52, y + 96);
 						}else{
 							g.setColor(Color.YELLOW);
-							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 126, y + 32);
-							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 126, y + 48);
-							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 126, y + 64);
-							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 126, y + 80);
-							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 126, y + 96);
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 32);
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 48);
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 64);
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 80);
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 96);
 						}
 					}
 				}
@@ -359,11 +365,11 @@ public class InventoryWindow implements Serializable {
         		}
         	}
             if (itemSlots.get(i).getItemStack() == null) {
-            	System.out.println("Free slot found = " + "[" + i + "]");
                 return i;
             }
        }
        System.out.println("Something went wrong checking for free slots (or bag is full)");
+       handler.getPlayer().getChatWindow().sendMessage("Your inventory is full. Please make some space!");
        return -1;
 	}
 	
@@ -374,7 +380,7 @@ public class InventoryWindow implements Serializable {
 			}
 			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) <= 0){
-					handler.getWorld().getChatWindow().sendMessage("You don't have enough " + item.getName() + "s");
+					handler.getPlayer().getChatWindow().sendMessage("You don't have enough " + item.getName() + "s");
 					return;
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){

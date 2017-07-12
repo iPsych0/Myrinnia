@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.Hashtable;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Entity {
@@ -108,10 +106,11 @@ public abstract class Entity {
 	public void drawDamage(Graphics g) {
 		if(damaged) {
 			ty--;
-			g.setColor(Color.BLACK);
-			g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 16, 16);
+			g.setColor(Color.YELLOW);
+			g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
 			g.setColor(Color.RED);
-			g.drawString("-" + Integer.toString(handler.getPlayer().damageFormula()), (int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
+			g.drawString("-" + Integer.toString(handler.getPlayer().damageFormula()),
+					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
 			return;
 		}
 		ty = 0;

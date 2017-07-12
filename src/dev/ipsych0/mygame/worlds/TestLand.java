@@ -47,7 +47,6 @@ public class TestLand extends World {
 		if(handler.getWorld() == this){
 			itemManager.tick();
 			entityManager.tick();
-			chatWindow.tick();
 			sparkles.tick();
 			inventory.tick();
 			equipment.tick();
@@ -60,7 +59,7 @@ public class TestLand extends World {
 				handler.getPlayer().setX(1490);
 				handler.getPlayer().setY(1305);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
-				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}
@@ -108,10 +107,6 @@ public class TestLand extends World {
 			
 			// Entities
 			entityManager.render(g);
-			
-			// NPC ChatWindow
-			
-			chatWindow.render(g);
 			
 			inventory.render(g);
 			equipment.render(g);

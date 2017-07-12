@@ -57,13 +57,14 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		// Left Click
 		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = true;
+			System.out.println("Mouse leftclick X position = " + e.getX());
+			System.out.println("Mouse leftclick Y position = " + e.getY());
 		}
 		
 		// Right Click
 		if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = true;
 			InventoryWindow.isEquipped = true;
-			System.out.println("Right Clicked!");
 		}
 	}
 	

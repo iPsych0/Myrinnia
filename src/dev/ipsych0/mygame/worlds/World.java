@@ -47,10 +47,6 @@ public abstract class World {
 	
 	protected ItemManager itemManager;
 	
-	// NPC ChatWindow
-	
-	protected ChatWindow chatWindow;
-	
 	// MiniMap
 	protected MiniMap miniMap;
 	
@@ -68,8 +64,8 @@ public abstract class World {
 			entityManager = new EntityManager(handler, handler.getPlayer());
 			
 			// Create inv & equipmentscreen
-			inventory = new InventoryWindow(handler, 843, 16);
-			equipment = new EquipmentWindow(handler, 843, 337);
+			inventory = new InventoryWindow(handler, 828, 0);
+			equipment = new EquipmentWindow(handler, 828, 372);
 			statScreen = new StatScreen(handler, 827, 481);
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
@@ -77,9 +73,6 @@ public abstract class World {
 			
 			// Dit is hoe ik items in de world zelf spawn
 			 itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
-			
-			chatWindow = new ChatWindow(handler, 228, 457); //228,314
-			chatWindow.sendMessage("Welcome back!");
 			
 			// World Animations
 			sparkles = new Animation(250, Assets.sparkles);
@@ -201,14 +194,6 @@ public abstract class World {
 
 	public void setItemManager(ItemManager itemManager) {
 		this.itemManager = itemManager;
-	}
-
-	public ChatWindow getChatWindow() {
-		return chatWindow;
-	}
-
-	public void setChatWindow(ChatWindow chatWindow) {
-		this.chatWindow = chatWindow;
 	}
 
 	public InventoryWindow getInventory() {

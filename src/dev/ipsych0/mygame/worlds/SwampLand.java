@@ -65,7 +65,6 @@ public class SwampLand extends World{
 			equipment.tick();
 			itemManager.tick();
 			entityManager.tick();
-			chatWindow.tick();
 			sparkles.tick();
 			statScreen.tick();
 			miniMap.tick();
@@ -76,7 +75,7 @@ public class SwampLand extends World{
 				handler.getPlayer().setX(60);
 				handler.getPlayer().setY(164);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getWorld().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}
@@ -123,10 +122,6 @@ public class SwampLand extends World{
 			
 			// Entities
 			entityManager.render(g);
-			
-			// NPC ChatWindow
-			
-			chatWindow.render(g);
 			
 			// MiniMap
 			

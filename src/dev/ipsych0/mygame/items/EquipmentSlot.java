@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.gfx.Assets;
+
 public class EquipmentSlot {
 	
 	public static final int SLOTSIZE = 32;
@@ -26,11 +28,13 @@ public class EquipmentSlot {
 	}
 	
 	public void render(Graphics g){
-		g.setColor(interfaceColour);
-		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+		g.drawImage(Assets.equipSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+//		g.setColor(interfaceColour);
+//		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+//		
+//		g.setColor(Color.BLACK);
+//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(equipmentStack != null){
 			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);

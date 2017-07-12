@@ -16,10 +16,10 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0, 10, 10, 10, 10, 10);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 0, 10, 10, 5, 0, 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
-	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0, 11, 9, 10, 10, 10);
+	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 0, 11, 9, 10, 0, 2.5f);
 	
 	// Class
 	
@@ -30,7 +30,8 @@ public class Item implements Serializable{
 	protected String name;
 	protected final int id;
 	protected final int equipSlot;
-	protected final int power, defence, vitality, attackSpeed, movementSpeed;
+	protected final int power, defence, vitality;
+	protected final float attackSpeed, movementSpeed;
 	protected int x, y;
 	protected Rectangle bounds;
 	protected int count;
@@ -39,7 +40,7 @@ public class Item implements Serializable{
 	public static boolean pickUpKeyPressed = false;
 	
 	
-	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, int attackSpeed, int movementSpeed){
+	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
@@ -103,7 +104,7 @@ public class Item implements Serializable{
         if (inventoryIndex >= 0) {
             if(id == item.getId()){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
-            	handler.getWorld().getChatWindow().sendMessage("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
+            	handler.getPlayer().getChatWindow().sendMessage("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
             	pickedUp = true;
             	return true;
         	}
@@ -141,11 +142,11 @@ public class Item implements Serializable{
 		return vitality;
 	}
 
-	public int getAttackSpeed() {
+	public float getAttackSpeed() {
 		return attackSpeed;
 	}
 
-	public int getMovementSpeed() {
+	public float getMovementSpeed() {
 		return movementSpeed;
 	}
 

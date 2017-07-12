@@ -38,11 +38,15 @@ public class Player extends Creature{
 	private Direction lastFaced = direction;
 	
 	// Attack timer
-	private long lastAttackTimer, attackCooldown = 500, attackTimer = attackCooldown;
+	private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 	
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 	
 	private int ty = 0;
+	
+	// NPC ChatWindow
+	
+	private ChatWindow chatWindow;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -52,8 +56,10 @@ public class Player extends Creature{
 		// Player combat/movement settings:
 		setNpc(false);
 		
-		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
-		health = MAX_HEALTH;
+		chatWindow = new ChatWindow(handler, 228, 457); //228,314
+		chatWindow.sendMessage("Welcome back!");
+		
+		health = DEFAULT_HEALTH;
 		
 		speed = DEFAULT_SPEED + 2.5f;
 		attackExperience = 0;
@@ -94,7 +100,7 @@ public class Player extends Creature{
 		if(lastFaced == Direction.UP){
 			aDefault = new Animation(250, Assets.player_up);
 		}
-		
+
 		//Animations
 		aDefault.tick();
 		aDown.tick();
@@ -105,6 +111,13 @@ public class Player extends Creature{
 		attUp.tick();
 		attLeft.tick();
 		attRight.tick();
+		
+		// Chat
+		chatWindow.tick();
+		
+		// Stat updates
+		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		attackCooldown = (long) (600 / getAttackSpeed());
 		
 		
 		//Movement
@@ -117,7 +130,7 @@ public class Player extends Creature{
 		
 		// Player position
 		if(handler.getKeyManager().position){
-			handler.getWorld().getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+			getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 			System.out.println("Attack level = " + getAttackLevel());
@@ -134,34 +147,100 @@ public class Player extends Creature{
 		
 	}
 	
-	private void checkEquipmentStats() {
-		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++) {
-			System.out.println("Iteration: " + i);
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i) != null){
-				attackSpeed = DEFAULT_ATTACKSPEED + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getAttackSpeed();
-				vitality = DEFAULT_VITALITY + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getVitality();
-				power = DEFAULT_POWER + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getPower();
-				defence = DEFAULT_DEFENCE + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getDefence();
-				speed = DEFAULT_SPEED + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getMovementSpeed();
+	public void addEquipmentStats(int equipSlot) {
+		if(equipSlot == 12) {
+			return;
+		}
+		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+
+			setAttackSpeed(getAttackSpeed() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+			setVitality(getVitality() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+			setPower(getPower() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+			setDefence(getDefence() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+		}
+		
+//		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++) {
+//			System.out.println("Iteration: " + i);
+//			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() != null){
+//				System.out.println("Item at index " + i + " is: " + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getName());
+//				attackSpeed += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getAttackSpeed();
+//				vitality += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getVitality();
+//				power += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getPower();
+//				defence += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getDefence();
+//				speed += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getMovementSpeed();
+//			}else {
+//				continue;
+//			}
+//		}
+	}
+	
+	public void removeEquipmentStats(int equipSlot) {
+		if(equipSlot == 12) {
+			return;
+		}
+		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+			
+			if(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
+				setAttackSpeed(0);
 			}else {
-				continue;
+				setAttackSpeed(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+			}
+			
+			if(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
+				setVitality(0);
+			}else {
+				setVitality(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+			}
+			
+			if(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
+				setPower(0);
+			}else {
+				setPower(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+			}
+			
+			if(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
+				setDefence(0);
+			}else {
+				setDefence(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+			}
+			/*
+			 * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
+			 */
+			if(speed - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
+				speed = 1.0f;
+			}else {
+				speed -= handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			}
 		}
 	}
 	
 	private void regenHealth() {
-		
-		if(health >= MAX_HEALTH) {
+		if(health == MAX_HEALTH) {
 			return;
 		}
-		regenTimer += System.currentTimeMillis() - lastRegenTimer;
-		lastRegenTimer = System.currentTimeMillis();
-		if(regenTimer < regenCooldown)
-			return;
 		
-		health += 1;
+		if(health > MAX_HEALTH) {
+			
+			regenTimer += System.currentTimeMillis() - lastRegenTimer;
+			lastRegenTimer = System.currentTimeMillis();
+			if(regenTimer < regenCooldown)
+				return;
+			
+			health -= 1;
+			regenTimer = 0;
+		}
+		if(health < MAX_HEALTH){
 		
-		regenTimer = 0;
+			regenTimer += System.currentTimeMillis() - lastRegenTimer;
+			lastRegenTimer = System.currentTimeMillis();
+			if(regenTimer < regenCooldown)
+				return;
+			
+			health += 1;
+			
+			regenTimer = 0;
+		}
 	}
 	
 	private void checkAttacks(){
@@ -208,8 +287,8 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(power * 3));
-				System.out.println("Damage = " + (baseDamage + (int) power * 3));
+				e.damage(baseDamage + (int)(getPower() * 3));
+				System.out.println("Damage = " + (baseDamage + (int) getPower() * 3));
 				return;
 			}
 		}
@@ -326,13 +405,13 @@ public class Player extends Creature{
 				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		*/
 		g.setColor(Creature.hpColor);
-		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()),
-				(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
+				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
 	}
 	
 	public void postRender(Graphics g){
-
+		chatWindow.render(g);
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
@@ -393,6 +472,14 @@ public class Player extends Creature{
 	public World getCurrentMap(){
 		return handler.getWorld();
 		
+	}
+
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public void setChatWindow(ChatWindow chatWindow) {
+		this.chatWindow = chatWindow;
 	}
 
 }

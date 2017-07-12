@@ -42,8 +42,10 @@ public class ItemSlot implements Serializable {
 			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
 		}
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+		
+//		g.setColor(Color.BLACK);
+//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		
 		if(itemStack != null){
@@ -62,9 +64,9 @@ public class ItemSlot implements Serializable {
 				}
 			}
 			
-			g.drawImage(itemStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(itemStack.getItem().texture, x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
 			g.setFont(GameState.myFont);
-			g.setColor(Color.BLACK);
+			g.setColor(Color.ORANGE);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 	}
@@ -74,10 +76,8 @@ public class ItemSlot implements Serializable {
 			if(item.getName() == itemStack.getItem().getName()) {
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				stackable = true;
-				System.out.println("Items added to the stack");
 				return true;
 			} else {
-				System.out.println(item.getName() + " cannot be stacked with " + itemStack.getItem().getName());
 				stackable = false;
 				return false;
 			}
@@ -85,13 +85,11 @@ public class ItemSlot implements Serializable {
 			if(itemStack != null){
 				if(item.getName() != itemStack.getItem().getName()){
 					stackable = false;
-					System.out.println("Dit item kan niet gestacked worden");
 					return false;
 				}
 				else{
 					if(item.getName() == itemStack.getItem().getName()){
 						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-						System.out.println("Dit item is stackable");
 						stackable = true;
 						return true;
 					}
@@ -99,7 +97,6 @@ public class ItemSlot implements Serializable {
 			}
 			
 			this.itemStack = new ItemStack(item, amount);
-			System.out.println("Nieuwe stack gemaakt");
 			return true;
 			}
 	}

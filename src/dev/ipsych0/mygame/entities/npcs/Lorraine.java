@@ -55,38 +55,38 @@ public class Lorraine extends Creature {
 	@Override
 	public void interact() {
 		if(this.getSpeakingTurn() == 0){
-			handler.getWorld().getChatWindow().sendMessage("Hey, could you help me, please?");
+			handler.getPlayer().getChatWindow().sendMessage("Hey, could you help me, please?");
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 1){
-			handler.getWorld().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
+			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 2){
-			handler.getWorld().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
+			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
 			speakingTurn++;
 			questStarted = true;
 		}
 		else if(this.getSpeakingTurn() == 3){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-				handler.getWorld().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
+				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
 			}
 			else{
-				handler.getWorld().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
+				handler.getPlayer().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
 				speakingTurn++;
 			}
 		}
 		else if(this.getSpeakingTurn() == 4){
 			if(!handler.getWorld().getInventory().inventoryIsFull()){
 				handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
-				handler.getWorld().getChatWindow().sendMessage("You received 1000 coins as a reward.");
+				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
 				speakingTurn++;
 			}else{
-				handler.getWorld().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
+				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
 			}
 		}
 		else if(this.getSpeakingTurn() >= 5){
-			handler.getWorld().getChatWindow().sendMessage("Thanks for helping!");
+			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
 			speakingTurn = 5;
 		}
 	}

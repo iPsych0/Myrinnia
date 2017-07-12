@@ -40,6 +40,13 @@ public class Scorpion extends Creature {
 		speed = DEFAULT_SPEED;
 		isNpc = false;
 		setNpc(false);
+		
+		// Creature stats
+		setPower(0);
+		setVitality(0);
+		setDefence(0);
+		speed = DEFAULT_SPEED;
+		setAttackSpeed(DEFAULT_ATTACKSPEED);
 	}
 
 	@Override
@@ -56,14 +63,14 @@ public class Scorpion extends Creature {
 		g.setFont(Creature.hpFont);
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
-				g.drawString(Integer.toString(e.getHealth()),
-						(int) (x - handler.getGameCamera().getxOffset() + 4), (int) (y - handler.getGameCamera().getyOffset()));
+				g.drawString(Integer.toString(e.getHealth()) + "/" + DEFAULT_HEALTH,
+						(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
 		}
 	}
 
 	@Override
 	public void die() {
-		handler.getWorld().getChatWindow().sendMessage("You killed the " + this.getClass().getSimpleName().toString());
+		handler.getPlayer().getChatWindow().sendMessage("You killed the " + this.getClass().getSimpleName().toString());
 		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		
@@ -146,7 +153,7 @@ public class Scorpion extends Creature {
 			}
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(power * 3));
+				e.damage(baseDamage + (int)(getPower() * 3));
 				return;
 			}
 		}

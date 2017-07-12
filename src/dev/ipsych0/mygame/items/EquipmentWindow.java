@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
 public class EquipmentWindow {
@@ -41,7 +42,7 @@ public class EquipmentWindow {
 						x += 8;
 					}
 					
-					equipmentSlots.add(new EquipmentSlot(x + (i * (EquipmentSlot.SLOTSIZE)), y + (j * EquipmentSlot.SLOTSIZE), null));
+					equipmentSlots.add(new EquipmentSlot(x + 17 + (i * (EquipmentSlot.SLOTSIZE)), y + 32 + (j * EquipmentSlot.SLOTSIZE), null));
 					
 					if(j == (numRows)){
 						x -= 8;
@@ -54,8 +55,8 @@ public class EquipmentWindow {
 			
 			
 			// TODO: Hardcoded, add dynamic functions for equipment
-			equipmentSlots.get(0).equipItem(Item.woodItem);
-			equipmentSlots.get(1).equipItem(Item.oreItem);
+			//equipmentSlots.get(0).equipItem(Item.woodItem);
+			//equipmentSlots.get(1).equipItem(Item.oreItem);
 			
 		}
 	}
@@ -75,6 +76,7 @@ public class EquipmentWindow {
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
 						inventoryWindow = new InventoryWindow(handler, 658, 112);
+						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
 						inventoryWindow.getItemSlots().get(inventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), 1);
 						es.setItem(null);
 						hasBeenPressed = false;
@@ -90,13 +92,15 @@ public class EquipmentWindow {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.setColor(interfaceColour);
-			g.fillRect(x - 16, y - 16, width + 32, height);
-			g.setColor(Color.BLACK);
-			g.drawRect(x - 16, y - 16, width + 32, height);
+			
+			g.drawImage(Assets.equipScreen, x, y, 132, 348, null);
+//			g.setColor(interfaceColour);
+//			g.fillRect(x - 16, y - 16, width + 32, height);
+//			g.setColor(Color.BLACK);
+//			g.drawRect(x - 16, y - 16, width + 32, height);
 			g.setFont(GameState.myFont);
-			g.setColor(Color.WHITE);
-			g.drawString("Equipment", x + 22, y - 2);
+			g.setColor(Color.YELLOW);
+			g.drawString("Equipment", x + 38, y + 24);
 			
 			for(EquipmentSlot es : equipmentSlots){
 				es.render(g);
@@ -106,6 +110,13 @@ public class EquipmentWindow {
 				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
 						handler.getMouseManager().getMouseY(), null);
 			}
+			
+			g.setColor(Color.YELLOW);
+			g.drawString("Power = "+Integer.toString(handler.getPlayer().getPower()), 848, 562);
+			g.drawString("Defence = "+Integer.toString(handler.getPlayer().getDefence()), 848, 578);
+			g.drawString("Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 848, 594);
+			g.drawString("ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 848, 610);
+			g.drawString("Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 848, 626);
 		}
 	}
 

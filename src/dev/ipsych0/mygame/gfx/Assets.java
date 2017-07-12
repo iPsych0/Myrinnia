@@ -70,7 +70,7 @@ public class Assets {
 	// Main menu background
 	public static BufferedImage mainScreenBackground;
 	
-	// Menu menu buttons
+	// Main menu buttons
 	public static BufferedImage[] button_new_game, button_continue, button_settings;
 	
 	// Item images
@@ -91,8 +91,17 @@ public class Assets {
 	// Minimap images
 	public static BufferedImage swampLand;
 	
+	// Inventory UI
+	public static BufferedImage invSlot, invScreen;
+	
+	// Equipment UI
+	public static BufferedImage equipSlot, equipScreen;
+	
 	
 	public static void init(){
+		SpriteSheet equipmentScreen = new SpriteSheet(ImageLoader.loadImage("/textures/equipmentscreen.png"));
+		SpriteSheet inventoryScreen = new SpriteSheet(ImageLoader.loadImage("/textures/inventoryscreen.png"));
+		SpriteSheet inventory = new SpriteSheet(ImageLoader.loadImage("/textures/invslot.png"));
 		SpriteSheet main_screen = new SpriteSheet(ImageLoader.loadImage("/textures/dark_priest.png"));
 		SpriteSheet swamp_land = new SpriteSheet(ImageLoader.loadImage("/textures/swampland.png"));
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
@@ -110,6 +119,14 @@ public class Assets {
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		// Inventory sprites
+		invSlot = inventory.crop(0, 0, 32, 32);
+		invScreen = inventoryScreen.crop(0, 0, 132, 329);
+		
+		// Equipment sprites
+		equipScreen = equipmentScreen.crop(0, 0, 132, 348);
+		equipSlot = inventory.crop(0, 0, 32, 32);
 		
 		// Main menu background
 		

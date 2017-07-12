@@ -19,8 +19,11 @@ public abstract class Creature extends Entity {
 							DEFAULT_VITALITY = 0;
 	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
 	public static Color hpColor = new Color(255, 255, 48);
-	protected int baseDamage, power, defence, vitality;
-	protected float attackSpeed;
+	protected int baseDamage;
+	private int power;
+	private int defence;
+	private int vitality;
+	private float attackSpeed;
 	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -37,18 +40,18 @@ public abstract class Creature extends Entity {
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
 		baseDamage = DEFAULT_DAMAGE;
-		power = DEFAULT_POWER;
-		defence = DEFAULT_DEFENCE;
-		vitality = DEFAULT_VITALITY;
+		setPower(DEFAULT_POWER);
+		setDefence(DEFAULT_DEFENCE);
+		setVitality(DEFAULT_VITALITY);
 		speed = DEFAULT_SPEED;
-		attackSpeed = DEFAULT_ATTACKSPEED;
+		setAttackSpeed(DEFAULT_ATTACKSPEED);
 		xMove = 0;
 		yMove = 0;
 		drawnOnMap = true;
 	}
 	
 	public int damageFormula() {
-		return baseDamage + (int)(power * 3);
+		return baseDamage + (int)(getPower() * 3);
 	}
 
 	public void move(){
@@ -177,6 +180,38 @@ public abstract class Creature extends Entity {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+	public int getDefence() {
+		return defence;
+	}
+
+	public void setDefence(int defence) {
+		this.defence = defence;
+	}
+
+	public int getVitality() {
+		return vitality;
+	}
+
+	public void setVitality(int vitality) {
+		this.vitality = vitality;
+	}
+
+	public float getAttackSpeed() {
+		return attackSpeed;
+	}
+
+	public void setAttackSpeed(float attackSpeed) {
+		this.attackSpeed = attackSpeed;
 	}
 
 }

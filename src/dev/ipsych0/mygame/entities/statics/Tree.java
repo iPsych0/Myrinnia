@@ -32,7 +32,7 @@ public class Tree extends StaticEntity {
 	
 	@Override
 	public void die(){
-		handler.getWorld().getChatWindow().sendMessage("You chopped the tree.");
+		handler.getPlayer().getChatWindow().sendMessage("You chopped the tree.");
 		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x + 4, (int) y + 6, handler.getRandomSupplyAmount(1, 3)));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(50);
 		World currentWorld = handler.getWorld();
