@@ -1,10 +1,14 @@
 package dev.ipsych0.mygame.gfx;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 public class Assets {
 	
 	private static final int width = 32, height = 32;
+	
+	// Fonts
+	public static Font font14, font20, font32;	
 
 	// Tile images
 	public static BufferedImage black, pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
@@ -95,10 +99,32 @@ public class Assets {
 	public static BufferedImage invSlot, invScreen;
 	
 	// Equipment UI
-	public static BufferedImage equipSlot, equipScreen;
+	public static BufferedImage equipSlot, equipScreen, equipStats;
+	
+	// Chatwindow UI
+	public static BufferedImage chatwindow, chatwindowTop;
+	
+	// HP Overlay UI
+	public static BufferedImage hpOverlay;
 	
 	
 	public static void init(){
+		
+		/*
+		 * Fonts
+		 */
+		font14 = FontLoader.loadFont("res/fonts/optanebold.ttf", 14);
+		font20 = FontLoader.loadFont("res/fonts/optanebold.ttf", 20);
+		font32 = FontLoader.loadFont("res/fonts/optanebold.ttf", 32);
+		
+		
+		/*
+		 * Sprite Sheets
+		 */
+		SpriteSheet HPOverlay = new SpriteSheet(ImageLoader.loadImage("/textures/hpoverlay.png"));  
+		SpriteSheet chatWindowTop = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindowtop.png"));  
+		SpriteSheet chatWindow = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindow.png")); 
+		SpriteSheet equipmentStats = new SpriteSheet(ImageLoader.loadImage("/textures/equipstats.png"));
 		SpriteSheet equipmentScreen = new SpriteSheet(ImageLoader.loadImage("/textures/equipmentscreen.png"));
 		SpriteSheet inventoryScreen = new SpriteSheet(ImageLoader.loadImage("/textures/inventoryscreen.png"));
 		SpriteSheet inventory = new SpriteSheet(ImageLoader.loadImage("/textures/invslot.png"));
@@ -127,6 +153,14 @@ public class Assets {
 		// Equipment sprites
 		equipScreen = equipmentScreen.crop(0, 0, 132, 348);
 		equipSlot = inventory.crop(0, 0, 32, 32);
+		equipStats = equipmentStats.crop(0, 0, 112, 160);
+		
+		// Chat sprites
+		chatwindow = chatWindow.crop(0, 0, 432, 112);
+		chatwindowTop = chatWindowTop.crop(0, 0, 432, 20);
+		
+		// HP Overlay sprites
+		hpOverlay = HPOverlay.crop(0, 0, 292, 96);
 		
 		// Main menu background
 		

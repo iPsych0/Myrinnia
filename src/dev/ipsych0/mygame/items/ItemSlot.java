@@ -65,8 +65,8 @@ public class ItemSlot implements Serializable {
 			}
 			
 			g.drawImage(itemStack.getItem().texture, x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
-			g.setFont(GameState.myFont);
-			g.setColor(Color.ORANGE);
+			g.setFont(Assets.font14);
+			g.setColor(Color.YELLOW);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 
 public class ChatWindow {
@@ -21,7 +22,7 @@ public class ChatWindow {
 	Color interfaceColour = new Color(100, 100, 100, alpha);
 
 	private int numCols = 1;
-	private int numRows = 6;
+	private int numRows = 7;
 	public static Color chatColour = new Color(100, 100, 100);
 	
 	private CopyOnWriteArrayList<TextSlot> textSlots;
@@ -65,13 +66,19 @@ public class ChatWindow {
 	// Renders even if not within distance --> fix
 	public void render(Graphics g){
 		if(chatIsOpen){
-			g.setColor(interfaceColour);
-			g.fillRect(x - 228, y + 167, width, height - 121); 
-			g.setColor(Color.BLACK);
-			g.drawRect(x - 228, y + 167, width, height - 121);
-			g.setFont(GameState.myFont);
-			g.setColor(Color.WHITE);
-			g.drawString("Myrinnia", x - 12, y + 180);
+//			g.setColor(interfaceColour);
+//			g.fillRect(x, y, width, height - 121); 
+//			g.setColor(Color.BLACK);
+//			g.drawRect(x, y, width, height - 121);
+//			g.setFont(GameState.myFont);
+			
+			g.drawImage(Assets.chatwindow, x, y, 432, 112, null);
+			g.drawImage(Assets.chatwindowTop, x, y - 4, 432, 20, null);
+			g.setColor(Color.YELLOW);
+			g.setFont(Assets.font14);
+			String world = handler.getWorld().getClass().getSimpleName().toString();
+			world = world.substring(0,1).toUpperCase() + world.substring(1).toLowerCase();
+			g.drawString(world, x + 212, y + 11);
 			
 			for(TextSlot ts : textSlots){
 				ts.render(g);

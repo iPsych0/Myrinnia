@@ -122,14 +122,14 @@ public class KeyManager implements KeyListener{
 			}
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_H){
-			if(!StatScreen.isOpen){
-				StatScreen.isOpen = true;
-			}
-			else {
-				StatScreen.isOpen = false;
-			}
-		}
+//		if(e.getKeyCode() == KeyEvent.VK_H){
+//			if(!StatScreen.isOpen){
+//				StatScreen.isOpen = true;
+//			}
+//			else {
+//				StatScreen.isOpen = false;
+//			}
+//		}
 	}
 
 	@Override

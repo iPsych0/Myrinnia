@@ -219,7 +219,7 @@ public class InventoryWindow implements Serializable {
 //			g.fillRect(x - 16, y - 16, width + 32, height - 8);
 //			g.setColor(Color.BLACK);
 //			g.drawRect(x - 16, y - 16, width + 32, height - 8);
-			g.setFont(GameState.myFont);
+			g.setFont(Assets.font14);
 			g.setColor(Color.YELLOW);
 			g.drawString("Inventory", x + 42, y + 24);
 			
@@ -234,7 +234,7 @@ public class InventoryWindow implements Serializable {
 				if(currentSelectedSlot != null){
 					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
 							handler.getMouseManager().getMouseY(), null);
-						g.setFont(GameState.myFont);
+						g.setFont(Assets.font14);
 						g.setColor(Color.BLACK);
 						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
 				}

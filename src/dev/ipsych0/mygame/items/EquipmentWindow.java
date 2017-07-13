@@ -26,6 +26,7 @@ public class EquipmentWindow {
 	
 	private static CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
 	private EquipmentStack currentSelectedSlot;
+	private boolean itemSelected;
 	
 	public EquipmentWindow(Handler handler, int x, int y){
 		this.x = x;
@@ -71,6 +72,27 @@ public class EquipmentWindow {
 				
 				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), EquipmentSlot.SLOTSIZE, EquipmentSlot.SLOTSIZE);
 				
+				if(handler.getMouseManager().isDragged()){
+					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
+						hasBeenPressed = true;
+						
+						if(currentSelectedSlot == null) {
+							if(es.getEquipmentStack() != null) {
+								currentSelectedSlot = es.getEquipmentStack();
+								handler.getPlayer().removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
+								System.out.println("Currently holding: " + es.getEquipmentStack().getItem().getName());
+								es.setItem(null);
+								itemSelected = true;
+							}
+							else{
+								System.out.println("Clicked on an empty item stack");
+								hasBeenPressed = false;
+								return;
+							}
+						}
+					}
+				}
+				
 				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
 					if(es.getEquipmentStack() != null){
@@ -86,6 +108,27 @@ public class EquipmentWindow {
 						return;
 					}
 				}
+				
+				if(itemSelected && !handler.getMouseManager().isDragged()){
+					if(handler.getMouseManager().getMouseX() <= this.x){
+						handler.getWorld().getItemManager().addItem(currentSelectedSlot.getItem().createNew((int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY(), currentSelectedSlot.getAmount()));
+						currentSelectedSlot = null;
+						hasBeenPressed = false;
+						itemSelected = false;
+					}
+				}
+				
+				if(itemSelected && !handler.getMouseManager().isDragged()) {
+					if(temp2.contains(temp)){
+						if(getEquipmentSlots().get(handler.getWorld().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem(currentSelectedSlot.getItem())){
+							handler.getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
+							currentSelectedSlot = null;
+							itemSelected = false;
+							hasBeenPressed = false;
+						
+						}
+					}
+				}
 			}
 		}
 	}
@@ -98,7 +141,7 @@ public class EquipmentWindow {
 //			g.fillRect(x - 16, y - 16, width + 32, height);
 //			g.setColor(Color.BLACK);
 //			g.drawRect(x - 16, y - 16, width + 32, height);
-			g.setFont(GameState.myFont);
+			g.setFont(Assets.font14);
 			g.setColor(Color.YELLOW);
 			g.drawString("Equipment", x + 38, y + 24);
 			
@@ -111,12 +154,15 @@ public class EquipmentWindow {
 						handler.getMouseManager().getMouseY(), null);
 			}
 			
+			g.drawImage(Assets.equipStats, 838, 550, 112, 160, null);
+			
 			g.setColor(Color.YELLOW);
-			g.drawString("Power = "+Integer.toString(handler.getPlayer().getPower()), 848, 562);
-			g.drawString("Defence = "+Integer.toString(handler.getPlayer().getDefence()), 848, 578);
-			g.drawString("Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 848, 594);
-			g.drawString("ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 848, 610);
-			g.drawString("Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 848, 626);
+			g.drawString("Stats ", 876, 546);
+			g.drawString("Power = "+Integer.toString(handler.getPlayer().getPower()), 844, 572);
+			g.drawString("Defence = "+Integer.toString(handler.getPlayer().getDefence()), 844, 588);
+			g.drawString("Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 844, 604);
+			g.drawString("ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 844, 620);
+			g.drawString("Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 844, 636);
 		}
 	}
 

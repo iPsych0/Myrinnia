@@ -11,8 +11,10 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -56,7 +58,7 @@ public class Player extends Creature{
 		// Player combat/movement settings:
 		setNpc(false);
 		
-		chatWindow = new ChatWindow(handler, 228, 457); //228,314
+		chatWindow = new ChatWindow(handler, 0, 608); //228,314
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
@@ -395,7 +397,7 @@ public class Player extends Creature{
 	public void render(Graphics g) {
 		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-		g.setFont(Creature.hpFont);
+		g.setFont(GameState.myFont);
 		
 		g.setColor(Color.RED);
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
@@ -408,14 +410,25 @@ public class Player extends Creature{
 		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
+		g.setFont(Assets.font14);
+		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
+		g.drawString("HP: " + Double.toString(Handler.round((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
+		
+		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
+		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
+		
 	}
 	
 	public void postRender(Graphics g){
 		chatWindow.render(g);
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			g.setFont(GameState.myFont);
+			e.drawDamage(g);
+		}
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
-		// Walk and Attack animations lol
+		// Walk and Attack animations
 		if(lastFaced == Direction.LEFT){
 			if(handler.getKeyManager().attack){
 				return attLeft.getCurrentFrame();
