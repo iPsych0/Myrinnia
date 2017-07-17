@@ -50,6 +50,7 @@ public class Whirlpool extends StaticEntity {
 		if(this.speakingTurn == 0) {
 			handler.getPlayer().getChatWindow().sendMessage("Fishing...");
 			speakingTurn = 1;
+			handler.getPlayer().setMovementAllowed(false);
 			
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
@@ -60,9 +61,11 @@ public class Whirlpool extends StaticEntity {
 			            		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
 			            				handler.getRandomSupplyAmount(1, 5));
 			            		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
+			            		handler.getPlayer().setMovementAllowed(true);
 			            		speakingTurn = 0;
 			            	}else {
 			            		handler.getPlayer().getChatWindow().sendMessage("You didn't catch anything...");
+			            		handler.getPlayer().setMovementAllowed(true);
 			            		speakingTurn = 0;
 			            	}
 			            }

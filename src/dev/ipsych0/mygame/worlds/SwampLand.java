@@ -55,7 +55,7 @@ public class SwampLand extends World{
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 		
-		entityManager.addEntity(new Whirlpool(handler, 680, 432));
+		entityManager.addEntity(new Whirlpool(handler, 672, 432));
 		
 		nextLevelTile = new Rectangle(1568, 1300, 32, 200); 
 

@@ -43,8 +43,8 @@ public class Player extends Creature{
 	private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 	
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
-	
-	private int ty = 0;
+
+	private boolean movementAllowed = true;
 	
 	// NPC ChatWindow
 	
@@ -123,9 +123,12 @@ public class Player extends Creature{
 		
 		
 		//Movement
-		getInput();
-		move();
+		if(movementAllowed) {
+			getInput();
+			move();
+		}
 		handler.getGameCamera().centerOnEntity(this);
+		
 		// Attacks
 		regenHealth();
 		checkAttacks();
@@ -493,6 +496,14 @@ public class Player extends Creature{
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
+	}
+
+	public boolean isMovementAllowed() {
+		return movementAllowed;
+	}
+
+	public void setMovementAllowed(boolean movementAllowed) {
+		this.movementAllowed = movementAllowed;
 	}
 
 }
