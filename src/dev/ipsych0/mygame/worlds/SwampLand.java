@@ -13,6 +13,7 @@ import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
@@ -53,6 +54,8 @@ public class SwampLand extends World{
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		
+		entityManager.addEntity(new Whirlpool(handler, 680, 432));
 		
 		nextLevelTile = new Rectangle(1568, 1300, 32, 200); 
 

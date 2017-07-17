@@ -107,6 +107,8 @@ public class Assets {
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
 	
+	public static BufferedImage[] whirlpool;
+	
 	
 	public static void init(){
 		
@@ -121,6 +123,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
 		SpriteSheet HPOverlay = new SpriteSheet(ImageLoader.loadImage("/textures/hpoverlay.png"));  
 		SpriteSheet chatWindowTop = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindowtop.png"));  
 		SpriteSheet chatWindow = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindow.png")); 
@@ -145,6 +148,13 @@ public class Assets {
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		whirlpool = new BufferedImage[4];
+		
+		whirlpool[0] = whirlPool.crop(0, 0, width, height);
+		whirlpool[1] = whirlPool.crop(width, 0, width, height);
+		whirlpool[2] = whirlPool.crop(0, height, width, height);
+		whirlpool[3] = whirlPool.crop(width, height, width, height);
 		
 		// Inventory sprites
 		invSlot = inventory.crop(0, 0, 32, 32);
