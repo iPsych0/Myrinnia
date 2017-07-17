@@ -56,7 +56,7 @@ public class TeleportShrine2 extends StaticEntity {
 			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
 			
-			// Add the inventory objects
+			// Add the inventory objects to an arraylist
 			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
 				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
 					continue;
@@ -64,7 +64,7 @@ public class TeleportShrine2 extends StaticEntity {
 				SaveManager.addInventoryItems(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
 			}
 			
-			// Add equipment objects
+			// Add equipment objects to an arraylist
 			for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
 				if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 					continue;

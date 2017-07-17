@@ -21,12 +21,12 @@ import dev.ipsych0.mygame.items.ItemStack;
 
 public class SaveManager {
 	
-	private static ArrayList<String> saveData;
+	private static ArrayList<String> variables;
 	private static ArrayList<ItemStack> inventory;
 	private static ArrayList<EquipmentStack> equipment;
 
 	public SaveManager(Handler handler){
-		saveData = new ArrayList<String>();
+		variables = new ArrayList<String>();
 		inventory = new ArrayList<ItemStack>();
 		equipment = new ArrayList<EquipmentStack>();
 	}
@@ -34,11 +34,11 @@ public class SaveManager {
 	public static void saveGame(){
 		try {
 			DataOutputStream output = new DataOutputStream(new FileOutputStream("res/savegames/save.dat"));
-			for (int i = 0; i < saveData.size(); i++) {
+			for (int i = 0; i < variables.size(); i++) {
 				try {
 					// write down all the saved data stored in the Array
-					output.writeUTF(saveData.get(i));
-					System.out.println("Saved data: " + saveData.get(i));
+					output.writeUTF(variables.get(i));
+					System.out.println("Saved data: " + variables.get(i));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -101,7 +101,7 @@ public class SaveManager {
 			DataInputStream input = new DataInputStream(new FileInputStream("res/savegames/save.dat"));
 			try {
 				while(input.available() > 0){
-					saveData.add(input.readUTF());
+					variables.add(input.readUTF());
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,10 +120,10 @@ public class SaveManager {
 		 * Setting variables
 		 */
 		
-		handler.getWorld().getEntityManager().getPlayer().setAttackExperience(Integer.valueOf(saveData.get(0)));
-		handler.getWorld().getEntityManager().getPlayer().setX(Float.valueOf(saveData.get(1)));
-		handler.getWorld().getEntityManager().getPlayer().setY(Float.valueOf(saveData.get(2)));
-		handler.getWorld().getEntityManager().getPlayer().setHealth(Integer.valueOf(saveData.get(3)));
+		handler.getWorld().getEntityManager().getPlayer().setAttackExperience(Integer.valueOf(variables.get(0)));
+		handler.getWorld().getEntityManager().getPlayer().setX(Float.valueOf(variables.get(1)));
+		handler.getWorld().getEntityManager().getPlayer().setY(Float.valueOf(variables.get(2)));
+		handler.getWorld().getEntityManager().getPlayer().setHealth(Integer.valueOf(variables.get(3)));
 
 	}
 	
@@ -190,7 +190,7 @@ public class SaveManager {
 	}
 	
 	public static void addSaveData(String data){
-		saveData.add(data);
+		variables.add(data);
 	}
 	
 	public static void addInventoryItems(ItemStack itemStack){
@@ -202,7 +202,7 @@ public class SaveManager {
 	}
 	
 	public static void clearSaveData(){
-		saveData.clear();
+		variables.clear();
 	}
 	
 	public static void clearInventoryItems(){
@@ -214,7 +214,7 @@ public class SaveManager {
 	}
 	
 	public static ArrayList<String> getSaveData() {
-		return saveData;
+		return variables;
 	}
 	
 	public static ArrayList<ItemStack> getInventoryItems(){

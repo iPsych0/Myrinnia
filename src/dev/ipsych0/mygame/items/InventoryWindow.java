@@ -241,12 +241,12 @@ public class InventoryWindow implements Serializable {
 				
 				if(temp2.contains(temp) && is.getItemStack() != null){
 					g.setColor(interfaceColour);
-					g.fillRect(x - 145, y, 129, 130);
+					g.fillRect(x - 145, y, 145, 130);
 					g.setColor(Color.BLACK);
-					g.drawRect(x - 145, y, 129, 130);
+					g.drawRect(x - 145, y, 145, 130);
 					
 					g.setColor(Color.YELLOW);
-					g.drawString(is.getItemStack().getItem().getName(), x - 142, y);
+					g.drawString(is.getItemStack().getItem().getName(), x - 142, y + 16);
 					
 					/*
 					 * Draw the colour of the item's rarity
@@ -266,7 +266,7 @@ public class InventoryWindow implements Serializable {
 					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Unique){
 						g.setColor(Color.MAGENTA);
 					}
-					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 16);
+					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 32);
 					
 					if(is.getItemStack().getItem().getEquipSlot() != 12){
 						// Only compare stats if an item is actually equipped
@@ -283,8 +283,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 32);
-							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 52, y + 32);
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 48);
+							g.drawString("(" + (is.getItemStack().getItem().getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 32, y + 48);
 							
 							/*
 							 * Draw defence colour red/green if stats are lower/higher
@@ -298,8 +298,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 48);
-							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 52, y + 48);
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 64);
+							g.drawString("(" + (is.getItemStack().getItem().getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 32, y + 64);
 							
 							/*
 							 * Draw vitality colour red/green if stats are lower/higher
@@ -312,8 +312,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 64);
-							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 52, y + 64);
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 80);
+							g.drawString("(" + (is.getItemStack().getItem().getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 32, y + 80);
 							
 							/*
 							 * Draw atk speed colour red/green if stats are lower/higher
@@ -326,8 +326,8 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 80);
-							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 52, y + 80);
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 96);
+							g.drawString("(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 32, y + 96);
 							
 							/*
 							 * Draw movement speed colour red/green if stats are lower/higher
@@ -340,15 +340,15 @@ public class InventoryWindow implements Serializable {
 							}else{
 								g.setColor(Color.YELLOW);
 							}
-							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 96);
-							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 52, y + 96);
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 112);
+							g.drawString("(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 32, y + 112);
 						}else{
 							g.setColor(Color.YELLOW);
-							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 32);
-							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 48);
-							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 64);
-							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 80);
-							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 96);
+							g.drawString("Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 48);
+							g.drawString("Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 64);
+							g.drawString("Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 80);
+							g.drawString("ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 96);
+							g.drawString("Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 112);
 						}
 					}
 				}
