@@ -34,6 +34,7 @@ public class Rock extends StaticEntity {
 	public void die(){
 		handler.getPlayer().getChatWindow().sendMessage("You mined the rock.");
 		handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x + 4, (int) y + 6, handler.getRandomSupplyAmount(1, 3)));
+		handler.getWorld().getItemManager().addItem(Item.testSword.createNew((int) x + 4, (int) y + 6, 1));
 		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(100);
 		World currentWorld = handler.getWorld();
 		new java.util.Timer().schedule( 

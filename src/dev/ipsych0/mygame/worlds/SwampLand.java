@@ -55,8 +55,7 @@ public class SwampLand extends World{
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 		
 		nextLevelTile = new Rectangle(1568, 1300, 32, 200); 
-		
-		getInventory().getItemSlots().get(getInventory().findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
+
 	}
 	
 	public void tick(){

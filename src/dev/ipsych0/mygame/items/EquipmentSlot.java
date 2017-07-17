@@ -2,10 +2,13 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class EquipmentSlot {
+public class EquipmentSlot implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final int SLOTSIZE = 32;
 	
@@ -37,7 +40,7 @@ public class EquipmentSlot {
 //		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(equipmentStack != null){
-			g.drawImage(equipmentStack.getItem().texture, x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(equipmentStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 		}
 		
 	}

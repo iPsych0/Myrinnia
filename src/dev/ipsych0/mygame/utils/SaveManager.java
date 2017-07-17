@@ -12,18 +12,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.EquipmentStack;
 import dev.ipsych0.mygame.items.ItemStack;
 
 public class SaveManager {
 	
 	private static ArrayList<String> saveData;
 	private static ArrayList<ItemStack> inventory;
+	private static ArrayList<EquipmentStack> equipment;
 
 	public SaveManager(Handler handler){
 		saveData = new ArrayList<String>();
 		inventory = new ArrayList<ItemStack>();
+		equipment = new ArrayList<EquipmentStack>();
 	}
 
 	public static void saveGame(){
@@ -57,10 +62,7 @@ public class SaveManager {
 			ObjectOutputStream o;
 			try {
 				o = new ObjectOutputStream(f);
-				for(int i = 0; i < inventory.size(); i++){
-					System.out.println("Saved: "+inventory.get(i).getItem().getName() + " with a total amount of: " + inventory.get(i).getAmount());
-					o.writeObject(inventory.get(i));
-				}
+					o.writeObject(inventory);
 				o.close();
 				f.close();
 			}
@@ -72,45 +74,22 @@ public class SaveManager {
 		}
 	}
 	
-	public static void loadInventory(Handler handler){
-		ObjectInputStream inputStream = null;
-        
-        try {
-            //Construct the ObjectInputStream object
-            inputStream = new ObjectInputStream(new FileInputStream("res/savegames/inventory.dat"));
-            Object itemStack = null;
-            while ((itemStack = (ItemStack) inputStream.readObject()) != null) {
-            	if( itemStack instanceof ItemStack){
-	            	itemStack = inputStream.readObject();
-	            	inventory.add((ItemStack) itemStack);
-            	}
-            }
-         
-        } catch (EOFException ex) {  //This exception will be caught when EOF is reached
-            System.out.println("End of file reached.");
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            //Close the ObjectInputStream
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-	
-		/*
-		 * Set the Inventory items
-		 */
-		System.out.println("Inventory size = "+ inventory.size());
-		for(int i = 0; i < inventory.size(); i++){
-			handler.getWorld().getInventory().getItemSlots().get(i).setItem(inventory.get(i));
+	public static void saveEquipment(){
+		FileOutputStream f;
+		try {
+			f = new FileOutputStream(new File("res/savegames/equipment.dat"));
+			ObjectOutputStream o;
+			try {
+				o = new ObjectOutputStream(f);
+					o.writeObject(equipment);
+				o.close();
+				f.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -148,12 +127,78 @@ public class SaveManager {
 
 	}
 	
+	public static void loadInventory(Handler handler){
+		inventory = null;
+		FileInputStream fin;
+		try {
+			fin = new FileInputStream("res/savegames/inventory.dat");
+			ObjectInputStream oin = new ObjectInputStream(fin);
+			inventory = (ArrayList<ItemStack>) oin.readObject();
+			oin.close();
+			fin.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		/*
+		 * Set the Inventory items from read file
+		 */
+		System.out.println("Inventory size = "+ inventory.size());
+		for(int i = 0; i < inventory.size(); i++){
+			handler.getWorld().getInventory().getItemSlots().get(i).addItem(handler.getWorld().getInventory().getItemByID(inventory.get(i).getItem().getId()),
+			inventory.get(i).getAmount());
+			
+		}
+	}
+	
+	public static void loadEquipment(Handler handler){
+		equipment = null;
+		FileInputStream fin;
+		try {
+			fin = new FileInputStream("res/savegames/equipment.dat");
+			ObjectInputStream oin = new ObjectInputStream(fin);
+			equipment = (ArrayList<EquipmentStack>) oin.readObject();
+			oin.close();
+			fin.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		/*
+		 * Set the Inventory items from read file
+		 */
+		System.out.println("Equipment size = "+ equipment.size());
+		for(int i = 0; i < equipment.size(); i++){
+			
+			handler.getWorld().getEquipment().getEquipmentSlots().get(equipment.get(i).getItem().getEquipSlot()).equipItem(handler.getWorld().getInventory().getItemByID(equipment.get(i).getItem().getId()));
+			handler.getPlayer().addEquipmentStats(equipment.get(i).getItem().getEquipSlot());
+		}
+	}
+	
 	public static void addSaveData(String data){
 		saveData.add(data);
 	}
 	
 	public static void addInventoryItems(ItemStack itemStack){
 		inventory.add(itemStack);
+	}
+	
+	public static void addEquipmentItems(EquipmentStack equipmentStack){
+		equipment.add(equipmentStack);
 	}
 	
 	public static void clearSaveData(){
@@ -164,6 +209,10 @@ public class SaveManager {
 		inventory.clear();
 	}
 	
+	public static void clearEquipmentItems() {
+		equipment.clear();
+	}
+	
 	public static ArrayList<String> getSaveData() {
 		return saveData;
 	}
@@ -171,4 +220,8 @@ public class SaveManager {
 	public static ArrayList<ItemStack> getInventoryItems(){
 		return inventory;
 	}
+	public static ArrayList<EquipmentStack> getEquipmentItems(){
+		return equipment;
+	}
+	
 }

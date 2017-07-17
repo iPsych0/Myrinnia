@@ -445,6 +445,10 @@ public class InventoryWindow implements Serializable {
 		}
 		return -10;
 	}
+	
+	public Item getItemByID(int id) {
+		return Item.items[id];
+	}
 
 
 	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {

@@ -46,6 +46,8 @@ public class MenuState extends State {
 				State.setState(handler.getGame().gameState);
 				SaveManager.loadGame(handler);
 				SaveManager.loadInventory(handler);
+				SaveManager.loadEquipment(handler);
+
 			}}));
 		
 		/*

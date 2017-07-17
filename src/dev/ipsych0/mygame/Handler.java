@@ -2,6 +2,7 @@ package dev.ipsych0.mygame;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
@@ -19,7 +20,7 @@ import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
 
 public class Handler {
-	
+
 	private Game game;
 	private World world;
 	private SwampLand swampLand;

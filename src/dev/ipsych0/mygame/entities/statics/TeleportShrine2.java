@@ -47,6 +47,7 @@ public class TeleportShrine2 extends StaticEntity {
 		else if(this.getSpeakingTurn() == 1){
 			// Clear previous saved data in order to write the new data
 			SaveManager.clearInventoryItems();
+			SaveManager.clearEquipmentItems();
 			SaveManager.clearSaveData();
 			
 			// Add the easy integers and strings
@@ -63,8 +64,17 @@ public class TeleportShrine2 extends StaticEntity {
 				SaveManager.addInventoryItems(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
 			}
 			
+			// Add equipment objects
+			for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
+				if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+					continue;
+				}
+				SaveManager.addEquipmentItems((handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
+			}
+			
 			// Finally, save the game
 			SaveManager.saveInventory();
+			SaveManager.saveEquipment();
 			SaveManager.saveGame();
 			handler.getPlayer().getChatWindow().sendMessage("Game Saved!");
 			speakingTurn = 0;

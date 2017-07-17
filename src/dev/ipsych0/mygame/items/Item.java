@@ -3,7 +3,12 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -23,10 +28,10 @@ public class Item implements Serializable{
 	
 	// Class
 	
-	protected Handler handler;
+	protected transient Handler handler;
 	protected ItemType itemType;
 	protected ItemRarity itemRarity;
-	protected transient BufferedImage texture;
+	private transient BufferedImage texture;
 	protected String name;
 	protected final int id;
 	protected final int equipSlot;
