@@ -192,7 +192,7 @@ public class InventoryWindow implements Serializable {
 						}
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
-								handler.getWorld().getCraftingUI().getCraftingSlots().get(0).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 								is.setItem(null);
 								hasBeenPressed = false;
 								return;

@@ -66,6 +66,23 @@ public class CraftingUI {
 		}
 		
 	}
+	
+	public int findFreeSlot(Item item) {
+        for (int i = 0; i < craftingSlots.size(); i++) {
+        	if(craftingSlots.get(i).getItemStack() != null){
+        		if(craftingSlots.get(i).getItemStack().getItem().getName() == item.getName()){
+        			System.out.println("This item is already in the crafting window.");
+            		return i;
+        		}
+        	}
+            if (craftingSlots.get(i).getItemStack() == null) {
+                return i;
+            }
+       }
+       System.out.println("You can't put any more items in.");
+       handler.getPlayer().getChatWindow().sendMessage("You can't put any more items in the crafting window.");
+       return -1;
+	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
 		return craftingSlots;
