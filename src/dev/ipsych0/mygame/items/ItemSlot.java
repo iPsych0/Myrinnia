@@ -102,7 +102,7 @@ public class ItemSlot implements Serializable {
 			}
 	}
 	
-	public void setItem(ItemStack item){
+	public void setItemStack(ItemStack item){
 		this.itemStack = item;
 	}
 

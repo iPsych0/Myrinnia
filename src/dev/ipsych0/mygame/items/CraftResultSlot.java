@@ -3,16 +3,14 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import dev.ipsych0.mygame.gfx.Assets;
-
-public class CraftingSlot {
+public class CraftResultSlot {
 	
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;
 	public static boolean stackable = true;
 	
-	public CraftingSlot(int x, int y, ItemStack itemStack) {
+	public CraftResultSlot(int x, int y, ItemStack itemStack) {
 		this.x = x;
 		this.y = y;
 		this.itemStack = itemStack;
@@ -36,34 +34,10 @@ public class CraftingSlot {
 		}
 	}
 	
-	public boolean addItem(Item item, int amount) {
-		if(itemStack != null && stackable == true) {
-			if(item.getName() == itemStack.getItem().getName()) {
-				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-				stackable = true;
-				return true;
-			} else {
-				stackable = false;
-				return false;
-			}
-		} else {
-			if(itemStack != null){
-				if(item.getName() != itemStack.getItem().getName()){
-					stackable = false;
-					return false;
-				}
-				else{
-					if(item.getName() == itemStack.getItem().getName()){
-						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-						stackable = true;
-						return true;
-					}
-				}
-			}
+	public void addItem(Item item, int amount) {
+		
+		this.itemStack = new ItemStack(item, amount);
 			
-			this.itemStack = new ItemStack(item, amount);
-			return true;
-			}
 	}
 
 	public ItemStack getItemStack() {

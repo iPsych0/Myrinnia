@@ -93,7 +93,7 @@ public class InventoryWindow implements Serializable {
 								currentSelectedSlot = is.getItemStack();
 								System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
 								is.setSelected(false);
-								is.setItem(null);
+								is.setItemStack(null);
 								itemSelected = true;
 							}
 							else{
@@ -135,7 +135,7 @@ public class InventoryWindow implements Serializable {
 						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
 							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
 								handler.getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());
-								is.setItem(null);
+								is.setItemStack(null);
 								isEquipped = false;
 								hasBeenPressed = false;
 								return;
@@ -155,7 +155,7 @@ public class InventoryWindow implements Serializable {
 								finalEquipSwap = new ItemStack(swap);
 						
 								// Set the stacks
-								is.setItem(finalEquipSwap);
+								is.setItemStack(finalEquipSwap);
 								handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
 								
 								isEquipped = false;
@@ -193,7 +193,7 @@ public class InventoryWindow implements Serializable {
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
 								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
-								is.setItem(null);
+								is.setItemStack(null);
 								hasBeenPressed = false;
 								return;
 						}
