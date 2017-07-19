@@ -9,6 +9,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
@@ -427,6 +428,13 @@ public class Player extends Creature{
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
 			g.setFont(GameState.myFont);
 			e.drawDamage(g);
+		}
+		if(Whirlpool.isFishing) {
+			g.setColor(Color.WHITE);
+			g.fillRect((int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect((int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height);
+			g.drawImage(Assets.fish, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 	}
 	

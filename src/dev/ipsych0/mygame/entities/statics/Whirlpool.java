@@ -15,6 +15,7 @@ public class Whirlpool extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private Animation spinning;
 	private int speakingTurn;
+	public static boolean isFishing = false;
 
 	public Whirlpool(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -26,7 +27,7 @@ public class Whirlpool extends StaticEntity {
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;
-		spinning = new Animation(300, Assets.whirlpool);
+		spinning = new Animation(125, Assets.whirlpool);
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class Whirlpool extends StaticEntity {
 			handler.getPlayer().getChatWindow().sendMessage("Fishing...");
 			speakingTurn = 1;
 			handler.getPlayer().setMovementAllowed(false);
+			isFishing = true;
 			
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
@@ -62,10 +64,12 @@ public class Whirlpool extends StaticEntity {
 			            				handler.getRandomSupplyAmount(1, 5));
 			            		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
 			            		handler.getPlayer().setMovementAllowed(true);
+			            		isFishing = false;
 			            		speakingTurn = 0;
 			            	}else {
 			            		handler.getPlayer().getChatWindow().sendMessage("You didn't catch anything...");
 			            		handler.getPlayer().setMovementAllowed(true);
+			            		isFishing = false;
 			            		speakingTurn = 0;
 			            	}
 			            }

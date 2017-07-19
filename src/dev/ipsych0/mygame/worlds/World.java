@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.CraftingUI;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -53,6 +54,7 @@ public abstract class World {
 	protected InventoryWindow inventory;
 	protected EquipmentWindow equipment;
 	protected StatScreen statScreen;
+	protected CraftingUI craftingUI;
 	
 	// Actual code ---v
 	
@@ -69,6 +71,7 @@ public abstract class World {
 			statScreen = new StatScreen(handler, 827, 481);
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
+			craftingUI = new CraftingUI(handler, 200, 200);
 			
 			
 			// Dit is hoe ik items in de world zelf spawn
@@ -218,5 +221,13 @@ public abstract class World {
 
 	public void setStatScreen(StatScreen statScreen) {
 		this.statScreen = statScreen;
+	}
+
+	public CraftingUI getCraftingUI() {
+		return craftingUI;
+	}
+
+	public void setCraftingUI(CraftingUI craftingUI) {
+		this.craftingUI = craftingUI;
 	}
 }

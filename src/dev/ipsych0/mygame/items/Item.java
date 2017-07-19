@@ -21,7 +21,7 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 1, 10, 10, 5, 0, 0);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 12, 10, 10, 5, 0, 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
 	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0);

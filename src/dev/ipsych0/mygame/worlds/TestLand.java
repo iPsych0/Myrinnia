@@ -52,6 +52,7 @@ public class TestLand extends World {
 			equipment.tick();
 			statScreen.tick();
 			miniMap.tick();
+			craftingUI.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
@@ -114,6 +115,7 @@ public class TestLand extends World {
 			
 			// MiniMap
 			miniMap.render(g);
+			craftingUI.render(g);
 			
 			g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}

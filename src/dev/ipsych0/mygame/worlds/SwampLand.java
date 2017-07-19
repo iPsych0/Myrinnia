@@ -70,6 +70,7 @@ public class SwampLand extends World{
 			sparkles.tick();
 			statScreen.tick();
 			miniMap.tick();
+			craftingUI.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
@@ -131,6 +132,7 @@ public class SwampLand extends World{
 			equipment.render(g);
 			statScreen.render(g);
 			miniMap.render(g);
+			craftingUI.render(g);
 			
 			g.drawRect((int) (nextLevelTile.x - handler.getGameCamera().getxOffset()), (int) (nextLevelTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}

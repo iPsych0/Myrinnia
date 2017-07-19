@@ -33,11 +33,11 @@ public class ItemSlot implements Serializable {
 	}
 	
 	public void render(Graphics g){
-		if(!isSelected){
+		if(!this.isSelected){
 			g.setColor(interfaceColour);
 			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
 		}
-		if(isSelected){
+		if(this.isSelected){
 			g.setColor(selectedColour);
 			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
 		}

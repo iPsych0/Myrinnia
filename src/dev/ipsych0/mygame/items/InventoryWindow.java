@@ -22,8 +22,6 @@ public class InventoryWindow implements Serializable {
 	public static boolean isCreated = false;
 	private boolean isHovering = false;
 	
-	private EquipmentWindow equipmentWindow;
-	
 	private int x, y;
 	private int width, height;
 	private Handler handler;
@@ -94,11 +92,12 @@ public class InventoryWindow implements Serializable {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
 								System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
+								is.setSelected(false);
 								is.setItem(null);
 								itemSelected = true;
 							}
 							else{
-								System.out.println("Clicked on an empty item stack");
+								System.out.println("Dragging from an empty item stack");
 								hasBeenPressed = false;
 								return;
 							}
@@ -127,7 +126,6 @@ public class InventoryWindow implements Serializable {
 
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 					if(is.getItemStack() != null){
-						equipmentWindow = new EquipmentWindow(handler, 658, 466);
 						if(is.getItemStack().getItem().equipSlot == 12){
 							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
@@ -135,7 +133,7 @@ public class InventoryWindow implements Serializable {
 							return;
 						}
 						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
-							if(equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
+							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
 								handler.getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());
 								is.setItem(null);
 								isEquipped = false;
@@ -151,14 +149,14 @@ public class InventoryWindow implements Serializable {
 								finalItemSwap = new EquipmentStack(swap);
 								
 								// Store the equipment item in a temporary swap slot
-								firstEquipSwap = equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
+								firstEquipSwap = handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
 								swap = firstEquipSwap.getItem();
 								swapAmount = 1;
 								finalEquipSwap = new ItemStack(swap);
 						
 								// Set the stacks
 								is.setItem(finalEquipSwap);
-								equipmentWindow.getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
+								handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
 								
 								isEquipped = false;
 								hasBeenPressed = false;
@@ -187,25 +185,22 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 				
-				if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed && !is.isSelected){
-					if(handler.getMouseManager().isDragged()){
-						return;
-					}
-					hasBeenPressed = true;
-					if(is.getItemStack() != null){
-						if(is.getItemStack().getItem().itemType == ItemType.CRAFTING_MATERIAL){
-							is.setSelected(true);
-							hasBeenPressed = false;
+				if(CraftingUI.isOpen) {
+					if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed){
+						if(handler.getMouseManager().isDragged()){
 							return;
+						}
+						hasBeenPressed = true;
+						if(is.getItemStack() != null){
+								handler.getWorld().getCraftingUI().getCraftingSlots().get(0).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+								is.setItem(null);
+								hasBeenPressed = false;
+								return;
 						}
 						else{
 							hasBeenPressed = false;
 							return;
 						}
-					}
-					else{
-						hasBeenPressed = false;
-						return;
 					}
 				}
 			}

@@ -109,6 +109,8 @@ public class Assets {
 	
 	public static BufferedImage[] whirlpool;
 	
+	public static BufferedImage fish;
+	
 	
 	public static void init(){
 		
@@ -123,6 +125,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet fishSheet = new SpriteSheet(ImageLoader.loadImage("/textures/fish.png"));
 		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
 		SpriteSheet HPOverlay = new SpriteSheet(ImageLoader.loadImage("/textures/hpoverlay.png"));  
 		SpriteSheet chatWindowTop = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindowtop.png"));  
@@ -149,12 +152,18 @@ public class Assets {
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
-		whirlpool = new BufferedImage[4];
+		fish = fishSheet.crop(0, 0, width, height);
+		
+		whirlpool = new BufferedImage[8];
 		
 		whirlpool[0] = whirlPool.crop(0, 0, width, height);
-		whirlpool[1] = whirlPool.crop(width, 0, width, height);
-		whirlpool[2] = whirlPool.crop(0, height, width, height);
-		whirlpool[3] = whirlPool.crop(width, height, width, height);
+		whirlpool[1] = whirlPool.crop(width * 2, 0, width, height);
+		whirlpool[2] = whirlPool.crop(width, 0, width, height);
+		whirlpool[3] = whirlPool.crop(width * 3, 0, width, height);
+		whirlpool[4] = whirlPool.crop(0, height, width, height);
+		whirlpool[5] = whirlPool.crop(width * 2, height, width, height);
+		whirlpool[6] = whirlPool.crop(width, height, width, height);
+		whirlpool[7] = whirlPool.crop(width * 3, height, width, height);
 		
 		// Inventory sprites
 		invSlot = inventory.crop(0, 0, 32, 32);
