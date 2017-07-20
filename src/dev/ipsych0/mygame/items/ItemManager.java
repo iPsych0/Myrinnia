@@ -3,9 +3,7 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 
 public class ItemManager {
 	
@@ -48,8 +46,9 @@ public class ItemManager {
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
+		            	
 		                items.remove(i);
-		                
+		               
 		            }
 		        }, 
 		        300000

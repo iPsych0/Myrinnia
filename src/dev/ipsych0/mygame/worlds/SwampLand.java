@@ -2,24 +2,16 @@ package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
-import dev.ipsych0.mygame.gfx.Animation;
-import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
-import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
@@ -68,7 +60,6 @@ public class SwampLand extends World{
 			itemManager.tick();
 			entityManager.tick();
 			sparkles.tick();
-			statScreen.tick();
 			miniMap.tick();
 			craftingUI.tick();
 			
@@ -130,7 +121,6 @@ public class SwampLand extends World{
 			
 			inventory.render(g);
 			equipment.render(g);
-			statScreen.render(g);
 			miniMap.render(g);
 			craftingUI.render(g);
 			

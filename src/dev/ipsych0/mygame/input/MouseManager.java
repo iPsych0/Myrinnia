@@ -3,11 +3,7 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import dev.ipsych0.mygame.items.EquipmentSlot;
-import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
@@ -109,13 +105,11 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

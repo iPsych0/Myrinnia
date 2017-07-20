@@ -1,16 +1,13 @@
 package dev.ipsych0.mygame.items;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.GameState;
 
 public class InventoryWindow implements Serializable {
 	
@@ -20,7 +17,6 @@ public class InventoryWindow implements Serializable {
 	public static boolean isEquipped = false;
 	private boolean hasBeenPressed = false;
 	public static boolean isCreated = false;
-	private boolean isHovering = false;
 	
 	private int x, y;
 	private int width, height;
@@ -34,20 +30,15 @@ public class InventoryWindow implements Serializable {
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
-	private ItemStack firstItemSwap;
-	private EquipmentStack finalItemSwap;
-	private EquipmentStack firstEquipSwap;
-	private ItemStack finalEquipSwap;
-	private Item swap;
-	private int swapAmount;
+	private ItemStack itemSwap;
+	private ItemStack equipSwap;
 	private boolean itemSelected;
-	private boolean useSelected;
 	
 	public InventoryWindow(Handler handler, int x, int y){
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		width = numCols * (ItemSlot.SLOTSIZE + 11) - 29;
+		width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
 		height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
 		if(isCreated == false){
 			
@@ -92,7 +83,6 @@ public class InventoryWindow implements Serializable {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
 								System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
-								is.setSelected(false);
 								is.setItemStack(null);
 								itemSelected = true;
 							}
@@ -133,43 +123,44 @@ public class InventoryWindow implements Serializable {
 							return;
 						}
 						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
+							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
+									is.getItemStack().getItem().getId() ==
+									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
+								handler.getPlayer().getChatWindow().sendMessage("You've already equipped this item!");
+								isEquipped = false;
+								hasBeenPressed = false;
+								return;
+							}
 							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
 								handler.getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());
-								is.setItemStack(null);
+								if(is.getItemStack().getAmount() >= 2) {
+									is.getItemStack().setAmount(is.getItemStack().getAmount() - 1);
+								}else {
+									is.setItemStack(null);
+								}
 								isEquipped = false;
 								hasBeenPressed = false;
 								return;
 							}
 							else{
-								//Store the inventory item in a temporary swap slot
-								handler.getPlayer().removeEquipmentStats(is.getItemStack().getItem().getEquipSlot());
-								firstItemSwap = is.getItemStack();
-								swap = firstItemSwap.getItem();
-								swapAmount = firstItemSwap.getAmount();
-								finalItemSwap = new EquipmentStack(swap);
 								
-								// Store the equipment item in a temporary swap slot
-								firstEquipSwap = handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
-								swap = firstEquipSwap.getItem();
-								swapAmount = 1;
-								finalEquipSwap = new ItemStack(swap);
-						
-								// Set the stacks
-								is.setItemStack(finalEquipSwap);
-								handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(finalItemSwap);
+								// Set the swaps
+								itemSwap = is.getItemStack();
+								equipSwap = handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
+								
+								// Remove the equipment stats
+								handler.getPlayer().removeEquipmentStats(is.getItemStack().getItem().getEquipSlot());
+								
+								
+								handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
+								is.setItemStack(equipSwap);
+								
+								handler.getPlayer().addEquipmentStats(itemSwap.getItem().getEquipSlot());
 								
 								isEquipped = false;
 								hasBeenPressed = false;
-								
-								handler.getPlayer().addEquipmentStats(finalEquipSwap.getItem().getEquipSlot());
-								
-								
-								// Clearing variables
-								firstItemSwap = null;
-								swap = null;
-								finalItemSwap = null;
-								firstEquipSwap = null;
-								finalEquipSwap = null;
+								itemSwap = null;
+								equipSwap = null;
 							}
 						}
 						else{
@@ -213,7 +204,7 @@ public class InventoryWindow implements Serializable {
 	
 	public void render(Graphics g){
 		if(isOpen){
-			g.drawImage(Assets.invScreen, x, y, 132, height, null);
+			g.drawImage(Assets.invScreen, x, y, width, height, null);
 //			g.setColor(interfaceColour);
 //			g.fillRect(x - 16, y - 16, width + 32, height - 8);
 //			g.setColor(Color.BLACK);
@@ -371,15 +362,42 @@ public class InventoryWindow implements Serializable {
        return -1;
 	}
 	
+	public boolean playerHasItem(Item item, int amount) {
+		boolean found = false;
+		for(int i = 0; i < itemSlots.size(); i++) {
+			if(itemSlots.get(i).getItemStack() == null){
+				continue;
+			}
+			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
+				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
+					found = false;
+				}
+				if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
+					found = true;
+				}
+				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
+					found = true;
+				}
+			}
+			else{
+				continue;
+			}
+		}
+		return found;
+	}
+	
 	public void removeItem(Item item, int amount){
 		for(int i = 0; i < itemSlots.size(); i++){
 			if(itemSlots.get(i).getItemStack() == null){
 				continue;
 			}
 			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
-				if((itemSlots.get(i).getItemStack().getAmount() - amount) <= 0){
+				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
 					handler.getPlayer().getChatWindow().sendMessage("You don't have enough " + item.getName() + "s");
 					return;
+				}
+				if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
+					itemSlots.get(i).setItemStack(null);
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
 					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
@@ -389,6 +407,8 @@ public class InventoryWindow implements Serializable {
 				continue;
 			}
 		}
+		if(!playerHasItem(item, amount))
+			handler.sendMsg("You don't have enough " + item.getName().toLowerCase());
 	}
 	
 	public boolean inventoryIsFull(){

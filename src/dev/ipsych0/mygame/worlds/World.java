@@ -4,14 +4,6 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
-import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.entities.npcs.Lorraine;
-import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
-import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.CraftingUI;
@@ -22,7 +14,6 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.states.State;
-import dev.ipsych0.mygame.statscreen.StatScreen;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -53,7 +44,6 @@ public abstract class World {
 	
 	protected InventoryWindow inventory;
 	protected EquipmentWindow equipment;
-	protected StatScreen statScreen;
 	protected CraftingUI craftingUI;
 	
 	// Actual code ---v
@@ -68,7 +58,6 @@ public abstract class World {
 			// Create inv & equipmentscreen
 			inventory = new InventoryWindow(handler, 828, 0);
 			equipment = new EquipmentWindow(handler, 828, 372);
-			statScreen = new StatScreen(handler, 827, 481);
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = new CraftingUI(handler, 0, 200);
@@ -79,6 +68,7 @@ public abstract class World {
 			
 			// World Animations
 			sparkles = new Animation(250, Assets.sparkles);
+			
 		}
 	}
 	
@@ -213,14 +203,6 @@ public abstract class World {
 
 	public void setEquipment(EquipmentWindow equipment) {
 		this.equipment = equipment;
-	}
-
-	public StatScreen getStatScreen() {
-		return statScreen;
-	}
-
-	public void setStatScreen(StatScreen statScreen) {
-		this.statScreen = statScreen;
 	}
 
 	public CraftingUI getCraftingUI() {

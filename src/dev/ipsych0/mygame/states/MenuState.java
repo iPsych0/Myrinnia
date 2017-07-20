@@ -1,12 +1,6 @@
 package dev.ipsych0.mygame.states;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.io.File;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.ClickListener;

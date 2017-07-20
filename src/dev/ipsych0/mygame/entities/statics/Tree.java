@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -22,7 +21,6 @@ public class Tree extends StaticEntity {
 		bounds.width = 32;
 		bounds.height = 32;
 		isNpc = false;
-		setNpc(false);
 	}
 
 	@Override

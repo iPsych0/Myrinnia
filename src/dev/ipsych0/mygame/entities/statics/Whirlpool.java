@@ -1,13 +1,12 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
-import java.util.Random;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.worlds.World;
 
 public class Whirlpool extends StaticEntity {
 
@@ -37,7 +36,21 @@ public class Whirlpool extends StaticEntity {
 	
 	@Override
 	public void die(){
-
+		
+		World currentWorld = handler.getWorld();
+		
+		// Resapwn
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		            	
+		                currentWorld.getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));
+		                
+		            }
+		        }, 
+		        5000 
+		);
 	}
 
 	@Override

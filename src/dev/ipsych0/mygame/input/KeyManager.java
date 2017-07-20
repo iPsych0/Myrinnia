@@ -7,20 +7,15 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.statscreen.StatScreen;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.items.CraftingUI;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
 
 public class KeyManager implements KeyListener{
-	
-	private UIManager uiManager;
 
 	private boolean[] keys, justPressed, cantPress;
-	private Handler handler;
 	public boolean up, down, left, right;
 	public boolean attack;
 	public boolean chat;
@@ -32,10 +27,6 @@ public class KeyManager implements KeyListener{
 		keys = new boolean[256];
 		justPressed = new boolean[keys.length];
 		cantPress = new boolean[keys.length];
-	}
-	
-	public void setUIManager(UIManager uiManager){
-		this.uiManager = uiManager;
 	}
 	
 	public void tick(){

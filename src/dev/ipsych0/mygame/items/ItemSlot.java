@@ -16,11 +16,7 @@ public class ItemSlot implements Serializable {
 	
 	private int x, y;
 	private ItemStack itemStack;
-	public boolean isSelected = false;
 	public static boolean stackable = true;
-	int alpha = 127;
-	Color selectedColour = new Color(255, 127, 127, alpha);
-	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
@@ -33,20 +29,8 @@ public class ItemSlot implements Serializable {
 	}
 	
 	public void render(Graphics g){
-		if(!this.isSelected){
-			g.setColor(interfaceColour);
-			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-		}
-		if(this.isSelected){
-			g.setColor(selectedColour);
-			g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-		}
 		
 		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
-		
-//		g.setColor(Color.BLACK);
-//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
-		
 		
 		if(itemStack != null){
 			if(itemStack.getItem().getName() == "Coins"){
@@ -84,7 +68,6 @@ public class ItemSlot implements Serializable {
 		} else {
 			if(itemStack != null){
 				if(item.getName() != itemStack.getItem().getName()){
-					System.out.println("Not the same item?");
 					stackable = false;
 					return false;
 				}
@@ -125,14 +108,5 @@ public class ItemSlot implements Serializable {
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	public boolean isSelected() {
-		return isSelected;
-	}
-
-	public void setSelected(boolean isSelected) {
-		this.isSelected = isSelected;
-	}
-	
 
 }

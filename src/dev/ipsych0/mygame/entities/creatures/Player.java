@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -16,6 +15,7 @@ import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -103,6 +103,10 @@ public class Player extends Creature{
 		if(lastFaced == Direction.UP){
 			aDefault = new Animation(250, Assets.player_up);
 		}
+		
+		if(this.getCollisionBounds(0,0).intersects((handler.getWorld().getTile((int) x, (int) y).tilePosition(0, 0)))){
+			setHealth(50);
+		}
 
 		//Animations
 		aDefault.tick();
@@ -142,9 +146,6 @@ public class Player extends Creature{
 			System.out.println("Attack level = " + getAttackLevel());
 			System.out.println("Attack XP = " + getAttackExperience());
 			
-			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
-				handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 1);
-			}
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
 				if(!hasInteracted && playerIsNearNpc()){
@@ -420,7 +421,7 @@ public class Player extends Creature{
 		
 		g.setFont(Assets.font14);
 		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + Double.toString(Handler.round((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
+		g.drawString("HP: " + Double.toString(Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
 		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);

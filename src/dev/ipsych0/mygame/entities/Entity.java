@@ -64,25 +64,23 @@ public abstract class Entity {
 	}
 	
 	
-	// If player is within 64px of an NPC, return true, else return false.
-	// TODO: Needs detection for multiple NPCs.
 	public boolean playerIsNearNpc(){
-			// TODO: ALWAYS CHECKS ALL NPCS, SO CHECK ALL DISTANCES AND ONLY RETURN THE CLOSEST ONE!!!!
-			//System.out.println("Test 1: " + getSpeakingTurn());
-			if(distanceToEntity((int)closestEntity().getX(), (int)closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
-				// Interact with the respective speaking turn
-				closestEntity().interact();
-				return true;
-			}
-			// Out of range, so reset speaking turn
-			isCloseToNPC = false;
-			return false;
-			
+		// Looks for the closest entity and returns that entity
+		if(distanceToEntity((int)closestEntity().getX(), (int)closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
+			// Interact with the respective speaking turn
+			closestEntity().interact();
+			return true;
+		}
+		// Out of range, so reset speaking turn
+		isCloseToNPC = false;
+		return false;
 					
 	}
 	
-	// Damage function
 	
+	/*
+	 * Damage formula
+	 */
 	public void damage(int damageDealt){
 		health -= damageDealt;
 		damaged = true;
@@ -103,6 +101,9 @@ public abstract class Entity {
 		}
 	}
 	
+	/*
+	 * Drawing the hitsplat
+	 */
 	public void drawDamage(Graphics g) {
 		if(damaged) {
 			ty--;
@@ -116,13 +117,21 @@ public abstract class Entity {
 		ty = 0;
 	}
 	
+	
+	/*
+	 * Check the distance to another entity
+	 */
 	public double distanceToEntity(int x1, int y1, int x2, int y2){
 		int dx = x2 - x1;
 	    int dy = y2 - y1;
 	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	
-	//Checks distance for all entities, puts the distance in ascending order and returns the closest Entity
+	/*
+	 * Checks distance for all entities,
+	 * puts the distance in ascending order and
+	 * returns the closest Entity
+	 */
 	public Entity closestEntity(){
 		double closestDistance;
 		Entity closestEntity = null;
@@ -150,6 +159,9 @@ public abstract class Entity {
 	
 	// Getters & Setters
 	
+	/*
+	 * Returns the collision bounds of an Entity
+	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}

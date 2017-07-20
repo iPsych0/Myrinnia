@@ -1,12 +1,8 @@
 package dev.ipsych0.mygame.entities.creatures;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
-
-import com.sun.glass.ui.Timer;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
@@ -39,7 +35,6 @@ public class Scorpion extends Creature {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		speed = DEFAULT_SPEED;
 		isNpc = false;
-		setNpc(false);
 		
 		// Creature stats
 		setPower(0);

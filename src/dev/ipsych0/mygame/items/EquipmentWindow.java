@@ -5,10 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.GameState;
 
 public class EquipmentWindow implements Serializable {
 	
@@ -28,15 +26,15 @@ public class EquipmentWindow implements Serializable {
 	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	private static CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
-	private EquipmentStack currentSelectedSlot;
+	private ItemStack currentSelectedSlot;
 	private boolean itemSelected;
 	
 	public EquipmentWindow(Handler handler, int x, int y){
 		this.x = x;
 		this.y = y;
 		this.handler = handler;
-		width = numCols * (ItemSlot.SLOTSIZE + 10) - 26;
-		height = numRows * (ItemSlot.SLOTSIZE + 8);
+		width = numCols * (EquipmentSlot.SLOTSIZE + 10) - 26;
+		height = numRows * (EquipmentSlot.SLOTSIZE + 8);
 		if(isCreated == false){
 			equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
 			
@@ -56,11 +54,6 @@ public class EquipmentWindow implements Serializable {
 		
 			// Prevents multiple instances of the equipment window being created over and over when equipping items
 			isCreated = true;
-			
-			
-			// TODO: Hardcoded, add dynamic functions for equipment
-			//equipmentSlots.get(0).equipItem(Item.woodItem);
-			//equipmentSlots.get(1).equipItem(Item.oreItem);
 			
 		}
 	}
@@ -96,7 +89,6 @@ public class EquipmentWindow implements Serializable {
 					}
 				}
 				
-				// TODO: Zorgen dat als ik bijv. Wood equipped heb, dat hij dat swapped met bijv. Ore en niet vervangt en verdwijnt!!!
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
@@ -123,7 +115,7 @@ public class EquipmentWindow implements Serializable {
 				
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(temp2.contains(temp)){
-						if(getEquipmentSlots().get(handler.getWorld().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem(currentSelectedSlot.getItem())){
+						if(getEquipmentSlots().get(handler.getWorld().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem((currentSelectedSlot.getItem()))){
 							handler.getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
 							currentSelectedSlot = null;
 							itemSelected = false;

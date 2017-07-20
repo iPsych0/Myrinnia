@@ -2,7 +2,6 @@ package dev.ipsych0.mygame.utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,24 +10,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.EquipmentStack;
 import dev.ipsych0.mygame.items.ItemStack;
 
 public class SaveManager {
 	
 	private static ArrayList<String> variables;
 	private static ArrayList<ItemStack> inventory;
-	private static ArrayList<EquipmentStack> equipment;
+	private static ArrayList<ItemStack> equipment;
 
 	public SaveManager(Handler handler){
 		variables = new ArrayList<String>();
 		inventory = new ArrayList<ItemStack>();
-		equipment = new ArrayList<EquipmentStack>();
+		equipment = new ArrayList<ItemStack>();
 	}
 
 	public static void saveGame(){
@@ -137,13 +131,10 @@ public class SaveManager {
 			oin.close();
 			fin.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -164,17 +155,14 @@ public class SaveManager {
 		try {
 			fin = new FileInputStream("res/savegames/equipment.dat");
 			ObjectInputStream oin = new ObjectInputStream(fin);
-			equipment = (ArrayList<EquipmentStack>) oin.readObject();
+			equipment = (ArrayList<ItemStack>) oin.readObject();
 			oin.close();
 			fin.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -197,8 +185,8 @@ public class SaveManager {
 		inventory.add(itemStack);
 	}
 	
-	public static void addEquipmentItems(EquipmentStack equipmentStack){
-		equipment.add(equipmentStack);
+	public static void addEquipmentItems(ItemStack itemStack){
+		equipment.add(itemStack);
 	}
 	
 	public static void clearSaveData(){
@@ -220,7 +208,7 @@ public class SaveManager {
 	public static ArrayList<ItemStack> getInventoryItems(){
 		return inventory;
 	}
-	public static ArrayList<EquipmentStack> getEquipmentItems(){
+	public static ArrayList<ItemStack> getEquipmentItems(){
 		return equipment;
 	}
 	

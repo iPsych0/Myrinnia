@@ -17,6 +17,7 @@ public class TeleportShrine1 extends StaticEntity {
 		bounds.width = 0;
 		bounds.height = 0;
 		attackable = false;
+		isNpc = false;
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class TeleportShrine1 extends StaticEntity {
 
 	@Override
 	public void interact() {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

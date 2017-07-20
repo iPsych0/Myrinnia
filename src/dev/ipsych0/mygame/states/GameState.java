@@ -3,14 +3,9 @@ package dev.ipsych0.mygame.states;
 import java.awt.Font;
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.worlds.SwampLand;
-import dev.ipsych0.mygame.worlds.TestLand;
-import dev.ipsych0.mygame.worlds.World;
-import dev.ipsych0.mygame.worlds.WorldHandler;
 
 public class GameState extends State{
 
-	private SwampLand swampLand;
 	public static Font myFont;
 	public static Font chatFont = new Font("SansSerif", Font.BOLD, 14);
 	

@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.tiles;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.gfx.Assets;
@@ -93,13 +94,43 @@ public class Tiles {
 	
 	protected BufferedImage texture;
 	protected final int id;
+	protected int x, y;
+	protected Rectangle bounds;
 	
 	public Tiles(BufferedImage texture, int id){
 		this.texture = texture;
 		this.id = id;
 		
 		tiles[id] = this;
+		bounds = new Rectangle(0, 0, TILEWIDTH, TILEHEIGHT);
 		
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public void setPosition(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Rectangle tilePosition(float xOffset, float yOffset){
+		//
+		bounds.x = 0;
+		bounds.y = 0;
+		bounds.width = 32;
+		bounds.height = 32;
+		
+		Rectangle ir = new Rectangle();
+		int arSize = TILEWIDTH;
+		ir.width = arSize;
+		ir.height = arSize;
+		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
 

@@ -4,11 +4,8 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
-import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
 
 public class Lorraine extends Creature {
 	
@@ -78,7 +75,7 @@ public class Lorraine extends Creature {
 		}
 		else if(this.getSpeakingTurn() == 4){
 			if(!handler.getWorld().getInventory().inventoryIsFull()){
-				handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem, 1000);
+				handler.giveItem(Item.coinsItem, 1000);
 				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
 				speakingTurn++;
 			}else{

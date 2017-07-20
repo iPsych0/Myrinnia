@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
@@ -104,12 +105,40 @@ public class Handler {
 		this.player = player;
 	}
 	
-	public static double round(double value, int places) {
+	public static double roundOff(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
 	    BigDecimal bd = new BigDecimal(value);
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
+	}
+	
+	/*
+	 * Shortcut functions from here on out
+	 */
+	
+	public void dropItem(Item item, int amount, int x, int y) {
+		getWorld().getItemManager().addItem((item.createNew(x, y, amount)));
+	}
+	
+	public void sendMsg(String message) {
+		getPlayer().getChatWindow().sendMessage(message);
+	}
+	
+	public boolean invIsFull() {
+		return getWorld().getInventory().inventoryIsFull();
+	}
+	
+	public void giveItem(Item item, int amount) {
+		getWorld().getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
+	}
+	
+	public void removeItem(Item item, int amount) {
+		getWorld().getInventory().removeItem(item, amount);
+	}
+	
+	public boolean playerHasItem(Item item, int amount) {
+		return getWorld().getInventory().playerHasItem(item, amount);
 	}
 
 }

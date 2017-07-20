@@ -3,13 +3,7 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import javax.imageio.ImageIO;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
@@ -21,7 +15,7 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 12, 10, 10, 5, 0, 0);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 1, 10, 10, 5, 0, 0);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
 	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0);
@@ -94,8 +88,8 @@ public class Item implements Serializable{
 		//
 		bounds.x = 1;
 		bounds.y = 1;
-		bounds.width = 48;
-		bounds.height = 48;
+		bounds.width = 32;
+		bounds.height = 32;
 		
 		Rectangle ir = new Rectangle();
 		int arSize = ITEMWIDTH;

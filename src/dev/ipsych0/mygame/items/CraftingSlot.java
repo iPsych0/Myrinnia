@@ -3,8 +3,6 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import dev.ipsych0.mygame.gfx.Assets;
-
 public class CraftingSlot {
 	
 	private int x, y;

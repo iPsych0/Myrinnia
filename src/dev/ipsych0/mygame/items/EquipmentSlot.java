@@ -13,17 +13,17 @@ public class EquipmentSlot implements Serializable{
 	public static final int SLOTSIZE = 32;
 	
 	private int x, y;
-	private EquipmentStack equipmentStack;
+	private ItemStack itemStack;
 	private EquipmentWindow equipmentWindow;
 	public boolean stackable = false;
 	public static boolean hasSwapped = false;
 	int alpha = 127;
 	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
-	public EquipmentSlot(int x, int y, EquipmentStack equipmentStack){
+	public EquipmentSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
 		this.y = y;
-		this.equipmentStack = equipmentStack;
+		this.itemStack = itemStack;
 	}
 	
 	public void tick(){
@@ -39,30 +39,30 @@ public class EquipmentSlot implements Serializable{
 //		g.setColor(Color.BLACK);
 //		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
-		if(equipmentStack != null){
-			g.drawImage(equipmentStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
+		if(itemStack != null){
+			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 		}
 		
 	}
 	
 	public boolean equipItem(Item item) {
-		if(this.equipmentStack != null){
-			if(item.equipSlot == equipmentStack.getItem().equipSlot){
+		if(this.itemStack != null){
+			if(item.equipSlot == itemStack.getItem().equipSlot){
 				return false;
 			}
 		}else{
-			this.equipmentStack = new EquipmentStack(item);
+			this.itemStack = new ItemStack(item);
 			return true;
 		}
 		return false;
 	}
 	
-	public void setItem(EquipmentStack item){
-		this.equipmentStack = item;
+	public void setItem(ItemStack item){
+		this.itemStack = item;
 	}
 
-	public EquipmentStack getEquipmentStack() {
-		return equipmentStack;
+	public ItemStack getEquipmentStack() {
+		return itemStack;
 	}
 
 	public int getX() {

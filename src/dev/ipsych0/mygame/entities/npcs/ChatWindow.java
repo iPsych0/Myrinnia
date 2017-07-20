@@ -49,7 +49,8 @@ public class ChatWindow {
 				}
 			}	
 			width = numCols * (TextSlot.textWidth);
-			height = numRows * (TextSlot.textHeight + 10);
+			height = numRows * (TextSlot.textHeight + 3);
+			System.out.println(width + " and " + height);
 			isCreated = true;
 		}
 	}
@@ -72,13 +73,13 @@ public class ChatWindow {
 //			g.drawRect(x, y, width, height - 121);
 //			g.setFont(GameState.myFont);
 			
-			g.drawImage(Assets.chatwindow, x, y, 432, 112, null);
-			g.drawImage(Assets.chatwindowTop, x, y - 4, 432, 20, null);
+			g.drawImage(Assets.chatwindow, x, y, width, height, null);
+			g.drawImage(Assets.chatwindowTop, x, y - 4, width, 20, null);
 			g.setColor(Color.YELLOW);
 			g.setFont(Assets.font14);
 			String world = handler.getWorld().getClass().getSimpleName().toString();
 			world = world.substring(0,1).toUpperCase() + world.substring(1).toLowerCase();
-			g.drawString(world, x + 212, y + 11);
+			g.drawString(world, x + width / 2 - 16, y + 11);
 			
 			for(TextSlot ts : textSlots){
 				ts.render(g);
