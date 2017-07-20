@@ -71,7 +71,7 @@ public abstract class World {
 			statScreen = new StatScreen(handler, 827, 481);
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
-			craftingUI = new CraftingUI(handler, 200, 200);
+			craftingUI = new CraftingUI(handler, 0, 200);
 			
 			
 			// Dit is hoe ik items in de world zelf spawn

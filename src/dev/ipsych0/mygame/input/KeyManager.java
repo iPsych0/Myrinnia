@@ -131,6 +131,12 @@ public class KeyManager implements KeyListener{
 				CraftingUI.isOpen = false;
 			}
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			if(CraftingUI.isOpen) {
+				CraftingUI.isOpen = false;
+			}
+		}
 	}
 
 	@Override

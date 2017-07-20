@@ -141,6 +141,10 @@ public class Player extends Creature{
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 			System.out.println("Attack level = " + getAttackLevel());
 			System.out.println("Attack XP = " + getAttackExperience());
+			
+			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
+				handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 1);
+			}
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
 				if(!hasInteracted && playerIsNearNpc()){

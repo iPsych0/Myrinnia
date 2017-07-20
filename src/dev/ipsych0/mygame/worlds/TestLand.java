@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -38,6 +39,8 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		
+		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
 		oldLevelTile = new Rectangle(0, 70, 32, 350); 
 	}

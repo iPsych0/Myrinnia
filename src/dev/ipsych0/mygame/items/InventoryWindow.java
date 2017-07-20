@@ -124,7 +124,7 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 
-				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen){
 					if(is.getItemStack() != null){
 						if(is.getItemStack().getItem().equipSlot == 12){
 							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
@@ -186,16 +186,20 @@ public class InventoryWindow implements Serializable {
 				}
 				
 				if(CraftingUI.isOpen) {
-					if(temp2.contains(temp) && handler.getMouseManager().isLeftPressed() && !hasBeenPressed){
-						if(handler.getMouseManager().isDragged()){
-							return;
-						}
+					if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
+							if(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem()) == -1) {
+								hasBeenPressed = false;
+								handler.getPlayer().getChatWindow().sendMessage("You cannot add more than 4 items to the crafting window.");
+								return;
+							} else {
 								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 								is.setItemStack(null);
 								hasBeenPressed = false;
 								return;
+							}
 						}
 						else{
 							hasBeenPressed = false;
@@ -364,7 +368,6 @@ public class InventoryWindow implements Serializable {
             }
        }
        System.out.println("Something went wrong checking for free slots (or bag is full)");
-       handler.getPlayer().getChatWindow().sendMessage("Your inventory is full. Please make some space!");
        return -1;
 	}
 	

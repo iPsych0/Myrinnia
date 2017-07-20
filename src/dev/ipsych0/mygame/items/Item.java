@@ -116,7 +116,7 @@ public class Item implements Serializable{
             System.out.println("Something went wrong picking up this item.");
             return false;
         }
-    	System.out.println("Inventory is full!");
+        handler.getPlayer().getChatWindow().sendMessage("Your inventory is full. Please make some space!");
     	return false;
     }
 	
