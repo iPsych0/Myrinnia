@@ -2,6 +2,9 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import dev.ipsych0.mygame.gfx.Assets;
 
 public class CraftResultSlot {
 	
@@ -9,11 +12,13 @@ public class CraftResultSlot {
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;
 	public static boolean stackable = true;
+	private Rectangle bounds;
 	
 	public CraftResultSlot(int x, int y, ItemStack itemStack) {
 		this.x = x;
 		this.y = y;
 		this.itemStack = itemStack;
+		bounds = new Rectangle(x, y, SLOTSIZE, SLOTSIZE);
 	}
 	
 	public void tick() {
@@ -30,6 +35,7 @@ public class CraftResultSlot {
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			g.setColor(Color.YELLOW);
+			g.setFont(Assets.font14);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 	}
@@ -62,6 +68,14 @@ public class CraftResultSlot {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

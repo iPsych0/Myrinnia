@@ -18,18 +18,24 @@ public class CraftingUI {
 	private Handler handler;
 	private CopyOnWriteArrayList<CraftingSlot> craftingSlots;
 	private CraftResultSlot crs;
+	private CraftButton cb;
 	private int numRows = 2;
 	private int numCols = 2;
-	
+	private int craftAmount = 1;
+	public static boolean craftButtonPressed = false;
+	public static boolean craftResultPressed = false;
+	private Rectangle cbBounds;
 	private ItemStack currentSelectedSlot;
+	private Rectangle crsBounds;
+	private RecipeList recipeList;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		width = 240;
-		height = 240;
+		width = 242;
+		height = 320;
 		
 		if(!isCreated) {
 			
@@ -41,12 +47,18 @@ public class CraftingUI {
 //				}
 //			}
 			
-			craftingSlots.add(new CraftingSlot(x + 32, y + 88, null));
-			craftingSlots.add(new CraftingSlot(x + 80, y + 136, null));
-			craftingSlots.add(new CraftingSlot(x + 128, y + 136, null));
-			craftingSlots.add(new CraftingSlot(x + 176, y + 88, null));
+			craftingSlots.add(new CraftingSlot(x + 32, y + 50, null));
+			craftingSlots.add(new CraftingSlot(x + 80, y + 100, null));
+			craftingSlots.add(new CraftingSlot(x + 128, y + 100, null));
+			craftingSlots.add(new CraftingSlot(x + 176, y + 50, null));
 			
-			crs = new CraftResultSlot(x + width / 2 - 16, y + height - 48, null);
+			crs = new CraftResultSlot(x + width / 2 - 16, y + height - 160, null);
+			cb = new CraftButton(x + width / 2 - 48, y + height - 112, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE);
+			
+			cbBounds = new Rectangle(cb.getBounds());
+			crsBounds = new Rectangle(crs.getBounds());
+			
+			recipeList = new RecipeList();
 			
 			isCreated = true;
 			
@@ -56,11 +68,39 @@ public class CraftingUI {
 	
 	public void tick() {
 		
-		crs.tick();
-		
-		Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
-		
 		if(isOpen) {
+			
+			crs.tick();
+			cb.tick();
+			
+			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			if(handler.getMouseManager().isLeftPressed()) {
+				if(cbBounds.contains(temp) && !hasBeenPressed && craftButtonPressed) {
+					hasBeenPressed = true;
+					
+					craftItem(getCraftingSlots().get(0).getItemStack());
+					
+					craftButtonPressed = false;
+					hasBeenPressed = false;
+				}
+			}
+			
+			if(handler.getMouseManager().isRightPressed()) {
+				if(crsBounds.contains(temp) && !hasBeenPressed && craftResultPressed) {
+					if(crs.getItemStack() == null) {
+						return;
+					}
+					hasBeenPressed = true;
+					
+					handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
+					crs.setItemStack(null);
+					
+					craftResultPressed = false;
+					hasBeenPressed = false;
+				}
+			}
+			
 			for(CraftingSlot cs : craftingSlots) {
 				
 				cs.tick();
@@ -127,29 +167,28 @@ public class CraftingUI {
 		
 		if(isOpen) {
 		
-			g.setColor(Color.GRAY);
-			g.fillRect(x, y, width, height);
-			g.setColor(Color.BLACK);
-			g.drawRect(x, y, width, height);
+			g.drawImage(Assets.craftWindow, x, y, width, height, null);
 			
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect(x + 8, y + 12, 64, 48);
-			g.fillRect(x + 88, y + 12, 64, 48);
-			g.fillRect(x + 168, y + 12, 64, 48);
-			
-			g.setColor(Color.BLACK);
-			g.drawRect(x + 8, y + 12, 64, 48);
-			g.drawRect(x + 88, y + 12, 64, 48);
-			g.drawRect(x + 168, y + 12, 64, 48);
-			
-			g.setFont(Assets.font14);
-			g.setColor(Color.YELLOW);
-			Text.drawString(g, "Crafting", x + 8 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Smithing", x + 88 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Brewing", x + 168 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
+//			g.setColor(Color.DARK_GRAY);
+//			g.fillRect(x + 8, y + 12, 64, 48);
+//			g.fillRect(x + 88, y + 12, 64, 48);
+//			g.fillRect(x + 168, y + 12, 64, 48);
+//			
+//			g.setColor(Color.BLACK);
+//			g.drawRect(x + 8, y + 12, 64, 48);
+//			g.drawRect(x + 88, y + 12, 64, 48);
+//			g.drawRect(x + 168, y + 12, 64, 48);
+//			
+//			g.setFont(Assets.font14);
+//			g.setColor(Color.YELLOW);
+			Text.drawString(g, "Crafting", x + width / 2, y + 16, true, Color.YELLOW, Assets.font20);
+//			Text.drawString(g, "Smithing", x + 88 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
+//			Text.drawString(g, "Brewing", x + 168 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
 			
 			
 			crs.render(g);
+			cb.render(g);
+			Text.drawString(g, "Craft " + craftAmount, x + width / 2, y + height - 96, true, Color.YELLOW, Assets.font20);
 		
 			for(CraftingSlot cs : craftingSlots) {
 				
@@ -183,6 +222,28 @@ public class CraftingUI {
        handler.getPlayer().getChatWindow().sendMessage("You can't put any more items in the crafting window.");
        return -1;
 	}
+	
+	public void craftItem(ItemStack a) {
+		if(a == null) {
+			return;
+		}
+		if(a.getItem().getId() == Item.woodItem.getId()) {
+			if(a.getAmount() >= 5) {
+				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 < 0) {
+					handler.sendMsg("You don't have enough " + a.getItem().getName());
+					return;
+				}
+				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 == 0) {
+					getCraftResultSlot().addItem(Item.testSword, 1);
+					getCraftingSlots().get(0).setItemStack(null);
+					return;
+				}else {
+					getCraftResultSlot().addItem(Item.testSword, 1);
+					getCraftingSlots().get(0).getItemStack().setAmount(a.getAmount() - 5);
+				}
+			}
+		}
+	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
 		return craftingSlots;
@@ -190,6 +251,46 @@ public class CraftingUI {
 
 	public void setCraftingSlots(CopyOnWriteArrayList<CraftingSlot> craftingSlots) {
 		this.craftingSlots = craftingSlots;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public CraftResultSlot getCraftResultSlot() {
+		return crs;
+	}
+
+	public void setCraftResultSlot(CraftResultSlot crs) {
+		this.crs = crs;
 	}
 	
 

@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.gfx.Assets;
+
 public class CraftingSlot {
 	
 	private int x, y;
@@ -30,6 +32,7 @@ public class CraftingSlot {
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			g.setColor(Color.YELLOW);
+			g.setFont(Assets.font14);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 		}
 	}

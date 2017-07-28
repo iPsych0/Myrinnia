@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import dev.ipsych0.mygame.items.CraftingUI;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.ui.UIManager;
 
@@ -53,14 +55,14 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		// Left Click
 		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = true;
-			System.out.println("Mouse leftclick X position = " + e.getX());
-			System.out.println("Mouse leftclick Y position = " + e.getY());
+			CraftingUI.craftButtonPressed = true;
 		}
 		
 		// Right Click
 		if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = true;
 			InventoryWindow.isEquipped = true;
+			CraftingUI.craftResultPressed = true;
 		}
 	}
 	

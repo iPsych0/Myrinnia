@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import dev.ipsych0.mygame.Handler;
@@ -135,7 +136,7 @@ public abstract class Entity {
 	public Entity closestEntity(){
 		double closestDistance;
 		Entity closestEntity = null;
-		Hashtable<Double, Entity> hashTable = new Hashtable<Double, Entity>();
+		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(!e.isNpc()){
 				continue;
@@ -146,14 +147,14 @@ public abstract class Entity {
 			
 			int dx = (int) (handler.getWorld().getEntityManager().getPlayer().getX() - e.getX());
 		    int dy = (int) (handler.getWorld().getEntityManager().getPlayer().getY() - e.getY());
-		    hashTable.put(Math.sqrt(dx * dx + dy * dy), e);
+		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);
 		}
 		closestDistance = pythagoras.get(0);
 		pythagoras.removeAll(pythagoras);
-		closestEntity = hashTable.get(closestDistance);
-		hashTable.clear();
+		closestEntity = hashMap.get(closestDistance);
+		hashMap.clear();
 		return closestEntity;
 	}
 	

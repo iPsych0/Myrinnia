@@ -104,6 +104,9 @@ public class Assets {
 	// Chatwindow UI
 	public static BufferedImage chatwindow, chatwindowTop;
 	
+	// Crafting UI
+	public static BufferedImage craftWindow;
+	
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
 	
@@ -125,6 +128,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet craftingWindow = new SpriteSheet(ImageLoader.loadImage("/textures/crafting.png"));
 		SpriteSheet fishSheet = new SpriteSheet(ImageLoader.loadImage("/textures/fish.png"));
 		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
 		SpriteSheet HPOverlay = new SpriteSheet(ImageLoader.loadImage("/textures/hpoverlay.png"));  
@@ -180,6 +184,9 @@ public class Assets {
 		
 		// HP Overlay sprites
 		hpOverlay = HPOverlay.crop(0, 0, 292, 96);
+		
+		// Crafting UI sprites
+		craftWindow = craftingWindow.crop(0, 0, 242, 320);
 		
 		// Main menu background
 		

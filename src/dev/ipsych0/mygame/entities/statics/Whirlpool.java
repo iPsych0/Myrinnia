@@ -72,7 +72,7 @@ public class Whirlpool extends StaticEntity {
 			            @Override
 			            public void run() {
 			            	int roll = handler.getRandomSupplyAmount(1, 100);
-			            	if(roll < 25) {
+			            	if(roll < 60) {
 			            		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
 			            				handler.getRandomSupplyAmount(1, 5));
 			            		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
