@@ -152,7 +152,7 @@ public abstract class Entity {
 		    Collections.sort(pythagoras);
 		}
 		closestDistance = pythagoras.get(0);
-		pythagoras.removeAll(pythagoras);
+		pythagoras.clear();
 		closestEntity = hashMap.get(closestDistance);
 		hashMap.clear();
 		return closestEntity;

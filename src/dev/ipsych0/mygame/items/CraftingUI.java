@@ -3,7 +3,10 @@ package dev.ipsych0.mygame.items;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
@@ -79,7 +82,7 @@ public class CraftingUI {
 				if(cbBounds.contains(temp) && !hasBeenPressed && craftButtonPressed) {
 					hasBeenPressed = true;
 					
-					craftItem(getCraftingSlots().get(0).getItemStack());
+					craftItem();
 					
 					craftButtonPressed = false;
 					hasBeenPressed = false;
@@ -223,26 +226,49 @@ public class CraftingUI {
        return -1;
 	}
 	
-	public void craftItem(ItemStack a) {
-		if(a == null) {
-			return;
+	public void craftItem() {
+		
+		ArrayList<ItemStack> temp = new ArrayList<ItemStack>();
+		
+		for (int i = 0; i < craftingSlots.size(); i++) {
+			if(craftingSlots.get(i).getItemStack() == null) {
+				continue;
+			}else {
+				temp.add(craftingSlots.get(i).getItemStack());
+				
+			}
+			
 		}
-		if(a.getItem().getId() == Item.woodItem.getId()) {
-			if(a.getAmount() >= 5) {
-				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 < 0) {
-					handler.sendMsg("You don't have enough " + a.getItem().getName());
-					return;
-				}
-				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 == 0) {
-					getCraftResultSlot().addItem(Item.testSword, 1);
-					getCraftingSlots().get(0).setItemStack(null);
-					return;
-				}else {
-					getCraftResultSlot().addItem(Item.testSword, 1);
-					getCraftingSlots().get(0).getItemStack().setAmount(a.getAmount() - 5);
-				}
+		
+		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
+			System.out.println("recipe components are: " + recipeList.getRecipes().get(i).getComponents().get(0).getItem().getName());
+			System.out.println("temp components are: " + temp.get(0).getItem().getName());
+			if(recipeList.getRecipes().get(i).getComponents().get(0).getItem().getId() == temp.get(0).getItem().getId()) {
+				System.out.println("We have this item!");
 			}
 		}
+		
+		temp.clear();
+		
+//		if(a == null) {
+//			return;
+//		}
+//		if(a.getItem().getId() == Item.woodItem.getId()) {
+//			if(a.getAmount() >= 5) {
+//				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 < 0) {
+//					handler.sendMsg("You don't have enough " + a.getItem().getName());
+//					return;
+//				}
+//				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 == 0) {
+//					getCraftResultSlot().addItem(Item.testSword, 1);
+//					getCraftingSlots().get(0).setItemStack(null);
+//					return;
+//				}else {
+//					getCraftResultSlot().addItem(Item.testSword, 1);
+//					getCraftingSlots().get(0).getItemStack().setAmount(a.getAmount() - 5);
+//				}
+//			}
+//		}
 	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {

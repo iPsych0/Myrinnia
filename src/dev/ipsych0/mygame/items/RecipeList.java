@@ -7,11 +7,16 @@ import java.util.Map;
 public class RecipeList {
 	
 	private List<CraftingRecipe> recipes;
-	private Map<Item, Integer> recipe;
+	
+	// Recipe 1
+	// Recipe 2 etc
+	// (Lijst van ALLE mogelijke recipes)
+	
 	
 	public RecipeList() {
 		
 		recipes = new ArrayList<CraftingRecipe>();
+		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5)));
 		
 	}
 	
