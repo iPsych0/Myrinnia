@@ -16,7 +16,8 @@ public class RecipeList {
 	public RecipeList() {
 		
 		recipes = new ArrayList<CraftingRecipe>();
-		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5)));
+		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 5)));
+		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.testSword, 1)));
 		
 	}
 	

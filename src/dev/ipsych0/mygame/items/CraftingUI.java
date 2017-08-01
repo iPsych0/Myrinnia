@@ -228,27 +228,83 @@ public class CraftingUI {
 	
 	public void craftItem() {
 		
-		ArrayList<ItemStack> temp = new ArrayList<ItemStack>();
+		//Create an ArrayList to store the ItemStacks from the Crafting Slots
+		ArrayList<ItemStack> tempCraftSlotList = new ArrayList<ItemStack>();
 		
+		//Fill the ArrayList with the slots (skip empty slots)
 		for (int i = 0; i < craftingSlots.size(); i++) {
 			if(craftingSlots.get(i).getItemStack() == null) {
 				continue;
 			}else {
-				temp.add(craftingSlots.get(i).getItemStack());
+				tempCraftSlotList.add(craftingSlots.get(i).getItemStack());
 				
 			}
-			
 		}
+		
+		// Create an ArrayList of ints to store the Item IDs.
+		ArrayList<Integer> sortedCraftSlots = new ArrayList<Integer>();
+		
+		// Fill the ArrayList with the Item IDs
+		for (int i = 0; i < tempCraftSlotList.size(); i++) {
+			sortedCraftSlots.add(tempCraftSlotList.get(i).getItem().getId());
+		}
+		// Sort the IDs numerically in ascending order
+		Collections.sort(sortedCraftSlots);
+		
+		// Create an ArrayList to store Components from Recipes in
+		ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<ItemStack>();
+		
+		// Create an ArrayList to store Item IDs from Components in
+		ArrayList<Integer> sortedCraftRecipe = new ArrayList<Integer>();
+		
+		int matches = 0;
+		
+		// Iterate over all recipes
+		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
+			// Temporarily set tempCraftRecipeList to the current iteration of the recipe
+			tempCraftRecipeList = recipeList.getRecipes().get(i).getComponents();
+			// Iterate over this recipe's components 
+			for (int j = 0; j < recipeList.getRecipes().get(i).getComponents().size(); j++) {
+				// Store the recipe component's Item IDs in the ArrayList
+				sortedCraftRecipe.add(tempCraftRecipeList.get(j).getItem().getId());
+			}
+			// Sort the recipe component's Item IDs in ascending order
+			Collections.sort(sortedCraftRecipe);
+			
+			for (int j = 0; j < sortedCraftSlots.size(); j++) {
+				if(sortedCraftSlots.get(j) == sortedCraftRecipe.get(j)) {
+					System.out.println("Het item '" + handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(j)).getName() +
+							"' in Slot: " + j + " klopt met recipe '" + i + "' met item: " +
+							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(j)).getName());
+					matches++;
+				}
+				else {
+					System.out.println(handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(j)).getName() + " isn't: " + 
+							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(j)).getName());
+				}
+			}
+			if(matches == sortedCraftSlots.size()) {
+				System.out.println("All items match for this recipe: '" + i + "'");
+				// Doe iets
+				matches = 0;
+			}
+		}
+		
+		/*
 		
 		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
 			System.out.println("recipe components are: " + recipeList.getRecipes().get(i).getComponents().get(0).getItem().getName());
-			System.out.println("temp components are: " + temp.get(0).getItem().getName());
-			if(recipeList.getRecipes().get(i).getComponents().get(0).getItem().getId() == temp.get(0).getItem().getId()) {
+			System.out.println("temp components are: " + tempCraftSlotList.get(0).getItem().getName());
+			if(recipeList.getRecipes().get(i).getComponents().get(0).getItem().getId() == tempCraftSlotList.get(0).getItem().getId()) {
 				System.out.println("We have this item!");
 			}
 		}
+		*/
 		
-		temp.clear();
+		tempCraftSlotList.removeAll(tempCraftSlotList);
+		tempCraftRecipeList.removeAll(tempCraftRecipeList);
+		sortedCraftRecipe.removeAll(sortedCraftRecipe);
+		sortedCraftSlots.removeAll(sortedCraftSlots);
 		
 //		if(a == null) {
 //			return;

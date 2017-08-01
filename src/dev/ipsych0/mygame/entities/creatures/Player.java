@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -427,6 +428,8 @@ public class Player extends Creature{
 		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
+		
+		g.drawString("FPS: " + String.valueOf(Game.framesPerSecond), 2, 140);
 		
 	}
 	

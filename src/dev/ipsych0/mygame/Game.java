@@ -22,6 +22,8 @@ public class Game implements Runnable {
 	public final int screenHeight = 720;//576
 	public int posX = 0;
 	public int posY = 0;
+	private int ticks = 0;
+	public static int framesPerSecond = 0;
 	
 	private boolean running = false;
 	private Thread thread;
@@ -96,10 +98,13 @@ public class Game implements Runnable {
 			State.getState().render(g);
 		}
 		
+		
+		
 		//End draw
 		bs.show();
 		g.dispose();
 	}
+	
 	
 	@Override
 	public void run(){
@@ -122,10 +127,13 @@ public class Game implements Runnable {
 			if(delta >= 1){
 				tick();
 				render();
+				ticks++;
 				delta--;
 			}
 			
 			if(timer >= 1000000000){
+				framesPerSecond = ticks;
+				ticks = 0;
 				timer = 0;
 			}
 		}
