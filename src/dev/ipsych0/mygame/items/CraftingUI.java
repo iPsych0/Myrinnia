@@ -287,6 +287,7 @@ public class CraftingUI {
 				System.out.println("All items match for this recipe: '" + i + "'");
 				// Doe iets
 				matches = 0;
+				break;
 			}
 		}
 		
