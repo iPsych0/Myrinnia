@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.time.LocalTime;
 
 import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
@@ -105,10 +106,6 @@ public class Player extends Creature{
 		}
 		if(lastFaced == Direction.UP){
 			aDefault = new Animation(250, Assets.player_up);
-		}
-		
-		if(this.getCollisionBounds(0,0).intersects((handler.getWorld().getTile((int) x, (int) y).tilePosition(0, 0)))){
-			setHealth(50);
 		}
 
 		//Animations

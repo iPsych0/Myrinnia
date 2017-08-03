@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.time.LocalTime;
 import java.util.Random;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
