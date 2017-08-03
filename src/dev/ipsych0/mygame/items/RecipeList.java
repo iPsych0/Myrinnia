@@ -8,16 +8,17 @@ public class RecipeList {
 	
 	private List<CraftingRecipe> recipes;
 	
-	// Recipe 1
-	// Recipe 2 etc
-	// (Lijst van ALLE mogelijke recipes)
+	/*
+	 * Recipe 0: Sword
+	 * Recipe 1: Coins
+	 */
 	
 	
 	public RecipeList() {
 		
 		recipes = new ArrayList<CraftingRecipe>();
-		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 5)));
-		recipes.add(new CraftingRecipe(new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.testSword, 1)));
+		recipes.add(new CraftingRecipe(0, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5)));
+		recipes.add(new CraftingRecipe(1, new ItemStack(Item.testSword, 1)));
 		
 	}
 	

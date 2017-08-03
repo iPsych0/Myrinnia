@@ -271,61 +271,59 @@ public class CraftingUI {
 			// Sort the recipe component's Item IDs in ascending order
 			Collections.sort(sortedCraftRecipe);
 			
-			for (int j = 0; j < sortedCraftSlots.size(); j++) {
-				if(sortedCraftSlots.get(j) == sortedCraftRecipe.get(j)) {
-					System.out.println("Het item '" + handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(j)).getName() +
-							"' in Slot: " + j + " klopt met recipe '" + i + "' met item: " +
-							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(j)).getName());
+			for (int k = 0; k < tempCraftRecipeList.size(); k++) {
+				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
+					continue;
+				}
+				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k)) {
+					System.out.println("Het item '" + handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(k)).getName() +
+							"' in Slot: " + k + " klopt met recipe '" + i + "' met item: " +
+							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(k)).getName());
 					matches++;
 				}
 				else {
-					System.out.println(handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(j)).getName() + " isn't: " + 
-							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(j)).getName());
+					System.out.println(handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(k)).getName() + " isn't: " + 
+							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(k)).getName());
+					matches = 0;
 				}
 			}
-			if(matches == sortedCraftSlots.size()) {
+			
+			if(matches == sortedCraftSlots.size() && sortedCraftSlots.size() != 0) {
+				// Voer hier een functie uit die een item returned, afhankelijk van 'i' (welk recipe)
 				System.out.println("All items match for this recipe: '" + i + "'");
+				
+				// Add an item to the result slot
+				makeItem(i);
+				
+				// Remove all crafting slot items
+				for (int j = 0; j < craftingSlots.size(); j++) {
+					getCraftingSlots().get(j).setItemStack(null);
+				}
+				
+				
 				// Doe iets
 				matches = 0;
 				break;
 			}
+			sortedCraftRecipe.clear();
+			matches = 0;
 		}
 		
-		/*
-		
-		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
-			System.out.println("recipe components are: " + recipeList.getRecipes().get(i).getComponents().get(0).getItem().getName());
-			System.out.println("temp components are: " + tempCraftSlotList.get(0).getItem().getName());
-			if(recipeList.getRecipes().get(i).getComponents().get(0).getItem().getId() == tempCraftSlotList.get(0).getItem().getId()) {
-				System.out.println("We have this item!");
-			}
+		tempCraftSlotList.clear();
+		tempCraftRecipeList.clear();
+		sortedCraftRecipe.clear();
+		sortedCraftSlots.clear();
+	}
+	
+	public void makeItem(int id) {
+		switch(id) {
+			case 0:
+				crs.addItem(Item.testSword, 1);
+				break;
+			case 1:
+				crs.addItem(Item.coinsItem, 100);
+				break;
 		}
-		*/
-		
-		tempCraftSlotList.removeAll(tempCraftSlotList);
-		tempCraftRecipeList.removeAll(tempCraftRecipeList);
-		sortedCraftRecipe.removeAll(sortedCraftRecipe);
-		sortedCraftSlots.removeAll(sortedCraftSlots);
-		
-//		if(a == null) {
-//			return;
-//		}
-//		if(a.getItem().getId() == Item.woodItem.getId()) {
-//			if(a.getAmount() >= 5) {
-//				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 < 0) {
-//					handler.sendMsg("You don't have enough " + a.getItem().getName());
-//					return;
-//				}
-//				if(getCraftingSlots().get(0).getItemStack().getAmount() - 5 == 0) {
-//					getCraftResultSlot().addItem(Item.testSword, 1);
-//					getCraftingSlots().get(0).setItemStack(null);
-//					return;
-//				}else {
-//					getCraftResultSlot().addItem(Item.testSword, 1);
-//					getCraftingSlots().get(0).getItemStack().setAmount(a.getAmount() - 5);
-//				}
-//			}
-//		}
 	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
