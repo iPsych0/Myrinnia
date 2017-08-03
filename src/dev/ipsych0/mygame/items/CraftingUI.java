@@ -272,43 +272,49 @@ public class CraftingUI {
 			Collections.sort(sortedCraftRecipe);
 			
 			for (int k = 0; k < tempCraftRecipeList.size(); k++) {
+				// If user put in X items, skip all recipes that are < or > than X
 				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
 					continue;
 				}
-				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k)) {
-					System.out.println("Het item '" + handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(k)).getName() +
-							"' in Slot: " + k + " klopt met recipe '" + i + "' met item: " +
-							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(k)).getName());
+				// If item matches AND the quantity is equal or higher, add a match
+				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k) && tempCraftSlotList.get(k).getAmount() >= tempCraftRecipeList.get(k).getAmount()) {
 					matches++;
 				}
 				else {
-					System.out.println(handler.getWorld().getInventory().getItemByID(sortedCraftSlots.get(k)).getName() + " isn't: " + 
-							handler.getWorld().getInventory().getItemByID(sortedCraftRecipe.get(k)).getName());
+					// If the item is not the same OR the quantity is not met, set matches back to 0
 					matches = 0;
 				}
 			}
 			
+			// If we have all matching items and we don't have any empty slots, craft the item
 			if(matches == sortedCraftSlots.size() && sortedCraftSlots.size() != 0) {
-				// Voer hier een functie uit die een item returned, afhankelijk van 'i' (welk recipe)
 				System.out.println("All items match for this recipe: '" + i + "'");
 				
-				// Add an item to the result slot
-				makeItem(i);
-				
-				// Remove all crafting slot items
-				for (int j = 0; j < craftingSlots.size(); j++) {
-					getCraftingSlots().get(j).setItemStack(null);
+				for (int j = 0; j < tempCraftSlotList.size(); j++) {
+					if(tempCraftSlotList.get(j) == null) {
+						continue;
+					}
+					if(tempCraftSlotList.get(j).getAmount() > tempCraftRecipeList.get(j).getAmount()) {
+						tempCraftSlotList.get(j).setAmount(tempCraftSlotList.get(j).getAmount() - tempCraftRecipeList.get(j).getAmount());
+					}
+					if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
+						craftingSlots.get(j).setItemStack(null);
+					}
 				}
 				
+				// Add an item to the result slot
+				makeItem(i);		
 				
-				// Doe iets
+				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
 				break;
 			}
+			// If there's no match, retry with the next recipe
 			sortedCraftRecipe.clear();
 			matches = 0;
 		}
 		
+		// Clear all ArrayLists
 		tempCraftSlotList.clear();
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
