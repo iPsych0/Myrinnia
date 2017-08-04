@@ -233,14 +233,23 @@ public class CraftingUI {
 		//Create an ArrayList to store the ItemStacks from the Crafting Slots
 		ArrayList<ItemStack> tempCraftSlotList = new ArrayList<ItemStack>();
 		
+		int nullSlots = 0;
+		
 		//Fill the ArrayList with the slots (skip empty slots)
 		for (int i = 0; i < craftingSlots.size(); i++) {
 			if(craftingSlots.get(i).getItemStack() == null) {
+				nullSlots++;
 				continue;
 			}else {
 				tempCraftSlotList.add(craftingSlots.get(i).getItemStack());
 				
 			}
+		}
+		
+		if(nullSlots == craftingSlots.size()) {
+			nullSlots = 0;
+			tempCraftSlotList.clear();
+			return;
 		}
 		
 		// Create an ArrayList of ints to store the Item IDs.
@@ -264,7 +273,9 @@ public class CraftingUI {
 		// Iterate over all recipes
 		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
 			// Temporarily set tempCraftRecipeList to the current iteration of the recipe
-			tempCraftRecipeList = recipeList.getRecipes().get(i).getComponents();
+			for (int j = 0; j < recipeList.getRecipes().get(i).getComponents().size(); j++) {
+				tempCraftRecipeList.add(recipeList.getRecipes().get(i).getComponents().get(j));
+			}
 			// Iterate over this recipe's components 
 			for (int j = 0; j < recipeList.getRecipes().get(i).getComponents().size(); j++) {
 				// Store the recipe component's Item IDs in the ArrayList
@@ -274,14 +285,14 @@ public class CraftingUI {
 			Collections.sort(sortedCraftRecipe);
 			
 			for (int k = 0; k < tempCraftRecipeList.size(); k++) {
-				// If user put in X items, skip all recipes that are < or > than X
+				// If user put in X items, skip recipes that are < or > than X
 				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
 					continue;
 				}
 				System.out.println(sortedCraftSlots.get(k) + " <- CraftID " + sortedCraftRecipe.get(k) + " <- RecipeID en de amounts zijn: " + tempCraftSlotList.get(k).getAmount() + " en " + tempCraftRecipeList.get(k).getAmount());
 				// If item matches AND the quantity is equal or higher, add a match
 				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k) && tempCraftSlotList.get(k).getAmount() >= tempCraftRecipeList.get(k).getAmount()) {
-					System.out.println("We hebben een match! " + k + " keer!");
+					System.out.println("We hebben een match! " + (k+1) + " keer!");
 					matches++;
 				}
 				else {
@@ -291,10 +302,12 @@ public class CraftingUI {
 				}
 			}
 			
+			
 			// If we have all matching items and we don't have any empty slots, craft the item
-			if(matches == sortedCraftSlots.size() && sortedCraftSlots.size() != 0) {
+			if(matches == sortedCraftSlots.size()) {
 				System.out.println("All items match for this recipe: '" + i + "'");
 				
+				// Do the subtractions
 				for (int j = 0; j < tempCraftSlotList.size(); j++) {
 					if(tempCraftSlotList.get(j) == null) {
 						continue;
@@ -312,13 +325,16 @@ public class CraftingUI {
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
+				break;
 			}
 			// If there's no match, retry with the next recipe
 			sortedCraftRecipe.clear();
+			tempCraftRecipeList.clear();
 			matches = 0;
 		}
 		
 		// Clear all ArrayLists
+		matches = 0;
 		tempCraftSlotList.clear();
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
@@ -332,6 +348,9 @@ public class CraftingUI {
 				break;
 			case 1:
 				crs.addItem(Item.coinsItem, 100);
+				break;
+			case 2:
+				crs.addItem(Item.woodItem, 100);
 				break;
 		}
 	}
