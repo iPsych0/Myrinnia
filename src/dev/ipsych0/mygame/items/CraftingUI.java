@@ -92,6 +92,7 @@ public class CraftingUI {
 			if(handler.getMouseManager().isRightPressed()) {
 				if(crsBounds.contains(temp) && !hasBeenPressed && craftResultPressed) {
 					if(crs.getItemStack() == null) {
+						craftResultPressed = false;
 						return;
 					}
 					hasBeenPressed = true;
@@ -109,6 +110,7 @@ public class CraftingUI {
 				cs.tick();
 				
 				Rectangle temp2 = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
+				
 				
 				if(handler.getMouseManager().isDragged()){
 					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
@@ -276,11 +278,14 @@ public class CraftingUI {
 				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
 					continue;
 				}
+				System.out.println(sortedCraftSlots.get(k) + " <- CraftID " + sortedCraftRecipe.get(k) + " <- RecipeID en de amounts zijn: " + tempCraftSlotList.get(k).getAmount() + " en " + tempCraftRecipeList.get(k).getAmount());
 				// If item matches AND the quantity is equal or higher, add a match
 				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k) && tempCraftSlotList.get(k).getAmount() >= tempCraftRecipeList.get(k).getAmount()) {
+					System.out.println("We hebben een match! " + k + " keer!");
 					matches++;
 				}
 				else {
+					System.out.println("Geen match!");
 					// If the item is not the same OR the quantity is not met, set matches back to 0
 					matches = 0;
 				}
@@ -297,7 +302,7 @@ public class CraftingUI {
 					if(tempCraftSlotList.get(j).getAmount() > tempCraftRecipeList.get(j).getAmount()) {
 						tempCraftSlotList.get(j).setAmount(tempCraftSlotList.get(j).getAmount() - tempCraftRecipeList.get(j).getAmount());
 					}
-					if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
+					else if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
 						craftingSlots.get(j).setItemStack(null);
 					}
 				}
@@ -307,7 +312,6 @@ public class CraftingUI {
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
-				break;
 			}
 			// If there's no match, retry with the next recipe
 			sortedCraftRecipe.clear();
@@ -321,8 +325,8 @@ public class CraftingUI {
 		sortedCraftSlots.clear();
 	}
 	
-	public void makeItem(int id) {
-		switch(id) {
+	public void makeItem(int recipeID) {
+		switch(recipeID) {
 			case 0:
 				crs.addItem(Item.testSword, 1);
 				break;

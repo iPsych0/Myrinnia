@@ -61,6 +61,10 @@ public class InventoryWindow implements Serializable {
 			// Prevents multiple instances of the inventory being created over and over when picking up items
 			isCreated = true;
 			
+			getItemSlots().get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 10);
+			getItemSlots().get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 10);
+			getItemSlots().get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 5);
+			
 		}
 	}
 	

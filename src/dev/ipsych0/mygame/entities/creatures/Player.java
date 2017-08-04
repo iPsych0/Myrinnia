@@ -88,6 +88,7 @@ public class Player extends Creature{
 		attRight = new Animation(333, Assets.player_attackingRight);
 		
 		aDefault = new Animation(250, Assets.player_down);
+		
 	}
 
 	@Override
