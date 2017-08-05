@@ -30,6 +30,7 @@ public abstract class World {
 	protected int[][] ambiance;
 	protected int spawnX, spawnY;
 	protected Animation sparkles;
+	protected int worldID;
 	
 	// Entities
 	
@@ -161,6 +162,10 @@ public abstract class World {
 		}
 	}
 	
+	public World getWorldByID(int worldID) {
+		return handler.getWorldHandler().getWorlds().get(worldID);
+	}
+	
 	public int getWidth(){
 		return width;
 	}
@@ -211,5 +216,13 @@ public abstract class World {
 
 	public void setCraftingUI(CraftingUI craftingUI) {
 		this.craftingUI = craftingUI;
+	}
+
+	public int getWorldID() {
+		return worldID;
+	}
+
+	public void setWorldID(int worldID) {
+		this.worldID = worldID;
 	}
 }

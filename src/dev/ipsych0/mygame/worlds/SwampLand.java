@@ -19,8 +19,10 @@ public class SwampLand extends World{
 	
 	private Rectangle nextLevelTile;
 
-	public SwampLand(Handler handler, Player player, String path) {
+	public SwampLand(Handler handler, Player player, String path, int worldID) {
 		super(handler);
+		
+		this.worldID = worldID;
 		
 		mapLoader = new MapLoader();
 		loadGroundTiles(path);
@@ -126,5 +128,13 @@ public class SwampLand extends World{
 			
 			g.drawRect((int) (nextLevelTile.x - handler.getGameCamera().getxOffset()), (int) (nextLevelTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}
+	}
+
+	public int getWorldID() {
+		return worldID;
+	}
+
+	public void setWorldID(int worldID) {
+		this.worldID = worldID;
 	}
 }

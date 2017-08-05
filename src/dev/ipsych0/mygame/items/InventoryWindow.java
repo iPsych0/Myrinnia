@@ -87,12 +87,12 @@ public class InventoryWindow implements Serializable {
 						if(currentSelectedSlot == null) {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
-								System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
+								//System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
 								is.setItemStack(null);
 								itemSelected = true;
 							}
 							else{
-								System.out.println("Dragging from an empty item stack");
+								//System.out.println("Dragging from an empty item stack");
 								hasBeenPressed = false;
 								return;
 							}

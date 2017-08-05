@@ -19,8 +19,10 @@ public class TestLand extends World {
 	
 	private Rectangle oldLevelTile;
 
-	public TestLand(Handler handler, Player player, String path) {
+	public TestLand(Handler handler, Player player, String path, int worldID) {
 		super(handler);
+		
+		this.worldID = worldID;
 		
 		mapLoader = new MapLoader();
 		loadGroundTiles(path);
@@ -119,5 +121,13 @@ public class TestLand extends World {
 			
 			g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
+	}
+
+	public int getWorldID() {
+		return worldID;
+	}
+
+	public void setWorldID(int worldID) {
+		this.worldID = worldID;
 	}
 }

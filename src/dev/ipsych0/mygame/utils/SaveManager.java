@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.worlds.World;
 
 public class SaveManager {
 	
@@ -27,7 +28,7 @@ public class SaveManager {
 
 	public static void saveGame(){
 		try {
-			DataOutputStream output = new DataOutputStream(new FileOutputStream("res/savegames/save.dat"));
+			DataOutputStream output = new DataOutputStream(new FileOutputStream("res/savegames/save.txt"));
 			for (int i = 0; i < variables.size(); i++) {
 				try {
 					// write down all the saved data stored in the Array
@@ -52,7 +53,7 @@ public class SaveManager {
 	public static void saveInventory(){
 		FileOutputStream f;
 		try {
-			f = new FileOutputStream(new File("res/savegames/inventory.dat"));
+			f = new FileOutputStream(new File("res/savegames/inventory.txt"));
 			ObjectOutputStream o;
 			try {
 				o = new ObjectOutputStream(f);
@@ -71,7 +72,7 @@ public class SaveManager {
 	public static void saveEquipment(){
 		FileOutputStream f;
 		try {
-			f = new FileOutputStream(new File("res/savegames/equipment.dat"));
+			f = new FileOutputStream(new File("res/savegames/equipment.txt"));
 			ObjectOutputStream o;
 			try {
 				o = new ObjectOutputStream(f);
@@ -92,7 +93,7 @@ public class SaveManager {
 		 * File Loading stuff
 		 */
 		try {
-			DataInputStream input = new DataInputStream(new FileInputStream("res/savegames/save.dat"));
+			DataInputStream input = new DataInputStream(new FileInputStream("res/savegames/save.txt"));
 			try {
 				while(input.available() > 0){
 					variables.add(input.readUTF());
@@ -114,10 +115,14 @@ public class SaveManager {
 		 * Setting variables
 		 */
 		
+		// Player stuff
 		handler.getWorld().getEntityManager().getPlayer().setAttackExperience(Integer.valueOf(variables.get(0)));
 		handler.getWorld().getEntityManager().getPlayer().setX(Float.valueOf(variables.get(1)));
 		handler.getWorld().getEntityManager().getPlayer().setY(Float.valueOf(variables.get(2)));
 		handler.getWorld().getEntityManager().getPlayer().setHealth(Integer.valueOf(variables.get(3)));
+		
+		// World loading
+		handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(variables.get(4))));
 
 	}
 	
@@ -125,7 +130,7 @@ public class SaveManager {
 		inventory = null;
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream("res/savegames/inventory.dat");
+			fin = new FileInputStream("res/savegames/inventory.txt");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			inventory = (ArrayList<ItemStack>) oin.readObject();
 			oin.close();
@@ -153,7 +158,7 @@ public class SaveManager {
 		equipment = null;
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream("res/savegames/equipment.dat");
+			fin = new FileInputStream("res/savegames/equipment.txt");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			equipment = (ArrayList<ItemStack>) oin.readObject();
 			oin.close();

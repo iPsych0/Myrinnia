@@ -32,9 +32,9 @@ public class Handler {
 	public Handler(Game game){
 		this.game = game;
 		player = new Player(this, 260, 220);
-		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx");
+		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx", 0);
 		worldHandler = new WorldHandler(this, swampLand);
-		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx"));
+		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
 	}
 	
 	public int getWidth(){
@@ -73,7 +73,7 @@ public class Handler {
 		this.world = world;
 	}
 	
-	public int getRandomSupplyAmount(int min, int max){
+	public int getRandomNumber(int min, int max){
 		int randomNumber = rand.nextInt((max - min) + 1) + min;
 		return randomNumber;
 	}

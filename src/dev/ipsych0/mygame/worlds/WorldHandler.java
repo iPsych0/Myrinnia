@@ -55,8 +55,4 @@ public class WorldHandler {
 	public void setSwampLand(SwampLand swampLand) {
 		this.swampLand = swampLand;
 	}
-	
-
-	// hier worldhandler die alle verschillende maps kan loaden afhankelijk van filepaths uit loading, new game, of player die naar volgend level gaat
-	
 }

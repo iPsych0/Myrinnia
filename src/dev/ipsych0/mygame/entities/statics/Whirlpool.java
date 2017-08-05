@@ -71,10 +71,10 @@ public class Whirlpool extends StaticEntity {
 			        new java.util.TimerTask() {
 			            @Override
 			            public void run() {
-			            	int roll = handler.getRandomSupplyAmount(1, 100);
+			            	int roll = handler.getRandomNumber(1, 100);
 			            	if(roll < 60) {
 			            		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
-			            				handler.getRandomSupplyAmount(1, 5));
+			            				handler.getRandomNumber(1, 5));
 			            		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
 			            		handler.getPlayer().setMovementAllowed(true);
 			            		isFishing = false;

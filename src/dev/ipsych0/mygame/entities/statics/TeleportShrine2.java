@@ -6,6 +6,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
+import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine2 extends StaticEntity {
 	
@@ -50,11 +51,14 @@ public class TeleportShrine2 extends StaticEntity {
 			SaveManager.clearEquipmentItems();
 			SaveManager.clearSaveData();
 			
-			// Add the easy integers and strings
+			// Add the player data
 			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
 			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
 			SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
 			SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
+			
+			// Save the world!
+			SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
 			
 			// Add the inventory objects to an arraylist
 			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){

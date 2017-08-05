@@ -126,12 +126,13 @@ public class CraftingUI {
 						if(currentSelectedSlot == null) {
 							if(cs.getItemStack() != null) {
 								currentSelectedSlot = cs.getItemStack();
-								System.out.println("Currently holding: " + cs.getItemStack().getItem().getName());
+//								System.out.println("Currently holding: " + cs.getItemStack().getItem().getName());
 								cs.setItemStack(null);
 								itemSelected = true;
+								findRecipe();
 							}
 							else{
-								System.out.println("Dragging from an empty item stack");
+//								System.out.println("Dragging from an empty item stack");
 								hasBeenPressed = false;
 								return;
 							}
@@ -145,6 +146,7 @@ public class CraftingUI {
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
+							findRecipe();
 						
 						}
 					}
@@ -156,6 +158,7 @@ public class CraftingUI {
 						if(cs.getItemStack() != null){
 							if(handler.getWorld().getInventory().findFreeSlot(cs.getItemStack().getItem()) == -1) {
 								hasBeenPressed = false;
+								handler.sendMsg("You don't have enough room in your inventory.");
 								return;
 							}else {
 								handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(cs.getItemStack().getItem())).addItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
@@ -433,14 +436,11 @@ public class CraftingUI {
 				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
 					continue;
 				}
-				System.out.println(sortedCraftSlots.get(k) + " <- CraftID " + sortedCraftRecipe.get(k) + " <- RecipeID en de amounts zijn: " + tempCraftSlotList.get(k).getAmount() + " en " + tempCraftRecipeList.get(k).getAmount());
 				// If item matches AND the quantity is equal or higher, add a match
 				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k) && tempCraftSlotList.get(k).getAmount() >= tempCraftRecipeList.get(k).getAmount()) {
-					System.out.println("We hebben een match! " + (k+1) + " keer!");
 					matches++;
 				}
 				else {
-					System.out.println("Geen match!");
 					// If the item is not the same OR the quantity is not met, set matches back to 0
 					matches = 0;
 				}
@@ -449,7 +449,6 @@ public class CraftingUI {
 			
 			// If we have all matching items and we don't have any empty slots, then we have found a recipe
 			if(matches == sortedCraftSlots.size()) {
-				System.out.println("All items match for this recipe: '" + i + "'");
 				
 				possibleRecipe = getRecipe(i);
 				
