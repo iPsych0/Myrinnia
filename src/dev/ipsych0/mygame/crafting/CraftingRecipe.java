@@ -11,8 +11,9 @@ public class CraftingRecipe {
 	private ItemStack item1, item2, item3, item4;
 	private ArrayList<ItemStack> components;
 	private int recipeID;
+	private int craftingXP;
 	
-	public CraftingRecipe(int recipeID, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4) {
+	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
@@ -26,9 +27,10 @@ public class CraftingRecipe {
 		components.add(item4);
 		
 		this.recipeID = recipeID;
+		this.craftingXP = craftingXP;
 	}
 
-	public CraftingRecipe(int recipeID, ItemStack item1, ItemStack item2, ItemStack item3) {
+	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2, ItemStack item3) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
@@ -40,9 +42,10 @@ public class CraftingRecipe {
 		components.add(item3);
 		
 		this.recipeID = recipeID;
+		this.craftingXP = craftingXP;
 	}
 
-	public CraftingRecipe(int recipeID, ItemStack item1, ItemStack item2) {
+	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2) {
 		this.item1 = item1;
 		this.item2 = item2;
 		
@@ -52,9 +55,10 @@ public class CraftingRecipe {
 		components.add(item2);
 		
 		this.recipeID = recipeID;
+		this.craftingXP = craftingXP;
 	}
 	
-	public CraftingRecipe(int recipeID, ItemStack item1) {
+	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1) {
 		this.item1 = item1;
 
 		components = new ArrayList<ItemStack>();
@@ -62,6 +66,7 @@ public class CraftingRecipe {
 		components.add(item1);
 		
 		this.recipeID = recipeID;
+		this.craftingXP = craftingXP;
 	}
 
 	public ArrayList<ItemStack> getComponents() {
@@ -78,6 +83,14 @@ public class CraftingRecipe {
 
 	public void setRecipeID(int recipeID) {
 		this.recipeID = recipeID;
+	}
+
+	public int getCraftingXP() {
+		return craftingXP;
+	}
+
+	public void setCraftingXP(int craftingXP) {
+		this.craftingXP = craftingXP;
 	}
 
 }

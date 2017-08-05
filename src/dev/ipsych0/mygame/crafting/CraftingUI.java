@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -37,7 +38,8 @@ public class CraftingUI {
 	private Rectangle crsBounds;
 	private CraftingRecipeList craftingRecipeList;
 	private ItemStack possibleRecipe = null;
-	private String craftableRecipe = "";
+	private String craftableRecipe;
+	private BufferedImage craftImg;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -218,13 +220,24 @@ public class CraftingUI {
 				}
 			}
 			
+			if(craftImg != null) {
+				g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
+			}
+			
 			if(possibleRecipe != null) {
-				craftableRecipe = "You can craft: " + possibleRecipe.getAmount() + " " + possibleRecipe.getItem().getName();
+				craftableRecipe = String.valueOf(possibleRecipe.getAmount());
 			}else {
 				g.dispose();
 			}
 			
-			Text.drawString(g, craftableRecipe, x + width + (width / 2) - 20 , y + 16, true, Color.YELLOW, Assets.font14);
+			System.out.println(Math.floor(10 / 5));
+			System.out.println(96 % 5);
+			
+			if(possibleRecipe != null) {
+				Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);
+				Text.drawString(g, craftableRecipe, x + width + (width / 2) - 36, y + 40, false, Color.YELLOW, Assets.font14);
+			}
+			
 		}
 		
 	}
@@ -461,6 +474,7 @@ public class CraftingUI {
 			tempCraftRecipeList.clear();
 			matches = 0;
 			possibleRecipe = null;
+			craftImg = null;
 		}
 		
 		// Clear all ArrayLists
@@ -475,10 +489,13 @@ public class CraftingUI {
 		
 		switch(recipeID) {
 			case 0:
+				craftImg = Assets.testSword;
 				return new ItemStack(Item.testSword, 1);
 			case 1:
+				craftImg = Assets.coins[2];
 				return new ItemStack(Item.coinsItem, 100);
 			case 2:
+				craftImg = Assets.wood;
 				return new ItemStack(Item.woodItem, 100);
 			default:
 				return new ItemStack(null);
