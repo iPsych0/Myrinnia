@@ -230,9 +230,6 @@ public class CraftingUI {
 				g.dispose();
 			}
 			
-			System.out.println(Math.floor(10 / 5));
-			System.out.println(96 % 5);
-			
 			if(possibleRecipe != null) {
 				Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);
 				Text.drawString(g, craftableRecipe, x + width + (width / 2) - 36, y + 40, false, Color.YELLOW, Assets.font14);
