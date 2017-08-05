@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import dev.ipsych0.mygame.items.CraftingUI;
+import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.ui.UIManager;
 

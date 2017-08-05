@@ -57,7 +57,7 @@ public class ItemSlot implements Serializable {
 	
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
-			if(item.getName() == itemStack.getItem().getName()) {
+			if(item.getId() == itemStack.getItem().getId()) {
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				stackable = true;
 				return true;
@@ -67,12 +67,12 @@ public class ItemSlot implements Serializable {
 			}
 		} else {
 			if(itemStack != null){
-				if(item.getName() != itemStack.getItem().getName()){
+				if(item.getId() != itemStack.getItem().getId()){
 					stackable = false;
 					return false;
 				}
 				else{
-					if(item.getName() == itemStack.getItem().getName()){
+					if(item.getId() == itemStack.getItem().getId()){
 						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 						stackable = true;
 						return true;

@@ -1,10 +1,13 @@
-package dev.ipsych0.mygame.items;
+package dev.ipsych0.mygame.crafting;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeList {
+import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemStack;
+
+public class CraftingRecipeList {
 	
 	private List<CraftingRecipe> recipes;
 	
@@ -14,7 +17,7 @@ public class RecipeList {
 	 */
 	
 	
-	public RecipeList() {
+	public CraftingRecipeList() {
 		
 		recipes = new ArrayList<CraftingRecipe>();
 		recipes.add(new CraftingRecipe(0, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5)));

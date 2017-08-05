@@ -1,7 +1,9 @@
-package dev.ipsych0.mygame.items;
+package dev.ipsych0.mygame.crafting;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +12,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
+import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemStack;
 
 public class CraftingUI {
 	
@@ -30,7 +35,9 @@ public class CraftingUI {
 	private Rectangle cbBounds;
 	private ItemStack currentSelectedSlot;
 	private Rectangle crsBounds;
-	private RecipeList recipeList;
+	private CraftingRecipeList craftingRecipeList;
+	private ItemStack possibleRecipe = null;
+	private String craftableRecipe = "";
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -61,7 +68,7 @@ public class CraftingUI {
 			cbBounds = new Rectangle(cb.getBounds());
 			crsBounds = new Rectangle(crs.getBounds());
 			
-			recipeList = new RecipeList();
+			craftingRecipeList = new CraftingRecipeList();
 			
 			isCreated = true;
 			
@@ -154,6 +161,7 @@ public class CraftingUI {
 								handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(cs.getItemStack().getItem())).addItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
 								cs.setItemStack(null);
 								hasBeenPressed = false;
+								findRecipe();
 								return;
 							}
 						}
@@ -174,21 +182,20 @@ public class CraftingUI {
 		
 			g.drawImage(Assets.craftWindow, x, y, width, height, null);
 			
-//			g.setColor(Color.DARK_GRAY);
-//			g.fillRect(x + 8, y + 12, 64, 48);
-//			g.fillRect(x + 88, y + 12, 64, 48);
-//			g.fillRect(x + 168, y + 12, 64, 48);
-//			
-//			g.setColor(Color.BLACK);
-//			g.drawRect(x + 8, y + 12, 64, 48);
-//			g.drawRect(x + 88, y + 12, 64, 48);
-//			g.drawRect(x + 168, y + 12, 64, 48);
-//			
-//			g.setFont(Assets.font14);
-//			g.setColor(Color.YELLOW);
-			Text.drawString(g, "Crafting", x + width / 2, y + 16, true, Color.YELLOW, Assets.font20);
-//			Text.drawString(g, "Smithing", x + 88 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
-//			Text.drawString(g, "Brewing", x + 168 + (64 / 2), y + 12 + (48 / 2), true, Color.YELLOW, Assets.font14);
+			float alpha = 0.7f; //draw half transparent
+			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			((Graphics2D) g).setComposite(ac);
+			
+			g.setColor(Color.GRAY);
+			g.fillRect(x + width, y, width - 40, height / 2);
+			g.setColor(Color.BLACK);
+			g.drawRect(x + width, y, width- 40, height / 2);
+			
+			alpha = 1.0f;
+			ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			((Graphics2D) g).setComposite(ac);
+
+			Text.drawString(g, "Crafting", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 			
 			
 			crs.render(g);
@@ -207,6 +214,14 @@ public class CraftingUI {
 						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
 				}
 			}
+			
+			if(possibleRecipe != null) {
+				craftableRecipe = "You can craft: " + possibleRecipe.getAmount() + " " + possibleRecipe.getItem().getName();
+			}else {
+				g.dispose();
+			}
+			
+			Text.drawString(g, craftableRecipe, x + width + (width / 2) - 20 , y + 16, true, Color.YELLOW, Assets.font14);
 		}
 		
 	}
@@ -214,8 +229,7 @@ public class CraftingUI {
 	public int findFreeSlot(Item item) {
         for (int i = 0; i < craftingSlots.size(); i++) {
         	if(craftingSlots.get(i).getItemStack() != null){
-        		if(craftingSlots.get(i).getItemStack().getItem().getName() == item.getName()){
-        			System.out.println("This item is already in the crafting window.");
+        		if(craftingSlots.get(i).getItemStack().getItem().getId() == item.getId()){
             		return i;
         		}
         	}
@@ -223,8 +237,7 @@ public class CraftingUI {
                 return i;
             }
        }
-       System.out.println("You can't put any more items in.");
-       handler.getPlayer().getChatWindow().sendMessage("You can't put any more items in the crafting window.");
+       
        return -1;
 	}
 	
@@ -271,13 +284,13 @@ public class CraftingUI {
 		int matches = 0;
 		
 		// Iterate over all recipes
-		for (int i = 0; i < recipeList.getRecipes().size(); i++) {
+		for (int i = 0; i < craftingRecipeList.getRecipes().size(); i++) {
 			// Temporarily set tempCraftRecipeList to the current iteration of the recipe
-			for (int j = 0; j < recipeList.getRecipes().get(i).getComponents().size(); j++) {
-				tempCraftRecipeList.add(recipeList.getRecipes().get(i).getComponents().get(j));
+			for (int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
+				tempCraftRecipeList.add(craftingRecipeList.getRecipes().get(i).getComponents().get(j));
 			}
 			// Iterate over this recipe's components 
-			for (int j = 0; j < recipeList.getRecipes().get(i).getComponents().size(); j++) {
+			for (int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
 				// Store the recipe component's Item IDs in the ArrayList
 				sortedCraftRecipe.add(tempCraftRecipeList.get(j).getItem().getId());
 			}
@@ -314,14 +327,16 @@ public class CraftingUI {
 					}
 					if(tempCraftSlotList.get(j).getAmount() > tempCraftRecipeList.get(j).getAmount()) {
 						tempCraftSlotList.get(j).setAmount(tempCraftSlotList.get(j).getAmount() - tempCraftRecipeList.get(j).getAmount());
+						findRecipe();
 					}
 					else if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
 						craftingSlots.get(j).setItemStack(null);
+						findRecipe();
 					}
 				}
 				
 				// Add an item to the result slot
-				makeItem(i);		
+				makeItem(i);
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
@@ -342,17 +357,134 @@ public class CraftingUI {
 	}
 	
 	public void makeItem(int recipeID) {
+		
 		switch(recipeID) {
 			case 0:
-				crs.addItem(Item.testSword, 1);
+				if(crs.addItem(Item.testSword, 1));
 				break;
 			case 1:
-				crs.addItem(Item.coinsItem, 100);
+				if(crs.addItem(Item.coinsItem, 100));
 				break;
 			case 2:
-				crs.addItem(Item.woodItem, 100);
+				if(crs.addItem(Item.woodItem, 100));
 				break;
 		}
+		
+	}
+	
+	public void findRecipe() {
+		
+		//Create an ArrayList to store the ItemStacks from the Crafting Slots
+		ArrayList<ItemStack> tempCraftSlotList = new ArrayList<ItemStack>();
+		
+		int nullSlots = 0;
+		
+		//Fill the ArrayList with the slots (skip empty slots)
+		for (int i = 0; i < craftingSlots.size(); i++) {
+			if(craftingSlots.get(i).getItemStack() == null) {
+				nullSlots++;
+				continue;
+			}else {
+				tempCraftSlotList.add(craftingSlots.get(i).getItemStack());
+				
+			}
+		}
+		
+		if(nullSlots == craftingSlots.size()) {
+			nullSlots = 0;
+			tempCraftSlotList.clear();
+			return;
+		}
+		
+		// Create an ArrayList of ints to store the Item IDs.
+		ArrayList<Integer> sortedCraftSlots = new ArrayList<Integer>();
+		
+		// Fill the ArrayList with the Item IDs
+		for (int i = 0; i < tempCraftSlotList.size(); i++) {
+			sortedCraftSlots.add(tempCraftSlotList.get(i).getItem().getId());
+		}
+		// Sort the IDs numerically in ascending order
+		Collections.sort(sortedCraftSlots);
+		
+		// Create an ArrayList to store Components from Recipes in
+		ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<ItemStack>();
+		
+		// Create an ArrayList to store Item IDs from Components in
+		ArrayList<Integer> sortedCraftRecipe = new ArrayList<Integer>();
+		
+		int matches = 0;
+		
+		// Iterate over all recipes
+		for (int i = 0; i < craftingRecipeList.getRecipes().size(); i++) {
+			// Temporarily set tempCraftRecipeList to the current iteration of the recipe
+			for (int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
+				tempCraftRecipeList.add(craftingRecipeList.getRecipes().get(i).getComponents().get(j));
+			}
+			// Iterate over this recipe's components 
+			for (int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
+				// Store the recipe component's Item IDs in the ArrayList
+				sortedCraftRecipe.add(tempCraftRecipeList.get(j).getItem().getId());
+			}
+			// Sort the recipe component's Item IDs in ascending order
+			Collections.sort(sortedCraftRecipe);
+			
+			for (int k = 0; k < tempCraftRecipeList.size(); k++) {
+				// If user put in X items, skip recipes that are < or > than X
+				if(sortedCraftSlots.size() < tempCraftRecipeList.size() || sortedCraftSlots.size() > tempCraftRecipeList.size()) {
+					continue;
+				}
+				System.out.println(sortedCraftSlots.get(k) + " <- CraftID " + sortedCraftRecipe.get(k) + " <- RecipeID en de amounts zijn: " + tempCraftSlotList.get(k).getAmount() + " en " + tempCraftRecipeList.get(k).getAmount());
+				// If item matches AND the quantity is equal or higher, add a match
+				if(sortedCraftSlots.get(k) == sortedCraftRecipe.get(k) && tempCraftSlotList.get(k).getAmount() >= tempCraftRecipeList.get(k).getAmount()) {
+					System.out.println("We hebben een match! " + (k+1) + " keer!");
+					matches++;
+				}
+				else {
+					System.out.println("Geen match!");
+					// If the item is not the same OR the quantity is not met, set matches back to 0
+					matches = 0;
+				}
+			}
+			
+			
+			// If we have all matching items and we don't have any empty slots, then we have found a recipe
+			if(matches == sortedCraftSlots.size()) {
+				System.out.println("All items match for this recipe: '" + i + "'");
+				
+				possibleRecipe = getRecipe(i);
+				
+				// Set matches back to 0 for next craft and stop iterating
+				matches = 0;
+				break;
+			}
+			// If there's no match, retry with the next recipe
+			sortedCraftRecipe.clear();
+			tempCraftRecipeList.clear();
+			matches = 0;
+			possibleRecipe = null;
+		}
+		
+		// Clear all ArrayLists
+		matches = 0;
+		tempCraftSlotList.clear();
+		tempCraftRecipeList.clear();
+		sortedCraftRecipe.clear();
+		sortedCraftSlots.clear();
+	}
+	
+	public ItemStack getRecipe(int recipeID) {
+		
+		switch(recipeID) {
+			case 0:
+				return new ItemStack(Item.testSword, 1);
+			case 1:
+				return new ItemStack(Item.coinsItem, 100);
+			case 2:
+				return new ItemStack(Item.woodItem, 100);
+			default:
+				return new ItemStack(null);
+		}
+		
 	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {

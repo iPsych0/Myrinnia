@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.gfx.Assets;
 
 public class InventoryWindow implements Serializable {
@@ -181,17 +182,19 @@ public class InventoryWindow implements Serializable {
 				}
 				
 				if(CraftingUI.isOpen) {
-					if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+					if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
 							if(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem()) == -1) {
 								hasBeenPressed = false;
 								handler.getPlayer().getChatWindow().sendMessage("You cannot add more than 4 items to the crafting window.");
+								isEquipped = false;
 								return;
 							} else {
 								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 								is.setItemStack(null);
+								handler.getWorld().getCraftingUI().findRecipe();
 								hasBeenPressed = false;
 								return;
 							}

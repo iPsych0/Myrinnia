@@ -1,4 +1,4 @@
-package dev.ipsych0.mygame.items;
+package dev.ipsych0.mygame.crafting;
 
 import java.awt.Color;
 import java.awt.Graphics;

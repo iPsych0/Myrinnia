@@ -1,21 +1,26 @@
-package dev.ipsych0.mygame.items;
+package dev.ipsych0.mygame.crafting;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemStack;
 
-public class CraftingSlot {
+public class CraftResultSlot {
 	
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;
 	public static boolean stackable = true;
+	private Rectangle bounds;
 	
-	public CraftingSlot(int x, int y, ItemStack itemStack) {
+	public CraftResultSlot(int x, int y, ItemStack itemStack) {
 		this.x = x;
 		this.y = y;
 		this.itemStack = itemStack;
+		bounds = new Rectangle(x, y, SLOTSIZE, SLOTSIZE);
 	}
 	
 	public void tick() {
@@ -47,7 +52,8 @@ public class CraftingSlot {
 				stackable = false;
 				return false;
 			}
-		} else {
+		}
+		else {
 			if(itemStack != null){
 				if(item.getName() != itemStack.getItem().getName()){
 					stackable = false;
@@ -89,6 +95,14 @@ public class CraftingSlot {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

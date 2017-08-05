@@ -1,8 +1,10 @@
-package dev.ipsych0.mygame.items;
+package dev.ipsych0.mygame.crafting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import dev.ipsych0.mygame.items.ItemStack;
 
 public class CraftingRecipe {
 
