@@ -40,6 +40,8 @@ public class CraftingUI {
 	private ItemStack possibleRecipe = null;
 	private String craftableRecipe;
 	private BufferedImage craftImg;
+	private Rectangle previewImg;
+	private boolean hovering = false;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -72,6 +74,8 @@ public class CraftingUI {
 			
 			craftingRecipeList = new CraftingRecipeList();
 			
+			previewImg = new Rectangle(x + width + (width / 2) - 36, y + 32, 32, 32);
+			
 			isCreated = true;
 			
 		}
@@ -85,10 +89,16 @@ public class CraftingUI {
 			crs.tick();
 			cb.tick();
 			
-			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			if(previewImg.contains(mouse)) {
+				hovering = true;
+			}else {
+				hovering = false;
+			}
 			
 			if(handler.getMouseManager().isLeftPressed()) {
-				if(cbBounds.contains(temp) && !hasBeenPressed && craftButtonPressed) {
+				if(cbBounds.contains(mouse) && !hasBeenPressed && craftButtonPressed) {
 					hasBeenPressed = true;
 					
 					craftItem();
@@ -99,7 +109,7 @@ public class CraftingUI {
 			}
 			
 			if(handler.getMouseManager().isRightPressed()) {
-				if(crsBounds.contains(temp) && !hasBeenPressed && craftResultPressed) {
+				if(crsBounds.contains(mouse) && !hasBeenPressed && craftResultPressed) {
 					if(crs.getItemStack() == null) {
 						craftResultPressed = false;
 						return;
@@ -118,11 +128,11 @@ public class CraftingUI {
 				
 				cs.tick();
 				
-				Rectangle temp2 = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
+				Rectangle craftSlot = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
 				
 				
 				if(handler.getMouseManager().isDragged()){
-					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
+					if(craftSlot.contains(mouse) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
 						if(currentSelectedSlot == null) {
@@ -143,7 +153,7 @@ public class CraftingUI {
 				}
 				
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
-					if(temp2.contains(temp)){
+					if(craftSlot.contains(mouse)){
 						if(cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 							currentSelectedSlot = null;
 							itemSelected = false;
@@ -155,7 +165,7 @@ public class CraftingUI {
 				}
 				
 				if(InventoryWindow.isOpen) {
-					if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+					if(craftSlot.contains(mouse) && handler.getMouseManager().isRightPressed() && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 						hasBeenPressed = true;
 						if(cs.getItemStack() != null){
 							if(handler.getWorld().getInventory().findFreeSlot(cs.getItemStack().getItem()) == -1) {
@@ -186,19 +196,6 @@ public class CraftingUI {
 		if(isOpen) {
 		
 			g.drawImage(Assets.craftWindow, x, y, width, height, null);
-			
-			float alpha = 0.7f; //draw half transparent
-			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
-			((Graphics2D) g).setComposite(ac);
-			
-			g.setColor(Color.GRAY);
-			g.fillRect(x + width, y, width - 40, height / 2);
-			g.setColor(Color.BLACK);
-			g.drawRect(x + width, y, width- 40, height / 2);
-			
-			alpha = 1.0f;
-			ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
-			((Graphics2D) g).setComposite(ac);
 
 			Text.drawString(g, "Crafting", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 			
@@ -220,17 +217,35 @@ public class CraftingUI {
 				}
 			}
 			
-			if(craftImg != null) {
-				g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
-			}
-			
 			if(possibleRecipe != null) {
 				craftableRecipe = String.valueOf(possibleRecipe.getAmount());
+				
+				float alpha = 0.7f; //draw half transparent
+				AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+				((Graphics2D) g).setComposite(ac);
+				
+				g.setColor(Color.GRAY);
+				g.fillRect(x + width, y, width - 40, height / 2);
+				g.setColor(Color.BLACK);
+				g.drawRect(x + width, y, width - 40, height / 2);
+				
+				alpha = 1.0f;
+				ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+				((Graphics2D) g).setComposite(ac);
 			}else {
 				g.dispose();
 			}
 			
 			if(possibleRecipe != null) {
+				if(craftImg != null) {
+					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
+					if(hovering) {
+						g.setColor(Color.DARK_GRAY);
+						g.fillRect(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 100, 100);
+						g.setColor(Color.BLACK);
+						g.drawRect(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 100, 100);
+					}
+				}
 				Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);
 				Text.drawString(g, craftableRecipe, x + width + (width / 2) - 36, y + 40, false, Color.YELLOW, Assets.font14);
 			}
@@ -350,6 +365,7 @@ public class CraftingUI {
 				
 				// Add an item to the result slot
 				makeItem(i);
+				handler.getPlayer().addCraftingExperience(getCraftingRecipeList().getRecipes().get(i).getCraftingXP());
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
@@ -546,6 +562,14 @@ public class CraftingUI {
 
 	public void setCraftResultSlot(CraftResultSlot crs) {
 		this.crs = crs;
+	}
+
+	public CraftingRecipeList getCraftingRecipeList() {
+		return craftingRecipeList;
+	}
+
+	public void setCraftingRecipeList(CraftingRecipeList craftingRecipeList) {
+		this.craftingRecipeList = craftingRecipeList;
 	}
 	
 

@@ -78,6 +78,7 @@ public class Scorpion extends Creature {
 		}
 		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y, 50));
 		
+		
 		if(Lorraine.questStarted){
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}

@@ -28,6 +28,8 @@ public class Player extends Creature{
 	// Experience and levels
 	private int attackExperience;
 	private int attackLevel;
+	private int craftingExperience;
+	private int craftingLevel;
 	private int MAX_HEALTH;
 	
 	public static boolean hasInteracted = false;
@@ -65,10 +67,12 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		
 		speed = DEFAULT_SPEED + 2.5f;
+		
 		attackExperience = 0;
 		attackLevel = 1;
+		craftingExperience = 0;
+		craftingLevel = 1;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
@@ -146,6 +150,8 @@ public class Player extends Creature{
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 			System.out.println("Attack level = " + getAttackLevel());
 			System.out.println("Attack XP = " + getAttackExperience());
+			System.out.println("Crafting XP = " + getCraftingExperience());
+			System.out.println("Crafting level = " + getCraftingLevel());
 			
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
@@ -156,6 +162,32 @@ public class Player extends Creature{
 				}
 		}
 		
+	}
+	
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
+				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		g.setFont(GameState.myFont);
+		
+		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
+		/*
+		g.setColor(Color.RED);
+		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		*/
+		g.setColor(Creature.hpColor);
+		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
+				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+		
+		g.setFont(Assets.font14);
+		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
+		g.drawString("HP: " + Double.toString(Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
+		
+		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
+		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
+		
+		g.drawString("FPS: " + String.valueOf(Game.framesPerSecond), 2, 140);
 		
 	}
 	
@@ -402,34 +434,6 @@ public class Player extends Creature{
 			lastFaced = Direction.RIGHT;
 		}
 	}
-
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
-				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-		g.setFont(GameState.myFont);
-		
-		g.setColor(Color.RED);
-		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
-		/*
-		g.setColor(Color.red);
-		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		*/
-		g.setColor(Creature.hpColor);
-		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
-		
-		g.setFont(Assets.font14);
-		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + Double.toString(Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
-		
-		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
-		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
-		
-		g.drawString("FPS: " + String.valueOf(Game.framesPerSecond), 2, 140);
-		
-	}
 	
 	public void postRender(Graphics g){
 		chatWindow.render(g);
@@ -520,6 +524,26 @@ public class Player extends Creature{
 
 	public void setMovementAllowed(boolean movementAllowed) {
 		this.movementAllowed = movementAllowed;
+	}
+
+	public int getCraftingExperience() {
+		return craftingExperience;
+	}
+
+	public void setCraftingExperience(int craftingExperience) {
+		this.craftingExperience = craftingExperience;
+	}
+
+	public int getCraftingLevel() {
+		return craftingLevel;
+	}
+
+	public void setCraftingLevel(int craftingLevel) {
+		this.craftingLevel = craftingLevel;
+	}
+	
+	public void addCraftingExperience(int craftXP) {
+		this.craftingExperience = craftingExperience + craftXP;
 	}
 
 }
