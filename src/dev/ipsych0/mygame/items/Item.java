@@ -19,6 +19,7 @@ public class Item implements Serializable{
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
 	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0);
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MELEE_WEAPON, ItemRarity.Exquisite, 1, 15, 5, 10, 0, 0);
 	
 	// Class
 	

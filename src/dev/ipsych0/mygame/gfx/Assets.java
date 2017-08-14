@@ -81,6 +81,7 @@ public class Assets {
 	public static BufferedImage wood, ore;
 	public static BufferedImage[] coins;
 	public static BufferedImage testSword;
+	public static BufferedImage purpleSword;
 	
 	// Enemy images
 	public static BufferedImage scorpion;
@@ -128,6 +129,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet swordSprites = new SpriteSheet(ImageLoader.loadImage("/textures/swordsprites.png"));
 		SpriteSheet craftingWindow = new SpriteSheet(ImageLoader.loadImage("/textures/crafting.png"));
 		SpriteSheet fishSheet = new SpriteSheet(ImageLoader.loadImage("/textures/fish.png"));
 		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
@@ -155,6 +157,8 @@ public class Assets {
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		
 		fish = fishSheet.crop(0, 0, width, height);
 		
