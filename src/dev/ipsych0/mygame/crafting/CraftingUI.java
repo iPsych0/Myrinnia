@@ -234,6 +234,7 @@ public class CraftingUI {
 				((Graphics2D) g).setComposite(ac);
 			}else {
 				g.dispose();
+				return;
 			}
 			
 			if(possibleRecipe != null) {
