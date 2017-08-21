@@ -17,6 +17,7 @@ import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -112,7 +113,7 @@ public class Player extends Creature{
 		if(lastFaced == Direction.UP){
 			aDefault = new Animation(250, Assets.player_up);
 		}
-
+		
 		//Animations
 		aDefault.tick();
 		aDown.tick();
@@ -130,7 +131,6 @@ public class Player extends Creature{
 		// Stat updates
 		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		attackCooldown = (long) (600 / getAttackSpeed());
-		
 		
 		//Movement
 		if(movementAllowed) {
