@@ -70,7 +70,7 @@ public class Projectile {
 		
 		if(active) {
 			for(Entity e: handler.getWorld().getEntityManager().getEntities()) {
-				if(e.equals(handler.getPlayer())) {
+				if(e.equals(e)) {
 					continue;
 				}
 				if(!e.isAttackable()) {
@@ -80,9 +80,13 @@ public class Projectile {
 					continue;
 				}
 				if(getCollisionBounds(0,0).intersects(e.getCollisionBounds((float)xVelocity, (float)yVelocity))){
-					active = false;
-					e.damage(5);
-					return;
+					if(e.isStaticNpc()) {
+						active = false;
+					}else {
+						active = false;
+						e.damage(5);
+						return;
+					}
 				}
 			}
 		}

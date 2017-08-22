@@ -74,7 +74,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 1.5f;
+		speed = DEFAULT_SPEED + 2.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -190,6 +190,23 @@ public class Player extends Creature{
 			Projectile p = it.next();
 			if(!p.active){
 				deleted.add(p);
+			}
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+				if(e.equals(this)) {
+					continue;
+				}
+				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
+					if(!e.isAttackable()) {
+						p.active = false;
+					}
+					if(e.isStaticNpc()) {
+						p.active = false;
+					}
+					if(e.isAttackable()) {
+						e.damage(baseDamage + (int)(getPower() * 3));
+						p.active = false;
+					}
+				}
 			}
 			p.tick();
 		}

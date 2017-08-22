@@ -27,6 +27,7 @@ public abstract class Entity {
 	protected boolean isShop = false;
 	protected boolean drawnOnMap = false;
 	protected boolean damaged = false;
+	protected boolean staticNpc = false;
 	private int ty = 0;
 	
 	
@@ -241,6 +242,14 @@ public abstract class Entity {
 
 	public void setDrawnOnMap(boolean drawnOnMap) {
 		this.drawnOnMap = drawnOnMap;
+	}
+
+	public boolean isStaticNpc() {
+		return staticNpc;
+	}
+
+	public void setStaticNpc(boolean staticNpc) {
+		this.staticNpc = staticNpc;
 	}
 	
 }

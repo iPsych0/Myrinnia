@@ -2,8 +2,12 @@ package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
@@ -25,6 +29,9 @@ public class Scorpion extends Creature {
 	private int ySpawn = (int)getY();
 	private int xRadius = 128;
 	private int yRadius = 128;
+	private Rectangle radius;
+	
+	private ArrayList<Projectile> projectiles;
 	
 	// Walking timer
 	private int time = 0;
@@ -42,12 +49,41 @@ public class Scorpion extends Creature {
 		setDefence(0);
 		speed = DEFAULT_SPEED;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
+		
+		projectiles = new ArrayList<Projectile>();
 	}
 
 	@Override
 	public void tick() {
+		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		randomWalk();
 		checkAttacks();
+		
+		Iterator<Projectile> it = projectiles.iterator();
+		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+		while(it.hasNext()){
+			Projectile p = it.next();
+			if(!p.active){
+				deleted.add(p);
+			}
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+				if(e.equals(this)) {
+					continue;
+				}
+				if(!e.equals(handler.getPlayer())) {
+					continue;
+				}
+				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
+					if(e.isAttackable()) {
+						e.damage(baseDamage + (int)(getPower() * 3));
+						p.active = false;
+					}
+				}
+			}
+			p.tick();
+		}
+		
+		projectiles.removeAll(deleted);
 	}
 
 	@Override
@@ -57,8 +93,13 @@ public class Scorpion extends Creature {
 		g.setColor(Creature.hpColor);
 		g.setFont(Creature.hpFont);
 		
-				g.drawString(Integer.toString(getHealth()) + "/" + DEFAULT_HEALTH,
-						(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
+		g.drawString(Integer.toString(getHealth()) + "/" + DEFAULT_HEALTH,
+				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
+		
+		for(Projectile p : projectiles) {
+			if(active)
+				p.render(g);
+		}
 		
 	}
 
@@ -138,6 +179,10 @@ public class Scorpion extends Creature {
 		}
 		
 		attackTimer = 0;
+		
+		if(radius.intersects(handler.getPlayer().getCollisionBounds(0, 0))) {
+			projectiles.add(new Projectile(handler, x, y, (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), 3.0f));
+		}
 		
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
