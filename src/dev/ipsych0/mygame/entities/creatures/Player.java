@@ -184,6 +184,13 @@ public class Player extends Creature{
 			
 		}
 		
+		if(handler.getMouseManager().isDragged()) {
+			projectiles.add((new Projectile(handler, x, y,
+					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
+					6.0f)));
+		}
+		
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
 		while(it.hasNext()){
