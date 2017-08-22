@@ -75,7 +75,7 @@ public class Scorpion extends Creature {
 				}
 				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
 					if(e.isAttackable()) {
-						e.damage(baseDamage + (int)(getPower() * 3));
+						e.damage(5);
 						p.active = false;
 					}
 				}
