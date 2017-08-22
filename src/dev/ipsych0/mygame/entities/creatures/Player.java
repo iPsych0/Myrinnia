@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
@@ -17,8 +20,6 @@ import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
-import dev.ipsych0.mygame.tiles.Terrain;
-import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -42,6 +43,7 @@ public class Player extends Creature{
 	
 	// Attacking Animations
 	private Animation attDown, attUp, attLeft, attRight;
+	private ArrayList<Projectile> projectiles;
 	
 	// Last faced direction
 	private Direction lastFaced = direction;
@@ -72,7 +74,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 2.5f;
+		speed = DEFAULT_SPEED + 1.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -97,6 +99,8 @@ public class Player extends Creature{
 		attRight = new Animation(333, Assets.player_attackingRight);
 		
 		aDefault = new Animation(250, Assets.player_down);
+		
+		projectiles = new ArrayList<Projectile>();
 		
 	}
 
@@ -172,13 +176,25 @@ public class Player extends Creature{
 		if(handler.getMouseManager().isLeftPressed() && projectileFired && !handler.getPlayer().getChatWindow().getWindowBounds().contains(mouse) &&
 				!handler.getWorld().getInventory().getWindowBounds().contains(mouse) && !handler.getWorld().getEquipment().getWindowBounds().contains(mouse)) {
 			
-			handler.getWorld().getEntityManager().addEntity(new Projectile(handler, x,
-					y,
+			projectiles.add((new Projectile(handler, x, y,
 					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()), 5.0f));
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
+					6.0f)));
 			projectileFired = false;
 			
 		}
+		
+		Iterator<Projectile> it = projectiles.iterator();
+		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+		while(it.hasNext()){
+			Projectile p = it.next();
+			if(!p.active){
+				deleted.add(p);
+			}
+			p.tick();
+		}
+		
+		projectiles.removeAll(deleted);
 		
 	}
 	
@@ -466,6 +482,11 @@ public class Player extends Creature{
 			g.drawRect((int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height);
 			g.drawImage(Assets.fish, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
+		
+		for(Projectile p : projectiles) {
+			if(active)
+				p.render(g);
+		}
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
@@ -562,6 +583,14 @@ public class Player extends Creature{
 	
 	public void addCraftingExperience(int craftXP) {
 		this.craftingExperience = craftingExperience + craftXP;
+	}
+
+	public Direction getLastFaced() {
+		return lastFaced;
+	}
+
+	public void setLastFaced(Direction lastFaced) {
+		this.lastFaced = lastFaced;
 	}
 
 }

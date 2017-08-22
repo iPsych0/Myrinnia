@@ -67,6 +67,7 @@ public class Assets {
 	
 	// Player animation images
 	public static BufferedImage[] player_down, player_up, player_left, player_right;
+	public static BufferedImage[] magicProjectile;
 	
 	// Player attack images
 	public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
@@ -129,6 +130,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet projectiles = new SpriteSheet(ImageLoader.loadImage("/textures/projectiles.png"));
 		SpriteSheet swordSprites = new SpriteSheet(ImageLoader.loadImage("/textures/swordsprites.png"));
 		SpriteSheet craftingWindow = new SpriteSheet(ImageLoader.loadImage("/textures/crafting.png"));
 		SpriteSheet fishSheet = new SpriteSheet(ImageLoader.loadImage("/textures/fish.png"));
@@ -157,6 +159,10 @@ public class Assets {
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		magicProjectile = new BufferedImage[2];
+		magicProjectile[0] = projectiles.crop(width * 3, height * 0, width, height);
+		magicProjectile[1] = projectiles.crop(width * 0, height, width, height);
 		
 		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		

@@ -56,11 +56,10 @@ public class Scorpion extends Creature {
 				, width, height, null);
 		g.setColor(Creature.hpColor);
 		g.setFont(Creature.hpFont);
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
-				g.drawString(Integer.toString(e.getHealth()) + "/" + DEFAULT_HEALTH,
+		
+				g.drawString(Integer.toString(getHealth()) + "/" + DEFAULT_HEALTH,
 						(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
-		}
+		
 	}
 
 	@Override
