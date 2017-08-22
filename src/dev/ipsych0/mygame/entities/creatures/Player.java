@@ -35,6 +35,7 @@ public class Player extends Creature{
 	
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
+	public static boolean projectileFired = false;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -55,6 +56,9 @@ public class Player extends Creature{
 	// NPC ChatWindow
 	
 	private ChatWindow chatWindow;
+	
+	// Mouse
+	private Rectangle mouse;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -98,6 +102,9 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
+		
+		mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		
 		if(lastFaced == null){
 			aDefault = new Animation(250, Assets.player_down);
 		}
@@ -160,6 +167,17 @@ public class Player extends Creature{
 					hasInteracted = true;
 					return;
 				}
+		}
+		
+		if(handler.getMouseManager().isLeftPressed() && projectileFired && !handler.getPlayer().getChatWindow().getWindowBounds().contains(mouse) &&
+				!handler.getWorld().getInventory().getWindowBounds().contains(mouse) && !handler.getWorld().getEquipment().getWindowBounds().contains(mouse)) {
+			
+			handler.getWorld().getEntityManager().addEntity(new Projectile(handler, x,
+					y,
+					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()), 5.0f));
+			projectileFired = false;
+			
 		}
 		
 	}

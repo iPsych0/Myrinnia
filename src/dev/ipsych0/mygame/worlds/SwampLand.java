@@ -38,7 +38,7 @@ public class SwampLand extends World{
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new Scorpion(handler, 160, 576));
+		entityManager.addEntity(new Scorpion(handler, 160, 400));
 		entityManager.addEntity(new Scorpion(handler, 128, 800));
 		entityManager.addEntity(new Scorpion(handler, 128, 888));
 		entityManager.addEntity(new Scorpion(handler, 128, 944));

@@ -28,6 +28,7 @@ public class EquipmentWindow implements Serializable {
 	private static CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
 	private ItemStack currentSelectedSlot;
 	private boolean itemSelected;
+	private Rectangle windowBounds;
 	
 	public EquipmentWindow(Handler handler, int x, int y){
 		this.x = x;
@@ -37,6 +38,7 @@ public class EquipmentWindow implements Serializable {
 		height = numRows * (EquipmentSlot.SLOTSIZE + 8);
 		if(isCreated == false){
 			equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
+			windowBounds = new Rectangle(x, y, width, height);
 			
 			for(int i = 0; i < numCols; i++){
 				for(int j = 0; j < numRows; j++){
@@ -183,5 +185,13 @@ public class EquipmentWindow implements Serializable {
 
 	public void setEquipmentSlots(CopyOnWriteArrayList<EquipmentSlot> equipmentSlots) {
 		EquipmentWindow.equipmentSlots = equipmentSlots;
+	}
+
+	public Rectangle getWindowBounds() {
+		return windowBounds;
+	}
+
+	public void setWindowBounds(Rectangle windowBounds) {
+		this.windowBounds = windowBounds;
 	}
 }

@@ -2,12 +2,11 @@ package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.GameState;
 
 public class ChatWindow {
 	
@@ -24,6 +23,7 @@ public class ChatWindow {
 	private int numCols = 1;
 	private int numRows = 7;
 	public static Color chatColour = new Color(100, 100, 100);
+	private Rectangle windowBounds;
 	
 	private CopyOnWriteArrayList<TextSlot> textSlots;
 	
@@ -50,7 +50,7 @@ public class ChatWindow {
 			}	
 			width = numCols * (TextSlot.textWidth);
 			height = numRows * (TextSlot.textHeight + 3);
-			System.out.println(width + " and " + height);
+			setWindowBounds(new Rectangle(x, y, width, height));
 			isCreated = true;
 		}
 	}
@@ -127,5 +127,13 @@ public class ChatWindow {
 	
 	public CopyOnWriteArrayList<TextSlot> getTextSlots(){
 		return textSlots;
+	}
+
+	public Rectangle getWindowBounds() {
+		return windowBounds;
+	}
+
+	public void setWindowBounds(Rectangle windowBounds) {
+		this.windowBounds = windowBounds;
 	}
 }
