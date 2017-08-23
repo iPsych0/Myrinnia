@@ -143,6 +143,7 @@ public class Player extends Creature{
 			getInput();
 			move();
 		}
+		
 		handler.getGameCamera().centerOnEntity(this);
 		
 		// Attacks
@@ -169,7 +170,6 @@ public class Player extends Creature{
 		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
-		
 		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed && !getChatWindow().getWindowBounds().contains(mouse) &&
 				!getCurrentMap().getInventory().getWindowBounds().contains(mouse) && !getCurrentMap().getEquipment().getWindowBounds().contains(mouse)) {
 			

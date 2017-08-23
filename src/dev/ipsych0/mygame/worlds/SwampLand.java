@@ -18,11 +18,13 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public class SwampLand extends World{
 	
 	private Rectangle nextLevelTile;
+	private Player player;
 
 	public SwampLand(Handler handler, Player player, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
+		this.player = player;
 		
 		mapLoader = new MapLoader();
 		loadGroundTiles(path);

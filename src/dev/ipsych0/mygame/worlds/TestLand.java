@@ -18,11 +18,13 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public class TestLand extends World {
 	
 	private Rectangle oldLevelTile;
+	private Player player;
 
 	public TestLand(Handler handler, Player player, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
+		this.player = player;
 		
 		mapLoader = new MapLoader();
 		loadGroundTiles(path);

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
@@ -46,6 +47,7 @@ public abstract class World {
 	protected InventoryWindow inventory;
 	protected EquipmentWindow equipment;
 	protected CraftingUI craftingUI;
+	protected Player player;
 	
 	// Actual code ---v
 	
