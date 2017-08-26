@@ -11,10 +11,6 @@ public class WorldHandler {
 	private ArrayList<World> worlds;
 	private SwampLand swampLand;
 	
-	/*
-	 * Index 0: SwampLand
-	 * Index 1: TestLand
-	 */
 
 	public WorldHandler(Handler handler, SwampLand swampLand){
 		this.handler = handler;

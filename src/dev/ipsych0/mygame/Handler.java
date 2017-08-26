@@ -15,6 +15,7 @@ import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
@@ -29,12 +30,19 @@ public class Handler {
 	private Player player;
 	private Random rand = new Random();
 	
+	/*
+	 * Index 0: SwampLand
+	 * Index 1: TestLand
+	 * Index 2: Island
+	 */
+	
 	public Handler(Game game){
 		this.game = game;
 		player = new Player(this, 260, 220);
 		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx", 0);
 		worldHandler = new WorldHandler(this, swampLand);
 		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
+		worldHandler.addWorld(new Island(this, player, "res/worlds/island.tmx", 2));
 	}
 	
 	public int getWidth(){

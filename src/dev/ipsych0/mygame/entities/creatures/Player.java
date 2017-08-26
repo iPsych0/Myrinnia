@@ -71,7 +71,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 2.5f;
+		speed = DEFAULT_SPEED + 5.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;

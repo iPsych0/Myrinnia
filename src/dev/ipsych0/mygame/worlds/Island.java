@@ -15,12 +15,12 @@ import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class TestLand extends World {
+public class Island extends World {
 	
 	private Rectangle oldLevelTile;
 	private Player player;
 
-	public TestLand(Handler handler, Player player, String path, int worldID) {
+	public Island(Handler handler, Player player, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;

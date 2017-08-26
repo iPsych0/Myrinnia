@@ -27,6 +27,10 @@ public class SwampLand extends World{
 		this.player = player;
 		
 		mapLoader = new MapLoader();
+		
+		width = mapLoader.getMapWidth(path);
+		height = mapLoader.getMapHeight(path);
+		
 		loadGroundTiles(path);
 		loadTerrainTiles(path);
 		loadAmbianceTiles(path);
@@ -68,11 +72,11 @@ public class SwampLand extends World{
 			craftingUI.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(60);
 				handler.getPlayer().setY(164);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(2).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}

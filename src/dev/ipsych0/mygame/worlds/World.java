@@ -55,7 +55,6 @@ public abstract class World {
 		if(State.getState() == handler.getGame().gameState){
 			this.handler = handler;
 			
-			
 			entityManager = new EntityManager(handler, handler.getPlayer());
 			
 			// Create inv & equipmentscreen
@@ -119,9 +118,6 @@ public abstract class World {
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
-		
-		width = mapLoader.getMapWidth(path);
-		height = mapLoader.getMapHeight(path);
 		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
