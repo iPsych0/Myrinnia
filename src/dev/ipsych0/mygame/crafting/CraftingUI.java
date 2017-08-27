@@ -42,6 +42,7 @@ public class CraftingUI {
 	private BufferedImage craftImg;
 	private Rectangle previewImg;
 	private boolean hovering = false;
+	private Rectangle windowBounds;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -52,6 +53,8 @@ public class CraftingUI {
 		height = 320;
 		
 		if(!isCreated) {
+			
+			windowBounds = new Rectangle(x, y, width, height);
 			
 			craftingSlots = new CopyOnWriteArrayList<CraftingSlot>();
 			
@@ -571,6 +574,14 @@ public class CraftingUI {
 
 	public void setCraftingRecipeList(CraftingRecipeList craftingRecipeList) {
 		this.craftingRecipeList = craftingRecipeList;
+	}
+
+	public Rectangle getWindowBounds() {
+		return windowBounds;
+	}
+
+	public void setWindowBounds(Rectangle windowBounds) {
+		this.windowBounds = windowBounds;
 	}
 	
 

@@ -1,6 +1,9 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -119,11 +122,21 @@ public abstract class World {
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
 		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ground.txt"));
+			bw.write(file);
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		tiles = new int[width][height];
 		for (int y = 0; y < height; y++){
 			for (int x = 0; x < width; x++){
 				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width)]);
+				
 			}
 		}
 	}
@@ -134,6 +147,15 @@ public abstract class World {
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/terrain.txt"));
+			bw.write(file);
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		terrain = new int[width][height];
 		for (int y = 0; y < height; y++){
@@ -150,6 +172,15 @@ public abstract class World {
 		// Splits worlds files by spaces and puts them all in an array
 		file = file.replace("\n", "").replace("\r", "");
 		String[] tokens = file.split(",");
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ambiance.txt"));
+			bw.write(file);
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		ambiance = new int[width][height];
 		for (int y = 0; y < height; y++){

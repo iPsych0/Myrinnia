@@ -11,12 +11,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
+import dev.ipsych0.mygame.items.EquipmentWindow;
+import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.states.GameState;
@@ -71,7 +74,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 5.5f;
+		speed = DEFAULT_SPEED + 4.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -170,15 +173,14 @@ public class Player extends Creature{
 		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
-		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed && !getChatWindow().getWindowBounds().contains(mouse) &&
-				!getCurrentMap().getInventory().getWindowBounds().contains(mouse) && !getCurrentMap().getEquipment().getWindowBounds().contains(mouse)) {
-			
+		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed){
+		
 			projectiles.add((new Projectile(handler, x, y,
 					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
 					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
 					6.0f)));
 			projectileFired = false;
-			
+						
 		}
 		
 		Iterator<Projectile> it = projectiles.iterator();

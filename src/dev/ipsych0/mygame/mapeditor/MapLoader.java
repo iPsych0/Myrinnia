@@ -77,7 +77,7 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node groundMap = maps.item(maps.getLength() - 5);
+			Node groundMap = maps.item(maps.getLength() - 9);
 			mapValues = groundMap.getTextContent();
 			System.out.println(mapValues);
 			return mapValues;
@@ -103,7 +103,7 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node terrainMap = maps.item(maps.getLength() - 3);
+			Node terrainMap = maps.item(maps.getLength() - 7);
 			mapValues = terrainMap.getTextContent();
 			System.out.println(mapValues);
 			return mapValues;
@@ -129,7 +129,7 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node terrainMap = maps.item(maps.getLength() - 1);
+			Node terrainMap = maps.item(maps.getLength() - 5);
 			mapValues = terrainMap.getTextContent();
 			System.out.println(mapValues);
 			return mapValues;
