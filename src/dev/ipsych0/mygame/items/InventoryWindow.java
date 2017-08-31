@@ -42,9 +42,8 @@ public class InventoryWindow implements Serializable {
 		this.y = y;
 		width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
 		height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
+		windowBounds = new Rectangle(x, y, width, height);
 		if(isCreated == false){
-			
-			windowBounds = new Rectangle(x, y, width, height);
 			
 			itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 			

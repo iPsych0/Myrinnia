@@ -157,7 +157,8 @@ public class Player extends Creature{
 		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
-		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed){
+		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed && !handler.getWorld().getInventory().getWindowBounds().contains(mouse) &&
+				!handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && !handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse)) {
 		
 			projectiles.add((new Projectile(handler, x, y,
 					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
@@ -475,6 +476,7 @@ public class Player extends Creature{
 				continue;
 			}
 			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
+			removeEquipmentStats(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
 			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		if(!active){

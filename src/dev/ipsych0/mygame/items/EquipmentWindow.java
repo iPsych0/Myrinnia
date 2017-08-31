@@ -36,9 +36,10 @@ public class EquipmentWindow implements Serializable {
 		this.handler = handler;
 		width = numCols * (EquipmentSlot.SLOTSIZE + 10) - 26;
 		height = numRows * (EquipmentSlot.SLOTSIZE + 8);
+		windowBounds = new Rectangle(x, y, width, height);
+		
 		if(isCreated == false){
 			equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
-			windowBounds = new Rectangle(x, y, width, height);
 			
 			for(int i = 0; i < numCols; i++){
 				for(int j = 0; j < numRows; j++){

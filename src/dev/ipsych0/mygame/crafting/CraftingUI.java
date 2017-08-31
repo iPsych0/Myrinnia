@@ -43,6 +43,7 @@ public class CraftingUI {
 	private Rectangle previewImg;
 	private boolean hovering = false;
 	private Rectangle windowBounds;
+	private String[] totalCraftAmount;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -51,10 +52,9 @@ public class CraftingUI {
 		this.y = y;
 		width = 242;
 		height = 320;
+		windowBounds = new Rectangle(x, y, width, height);
 		
 		if(!isCreated) {
-			
-			windowBounds = new Rectangle(x, y, width, height);
 			
 			craftingSlots = new CopyOnWriteArrayList<CraftingSlot>();
 			
@@ -242,6 +242,14 @@ public class CraftingUI {
 			
 			if(possibleRecipe != null) {
 				if(craftImg != null) {
+					for(int i = 0; i < getCraftingSlots().size(); i++) {
+						if(getCraftingSlots().get(i).getItemStack() == null) {
+							continue;
+						}
+						g.setColor(Color.YELLOW);
+						g.drawString(totalCraftAmount[i],
+								getCraftingSlots().get(i).getX() - 2, getCraftingSlots().get(i).getY() - 4);
+					}
 					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
 					if(hovering) {
 						g.setColor(Color.DARK_GRAY);
@@ -482,6 +490,12 @@ public class CraftingUI {
 				
 				possibleRecipe = getRecipe(i);
 				
+				totalCraftAmount = new String[tempCraftSlotList.size()];
+				
+				for(int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
+					totalCraftAmount[j] = Integer.toString(tempCraftSlotList.get(j).getAmount()) + "/" + Integer.toString(tempCraftRecipeList.get(j).getAmount());
+				}
+				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
 				break;
@@ -500,6 +514,14 @@ public class CraftingUI {
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
 		sortedCraftSlots.clear();
+	}
+	
+	private int totalCraftAmount(int currentStack) {
+		return currentStack;
+	}
+	
+	private int craftRecipeAmount(int recipeAmount) {
+		return recipeAmount;
 	}
 	
 	public ItemStack getRecipe(int recipeID) {
