@@ -91,7 +91,7 @@ public class Whirlpool extends StaticEntity {
 			);
 		}
 		if(this.speakingTurn == 1) {
-			
+			return;
 		}
 	}
 	

@@ -97,8 +97,9 @@ public class Scorpion extends Creature {
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
 		
 		for(Projectile p : projectiles) {
-			if(active)
+			if(p.active) {
 				p.render(g);
+			}
 		}
 		
 	}

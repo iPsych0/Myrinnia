@@ -107,32 +107,7 @@ public class Player extends Creature{
 	@Override
 	public void tick() {
 		
-		if(lastFaced == null){
-			aDefault = new Animation(250, Assets.player_down);
-		}
-		if(lastFaced == Direction.LEFT){
-			aDefault = new Animation(250, Assets.player_left);
-		}
-		if(lastFaced == Direction.RIGHT){
-			aDefault = new Animation(250, Assets.player_right);
-		}
-		if(lastFaced == Direction.DOWN){
-			aDefault = new Animation(250, Assets.player_down);
-		}
-		if(lastFaced == Direction.UP){
-			aDefault = new Animation(250, Assets.player_up);
-		}
-		
-		//Animations
-		aDefault.tick();
-		aDown.tick();
-		aUp.tick();
-		aLeft.tick();
-		aRight.tick();
-		attDown.tick();
-		attUp.tick();
-		attLeft.tick();
-		attRight.tick();
+		setLastFaced();
 		
 		// Chat
 		chatWindow.tick();
@@ -145,13 +120,22 @@ public class Player extends Creature{
 		if(movementAllowed) {
 			getInput();
 			move();
+			aDefault.tick();
+			aDown.tick();
+			aUp.tick();
+			aLeft.tick();
+			aRight.tick();
+			attDown.tick();
+			attUp.tick();
+			attLeft.tick();
+			attRight.tick();
+			checkAttacks();
 		}
 		
 		handler.getGameCamera().centerOnEntity(this);
 		
 		// Attacks
 		regenHealth();
-		checkAttacks();
 		
 		// Player position
 		if(handler.getKeyManager().position){
@@ -214,10 +198,52 @@ public class Player extends Creature{
 		
 	}
 	
+	public void setLastFaced() {
+		if(lastFaced == null){
+			aDefault = new Animation(250, Assets.player_down);
+		}
+		if(lastFaced == Direction.LEFT){
+			aDefault = new Animation(250, Assets.player_left);
+		}
+		if(lastFaced == Direction.RIGHT){
+			aDefault = new Animation(250, Assets.player_right);
+		}
+		if(lastFaced == Direction.DOWN){
+			aDefault = new Animation(250, Assets.player_down);
+		}
+		if(lastFaced == Direction.UP){
+			aDefault = new Animation(250, Assets.player_up);
+		}
+	}
+	
+	public BufferedImage getLastFacedImg() {
+		if(lastFaced == null){
+			return Assets.player_down[1];
+		}
+		if(lastFaced == Direction.LEFT){
+			return Assets.player_left[1];
+		}
+		if(lastFaced == Direction.RIGHT){
+			return Assets.player_right[1];
+		}
+		if(lastFaced == Direction.DOWN){
+			return Assets.player_down[1];
+		}
+		if(lastFaced == Direction.UP){
+			return Assets.player_up[1];
+		}
+		return Assets.player_down[1];
+	}
+	
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
-				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		if(movementAllowed) {
+			g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
+					(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		}else {
+			g.drawImage(getLastFacedImg(), (int) (x - handler.getGameCamera().getxOffset()),
+					(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		}
 		g.setFont(GameState.myFont);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME

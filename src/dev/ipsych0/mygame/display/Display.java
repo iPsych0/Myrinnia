@@ -2,7 +2,10 @@ package dev.ipsych0.mygame.display;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 
 public class Display {

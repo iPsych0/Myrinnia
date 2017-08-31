@@ -59,16 +59,17 @@ public class Projectile {
 	}
 	
 	public void tick() {
-		magic.tick();
-		
-		x += xVelocity;
-		y += yVelocity;
-		
-		if(x > maxX || x < minX || y > maxY || y < minY) {
-			active = false;
-		}
-		
 		if(active) {
+			magic.tick();
+			
+			x += xVelocity;
+			y += yVelocity;
+			
+			if(x > maxX || x < minX || y > maxY || y < minY) {
+				active = false;
+				return;
+			}
+		
 			for(Entity e: handler.getWorld().getEntityManager().getEntities()) {
 				if(e.equals(e)) {
 					continue;
@@ -93,9 +94,10 @@ public class Projectile {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(magic.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
-				, width, height, null);
-		
+		if(active) {
+			g.drawImage(magic.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+					, width, height, null);
+		}
 	}
 
 
