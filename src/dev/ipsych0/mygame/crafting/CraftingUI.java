@@ -246,9 +246,7 @@ public class CraftingUI {
 						if(getCraftingSlots().get(i).getItemStack() == null) {
 							continue;
 						}
-						g.setColor(Color.YELLOW);
-						g.drawString(totalCraftAmount[i],
-								getCraftingSlots().get(i).getX() - 2, getCraftingSlots().get(i).getY() - 4);
+						Text.drawString(g, totalCraftAmount[i], getCraftingSlots().get(i).getX() + 16, getCraftingSlots().get(i).getY() - 8, true, Color.YELLOW, Assets.font14);
 					}
 					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
 					if(hovering) {
@@ -493,7 +491,7 @@ public class CraftingUI {
 				totalCraftAmount = new String[tempCraftSlotList.size()];
 				
 				for(int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
-					totalCraftAmount[j] = Integer.toString(tempCraftSlotList.get(j).getAmount()) + "/" + Integer.toString(tempCraftRecipeList.get(j).getAmount());
+					totalCraftAmount[j] = Integer.toString(tempCraftSlotList.get(j).getAmount()) + " / " + Integer.toString(tempCraftRecipeList.get(j).getAmount());
 				}
 				
 				// Set matches back to 0 for next craft and stop iterating

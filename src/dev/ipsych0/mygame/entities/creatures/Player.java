@@ -74,7 +74,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 4.5f;
+		speed = DEFAULT_SPEED + 2.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -157,8 +157,8 @@ public class Player extends Creature{
 		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
-		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed && !handler.getWorld().getInventory().getWindowBounds().contains(mouse) &&
-				!handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && !handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse)) {
+		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed/* && !handler.getWorld().getInventory().getWindowBounds().contains(mouse) &&
+				!handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && !handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse)*/){
 		
 			projectiles.add((new Projectile(handler, x, y,
 					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
