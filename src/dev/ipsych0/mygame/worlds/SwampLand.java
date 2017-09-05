@@ -17,7 +17,7 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class SwampLand extends World{
 	
-	private Rectangle nextLevelTile;
+	private Rectangle testLandTile;
 	private Player player;
 
 	public SwampLand(Handler handler, Player player, String path, int worldID) {
@@ -57,7 +57,7 @@ public class SwampLand extends World{
 		
 		entityManager.addEntity(new Whirlpool(handler, 672, 432));
 		
-		nextLevelTile = new Rectangle(1568, 1300, 32, 200); 
+		testLandTile = new Rectangle(1568, 1300, 32, 200); 
 
 	}
 	
@@ -71,7 +71,7 @@ public class SwampLand extends World{
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(nextLevelTile)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(60);
@@ -132,7 +132,7 @@ public class SwampLand extends World{
 			miniMap.render(g);
 			craftingUI.render(g);
 			
-			g.drawRect((int) (nextLevelTile.x - handler.getGameCamera().getxOffset()), (int) (nextLevelTile.y - handler.getGameCamera().getyOffset()), 32, 168);
+			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}
 	}
 

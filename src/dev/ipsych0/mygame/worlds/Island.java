@@ -17,7 +17,7 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Island extends World {
 	
-	private Rectangle oldLevelTile;
+	private Rectangle testLandTile;
 	private Player player;
 
 	public Island(Handler handler, Player player, String path, int worldID) {
@@ -49,7 +49,7 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
-		oldLevelTile = new Rectangle(0, 70, 32, 350); 
+		testLandTile = new Rectangle(400, 70, 32, 350); 
 	}
 
 	@Override
@@ -63,12 +63,12 @@ public class Island extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(1490);
-				handler.getPlayer().setY(1305);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
+				handler.getPlayer().setX(1520);
+				handler.getPlayer().setY(164);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
@@ -125,7 +125,7 @@ public class Island extends World {
 			miniMap.render(g);
 			craftingUI.render(g);
 			
-			g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
 	}
 

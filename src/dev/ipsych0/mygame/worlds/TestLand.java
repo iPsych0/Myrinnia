@@ -17,7 +17,8 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TestLand extends World {
 	
-	private Rectangle oldLevelTile;
+	private Rectangle swampLandTile;
+	private Rectangle islandTile;
 	private Player player;
 
 	public TestLand(Handler handler, Player player, String path, int worldID) {
@@ -49,7 +50,8 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
-		oldLevelTile = new Rectangle(0, 70, 32, 350); 
+		swampLandTile = new Rectangle(0, 70, 32, 350); 
+		islandTile = new Rectangle(1568, 70, 32, 350);
 	}
 
 	@Override
@@ -63,12 +65,21 @@ public class TestLand extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(oldLevelTile)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(swampLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(1490);
 				handler.getPlayer().setY(1305);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(islandTile)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(60);
+				handler.getPlayer().setY(164);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(2).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
@@ -125,7 +136,8 @@ public class TestLand extends World {
 			miniMap.render(g);
 			craftingUI.render(g);
 			
-			g.drawRect((int) (oldLevelTile.x - handler.getGameCamera().getxOffset()), (int) (oldLevelTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (swampLandTile.x - handler.getGameCamera().getxOffset()), (int) (swampLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (islandTile.x - handler.getGameCamera().getxOffset()), (int) (islandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
 	}
 

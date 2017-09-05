@@ -89,9 +89,11 @@ public class Handler {
 	public void playMusic(String pathToMusic) {
 		try {
 			File file = new File(pathToMusic);
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			if(file.exists()) {
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(file));
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -115,7 +117,11 @@ public class Handler {
 	
 	public static double roundOff(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
-
+	    
+	    if(Double.isNaN(value) || Double.isInfinite(value)) {
+	    	System.out.println("Oneindig of Not Number");
+	    	return 100.0;
+	    }
 	    BigDecimal bd = new BigDecimal(value);
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
