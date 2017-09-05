@@ -250,21 +250,7 @@ public class InventoryWindow implements Serializable {
 					/*
 					 * Draw the colour of the item's rarity
 					 */
-					if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Common){
-						g.setColor(Color.WHITE);
-					}
-					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Uncommon){
-						g.setColor(Color.BLUE);
-					}
-					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Rare){
-						g.setColor(Color.ORANGE);
-					}
-					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Exquisite){
-						g.setColor(Color.GREEN);
-					}
-					else if(is.getItemStack().getItem().getItemRarity() == ItemRarity.Unique){
-						g.setColor(Color.MAGENTA);
-					}
+					g.setColor(ItemRarity.getColor(is.getItemStack().getItem()));
 					g.drawString(is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 32);
 					
 					if(is.getItemStack().getItem().getEquipSlot() != 12){

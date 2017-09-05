@@ -15,7 +15,9 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemRarity;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.states.GameState;
 
 public class CraftingUI {
 	
@@ -59,12 +61,6 @@ public class CraftingUI {
 		if(!isCreated) {
 			
 			craftingSlots = new CopyOnWriteArrayList<CraftingSlot>();
-			
-//			for(int i = 0; i < numCols; i++) {
-//				for(int j = 0; j < numRows; j++) {
-//					craftingSlots.add(new CraftingSlot(x + 16 + (32 * i), y + height - (32 * numCols) - 16 + (32 * j), null));
-//				}
-//			}
 			
 			craftingSlots.add(new CraftingSlot(x + 32, y + 50, null));
 			craftingSlots.add(new CraftingSlot(x + 80, y + 100, null));
@@ -251,9 +247,20 @@ public class CraftingUI {
 					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
 					if(hovering) {
 						g.setColor(Color.DARK_GRAY);
-						g.fillRect(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 100, 100);
+						g.fillRect(handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128);
 						g.setColor(Color.BLACK);
-						g.drawRect(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 100, 100);
+						g.drawRect(handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128);
+						
+						Text.drawString(g, possibleRecipe.getItem().getName(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
+						Text.drawString(g, possibleRecipe.getItem().getItemRarity().toString(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 32, false, ItemRarity.getColor(possibleRecipe.getItem()), Assets.font14);
+						
+						if(possibleRecipe.getItem().getEquipSlot() != 12) {
+							Text.drawString(g, "Power: " + Integer.toString(possibleRecipe.getItem().getPower()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 48, false, Color.YELLOW, Assets.font14);
+							Text.drawString(g, "Defence: " + Integer.toString(possibleRecipe.getItem().getDefence()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 64, false, Color.YELLOW, Assets.font14);
+							Text.drawString(g, "Vitality: " + Integer.toString(possibleRecipe.getItem().getVitality()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 80, false, Color.YELLOW, Assets.font14);
+							Text.drawString(g, "ATK Speed: " + Float.toString(possibleRecipe.getItem().getAttackSpeed()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 96, false, Color.YELLOW, Assets.font14);
+							Text.drawString(g, "Mov. SPD: " + Float.toString(possibleRecipe.getItem().getMovementSpeed()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 112, false, Color.YELLOW, Assets.font14);
+						}
 					}
 				}
 				Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);

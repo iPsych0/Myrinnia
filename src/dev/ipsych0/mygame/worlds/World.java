@@ -69,7 +69,7 @@ public abstract class World {
 			
 			
 			// Dit is hoe ik items in de world zelf spawn
-			 itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
+			itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
 			
 			// World Animations
 			sparkles = new Animation(250, Assets.sparkles);
