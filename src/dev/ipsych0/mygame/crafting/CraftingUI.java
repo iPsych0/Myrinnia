@@ -44,6 +44,8 @@ public class CraftingUI {
 	private boolean hovering = false;
 	private Rectangle windowBounds;
 	private String[] totalCraftAmount;
+	private int[] filledCraftSlots;
+	private int temp = 0;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -242,11 +244,9 @@ public class CraftingUI {
 			
 			if(possibleRecipe != null) {
 				if(craftImg != null) {
-					for(int i = 0; i < getCraftingSlots().size(); i++) {
-						if(getCraftingSlots().get(i).getItemStack() == null) {
-							continue;
-						}
-						Text.drawString(g, totalCraftAmount[i], getCraftingSlots().get(i).getX() + 16, getCraftingSlots().get(i).getY() - 8, true, Color.YELLOW, Assets.font14);
+					for(int i = 0; i < totalCraftAmount.length; i++) {
+						
+						Text.drawString(g, totalCraftAmount[i], craftingSlots.get(filledCraftSlots[i]).getX() + 16, craftingSlots.get(filledCraftSlots[i]).getY() - 8, true, Color.YELLOW, Assets.font14);
 					}
 					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
 					if(hovering) {
@@ -488,14 +488,26 @@ public class CraftingUI {
 				
 				possibleRecipe = getRecipe(i);
 				
-				totalCraftAmount = new String[tempCraftSlotList.size()];
+				totalCraftAmount = new String[craftingRecipeList.getRecipes().get(i).getComponents().size()];
 				
 				for(int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
 					totalCraftAmount[j] = Integer.toString(tempCraftSlotList.get(j).getAmount()) + " / " + Integer.toString(tempCraftRecipeList.get(j).getAmount());
 				}
 				
+				filledCraftSlots = new int[totalCraftAmount.length];
+				for(int j = 0; j < craftingSlots.size(); j++) {
+					if(craftingSlots.get(j).getItemStack() == null) {
+						continue;
+					}else {
+						filledCraftSlots[temp] = j;
+						temp++;
+					}
+				}
+				
+				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
+				temp = 0;
 				break;
 			}
 			// If there's no match, retry with the next recipe
@@ -512,14 +524,6 @@ public class CraftingUI {
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
 		sortedCraftSlots.clear();
-	}
-	
-	private int totalCraftAmount(int currentStack) {
-		return currentStack;
-	}
-	
-	private int craftRecipeAmount(int recipeAmount) {
-		return recipeAmount;
 	}
 	
 	public ItemStack getRecipe(int recipeID) {
