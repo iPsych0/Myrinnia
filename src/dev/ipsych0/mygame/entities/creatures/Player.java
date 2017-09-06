@@ -74,7 +74,7 @@ public class Player extends Creature{
 		chatWindow.sendMessage("Welcome back!");
 		
 		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED + 4.5f;
+		speed = DEFAULT_SPEED + 2.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -98,7 +98,7 @@ public class Player extends Creature{
 		attLeft = new Animation(333, Assets.player_attackingLeft);
 		attRight = new Animation(333, Assets.player_attackingRight);
 		
-		aDefault = new Animation(250, Assets.player_down);
+		aDefault = aDown;
 		
 		projectiles = new ArrayList<Projectile>();
 		
@@ -106,8 +106,6 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
-		
-		setLastFaced();
 		
 		// Chat
 		chatWindow.tick();
@@ -187,6 +185,11 @@ public class Player extends Creature{
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
+		setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+				(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
+		
+		setLastFaced();
+		
 		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed){
 			if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 				return;
@@ -207,21 +210,45 @@ public class Player extends Creature{
 		
 	}
 	
+	public void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
+		
+		double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
+		
+		double theta = Math.toDegrees(angle);
+		if(theta < 0.0) {
+			theta += 360;
+		}
+		
+		if(theta >= 315 && theta < 360 || theta >= 0 && theta < 45) {
+			lastFaced = Direction.RIGHT;
+		}
+		else if(theta >= 45 && theta < 135) {
+			lastFaced = Direction.DOWN;
+		}
+		else if(theta >= 135 && theta < 225) {
+			lastFaced = Direction.LEFT;
+		}
+		else if(theta >= 225 && theta < 315) {
+			lastFaced = Direction.UP;
+		}
+		
+	}
+	
 	public void setLastFaced() {
 		if(lastFaced == null){
-			aDefault = new Animation(250, Assets.player_down);
+			aDefault = aDown;
 		}
 		if(lastFaced == Direction.LEFT){
-			aDefault = new Animation(250, Assets.player_left);
+			aDefault = aLeft;
 		}
 		if(lastFaced == Direction.RIGHT){
-			aDefault = new Animation(250, Assets.player_right);
+			aDefault = aRight;
 		}
 		if(lastFaced == Direction.DOWN){
-			aDefault = new Animation(250, Assets.player_down);
+			aDefault = aDown;
 		}
 		if(lastFaced == Direction.UP){
-			aDefault = new Animation(250, Assets.player_up);
+			aDefault = aUp;
 		}
 	}
 	

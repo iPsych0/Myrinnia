@@ -47,7 +47,6 @@ public class CraftingUI {
 	private Rectangle windowBounds;
 	private String[] totalCraftAmount;
 	private int[] filledCraftSlots;
-	private int temp = 0;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -508,6 +507,7 @@ public class CraftingUI {
 				possibleRecipe = getRecipe(i);
 				
 				totalCraftAmount = new String[craftingRecipeList.getRecipes().get(i).getComponents().size()];
+				int temp = 0;
 				
 				for(int j = 0; j < craftingRecipeList.getRecipes().get(i).getComponents().size(); j++) {
 					totalCraftAmount[j] = Integer.toString(tempCraftSlotList.get(j).getAmount()) + " / " + Integer.toString(tempCraftRecipeList.get(j).getAmount());
@@ -526,7 +526,6 @@ public class CraftingUI {
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
-				temp = 0;
 				break;
 			}
 			// If there's no match, retry with the next recipe
