@@ -365,6 +365,18 @@ public class CraftingUI {
 			if(matches == sortedCraftSlots.size()) {
 				System.out.println("All items match for this recipe: '" + i + "'");
 				
+				int[] test = new int[craftingRecipeList.getRecipes().get(i).getComponents().size()];
+				int index = 0;
+				
+				for(int j = 0; j < craftingSlots.size(); j++) {
+					if(craftingSlots.get(j).getItemStack() == null) {
+						continue;
+					}else {
+						test[index] = j;
+						index++;
+					}
+				}
+				
 				// Do the subtractions
 				for (int j = 0; j < tempCraftSlotList.size(); j++) {
 					if(tempCraftSlotList.get(j) == null) {
@@ -375,7 +387,7 @@ public class CraftingUI {
 						findRecipe();
 					}
 					else if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
-						craftingSlots.get(j).setItemStack(null);
+						craftingSlots.get(test[j]).setItemStack(null);
 						findRecipe();
 					}
 				}

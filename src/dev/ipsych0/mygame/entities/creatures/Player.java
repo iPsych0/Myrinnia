@@ -156,18 +156,6 @@ public class Player extends Creature{
 				}
 		}
 		
-		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
-		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed/* && !handler.getWorld().getInventory().getWindowBounds().contains(mouse) &&
-				!handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && !handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse)*/){
-		
-			projectiles.add((new Projectile(handler, x, y,
-					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
-					6.0f)));
-			projectileFired = false;
-						
-		}
-		
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
 		while(it.hasNext()){
@@ -196,6 +184,26 @@ public class Player extends Creature{
 		}
 		
 		projectiles.removeAll(deleted);
+		
+		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
+		
+		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed){
+			if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+				return;
+			if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+				return;
+			if(ChatWindow.chatIsOpen && getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+				return;
+			if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+				return;
+		
+			projectiles.add((new Projectile(handler, x, y,
+					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
+					6.0f)));
+			projectileFired = false;
+						
+		}
 		
 	}
 	
