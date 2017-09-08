@@ -241,13 +241,13 @@ public class Player extends Creature{
 		if(lastFaced == Direction.LEFT){
 			aDefault = aLeft;
 		}
-		if(lastFaced == Direction.RIGHT){
+		else if(lastFaced == Direction.RIGHT){
 			aDefault = aRight;
 		}
-		if(lastFaced == Direction.DOWN){
+		else if(lastFaced == Direction.DOWN){
 			aDefault = aDown;
 		}
-		if(lastFaced == Direction.UP){
+		else if(lastFaced == Direction.UP){
 			aDefault = aUp;
 		}
 	}
@@ -315,20 +315,6 @@ public class Player extends Creature{
 			setDefence(getDefence() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
 			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 		}
-		
-//		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++) {
-//			System.out.println("Iteration: " + i);
-//			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() != null){
-//				System.out.println("Item at index " + i + " is: " + handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getName());
-//				attackSpeed += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getAttackSpeed();
-//				vitality += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getVitality();
-//				power += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getPower();
-//				defence += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getDefence();
-//				speed += handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getMovementSpeed();
-//			}else {
-//				continue;
-//			}
-//		}
 	}
 	
 	public void removeEquipmentStats(int equipSlot) {
@@ -529,27 +515,30 @@ public class Player extends Creature{
 		if(handler.getKeyManager().up){
 			yMove = -speed;
 			direction = Direction.UP;
-			lastFaced = Direction.UP;
+			setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 		}
 		if(handler.getKeyManager().down){
 			yMove = speed;
 			direction = Direction.DOWN;
-			lastFaced = Direction.DOWN;
+			setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 		}
 		if(handler.getKeyManager().left){
 			xMove = -speed;
 			direction = Direction.LEFT;
-			lastFaced = Direction.LEFT;
+			setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 		}
 		if(handler.getKeyManager().right){
 			xMove = speed;
 			direction = Direction.RIGHT;
-			lastFaced = Direction.RIGHT;
+			setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 		}
 	}
 	
 	public void postRender(Graphics g){
-		chatWindow.render(g);
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
 			g.setFont(GameState.myFont);
 			e.drawDamage(g);
@@ -566,44 +555,149 @@ public class Player extends Creature{
 			if(active)
 				p.render(g);
 		}
+		
+		chatWindow.render(g);
+	}
+	
+	private BufferedImage getAnimationDirection() {
+		
+		/*
+		 * Animations for attacking while walking
+		 */
+		
+		if(xMove < 0 && handler.getKeyManager().attack) {
+			if(lastFaced == Direction.UP)
+				return attUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return attDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return attLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return attRight.getCurrentFrame();
+		}
+		else if(xMove > 0 && handler.getKeyManager().attack) {
+			if(lastFaced == Direction.UP)
+				return attUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return attDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return attLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return attRight.getCurrentFrame();
+		}
+		else if(yMove < 0 && handler.getKeyManager().attack) {
+			if(lastFaced == Direction.UP)
+				return attUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return attDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return attLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return attRight.getCurrentFrame();
+		}
+		else if(yMove > 0 && handler.getKeyManager().attack) {
+			if(lastFaced == Direction.UP)
+				return attUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return attDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return attLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return attRight.getCurrentFrame();
+		}
+		
+		/*
+		 * Animations for walking and moving mouse
+		 */
+		
+		if(xMove < 0) {
+			if(lastFaced == Direction.UP)
+				return aUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return aDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return aLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return aRight.getCurrentFrame();
+		}
+		else if(xMove > 0) {
+			if(lastFaced == Direction.UP)
+				return aUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return aDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return aLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return aRight.getCurrentFrame();
+		}
+		else if(yMove < 0) {
+			if(lastFaced == Direction.UP)
+				return aUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return aDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return aLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return aRight.getCurrentFrame();
+		}
+		else if(yMove > 0) {
+			if(lastFaced == Direction.UP)
+				return aUp.getCurrentFrame();
+			else if(lastFaced == Direction.DOWN)
+				return aDown.getCurrentFrame();
+			else if(lastFaced == Direction.LEFT)
+				return aLeft.getCurrentFrame();
+			else if(lastFaced == Direction.RIGHT)
+				return aRight.getCurrentFrame();
+		}
+		
+		/*
+		 * Attacking animations while idle
+		 */
+		
+		if(lastFaced == Direction.LEFT && handler.getKeyManager().attack) {
+			return attLeft.getCurrentFrame();
+		}
+		else if(lastFaced == Direction.RIGHT && handler.getKeyManager().attack) {
+			return attRight.getCurrentFrame();
+		}
+		else if(lastFaced == Direction.UP && handler.getKeyManager().attack) {
+			return attUp.getCurrentFrame();
+		}
+		else if(lastFaced == Direction.DOWN && handler.getKeyManager().attack) {
+			return attDown.getCurrentFrame();
+		}
+		
+		/*
+		 * Animations while idle
+		 */
+		
+		if(lastFaced == Direction.LEFT) {
+			aDefault = aLeft;
+			return aDefault.getDefaultFrame();
+		}
+		else if(lastFaced == Direction.RIGHT) {
+			aDefault = aRight;
+			return aDefault.getDefaultFrame();
+		}
+		else if(lastFaced == Direction.UP) {
+			aDefault = aUp;
+			return aDefault.getDefaultFrame();
+		}
+		else if(lastFaced == Direction.DOWN) {
+			aDefault = aDown;
+			return aDefault.getDefaultFrame();
+		}
+		
+		// Prompt error if none of the above images are loaded (that means apparently none of the above animations could be returned)
+		
+		chatWindow.sendMessage("Something went wrong loading the player sprite!");
+		return Assets.black;
 	}
 	
 	private BufferedImage getCurrentAnimationFrame(){
 		// Walk and Attack animations
-		if(lastFaced == Direction.LEFT){
-			if(handler.getKeyManager().attack){
-				return attLeft.getCurrentFrame();
-			}
-		}
-		if(xMove < 0){
-			return aLeft.getCurrentFrame();
-		}
-		if(lastFaced == Direction.RIGHT){
-			if(handler.getKeyManager().attack){
-				return attRight.getCurrentFrame();
-			}
-		}
-		if(xMove > 0){
-			return aRight.getCurrentFrame();
-		}
-		if(lastFaced == Direction.DOWN){
-			if(handler.getKeyManager().attack){
-				return attDown.getCurrentFrame();
-			}
-		}
-		if(yMove > 0){
-			return aDown.getCurrentFrame();
-		}
-		if(lastFaced == Direction.UP){
-			if(handler.getKeyManager().attack){
-				return attUp.getCurrentFrame();
-			}
-		}
-		if(yMove < 0){
-			return aUp.getCurrentFrame();
-		}
-		
-		return aDefault.getDefaultFrame();
+		return getAnimationDirection();
 	}
 	
 	public boolean hasItem(Item item, int quantity){
