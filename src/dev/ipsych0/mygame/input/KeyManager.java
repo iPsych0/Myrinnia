@@ -17,7 +17,6 @@ public class KeyManager implements KeyListener{
 
 	private boolean[] keys, justPressed, cantPress;
 	public boolean up, down, left, right;
-	public boolean attack;
 	public boolean chat;
 	public boolean pickUp;
 	public boolean position;
@@ -48,13 +47,10 @@ public class KeyManager implements KeyListener{
 		}
 		
 		// Movement keys
-		up = keys[KeyEvent.VK_UP];
-		down = keys[KeyEvent.VK_DOWN];
-		left = keys[KeyEvent.VK_LEFT];
-		right = keys[KeyEvent.VK_RIGHT];
-		
-		// Attack keys
-		attack = keys[KeyEvent.VK_Z];
+		up = keys[KeyEvent.VK_W];
+		down = keys[KeyEvent.VK_S];
+		left = keys[KeyEvent.VK_A];
+		right = keys[KeyEvent.VK_D];
 
 		
 		// Interaction keys

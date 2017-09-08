@@ -22,6 +22,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -127,7 +128,6 @@ public class Player extends Creature{
 			attUp.tick();
 			attLeft.tick();
 			attRight.tick();
-			checkAttacks();
 		}
 		
 		handler.getGameCamera().centerOnEntity(this);
@@ -190,22 +190,31 @@ public class Player extends Creature{
 		
 		setLastFaced();
 		
-		if(handler.getMouseManager().isLeftPressed() && projectileFired && movementAllowed){
-			if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-				return;
-			if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-				return;
-			if(ChatWindow.chatIsOpen && getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-				return;
-			if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-				return;
-		
-			projectiles.add((new Projectile(handler, x, y,
-					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
-					6.0f)));
-			projectileFired = false;
-						
+		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()){
+			if(projectileFired && movementAllowed) {
+				if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
+					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
+						checkAttacks();
+					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MAGIC_WEAPON) {
+				
+						if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+							return;
+						if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+							return;
+						if(ChatWindow.chatIsOpen && getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+							return;
+						if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+							return;
+					
+						projectiles.add((new Projectile(handler, x, y,
+								(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+								(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()),
+								6.0f)));
+						projectileFired = false;
+					
+					}
+				}
+			}
 		}
 		
 	}
@@ -400,19 +409,19 @@ public class Player extends Creature{
 		ar.height = arSize;
 		
 		// Attack box setters
-		if(lastFaced == Direction.UP && handler.getKeyManager().attack){
+		if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()){
 			ar.x = cb.x + cb.width / 2 - arSize / 2;
 			ar.y = cb.y - arSize;
 		}
-		else if(lastFaced == Direction.DOWN && handler.getKeyManager().attack){
+		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()){
 			ar.x = cb.x + cb.width / 2 - arSize / 2;
 			ar.y = cb.y + cb.height;
 		}
-		else if(lastFaced == Direction.LEFT && handler.getKeyManager().attack){
+		else if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()){
 			ar.x = cb.x - arSize;
 			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}
-		else if(lastFaced == Direction.RIGHT && handler.getKeyManager().attack){
+		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()){
 			ar.x = cb.x + cb.width;
 			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}
@@ -565,7 +574,7 @@ public class Player extends Creature{
 		 * Animations for attacking while walking
 		 */
 		
-		if(xMove < 0 && handler.getKeyManager().attack) {
+		if(xMove < 0 && handler.getMouseManager().isLeftPressed()) {
 			if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
 			else if(lastFaced == Direction.DOWN)
@@ -575,7 +584,7 @@ public class Player extends Creature{
 			else if(lastFaced == Direction.RIGHT)
 				return attRight.getCurrentFrame();
 		}
-		else if(xMove > 0 && handler.getKeyManager().attack) {
+		else if(xMove > 0 && handler.getMouseManager().isLeftPressed()) {
 			if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
 			else if(lastFaced == Direction.DOWN)
@@ -585,7 +594,7 @@ public class Player extends Creature{
 			else if(lastFaced == Direction.RIGHT)
 				return attRight.getCurrentFrame();
 		}
-		else if(yMove < 0 && handler.getKeyManager().attack) {
+		else if(yMove < 0 && handler.getMouseManager().isLeftPressed()) {
 			if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
 			else if(lastFaced == Direction.DOWN)
@@ -595,7 +604,7 @@ public class Player extends Creature{
 			else if(lastFaced == Direction.RIGHT)
 				return attRight.getCurrentFrame();
 		}
-		else if(yMove > 0 && handler.getKeyManager().attack) {
+		else if(yMove > 0 && handler.getMouseManager().isLeftPressed()) {
 			if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
 			else if(lastFaced == Direction.DOWN)
@@ -655,16 +664,16 @@ public class Player extends Creature{
 		 * Attacking animations while idle
 		 */
 		
-		if(lastFaced == Direction.LEFT && handler.getKeyManager().attack) {
+		if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()) {
 			return attLeft.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.RIGHT && handler.getKeyManager().attack) {
+		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()) {
 			return attRight.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.UP && handler.getKeyManager().attack) {
+		else if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()) {
 			return attUp.getCurrentFrame();
 		}
-		else if(lastFaced == Direction.DOWN && handler.getKeyManager().attack) {
+		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()) {
 			return attDown.getCurrentFrame();
 		}
 		

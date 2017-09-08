@@ -96,7 +96,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		isDragged = true;
-		leftPressed = false;
 			// Fix hier shit
 			mouseX = e.getX();
 			mouseY = e.getY();
