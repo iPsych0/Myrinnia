@@ -31,7 +31,7 @@ public class Lorraine extends Creature {
 		shopItems.add(new ItemStack(Item.oreItem, 10));
 		shopItems.add(new ItemStack(Item.testSword, 100));
 		
-		shopWindow = new ShopWindow(handler, 300, 200, shopItems);
+		shopWindow = new ShopWindow(handler, 200, 200, shopItems);
 	}
 
 	@Override
@@ -67,6 +67,8 @@ public class Lorraine extends Creature {
 	public void interact() {
 		if(this.getSpeakingTurn() == 0){
 			handler.getPlayer().getChatWindow().sendMessage("Hey, could you help me, please?");
+			ShopWindow.isOpen = true;
+			this.shopping = true;
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 1){

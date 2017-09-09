@@ -482,4 +482,24 @@ public class InventoryWindow implements Serializable {
 		this.windowBounds = windowBounds;
 	}
 
+
+	public int getNumCols() {
+		return numCols;
+	}
+
+
+	public void setNumCols(int numCols) {
+		this.numCols = numCols;
+	}
+
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+
+	public void setNumRows(int numRows) {
+		this.numRows = numRows;
+	}
+
 }
