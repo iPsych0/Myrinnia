@@ -17,6 +17,7 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Terrain;
@@ -50,6 +51,7 @@ public abstract class World {
 	protected InventoryWindow inventory;
 	protected EquipmentWindow equipment;
 	protected CraftingUI craftingUI;
+	protected ShopWindow shopWindow;
 	protected Player player;
 	
 	// Actual code ---v
@@ -66,6 +68,7 @@ public abstract class World {
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = new CraftingUI(handler, 0, 180);
+			shopWindow = new ShopWindow(handler, 300, 200);
 			
 			
 			// Dit is hoe ik items in de world zelf spawn

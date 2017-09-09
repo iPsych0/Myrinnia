@@ -55,7 +55,7 @@ public class Player extends Creature{
 	private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 	
 	// Magic timer
-	private long lastMagicTimer, magicCooldown = (long) (400 / getAttackSpeed()), magicTimer = magicCooldown;
+	private long lastMagicTimer, magicCooldown = (long) (300 / getAttackSpeed()), magicTimer = magicCooldown;
 	
 	// Regeneration timer
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
@@ -201,8 +201,9 @@ public class Player extends Creature{
 				lastFaced = Direction.DOWN;
 			setLastFaced();
 		}else {
-			setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
+			if(movementAllowed)
+				setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
+						(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 			setLastFaced();
 		}
 		

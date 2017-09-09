@@ -64,6 +64,7 @@ public class TestLand extends World {
 			equipment.tick();
 			miniMap.tick();
 			craftingUI.tick();
+			shopWindow.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(swampLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
@@ -135,6 +136,7 @@ public class TestLand extends World {
 			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
+			shopWindow.render(g);
 			
 			g.drawRect((int) (swampLandTile.x - handler.getGameCamera().getxOffset()), (int) (swampLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 			g.drawRect((int) (islandTile.x - handler.getGameCamera().getxOffset()), (int) (islandTile.y - handler.getGameCamera().getyOffset()), 32, 350);

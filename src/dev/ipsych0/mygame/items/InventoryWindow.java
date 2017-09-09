@@ -25,9 +25,8 @@ public class InventoryWindow implements Serializable {
 	
 	private int numCols = 3;
 	private int numRows = 10;
-	int alpha = 127;
-	Color interfaceColour = new Color(130, 130, 130, alpha);
-	Color itemHoverColour = new Color(0, 0, 255, 255);
+	private int alpha = 127;
+	private Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
