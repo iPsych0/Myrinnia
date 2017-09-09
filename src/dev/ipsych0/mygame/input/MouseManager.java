@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -14,12 +15,21 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
+	private int mouseMovedTimer;
 
 	public MouseManager(){
-		
+
 	}
 	
 	public void tick(){
+		mouseMovedTimer++;
+		if(leftPressed) {
+			mouseMovedTimer = 0;
+			Player.mouseMoved = true;
+		}
+		
+		if(mouseMovedTimer > 60)
+			Player.mouseMoved = false;
 		
 	}
 	
@@ -57,7 +67,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = true;
 			CraftingUI.craftButtonPressed = true;
-			Player.projectileFired = true;
 		}
 		
 		// Right Click
@@ -86,6 +95,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		mouseMovedTimer = 0;
+		Player.mouseMoved = true;
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
@@ -96,6 +107,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		isDragged = true;
+		mouseMovedTimer = 0;
+		Player.mouseMoved = true;
 			// Fix hier shit
 			mouseX = e.getX();
 			mouseY = e.getY();
