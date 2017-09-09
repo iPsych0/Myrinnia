@@ -109,7 +109,7 @@ public class Lorraine extends Creature {
 			if(!ShopWindow.isOpen) {
 				this.shopping = false;
 				speakingTurn = 5;
-			}	
+			}
 		}
 	}
 	

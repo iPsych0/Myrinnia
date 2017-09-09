@@ -166,34 +166,7 @@ public class Player extends Creature{
 			ShopWindow.isOpen = false;
 		}
 		
-		Iterator<Projectile> it = projectiles.iterator();
-		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
-		while(it.hasNext()){
-			Projectile p = it.next();
-			if(!p.active){
-				deleted.add(p);
-			}
-			for(Entity e : getCurrentMap().getEntityManager().getEntities()) {
-				if(e.equals(this)) {
-					continue;
-				}
-				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
-					if(!e.isAttackable()) {
-						p.active = false;
-					}
-					if(e.isStaticNpc()) {
-						p.active = false;
-					}
-					if(e.isAttackable()) {
-						e.damage(50);
-						p.active = false;
-					}
-				}
-			}
-			p.tick();
-		}
-		
-		projectiles.removeAll(deleted);
+		tickProjectiles();
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
@@ -232,6 +205,37 @@ public class Player extends Creature{
 			}
 		}
 		
+	}
+	
+	public void tickProjectiles() {
+		Iterator<Projectile> it = projectiles.iterator();
+		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+		while(it.hasNext()){
+			Projectile p = it.next();
+			if(!p.active){
+				deleted.add(p);
+			}
+			for(Entity e : getCurrentMap().getEntityManager().getEntities()) {
+				if(e.equals(this)) {
+					continue;
+				}
+				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
+					if(!e.isAttackable()) {
+						p.active = false;
+					}
+					if(e.isStaticNpc()) {
+						p.active = false;
+					}
+					if(e.isAttackable()) {
+						e.damage(50);
+						p.active = false;
+					}
+				}
+			}
+			p.tick();
+		}
+		
+		projectiles.removeAll(deleted);
 	}
 	
 	public void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
