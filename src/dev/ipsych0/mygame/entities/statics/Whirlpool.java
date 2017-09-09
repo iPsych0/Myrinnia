@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -93,6 +94,12 @@ public class Whirlpool extends StaticEntity {
 		if(this.speakingTurn == 1) {
 			return;
 		}
+	}
+
+	@Override
+	public void postRender(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

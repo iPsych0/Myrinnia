@@ -19,7 +19,6 @@ public abstract class Entity {
 	protected Rectangle bounds;
 	protected int health;
 	public static boolean isCloseToNPC = false;
-	private ArrayList<Double> pythagoras;
 	public static final int DEFAULT_HEALTH = 100;
 	protected boolean active = true;
 	protected boolean attackable = true;
@@ -28,6 +27,7 @@ public abstract class Entity {
 	protected boolean drawnOnMap = false;
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
+	protected boolean shopping = false;
 	private int ty = 0;
 	
 	
@@ -38,7 +38,6 @@ public abstract class Entity {
 		this.width = width;
 		this.height = height;
 		health = DEFAULT_HEALTH;
-		pythagoras = new ArrayList<Double>();
 		
 		bounds = new Rectangle(0, 0, width, height);
 	}
@@ -48,6 +47,8 @@ public abstract class Entity {
 	public abstract void tick();
 	
 	public abstract void render(Graphics g);
+	
+	public abstract void postRender(Graphics g);
 	
 	public abstract void die();
 	
@@ -68,14 +69,15 @@ public abstract class Entity {
 	
 	public boolean playerIsNearNpc(){
 		// Looks for the closest entity and returns that entity
-		if(distanceToEntity((int)closestEntity().getX(), (int)closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
+		if(distanceToEntity((int)handler.getPlayer().closestEntity().getX(), (int)handler.getPlayer().closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
 			// Interact with the respective speaking turn
-			closestEntity().interact();
+			isCloseToNPC = true;
 			return true;
+		}else {
+			// Out of range, so reset speaking turn
+			isCloseToNPC = false;
+			return false;
 		}
-		// Out of range, so reset speaking turn
-		isCloseToNPC = false;
-		return false;
 					
 	}
 	
@@ -127,36 +129,6 @@ public abstract class Entity {
 		int dx = x2 - x1;
 	    int dy = y2 - y1;
 	    return Math.sqrt(dx * dx + dy * dy);
-	}
-	
-	/*
-	 * Checks distance for all entities,
-	 * puts the distance in ascending order and
-	 * returns the closest Entity
-	 */
-	public Entity closestEntity(){
-		double closestDistance;
-		Entity closestEntity = null;
-		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(!e.isNpc()){
-				continue;
-			}
-			if(e.equals(this)){
-				continue;
-			}
-			
-			int dx = (int) (handler.getWorld().getEntityManager().getPlayer().getX() - e.getX());
-		    int dy = (int) (handler.getWorld().getEntityManager().getPlayer().getY() - e.getY());
-		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
-		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
-		    Collections.sort(pythagoras);
-		}
-		closestDistance = pythagoras.get(0);
-		pythagoras.clear();
-		closestEntity = hashMap.get(closestDistance);
-		hashMap.clear();
-		return closestEntity;
 	}
 	
 	// Getters & Setters

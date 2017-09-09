@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -23,6 +25,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemType;
+import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -152,11 +155,15 @@ public class Player extends Creature{
 			
 		}
 		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
-				if(!hasInteracted && playerIsNearNpc()){
-					Entity.isCloseToNPC = true;
-					hasInteracted = true;
-					return;
+				if(!hasInteracted) {
+					if(playerIsNearNpc()){
+						closestEntity().interact();
+						hasInteracted = true;
+					}
 				}
+		}
+		if(!playerIsNearNpc()) {
+			ShopWindow.isOpen = false;
 		}
 		
 		Iterator<Projectile> it = projectiles.iterator();
@@ -178,7 +185,7 @@ public class Player extends Creature{
 						p.active = false;
 					}
 					if(e.isAttackable()) {
-						e.damage(5);
+						e.damage(50);
 						p.active = false;
 					}
 				}
@@ -582,6 +589,7 @@ public class Player extends Creature{
 		}
 	}
 	
+	@Override
 	public void postRender(Graphics g){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
 			g.setFont(GameState.myFont);
@@ -788,6 +796,38 @@ public class Player extends Creature{
 			}
 		}
 		return false;
+	}
+	
+	
+	/*
+	 * Checks distance for all entities,
+	 * puts the distance in ascending order and
+	 * returns the closest Entity
+	 */
+	public Entity closestEntity(){
+		double closestDistance;
+		Entity closestEntity = null;
+		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
+		ArrayList<Double> pythagoras = new ArrayList<Double>();
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(!e.isNpc()){
+				continue;
+			}
+			if(e.equals(this)){
+				continue;
+			}
+			
+			int dx = (int) (handler.getWorld().getEntityManager().getPlayer().getX() - e.getX());
+		    int dy = (int) (handler.getWorld().getEntityManager().getPlayer().getY() - e.getY());
+		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
+		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+		    Collections.sort(pythagoras);
+		}
+		closestDistance = pythagoras.get(0);
+		pythagoras.clear();
+		closestEntity = hashMap.get(closestDistance);
+		hashMap.clear();
+		return closestEntity;
 	}
 
 	@Override

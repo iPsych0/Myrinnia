@@ -93,4 +93,10 @@ public class TeleportShrine2 extends StaticEntity {
 		this.speakingTurn = speakingTurn;
 	}
 
+	@Override
+	public void postRender(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

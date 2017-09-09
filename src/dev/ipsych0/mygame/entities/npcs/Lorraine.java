@@ -1,11 +1,14 @@
 package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class Lorraine extends Creature {
 	
@@ -13,17 +16,28 @@ public class Lorraine extends Creature {
 	private int speakingTurn;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
+	private ArrayList<ItemStack> shopItems;
+	private ShopWindow shopWindow;
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		speakingTurn = 0;
 		attackable = false;
 		isNpc = true;
+		
+		shopItems = new ArrayList<ItemStack>();
+		
+		shopItems.add(new ItemStack(Item.woodItem, 5));
+		shopItems.add(new ItemStack(Item.oreItem, 10));
+		shopItems.add(new ItemStack(Item.testSword, 100));
+		
+		shopWindow = new ShopWindow(handler, 300, 200, shopItems);
 	}
 
 	@Override
 	public void tick() {
-
+		if(ShopWindow.isOpen)
+			shopWindow.tick();
 	}
 
 	@Override
@@ -82,9 +96,20 @@ public class Lorraine extends Creature {
 				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
 			}
 		}
-		else if(this.getSpeakingTurn() >= 5){
+		else if(this.getSpeakingTurn() == 5){
 			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
-			speakingTurn = 5;
+			speakingTurn++;
+		}
+		else if(this.getSpeakingTurn() == 6) {
+			ShopWindow.isOpen = true;
+			this.shopping = true;
+			speakingTurn++;
+		}
+		else if(this.getSpeakingTurn() >= 7 ) {
+			if(!ShopWindow.isOpen) {
+				this.shopping = false;
+				speakingTurn = 5;
+			}	
 		}
 	}
 	
@@ -94,6 +119,12 @@ public class Lorraine extends Creature {
 
 	public void setSpeakingTurn(int speakingTurn) {
 		this.speakingTurn = speakingTurn;
+	}
+
+	@Override
+	public void postRender(Graphics g) {
+		if(ShopWindow.isOpen)
+			shopWindow.render(g);
 	}
 
 }

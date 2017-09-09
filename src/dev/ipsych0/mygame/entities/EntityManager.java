@@ -14,6 +14,7 @@ public class EntityManager {
 	private Handler handler;
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
+	private Entity shoppingNpc;
 	private Comparator<Entity> renderSorter = new Comparator<Entity>(){
 		@Override
 		public int compare(Entity a, Entity b) {
@@ -49,8 +50,13 @@ public class EntityManager {
 	public void render(Graphics g){
 		for(Entity e : entities){
 			e.render(g);
+			if(e.shopping)
+				shoppingNpc = e;
 		}
 		player.postRender(g);
+		
+		if(shoppingNpc != null)
+			shoppingNpc.postRender(g);
 	}
 	
 	public void addEntity(Entity e){

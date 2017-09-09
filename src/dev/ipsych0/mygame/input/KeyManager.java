@@ -12,6 +12,7 @@ import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class KeyManager implements KeyListener{
 
@@ -120,9 +121,11 @@ public class KeyManager implements KeyListener{
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			if(CraftingUI.isOpen) {
+			if(CraftingUI.isOpen)
 				CraftingUI.isOpen = false;
-			}
+			
+			if(ShopWindow.isOpen)
+				ShopWindow.isOpen = false;
 		}
 	}
 

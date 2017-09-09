@@ -62,7 +62,6 @@ public class Island extends World {
 			equipment.tick();
 			miniMap.tick();
 			craftingUI.tick();
-			shopWindow.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
@@ -125,7 +124,6 @@ public class Island extends World {
 			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
-			shopWindow.render(g);
 			
 			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}

@@ -235,4 +235,10 @@ public class Scorpion extends Creature {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void postRender(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
 }
