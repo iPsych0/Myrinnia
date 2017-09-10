@@ -20,12 +20,12 @@ public class ShopWindow {
 	public CopyOnWriteArrayList<ItemSlot> invSlots;
 	private int alpha = 127;
 	private Color interfaceColour = new Color(130, 130, 130, alpha);
-	private ItemStack selectedItem;
+	private ItemStack selectedShopItem;
+	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
 	private Handler handler;
 	
 	public static boolean hasBeenPressed = false;
-	private boolean initialized = false;
 	
 	public ShopWindow(Handler handler, int x, int y, ArrayList<ItemStack> shopItems) {
 		this.handler = handler;
@@ -95,23 +95,23 @@ public class ShopWindow {
 				
 				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 					if(is.getItemStack() != null) {
-						if(selectedItem == null) {
-							selectedItem = is.getItemStack();
+						if(selectedShopItem == null) {
+							selectedShopItem = is.getItemStack();
 							hasBeenPressed = false;
 							return;
 						}
-						else if(selectedItem == is.getItemStack()) {
-							selectedItem = null;
+						else if(selectedShopItem == is.getItemStack()) {
+							selectedShopItem = null;
 							hasBeenPressed = false;
 							return;
 						}
-						else if(selectedItem != is.getItemStack()) {
-							selectedItem = is.getItemStack();
+						else if(selectedShopItem != is.getItemStack()) {
+							selectedShopItem = is.getItemStack();
 							hasBeenPressed = false;
 							return;
 						}
 					}else {
-						selectedItem = null;
+						selectedShopItem = null;
 						hasBeenPressed = false;
 						return;
 					}
@@ -120,6 +120,33 @@ public class ShopWindow {
 				
 			for(ItemSlot is : invSlots) {
 				is.tick();
+				
+				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+				
+				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					if(is.getItemStack() != null) {
+						if(selectedInvItem == null) {
+							selectedInvItem = is.getItemStack();
+							hasBeenPressed = false;
+							return;
+						}
+						else if(selectedInvItem == is.getItemStack()) {
+							selectedInvItem = null;
+							hasBeenPressed = false;
+							return;
+						}
+						else if(selectedInvItem != is.getItemStack()) {
+							selectedInvItem = is.getItemStack();
+							hasBeenPressed = false;
+							return;
+						}
+					}else {
+						selectedInvItem = null;
+						hasBeenPressed = false;
+						return;
+					}
+				}
+				
 			}
 		
 		}
@@ -134,7 +161,7 @@ public class ShopWindow {
 			
 			for(ItemSlot is : itemSlots) {
 				
-				if(selectedItem != null) {
+				if(selectedShopItem != null) {
 					g.setColor(Color.RED);
 					g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				}

@@ -97,7 +97,7 @@ public class EquipmentWindow implements Serializable {
 						hasBeenPressed = true;
 						inventoryWindow = new InventoryWindow(handler, 658, 112);
 						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
-						inventoryWindow.getItemSlots().get(inventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), 1);
+						inventoryWindow.getItemSlots().get(inventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
 						es.setItem(null);
 						hasBeenPressed = false;
 					}

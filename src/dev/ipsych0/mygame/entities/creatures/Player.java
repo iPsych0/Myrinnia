@@ -122,6 +122,7 @@ public class Player extends Creature{
 		// Stat updates
 		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		attackCooldown = (long) (600 / getAttackSpeed());
+		magicCooldown = (long) (300 / getAttackSpeed());
 		
 		//Movement
 		if(movementAllowed) {
