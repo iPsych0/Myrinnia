@@ -1,11 +1,13 @@
 package dev.ipsych0.mygame.entities.npcs;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.shop.ShopWindow;
@@ -125,8 +127,10 @@ public class Lorraine extends Creature {
 
 	@Override
 	public void postRender(Graphics g) {
-		if(ShopWindow.isOpen)
+		if(ShopWindow.isOpen) {
 			shopWindow.render(g);
+			Text.drawString(g, "Lorraine's General Store", shopWindow.x + (shopWindow.width / 2), shopWindow.y + 16, true, Color.YELLOW, Assets.font14);
+		}
 	}
 
 }

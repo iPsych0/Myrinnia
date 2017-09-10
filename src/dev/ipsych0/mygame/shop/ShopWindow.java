@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
@@ -158,6 +160,31 @@ public class ShopWindow {
 			g.fillRect(x, y, width, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, width, height);
+			
+			// test stuff buy/sell
+			g.drawRect(x + 81, y + (height / 2) + 96, 64, 32);
+			g.drawRect(x + (width / 2) + 81, y + (height / 2) + 96, 64, 32);
+			Text.drawString(g, "Buy", x + 81 + 32, y + (height / 2) + 96 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Sell", x + 81 + (width / 2) + 32, y + (height / 2) + 96 + 16, true, Color.YELLOW, Assets.font14);
+			
+			// test stuff +1 +10 etc voor buy
+			Text.drawString(g, "-10", x + 49 + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "-1", x + 81 + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "+1", x + 113 + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "+10", x + 145 + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			
+			// test stuff +1 +10 etc voor sell
+			Text.drawString(g, "-10", x + 49 + (width / 2) + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "-1", x + 81 + (width / 2) + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "+1", x + 113 + (width / 2) + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "+10", x + 145 + (width / 2) + 16, y + (height / 2) + 56 + 16, true, Color.YELLOW, Assets.font14);
+			
+			// test stuff close button
+			g.setColor(Color.YELLOW);
+			g.fillRect(x + width - 26, y + 10, 16, 16);
+			g.setColor(Color.BLACK);
+			g.drawRect(x + width - 26, y + 10, 16, 16);
+			Text.drawString(g, "X", x + width - 26 + 8, y + 10 + 8, true, Color.BLACK, Assets.font14);
 			
 			for(ItemSlot is : itemSlots) {
 				
