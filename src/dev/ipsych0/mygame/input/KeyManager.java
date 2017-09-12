@@ -31,21 +31,21 @@ public class KeyManager implements KeyListener{
 	
 	public void tick(){
 		
-		for(int i = 0; i < keys.length; i++){
-			if(cantPress[i] && !keys[i]){
-				cantPress[i] = false;
-			}else if(justPressed[i]){
-				cantPress[i] = true;
-				justPressed[i] = false;
-			}
-			if(!cantPress[i] && keys[i]){
-				justPressed[i] = true;
-			}
-		}
-		
-		if(keyJustPressed(KeyEvent.VK_E)){
-			// Maybe hier optimaliseren van interfaces
-		}
+//		for(int i = 0; i < keys.length; i++){
+//			if(cantPress[i] && !keys[i]){
+//				cantPress[i] = false;
+//			}else if(justPressed[i]){
+//				cantPress[i] = true;
+//				justPressed[i] = false;
+//			}
+//			if(!cantPress[i] && keys[i]){
+//				justPressed[i] = true;
+//			}
+//		}
+//		
+//		if(keyJustPressed(KeyEvent.VK_E)){
+//			// Maybe hier optimaliseren van interfaces
+//		}
 		
 		// Movement keys
 		up = keys[KeyEvent.VK_W];
@@ -136,7 +136,7 @@ public class KeyManager implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(e.getKeyChar() == KeyEvent.VK_SPACE && ChatWindow.chatIsOpen && Entity.isCloseToNPC){
+		if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
 			Player.hasInteracted = false;
 		}
 	}

@@ -158,17 +158,18 @@ public class Player extends Creature{
 			System.out.println("Crafting level = " + getCraftingLevel());
 			
 		}
-		if(handler.getKeyManager().talk && ChatWindow.chatIsOpen){
-				if(!hasInteracted) {
-					if(playerIsNearNpc()){
-						closestEntity().interact();
-						hasInteracted = true;
-						
-						if(closestEntity().isShop())
-							shopKeeper = (ShopKeeper) closestEntity();
-						
-					}
+		if(handler.getKeyManager().talk){
+			if(!hasInteracted) {
+				if(playerIsNearNpc()){
+					ChatWindow.chatIsOpen = true;
+					closestEntity().interact();
+					hasInteracted = true;
+					
+					if(closestEntity().isShop())
+						shopKeeper = (ShopKeeper) closestEntity();
+					
 				}
+			}
 		}
 		if(!playerIsNearNpc()) {
 			ShopWindow.isOpen = false;
