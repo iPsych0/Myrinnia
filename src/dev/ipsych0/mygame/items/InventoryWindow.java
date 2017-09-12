@@ -213,19 +213,27 @@ public class InventoryWindow implements Serializable {
 
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
-							if(handler.getPlayer().getShopEntity().getShopWindow().findFreeSlot(is.getItemStack().getItem()) == -1) {
-								hasBeenPressed = false;
-								handler.getPlayer().getChatWindow().sendMessage("You cannot offer any more items.");
+							if(is.getItemStack().getItem().getPrice() > 0) {
+								if(handler.getPlayer().getShopKeeper().getShopWindow().findFreeSlot(is.getItemStack().getItem()) == -1) {
+									hasBeenPressed = false;
+									handler.getPlayer().getChatWindow().sendMessage("You cannot offer any more items.");
+									isEquipped = false;
+									return;
+								} else {
+									handler.getPlayer().getShopKeeper().getShopWindow().getInvSlots().get(handler.getPlayer().getShopKeeper().getShopWindow().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+									is.setItemStack(null);
+									hasBeenPressed = false;
+									isEquipped = false;
+									return;
+								}
+							}else {
 								isEquipped = false;
-								return;
-							} else {
-								handler.getPlayer().getShopEntity().getShopWindow().getInvSlots().get(handler.getPlayer().getShopEntity().getShopWindow().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
-								is.setItemStack(null);
 								hasBeenPressed = false;
-								return;
+								handler.sendMsg("This item is untradeable.");
 							}
 						}
 						else{
+							isEquipped = false;
 							hasBeenPressed = false;
 							return;
 						}
@@ -405,29 +413,34 @@ public class InventoryWindow implements Serializable {
 		return found;
 	}
 	
-	public void removeItem(Item item, int amount){
+	public boolean removeItem(Item item, int amount){
+		boolean hasItem = false;
+		if(!playerHasItem(item, amount)) {
+			handler.sendMsg("You don't have enough " + item.getName().toLowerCase());
+			return hasItem;
+		}
 		for(int i = 0; i < itemSlots.size(); i++){
 			if(itemSlots.get(i).getItemStack() == null){
 				continue;
 			}
 			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
-					handler.getPlayer().getChatWindow().sendMessage("You don't have enough " + item.getName() + "s");
-					return;
+					return hasItem;
 				}
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
 					itemSlots.get(i).setItemStack(null);
+					hasItem = true;
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
 					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
+					hasItem = true;
 				}
 			}
 			else{
 				continue;
 			}
 		}
-		if(!playerHasItem(item, amount))
-			handler.sendMsg("You don't have enough " + item.getName().toLowerCase());
+		return hasItem;
 	}
 	
 	public boolean inventoryIsFull(){

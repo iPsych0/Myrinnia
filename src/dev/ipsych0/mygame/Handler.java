@@ -122,6 +122,7 @@ public class Handler {
 	    	System.out.println("Oneindig of Not Number");
 	    	return 100.0;
 	    }
+	    
 	    BigDecimal bd = new BigDecimal(value);
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
@@ -147,8 +148,8 @@ public class Handler {
 		getWorld().getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
 	}
 	
-	public void removeItem(Item item, int amount) {
-		getWorld().getInventory().removeItem(item, amount);
+	public boolean removeItem(Item item, int amount) {
+		return getWorld().getInventory().removeItem(item, amount);
 	}
 	
 	public boolean playerHasItem(Item item, int amount) {

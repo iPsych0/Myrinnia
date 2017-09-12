@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -67,7 +68,7 @@ public class Player extends Creature{
 	
 	public static boolean mouseMoved = false;
 	
-	private Entity shopEntity;
+	private ShopKeeper shopKeeper;
 	
 	// NPC ChatWindow
 	
@@ -162,14 +163,16 @@ public class Player extends Creature{
 					if(playerIsNearNpc()){
 						closestEntity().interact();
 						hasInteracted = true;
-						shopEntity = closestEntity();
+						
+						if(closestEntity().isShop())
+							shopKeeper = (ShopKeeper) closestEntity();
 						
 					}
 				}
 		}
 		if(!playerIsNearNpc()) {
 			ShopWindow.isOpen = false;
-			shopEntity = null;
+			shopKeeper = null;
 		}
 		
 		tickProjectiles();
@@ -433,6 +436,8 @@ public class Player extends Creature{
 		if(ChatWindow.chatIsOpen && getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
 		if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return;
+		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
 			return;
 		
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
@@ -894,12 +899,8 @@ public class Player extends Creature{
 		this.lastFaced = lastFaced;
 	}
 
-	public Entity getShopEntity() {
-		return shopEntity;
-	}
-
-	public void setShopEntity(Entity shopEntity) {
-		this.shopEntity = shopEntity;
+	public ShopKeeper getShopKeeper() {
+		return shopKeeper;
 	}
 
 }

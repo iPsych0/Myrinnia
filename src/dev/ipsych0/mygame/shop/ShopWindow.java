@@ -9,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
+import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
@@ -27,6 +28,10 @@ public class ShopWindow {
 	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
 	private Handler handler;
+	private ItemSlot tradeSlot;
+	private boolean inventoryLoaded = false;
+	private Rectangle buyButton, sellButton, exit;
+	private Rectangle windowBounds;
 	
 	public static boolean hasBeenPressed = false;
 	
@@ -35,7 +40,7 @@ public class ShopWindow {
 		this.x = x;
 		this.y = y;
 		width = 460;
-		height = 270;
+		height = 345;
 		
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		invSlots = new CopyOnWriteArrayList<ItemSlot>();
@@ -77,12 +82,64 @@ public class ShopWindow {
 			}
 		}
 		
+		tradeSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
+		
+		buyButton = new Rectangle(x + 81, y + (height / 2) + 96, 64, 32);
+		sellButton = new Rectangle(x + (width / 2) + 81, y + (height / 2) + 96, 64, 32);
+		exit = new Rectangle(x + width - 26, y + 10, 16, 16);
+		
+		windowBounds = new Rectangle(x, y, width, height);
+		
+	}
+	
+	private void loadInventory() {
+		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
+			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+		}
 	}
 	
 	public void tick() {
 		if(isOpen) {
+			
+			InventoryWindow.isOpen = false;
+			EquipmentWindow.isOpen = false;
+			
+			if(!inventoryLoaded) {
+				loadInventory();
+				inventoryLoaded = true;
+			}
 		
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed){
+				if(tradeSlot.getItemStack() != null) {
+					handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+					tradeSlot.setItemStack(null);
+					hasBeenPressed = false;
+					inventoryLoaded = false;
+					if(selectedShopItem != null)
+						selectedShopItem = null;
+				}else {
+					hasBeenPressed = false;
+					return;
+				}
+			}
+			
+			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(tradeSlot.getItemStack() != null) {
+					if(handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount()))
+						tradeSlot.setItemStack(null);
+					hasBeenPressed = false;
+					inventoryLoaded = false;
+				}else {
+					hasBeenPressed = false;
+					return;
+				}
+			}
+			
+			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				isOpen = false;
+			}
 			
 			for(ItemSlot is : itemSlots) {
 				is.tick();
@@ -93,21 +150,25 @@ public class ShopWindow {
 					if(is.getItemStack() != null) {
 						if(selectedShopItem == null) {
 							selectedShopItem = is.getItemStack();
+							tradeSlot.setItemStack(selectedShopItem);
 							hasBeenPressed = false;
 							return;
 						}
 						else if(selectedShopItem == is.getItemStack()) {
 							selectedShopItem = null;
+							tradeSlot.setItemStack(null);
 							hasBeenPressed = false;
 							return;
 						}
 						else if(selectedShopItem != is.getItemStack()) {
 							selectedShopItem = is.getItemStack();
+							tradeSlot.setItemStack(selectedShopItem);
 							hasBeenPressed = false;
 							return;
 						}
 					}else {
 						selectedShopItem = null;
+						tradeSlot.setItemStack(null);
 						hasBeenPressed = false;
 						return;
 					}
@@ -123,27 +184,33 @@ public class ShopWindow {
 					if(is.getItemStack() != null) {
 						if(selectedInvItem == null) {
 							selectedInvItem = is.getItemStack();
+							tradeSlot.setItemStack(selectedInvItem);
 							hasBeenPressed = false;
 							return;
 						}
 						else if(selectedInvItem == is.getItemStack()) {
 							selectedInvItem = null;
+							tradeSlot.setItemStack(null);
 							hasBeenPressed = false;
 							return;
 						}
 						else if(selectedInvItem != is.getItemStack()) {
 							selectedInvItem = is.getItemStack();
+							tradeSlot.setItemStack(selectedInvItem);
 							hasBeenPressed = false;
 							return;
 						}
 					}else {
 						selectedInvItem = null;
+						tradeSlot.setItemStack(null);
 						hasBeenPressed = false;
 						return;
 					}
 				}
 				
 			}
+			
+			tradeSlot.tick();
 		
 		}
 	}
@@ -194,7 +261,13 @@ public class ShopWindow {
 			
 			for(ItemSlot is : invSlots) {
 				is.render(g);
+				
 			}
+			
+			tradeSlot.render(g);
+			
+			if(selectedInvItem != null)
+				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + selectedInvItem.getItem().getPrice() * selectedInvItem.getAmount() + " coins.", x + (width / 2) - 8, y + (height / 2) + 104, true, Color.YELLOW, Assets.font14);
 		}
 	}
 	
@@ -227,6 +300,14 @@ public class ShopWindow {
 
 	public void setInvSlots(CopyOnWriteArrayList<ItemSlot> invSlots) {
 		this.invSlots = invSlots;
+	}
+
+	public Rectangle getWindowBounds() {
+		return windowBounds;
+	}
+
+	public void setWindowBounds(Rectangle windowBounds) {
+		this.windowBounds = windowBounds;
 	}
 
 }

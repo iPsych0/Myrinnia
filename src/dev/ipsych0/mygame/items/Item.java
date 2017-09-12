@@ -15,11 +15,11 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.MAGIC_WEAPON, ItemRarity.Common, 1, 10, 10, 5, 0, 0);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0);
-	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0);
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MAGIC_WEAPON, ItemRarity.Exquisite, 1, 15, 5, 10, 0, 0);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.MAGIC_WEAPON, ItemRarity.Common, 1, 10, 10, 5, 0, 0, 5);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0, 5);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0, -1);
+	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0, 10);
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MAGIC_WEAPON, ItemRarity.Exquisite, 1, 15, 5, 10, 0, 0, 20);
 	
 	// Class
 	
@@ -38,9 +38,9 @@ public class Item implements Serializable{
 	protected boolean pickedUp = false;
 	private InventoryWindow inventoryWindow;
 	public static boolean pickUpKeyPressed = false;
+	protected int price;
 	
-	
-	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed){
+	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
@@ -52,6 +52,7 @@ public class Item implements Serializable{
 		this.vitality = vitality;
 		this.attackSpeed = attackSpeed;
 		this.movementSpeed = movementSpeed;
+		this.price = price;
 		inventoryWindow = new InventoryWindow(handler, 80, 64);
 		
 		items[id] = this;
@@ -74,7 +75,7 @@ public class Item implements Serializable{
 	
 	
 	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed);
+		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price);
 		i.setPosition(x, y);
 		i.setCount(count);
 		return i;
@@ -216,6 +217,14 @@ public class Item implements Serializable{
 
 	public void setItemRarity(ItemRarity itemRarity) {
 		this.itemRarity = itemRarity;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 }

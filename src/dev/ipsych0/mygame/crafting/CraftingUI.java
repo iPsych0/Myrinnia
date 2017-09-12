@@ -425,6 +425,9 @@ public class CraftingUI {
 			case 2:
 				if(crs.addItem(Item.woodItem, 100));
 				break;
+			case 3:
+				if(crs.addItem(Item.purpleSword, 1));
+				break;
 		}
 		
 	}
@@ -556,6 +559,9 @@ public class CraftingUI {
 			case 2:
 				craftImg = Assets.wood;
 				return new ItemStack(Item.woodItem, 100);
+			case 3:
+				craftImg = Assets.purpleSword;
+				return new ItemStack(Item.purpleSword, 1);
 			default:
 				return new ItemStack(null);
 		}

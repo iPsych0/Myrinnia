@@ -12,7 +12,7 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.shop.ShopWindow;
 
-public class Lorraine extends Creature {
+public class Lorraine extends ShopKeeper {
 	
 	public static boolean questStarted = false;
 	private int speakingTurn;
@@ -25,7 +25,7 @@ public class Lorraine extends Creature {
 		speakingTurn = 0;
 		attackable = false;
 		isNpc = true;
-		name = "Lorraine";
+		isShop = true;
 		
 		shopItems = new ArrayList<ItemStack>();
 		
@@ -33,7 +33,7 @@ public class Lorraine extends Creature {
 		shopItems.add(new ItemStack(Item.oreItem, 10));
 		shopItems.add(new ItemStack(Item.testSword, 100));
 		
-		shopWindow = new ShopWindow(handler, 200, 200, shopItems);
+		shopWindow = new ShopWindow(handler, 240, 150, shopItems);
 	}
 
 	@Override

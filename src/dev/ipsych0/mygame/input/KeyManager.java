@@ -72,17 +72,14 @@ public class KeyManager implements KeyListener{
 		keys[e.getKeyCode()] = true;
 		
 		// Inventory toggle
-		if(e.getKeyCode() == KeyEvent.VK_I){
+		if(e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen){
 			if(!InventoryWindow.isOpen){
 				InventoryWindow.isOpen = true;
 			}
 			else {
 				InventoryWindow.isOpen = false;
 			}
-		}
-		
-		// Equipment toggle
-		if(e.getKeyCode() == KeyEvent.VK_E){
+			
 			if(!EquipmentWindow.isOpen){
 				EquipmentWindow.isOpen = true;
 			}

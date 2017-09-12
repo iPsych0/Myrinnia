@@ -27,9 +27,7 @@ public abstract class Entity {
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
 	protected boolean shopping = false;
-	protected String name;
 	private int ty = 0;
-	protected ShopWindow shopWindow;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -40,7 +38,6 @@ public abstract class Entity {
 		this.height = height;
 		health = DEFAULT_HEALTH;
 		
-		shopWindow = new ShopWindow(handler, 200, 200, new ArrayList<ItemStack>());
 		bounds = new Rectangle(0, 0, width, height);
 	}
 	
@@ -224,22 +221,6 @@ public abstract class Entity {
 
 	public void setStaticNpc(boolean staticNpc) {
 		this.staticNpc = staticNpc;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public ShopWindow getShopWindow() {
-		return shopWindow;
-	}
-
-	public void setShopWindow(ShopWindow shopWindow) {
-		this.shopWindow = shopWindow;
 	}
 	
 }
