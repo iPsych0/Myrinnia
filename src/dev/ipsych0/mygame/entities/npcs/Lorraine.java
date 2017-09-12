@@ -19,13 +19,13 @@ public class Lorraine extends Creature {
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private ArrayList<ItemStack> shopItems;
-	private ShopWindow shopWindow;
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		speakingTurn = 0;
 		attackable = false;
 		isNpc = true;
+		name = "Lorraine";
 		
 		shopItems = new ArrayList<ItemStack>();
 		

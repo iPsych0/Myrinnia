@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
 
@@ -54,7 +55,7 @@ public class ShopWindow {
 		}
 		
 		if(shopItems.size() == 0) {
-			handler.sendMsg("Something went wrong. List of items is empty.");
+			System.out.println("Shop size = 0");
 			return;
 		}
 		
@@ -80,13 +81,6 @@ public class ShopWindow {
 	
 	public void tick() {
 		if(isOpen) {
-			for(int i = 0; i < invSlots.size(); i++) {
-				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null) {
-					invSlots.get(i).setItemStack(null);
-					continue;
-				}
-				invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
-			}
 		
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
@@ -189,8 +183,9 @@ public class ShopWindow {
 			for(ItemSlot is : itemSlots) {
 				
 				if(selectedShopItem != null) {
-					g.setColor(Color.RED);
-					g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+					g.setColor(Color.YELLOW);
+					g.drawImage(selectedShopItem.getItem().getTexture(), x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+					g.drawString(selectedShopItem.getItem().getName(), x, y + 8);
 				}
 				
 				is.render(g);
@@ -201,6 +196,37 @@ public class ShopWindow {
 				is.render(g);
 			}
 		}
+	}
+	
+	public int findFreeSlot(Item item) {
+        for (int i = 0; i < invSlots.size(); i++) {
+        	if(invSlots.get(i).getItemStack() != null){
+        		if(invSlots.get(i).getItemStack().getItem().getId() == item.getId()){
+            		return i;
+        		}
+        	}
+            if (invSlots.get(i).getItemStack() == null) {
+                return i;
+            }
+       }
+       System.out.println("You cannot offer any more items.");
+       return -1;
+	}
+
+	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
+		return itemSlots;
+	}
+
+	public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
+		this.itemSlots = itemSlots;
+	}
+
+	public CopyOnWriteArrayList<ItemSlot> getInvSlots() {
+		return invSlots;
+	}
+
+	public void setInvSlots(CopyOnWriteArrayList<ItemSlot> invSlots) {
+		this.invSlots = invSlots;
 	}
 
 }

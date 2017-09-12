@@ -9,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class InventoryWindow implements Serializable {
 	
@@ -73,16 +74,16 @@ public class InventoryWindow implements Serializable {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(ItemSlot is : itemSlots) {
 				
 				is.tick();
 				
-				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				if(handler.getMouseManager().isDragged()){
-					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
+					if(slot.contains(mouse) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
 						if(currentSelectedSlot == null) {
@@ -102,7 +103,7 @@ public class InventoryWindow implements Serializable {
 				}
 				
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
-					if(temp2.contains(temp)){
+					if(slot.contains(mouse)){
 						if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 							currentSelectedSlot = null;
 							itemSelected = false;
@@ -120,7 +121,7 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 
-				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen){
+				if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
 					if(is.getItemStack() != null){
 						if(is.getItemStack().getItem().equipSlot == 12){
 							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
@@ -183,7 +184,7 @@ public class InventoryWindow implements Serializable {
 				}
 				
 				if(CraftingUI.isOpen) {
-					if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+					if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
@@ -196,6 +197,30 @@ public class InventoryWindow implements Serializable {
 								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 								is.setItemStack(null);
 								handler.getWorld().getCraftingUI().findRecipe();
+								hasBeenPressed = false;
+								return;
+							}
+						}
+						else{
+							hasBeenPressed = false;
+							return;
+						}
+					}
+				}
+				
+				if(ShopWindow.isOpen) {
+					if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
+
+						hasBeenPressed = true;
+						if(is.getItemStack() != null){
+							if(handler.getPlayer().getShopEntity().getShopWindow().findFreeSlot(is.getItemStack().getItem()) == -1) {
+								hasBeenPressed = false;
+								handler.getPlayer().getChatWindow().sendMessage("You cannot offer any more items.");
+								isEquipped = false;
+								return;
+							} else {
+								handler.getPlayer().getShopEntity().getShopWindow().getInvSlots().get(handler.getPlayer().getShopEntity().getShopWindow().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+								is.setItemStack(null);
 								hasBeenPressed = false;
 								return;
 							}

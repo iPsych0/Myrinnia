@@ -111,9 +111,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		isDragged = true;
 		mouseMovedTimer = 0;
 		Player.mouseMoved = true;
-			// Fix hier shit
-			mouseX = e.getX();
-			mouseY = e.getY();
+		
+		// Fix hier shit
+		mouseX = e.getX();
+		mouseY = e.getY();
 	}
 
 	@Override

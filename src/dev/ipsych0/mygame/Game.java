@@ -164,6 +164,7 @@ public class Game implements Runnable {
 	public synchronized void start(){
 		if(running)
 			return;
+		
 		running = true;
 		thread = new Thread(this);
 		thread.start();

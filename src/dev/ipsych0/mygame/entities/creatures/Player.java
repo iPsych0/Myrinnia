@@ -67,6 +67,8 @@ public class Player extends Creature{
 	
 	public static boolean mouseMoved = false;
 	
+	private Entity shopEntity;
+	
 	// NPC ChatWindow
 	
 	private ChatWindow chatWindow;
@@ -160,11 +162,14 @@ public class Player extends Creature{
 					if(playerIsNearNpc()){
 						closestEntity().interact();
 						hasInteracted = true;
+						shopEntity = closestEntity();
+						
 					}
 				}
 		}
 		if(!playerIsNearNpc()) {
 			ShopWindow.isOpen = false;
+			shopEntity = null;
 		}
 		
 		tickProjectiles();
@@ -887,6 +892,14 @@ public class Player extends Creature{
 
 	public void setLastFaced(Direction lastFaced) {
 		this.lastFaced = lastFaced;
+	}
+
+	public Entity getShopEntity() {
+		return shopEntity;
+	}
+
+	public void setShopEntity(Entity shopEntity) {
+		this.shopEntity = shopEntity;
 	}
 
 }
