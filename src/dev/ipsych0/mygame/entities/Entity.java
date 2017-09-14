@@ -75,6 +75,7 @@ public abstract class Entity {
 		}else {
 			// Out of range, so reset speaking turn
 			isCloseToNPC = false;
+			ShopWindow.inventoryLoaded = false;
 			return false;
 		}
 					

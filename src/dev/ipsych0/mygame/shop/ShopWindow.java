@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.utils.DialogueBox;
 
 public class ShopWindow {
 	
@@ -29,9 +30,12 @@ public class ShopWindow {
 	public static boolean isOpen = false;
 	private Handler handler;
 	private ItemSlot tradeSlot;
-	private boolean inventoryLoaded = false;
+	public static boolean inventoryLoaded = false;
 	private Rectangle buyButton, sellButton, exit;
 	private Rectangle windowBounds;
+	public static boolean makingChoice = false;
+	private DialogueBox dBox;
+	private String[] answers = {"Yes", "No"};
 	
 	public static boolean hasBeenPressed = false;
 	
@@ -90,6 +94,10 @@ public class ShopWindow {
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
+		int dialogueWidth = 300;
+		int dialogueHeight = 150;
+		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers);
+		
 	}
 	
 	public void tick() {
@@ -105,16 +113,22 @@ public class ShopWindow {
 		
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
-			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed){
-				buyItem();
+			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+				makingChoice = true;
+				DialogueBox.isOpen = true;
+				dBox.setParam("Buy");
 			}
 			
-			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-				sellItem();
+			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+				makingChoice = true;
+				DialogueBox.isOpen = true;
+				dBox.setParam("Sell");
 			}
 			
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				isOpen = false;
+				inventoryLoaded = false;
+				DialogueBox.isOpen = false;
 			}
 			
 			for(ItemSlot is : itemSlots) {
@@ -122,7 +136,7 @@ public class ShopWindow {
 				
 				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
-				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
 					if(is.getItemStack() != null) {
 						if(selectedShopItem == null) {
 							selectedInvItem = null;
@@ -160,7 +174,7 @@ public class ShopWindow {
 				
 				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
-				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
 					if(is.getItemStack() != null) {
 						if(is.getItemStack().getItem().getPrice() == -1) {
 							handler.sendMsg("You cannot sell this item.");
@@ -200,6 +214,9 @@ public class ShopWindow {
 			}
 			
 			tradeSlot.tick();
+			
+			if(makingChoice)
+				dBox.tick();
 		
 		}
 	}
@@ -250,12 +267,15 @@ public class ShopWindow {
 			Text.drawString(g, "Shop stock", x + 81 + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Inventory", x + 81 + (width / 2) + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			
-			//tradeSlot.render(g);
+			tradeSlot.render(g);
 			
 			if(selectedInvItem != null)
 				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + selectedInvItem.getItem().getPrice() * selectedInvItem.getAmount() + " coins.", x + (width / 2) - 8, y + (height / 2) + 104, true, Color.YELLOW, Assets.font14);
 			if(selectedShopItem != null)
 				Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins.", x + (width / 2) - 8, y + (height / 2) + 104, true, Color.YELLOW, Assets.font14);
+		
+			if(makingChoice)
+				dBox.render(g);
 		}
 	}
 	
@@ -265,7 +285,7 @@ public class ShopWindow {
 		}
 	}
 	
-	private void buyItem() {
+	public void buyItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
 			if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
 				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
@@ -284,7 +304,7 @@ public class ShopWindow {
 		}
 	}
 	
-	private void sellItem() {
+	public void sellItem() {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
 			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
 				handler.sendMsg("You cannot sell this item.");
