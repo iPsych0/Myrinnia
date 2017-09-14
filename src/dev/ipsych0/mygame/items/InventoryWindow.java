@@ -207,38 +207,6 @@ public class InventoryWindow implements Serializable {
 						}
 					}
 				}
-				
-				if(ShopWindow.isOpen) {
-					if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
-
-						hasBeenPressed = true;
-						if(is.getItemStack() != null){
-							if(is.getItemStack().getItem().getPrice() > 0) {
-								if(handler.getPlayer().getShopKeeper().getShopWindow().findFreeSlot(is.getItemStack().getItem()) == -1) {
-									hasBeenPressed = false;
-									handler.getPlayer().getChatWindow().sendMessage("You cannot offer any more items.");
-									isEquipped = false;
-									return;
-								} else {
-									handler.getPlayer().getShopKeeper().getShopWindow().getInvSlots().get(handler.getPlayer().getShopKeeper().getShopWindow().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
-									is.setItemStack(null);
-									hasBeenPressed = false;
-									isEquipped = false;
-									return;
-								}
-							}else {
-								isEquipped = false;
-								hasBeenPressed = false;
-								handler.sendMsg("This item is untradeable.");
-							}
-						}
-						else{
-							isEquipped = false;
-							hasBeenPressed = false;
-							return;
-						}
-					}
-				}
 			}
 		}
 	}
@@ -374,6 +342,8 @@ public class InventoryWindow implements Serializable {
 	}
 	
 	public int findFreeSlot(Item item) {
+		boolean firstFreeSlotFound = false;
+		int index = -1;
         for (int i = 0; i < itemSlots.size(); i++) {
         	if(itemSlots.get(i).getItemStack() != null){
         		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
@@ -381,10 +351,15 @@ public class InventoryWindow implements Serializable {
             		return i;
         		}
         	}
-            if (itemSlots.get(i).getItemStack() == null) {
-                return i;
+            if(itemSlots.get(i).getItemStack() == null) {
+            	if(!firstFreeSlotFound) {
+	            	firstFreeSlotFound = true;
+	            	index = i;
+            	}
             }
        }
+        if(index != -1)
+        	return index;
        System.out.println("Something went wrong checking for free slots (or bag is full)");
        return -1;
 	}
@@ -416,7 +391,7 @@ public class InventoryWindow implements Serializable {
 	public boolean removeItem(Item item, int amount){
 		boolean hasItem = false;
 		if(!playerHasItem(item, amount)) {
-			handler.sendMsg("You don't have enough " + item.getName().toLowerCase());
+			handler.sendMsg("You don't have enough " + item.getName().toLowerCase() + ".");
 			return hasItem;
 		}
 		for(int i = 0; i < itemSlots.size(); i++){
@@ -450,10 +425,12 @@ public class InventoryWindow implements Serializable {
 				emptySlots++;
 			}
 		}
-		if(emptySlots == 0)
+		if(emptySlots == 0) {
+			handler.sendMsg("Your inventory is full.");
 			return true;
-		else
+		}else {
 			return false;
+		}
 	}
 	
 	public int checkEquipmentSlot(Item item){

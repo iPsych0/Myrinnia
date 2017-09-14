@@ -92,12 +92,6 @@ public class ShopWindow {
 		
 	}
 	
-	private void loadInventory() {
-		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
-			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
-		}
-	}
-	
 	public void tick() {
 		if(isOpen) {
 			
@@ -112,29 +106,11 @@ public class ShopWindow {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed){
-				if(tradeSlot.getItemStack() != null) {
-					handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					tradeSlot.setItemStack(null);
-					hasBeenPressed = false;
-					inventoryLoaded = false;
-					if(selectedShopItem != null)
-						selectedShopItem = null;
-				}else {
-					hasBeenPressed = false;
-					return;
-				}
+				buyItem();
 			}
 			
 			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-				if(tradeSlot.getItemStack() != null) {
-					if(handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount()))
-						tradeSlot.setItemStack(null);
-					hasBeenPressed = false;
-					inventoryLoaded = false;
-				}else {
-					hasBeenPressed = false;
-					return;
-				}
+				sellItem();
 			}
 			
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
@@ -182,6 +158,11 @@ public class ShopWindow {
 				
 				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 					if(is.getItemStack() != null) {
+						if(is.getItemStack().getItem().getPrice() == -1) {
+							handler.sendMsg("You cannot sell this item.");
+							hasBeenPressed = false;
+							return;
+						}
 						if(selectedInvItem == null) {
 							selectedInvItem = is.getItemStack();
 							tradeSlot.setItemStack(selectedInvItem);
@@ -249,12 +230,6 @@ public class ShopWindow {
 			
 			for(ItemSlot is : itemSlots) {
 				
-				if(selectedShopItem != null) {
-					g.setColor(Color.YELLOW);
-					g.drawImage(selectedShopItem.getItem().getTexture(), x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-					g.drawString(selectedShopItem.getItem().getName(), x, y + 8);
-				}
-				
 				is.render(g);
 				
 			}
@@ -271,19 +246,53 @@ public class ShopWindow {
 		}
 	}
 	
-	public int findFreeSlot(Item item) {
-        for (int i = 0; i < invSlots.size(); i++) {
-        	if(invSlots.get(i).getItemStack() != null){
-        		if(invSlots.get(i).getItemStack().getItem().getId() == item.getId()){
-            		return i;
-        		}
-        	}
-            if (invSlots.get(i).getItemStack() == null) {
-                return i;
-            }
-       }
-       System.out.println("You cannot offer any more items.");
-       return -1;
+	private void loadInventory() {
+		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
+			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+		}
+	}
+	
+	private void buyItem() {
+		if(tradeSlot.getItemStack() != null) {
+			if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
+				if(!handler.invIsFull()) {
+					handler.removeItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
+					handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+					tradeSlot.setItemStack(null);
+					inventoryLoaded = false;
+					if(selectedShopItem != null)
+						selectedShopItem = null;
+				}
+				hasBeenPressed = false;
+			}
+		}else {
+			hasBeenPressed = false;
+			return;
+		}
+	}
+	
+	private void sellItem() {
+		if(tradeSlot.getItemStack() != null) {
+			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+				handler.sendMsg("You cannot sell this item.");
+				hasBeenPressed = false;
+				return;
+			}
+			if(!handler.invIsFull()) {
+				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
+					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
+					tradeSlot.setItemStack(null);
+					inventoryLoaded = false;
+					if(selectedInvItem != null)
+						selectedInvItem = null;
+				}
+			}
+			hasBeenPressed = false;
+		}else {
+			hasBeenPressed = false;
+			return;
+		}
 	}
 
 	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
