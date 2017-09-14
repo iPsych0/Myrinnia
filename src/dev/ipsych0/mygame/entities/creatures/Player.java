@@ -25,6 +25,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
@@ -143,7 +144,7 @@ public class Player extends Creature{
 		}
 		
 		handler.getGameCamera().centerOnEntity(this);
-		
+				
 		// Attacks
 		regenHealth();
 		
@@ -156,6 +157,12 @@ public class Player extends Creature{
 			System.out.println("Attack XP = " + getAttackExperience());
 			System.out.println("Crafting XP = " + getCraftingExperience());
 			System.out.println("Crafting level = " + getCraftingLevel());
+			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
+				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() != null)
+					continue;
+				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null)
+					handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 1);
+			}
 			
 		}
 		if(handler.getKeyManager().talk){

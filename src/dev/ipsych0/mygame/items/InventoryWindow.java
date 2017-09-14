@@ -360,7 +360,7 @@ public class InventoryWindow implements Serializable {
        }
         if(index != -1)
         	return index;
-       System.out.println("Something went wrong checking for free slots (or bag is full)");
+       System.out.println("No free inventory slot available.");
        return -1;
 	}
 	
@@ -418,11 +418,14 @@ public class InventoryWindow implements Serializable {
 		return hasItem;
 	}
 	
-	public boolean inventoryIsFull(){
+	public boolean inventoryIsFull(Item item){
 		int emptySlots = 0;
 		for (int i = 0; i < itemSlots.size(); i++){
 			if(itemSlots.get(i).getItemStack() == null){
 				emptySlots++;
+			}
+			if(itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
+				return false;
 			}
 		}
 		if(emptySlots == 0) {

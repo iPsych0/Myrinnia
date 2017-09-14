@@ -116,6 +116,8 @@ public class Assets {
 	
 	public static BufferedImage fish;
 	
+	public static BufferedImage shopWindow;
+	
 	
 	public static void init(){
 		
@@ -157,8 +159,11 @@ public class Assets {
 		SpriteSheet trees_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/trees.png"));
 		SpriteSheet object_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites11.png"));
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
+		SpriteSheet shop_window = new SpriteSheet(ImageLoader.loadImage("/textures/shopwindow.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		shopWindow = shop_window.crop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[2];
 		magicProjectile[0] = projectiles.crop(width * 3, height * 0, width, height);

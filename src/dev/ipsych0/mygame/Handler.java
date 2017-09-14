@@ -140,8 +140,8 @@ public class Handler {
 		getPlayer().getChatWindow().sendMessage(message);
 	}
 	
-	public boolean invIsFull() {
-		return getWorld().getInventory().inventoryIsFull();
+	public boolean invIsFull(Item item) {
+		return getWorld().getInventory().inventoryIsFull(item);
 	}
 	
 	public void giveItem(Item item, int amount) {

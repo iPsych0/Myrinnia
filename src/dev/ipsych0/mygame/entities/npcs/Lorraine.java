@@ -71,7 +71,7 @@ public class Lorraine extends ShopKeeper {
 			handler.getPlayer().getChatWindow().sendMessage("Hey, could you help me, please?");
 			ShopWindow.isOpen = true;
 			this.shopping = true;
-			speakingTurn++;
+			//speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 1){
 			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
@@ -92,7 +92,7 @@ public class Lorraine extends ShopKeeper {
 			}
 		}
 		else if(this.getSpeakingTurn() == 4){
-			if(!handler.getWorld().getInventory().inventoryIsFull()){
+			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
 				handler.giveItem(Item.coinsItem, 1000);
 				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
 				speakingTurn++;
