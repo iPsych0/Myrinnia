@@ -304,7 +304,7 @@ public class ShopWindow {
 				}
 				hasBeenPressed = false;
 			}else {
-				handler.sendMsg("You don't have enough gold to buy " + tradeSlot.getItemStack().getItem().getName() + ".");
+				handler.sendMsg("You don't have enough gold to buy " + tradeSlot.getItemStack().getAmount() + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
 				hasBeenPressed = false;
 			}
 		}else {
