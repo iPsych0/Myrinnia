@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.gfx.Assets;
 
 public class DialogueBox {
 	
@@ -26,7 +27,7 @@ public class DialogueBox {
 		buttons = new ArrayList<DialogueButton>();
 		
 		for(int i = 0; i < answers.length; i++) {
-			buttons.add(new DialogueButton(handler, x + (width / 2) - 64 + (i * 64), y + height - 32, 32, 32, answers[i]));
+			buttons.add(new DialogueButton(handler, x + (width / answers.length) - 32 + (i * 64), y + height - 48, 32, 32, answers[i]));
 		}
 		
 	}
@@ -51,7 +52,7 @@ public class DialogueBox {
 	public void render(Graphics g) {
 		if(isOpen) {
 			
-			g.drawRect(x, y, width, height);
+			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
 			for(DialogueButton db : buttons) {
 				db.render(g);

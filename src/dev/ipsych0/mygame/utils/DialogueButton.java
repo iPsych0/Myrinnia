@@ -32,7 +32,7 @@ public class DialogueButton {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Assets.black, x, y, width, height, null);
+		g.drawImage(Assets.invSlot, x, y, width, height, null);
 		Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
 	}
 	
@@ -41,10 +41,11 @@ public class DialogueButton {
 		
 		if(answer == "Yes" && param == "Buy")
 			handler.getPlayer().getShopKeeper().getShopWindow().buyItem();
-		else if(answer == "Yes" && param == "Sell")
+		if(answer == "Yes" && param == "Sell")
 			handler.getPlayer().getShopKeeper().getShopWindow().sellItem();
 		
 		ShopWindow.makingChoice = false;
+		ShopWindow.hasBeenPressed = false;
 		DialogueBox.isOpen = false;
 	}
 

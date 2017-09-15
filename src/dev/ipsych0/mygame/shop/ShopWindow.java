@@ -35,7 +35,7 @@ public class ShopWindow {
 	private Rectangle windowBounds;
 	public static boolean makingChoice = false;
 	private DialogueBox dBox;
-	private String[] answers = {"Yes", "No"};
+	private String[] answers = {"Yes", "No", "Test", "Test 2"};
 	
 	public static boolean hasBeenPressed = false;
 	
@@ -117,18 +117,24 @@ public class ShopWindow {
 				makingChoice = true;
 				DialogueBox.isOpen = true;
 				dBox.setParam("Buy");
+				hasBeenPressed = false;
+				return;
 			}
 			
 			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
 				DialogueBox.isOpen = true;
 				dBox.setParam("Sell");
+				hasBeenPressed = false;
+				return;
 			}
 			
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
+				hasBeenPressed = false;
+				return;
 			}
 			
 			for(ItemSlot is : itemSlots) {
@@ -297,10 +303,12 @@ public class ShopWindow {
 						selectedShopItem = null;
 				}
 				hasBeenPressed = false;
+			}else {
+				handler.sendMsg("You don't have enough gold to buy " + tradeSlot.getItemStack().getItem().getName() + ".");
+				hasBeenPressed = false;
 			}
 		}else {
 			hasBeenPressed = false;
-			return;
 		}
 	}
 	
