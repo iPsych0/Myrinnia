@@ -11,10 +11,11 @@ public class DialogueBox {
 	
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
-	public static boolean isOpen = false;
+	public boolean isOpen = false;
 	private Handler handler;
 	public String[] answers;
 	public String param = "";
+	private DialogueButton pressedButton = null;
 	
 	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers) {
 		this.x = x;
@@ -40,8 +41,12 @@ public class DialogueBox {
 				
 				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 					for(int i = 0; i < buttons.size(); i++) {
-						if(db.getText() == answers[i])
-							db.onClick(answers[i], param);
+						if(db.getText() == answers[i] && pressedButton == null) {
+							pressedButton = db;
+							db.pressedButton(answers[i], param);
+							isOpen = false;
+							break;
+						}
 					}
 				}
 				
@@ -74,6 +79,14 @@ public class DialogueBox {
 
 	public void setParam(String param) {
 		this.param = param;
+	}
+
+	public DialogueButton getPressedButton() {
+		return pressedButton;
+	}
+
+	public void setPressedButton(DialogueButton pressedButton) {
+		this.pressedButton = pressedButton;
 	}
 
 }

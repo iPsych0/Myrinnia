@@ -23,8 +23,8 @@ public class ShopWindow {
 	private int numRows = 6;
 	public CopyOnWriteArrayList<ItemSlot> itemSlots;
 	public CopyOnWriteArrayList<ItemSlot> invSlots;
-	private int alpha = 127;
-	private Color interfaceColour = new Color(130, 130, 130, alpha);
+	private int alpha = 62;
+	private Color selectedColor = new Color(0, 255, 255, alpha);
 	private ItemStack selectedShopItem;
 	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
@@ -33,9 +33,12 @@ public class ShopWindow {
 	public static boolean inventoryLoaded = false;
 	private Rectangle buyButton, sellButton, exit;
 	private Rectangle windowBounds;
-	public static boolean makingChoice = false;
+	private boolean makingChoice = false;
 	private DialogueBox dBox;
 	private String[] answers = {"Yes", "No", "Test", "Test 2"};
+	private ItemSlot selectedSlot;
+	private int dialogueWidth = 300;
+	private int dialogueHeight = 150;
 	
 	public static boolean hasBeenPressed = false;
 	
@@ -87,6 +90,8 @@ public class ShopWindow {
 		}
 		
 		tradeSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
+		selectedSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
+		selectedSlot = null;
 		
 		buyButton = new Rectangle(x + 81, y + (height / 2) + 96, 64, 32);
 		sellButton = new Rectangle(x + (width / 2) + 81, y + (height / 2) + 96, 64, 32);
@@ -94,8 +99,6 @@ public class ShopWindow {
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
-		int dialogueWidth = 300;
-		int dialogueHeight = 150;
 		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers);
 		
 	}
@@ -115,7 +118,7 @@ public class ShopWindow {
 			
 			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
 				makingChoice = true;
-				DialogueBox.isOpen = true;
+				dBox.isOpen = true;
 				dBox.setParam("Buy");
 				hasBeenPressed = false;
 				return;
@@ -123,7 +126,7 @@ public class ShopWindow {
 			
 			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
-				DialogueBox.isOpen = true;
+				dBox.isOpen = true;
 				dBox.setParam("Sell");
 				hasBeenPressed = false;
 				return;
@@ -132,9 +135,23 @@ public class ShopWindow {
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				isOpen = false;
 				inventoryLoaded = false;
-				DialogueBox.isOpen = false;
+				dBox.isOpen = false;
 				hasBeenPressed = false;
+				selectedSlot = null;
 				return;
+			}
+			
+			if(dBox.getPressedButton() != null) {
+				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "Buy") {
+					buyItem();
+				}
+				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "Sell") {
+					sellItem();
+				}
+				
+				dBox.setPressedButton(null);
+				makingChoice = false;
+				hasBeenPressed = false;
 			}
 			
 			for(ItemSlot is : itemSlots) {
@@ -146,12 +163,14 @@ public class ShopWindow {
 					if(is.getItemStack() != null) {
 						if(selectedShopItem == null) {
 							selectedInvItem = null;
+							selectedSlot = is;
 							selectedShopItem = is.getItemStack();
 							tradeSlot.setItemStack(selectedShopItem);
 							hasBeenPressed = false;
 							return;
 						}
 						else if(selectedShopItem == is.getItemStack()) {
+							selectedSlot = null;
 							selectedInvItem = null;
 							selectedShopItem = null;
 							tradeSlot.setItemStack(null);
@@ -159,6 +178,7 @@ public class ShopWindow {
 							return;
 						}
 						else if(selectedShopItem != is.getItemStack()) {
+							selectedSlot = is;
 							selectedInvItem = null;
 							selectedShopItem = is.getItemStack();
 							tradeSlot.setItemStack(selectedShopItem);
@@ -166,6 +186,7 @@ public class ShopWindow {
 							return;
 						}
 					}else {
+						selectedSlot = null;
 						selectedInvItem = null;
 						selectedShopItem = null;
 						tradeSlot.setItemStack(null);
@@ -188,6 +209,7 @@ public class ShopWindow {
 							return;
 						}
 						if(selectedInvItem == null) {
+							selectedSlot = is;
 							selectedShopItem = null;
 							selectedInvItem = is.getItemStack();
 							tradeSlot.setItemStack(selectedInvItem);
@@ -195,6 +217,7 @@ public class ShopWindow {
 							return;
 						}
 						else if(selectedInvItem == is.getItemStack()) {
+							selectedSlot = null;
 							selectedShopItem = null;
 							selectedInvItem = null;
 							tradeSlot.setItemStack(null);
@@ -202,6 +225,7 @@ public class ShopWindow {
 							return;
 						}
 						else if(selectedInvItem != is.getItemStack()) {
+							selectedSlot = is;
 							selectedShopItem = null;
 							selectedInvItem = is.getItemStack();
 							tradeSlot.setItemStack(selectedInvItem);
@@ -209,6 +233,7 @@ public class ShopWindow {
 							return;
 						}
 					}else {
+						selectedSlot = null;
 						selectedShopItem = null;
 						selectedInvItem = null;
 						tradeSlot.setItemStack(null);
@@ -273,13 +298,16 @@ public class ShopWindow {
 			Text.drawString(g, "Shop stock", x + 81 + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Inventory", x + 81 + (width / 2) + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			
-			tradeSlot.render(g);
-			
 			if(selectedInvItem != null)
 				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + selectedInvItem.getItem().getPrice() * selectedInvItem.getAmount() + " coins.", x + (width / 2) - 8, y + (height / 2) + 104, true, Color.YELLOW, Assets.font14);
 			if(selectedShopItem != null)
 				Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins.", x + (width / 2) - 8, y + (height / 2) + 104, true, Color.YELLOW, Assets.font14);
-		
+			
+			if(selectedSlot != null) {
+				g.setColor(selectedColor);
+				g.fillRoundRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 16, 16);
+			}
+			
 			if(makingChoice)
 				dBox.render(g);
 		}
@@ -299,6 +327,7 @@ public class ShopWindow {
 					handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
+					selectedSlot = null;
 					if(selectedShopItem != null)
 						selectedShopItem = null;
 				}
@@ -325,6 +354,7 @@ public class ShopWindow {
 					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
 					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
+					selectedSlot = null;
 					if(selectedInvItem != null)
 						selectedInvItem = null;
 				}
@@ -332,7 +362,6 @@ public class ShopWindow {
 			hasBeenPressed = false;
 		}else {
 			hasBeenPressed = false;
-			return;
 		}
 	}
 

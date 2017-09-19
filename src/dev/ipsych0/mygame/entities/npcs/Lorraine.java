@@ -22,7 +22,7 @@ public class Lorraine extends ShopKeeper {
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		speakingTurn = 0;
+		speakingTurn = 1;
 		attackable = false;
 		isNpc = true;
 		isShop = true;
@@ -67,22 +67,22 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void interact() {
-		if(this.getSpeakingTurn() == 0){
+		if(this.getSpeakingTurn() == 1){
 			handler.getPlayer().getChatWindow().sendMessage("Hey, could you help me, please?");
 			ShopWindow.isOpen = true;
 			this.shopping = true;
-			//speakingTurn++;
+			speakingTurn = 1;
 		}
-		else if(this.getSpeakingTurn() == 1){
+		else if(this.getSpeakingTurn() == 2){
 			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
 			speakingTurn++;
 		}
-		else if(this.getSpeakingTurn() == 2){
+		else if(this.getSpeakingTurn() == 3){
 			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
 			speakingTurn++;
 			questStarted = true;
 		}
-		else if(this.getSpeakingTurn() == 3){
+		else if(this.getSpeakingTurn() == 4){
 			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
 				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
 			}
@@ -91,7 +91,7 @@ public class Lorraine extends ShopKeeper {
 				speakingTurn++;
 			}
 		}
-		else if(this.getSpeakingTurn() == 4){
+		else if(this.getSpeakingTurn() == 5){
 			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
 				handler.giveItem(Item.coinsItem, 1000);
 				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
@@ -100,19 +100,19 @@ public class Lorraine extends ShopKeeper {
 				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
 			}
 		}
-		else if(this.getSpeakingTurn() == 5){
+		else if(this.getSpeakingTurn() == 6){
 			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
 			speakingTurn++;
 		}
-		else if(this.getSpeakingTurn() == 6) {
+		else if(this.getSpeakingTurn() == 7) {
 			ShopWindow.isOpen = true;
 			this.shopping = true;
 			speakingTurn++;
 		}
-		else if(this.getSpeakingTurn() >= 7 ) {
+		else if(this.getSpeakingTurn() >= 8 ) {
 			if(!ShopWindow.isOpen) {
 				this.shopping = false;
-				speakingTurn = 5;
+				speakingTurn = 6;
 			}
 		}
 	}

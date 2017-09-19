@@ -15,6 +15,7 @@ public class DialogueButton {
 	public String text;
 	public Rectangle buttonBounds;
 	private Handler handler;
+	private String[] buttonParam = new String[2];
 	
 	public DialogueButton(Handler handler, int x, int y, int width, int height, String text) {
 		this.x = x;
@@ -36,17 +37,12 @@ public class DialogueButton {
 		Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
 	}
 	
-	public void onClick(String answer, String param){
+	public void pressedButton(String answer, String param){
 		System.out.println("Chose answer: " + answer);
 		
-		if(answer == "Yes" && param == "Buy")
-			handler.getPlayer().getShopKeeper().getShopWindow().buyItem();
-		if(answer == "Yes" && param == "Sell")
-			handler.getPlayer().getShopKeeper().getShopWindow().sellItem();
+		buttonParam[0] = answer;
+		buttonParam[1] = param;
 		
-		ShopWindow.makingChoice = false;
-		ShopWindow.hasBeenPressed = false;
-		DialogueBox.isOpen = false;
 	}
 
 	public Rectangle getButtonBounds() {
@@ -95,6 +91,14 @@ public class DialogueButton {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String[] getButtonParam() {
+		return buttonParam;
+	}
+
+	public void setButtonParam(String[] buttonParam) {
+		this.buttonParam = buttonParam;
 	}
 
 }
