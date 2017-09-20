@@ -19,10 +19,12 @@ public class TextBox implements KeyListener {
 	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
-	private int index = 0;
+	public int index = 0;
 	private StringBuilder sb;
 	private boolean loaded = false;
 	public static boolean enterPressed = false;
+	public static boolean isOpen = false;
+	private Color selected = new Color(139,69,19, 127);
 	
 	public TextBox(Handler handler, int x, int y, int width, int height, boolean numbersOnly) {
 		this.handler = handler;
@@ -35,33 +37,43 @@ public class TextBox implements KeyListener {
 		bounds = new Rectangle(x,y,width,height);
 		
 		sb = new StringBuilder(charactersTyped);
+		
+		handler.getGame().getDisplay().getFrame().addKeyListener(this);
+		handler.getGame().getDisplay().getCanvas().addKeyListener(this);
 	}
 	
 	public void tick() {
-		if(!loaded) {
-			handler.getGame().getDisplay().getFrame().addKeyListener(this);
-			handler.getGame().getDisplay().getCanvas().addKeyListener(this);
-			loaded = true;
-		}
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
-		if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-			focus = true;
-			KeyManager.typingFocus = true;
-		}
-		
-		if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-			focus = false;
-			KeyManager.typingFocus = false;
+		if(isOpen) {
+			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				focus = true;
+				KeyManager.typingFocus = true;
+			}
+			
+			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				focus = false;
+				KeyManager.typingFocus = false;
+			}
 		}
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, width, height);
-		
-		if(charactersTyped != null)
-			Text.drawString(g, charactersTyped, x + (width / 2), y + 16, true, Color.YELLOW, Assets.font14);
-		
+		if(isOpen) {
+			
+			g.setColor(Color.DARK_GRAY);
+			g.drawImage(Assets.shopWindow, x, y, width, height, null);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+			
+			if(focus) {
+				g.setColor(selected);
+				g.fillRect(x + 2, y + 2, width - 4, height - 4);
+			}
+			
+			if(charactersTyped != null)
+				Text.drawString(g, charactersTyped, x + (width / 2), y + 16, true, Color.YELLOW, Assets.font14);
+			
+		}
 	}
 
 	@Override
@@ -78,46 +90,51 @@ public class TextBox implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(focus) {
+		if(focus && isOpen) {
 			
 			if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+				if(charactersTyped.isEmpty()) {
+					return;
+				}
 				enterPressed = true;
-				sb.delete(0, index);
-				index = 0;
+				charactersTyped = sb.toString();
+				System.out.println(charactersTyped);
 				return;
 			}
 			
 			if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-				if(index == 0) {
-					return;
-				}else {
+				if(index > 0) {
 					sb.deleteCharAt(index - 1);
 					index--;
 					charactersTyped = sb.toString();
 					return;
 				}
 			}
-			
-			if(index > 9) {
-				e.consume();
-				return;
-			}
 		
 			if(numbersOnly) {
 				if(!Character.isDigit(e.getKeyChar())) {
 					return;
 				}else {
-					System.out.println(e.getKeyChar());
+					if(index <= 8) {
+						sb.append(e.getKeyChar());
+						index++;
+						charactersTyped = sb.toString();
+					}else {
+						return;
+					}
+				}
+			}else {
+				if(index <= 8) {
 					sb.append(e.getKeyChar());
 					index++;
 					charactersTyped = sb.toString();
+				}else {
+					return;
 				}
-			}else {
-				sb.append(e.getKeyChar());
-				index++;
-				charactersTyped = sb.toString();
 			}
 		}else {
+			charactersTyped = "";
+			index = 0;
 			e.consume();
 		}
 	}

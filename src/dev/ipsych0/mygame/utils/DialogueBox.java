@@ -1,11 +1,15 @@
 package dev.ipsych0.mygame.utils;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.sun.glass.events.KeyEvent;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.ui.TextBox;
 
 public class DialogueBox {
@@ -18,14 +22,16 @@ public class DialogueBox {
 	public String param = "";
 	public DialogueButton pressedButton = null;
 	private TextBox tb;
+	private String message;
 
-	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers) {
+	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers, String message) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.handler = handler;
 		this.answers = answers;
+		this.message = message;
 		
 		buttons = new ArrayList<DialogueButton>();
 		
@@ -49,7 +55,7 @@ public class DialogueBox {
 					for(int i = 0; i < buttons.size(); i++) {
 						if(db.getText() == answers[i] && pressedButton == null) {
 							pressedButton = db;
-							db.pressedButton(answers[i], param);
+							pressedButton.pressedButton(answers[i], param);
 							isOpen = false;
 							break;
 						}
@@ -64,6 +70,8 @@ public class DialogueBox {
 		if(isOpen) {
 			
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
+			
+			Text.drawString(g, message, x + (width / 2), y + 32, true, Color.YELLOW, Assets.font14);
 			
 			for(DialogueButton db : buttons) {
 				db.render(g);

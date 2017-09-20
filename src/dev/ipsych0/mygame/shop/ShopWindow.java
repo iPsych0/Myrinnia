@@ -106,7 +106,7 @@ public class ShopWindow {
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
-		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers);
+		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
 		
 	}
 	
@@ -123,78 +123,86 @@ public class ShopWindow {
 		
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
+			/*
+			 * Buy All Button onClick
+			 */
 			if(buyAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
 				makingChoice = true;
 				DialogueBox.isOpen = true;
+				TextBox.isOpen = false;
 				dBox.setParam("BuyAll");
+				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
 			
+			/*
+			 * Sell All Button onClick
+			 */
 			if(sellAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
 				DialogueBox.isOpen = true;
+				TextBox.isOpen = false;
 				dBox.setParam("SellAll");
+				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
 			
+			/*
+			 * Buy X Button onClick
+			 */
 			if(buyXButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
 				makingChoice = true;
 				DialogueBox.isOpen = true;
+				TextBox.isOpen = true;
 				dBox.setParam("BuyX");
+				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
 			
+			/*
+			 * Sell X Button onClick
+			 */
 			if(sellXButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
 				DialogueBox.isOpen = true;
+				TextBox.isOpen = true;
 				dBox.setParam("SellX");
+				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
 			
+			/*
+			 * Exit button onClick
+			 */
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
+				TextBox.isOpen = false;
 				hasBeenPressed = false;
 				selectedSlot = null;
 				selectedInvItem = null;
 				selectedShopItem = null;
 				makingChoice = false;
+				dBox.getTextBox().setCharactersTyped("");
 				dBox.setPressedButton(null);
 				return;
 			}
-		
 			
-			if(TextBox.enterPressed && makingChoice) {
-				if(dBox.getParam() == "BuyX") {
-					buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-				}
-				if(dBox.getParam() == "SellX") {
-					sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-				}
-				
-				TextBox.enterPressed = false;
-				makingChoice = false;
-				hasBeenPressed = false;
-			}
 			if(makingChoice && dBox.getPressedButton() != null) {
-				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
-					buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-				}
-				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellAll") {
-					sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+					if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
+						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+					}
+					else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
+						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+					}
 				}
 				
-				dBox.setPressedButton(null);
-				makingChoice = false;
-				hasBeenPressed = false;
-			}
-			
-			if(dBox.getPressedButton() != null && makingChoice) {
 				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
 					buyItem();
 				}
@@ -202,7 +210,36 @@ public class ShopWindow {
 					sellItem();
 				}
 				
+				dBox.getTextBox().setCharactersTyped(null);
 				dBox.setPressedButton(null);
+				DialogueBox.isOpen = false;
+				TextBox.isOpen = false;
+				makingChoice = false;
+				hasBeenPressed = false;
+			}
+			
+			if(TextBox.enterPressed && makingChoice) {
+				
+				dBox.setPressedButton(dBox.getButtons().get(0));
+				dBox.getPressedButton().getButtonParam()[0] = "Yes";
+				dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
+				
+				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
+					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+						dBox.getTextBox().setCharactersTyped(null);
+					}
+					}
+				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
+					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+						dBox.getTextBox().setCharactersTyped(null);
+					}
+				}
+				
+				dBox.setPressedButton(null);
+				DialogueBox.isOpen = false;
+				TextBox.enterPressed = false;
 				makingChoice = false;
 				hasBeenPressed = false;
 			}
