@@ -36,9 +36,6 @@ public class DialogueButton {
 	}
 	
 	public void pressedButton(String answer, String param){
-		System.out.println("Chose answer: " + answer);
-		System.out.println("Param: " + param);
-		
 		buttonParam[0] = answer;
 		buttonParam[1] = param;
 		
