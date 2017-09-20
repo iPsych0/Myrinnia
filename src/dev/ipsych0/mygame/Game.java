@@ -180,4 +180,12 @@ public class Game implements Runnable {
 				e.printStackTrace();
 			}
 	}
+
+	public Display getDisplay() {
+		return display;
+	}
+
+	public void setDisplay(Display display) {
+		this.display = display;
+	}
 }

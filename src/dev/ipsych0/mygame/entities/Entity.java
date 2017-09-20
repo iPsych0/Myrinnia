@@ -3,12 +3,11 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.DialogueBox;
 
 public abstract class Entity {
 
@@ -76,6 +75,10 @@ public abstract class Entity {
 			// Out of range, so reset speaking turn
 			isCloseToNPC = false;
 			ShopWindow.inventoryLoaded = false;
+			ShopWindow.isOpen = false;
+			DialogueBox.isOpen = false;
+			ShopWindow.hasBeenPressed = false;
+			ShopWindow.makingChoice = false;
 			return false;
 		}
 					

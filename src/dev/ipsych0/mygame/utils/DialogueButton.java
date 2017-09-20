@@ -14,16 +14,14 @@ public class DialogueButton {
 	public int x, y, width, height;
 	public String text;
 	public Rectangle buttonBounds;
-	private Handler handler;
 	private String[] buttonParam = new String[2];
 	
-	public DialogueButton(Handler handler, int x, int y, int width, int height, String text) {
+	public DialogueButton(int x, int y, int width, int height, String text) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.text = text;
-		this.handler = handler;
 		
 		buttonBounds = new Rectangle(x, y, width, height);
 	}

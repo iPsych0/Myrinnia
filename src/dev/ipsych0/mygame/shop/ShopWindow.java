@@ -31,12 +31,12 @@ public class ShopWindow {
 	private Handler handler;
 	private ItemSlot tradeSlot;
 	public static boolean inventoryLoaded = false;
-	private Rectangle buyButton, sellButton, exit;
+	private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;
 	private Rectangle windowBounds;
-	private boolean makingChoice = false;
+	public static boolean makingChoice = false;
 	private DialogueBox dBox;
-	private String[] answers = {"Yes", "No", "Test", "Test 2"};
-	private ItemSlot selectedSlot;
+	private String[] answers = {"Yes", "No"};
+	public ItemSlot selectedSlot = null;
 	private int dialogueWidth = 300;
 	private int dialogueHeight = 150;
 	
@@ -90,11 +90,16 @@ public class ShopWindow {
 		}
 		
 		tradeSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
-		selectedSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
-		selectedSlot = null;
 		
-		buyButton = new Rectangle(x + 81, y + (height / 2) + 96, 64, 32);
-		sellButton = new Rectangle(x + (width / 2) + 81, y + (height / 2) + 96, 64, 32);
+		buy1Button = new Rectangle(x + 17, y + (height / 2) + 64, 64, 32);
+		sell1Button = new Rectangle(x + (width / 2) + 17, y + (height / 2) + 64, 64, 32);
+		
+		buyAllButton = new Rectangle(x + 81, y + (height / 2) + 64, 64, 32);
+		sellAllButton = new Rectangle(x + (width / 2) + 81, y + (height / 2) + 64, 64, 32);
+		
+		buyXButton = new Rectangle(x + 145, y + (height / 2) + 64, 64, 32);
+		sellXButton = new Rectangle(x + (width / 2) + 145, y + (height / 2) + 64, 64, 32);
+		
 		exit = new Rectangle(x + width - 26, y + 10, 16, 16);
 		
 		windowBounds = new Rectangle(x, y, width, height);
@@ -116,17 +121,17 @@ public class ShopWindow {
 		
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
-			if(buyButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+			if(buyAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
 				makingChoice = true;
-				dBox.isOpen = true;
+				DialogueBox.isOpen = true;
 				dBox.setParam("Buy");
 				hasBeenPressed = false;
 				return;
 			}
 			
-			if(sellButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+			if(sellAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
-				dBox.isOpen = true;
+				DialogueBox.isOpen = true;
 				dBox.setParam("Sell");
 				hasBeenPressed = false;
 				return;
@@ -135,9 +140,13 @@ public class ShopWindow {
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				isOpen = false;
 				inventoryLoaded = false;
-				dBox.isOpen = false;
+				DialogueBox.isOpen = false;
 				hasBeenPressed = false;
 				selectedSlot = null;
+				selectedInvItem = null;
+				selectedShopItem = null;
+				makingChoice = false;
+				dBox.setPressedButton(null);
 				return;
 			}
 			
@@ -258,22 +267,22 @@ public class ShopWindow {
 			
 			g.setColor(Color.BLACK);
 			// Buy/sell 1
-			g.drawRect(x + 17, y + (height / 2) + 64, 64, 32);
-			g.drawRect(x + (width / 2) + 17, y + (height / 2) + 64, 64, 32);
+			g.drawRect(buy1Button.x, buy1Button.y, buy1Button.width, buy1Button.height);
+			g.drawRect(sell1Button.x, sell1Button.y, sell1Button.width, sell1Button.height);
 			Text.drawString(g, "Buy 1", x + 17 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell 1", x + 17 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			
 			// Buy/sell ALL
 			g.setColor(Color.BLACK);
-			g.drawRect(x + 81, y + (height / 2) + 64, 64, 32);
-			g.drawRect(x + (width / 2) + 81, y + (height / 2) + 64, 64, 32);
+			g.drawRect(buyAllButton.x, buyAllButton.y, buyAllButton.width, buyAllButton.height);
+			g.drawRect(sellAllButton.x, sellAllButton.y, sellAllButton.width, sellAllButton.height);
 			Text.drawString(g, "Buy all", x + 81 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell all", x + 81 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			
 			// Buy/sell X
 			g.setColor(Color.BLACK);
-			g.drawRect(x + 145, y + (height / 2) + 64, 64, 32);
-			g.drawRect(x + (width / 2) + 145, y + (height / 2) + 64, 64, 32);
+			g.drawRect(buyXButton.x, buyXButton.y, buyXButton.width, buyXButton.height);
+			g.drawRect(sellXButton.x, sellXButton.y, sellXButton.width, sellXButton.height);
 			Text.drawString(g, "Buy X", x + 145 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell X", x + 145 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			

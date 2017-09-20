@@ -6,17 +6,19 @@ import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.ui.TextBox;
 
 public class DialogueBox {
 	
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
-	public boolean isOpen = false;
+	public static boolean isOpen = false;
 	private Handler handler;
 	public String[] answers;
 	public String param = "";
 	private DialogueButton pressedButton = null;
-	
+	private TextBox tb;
+
 	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers) {
 		this.x = x;
 		this.y = y;
@@ -28,16 +30,20 @@ public class DialogueBox {
 		buttons = new ArrayList<DialogueButton>();
 		
 		for(int i = 0; i < answers.length; i++) {
-			buttons.add(new DialogueButton(handler, x + (width / answers.length) - 32 + (i * 64), y + height - 48, 32, 32, answers[i]));
+			buttons.add(new DialogueButton(x + (width / answers.length) - 32 - (32 / answers.length) + (i * 64), y + height - 48, 32, 32, answers[i]));
 		}
 		
+		tb = new TextBox(handler, x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, true);
 	}
 	
 	public void tick() {
+		
 		if(isOpen) {
+			
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			for(DialogueButton db : buttons) {
 				db.tick();
+				tb.tick();
 				
 				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 					for(int i = 0; i < buttons.size(); i++) {
@@ -62,6 +68,8 @@ public class DialogueBox {
 			for(DialogueButton db : buttons) {
 				db.render(g);
 			}
+			
+			tb.render(g);
 		}
 	}
 

@@ -3,12 +3,11 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.ui.UIManager;
+import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
@@ -22,6 +21,7 @@ public class KeyManager implements KeyListener{
 	public boolean pickUp;
 	public boolean position;
 	public boolean talk;
+	public static boolean typingFocus = false;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -47,97 +47,106 @@ public class KeyManager implements KeyListener{
 //			// Maybe hier optimaliseren van interfaces
 //		}
 		
-		// Movement keys
-		up = keys[KeyEvent.VK_W];
-		down = keys[KeyEvent.VK_S];
-		left = keys[KeyEvent.VK_A];
-		right = keys[KeyEvent.VK_D];
-
-		
-		// Interaction keys
-		chat = keys[KeyEvent.VK_C];
-		pickUp = keys[KeyEvent.VK_F];
-		
-		// Coordinate keys
-		position = keys[KeyEvent.VK_P];
-		talk = keys[KeyEvent.VK_SPACE];
+		if(!typingFocus) {
+			// Movement keys
+			up = keys[KeyEvent.VK_W];
+			down = keys[KeyEvent.VK_S];
+			left = keys[KeyEvent.VK_A];
+			right = keys[KeyEvent.VK_D];
+	
+			
+			// Interaction keys
+			chat = keys[KeyEvent.VK_C];
+			pickUp = keys[KeyEvent.VK_F];
+			
+			// Coordinate keys
+			position = keys[KeyEvent.VK_P];
+			talk = keys[KeyEvent.VK_SPACE];
+		}
 		
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
-			return;
-		}
-		keys[e.getKeyCode()] = true;
-		
-		// Inventory toggle
-		if(e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen){
-			if(!InventoryWindow.isOpen){
-				InventoryWindow.isOpen = true;
+		if(!typingFocus) {
+			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
+				return;
 			}
-			else {
-				InventoryWindow.isOpen = false;
+			keys[e.getKeyCode()] = true;
+			
+			// Inventory toggle
+			if(e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen){
+				if(!InventoryWindow.isOpen){
+					InventoryWindow.isOpen = true;
+				}
+				else {
+					InventoryWindow.isOpen = false;
+				}
+				
+				if(!EquipmentWindow.isOpen){
+					EquipmentWindow.isOpen = true;
+				}
+				else {
+					EquipmentWindow.isOpen = false;
+				}
 			}
 			
-			if(!EquipmentWindow.isOpen){
-				EquipmentWindow.isOpen = true;
+			// Chat window toggle
+			if(e.getKeyCode() == KeyEvent.VK_C){
+				if(!ChatWindow.chatIsOpen){
+					ChatWindow.chatIsOpen = true;
+				}
+				else {
+					ChatWindow.chatIsOpen = false;
+				}
 			}
-			else {
-				EquipmentWindow.isOpen = false;
-			}
-		}
-		
-		// Chat window toggle
-		if(e.getKeyCode() == KeyEvent.VK_C){
-			if(!ChatWindow.chatIsOpen){
-				ChatWindow.chatIsOpen = true;
-			}
-			else {
-				ChatWindow.chatIsOpen = false;
-			}
-		}
-		
-		// Chat window toggle
-		if(e.getKeyCode() == KeyEvent.VK_M){
-			if(!MiniMap.isOpen){
-				MiniMap.isOpen = true;
-			}
-			else {
-				MiniMap.isOpen = false;
-			}
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_H){
-			if(!CraftingUI.isOpen){
-				CraftingUI.isOpen = true;
-			}
-			else {
-				CraftingUI.isOpen = false;
-			}
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			if(CraftingUI.isOpen)
-				CraftingUI.isOpen = false;
 			
-			if(ShopWindow.isOpen)
+			// Chat window toggle
+			if(e.getKeyCode() == KeyEvent.VK_M){
+				if(!MiniMap.isOpen){
+					MiniMap.isOpen = true;
+				}
+				else {
+					MiniMap.isOpen = false;
+				}
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_H){
+				if(!CraftingUI.isOpen){
+					CraftingUI.isOpen = true;
+				}
+				else {
+					CraftingUI.isOpen = false;
+				}
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				CraftingUI.isOpen = false;
+				ShopWindow.inventoryLoaded = false;
 				ShopWindow.isOpen = false;
+				DialogueBox.isOpen = false;
+				ShopWindow.hasBeenPressed = false;
+				ShopWindow.makingChoice = false;
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
-			return;
+		if(!typingFocus) {
+			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
+				return;
+			}
+			keys[e.getKeyCode()] = false;
 		}
-		keys[e.getKeyCode()] = false;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
-			Player.hasInteracted = false;
+		if(!typingFocus) {
+			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
+				Player.hasInteracted = false;
+			}
 		}
 	}
 	

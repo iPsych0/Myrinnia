@@ -1,11 +1,9 @@
 package dev.ipsych0.mygame.display;
-
 import java.awt.Canvas;
 import java.awt.Dimension;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 
 
 public class Display {
@@ -30,7 +28,11 @@ public class Display {
 		frame.setSize(width, height);
 		
 		// For the X (close) button
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+	         public void windowClosing(WindowEvent windowEvent){
+	             System.exit(0);
+	          }        
+	       });
 		frame.setResizable(false);
 		
 		// Window will appear in the center of the user's screen
@@ -44,7 +46,9 @@ public class Display {
 		canvas.setFocusable(false);
 		
 		frame.add(canvas);
+		
 		frame.pack();
+		frame.setResizable(false);
 	}
 	
 	public Canvas getCanvas(){
