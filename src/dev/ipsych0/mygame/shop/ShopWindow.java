@@ -14,7 +14,9 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.ui.TextBox;
 import dev.ipsych0.mygame.utils.DialogueBox;
+import dev.ipsych0.mygame.utils.DialogueButton;
 
 public class ShopWindow {
 	
@@ -124,7 +126,7 @@ public class ShopWindow {
 			if(buyAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
 				makingChoice = true;
 				DialogueBox.isOpen = true;
-				dBox.setParam("Buy");
+				dBox.setParam("BuyAll");
 				hasBeenPressed = false;
 				return;
 			}
@@ -132,7 +134,23 @@ public class ShopWindow {
 			if(sellAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
 				makingChoice = true;
 				DialogueBox.isOpen = true;
-				dBox.setParam("Sell");
+				dBox.setParam("SellAll");
+				hasBeenPressed = false;
+				return;
+			}
+			
+			if(buyXButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+				makingChoice = true;
+				DialogueBox.isOpen = true;
+				dBox.setParam("BuyX");
+				hasBeenPressed = false;
+				return;
+			}
+			
+			if(sellXButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+				makingChoice = true;
+				DialogueBox.isOpen = true;
+				dBox.setParam("SellX");
 				hasBeenPressed = false;
 				return;
 			}
@@ -149,12 +167,38 @@ public class ShopWindow {
 				dBox.setPressedButton(null);
 				return;
 			}
+		
 			
-			if(dBox.getPressedButton() != null) {
-				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "Buy") {
+			if(TextBox.enterPressed && makingChoice) {
+				if(dBox.getParam() == "BuyX") {
+					buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+				if(dBox.getParam() == "SellX") {
+					sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+				
+				TextBox.enterPressed = false;
+				makingChoice = false;
+				hasBeenPressed = false;
+			}
+			if(makingChoice && dBox.getPressedButton() != null) {
+				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
+					buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellAll") {
+					sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+				
+				dBox.setPressedButton(null);
+				makingChoice = false;
+				hasBeenPressed = false;
+			}
+			
+			if(dBox.getPressedButton() != null && makingChoice) {
+				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
 					buyItem();
 				}
-				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "Sell") {
+				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellAll") {
 					sellItem();
 				}
 				
@@ -361,6 +405,58 @@ public class ShopWindow {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
+					tradeSlot.setItemStack(null);
+					inventoryLoaded = false;
+					selectedSlot = null;
+					if(selectedInvItem != null)
+						selectedInvItem = null;
+				}
+			}
+			hasBeenPressed = false;
+		}else {
+			hasBeenPressed = false;
+		}
+	}
+	
+	public void buyXItem(int amount) {
+		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
+			if(amount > tradeSlot.getItemStack().getAmount()) {
+				amount = tradeSlot.getItemStack().getAmount();
+			}
+			if(handler.playerHasItem(Item.coinsItem, (amount * tradeSlot.getItemStack().getItem().getPrice()))) {
+				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+					handler.removeItem(Item.coinsItem, amount * tradeSlot.getItemStack().getItem().getPrice());
+					handler.giveItem(tradeSlot.getItemStack().getItem(), amount);
+					tradeSlot.setItemStack(null);
+					inventoryLoaded = false;
+					selectedSlot = null;
+					if(selectedShopItem != null)
+						selectedShopItem = null;
+				}
+				hasBeenPressed = false;
+			}else {
+				handler.sendMsg("You don't have enough gold to buy " + amount + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+				hasBeenPressed = false;
+			}
+		}else {
+			hasBeenPressed = false;
+		}
+	}
+	
+	public void sellXItem(int amount) {
+		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
+			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+				handler.sendMsg("You cannot sell this item.");
+				hasBeenPressed = false;
+				return;
+			}
+			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+				if(amount > tradeSlot.getItemStack().getAmount()) {
+					amount = tradeSlot.getItemStack().getAmount();
+				}
+				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
+					handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
+					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
 					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
 					selectedSlot = null;

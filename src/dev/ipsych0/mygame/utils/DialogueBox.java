@@ -16,7 +16,7 @@ public class DialogueBox {
 	private Handler handler;
 	public String[] answers;
 	public String param = "";
-	private DialogueButton pressedButton = null;
+	public DialogueButton pressedButton = null;
 	private TextBox tb;
 
 	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers) {
@@ -95,6 +95,14 @@ public class DialogueBox {
 
 	public void setPressedButton(DialogueButton pressedButton) {
 		this.pressedButton = pressedButton;
+	}
+
+	public TextBox getTextBox() {
+		return tb;
+	}
+
+	public void setTextBox(TextBox tb) {
+		this.tb = tb;
 	}
 
 }

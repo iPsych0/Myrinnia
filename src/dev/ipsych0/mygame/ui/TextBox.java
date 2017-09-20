@@ -22,6 +22,7 @@ public class TextBox implements KeyListener {
 	private int index = 0;
 	private StringBuilder sb;
 	private boolean loaded = false;
+	public static boolean enterPressed = false;
 	
 	public TextBox(Handler handler, int x, int y, int width, int height, boolean numbersOnly) {
 		this.handler = handler;
@@ -79,6 +80,13 @@ public class TextBox implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		if(focus) {
 			
+			if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+				enterPressed = true;
+				sb.delete(0, index);
+				index = 0;
+				return;
+			}
+			
 			if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 				if(index == 0) {
 					return;
@@ -86,6 +94,7 @@ public class TextBox implements KeyListener {
 					sb.deleteCharAt(index - 1);
 					index--;
 					charactersTyped = sb.toString();
+					return;
 				}
 			}
 			
@@ -111,6 +120,14 @@ public class TextBox implements KeyListener {
 		}else {
 			e.consume();
 		}
+	}
+
+	public String getCharactersTyped() {
+		return charactersTyped;
+	}
+
+	public void setCharactersTyped(String charactersTyped) {
+		this.charactersTyped = charactersTyped;
 	}
 
 }
