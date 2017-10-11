@@ -41,6 +41,7 @@ public class EquipmentSlot implements Serializable{
 		
 		if(itemStack != null){
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawString(Integer.toString(itemStack.getAmount()), x, y);
 		}
 		
 	}
@@ -49,12 +50,14 @@ public class EquipmentSlot implements Serializable{
 		if(this.itemStack != null){
 			if(item.equipSlot == itemStack.getItem().equipSlot){
 				return false;
+			}else {
+				return true;
 			}
 		}else{
 			this.itemStack = new ItemStack(item);
 			return true;
 		}
-		return false;
+
 	}
 	
 	public void setItem(ItemStack item){
