@@ -134,6 +134,7 @@ public class TextBox implements KeyListener {
 				}
 			}
 		}else {
+			sb = new StringBuilder(charactersTyped);
 			charactersTyped = "";
 			index = 0;
 			e.consume();

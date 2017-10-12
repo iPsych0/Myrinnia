@@ -579,6 +579,12 @@ public class Player extends Creature{
 			removeEquipmentStats(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
 			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
+		if(handler.getWorld().getEquipment().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getWorld().getEquipment().getCurrentSelectedSlot().getItem(), handler.getWorld().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getWorld().getEquipment().setCurrentSelectedSlot(null);
+			EquipmentWindow.hasBeenPressed = false;
+			EquipmentWindow.itemSelected = false;
+		}
 		if(!active){
 			this.setActive(true);
 			this.setHealth(DEFAULT_HEALTH);

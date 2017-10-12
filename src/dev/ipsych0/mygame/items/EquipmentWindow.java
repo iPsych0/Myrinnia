@@ -18,7 +18,7 @@ public class EquipmentWindow implements Serializable {
 	private int width, height;
 	private Handler handler;
 	private InventoryWindow inventoryWindow;
-	private boolean hasBeenPressed = false;
+	public static boolean hasBeenPressed = false;
 	
 	private int numCols = 3;
 	private int numRows = 4;
@@ -27,7 +27,7 @@ public class EquipmentWindow implements Serializable {
 	
 	private static CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
 	private ItemStack currentSelectedSlot;
-	private boolean itemSelected;
+	public static boolean itemSelected;
 	private Rectangle windowBounds;
 	
 	public EquipmentWindow(Handler handler, int x, int y){
@@ -194,5 +194,13 @@ public class EquipmentWindow implements Serializable {
 
 	public void setWindowBounds(Rectangle windowBounds) {
 		this.windowBounds = windowBounds;
+	}
+
+	public ItemStack getCurrentSelectedSlot() {
+		return currentSelectedSlot;
+	}
+
+	public void setCurrentSelectedSlot(ItemStack currentSelectedSlot) {
+		this.currentSelectedSlot = currentSelectedSlot;
 	}
 }
