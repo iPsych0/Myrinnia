@@ -164,8 +164,9 @@ public class InventoryWindow implements Serializable {
 									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(new ItemStack(itemSwap.getItem(), 1));
 
 								}else {
-									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
 									handler.giveItem(equipSwap.getItem(), equipSwap.getAmount());
+									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
+									is.setItemStack(null);
 								}
 								
 								handler.getPlayer().addEquipmentStats(itemSwap.getItem().getEquipSlot());

@@ -201,10 +201,9 @@ public class ShopWindow {
 			}
 			
 			/*
-			 * Exit button onClick
+			 * Closing the shop by click/escape/walking away
 			 */
 			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape || !handler.getPlayer().playerIsNearNpc()) {
-				System.out.println("test");
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
