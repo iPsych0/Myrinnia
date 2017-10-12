@@ -125,7 +125,14 @@ public class ShopWindow {
 					if(itemSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {
 						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() + 1);
 						restockTimer = 0;
-					}else {
+						return;
+					}
+					else if(itemSlots.get(i).getItemStack().getAmount() > defaultStock[i]) {
+						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+						restockTimer = 0;
+						return;
+					}
+					else {
 						restockTimer = 0;
 						return;
 					}
@@ -153,7 +160,6 @@ public class ShopWindow {
 				DialogueBox.isOpen = true;
 				TextBox.isOpen = false;
 				dBox.setParam("BuyAll");
-				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
@@ -166,7 +172,6 @@ public class ShopWindow {
 				DialogueBox.isOpen = true;
 				TextBox.isOpen = false;
 				dBox.setParam("SellAll");
-				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
@@ -179,7 +184,6 @@ public class ShopWindow {
 				DialogueBox.isOpen = true;
 				TextBox.isOpen = true;
 				dBox.setParam("BuyX");
-				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
@@ -192,7 +196,6 @@ public class ShopWindow {
 				DialogueBox.isOpen = true;
 				TextBox.isOpen = true;
 				dBox.setParam("SellX");
-				dBox.getTextBox().setCharactersTyped("");
 				hasBeenPressed = false;
 				return;
 			}
@@ -211,7 +214,6 @@ public class ShopWindow {
 				selectedInvItem = null;
 				selectedShopItem = null;
 				makingChoice = false;
-				dBox.getTextBox().setCharactersTyped("");
 				dBox.setPressedButton(null);
 				return;
 			}
@@ -233,7 +235,6 @@ public class ShopWindow {
 					sellAllItem();
 				}
 				
-				dBox.getTextBox().setCharactersTyped(null);
 				dBox.setPressedButton(null);
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
@@ -251,13 +252,11 @@ public class ShopWindow {
 				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
 					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
 						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-						dBox.getTextBox().setCharactersTyped(null);
 					}
 					}
 				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
 					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
 						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-						dBox.getTextBox().setCharactersTyped(null);
 					}
 				}
 				
@@ -469,6 +468,7 @@ public class ShopWindow {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
+					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
 					selectedSlot = null;
@@ -522,6 +522,7 @@ public class ShopWindow {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
 					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
+					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
 					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
 					selectedSlot = null;
@@ -533,6 +534,29 @@ public class ShopWindow {
 		}else {
 			hasBeenPressed = false;
 		}
+	}
+	
+	public int findFreeSlot(Item item) {
+		boolean firstFreeSlotFound = false;
+		int index = -1;
+        for (int i = 0; i < itemSlots.size(); i++) {
+        	if(itemSlots.get(i).getItemStack() != null){
+        		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
+        			System.out.println("Added the item to the shop stock");
+            		return i;
+        		}
+        	}
+            if(itemSlots.get(i).getItemStack() == null) {
+            	if(!firstFreeSlotFound) {
+	            	firstFreeSlotFound = true;
+	            	index = i;
+            	}
+            }
+       }
+        if(index != -1)
+        	return index;
+       System.out.println("The shop has no more room.");
+       return -1;
 	}
 
 	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {

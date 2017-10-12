@@ -45,6 +45,7 @@ public class TextBox implements KeyListener {
 	public void tick() {
 		if(isOpen) {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				focus = true;
 				KeyManager.typingFocus = true;
@@ -70,7 +71,7 @@ public class TextBox implements KeyListener {
 				g.fillRect(x + 2, y + 2, width - 4, height - 4);
 			}
 			
-			if(charactersTyped != null)
+			if(!charactersTyped.isEmpty())
 				Text.drawString(g, charactersTyped, x + (width / 2), y + 16, true, Color.YELLOW, Assets.font14);
 			
 		}

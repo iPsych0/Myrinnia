@@ -51,7 +51,7 @@ public class DialogueBox {
 				db.tick();
 				tb.tick();
 				
-				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 					for(int i = 0; i < buttons.size(); i++) {
 						if(db.getText() == answers[i] && pressedButton == null) {
 							pressedButton = db;
