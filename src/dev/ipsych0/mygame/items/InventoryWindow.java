@@ -17,7 +17,7 @@ public class InventoryWindow implements Serializable {
 	
 	public static boolean isOpen = false;
 	public static boolean isEquipped = false;
-	private boolean hasBeenPressed = false;
+	public static boolean hasBeenPressed = false;
 	public static boolean isCreated = false;
 	
 	private int x, y;
@@ -33,7 +33,7 @@ public class InventoryWindow implements Serializable {
 	private ItemStack currentSelectedSlot;
 	private ItemStack itemSwap;
 	private ItemStack equipSwap;
-	private boolean itemSelected;
+	public static boolean itemSelected;
 	private Rectangle windowBounds;
 	
 	public InventoryWindow(Handler handler, int x, int y){
@@ -524,6 +524,16 @@ public class InventoryWindow implements Serializable {
 
 	public void setNumRows(int numRows) {
 		this.numRows = numRows;
+	}
+
+
+	public ItemStack getCurrentSelectedSlot() {
+		return currentSelectedSlot;
+	}
+
+
+	public void setCurrentSelectedSlot(ItemStack currentSelectedSlot) {
+		this.currentSelectedSlot = currentSelectedSlot;
 	}
 
 }

@@ -25,7 +25,6 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
@@ -566,6 +565,12 @@ public class Player extends Creature{
 			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
 			handler.getWorld().getInventory().getItemSlots().get(i).setItemStack(null);
 		}
+		if(handler.getWorld().getInventory().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getWorld().getInventory().getCurrentSelectedSlot().getItem(), handler.getWorld().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getWorld().getInventory().setCurrentSelectedSlot(null);
+			InventoryWindow.hasBeenPressed = false;
+			InventoryWindow.itemSelected = false;
+		}
 		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
 			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
@@ -576,7 +581,7 @@ public class Player extends Creature{
 		}
 		if(!active){
 			this.setActive(true);
-			setHealth(DEFAULT_HEALTH);
+			this.setHealth(DEFAULT_HEALTH);
 			this.setX(256);
 			this.setY(160);
 		}
