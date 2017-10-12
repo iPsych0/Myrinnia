@@ -21,6 +21,7 @@ public class KeyManager implements KeyListener{
 	public boolean pickUp;
 	public boolean position;
 	public boolean talk;
+	public boolean escape;
 	public static boolean typingFocus = false;
 	
 	public KeyManager(){
@@ -62,6 +63,9 @@ public class KeyManager implements KeyListener{
 			// Coordinate keys
 			position = keys[KeyEvent.VK_P];
 			talk = keys[KeyEvent.VK_SPACE];
+			
+			// UI keys
+			escape = keys[KeyEvent.VK_ESCAPE];
 		}
 		
 	}
@@ -120,14 +124,14 @@ public class KeyManager implements KeyListener{
 				}
 			}
 			
-			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-				CraftingUI.isOpen = false;
-				ShopWindow.inventoryLoaded = false;
-				ShopWindow.isOpen = false;
-				DialogueBox.isOpen = false;
-				ShopWindow.hasBeenPressed = false;
-				ShopWindow.makingChoice = false;
-			}
+//			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+//				CraftingUI.isOpen = false;
+//				ShopWindow.inventoryLoaded = false;
+//				ShopWindow.isOpen = false;
+//				DialogueBox.isOpen = false;
+//				ShopWindow.hasBeenPressed = false;
+//				ShopWindow.makingChoice = false;
+//			}
 		}
 	}
 

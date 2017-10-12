@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.ui;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -99,6 +100,8 @@ public class TextBox implements KeyListener {
 				}
 				enterPressed = true;
 				charactersTyped = sb.toString();
+				sb.setLength(0);
+				index = 0;
 				System.out.println(charactersTyped);
 				return;
 			}
@@ -134,10 +137,10 @@ public class TextBox implements KeyListener {
 				}
 			}
 		}else {
-			sb = new StringBuilder(charactersTyped);
-			charactersTyped = "";
+			sb.setLength(0);
+			charactersTyped = sb.toString();
 			index = 0;
-			e.consume();
+			
 		}
 	}
 
@@ -147,6 +150,14 @@ public class TextBox implements KeyListener {
 
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
+	}
+
+	public StringBuilder getSb() {
+		return sb;
+	}
+
+	public void setSb(StringBuilder sb) {
+		this.sb = sb;
 	}
 
 }

@@ -203,7 +203,8 @@ public class ShopWindow {
 			/*
 			 * Exit button onClick
 			 */
-			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape || !handler.getPlayer().playerIsNearNpc()) {
+				System.out.println("test");
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
@@ -236,6 +237,7 @@ public class ShopWindow {
 				}
 				
 				dBox.setPressedButton(null);
+				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
 				KeyManager.typingFocus = false;
@@ -261,6 +263,7 @@ public class ShopWindow {
 				}
 				
 				dBox.setPressedButton(null);
+				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
 				DialogueBox.isOpen = false;
 				TextBox.enterPressed = false;
 				KeyManager.typingFocus = false;

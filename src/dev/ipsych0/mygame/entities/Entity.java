@@ -72,13 +72,8 @@ public abstract class Entity {
 			isCloseToNPC = true;
 			return true;
 		}else {
-			// Out of range, so reset speaking turn
+			// Out of range
 			isCloseToNPC = false;
-			ShopWindow.inventoryLoaded = false;
-			ShopWindow.isOpen = false;
-			DialogueBox.isOpen = false;
-			ShopWindow.hasBeenPressed = false;
-			ShopWindow.makingChoice = false;
 			return false;
 		}
 					

@@ -178,7 +178,6 @@ public class Player extends Creature{
 			}
 		}
 		if(!playerIsNearNpc()) {
-			ShopWindow.isOpen = false;
 			shopKeeper = null;
 		}
 		
