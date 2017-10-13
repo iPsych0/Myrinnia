@@ -2,7 +2,10 @@ package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 
 public class ItemManager {
@@ -17,21 +20,20 @@ public class ItemManager {
 	
 	public void tick(){
 		Iterator<Item> it = items.iterator();
+		Collection<Item> deleted = new CopyOnWriteArrayList<Item>();
 		while(it.hasNext()){
 			Item i = it.next();
 			// Checks player's position for any items nearby to pick up
 			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
 				if(i.pickUpItem(i)){
 					if(i.isPickedUp()){
-						it.remove();
+						deleted.add(i);
 					}
-					else{
-						System.out.println("Item isn't picked up (pickedUp = false still)");
-					}
+					i.tick();
 				}
 			}
-			i.tick();
 		}
+		items.removeAll(deleted);
 	}
 	
 	public void render(Graphics g){

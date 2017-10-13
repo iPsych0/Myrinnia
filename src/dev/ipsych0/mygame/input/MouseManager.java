@@ -29,7 +29,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			Player.mouseMoved = true;
 		}
 		
-		if(mouseMovedTimer > 60)
+		if(mouseMovedTimer > 20)
 			Player.mouseMoved = false;
 		
 	}

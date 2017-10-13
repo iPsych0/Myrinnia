@@ -363,6 +363,10 @@ public class CraftingUI {
 			// If we have all matching items and we don't have any empty slots, craft the item
 			if(matches == sortedCraftSlots.size()) {
 				System.out.println("All items match for this recipe: '" + i + "'");
+				if(crs.getItemStack() != null && crs.getItemStack().getItem().getId() != getRecipe(i).getItem().getId()) {
+					handler.sendMsg("Please claim your crafted item before creating a new one.");
+					break;
+				}
 				
 				int[] test = new int[craftingRecipeList.getRecipes().get(i).getComponents().size()];
 				int index = 0;

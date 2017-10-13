@@ -23,8 +23,9 @@ public class DialogueBox {
 	public DialogueButton pressedButton = null;
 	private TextBox tb;
 	private String message;
+	private boolean numbersOnly;
 
-	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers, String message) {
+	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -32,6 +33,7 @@ public class DialogueBox {
 		this.handler = handler;
 		this.answers = answers;
 		this.message = message;
+		this.numbersOnly = numbersOnly;
 		
 		buttons = new ArrayList<DialogueButton>();
 		
@@ -39,7 +41,7 @@ public class DialogueBox {
 			buttons.add(new DialogueButton(x + (width / answers.length) - 32 - (32 / answers.length) + (i * 64), y + height - 48, 32, 32, answers[i]));
 		}
 		
-		tb = new TextBox(handler, x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, true);
+		tb = new TextBox(handler, x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, numbersOnly);
 	}
 	
 	public void tick() {

@@ -113,7 +113,7 @@ public class ShopWindow {
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
-		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
+		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 		
 	}
 	
@@ -236,7 +236,7 @@ public class ShopWindow {
 				}
 				
 				dBox.setPressedButton(null);
-				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
+				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
 				KeyManager.typingFocus = false;
@@ -262,7 +262,7 @@ public class ShopWindow {
 				}
 				
 				dBox.setPressedButton(null);
-				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.");
+				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.enterPressed = false;
 				KeyManager.typingFocus = false;

@@ -129,12 +129,14 @@ public class TextBox implements KeyListener {
 				}
 			}else {
 				if(index <= 8) {
-					sb.append(e.getKeyChar());
-					index++;
-					charactersTyped = sb.toString();
-				}else {
-					return;
-				}
+					if(Character.isAlphabetic(e.getKeyChar())) {
+						sb.append(e.getKeyChar());
+						index++;
+						charactersTyped = sb.toString();
+						}else {
+							return;
+						}
+					}
 			}
 		}else {
 			sb.setLength(0);
