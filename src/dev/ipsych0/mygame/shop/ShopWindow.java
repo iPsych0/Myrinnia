@@ -48,10 +48,10 @@ public class ShopWindow {
 	
 	public static boolean hasBeenPressed = false;
 	
-	public ShopWindow(Handler handler, int x, int y, ArrayList<ItemStack> shopItems) {
+	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
+		x = 240;
+		y = 150;
 		width = 460;
 		height = 313;
 		

@@ -14,7 +14,7 @@ public abstract class ShopKeeper extends Creature {
 	public ShopKeeper(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
 		
-		shopWindow = new ShopWindow(handler, 200, 100, new ArrayList<ItemStack>());
+		shopWindow = new ShopWindow(handler, new ArrayList<ItemStack>());
 		
 	}
 	
