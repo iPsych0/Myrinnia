@@ -97,6 +97,10 @@ public class CraftingUI {
 				hovering = false;
 			}
 			
+			if(handler.getKeyManager().escape) {
+				isOpen = false;
+			}
+			
 			if(handler.getMouseManager().isLeftPressed()) {
 				if(cbBounds.contains(mouse) && !hasBeenPressed && craftButtonPressed) {
 					hasBeenPressed = true;
