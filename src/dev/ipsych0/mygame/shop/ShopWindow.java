@@ -153,6 +153,24 @@ public class ShopWindow {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			/*
+			 * Buy 1 Button onClick
+			 */
+			if(buy1Button.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+				buyItem();
+				hasBeenPressed = false;
+				return;
+			}
+			
+			/*
+			 * Sell 1 Button onClick
+			 */
+			if(sell1Button.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+				sellItem();
+				hasBeenPressed = false;
+				return;
+			}
+			
+			/*
 			 * Buy All Button onClick
 			 */
 			if(buyAllButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
@@ -433,6 +451,48 @@ public class ShopWindow {
 	private void loadInventory() {
 		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
 			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+		}
+	}
+	
+	public void buyItem() {
+		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
+			if(handler.playerHasItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
+				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+					handler.removeItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()));
+					handler.giveItem(tradeSlot.getItemStack().getItem(), 1);
+
+					inventoryLoaded = false;
+					selectedShopItem.setAmount(selectedShopItem.getAmount() - 1);
+
+				}
+				hasBeenPressed = false;
+			}else {
+				handler.sendMsg("You don't have enough gold to buy " + 1 + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+				hasBeenPressed = false;
+			}
+		}else {
+			hasBeenPressed = false;
+		}
+	}
+	
+	public void sellItem() {
+		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
+			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+				handler.sendMsg("You cannot sell this item.");
+				hasBeenPressed = false;
+				return;
+			}
+			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
+					handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
+					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
+					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
+					inventoryLoaded = false;
+				}
+			}
+			hasBeenPressed = false;
+		}else {
+			hasBeenPressed = false;
 		}
 	}
 	

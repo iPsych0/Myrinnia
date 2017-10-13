@@ -25,7 +25,11 @@ public class TextBox implements KeyListener {
 	private boolean loaded = false;
 	public static boolean enterPressed = false;
 	public static boolean isOpen = false;
-	private Color selected = new Color(139,69,19, 127);
+	private Color selected = new Color(102, 51, 0, 127);
+	private Color notSelected = new Color(102, 51, 0, 78);
+	private Color cursorColor = new Color(75, 38, 0);
+	private int blinkTimer = 0;
+	private String cursor = "|";
 	
 	public TextBox(Handler handler, int x, int y, int width, int height, boolean numbersOnly) {
 		this.handler = handler;
@@ -68,8 +72,31 @@ public class TextBox implements KeyListener {
 			g.drawRect(x, y, width, height);
 			
 			if(focus) {
+				
+				blinkTimer++;
+				
 				g.setColor(selected);
-				g.fillRect(x + 2, y + 2, width - 4, height - 4);
+				g.fillRect(x + 2, y, width - 4, height);
+				
+				if(blinkTimer >= 0 && blinkTimer < 30) {
+					cursor = "|";
+					if(!charactersTyped.isEmpty()) {
+						int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
+						Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 2, y + 17, true, cursorColor, Assets.font14);
+					}else {
+						Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font14);
+					}
+				}
+				else if(blinkTimer == 30) {
+					cursor = "";
+					Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font14);
+				}
+				else if(blinkTimer >= 60) {
+					blinkTimer = 0;
+				}
+			}else {
+				g.setColor(notSelected);
+				g.fillRect(x + 2, y, width - 4, height);
 			}
 			
 			if(!charactersTyped.isEmpty())
@@ -92,51 +119,52 @@ public class TextBox implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(focus && isOpen) {
-			
-			if(e.getKeyChar() == KeyEvent.VK_ENTER) {
-				if(charactersTyped.isEmpty()) {
-					return;
-				}
-				enterPressed = true;
-				charactersTyped = sb.toString();
-				sb.setLength(0);
-				index = 0;
-				System.out.println(charactersTyped);
-				return;
-			}
-			
-			if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-				if(index > 0) {
-					sb.deleteCharAt(index - 1);
-					index--;
+		if(isOpen) {
+			if(focus) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					if(charactersTyped.isEmpty()) {
+						return;
+					}
+					enterPressed = true;
 					charactersTyped = sb.toString();
+					sb.setLength(0);
+					index = 0;
+					System.out.println(charactersTyped);
 					return;
 				}
-			}
-		
-			if(numbersOnly) {
-				if(!Character.isDigit(e.getKeyChar())) {
-					return;
-				}else {
-					if(index <= 8) {
-						sb.append(e.getKeyChar());
-						index++;
+				
+				if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+					if(index > 0) {
+						sb.deleteCharAt(index - 1);
+						index--;
 						charactersTyped = sb.toString();
-					}else {
 						return;
 					}
 				}
-			}else {
-				if(index <= 8) {
-					if(Character.isAlphabetic(e.getKeyChar())) {
-						sb.append(e.getKeyChar());
-						index++;
-						charactersTyped = sb.toString();
+			
+				if(numbersOnly) {
+					if(!Character.isDigit(e.getKeyChar())) {
+						return;
+					}else {
+						if(index <= 8) {
+							sb.append(e.getKeyChar());
+							index++;
+							charactersTyped = sb.toString();
 						}else {
 							return;
 						}
 					}
+				}else {
+					if(index <= 8) {
+						if(Character.isAlphabetic(e.getKeyChar())) {
+							sb.append(e.getKeyChar());
+							index++;
+							charactersTyped = sb.toString();
+							}else {
+								return;
+							}
+						}
+				}
 			}
 		}else {
 			sb.setLength(0);
@@ -152,14 +180,6 @@ public class TextBox implements KeyListener {
 
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
-	}
-
-	public StringBuilder getSb() {
-		return sb;
-	}
-
-	public void setSb(StringBuilder sb) {
-		this.sb = sb;
 	}
 
 }

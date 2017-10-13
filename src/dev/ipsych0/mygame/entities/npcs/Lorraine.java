@@ -73,48 +73,48 @@ public class Lorraine extends ShopKeeper {
 			this.shopping = true;
 			speakingTurn = 1;
 		}
-		else if(this.getSpeakingTurn() == 2){
-			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
-			speakingTurn++;
-		}
-		else if(this.getSpeakingTurn() == 3){
-			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
-			speakingTurn++;
-			questStarted = true;
-		}
-		else if(this.getSpeakingTurn() == 4){
-			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
-			}
-			else{
-				handler.getPlayer().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
-				speakingTurn++;
-			}
-		}
-		else if(this.getSpeakingTurn() == 5){
-			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
-				handler.giveItem(Item.coinsItem, 1000);
-				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
-				speakingTurn++;
-			}else{
-				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
-			}
-		}
-		else if(this.getSpeakingTurn() == 6){
-			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
-			speakingTurn++;
-		}
-		else if(this.getSpeakingTurn() == 7) {
-			ShopWindow.isOpen = true;
-			this.shopping = true;
-			speakingTurn++;
-		}
-		else if(this.getSpeakingTurn() >= 8 ) {
-			if(!ShopWindow.isOpen) {
-				this.shopping = false;
-				speakingTurn = 6;
-			}
-		}
+//		else if(this.getSpeakingTurn() == 2){
+//			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
+//			speakingTurn++;
+//		}
+//		else if(this.getSpeakingTurn() == 3){
+//			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
+//			speakingTurn++;
+//			questStarted = true;
+//		}
+//		else if(this.getSpeakingTurn() == 4){
+//			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
+//				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
+//			}
+//			else{
+//				handler.getPlayer().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
+//				speakingTurn++;
+//			}
+//		}
+//		else if(this.getSpeakingTurn() == 5){
+//			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
+//				handler.giveItem(Item.coinsItem, 1000);
+//				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
+//				speakingTurn++;
+//			}else{
+//				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
+//			}
+//		}
+//		else if(this.getSpeakingTurn() == 6){
+//			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
+//			speakingTurn++;
+//		}
+//		else if(this.getSpeakingTurn() == 7) {
+//			ShopWindow.isOpen = true;
+//			this.shopping = true;
+//			speakingTurn++;
+//		}
+//		else if(this.getSpeakingTurn() >= 8 ) {
+//			if(!ShopWindow.isOpen) {
+//				this.shopping = false;
+//				speakingTurn = 6;
+//			}
+//		}
 	}
 	
 	public int getSpeakingTurn() {
