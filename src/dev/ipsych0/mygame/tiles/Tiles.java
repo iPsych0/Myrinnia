@@ -201,12 +201,36 @@ public class Tiles {
 	public static Tiles snowWaterBottomMiddle = new Tiles(Assets.snowWaterBottomMiddle, 751);
 	public static Tiles snowWaterBottomRight = new Tiles(Assets.snowWaterBottomRight, 752);
 
-	// Ambience
 	public static Tiles invisible = new Tiles(Assets.invisible, 736);
 	public static Tiles sparkleTile = new Tiles(Assets.sparkleTile, 649);
 	public static Tiles redMushroom = new Tiles(Assets.redMushroom, 1184);
 	public static Tiles blueMushroom = new Tiles(Assets.blueMushroom, 1168);
 	public static Tiles smallRedRock = new Tiles(Assets.smallRedRocks, 664);
+	
+	// Objects
+	public static Tiles roofTopLeft = new Tiles(Assets.roofTopLeft, 1521);
+	public static Tiles roofTopMiddle = new Tiles(Assets.roofTopMiddle, 1522);
+	public static Tiles roofTopRight = new Tiles(Assets.roofTopRight, 1523);
+	public static Tiles roofMiddleLeft = new Tiles(Assets.roofMiddleLeft, 1529);
+	public static Tiles roofMiddleMiddle = new Tiles(Assets.roofMiddleMiddle, 1530);
+	public static Tiles roofMiddleRight = new Tiles(Assets.roofMiddleRight, 1531);
+	public static Tiles roofBottomLeft = new Tiles(Assets.roofBottomLeft, 1537);
+	public static Tiles roofBottomMiddle = new Tiles(Assets.roofBottomMiddle, 1538);
+	public static Tiles roofBottomRight = new Tiles(Assets.roofBottomRight, 1539);
+	public static Tiles wallLeft = new Tiles(Assets.wallLeft, 1377);
+	public static Tiles wallRight = new Tiles(Assets.wallRight, 1379);
+	public static Tiles wallMiddle = new Tiles(Assets.wallMiddle, 1378);
+	public static Tiles entrance = new Tiles(Assets.entrance, 1663);
+	
+	public static Tiles floorTopLeft = new Tiles(Assets.floorTopLeft, 1409);
+	public static Tiles floorTopMiddle = new Tiles(Assets.floorTopMiddle, 1410);
+	public static Tiles floorTopRight = new Tiles(Assets.floorTopRight, 1411);
+	public static Tiles floorMiddleLeft = new Tiles(Assets.floorMiddleLeft, 1417);
+	public static Tiles floorMiddleMiddle = new Tiles(Assets.floorMiddleMiddle, 1418);
+	public static Tiles floorMiddleRight = new Tiles(Assets.floorMiddleRight, 1419);
+	public static Tiles floorBottomLeft = new Tiles(Assets.floorBottomLeft, 1425);
+	public static Tiles floorBottomMiddle = new Tiles(Assets.floorBottomMiddle, 1426);
+	public static Tiles floorBottomRight = new Tiles(Assets.floorBottomRight, 1427);
 
 	
 	
@@ -338,6 +362,18 @@ public class Tiles {
 		case 205: return true;
 		case 1184: return true;
 		case 1168: return true;
+		case 1521: return true;
+		case 1522: return true;
+		case 1523: return true;
+		case 1529: return true;
+		case 1530: return true;
+		case 1531: return true;
+		case 1537: return true;
+		case 1538: return true;
+		case 1539: return true;
+		case 1377: return true;
+		case 1378: return true;
+		case 1379: return true;
 		
 				
 		default: return false;

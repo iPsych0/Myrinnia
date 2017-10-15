@@ -17,13 +17,12 @@ import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class Island extends World {
+public class IslandInstance extends World {
 	
-	private Rectangle testLandTile;
 	private Player player;
-	private Rectangle house1;
+	private Rectangle exit;
 
-	public Island(Handler handler, Player player, String path, int worldID) {
+	public IslandInstance(Handler handler, Player player, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
@@ -45,13 +44,12 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
-		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
+		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
+		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
-		testLandTile = new Rectangle(400, 70, 32, 350); 
-		house1 = new Rectangle(5056, 5424, 32, 32);
+		exit = new Rectangle(6016, 6192, 32, 32);
 	}
 
 	@Override
@@ -65,20 +63,11 @@ public class Island extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
 				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(1520);
-				handler.getPlayer().setY(164);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
-			}
-			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(6016);
-				handler.getPlayer().setY(6140);
+				handler.getPlayer().setX(5056);
+				handler.getPlayer().setY(5460);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
@@ -118,7 +107,7 @@ public class Island extends World {
 			miniMap.render(g);
 			craftingUI.render(g);
 			
-			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (exit.x - handler.getGameCamera().getxOffset()), (int) (exit.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
 	}
 

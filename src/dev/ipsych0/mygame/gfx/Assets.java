@@ -51,7 +51,9 @@ public class Assets {
 								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight;
 	
 	// Object images
-	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2;
+	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2, roofTopLeft, roofTopMiddle, roofTopRight, roofMiddleLeft, roofMiddleMiddle,
+	roofMiddleRight, roofBottomLeft, roofBottomMiddle, roofBottomRight, wallLeft, wallRight, wallMiddle, entrance, floorTopLeft, floorTopMiddle, floorTopRight, floorMiddleLeft,
+	floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight;
 	
 	
 	// Ambiance images
@@ -160,6 +162,7 @@ public class Assets {
 		SpriteSheet object_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites11.png"));
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		SpriteSheet shop_window = new SpriteSheet(ImageLoader.loadImage("/textures/shopwindow.png"));
+		SpriteSheet city_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/city_sprites.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -291,7 +294,29 @@ public class Assets {
 		player_right[2] = player_sheet.crop(width * 2, height * 2, width, height);
 		
 		// Object sprites
+		roofTopLeft = city_sprites.crop(0, height * 23, width, height);
+		roofTopMiddle = city_sprites.crop(width, height * 23, width, height);
+		roofTopRight = city_sprites.crop(width * 2, height * 23, width, height);
+		roofMiddleLeft = city_sprites.crop(0, height * 24, width, height);
+		roofMiddleMiddle = city_sprites.crop(width, height * 24, width, height);
+		roofMiddleRight = city_sprites.crop(width * 2, height * 24, width, height);
+		roofBottomLeft = city_sprites.crop(0, height * 25, width, height);
+		roofBottomMiddle = city_sprites.crop(width, height * 25, width, height);
+		roofBottomRight = city_sprites.crop(width * 2, height * 25, width, height);
+		wallLeft = city_sprites.crop(0, height * 5, width, height);
+		wallRight = city_sprites.crop(width * 2, height * 5, width, height);
+		wallMiddle = city_sprites.crop(width, height * 5, width, height);
+		entrance  = city_sprites.crop(width * 6, height * 40, width, height);
 		
+		floorTopLeft = city_sprites.crop(0, height * 9, width, height);
+		floorTopMiddle = city_sprites.crop(width, height * 9, width, height);
+		floorTopRight = city_sprites.crop(width * 2, height * 9, width, height);
+		floorMiddleLeft = city_sprites.crop(0, height * 10, width, height);
+		floorMiddleMiddle = city_sprites.crop(width, height * 10, width, height);
+		floorMiddleRight = city_sprites.crop(width * 2, height * 10, width, height);
+		floorBottomLeft = city_sprites.crop(0, height * 11, width, height);
+		floorBottomMiddle = city_sprites.crop(width, height * 11, width, height);
+		floorBottomRight = city_sprites.crop(width * 2, height * 11, width, height);
 		
 		// Tile Sprites
 		black = texture_sheet.crop(width * 3, height * 6, width, height);

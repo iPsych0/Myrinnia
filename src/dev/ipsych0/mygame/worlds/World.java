@@ -96,6 +96,7 @@ public abstract class World {
 		for (int i = 0; i < file.length; i++) {
 			// Splits worlds files by spaces and puts them all in an array
 			file[i] = file[i].replace("\n", "").replace("\r", "");
+			file[i] = file[i].replace(" ", "").replace("\r", "");
 			String[] tokens = file[i].split(",");
 			
 			try {
@@ -109,7 +110,7 @@ public abstract class World {
 			
 			for (int y = 0; y < height; y++){
 				for (int x = 0; x < width; x++){
-					// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
+					// Loads in the actual tiles to the tiles[][][]
 					tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
 
 				}
