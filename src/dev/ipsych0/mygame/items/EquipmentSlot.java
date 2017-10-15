@@ -41,7 +41,6 @@ public class EquipmentSlot implements Serializable{
 		
 		if(itemStack != null){
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
-			g.drawString(Integer.toString(itemStack.getAmount()), x, y);
 		}
 		
 	}

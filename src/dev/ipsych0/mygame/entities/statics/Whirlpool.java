@@ -16,6 +16,10 @@ public class Whirlpool extends StaticEntity {
 	private Animation spinning;
 	private int speakingTurn;
 	public static boolean isFishing = false;
+	private int fishingTimer = 0;
+	private int minAttempts = 4, maxAttempts = 8;
+	private int random = 0;
+	private int attempts = 0;
 
 	public Whirlpool(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -33,6 +37,45 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void tick() {
 		spinning.tick();
+		if(isFishing) {
+			if(handler.getKeyManager().up || handler.getKeyManager().left || handler.getKeyManager().down || handler.getKeyManager().right || handler.getMouseManager().isLeftPressed()) {
+				fishingTimer = 0;
+				speakingTurn = 0;
+				isFishing = false;
+				return;
+			}
+			if(random != 0) {
+				if(attempts == random) {
+					attempts = 0;
+					isFishing = false;
+					this.active = false;
+					this.die();
+				}
+			}
+			
+			fishingTimer++;
+			
+			if(fishingTimer >= 180) {
+				System.out.println(random + " and " + attempts);
+				int roll = handler.getRandomNumber(1, 100);
+	        	if(roll < 60) {
+	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
+	        				handler.getRandomNumber(1, 5));
+	        		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
+	        		attempts++;
+	        	}else {
+	        		handler.getPlayer().getChatWindow().sendMessage("You didn't catch anything...");
+	        		attempts++;
+	        	}
+	        	speakingTurn = 0;
+	        	fishingTimer = 0;
+	        	
+	        	if(attempts == minAttempts - 1) {
+	        		random = handler.getRandomNumber(4, 10);
+	        	}
+			}
+			
+		}
 	}
 	
 	@Override
@@ -50,7 +93,7 @@ public class Whirlpool extends StaticEntity {
 		                
 		            }
 		        }, 
-		        5000 
+		        10000 
 		);
 	}
 
@@ -65,31 +108,7 @@ public class Whirlpool extends StaticEntity {
 		if(this.speakingTurn == 0) {
 			handler.getPlayer().getChatWindow().sendMessage("Fishing...");
 			speakingTurn = 1;
-			handler.getPlayer().setMovementAllowed(false);
 			isFishing = true;
-			
-			new java.util.Timer().schedule( 
-			        new java.util.TimerTask() {
-			            @Override
-			            public void run() {
-			            	int roll = handler.getRandomNumber(1, 100);
-			            	if(roll < 60) {
-			            		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
-			            				handler.getRandomNumber(1, 5));
-			            		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
-			            		handler.getPlayer().setMovementAllowed(true);
-			            		isFishing = false;
-			            		speakingTurn = 0;
-			            	}else {
-			            		handler.getPlayer().getChatWindow().sendMessage("You didn't catch anything...");
-			            		handler.getPlayer().setMovementAllowed(true);
-			            		isFishing = false;
-			            		speakingTurn = 0;
-			            	}
-			            }
-			        }, 
-			        3000 
-			);
 		}
 		if(this.speakingTurn == 1) {
 			return;
