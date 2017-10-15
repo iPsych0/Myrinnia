@@ -67,11 +67,7 @@ public abstract class Creature extends Entity {
 			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) && 
-					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT) &&
-					!collisionWithTerrain(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-					!collisionWithTerrain(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT) &&
-					!collisionWithAmbiance(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-					!collisionWithAmbiance(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)){
+					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
 				x += xMove;
 			} else{
 				x = tx * Tiles.TILEWIDTH - bounds.x - bounds.width - 1;
@@ -82,11 +78,8 @@ public abstract class Creature extends Entity {
 			int tx = (int) (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-					!collisionWithTerrain(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-					!collisionWithAmbiance(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT) &&
-					!collisionWithTerrain(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT) &&
-					!collisionWithAmbiance(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)){
+					!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
+
 				x += xMove;
 			} else{
 				x = tx * Tiles.TILEWIDTH + Tiles.TILEWIDTH - bounds.x;
@@ -104,11 +97,7 @@ public abstract class Creature extends Entity {
 			int ty = (int) (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTerrain((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithAmbiance((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTerrain((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithAmbiance((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)){
+					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)) {
 				y += yMove;
 			} else{
 				y = ty * Tiles.TILEHEIGHT + Tiles.TILEHEIGHT - bounds.y;
@@ -119,11 +108,7 @@ public abstract class Creature extends Entity {
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTerrain((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithAmbiance((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithTerrain((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty) &&
-					!collisionWithAmbiance((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)){
+					!collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)) {
 				y += yMove;
 			} else{
 				y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - 1;
@@ -135,15 +120,12 @@ public abstract class Creature extends Entity {
 	}
 	
 	protected boolean collisionWithTile(int x, int y){
-		return handler.getWorld().getTile(x, y).isSolid();
-	}
-	
-	protected boolean collisionWithTerrain(int x, int y){
-		return handler.getWorld().getTerrain(x, y).isSolid();
-	}
-	
-	protected boolean collisionWithAmbiance(int x, int y){
-		return handler.getWorld().getAmbiance(x, y).isSolid();
+		for(int i = 0; i < handler.getWorld().getFile().length; i++) {
+			if(handler.getWorld().getTile(i, x, y).isSolid()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// GETTERS + SETTERS

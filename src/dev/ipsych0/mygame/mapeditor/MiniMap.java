@@ -9,7 +9,6 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 import dev.ipsych0.mygame.worlds.World;

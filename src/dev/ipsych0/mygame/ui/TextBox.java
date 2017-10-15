@@ -129,7 +129,6 @@ public class TextBox implements KeyListener {
 					charactersTyped = sb.toString();
 					sb.setLength(0);
 					index = 0;
-					System.out.println(charactersTyped);
 					return;
 				}
 				

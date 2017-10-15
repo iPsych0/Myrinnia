@@ -10,7 +10,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class ChatWindow {
 	
-	public static boolean chatIsOpen = false;
+	public static boolean chatIsOpen = true;
 	private boolean isCreated = false;
 	
 	private int x, y;

@@ -11,6 +11,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import dev.ipsych0.mygame.tiles.Tiles;
+
 public class MapLoader {
 	
 	public MapLoader(){
@@ -68,8 +70,9 @@ public class MapLoader {
 		return mapHeight;
 	}
 	
-	public String groundTileParser(String path){
-		String mapValues = null;
+	public String[] groundTileParser(String path){
+		int minItem = 7;
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -77,9 +80,25 @@ public class MapLoader {
 			doc.normalize();
 			
 			NodeList maps = doc.getElementsByTagName("*");
-			Node groundMap = maps.item(maps.getLength() - 9);
-			mapValues = groundMap.getTextContent();
-			System.out.println(mapValues);
+			
+			int testLayer = 0;
+			while(minItem < maps.getLength()) {
+				minItem += 2;
+				testLayer++;
+			}
+			
+			String[] mapValues = new String[testLayer];
+			
+			minItem = 7;
+			int i = 0;
+			int layer = 0;
+			while(minItem + i < maps.getLength()) {
+				Node groundMap = maps.item(minItem + i);
+				mapValues[layer] = groundMap.getTextContent();
+				i += 2;
+				layer++;
+			}
+			
 			return mapValues;
 			
 		} catch (ParserConfigurationException e) {
@@ -91,58 +110,6 @@ public class MapLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return mapValues;
-	}
-	
-	public String terrainTileParser(String path){
-		String mapValues = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(path);
-			doc.normalize();
-			
-			NodeList maps = doc.getElementsByTagName("*");
-			Node terrainMap = maps.item(maps.getLength() - 7);
-			mapValues = terrainMap.getTextContent();
-			System.out.println(mapValues);
-			return mapValues;
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mapValues;
-	}
-	
-	public String ambianceTileParser(String path){
-		String mapValues = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(path);
-			doc.normalize();
-			
-			NodeList maps = doc.getElementsByTagName("*");
-			Node terrainMap = maps.item(maps.getLength() - 5);
-			mapValues = terrainMap.getTextContent();
-			System.out.println(mapValues);
-			return mapValues;
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mapValues;
+		return null;
 	}
 }

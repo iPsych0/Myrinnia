@@ -202,7 +202,7 @@ public class Player extends Creature{
 			setLastFaced();
 		}
 		
-		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()){
+		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
 				if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
 					/*

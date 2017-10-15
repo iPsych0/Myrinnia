@@ -12,7 +12,6 @@ import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
-import dev.ipsych0.mygame.tiles.Ambiance;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TestLand extends World {
@@ -32,9 +31,7 @@ public class TestLand extends World {
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		
-		loadGroundTiles(path);
-		loadTerrainTiles(path);
-		loadAmbianceTiles(path);
+		loadTiles(path);
 		
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
@@ -95,30 +92,12 @@ public class TestLand extends World {
 			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
 			
 			// Render the tiles
-			for(int y = yStart; y < yEnd; y++){
-				for(int x = xStart; x < xEnd; x++){
-					getTile(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-				}
-			}
-			
-			// Render the terrain tiles
-			for(int y = yStart; y < yEnd; y++){
-				for(int x = xStart; x < xEnd; x++){
-					getTerrain(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-				}
-			}
-			
-			// Render the ambiance tiles
-			for(int y = yStart; y < yEnd; y++){
-				for(int x = xStart; x < xEnd; x++){
-					if(getAmbiance(x, y) == Ambiance.sparkleTile){
-						g.drawImage(sparkles.getCurrentFrame(), (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()), null);
+			for (int i = 0; i < file.length; i++) {
+				for(int y = yStart; y < yEnd; y++){
+					for(int x = xStart; x < xEnd; x++){
+						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 					}
-					getAmbiance(x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 				}
 			}
 			

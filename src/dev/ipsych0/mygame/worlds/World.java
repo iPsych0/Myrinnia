@@ -17,10 +17,7 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
-import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.State;
-import dev.ipsych0.mygame.tiles.Ambiance;
-import dev.ipsych0.mygame.tiles.Terrain;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 
@@ -30,12 +27,11 @@ public abstract class World {
 	protected Handler handler;
 	protected MapLoader mapLoader;
 	protected int width, height;
-	protected int[][] tiles;
-	protected int[][] terrain;
-	protected int[][] ambiance;
+	protected int[][][] tiles;
 	protected int spawnX, spawnY;
 	protected Animation sparkles;
 	protected int worldID;
+	protected String[] file;
 	
 	// Entities
 	
@@ -83,111 +79,40 @@ public abstract class World {
 	public abstract void render(Graphics g);
 	
 	
-	public Tiles getTile(int x, int y){
+	public Tiles getTile(int layer, int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
 			return Tiles.blackTile;
 			
-		
-		Tiles t = Tiles.tiles[tiles[x][y]];
+		Tiles t = Tiles.tiles[tiles[layer][x][y]];
 		if(t == null)
-			return Tiles.blackTile;
-		return t;
-	}
-	
-	public Terrain getTerrain(int x, int y){
-		if(x < 0 || y < 0 || x >= width || y >= height)
-			return Terrain.blackTile;
-			
-		
-		Terrain t = Terrain.terrain[terrain[x][y]];
-		if(t == null)
-			return Terrain.invisible;
-		return t;
-	}
-	
-	public Ambiance getAmbiance(int x, int y){
-		if(x < 0 || y < 0 || x >= width || y >= height)
-			return Ambiance.blackTile;
-			
-		
-		Ambiance t = Ambiance.ambiance[ambiance[x][y]];
-		if(t == null)
-			return Ambiance.invisible;
+			return Tiles.invisible;
 		return t;
 	}
 
-	public void loadGroundTiles(String path){
-		String file = mapLoader.groundTileParser(path);
+	public void loadTiles(String path){
+		file = mapLoader.groundTileParser(path);
+		tiles = new int[file.length][width][height];
 		
-		// Splits worlds files by spaces and puts them all in an array
-		file = file.replace("\n", "").replace("\r", "");
-		String[] tokens = file.split(",");
-		
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ground.txt"));
-			bw.write(file);
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		tiles = new int[width][height];
-		for (int y = 0; y < height; y++){
-			for (int x = 0; x < width; x++){
-				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
-				tiles[x][y] = Utils.parseInt(tokens[(x + y * width)]);
-				
+		for (int i = 0; i < file.length; i++) {
+			// Splits worlds files by spaces and puts them all in an array
+			file[i] = file[i].replace("\n", "").replace("\r", "");
+			String[] tokens = file[i].split(",");
+			
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ground.txt"));
+				bw.write(file[i]);
+				bw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}
-	}
-	
-	public void loadTerrainTiles(String path){
-		String file = mapLoader.terrainTileParser(path);
-		
-		// Splits worlds files by spaces and puts them all in an array
-		file = file.replace("\n", "").replace("\r", "");
-		String[] tokens = file.split(",");
-		
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/terrain.txt"));
-			bw.write(file);
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		terrain = new int[width][height];
-		for (int y = 0; y < height; y++){
-			for (int x = 0; x < width; x++){
-				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
-				terrain[x][y] = Utils.parseInt(tokens[(x + y * width)]);
-			}
-		}
-	}
-	
-	public void loadAmbianceTiles(String path){
-		String file = mapLoader.ambianceTileParser(path);
-		
-		// Splits worlds files by spaces and puts them all in an array
-		file = file.replace("\n", "").replace("\r", "");
-		String[] tokens = file.split(",");
-		
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ambiance.txt"));
-			bw.write(file);
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ambiance = new int[width][height];
-		for (int y = 0; y < height; y++){
-			for (int x = 0; x < width; x++){
-				// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
-				ambiance[x][y] = Utils.parseInt(tokens[(x + y * width)]);
+			
+			for (int y = 0; y < height; y++){
+				for (int x = 0; x < width; x++){
+					// Loads in the actual tiles, +4 to skip the first 4 pieces of metadata
+					tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
+
+				}
 			}
 		}
 	}
@@ -254,5 +179,13 @@ public abstract class World {
 
 	public void setWorldID(int worldID) {
 		this.worldID = worldID;
+	}
+
+	public String[] getFile() {
+		return file;
+	}
+
+	public void setFile(String[] file) {
+		this.file = file;
 	}
 }
