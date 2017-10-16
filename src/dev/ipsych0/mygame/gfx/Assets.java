@@ -43,7 +43,8 @@ public class Assets {
 	floorTopRight, floorMiddleLeft, floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight, tree1TopLeft, tree1TopRight, tree1BottomLeft, tree1BottomRight,
 	whiteWallTopLeft, whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight,
 	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, brownColumnTop, brownColumnBottom,
-	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight;
+	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight,
+	woodenDoorTop, woodenDoorBottom;
 	
 	
 	// Ambiance images
@@ -312,6 +313,8 @@ public class Assets {
 		lightWallLeft = city_sprites.crop(0, height * 4, width, height);
 		lightWallMiddle = city_sprites.crop(width, height * 4, width, height);
 		lightWallRight = city_sprites.crop(width * 2, height * 4, width, height);
+		woodenDoorTop = city_sprites.crop(width * 6, height * 10, width, height);
+		woodenDoorBottom = city_sprites.crop(width * 6, height * 11, width, height);
 		
 		floorTopLeft = city_sprites.crop(0, height * 9, width, height);
 		floorTopMiddle = city_sprites.crop(width, height * 9, width, height);

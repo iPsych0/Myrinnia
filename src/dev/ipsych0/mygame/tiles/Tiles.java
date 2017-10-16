@@ -243,6 +243,8 @@ public class Tiles {
 	public static Tiles lightWallMiddle = new Tiles(Assets.lightWallMiddle, 1370);
 	public static Tiles lightWallRight = new Tiles(Assets.lightWallRight, 1371);
 	public static Tiles entrance = new Tiles(Assets.entrance, 1663);
+	public static Tiles woodenDoorTop = new Tiles(Assets.woodenDoorTop, 1423);
+	public static Tiles woodenDoorBottom = new Tiles(Assets.woodenDoorBottom, 1431);
 	
 	public static Tiles floorTopLeft = new Tiles(Assets.floorTopLeft, 1409);
 	public static Tiles floorTopMiddle = new Tiles(Assets.floorTopMiddle, 1410);
@@ -469,6 +471,7 @@ public class Tiles {
 		case 1542: return true;
 		case 1543: return true;
 		case 1544: return true;
+		case 1423: return true;
 				
 		default: return false;
 		}
