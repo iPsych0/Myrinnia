@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -89,7 +90,7 @@ public abstract class World {
 		return t;
 	}
 
-	public void loadTiles(String path){
+	public void loadWorld(String path){
 		file = mapLoader.groundTileParser(path);
 		tiles = new int[file.length][width][height];
 		
@@ -99,23 +100,15 @@ public abstract class World {
 			file[i] = file[i].replace(" ", "").replace("\r", "");
 			String[] tokens = file[i].split(",");
 			
-			try {
-				BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/ground.txt"));
-				bw.write(file[i]);
-				bw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			for (int y = 0; y < height; y++){
 				for (int x = 0; x < width; x++){
 					// Loads in the actual tiles to the tiles[][][]
 					tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
-
 				}
 			}
 		}
+		
+		
 	}
 	
 	public World getWorldByID(int worldID) {

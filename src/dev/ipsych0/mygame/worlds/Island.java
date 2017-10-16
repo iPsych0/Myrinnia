@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -34,7 +35,7 @@ public class Island extends World {
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		
-		loadTiles(path);
+		loadWorld(path);
 		
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
@@ -99,7 +100,7 @@ public class Island extends World {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
 						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 					}
 				}
 			}

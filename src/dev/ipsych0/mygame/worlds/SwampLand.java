@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
@@ -11,7 +13,6 @@ import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
-import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
 
@@ -31,7 +32,7 @@ public class SwampLand extends World{
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		
-		loadTiles(path);
+		loadWorld(path);
 		
 		entityManager.addEntity(new Lorraine(handler, 732, 640));
 		
@@ -93,7 +94,7 @@ public class SwampLand extends World{
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
 						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 					}
 				}
 			}

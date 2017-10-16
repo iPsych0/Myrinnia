@@ -31,7 +31,7 @@ public class TestLand extends World {
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		
-		loadTiles(path);
+		loadWorld(path);
 		
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		

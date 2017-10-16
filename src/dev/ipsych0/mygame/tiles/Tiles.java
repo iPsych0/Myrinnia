@@ -10,7 +10,7 @@ public class Tiles {
 	
 	// First try-out tiles
 	
-	public static Tiles[] tiles = new Tiles[2048];
+	public static Tiles[] tiles = new Tiles[4096];
 
 	public static Tiles blackTile = new Tiles(Assets.black, 28);
 	
@@ -231,6 +231,21 @@ public class Tiles {
 	public static Tiles floorBottomLeft = new Tiles(Assets.floorBottomLeft, 1425);
 	public static Tiles floorBottomMiddle = new Tiles(Assets.floorBottomMiddle, 1426);
 	public static Tiles floorBottomRight = new Tiles(Assets.floorBottomRight, 1427);
+	
+	public static Tiles tree1TopLeft = new Tiles(Assets.tree1TopLeft, 1145);
+	public static Tiles tree1TopRight = new Tiles(Assets.tree1TopRight, 1146);
+	public static Tiles tree1BottomLeft = new Tiles(Assets.tree1BottomLeft, 1161);
+	public static Tiles tree1BottomRight = new Tiles(Assets.tree1BottomRight, 1162);
+	
+	public static Tiles whiteWallTopLeft = new Tiles(Assets.whiteWallTopLeft, 1697);
+	public static Tiles whiteWallTopMiddle = new Tiles(Assets.whiteWallTopMiddle, 1698);
+	public static Tiles whiteWallTopRight = new Tiles(Assets.whiteWallTopRight, 1699);
+	public static Tiles whiteWallMiddleLeft = new Tiles(Assets.whiteWallMiddleLeft, 1713);
+	public static Tiles whiteWallMiddleMiddle = new Tiles(Assets.whiteWallMiddleMiddle, 1714);
+	public static Tiles whiteWallMiddleRight = new Tiles(Assets.whiteWallMiddleRight, 1715);
+	public static Tiles whiteWallBottomLeft = new Tiles(Assets.whiteWallBottomLeft, 1729);
+	public static Tiles whiteWallBottomMiddle = new Tiles(Assets.whiteWallBottomMiddle, 1730);
+	public static Tiles whiteWallBottomRight = new Tiles(Assets.whiteWallBottomRight, 1731);
 
 	
 	
@@ -374,10 +389,27 @@ public class Tiles {
 		case 1377: return true;
 		case 1378: return true;
 		case 1379: return true;
+		case 1145: return true;
+		case 1146: return true;
+		case 1161: return true;
+		case 1162: return true;
+		case 1697: return true;
+		case 1698: return true;
+		case 1699: return true;
+		case 1713: return true;
+		case 1714: return true;
+		case 1715: return true;
+		case 1729: return true;
+		case 1730: return true;
+		case 1731: return true;
 		
 				
 		default: return false;
 		}
+	}
+	
+	public static Tiles getTileByID(int id) {
+		return tiles[id];
 	}
 	
 	public int getId(){

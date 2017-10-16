@@ -53,7 +53,8 @@ public class Assets {
 	// Object images
 	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2, roofTopLeft, roofTopMiddle, roofTopRight, roofMiddleLeft, roofMiddleMiddle,
 	roofMiddleRight, roofBottomLeft, roofBottomMiddle, roofBottomRight, wallLeft, wallRight, wallMiddle, entrance, floorTopLeft, floorTopMiddle, floorTopRight, floorMiddleLeft,
-	floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight;
+	floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight, tree1TopLeft, tree1TopRight, tree1BottomLeft, tree1BottomRight, whiteWallTopLeft,
+	whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight;
 	
 	
 	// Ambiance images
@@ -163,6 +164,7 @@ public class Assets {
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
 		SpriteSheet shop_window = new SpriteSheet(ImageLoader.loadImage("/textures/shopwindow.png"));
 		SpriteSheet city_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/city_sprites.png"));
+		SpriteSheet roofs3_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/roofs3.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -317,6 +319,21 @@ public class Assets {
 		floorBottomLeft = city_sprites.crop(0, height * 11, width, height);
 		floorBottomMiddle = city_sprites.crop(width, height * 11, width, height);
 		floorBottomRight = city_sprites.crop(width * 2, height * 11, width, height);
+		
+		tree1TopLeft = trees_sheet.crop(0, height * 4, width, height);
+		tree1TopRight = trees_sheet.crop(width, height * 4, width, height);
+		tree1BottomLeft = trees_sheet.crop(0, height * 5, width, height);
+		tree1BottomRight = trees_sheet.crop(width, height * 5, width, height);
+		
+		whiteWallTopLeft = roofs3_sheet.crop(0, 0, width, height);
+		whiteWallTopMiddle = roofs3_sheet.crop(width, 0, width, height);
+		whiteWallTopRight = roofs3_sheet.crop(width * 2, 0, width, height);
+		whiteWallMiddleLeft = roofs3_sheet.crop(0, height, width, height);
+		whiteWallMiddleMiddle = roofs3_sheet.crop(width, height, width, height);
+		whiteWallMiddleRight = roofs3_sheet.crop(width * 2, height, width, height);
+		whiteWallBottomLeft = roofs3_sheet.crop(0, height * 2, width, height);
+		whiteWallBottomMiddle = roofs3_sheet.crop(width, height * 2, width, height);
+		whiteWallBottomRight = roofs3_sheet.crop(width * 2, height * 2, width, height);
 		
 		// Tile Sprites
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
