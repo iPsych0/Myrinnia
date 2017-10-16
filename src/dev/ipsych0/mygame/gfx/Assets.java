@@ -9,21 +9,6 @@ public class Assets {
 	
 	// Fonts
 	public static Font font14, font20, font32;	
-
-	// Tile images
-	public static BufferedImage black, pathGrassTopLeft, pathGrassTopMiddle, pathGrassTopRight, pathGrassMiddleLeft,
-								path, pathGrassMiddleRight, pathGrassDownLeft, pathGrassDownMiddle,
-								pathGrassDownRight, grassOnly, sand, sandGrassTopLeft, sandGrassTopMiddle, sandGrassTopRight, sandGrassMiddleLeft,
-								sandGrassMiddleRight, sandGrassDownLeft, sandGrassDownMiddle, sandGrassDownRight, water, waterSandTopLeft,
-								waterSandTopMiddle, waterSandTopRight, waterSandMiddleLeft, waterSandMiddleRight, waterSandDownLeft, waterSandDownMiddle, 
-								waterSandDownRight, dirtSandTopLeft, dirtSandTopMiddle, dirtSandTopRight, dirtSandMiddleLeft, dirtSandMiddleRight, dirtSandDownLeft, 
-								dirtSandDownMiddle, dirtSandDownRight, dirtGrassTopLeft, dirtGrassTopMiddle, dirtGrassTopRight, dirtGrassmiddleLeft, dirtGrassMiddleRight,
-								dirtGrassDownLeft, dirtGrassDownMiddle, dirtGrassDownRight, pathDirtTopLeft, pathDirtTopMiddle, pathDirtTopRight, pathDirtMiddleLeft,
-								pathDirtMiddleRight, pathDirtDownLeft, pathDirtDownMiddle, pathDirtDownRight, lavaPathTopLeft, lavaPathTopMiddle, lavaPathTopRight, 
-								lavaPathMiddleLeft, lavaPathMiddleRight, lavaPathDownLeft, lavaPathDownMiddle, lavaPathDownRight, lavaSandTopLeft, lavaSandTopMiddle, 
-								lavaSandTopRight, lavaSandMiddleLeft, lavaSandMiddleRight, lavaSandDownLeft, lavaSandDownMiddle, lavaSandDownRight, waterDirtTopLeft, 
-								waterDirtTopMiddle, waterDirtTopRight, waterDirtMiddleLeft, waterDirtMiddleRight, waterDirtDownLeft, waterDirtDownMiddle, waterDirtDownRight,
-								darkGrass, darkGrassPatch1, darkGrassPatch2, darkGrassPatch3;
 	
 	// Terrain images (paths, lava, water, etc)
 	public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
@@ -48,13 +33,17 @@ public class Assets {
 								snowTopRight, snowMiddleLeft, snowMiddleMiddle, snowMiddleRight, snowBottomLeft, snowBottomMiddle, snowBottomRight, snowSmallTopLeft,
 								snowSmallTopRight, snowSmallBottomLeft, snowSmallBottomRight, snowPattern1, snowPattern2, snowPattern3, snowWaterTopLeft, snowWaterTopMiddle,
 								snowWaterTopRight, snowWaterMiddleLeft, snowWaterMiddleMiddle, snowWaterMiddleRight, snowWaterBottomLeft, snowWaterBottomMiddle, snowWaterBottomRight,
-								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight;
+								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight, black, darkGrass, darkGrassPatch1, darkGrassPatch2,
+								darkGrassPatch3, lightGrass, lightGrassPatch1, lightGrassPatch2, lightGrassPatch3, flowerPatch1, flowerPatch2, flowerPatch3;
 	
 	// Object images
-	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2, roofTopLeft, roofTopMiddle, roofTopRight, roofMiddleLeft, roofMiddleMiddle,
-	roofMiddleRight, roofBottomLeft, roofBottomMiddle, roofBottomRight, wallLeft, wallRight, wallMiddle, entrance, floorTopLeft, floorTopMiddle, floorTopRight, floorMiddleLeft,
-	floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight, tree1TopLeft, tree1TopRight, tree1BottomLeft, tree1BottomRight, whiteWallTopLeft,
-	whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight;
+	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2, woodenRoofTopLeft, woodenRoofTopMiddle, woodenRoofTopRight, woodenRoofMiddleLeft,
+	woodenRoofMiddleMiddle,woodenRoofMiddleRight, woodenRoofBottomLeft, woodenRoofBottomMiddle, woodenRoofBottomRight, greenRoofTopLeft, greenRoofTopMiddle, greenRoofTopRight, greenRoofMiddleLeft,
+	greenRoofMiddleMiddle, greenRoofMiddleRight, greenRoofBottomLeft, greenRoofBottomMiddle, greenRoofBottomRight, wallLeft, wallRight, wallMiddle, entrance, floorTopLeft, floorTopMiddle,
+	floorTopRight, floorMiddleLeft, floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight, tree1TopLeft, tree1TopRight, tree1BottomLeft, tree1BottomRight,
+	whiteWallTopLeft, whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight,
+	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, brownColumnTop, brownColumnBottom,
+	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight;
 	
 	
 	// Ambiance images
@@ -156,7 +145,6 @@ public class Assets {
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
 		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
-		SpriteSheet texture_tile = new SpriteSheet(ImageLoader.loadImage("/textures/texture_tiles.png"));
 		SpriteSheet terrain_tile = new SpriteSheet(ImageLoader.loadImage("/textures/terrain.png"));
 		SpriteSheet animated_terrain = new SpriteSheet(ImageLoader.loadImage("/textures/animated_terrain.png"));
 		SpriteSheet trees_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/trees.png"));
@@ -296,19 +284,34 @@ public class Assets {
 		player_right[2] = player_sheet.crop(width * 2, height * 2, width, height);
 		
 		// Object sprites
-		roofTopLeft = city_sprites.crop(0, height * 23, width, height);
-		roofTopMiddle = city_sprites.crop(width, height * 23, width, height);
-		roofTopRight = city_sprites.crop(width * 2, height * 23, width, height);
-		roofMiddleLeft = city_sprites.crop(0, height * 24, width, height);
-		roofMiddleMiddle = city_sprites.crop(width, height * 24, width, height);
-		roofMiddleRight = city_sprites.crop(width * 2, height * 24, width, height);
-		roofBottomLeft = city_sprites.crop(0, height * 25, width, height);
-		roofBottomMiddle = city_sprites.crop(width, height * 25, width, height);
-		roofBottomRight = city_sprites.crop(width * 2, height * 25, width, height);
+		woodenRoofTopLeft = city_sprites.crop(0, height * 23, width, height);
+		woodenRoofTopMiddle = city_sprites.crop(width, height * 23, width, height);
+		woodenRoofTopRight = city_sprites.crop(width * 2, height * 23, width, height);
+		woodenRoofMiddleLeft = city_sprites.crop(0, height * 24, width, height);
+		woodenRoofMiddleMiddle = city_sprites.crop(width, height * 24, width, height);
+		woodenRoofMiddleRight = city_sprites.crop(width * 2, height * 24, width, height);
+		woodenRoofBottomLeft = city_sprites.crop(0, height * 25, width, height);
+		woodenRoofBottomMiddle = city_sprites.crop(width, height * 25, width, height);
+		woodenRoofBottomRight = city_sprites.crop(width * 2, height * 25, width, height);
+		
+		greenRoofTopLeft = city_sprites.crop(width * 5, height * 23, width, height);
+		greenRoofTopMiddle = city_sprites.crop(width * 6, height * 23, width, height);
+		greenRoofTopRight = city_sprites.crop(width * 7, height * 23, width, height);
+		greenRoofMiddleLeft = city_sprites.crop(width * 5, height * 24, width, height);
+		greenRoofMiddleMiddle = city_sprites.crop(width * 6, height * 24, width, height);
+		greenRoofMiddleRight = city_sprites.crop(width * 7, height * 24, width, height);
+		greenRoofBottomLeft = city_sprites.crop(width * 5, height * 25, width, height);
+		greenRoofBottomMiddle = city_sprites.crop(width * 6, height * 25, width, height);
+		greenRoofBottomRight = city_sprites.crop(width * 7, height * 25, width, height);
+
 		wallLeft = city_sprites.crop(0, height * 5, width, height);
 		wallRight = city_sprites.crop(width * 2, height * 5, width, height);
 		wallMiddle = city_sprites.crop(width, height * 5, width, height);
 		entrance  = city_sprites.crop(width * 6, height * 40, width, height);
+		
+		lightWallLeft = city_sprites.crop(0, height * 4, width, height);
+		lightWallMiddle = city_sprites.crop(width, height * 4, width, height);
+		lightWallRight = city_sprites.crop(width * 2, height * 4, width, height);
 		
 		floorTopLeft = city_sprites.crop(0, height * 9, width, height);
 		floorTopMiddle = city_sprites.crop(width, height * 9, width, height);
@@ -319,6 +322,20 @@ public class Assets {
 		floorBottomLeft = city_sprites.crop(0, height * 11, width, height);
 		floorBottomMiddle = city_sprites.crop(width, height * 11, width, height);
 		floorBottomRight = city_sprites.crop(width * 2, height * 11, width, height);
+		
+		brownColumnTop = city_sprites.crop(width * 5, height * 2, width, height);
+		brownColumnBottom = city_sprites.crop(width * 5, height * 3, width, height);
+		
+		smallWoodenStairTop = city_sprites.crop(width * 7, height * 7, width, height);
+		smallWoodenStairBottom = city_sprites.crop(width * 7, height * 8, width, height);
+		
+		stairTopLeft = city_sprites.crop(width * 4, height * 7, width, height);
+		stairTopMiddle = city_sprites.crop(width * 5, height * 7, width, height);
+		stairTopRight = city_sprites.crop(width * 6, height * 7, width, height);
+		stairBottomLeft = city_sprites.crop(width * 4, height * 8, width, height);
+		stairBottomMiddle = city_sprites.crop(width * 5, height * 8, width, height);
+		stairBottomRight = city_sprites.crop(width * 6, height * 8, width, height);
+		
 		
 		tree1TopLeft = trees_sheet.crop(0, height * 4, width, height);
 		tree1TopRight = trees_sheet.crop(width, height * 4, width, height);
@@ -335,76 +352,23 @@ public class Assets {
 		whiteWallBottomMiddle = roofs3_sheet.crop(width, height * 2, width, height);
 		whiteWallBottomRight = roofs3_sheet.crop(width * 2, height * 2, width, height);
 		
+		whiteWallWindowTopLeft = roofs3_sheet.crop(width * 4, 0, width, height);
+		whiteWallWindowTopRight = roofs3_sheet.crop(width * 5, 0, width, height);
+		whiteWallWindowMiddleLeft = roofs3_sheet.crop(width * 4, height, width, height);
+		whiteWallWindowMiddleRight = roofs3_sheet.crop(width * 5, height, width, height);
+		whiteWallWindowBottomLeft = roofs3_sheet.crop(width * 4, height * 2, width, height);
+		whiteWallWindowBottomRight = roofs3_sheet.crop(width * 5, height * 2, width, height);
+		
 		// Tile Sprites
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
 		
-		path = texture_tile.crop(width, height, width, height);
-		pathGrassTopLeft = texture_tile.crop(0, 0, width, height);
-		pathGrassTopMiddle = texture_tile.crop(width, 0, width, height);
-		pathGrassTopRight = texture_tile.crop(width * 2, 0, width, height);
-		pathGrassMiddleLeft = texture_tile.crop(0, height, width, height);
-		pathGrassMiddleRight = texture_tile.crop(width * 2, height, width, height);
-		pathGrassDownLeft = texture_tile.crop(0, height * 2, width, height);
-		pathGrassDownMiddle = texture_tile.crop(width , height * 2, width, height);
-		pathGrassDownRight = texture_tile.crop(width * 2, height * 2, width, height);
-		grassOnly = texture_tile.crop(width * 9 , 0, width, height);
-		
-		sand = texture_tile.crop(width * 4, height, width, height);
-		sandGrassTopLeft = texture_tile.crop(width * 3, 0, width, height);
-		sandGrassTopMiddle = texture_tile.crop(width * 4, 0, width, height);
-		sandGrassTopRight = texture_tile.crop(width * 5, 0, width, height);
-		sandGrassMiddleLeft = texture_tile.crop(width * 3, height, width, height);
-		sandGrassMiddleRight = texture_tile.crop(width * 5, height, width, height);
-		sandGrassDownLeft = texture_tile.crop(width * 3, height * 2, width, height);
-		sandGrassDownMiddle = texture_tile.crop(width * 4, height * 2, width, height);
-		sandGrassDownRight = texture_tile.crop(width * 5, height * 2, width, height);
-		
-		water = texture_tile.crop(width * 7, height, width, height);
-		waterSandTopLeft = texture_tile.crop(width * 6, 0, width, height);
-		waterSandTopMiddle = texture_tile.crop(width * 7, 0, width, height);
-		waterSandTopRight = texture_tile.crop(width * 8, 0, width, height);
-		waterSandMiddleLeft = texture_tile.crop(width * 6, height * 1, width, height);
-		waterSandMiddleRight = texture_tile.crop(width * 8, height * 1, width, height);
-		waterSandDownLeft = texture_tile.crop(width * 6, height * 2, width, height);
-		waterSandDownMiddle = texture_tile.crop(width * 7, height * 2, width, height);
-		waterSandDownRight = texture_tile.crop(width * 8, height * 2, width, height);
-		
-		dirtSandTopLeft = texture_tile.crop(0, height * 3, width, height);
-		dirtSandTopMiddle = texture_tile.crop(width, height * 3, width, height);
-		dirtSandTopRight = texture_tile.crop(width * 2, height * 3, width, height);
-		dirtSandMiddleLeft = texture_tile.crop(0, height * 4, width, height);
-		dirtSandMiddleRight = texture_tile.crop(width * 2, height * 4, width, height);
-		dirtSandDownLeft = texture_tile.crop(0, height * 5, width, height);
-		dirtSandDownMiddle = texture_tile.crop(width, height * 5, width, height);
-		dirtSandDownRight = texture_tile.crop(width * 2, height * 5, width, height);
-		
-		
-		pathDirtTopLeft = texture_tile.crop(width * 6, height * 3, width, height);
-		pathDirtTopMiddle = texture_tile.crop(width * 7, height * 3, width, height);
-		pathDirtTopRight = texture_tile.crop(width * 8, height * 3, width, height);
-		pathDirtMiddleLeft = texture_tile.crop(width * 6, height * 4, width, height);
-		pathDirtMiddleRight = texture_tile.crop(width * 8, height * 4, width, height);
-		pathDirtDownLeft = texture_tile.crop(width * 6, height * 5, width, height);
-		pathDirtDownMiddle = texture_tile.crop(width * 7, height * 5, width, height);
-		pathDirtDownRight = texture_tile.crop(width * 8, height * 5, width, height);
-		
-		lavaPathTopLeft = texture_tile.crop(0, height * 6, width, height);
-		lavaPathTopMiddle = texture_tile.crop(width, height * 6, width, height);
-		lavaPathTopRight = texture_tile.crop(width * 2, height * 6, width, height);
-		lavaPathMiddleLeft = texture_tile.crop(0, height * 7, width, height);
-		lavaPathMiddleRight = texture_tile.crop(width * 2, height * 7, width, height);
-		lavaPathDownLeft = texture_tile.crop(0, height * 8, width, height);
-		lavaPathDownMiddle = texture_tile.crop(width, height * 8, width, height);
-		lavaPathDownRight = texture_tile.crop(width * 2, height * 8, width, height);
-		
-		waterDirtTopLeft = texture_tile.crop(width * 6, height * 6, width, height);
-		waterDirtTopMiddle = texture_tile.crop(width * 7, height * 6, width, height);
-		waterDirtTopRight = texture_tile.crop(width * 8, height * 6, width, height);
-		waterDirtMiddleLeft = texture_tile.crop(width * 6, height * 7, width, height);
-		waterDirtMiddleRight = texture_tile.crop(width * 8, height * 7, width, height);
-		waterDirtDownLeft = texture_tile.crop(width * 6, height * 8, width, height);
-		waterDirtDownMiddle = texture_tile.crop(width * 7, height * 8, width, height);
-		waterDirtDownRight = texture_tile.crop(width * 8, height * 8, width, height);
+		lightGrass = terrain_tile.crop(width, height * 9, width, height);
+		lightGrassPatch1 = terrain_tile.crop(0, height * 11, width, height);
+		lightGrassPatch2 = terrain_tile.crop(width, height * 11, width, height);
+		lightGrassPatch3 = terrain_tile.crop(width * 2, height * 11, width, height);
+		flowerPatch1 = terrain_tile.crop(width * 3, height * 11, width, height);
+		flowerPatch2 = terrain_tile.crop(width * 4, height * 11, width, height);
+		flowerPatch3 = terrain_tile.crop(width * 5, height * 11, width, height);
 		
 		darkGrass = terrain_tile.crop(width * 7, height * 9, width, height);
 		darkGrassPatch1 = terrain_tile.crop(width * 8, height * 11, width, height);
@@ -591,9 +555,7 @@ public class Assets {
 		sandPattern2 = terrain_tile.crop(width * 19, height * 11, width, height);
 		sandPattern3 = terrain_tile.crop(width * 20, height * 11, width, height);
 
-
-
-
+		
 		
 		// Ambiance tiles
 		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);

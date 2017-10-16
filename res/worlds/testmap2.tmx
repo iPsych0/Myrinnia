@@ -7,6 +7,8 @@
  <tileset firstgid="1081" name="trees" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="../textures/trees.png" width="512" height="512"/>
  </tileset>
+ <tileset firstgid="1337" source="city.tsx"/>
+ <tileset firstgid="1697" source="roofs3.tsx"/>
  <layer name="GroundTiles" width="50" height="50">
   <data encoding="csv">
 352,352,352,352,352,352,352,417,417,417,417,417,417,417,417,417,417,415,416,417,417,417,352,352,352,352,352,352,352,415,416,417,417,417,352,352,352,415,416,417,417,417,415,416,417,352,352,415,416,417,

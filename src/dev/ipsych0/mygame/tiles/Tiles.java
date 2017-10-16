@@ -200,6 +200,14 @@ public class Tiles {
 	public static Tiles snowWaterBottomLeft = new Tiles(Assets.snowWaterBottomLeft, 750);
 	public static Tiles snowWaterBottomMiddle = new Tiles(Assets.snowWaterBottomMiddle, 751);
 	public static Tiles snowWaterBottomRight = new Tiles(Assets.snowWaterBottomRight, 752);
+	
+	public static Tiles lightGrass = new Tiles(Assets.lightGrass, 346);
+	public static Tiles lightGrassPatch1 = new Tiles(Assets.lightGrassPatch1, 409);
+	public static Tiles lightGrassPatch2 = new Tiles(Assets.lightGrassPatch2, 410);
+	public static Tiles lightGrassPatch3 = new Tiles(Assets.lightGrassPatch3, 411);
+	public static Tiles flowerPatch1 = new Tiles(Assets.flowerPatch1, 412);
+	public static Tiles flowerPatch2 = new Tiles(Assets.flowerPatch2, 413);
+	public static Tiles flowerPatch3 = new Tiles(Assets.flowerPatch3, 414);
 
 	public static Tiles invisible = new Tiles(Assets.invisible, 736);
 	public static Tiles sparkleTile = new Tiles(Assets.sparkleTile, 649);
@@ -208,18 +216,32 @@ public class Tiles {
 	public static Tiles smallRedRock = new Tiles(Assets.smallRedRocks, 664);
 	
 	// Objects
-	public static Tiles roofTopLeft = new Tiles(Assets.roofTopLeft, 1521);
-	public static Tiles roofTopMiddle = new Tiles(Assets.roofTopMiddle, 1522);
-	public static Tiles roofTopRight = new Tiles(Assets.roofTopRight, 1523);
-	public static Tiles roofMiddleLeft = new Tiles(Assets.roofMiddleLeft, 1529);
-	public static Tiles roofMiddleMiddle = new Tiles(Assets.roofMiddleMiddle, 1530);
-	public static Tiles roofMiddleRight = new Tiles(Assets.roofMiddleRight, 1531);
-	public static Tiles roofBottomLeft = new Tiles(Assets.roofBottomLeft, 1537);
-	public static Tiles roofBottomMiddle = new Tiles(Assets.roofBottomMiddle, 1538);
-	public static Tiles roofBottomRight = new Tiles(Assets.roofBottomRight, 1539);
+	public static Tiles woodenRoofTopLeft = new Tiles(Assets.woodenRoofTopLeft, 1521);
+	public static Tiles woodenRoofTopMiddle = new Tiles(Assets.woodenRoofTopMiddle, 1522);
+	public static Tiles woodenRoofTopRight = new Tiles(Assets.woodenRoofTopRight, 1523);
+	public static Tiles woodenRoofMiddleLeft = new Tiles(Assets.woodenRoofMiddleLeft, 1529);
+	public static Tiles woodenRoofMiddleMiddle = new Tiles(Assets.woodenRoofMiddleMiddle, 1530);
+	public static Tiles woodenRoofMiddleRight = new Tiles(Assets.woodenRoofMiddleRight, 1531);
+	public static Tiles woodenRoofBottomLeft = new Tiles(Assets.woodenRoofBottomLeft, 1537);
+	public static Tiles woodenRoofBottomMiddle = new Tiles(Assets.woodenRoofBottomMiddle, 1538);
+	public static Tiles woodenRoofBottomRight = new Tiles(Assets.woodenRoofBottomRight, 1539);
+	
+	public static Tiles greenRoofTopLeft = new Tiles(Assets.greenRoofTopLeft, 1526);
+	public static Tiles greenRoofTopMiddle = new Tiles(Assets.greenRoofTopMiddle, 1527);
+	public static Tiles greenRoofTopRight = new Tiles(Assets.greenRoofTopRight, 1528);
+	public static Tiles greenRoofMiddleLeft = new Tiles(Assets.greenRoofMiddleLeft, 1534);
+	public static Tiles greenRoofMiddleMiddle = new Tiles(Assets.greenRoofMiddleMiddle, 1535);
+	public static Tiles greenRoofMiddleRight = new Tiles(Assets.greenRoofMiddleRight, 1536);
+	public static Tiles greenRoofBottomLeft = new Tiles(Assets.greenRoofBottomLeft, 1542);
+	public static Tiles greenRoofBottomMiddle = new Tiles(Assets.greenRoofBottomMiddle, 1543);
+	public static Tiles greenRoofBottomRight = new Tiles(Assets.greenRoofBottomRight, 1544);
+
 	public static Tiles wallLeft = new Tiles(Assets.wallLeft, 1377);
 	public static Tiles wallRight = new Tiles(Assets.wallRight, 1379);
 	public static Tiles wallMiddle = new Tiles(Assets.wallMiddle, 1378);
+	public static Tiles lightWallLeft = new Tiles(Assets.lightWallLeft, 1369);
+	public static Tiles lightWallMiddle = new Tiles(Assets.lightWallMiddle, 1370);
+	public static Tiles lightWallRight = new Tiles(Assets.lightWallRight, 1371);
 	public static Tiles entrance = new Tiles(Assets.entrance, 1663);
 	
 	public static Tiles floorTopLeft = new Tiles(Assets.floorTopLeft, 1409);
@@ -246,6 +268,31 @@ public class Tiles {
 	public static Tiles whiteWallBottomLeft = new Tiles(Assets.whiteWallBottomLeft, 1729);
 	public static Tiles whiteWallBottomMiddle = new Tiles(Assets.whiteWallBottomMiddle, 1730);
 	public static Tiles whiteWallBottomRight = new Tiles(Assets.whiteWallBottomRight, 1731);
+	
+	public static Tiles brownColumnTop = new Tiles(Assets.brownColumnTop, 1358);
+	public static Tiles brownColumnBottom = new Tiles(Assets.brownColumnBottom, 1366);
+	
+	public static Tiles smallWoodenStairTop = new Tiles(Assets.smallWoodenStairTop, 1400);
+	public static Tiles smallWoodenStairBottom = new Tiles(Assets.smallWoodenStairBottom, 1408);
+	
+	public static Tiles stairTopLeft = new Tiles(Assets.stairTopLeft, 1397);
+	public static Tiles stairTopMiddle = new Tiles(Assets.stairTopMiddle, 1398);
+	public static Tiles stairTopRight = new Tiles(Assets.stairTopRight, 1399);
+	public static Tiles stairBottomleLeft = new Tiles(Assets.stairBottomLeft, 1405);
+	public static Tiles stairBottomMiddle = new Tiles(Assets.stairBottomMiddle, 1406);
+	public static Tiles stairBottomRight = new Tiles(Assets.stairBottomRight, 1407);
+	
+	public static Tiles whiteWallWindowTopLeft = new Tiles(Assets.whiteWallWindowTopLeft, 1701);
+	public static Tiles whiteWallWindowTopRight = new Tiles(Assets.whiteWallWindowTopRight, 1702);
+	public static Tiles whiteWallWindowMiddleLeft = new Tiles(Assets.whiteWallWindowMiddleLeft, 1717);
+	public static Tiles whiteWallWindowMiddleRight = new Tiles(Assets.whiteWallWindowMiddleRight, 1718);
+	public static Tiles whiteWallWindowBottomLeft = new Tiles(Assets.whiteWallWindowBottomLeft, 1733);
+	public static Tiles whiteWallWindowBottomRight = new Tiles(Assets.whiteWallWindowBottomRight, 1734);
+	
+	
+	
+	
+	
 
 	
 	
@@ -402,7 +449,26 @@ public class Tiles {
 		case 1729: return true;
 		case 1730: return true;
 		case 1731: return true;
-		
+		case 1701: return true;
+		case 1702: return true;
+		case 1717: return true;
+		case 1718: return true;
+		case 1733: return true;
+		case 1734: return true;
+		case 1358: return true;
+		case 1366: return true;
+		case 1369: return true;
+		case 1370: return true;
+		case 1371: return true;
+		case 1526: return true;
+		case 1527: return true;
+		case 1528: return true;
+		case 1534: return true;
+		case 1535: return true;
+		case 1536: return true;
+		case 1542: return true;
+		case 1543: return true;
+		case 1544: return true;
 				
 		default: return false;
 		}
