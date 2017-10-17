@@ -44,7 +44,15 @@ public class Assets {
 	whiteWallTopLeft, whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight,
 	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, brownColumnTop, brownColumnBottom,
 	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight,
-	woodenDoorTop, woodenDoorBottom, palmTreeTop, palmTreeBottom, tree1BatchTopLeft, tree1BatchTopRight, tree1BatchBottomLeft, tree1BatchBottomRight;
+	woodenDoorTop, woodenDoorBottom, palmTreeTop, palmTreeBottom, tree1BatchTopLeft, tree1BatchTopRight, tree1BatchBottomLeft, tree1BatchBottomRight, sandCliffTopLeft, sandCliffTopMiddle, sandCliffTopRight,
+	sandCliffMiddleLeft, sandCliffMiddleMiddle, sandCliffMiddleRight, sandCliffBottomLeft, sandCliffBottomMiddle, sandCliffBottomRight, sandCliffLeft, sandCliffMiddle, sandCliffRight, sandCliffFootLeft,
+	sandCliffFootMiddle, sandCliffFootRight, sandCliffCornerTopLeft, sandCliffCornerTopRight, sandCliffCornerBottomLeft, sandCliffCornerBottomRight, sandCliffCornerLowerLeft, sandCliffCornerLowerRight,
+	sandCliffCornerLowestLeft, sandCliffCornerLowestRight, grassCliffTopLeft, grassCliffTopMiddle, grassCliffTopRight, grassCliffMiddleLeft, grassCliffMiddleMiddle, grassCliffMiddleRight,
+	grassCliffBottomLeft, grassCliffBottomMiddle, grassCliffBottomRight, grassCliffLeft, grassCliffMiddle, grassCliffRight, grassCliffFootLeft, grassCliffFootMiddle, grassCliffFootRight,
+	grassCliffCornerTopLeft, grassCliffCornerTopRight, grassCliffCornerBottomLeft, grassCliffCornerBottomRight, grassCliffCornerLowerLeft, grassCliffCornerLowerRight, grassCliffCornerLowestLeft,
+	grassCliffCornerLowestRight, snowCliffTopLeft, snowCliffTopMiddle, snowCliffTopRight, snowCliffMiddleLeft, snowCliffMiddleMiddle, snowCliffMiddleRight, snowCliffBottomLeft, snowCliffBottomMiddle,
+	snowCliffBottomRight, snowCliffLeft, snowCliffMiddle, snowCliffRight, snowCliffFootLeft, snowCliffFootMiddle, snowCliffFootRight, snowCliffCornerTopLeft, snowCliffCornerTopRight,
+	snowCliffCornerBottomLeft, snowCliffCornerBottomRight, snowCliffCornerLowerLeft, snowCliffCornerLowerRight, snowCliffCornerLowestLeft, snowCliffCornerLowestRight, cliffEntranceTop, cliffEntranceBottom;
 	
 	
 	// Ambiance images
@@ -154,6 +162,7 @@ public class Assets {
 		SpriteSheet shop_window = new SpriteSheet(ImageLoader.loadImage("/textures/shopwindow.png"));
 		SpriteSheet city_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/city_sprites.png"));
 		SpriteSheet roofs3_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/roofs3.png"));
+		SpriteSheet cliffs_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/cliffs.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -348,6 +357,8 @@ public class Assets {
 		tree1BatchTopRight = trees_sheet.crop(width * 3, height * 4, width, height);
 		tree1BatchBottomLeft = trees_sheet.crop(width * 2, height * 5, width, height);
 		tree1BatchBottomRight = trees_sheet.crop(width * 3, height * 5, width, height);
+		palmTreeTop = trees_sheet.crop(width, height * 12, width, height);
+		palmTreeBottom = trees_sheet.crop(width, height * 13, width, height);
 		
 		whiteWallTopLeft = roofs3_sheet.crop(0, 0, width, height);
 		whiteWallTopMiddle = roofs3_sheet.crop(width, 0, width, height);
@@ -365,12 +376,14 @@ public class Assets {
 		whiteWallWindowMiddleRight = roofs3_sheet.crop(width * 5, height, width, height);
 		whiteWallWindowBottomLeft = roofs3_sheet.crop(width * 4, height * 2, width, height);
 		whiteWallWindowBottomRight = roofs3_sheet.crop(width * 5, height * 2, width, height);
+
+
 		
-		palmTreeTop = trees_sheet.crop(width, height * 12, width, height);
-		palmTreeBottom = trees_sheet.crop(width, height * 13, width, height);
-		
-		// Tile Sprites
+		/*
+		 * Tile Sprites
+		 */
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
+		invisible = terrain_tile.crop(width * 7, height * 21, width, height);
 		
 		lightGrass = terrain_tile.crop(width, height * 9, width, height);
 		lightGrassPatch1 = terrain_tile.crop(0, height * 11, width, height);
@@ -384,9 +397,6 @@ public class Assets {
 		darkGrassPatch1 = terrain_tile.crop(width * 8, height * 11, width, height);
 		darkGrassPatch2 = terrain_tile.crop(width * 7, height * 11, width, height);
 		darkGrassPatch3 = terrain_tile.crop(width * 6, height * 11, width, height);
-		
-		// Static terrain tiles (water, lava, snow, sand, etc)
-		invisible = terrain_tile.crop(width * 7, height * 21, width, height);
 		
 		waterSmallTopLeft = terrain_tile.crop(width * 28, 0, width, height);
 		waterSmallTopRight = terrain_tile.crop(width * 29, 0, width, height);
@@ -564,6 +574,78 @@ public class Assets {
 		sandPattern1 = terrain_tile.crop(width * 18, height * 11, width, height);
 		sandPattern2 = terrain_tile.crop(width * 19, height * 11, width, height);
 		sandPattern3 = terrain_tile.crop(width * 20, height * 11, width, height);
+		
+		cliffEntranceTop = cliffs_sheet.crop(0, height * 5, width, height);
+		cliffEntranceBottom = cliffs_sheet.crop(0, height * 6, width, height);
+		sandCliffTopLeft = cliffs_sheet.crop(width * 5, 0, width, height);
+		sandCliffTopMiddle = cliffs_sheet.crop(width * 6, 0, width, height);
+		sandCliffTopRight = cliffs_sheet.crop(width * 7, 0, width, height);
+		sandCliffMiddleLeft = cliffs_sheet.crop(width * 5, height, width, height);
+		sandCliffMiddleMiddle = cliffs_sheet.crop(width * 6, height, width, height);
+		sandCliffMiddleRight = cliffs_sheet.crop(width * 7, height, width, height);
+		sandCliffBottomLeft = cliffs_sheet.crop(width * 5, height * 2, width, height);
+		sandCliffBottomMiddle = cliffs_sheet.crop(width * 6, height * 2, width, height);
+		sandCliffBottomRight = cliffs_sheet.crop(width * 7, height * 2, width, height);
+		sandCliffLeft = cliffs_sheet.crop(width * 5, height * 3, width, height);
+		sandCliffMiddle = cliffs_sheet.crop(width * 6, height * 3, width, height);
+		sandCliffRight = cliffs_sheet.crop(width * 7, height * 3, width, height);
+		sandCliffFootLeft = cliffs_sheet.crop(width * 5, height * 4, width, height);
+		sandCliffFootMiddle = cliffs_sheet.crop(width * 6, height * 4, width, height);
+		sandCliffFootRight = cliffs_sheet.crop(width * 7, height * 4, width, height);
+		sandCliffCornerTopLeft = cliffs_sheet.crop(width * 8, 0, width, height);
+		sandCliffCornerTopRight = cliffs_sheet.crop(width * 9, 0, width, height);
+		sandCliffCornerBottomLeft = cliffs_sheet.crop(width * 8, height, width, height);
+		sandCliffCornerBottomRight = cliffs_sheet.crop(width * 9, height, width, height);
+		sandCliffCornerLowerLeft = cliffs_sheet.crop(width * 8, height * 2, width, height);
+		sandCliffCornerLowerRight = cliffs_sheet.crop(width * 9, height * 2, width, height);
+		sandCliffCornerLowestLeft = cliffs_sheet.crop(width * 8, height * 3, width, height);
+		sandCliffCornerLowestRight = cliffs_sheet.crop(width * 9, height * 3, width, height);
+		grassCliffTopLeft = cliffs_sheet.crop(width * 17, 0, width, height);
+		grassCliffTopMiddle = cliffs_sheet.crop(width * 18, 0, width, height);
+		grassCliffTopRight = cliffs_sheet.crop(width * 19, 0, width, height);
+		grassCliffMiddleLeft = cliffs_sheet.crop(width * 17, height, width, height);
+		grassCliffMiddleMiddle = cliffs_sheet.crop(width * 18, height, width, height);
+		grassCliffMiddleRight = cliffs_sheet.crop(width * 19, height, width, height);
+		grassCliffBottomLeft = cliffs_sheet.crop(width * 17, height * 2, width, height);
+		grassCliffBottomMiddle = cliffs_sheet.crop(width * 18, height * 2, width, height);
+		grassCliffBottomRight = cliffs_sheet.crop(width * 19, height * 2, width, height);
+		grassCliffLeft = cliffs_sheet.crop(width * 17, height * 3, width, height);
+		grassCliffMiddle = cliffs_sheet.crop(width * 18, height * 3, width, height);
+		grassCliffRight = cliffs_sheet.crop(width * 19, height * 3, width, height);
+		grassCliffFootLeft = cliffs_sheet.crop(width * 17, height * 4, width, height);
+		grassCliffFootMiddle = cliffs_sheet.crop(width * 18, height * 4, width, height);
+		grassCliffFootRight = cliffs_sheet.crop(width * 19, height * 4, width, height);
+		grassCliffCornerTopLeft = cliffs_sheet.crop(width * 20, 0, width, height);
+		grassCliffCornerTopRight = cliffs_sheet.crop(width * 21, 0, width, height);
+		grassCliffCornerBottomLeft = cliffs_sheet.crop(width * 20, height, width, height);
+		grassCliffCornerBottomRight = cliffs_sheet.crop(width * 21, height, width, height);
+		grassCliffCornerLowerLeft = cliffs_sheet.crop(width * 20, height * 2, width, height);
+		grassCliffCornerLowerRight = cliffs_sheet.crop(width * 21, height * 2, width, height);
+		grassCliffCornerLowestLeft = cliffs_sheet.crop(width * 20, height * 3, width, height);
+		grassCliffCornerLowestRight = cliffs_sheet.crop(width * 21, height * 3, width, height);
+		snowCliffTopLeft = cliffs_sheet.crop(width * 29, 0, width, height);
+		snowCliffTopMiddle = cliffs_sheet.crop(width * 30, 0, width, height);
+		snowCliffTopRight = cliffs_sheet.crop(width * 31, 0, width, height);
+		snowCliffMiddleLeft = cliffs_sheet.crop(width * 29, height, width, height);
+		snowCliffMiddleMiddle = cliffs_sheet.crop(width * 30, height, width, height);
+		snowCliffMiddleRight = cliffs_sheet.crop(width * 31, height, width, height);
+		snowCliffBottomLeft = cliffs_sheet.crop(width * 29, height * 2, width, height);
+		snowCliffBottomMiddle = cliffs_sheet.crop(width * 30, height * 2, width, height);
+		snowCliffBottomRight = cliffs_sheet.crop(width * 31, height * 2, width, height);
+		snowCliffLeft = cliffs_sheet.crop(width * 29, height * 3, width, height);
+		snowCliffMiddle = cliffs_sheet.crop(width * 30, height * 3, width, height);
+		snowCliffRight = cliffs_sheet.crop(width * 31, height * 3, width, height);
+		snowCliffFootLeft = cliffs_sheet.crop(width * 29, height * 4, width, height);
+		snowCliffFootMiddle = cliffs_sheet.crop(width * 30, height * 4, width, height);
+		snowCliffFootRight = cliffs_sheet.crop(width * 31, height * 4, width, height);
+		snowCliffCornerTopLeft = cliffs_sheet.crop(width * 32, 0, width, height);
+		snowCliffCornerTopRight = cliffs_sheet.crop(width * 33, 0, width, height);
+		snowCliffCornerBottomLeft = cliffs_sheet.crop(width * 32, height, width, height);
+		snowCliffCornerBottomRight = cliffs_sheet.crop(width * 33, height, width, height);
+		snowCliffCornerLowerLeft = cliffs_sheet.crop(width * 32, height * 2, width, height);
+		snowCliffCornerLowerRight = cliffs_sheet.crop(width * 33, height * 2, width, height);
+		snowCliffCornerLowestLeft = cliffs_sheet.crop(width * 32, height * 3, width, height);
+		snowCliffCornerLowestRight = cliffs_sheet.crop(width * 33, height * 3, width, height);
 
 		
 		
