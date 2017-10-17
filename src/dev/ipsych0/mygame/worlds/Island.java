@@ -2,13 +2,10 @@ package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
@@ -39,19 +36,19 @@ public class Island extends World {
 		
 		loadWorld(path);
 		
-		entityManager.addEntity(new Lorraine(handler, 732, 440));
+		entityManager.addEntity(new Lorraine(handler, 5856, 5952));
 		
-		entityManager.addEntity(new Tree(handler, 360, 128));
-		entityManager.addEntity(new Tree(handler, 328, 128));
-		entityManager.addEntity(new Tree(handler, 296, 192));
-		entityManager.addEntity(new Tree(handler, 296, 160));
+		entityManager.addEntity(new Tree(handler, 5248, 5536));
 		
-		entityManager.addEntity(new Rock(handler, 448, 576));
+		entityManager.addEntity(new Rock(handler, 5280, 5536));
+		
+		entityManager.addEntity(new Scorpion(handler, 5184, 5984));
+		entityManager.addEntity(new Scorpion(handler, 5184, 6048));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
 		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
 		
-		entityManager.addEntity(new Whirlpool(handler, 112, 928));
+		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
 		
 		testLandTile = new Rectangle(400, 70, 32, 350); 
 		house1 = new Rectangle(5056, 5424, 32, 32);
