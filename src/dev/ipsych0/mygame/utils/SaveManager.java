@@ -115,14 +115,16 @@ public class SaveManager {
 		 * Setting variables
 		 */
 		
+		// World loading
+		handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(variables.get(4))));
+		
 		// Player stuff
 		handler.getWorld().getEntityManager().getPlayer().setAttackExperience(Integer.valueOf(variables.get(0)));
 		handler.getWorld().getEntityManager().getPlayer().setX(Float.valueOf(variables.get(1)));
 		handler.getWorld().getEntityManager().getPlayer().setY(Float.valueOf(variables.get(2)));
 		handler.getWorld().getEntityManager().getPlayer().setHealth(Integer.valueOf(variables.get(3)));
 		
-		// World loading
-		handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(variables.get(4))));
+	
 
 	}
 	

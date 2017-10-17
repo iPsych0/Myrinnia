@@ -39,10 +39,10 @@ public class Handler {
 	public Handler(Game game){
 		this.game = game;
 		player = new Player(this, 5152, 5600);
-		island = new Island(this, player, "res/worlds/island.tmx", 2);
+		island = new Island(this, player, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, player, "res/worlds/testmap.tmx", 0));
+		worldHandler.addWorld(new SwampLand(this, player, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, player, "res/worlds/island_indoors.tmx", 3));
 	}
 	
