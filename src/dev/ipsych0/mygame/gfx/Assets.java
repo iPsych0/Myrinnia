@@ -600,6 +600,7 @@ public class Assets {
 		sandCliffCornerLowerRight = cliffs_sheet.crop(width * 9, height * 2, width, height);
 		sandCliffCornerLowestLeft = cliffs_sheet.crop(width * 8, height * 3, width, height);
 		sandCliffCornerLowestRight = cliffs_sheet.crop(width * 9, height * 3, width, height);
+		
 		grassCliffTopLeft = cliffs_sheet.crop(width * 17, 0, width, height);
 		grassCliffTopMiddle = cliffs_sheet.crop(width * 18, 0, width, height);
 		grassCliffTopRight = cliffs_sheet.crop(width * 19, 0, width, height);
@@ -623,6 +624,7 @@ public class Assets {
 		grassCliffCornerLowerRight = cliffs_sheet.crop(width * 21, height * 2, width, height);
 		grassCliffCornerLowestLeft = cliffs_sheet.crop(width * 20, height * 3, width, height);
 		grassCliffCornerLowestRight = cliffs_sheet.crop(width * 21, height * 3, width, height);
+		
 		snowCliffTopLeft = cliffs_sheet.crop(width * 29, 0, width, height);
 		snowCliffTopMiddle = cliffs_sheet.crop(width * 30, 0, width, height);
 		snowCliffTopRight = cliffs_sheet.crop(width * 31, 0, width, height);

@@ -341,8 +341,8 @@ public class Tiles {
 	public static Tiles grassCliffCornerTopRight = new Tiles(Assets.grassCliffCornerTopRight, 1974);
 	public static Tiles grassCliffCornerBottomLeft = new Tiles(Assets.grassCliffCornerBottomLeft, 2009);
 	public static Tiles grassCliffCornerBottomRight = new Tiles(Assets.grassCliffCornerBottomRight, 2010);
-	public static Tiles grassCliffCornerLowerLeft = new Tiles(Assets.grassCliffCornerLowerLeft, 2046);
-	public static Tiles grassCliffCornerLowerRight = new Tiles(Assets.grassCliffCornerLowerRight, 2047);
+	public static Tiles grassCliffCornerLowerLeft = new Tiles(Assets.grassCliffCornerLowerLeft, 2045);
+	public static Tiles grassCliffCornerLowerRight = new Tiles(Assets.grassCliffCornerLowerRight, 2046);
 	public static Tiles grassCliffCornerLowestLeft = new Tiles(Assets.grassCliffCornerLowestLeft, 2081);
 	public static Tiles grassCliffCornerLowestRight = new Tiles(Assets.grassCliffCornerLowestRight, 2082);
 	
@@ -365,8 +365,8 @@ public class Tiles {
 	public static Tiles snowCliffCornerTopRight = new Tiles(Assets.snowCliffCornerTopRight, 1986);
 	public static Tiles snowCliffCornerBottomLeft = new Tiles(Assets.snowCliffCornerBottomLeft, 2021);
 	public static Tiles snowCliffCornerBottomRight = new Tiles(Assets.snowCliffCornerBottomRight, 2022);
-	public static Tiles snowCliffCornerLowerLeft = new Tiles(Assets.snowCliffCornerLowerLeft, 2058);
-	public static Tiles snowCliffCornerLowerRight = new Tiles(Assets.snowCliffCornerLowerRight, 2059);
+	public static Tiles snowCliffCornerLowerLeft = new Tiles(Assets.snowCliffCornerLowerLeft, 2057);
+	public static Tiles snowCliffCornerLowerRight = new Tiles(Assets.snowCliffCornerLowerRight, 2058);
 	public static Tiles snowCliffCornerLowestLeft = new Tiles(Assets.snowCliffCornerLowestLeft, 2093);
 	public static Tiles snowCliffCornerLowestRight = new Tiles(Assets.snowCliffCornerLowestRight, 2094);
 	
