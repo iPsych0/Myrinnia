@@ -260,6 +260,10 @@ public class Tiles {
 	public static Tiles tree1TopRight = new Tiles(Assets.tree1TopRight, 1146);
 	public static Tiles tree1BottomLeft = new Tiles(Assets.tree1BottomLeft, 1161);
 	public static Tiles tree1BottomRight = new Tiles(Assets.tree1BottomRight, 1162);
+	public static Tiles tree1BatchTopLeft = new Tiles(Assets.tree1BatchTopLeft, 1147);
+	public static Tiles tree1BatchTopRight = new Tiles(Assets.tree1BatchTopRight, 1148);
+	public static Tiles tree1BatchBottomLeft = new Tiles(Assets.tree1BatchBottomLeft, 1163);
+	public static Tiles tree1BatchBottomRight = new Tiles(Assets.tree1BatchBottomRight, 1164);
 	
 	public static Tiles whiteWallTopLeft = new Tiles(Assets.whiteWallTopLeft, 1697);
 	public static Tiles whiteWallTopMiddle = new Tiles(Assets.whiteWallTopMiddle, 1698);
@@ -291,7 +295,8 @@ public class Tiles {
 	public static Tiles whiteWallWindowBottomLeft = new Tiles(Assets.whiteWallWindowBottomLeft, 1733);
 	public static Tiles whiteWallWindowBottomRight = new Tiles(Assets.whiteWallWindowBottomRight, 1734);
 	
-	
+	public static Tiles palmTreeTop = new Tiles(Assets.palmTreeTop, 1274);
+	public static Tiles palmTreeBotom = new Tiles(Assets.palmTreeBottom, 1290);
 	
 	
 	
@@ -472,6 +477,12 @@ public class Tiles {
 		case 1543: return true;
 		case 1544: return true;
 		case 1423: return true;
+		case 1274: return true;
+		case 1290: return true;
+		case 1147: return true;
+		case 1148: return true;
+		case 1163: return true;
+		case 1164: return true;
 				
 		default: return false;
 		}

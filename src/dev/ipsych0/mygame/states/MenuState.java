@@ -38,6 +38,7 @@ public class MenuState extends State {
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().gameState);
+				handler.playMusic("res/music/myrinnia.wav");
 				SaveManager.loadGame(handler);
 				SaveManager.loadInventory(handler);
 				SaveManager.loadEquipment(handler);

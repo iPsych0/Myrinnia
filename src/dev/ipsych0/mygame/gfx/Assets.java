@@ -44,7 +44,7 @@ public class Assets {
 	whiteWallTopLeft, whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight,
 	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, brownColumnTop, brownColumnBottom,
 	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight,
-	woodenDoorTop, woodenDoorBottom;
+	woodenDoorTop, woodenDoorBottom, palmTreeTop, palmTreeBottom, tree1BatchTopLeft, tree1BatchTopRight, tree1BatchBottomLeft, tree1BatchBottomRight;
 	
 	
 	// Ambiance images
@@ -344,6 +344,10 @@ public class Assets {
 		tree1TopRight = trees_sheet.crop(width, height * 4, width, height);
 		tree1BottomLeft = trees_sheet.crop(0, height * 5, width, height);
 		tree1BottomRight = trees_sheet.crop(width, height * 5, width, height);
+		tree1BatchTopLeft = trees_sheet.crop(width * 2, height * 4, width, height);
+		tree1BatchTopRight = trees_sheet.crop(width * 3, height * 4, width, height);
+		tree1BatchBottomLeft = trees_sheet.crop(width * 2, height * 5, width, height);
+		tree1BatchBottomRight = trees_sheet.crop(width * 3, height * 5, width, height);
 		
 		whiteWallTopLeft = roofs3_sheet.crop(0, 0, width, height);
 		whiteWallTopMiddle = roofs3_sheet.crop(width, 0, width, height);
@@ -361,6 +365,9 @@ public class Assets {
 		whiteWallWindowMiddleRight = roofs3_sheet.crop(width * 5, height, width, height);
 		whiteWallWindowBottomLeft = roofs3_sheet.crop(width * 4, height * 2, width, height);
 		whiteWallWindowBottomRight = roofs3_sheet.crop(width * 5, height * 2, width, height);
+		
+		palmTreeTop = trees_sheet.crop(width, height * 12, width, height);
+		palmTreeBottom = trees_sheet.crop(width, height * 13, width, height);
 		
 		// Tile Sprites
 		black = texture_sheet.crop(width * 3, height * 6, width, height);
