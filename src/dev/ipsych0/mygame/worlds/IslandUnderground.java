@@ -17,12 +17,14 @@ import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class IslandInstance extends World {
+public class IslandUnderground extends World {
 	
 	private Player player;
-	private Rectangle exit;
+	private Rectangle exit1;
+	private Rectangle exit2;
+	private Rectangle exit3;
 
-	public IslandInstance(Handler handler, Player player, String path, int worldID) {
+	public IslandUnderground(Handler handler, Player player, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
@@ -49,7 +51,9 @@ public class IslandInstance extends World {
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
-		exit = new Rectangle(6016, 6192, 32, 32);
+		exit1 = new Rectangle(6016, 6192, 32, 32);
+		exit2 = new Rectangle(4960, 6320, 32, 32);
+		exit3 = new Rectangle(3904, 6320, 32, 32);
 	}
 
 	@Override
@@ -63,11 +67,29 @@ public class IslandInstance extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit1)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(5056);
-				handler.getPlayer().setY(5460);
+				handler.getPlayer().setY(5440);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit2)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(4608);
+				handler.getPlayer().setY(5400);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit3)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(4384);
+				handler.getPlayer().setY(5800);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
@@ -107,7 +129,9 @@ public class IslandInstance extends World {
 			miniMap.render(g);
 			craftingUI.render(g);
 			
-			g.drawRect((int) (exit.x - handler.getGameCamera().getxOffset()), (int) (exit.y - handler.getGameCamera().getyOffset()), 32, 350);
+//			g.drawRect((int) (exit1.x - handler.getGameCamera().getxOffset()), (int) (exit1.y - handler.getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (exit2.x - handler.getGameCamera().getxOffset()), (int) (exit2.y - handler.getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (exit3.x - handler.getGameCamera().getxOffset()), (int) (exit3.y - handler.getGameCamera().getyOffset()), 32, 32);
 		}
 	}
 

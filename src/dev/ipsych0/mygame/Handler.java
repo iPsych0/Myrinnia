@@ -14,7 +14,7 @@ import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.worlds.Island;
-import dev.ipsych0.mygame.worlds.IslandInstance;
+import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
@@ -42,7 +42,7 @@ public class Handler {
 		worldHandler = new WorldHandler(this, swampLand);
 		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
 		worldHandler.addWorld(new Island(this, player, "res/worlds/island.tmx", 2));
-		worldHandler.addWorld(new IslandInstance(this, player, "res/worlds/island_indoors.tmx", 3));
+		worldHandler.addWorld(new IslandUnderground(this, player, "res/worlds/island_indoors.tmx", 3));
 	}
 	
 	public int getWidth(){

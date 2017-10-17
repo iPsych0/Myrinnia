@@ -23,6 +23,8 @@ public class Island extends World {
 	private Rectangle testLandTile;
 	private Player player;
 	private Rectangle house1;
+	private Rectangle house2;
+	private Rectangle house3;
 
 	public Island(Handler handler, Player player, String path, int worldID) {
 		super(handler);
@@ -53,6 +55,8 @@ public class Island extends World {
 		
 		testLandTile = new Rectangle(400, 70, 32, 350); 
 		house1 = new Rectangle(5056, 5424, 32, 32);
+		house2 = new Rectangle(4608, 5360, 32, 32);
+		house3 = new Rectangle(4384, 5776, 32, 32);
 	}
 
 	@Override
@@ -80,7 +84,22 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(6016);
 				handler.getPlayer().setY(6140);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(4960);
+				handler.getPlayer().setY(6272);
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(3904);
+				handler.getPlayer().setY(6272);
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
@@ -120,6 +139,11 @@ public class Island extends World {
 			craftingUI.render(g);
 			
 			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			
+//			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (house3.x - handler.getGameCamera().getxOffset()), (int) (house3.y - handler.getGameCamera().getyOffset()), 32, 32);
+			
 		}
 	}
 
