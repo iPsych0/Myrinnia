@@ -24,24 +24,25 @@ public class Handler {
 
 	private Game game;
 	private World world;
-	private SwampLand swampLand;
+	private Island island;
 	private WorldHandler worldHandler;
 	private Player player;
 	private Random rand = new Random();
 	
 	/*
-	 * Index 0: SwampLand
+	 * Index 0: Island
 	 * Index 1: TestLand
-	 * Index 2: Island
+	 * Index 2: SwampLand
+	 * Index 3: IslandUnderground
 	 */
 	
 	public Handler(Game game){
 		this.game = game;
-		player = new Player(this, 260, 220);
-		swampLand = new SwampLand(this, player, "res/worlds/testmap.tmx", 0);
-		worldHandler = new WorldHandler(this, swampLand);
+		player = new Player(this, 5152, 5600);
+		island = new Island(this, player, "res/worlds/island.tmx", 2);
+		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new Island(this, player, "res/worlds/island.tmx", 2));
+		worldHandler.addWorld(new SwampLand(this, player, "res/worlds/testmap.tmx", 0));
 		worldHandler.addWorld(new IslandUnderground(this, player, "res/worlds/island_indoors.tmx", 3));
 	}
 	

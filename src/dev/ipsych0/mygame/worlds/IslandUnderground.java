@@ -68,7 +68,7 @@ public class IslandUnderground extends World {
 			craftingUI.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit1)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(5056);
 				handler.getPlayer().setY(5440);
@@ -77,7 +77,7 @@ public class IslandUnderground extends World {
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit2)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4608);
 				handler.getPlayer().setY(5400);
@@ -86,7 +86,7 @@ public class IslandUnderground extends World {
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit3)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4384);
 				handler.getPlayer().setY(5800);

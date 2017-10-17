@@ -9,13 +9,13 @@ import dev.ipsych0.mygame.Handler;
 public class WorldHandler {
 	private Handler handler;
 	private ArrayList<World> worlds;
-	private SwampLand swampLand;
+	private Island island;
 	
 
-	public WorldHandler(Handler handler, SwampLand swampLand){
+	public WorldHandler(Handler handler, Island island){
 		this.handler = handler;
 		worlds = new ArrayList<World>();
-		addWorld(swampLand);
+		addWorld(island);
 	}
 	
 	public void tick(){
@@ -43,12 +43,12 @@ public class WorldHandler {
 	public void setWorlds(ArrayList<World> worlds) {
 		this.worlds = worlds;
 	}
-	
-	public SwampLand getSwampLand() {
-		return swampLand;
+
+	public Island getIsland() {
+		return island;
 	}
 
-	public void setSwampLand(SwampLand swampLand) {
-		this.swampLand = swampLand;
+	public void setIsland(Island island) {
+		this.island = island;
 	}
 }
