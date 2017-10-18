@@ -389,10 +389,18 @@ public class Tiles {
 	public static Tiles caveCliffCornerLowerRight = new Tiles(Assets.caveCliffCornerLowerRight, 312);
 	public static Tiles caveCliffCornerLowestLeft = new Tiles(Assets.caveCliffCornerLowestLeft, 343);
 	public static Tiles caveCliffCornerLowestRight = new Tiles(Assets.caveCliffCornerLowestRight, 344);
-
 	
 	public static Tiles palmTreeTop = new Tiles(Assets.palmTreeTop, 1274);
 	public static Tiles palmTreeBotom = new Tiles(Assets.palmTreeBottom, 1290);
+	public static Tiles pot1 = new Tiles(Assets.pot1, 2415);
+	public static Tiles waterBucket = new Tiles(Assets.waterBucket, 2370);
+	public static Tiles basket1 = new Tiles(Assets.basket1, 2355);
+	public static Tiles basketApples = new Tiles(Assets.basketApples, 2356);
+	public static Tiles sandPit = new Tiles(Assets.sandPit, 2490);
+	public static Tiles chair1 = new Tiles(Assets.chair1, 2559);
+	public static Tiles table1 = new Tiles(Assets.table1, 2578);
+	public static Tiles fireplaceTop = new Tiles(Assets.fireplaceTop, 2656);
+	public static Tiles fireplaceBottom = new Tiles(Assets.fireplaceBottom, 2672);
 	
 	
 	
@@ -668,6 +676,13 @@ public class Tiles {
 		case 312: return true;
 		case 343: return true;
 		case 344: return true;
+		case 2415: return true;
+		case 2370: return true;
+		case 2355: return true;
+		case 2356: return true;
+		case 2578: return true;
+		case 2656: return true;
+		case 2672: return true;
 				
 		default: return false;
 		}

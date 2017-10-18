@@ -24,7 +24,7 @@ public class ItemManager {
 		while(it.hasNext()){
 			Item i = it.next();
 			// Checks player's position for any items nearby to pick up
-			if(handler.getKeyManager().pickUp && handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(i.itemPosition(0, 0))){
+			if(handler.getMouseManager().isRightPressed() && handler.getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
 				if(i.pickUpItem(i)){
 					if(i.isPickedUp()){
 						deleted.add(i);

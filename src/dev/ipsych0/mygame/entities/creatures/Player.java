@@ -344,6 +344,9 @@ public class Player extends Creature{
 		
 		g.drawString("FPS: " + String.valueOf(Game.framesPerSecond), 2, 140);
 		
+		g.setColor(Color.BLACK);
+		g.drawRect(itemPickupRadius().x, itemPickupRadius().y, itemPickupRadius().width, itemPickupRadius().height);
+		
 	}
 	
 	public void addEquipmentStats(int equipSlot) {
@@ -919,6 +922,10 @@ public class Player extends Creature{
 
 	public ShopKeeper getShopKeeper() {
 		return shopKeeper;
+	}
+	
+	public Rectangle itemPickupRadius() {
+		return new Rectangle((int) (x + bounds.x - 48), (int) (y + bounds.y - 48), (bounds.width + 96), (bounds.height + 96));
 	}
 
 }

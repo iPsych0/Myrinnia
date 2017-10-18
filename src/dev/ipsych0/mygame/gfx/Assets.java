@@ -55,7 +55,8 @@ public class Assets {
 	snowCliffCornerBottomLeft, snowCliffCornerBottomRight, snowCliffCornerLowerLeft, snowCliffCornerLowerRight, snowCliffCornerLowestLeft, snowCliffCornerLowestRight, cliffEntranceTop, cliffEntranceBottom,
 	caveCliffTopLeft, caveCliffTopMiddle, caveCliffTopRight, caveCliffMiddleLeft, caveCliffMiddleMiddle, caveCliffMiddleRight, caveCliffBottomLeft, caveCliffBottomMiddle, caveCliffBottomRight,
 	caveCliffLeft, caveCliffMiddle, caveCliffRight, caveCliffFootLeft, caveCliffFootMiddle, caveCliffFootRight, caveCliffCornerTopLeft, caveCliffCornerTopRight, caveCliffCornerBottomLeft, 
-	caveCliffCornerBottomRight, caveCliffCornerLowerLeft, caveCliffCornerLowerRight, caveCliffCornerLowestLeft, caveCliffCornerLowestRight;
+	caveCliffCornerBottomRight, caveCliffCornerLowerLeft, caveCliffCornerLowerRight, caveCliffCornerLowestLeft, caveCliffCornerLowestRight, pot1, basket1, basketApples, table1,
+	chair1, sandPit, waterBucket, fireplaceTop, fireplaceBottom;
 	
 	
 	// Ambiance images
@@ -63,6 +64,7 @@ public class Assets {
 	
 	// Animated ambiance images
 	public static BufferedImage[] sparkles;
+	public static BufferedImage[] campfire;
 								
 	
 	
@@ -165,6 +167,8 @@ public class Assets {
 		SpriteSheet city_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/city_sprites.png"));
 		SpriteSheet roofs3_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/roofs3.png"));
 		SpriteSheet cliffs_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/cliffs.png"));
+		SpriteSheet object_sheet17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
+		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -242,6 +246,13 @@ public class Assets {
 		testSword = test_sheet.crop(width * 0, height * 0, width, height);
 		
 		// Object Sprites
+		campfire = new BufferedImage[5];
+		campfire[0] = object_sheet17.crop(0, height * 15, width, height);
+		campfire[1] = object_sheet17.crop(width, height * 15, width, height);
+		campfire[2] = object_sheet17.crop(width * 2, height * 15, width, height);
+		campfire[3] = object_sheet17.crop(width * 3, height * 15, width, height);
+		campfire[4] = object_sheet17.crop(width * 4, height * 15, width, height);
+		
 		teleportShrine1 = object_sheet.crop(width * 7, height * 10, width, height);
 		teleportShrine2 = object_sheet.crop(width * 7, height * 11, width, height);
 		teleportShrinePillar1 = object_sheet.crop(width * 9, width * 10, width, height);
@@ -378,6 +389,16 @@ public class Assets {
 		whiteWallWindowMiddleRight = roofs3_sheet.crop(width * 5, height, width, height);
 		whiteWallWindowBottomLeft = roofs3_sheet.crop(width * 4, height * 2, width, height);
 		whiteWallWindowBottomRight = roofs3_sheet.crop(width * 5, height * 2, width, height);
+		
+		pot1 = object_sheet17.crop(width * 10, height * 8, width, height);
+		basket1 = object_sheet17.crop(width * 14, height * 4, width, height);
+		basketApples = object_sheet17.crop(width * 15, height * 4, width, height);
+		waterBucket = object_sheet17.crop(width * 13, height * 5, width, height);
+		table1 = furniture1.crop(width * 13, height * 2, width, height);
+		chair1 = furniture1.crop(width * 10, height, width, height);
+		sandPit = object_sheet17.crop(width * 5, height * 13, width, height);
+		fireplaceTop = furniture1.crop(width * 11, height * 7, width, height);
+		fireplaceBottom = furniture1.crop(width * 11, height * 8, width, height);
 
 
 		

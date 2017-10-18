@@ -24,6 +24,7 @@ public class Island extends World {
 	private Rectangle house3;
 	private Rectangle beachHouse;
 	private Rectangle beachCave;
+	private Rectangle stoneHouse1;
 
 	public Island(Handler handler, Player player, String path, int worldID) {
 		super(handler);
@@ -56,6 +57,7 @@ public class Island extends World {
 		house3 = new Rectangle(4384, 5776, 32, 32);
 		beachHouse = new Rectangle(5856, 5808, 32, 32);
 		beachCave = new Rectangle(2688, 6120, 32, 32);
+		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
 		
 	}
 
@@ -116,6 +118,14 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3744);
 				handler.getPlayer().setY(5360);
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(6016);
+				handler.getPlayer().setY(5312);
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}

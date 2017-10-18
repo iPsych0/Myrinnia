@@ -71,7 +71,7 @@ public class MapLoader {
 	}
 	
 	public String[] groundTileParser(String path){
-		int minItem = 9;
+		int minItem = 11;
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -89,7 +89,7 @@ public class MapLoader {
 			
 			String[] mapValues = new String[testLayer];
 			
-			minItem = 9;
+			minItem = 11;
 			int i = 0;
 			int layer = 0;
 			while(minItem + i < maps.getLength()) {

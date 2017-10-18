@@ -2,18 +2,11 @@ package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
-import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
-import dev.ipsych0.mygame.entities.statics.Tree;
-import dev.ipsych0.mygame.entities.statics.Whirlpool;
+import dev.ipsych0.mygame.entities.statics.Campfire;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
 
@@ -25,6 +18,7 @@ public class IslandUnderground extends World {
 	private Rectangle house3Exit;
 	private Rectangle beachHouse1Exit;
 	private Rectangle beachCaveExit;
+	private Rectangle stoneHouse1Exit;
 
 	public IslandUnderground(Handler handler, Player player, String path, int worldID) {
 		super(handler);
@@ -39,13 +33,15 @@ public class IslandUnderground extends World {
 		
 		loadWorld(path);
 		
-		entityManager.addEntity(new Lorraine(handler, 4960, 5312));
+		entityManager.addEntity(new Lorraine(handler, 4960, 5408));
+		entityManager.addEntity(new Campfire(handler, 4960, 5440));
 		
 		house1Exit = new Rectangle(6016, 6192, 32, 32);
 		house2Exit = new Rectangle(4960, 6320, 32, 32);
 		house3Exit = new Rectangle(3904, 6320, 32, 32);
 		beachHouse1Exit = new Rectangle(4960, 5584, 32, 32);
 		beachCaveExit = new Rectangle(3744, 5392, 32, 32);
+		stoneHouse1Exit = new Rectangle(6016, 5344, 32,32);
 	}
 
 	@Override
@@ -100,6 +96,15 @@ public class IslandUnderground extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(2688);
 				handler.getPlayer().setY(6136);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1Exit)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(3808);
+				handler.getPlayer().setY(5160);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}

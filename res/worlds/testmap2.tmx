@@ -9,6 +9,8 @@
  </tileset>
  <tileset firstgid="1337" source="city.tsx"/>
  <tileset firstgid="1697" source="roofs3.tsx"/>
+ <tileset firstgid="1953" source="cliffs.tsx"/>
+ <tileset firstgid="2277" source="furniture2.tsx"/>
  <layer name="GroundTiles" width="50" height="50">
   <data encoding="csv">
 352,352,352,352,352,352,352,417,417,417,417,417,417,417,417,417,417,415,416,417,417,417,352,352,352,352,352,352,352,415,416,417,417,417,352,352,352,415,416,417,417,417,415,416,417,352,352,415,416,417,
