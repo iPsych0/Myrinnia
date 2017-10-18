@@ -47,6 +47,7 @@ public class ShopWindow {
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
 	
+	
 	public static boolean hasBeenPressed = false;
 	
 	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
@@ -132,7 +133,6 @@ public class ShopWindow {
 		}
 		
 		if(isOpen) {
-			
 			
 			InventoryWindow.isOpen = false;
 			EquipmentWindow.isOpen = false;
@@ -225,6 +225,8 @@ public class ShopWindow {
 				selectedShopItem = null;
 				makingChoice = false;
 				dBox.setPressedButton(null);
+				InventoryWindow.isOpen = true;
+				EquipmentWindow.isOpen = true;
 				return;
 			}
 			

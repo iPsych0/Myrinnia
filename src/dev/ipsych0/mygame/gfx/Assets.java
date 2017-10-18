@@ -52,7 +52,10 @@ public class Assets {
 	grassCliffCornerTopLeft, grassCliffCornerTopRight, grassCliffCornerBottomLeft, grassCliffCornerBottomRight, grassCliffCornerLowerLeft, grassCliffCornerLowerRight, grassCliffCornerLowestLeft,
 	grassCliffCornerLowestRight, snowCliffTopLeft, snowCliffTopMiddle, snowCliffTopRight, snowCliffMiddleLeft, snowCliffMiddleMiddle, snowCliffMiddleRight, snowCliffBottomLeft, snowCliffBottomMiddle,
 	snowCliffBottomRight, snowCliffLeft, snowCliffMiddle, snowCliffRight, snowCliffFootLeft, snowCliffFootMiddle, snowCliffFootRight, snowCliffCornerTopLeft, snowCliffCornerTopRight,
-	snowCliffCornerBottomLeft, snowCliffCornerBottomRight, snowCliffCornerLowerLeft, snowCliffCornerLowerRight, snowCliffCornerLowestLeft, snowCliffCornerLowestRight, cliffEntranceTop, cliffEntranceBottom;
+	snowCliffCornerBottomLeft, snowCliffCornerBottomRight, snowCliffCornerLowerLeft, snowCliffCornerLowerRight, snowCliffCornerLowestLeft, snowCliffCornerLowestRight, cliffEntranceTop, cliffEntranceBottom,
+	caveCliffTopLeft, caveCliffTopMiddle, caveCliffTopRight, caveCliffMiddleLeft, caveCliffMiddleMiddle, caveCliffMiddleRight, caveCliffBottomLeft, caveCliffBottomMiddle, caveCliffBottomRight,
+	caveCliffLeft, caveCliffMiddle, caveCliffRight, caveCliffFootLeft, caveCliffFootMiddle, caveCliffFootRight, caveCliffCornerTopLeft, caveCliffCornerTopRight, caveCliffCornerBottomLeft, 
+	caveCliffCornerBottomRight, caveCliffCornerLowerLeft, caveCliffCornerLowerRight, caveCliffCornerLowestLeft, caveCliffCornerLowestRight;
 	
 	
 	// Ambiance images
@@ -152,7 +155,6 @@ public class Assets {
 		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites_new.png"));
 		SpriteSheet item_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/itemsprites.png"));
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
-		SpriteSheet house_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/housesprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
 		SpriteSheet terrain_tile = new SpriteSheet(ImageLoader.loadImage("/textures/terrain.png"));
 		SpriteSheet animated_terrain = new SpriteSheet(ImageLoader.loadImage("/textures/animated_terrain.png"));
@@ -648,6 +650,31 @@ public class Assets {
 		snowCliffCornerLowerRight = cliffs_sheet.crop(width * 33, height * 2, width, height);
 		snowCliffCornerLowestLeft = cliffs_sheet.crop(width * 32, height * 3, width, height);
 		snowCliffCornerLowestRight = cliffs_sheet.crop(width * 33, height * 3, width, height);
+		
+		caveCliffTopLeft = terrain_tile.crop(width * 24, height * 10, width, height);
+		caveCliffTopMiddle = terrain_tile.crop(width * 25, height * 10, width, height);
+		caveCliffTopRight = terrain_tile.crop(width * 26, height * 10, width, height);
+		caveCliffMiddleLeft = terrain_tile.crop(width * 24, height * 11, width, height);
+		caveCliffMiddleMiddle = terrain_tile.crop(width * 25, height * 11, width, height);
+		caveCliffMiddleRight = terrain_tile.crop(width * 26, height * 11, width, height);
+		caveCliffBottomLeft = terrain_tile.crop(width * 24, height * 12, width, height);
+		caveCliffBottomMiddle = terrain_tile.crop(width * 25, height * 12, width, height);
+		caveCliffBottomRight = terrain_tile.crop(width * 26, height * 12, width, height);
+		caveCliffLeft = terrain_tile.crop(width * 24, height * 13, width, height);
+		caveCliffMiddle = terrain_tile.crop(width * 25, height * 13, width, height);
+		caveCliffRight = terrain_tile.crop(width * 26, height * 13, width, height);
+		caveCliffFootLeft = terrain_tile.crop(width * 24, height * 14, width, height);
+		caveCliffFootMiddle = terrain_tile.crop(width * 25, height * 14, width, height);
+		caveCliffFootRight = terrain_tile.crop(width * 26, height * 14, width, height);
+		caveCliffCornerTopLeft = terrain_tile.crop(width * 30, height * 5, width, height);
+		caveCliffCornerTopRight = terrain_tile.crop(width * 31, height * 5, width, height);
+		caveCliffCornerBottomLeft = terrain_tile.crop(width * 30, height * 6, width, height);
+		caveCliffCornerBottomRight = terrain_tile.crop(width * 31, height * 6, width, height);
+		caveCliffCornerLowerLeft = terrain_tile.crop(width * 30, height * 7, width, height);
+		caveCliffCornerLowerRight = terrain_tile.crop(width * 31, height * 7, width, height);
+		caveCliffCornerLowestLeft = terrain_tile.crop(width * 30, height * 8, width, height);
+		caveCliffCornerLowestRight = terrain_tile.crop(width * 31, height * 8, width, height);
+
 
 		
 		
@@ -668,12 +695,6 @@ public class Assets {
 		
 		tree = texture_sheet.crop(width, height * 2, width, height);
 		rock = texture_sheet.crop(0, height * 3, width, height);
-		
-		// House Spites
-		
-		greenHouseRoof = house_sheet.crop(width * 8, height, width, height);
-		greenHouseWall = house_sheet.crop(width * 8, height * 3, width, height);
-		greenHouseEntrance = house_sheet.crop(width * 10, height * 3, width, height);
 		
 	}
 	

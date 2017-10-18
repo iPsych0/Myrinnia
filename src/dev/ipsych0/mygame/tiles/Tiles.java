@@ -166,10 +166,6 @@ public class Tiles {
 	public static Tiles snowPattern2 = new Tiles(Assets.snowPattern2, 620);
 	public static Tiles snowPattern3 = new Tiles(Assets.snowPattern3, 621);
 	
-	public static Tiles greenHouseRoof = new Tiles(Assets.greenHouseRoof, 409);
-	public static Tiles greenHouseWall = new Tiles(Assets.greenHouseWall, 410);
-	public static Tiles greenHouseEntrance = new Tiles(Assets.greenHouseEntrance, 411);
-	
 	public static Tiles sandSmallTopLeft = new Tiles(Assets.sandSmallTopLeft, 268);
 	public static Tiles sandSmallTopRight = new Tiles(Assets.sandSmallTopRight, 269);
 	public static Tiles sandSmallBottomLeft = new Tiles(Assets.sandSmallBottomLeft, 300);
@@ -369,6 +365,31 @@ public class Tiles {
 	public static Tiles snowCliffCornerLowerRight = new Tiles(Assets.snowCliffCornerLowerRight, 2058);
 	public static Tiles snowCliffCornerLowestLeft = new Tiles(Assets.snowCliffCornerLowestLeft, 2093);
 	public static Tiles snowCliffCornerLowestRight = new Tiles(Assets.snowCliffCornerLowestRight, 2094);
+	
+	public static Tiles caveCliffTopLeft = new Tiles(Assets.caveCliffTopLeft, 401);
+	public static Tiles caveCliffTopMiddle = new Tiles(Assets.caveCliffTopMiddle, 402);
+	public static Tiles caveCliffTopRight = new Tiles(Assets.caveCliffTopRight, 403);
+	public static Tiles caveCliffMiddleLeft = new Tiles(Assets.caveCliffMiddleLeft, 433);
+	public static Tiles caveCliffMiddleMiddle = new Tiles(Assets.caveCliffMiddleMiddle, 434);
+	public static Tiles caveCliffMiddleRight = new Tiles(Assets.caveCliffMiddleRight, 435);
+	public static Tiles caveCliffBottomLeft = new Tiles(Assets.caveCliffBottomLeft, 465);
+	public static Tiles caveCliffBottomBottom = new Tiles(Assets.caveCliffBottomMiddle, 466);
+	public static Tiles caveCliffBottomRight = new Tiles(Assets.caveCliffBottomRight, 467);
+	public static Tiles caveCliffLeft = new Tiles(Assets.caveCliffLeft, 497);
+	public static Tiles caveCliffMiddle = new Tiles(Assets.caveCliffMiddle, 498);
+	public static Tiles caveCliffRight = new Tiles(Assets.caveCliffRight, 499);
+	public static Tiles caveCliffFootLeft = new Tiles(Assets.caveCliffFootLeft, 529);
+	public static Tiles caveCliffFOotMiddle = new Tiles(Assets.caveCliffFootMiddle, 530);
+	public static Tiles caveCliffFootRight = new Tiles(Assets.caveCliffFootRight, 531);
+	public static Tiles caveCliffCornerTopLeft = new Tiles(Assets.caveCliffCornerTopLeft, 247);
+	public static Tiles caveCliffCornerTopRight = new Tiles(Assets.caveCliffCornerTopRight, 248);
+	public static Tiles caveCliffCornerBottomLeft = new Tiles(Assets.caveCliffCornerBottomLeft, 279);
+	public static Tiles caveCliffCornerBottomRight = new Tiles(Assets.caveCliffCornerBottomRight, 280);
+	public static Tiles caveCliffCornerLowerLeft = new Tiles(Assets.caveCliffCornerLowerLeft, 311);
+	public static Tiles caveCliffCornerLowerRight = new Tiles(Assets.caveCliffCornerLowerRight, 312);
+	public static Tiles caveCliffCornerLowestLeft = new Tiles(Assets.caveCliffCornerLowestLeft, 343);
+	public static Tiles caveCliffCornerLowestRight = new Tiles(Assets.caveCliffCornerLowestRight, 344);
+
 	
 	public static Tiles palmTreeTop = new Tiles(Assets.palmTreeTop, 1274);
 	public static Tiles palmTreeBotom = new Tiles(Assets.palmTreeBottom, 1290);
@@ -625,6 +646,28 @@ public class Tiles {
 		case 2058: return true;
 		case 2093: return true;
 		case 2094: return true;
+		case 401: return true;
+		case 402: return true;
+		case 403: return true;
+		case 433: return true;
+		case 435: return true;
+		case 465: return true;
+		case 466: return true;
+		case 467: return true;
+		case 497: return true;
+		case 498: return true;
+		case 499: return true;
+		case 529: return true;
+		case 530: return true;
+		case 531: return true;
+		case 247: return true;
+		case 248: return true;
+		case 279: return true;
+		case 280: return true;
+		case 311: return true;
+		case 312: return true;
+		case 343: return true;
+		case 344: return true;
 				
 		default: return false;
 		}

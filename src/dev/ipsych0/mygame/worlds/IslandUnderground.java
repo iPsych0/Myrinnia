@@ -20,9 +20,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public class IslandUnderground extends World {
 	
 	private Player player;
-	private Rectangle exit1;
-	private Rectangle exit2;
-	private Rectangle exit3;
+	private Rectangle house1Exit;
+	private Rectangle house2Exit;
+	private Rectangle house3Exit;
+	private Rectangle beachHouse1Exit;
+	private Rectangle beachCaveExit;
 
 	public IslandUnderground(Handler handler, Player player, String path, int worldID) {
 		super(handler);
@@ -37,23 +39,13 @@ public class IslandUnderground extends World {
 		
 		loadWorld(path);
 		
-		entityManager.addEntity(new Lorraine(handler, 732, 440));
+		entityManager.addEntity(new Lorraine(handler, 4960, 5312));
 		
-		entityManager.addEntity(new Tree(handler, 360, 128));
-		entityManager.addEntity(new Tree(handler, 328, 128));
-		entityManager.addEntity(new Tree(handler, 296, 192));
-		entityManager.addEntity(new Tree(handler, 296, 160));
-		
-		entityManager.addEntity(new Rock(handler, 448, 576));
-		
-		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
-		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
-		
-		entityManager.addEntity(new Whirlpool(handler, 112, 928));
-		
-		exit1 = new Rectangle(6016, 6192, 32, 32);
-		exit2 = new Rectangle(4960, 6320, 32, 32);
-		exit3 = new Rectangle(3904, 6320, 32, 32);
+		house1Exit = new Rectangle(6016, 6192, 32, 32);
+		house2Exit = new Rectangle(4960, 6320, 32, 32);
+		house3Exit = new Rectangle(3904, 6320, 32, 32);
+		beachHouse1Exit = new Rectangle(4960, 5584, 32, 32);
+		beachCaveExit = new Rectangle(3744, 5392, 32, 32);
 	}
 
 	@Override
@@ -67,7 +59,7 @@ public class IslandUnderground extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit1)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1Exit)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(5056);
@@ -76,7 +68,7 @@ public class IslandUnderground extends World {
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit2)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2Exit)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4608);
@@ -85,11 +77,29 @@ public class IslandUnderground extends World {
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(exit3)){
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3Exit)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4384);
 				handler.getPlayer().setY(5800);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse1Exit)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(5856);
+				handler.getPlayer().setY(5824);
+				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
+			}
+			
+			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCaveExit)){
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(2688);
+				handler.getPlayer().setY(6136);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
 				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
