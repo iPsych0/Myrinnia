@@ -28,6 +28,7 @@ import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -44,6 +45,7 @@ public class Player extends Creature{
 	
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
+	public static boolean debugButtonPressed = false;
 	
 	// Walking Animations
 	private Animation aDown, aUp, aLeft, aRight, aDefault;
@@ -148,7 +150,7 @@ public class Player extends Creature{
 		regenHealth();
 		
 		// Player position
-		if(handler.getKeyManager().position){
+		if(handler.getKeyManager().position && debugButtonPressed){
 			getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
@@ -156,12 +158,7 @@ public class Player extends Creature{
 			System.out.println("Attack XP = " + getAttackExperience());
 			System.out.println("Crafting XP = " + getCraftingExperience());
 			System.out.println("Crafting level = " + getCraftingLevel());
-			for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
-				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() != null)
-					continue;
-				if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null)
-					handler.getWorld().getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 1);
-			}
+			debugButtonPressed = false;
 			
 		}
 		if(handler.getKeyManager().talk){

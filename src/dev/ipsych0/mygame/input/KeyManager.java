@@ -79,6 +79,10 @@ public class KeyManager implements KeyListener{
 			}
 			keys[e.getKeyCode()] = true;
 			
+			if(e.getKeyCode() == KeyEvent.VK_P) {
+				Player.debugButtonPressed = true;
+			}
+			
 			// Inventory toggle
 			if(e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen){
 				if(!InventoryWindow.isOpen){
@@ -125,14 +129,6 @@ public class KeyManager implements KeyListener{
 				}
 			}
 			
-//			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-//				CraftingUI.isOpen = false;
-//				ShopWindow.inventoryLoaded = false;
-//				ShopWindow.isOpen = false;
-//				DialogueBox.isOpen = false;
-//				ShopWindow.hasBeenPressed = false;
-//				ShopWindow.makingChoice = false;
-//			}
 		}
 	}
 
