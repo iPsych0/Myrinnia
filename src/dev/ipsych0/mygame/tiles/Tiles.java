@@ -441,10 +441,22 @@ public class Tiles {
 	public static Tiles emptyCrate = new Tiles(Assets.emptyCrate, 2336);
 	public static Tiles emptyBarrel = new Tiles(Assets.emptyBarrel, 2323);
 	public static Tiles barrel1 = new Tiles(Assets.barrel1, 2307);
+	public static Tiles bed2Top = new Tiles(Assets.bed2Top, 2757);
+	public static Tiles bed2Bottom = new Tiles(Assets.bed2Bottom, 2773);
+	public static Tiles curtainLeftTop = new Tiles(Assets.curtainLeftTop, 2582);
+	public static Tiles curtainLeftBottom = new Tiles(Assets.curtainLeftBottom, 2598);
+	public static Tiles curtainRightTop = new Tiles(Assets.curtainRightTop, 2583);
+	public static Tiles curtainRightBottom = new Tiles(Assets.curtainRightBottom, 2599);
+	public static Tiles curtainMiddleTop = new Tiles(Assets.curtainMiddleTop, 2581);
+	public static Tiles curtainMiddleBottom = new Tiles(Assets.curtainMiddleBottom, 2597);
 	
-	
-	
-	
+	public static Tiles signInn = new Tiles(Assets.signInn, 2795);
+	public static Tiles signArmour = new Tiles(Assets.signArmour, 2792);
+	public static Tiles signWeapons = new Tiles(Assets.signWeapons, 2791);
+	public static Tiles signWorkshop = new Tiles(Assets.signWorkshop, 2811);
+	public static Tiles signBank = new Tiles(Assets.signBank, 2793);
+	public static Tiles woodenBridgeHorizontal = new Tiles(Assets.woodenBridgeHorizontal, 2824);
+	public static Tiles woodenBridgeVertical = new Tiles(Assets.woodenBridgeVertical, 2823);
 
 	
 	
@@ -752,6 +764,14 @@ public class Tiles {
 		case 2323: return true;
 		case 2307: return true;
 		case 2319: return true;
+		case 2757: return true;
+		case 2773: return true;
+		case 2581: return true;
+		case 2597: return true;
+		case 2582: return true;
+		case 2598: return true;
+		case 2583: return true;
+		case 2599: return true;
 				
 		default: return false;
 		}

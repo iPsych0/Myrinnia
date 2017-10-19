@@ -11,6 +11,8 @@
  <tileset firstgid="1697" source="roofs3.tsx"/>
  <tileset firstgid="1953" source="cliffs.tsx"/>
  <tileset firstgid="2277" source="furniture2.tsx"/>
+ <tileset firstgid="2533" source="furniture1.tsx"/>
+ <tileset firstgid="2789" source="objects5.tsx"/>
  <layer name="GroundTiles" width="50" height="50">
   <data encoding="csv">
 417,352,416,417,352,416,352,415,352,416,352,416,415,415,352,417,352,415,417,417,417,415,417,417,416,352,415,416,417,417,415,415,352,417,352,352,416,352,415,416,415,417,352,352,416,416,417,417,417,416,

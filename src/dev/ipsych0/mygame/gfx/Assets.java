@@ -59,7 +59,8 @@ public class Assets {
 	stoolTop1, sandPit, waterBucket, fireplaceTop, fireplaceBottom, stoolBottom1, bookcaseTopLeft, bookcaseTopRight, bookcaseBottomLeft, bookcaseBottomRight, bed1Top, bed1Bottom,
 	drawer1, smallBookcaseTop, smallBookcaseBottom, wardrobe1Top, wardrobe1Bottom, breadShelfTop, breadShelfBottom, bottleShelfTop, bottleShelfBottom, plateShelfTop, plateShelfBottom,
 	painting1, painting2, painting3, painting4, worldMap1Left, worldMap1Right, bigPainting1Left, bigPainting1Right, wallNote, crateApples, cratePotatoes, crateFish, crateGroceries, crate1,
-	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1;
+	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1, signInn, signArmour, signWeapons, signWorkshop, signBank, woodenBridgeHorizontal,
+	woodenBridgeVertical, bed2Top, bed2Bottom, curtainLeftTop, curtainLeftBottom, curtainMiddleTop, curtainMiddleBottom, curtainRightTop, curtainRightBottom;
 	
 	
 	// Ambiance images
@@ -170,8 +171,9 @@ public class Assets {
 		SpriteSheet city_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/city_sprites.png"));
 		SpriteSheet roofs3_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/roofs3.png"));
 		SpriteSheet cliffs_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/cliffs.png"));
-		SpriteSheet object_sheet17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
+		SpriteSheet objects17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
 		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
+		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -250,11 +252,11 @@ public class Assets {
 		
 		// Object Sprites
 		campfire = new BufferedImage[5];
-		campfire[0] = object_sheet17.crop(0, height * 15, width, height);
-		campfire[1] = object_sheet17.crop(width, height * 15, width, height);
-		campfire[2] = object_sheet17.crop(width * 2, height * 15, width, height);
-		campfire[3] = object_sheet17.crop(width * 3, height * 15, width, height);
-		campfire[4] = object_sheet17.crop(width * 4, height * 15, width, height);
+		campfire[0] = objects17.crop(0, height * 15, width, height);
+		campfire[1] = objects17.crop(width, height * 15, width, height);
+		campfire[2] = objects17.crop(width * 2, height * 15, width, height);
+		campfire[3] = objects17.crop(width * 3, height * 15, width, height);
+		campfire[4] = objects17.crop(width * 4, height * 15, width, height);
 		
 		teleportShrine1 = object_sheet.crop(width * 7, height * 10, width, height);
 		teleportShrine2 = object_sheet.crop(width * 7, height * 11, width, height);
@@ -395,14 +397,14 @@ public class Assets {
 		
 		
 		// Furniture
-		pot1 = object_sheet17.crop(width * 10, height * 8, width, height);
-		basket1 = object_sheet17.crop(width * 14, height * 4, width, height);
-		basketApples = object_sheet17.crop(width * 15, height * 4, width, height);
-		waterBucket = object_sheet17.crop(width * 13, height * 5, width, height);
+		pot1 = objects17.crop(width * 10, height * 8, width, height);
+		basket1 = objects17.crop(width * 14, height * 4, width, height);
+		basketApples = objects17.crop(width * 15, height * 4, width, height);
+		waterBucket = objects17.crop(width * 13, height * 5, width, height);
 		table1 = furniture1.crop(width * 13, height * 2, width, height);
 		stoolTop1 = furniture1.crop(width * 10, height, width, height);
 		stoolBottom1 = furniture1.crop(width * 9, height, width, height);
-		sandPit = object_sheet17.crop(width * 5, height * 13, width, height);
+		sandPit = objects17.crop(width * 5, height * 13, width, height);
 		fireplaceTop = furniture1.crop(width * 11, height * 7, width, height);
 		fireplaceBottom = furniture1.crop(width * 11, height * 8, width, height);
 		bookcaseTopLeft = furniture1.crop(width * 6, height * 12, width, height);
@@ -432,18 +434,33 @@ public class Assets {
 		bigPainting1Right = furniture1.crop(width * 15, height * 13, width, height);
 		wallNote = furniture1.crop(width * 12, height * 12, width, height);
 		
-		crateApples = object_sheet17.crop(width * 12, height * 3, width, height);
-		cratePotatoes = object_sheet17.crop(width * 10, height * 4, width, height);
-		crateFish= object_sheet17.crop(width * 11, height * 4, width, height);
-		crateGroceries = object_sheet17.crop(width * 12, height * 4, width, height);
-		stackedCrateBottom = object_sheet17.crop(width * 10, height * 2, width, height);
-		stackedCrateTop = object_sheet17.crop(width * 10, height, width, height);
-		crate1 = object_sheet17.crop(width * 10, height * 3, width, height);
-		emptyCrate = object_sheet17.crop(width * 11, height * 3, width, height);
-		emptyBucket = object_sheet17.crop(width * 12, height * 5, width, height);
-		emptyBarrel = object_sheet17.crop(width * 14, height * 2, width, height);
-		barrel1 = object_sheet17.crop(width * 14, height, width, height);
+		crateApples = objects17.crop(width * 12, height * 3, width, height);
+		cratePotatoes = objects17.crop(width * 10, height * 4, width, height);
+		crateFish= objects17.crop(width * 11, height * 4, width, height);
+		crateGroceries = objects17.crop(width * 12, height * 4, width, height);
+		stackedCrateBottom = objects17.crop(width * 10, height * 2, width, height);
+		stackedCrateTop = objects17.crop(width * 10, height, width, height);
+		crate1 = objects17.crop(width * 10, height * 3, width, height);
+		emptyCrate = objects17.crop(width * 11, height * 3, width, height);
+		emptyBucket = objects17.crop(width * 12, height * 5, width, height);
+		emptyBarrel = objects17.crop(width * 14, height * 2, width, height);
+		barrel1 = objects17.crop(width * 14, height, width, height);
+		bed2Top = furniture1.crop(0, height * 14, width, height);
+		bed2Bottom = furniture1.crop(0, height * 15, width, height);
+		curtainLeftTop = furniture1.crop(width, height * 3, width, height);
+		curtainLeftBottom = furniture1.crop(width, height * 4, width, height);
+		curtainMiddleTop = furniture1.crop(0, height * 3, width, height);
+		curtainMiddleBottom = furniture1.crop(0, height * 4, width, height);
+		curtainRightTop = furniture1.crop(width * 2, height * 3, width, height);
+		curtainRightBottom = furniture1.crop(width * 2, height * 4, width, height);
 
+		signInn = objects5.crop(width * 6, 0, width, height);
+		signArmour = objects5.crop(width * 3, 0, width, height);
+		signWeapons = objects5.crop(width * 2, 0, width, height);
+		signWorkshop = objects5.crop(width * 6, height, width, height);
+		signBank = objects5.crop(width * 4, 0, width, height);
+		woodenBridgeHorizontal = objects5.crop(width * 3, height * 2, width, height);
+		woodenBridgeVertical = objects5.crop(width * 2, height * 2, width, height);
 
 		
 		/*
