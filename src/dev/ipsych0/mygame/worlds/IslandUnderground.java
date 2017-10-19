@@ -33,14 +33,15 @@ public class IslandUnderground extends World {
 		
 		loadWorld(path);
 		
-		entityManager.addEntity(new Lorraine(handler, 4960, 5408));
+		entityManager.addEntity(new Lorraine(handler, 3904, 6080));
 		entityManager.addEntity(new Campfire(handler, 4960, 5440));
+		entityManager.addEntity(new Campfire(handler, 6016, 5860));
 		
 		house1Exit = new Rectangle(6016, 6192, 32, 32);
 		house2Exit = new Rectangle(4960, 6320, 32, 32);
 		house3Exit = new Rectangle(3904, 6320, 32, 32);
 		beachHouse1Exit = new Rectangle(4960, 5584, 32, 32);
-		beachCaveExit = new Rectangle(3744, 5392, 32, 32);
+		beachCaveExit = new Rectangle(3728, 5392, 64, 32);
 		stoneHouse1Exit = new Rectangle(6016, 5344, 32,32);
 	}
 

@@ -389,18 +389,59 @@ public class Tiles {
 	public static Tiles caveCliffCornerLowerRight = new Tiles(Assets.caveCliffCornerLowerRight, 312);
 	public static Tiles caveCliffCornerLowestLeft = new Tiles(Assets.caveCliffCornerLowestLeft, 343);
 	public static Tiles caveCliffCornerLowestRight = new Tiles(Assets.caveCliffCornerLowestRight, 344);
-	
 	public static Tiles palmTreeTop = new Tiles(Assets.palmTreeTop, 1274);
 	public static Tiles palmTreeBotom = new Tiles(Assets.palmTreeBottom, 1290);
+	
+	// Furniture
 	public static Tiles pot1 = new Tiles(Assets.pot1, 2415);
 	public static Tiles waterBucket = new Tiles(Assets.waterBucket, 2370);
 	public static Tiles basket1 = new Tiles(Assets.basket1, 2355);
 	public static Tiles basketApples = new Tiles(Assets.basketApples, 2356);
 	public static Tiles sandPit = new Tiles(Assets.sandPit, 2490);
-	public static Tiles chair1 = new Tiles(Assets.chair1, 2559);
+	public static Tiles stoolTop1 = new Tiles(Assets.stoolTop1, 2559);
+	public static Tiles stoolBottom1 = new Tiles(Assets.stoolBottom1, 2558);
 	public static Tiles table1 = new Tiles(Assets.table1, 2578);
 	public static Tiles fireplaceTop = new Tiles(Assets.fireplaceTop, 2656);
 	public static Tiles fireplaceBottom = new Tiles(Assets.fireplaceBottom, 2672);
+	public static Tiles bookcaseTopLeft = new Tiles(Assets.bookcaseTopLeft, 2731);
+	public static Tiles bookcaseTopRight = new Tiles(Assets.bookcaseTopRight, 2732);
+	public static Tiles bookcaseBottomLeft = new Tiles(Assets.bookcaseBottomLeft, 2747);
+	public static Tiles bookcaseBottomRight = new Tiles(Assets.bookcaseBottomRight, 2748);
+	public static Tiles bed1Top = new Tiles(Assets.bed1Top, 2761);
+	public static Tiles bed1Bottom = new Tiles(Assets.bed1Bottom, 2777);
+	public static Tiles drawer1 = new Tiles(Assets.drawer1, 2693);
+	public static Tiles smallBookcaseTop = new Tiles(Assets.smallBookcaseTop, 2730);
+	public static Tiles smallBookcaseBottom = new Tiles(Assets.smallBookcaseBottom, 2746);
+	public static Tiles wardrobe1Top = new Tiles(Assets.wardrobe1Top, 2695);
+	public static Tiles wardrobe1Bottom = new Tiles(Assets.wardrobe1Bottom, 2711);
+	public static Tiles breadShelfTop = new Tiles(Assets.breadShelfTop, 2725);
+	public static Tiles breadShelfBottom = new Tiles(Assets.breadShelfBottom, 2741);
+	public static Tiles bottleShelfTop = new Tiles(Assets.bottleShelfTop, 2729);
+	public static Tiles bottleShelfBottom = new Tiles(Assets.bottleShelfBottom, 2745);
+	public static Tiles plateShelfTop = new Tiles(Assets.plateShelfTop, 2697);
+	public static Tiles plateShelfBottom = new Tiles(Assets.plateShelfBottom, 2713);
+	public static Tiles painting1 = new Tiles(Assets.painting1, 2721);
+	public static Tiles painting2 = new Tiles(Assets.painting2, 2722);
+	public static Tiles painting3 = new Tiles(Assets.painting3, 2723);
+	public static Tiles painting4 = new Tiles(Assets.painting4, 2724);
+	public static Tiles worldMap1Left = new Tiles(Assets.worldMap1Left, 2739);
+	public static Tiles worldMap1Right = new Tiles(Assets.worldMap1Right, 2740);
+	public static Tiles bigPainting1Left = new Tiles(Assets.bigPainting1Left, 2755);
+	public static Tiles bigPainting11Right = new Tiles(Assets.bigPainting1Right, 2756);
+	public static Tiles wallNote = new Tiles(Assets.wallNote, 2737);
+	
+	public static Tiles crateApples = new Tiles(Assets.crateApples, 2337);
+	public static Tiles cratePotatoes = new Tiles(Assets.cratePotatoes, 2351);
+	public static Tiles crateFish = new Tiles(Assets.crateFish, 2352);
+	public static Tiles crateGroceries = new Tiles(Assets.crateGroceries, 2353);
+	public static Tiles crate1 = new Tiles(Assets.crate1, 2335);
+	public static Tiles stackedCrateTop = new Tiles(Assets.stackedCrateTop, 2303);
+	public static Tiles stackedCrateBottom = new Tiles(Assets.stackedCrateBottom, 2319);
+	public static Tiles emptyBucket = new Tiles(Assets.emptyBucket, 2369);
+	public static Tiles emptyCrate = new Tiles(Assets.emptyCrate, 2336);
+	public static Tiles emptyBarrel = new Tiles(Assets.emptyBarrel, 2323);
+	public static Tiles barrel1 = new Tiles(Assets.barrel1, 2307);
+	
 	
 	
 	
@@ -683,6 +724,34 @@ public class Tiles {
 		case 2578: return true;
 		case 2656: return true;
 		case 2672: return true;
+		case 2761: return true;
+		case 2777: return true;
+		case 2693: return true;
+		case 2731: return true;
+		case 2732: return true;
+		case 2747: return true;
+		case 2748: return true;
+		case 2730: return true;
+		case 2746: return true;
+		case 2695: return true;
+		case 2711: return true;
+		case 2725: return true;
+		case 2741: return true;
+		case 2729: return true;
+		case 2745: return true;
+		case 2697: return true;
+		case 2713: return true;
+		case 2337: return true;
+		case 2351: return true;
+		case 2352: return true;
+		case 2353: return true;
+		case 2335: return true;
+		case 2303: return true;
+		case 2369: return true;
+		case 2336: return true;
+		case 2323: return true;
+		case 2307: return true;
+		case 2319: return true;
 				
 		default: return false;
 		}

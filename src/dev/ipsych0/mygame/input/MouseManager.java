@@ -108,9 +108,12 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		isDragged = true;
 		mouseMovedTimer = 0;
 		Player.mouseMoved = true;
+		
+		if(leftPressed) {
+			isDragged = true;
+		}
 		
 		// Fix hier shit
 		mouseX = e.getX();
