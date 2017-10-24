@@ -16,7 +16,6 @@ public class WaterToBridgePart extends StaticEntity {
 	public static boolean isFixed = false;
 	private String layout;
 	private int speakingTurn = 0;
-	private BufferedImage texture;
 	
 	public WaterToBridgePart(Handler handler, float x, float y, String layout) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -28,7 +27,6 @@ public class WaterToBridgePart extends StaticEntity {
 		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
-		texture = Assets.waterMiddleMiddle;
 	}
 
 	@Override
@@ -45,7 +43,7 @@ public class WaterToBridgePart extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(texture, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.waterMiddleMiddle, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 			, width, height, null);
 	}
 
@@ -63,9 +61,6 @@ public class WaterToBridgePart extends StaticEntity {
 			if(!isFixed && layout == "horizontal") {
 				if(handler.playerHasItem(Item.woodItem, 5)) {
 					handler.removeItem(Item.woodItem, 5);
-					bounds.width = 0;
-					bounds.height = 0;
-					texture = Assets.woodenBridgeHorizontal;
 					this.speakingTurn = 1;
 					isFixed = true;
 					handler.sendMsg("You fixed the bridge!");
@@ -78,9 +73,6 @@ public class WaterToBridgePart extends StaticEntity {
 			else if(!isFixed && layout == "vertical") {
 				if(handler.playerHasItem(Item.woodItem, 5)) {
 					handler.removeItem(Item.woodItem, 5);
-					bounds.width = 0;
-					bounds.height = 0;
-					texture = Assets.woodenBridgeVertical;
 					this.speakingTurn = 1;
 					isFixed = true;
 					handler.sendMsg("You fixed the bridge!");
