@@ -10,7 +10,7 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine2 extends StaticEntity {
 	
-	private int speakingTurn;
+	private int speakingTurn = 0;
 
 	public TeleportShrine2(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -18,7 +18,6 @@ public class TeleportShrine2 extends StaticEntity {
 		bounds.y = 1;
 		bounds.width = 32;
 		bounds.height = 32;
-		speakingTurn = 0;
 		attackable = false;
 		isNpc = true;
 	}

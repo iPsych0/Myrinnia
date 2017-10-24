@@ -6,11 +6,11 @@ import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
-import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
+import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -50,6 +50,10 @@ public class Island extends World {
 		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
 		
 		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
+		
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320, "vertical"));
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352, "vertical"));
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4384, "vertical"));
 		
 		testLandTile = new Rectangle(400, 70, 32, 350); 
 		house1 = new Rectangle(5056, 5424, 32, 32);
