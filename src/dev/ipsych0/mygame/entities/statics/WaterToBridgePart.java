@@ -13,7 +13,7 @@ public class WaterToBridgePart extends StaticEntity {
 	
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	public static boolean isFixed = false;
+	private boolean isFixed = false;
 	private String layout;
 	private int speakingTurn = 0;
 	

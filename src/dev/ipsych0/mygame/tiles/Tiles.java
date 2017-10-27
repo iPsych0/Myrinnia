@@ -13,13 +13,25 @@ public class Tiles {
 	public static Tiles[] tiles = new Tiles[4096];
 
 	public static Tiles blackTile = new Tiles(Assets.black, 28);
-	
+
+	// Terrain
 	public static Tiles darkGrass = new Tiles(Assets.darkGrass, 352);
+	public static Tiles darkGrassTopLeft = new Tiles(Assets.darkGrassTopLeft, 319);
+	public static Tiles darkGrassTopMiddle = new Tiles(Assets.darkGrassTopMiddle, 320);
+	public static Tiles darkGrassTopRight = new Tiles(Assets.darkGrassTopRight, 321);
+	public static Tiles darkGrassMiddleLeft = new Tiles(Assets.darkGrassMiddleLeft, 351);
+	public static Tiles darkGrassMiddleRight = new Tiles(Assets.darkGrassMiddleRight, 353);
+	public static Tiles darkGrassBottomLeft = new Tiles(Assets.darkGrassBottomLeft, 383);
+	public static Tiles darkGrassBottomMiddle = new Tiles(Assets.darkGrassBottomMiddle, 384);
+	public static Tiles darkGrassBottomRight = new Tiles(Assets.darkGrassBottomRight, 385);
+	public static Tiles darkGrassSmallTopLeft = new Tiles(Assets.darkGrassSmallTopLeft, 256);
+	public static Tiles darkGrassSmallTopRight = new Tiles(Assets.darkGrassSmallTopRight, 257);
+	public static Tiles darkGrassSmallBottomLeft = new Tiles(Assets.darkGrassSmallBottomLeft, 288);
+	public static Tiles darkGrassSmallBottomRight = new Tiles(Assets.darkGrassSmallBottomRight, 289);
 	public static Tiles darkGrassPatch1 = new Tiles(Assets.darkGrassPatch1, 415);
 	public static Tiles darkGrassPatch2 = new Tiles(Assets.darkGrassPatch2, 416);
 	public static Tiles darkGrassPatch3 = new Tiles(Assets.darkGrassPatch3, 417);
-
-	// Terrain
+	
 	public static Tiles waterSmallTopLeft = new Tiles(Assets.waterSmallTopLeft, 85);
 	public static Tiles waterSmallTopRight = new Tiles(Assets.waterSmallTopRight, 86);
 	public static Tiles waterSmallBottomLeft = new Tiles(Assets.waterSmallBottomLeft, 117);
@@ -261,6 +273,15 @@ public class Tiles {
 	public static Tiles tree1BatchBottomLeft = new Tiles(Assets.tree1BatchBottomLeft, 1163);
 	public static Tiles tree1BatchBottomRight = new Tiles(Assets.tree1BatchBottomRight, 1164);
 	
+	public static Tiles pineTreeTopLeft = new Tiles(Assets.pineTreeTopLeft, 1081);
+	public static Tiles pineTreeTopRight = new Tiles(Assets.pineTreeTopRight, 1082);
+	public static Tiles pineTreeBottomLeft = new Tiles(Assets.pineTreeBottomLeft, 1097);
+	public static Tiles pineTreeBottomRight = new Tiles(Assets.pineTreeBottomRight, 1098);
+	public static Tiles pineTreeBatchTopLeft = new Tiles(Assets.pineTreeBatchTopLeft, 1083);
+	public static Tiles pineTreeBatchTopRight = new Tiles(Assets.pineTreeBatchTopRight, 1084);
+	public static Tiles pineTreeBatchBottomLeft = new Tiles(Assets.pineTreeBatchBottomLeft, 1099);
+	public static Tiles pineTreeBatchBottomRight = new Tiles(Assets.pineTreeBatchBottomRight, 1100);
+	
 	public static Tiles whiteWallTopLeft = new Tiles(Assets.whiteWallTopLeft, 1697);
 	public static Tiles whiteWallTopMiddle = new Tiles(Assets.whiteWallTopMiddle, 1698);
 	public static Tiles whiteWallTopRight = new Tiles(Assets.whiteWallTopRight, 1699);
@@ -457,6 +478,8 @@ public class Tiles {
 	public static Tiles signBank = new Tiles(Assets.signBank, 2793);
 	public static Tiles woodenBridgeHorizontal = new Tiles(Assets.woodenBridgeHorizontal, 2824);
 	public static Tiles woodenBridgeVertical = new Tiles(Assets.woodenBridgeVertical, 2823);
+	public static Tiles logBridgeHorizontal = new Tiles(Assets.logBridgeHorizontal, 2821);
+	public static Tiles logBridgeVertical = new Tiles(Assets.logBridgeVertical, 2822);
 
 	
 	
@@ -772,6 +795,14 @@ public class Tiles {
 		case 2598: return true;
 		case 2583: return true;
 		case 2599: return true;
+		case 1081: return true;
+		case 1082: return true;
+		case 1097: return true;
+		case 1098: return true;
+		case 1083: return true;
+		case 1084: return true;
+		case 1099: return true;
+		case 1100: return true;
 				
 		default: return false;
 		}

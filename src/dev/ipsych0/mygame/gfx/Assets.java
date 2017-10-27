@@ -33,8 +33,10 @@ public class Assets {
 								snowTopRight, snowMiddleLeft, snowMiddleMiddle, snowMiddleRight, snowBottomLeft, snowBottomMiddle, snowBottomRight, snowSmallTopLeft,
 								snowSmallTopRight, snowSmallBottomLeft, snowSmallBottomRight, snowPattern1, snowPattern2, snowPattern3, snowWaterTopLeft, snowWaterTopMiddle,
 								snowWaterTopRight, snowWaterMiddleLeft, snowWaterMiddleMiddle, snowWaterMiddleRight, snowWaterBottomLeft, snowWaterBottomMiddle, snowWaterBottomRight,
-								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight, black, darkGrass, darkGrassPatch1, darkGrassPatch2,
-								darkGrassPatch3, lightGrass, lightGrassPatch1, lightGrassPatch2, lightGrassPatch3, flowerPatch1, flowerPatch2, flowerPatch3;
+								snowWaterSmallTopLeft, snowWaterSmallTopRight, snowWaterSmallBottomLeft, snowWaterSmallBottomRight, black, darkGrass, darkGrassTopLeft,
+								darkGrassTopMiddle, darkGrassTopRight, darkGrassMiddleLeft, darkGrassMiddleRight, darkGrassBottomLeft, darkGrassBottomMiddle, darkGrassBottomRight,
+								darkGrassPatch1, darkGrassPatch2, darkGrassPatch3, darkGrassSmallTopLeft, darkGrassSmallTopRight, darkGrassSmallBottomLeft, darkGrassSmallBottomRight,
+								lightGrass, lightGrassPatch1, lightGrassPatch2, lightGrassPatch3, flowerPatch1, flowerPatch2, flowerPatch3;
 	
 	// Object images
 	public static BufferedImage teleportShrine1, teleportShrine2, teleportShrinePillar1, teleportShrinePillar2, woodenRoofTopLeft, woodenRoofTopMiddle, woodenRoofTopRight, woodenRoofMiddleLeft,
@@ -60,7 +62,8 @@ public class Assets {
 	drawer1, smallBookcaseTop, smallBookcaseBottom, wardrobe1Top, wardrobe1Bottom, breadShelfTop, breadShelfBottom, bottleShelfTop, bottleShelfBottom, plateShelfTop, plateShelfBottom,
 	painting1, painting2, painting3, painting4, worldMap1Left, worldMap1Right, bigPainting1Left, bigPainting1Right, wallNote, crateApples, cratePotatoes, crateFish, crateGroceries, crate1,
 	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1, signInn, signArmour, signWeapons, signWorkshop, signBank, woodenBridgeHorizontal,
-	woodenBridgeVertical, bed2Top, bed2Bottom, curtainLeftTop, curtainLeftBottom, curtainMiddleTop, curtainMiddleBottom, curtainRightTop, curtainRightBottom;
+	woodenBridgeVertical, bed2Top, bed2Bottom, curtainLeftTop, curtainLeftBottom, curtainMiddleTop, curtainMiddleBottom, curtainRightTop, curtainRightBottom, pineTreeTopLeft,
+	pineTreeTopRight, pineTreeBottomLeft, pineTreeBottomRight, pineTreeBatchTopLeft, pineTreeBatchTopRight, pineTreeBatchBottomLeft, pineTreeBatchBottomRight, logBridgeHorizontal, logBridgeVertical;
 	
 	
 	// Ambiance images
@@ -377,6 +380,14 @@ public class Assets {
 		tree1BatchBottomRight = trees_sheet.crop(width * 3, height * 5, width, height);
 		palmTreeTop = trees_sheet.crop(width, height * 12, width, height);
 		palmTreeBottom = trees_sheet.crop(width, height * 13, width, height);
+		pineTreeTopLeft = trees_sheet.crop(0, 0, width, height);
+		pineTreeTopRight = trees_sheet.crop(width, 0, width, height);
+		pineTreeBottomLeft = trees_sheet.crop(0, height, width, height);
+		pineTreeBottomRight = trees_sheet.crop(width, height, width, height);
+		pineTreeBatchTopLeft = trees_sheet.crop(width * 2, 0, width, height);
+		pineTreeBatchTopRight = trees_sheet.crop(width * 3, 0, width, height);
+		pineTreeBatchBottomLeft = trees_sheet.crop(width * 2, height, width, height);
+		pineTreeBatchBottomRight = trees_sheet.crop(width * 3, height, width, height);
 		
 		whiteWallTopLeft = roofs3_sheet.crop(0, 0, width, height);
 		whiteWallTopMiddle = roofs3_sheet.crop(width, 0, width, height);
@@ -461,6 +472,8 @@ public class Assets {
 		signBank = objects5.crop(width * 4, 0, width, height);
 		woodenBridgeHorizontal = objects5.crop(width * 3, height * 2, width, height);
 		woodenBridgeVertical = objects5.crop(width * 2, height * 2, width, height);
+		logBridgeHorizontal = objects5.crop(0, height * 2, width, height);
+		logBridgeVertical = objects5.crop(width, height * 2, width, height);
 
 		
 		/*
@@ -478,6 +491,18 @@ public class Assets {
 		flowerPatch3 = terrain_tile.crop(width * 5, height * 11, width, height);
 		
 		darkGrass = terrain_tile.crop(width * 7, height * 9, width, height);
+		darkGrassTopLeft = terrain_tile.crop(width * 6, height * 8, width, height);
+		darkGrassTopMiddle = terrain_tile.crop(width * 7, height * 8, width, height);
+		darkGrassTopRight = terrain_tile.crop(width * 8, height * 8, width, height);
+		darkGrassMiddleLeft = terrain_tile.crop(width * 6, height * 9, width, height);
+		darkGrassMiddleRight = terrain_tile.crop(width * 8, height * 9, width, height);
+		darkGrassBottomLeft = terrain_tile.crop(width * 6, height * 10, width, height);
+		darkGrassBottomMiddle = terrain_tile.crop(width * 7, height * 10, width, height);
+		darkGrassBottomRight = terrain_tile.crop(width * 8, height * 10, width, height);
+		darkGrassSmallTopLeft = terrain_tile.crop(width * 7, height * 6, width, height);
+		darkGrassSmallTopRight = terrain_tile.crop(width * 8, height * 6, width, height);
+		darkGrassSmallBottomLeft = terrain_tile.crop(width * 7, height * 7, width, height);
+		darkGrassSmallBottomRight = terrain_tile.crop(width * 8, height * 7, width, height);
 		darkGrassPatch1 = terrain_tile.crop(width * 8, height * 11, width, height);
 		darkGrassPatch2 = terrain_tile.crop(width * 7, height * 11, width, height);
 		darkGrassPatch3 = terrain_tile.crop(width * 6, height * 11, width, height);

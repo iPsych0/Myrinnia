@@ -339,7 +339,7 @@ public class Player extends Creature{
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
 		
-		g.drawString("FPS: " + String.valueOf(Game.framesPerSecond), 2, 140);
+		g.drawString("FPS: " + String.valueOf(handler.getGame().framesPerSecond), 2, 140);
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(itemPickupRadius().x, itemPickupRadius().y, itemPickupRadius().width, itemPickupRadius().height);

@@ -62,7 +62,7 @@ public class Campfire extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			
+			handler.sendMsg("A cozy, warm fire.");
 		}
 	}
 
