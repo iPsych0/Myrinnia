@@ -63,7 +63,11 @@ public class Assets {
 	painting1, painting2, painting3, painting4, worldMap1Left, worldMap1Right, bigPainting1Left, bigPainting1Right, wallNote, crateApples, cratePotatoes, crateFish, crateGroceries, crate1,
 	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1, signInn, signArmour, signWeapons, signWorkshop, signBank, woodenBridgeHorizontal,
 	woodenBridgeVertical, bed2Top, bed2Bottom, curtainLeftTop, curtainLeftBottom, curtainMiddleTop, curtainMiddleBottom, curtainRightTop, curtainRightBottom, pineTreeTopLeft,
-	pineTreeTopRight, pineTreeBottomLeft, pineTreeBottomRight, pineTreeBatchTopLeft, pineTreeBatchTopRight, pineTreeBatchBottomLeft, pineTreeBatchBottomRight, logBridgeHorizontal, logBridgeVertical;
+	pineTreeTopRight, pineTreeBottomLeft, pineTreeBottomRight, pineTreeBatchTopLeft, pineTreeBatchTopRight, pineTreeBatchBottomLeft, pineTreeBatchBottomRight, logBridgeHorizontal, logBridgeVertical,
+	purpleFlower1, pinkFlower1, pinkFlower2, greyFlower1, redFlower1, yellowFlower1, plantPot1, greenMushroom, magicTreeLefter1, magicTreeLeft1, magicTreeRight1, magicTreeRighter1, magicTreeLefter2, magicTreeLeft2, magicTreeRight2,
+	magicTreeRighter2, magicTreeLefter3, magicTreeLeft3, magicTreeRight3, magicTreeRighter3, magicTreeLefter4, magicTreeLeft4, magicTreeRight4, magicTreeRighter4,
+	magicTreeLeft5, magicTreeRight5;
+
 	
 	
 	// Ambiance images
@@ -177,6 +181,7 @@ public class Assets {
 		SpriteSheet objects17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
 		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
+		SpriteSheet objects18 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites18.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -380,6 +385,7 @@ public class Assets {
 		tree1BatchBottomRight = trees_sheet.crop(width * 3, height * 5, width, height);
 		palmTreeTop = trees_sheet.crop(width, height * 12, width, height);
 		palmTreeBottom = trees_sheet.crop(width, height * 13, width, height);
+		
 		pineTreeTopLeft = trees_sheet.crop(0, 0, width, height);
 		pineTreeTopRight = trees_sheet.crop(width, 0, width, height);
 		pineTreeBottomLeft = trees_sheet.crop(0, height, width, height);
@@ -388,6 +394,36 @@ public class Assets {
 		pineTreeBatchTopRight = trees_sheet.crop(width * 3, 0, width, height);
 		pineTreeBatchBottomLeft = trees_sheet.crop(width * 2, height, width, height);
 		pineTreeBatchBottomRight = trees_sheet.crop(width * 3, height, width, height);
+		
+//		pineTreeTopLeft = objects18.crop(width * 4, 0, width, height);
+//		pineTreeTopRight = objects18.crop(width * 5, 0, width, height);
+//		pineTreeBottomLeft = objects18.crop(width * 4, height, width, height);
+//		pineTreeBottomRight = objects18.crop(width * 5, height, width, height);
+//		pineTreeBatchTopLeft = objects18.crop(width * 6, 0, width, height);
+//		pineTreeBatchTopRight = objects18.crop(width * 7, 0, width, height);
+//		pineTreeBatchBottomLeft = objects18.crop(width * 6, height, width, height);
+//		pineTreeBatchBottomRight = objects18.crop(width * 7, height, width, height);
+		
+		magicTreeLefter1 = trees_sheet.crop(width * 7, height * 8, width, height);
+		magicTreeLeft1 = trees_sheet.crop(width * 8, height * 8, width, height);
+		magicTreeRight1 = trees_sheet.crop(width * 9, height * 8, width, height);
+		magicTreeRighter1 = trees_sheet.crop(width * 10, height * 8, width, height);
+		magicTreeLefter2 = trees_sheet.crop(width * 7, height * 9, width, height);
+		magicTreeLeft2 = trees_sheet.crop(width * 8, height * 9, width, height);
+		magicTreeRight2 = trees_sheet.crop(width * 9, height * 9, width, height);
+		magicTreeRighter2 = trees_sheet.crop(width * 10, height * 9, width, height);
+		magicTreeLefter3 = trees_sheet.crop(width * 7, height * 10, width, height);
+		magicTreeLeft3 = trees_sheet.crop(width * 8, height * 10, width, height);
+		magicTreeRight3 = trees_sheet.crop(width * 9, height * 10, width, height);
+		magicTreeRighter3 = trees_sheet.crop(width * 10, height * 10, width, height);
+		magicTreeLefter4 = trees_sheet.crop(width * 7, height * 11, width, height);
+		magicTreeLeft4 = trees_sheet.crop(width * 8, height * 11, width, height);
+		magicTreeRight4 = trees_sheet.crop(width * 9, height * 11, width, height);
+		magicTreeRighter4 = trees_sheet.crop(width * 10, height * 11, width, height);
+		magicTreeLeft5 = trees_sheet.crop(width * 8, height * 12, width, height);
+		magicTreeRight5 = trees_sheet.crop(width * 9, height * 12, width, height);
+
+		
 		
 		whiteWallTopLeft = roofs3_sheet.crop(0, 0, width, height);
 		whiteWallTopMiddle = roofs3_sheet.crop(width, 0, width, height);
@@ -489,6 +525,15 @@ public class Assets {
 		flowerPatch1 = terrain_tile.crop(width * 3, height * 11, width, height);
 		flowerPatch2 = terrain_tile.crop(width * 4, height * 11, width, height);
 		flowerPatch3 = terrain_tile.crop(width * 5, height * 11, width, height);
+		greyFlower1 = roofs3_sheet.crop(width * 4, height * 8, width, height);
+		yellowFlower1 = roofs3_sheet.crop(width * 4, height * 9, width, height);
+		purpleFlower1 = roofs3_sheet.crop(width * 4, height * 10, width, height);
+		redFlower1 = roofs3_sheet.crop(width * 4, height * 11, width, height);
+		plantPot1 = roofs3_sheet.crop(width * 4, height * 12, width, height);
+		pinkFlower1 = trees_sheet.crop(width * 13, height * 8, width, height);
+		greenMushroom = trees_sheet.crop(width * 14, height * 8, width, height);
+		pinkFlower2 = trees_sheet.crop(width * 14, height * 9, width, height);
+
 		
 		darkGrass = terrain_tile.crop(width * 7, height * 9, width, height);
 		darkGrassTopLeft = terrain_tile.crop(width * 6, height * 8, width, height);

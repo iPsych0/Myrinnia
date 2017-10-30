@@ -480,6 +480,34 @@ public class Tiles {
 	public static Tiles woodenBridgeVertical = new Tiles(Assets.woodenBridgeVertical, 2823);
 	public static Tiles logBridgeHorizontal = new Tiles(Assets.logBridgeHorizontal, 2821);
 	public static Tiles logBridgeVertical = new Tiles(Assets.logBridgeVertical, 2822);
+	public static Tiles purpleFlower1 = new Tiles(Assets.purpleFlower1, 1861);
+	public static Tiles greyFlower1 = new Tiles(Assets.greyFlower1, 1829);
+	public static Tiles yellowFlower1 = new Tiles(Assets.yellowFlower1, 1845);
+	public static Tiles redFlower1 = new Tiles(Assets.redFlower1, 1877);
+	public static Tiles plantPot1 = new Tiles(Assets.plantPot1, 1893);
+	public static Tiles pinkFlower1 = new Tiles(Assets.pinkFlower1, 1222);
+	public static Tiles pinkFlower2 = new Tiles(Assets.pinkFlower2, 1239);
+	public static Tiles greenMushroom = new Tiles(Assets.greenMushroom, 1223);
+	
+	public static Tiles magicTreeLefter1 = new Tiles(Assets.magicTreeLefter1, 1216);
+	public static Tiles magicTreeLeft1 = new Tiles(Assets.magicTreeLeft1, 1217);
+	public static Tiles magicTreeRight1 = new Tiles(Assets.magicTreeRight1, 1218);
+	public static Tiles magicTreeRighter1 = new Tiles(Assets.magicTreeRighter1, 1219);
+	public static Tiles magicTreeLefter2 = new Tiles(Assets.magicTreeLefter2, 1232);
+	public static Tiles magicTreeLeft2 = new Tiles(Assets.magicTreeLeft2, 1233);
+	public static Tiles magicTreeRight2 = new Tiles(Assets.magicTreeRight2, 1234);
+	public static Tiles magicTreeRighter2 = new Tiles(Assets.magicTreeRighter2, 1235);
+	public static Tiles magicTreeLefter3 = new Tiles(Assets.magicTreeLefter3, 1248);
+	public static Tiles magicTreeLeft3 = new Tiles(Assets.magicTreeLeft3, 1249);
+	public static Tiles magicTreeRight3 = new Tiles(Assets.magicTreeRight3, 1250);
+	public static Tiles magicTreeRighter3 = new Tiles(Assets.magicTreeRighter3, 1251);
+	public static Tiles magicTreeLefter4 = new Tiles(Assets.magicTreeLefter4, 1264);
+	public static Tiles magicTreeLeft4 = new Tiles(Assets.magicTreeLeft4, 1265);
+	public static Tiles magicTreeRight4 = new Tiles(Assets.magicTreeRight4, 1266);
+	public static Tiles magicTreeRighter4 = new Tiles(Assets.magicTreeRighter4, 1267);
+	public static Tiles magicTreeLeft5 = new Tiles(Assets.magicTreeLeft5, 1281);
+	public static Tiles magicTreeRight5 = new Tiles(Assets.magicTreeRight5, 1282);
+	
 
 	
 	
@@ -803,6 +831,20 @@ public class Tiles {
 		case 1084: return true;
 		case 1099: return true;
 		case 1100: return true;
+		case 1217: return true;
+		case 1218: return true;
+		case 1232: return true;
+		case 1233: return true;
+		case 1234: return true;
+		case 1235: return true;
+		case 1248: return true;
+		case 1249: return true;
+		case 1250: return true;
+		case 1251: return true;
+		case 1265: return true;
+		case 1266: return true;
+		case 1223: return true;
+		case 1893: return true;
 				
 		default: return false;
 		}
