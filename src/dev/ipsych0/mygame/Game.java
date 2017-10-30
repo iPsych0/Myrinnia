@@ -145,31 +145,32 @@ public class Game implements Runnable {
 	      final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
 	      //At the very most we will update the game this many times before a new render.
 	      //If you're worried about visual hitches more than perfect timing, set this to 1.
-	      final int MAX_UPDATES_BEFORE_RENDER = 5;
+	      //final int MAX_UPDATES_BEFORE_RENDER = 5;
 	      //We will need the last update time.
 	      double lastUpdateTime = System.nanoTime();
 	      //Store the last time we rendered.
-	      double lastRenderTime = System.nanoTime();
+	     // double lastRenderTime = System.nanoTime();
 	      
 	      //If we are able to get as high as this FPS, don't render again.
-	      final double TARGET_FPS = 60;
-	      final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	      //final double TARGET_FPS = 60;
+	      //final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 	      
 	      //Simple way of finding FPS.
 	      int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 	      
 	      while (running) {
 	         double now = System.nanoTime();
-	         int updateCount = 0;
+	         //int updateCount = 0;
 	         ticks++;
 	         
 
              //Do as many game updates as we need to, potentially playing catchup.
-            while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
+            while( now - lastUpdateTime > TIME_BETWEEN_UPDATES /*&& updateCount < MAX_UPDATES_BEFORE_RENDER*/ )
             {
                tick();
+               render();
                lastUpdateTime += TIME_BETWEEN_UPDATES;
-               updateCount++;
+               //updateCount++;
             }
    
             //If for some reason an update takes forever, we don't want to do an insane number of catchups.
@@ -180,8 +181,8 @@ public class Game implements Runnable {
             }
          
             //Render. To do so, we need to calculate interpolation for a smooth render.
-            render();
-            lastRenderTime = now;
+            //render();
+            //lastRenderTime = now;
          
             //Update the frames we got.
             int thisSecond = (int) (lastUpdateTime / 1000000000);
@@ -193,7 +194,7 @@ public class Game implements Runnable {
             }
          
             //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-            while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES){
+            while (/* now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && */now - lastUpdateTime < TIME_BETWEEN_UPDATES){
 		        Thread.yield();
 		    
 		        //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
