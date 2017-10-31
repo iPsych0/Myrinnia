@@ -61,12 +61,12 @@ public class Assets {
 	stoolTop1, sandPit, waterBucket, fireplaceTop, fireplaceBottom, stoolBottom1, bookcaseTopLeft, bookcaseTopRight, bookcaseBottomLeft, bookcaseBottomRight, bed1Top, bed1Bottom,
 	drawer1, smallBookcaseTop, smallBookcaseBottom, wardrobe1Top, wardrobe1Bottom, breadShelfTop, breadShelfBottom, bottleShelfTop, bottleShelfBottom, plateShelfTop, plateShelfBottom,
 	painting1, painting2, painting3, painting4, worldMap1Left, worldMap1Right, bigPainting1Left, bigPainting1Right, wallNote, crateApples, cratePotatoes, crateFish, crateGroceries, crate1,
-	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1, signInn, signArmour, signWeapons, signWorkshop, signBank, woodenBridgeHorizontal,
+	stackedCrateTop, stackedCrateBottom, emptyBucket, emptyCrate, emptyBarrel, barrel1, signInn, signArmour, signWeapons, signWorkshop, signBank, signShop, woodenBridgeHorizontal,
 	woodenBridgeVertical, bed2Top, bed2Bottom, curtainLeftTop, curtainLeftBottom, curtainMiddleTop, curtainMiddleBottom, curtainRightTop, curtainRightBottom, pineTreeTopLeft,
 	pineTreeTopRight, pineTreeBottomLeft, pineTreeBottomRight, pineTreeBatchTopLeft, pineTreeBatchTopRight, pineTreeBatchBottomLeft, pineTreeBatchBottomRight, logBridgeHorizontal, logBridgeVertical,
-	purpleFlower1, pinkFlower1, pinkFlower2, greyFlower1, redFlower1, yellowFlower1, plantPot1, greenMushroom, magicTreeLefter1, magicTreeLeft1, magicTreeRight1, magicTreeRighter1, magicTreeLefter2, magicTreeLeft2, magicTreeRight2,
-	magicTreeRighter2, magicTreeLefter3, magicTreeLeft3, magicTreeRight3, magicTreeRighter3, magicTreeLefter4, magicTreeLeft4, magicTreeRight4, magicTreeRighter4,
-	magicTreeLeft5, magicTreeRight5;
+	purpleFlower1, pinkFlower1, pinkFlower2, greyFlower1, redFlower1, yellowFlower1, plantPot1, greenMushroom, magicTreeLefter1, magicTreeLeft1, magicTreeRight1, magicTreeRighter1,
+	magicTreeLefter2, magicTreeLeft2, magicTreeRight2, magicTreeRighter2, magicTreeLefter3, magicTreeLeft3, magicTreeRight3, magicTreeRighter3, magicTreeLefter4, magicTreeLeft4,
+	magicTreeRight4, magicTreeRighter4, magicTreeLeft5, magicTreeRight5, dirtHole;
 
 	
 	
@@ -181,7 +181,6 @@ public class Assets {
 		SpriteSheet objects17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
 		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
-		SpriteSheet objects18 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites18.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -506,10 +505,12 @@ public class Assets {
 		signWeapons = objects5.crop(width * 2, 0, width, height);
 		signWorkshop = objects5.crop(width * 6, height, width, height);
 		signBank = objects5.crop(width * 4, 0, width, height);
+		signShop = objects5.crop(width * 3, height, width, height);
 		woodenBridgeHorizontal = objects5.crop(width * 3, height * 2, width, height);
 		woodenBridgeVertical = objects5.crop(width * 2, height * 2, width, height);
 		logBridgeHorizontal = objects5.crop(0, height * 2, width, height);
 		logBridgeVertical = objects5.crop(width, height * 2, width, height);
+		dirtHole = objects5.crop(width, height * 12, width, height);
 
 		
 		/*

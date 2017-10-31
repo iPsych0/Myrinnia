@@ -476,6 +476,7 @@ public class Tiles {
 	public static Tiles signWeapons = new Tiles(Assets.signWeapons, 2791);
 	public static Tiles signWorkshop = new Tiles(Assets.signWorkshop, 2811);
 	public static Tiles signBank = new Tiles(Assets.signBank, 2793);
+	public static Tiles signShop = new Tiles(Assets.signShop, 2808);
 	public static Tiles woodenBridgeHorizontal = new Tiles(Assets.woodenBridgeHorizontal, 2824);
 	public static Tiles woodenBridgeVertical = new Tiles(Assets.woodenBridgeVertical, 2823);
 	public static Tiles logBridgeHorizontal = new Tiles(Assets.logBridgeHorizontal, 2821);

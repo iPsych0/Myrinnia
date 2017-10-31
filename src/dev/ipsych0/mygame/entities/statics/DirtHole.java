@@ -3,20 +3,17 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
-public class Campfire extends StaticEntity {
+public class DirtHole extends StaticEntity {
 
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private Animation campfire;
 	private int speakingTurn;
 
-	public Campfire(Handler handler, float x, float y) {
+	public DirtHole(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		bounds.x = 1;
@@ -26,12 +23,11 @@ public class Campfire extends StaticEntity {
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;
-		campfire = new Animation(125, Assets.campfire);
 	}
 
 	@Override
 	public void tick() {
-		campfire.tick();
+
 	}
 	
 	@Override
@@ -45,7 +41,7 @@ public class Campfire extends StaticEntity {
 		            @Override
 		            public void run() {
 		            	
-		                currentWorld.getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
+		                currentWorld.getEntityManager().addEntity(new DirtHole(handler, xSpawn, ySpawn));
 		                
 		            }
 		        }, 
@@ -55,14 +51,21 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(campfire.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.dirtHole, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
 	}
 
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("A cozy, warm fire.");
+			handler.sendMsg("You can climb down here. (Interact again)");
+			speakingTurn++;
+		}
+		else if(this.speakingTurn == 1) {
+			handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+			handler.getWorld().setHandler(handler);
+			handler.getPlayer().setX(6016);
+			handler.getPlayer().setY(5312);
 		}
 	}
 

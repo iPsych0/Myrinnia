@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
@@ -54,6 +55,8 @@ public class Island extends World {
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320, "vertical"));
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352, "vertical"));
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4384, "vertical"));
+		
+		entityManager.addEntity(new DirtHole(handler, 3360, 3136));
 		
 		testLandTile = new Rectangle(400, 70, 32, 350); 
 		house1 = new Rectangle(5056, 5424, 32, 32);
@@ -145,11 +148,16 @@ public class Island extends World {
 			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
 			
 			// Render the tiles
+			
 			for (int i = 0; i < file.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
-						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						if(getTile(i,x,y) == Tiles.invisible) {
+							continue;
+						}else {
+							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						}
 					}
 				}
 			}
