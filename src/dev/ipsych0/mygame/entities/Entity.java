@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.entities.creatures.Creature;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.utils.DialogueBox;
 
 public abstract class Entity {
 
@@ -26,6 +26,7 @@ public abstract class Entity {
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
 	protected boolean shopping = false;
+	protected Entity damageDealer, damageReceiver;
 	private int ty = 0;
 	
 	
@@ -79,44 +80,52 @@ public abstract class Entity {
 					
 	}
 	
+	public int getDamage(Entity dealer) {
+		// hier damage formula
+		Creature c = (Creature) dealer;
+		return (int) Math.floor((c.getBaseDamage() + c.getPower()));
+	}
 	
 	/*
 	 * Damage formula
 	 */
-	public void damage(int damageDealt){
-		health -= damageDealt;
-		damaged = true;
+	public void damage(Entity dealer, Entity receiver){
+		damageDealer = dealer;
+		damageReceiver = receiver;
+		damageReceiver.health -= damageDealer.getDamage(damageDealer);
+		damageReceiver.damaged = true;
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
 		            	
-		                damaged = false;
+		            	damageReceiver.damaged = false;
+		            	ty = 0;
 		                
 		            }
 		        }, 
 		        480 
 		);
-		if(health <= 0){
-			active = false;
-			die();
+		if(damageReceiver.health <= 0){
+			damageReceiver.active = false;
+			damageReceiver.die();
 		}
 	}
 	
 	/*
 	 * Drawing the hitsplat
 	 */
-	public void drawDamage(Graphics g) {
+	public void drawDamage(Entity dealer, Graphics g) {
 		if(damaged) {
 			ty--;
-			g.setColor(Color.YELLOW);
-			g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
+			//g.setColor(Color.YELLOW);
+			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
 			g.setColor(Color.RED);
-			g.drawString("-" + Integer.toString(handler.getPlayer().damageFormula()),
+			g.setFont(Assets.font32);
+			g.drawString(String.valueOf(dealer.getDamage(dealer)) ,
 					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
 			return;
 		}
-		ty = 0;
 	}
 	
 	
@@ -190,6 +199,14 @@ public abstract class Entity {
 		return attackable;
 	}
 
+	public boolean isDamaged() {
+		return damaged;
+	}
+
+	public void setDamaged(boolean damaged) {
+		this.damaged = damaged;
+	}
+
 	public boolean isNpc() {
 		return isNpc;
 	}
@@ -220,6 +237,22 @@ public abstract class Entity {
 
 	public void setStaticNpc(boolean staticNpc) {
 		this.staticNpc = staticNpc;
+	}
+
+	public Entity getDamageDealer() {
+		return damageDealer;
+	}
+
+	public void setDamageDealer(Entity damageDealer) {
+		this.damageDealer = damageDealer;
+	}
+
+	public Entity getDamageReceiver() {
+		return damageReceiver;
+	}
+
+	public void setDamageReceiver(Entity damageReceiver) {
+		this.damageReceiver = damageReceiver;
 	}
 	
 }

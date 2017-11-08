@@ -85,7 +85,7 @@ public class Projectile {
 						active = false;
 					}else {
 						active = false;
-						e.damage(5);
+						//e.damage(this, e);
 						return;
 					}
 				}

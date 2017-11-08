@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
@@ -19,7 +20,7 @@ public abstract class Creature extends Entity {
 							DEFAULT_VITALITY = 0;
 	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
 	public static Color hpColor = new Color(255, 255, 48);
-	protected int baseDamage;
+	private int baseDamage;
 	private int power;
 	private int defence;
 	private int vitality;
@@ -39,7 +40,7 @@ public abstract class Creature extends Entity {
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
-		baseDamage = DEFAULT_DAMAGE;
+		setBaseDamage(DEFAULT_DAMAGE);
 		setPower(DEFAULT_POWER);
 		setDefence(DEFAULT_DEFENCE);
 		setVitality(DEFAULT_VITALITY);
@@ -50,9 +51,9 @@ public abstract class Creature extends Entity {
 		drawnOnMap = true;
 	}
 	
-	public int damageFormula() {
-		return baseDamage + (int)(getPower() * 3);
-	}
+//	public int damageFormula() {
+//		return baseDamage + (int)(getPower() * 3);
+//	}
 
 	public void move(){
 		if(!checkEntityCollisions(xMove, 0f))
@@ -194,6 +195,14 @@ public abstract class Creature extends Entity {
 
 	public void setAttackSpeed(float attackSpeed) {
 		this.attackSpeed = attackSpeed;
+	}
+
+	public int getBaseDamage() {
+		return baseDamage;
+	}
+
+	public void setBaseDamage(int baseDamage) {
+		this.baseDamage = baseDamage;
 	}
 
 }

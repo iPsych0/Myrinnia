@@ -16,9 +16,9 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class SaveManager {
 	
-	private static ArrayList<String> variables;
-	private static ArrayList<ItemStack> inventory;
-	private static ArrayList<ItemStack> equipment;
+	public static ArrayList<String> variables;
+	public static ArrayList<ItemStack> inventory;
+	public static ArrayList<ItemStack> equipment;
 
 	public SaveManager(Handler handler){
 		variables = new ArrayList<String>();

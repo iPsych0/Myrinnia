@@ -29,6 +29,7 @@ import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
@@ -67,8 +68,10 @@ public class Player extends Creature{
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
 	private boolean movementAllowed = true;
+	public static boolean isMoving = false;
 	
 	public static boolean mouseMoved = false;
+	private float xSpawn, ySpawn;
 	
 	private ShopKeeper shopKeeper;
 	
@@ -84,9 +87,13 @@ public class Player extends Creature{
 		// Player combat/movement settings:
 		setNpc(false);
 		
+		xSpawn = 5152.0f;
+		ySpawn = 5600.0f;
+		
 		chatWindow = new ChatWindow(handler, 0, 608); //228,314
 		chatWindow.sendMessage("Welcome back!");
 		
+		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = DEFAULT_HEALTH;
 		speed = DEFAULT_SPEED + 2.5f;
 		
@@ -123,11 +130,6 @@ public class Player extends Creature{
 		
 		// Chat
 		chatWindow.tick();
-		
-		// Stat updates
-		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
-		attackCooldown = (long) (600 / getAttackSpeed());
-		magicCooldown = (long) (300 / getAttackSpeed());
 		
 		//Movement
 		if(movementAllowed) {
@@ -174,11 +176,15 @@ public class Player extends Creature{
 				}
 			}
 		}
-		if(!playerIsNearNpc()) {
+		if(shopKeeper != null && isMoving) {
+			Entity.isCloseToNPC = false;
+			Player.hasInteracted = false;
 			shopKeeper = null;
 		}
 		
-		tickProjectiles();
+		if(projectiles.size() != 0) {
+			tickProjectiles();
+		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
@@ -239,7 +245,7 @@ public class Player extends Creature{
 						p.active = false;
 					}
 					if(e.isAttackable()) {
-						e.damage(50);
+						e.damage(this, e);
 						p.active = false;
 					}
 				}
@@ -334,7 +340,7 @@ public class Player extends Creature{
 		
 		g.setFont(Assets.font14);
 		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + Double.toString(Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2)) + "%", 146, 34);
+		g.drawString("HP: " + Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2) + "%", 146, 34);
 		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
@@ -357,6 +363,9 @@ public class Player extends Creature{
 			setPower(getPower() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
 			setDefence(getDefence() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
 			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+			attackCooldown = (long) (600 / getAttackSpeed());
+			magicCooldown = (long) (300 / getAttackSpeed());
+			MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		}
 	}
 	
@@ -397,6 +406,10 @@ public class Player extends Creature{
 			}else {
 				speed -= handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			}
+			
+			attackCooldown = (long) (600 / getAttackSpeed());
+			magicCooldown = (long) (300 / getAttackSpeed());
+			MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		}
 	}
 	
@@ -501,8 +514,7 @@ public class Player extends Creature{
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(getPower() * 3));
-				System.out.println("Damage = " + (baseDamage + (int) getPower() * 3));
+				e.damage(this, e);
 				return;
 			}
 		}
@@ -587,8 +599,16 @@ public class Player extends Creature{
 		if(!active){
 			this.setActive(true);
 			this.setHealth(DEFAULT_HEALTH);
-			this.setX(256);
-			this.setY(160);
+			
+			if(SaveManager.variables.size() != 0) {
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(SaveManager.variables.get(4))));
+				this.setX(Float.parseFloat(SaveManager.variables.get(1)));
+				this.setY(Float.parseFloat(SaveManager.variables.get(2)));
+			}else {
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				this.setX(xSpawn);
+				this.setY(ySpawn);
+			}
 		}
 	}
 	
@@ -624,21 +644,12 @@ public class Player extends Creature{
 	
 	@Override
 	public void postRender(Graphics g){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-			g.setFont(GameState.myFont);
-			e.drawDamage(g);
-		}
-		if(Whirlpool.isFishing) {
-			g.setColor(Color.WHITE);
-			g.fillRect((int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height);
-			g.setColor(Color.BLACK);
-			g.drawRect((int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height);
-			g.drawImage(Assets.fish, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
-		}
 		
-		for(Projectile p : projectiles) {
-			if(active)
-				p.render(g);
+		if(projectiles.size() >= 1) {
+			for(Projectile p : projectiles) {
+				if(active)
+					p.render(g);
+			}
 		}
 		
 		chatWindow.render(g);

@@ -50,8 +50,12 @@ public class EntityManager {
 	public void render(Graphics g){
 		for(Entity e : entities){
 			e.render(g);
-			if(e.shopping)
+			if(e.shopping) {
 				shoppingNpc = e;
+			}
+			if(e.isDamaged() && e.getDamageDealer() != null) {
+				e.drawDamage(e.getDamageDealer(), g);
+			}
 		}
 		player.postRender(g);
 		

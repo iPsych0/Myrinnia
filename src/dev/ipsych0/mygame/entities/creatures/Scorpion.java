@@ -75,7 +75,7 @@ public class Scorpion extends Creature {
 				}
 				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
 					if(e.isAttackable()) {
-						e.damage(5);
+						e.damage(this, e);
 						p.active = false;
 					}
 				}
@@ -186,16 +186,12 @@ public class Scorpion extends Creature {
 		}
 		
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
-				continue;
-			if(!e.isAttackable())
-				continue;
 			if(!e.equals(handler.getWorld().getEntityManager().getPlayer())){
 				continue;
 			}
 			if(e.getCollisionBounds(0, 0).intersects(ar)){
 				// TODO: Change damage calculation formula
-				e.damage(baseDamage + (int)(getPower() * 3));
+				e.damage(this, e);
 				return;
 			}
 		}

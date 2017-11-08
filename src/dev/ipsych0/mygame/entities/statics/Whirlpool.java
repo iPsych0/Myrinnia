@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.statics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
@@ -101,6 +102,7 @@ public class Whirlpool extends StaticEntity {
 	public void render(Graphics g) {
 		g.drawImage(spinning.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
+		postRender(g);
 	}
 
 	@Override
@@ -117,7 +119,13 @@ public class Whirlpool extends StaticEntity {
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
+		if(isFishing) {
+			g.setColor(Color.WHITE);
+			g.fillRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
+			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+		}
 		
 	}
 	

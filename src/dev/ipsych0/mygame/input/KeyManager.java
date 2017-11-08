@@ -55,6 +55,14 @@ public class KeyManager implements KeyListener{
 			down = keys[KeyEvent.VK_S];
 			left = keys[KeyEvent.VK_A];
 			right = keys[KeyEvent.VK_D];
+			
+			if(up || down || left || right) {
+				Player.isMoving = true;
+			}
+			
+			if(!up && !down && !left && !right) {
+				Player.isMoving = false;
+			}
 	
 			
 			// Interaction keys
