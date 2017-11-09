@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -213,7 +214,7 @@ public class ShopWindow {
 			/*
 			 * Closing the shop by click/escape/walking away
 			 */
-			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape || !handler.getPlayer().playerIsNearNpc()) {
+			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape || Player.isMoving) {
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;

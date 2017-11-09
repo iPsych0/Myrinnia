@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
@@ -16,7 +17,7 @@ public class Whirlpool extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private Animation spinning;
 	private int speakingTurn;
-	public static boolean isFishing = false;
+	private boolean isFishing = false;
 	private int fishingTimer = 0;
 	private int minAttempts = 4, maxAttempts = 8;
 	private int random = 0;
@@ -39,7 +40,7 @@ public class Whirlpool extends StaticEntity {
 	public void tick() {
 		spinning.tick();
 		if(isFishing) {
-			if(handler.getKeyManager().up || handler.getKeyManager().left || handler.getKeyManager().down || handler.getKeyManager().right || handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
 				fishingTimer = 0;
 				speakingTurn = 0;
 				isFishing = false;
@@ -65,14 +66,14 @@ public class Whirlpool extends StaticEntity {
 	        		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
 	        		attempts++;
 	        	}else {
-	        		handler.getPlayer().getChatWindow().sendMessage("You didn't catch anything...");
+	        		handler.getPlayer().getChatWindow().sendMessage("The fish got away...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 0;
 	        	fishingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
-	        		random = handler.getRandomNumber(4, 10);
+	        		random = handler.getRandomNumber(minAttempts, maxAttempts);
 	        	}
 			}
 			

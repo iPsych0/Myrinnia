@@ -11,6 +11,8 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.input.KeyManager;
+import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.utils.DialogueBox;
 
 public class TextBox implements KeyListener {
 	
@@ -82,14 +84,14 @@ public class TextBox implements KeyListener {
 					cursor = "|";
 					if(!charactersTyped.isEmpty()) {
 						int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
-						Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 2, y + 17, true, cursorColor, Assets.font14);
+						Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 2, y + 17, true, cursorColor, Assets.font20);
 					}else {
-						Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font14);
+						Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 					}
 				}
 				else if(blinkTimer == 30) {
 					cursor = "";
-					Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font14);
+					Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 				}
 				else if(blinkTimer >= 60) {
 					blinkTimer = 0;
@@ -120,6 +122,17 @@ public class TextBox implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if(isOpen) {
+			if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+				sb.setLength(0);
+				index = 0;
+				focus = false;
+				isOpen = false;
+				DialogueBox.isOpen = false;
+				ShopWindow.hasBeenPressed = false;
+				ShopWindow.makingChoice = false;
+				KeyManager.typingFocus = false;
+				return;
+			}
 			if(focus) {
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 					if(charactersTyped.isEmpty()) {

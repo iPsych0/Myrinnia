@@ -14,12 +14,10 @@ public class WaterToBridgePart extends StaticEntity {
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private boolean isFixed = false;
-	private String layout;
 	private int speakingTurn = 0;
 	
-	public WaterToBridgePart(Handler handler, float x, float y, String layout) {
+	public WaterToBridgePart(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		this.layout = layout.toLowerCase();
 		
 		bounds.x = 1;
 		bounds.y = 1;
@@ -58,19 +56,7 @@ public class WaterToBridgePart extends StaticEntity {
 			break;
 			
 		case 1:
-			if(!isFixed && layout == "horizontal") {
-				if(handler.playerHasItem(Item.woodItem, 5)) {
-					handler.removeItem(Item.woodItem, 5);
-					this.speakingTurn = 1;
-					isFixed = true;
-					handler.sendMsg("You fixed the bridge!");
-					break;
-				}else {
-					handler.sendMsg("I don't have anything to fix the bridge with...");
-					break;
-				}
-			}
-			else if(!isFixed && layout == "vertical") {
+			if(!isFixed) {
 				if(handler.playerHasItem(Item.woodItem, 5)) {
 					handler.removeItem(Item.woodItem, 5);
 					this.speakingTurn = 1;

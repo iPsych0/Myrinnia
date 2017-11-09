@@ -52,9 +52,9 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
 		
-		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320, "vertical"));
-		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352, "vertical"));
-		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4384, "vertical"));
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320));
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352));
+		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4384));
 		
 		entityManager.addEntity(new DirtHole(handler, 3360, 3136));
 		
