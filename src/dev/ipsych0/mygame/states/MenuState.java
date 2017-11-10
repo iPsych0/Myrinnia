@@ -6,11 +6,13 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.ClickListener;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
+import dev.ipsych0.mygame.ui.UIObject;
 import dev.ipsych0.mygame.utils.SaveManager;
 
 public class MenuState extends State {
 	
 	private UIManager uiManager;
+	private boolean loaded = false;
 
 	public MenuState(Handler handler){
 		super(handler);
@@ -52,7 +54,10 @@ public class MenuState extends State {
 
 			@Override
 			public void onClick() {
-				//handler.getMouseManager().setUIManager(null);
+				loaded = false;
+				State.setState(handler.getGame().settingState);
+				handler.getMouseManager().setUIManager(null);
+				
 			}}));
 		
 	}
@@ -60,6 +65,10 @@ public class MenuState extends State {
 	@Override
 	public void tick() {
 		if(State.getState() == handler.getGame().menuState){
+			if(!loaded) {
+				handler.getMouseManager().setUIManager(uiManager);
+				loaded = true;
+			}
 			uiManager.tick();
 		}
 	}

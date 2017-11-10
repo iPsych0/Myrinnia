@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
+import dev.ipsych0.mygame.states.SettingState;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.utils.SaveManager;
 
@@ -34,7 +35,7 @@ public class Game implements Runnable {
 	// States
 	public State gameState;
 	public State menuState;
-	public State settingsState;
+	public State settingState;
 	
 	//Input
 	private KeyManager keyManager;
@@ -71,6 +72,7 @@ public class Game implements Runnable {
 		
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
+		settingState = new SettingState(handler);
 		State.setState(menuState);
 		saveManager = new SaveManager(handler);
 	}
