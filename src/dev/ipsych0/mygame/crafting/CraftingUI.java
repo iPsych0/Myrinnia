@@ -47,6 +47,7 @@ public class CraftingUI {
 	private Rectangle windowBounds;
 	private String[] totalCraftAmount;
 	private int[] filledCraftSlots;
+	private CraftingRecipe craftRecipe;
 	
 	public CraftingUI(Handler handler, int x, int y) {
 		
@@ -244,11 +245,16 @@ public class CraftingUI {
 			if(possibleRecipe != null) {
 				if(craftImg != null) {
 					for(int i = 0; i < totalCraftAmount.length; i++) {
-						
 						Text.drawString(g, totalCraftAmount[i], craftingSlots.get(filledCraftSlots[i]).getX() + 16, craftingSlots.get(filledCraftSlots[i]).getY() - 8, true, Color.YELLOW, Assets.font14);
 					}
-					g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
-					if(hovering) {
+					
+					if(craftRecipe.isDiscovered()) {
+						g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
+					}else {
+						g.drawImage(Assets.fish, x + width + (width / 2) - 36, y + 32, null);
+					}
+					
+					if(hovering && craftRecipe.isDiscovered()) {
 						g.setColor(Color.DARK_GRAY);
 						g.fillRect(handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128);
 						g.setColor(Color.BLACK);
@@ -267,7 +273,10 @@ public class CraftingUI {
 					}
 				}
 				Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);
-				Text.drawString(g, craftableRecipe, x + width + (width / 2) - 36, y + 40, false, Color.YELLOW, Assets.font14);
+				
+				if(craftRecipe.isDiscovered()) {
+					Text.drawString(g, craftableRecipe, x + width + (width / 2) - 36, y + 40, false, Color.YELLOW, Assets.font14);
+				}
 			}
 			
 		}
@@ -367,7 +376,7 @@ public class CraftingUI {
 			// If we have all matching items and we don't have any empty slots, craft the item
 			if(matches == sortedCraftSlots.size()) {
 				System.out.println("All items match for this recipe: '" + i + "'");
-				if(crs.getItemStack() != null && crs.getItemStack().getItem().getId() != getRecipe(i).getItem().getId()) {
+				if(crs.getItemStack() != null && crs.getItemStack().getItem().getId() != getRecipeItem(i).getItem().getId()) {
 					handler.sendMsg("Please claim your crafted item before creating a new one.");
 					break;
 				}
@@ -422,6 +431,11 @@ public class CraftingUI {
 	}
 	
 	public void makeItem(int recipeID) {
+		
+		if(!craftRecipe.isDiscovered()) {
+			craftRecipe.setDiscovered(true);
+			handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
+		}
 		
 		switch(recipeID) {
 			case 0:
@@ -515,7 +529,8 @@ public class CraftingUI {
 			// If we have all matching items and we don't have any empty slots, then we have found a recipe
 			if(matches == sortedCraftSlots.size()) {
 				
-				possibleRecipe = getRecipe(i);
+				possibleRecipe = getRecipeItem(i);
+				craftRecipe = craftingRecipeList.getRecipes().get(i);
 				
 				totalCraftAmount = new String[craftingRecipeList.getRecipes().get(i).getComponents().size()];
 				int temp = 0;
@@ -544,6 +559,7 @@ public class CraftingUI {
 			tempCraftRecipeList.clear();
 			matches = 0;
 			possibleRecipe = null;
+			craftRecipe = null;
 			craftImg = null;
 		}
 		
@@ -555,7 +571,7 @@ public class CraftingUI {
 		sortedCraftSlots.clear();
 	}
 	
-	public ItemStack getRecipe(int recipeID) {
+	public ItemStack getRecipeItem(int recipeID) {
 		
 		switch(recipeID) {
 			case 0:
@@ -573,7 +589,6 @@ public class CraftingUI {
 			default:
 				return new ItemStack(null);
 		}
-		
 	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {

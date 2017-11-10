@@ -26,7 +26,8 @@ public class Utils {
 			return Integer.parseInt(number);
 		}catch(NumberFormatException e){
 			e.printStackTrace();
-			return 0;
+			System.out.println("Couldn't load tile: " + number);
+			return 28;
 		}
 	}
 

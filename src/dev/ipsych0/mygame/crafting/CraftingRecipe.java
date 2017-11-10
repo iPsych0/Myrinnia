@@ -12,8 +12,9 @@ public class CraftingRecipe {
 	private ArrayList<ItemStack> components;
 	private int recipeID;
 	private int craftingXP;
+	private boolean discovered;
 	
-	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4) {
+	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
@@ -28,9 +29,10 @@ public class CraftingRecipe {
 		
 		this.recipeID = recipeID;
 		this.craftingXP = craftingXP;
+		this.discovered = discovered;
 	}
 
-	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2, ItemStack item3) {
+	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
@@ -43,9 +45,10 @@ public class CraftingRecipe {
 		
 		this.recipeID = recipeID;
 		this.craftingXP = craftingXP;
+		this.discovered = discovered;
 	}
 
-	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1, ItemStack item2) {
+	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2) {
 		this.item1 = item1;
 		this.item2 = item2;
 		
@@ -56,9 +59,10 @@ public class CraftingRecipe {
 		
 		this.recipeID = recipeID;
 		this.craftingXP = craftingXP;
+		this.discovered = discovered;
 	}
 	
-	public CraftingRecipe(int recipeID, int craftingXP, ItemStack item1) {
+	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1) {
 		this.item1 = item1;
 
 		components = new ArrayList<ItemStack>();
@@ -67,6 +71,7 @@ public class CraftingRecipe {
 		
 		this.recipeID = recipeID;
 		this.craftingXP = craftingXP;
+		this.discovered = discovered;
 	}
 
 	public ArrayList<ItemStack> getComponents() {
@@ -91,6 +96,14 @@ public class CraftingRecipe {
 
 	public void setCraftingXP(int craftingXP) {
 		this.craftingXP = craftingXP;
+	}
+
+	public boolean isDiscovered() {
+		return discovered;
+	}
+
+	public void setDiscovered(boolean discovered) {
+		this.discovered = discovered;
 	}
 
 }
