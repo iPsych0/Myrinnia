@@ -167,11 +167,11 @@ public class Player extends Creature{
 			if(!hasInteracted) {
 				if(playerIsNearNpc()){
 					ChatWindow.chatIsOpen = true;
-					closestEntity().interact();
+					getClosestEntity().interact();
 					hasInteracted = true;
 					
-					if(closestEntity().isShop())
-						shopKeeper = (ShopKeeper) closestEntity();
+					if(getClosestEntity().isShop())
+						shopKeeper = (ShopKeeper) getClosestEntity();
 					
 				}
 			}
@@ -848,31 +848,6 @@ public class Player extends Creature{
 	 * puts the distance in ascending order and
 	 * returns the closest Entity
 	 */
-	public Entity closestEntity(){
-		double closestDistance;
-		Entity closestEntity = null;
-		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
-		ArrayList<Double> pythagoras = new ArrayList<Double>();
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(!e.isNpc()){
-				continue;
-			}
-			if(e.equals(this)){
-				continue;
-			}
-			
-			int dx = (int) (handler.getWorld().getEntityManager().getPlayer().getX() - e.getX());
-		    int dy = (int) (handler.getWorld().getEntityManager().getPlayer().getY() - e.getY());
-		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
-		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
-		    Collections.sort(pythagoras);
-		}
-		closestDistance = pythagoras.get(0);
-		pythagoras.clear();
-		closestEntity = hashMap.get(closestDistance);
-		hashMap.clear();
-		return closestEntity;
-	}
 
 	@Override
 	public void interact() {

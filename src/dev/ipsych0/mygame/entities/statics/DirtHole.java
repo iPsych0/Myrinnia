@@ -15,7 +15,6 @@ public class DirtHole extends StaticEntity {
 
 	public DirtHole(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		
 		bounds.x = 1;
 		bounds.y = 1;
 		bounds.width = 32;

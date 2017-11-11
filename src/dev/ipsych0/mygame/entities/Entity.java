@@ -3,6 +3,9 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
@@ -26,6 +29,7 @@ public abstract class Entity {
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
 	protected boolean shopping = false;
+	protected boolean isSolid = true;
 	protected Entity damageDealer, damageReceiver;
 	private int ty = 0;
 	
@@ -59,6 +63,8 @@ public abstract class Entity {
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
+			if(!e.isSolid)
+				continue;
 			if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
 				return true;
 		}
@@ -66,9 +72,12 @@ public abstract class Entity {
 	}
 	
 	
+	/*
+	 * Checks if the distance between the player and the closest Entity is <= 64px
+	 */
 	public boolean playerIsNearNpc(){
 		// Looks for the closest entity and returns that entity
-		if(distanceToEntity((int)handler.getPlayer().closestEntity().getX(), (int)handler.getPlayer().closestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
+		if(distanceToEntity((int)getClosestEntity().getX(), (int)getClosestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
 			// Interact with the respective speaking turn
 			isCloseToNPC = true;
 			return true;
@@ -80,6 +89,38 @@ public abstract class Entity {
 					
 	}
 	
+	/*
+	 * Returns the closest Entity to the Player
+	 */
+	public Entity getClosestEntity(){
+		double closestDistance;
+		Entity closestEntity = null;
+		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
+		ArrayList<Double> pythagoras = new ArrayList<Double>();
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(!e.isNpc()){
+				continue;
+			}
+			if(e.equals(handler.getPlayer())){
+				continue;
+			}
+			
+			int dx = (int) (handler.getPlayer().getX() - e.getX());
+		    int dy = (int) (handler.getPlayer().getY() - e.getY());
+		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
+		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+		    Collections.sort(pythagoras);
+		}
+		closestDistance = pythagoras.get(0);
+		pythagoras.clear();
+		closestEntity = hashMap.get(closestDistance);
+		hashMap.clear();
+		return closestEntity;
+	}
+	
+	/*
+	 * Returns the damage an Entity should deal (Combat formula)
+	 */
 	public int getDamage(Entity dealer) {
 		// hier damage formula
 		Creature c = (Creature) dealer;
