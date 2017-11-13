@@ -367,7 +367,7 @@ public class Player extends Creature{
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
 		
-		g.drawString("FPS: " + String.valueOf(handler.getGame().framesPerSecond), 2, 140);
+		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 		
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {

@@ -261,7 +261,7 @@ public class CraftingUI {
 					if(craftRecipe.isDiscovered()) {
 						g.drawImage(craftImg, x + width + (width / 2) - 36, y + 32, null);
 					}else {
-						g.drawImage(Assets.fish, x + width + (width / 2) - 36, y + 32, null);
+						g.drawImage(Assets.undiscovered, x + width + (width / 2) - 36, y + 32, null);
 					}
 					
 					if(hovering && craftRecipe.isDiscovered()) {
