@@ -25,6 +25,7 @@ import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -256,9 +257,6 @@ public class Player extends Creature{
 					if(!e.isAttackable()) {
 						p.active = false;
 					}
-					if(e.isStaticNpc()) {
-						p.active = false;
-					}
 					if(e.isAttackable()) {
 						e.damage(this, e);
 						p.active = false;
@@ -370,6 +368,13 @@ public class Player extends Creature{
 		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
 		
 		g.drawString("FPS: " + String.valueOf(handler.getGame().framesPerSecond), 2, 140);
+		
+		if(projectiles.size() >= 1) {
+			for(Projectile p : projectiles) {
+				if(active)
+					p.render(g);
+			}
+		}
 		
 	}
 	
@@ -493,14 +498,14 @@ public class Player extends Creature{
 		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
 			return;
 		
+		magicTimer = 0;
+		
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
-			projectiles.add((new Projectile(handler, x, y,
+			projectiles.add(new Projectile(handler, x, y,
 					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset() - 16),
 					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset() - 16),
-					6.0f)));
+					6.0f));
 		}
-		
-		magicTimer = 0;
 		
 	}
 	
@@ -692,13 +697,6 @@ public class Player extends Creature{
 	 */
 	@Override
 	public void postRender(Graphics g){
-		
-		if(projectiles.size() >= 1) {
-			for(Projectile p : projectiles) {
-				if(active)
-					p.render(g);
-			}
-		}
 		
 		chatWindow.render(g);
 	}

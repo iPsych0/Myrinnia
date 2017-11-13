@@ -187,8 +187,8 @@ public class Assets {
 		shopWindow = shop_window.crop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[2];
-		magicProjectile[0] = projectiles.crop(width * 3, height * 0, width, height);
-		magicProjectile[1] = projectiles.crop(width * 0, height, width, height);
+		magicProjectile[0] = projectiles.crop(width * 9, height * 0, width, height);
+		magicProjectile[1] = projectiles.crop(width * 10, height * 0, width, height);
 		
 		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		

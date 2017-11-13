@@ -22,7 +22,7 @@ public class Projectile {
 	private Animation magic;
 	private Handler handler;
 	private Rectangle bounds;
-	public boolean active = true;
+	public boolean active;
 	
 	public Projectile(Handler handler, float x, float y, int mouseX, int mouseY, float velocity) {
 		this.handler = handler;
@@ -58,6 +58,8 @@ public class Projectile {
 		
 		magic = new Animation(125, Assets.magicProjectile);
 		
+		active = true;
+		
 		
 	}
 	
@@ -78,8 +80,7 @@ public class Projectile {
 	
 	public void render(Graphics g) {
 		if(active) {
-			g.drawImage(magic.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
-					, width, height, null);
+			g.drawImage(magic.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		}
 	}
 

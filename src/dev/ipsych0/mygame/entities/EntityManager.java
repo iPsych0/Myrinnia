@@ -67,7 +67,6 @@ public class EntityManager {
 			}
 			
 			// Post renders for entities for additional 
-			e.postRender(g);
 			player.postRender(g);
 		}
 		

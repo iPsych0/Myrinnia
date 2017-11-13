@@ -66,15 +66,15 @@ public class Scorpion extends Creature {
 				deleted.add(p);
 			}
 			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-				if(e.equals(this)) {
-					continue;
-				}
 				if(!e.equals(handler.getPlayer())) {
 					continue;
 				}
 				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
 					if(e.isAttackable()) {
 						e.damage(this, e);
+						p.active = false;
+					}
+					if(!e.isAttackable()) {
 						p.active = false;
 					}
 				}
