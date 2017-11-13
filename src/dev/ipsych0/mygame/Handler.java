@@ -38,6 +38,8 @@ public class Handler {
 	
 	public Handler(Game game){
 		this.game = game;
+		
+		// Instantiate the player and the worlds
 		player = new Player(this, 5152, 5600);
 		island = new Island(this, player, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
@@ -82,24 +84,6 @@ public class Handler {
 		this.world = world;
 	}
 	
-	public int getRandomNumber(int min, int max){
-		int randomNumber = rand.nextInt((max - min) + 1) + min;
-		return randomNumber;
-	}
-	
-	public void playMusic(String pathToMusic) {
-		try {
-			File file = new File(pathToMusic);
-			if(file.exists()) {
-				Clip clip = AudioSystem.getClip();
-				clip.open(AudioSystem.getAudioInputStream(file));
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-	}
-
 	public WorldHandler getWorldHandler() {
 		return worldHandler;
 	}
@@ -116,6 +100,33 @@ public class Handler {
 		this.player = player;
 	}
 	
+	/*
+	 * Generates a random numbers between min & max
+	 */
+	public int getRandomNumber(int min, int max){
+		int randomNumber = rand.nextInt((max - min) + 1) + min;
+		return randomNumber;
+	}
+	
+	/*
+	 * Plays music (basic function.. needs expanding to check area)
+	 */
+	public void playMusic(String pathToMusic) {
+		try {
+			File file = new File(pathToMusic);
+			if(file.exists()) {
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(file));
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	/*
+	 * Rounds off a number to two digits.
+	 */
 	public static double roundOff(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 	    
@@ -130,29 +141,48 @@ public class Handler {
 	}
 	
 	/*
-	 * Shortcut functions from here on out
+	 * Drop an item to the world
+	 * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
 	 */
-	
 	public void dropItem(Item item, int amount, int x, int y) {
 		getWorld().getItemManager().addItem((item.createNew(x, y, amount)));
 	}
 	
+	/*
+	 * Sends a message to the chat log
+	 */
 	public void sendMsg(String message) {
 		getPlayer().getChatWindow().sendMessage(message);
 	}
 	
+	/*
+	 * Checks if the inventory is full when picking up/receiving an item
+	 * @param: Provide the item that needs to be checked if it can be added to the inventory
+	 */
 	public boolean invIsFull(Item item) {
 		return getWorld().getInventory().inventoryIsFull(item);
 	}
 	
+	/*
+	 * Adds an item + quantity to the player's inventory. Usually followed by invIsFull() function
+	 * @params: Provide the item and the amount to be added
+	 */
 	public void giveItem(Item item, int amount) {
 		getWorld().getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
 	}
 	
+	/*
+	 * Removes an item + quantity from the inventory.
+	 * @params: Provide the item and the amount to be removed
+	 */
 	public boolean removeItem(Item item, int amount) {
 		return getWorld().getInventory().removeItem(item, amount);
 	}
 	
+	/*
+	 * Checks if the player has an item AND the specified amount in his inventory.
+	 * @params: Provide the item and the MINIMUM amount of that item to be checked
+	 */
 	public boolean playerHasItem(Item item, int amount) {
 		return getWorld().getInventory().playerHasItem(item, amount);
 	}

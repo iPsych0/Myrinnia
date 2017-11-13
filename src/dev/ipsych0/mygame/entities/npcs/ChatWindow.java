@@ -88,6 +88,9 @@ public class ChatWindow {
 		}
 	}
 	
+	/*
+	 * Sends a message to the chat log
+	 */
 	public boolean sendMessage (String message) {
         int chatIndex = freeTextSlot();
        // System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
@@ -102,7 +105,9 @@ public class ChatWindow {
         }
     }
 	
-	// Free slots vrijmaken!
+	/*
+	 * Makes the chat shift and pushes messages off the stack to make room for new messages
+	 */
 	public int freeTextSlot() {
 		// Als de chat leeg is, vul altijd de 1e slot
 		if(textSlots.get(textSlots.size() - 1).getNpcText() == null){

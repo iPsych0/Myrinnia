@@ -15,6 +15,12 @@ public class EntityManager {
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Entity shoppingNpc;
+	
+	/*
+	 * Compares Entity A to Entity B
+	 * @returns: -1 if the Y position is lower (render on top of Entity B)
+	 * 			  1 if the Y position is higher (render behind Entity B)
+	 */
 	private Comparator<Entity> renderSorter = new Comparator<Entity>(){
 		@Override
 		public int compare(Entity a, Entity b) {
@@ -34,12 +40,17 @@ public class EntityManager {
 	}
 	
 	public void tick(){
+		// Iterate over all Entities and remove inactive ones
 		Iterator<Entity> it = entities.iterator();
 		Collection<Entity> deleted = new CopyOnWriteArrayList<Entity>();
 		while(it.hasNext()){
 			Entity e = it.next();
 			if(!e.isActive()){
 				deleted.add(e);
+			}
+			//If the player is shopping with this Entity, set the shopping Entity to this one.
+			if(e.shopping) {
+				shoppingNpc = e;
 			}
 			e.tick();
 		}
@@ -50,15 +61,17 @@ public class EntityManager {
 	public void render(Graphics g){
 		for(Entity e : entities){
 			e.render(g);
-			if(e.shopping) {
-				shoppingNpc = e;
-			}
+			// Draw the damage while in combat
 			if(e.isDamaged() && e.getDamageDealer() != null) {
 				e.drawDamage(e.getDamageDealer(), g);
 			}
+			
+			// Post renders for entities for additional 
+			e.postRender(g);
+			player.postRender(g);
 		}
-		player.postRender(g);
 		
+		// If we're shopping, render the shopping screen on top
 		if(shoppingNpc != null)
 			shoppingNpc.postRender(g);
 	}

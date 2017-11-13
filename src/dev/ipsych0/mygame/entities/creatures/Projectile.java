@@ -41,14 +41,17 @@ public class Projectile {
 		bounds.width = 10;
 		bounds.height = 10;
 		
+		// Where the projectile starts
 		xSpawn = x;
 		ySpawn = y;
 		
+		// Max distance the projectile can travel
 		maxX = (int) (x + maxRadius);
 		maxY = (int) (y + maxRadius);
 		minX = (int) (x - maxRadius);
 		minY = (int) (y - maxRadius);
 		
+		// The angle and speed of the projectile
 		angle = Math.atan2(mouseY - y, mouseX - x);
 		xVelocity = velocity * Math.cos(angle);
 		yVelocity = velocity * Math.sin(angle);
@@ -65,30 +68,10 @@ public class Projectile {
 			x += xVelocity;
 			y += yVelocity;
 			
+			// If out of range, remove this projectile
 			if(x > maxX || x < minX || y > maxY || y < minY) {
 				active = false;
 				return;
-			}
-		
-			for(Entity e: handler.getWorld().getEntityManager().getEntities()) {
-				if(e.equals(e)) {
-					continue;
-				}
-				if(!e.isAttackable()) {
-					continue;
-				}
-				if(e.isNpc()) {
-					continue;
-				}
-				if(getCollisionBounds(0,0).intersects(e.getCollisionBounds((float)xVelocity, (float)yVelocity))){
-					if(e.isStaticNpc()) {
-						active = false;
-					}else {
-						active = false;
-						//e.damage(this, e);
-						return;
-					}
-				}
 			}
 		}
 	}

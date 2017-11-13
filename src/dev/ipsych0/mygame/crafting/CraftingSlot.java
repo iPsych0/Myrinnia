@@ -31,6 +31,9 @@ public class CraftingSlot {
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
+		/*
+		 * If there is an item in a slot, render it
+		 */
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			g.setColor(Color.YELLOW);
@@ -39,6 +42,10 @@ public class CraftingSlot {
 		}
 	}
 	
+	/*
+	 * Adds item to the crafting slot
+	 * @params: Provide the item and amount to add to the slot (usually by right clicking an ItemStack)
+	 */
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
 			if(item.getName() == itemStack.getItem().getName()) {

@@ -7,6 +7,9 @@ import java.awt.Graphics;
 
 public class Text {
 	
+	/*
+	 * Draws a String to the screen with specified font, colour and centred/not centred
+	 */
 	public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
 		g.setColor(color);
 		g.setFont(font);

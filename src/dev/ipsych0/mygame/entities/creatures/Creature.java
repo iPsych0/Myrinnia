@@ -10,6 +10,10 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public abstract class Creature extends Entity {
 
+	
+	/*
+	 * Default Creature variables
+	 */
 	public static final float DEFAULT_SPEED = 1.0f, DEFAULT_ATTACKSPEED = 1.0f;
 	public static final int DEFAULT_CREATURE_WIDTH = 32,
 							DEFAULT_CREATURE_HEIGHT = 32;
@@ -51,10 +55,18 @@ public abstract class Creature extends Entity {
 		drawnOnMap = true;
 	}
 	
-//	public int damageFormula() {
-//		return baseDamage + (int)(getPower() * 3);
-//	}
+	/*
+	 * The default damage formula (see Entity::getDamage() function)
+	 * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
+	 */
+	@Override
+	public int getDamage(Entity dealer) {
+		return super.getDamage(dealer);
+	}
 
+	/*
+	 * Moves on the X or Y axis, keeping in mind the collision detection
+	 */
 	public void move(){
 		if(!checkEntityCollisions(xMove, 0f))
 			moveX();
@@ -62,6 +74,9 @@ public abstract class Creature extends Entity {
 			moveY();
 	}
 	
+	/*
+	 * Handles movement on the X-axis
+	 */
 	public void moveX(){
 		if(xMove > 0){ // Moving right
 			direction = Direction.RIGHT;
@@ -91,7 +106,9 @@ public abstract class Creature extends Entity {
 		}
 	}
 	
-	
+	/*
+	 * Handles movement on the Y-axis
+	 */
 	public void moveY(){
 		if(yMove < 0){ // Up
 			direction = Direction.UP;
@@ -120,6 +137,9 @@ public abstract class Creature extends Entity {
 		}
 	}
 	
+	/*
+	 * Handles collision detection with Tiles
+	 */
 	protected boolean collisionWithTile(int x, int y){
 		for(int i = 0; i < handler.getWorld().getFile().length; i++) {
 			if(handler.getWorld().getTile(i, x, y).isSolid()) {

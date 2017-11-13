@@ -55,7 +55,6 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
-		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		randomWalk();
 		checkAttacks();
 		
@@ -106,7 +105,7 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void die() {
-		handler.getPlayer().getChatWindow().sendMessage("You killed the " + this.getClass().getSimpleName().toString());
+		// Drop table stuff
 		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		
@@ -140,8 +139,17 @@ public class Scorpion extends Creature {
 		);
 	}
 	
+	/*
+	 * Damage formula
+	 */
+	@Override
+	public int getDamage(Entity dealer) {
+		return super.getDamage(dealer);
+	}
 	
-	
+	/*
+	 * Checks the attack timers before the next attack 
+	 */
 	private void checkAttacks(){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -197,7 +205,9 @@ public class Scorpion extends Creature {
 		}
 	}
 	
-	
+	/*
+	 * Walks into random directions at given intervals
+	 */
 	private void randomWalk() {
 		time++;
 		if(time % (randMove.nextInt(30) + 30) == 0){
@@ -223,6 +233,7 @@ public class Scorpion extends Creature {
 			yMove = + speed;
 		}
 		move();
+		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		
 	}
 

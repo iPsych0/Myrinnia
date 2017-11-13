@@ -14,6 +14,9 @@ public class CraftingRecipe {
 	private int craftingXP;
 	private boolean discovered;
 	
+	/*
+	 * Use this constructor for a recipe with 4 components
+	 */
 	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4) {
 		this.item1 = item1;
 		this.item2 = item2;
@@ -32,6 +35,9 @@ public class CraftingRecipe {
 		this.discovered = discovered;
 	}
 
+	/*
+	 * Use this constructor for a recipe with 3 components
+	 */
 	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3) {
 		this.item1 = item1;
 		this.item2 = item2;
@@ -48,6 +54,9 @@ public class CraftingRecipe {
 		this.discovered = discovered;
 	}
 
+	/*
+	 * Use this constructor for a recipe with 2 components
+	 */
 	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2) {
 		this.item1 = item1;
 		this.item2 = item2;
@@ -62,6 +71,9 @@ public class CraftingRecipe {
 		this.discovered = discovered;
 	}
 	
+	/*
+	 * Use this constructor for a recipe with 1 components
+	 */
 	public CraftingRecipe(int recipeID, int craftingXP, boolean discovered, ItemStack item1) {
 		this.item1 = item1;
 

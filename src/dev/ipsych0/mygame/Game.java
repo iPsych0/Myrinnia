@@ -59,6 +59,7 @@ public class Game implements Runnable {
 	}
 	
 	private void init(){
+		// Load in the window + images
 		display = new Display(title, width, height);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addKeyListener(keyManager);
@@ -67,13 +68,19 @@ public class Game implements Runnable {
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
 		
+		// Create instance of Handler & gamecamera
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
 		
+		// Create the different states for menus/game
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
 		settingState = new SettingState(handler);
+		
+		// Set the initial state to the menu state
 		State.setState(menuState);
+		
+		// Instance the savemanager (needed to pass 
 		saveManager = new SaveManager(handler);
 	}
 	

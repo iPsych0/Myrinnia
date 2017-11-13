@@ -42,6 +42,10 @@ public class CraftResultSlot {
 		}
 	}
 	
+	/*
+	 * Adds item to the result slot when the craft button is pressed
+	 * @returns: true/false if it can be added or not
+	 */
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
 			if(item.getName() == itemStack.getItem().getName()) {

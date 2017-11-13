@@ -45,7 +45,7 @@ public abstract class Entity {
 		bounds = new Rectangle(0, 0, width, height);
 	}
 	
-	// Abstract Methods
+	// Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
 	
 	public abstract void tick();
 	
@@ -57,8 +57,10 @@ public abstract class Entity {
 	
 	public abstract void interact();
 	
-	// Collision checker
-	
+	/*
+	 * Checks the collision for Entities
+	 * @returns: true if collision, false if no collision
+	 */
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
@@ -120,21 +122,26 @@ public abstract class Entity {
 	
 	/*
 	 * Returns the damage an Entity should deal (Combat formula)
+	 * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
 	 */
 	public int getDamage(Entity dealer) {
-		// hier damage formula
+		// Default damage formula
 		Creature c = (Creature) dealer;
 		return (int) Math.floor((c.getBaseDamage() + c.getPower()));
 	}
 	
 	/*
-	 * Damage formula
+	 * Deals the damage (subtracts the damage from HP)
+	 * @params: dealer = the Entity that deals the damage
+	 * 			receiver = the Entity that receives the damage
 	 */
 	public void damage(Entity dealer, Entity receiver){
 		damageDealer = dealer;
 		damageReceiver = receiver;
 		damageReceiver.health -= damageDealer.getDamage(damageDealer);
 		damageReceiver.damaged = true;
+		
+		// Starts the timer for the hitsplat
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
@@ -179,15 +186,14 @@ public abstract class Entity {
 	    return Math.sqrt(dx * dx + dy * dy);
 	}
 	
-	// Getters & Setters
-	
 	/*
 	 * Returns the collision bounds of an Entity
 	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
-
+	
+	// Getters & Setters
 	public float getX() {
 		return x;
 	}

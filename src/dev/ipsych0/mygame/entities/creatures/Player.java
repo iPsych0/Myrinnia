@@ -6,18 +6,14 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
-import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
@@ -25,10 +21,10 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
-import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -151,7 +147,7 @@ public class Player extends Creature{
 		// Attacks
 		regenHealth();
 		
-		// Player position
+		// Debug button for in-game testing
 		if(handler.getKeyManager().position && debugButtonPressed){
 			getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
@@ -160,34 +156,48 @@ public class Player extends Creature{
 			System.out.println("Attack XP = " + getAttackExperience());
 			System.out.println("Crafting XP = " + getCraftingExperience());
 			System.out.println("Crafting level = " + getCraftingLevel());
+			
+//			ItemStack stack = new ItemStack(Item.coinsItem, 1);
+//			for(ItemSlot is : handler.getWorld().getInventory().getItemSlots()) {
+//				is.setItemStack(stack);
+//			}
+			
 			debugButtonPressed = false;
 			
 		}
+		
+		// If space button is pressed
 		if(handler.getKeyManager().talk){
 			if(!hasInteracted) {
 				if(playerIsNearNpc()){
+					// And we're close to an NPC, open the chat
 					ChatWindow.chatIsOpen = true;
 					getClosestEntity().interact();
 					hasInteracted = true;
 					
+					// If the closest Entity is a shop, open the shop
 					if(getClosestEntity().isShop())
 						shopKeeper = (ShopKeeper) getClosestEntity();
 					
 				}
 			}
 		}
+		
+		// If the shop is open, but we're moving, close it
 		if(shopKeeper != null && isMoving) {
 			Entity.isCloseToNPC = false;
 			Player.hasInteracted = false;
 			shopKeeper = null;
 		}
 		
+		// If there are projectiles, tick them
 		if(projectiles.size() != 0) {
 			tickProjectiles();
 		}
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
+		// If the mouse is not moved, use the WASD-keys to determine the direction
 		if(!mouseMoved) {
 			if(xMove < 0)
 				lastFaced = Direction.LEFT;
@@ -199,12 +209,14 @@ public class Player extends Creature{
 				lastFaced = Direction.DOWN;
 			setLastFaced();
 		}else {
+			// If the mouse IS moved, make the player face the angle of the mouse.
 			if(movementAllowed)
 				setMouseAngle(x, y, (int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset()),
 						(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset()));
 			setLastFaced();
 		}
 		
+		// If the player is pressing the attack button
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
 				if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
@@ -225,7 +237,10 @@ public class Player extends Creature{
 		
 	}
 	
-	public void tickProjectiles() {
+	/*
+	 * Ticks the projectiles of the player
+	 */
+	private void tickProjectiles() {
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
 		while(it.hasNext()){
@@ -256,6 +271,9 @@ public class Player extends Creature{
 		projectiles.removeAll(deleted);
 	}
 	
+	/*
+	 * Sets the angle of the mouse
+	 */
 	public void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
 		
 		double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
@@ -280,6 +298,9 @@ public class Player extends Creature{
 		
 	}
 	
+	/*
+	 * Sets the last faced direction, based on last movement
+	 */
 	public void setLastFaced() {
 		if(lastFaced == null){
 			aDefault = aDown;
@@ -298,6 +319,9 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Returns the sprite of the last faced direction
+	 */
 	public BufferedImage getLastFacedImg() {
 		if(lastFaced == null){
 			return Assets.player_down[1];
@@ -347,17 +371,20 @@ public class Player extends Creature{
 		
 		g.drawString("FPS: " + String.valueOf(handler.getGame().framesPerSecond), 2, 140);
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(itemPickupRadius().x, itemPickupRadius().y, itemPickupRadius().width, itemPickupRadius().height);
-		
 	}
 	
+	/*
+	 * Adds the equipment stats
+	 * @param: the item's equipment slot
+	 */
 	public void addEquipmentStats(int equipSlot) {
 		if(equipSlot == 12) {
+			// If slotnumber = 12 (unequippable) return
 			return;
 		}
 		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 
+			// Sets the new stats
 			setAttackSpeed(getAttackSpeed() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
 			setVitality(getVitality() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
 			setPower(getPower() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
@@ -369,6 +396,9 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Removes the equipment stats
+	 */
 	public void removeEquipmentStats(int equipSlot) {
 		if(equipSlot == 12) {
 			return;
@@ -413,27 +443,28 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Regenerates health
+	 */
 	private void regenHealth() {
 		if(health == MAX_HEALTH) {
 			return;
 		}
 		
+		regenTimer += System.currentTimeMillis() - lastRegenTimer;
+		lastRegenTimer = System.currentTimeMillis();
+		if(regenTimer < regenCooldown)
+			return;
+		
+		// If current health is higher than your max health value, degenerate health
 		if(health > MAX_HEALTH) {
-			
-			regenTimer += System.currentTimeMillis() - lastRegenTimer;
-			lastRegenTimer = System.currentTimeMillis();
-			if(regenTimer < regenCooldown)
-				return;
 			
 			health -= 1;
 			regenTimer = 0;
 		}
-		if(health < MAX_HEALTH){
 		
-			regenTimer += System.currentTimeMillis() - lastRegenTimer;
-			lastRegenTimer = System.currentTimeMillis();
-			if(regenTimer < regenCooldown)
-				return;
+		// If current health is lower than your max health value, regenerate health
+		if(health < MAX_HEALTH){
 			
 			health += 1;
 			
@@ -441,6 +472,9 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Check for magic attacks
+	 */
 	private void checkMagic(Rectangle mouse){
 		// Attack timers
 		magicTimer += System.currentTimeMillis() - lastMagicTimer;
@@ -470,6 +504,9 @@ public class Player extends Creature{
 		
 	}
 	
+	/*
+	 * Checks melee attacks
+	 */
 	private void checkAttacks(){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -569,6 +606,7 @@ public class Player extends Creature{
 	@Override
 	public void die(){
 		System.out.println("You died!");
+		// Drop all items
 		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
 			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
@@ -576,12 +614,14 @@ public class Player extends Creature{
 			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
 			handler.getWorld().getInventory().getItemSlots().get(i).setItemStack(null);
 		}
+		// If we're dragging an item from inventory while dying, drop it too!
 		if(handler.getWorld().getInventory().getCurrentSelectedSlot() != null) {
 			handler.dropItem(handler.getWorld().getInventory().getCurrentSelectedSlot().getItem(), handler.getWorld().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
 			handler.getWorld().getInventory().setCurrentSelectedSlot(null);
 			InventoryWindow.hasBeenPressed = false;
 			InventoryWindow.itemSelected = false;
 		}
+		// Drop all equipment
 		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
 			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
@@ -590,12 +630,14 @@ public class Player extends Creature{
 			removeEquipmentStats(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
 			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
+		// If we're dragging an item from equipment while dying, drop it too!
 		if(handler.getWorld().getEquipment().getCurrentSelectedSlot() != null) {
 			handler.dropItem(handler.getWorld().getEquipment().getCurrentSelectedSlot().getItem(), handler.getWorld().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
 			handler.getWorld().getEquipment().setCurrentSelectedSlot(null);
 			EquipmentWindow.hasBeenPressed = false;
 			EquipmentWindow.itemSelected = false;
 		}
+		// If we're dead, respawn
 		if(!active){
 			this.setActive(true);
 			this.setHealth(DEFAULT_HEALTH);
@@ -612,6 +654,9 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Handles movement, based on keyboard input (WASD)
+	 */
 	private void getInput(){
 		xMove = 0;
 		yMove = 0;
@@ -642,6 +687,9 @@ public class Player extends Creature{
 		}
 	}
 	
+	/*
+	 * Post render for things that should be drawn over other Entities
+	 */
 	@Override
 	public void postRender(Graphics g){
 		
@@ -655,6 +703,10 @@ public class Player extends Creature{
 		chatWindow.render(g);
 	}
 	
+	/*
+	 * Gets the animation based on last faced direction
+	 * @returns the animation image
+	 */
 	private BufferedImage getAnimationByLastFaced(Direction lastFaced) {
 		if(lastFaced == Direction.LEFT)
 			return aLeft.getCurrentFrame();
@@ -669,6 +721,10 @@ public class Player extends Creature{
 		return aDefault.getCurrentFrame();
 	}
 	
+	/*
+	 * All movement/attacking animations based on directions
+	 * @returns: the respective image
+	 */
 	private BufferedImage getAnimationDirection() {
 		
 		/*
@@ -825,11 +881,19 @@ public class Player extends Creature{
 		return Assets.black;
 	}
 	
+	/*
+	 * Gets the current frame
+	 * @returns the current frame image
+	 */
 	private BufferedImage getCurrentAnimationFrame(){
 		// Walk and Attack animations
 		return getAnimationDirection();
 	}
 	
+	/*
+	 * Iterates over inventory to see if player has a given item with a minimum of the specified quantity
+	 * @params: Provide an item to check for and a minimum quantity required
+	 */
 	public boolean hasItem(Item item, int quantity){
 		for(ItemSlot is : handler.getWorld().getEntityManager().getPlayer().handler.getWorld().getInventory().getItemSlots()){
 			if(is.getItemStack() == null){
@@ -842,21 +906,19 @@ public class Player extends Creature{
 		return false;
 	}
 	
-	
-	/*
-	 * Checks distance for all entities,
-	 * puts the distance in ascending order and
-	 * returns the closest Entity
-	 */
 
+	/*
+	 * This method should never be called, since the player cannot interact with itself
+	 */
 	@Override
 	public void interact() {
 		System.out.println("Oops, we're interacting with ourself. That's odd!");
 	}
 	
+	// Getters & Setters
+	
 	public World getCurrentMap(){
 		return handler.getWorld();
-		
 	}
 
 	public ChatWindow getChatWindow() {

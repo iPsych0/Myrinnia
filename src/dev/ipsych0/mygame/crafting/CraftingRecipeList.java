@@ -13,12 +13,16 @@ public class CraftingRecipeList {
 	private List<ItemStack> recipeResults;
 	
 	/*
+	 * Recipe Results:
+	 * 
 	 * Recipe 0: Sword
 	 * Recipe 1: Coins
 	 * Etc.
 	 */
 	
-	
+	/*
+	 * Puts all recipes in the list
+	 */
 	public CraftingRecipeList() {
 		
 		recipes = new ArrayList<CraftingRecipe>();
@@ -30,8 +34,6 @@ public class CraftingRecipeList {
 		recipes.add(new CraftingRecipe(3, 5, false, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
 		
 	}
-	
-	
 
 	public List<CraftingRecipe> getRecipes() {
 		return recipes;
@@ -41,13 +43,9 @@ public class CraftingRecipeList {
 		this.recipes = recipes;
 	}
 
-
-
 	public List<ItemStack> getRecipeResults() {
 		return recipeResults;
 	}
-
-
 
 	public void setRecipeResults(List<ItemStack> recipeResults) {
 		this.recipeResults = recipeResults;
