@@ -125,6 +125,7 @@ public class Assets {
 	
 	// Crafting UI
 	public static BufferedImage craftWindow;
+	public static BufferedImage undiscovered;
 	
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
@@ -149,18 +150,10 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet ui_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ui-items.png"));
 		SpriteSheet projectiles = new SpriteSheet(ImageLoader.loadImage("/textures/projectiles.png"));
 		SpriteSheet swordSprites = new SpriteSheet(ImageLoader.loadImage("/textures/swordsprites.png"));
-		SpriteSheet craftingWindow = new SpriteSheet(ImageLoader.loadImage("/textures/crafting.png"));
-		SpriteSheet fishSheet = new SpriteSheet(ImageLoader.loadImage("/textures/fish.png"));
 		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
-		SpriteSheet HPOverlay = new SpriteSheet(ImageLoader.loadImage("/textures/hpoverlay.png"));  
-		SpriteSheet chatWindowTop = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindowtop.png"));  
-		SpriteSheet chatWindow = new SpriteSheet(ImageLoader.loadImage("/textures/chatwindow.png")); 
-		SpriteSheet equipmentStats = new SpriteSheet(ImageLoader.loadImage("/textures/equipstats.png"));
-		SpriteSheet equipmentScreen = new SpriteSheet(ImageLoader.loadImage("/textures/equipmentscreen.png"));
-		SpriteSheet inventoryScreen = new SpriteSheet(ImageLoader.loadImage("/textures/inventoryscreen.png"));
-		SpriteSheet inventory = new SpriteSheet(ImageLoader.loadImage("/textures/invslot.png"));
 		SpriteSheet main_screen = new SpriteSheet(ImageLoader.loadImage("/textures/dark_priest.png"));
 		SpriteSheet swamp_land = new SpriteSheet(ImageLoader.loadImage("/textures/swampland.png"));
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
@@ -187,12 +180,12 @@ public class Assets {
 		shopWindow = shop_window.crop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[2];
-		magicProjectile[0] = projectiles.crop(width * 3, height * 0, width, height);
-		magicProjectile[1] = projectiles.crop(width * 0, height, width, height);
+		magicProjectile[0] = projectiles.crop(width * 9, height * 0, width, height);
+		magicProjectile[1] = projectiles.crop(width * 10, height * 0, width, height);
 		
 		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		
-		fish = fishSheet.crop(0, 0, width, height);
+		fish = ui_sheet.crop(width * 2, 0, width, height);
 		
 		whirlpool = new BufferedImage[8];
 		
@@ -206,23 +199,24 @@ public class Assets {
 		whirlpool[7] = whirlPool.crop(width * 3, height, width, height);
 		
 		// Inventory sprites
-		invSlot = inventory.crop(0, 0, 32, 32);
-		invScreen = inventoryScreen.crop(0, 0, 132, 329);
+		invSlot = ui_sheet.crop(width, 0, 32, 32);
+		invScreen = ui_sheet.crop(0, height * 9, 132, 329);
 		
 		// Equipment sprites
-		equipScreen = equipmentScreen.crop(0, 0, 132, 348);
-		equipSlot = inventory.crop(0, 0, 32, 32);
-		equipStats = equipmentStats.crop(0, 0, 112, 160);
+		equipScreen = ui_sheet.crop(width * 13, height * 9, 132, 348);
+		equipSlot = ui_sheet.crop(width, 0, 32, 32);
+		equipStats = ui_sheet.crop(0, height * 20, 112, 160);
 		
 		// Chat sprites
-		chatwindow = chatWindow.crop(0, 0, 432, 112);
-		chatwindowTop = chatWindowTop.crop(0, 0, 432, 20);
+		chatwindow = ui_sheet.crop(0, height * 4, 432, 112);
+		chatwindowTop = ui_sheet.crop(0, height * 8, 432, 20);
 		
 		// HP Overlay sprites
-		hpOverlay = HPOverlay.crop(0, 0, 292, 96);
+		hpOverlay = ui_sheet.crop(0, height, 292, 96);
 		
 		// Crafting UI sprites
-		craftWindow = craftingWindow.crop(0, 0, 242, 320);
+		craftWindow = ui_sheet.crop(width * 5, height * 9, 242, 320);
+		undiscovered = ui_sheet.crop(0, 0, width, height);
 		
 		// Main menu background
 		

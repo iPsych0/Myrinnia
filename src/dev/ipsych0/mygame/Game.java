@@ -24,7 +24,7 @@ public class Game implements Runnable {
 	public int posX = 0;
 	public int posY = 0;
 	private int ticks = 0;
-	public int framesPerSecond = 0;
+	private int framesPerSecond = 0;
 	
 	private boolean running = false;
 	private Thread thread;
@@ -265,5 +265,13 @@ public class Game implements Runnable {
 
 	public void setDisplay(Display display) {
 		this.display = display;
+	}
+
+	public int getFramesPerSecond() {
+		return framesPerSecond;
+	}
+
+	public void setFramesPerSecond(int framesPerSecond) {
+		this.framesPerSecond = framesPerSecond;
 	}
 }
