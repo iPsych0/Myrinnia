@@ -41,7 +41,7 @@ public class TeleportShrine2 extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.getSpeakingTurn() == 0){
-			handler.getPlayer().getChatWindow().sendMessage("You interact with the shrine. Press Space to save your game.");
+			handler.sendMsg("You interact with the shrine. Press Space to save your game.");
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 1){
@@ -79,7 +79,7 @@ public class TeleportShrine2 extends StaticEntity {
 			SaveManager.saveInventory();
 			SaveManager.saveEquipment();
 			SaveManager.saveGame();
-			handler.getPlayer().getChatWindow().sendMessage("Game Saved!");
+			handler.sendMsg("Game Saved!");
 			speakingTurn = 0;
 		}
 	}

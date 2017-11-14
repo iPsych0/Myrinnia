@@ -132,7 +132,7 @@ public class InventoryWindow implements Serializable {
 					if(is.getItemStack() != null){
 						if(is.getItemStack().getItem().equipSlot == 12){
 							// If the item's equipmentslot = 12, that means it's unequippable, so return
-							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
+							handler.sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
 							hasBeenPressed = false;
 							return;
@@ -144,7 +144,7 @@ public class InventoryWindow implements Serializable {
 									is.getItemStack().getItem().getId() ==
 									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
 								// If trying to equip the exact same item, return message
-								handler.getPlayer().getChatWindow().sendMessage("You've already equipped this item!");
+								handler.sendMsg("You've already equipped this item!");
 								isEquipped = false;
 								hasBeenPressed = false;
 								return;
@@ -219,7 +219,7 @@ public class InventoryWindow implements Serializable {
 							if(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem()) == -1) {
 								// If all crafting slots are full, return
 								hasBeenPressed = false;
-								handler.getPlayer().getChatWindow().sendMessage("You cannot add more than 4 items to the crafting window.");
+								handler.sendMsg("You cannot add more than 4 items to the crafting window.");
 								isEquipped = false;
 								return;
 							} else {

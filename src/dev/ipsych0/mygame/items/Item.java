@@ -115,7 +115,7 @@ public class Item implements Serializable{
         	// If we have space
             if(id == item.getId()){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
-            	handler.getPlayer().getChatWindow().sendMessage("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
+            	handler.sendMsg("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
             	pickedUp = true;
             	return true;
         	}
@@ -123,7 +123,7 @@ public class Item implements Serializable{
             return false;
         }
         // Cannot pick up item because inventroy is full
-        handler.getPlayer().getChatWindow().sendMessage("Your inventory is full. Please make some space!");
+        handler.sendMsg("Your inventory is full. Please make some space!");
     	return false;
     }
 	

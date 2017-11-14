@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.worlds;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,9 +10,12 @@ import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
+import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -49,6 +53,7 @@ public abstract class World {
 	protected EquipmentWindow equipment;
 	protected CraftingUI craftingUI;
 	protected Player player;
+	protected ChatWindow chatWindow;
 	
 	// Actual code ---v
 	
@@ -64,6 +69,8 @@ public abstract class World {
 			itemManager = new ItemManager(handler);
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = new CraftingUI(handler, 0, 180);
+			chatWindow = new ChatWindow(handler, 0, 608); //228,314
+			chatWindow.sendMessage("Welcome back!");
 			
 			
 			// Dit is hoe ik items in de world zelf spawn
@@ -89,8 +96,33 @@ public abstract class World {
 			return Tiles.invisible;
 		return t;
 	}
+	
+	protected void renderNight(Graphics g) {
+		/* UNCOMMENT FOR NIGHT-TIME!!!
+		float alpha = 0.4f;
+		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		((Graphics2D) g).setComposite(ac);
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+		alpha = 1.0f;
+		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		((Graphics2D) g).setComposite(ac);
+		*/
+	}
+	
+	protected void renderHPandFPS(Graphics g) {
+		g.setFont(Assets.font14);
+		g.setColor(Creature.hpColor);
+		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
+		g.drawString("HP: " + Handler.roundOff((double)handler.getPlayer().getHealth() / (double)handler.getPlayer().getMAX_HEALTH() * 100, 2) + "%", 146, 34);
+		
+		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
+		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
+		
+		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
+	}
 
-	public void loadWorld(String path){
+	protected void loadWorld(String path){
 		file = mapLoader.groundTileParser(path);
 		tiles = new int[file.length][width][height];
 		
@@ -181,5 +213,13 @@ public abstract class World {
 
 	public void setFile(String[] file) {
 		this.file = file;
+	}
+
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public void setChatWindow(ChatWindow chatWindow) {
+		this.chatWindow = chatWindow;
 	}
 }

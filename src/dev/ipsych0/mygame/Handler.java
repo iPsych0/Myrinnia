@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
@@ -28,6 +29,7 @@ public class Handler {
 	private WorldHandler worldHandler;
 	private Player player;
 	private Random rand = new Random();
+	private ChatWindow chatWindow;
 	
 	/*
 	 * Index 0: Island
@@ -41,11 +43,13 @@ public class Handler {
 		
 		// Instantiate the player and the worlds
 		player = new Player(this, 5152, 5600);
-		island = new Island(this, player, "res/worlds/island.tmx", 0);
+		chatWindow = new ChatWindow(this, 0, 608); //228,314
+		chatWindow.sendMessage("Welcome back!");
+		island = new Island(this, player, chatWindow, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
-		worldHandler.addWorld(new TestLand(this, player, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, player, "res/worlds/testmap.tmx", 2));
-		worldHandler.addWorld(new IslandUnderground(this, player, "res/worlds/island_indoors.tmx", 3));
+		worldHandler.addWorld(new TestLand(this, player, chatWindow, "res/worlds/testmap2.tmx", 1));
+		worldHandler.addWorld(new SwampLand(this, player, chatWindow, "res/worlds/testmap.tmx", 2));
+		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, "res/worlds/island_indoors.tmx", 3));
 	}
 	
 	public int getWidth(){
@@ -152,7 +156,7 @@ public class Handler {
 	 * Sends a message to the chat log
 	 */
 	public void sendMsg(String message) {
-		getPlayer().getChatWindow().sendMessage(message);
+		getWorld().getChatWindow().sendMessage(message);
 	}
 	
 	/*

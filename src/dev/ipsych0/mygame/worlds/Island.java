@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
@@ -19,7 +20,6 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public class Island extends World {
 	
 	private Rectangle testLandTile;
-	private Player player;
 	private Rectangle house1;
 	private Rectangle house2;
 	private Rectangle house3;
@@ -27,11 +27,12 @@ public class Island extends World {
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
 
-	public Island(Handler handler, Player player, String path, int worldID) {
+	public Island(Handler handler, Player player, ChatWindow chatWindow, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
 		this.player = player;
+		this.chatWindow = chatWindow;
 		
 		mapLoader = new MapLoader();
 		
@@ -78,6 +79,7 @@ public class Island extends World {
 			equipment.tick();
 			miniMap.tick();
 			craftingUI.tick();
+			chatWindow.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
@@ -85,7 +87,6 @@ public class Island extends World {
 				handler.getPlayer().setX(1520);
 				handler.getPlayer().setY(164);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
@@ -93,7 +94,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(6016);
 				handler.getPlayer().setY(6140);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2)){
@@ -101,7 +101,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4960);
 				handler.getPlayer().setY(6272);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3)){
@@ -109,7 +108,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3904);
 				handler.getPlayer().setY(6272);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse)){
@@ -117,7 +115,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4960);
 				handler.getPlayer().setY(5552);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCave)){
@@ -125,7 +122,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3744);
 				handler.getPlayer().setY(5360);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1)){
@@ -133,7 +129,6 @@ public class Island extends World {
 				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(6016);
 				handler.getPlayer().setY(5312);
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}
@@ -169,8 +164,18 @@ public class Island extends World {
 			// Entities
 			entityManager.render(g);
 			
+			/* Uncomment to 
+			if(night) {
+				renderNight(g);
+			}
+			*/
+			
+			renderHPandFPS(g);
+			
+			// Inventory & Equipment
 			inventory.render(g);
 			equipment.render(g);
+			chatWindow.render(g);
 			
 			// MiniMap
 			miniMap.render(g);

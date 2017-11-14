@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Campfire;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
@@ -12,7 +13,6 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class IslandUnderground extends World {
 	
-	private Player player;
 	private Rectangle house1Exit;
 	private Rectangle house2Exit;
 	private Rectangle house3Exit;
@@ -20,11 +20,12 @@ public class IslandUnderground extends World {
 	private Rectangle beachCaveExit;
 	private Rectangle stoneHouse1Exit;
 
-	public IslandUnderground(Handler handler, Player player, String path, int worldID) {
+	public IslandUnderground(Handler handler, Player player, ChatWindow chatWindow, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
 		this.player = player;
+		this.chatWindow = chatWindow;
 		
 		mapLoader = new MapLoader();
 		
@@ -56,6 +57,7 @@ public class IslandUnderground extends World {
 			equipment.tick();
 			miniMap.tick();
 			craftingUI.tick();
+			chatWindow.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1Exit)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
@@ -63,7 +65,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(5056);
 				handler.getPlayer().setY(5440);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2Exit)){
@@ -72,7 +73,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(4608);
 				handler.getPlayer().setY(5400);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3Exit)){
@@ -81,7 +81,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(4384);
 				handler.getPlayer().setY(5800);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse1Exit)){
@@ -90,7 +89,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(5856);
 				handler.getPlayer().setY(5824);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCaveExit)){
@@ -99,7 +97,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(2688);
 				handler.getPlayer().setY(6136);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1Exit)){
@@ -108,7 +105,6 @@ public class IslandUnderground extends World {
 				handler.getPlayer().setX(3808);
 				handler.getPlayer().setY(5160);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}
@@ -123,11 +119,16 @@ public class IslandUnderground extends World {
 			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
 			
 			// Render the tiles
+			
 			for (int i = 0; i < file.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
-						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						if(getTile(i,x,y) == Tiles.invisible) {
+							continue;
+						}else {
+							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						}
 					}
 				}
 			}
@@ -139,8 +140,18 @@ public class IslandUnderground extends World {
 			// Entities
 			entityManager.render(g);
 			
+			/* Uncomment to 
+			if(night) {
+				renderNight(g);
+			}
+			*/
+			
+			renderHPandFPS(g);
+			
+			// Inventory & Equipment
 			inventory.render(g);
 			equipment.render(g);
+			chatWindow.render(g);
 			
 			// MiniMap
 			miniMap.render(g);

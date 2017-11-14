@@ -60,10 +60,10 @@ public class Tree extends StaticEntity {
 	        	if(roll < 60) {
 	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
 	        				handler.getRandomNumber(1, 3));
-	        		handler.getPlayer().getChatWindow().sendMessage("You succesfully chopped some logs.");
+	        		handler.sendMsg("You succesfully chopped some logs.");
 	        		attempts++;
 	        	}else {
-	        		handler.getPlayer().getChatWindow().sendMessage("Your hatchet bounced off the tree...");
+	        		handler.sendMsg("Your hatchet bounced off the tree...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 0;
@@ -106,7 +106,7 @@ public class Tree extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.getPlayer().getChatWindow().sendMessage("Chop chop...");
+			handler.sendMsg("Chop chop...");
 			speakingTurn = 1;
 			isWoodcutting = true;
 		}

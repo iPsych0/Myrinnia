@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
@@ -19,13 +20,13 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public class SwampLand extends World{
 	
 	private Rectangle testLandTile;
-	private Player player;
 
-	public SwampLand(Handler handler, Player player, String path, int worldID) {
+	public SwampLand(Handler handler, Player player, ChatWindow chatWindow, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
 		this.player = player;
+		this.chatWindow = chatWindow;
 		
 		mapLoader = new MapLoader();
 		
@@ -60,6 +61,7 @@ public class SwampLand extends World{
 
 	}
 	
+	@Override
 	public void tick(){
 		if(handler.getWorld() == this){
 			inventory.tick();
@@ -69,6 +71,7 @@ public class SwampLand extends World{
 			sparkles.tick();
 			miniMap.tick();
 			craftingUI.tick();
+			chatWindow.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
@@ -76,12 +79,12 @@ public class SwampLand extends World{
 				handler.getPlayer().setX(60);
 				handler.getPlayer().setY(164);
 				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
-				handler.getPlayer().getChatWindow().sendMessage("X = " + getEntityManager().getPlayer().getX() + " and Y = " + getEntityManager().getPlayer().getY());
 			}
 		}
 	}
 	
-	public void render(Graphics g){
+	@Override
+	public void render(Graphics g) {
 		if(handler.getWorld() == this){
 			// Set variables for rendering only the tiles that show on screen
 			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
@@ -90,15 +93,19 @@ public class SwampLand extends World{
 			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
 			
 			// Render the tiles
+			
 			for (int i = 0; i < file.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
-						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-						(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						if(getTile(i,x,y) == Tiles.invisible) {
+							continue;
+						}else {
+							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						}
 					}
 				}
 			}
-			
 			
 			// Items
 			
@@ -107,10 +114,20 @@ public class SwampLand extends World{
 			// Entities
 			entityManager.render(g);
 			
-			// MiniMap
+			/* Uncomment to 
+			if(night) {
+				renderNight(g);
+			}
+			*/
 			
+			renderHPandFPS(g);
+			
+			// Inventory & Equipment
 			inventory.render(g);
 			equipment.render(g);
+			chatWindow.render(g);
+			
+			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
 			

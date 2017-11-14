@@ -72,10 +72,6 @@ public class Player extends Creature{
 	
 	private ShopKeeper shopKeeper;
 	
-	// NPC ChatWindow
-	
-	private ChatWindow chatWindow;
-	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 		//448, 482
@@ -86,9 +82,6 @@ public class Player extends Creature{
 		
 		xSpawn = 5152.0f;
 		ySpawn = 5600.0f;
-		
-		chatWindow = new ChatWindow(handler, 0, 608); //228,314
-		chatWindow.sendMessage("Welcome back!");
 		
 		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = DEFAULT_HEALTH;
@@ -125,9 +118,6 @@ public class Player extends Creature{
 	@Override
 	public void tick() {
 		
-		// Chat
-		chatWindow.tick();
-		
 		//Movement
 		if(movementAllowed) {
 			getInput();
@@ -150,7 +140,7 @@ public class Player extends Creature{
 		
 		// Debug button for in-game testing
 		if(handler.getKeyManager().position && debugButtonPressed){
-			getChatWindow().sendMessage("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
 			System.out.println("Attack level = " + getAttackLevel());
@@ -360,14 +350,6 @@ public class Player extends Creature{
 		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
-		g.setFont(Assets.font14);
-		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + Handler.roundOff((double)health / (double)MAX_HEALTH * 100, 2) + "%", 146, 34);
-		
-		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
-		Text.drawString(g, Integer.toString(getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
-		
-		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 		
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {
@@ -491,7 +473,7 @@ public class Player extends Creature{
 			return;
 		if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
-		if(ChatWindow.chatIsOpen && getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+		if(ChatWindow.chatIsOpen && handler.getWorld().getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
 		if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
@@ -698,7 +680,6 @@ public class Player extends Creature{
 	@Override
 	public void postRender(Graphics g){
 		
-		chatWindow.render(g);
 	}
 	
 	/*
@@ -715,7 +696,7 @@ public class Player extends Creature{
 		if(lastFaced == Direction.DOWN)
 			return aDown.getCurrentFrame();
 		
-		chatWindow.sendMessage("Can't get lastFaced animation");
+		handler.sendMsg("Can't get lastFaced animation");
 		return aDefault.getCurrentFrame();
 	}
 	
@@ -875,7 +856,7 @@ public class Player extends Creature{
 		
 		// Prompt error if none of the above images are loaded (that means apparently none of the above animations could be returned)
 		
-		chatWindow.sendMessage("Something went wrong loading the player sprite!");
+		handler.sendMsg("Something went wrong loading the player sprite!");
 		return Assets.black;
 	}
 	
@@ -900,14 +881,6 @@ public class Player extends Creature{
 	
 	public World getCurrentMap(){
 		return handler.getWorld();
-	}
-
-	public ChatWindow getChatWindow() {
-		return chatWindow;
-	}
-
-	public void setChatWindow(ChatWindow chatWindow) {
-		this.chatWindow = chatWindow;
 	}
 
 	public boolean isMovementAllowed() {
@@ -952,6 +925,14 @@ public class Player extends Creature{
 	
 	public Rectangle itemPickupRadius() {
 		return new Rectangle((int) (x + bounds.x - 48), (int) (y + bounds.y - 48), (bounds.width + 96), (bounds.height + 96));
+	}
+
+	public int getMAX_HEALTH() {
+		return MAX_HEALTH;
+	}
+
+	public void setMAX_HEALTH(int mAX_HEALTH) {
+		MAX_HEALTH = mAX_HEALTH;
 	}
 
 }

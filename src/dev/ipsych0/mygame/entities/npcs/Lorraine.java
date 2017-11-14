@@ -68,7 +68,7 @@ public class Lorraine extends ShopKeeper {
 	@Override
 	public void interact() {
 		if(this.getSpeakingTurn() == 1 && !ShopWindow.isOpen){
-			handler.getPlayer().getChatWindow().sendMessage("Hey, could you help me, please?");
+			handler.sendMsg("Hey, could you help me, please?");
 			ShopWindow.isOpen = true;
 			this.shopping = true;
 			speakingTurn = 1;

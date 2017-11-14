@@ -63,10 +63,10 @@ public class Whirlpool extends StaticEntity {
 	        	if(roll < 60) {
 	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
 	        				handler.getRandomNumber(1, 5));
-	        		handler.getPlayer().getChatWindow().sendMessage("You caught something!");
+	        		handler.sendMsg("You caught something!");
 	        		attempts++;
 	        	}else {
-	        		handler.getPlayer().getChatWindow().sendMessage("The fish got away...");
+	        		handler.sendMsg("The fish got away...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 0;
@@ -109,7 +109,7 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.getPlayer().getChatWindow().sendMessage("Fishing...");
+			handler.sendMsg("Fishing...");
 			speakingTurn = 1;
 			isFishing = true;
 		}

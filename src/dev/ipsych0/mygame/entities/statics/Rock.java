@@ -60,10 +60,10 @@ public class Rock extends StaticEntity {
 	        	if(roll < 60) {
 	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.oreItem)).addItem(Item.oreItem,
 	        				handler.getRandomNumber(1, 3));
-	        		handler.getPlayer().getChatWindow().sendMessage("You succesfully mined some ore!");
+	        		handler.sendMsg("You succesfully mined some ore!");
 	        		attempts++;
 	        	}else {
-	        		handler.getPlayer().getChatWindow().sendMessage("You missed the swing...");
+	        		handler.sendMsg("You missed the swing...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 0;
@@ -106,7 +106,7 @@ public class Rock extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.getPlayer().getChatWindow().sendMessage("Mining...");
+			handler.sendMsg("Mining...");
 			speakingTurn = 1;
 			isMining = true;
 		}
