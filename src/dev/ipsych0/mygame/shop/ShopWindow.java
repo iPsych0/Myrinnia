@@ -47,8 +47,6 @@ public class ShopWindow {
 	private int seconds = 60;
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
-	
-	
 	public static boolean hasBeenPressed = false;
 	
 	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
@@ -59,9 +57,11 @@ public class ShopWindow {
 		width = 460;
 		height = 313;
 		
+		// Initialize the shop slots and the inventory slots
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		invSlots = new CopyOnWriteArrayList<ItemSlot>();
 		
+		// Add the shop slots
 		for(int i = 0; i < numRows; i++){
 			for(int j = 0; j < numCols; j++){
 				if(j == (numRows)){
@@ -76,14 +76,16 @@ public class ShopWindow {
 			}
 		}
 
-		
+		// Initialize the default stock of the shop
 		defaultStock = new int[shopItems.size()];
 		
+		// Fill the shop slots with the shop items and set the default stock
 		for (int i = 0; i < shopItems.size(); i++) {
 			itemSlots.get(i).addItem(shopItems.get(i).getItem(), shopItems.get(i).getAmount());
 			defaultStock[i] = shopItems.get(i).getAmount();
 		}
 		
+		// Add the inventory slots
 		for(int i = 0; i < numRows; i++){
 			for(int j = 0; j < numCols; j++){
 				if(j == (numRows)){
@@ -98,6 +100,7 @@ public class ShopWindow {
 			}
 		}
 		
+		// Initialising all the buttons
 		tradeSlot = new ItemSlot(x + (width / 2) - 16, y + (height / 2) + 64, null);
 		
 		buy1Button = new Rectangle(x + 17, y + (height / 2) + 64, 64, 32);
@@ -113,11 +116,14 @@ public class ShopWindow {
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
+		// Instance of the DialogueBox
 		dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 		
 	}
 	
 	public void tick() {
+		
+		// Keeps a timer before restocking an item or decrementing an item
 		restockTimer++;
 		if(restockTimer >= (seconds * 60)) {
 			for(int i = 0; i < shopItems.size(); i++) {
@@ -135,9 +141,11 @@ public class ShopWindow {
 		
 		if(isOpen) {
 			
+			// Close the inventory and equipment window
 			InventoryWindow.isOpen = false;
 			EquipmentWindow.isOpen = false;
 			
+			// Checks if the inventory should be refreshed
 			if(!inventoryLoaded) {
 				loadInventory();
 				inventoryLoaded = true;
@@ -231,19 +239,23 @@ public class ShopWindow {
 				return;
 			}
 			
+			// If the dialoguebox is open and player is making a choice
 			if(makingChoice && dBox.getPressedButton() != null) {
 				if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+					// If the user has typed in an amount and confirmed the trade per button, buy the item
 					if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
 						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
 					}
+					// If the user has typed in an amount and confirmed the trade per button, sell the item
 					else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
 						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
 					}
 				}
-				
+				// If the user has typed in an amount and confirmed the trade per button, buy the item
 				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
 					buyAllItem();
 				}
+				// If the user has typed in an amount and confirmed the trade per button, sell the item
 				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellAll") {
 					sellAllItem();
 				}
@@ -258,16 +270,18 @@ public class ShopWindow {
 			}
 			
 			if(TextBox.enterPressed && makingChoice) {
-				
+				// If enter is pressed while making choice, this means a positive response ("Yes")
 				dBox.setPressedButton(dBox.getButtons().get(0));
 				dBox.getPressedButton().getButtonParam()[0] = "Yes";
 				dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
 				
+				// Buy X item
 				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
 					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
 						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
 					}
-					}
+				}
+				//Sell X item
 				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
 					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
 						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
@@ -289,6 +303,7 @@ public class ShopWindow {
 				
 				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
+				// If left-clicked, select an item
 				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
 					if(is.getItemStack() != null) {
 						if(selectedShopItem == null) {
@@ -299,6 +314,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// If we already have this item selected, deselect it
 						else if(selectedShopItem == is.getItemStack()) {
 							selectedSlot = null;
 							selectedInvItem = null;
@@ -307,6 +323,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// If clicked on a different item than the currently selected one, select new item
 						else if(selectedShopItem != is.getItemStack()) {
 							selectedSlot = is;
 							selectedInvItem = null;
@@ -315,6 +332,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// Otherwise, deselect current selected item
 					}else {
 						selectedSlot = null;
 						selectedInvItem = null;
@@ -333,11 +351,13 @@ public class ShopWindow {
 				
 				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
 					if(is.getItemStack() != null) {
+						// If the price = -1, item cannot be sold
 						if(is.getItemStack().getItem().getPrice() == -1) {
 							handler.sendMsg("You cannot sell this item.");
 							hasBeenPressed = false;
 							return;
 						}
+						// Select an item
 						if(selectedInvItem == null) {
 							selectedSlot = is;
 							selectedShopItem = null;
@@ -346,6 +366,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// If we already have this item selected, deselect it
 						else if(selectedInvItem == is.getItemStack()) {
 							selectedSlot = null;
 							selectedShopItem = null;
@@ -354,6 +375,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// If clicked on a different item than the currently selected one, select new item
 						else if(selectedInvItem != is.getItemStack()) {
 							selectedSlot = is;
 							selectedShopItem = null;
@@ -362,6 +384,7 @@ public class ShopWindow {
 							hasBeenPressed = false;
 							return;
 						}
+						// Otherwise, deselect current selected item
 					}else {
 						selectedSlot = null;
 						selectedShopItem = null;
@@ -376,6 +399,7 @@ public class ShopWindow {
 			
 			tradeSlot.tick();
 			
+			// If player is making a choice, show the dialoguebox
 			if(makingChoice)
 				dBox.tick();
 		
@@ -443,6 +467,9 @@ public class ShopWindow {
 		}
 	}
 	
+	/*
+	 * If item reaches 0 quantity that is not in default stock, remove it from the store
+	 */
 	private void clearNonStockItems() {
 		for(int i = shopItems.size(); i < itemSlots.size(); i++) {
 			if(itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getAmount() <= 0) {
@@ -451,12 +478,18 @@ public class ShopWindow {
 		}
 	}
 	
+	/*
+	 * Refreshes the inventory in the shopwindow
+	 */
 	private void loadInventory() {
 		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
 			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
 		}
 	}
 	
+	/*
+	 * Buys 1 item
+	 */
 	private void buyItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
 			if(handler.playerHasItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
@@ -486,7 +519,10 @@ public class ShopWindow {
 		}
 	}
 	
-	public void sellItem() {
+	/*
+	 * Sells 1 item
+	 */
+	private void sellItem() {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
 			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
 				handler.sendMsg("You cannot sell this item.");
@@ -513,7 +549,11 @@ public class ShopWindow {
 		}
 	}
 	
-	public void buyAllItem() {
+	/*
+	 * Buys all items in stock
+	 * TODO: Add money check to buy maximum quantity
+	 */
+	private void buyAllItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
 			if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
 				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
@@ -538,7 +578,10 @@ public class ShopWindow {
 		}
 	}
 	
-	public void sellAllItem() {
+	/*
+	 * Sells all items from the currently selected slot
+	 */
+	private void sellAllItem() {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
 			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
 				handler.sendMsg("You cannot sell this item.");
@@ -563,7 +606,11 @@ public class ShopWindow {
 		}
 	}
 	
-	public void buyXItem(int amount) {
+	/**
+	 * Buys X amount of items from the shop
+	 * @param amount - quantity to buy
+	 */
+	private void buyXItem(int amount) {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
 			if(amount > tradeSlot.getItemStack().getAmount()) {
 				amount = tradeSlot.getItemStack().getAmount();
@@ -596,6 +643,10 @@ public class ShopWindow {
 		}
 	}
 	
+	/**
+	 * Sells X items
+	 * @param amount - quantity to sell
+	 */
 	public void sellXItem(int amount) {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
 			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
@@ -624,6 +675,10 @@ public class ShopWindow {
 		}
 	}
 	
+	/*
+	 * Finds a free slot in the shop when selling an item
+	 * @returns -1 if no free slot found
+	 */
 	public int findFreeSlot(Item item) {
 		boolean firstFreeSlotFound = false;
 		int index = -1;

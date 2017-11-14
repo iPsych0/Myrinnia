@@ -19,16 +19,23 @@ public class MapLoader {
 		
 	}
 	
+	/*
+	 * Returns the width of the map from Tiled
+	 * @params: String path in OS
+	 */
 	public int getMapWidth(String path){
 		int mapWidth = 0;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
+			// Creates new DocumentBuilder on the file
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
+			// Gets the tag 'layer' 
 			NodeList tags = doc.getElementsByTagName("layer");
 			Node layer = tags.item(tags.getLength() - 1);
+			// Gets the width
 			mapWidth = Integer.parseInt(layer.getAttributes().getNamedItem("width").getTextContent());
 			
 			
@@ -44,16 +51,23 @@ public class MapLoader {
 		return mapWidth;
 	}
 	
+	/*
+	 * Returns the height of the map from Tiled
+	 * @params: String path in OS
+	 */
 	public int getMapHeight(String path){
 		int mapHeight = 0;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
+			// Creates new DocumentBuilder on the file
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
+			// Gets the tag 'layer' 
 			NodeList tags = doc.getElementsByTagName("layer");
 			Node layer = tags.item(tags.getLength() - 1);
+			// Gets the height
 			mapHeight = Integer.parseInt(layer.getAttributes().getNamedItem("height").getTextContent());
 			
 			
@@ -70,28 +84,41 @@ public class MapLoader {
 		return mapHeight;
 	}
 	
+	/*
+	 * Returns all the tile IDs from the map
+	 * @param: path - input path from OS to read in the .tmx file
+	 * @returns: String[] mapValues - all Tile IDs per layer
+	 */
 	public String[] groundTileParser(String path){
+		// Dependant on number of tilemaps in Tiled
 		int minItem = 12;
 		
+		// Creates a DocumentBuilder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
+			// Get all tags
 			NodeList maps = doc.getElementsByTagName("*");
 
+			// Calculate number of layers
 			int testLayer = 0;
 			while(minItem < maps.getLength()) {
 				minItem += 2;
 				testLayer++;
 			}
 			
+			// Index the String[] at the size of the number of layers
 			String[] mapValues = new String[testLayer];
 			
+			// Set variables to iterate over the maps
 			minItem = 12;
 			int i = 0;
 			int layer = 0;
+			
+			// Fill the layers in the String[] (The entire String with all Tile IDs per layer)
 			while(minItem + i < maps.getLength()) {
 				Node groundMap = maps.item(minItem + i);
 				mapValues[layer] = groundMap.getTextContent();
