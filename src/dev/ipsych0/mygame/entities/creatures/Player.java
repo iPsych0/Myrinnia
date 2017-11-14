@@ -889,23 +889,6 @@ public class Player extends Creature{
 		// Walk and Attack animations
 		return getAnimationDirection();
 	}
-	
-	/*
-	 * Iterates over inventory to see if player has a given item with a minimum of the specified quantity
-	 * @params: Provide an item to check for and a minimum quantity required
-	 */
-	public boolean hasItem(Item item, int quantity){
-		for(ItemSlot is : handler.getWorld().getEntityManager().getPlayer().handler.getWorld().getInventory().getItemSlots()){
-			if(is.getItemStack() == null){
-				continue;
-			}
-			if(is.getItemStack().getItem().getName() == item.getName() && is.getItemStack().getAmount() >= quantity){
-				return true;
-			}
-		}
-		return false;
-	}
-	
 
 	/*
 	 * This method should never be called, since the player cannot interact with itself

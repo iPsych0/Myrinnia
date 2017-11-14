@@ -82,19 +82,19 @@ public class InventoryWindow implements Serializable {
 				
 				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
+				// If an item is dragged
 				if(handler.getMouseManager().isDragged()){
 					if(slot.contains(mouse) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
+						// Stick the item to the mouse
 						if(currentSelectedSlot == null) {
 							if(is.getItemStack() != null) {
 								currentSelectedSlot = is.getItemStack();
-								//System.out.println("Currently holding: " + is.getItemStack().getItem().getName());
 								is.setItemStack(null);
 								itemSelected = true;
 							}
 							else{
-								//System.out.println("Dragging from an empty item stack");
 								hasBeenPressed = false;
 								return;
 							}
@@ -102,9 +102,11 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 				
+				// If the item is released
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(slot.contains(mouse)){
 						if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+							// Add the item back to the inventory
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
@@ -112,8 +114,11 @@ public class InventoryWindow implements Serializable {
 						}
 					}
 				}
+				
+				// If the item is dragged outside the inventory
 				if(itemSelected && !handler.getMouseManager().isDragged()){
 					if(handler.getMouseManager().getMouseX() <= this.x && handler.getMouseManager().getMouseY() >= this.y){
+						// Drop the item
 						handler.getWorld().getItemManager().addItem(currentSelectedSlot.getItem().createNew((int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY(), currentSelectedSlot.getAmount()));
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
@@ -121,28 +126,37 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 
+				// If item is right-clicked
 				if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
 					if(is.getItemStack() != null){
 						if(is.getItemStack().getItem().equipSlot == 12){
+							// If the item's equipmentslot = 12, that means it's unequippable, so return
 							handler.getPlayer().getChatWindow().sendMessage("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
 							hasBeenPressed = false;
 							return;
 						}
+						
+						// If the item's equipmentslot is a valid slot
 						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
 							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
 									is.getItemStack().getItem().getId() ==
 									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
+								// If trying to equip the exact same item, return message
 								handler.getPlayer().getChatWindow().sendMessage("You've already equipped this item!");
 								isEquipped = false;
 								hasBeenPressed = false;
 								return;
 							}
+							
+							// If we have no item equipped in that slot
 							if(handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())){
 								handler.getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());
+								// Add equipment stats and subtract 1 from the item in our inventory
 								if(is.getItemStack().getAmount() >= 2) {
 									is.getItemStack().setAmount(is.getItemStack().getAmount() - 1);
 								}else {
+									// Or if only 1 item left, set the stack to null
 									is.setItemStack(null);
 								}
 								isEquipped = false;
@@ -158,19 +172,24 @@ public class InventoryWindow implements Serializable {
 								// Remove the equipment stats
 								handler.getPlayer().removeEquipmentStats(is.getItemStack().getItem().getEquipSlot());
 								
+								// If more than one of the item
 								if(is.getItemStack().getAmount() >= 2) {
+									// Subtract one from the inventory stack and then swap
 									is.getItemStack().setAmount(is.getItemStack().getAmount() - 1);
 									handler.giveItem(equipSwap.getItem(), equipSwap.getAmount());
 									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(new ItemStack(itemSwap.getItem(), 1));
 
 								}else {
+									// Otherwise, swap the items and set the inventory stack to null
 									handler.giveItem(equipSwap.getItem(), equipSwap.getAmount());
 									handler.getWorld().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
 									is.setItemStack(null);
 								}
 								
+								// Add the equipment stats after equipping
 								handler.getPlayer().addEquipmentStats(itemSwap.getItem().getEquipSlot());
 								
+								// Set the swaps back to null
 								isEquipped = false;
 								hasBeenPressed = false;
 								itemSwap = null;
@@ -190,19 +209,23 @@ public class InventoryWindow implements Serializable {
 					}
 				}
 				
+				// If right-clicked on an item while CraftingUI is open
 				if(CraftingUI.isOpen) {
 					if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged()){
 
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
 							if(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem()) == -1) {
+								// If all crafting slots are full, return
 								hasBeenPressed = false;
 								handler.getPlayer().getChatWindow().sendMessage("You cannot add more than 4 items to the crafting window.");
 								isEquipped = false;
 								return;
 							} else {
+								// Otherwise, remove the stack from the inventory and put it in a crafting slot
 								handler.getWorld().getCraftingUI().getCraftingSlots().get(handler.getWorld().getCraftingUI().findFreeSlot(is.getItemStack().getItem())).addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 								is.setItemStack(null);
+								// Update if there is a possible recipe
 								handler.getWorld().getCraftingUI().findRecipe();
 								hasBeenPressed = false;
 								return;
@@ -245,6 +268,7 @@ public class InventoryWindow implements Serializable {
 						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
 				}
 				
+				// If hovering over an item in the inventory, draw the tooltip
 				if(temp2.contains(temp) && is.getItemStack() != null){
 					g.setColor(interfaceColour);
 					g.fillRect(x - 145, y, 145, 130);
@@ -348,6 +372,10 @@ public class InventoryWindow implements Serializable {
 		}
 	}
 	
+	/*
+	 * Finds a free slot in the inventory
+	 * @returns: index if found, -1 if inventory is full
+	 */
 	public int findFreeSlot(Item item) {
 		boolean firstFreeSlotFound = false;
 		int index = -1;
@@ -371,20 +399,24 @@ public class InventoryWindow implements Serializable {
        return -1;
 	}
 	
+	/*
+	 * Checks the inventory for a given item & quantity met
+	 * @returns boolean: true if player has item + quantity, false if player doesn't have item or doesn't have enough
+	 */
 	public boolean playerHasItem(Item item, int amount) {
 		boolean found = false;
 		for(int i = 0; i < itemSlots.size(); i++) {
+			// Skip empty slots
 			if(itemSlots.get(i).getItemStack() == null){
 				continue;
 			}
-			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
+			
+			//If the item is found
+			if(item.getId() == itemSlots.get(i).getItemStack().getItem().getId()){
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
 					found = false;
 				}
-				if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
-					found = true;
-				}
-				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
+				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 0){
 					found = true;
 				}
 			}
@@ -395,6 +427,10 @@ public class InventoryWindow implements Serializable {
 		return found;
 	}
 	
+	/*
+	 * Checks if the player has the item+quantity and removes it
+	 * @returns boolean: true if successful, false if item+quantity requirement not met
+	 */
 	public boolean removeItem(Item item, int amount){
 		boolean hasItem = false;
 		if(!playerHasItem(item, amount)) {
@@ -425,6 +461,10 @@ public class InventoryWindow implements Serializable {
 		return hasItem;
 	}
 	
+	/*
+	 * Iterates over the inventory to see if there are any free slots
+	 * @returns boolean: true if full, false if not full
+	 */
 	public boolean inventoryIsFull(Item item){
 		int emptySlots = 0;
 		for (int i = 0; i < itemSlots.size(); i++){
@@ -443,6 +483,10 @@ public class InventoryWindow implements Serializable {
 		}
 	}
 	
+	/*
+	 * Checks the equipment slot of an item
+	 * @returns int: index of the equipment slot to be filled
+	 */
 	public int checkEquipmentSlot(Item item){
 		if(item.equipSlot == 0){
 			return 0;
@@ -483,6 +527,10 @@ public class InventoryWindow implements Serializable {
 		return -10;
 	}
 	
+	/*
+	 * Returns an item based on id
+	 * @param: Item ID
+	 */
 	public Item getItemByID(int id) {
 		return Item.items[id];
 	}

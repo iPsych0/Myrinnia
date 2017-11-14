@@ -17,7 +17,6 @@ public class EquipmentWindow implements Serializable {
 	private int x, y;
 	private int width, height;
 	private Handler handler;
-	private InventoryWindow inventoryWindow;
 	public static boolean hasBeenPressed = false;
 	
 	private int numCols = 3;
@@ -71,10 +70,12 @@ public class EquipmentWindow implements Serializable {
 				
 				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), EquipmentSlot.SLOTSIZE, EquipmentSlot.SLOTSIZE);
 				
+				// If mouse is dragged
 				if(handler.getMouseManager().isDragged()){
 					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
+						// Stick the item to the mouse
 						if(currentSelectedSlot == null) {
 							if(es.getEquipmentStack() != null) {
 								currentSelectedSlot = es.getEquipmentStack();
@@ -92,12 +93,13 @@ public class EquipmentWindow implements Serializable {
 					}
 				}
 				
+				// If right-clicked on an item
 				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
-						inventoryWindow = new InventoryWindow(handler, 658, 112);
+						// Unequip the item and remove the equipment stats
 						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
-						inventoryWindow.getItemSlots().get(inventoryWindow.findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
+						handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
 						es.setItem(null);
 						hasBeenPressed = false;
 					}
@@ -107,8 +109,10 @@ public class EquipmentWindow implements Serializable {
 					}
 				}
 				
+				// If dragging an item outside the equipment window
 				if(itemSelected && !handler.getMouseManager().isDragged()){
 					if(handler.getMouseManager().getMouseX() <= this.x){
+						// Drop the item
 						handler.getWorld().getItemManager().addItem(currentSelectedSlot.getItem().createNew((int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY(), currentSelectedSlot.getAmount()));
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
@@ -116,9 +120,11 @@ public class EquipmentWindow implements Serializable {
 					}
 				}
 				
+				// If releasing a dragged item inside the equipment window
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(temp2.contains(temp)){
 						if(getEquipmentSlots().get(handler.getWorld().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem((currentSelectedSlot.getItem()))){
+							// Add the stats back and put the item back
 							handler.getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
 							currentSelectedSlot = null;
 							itemSelected = false;
