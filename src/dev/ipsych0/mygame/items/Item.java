@@ -73,7 +73,10 @@ public class Item implements Serializable{
 		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
 	}
 	
-	
+	/*
+	 * Adds a new item to the world
+	 * @params: x,y position and amount
+	 */
 	public Item createNew(int x, int y, int count){
 		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price);
 		i.setPosition(x, y);
@@ -86,6 +89,9 @@ public class Item implements Serializable{
 		this.y = y;
 	}
 	
+	/*
+	 * Returns the position of the item
+	 */
 	public Rectangle itemPosition(float xOffset, float yOffset){
 		//
 		bounds.x = 1;
@@ -100,9 +106,13 @@ public class Item implements Serializable{
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
+	/*
+	 * Item pickup function
+	 */
 	public boolean pickUpItem (Item item) {
         int inventoryIndex = inventoryWindow.findFreeSlot(item);
         if (inventoryIndex >= 0) {
+        	// If we have space
             if(id == item.getId()){
             	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
             	handler.getPlayer().getChatWindow().sendMessage("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
@@ -112,6 +122,7 @@ public class Item implements Serializable{
             System.out.println("Something went wrong picking up this item.");
             return false;
         }
+        // Cannot pick up item because inventroy is full
         handler.getPlayer().getChatWindow().sendMessage("Your inventory is full. Please make some space!");
     	return false;
     }

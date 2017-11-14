@@ -9,18 +9,20 @@ public enum ItemRarity {
 		if(item.itemRarity == Common) {
 			return Color.WHITE;
 		}
-		if(item.itemRarity == Uncommon) {
+		else if(item.itemRarity == Uncommon) {
 			return Color.BLUE;
 		}
-		if(item.itemRarity == Rare) {
+		else if(item.itemRarity == Rare) {
 			return Color.ORANGE;
 		}
-		if(item.itemRarity == Exquisite) {
+		else if(item.itemRarity == Exquisite) {
 			return Color.GREEN;
 		}
-		if(item.itemRarity == Unique) {
+		else if(item.itemRarity == Unique) {
 			return Color.MAGENTA;
 		}
-		return Color.WHITE;
+		else {
+			return Color.WHITE;
+		}
 	}
 }

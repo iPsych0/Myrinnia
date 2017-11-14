@@ -33,17 +33,17 @@ public class ItemSlot implements Serializable {
 		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null){
-			if(itemStack.getItem().getName() == "Coins"){
+			if(itemStack.getItem() == Item.coinsItem){
 				if(itemStack.getAmount() >= 1  && itemStack.getAmount() < 100){
 					itemStack.getItem().setTexture(Assets.coins[0]);
 				}
-				if(itemStack.getAmount() >= 100  && itemStack.getAmount() < 1000){
+				else if(itemStack.getAmount() >= 100  && itemStack.getAmount() < 1000){
 					itemStack.getItem().setTexture(Assets.coins[1]);
 				}
-				if(itemStack.getAmount() >= 1000  && itemStack.getAmount() < 10000){
+				else if(itemStack.getAmount() >= 1000  && itemStack.getAmount() < 10000){
 					itemStack.getItem().setTexture(Assets.coins[2]);
 				}
-				if(itemStack.getAmount() >= 10000  && itemStack.getAmount() < 100000){
+				else if(itemStack.getAmount() >= 10000  && itemStack.getAmount() < 100000){
 					itemStack.getItem().setTexture(Assets.coins[3]);
 				}
 			}
@@ -55,9 +55,13 @@ public class ItemSlot implements Serializable {
 		}
 	}
 	
+	/*
+	 * Adds items to the inventory
+	 */
 	public boolean addItem(Item item, int amount) {
 		if(itemStack != null && stackable == true) {
 			if(item.getId() == itemStack.getItem().getId()) {
+				// If a stack already exists, add to that stack
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
 				stackable = true;
 				return true;
@@ -80,6 +84,7 @@ public class ItemSlot implements Serializable {
 				}
 			}
 			
+			// Else create a new stack
 			this.itemStack = new ItemStack(item, amount);
 			return true;
 			}

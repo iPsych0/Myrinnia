@@ -44,6 +44,8 @@ public class ItemManager {
 	public void addItem(Item i){
 		i.setHandler(handler);
 		items.add(i);
+		
+		// Despawn timer for items dropped
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
