@@ -148,6 +148,8 @@ public class Game implements Runnable {
 //			}
 //		}
 		
+		
+		
 		//This value would probably be stored elsewhere.
 	      final double GAME_HERTZ = 60.0;
 	      //Calculate how many ns each frame should take for our target game hertz.

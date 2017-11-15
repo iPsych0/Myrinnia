@@ -67,10 +67,9 @@ public abstract class World {
 			inventory = new InventoryWindow(handler, 828, 0);
 			equipment = new EquipmentWindow(handler, 828, 372);
 			itemManager = new ItemManager(handler);
-			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
+			mapLoader = new MapLoader();
+			miniMap = new MiniMap(handler, mapLoader, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = new CraftingUI(handler, 0, 180);
-			chatWindow = new ChatWindow(handler, 0, 608); //228,314
-			chatWindow.sendMessage("Welcome back!");
 			
 			
 			// Dit is hoe ik items in de world zelf spawn

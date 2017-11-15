@@ -36,7 +36,6 @@ public class Item implements Serializable{
 	protected Rectangle bounds;
 	protected int count;
 	protected boolean pickedUp = false;
-	private InventoryWindow inventoryWindow;
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
 	
@@ -53,7 +52,6 @@ public class Item implements Serializable{
 		this.attackSpeed = attackSpeed;
 		this.movementSpeed = movementSpeed;
 		this.price = price;
-		inventoryWindow = new InventoryWindow(handler, 80, 64);
 		
 		items[id] = this;
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
@@ -110,11 +108,11 @@ public class Item implements Serializable{
 	 * Item pickup function
 	 */
 	public boolean pickUpItem (Item item) {
-        int inventoryIndex = inventoryWindow.findFreeSlot(item);
+        int inventoryIndex = handler.getWorld().getInventory().findFreeSlot(item);
         if (inventoryIndex >= 0) {
         	// If we have space
             if(id == item.getId()){
-            	inventoryWindow.getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
+            	handler.getWorld().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount());
             	handler.sendMsg("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
             	pickedUp = true;
             	return true;

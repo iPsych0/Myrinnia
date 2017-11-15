@@ -25,6 +25,7 @@ public class SettingState extends State{
 
 			@Override
 			public void onClick() {
+				// On Click return to the Main Menu, set this UI Manager to null and stop loading this screen
 				State.setState(handler.getGame().settingState);
 					loaded = false;
 					State.setState(handler.getGame().menuState);
@@ -37,6 +38,7 @@ public class SettingState extends State{
 	@Override
 	public void tick() {
 		if(State.getState() == handler.getGame().settingState){
+			// If our UIManager was disabled, enable it if we get back to this Settings State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
 				loaded = true;

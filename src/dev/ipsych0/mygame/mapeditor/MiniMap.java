@@ -24,9 +24,9 @@ public class MiniMap{
 	private boolean tilesLoaded = false;
 	public static boolean isOpen = false;
 	
-	public MiniMap(Handler handler, String path, int x, int y, int width, int height){
-		mapLoader = new MapLoader();
+	public MiniMap(Handler handler, MapLoader mapLoader, String path, int x, int y, int width, int height){
 		this.handler = handler;
+		this.mapLoader = mapLoader;
 		this.x = x;
 		this.y = y;
 		this.width = width;

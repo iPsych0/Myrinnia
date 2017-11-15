@@ -27,8 +27,6 @@ public class TestLand extends World {
 		this.player = player;
 		this.chatWindow = chatWindow;
 		
-		mapLoader = new MapLoader();
-		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		

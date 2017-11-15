@@ -45,6 +45,7 @@ public class TextBox implements KeyListener {
 		
 		sb = new StringBuilder(charactersTyped);
 		
+		// Add this keylistener to the frame/canvas
 		handler.getGame().getDisplay().getFrame().addKeyListener(this);
 		handler.getGame().getDisplay().getCanvas().addKeyListener(this);
 	}
@@ -53,11 +54,13 @@ public class TextBox implements KeyListener {
 		if(isOpen) {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
+			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				focus = true;
 				KeyManager.typingFocus = true;
 			}
 			
+			// Removes focus when clicked outside the textfield
 			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				focus = false;
 				KeyManager.typingFocus = false;
@@ -73,6 +76,7 @@ public class TextBox implements KeyListener {
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, width, height);
 			
+			// If we have focus, draw the cursor and keep track of the position
 			if(focus) {
 				
 				blinkTimer++;
@@ -122,6 +126,7 @@ public class TextBox implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if(isOpen) {
+			// If escape is pressed, exit the textbox
 			if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
 				sb.setLength(0);
 				index = 0;
@@ -134,6 +139,7 @@ public class TextBox implements KeyListener {
 				return;
 			}
 			if(focus) {
+				// If enter is pressed, handle the input
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 					if(charactersTyped.isEmpty()) {
 						return;
@@ -145,6 +151,7 @@ public class TextBox implements KeyListener {
 					return;
 				}
 				
+				// If backspace is pressed, remove the last index
 				if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 					if(index > 0) {
 						sb.deleteCharAt(index - 1);
@@ -154,6 +161,7 @@ public class TextBox implements KeyListener {
 					}
 				}
 			
+				// If numbersOnly = true, only digits allowed
 				if(numbersOnly) {
 					if(!Character.isDigit(e.getKeyChar())) {
 						return;
@@ -167,6 +175,7 @@ public class TextBox implements KeyListener {
 						}
 					}
 				}else {
+					// Otherwise only characters allowed
 					if(index <= 8) {
 						if(Character.isAlphabetic(e.getKeyChar())) {
 							sb.append(e.getKeyChar());

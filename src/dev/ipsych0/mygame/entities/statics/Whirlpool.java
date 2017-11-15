@@ -121,10 +121,6 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isFishing) {
-			g.setColor(Color.WHITE);
-			g.fillRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
-			g.setColor(Color.BLACK);
-			g.drawRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
 			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		

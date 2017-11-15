@@ -51,59 +51,7 @@ public class Handler {
 		worldHandler.addWorld(new SwampLand(this, player, chatWindow, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, "res/worlds/island_indoors.tmx", 3));
 	}
-	
-	public int getWidth(){
-		return game.getWidth();
-	}
-	
-	public int getHeight(){
-		return game.getHeight();
-	}
-	
-	public KeyManager getKeyManager(){
-		return game.getKeyManager();
-	}
-	
-	public MouseManager getMouseManager(){
-		return game.getMouseManager();
-	}
-	
-	public GameCamera getGameCamera(){
-		return game.getGameCamera();
-	}
 
-	public Game getGame() {
-		return game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
-	}
-
-	public World getWorld() {
-		return world;
-	}
-
-	public void setWorld(World world) {
-		this.world = world;
-	}
-	
-	public WorldHandler getWorldHandler() {
-		return worldHandler;
-	}
-
-	public void setWorldHandler(WorldHandler worldHandler) {
-		this.worldHandler = worldHandler;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
 	/*
 	 * Generates a random numbers between min & max
 	 */
@@ -189,6 +137,70 @@ public class Handler {
 	 */
 	public boolean playerHasItem(Item item, int amount) {
 		return getWorld().getInventory().playerHasItem(item, amount);
+	}
+	
+	/*
+	 * Getters & Setters
+	 */
+	
+	public int getWidth(){
+		return game.getWidth();
+	}
+	
+	public int getHeight(){
+		return game.getHeight();
+	}
+	
+	public KeyManager getKeyManager(){
+		return game.getKeyManager();
+	}
+	
+	public MouseManager getMouseManager(){
+		return game.getMouseManager();
+	}
+	
+	public GameCamera getGameCamera(){
+		return game.getGameCamera();
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+	
+	public WorldHandler getWorldHandler() {
+		return worldHandler;
+	}
+
+	public void setWorldHandler(WorldHandler worldHandler) {
+		this.worldHandler = worldHandler;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public void setChatWindow(ChatWindow chatWindow) {
+		this.chatWindow = chatWindow;
 	}
 
 }

@@ -15,8 +15,6 @@ public class GameState extends State{
 		handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 		myFont = new Font("SansSerif", Font.BOLD, 12);
 		
-		// Initialize other worlds <-- COMMENT IF BROKEN GAME
-		
 	}
 	
 	@Override

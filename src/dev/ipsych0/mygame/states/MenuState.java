@@ -54,6 +54,7 @@ public class MenuState extends State {
 
 			@Override
 			public void onClick() {
+				// Stop loading this UIManager and go to the settings screen
 				loaded = false;
 				State.setState(handler.getGame().settingState);
 				handler.getMouseManager().setUIManager(null);
@@ -65,6 +66,7 @@ public class MenuState extends State {
 	@Override
 	public void tick() {
 		if(State.getState() == handler.getGame().menuState){
+			// If our UIManager was disabled, enable it if we get back to this Menu State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
 				loaded = true;
