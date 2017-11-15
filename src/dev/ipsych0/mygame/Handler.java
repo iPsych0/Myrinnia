@@ -3,6 +3,7 @@ package dev.ipsych0.mygame;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
@@ -79,17 +80,8 @@ public class Handler {
 	/*
 	 * Rounds off a number to two digits.
 	 */
-	public static double roundOff(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
-	    
-	    if(Double.isNaN(value) || Double.isInfinite(value)) {
-	    	System.out.println("Oneindig of Not Number");
-	    	return 100.0;
-	    }
-	    
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public double roundOff(double value) {
+	    return (double)Math.ceil(value * 10d) / 10d;
 	}
 	
 	/*

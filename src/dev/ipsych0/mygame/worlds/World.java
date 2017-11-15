@@ -113,7 +113,7 @@ public abstract class World {
 		g.setFont(Assets.font14);
 		g.setColor(Creature.hpColor);
 		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + Handler.roundOff((double)handler.getPlayer().getHealth() / (double)handler.getPlayer().getMAX_HEALTH() * 100, 2) + "%", 146, 34);
+		g.drawString("HP: " + handler.roundOff((double)handler.getPlayer().getHealth() / (double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 146, 34);
 		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
