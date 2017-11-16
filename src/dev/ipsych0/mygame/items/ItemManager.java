@@ -29,9 +29,9 @@ public class ItemManager {
 					if(i.isPickedUp()){
 						deleted.add(i);
 					}
-					i.tick();
 				}
 			}
+			i.tick();
 		}
 		items.removeAll(deleted);
 	}

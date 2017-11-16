@@ -16,7 +16,6 @@ public class ItemSlot implements Serializable {
 	
 	private int x, y;
 	private ItemStack itemStack;
-	public static boolean stackable = true;
 	
 	public ItemSlot(int x, int y, ItemStack itemStack){
 		this.x = x;
@@ -49,9 +48,12 @@ public class ItemSlot implements Serializable {
 			}
 			
 			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
-			g.setFont(Assets.font14);
-			g.setColor(Color.YELLOW);
-			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			
+			if(itemStack.getItem().isStackable) {
+				g.setFont(Assets.font14);
+				g.setColor(Color.YELLOW);
+				g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			}
 		}
 	}
 	
@@ -59,35 +61,26 @@ public class ItemSlot implements Serializable {
 	 * Adds items to the inventory
 	 */
 	public boolean addItem(Item item, int amount) {
-		if(itemStack != null && stackable == true) {
+		// If the item is stackable
+		if(itemStack != null && item.isStackable) {
 			if(item.getId() == itemStack.getItem().getId()) {
-				// If a stack already exists, add to that stack
+				// If a stack already exists and the item is stackable, add to that stack
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-				stackable = true;
 				return true;
 			} else {
-				stackable = false;
 				return false;
 			}
-		} else {
-			if(itemStack != null){
-				if(item.getId() != itemStack.getItem().getId()){
-					stackable = false;
-					return false;
-				}
-				else{
-					if(item.getId() == itemStack.getItem().getId()){
-						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-						stackable = true;
-						return true;
-					}
-				}
-			}
 			
+		} else if(!item.isStackable){
+			// If the item isn't stackable
+			this.itemStack = new ItemStack(item, amount);
+			return true;
+		}
+		else {
 			// Else create a new stack
 			this.itemStack = new ItemStack(item, amount);
 			return true;
-			}
+		}
 	}
 	
 	public void setItemStack(ItemStack item){

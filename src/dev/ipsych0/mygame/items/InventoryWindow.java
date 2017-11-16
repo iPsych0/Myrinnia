@@ -66,7 +66,7 @@ public class InventoryWindow implements Serializable {
 			
 			getItemSlots().get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
 			getItemSlots().get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
-			getItemSlots().get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 100);
+			getItemSlots().get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 			getItemSlots().get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
 			
 		}
@@ -106,12 +106,32 @@ public class InventoryWindow implements Serializable {
 				// If the item is released
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(slot.contains(mouse)){
-						if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
-							// Add the item back to the inventory
+						// If the itemstack already holds an item
+						if(is.getItemStack() != null) {
+							if(currentSelectedSlot.getItem().isStackable) {
+								// And if the item in the slot is stackable
+								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+									// Add the item back to the inventory
+									currentSelectedSlot = null;
+									itemSelected = false;
+									hasBeenPressed = false;
+								
+								}else {
+									// If we cannot add the item to an existing stack
+									hasBeenPressed = false;
+									return;
+								}
+							}
+							else {
+								// If the item is not stackable / we cannot add the item
+								hasBeenPressed = false;
+							}
+						}else {
+							// If the item stack == null, we can safely add it.
+							is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
-						
 						}
 					}
 				}
@@ -381,13 +401,16 @@ public class InventoryWindow implements Serializable {
 		boolean firstFreeSlotFound = false;
 		int index = -1;
         for (int i = 0; i < itemSlots.size(); i++) {
-        	if(itemSlots.get(i).getItemStack() != null){
-        		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
+        	if(itemSlots.get(i).getItemStack() != null && item.isStackable){
+        		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
         			System.out.println("We already have this item in our inventory!");
             		return i;
         		}
         	}
-            if(itemSlots.get(i).getItemStack() == null) {
+        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable) {
+        		continue;
+        	}
+        	else if(itemSlots.get(i).getItemStack() == null) {
             	if(!firstFreeSlotFound) {
 	            	firstFreeSlotFound = true;
 	            	index = i;
