@@ -210,7 +210,7 @@ public class CraftingUI {
 		
 		if(isOpen) {
 		
-			g.drawImage(Assets.craftWindow, x, y, width, height, null);
+			g.drawImage(Assets.invScreen, x, y, width, height, null);
 
 			Text.drawString(g, "Crafting", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 			
@@ -235,18 +235,8 @@ public class CraftingUI {
 			if(possibleRecipe != null) {
 				craftableRecipe = String.valueOf(possibleRecipe.getAmount());
 				
-				float alpha = 0.7f; //draw half transparent
-				AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
-				((Graphics2D) g).setComposite(ac);
+				g.drawImage(Assets.chatwindow, x + width, y, width - 40, height / 2, null);
 				
-				g.setColor(Color.GRAY);
-				g.fillRect(x + width, y, width - 40, height / 2);
-				g.setColor(Color.BLACK);
-				g.drawRect(x + width, y, width - 40, height / 2);
-				
-				alpha = 1.0f;
-				ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
-				((Graphics2D) g).setComposite(ac);
 			}else {
 				g.dispose();
 				return;
@@ -298,17 +288,29 @@ public class CraftingUI {
 	 * @returns: the index in the List of Slots / -1 if no space
 	 */
 	public int findFreeSlot(Item item) {
+		boolean firstFreeSlotFound = false;
+		int index = -1;
         for (int i = 0; i < craftingSlots.size(); i++) {
-        	if(craftingSlots.get(i).getItemStack() != null){
+        	if(craftingSlots.get(i).getItemStack() == null) {	
+            	if(!firstFreeSlotFound) {
+	            	firstFreeSlotFound = true;
+	            	index = i;
+            	}
+            }
+        	else if(craftingSlots.get(i).getItemStack() != null && !item.isStackable()) {
+        		continue;
+        	}
+        	else if(craftingSlots.get(i).getItemStack() != null && item.isStackable()){
         		if(craftingSlots.get(i).getItemStack().getItem().getId() == item.getId()){
+        			System.out.println("We already have this item in our inventory!");
+        			
             		return i;
         		}
         	}
-            if (craftingSlots.get(i).getItemStack() == null) {
-                return i;
-            }
        }
-       
+        if(index != -1)
+        	return index;
+       System.out.println("No free inventory slot available.");
        return -1;
 	}
 	

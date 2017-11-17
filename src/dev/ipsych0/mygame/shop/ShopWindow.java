@@ -683,22 +683,26 @@ public class ShopWindow {
 		boolean firstFreeSlotFound = false;
 		int index = -1;
         for (int i = 0; i < itemSlots.size(); i++) {
-        	if(itemSlots.get(i).getItemStack() != null){
-        		if(itemSlots.get(i).getItemStack().getItem().getName() == item.getName()){
-        			System.out.println("Added the item to the shop stock");
-            		return i;
-        		}
-        	}
-            if(itemSlots.get(i).getItemStack() == null) {
+        	if(itemSlots.get(i).getItemStack() == null) {
             	if(!firstFreeSlotFound) {
 	            	firstFreeSlotFound = true;
 	            	index = i;
             	}
             }
+        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
+        		continue;
+        	}
+        	else if(itemSlots.get(i).getItemStack() != null && item.isStackable()){
+        		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
+        			System.out.println("We already have this item in our inventory!");
+        			
+            		return i;
+        		}
+        	}
        }
         if(index != -1)
         	return index;
-       System.out.println("The shop has no more room.");
+       System.out.println("No free inventory slot available.");
        return -1;
 	}
 

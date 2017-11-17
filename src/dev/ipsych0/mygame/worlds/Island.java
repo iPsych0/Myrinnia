@@ -14,7 +14,8 @@ import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.items.EquipmentWindow;
+import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Island extends World {
@@ -26,12 +27,14 @@ public class Island extends World {
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
 
-	public Island(Handler handler, Player player, ChatWindow chatWindow, String path, int worldID) {
+	public Island(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
 		this.player = player;
 		this.chatWindow = chatWindow;
+		this.inventory = inventory;
+		this.equipment = equipment;
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);

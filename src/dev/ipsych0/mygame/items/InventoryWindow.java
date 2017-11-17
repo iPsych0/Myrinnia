@@ -18,7 +18,7 @@ public class InventoryWindow implements Serializable {
 	public static boolean isOpen = true;
 	public static boolean isEquipped = false;
 	public static boolean hasBeenPressed = false;
-	public static boolean isCreated = false;
+	public boolean isCreated = false;
 	
 	private int x, y;
 	private int width, height;
@@ -29,7 +29,7 @@ public class InventoryWindow implements Serializable {
 	private int alpha = 127;
 	private Color interfaceColour = new Color(130, 130, 130, alpha);
 	
-	private static CopyOnWriteArrayList<ItemSlot> itemSlots;
+	private CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
 	private ItemStack itemSwap;
 	private ItemStack equipSwap;
@@ -401,21 +401,22 @@ public class InventoryWindow implements Serializable {
 		boolean firstFreeSlotFound = false;
 		int index = -1;
         for (int i = 0; i < itemSlots.size(); i++) {
-        	if(itemSlots.get(i).getItemStack() != null && item.isStackable){
-        		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
-        			System.out.println("We already have this item in our inventory!");
-            		return i;
-        		}
-        	}
-        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable) {
-        		continue;
-        	}
-        	else if(itemSlots.get(i).getItemStack() == null) {
+        	if(itemSlots.get(i).getItemStack() == null) {
             	if(!firstFreeSlotFound) {
 	            	firstFreeSlotFound = true;
 	            	index = i;
             	}
             }
+        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
+        		continue;
+        	}
+        	else if(itemSlots.get(i).getItemStack() != null && item.isStackable()){
+        		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
+        			System.out.println("We already have this item in our inventory!");
+        			
+            		return i;
+        		}
+        	}
        }
         if(index != -1)
         	return index;
@@ -566,7 +567,7 @@ public class InventoryWindow implements Serializable {
 
 
 	public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
-		InventoryWindow.itemSlots = itemSlots;
+		this.itemSlots = itemSlots;
 	}
 
 

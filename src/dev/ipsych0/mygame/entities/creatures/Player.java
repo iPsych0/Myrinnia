@@ -148,11 +148,6 @@ public class Player extends Creature{
 			System.out.println("Crafting XP = " + getCraftingExperience());
 			System.out.println("Crafting level = " + getCraftingLevel());
 			
-//			ItemStack stack = new ItemStack(Item.coinsItem, 1);
-//			for(ItemSlot is : handler.getWorld().getInventory().getItemSlots()) {
-//				is.setItemStack(stack);
-//			}
-			
 			debugButtonPressed = false;
 			
 		}

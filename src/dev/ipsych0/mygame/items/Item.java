@@ -38,7 +38,7 @@ public class Item implements Serializable{
 	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
-	protected boolean isStackable = true;
+	public boolean isStackable = true;
 	
 	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
 		this.texture = texture;
@@ -80,7 +80,13 @@ public class Item implements Serializable{
 	public Item createNew(int x, int y, int count){
 		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, isStackable);
 		i.setPosition(x, y);
-		i.setCount(count);
+		
+		// If the item is stackable, set the amount
+		if(i.isStackable)
+			i.setCount(count);
+		// If the item is unstackable, the count is always 1.
+		else
+			i.setCount(1);
 		return i;
 	}
 	

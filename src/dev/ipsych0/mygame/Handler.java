@@ -1,9 +1,6 @@
 package dev.ipsych0.mygame;
 
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
@@ -14,6 +11,8 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
+import dev.ipsych0.mygame.items.EquipmentWindow;
+import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
@@ -31,6 +30,8 @@ public class Handler {
 	private Player player;
 	private Random rand = new Random();
 	private ChatWindow chatWindow;
+	private InventoryWindow inventory;
+	private EquipmentWindow equipment;
 	
 	/*
 	 * Index 0: Island
@@ -46,11 +47,13 @@ public class Handler {
 		player = new Player(this, 5152, 5600);
 		chatWindow = new ChatWindow(this, 0, 608); //228,314
 		chatWindow.sendMessage("Welcome back!");
-		island = new Island(this, player, chatWindow, "res/worlds/island.tmx", 0);
+		inventory = new InventoryWindow(this, 828, 0);
+		equipment = new EquipmentWindow(this, 828, 372);
+		island = new Island(this, player, chatWindow, inventory, equipment, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
-		worldHandler.addWorld(new TestLand(this, player, chatWindow, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, player, chatWindow, "res/worlds/testmap.tmx", 2));
-		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, "res/worlds/island_indoors.tmx", 3));
+		worldHandler.addWorld(new TestLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap2.tmx", 1));
+		worldHandler.addWorld(new SwampLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap.tmx", 2));
+		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, inventory, equipment, "res/worlds/island_indoors.tmx", 3));
 	}
 
 	/*
@@ -104,7 +107,7 @@ public class Handler {
 	 * @param: Provide the item that needs to be checked if it can be added to the inventory
 	 */
 	public boolean invIsFull(Item item) {
-		return getWorld().getInventory().inventoryIsFull(item);
+		return getInventory().inventoryIsFull(item);
 	}
 	
 	/*
@@ -112,7 +115,7 @@ public class Handler {
 	 * @params: Provide the item and the amount to be added
 	 */
 	public void giveItem(Item item, int amount) {
-		getWorld().getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
+		getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
 	}
 	
 	/*
@@ -120,7 +123,7 @@ public class Handler {
 	 * @params: Provide the item and the amount to be removed
 	 */
 	public boolean removeItem(Item item, int amount) {
-		return getWorld().getInventory().removeItem(item, amount);
+		return getInventory().removeItem(item, amount);
 	}
 	
 	/*
@@ -128,7 +131,7 @@ public class Handler {
 	 * @params: Provide the item and the MINIMUM amount of that item to be checked
 	 */
 	public boolean playerHasItem(Item item, int amount) {
-		return getWorld().getInventory().playerHasItem(item, amount);
+		return getInventory().playerHasItem(item, amount);
 	}
 	
 	/*
@@ -193,6 +196,22 @@ public class Handler {
 
 	public void setChatWindow(ChatWindow chatWindow) {
 		this.chatWindow = chatWindow;
+	}
+
+	public InventoryWindow getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryWindow inventory) {
+		this.inventory = inventory;
+	}
+
+	public EquipmentWindow getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(EquipmentWindow equipment) {
+		this.equipment = equipment;
 	}
 
 }

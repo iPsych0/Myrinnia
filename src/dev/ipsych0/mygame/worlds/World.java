@@ -61,11 +61,8 @@ public abstract class World {
 		if(State.getState() == handler.getGame().gameState){
 			this.handler = handler;
 			
+			// World-specific classes
 			entityManager = new EntityManager(handler, handler.getPlayer());
-			
-			// Create inv & equipmentscreen
-			inventory = new InventoryWindow(handler, 828, 0);
-			equipment = new EquipmentWindow(handler, 828, 372);
 			itemManager = new ItemManager(handler);
 			mapLoader = new MapLoader();
 			miniMap = new MiniMap(handler, mapLoader, "res/worlds/testmap.tmx", 220, 100, 400, 400);

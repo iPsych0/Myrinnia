@@ -26,16 +26,18 @@ public class CraftingSlot {
 	
 	public void render(Graphics g) {
 		
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+//		g.setColor(Color.DARK_GRAY);
+//		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
+//		g.setColor(Color.BLACK);
+//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+		
+		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		/*
 		 * If there is an item in a slot, render it
 		 */
 		if(itemStack != null) {
-			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
 			g.setColor(Color.YELLOW);
 			g.setFont(Assets.font14);
 			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
@@ -47,33 +49,26 @@ public class CraftingSlot {
 	 * @params: Provide the item and amount to add to the slot (usually by right clicking an ItemStack)
 	 */
 	public boolean addItem(Item item, int amount) {
-		if(itemStack != null && stackable == true) {
-			if(item.getName() == itemStack.getItem().getName()) {
+		// If the item is stackable
+		if(itemStack != null && item.isStackable()) {
+			if(item.getId() == itemStack.getItem().getId()) {
+				// If a stack already exists and the item is stackable, add to that stack
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-				stackable = true;
 				return true;
 			} else {
-				stackable = false;
 				return false;
 			}
-		} else {
-			if(itemStack != null){
-				if(item.getName() != itemStack.getItem().getName()){
-					stackable = false;
-					return false;
-				}
-				else{
-					if(item.getName() == itemStack.getItem().getName()){
-						this.itemStack.setAmount(this.itemStack.getAmount() + amount);
-						stackable = true;
-						return true;
-					}
-				}
-			}
 			
+		} else if(!item.isStackable()){
+			// If the item isn't stackable
+			this.itemStack = new ItemStack(item);
+			return true;
+		}
+		else {
+			// Else create a new stack
 			this.itemStack = new ItemStack(item, amount);
 			return true;
-			}
+		}
 	}
 
 	public ItemStack getItemStack() {
