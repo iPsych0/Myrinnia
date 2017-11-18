@@ -51,7 +51,11 @@ public class Island extends World {
 		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
 		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
 		
+		// Beach house
 		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
+		
+		// Southern cliffs
+		entityManager.addEntity(new Whirlpool(handler, 1280, 6320));
 		
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320));
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352));

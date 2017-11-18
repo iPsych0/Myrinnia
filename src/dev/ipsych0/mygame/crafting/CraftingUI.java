@@ -81,7 +81,6 @@ public class CraftingUI {
 			isCreated = true;
 			
 		}
-		
 	}
 	
 	public void tick() {

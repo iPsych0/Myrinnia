@@ -509,8 +509,6 @@ public class Tiles {
 	public static Tiles magicTreeLeft5 = new Tiles(Assets.magicTreeLeft5, 1281);
 	public static Tiles magicTreeRight5 = new Tiles(Assets.magicTreeRight5, 1282);
 	
-
-	
 	
 	//CLASS
 	
@@ -528,7 +526,7 @@ public class Tiles {
 		
 		tiles[id] = this;
 		bounds = new Rectangle(0, 0, TILEWIDTH, TILEHEIGHT);
-		
+
 	}
 	
 	public int getLayer() {
