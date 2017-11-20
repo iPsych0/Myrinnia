@@ -689,13 +689,14 @@ public class ShopWindow {
 	            	index = i;
             	}
             }
+        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable && itemSlots.get(i).getItemStack().getAmount() == 0){
+        		return i;
+        	}
         	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
         		continue;
         	}
         	else if(itemSlots.get(i).getItemStack() != null && item.isStackable()){
         		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
-        			System.out.println("We already have this item in our inventory!");
-        			
             		return i;
         		}
         	}

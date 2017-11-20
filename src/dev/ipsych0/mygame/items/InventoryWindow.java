@@ -470,13 +470,16 @@ public class InventoryWindow implements Serializable {
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
 					return hasItem;
 				}
-				if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
+				else if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
 					itemSlots.get(i).setItemStack(null);
+					System.out.println("Hoe vaak");
 					hasItem = true;
+					return hasItem;
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1){
 					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
 					hasItem = true;
+					return hasItem;
 				}
 			}
 			else{
