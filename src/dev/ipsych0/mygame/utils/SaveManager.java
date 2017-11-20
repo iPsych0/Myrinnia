@@ -150,7 +150,7 @@ public class SaveManager {
 		 */
 		System.out.println("Inventory size = "+ inventory.size());
 		for(int i = 0; i < inventory.size(); i++){
-			handler.getWorld().getInventory().getItemSlots().get(i).addItem(handler.getWorld().getInventory().getItemByID(inventory.get(i).getItem().getId()),
+			handler.getWorld().getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(inventory.get(i).getItem())).addItem(handler.getWorld().getInventory().getItemByID(inventory.get(i).getItem().getId()),
 			inventory.get(i).getAmount());
 			
 		}
