@@ -50,6 +50,7 @@ public class Scorpion extends Creature {
 		speed = DEFAULT_SPEED;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		health = maxHealth;
 		combatLevel = 5;
 		
 		projectiles = new ArrayList<Projectile>();

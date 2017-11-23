@@ -173,24 +173,25 @@ public abstract class Entity {
 			g.setFont(Assets.font32);
 			g.drawString(String.valueOf(dealer.getDamage(dealer)) ,
 					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
-			return;
 		}
 	}
 	
 	/*
 	 * Draws an overlay at the top of the screen to show the entity's name
 	 */
-	public void drawEntityOverlay(Entity hovering, Graphics g) {
+	public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
+		int yPos = 12;
 		g.drawImage(Assets.chatwindow, 400, 1, 200, 50, null);
-		if(hovering instanceof Creature) {
-			Text.drawString(g, hovering.getClass().getSimpleName() + " (Level-" + ((Creature) hovering).getCombatLevel() + ")", 500, 12, true, Color.YELLOW, Assets.font14);
-			((Creature) hovering).getMaxHealth();
-			Text.drawString(g, "Health: "+Integer.toString(((Creature) hovering).getHealth()) + "/" + ((Creature) hovering).getMaxHealth(), 500, 25, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Max hit: "+getDamage(hovering), 500, 37, true, Color.YELLOW, Assets.font14);
-		}else {
-			Text.drawString(g, hovering.getClass().getSimpleName(), 500, 12, true, Color.YELLOW, Assets.font14);
+		for(int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
+			Text.drawString(g, getEntityInfo(hoveringEntity)[i], 500, yPos, true, Color.YELLOW, Assets.font14);
+			yPos += 14;
 		}
+//		((Creature) hoveringEntity).getMaxHealth();
+//		Text.drawString(g, "Health: "+Integer.toString(((Creature) hoveringEntity).getHealth()) + "/" + ((Creature) hoveringEntity).getMaxHealth(), 500, 25, true, Color.YELLOW, Assets.font14);
+//		Text.drawString(g, "Max hit: "+getDamage(hoveringEntity), 500, 37, true, Color.YELLOW, Assets.font14);
 	}
+	
+	public abstract String[] getEntityInfo(Entity hoveringEntity);
 	
 	
 	/*
