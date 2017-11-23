@@ -58,6 +58,8 @@ public abstract class Entity {
 	
 	public abstract void interact();
 	
+	public abstract String[] getEntityInfo(Entity hoveringEntity);
+	
 	/*
 	 * Checks the collision for Entities
 	 * @returns: true if collision, false if no collision
@@ -176,8 +178,10 @@ public abstract class Entity {
 		}
 	}
 	
-	/*
-	 * Draws an overlay at the top of the screen to show the entity's name
+	/**
+	 * Draws an Entity's information to an overlay at the top of the screen
+	 * @param hoveringEntity
+	 * @param g
 	 */
 	public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
 		int yPos = 12;
@@ -186,12 +190,7 @@ public abstract class Entity {
 			Text.drawString(g, getEntityInfo(hoveringEntity)[i], 500, yPos, true, Color.YELLOW, Assets.font14);
 			yPos += 14;
 		}
-//		((Creature) hoveringEntity).getMaxHealth();
-//		Text.drawString(g, "Health: "+Integer.toString(((Creature) hoveringEntity).getHealth()) + "/" + ((Creature) hoveringEntity).getMaxHealth(), 500, 25, true, Color.YELLOW, Assets.font14);
-//		Text.drawString(g, "Max hit: "+getDamage(hoveringEntity), 500, 37, true, Color.YELLOW, Assets.font14);
 	}
-	
-	public abstract String[] getEntityInfo(Entity hoveringEntity);
 	
 	
 	/*

@@ -21,7 +21,7 @@ public class SettingState extends State{
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 592, 226, 96, Assets.button_settings, new ClickListener(){ //367, 408, 226, 96
+		uiManager.addObject(new UIImageButton(367, 592, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
 
 			@Override
 			public void onClick() {

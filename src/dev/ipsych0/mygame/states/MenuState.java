@@ -24,7 +24,7 @@ public class MenuState extends State {
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.button_new_game, new ClickListener(){ //367, 216, 226, 96
+		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 216, 226, 96
 
 			@Override
 			public void onClick() {
@@ -36,7 +36,7 @@ public class MenuState extends State {
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.button_continue, new ClickListener(){ //367, 312, 226, 96
+		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 312, 226, 96
 
 			@Override
 			public void onClick() {
@@ -52,7 +52,7 @@ public class MenuState extends State {
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.button_settings, new ClickListener(){ //367, 408, 226, 96
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
 
 			@Override
 			public void onClick() {
@@ -84,7 +84,12 @@ public class MenuState extends State {
 //		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			uiManager.render(g);
+			
+			// Render the text in the main menu
 			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "New Game", 480, 424, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Continue", 480, 528, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Settings", 480, 632, true, Color.YELLOW, Assets.font32);
 		}
 	}
 }

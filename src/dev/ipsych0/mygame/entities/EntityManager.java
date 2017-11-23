@@ -68,6 +68,7 @@ public class EntityManager {
 			Rectangle entityRect = new Rectangle((int)e.getX() - (int)handler.getGameCamera().getxOffset(),
 					(int)e.getY() - (int)handler.getGameCamera().getyOffset(), 32, 32);
 			
+			// If the mouse is hovered over an Entity, draw the overlay
 			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {
 				e.drawEntityOverlay(e, g);
 			}

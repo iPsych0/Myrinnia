@@ -93,7 +93,7 @@ public class Assets {
 	public static BufferedImage mainScreenBackground;
 	
 	// Main menu buttons
-	public static BufferedImage[] button_new_game, button_continue, button_settings;
+	public static BufferedImage[] mainMenuButton;
 	
 	// Item images
 	public static BufferedImage wood, ore;
@@ -158,7 +158,6 @@ public class Assets {
 		SpriteSheet swamp_land = new SpriteSheet(ImageLoader.loadImage("/textures/swampland.png"));
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
-		SpriteSheet menu_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/menu_sprites_new.png"));
 		SpriteSheet item_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/itemsprites.png"));
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
@@ -227,18 +226,10 @@ public class Assets {
 		
 		// Menu sprites
 
-		button_new_game = new BufferedImage[2];
-		button_continue = new BufferedImage[2];
-		button_settings = new BufferedImage[2];
+		mainMenuButton = new BufferedImage[2];
 		
-		button_new_game[0] = ui_sheet.crop(width * 14, 0, width * 7, height * 3);
-		button_new_game[1] = ui_sheet.crop(width * 14, 0, width * 7, height * 3);
-		
-		button_continue[0] = ui_sheet.crop(width * 14, height * 3, width * 7, height * 3);
-		button_continue[1] = ui_sheet.crop(width * 14, height * 3, width * 7, height * 3);
-		
-		button_settings[0] = ui_sheet.crop(width * 14, height * 6, width * 7, height * 3);
-		button_settings[1] = ui_sheet.crop(width * 14, height * 6, width * 7, height * 3);
+		mainMenuButton[0] = ui_sheet.crop(width * 9, 0, width * 7, height * 3);
+		mainMenuButton[1] = ui_sheet.crop(width * 17, 0, width * 7, height * 3);
 		
 		// Item Sprites
 		
