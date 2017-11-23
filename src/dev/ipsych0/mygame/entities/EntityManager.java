@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.gfx.Assets;
 
 public class EntityManager {
 	
@@ -59,8 +61,17 @@ public class EntityManager {
 	}
 	
 	public void render(Graphics g){
+		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		for(Entity e : entities){
 			e.render(g);
+			
+			Rectangle entityRect = new Rectangle((int)e.getX() - (int)handler.getGameCamera().getxOffset(),
+					(int)e.getY() - (int)handler.getGameCamera().getyOffset(), 32, 32);
+			
+			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {
+				e.drawEntityOverlay(e, g);
+			}
+			
 			// Draw the damage while in combat
 			if(e.isDamaged() && e.getDamageDealer() != null) {
 				e.drawDamage(e.getDamageDealer(), g);

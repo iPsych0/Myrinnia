@@ -45,10 +45,12 @@ public class Scorpion extends Creature {
 		
 		// Creature stats
 		setPower(0);
-		setVitality(0);
+		setVitality(7);
 		setDefence(0);
 		speed = DEFAULT_SPEED;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		combatLevel = 5;
 		
 		projectiles = new ArrayList<Projectile>();
 	}
@@ -92,7 +94,7 @@ public class Scorpion extends Creature {
 		g.setColor(Creature.hpColor);
 		g.setFont(Creature.hpFont);
 		
-		g.drawString(Integer.toString(getHealth()) + "/" + DEFAULT_HEALTH,
+		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
 		
 		for(Projectile p : projectiles) {

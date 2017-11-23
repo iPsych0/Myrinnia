@@ -39,7 +39,7 @@ public class Player extends Creature{
 	private int attackLevel;
 	private int craftingExperience;
 	private int craftingLevel;
-	private int MAX_HEALTH;
+	private int maxHealth;
 	
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
@@ -83,8 +83,8 @@ public class Player extends Creature{
 		xSpawn = 5152.0f;
 		ySpawn = 5600.0f;
 		
-		MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
-		health = DEFAULT_HEALTH;
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		health = maxHealth;
 		speed = DEFAULT_SPEED + 2.5f;
 		
 		attackExperience = 0;
@@ -342,7 +342,7 @@ public class Player extends Creature{
 				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		*/
 		g.setColor(Creature.hpColor);
-		g.drawString(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()) + "/" + handler.getWorld().getEntityManager().getPlayer().MAX_HEALTH,
+		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
 		
@@ -374,7 +374,7 @@ public class Player extends Creature{
 			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			attackCooldown = (long) (600 / getAttackSpeed());
 			magicCooldown = (long) (300 / getAttackSpeed());
-			MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		}
 	}
 	
@@ -421,7 +421,7 @@ public class Player extends Creature{
 			
 			attackCooldown = (long) (600 / getAttackSpeed());
 			magicCooldown = (long) (300 / getAttackSpeed());
-			MAX_HEALTH = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		}
 	}
 	
@@ -429,7 +429,7 @@ public class Player extends Creature{
 	 * Regenerates health
 	 */
 	private void regenHealth() {
-		if(health == MAX_HEALTH) {
+		if(health == maxHealth) {
 			return;
 		}
 		
@@ -439,14 +439,14 @@ public class Player extends Creature{
 			return;
 		
 		// If current health is higher than your max health value, degenerate health
-		if(health > MAX_HEALTH) {
+		if(health > maxHealth) {
 			
 			health -= 1;
 			regenTimer = 0;
 		}
 		
 		// If current health is lower than your max health value, regenerate health
-		if(health < MAX_HEALTH){
+		if(health < maxHealth){
 			
 			health += 1;
 			
@@ -923,11 +923,11 @@ public class Player extends Creature{
 	}
 
 	public int getMAX_HEALTH() {
-		return MAX_HEALTH;
+		return maxHealth;
 	}
 
 	public void setMAX_HEALTH(int mAX_HEALTH) {
-		MAX_HEALTH = mAX_HEALTH;
+		maxHealth = mAX_HEALTH;
 	}
 
 }

@@ -24,11 +24,13 @@ public abstract class Creature extends Entity {
 							DEFAULT_VITALITY = 0;
 	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
 	public static Color hpColor = new Color(255, 255, 48);
-	private int baseDamage;
-	private int power;
-	private int defence;
-	private int vitality;
-	private float attackSpeed;
+	protected int baseDamage;
+	protected int power;
+	protected int defence;
+	protected int vitality;
+	protected float attackSpeed;
+	protected int maxHealth;
+	protected int combatLevel;
 	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -50,6 +52,9 @@ public abstract class Creature extends Entity {
 		setVitality(DEFAULT_VITALITY);
 		speed = DEFAULT_SPEED;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		health = maxHealth;
+		combatLevel = 1;
 		xMove = 0;
 		yMove = 0;
 		drawnOnMap = true;
@@ -223,6 +228,22 @@ public abstract class Creature extends Entity {
 
 	public void setBaseDamage(int baseDamage) {
 		this.baseDamage = baseDamage;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+
+	public int getCombatLevel() {
+		return combatLevel;
+	}
+
+	public void setCombatLevel(int combatLevel) {
+		this.combatLevel = combatLevel;
 	}
 
 }
