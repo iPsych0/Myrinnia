@@ -231,14 +231,14 @@ public class Assets {
 		button_continue = new BufferedImage[2];
 		button_settings = new BufferedImage[2];
 		
-		button_new_game[0] = menu_sheet.crop(width * 7, height * 3, width * 7, height * 3);
-		button_new_game[1] = menu_sheet.crop(0, height * 3, width * 7, height * 3);
+		button_new_game[0] = ui_sheet.crop(width * 14, 0, width * 7, height * 3);
+		button_new_game[1] = ui_sheet.crop(width * 14, 0, width * 7, height * 3);
 		
-		button_continue[0] = menu_sheet.crop(width * 7, 0, width * 7, height * 3);
-		button_continue[1] = menu_sheet.crop(0, 0, width * 7, height * 3);
+		button_continue[0] = ui_sheet.crop(width * 14, height * 3, width * 7, height * 3);
+		button_continue[1] = ui_sheet.crop(width * 14, height * 3, width * 7, height * 3);
 		
-		button_settings[0] = menu_sheet.crop(width * 7, height * 6, width * 7, height * 3);
-		button_settings[1] = menu_sheet.crop(0, height * 6, width * 7, height * 3);
+		button_settings[0] = ui_sheet.crop(width * 14, height * 6, width * 7, height * 3);
+		button_settings[1] = ui_sheet.crop(width * 14, height * 6, width * 7, height * 3);
 		
 		// Item Sprites
 		

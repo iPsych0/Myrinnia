@@ -1,8 +1,10 @@
 package dev.ipsych0.mygame.states;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.ui.ClickListener;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
@@ -22,7 +24,7 @@ public class MenuState extends State {
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 400, 226, 96, Assets.button_new_game, new ClickListener(){ //367, 216, 226, 96
+		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.button_new_game, new ClickListener(){ //367, 216, 226, 96
 
 			@Override
 			public void onClick() {
@@ -34,7 +36,7 @@ public class MenuState extends State {
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 496, 226, 96, Assets.button_continue, new ClickListener(){ //367, 312, 226, 96
+		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.button_continue, new ClickListener(){ //367, 312, 226, 96
 
 			@Override
 			public void onClick() {
@@ -50,7 +52,7 @@ public class MenuState extends State {
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 592, 226, 96, Assets.button_settings, new ClickListener(){ //367, 408, 226, 96
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.button_settings, new ClickListener(){ //367, 408, 226, 96
 
 			@Override
 			public void onClick() {
@@ -80,8 +82,9 @@ public class MenuState extends State {
 		if(State.getState() == handler.getGame().menuState){
 //		g.setColor(Color.BLACK);
 //		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-			g.drawImage(Assets.mainScreenBackground, 0, 0, 960, 720, null);
+			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			uiManager.render(g);
+			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
 		}
 	}
 }
