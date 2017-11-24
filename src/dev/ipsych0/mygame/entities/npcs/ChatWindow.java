@@ -16,13 +16,9 @@ public class ChatWindow {
 	private int x, y;
 	private int width, height;
 	private Handler handler;
-	private static NPCText temporary;
-	int alpha = 127;
-	Color interfaceColour = new Color(100, 100, 100, alpha);
 
 	private int numCols = 1;
 	private int numRows = 7;
-	public static Color chatColour = new Color(100, 100, 100);
 	private Rectangle windowBounds;
 	
 	private CopyOnWriteArrayList<TextSlot> textSlots;
@@ -122,7 +118,7 @@ public class ChatWindow {
         			continue;
         		}
         		// Zet textslot (i) in temporary
-        		temporary = textSlots.get(i).getNpcText();
+        		NPCText temporary = textSlots.get(i).getNpcText();
         		// Zet slot i - 1 (0 - 1 = -1) naar temp
         		textSlots.get(i - 1).setNpcText(temporary);
             }

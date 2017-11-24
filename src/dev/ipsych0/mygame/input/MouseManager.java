@@ -7,6 +7,7 @@ import java.awt.event.MouseMotionListener;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.ui.UIManager;
@@ -69,6 +70,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			leftPressed = true;
 			CraftingUI.craftButtonPressed = true;
 			ShopWindow.hasBeenPressed = true;
+			ChatDialogue.hasBeenPressed = true;
 		}
 		
 		// Right Click
