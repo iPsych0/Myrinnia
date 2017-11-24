@@ -6,19 +6,21 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 
 public class ChatDialogue {
 	
 	private int x, y, width, height;
 	private Handler handler;
-	private int alpha = 127;
-	private Color interfaceColour = new Color(100, 100, 100, alpha);
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;
 	private boolean choice = false;
 	private Rectangle continueButtonBounds;
+	private static int counter;
+	private int optionID;
 	
 	public ChatDialogue(Handler handler, int x, int y, boolean choice) {
 		this.handler = handler;
@@ -31,14 +33,17 @@ public class ChatDialogue {
 		
 		chatOptions = new ArrayList<ChatOptions>();
 		
+		// Zie DialogueBox functie voor inladen!!!
 		if(choice) {
-			for(int i = 0; i < 5; i++) {
-				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), "Option: " + i));
+			for(int i = 0; i < 3; i++) {
+				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, "Option: " + i));
 			}
 		}else{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
 			continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
 		}
+		counter++;
+		System.out.println(counter);
 	}
 	
 	public void tick() {
@@ -46,6 +51,7 @@ public class ChatDialogue {
 		
 		if(choice) {
 			for(ChatOptions options : chatOptions) {
+				
 				options.tick();
 				
 				Rectangle optionSlot = new Rectangle(options.getX(), options.getY(), options.getWidth(), options.getHeight());
@@ -54,7 +60,7 @@ public class ChatDialogue {
 					options.setHovering(true);
 					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 						hasBeenPressed = false;
-						System.out.println(options.getMessage());
+						options.setPressed(true);
 					}
 				}else {
 					options.setHovering(false);
@@ -92,6 +98,14 @@ public class ChatDialogue {
 
 	public void setChatOptions(ArrayList<ChatOptions> chatOptions) {
 		this.chatOptions = chatOptions;
+	}
+
+	public int getOptionID() {
+		return optionID;
+	}
+
+	public void setOptionID(int optionID) {
+		this.optionID = optionID;
 	}
 
 }

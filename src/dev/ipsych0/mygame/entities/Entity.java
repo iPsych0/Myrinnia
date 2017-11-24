@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
+import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -33,6 +34,7 @@ public abstract class Entity {
 	protected boolean isSolid = true;
 	protected Entity damageDealer, damageReceiver;
 	private int ty = 0;
+	protected ChatDialogue chatDialogue;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -316,6 +318,14 @@ public abstract class Entity {
 
 	public void setDamageReceiver(Entity damageReceiver) {
 		this.damageReceiver = damageReceiver;
+	}
+
+	public ChatDialogue getChatDialogue() {
+		return chatDialogue;
+	}
+
+	public void setChatDialogue(ChatDialogue chatDialogue) {
+		this.chatDialogue = chatDialogue;
 	}
 	
 }

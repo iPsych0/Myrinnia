@@ -17,6 +17,7 @@ public class EntityManager {
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Entity shoppingNpc;
+	private Entity closestEntity;
 	
 	/*
 	 * Compares Entity A to Entity B

@@ -3,9 +3,10 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -32,6 +33,14 @@ public class Campfire extends StaticEntity {
 	@Override
 	public void tick() {
 		campfire.tick();
+		if(chatDialogue != null) {
+			// Doe iets met als je op een option klikt
+			for(int i = 0; i < chatDialogue.getChatOptions().size(); i++) {
+				if(chatDialogue.getChatOptions().get(i).isPressed()) {
+					speakingTurn++;
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -62,13 +71,15 @@ public class Campfire extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("A cozy, warm fire.");
+			chatDialogue = new ChatDialogue(handler, 0, 600, true);
+		}
+		else if(this.speakingTurn == 1) {
+			chatDialogue = new ChatDialogue(handler, 0, 600, false);
 		}
 	}
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
 		
 	}
 	

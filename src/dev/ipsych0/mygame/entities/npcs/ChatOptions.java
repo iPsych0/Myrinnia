@@ -14,11 +14,14 @@ public class ChatOptions {
 	private int x, y, width, height;
 	private String message;
 	private boolean isHovering = false;
+	private int optionID;
+	private boolean isPressed = false;
 	
-	public ChatOptions(Handler handler, int x, int y, String message) {
+	public ChatOptions(Handler handler, int x, int y, int optionID, String message) {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
+		this.optionID = optionID;
 		this.message = message;
 		
 		width = 400;
@@ -85,6 +88,22 @@ public class ChatOptions {
 
 	public void setHovering(boolean isHovering) {
 		this.isHovering = isHovering;
+	}
+
+	public int getOptionID() {
+		return optionID;
+	}
+
+	public void setOptionID(int optionID) {
+		this.optionID = optionID;
+	}
+
+	public boolean isPressed() {
+		return isPressed;
+	}
+
+	public void setPressed(boolean isPressed) {
+		this.isPressed = isPressed;
 	}
 
 }

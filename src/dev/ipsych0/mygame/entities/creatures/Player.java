@@ -71,6 +71,7 @@ public class Player extends Creature{
 	private float xSpawn, ySpawn;
 	
 	private ShopKeeper shopKeeper;
+	private Entity closestEntity;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -156,24 +157,35 @@ public class Player extends Creature{
 		if(handler.getKeyManager().talk){
 			if(!hasInteracted) {
 				if(playerIsNearNpc()){
-					// And we're close to an NPC, open the chat
-					ChatWindow.chatIsOpen = true;
-					getClosestEntity().interact();
+					// And we're close to an NPC interact with it
+					closestEntity = getClosestEntity();
+					closestEntity.interact();
 					hasInteracted = true;
 					
 					// If the closest Entity is a shop, open the shop
-					if(getClosestEntity().isShop())
+					if(closestEntity.isShop())
 						shopKeeper = (ShopKeeper) getClosestEntity();
 					
 				}
 			}
 		}
 		
+		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
+			System.out.println("Test");
+			closestEntity.getChatDialogue().tick();
+		}
+		
 		// If the shop is open, but we're moving, close it
-		if(shopKeeper != null && isMoving) {
+		if(isMoving) {
 			Entity.isCloseToNPC = false;
-			Player.hasInteracted = false;
-			shopKeeper = null;
+			hasInteracted = false;
+			closestEntity = null;
+			if(shopKeeper != null) {
+				shopKeeper = null;
+			}
+			if(closestEntity != null) {
+				closestEntity.setChatDialogue(null);
+			}
 		}
 		
 		// If there are projectiles, tick them
@@ -674,7 +686,9 @@ public class Player extends Creature{
 	 */
 	@Override
 	public void postRender(Graphics g){
-		
+		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
+			closestEntity.getChatDialogue().render(g);
+		}
 	}
 	
 	/*

@@ -27,7 +27,6 @@ public class Island extends World {
 	private Rectangle beachHouse;
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
-	private ChatDialogue chatDialogue;
 
 	public Island(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, String path, int worldID) {
 		super(handler);
@@ -72,8 +71,6 @@ public class Island extends World {
 		beachCave = new Rectangle(2688, 6120, 32, 32);
 		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
 		
-		chatDialogue = new ChatDialogue(handler, 0, 600, true);
-		
 	}
 
 	@Override
@@ -87,7 +84,6 @@ public class Island extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			chatWindow.tick();
-			chatDialogue.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
@@ -180,7 +176,6 @@ public class Island extends World {
 			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
-			chatDialogue.render(g);
 			
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
