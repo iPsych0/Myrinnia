@@ -13,6 +13,7 @@ public class ChatOptions {
 	private Handler handler;
 	private int x, y, width, height;
 	private String message;
+	private boolean isHovering = false;
 	
 	public ChatOptions(Handler handler, int x, int y, String message) {
 		this.handler = handler;
@@ -30,8 +31,11 @@ public class ChatOptions {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.drawImage(Assets.chatwindowTop, x + 1, y, width, height, null);
+		if(isHovering) {
+			g.drawImage(Assets.mainMenuButton[0], x + 1, y, width, height, null);
+		}else {
+			g.drawImage(Assets.mainMenuButton[1], x + 1, y, width, height, null);
+		}
 		Text.drawString(g, message, x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
 	}
 
@@ -73,6 +77,14 @@ public class ChatOptions {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public boolean isHovering() {
+		return isHovering;
+	}
+
+	public void setHovering(boolean isHovering) {
+		this.isHovering = isHovering;
 	}
 
 }

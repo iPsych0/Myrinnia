@@ -72,7 +72,7 @@ public class Island extends World {
 		beachCave = new Rectangle(2688, 6120, 32, 32);
 		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
 		
-		chatDialogue = new ChatDialogue(handler, 0, 200, false);
+		chatDialogue = new ChatDialogue(handler, 0, 600, true);
 		
 	}
 

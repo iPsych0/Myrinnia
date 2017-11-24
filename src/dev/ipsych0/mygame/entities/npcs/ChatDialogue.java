@@ -18,6 +18,7 @@ public class ChatDialogue {
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;
 	private boolean choice = false;
+	private Rectangle continueButtonBounds;
 	
 	public ChatDialogue(Handler handler, int x, int y, boolean choice) {
 		this.handler = handler;
@@ -32,10 +33,11 @@ public class ChatDialogue {
 		
 		if(choice) {
 			for(int i = 0; i < 5; i++) {
-				chatOptions.add(new ChatOptions(handler, x + 16, y + 7 + (20 * i), "Dit is regel: " + i));
+				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), "Option: " + i));
 			}
 		}else{
-			continueButton = new ContinueButton(x + 16, y);
+			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
+			continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
 		}
 	}
 	
@@ -48,18 +50,32 @@ public class ChatDialogue {
 				
 				Rectangle optionSlot = new Rectangle(options.getX(), options.getY(), options.getWidth(), options.getHeight());
 				
-				if(optionSlot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-					hasBeenPressed = false;
-					System.out.println(options.getMessage());
+				if(optionSlot.contains(mouse)) {
+					options.setHovering(true);
+					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+						hasBeenPressed = false;
+						System.out.println(options.getMessage());
+					}
+				}else {
+					options.setHovering(false);
 				}
 			}
 		}else {
 			continueButton.tick();
+			if(continueButtonBounds.contains(mouse)) {
+				continueButton.setHovering(true);
+				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					hasBeenPressed = false;
+					System.out.println("Continue pressed.");
+				}
+			}else {
+				continueButton.setHovering(false);
+			}
 		}
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Assets.chatwindow, x, y, width, height, null);
+		g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 		
 		if(choice) {
 			for(ChatOptions options : chatOptions) {

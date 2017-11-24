@@ -211,7 +211,7 @@ public class Assets {
 		chatwindowTop = ui_sheet.crop(0, height * 8, 432, 20);
 		
 		// HP Overlay sprites
-		hpOverlay = ui_sheet.crop(0, height, 292, 96);
+		hpOverlay = ui_sheet.crop(0, height, 288, 96);
 		
 		// Crafting UI sprites
 		craftWindow = ui_sheet.crop(width * 5, height * 9, 242, 320);
