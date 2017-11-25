@@ -159,19 +159,43 @@ public class Player extends Creature{
 				if(playerIsNearNpc()){
 					// And we're close to an NPC interact with it
 					closestEntity = getClosestEntity();
-					closestEntity.interact();
-					hasInteracted = true;
-					
-					// If the closest Entity is a shop, open the shop
-					if(closestEntity.isShop())
-						shopKeeper = (ShopKeeper) getClosestEntity();
-					
+					if(closestEntity.getChatDialogue() == null) {
+						closestEntity.interact();
+						hasInteracted = true;
+						
+						// If the closest Entity is a shop, open the shop
+						if(closestEntity.isShop())
+							shopKeeper = (ShopKeeper) getClosestEntity();
+					}
+				}
+			}
+		}
+		
+		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
+		
+		if(closestEntity != null) {
+			if(closestEntity.getChatDialogue() != null) {
+				if(closestEntity.getChatDialogue().getChosenOption() != null) {
+					if(!hasInteracted) {
+						if(playerIsNearNpc()) {
+							closestEntity.interact();
+							hasInteracted = true;
+							closestEntity.getChatDialogue().setChosenOption(null);
+						}
+					}
+				}else if(closestEntity.getChatDialogue().getContinueButton() != null && closestEntity.getChatDialogue().getContinueButton().isPressed()) {
+					if(!hasInteracted) {
+						if(playerIsNearNpc()) {
+							closestEntity.getChatDialogue().getContinueButton().setPressed(false);
+							closestEntity.interact();
+							hasInteracted = true;
+						}
+					}
 				}
 			}
 		}
 		
 		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
-			System.out.println("Test");
 			closestEntity.getChatDialogue().tick();
 		}
 		
@@ -192,8 +216,6 @@ public class Player extends Creature{
 		if(projectiles.size() != 0) {
 			tickProjectiles();
 		}
-		
-		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
 		// If the mouse is not moved, use the WASD-keys to determine the direction
 		if(!mouseMoved) {

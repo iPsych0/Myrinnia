@@ -10,6 +10,7 @@ public class ContinueButton {
 	
 	private int x, y, width, height;
 	private boolean isHovering = false;
+	private boolean isPressed = false;
 	
 	public ContinueButton(int x, int y) {
 		this.x = x;
@@ -69,6 +70,14 @@ public class ContinueButton {
 
 	public void setHovering(boolean isHovering) {
 		this.isHovering = isHovering;
+	}
+
+	public boolean isPressed() {
+		return isPressed;
+	}
+
+	public void setPressed(boolean isPressed) {
+		this.isPressed = isPressed;
 	}
 
 }

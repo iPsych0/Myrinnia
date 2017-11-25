@@ -38,7 +38,6 @@ public class DialogueButton {
 	public void pressedButton(String answer, String param){
 		buttonParam[0] = answer;
 		buttonParam[1] = param;
-		
 	}
 
 	public Rectangle getButtonBounds() {

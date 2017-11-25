@@ -15,7 +15,7 @@ public class ChatOptions {
 	private String message;
 	private boolean isHovering = false;
 	private int optionID;
-	private boolean isPressed = false;
+	Rectangle bounds;
 	
 	public ChatOptions(Handler handler, int x, int y, int optionID, String message) {
 		this.handler = handler;
@@ -26,6 +26,8 @@ public class ChatOptions {
 		
 		width = 400;
 		height = 20;
+		
+		bounds = new Rectangle(x, y, width, height);
 		
 	}
 	
@@ -98,12 +100,12 @@ public class ChatOptions {
 		this.optionID = optionID;
 	}
 
-	public boolean isPressed() {
-		return isPressed;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
-	public void setPressed(boolean isPressed) {
-		this.isPressed = isPressed;
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

@@ -33,14 +33,6 @@ public class Campfire extends StaticEntity {
 	@Override
 	public void tick() {
 		campfire.tick();
-		if(chatDialogue != null) {
-			// Doe iets met als je op een option klikt
-			for(int i = 0; i < chatDialogue.getChatOptions().size(); i++) {
-				if(chatDialogue.getChatOptions().get(i).isPressed()) {
-					speakingTurn++;
-				}
-			}
-		}
 	}
 	
 	@Override
@@ -72,9 +64,15 @@ public class Campfire extends StaticEntity {
 	public void interact() {
 		if(this.speakingTurn == 0) {
 			chatDialogue = new ChatDialogue(handler, 0, 600, true);
+			speakingTurn++;
 		}
 		else if(this.speakingTurn == 1) {
 			chatDialogue = new ChatDialogue(handler, 0, 600, false);
+			speakingTurn++;
+		}
+		else if(this.speakingTurn == 2) {
+			chatDialogue = null;
+			speakingTurn = 0;
 		}
 	}
 

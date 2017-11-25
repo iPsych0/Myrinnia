@@ -17,16 +17,16 @@ public class ChatDialogue {
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;
-	private boolean choice = false;
+	private boolean choiceMenu = false;
 	private Rectangle continueButtonBounds;
-	private static int counter;
 	private int optionID;
+	private ChatOptions chosenOption;
 	
 	public ChatDialogue(Handler handler, int x, int y, boolean choice) {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		this.choice = choice;
+		this.choiceMenu = choice;
 		
 		width = 432;
 		height = 112;
@@ -35,35 +35,35 @@ public class ChatDialogue {
 		
 		// Zie DialogueBox functie voor inladen!!!
 		if(choice) {
-			for(int i = 0; i < 3; i++) {
+			for(int i = 0; i < 5; i++) {
 				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, "Option: " + i));
 			}
 		}else{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
 			continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
 		}
-		counter++;
-		System.out.println(counter);
 	}
 	
 	public void tick() {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		
-		if(choice) {
-			for(ChatOptions options : chatOptions) {
+		if(choiceMenu) {
+			for(ChatOptions option : chatOptions) {
 				
-				options.tick();
+				option.tick();
 				
-				Rectangle optionSlot = new Rectangle(options.getX(), options.getY(), options.getWidth(), options.getHeight());
+				Rectangle optionSlot = new Rectangle(option.getX(), option.getY(), option.getWidth(), option.getHeight());
 				
 				if(optionSlot.contains(mouse)) {
-					options.setHovering(true);
+					option.setHovering(true);
 					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 						hasBeenPressed = false;
-						options.setPressed(true);
+						System.out.println("Chose option: " + option.getOptionID());
+						chosenOption = option;
+						Player.hasInteracted = false;
 					}
 				}else {
-					options.setHovering(false);
+					option.setHovering(false);
 				}
 			}
 		}else {
@@ -72,6 +72,8 @@ public class ChatDialogue {
 				continueButton.setHovering(true);
 				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 					hasBeenPressed = false;
+					Player.hasInteracted = false;
+					continueButton.setPressed(true);
 					System.out.println("Continue pressed.");
 				}
 			}else {
@@ -83,9 +85,9 @@ public class ChatDialogue {
 	public void render(Graphics g) {
 		g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 		
-		if(choice) {
-			for(ChatOptions options : chatOptions) {
-				options.render(g);
+		if(choiceMenu) {
+			for(ChatOptions option : chatOptions) {
+				option.render(g);
 			}
 		}else {
 			continueButton.render(g);
@@ -106,6 +108,30 @@ public class ChatDialogue {
 
 	public void setOptionID(int optionID) {
 		this.optionID = optionID;
+	}
+
+	public ContinueButton getContinueButton() {
+		return continueButton;
+	}
+
+	public void setContinueButton(ContinueButton continueButton) {
+		this.continueButton = continueButton;
+	}
+
+	public ChatOptions getChosenOption() {
+		return chosenOption;
+	}
+
+	public void setChosenOption(ChatOptions chosenOption) {
+		this.chosenOption = chosenOption;
+	}
+
+	public boolean isChoiceMenu() {
+		return choiceMenu;
+	}
+
+	public void setChoiceMenu(boolean choiceMenu) {
+		this.choiceMenu = choiceMenu;
 	}
 
 }

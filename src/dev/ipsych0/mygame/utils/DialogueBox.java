@@ -55,7 +55,7 @@ public class DialogueBox {
 				
 				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 					for(int i = 0; i < buttons.size(); i++) {
-						if(db.getText() == answers[i] && pressedButton == null) {
+						if(db.getText().equals(answers[i]) && pressedButton == null) {
 							pressedButton = db;
 							pressedButton.pressedButton(answers[i], param);
 							isOpen = false;

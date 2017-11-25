@@ -33,6 +33,7 @@ public abstract class Entity {
 	protected boolean shopping = false;
 	protected boolean isSolid = true;
 	protected Entity damageDealer, damageReceiver;
+	protected int speakingTurn = 0;
 	private int ty = 0;
 	protected ChatDialogue chatDialogue;
 	
@@ -326,6 +327,14 @@ public abstract class Entity {
 
 	public void setChatDialogue(ChatDialogue chatDialogue) {
 		this.chatDialogue = chatDialogue;
+	}
+
+	public int getSpeakingTurn() {
+		return speakingTurn;
+	}
+
+	public void setSpeakingTurn(int speakingTurn) {
+		this.speakingTurn = speakingTurn;
 	}
 	
 }
