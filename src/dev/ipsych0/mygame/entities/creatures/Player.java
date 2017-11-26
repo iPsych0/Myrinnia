@@ -164,8 +164,9 @@ public class Player extends Creature{
 						hasInteracted = true;
 						
 						// If the closest Entity is a shop, open the shop
-						if(closestEntity.isShop())
+						if(closestEntity.isShop()) {
 							shopKeeper = (ShopKeeper) getClosestEntity();
+						}
 					}
 				}
 			}
@@ -173,14 +174,19 @@ public class Player extends Creature{
 		
 		Rectangle mouse = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getWorld().getHandler().getMouseManager().getMouseY(), 1, 1);
 		
+		// If we're interacting with the closest Entity
 		if(closestEntity != null) {
+			// And it has a chatdialogue
 			if(closestEntity.getChatDialogue() != null) {
+				// If the Entity has an option-menu
 				if(closestEntity.getChatDialogue().getChosenOption() != null) {
+					// And we haven't interacted
 					if(!hasInteracted) {
+						// And we're still close to it
 						if(playerIsNearNpc()) {
+							// If we click the menu option, interact with it.
 							closestEntity.interact();
 							hasInteracted = true;
-							closestEntity.getChatDialogue().setChosenOption(null);
 						}
 					}
 				}else if(closestEntity.getChatDialogue().getContinueButton() != null && closestEntity.getChatDialogue().getContinueButton().isPressed()) {
@@ -203,12 +209,12 @@ public class Player extends Creature{
 		if(isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
-			closestEntity = null;
 			if(shopKeeper != null) {
 				shopKeeper = null;
 			}
 			if(closestEntity != null) {
 				closestEntity.setChatDialogue(null);
+				closestEntity = null;
 			}
 		}
 		
@@ -709,6 +715,7 @@ public class Player extends Creature{
 	@Override
 	public void postRender(Graphics g){
 		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
+			System.out.println("Hallo?");
 			closestEntity.getChatDialogue().render(g);
 		}
 	}

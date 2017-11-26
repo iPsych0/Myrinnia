@@ -79,13 +79,16 @@ public class EntityManager {
 				e.drawDamage(e.getDamageDealer(), g);
 			}
 			
-			// Post renders for entities for additional 
-			player.postRender(g);
 		}
 		
 		// If we're shopping, render the shopping screen on top
 		if(shoppingNpc != null)
 			shoppingNpc.postRender(g);
+	}
+	
+	public void postRender(Graphics g) {
+		// Post renders for entities for additional 
+		player.postRender(g);
 	}
 	
 	public void addEntity(Entity e){

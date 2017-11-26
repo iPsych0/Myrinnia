@@ -19,6 +19,7 @@ public class Lorraine extends ShopKeeper {
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private ArrayList<ItemStack> shopItems;
+	private String[] firstDialogue = {"Click this button to trade", "This button does nothing"};
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -68,15 +69,22 @@ public class Lorraine extends ShopKeeper {
 	@Override
 	public void interact() {
 		if(this.getSpeakingTurn() == 1 && !ShopWindow.isOpen){
-			handler.sendMsg("Hey, could you help me, please?");
-			ShopWindow.isOpen = true;
-			this.shopping = true;
-			speakingTurn = 1;
+			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			speakingTurn++;
 		}
-//		else if(this.getSpeakingTurn() == 2){
-//			handler.getPlayer().getChatWindow().sendMessage("I would like you to kill some scorpions, please!");
-//			speakingTurn++;
-//		}
+		else if(this.getSpeakingTurn() == 2){
+			if(chatDialogue == null) {
+				speakingTurn = 1;
+				return;
+			}
+			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				handler.sendMsg("Hey, could you help me, please?");
+				ShopWindow.isOpen = true;
+				this.shopping = true;
+				chatDialogue = null;
+				speakingTurn = 1;
+			}
+		}
 //		else if(this.getSpeakingTurn() == 3){
 //			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
 //			speakingTurn++;

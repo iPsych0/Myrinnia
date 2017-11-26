@@ -157,8 +157,10 @@ public class Island extends World {
 			
 			itemManager.render(g);
 			
-			// Entities
+			// Entities & chat
 			entityManager.render(g);
+			chatWindow.render(g);
+			entityManager.postRender(g);
 			
 			/* Uncomment to 
 			if(night) {
@@ -171,7 +173,7 @@ public class Island extends World {
 			// Inventory & Equipment
 			inventory.render(g);
 			equipment.render(g);
-			chatWindow.render(g);
+			
 			
 			// MiniMap
 			miniMap.render(g);

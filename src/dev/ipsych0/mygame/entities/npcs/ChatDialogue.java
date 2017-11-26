@@ -17,16 +17,16 @@ public class ChatDialogue {
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;
-	private boolean choiceMenu = false;
+	private String[] menuOptions;
 	private Rectangle continueButtonBounds;
 	private int optionID;
 	private ChatOptions chosenOption;
 	
-	public ChatDialogue(Handler handler, int x, int y, boolean choice) {
+	public ChatDialogue(Handler handler, int x, int y, String[] menuOptions) {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		this.choiceMenu = choice;
+		this.menuOptions = menuOptions;
 		
 		width = 432;
 		height = 112;
@@ -34,9 +34,9 @@ public class ChatDialogue {
 		chatOptions = new ArrayList<ChatOptions>();
 		
 		// Zie DialogueBox functie voor inladen!!!
-		if(choice) {
-			for(int i = 0; i < 5; i++) {
-				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, "Option: " + i));
+		if(menuOptions.length > 0) {
+			for(int i = 0; i < menuOptions.length; i++) {
+				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, menuOptions[i]));
 			}
 		}else{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
@@ -47,7 +47,7 @@ public class ChatDialogue {
 	public void tick() {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		
-		if(choiceMenu) {
+		if(menuOptions.length > 0) {
 			for(ChatOptions option : chatOptions) {
 				
 				option.tick();
@@ -85,7 +85,7 @@ public class ChatDialogue {
 	public void render(Graphics g) {
 		g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 		
-		if(choiceMenu) {
+		if(menuOptions.length > 0) {
 			for(ChatOptions option : chatOptions) {
 				option.render(g);
 			}
@@ -126,12 +126,12 @@ public class ChatDialogue {
 		this.chosenOption = chosenOption;
 	}
 
-	public boolean isChoiceMenu() {
-		return choiceMenu;
+	public String[] getMenuOptions() {
+		return menuOptions;
 	}
 
-	public void setChoiceMenu(boolean choiceMenu) {
-		this.choiceMenu = choiceMenu;
+	public void setMenuOptions(String[] menuOptions) {
+		this.menuOptions = menuOptions;
 	}
 
 }
