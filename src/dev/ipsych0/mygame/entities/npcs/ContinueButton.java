@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
+import dev.ipsych0.mygame.utils.Text;
 
 public class ContinueButton {
 	

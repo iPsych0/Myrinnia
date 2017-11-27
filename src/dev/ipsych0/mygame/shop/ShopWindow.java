@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -19,6 +18,7 @@ import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.ui.TextBox;
 import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.utils.DialogueButton;
+import dev.ipsych0.mygame.utils.Text;
 
 public class ShopWindow {
 	

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.utils.Text;
 
 public class Lorraine extends ShopKeeper {
 	

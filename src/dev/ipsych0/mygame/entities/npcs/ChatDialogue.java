@@ -5,11 +5,12 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
+import dev.ipsych0.mygame.utils.Text;
 
 public class ChatDialogue {
 	
@@ -91,77 +92,11 @@ public class ChatDialogue {
 				option.render(g);
 			}
 		}else if(menuOptions.length == 1){
-			for(int i = 0; i < wrapText(menuOptions[0], 60).size(); i++) {
-				Text.drawString(g, wrapText(menuOptions[0], 60).get(i), x + (width / 2), y + 16 + (i * 12), true, Color.YELLOW, Assets.font14);
+			for(int i = 0; i < Text.splitIntoLine(menuOptions[0], 60).length; i++) {
+				Text.drawString(g, Text.splitIntoLine(menuOptions[0], 60)[i], x + (width / 2), y + 20 + (i * 12), true, Color.YELLOW, Assets.font14);
 			}
 			continueButton.render(g);
 		}
-	}
-	
-	public static List<String> wrapText(String string, int maxChar) {
-
-	    List<String> subLines = new ArrayList<String>();
-
-	    int length = string.length();
-	    int start = 0;
-	    int end = maxChar;
-	    if (length > maxChar) {
-
-	        int noOfLines = (length / maxChar) + 1;
-
-	        int endOfStr[] = new int[noOfLines];
-
-	        for (int f = 0; f < noOfLines - 1; f++) {
-
-	            int end1 = maxChar;
-
-	            endOfStr[f] = end;
-
-	            if (string.charAt(end - 1) != ' ') {
-
-	                if (string.charAt(end - 2) == ' ') {
-
-	                    subLines.add(string.substring(start, end - 1));
-	                    start = end - 1;
-	                    end = end - 1 + end1;
-
-	                } else if (string.charAt(end - 2) != ' '
-	                        && string.charAt(end) == ' ') {
-
-	                    subLines.add(string.substring(start, end));
-	                    start = end;
-	                    end = end + end1;
-
-	                } else if (string.charAt(end - 2) != ' ') {
-
-	                    subLines.add(string.substring(start, end) + "-");
-	                    start = end;
-	                    end = end + end1;
-
-	                } else if (string.charAt(end + 2) == ' ') {
-	                    System.out.println("m here ............");
-	                    int lastSpaceIndex = string.substring(start, end)
-	                            .lastIndexOf("");
-	                    subLines.add(string.substring(start, lastSpaceIndex));
-
-	                    start = lastSpaceIndex;
-	                    end = lastSpaceIndex + end1;
-	                }
-
-	            } else {
-
-	                subLines.add(string.substring(start, end));
-	                start = end;
-	                end = end + end1;
-	            }
-
-	        }
-
-	        subLines.add(string.substring(endOfStr[noOfLines - 2], length));
-
-	    }
-
-	    return subLines;
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {

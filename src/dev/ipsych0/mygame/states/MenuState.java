@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.ui.ClickListener;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.ui.UIObject;
 import dev.ipsych0.mygame.utils.SaveManager;
+import dev.ipsych0.mygame.utils.Text;
 
 public class MenuState extends State {
 	

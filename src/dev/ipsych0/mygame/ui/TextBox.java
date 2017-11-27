@@ -9,10 +9,10 @@ import java.awt.event.KeyListener;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.utils.DialogueBox;
+import dev.ipsych0.mygame.utils.Text;
 
 public class TextBox implements KeyListener {
 	

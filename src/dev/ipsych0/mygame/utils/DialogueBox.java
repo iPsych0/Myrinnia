@@ -9,7 +9,6 @@ import com.sun.glass.events.KeyEvent;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.Text;
 import dev.ipsych0.mygame.ui.TextBox;
 
 public class DialogueBox {

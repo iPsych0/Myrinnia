@@ -155,6 +155,11 @@ public abstract class Creature extends Entity {
 	
 	@Override
 	public String[] getEntityInfo(Entity hoveringEntity) {
+		if(this.isNpc) {
+			String[] name = new String[1];
+			name[0] = hoveringEntity.getClass().getSimpleName();
+			return name;
+		}
 		String[] name = new String[3];
 		name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
 		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity));
