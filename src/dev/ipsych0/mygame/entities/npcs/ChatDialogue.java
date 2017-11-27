@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.Text;
 
 public class ChatDialogue {
 	
@@ -34,7 +35,7 @@ public class ChatDialogue {
 		chatOptions = new ArrayList<ChatOptions>();
 		
 		// Zie DialogueBox functie voor inladen!!!
-		if(menuOptions.length > 0) {
+		if(menuOptions.length > 1) {
 			for(int i = 0; i < menuOptions.length; i++) {
 				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, menuOptions[i]));
 			}
@@ -47,7 +48,7 @@ public class ChatDialogue {
 	public void tick() {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		
-		if(menuOptions.length > 0) {
+		if(menuOptions.length > 1) {
 			for(ChatOptions option : chatOptions) {
 				
 				option.tick();
@@ -58,7 +59,7 @@ public class ChatDialogue {
 					option.setHovering(true);
 					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 						hasBeenPressed = false;
-						System.out.println("Chose option: " + option.getOptionID());
+						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
 						Player.hasInteracted = false;
 					}
@@ -85,13 +86,82 @@ public class ChatDialogue {
 	public void render(Graphics g) {
 		g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 		
-		if(menuOptions.length > 0) {
+		if(menuOptions.length > 1) {
 			for(ChatOptions option : chatOptions) {
 				option.render(g);
 			}
-		}else {
+		}else if(menuOptions.length == 1){
+			for(int i = 0; i < wrapText(menuOptions[0], 60).size(); i++) {
+				Text.drawString(g, wrapText(menuOptions[0], 60).get(i), x + (width / 2), y + 16 + (i * 12), true, Color.YELLOW, Assets.font14);
+			}
 			continueButton.render(g);
 		}
+	}
+	
+	public static List<String> wrapText(String string, int maxChar) {
+
+	    List<String> subLines = new ArrayList<String>();
+
+	    int length = string.length();
+	    int start = 0;
+	    int end = maxChar;
+	    if (length > maxChar) {
+
+	        int noOfLines = (length / maxChar) + 1;
+
+	        int endOfStr[] = new int[noOfLines];
+
+	        for (int f = 0; f < noOfLines - 1; f++) {
+
+	            int end1 = maxChar;
+
+	            endOfStr[f] = end;
+
+	            if (string.charAt(end - 1) != ' ') {
+
+	                if (string.charAt(end - 2) == ' ') {
+
+	                    subLines.add(string.substring(start, end - 1));
+	                    start = end - 1;
+	                    end = end - 1 + end1;
+
+	                } else if (string.charAt(end - 2) != ' '
+	                        && string.charAt(end) == ' ') {
+
+	                    subLines.add(string.substring(start, end));
+	                    start = end;
+	                    end = end + end1;
+
+	                } else if (string.charAt(end - 2) != ' ') {
+
+	                    subLines.add(string.substring(start, end) + "-");
+	                    start = end;
+	                    end = end + end1;
+
+	                } else if (string.charAt(end + 2) == ' ') {
+	                    System.out.println("m here ............");
+	                    int lastSpaceIndex = string.substring(start, end)
+	                            .lastIndexOf("");
+	                    subLines.add(string.substring(start, lastSpaceIndex));
+
+	                    start = lastSpaceIndex;
+	                    end = lastSpaceIndex + end1;
+	                }
+
+	            } else {
+
+	                subLines.add(string.substring(start, end));
+	                start = end;
+	                end = end + end1;
+	            }
+
+	        }
+
+	        subLines.add(string.substring(endOfStr[noOfLines - 2], length));
+
+	    }
+
+	    return subLines;
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {

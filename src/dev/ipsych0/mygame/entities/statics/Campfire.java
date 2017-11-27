@@ -18,7 +18,8 @@ public class Campfire extends StaticEntity {
 	private Animation campfire;
 	private int speakingTurn;
 	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
-	private String[] secondDialogue = new String[0];
+	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
+	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
 
 	public Campfire(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -78,25 +79,48 @@ public class Campfire extends StaticEntity {
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
-				if(!handler.invIsFull(Item.woodItem)) {
-					handler.giveItem(Item.woodItem, 1);
-					handler.sendMsg("You found 1 log.");
-				}
 				speakingTurn++;
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
-				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
-				speakingTurn++;
+				chatDialogue = null;
+				speakingTurn = 0;
 				break;
 			}else {
 				speakingTurn = 1;
 				break;
 			}
 		case 2:
-			chatDialogue = null;
-			speakingTurn = 0;
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			chatDialogue = new ChatDialogue(handler, 0, 600, thirdDialogue);
+			speakingTurn++;
 			break;
+		case 3:
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			
+			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				if(!handler.invIsFull(Item.woodItem)) {
+					handler.giveItem(Item.woodItem, 1);
+					handler.sendMsg("You found 1 log.");
+					chatDialogue = null;
+					speakingTurn = 0;
+				}else {
+					chatDialogue = null;
+					speakingTurn = 0;
+					handler.sendMsg("Your inventory is full.");
+				}
+				break;
+			}
+			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
+				speakingTurn = 3;
+				break;
+			}
 		}
 //		if(this.speakingTurn == 0) {
 //			chatDialogue = new ChatDialogue(handler, 0, 600, true);

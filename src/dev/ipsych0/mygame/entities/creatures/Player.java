@@ -148,6 +148,9 @@ public class Player extends Creature{
 			System.out.println("Attack XP = " + getAttackExperience());
 			System.out.println("Crafting XP = " + getCraftingExperience());
 			System.out.println("Crafting level = " + getCraftingLevel());
+			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
+				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+			}
 			
 			debugButtonPressed = false;
 			
@@ -189,9 +192,11 @@ public class Player extends Creature{
 							hasInteracted = true;
 						}
 					}
+				// If the Entity only has a continue button (text only) and it's pressed
 				}else if(closestEntity.getChatDialogue().getContinueButton() != null && closestEntity.getChatDialogue().getContinueButton().isPressed()) {
 					if(!hasInteracted) {
 						if(playerIsNearNpc()) {
+							// Do the logic and set it to un-pressed and interact
 							closestEntity.getChatDialogue().getContinueButton().setPressed(false);
 							closestEntity.interact();
 							hasInteracted = true;
@@ -715,7 +720,6 @@ public class Player extends Creature{
 	@Override
 	public void postRender(Graphics g){
 		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
-			System.out.println("Hallo?");
 			closestEntity.getChatDialogue().render(g);
 		}
 	}
