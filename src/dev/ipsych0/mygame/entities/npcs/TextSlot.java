@@ -10,7 +10,7 @@ import dev.ipsych0.mygame.utils.Text;
 public class TextSlot {
 	
 	public static final int textWidth = 432;
-	public static final int textHeight = 13;
+	public static final int textHeight = 15;
 	
 	private int x, y;
 	private NPCText npcText;
@@ -38,7 +38,7 @@ public class TextSlot {
 		g.setColor(Color.YELLOW);
 		
 		if(npcText != null){
-			Text.drawString(g, npcText.getLine(), x + 5, y + 28, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, npcText.getLine(), x + 6, y + 24, false, Color.YELLOW, Assets.font14);
 			//g.drawString(npcText.getLine(), x + 5, y + 28);
 		}
 	}

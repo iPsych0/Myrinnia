@@ -19,7 +19,6 @@ public class Campfire extends StaticEntity {
 	private int speakingTurn;
 	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
 	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
-	//private String[] secondDialogue = {"This is a test message to show that text wrapping actually works and this is spread across multiple lines."};
 	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
 
 	public Campfire(Handler handler, float x, float y) {

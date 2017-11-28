@@ -78,7 +78,6 @@ public class Lorraine extends ShopKeeper {
 				return;
 			}
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				handler.sendMsg("Hey, could you help me, please?");
 				ShopWindow.isOpen = true;
 				this.shopping = true;
 				chatDialogue = null;

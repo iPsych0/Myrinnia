@@ -97,6 +97,9 @@ public class ChatDialogue {
 			}
 			continueButton.render(g);
 		}
+		
+		g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
+		Text.drawString(g, handler.getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {
