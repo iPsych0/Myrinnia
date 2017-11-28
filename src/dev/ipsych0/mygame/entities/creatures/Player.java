@@ -210,8 +210,8 @@ public class Player extends Creature{
 			closestEntity.getChatDialogue().tick();
 		}
 		
-		// If the shop is open, but we're moving, close it
-		if(isMoving) {
+		// If the player moves or presses escape, close the shop and chat dialogue
+		if(isMoving || handler.getKeyManager().escape) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
 			if(shopKeeper != null) {
