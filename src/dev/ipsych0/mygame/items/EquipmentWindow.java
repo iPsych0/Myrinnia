@@ -98,6 +98,10 @@ public class EquipmentWindow implements Serializable {
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
 						// Unequip the item and remove the equipment stats
+						if(handler.getWorld().getInventory().findFreeSlot(es.getEquipmentStack().getItem()) == -1) {
+							hasBeenPressed = false;
+							return;
+						}
 						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
 						handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
 						es.setItem(null);
