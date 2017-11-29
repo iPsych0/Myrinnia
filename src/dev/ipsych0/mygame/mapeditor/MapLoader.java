@@ -90,9 +90,6 @@ public class MapLoader {
 	 * @returns: String[] mapValues - all Tile IDs per layer
 	 */
 	public String[] groundTileParser(String path){
-		// Dependant on number of tilemaps in Tiled
-		int minItem = 12;
-		
 		// Creates a DocumentBuilder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -101,12 +98,15 @@ public class MapLoader {
 			doc.normalize();
 			
 			// Get all tags
-			NodeList maps = doc.getElementsByTagName("*");
+			NodeList maps = doc.getElementsByTagName("layer");
+			for(int i = 0; i < maps.getLength(); i++) {
+				System.out.println(maps.item(i).getNodeName());
+			}
+			System.out.println(" ");
 
 			// Calculate number of layers
 			int testLayer = 0;
-			while(minItem < maps.getLength()) {
-				minItem += 2;
+			while(testLayer < maps.getLength()) {
 				testLayer++;
 			}
 			
@@ -114,15 +114,12 @@ public class MapLoader {
 			String[] mapValues = new String[testLayer];
 			
 			// Set variables to iterate over the maps
-			minItem = 12;
-			int i = 0;
 			int layer = 0;
 			
 			// Fill the layers in the String[] (The entire String with all Tile IDs per layer)
-			while(minItem + i < maps.getLength()) {
-				Node groundMap = maps.item(minItem + i);
+			while(layer < maps.getLength()) {
+				Node groundMap = maps.item(layer);
 				mapValues[layer] = groundMap.getTextContent();
-				i += 2;
 				layer++;
 			}
 			
