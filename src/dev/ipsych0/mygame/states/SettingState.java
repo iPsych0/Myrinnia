@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.states;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
@@ -7,6 +8,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.ClickListener;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
+import dev.ipsych0.mygame.utils.Text;
 
 public class SettingState extends State{
 	
@@ -21,7 +23,7 @@ public class SettingState extends State{
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 592, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
 
 			@Override
 			public void onClick() {
@@ -52,9 +54,12 @@ public class SettingState extends State{
 		if(State.getState() == handler.getGame().settingState){
 //			g.setColor(Color.BLACK);
 //			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-				g.drawImage(Assets.mainScreenBackground, 0, 0, 960, 720, null);
-				this.uiManager.render(g);
-			}
+			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
+			this.uiManager.render(g);
+			
+			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);
+		}
 		
 	}
 
