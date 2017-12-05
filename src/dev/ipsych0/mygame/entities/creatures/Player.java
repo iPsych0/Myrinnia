@@ -292,6 +292,12 @@ public class Player extends Creature{
 						p.active = false;
 					}
 				}
+				for(int i = 0; i < handler.getWorld().getFile().length; i++) {
+					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+						p.active = false;
+						
+					}
+				}
 			}
 			p.tick();
 		}

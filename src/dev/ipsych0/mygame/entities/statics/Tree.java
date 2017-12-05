@@ -26,13 +26,10 @@ public class Tree extends StaticEntity {
 	public Tree(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		width *= 2;
-		height *= 2;
-		
 		bounds.x = 1;
 		bounds.y = 1;
-		bounds.width = 64;
-		bounds.height = 64;
+		bounds.width = 32;
+		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;
@@ -122,11 +119,7 @@ public class Tree extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isWoodcutting) {
-			g.setColor(Color.WHITE);
-			g.fillRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
-			g.setColor(Color.BLACK);
-			g.drawRect((int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height);
-			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), 32, 32, null);
 		}
 		
 	}

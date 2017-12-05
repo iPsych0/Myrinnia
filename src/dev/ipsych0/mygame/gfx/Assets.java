@@ -816,7 +816,7 @@ public class Assets {
 		sparkles[2] = animated_terrain.crop(width * 2, 0, width, height);
 		
 		// Skilling objects
-		tree = trees_sheet.crop(0, 0, width * 2, height * 2);
+		tree = texture_sheet.crop(width, height * 2, width, height);
 		rock = objects3.crop(width * 4, height * 9, width, height);
 		
 		whirlpool = new BufferedImage[8];
