@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -25,10 +26,13 @@ public class Tree extends StaticEntity {
 	public Tree(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
+		width *= 2;
+		height *= 2;
+		
 		bounds.x = 1;
 		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
+		bounds.width = 64;
+		bounds.height = 64;
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;

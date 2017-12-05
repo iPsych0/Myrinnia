@@ -173,6 +173,7 @@ public class Assets {
 		SpriteSheet objects17 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites17.png"));
 		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
+		SpriteSheet objects3 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites3.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -185,17 +186,6 @@ public class Assets {
 		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		
 		fish = ui_sheet.crop(width * 2, 0, width, height);
-		
-		whirlpool = new BufferedImage[8];
-		
-		whirlpool[0] = whirlPool.crop(0, 0, width, height);
-		whirlpool[1] = whirlPool.crop(width * 2, 0, width, height);
-		whirlpool[2] = whirlPool.crop(width, 0, width, height);
-		whirlpool[3] = whirlPool.crop(width * 3, 0, width, height);
-		whirlpool[4] = whirlPool.crop(0, height, width, height);
-		whirlpool[5] = whirlPool.crop(width * 2, height, width, height);
-		whirlpool[6] = whirlPool.crop(width, height, width, height);
-		whirlpool[7] = whirlPool.crop(width * 3, height, width, height);
 		
 		// Inventory sprites
 		invSlot = ui_sheet.crop(width, 0, 32, 32);
@@ -812,9 +802,6 @@ public class Assets {
 		caveCliffCornerLowerRight = terrain_tile.crop(width * 31, height * 7, width, height);
 		caveCliffCornerLowestLeft = terrain_tile.crop(width * 30, height * 8, width, height);
 		caveCliffCornerLowestRight = terrain_tile.crop(width * 31, height * 8, width, height);
-
-
-		
 		
 		// Ambiance tiles
 		sparkleTile = terrain_tile.crop(width * 16, height * 18, width, height);
@@ -828,11 +815,19 @@ public class Assets {
 		sparkles[1] = animated_terrain.crop(width, 0, width, height);
 		sparkles[2] = animated_terrain.crop(width * 2, 0, width, height);
 		
+		// Skilling objects
+		tree = trees_sheet.crop(0, 0, width * 2, height * 2);
+		rock = objects3.crop(width * 4, height * 9, width, height);
 		
-		// Map icons like trees, rocks, etc
-		
-		tree = texture_sheet.crop(width, height * 2, width, height);
-		rock = texture_sheet.crop(0, height * 3, width, height);
+		whirlpool = new BufferedImage[8];
+		whirlpool[0] = whirlPool.crop(0, 0, width, height);
+		whirlpool[1] = whirlPool.crop(width * 2, 0, width, height);
+		whirlpool[2] = whirlPool.crop(width, 0, width, height);
+		whirlpool[3] = whirlPool.crop(width * 3, 0, width, height);
+		whirlpool[4] = whirlPool.crop(0, height, width, height);
+		whirlpool[5] = whirlPool.crop(width * 2, height, width, height);
+		whirlpool[6] = whirlPool.crop(width, height, width, height);
+		whirlpool[7] = whirlPool.crop(width * 3, height, width, height);
 		
 	}
 	
