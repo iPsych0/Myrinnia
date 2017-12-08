@@ -85,7 +85,8 @@ public abstract class Entity {
 	 */
 	public boolean playerIsNearNpc(){
 		// Looks for the closest entity and returns that entity
-		if(distanceToEntity((int)getClosestEntity().getX(), (int)getClosestEntity().getY(), (int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY()) <= Tiles.TILEWIDTH * 2){
+		if(distanceToEntity(((int)getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int)getClosestEntity().getY() + + getClosestEntity().getHeight() / 2),
+				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2){
 			// Interact with the respective speaking turn
 			isCloseToNPC = true;
 			return true;
@@ -113,8 +114,8 @@ public abstract class Entity {
 				continue;
 			}
 			
-			int dx = (int) (handler.getPlayer().getX() - e.getX());
-		    int dy = (int) (handler.getPlayer().getY() - e.getY());
+			int dx = (int) ((handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2) - (e.getX() + e.getWidth() / 2));
+		    int dy = (int) ((handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
 		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);

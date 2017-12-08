@@ -451,9 +451,11 @@ public class CraftingUI {
 	public void makeItem(int recipeID) {
 		
 		// If the recipe hasn't been made before, make it discovered
-		if(!craftRecipe.isDiscovered()) {
-			craftRecipe.setDiscovered(true);
-			handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
+		if(craftRecipe != null) {
+			if(!craftRecipe.isDiscovered()) {
+				craftRecipe.setDiscovered(true);
+				handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
+			}
 		}
 		
 		

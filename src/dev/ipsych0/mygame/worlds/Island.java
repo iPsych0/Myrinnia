@@ -43,7 +43,7 @@ public class Island extends World {
 		
 		loadWorld(path);
 		
-		entityManager.addEntity(new Tree(handler, 5248, 5536));
+		entityManager.addEntity(new Tree(handler, 5216, 5536));
 		
 		entityManager.addEntity(new Rock(handler, 5280, 5536));
 		

@@ -86,7 +86,7 @@ public class Player extends Creature{
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
-		speed = DEFAULT_SPEED + 2.5f;
+		speed = DEFAULT_SPEED + 2.0f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -290,6 +290,12 @@ public class Player extends Creature{
 					if(e.isAttackable()) {
 						e.damage(this, e);
 						p.active = false;
+					}
+				}
+				for(int i = 0; i < handler.getWorld().getFile().length; i++) {
+					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+						p.active = false;
+						
 					}
 				}
 			}
