@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ public class Scorpion extends Creature {
 		combatLevel = 5;
 		
 		projectiles = new ArrayList<Projectile>();
+		
+		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 	}
 
 	@Override
@@ -226,6 +229,7 @@ public class Scorpion extends Creature {
 				xMove = 0;
 				yMove = 0;
 			}
+			time = 0;
 		}
 		
 		if(getX() > (xSpawn + xRadius)){
@@ -254,6 +258,7 @@ public class Scorpion extends Creature {
 	@Override
 	public void postRender(Graphics g) {
 		// TODO Auto-generated method stub
-		
+		g.setColor(Color.BLACK);
+		g.drawRect(radius.x, radius.y, radius.width, radius.height);
 	}
 }
