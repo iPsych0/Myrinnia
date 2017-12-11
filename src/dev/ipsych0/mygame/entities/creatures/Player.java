@@ -392,6 +392,12 @@ public class Player extends Creature{
 		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		*/
+		
+		
+		// Player box
+		g.setColor(Color.BLACK);
+		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
+		
 		g.setColor(Creature.hpColor);
 		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));

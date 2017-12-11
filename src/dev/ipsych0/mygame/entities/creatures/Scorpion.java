@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
@@ -111,6 +112,9 @@ public class Scorpion extends Creature {
 				p.render(g);
 			}
 		}
+		
+		g.setColor(Color.BLACK);
+		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 		
 	}
 
@@ -258,7 +262,5 @@ public class Scorpion extends Creature {
 	@Override
 	public void postRender(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.BLACK);
-		g.drawRect(radius.x, radius.y, radius.width, radius.height);
 	}
 }
