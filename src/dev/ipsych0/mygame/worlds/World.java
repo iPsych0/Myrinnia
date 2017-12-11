@@ -1,11 +1,9 @@
 package dev.ipsych0.mygame.worlds;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.awt.Graphics2D;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -103,7 +101,6 @@ public abstract class World {
 	}
 	
 	protected void renderNight(Graphics g) {
-		/* UNCOMMENT FOR NIGHT-TIME!!!
 		float alpha = 0.4f;
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
@@ -112,7 +109,6 @@ public abstract class World {
 		alpha = 1.0f;
 		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
-		*/
 	}
 	
 	protected void renderHPandFPS(Graphics g) {
@@ -122,7 +118,7 @@ public abstract class World {
 		g.drawString("HP: " + handler.roundOff((double)handler.getPlayer().getHealth() / (double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 146, 34);
 		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
-		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 42, 64, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
 		
 		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 	}

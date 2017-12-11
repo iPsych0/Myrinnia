@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.worlds;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -148,6 +149,10 @@ public class Island extends World {
 						}else {
 							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+							g.setColor(Color.YELLOW);
+							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
+									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
+									32, 32);
 						}
 					}
 				}
