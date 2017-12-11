@@ -149,10 +149,10 @@ public class Island extends World {
 						}else {
 							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-//							g.setColor(Color.YELLOW);
-//							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
-//									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
-//									32, 32);
+							g.setColor(Color.YELLOW);
+							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
+									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
+									32, 32);
 						}
 					}
 				}
