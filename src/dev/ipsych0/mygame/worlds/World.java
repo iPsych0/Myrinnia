@@ -34,7 +34,7 @@ public abstract class World {
 	protected int spawnX, spawnY;
 	protected Animation sparkles;
 	protected int worldID;
-	protected String[] file;
+	protected String[] layers;
 	
 	// Entities
 	
@@ -81,7 +81,9 @@ public abstract class World {
 	public abstract void render(Graphics g);
 	
 	public boolean checkSolidLayer(int x, int y) {
-		for(int i = 0; i < file.length; i++) {
+		if(x < 0 || y < 0 || x >= width || y >= height)
+			return true;
+		for(int i = 0; i < layers.length; i++) {
 			if(getTile(i, x, y).isSolid()) {
 				return true;
 			}
@@ -124,14 +126,14 @@ public abstract class World {
 	}
 
 	protected void loadWorld(String path){
-		file = mapLoader.groundTileParser(path);
-		tiles = new int[file.length][width][height];
+		layers = mapLoader.groundTileParser(path);
+		tiles = new int[layers.length][width][height];
 		
-		for (int i = 0; i < file.length; i++) {
+		for (int i = 0; i < layers.length; i++) {
 			// Splits worlds files by spaces and puts them all in an array
-			file[i] = file[i].replace("\n", "").replace("\r", "");
-			file[i] = file[i].replace(" ", "").replace("\r", "");
-			String[] tokens = file[i].split(",");
+			layers[i] = layers[i].replace("\n", "").replace("\r", "");
+			layers[i] = layers[i].replace(" ", "").replace("\r", "");
+			String[] tokens = layers[i].split(",");
 			
 			for (int y = 0; y < height; y++){
 				for (int x = 0; x < width; x++){
@@ -208,12 +210,12 @@ public abstract class World {
 		this.worldID = worldID;
 	}
 
-	public String[] getFile() {
-		return file;
+	public String[] getLayers() {
+		return layers;
 	}
 
-	public void setFile(String[] file) {
-		this.file = file;
+	public void setLayers(String[] layers) {
+		this.layers = layers;
 	}
 
 	public ChatWindow getChatWindow() {

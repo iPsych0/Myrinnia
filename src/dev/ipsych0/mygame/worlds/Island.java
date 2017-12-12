@@ -47,7 +47,7 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Rock(handler, 5280, 5536));
 		
-		entityManager.addEntity(new Scorpion(handler, 4992, 6048));
+		//entityManager.addEntity(new Scorpion(handler, 4992, 6048));
 		entityManager.addEntity(new Scorpion(handler, 5088, 6112));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
@@ -141,7 +141,7 @@ public class Island extends World {
 			
 			// Render the tiles
 			
-			for (int i = 0; i < file.length; i++) {
+			for (int i = 0; i < layers.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
 						if(getTile(i,x,y) == Tiles.invisible) {

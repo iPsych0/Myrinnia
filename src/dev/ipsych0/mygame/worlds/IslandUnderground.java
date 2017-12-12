@@ -122,7 +122,7 @@ public class IslandUnderground extends World {
 			
 			// Render the tiles
 			
-			for (int i = 0; i < file.length; i++) {
+			for (int i = 0; i < layers.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
 						if(getTile(i,x,y) == Tiles.invisible) {

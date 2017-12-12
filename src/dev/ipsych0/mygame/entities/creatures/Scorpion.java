@@ -10,11 +10,11 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.astar.AStarMap;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
@@ -31,12 +31,16 @@ public class Scorpion extends Creature {
 	private int ySpawn = (int)getY();
 	private int xRadius = 128;
 	private int yRadius = 128;
+	private int pathFindRadiusX = 256, pathFindRadiusY = 256;
 	private Rectangle radius;
+	private AStarMap map;
 	
 	private ArrayList<Projectile> projectiles;
 	
 	// Walking timer
 	private int time = 0;
+	
+	private boolean initialized = false;
 	
 	 //Attack timer
 	 private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
@@ -58,12 +62,21 @@ public class Scorpion extends Creature {
 		projectiles = new ArrayList<Projectile>();
 		
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
+		
+		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
 	}
 
 	@Override
 	public void tick() {
 		randomWalk();
-		checkAttacks();
+		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+		map.init();
+		//checkAttacks();
+		
+		if(!initialized) {
+			map.init();
+			initialized = true;
+		}
 		
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
@@ -85,7 +98,7 @@ public class Scorpion extends Creature {
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < handler.getWorld().getFile().length; i++) {
+				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
 					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
 						p.active = false;
 					}
@@ -115,6 +128,8 @@ public class Scorpion extends Creature {
 		
 		g.setColor(Color.BLACK);
 		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+		
+		map.render(g);
 		
 	}
 

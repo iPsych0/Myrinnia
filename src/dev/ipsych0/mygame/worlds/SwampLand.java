@@ -46,13 +46,13 @@ public class SwampLand extends World{
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new Scorpion(handler, 160, 400));
-		entityManager.addEntity(new Scorpion(handler, 128, 800));
-		entityManager.addEntity(new Scorpion(handler, 128, 888));
-		entityManager.addEntity(new Scorpion(handler, 128, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 944));
-		entityManager.addEntity(new Scorpion(handler, 190, 888));
-		entityManager.addEntity(new Scorpion(handler, 190, 800));
+//		entityManager.addEntity(new Scorpion(handler, 160, 400));
+//		entityManager.addEntity(new Scorpion(handler, 128, 800));
+//		entityManager.addEntity(new Scorpion(handler, 128, 888));
+//		entityManager.addEntity(new Scorpion(handler, 128, 944));
+//		entityManager.addEntity(new Scorpion(handler, 190, 944));
+//		entityManager.addEntity(new Scorpion(handler, 190, 888));
+//		entityManager.addEntity(new Scorpion(handler, 190, 800));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
 		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
@@ -96,7 +96,7 @@ public class SwampLand extends World{
 			
 			// Render the tiles
 			
-			for (int i = 0; i < file.length; i++) {
+			for (int i = 0; i < layers.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
 						if(getTile(i,x,y) == Tiles.invisible) {

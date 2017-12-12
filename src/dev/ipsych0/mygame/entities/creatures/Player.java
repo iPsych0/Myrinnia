@@ -292,7 +292,7 @@ public class Player extends Creature{
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < handler.getWorld().getFile().length; i++) {
+				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
 					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
 						p.active = false;
 						
@@ -395,13 +395,20 @@ public class Player extends Creature{
 		
 		
 		// Player box
-		g.setColor(Color.BLACK);
-		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
 		
 		g.setColor(Creature.hpColor);
 		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
+		//System.out.println((int) ((x) - (x % 16)));
+		
+		g.setColor(Color.BLACK);
+		g.fillRect((int) ((x) - (x % 16) - handler.getGameCamera().getxOffset()) + 12, (int) ((y) - (y % 16) - handler.getGameCamera().getyOffset()) + 12, 8, 8);
+		
+		
+
 		
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {
