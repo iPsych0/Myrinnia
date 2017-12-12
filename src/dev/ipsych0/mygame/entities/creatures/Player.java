@@ -73,6 +73,9 @@ public class Player extends Creature{
 	private ShopKeeper shopKeeper;
 	private Entity closestEntity;
 	
+	private int alpha = 200;
+	private Color playerBoxColour = new Color(0, 130, 0, alpha);
+	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 		//448, 482
@@ -404,8 +407,8 @@ public class Player extends Creature{
 		
 		//System.out.println((int) ((x) - (x % 16)));
 		
-		g.setColor(Color.BLACK);
-		g.fillRect((int) ((x) - (x % 16) - handler.getGameCamera().getxOffset()) + 12, (int) ((y) - (y % 16) - handler.getGameCamera().getyOffset()) + 12, 8, 8);
+		g.setColor(playerBoxColour);
+		g.fillRect((int) ((x) /*- (x % 32)*/ - handler.getGameCamera().getxOffset()), (int) ((y) /*- (y % 32)*/ - handler.getGameCamera().getyOffset()), 32, 32);
 		
 		
 

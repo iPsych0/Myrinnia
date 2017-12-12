@@ -3,7 +3,8 @@ package dev.ipsych0.mygame.astar;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
 
@@ -12,6 +13,9 @@ public class AStarMap {
 	private int x, y, width, height;
 	private Handler handler;
 	private Node[][] nodes;
+	private int alpha = 127;
+	private Color unwalkableColour = new Color(255, 0, 0, alpha);
+	private Rectangle mapBounds;
 	
 	public AStarMap(Handler handler, int x, int y, int width, int height) {
 		this.handler = handler;
@@ -22,23 +26,19 @@ public class AStarMap {
 		
 		nodes = new Node[(int) (Math.floor(width / 32))][(int)(Math.floor(height / 32))];
 		
-		System.out.println(nodes[0].length);
-		System.out.println(nodes.length);
-		
-		System.out.println(handler.getWorld());
-		
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
 				nodes[i][j] = new Node((i * 32) + x, (j * 32) + y, true);
 			}
 		}
 		
+		mapBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void init() {
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
-				if(handler.getWorld().checkSolidLayer(((i * 32) + x) / 32, ((j * 32) + y) / 32)) {
+				if(handler.getWorld().checkSolidLayer(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)) {
 					nodes[i][j].setWalkable(false);
 				}
 			}
@@ -46,7 +46,7 @@ public class AStarMap {
 	}
 	
 	public void tick() {
-		
+		mapBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void render(Graphics g) {
@@ -59,10 +59,174 @@ public class AStarMap {
 					g.setColor(Color.MAGENTA);
 					g.drawRect((int)(nodes[i][j].getX() - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() - handler.getGameCamera().getyOffset()), 32, 32);
 				}else {
-					g.setColor(Color.DARK_GRAY);
+					g.setColor(unwalkableColour);
 					g.fillRect((int)(nodes[i][j].getX() - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() - handler.getGameCamera().getyOffset()), 32, 32);
 				}
 			}
+		}
+	}
+	
+	public final List<Node> findPath(int startX, int startY, int goalX, int goalY)
+	{
+		// If our start position is the same as our goal position ...
+		if (startX == goalX && startY == goalY)
+		{
+			// Return an empty path, because we don't need to move at all.
+			return new LinkedList<Node>();
+		}
+
+		// The set of nodes already visited.
+		List<Node> openList = new LinkedList<Node>();
+		// The set of currently discovered nodes still to be visited.
+		List<Node> closedList = new LinkedList<Node>();
+
+		// Add starting node to open list.
+		openList.add(nodes[startX][startY]);
+
+		// This loop will be broken as soon as the current node position is
+		// equal to the goal position.
+		while (true)
+		{
+			// Gets node with the lowest F score from open list.
+			Node current = lowestFInList(openList);
+			// Remove current node from open list.
+			openList.remove(current);
+			// Add current node to closed list.
+			closedList.add(current);
+
+			// If the current node position is equal to the goal position ...
+			if ((current.getX() == goalX) && (current.getY() == goalY))
+			{
+				// Return a LinkedList containing all of the visited nodes.
+				return calcPath(nodes[startX][startY], current);
+			}
+
+			List<Node> adjacentNodes = getAdjacent(current, closedList);
+			for (Node adjacent : adjacentNodes)
+			{
+				// If node is not in the open list ...
+				if (!openList.contains(adjacent))
+				{
+					// Set current node as parent for this node.
+					adjacent.setParent(current);
+					// Set H costs of this node (estimated costs to goal).
+					adjacent.setH(nodes[goalX][goalY]);
+					// Set G costs of this node (costs from start to this node).
+					adjacent.setG(current);
+					// Add node to openList.
+					openList.add(adjacent);
+				}
+				// Else if the node is in the open list and the G score from
+				// current node is cheaper than previous costs ...
+				else if (adjacent.getG() > adjacent.calculateG(current))
+				{
+					// Set current node as parent for this node.
+					adjacent.setParent(current);
+					// Set G costs of this node (costs from start to this node).
+					adjacent.setG(current);
+				}
+			}
+
+			// If no path exists ...
+			if (openList.isEmpty())
+			{
+				// Return an empty list.
+				return new LinkedList<Node>();
+			}
+			// But if it does, continue the loop.
+		}
+	}
+	
+	private List<Node> calcPath(Node start, Node goal)
+	{
+		LinkedList<Node> path = new LinkedList<Node>();
+
+		Node node = goal;
+		boolean done = false;
+		while (!done)
+		{
+			path.addFirst(node);
+			node = node.getParent();
+			if (node.equals(start))
+			{
+				done = true;
+			}
+		}
+		return path;
+	}
+	
+	private Node lowestFInList(List<Node> list)
+	{
+		Node cheapest = list.get(0);
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list.get(i).getF() < cheapest.getF())
+			{
+				cheapest = list.get(i);
+			}
+		}
+		return cheapest;
+	}
+	
+	private List<Node> getAdjacent(Node node, List<Node> closedList)
+	{
+		List<Node> adjacentNodes = new LinkedList<Node>();
+		int x = node.getX();
+		int y = node.getY();
+
+		Node adjacent;
+
+		// Check left node
+		if (x > 0)
+		{
+			adjacent = getNode(x - 32, y);
+			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
+			{
+				adjacentNodes.add(adjacent);
+			}
+		}
+
+		// Check right node
+		if (x < width)
+		{
+			adjacent = getNode(x + 32, y);
+			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
+			{
+				adjacentNodes.add(adjacent);
+			}
+		}
+
+		// Check top node
+		if (y > 0)
+		{
+			adjacent = this.getNode(x, y - 32);
+			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
+			{
+				adjacentNodes.add(adjacent);
+			}
+		}
+
+		// Check bottom node
+		if (y < height)
+		{
+			adjacent = this.getNode(x, y + 32);
+			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
+			{
+				adjacentNodes.add(adjacent);
+			}
+		}
+		return adjacentNodes;
+	}
+	
+	public Node getNode(int x, int y)
+	{
+		if (x >= 0 && x < width && y >= 0 && y < height)
+		{
+			return nodes[x][y];
+		}
+		else
+		{
+			return null;
 		}
 	}
 	
@@ -100,6 +264,18 @@ public class AStarMap {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public Node[][] getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(Node[][] nodes) {
+		this.nodes = nodes;
+	}
+
+	public void setMapBounds(Rectangle mapBounds) {
+		this.mapBounds = mapBounds;
 	}
 	
 	

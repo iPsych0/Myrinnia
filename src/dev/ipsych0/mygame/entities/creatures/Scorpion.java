@@ -59,6 +59,11 @@ public class Scorpion extends Creature {
 		health = maxHealth;
 		combatLevel = 5;
 		
+		bounds.x = 0;
+		bounds.y = 2;
+		bounds.width = 28;
+		bounds.height = 28;
+		
 		projectiles = new ArrayList<Projectile>();
 		
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
@@ -68,9 +73,19 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
-		randomWalk();
-		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
-		map.init();
+		//randomWalk();
+		//map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+		//map.init();
+		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+			/*
+			 * Calculate A* path and move
+			 */
+//			xMove = + speed;
+//			move();
+		}else {
+//			xMove = -speed;
+//			move();
+		}
 		//checkAttacks();
 		
 		if(!initialized) {
