@@ -5,6 +5,7 @@ public class Node {
 	
 	private int x, y;
 	private static final int MOVEMENT_COST = 10;
+	private static final int DIAGONAL_COST = 14;
 	private boolean walkable;
 	private Node parent;
 	private int g, h;

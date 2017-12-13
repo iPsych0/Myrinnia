@@ -72,17 +72,21 @@ public class AStarMap {
 	
 	public final List<Node> findPath(int startX, int startY, int goalX, int goalY)
 	{
-		System.out.println("=================================");
-		System.out.println("Scorpion X: "+startX);
-		System.out.println("Scorpion Y: "+startY);
-		System.out.println("Player X: "+goalX);
-		System.out.println("Player Y: "+goalY);
-		System.out.println("=================================");
-		
-		System.out.println(nodes.length);
+//		System.out.println("=================================");
+//		System.out.println("Scorpion X: "+startX);
+//		System.out.println("Scorpion Y: "+startY);
+//		System.out.println("Player X: "+goalX);
+//		System.out.println("Player Y: "+goalY);
+//		System.out.println("=================================");
+//		
+//		System.out.println(nodes.length);
 		
 		if(goalX > nodes.length || goalX < 0 || goalY > nodes.length || goalY < 0) {
 			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
+			return null;
+		}
+		
+		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
 			return null;
 		}
 		

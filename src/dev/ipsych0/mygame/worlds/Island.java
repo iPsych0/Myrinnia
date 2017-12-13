@@ -47,7 +47,7 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Rock(handler, 5280, 5536));
 		
-		//entityManager.addEntity(new Scorpion(handler, 4992, 6048));
+		entityManager.addEntity(new Scorpion(handler, 4992, 6048));
 		entityManager.addEntity(new Scorpion(handler, 5088, 6112));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
@@ -149,10 +149,10 @@ public class Island extends World {
 						}else {
 							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-							g.setColor(Color.YELLOW);
-							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
-									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
-									32, 32);
+//							g.setColor(Color.YELLOW);
+//							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
+//									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
+//									32, 32);
 						}
 					}
 				}
