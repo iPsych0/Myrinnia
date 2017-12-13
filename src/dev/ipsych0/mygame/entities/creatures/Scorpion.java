@@ -6,11 +6,13 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.astar.AStarMap;
+import dev.ipsych0.mygame.astar.Node;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -74,9 +76,15 @@ public class Scorpion extends Creature {
 	@Override
 	public void tick() {
 		//randomWalk();
-		//map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
-		//map.init();
-		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+//		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+//		map.init();
+//		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+		if(handler.getKeyManager().position && Player.debugButtonPressed) {
+			System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
+			List<Node> nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
+					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
+			System.out.println(nodes);
+			Player.debugButtonPressed = false;
 			/*
 			 * Calculate A* path and move
 			 */
@@ -141,8 +149,8 @@ public class Scorpion extends Creature {
 			}
 		}
 		
-		g.setColor(Color.BLACK);
-		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 		
 		map.render(g);
 		

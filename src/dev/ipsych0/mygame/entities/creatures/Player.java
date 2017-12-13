@@ -408,7 +408,7 @@ public class Player extends Creature{
 		//System.out.println((int) ((x) - (x % 16)));
 		
 		g.setColor(playerBoxColour);
-		g.fillRect((int) ((x) /*- (x % 32)*/ - handler.getGameCamera().getxOffset()), (int) ((y) /*- (y % 32)*/ - handler.getGameCamera().getyOffset()), 32, 32);
+		g.fillRect((int) ((x) - (x % 32) - handler.getGameCamera().getxOffset()), (int) ((y) - (y % 32) - handler.getGameCamera().getyOffset()), 32, 32);
 		
 		
 

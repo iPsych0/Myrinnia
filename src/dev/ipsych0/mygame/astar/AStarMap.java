@@ -15,6 +15,7 @@ public class AStarMap {
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);
+	private Color startNodeColour = new Color(0, 0, 255, alpha);
 	private Rectangle mapBounds;
 	
 	public AStarMap(Handler handler, int x, int y, int width, int height) {
@@ -28,7 +29,8 @@ public class AStarMap {
 		
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
-				nodes[i][j] = new Node((i * 32) + x, (j * 32) + y, true);
+				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
+				System.out.println(nodes[i][j].getX());
 			}
 		}
 		
@@ -53,14 +55,17 @@ public class AStarMap {
 		g.setColor(Color.RED);
 		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int)(y - handler.getGameCamera().getyOffset()), width, height);
 		
+		g.setColor(startNodeColour);
+		g.fillRect((int)(x + width / 2 - handler.getGameCamera().getxOffset()), (int)(y + height / 2 - handler.getGameCamera().getyOffset()), 32, 32);
+		
 		for(int i = 0; i < nodes.length; i++) {
 			for (int j = 0; j < nodes.length; j++) {
 				if(nodes[i][j].isWalkable()) {
 					g.setColor(Color.MAGENTA);
-					g.drawRect((int)(nodes[i][j].getX() - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() - handler.getGameCamera().getyOffset()), 32, 32);
+					g.drawRect((int)(nodes[i][j].getX() * 32 - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
 				}else {
 					g.setColor(unwalkableColour);
-					g.fillRect((int)(nodes[i][j].getX() - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() - handler.getGameCamera().getyOffset()), 32, 32);
+					g.fillRect((int)(nodes[i][j].getX() * 32 - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
 				}
 			}
 		}
@@ -68,6 +73,14 @@ public class AStarMap {
 	
 	public final List<Node> findPath(int startX, int startY, int goalX, int goalY)
 	{
+		
+		System.out.println("=================================");
+		System.out.println("Scorpion X: "+startX);
+		System.out.println("Scorpion Y: "+startY);
+		System.out.println("Player X: "+goalX);
+		System.out.println("Player Y: "+goalY);
+		System.out.println("=================================");
+		
 		// If our start position is the same as our goal position ...
 		if (startX == goalX && startY == goalY)
 		{
@@ -82,6 +95,8 @@ public class AStarMap {
 
 		// Add starting node to open list.
 		openList.add(nodes[startX][startY]);
+		
+		System.out.println(nodes[startX][startY].getX() + " xDDDDDDDDDDDDDDDDDD");
 
 		// This loop will be broken as soon as the current node position is
 		// equal to the goal position.
@@ -95,6 +110,7 @@ public class AStarMap {
 			closedList.add(current);
 
 			// If the current node position is equal to the goal position ...
+			//HIERZO DIE GETX GEEFT NOG EEN TE HOGE WAARDE (159 TEGENOVER 8 BIJV)
 			if ((current.getX() == goalX) && (current.getY() == goalY))
 			{
 				// Return a LinkedList containing all of the visited nodes.
@@ -171,15 +187,19 @@ public class AStarMap {
 	private List<Node> getAdjacent(Node node, List<Node> closedList)
 	{
 		List<Node> adjacentNodes = new LinkedList<Node>();
-		int x = node.getX();
-		int y = node.getY();
+		int x = node.getX() - (this.x / 32);
+		int y = node.getY() - (this.y / 32);
+		
+		System.out.println(x + " and " + y);
+		System.out.println(this.x + " <--------------------- de X van de map");
+		System.out.println(this.y + " <--------------------- de Y van de map");
 
 		Node adjacent;
 
 		// Check left node
 		if (x > 0)
 		{
-			adjacent = getNode(x - 32, y);
+			adjacent = getNode(x - 1, y);
 			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
 			{
 				adjacentNodes.add(adjacent);
@@ -187,9 +207,9 @@ public class AStarMap {
 		}
 
 		// Check right node
-		if (x < width)
+		if (x < nodes.length)
 		{
-			adjacent = getNode(x + 32, y);
+			adjacent = getNode(x + 1, y);
 			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
 			{
 				adjacentNodes.add(adjacent);
@@ -199,7 +219,7 @@ public class AStarMap {
 		// Check top node
 		if (y > 0)
 		{
-			adjacent = this.getNode(x, y - 32);
+			adjacent = this.getNode(x, y - 1);
 			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
 			{
 				adjacentNodes.add(adjacent);
@@ -207,9 +227,9 @@ public class AStarMap {
 		}
 
 		// Check bottom node
-		if (y < height)
+		if (y < nodes.length)
 		{
-			adjacent = this.getNode(x, y + 32);
+			adjacent = this.getNode(x, y + 1);
 			if (adjacent != null && adjacent.isWalkable() && !closedList.contains(adjacent))
 			{
 				adjacentNodes.add(adjacent);
@@ -220,7 +240,7 @@ public class AStarMap {
 	
 	public Node getNode(int x, int y)
 	{
-		if (x >= 0 && x < width && y >= 0 && y < height)
+		if (x >= 0 && x < nodes.length && y >= 0 && y < nodes.length)
 		{
 			return nodes[x][y];
 		}
