@@ -30,7 +30,6 @@ public class AStarMap {
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
 				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
-				System.out.println(nodes[i][j].getX());
 			}
 		}
 		
@@ -73,13 +72,20 @@ public class AStarMap {
 	
 	public final List<Node> findPath(int startX, int startY, int goalX, int goalY)
 	{
-		
 		System.out.println("=================================");
 		System.out.println("Scorpion X: "+startX);
 		System.out.println("Scorpion Y: "+startY);
 		System.out.println("Player X: "+goalX);
 		System.out.println("Player Y: "+goalY);
 		System.out.println("=================================");
+		
+		System.out.println(nodes.length);
+		
+		if(goalX > nodes.length || goalX < 0 || goalY > nodes.length || goalY < 0) {
+			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
+			return null;
+		}
+		
 		
 		// If our start position is the same as our goal position ...
 		if (startX == goalX && startY == goalY)
@@ -95,8 +101,6 @@ public class AStarMap {
 
 		// Add starting node to open list.
 		openList.add(nodes[startX][startY]);
-		
-		System.out.println(nodes[startX][startY].getX() + " xDDDDDDDDDDDDDDDDDD");
 
 		// This loop will be broken as soon as the current node position is
 		// equal to the goal position.
@@ -111,7 +115,7 @@ public class AStarMap {
 
 			// If the current node position is equal to the goal position ...
 			//HIERZO DIE GETX GEEFT NOG EEN TE HOGE WAARDE (159 TEGENOVER 8 BIJV)
-			if ((current.getX() == goalX) && (current.getY() == goalY))
+			if ((current.getX() - (this.x / 32) == goalX) && (current.getY() - (this.y / 32) == goalY))
 			{
 				// Return a LinkedList containing all of the visited nodes.
 				return calcPath(nodes[startX][startY], current);
@@ -190,9 +194,9 @@ public class AStarMap {
 		int x = node.getX() - (this.x / 32);
 		int y = node.getY() - (this.y / 32);
 		
-		System.out.println(x + " and " + y);
-		System.out.println(this.x + " <--------------------- de X van de map");
-		System.out.println(this.y + " <--------------------- de Y van de map");
+//		System.out.println(x + " and " + y);
+//		System.out.println(this.x + " <--------------------- de X van de map");
+//		System.out.println(this.y + " <--------------------- de Y van de map");
 
 		Node adjacent;
 

@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.astar;
 
+
 public class Node {
 	
 	private int x, y;

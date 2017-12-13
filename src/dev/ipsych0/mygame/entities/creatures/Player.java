@@ -143,21 +143,21 @@ public class Player extends Creature{
 		regenHealth();
 		
 		// Debug button for in-game testing
-		if(handler.getKeyManager().position && debugButtonPressed){
-			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+//		if(handler.getKeyManager().position && debugButtonPressed){
+//			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
-			System.out.println("Attack level = " + getAttackLevel());
-			System.out.println("Attack XP = " + getAttackExperience());
-			System.out.println("Crafting XP = " + getCraftingExperience());
-			System.out.println("Crafting level = " + getCraftingLevel());
-			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
-				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
-			}
-			
-			debugButtonPressed = false;
-			
-		}
+//			System.out.println("Attack level = " + getAttackLevel());
+//			System.out.println("Attack XP = " + getAttackExperience());
+//			System.out.println("Crafting XP = " + getCraftingExperience());
+//			System.out.println("Crafting level = " + getCraftingLevel());
+//			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
+//				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+//			}
+//			
+//			debugButtonPressed = false;
+//			
+//		}
 		
 		// If space button is pressed
 		if(handler.getKeyManager().talk){

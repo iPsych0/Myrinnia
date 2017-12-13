@@ -33,9 +33,12 @@ public class Scorpion extends Creature {
 	private int ySpawn = (int)getY();
 	private int xRadius = 128;
 	private int yRadius = 128;
-	private int pathFindRadiusX = 256, pathFindRadiusY = 256;
+	private int pathFindRadiusX = 544, pathFindRadiusY = 544;
 	private Rectangle radius;
 	private AStarMap map;
+	private List<Node> nodes;
+	int alpha = 127;
+	private Color pathColour = new Color(0, 255, 255, alpha);
 	
 	private ArrayList<Projectile> projectiles;
 	
@@ -80,20 +83,27 @@ public class Scorpion extends Creature {
 //		map.init();
 //		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 		if(handler.getKeyManager().position && Player.debugButtonPressed) {
-			System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
-			List<Node> nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
-					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
-			System.out.println(nodes);
-			Player.debugButtonPressed = false;
 			/*
 			 * Calculate A* path and move
 			 */
-//			xMove = + speed;
-//			move();
-		}else {
-//			xMove = -speed;
-//			move();
+			System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
+			nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
+					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
+			int numNodes = 0;
+			if(nodes != null) {
+				for(Node n : nodes) {
+					numNodes++;
+					System.out.println("================");
+					System.out.println("NODE: " + numNodes);
+					System.out.println("================");
+					System.out.println(n.getX() - (int)(x - pathFindRadiusX) / 32);
+					System.out.println(n.getY() - (int)(y - pathFindRadiusY) / 32);
+					System.out.println("================");
+				}
+			}
+			Player.debugButtonPressed = false;
 		}
+
 		//checkAttacks();
 		
 		if(!initialized) {
@@ -153,6 +163,13 @@ public class Scorpion extends Creature {
 //		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 		
 		map.render(g);
+		
+		if(nodes != null) {
+			for(Node n : nodes) {
+				g.setColor(pathColour);
+				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+			}
+		}
 		
 	}
 
