@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -33,7 +34,7 @@ public class Scorpion extends Creature {
 	private int ySpawn = (int)getY();
 	private int xRadius = 128;
 	private int yRadius = 128;
-	private int pathFindRadiusX = 544, pathFindRadiusY = 544;
+	private int pathFindRadiusX = 768, pathFindRadiusY = 768;
 	private Rectangle radius;
 	private AStarMap map;
 	private List<Node> nodes;
@@ -64,7 +65,7 @@ public class Scorpion extends Creature {
 		health = maxHealth;
 		combatLevel = 5;
 		
-		bounds.x = 0;
+		bounds.x = 2;
 		bounds.y = 2;
 		bounds.width = 28;
 		bounds.height = 28;
@@ -78,9 +79,13 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
+		if(!initialized) {
+			map.init();
+			initialized = true;
+		}
 		//randomWalk();
-//		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
-//		map.init();
+		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+		map.init();
 //		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 		if(handler.getKeyManager().position && Player.debugButtonPressed) {
 			/*
@@ -103,13 +108,12 @@ public class Scorpion extends Creature {
 			}
 			Player.debugButtonPressed = false;
 		}
+		
+		if(nodes != null) {
+			followAStar(nodes);
+		}
 
 		//checkAttacks();
-		
-		if(!initialized) {
-			map.init();
-			initialized = true;
-		}
 		
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
@@ -141,6 +145,47 @@ public class Scorpion extends Creature {
 		}
 		
 		projectiles.removeAll(deleted);
+	}
+	
+	private void followAStar(List<Node> nodes){
+		this.nodes = nodes;
+		
+		if (nodes == null){
+			return;
+		}
+		if (nodes.size() <= 0){
+			return;
+		}
+		
+		Node next = ((LinkedList<Node>) nodes).getFirst();
+		
+		System.out.println("=========");
+		System.out.println(next.getX());
+		System.out.println(next.getY());
+		System.out.println("=========");
+		
+		System.out.println((int)x / 32);
+		System.out.println((int)y / 32);
+		System.out.println("=========");
+		
+		if (next.getX() != (int)x / 32){
+			xMove += (next.getX() < (int)x / 32 ? -speed : speed);
+			if(xMove % 32 == 0) {
+				((LinkedList<Node>) nodes).removeFirst();
+				moveX();
+				xMove %= 32;
+			}
+
+		}
+		else if(next.getY() != (int)y / 32) {
+			yMove += (next.getY() < (int)y / 32 ? -speed : speed);
+			if(yMove % 32 == 0) {
+				((LinkedList<Node>) nodes).removeFirst();
+				moveY();
+				yMove %= 32;
+			}
+
+		}
 	}
 
 	@Override

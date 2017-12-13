@@ -114,7 +114,6 @@ public class AStarMap {
 			closedList.add(current);
 
 			// If the current node position is equal to the goal position ...
-			//HIERZO DIE GETX GEEFT NOG EEN TE HOGE WAARDE (159 TEGENOVER 8 BIJV)
 			if ((current.getX() - (this.x / 32) == goalX) && (current.getY() - (this.y / 32) == goalY))
 			{
 				// Return a LinkedList containing all of the visited nodes.
