@@ -65,10 +65,10 @@ public class Scorpion extends Creature {
 		health = maxHealth;
 		combatLevel = 5;
 		
-		bounds.x = 2;
-		bounds.y = 2;
-		bounds.width = 28;
-		bounds.height = 28;
+		bounds.x = 0;
+		bounds.y = 1;
+		bounds.width = 30;
+		bounds.height = 30;
 		
 		projectiles = new ArrayList<Projectile>();
 		
@@ -95,6 +95,7 @@ public class Scorpion extends Creature {
 			//System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
 			nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
 					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
+			//TODO: MAKE PLAYER THE CENTER OF THE ALGORITHM!
 			int numNodes = 0;
 			if(nodes != null) {
 				for(Node n : nodes) {
@@ -176,7 +177,7 @@ public class Scorpion extends Creature {
 			xMove = (next.getX() < (int)(x / 32) ? -speed : speed);
 			move();
 			if(x % 32 == 0) {
-				//xMove -= x % 32;
+				x -= x % 32;
 				((LinkedList<Node>) nodes).removeFirst();
 				
 				//xMove %= 32;
@@ -187,7 +188,7 @@ public class Scorpion extends Creature {
 			yMove = (next.getY() < (int)(y / 32) ? -speed : speed);
 			move();
 			if(y % 32 == 0) {
-				//yMove -= y % 32;
+				y -= y % 32;
 				((LinkedList<Node>) nodes).removeFirst();
 				
 				//yMove %= 32;

@@ -57,6 +57,7 @@ public abstract class Creature extends Entity {
 		xMove = 0;
 		yMove = 0;
 		drawnOnMap = true;
+		
 	}
 	
 	/*

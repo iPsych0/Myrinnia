@@ -74,7 +74,7 @@ public class Player extends Creature{
 	private Entity closestEntity;
 	
 	private int alpha = 200;
-	private Color playerBoxColour = new Color(0, 130, 0, alpha);
+	private Color playerBoxColour = new Color(0, 255, 0, alpha);
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -89,7 +89,7 @@ public class Player extends Creature{
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
-		speed = DEFAULT_SPEED + 2.0f;
+		speed = DEFAULT_SPEED + 1.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;

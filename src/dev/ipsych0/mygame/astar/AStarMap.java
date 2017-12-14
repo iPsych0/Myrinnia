@@ -15,7 +15,7 @@ public class AStarMap {
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);
-	private Color startNodeColour = new Color(0, 0, 255, 50);
+	private Color startNodeColour = new Color(0, 0, 255, 96);
 	private Rectangle mapBounds;
 	
 	public AStarMap(Handler handler, int x, int y, int width, int height) {
@@ -81,10 +81,13 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length || goalX < 0 || goalY > nodes.length || goalY < 0) {
+		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
 			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
 			return null;
 		}
+		
+		System.out.println(nodes[goalX][goalY].getX());
+		System.out.println(nodes[goalX][goalY].getY());
 		
 		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
 			return null;
