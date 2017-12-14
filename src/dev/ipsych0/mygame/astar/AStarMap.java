@@ -15,7 +15,7 @@ public class AStarMap {
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);
-	private Color startNodeColour = new Color(0, 0, 255, alpha);
+	private Color startNodeColour = new Color(0, 0, 255, 50);
 	private Rectangle mapBounds;
 	
 	public AStarMap(Handler handler, int x, int y, int width, int height) {

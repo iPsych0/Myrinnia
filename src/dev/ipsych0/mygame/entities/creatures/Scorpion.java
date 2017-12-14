@@ -59,7 +59,7 @@ public class Scorpion extends Creature {
 		setPower(0);
 		setVitality(7);
 		setDefence(0);
-		speed = DEFAULT_SPEED + 1.0f;
+		speed = DEFAULT_SPEED + 0.5f;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
@@ -87,7 +87,7 @@ public class Scorpion extends Creature {
 		//randomWalk();
 		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
 		map.init();
-		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+//		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
 		//if(handler.getKeyManager().position && Player.debugButtonPressed) {
 			/*
 			 * Calculate A* path and move
@@ -95,21 +95,21 @@ public class Scorpion extends Creature {
 			//System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
 			nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
 					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
-//			int numNodes = 0;
-//			if(nodes != null) {
-//				for(Node n : nodes) {
-//					numNodes++;
-//					System.out.println("================");
-//					System.out.println("NODE: " + numNodes);
-//					System.out.println("================");
-//					System.out.println(n.getX() - (int)(x - pathFindRadiusX) / 32);
-//					System.out.println(n.getY() - (int)(y - pathFindRadiusY) / 32);
-//					System.out.println("================");
-//				}
-//			}
-			//Player.debugButtonPressed = false;
-		//}
-		}
+			int numNodes = 0;
+			if(nodes != null) {
+				for(Node n : nodes) {
+					numNodes++;
+					System.out.println("================");
+					System.out.println("NODE: " + numNodes);
+					System.out.println("================");
+					System.out.println(n.getX() - (int)(x - pathFindRadiusX) / 32);
+					System.out.println(n.getY() - (int)(y - pathFindRadiusY) / 32);
+					System.out.println("================");
+				}
+			}
+//			Player.debugButtonPressed = false;
+//		}
+//		}
 		if(nodes != null) {
 			if(nodes.size() != 0) {
 				followAStar(nodes);
@@ -117,7 +117,7 @@ public class Scorpion extends Creature {
 			}
 		}
 
-		checkAttacks();
+		//checkAttacks();
 		
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
@@ -163,14 +163,14 @@ public class Scorpion extends Creature {
 		
 		Node next = ((LinkedList<Node>) nodes).getFirst();
 		
-//		System.out.println("=========");
-//		System.out.println(next.getX());
-//		System.out.println(next.getY());
-//		System.out.println("=========");
-//		
-//		System.out.println((int)x / 32);
-//		System.out.println((int)y / 32);
-//		System.out.println("=========");
+		System.out.println("=========");
+		System.out.println(next.getX());
+		System.out.println(next.getY());
+		System.out.println("=========");
+		
+		System.out.println((int)x / 32);
+		System.out.println((int)y / 32);
+		System.out.println("=========");
 		
 		if (next.getX() != (int)(x / 32)){
 			xMove = (next.getX() < (int)(x / 32) ? -speed : speed);
@@ -183,7 +183,7 @@ public class Scorpion extends Creature {
 			}
 
 		}
-		else if(next.getY() != (int)(y / 32)) {
+		if(next.getY() != (int)(y / 32)) {
 			yMove = (next.getY() < (int)(y / 32) ? -speed : speed);
 			move();
 			if(y % 32 == 0) {
@@ -212,17 +212,17 @@ public class Scorpion extends Creature {
 			}
 		}
 		
-		g.setColor(Color.BLACK);
-		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 		
-//		map.render(g);
-//		
-//		if(nodes != null) {
-//			for(Node n : nodes) {
-//				g.setColor(pathColour);
-//				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
-//			}
-//		}
+		map.render(g);
+		
+		if(nodes != null) {
+			for(Node n : nodes) {
+				g.setColor(pathColour);
+				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+			}
+		}
 		
 	}
 
