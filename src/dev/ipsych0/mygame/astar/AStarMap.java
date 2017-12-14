@@ -25,10 +25,19 @@ public class AStarMap {
 		this.width = width;
 		this.height = height;
 		
+		//TODO: Hier iets met de X en Y als ie negatief is :(
+		
+		// Aantal nodes aanpassen dan?
 		nodes = new Node[(int) (Math.floor(width / 32))][(int)(Math.floor(height / 32))];
 		
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
+				if(x < 0) {
+					// iets
+				}
+				if(y < 0) {
+					// iets
+				}
 				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
 			}
 		}
@@ -51,8 +60,6 @@ public class AStarMap {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.RED);
-		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int)(y - handler.getGameCamera().getyOffset()), width, height);
 		
 		g.setColor(startNodeColour);
 		g.fillRect((int)(x + width / 2 - handler.getGameCamera().getxOffset()), (int)(y + height / 2 - handler.getGameCamera().getyOffset()), 32, 32);
@@ -81,7 +88,7 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
+		if(goalX > nodes.length - 1|| goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
 			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
 			return null;
 		}
