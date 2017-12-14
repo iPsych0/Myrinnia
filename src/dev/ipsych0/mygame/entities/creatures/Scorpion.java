@@ -34,7 +34,7 @@ public class Scorpion extends Creature {
 	private int ySpawn = (int)getY();
 	private int xRadius = 256;
 	private int yRadius = 256;
-	private int pathFindRadiusX = 768, pathFindRadiusY = 768;
+	private int pathFindRadiusX = 544, pathFindRadiusY = 544;
 	private Rectangle radius;
 	private AStarMap map;
 	private List<Node> nodes;
@@ -89,25 +89,25 @@ public class Scorpion extends Creature {
 		map.init();
 //		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
 		//if(handler.getKeyManager().position && Player.debugButtonPressed) {
-			/*
-			 * Calculate A* path and move
-			 */
-			//System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
-			nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
-					(int)(handler.getPlayer().getX() / 32) - (int)(x - pathFindRadiusX) / 32, (int)(handler.getPlayer().getY() / 32) - (int) (y - pathFindRadiusY) / 32);
-			//TODO: MAKE PLAYER THE CENTER OF THE ALGORITHM!
-			int numNodes = 0;
-			if(nodes != null) {
-				for(Node n : nodes) {
-					numNodes++;
-					System.out.println("================");
-					System.out.println("NODE: " + numNodes);
-					System.out.println("================");
-					System.out.println(n.getX() - (int)(x - pathFindRadiusX) / 32);
-					System.out.println(n.getY() - (int)(y - pathFindRadiusY) / 32);
-					System.out.println("================");
-				}
+		/*
+		 * Calculate A* path and move
+		 */
+		//System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
+		nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
+				(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(x - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (y - pathFindRadiusY) / 32);
+		//TODO: MAKE PLAYER THE CENTER OF THE ALGORITHM!
+		int numNodes = 0;
+		if(nodes != null) {
+			for(Node n : nodes) {
+				numNodes++;
+				System.out.println("================");
+				System.out.println("NODE: " + numNodes);
+				System.out.println("================");
+				System.out.println(n.getX() - (int)(x - pathFindRadiusX) / 32);
+				System.out.println(n.getY() - (int)(y - pathFindRadiusY) / 32);
+				System.out.println("================");
 			}
+		}
 //			Player.debugButtonPressed = false;
 //		}
 //		}
@@ -177,7 +177,7 @@ public class Scorpion extends Creature {
 			xMove = (next.getX() < (int)(x / 32) ? -speed : speed);
 			move();
 			if(x % 32 == 0) {
-				x -= x % 32;
+				//x -= x % 32;
 				((LinkedList<Node>) nodes).removeFirst();
 				
 				//xMove %= 32;
@@ -188,7 +188,7 @@ public class Scorpion extends Creature {
 			yMove = (next.getY() < (int)(y / 32) ? -speed : speed);
 			move();
 			if(y % 32 == 0) {
-				y -= y % 32;
+				//y -= y % 32;
 				((LinkedList<Node>) nodes).removeFirst();
 				
 				//yMove %= 32;

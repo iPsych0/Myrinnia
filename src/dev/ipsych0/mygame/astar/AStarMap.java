@@ -86,9 +86,6 @@ public class AStarMap {
 			return null;
 		}
 		
-		System.out.println(nodes[goalX][goalY].getX());
-		System.out.println(nodes[goalX][goalY].getY());
-		
 		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
 			return null;
 		}
@@ -173,6 +170,9 @@ public class AStarMap {
 		{
 			path.addFirst(node);
 			node = node.getParent();
+			if(node == null || start == null) {
+				return null;
+			}
 			if (node.equals(start))
 			{
 				done = true;
@@ -250,7 +250,7 @@ public class AStarMap {
 	
 	public Node getNode(int x, int y)
 	{
-		if (x >= 0 && x < nodes.length && y >= 0 && y < nodes.length)
+		if (x >= 0 && x < nodes.length - 1 && y >= 0 && y < nodes.length - 1)
 		{
 			return nodes[x][y];
 		}
