@@ -93,7 +93,7 @@ public class Scorpion extends Creature {
 		 * Calculate A* path and move
 		 */
 		//System.out.println((x / 32) - (int)(x - pathFindRadiusX) / 32);
-		nodes = map.findPath((int)(x / 32) - (int)(x - pathFindRadiusX) / 32, (int)(y / 32) - (int) (y - pathFindRadiusY) / 32,
+		nodes = map.findPath((int)((x + 8) / 32) - (int)(x - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (y - pathFindRadiusY) / 32,
 				(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(x - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (y - pathFindRadiusY) / 32);
 		//TODO: MAKE PLAYER THE CENTER OF THE ALGORITHM!
 //		int numNodes = 0;
@@ -173,10 +173,10 @@ public class Scorpion extends Creature {
 //		System.out.println((int)y / 32);
 //		System.out.println("=========");
 		
-		if (next.getX() != (int)(x / 32)){
-			xMove = (next.getX() < (int)(x / 32) ? -speed : speed);
+		if (next.getX() != (int)((x + 8) / 32)){
+			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
 			move();
-			if(x % 32 == 0) {
+			if(x % 32 == 8) {
 				//x -= x % 32;
 				if(!((LinkedList<Node>) nodes).isEmpty())
 					((LinkedList<Node>) nodes).removeFirst();
@@ -185,10 +185,10 @@ public class Scorpion extends Creature {
 			}
 
 		}
-		if(next.getY() != (int)(y / 32)) {
-			yMove = (next.getY() < (int)(y / 32) ? -speed : speed);
+		if(next.getY() != (int)((y + 8) / 32)) {
+			yMove = (next.getY() < (int)((y + 8) / 32) ? -speed : speed);
 			move();
-			if(y % 32 == 0) {
+			if(y % 32 == 8) {
 				//y -= y % 32;
 				if(!((LinkedList<Node>) nodes).isEmpty())
 					((LinkedList<Node>) nodes).removeFirst();
