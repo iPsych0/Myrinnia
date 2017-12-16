@@ -256,16 +256,16 @@ public abstract class Creature extends Entity {
 //					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 //		}
 		
-		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
-			state = CombatState.IDLE;
-			nodes = null;
+		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) && state != CombatState.IDLE) {
+			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		}
 		
 		if(state == CombatState.IDLE) {
 			randomWalk();
 		}
 		
-		if(state == CombatState.ATTACK && handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
 			checkAttacks();
 		}
 
