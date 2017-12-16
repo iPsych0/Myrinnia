@@ -74,7 +74,7 @@ public class Scorpion extends Creature {
 		
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		
-		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+		map = new AStarMap(handler, (int)xSpawn - pathFindRadiusX, (int)ySpawn - pathFindRadiusY);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class Scorpion extends Creature {
 		}
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		//randomWalk();
-		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+		map = new AStarMap(handler, (int)x - pathFindRadiusX, (int)y - pathFindRadiusY);
 		map.init();
 //		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
 		//if(handler.getKeyManager().position && Player.debugButtonPressed) {

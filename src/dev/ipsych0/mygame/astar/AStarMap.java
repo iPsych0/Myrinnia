@@ -18,34 +18,33 @@ public class AStarMap {
 	private Color startNodeColour = new Color(0, 0, 255, 96);
 	private Rectangle mapBounds;
 	
-	public AStarMap(Handler handler, int x, int y, int width, int height) {
+	public AStarMap(Handler handler, int x, int y) {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.width = 576*2;
+		this.height = 576*2;
 		
 		//TODO: Hier iets met de X en Y als ie negatief is :(
 		
 		// Aantal nodes aanpassen dan?
-		nodes = new Node[(int) (Math.floor(width / 32))][(int)(Math.floor(height / 32))];
-		
-		for(int i = 0; i < nodes.length; i++) {
-			for(int j = 0; j < nodes.length; j++) {
-				if(x < 0) {
-					// iets
-				}
-				if(y < 0) {
-					// iets
-				}
-				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
-			}
-		}
+		nodes = new Node[(int) (Math.ceil(width / 32))][(int)(Math.ceil(height / 32))];
 		
 		mapBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void init() {
+		for(int i = 0; i < nodes.length; i++) {
+			for(int j = 0; j < nodes.length; j++) {
+//				if(x < 0) {
+//					x = x  + x * -1;
+//				}
+//				if(y < 0) {
+//					y = y  + y * -1;
+//				}
+				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
+			}
+		}
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
 				if(handler.getWorld().checkSolidLayer(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)) {
@@ -66,6 +65,9 @@ public class AStarMap {
 		
 		for(int i = 0; i < nodes.length; i++) {
 			for (int j = 0; j < nodes.length; j++) {
+				if(nodes[i][j] == null) {
+					return;
+				}
 				if(nodes[i][j].isWalkable()) {
 					g.setColor(Color.MAGENTA);
 					g.drawRect((int)(nodes[i][j].getX() * 32 - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
@@ -88,7 +90,7 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length - 1|| goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
+		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
 			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
 			return null;
 		}

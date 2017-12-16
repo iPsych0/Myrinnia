@@ -99,10 +99,6 @@ public class MapLoader {
 			
 			// Get all tags
 			NodeList maps = doc.getElementsByTagName("layer");
-			for(int i = 0; i < maps.getLength(); i++) {
-				System.out.println(maps.item(i).getNodeName());
-			}
-			System.out.println(" ");
 
 			// Calculate number of layers
 			int testLayer = 0;
