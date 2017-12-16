@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.gfx.Assets;
 
 public class EntityManager {
 	
@@ -77,7 +77,6 @@ public class EntityManager {
 			if(e.isDamaged() && e.getDamageDealer() != null) {
 				e.drawDamage(e.getDamageDealer(), g);
 			}
-			
 		}
 		
 		// If we're shopping, render the shopping screen on top

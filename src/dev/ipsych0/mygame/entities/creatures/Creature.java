@@ -2,6 +2,11 @@ package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
@@ -31,6 +36,27 @@ public abstract class Creature extends Entity {
 	protected int maxHealth;
 	protected int combatLevel;
 	
+	// A* stuff
+	protected CombatState state;
+	protected List<Node> nodes;
+	protected AStarMap map;
+	protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
+	private int alpha = 127;
+	protected Color pathColour = new Color(0, 255, 255, alpha);
+	
+	// Walking timer
+	private int time = 0;
+	
+	// RNG dice for random movement
+	private Random randMove = new Random();
+	
+	// Radius variables:
+	protected int xSpawn = (int)getX();
+	protected int ySpawn = (int)getY();
+	protected int xRadius = 256;
+	protected int yRadius = 256;
+	protected Rectangle radius;
+	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
 	}
@@ -45,6 +71,7 @@ public abstract class Creature extends Entity {
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
+		state = CombatState.IDLE;
 		setBaseDamage(DEFAULT_DAMAGE);
 		setPower(DEFAULT_POWER);
 		setDefence(DEFAULT_DEFENCE);
@@ -168,6 +195,141 @@ public abstract class Creature extends Entity {
 		return name;
 	}
 	
+	/*
+	 * Walks into random directions at given intervals
+	 */
+	protected void randomWalk() {
+		time++;
+		int i = (randMove.nextInt(60) + 30);
+		if(time % i == 0){
+			
+			int direction = randMove.nextInt(4);
+			
+			if(direction == 0){
+				xMove = 0;
+				yMove = 0;
+			}
+			
+			if(direction == 1) {
+				xMove = - speed;
+			}
+			if(direction == 2) {
+				xMove = + speed;
+			}
+			if(direction == 3) {
+				yMove = - speed;
+			}
+			if(direction == 4) {
+				yMove = + speed;
+			}
+			time = 0;
+		}
+		
+		if(getX() > (xSpawn + xRadius)){
+			xMove = - speed;
+		}
+		else if(getX() < (xSpawn - xRadius)){
+			xMove = + speed;
+		}
+		else if(getY() > (ySpawn + yRadius)){
+			yMove = - speed;
+		}
+		else if(getY() < (ySpawn - yRadius)){
+			yMove = + speed;
+		}
+		move();
+		
+	}
+	
+	protected void combatStateManager() {
+		//TODO: IETS MET TERUG LOPEN EN COMBAT STATES
+		
+		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+			state = CombatState.ATTACK;
+			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+					(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+		}
+		
+//		if(state == CombatState.BACKTRACK) {
+//			nodes = null;
+//			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+//					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+//		}
+		
+		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+			state = CombatState.IDLE;
+			nodes = null;
+		}
+		
+		if(state == CombatState.IDLE) {
+			randomWalk();
+		}
+		
+		if(state == CombatState.ATTACK && handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+			checkAttacks();
+		}
+
+		if(nodes != null) {
+			if(nodes.size() != 0) {
+				followAStar(nodes);
+			}
+		}
+	}
+	
+	/*
+	 * Override this method in the creature class
+	 */
+	protected void checkAttacks(){
+		
+	}
+	
+	protected void followAStar(List<Node> nodes){
+		this.nodes = nodes;
+		
+		if (nodes == null){
+			return;
+		}
+		if (nodes.size() <= 0){
+			return;
+		}
+		
+		Node next = ((LinkedList<Node>) nodes).getFirst();
+		
+//		System.out.println("=========");
+//		System.out.println(next.getX());
+//		System.out.println(next.getY());
+//		System.out.println("=========");
+//		
+//		System.out.println((int)x / 32);
+//		System.out.println((int)y / 32);
+//		System.out.println("=========");
+		
+		if (next.getX() != (int)((x + 8) / 32)){
+			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
+			move();
+			if(x % 32 == 8) {
+				//x -= x % 32;
+				if(!((LinkedList<Node>) nodes).isEmpty())
+					((LinkedList<Node>) nodes).removeFirst();
+				
+				xMove = 0;
+			}
+
+		}
+		if(next.getY() != (int)((y + 8) / 32)) {
+			yMove = (next.getY() < (int)((y + 8) / 32) ? -speed : speed);
+			move();
+			if(y % 32 == 8) {
+				//y -= y % 32;
+				if(!((LinkedList<Node>) nodes).isEmpty())
+					((LinkedList<Node>) nodes).removeFirst();
+				
+				yMove = 0;
+			}
+
+		}
+	}
+	
 	// GETTERS + SETTERS
 	
 	public float getxMove() {
@@ -258,6 +420,22 @@ public abstract class Creature extends Entity {
 
 	public void setCombatLevel(int combatLevel) {
 		this.combatLevel = combatLevel;
+	}
+
+	public CombatState getState() {
+		return state;
+	}
+
+	public void setState(CombatState state) {
+		this.state = state;
+	}
+
+	public Rectangle getRadius() {
+		return radius;
+	}
+
+	public void setRadius(Rectangle radius) {
+		this.radius = radius;
 	}
 
 }

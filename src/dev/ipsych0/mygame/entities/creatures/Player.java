@@ -406,9 +406,9 @@ public class Player extends Creature{
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
 		
 		//System.out.println((int) ((x) - (x % 16)));
-		
-		g.setColor(playerBoxColour);
-		g.fillRect((int) ((x) - handler.getGameCamera().getxOffset()), (int) ((y) - handler.getGameCamera().getyOffset()), 32, 32);
+//		
+//		g.setColor(playerBoxColour);
+//		g.fillRect((int) ((x) - handler.getGameCamera().getxOffset()), (int) ((y) - handler.getGameCamera().getyOffset()), 32, 32);
 		
 		
 
@@ -556,7 +556,7 @@ public class Player extends Creature{
 	/*
 	 * Checks melee attacks
 	 */
-	private void checkAttacks(){
+	protected void checkAttacks(){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
 		lastAttackTimer = System.currentTimeMillis();

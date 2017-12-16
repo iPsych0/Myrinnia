@@ -1,4 +1,4 @@
-package dev.ipsych0.mygame.astar;
+package dev.ipsych0.mygame.entities.creatures;
 
 
 public class Node {

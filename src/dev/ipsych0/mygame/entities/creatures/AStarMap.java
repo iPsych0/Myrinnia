@@ -1,4 +1,4 @@
-package dev.ipsych0.mygame.astar;
+package dev.ipsych0.mygame.entities.creatures;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,38 +10,34 @@ import dev.ipsych0.mygame.Handler;
 
 public class AStarMap {
 	
-	private int x, y, width, height;
+	private int x, y, width, height, xSpawn, ySpawn;
 	private Handler handler;
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);
 	private Color startNodeColour = new Color(0, 0, 255, 96);
 	private Rectangle mapBounds;
+	private Creature creature;
 	
-	public AStarMap(Handler handler, int x, int y) {
+	public AStarMap(Handler handler, Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
 		this.handler = handler;
+		this.creature = creature;
 		this.x = x;
 		this.y = y;
-		this.width = 576*2;
-		this.height = 576*2;
-		
-		//TODO: Hier iets met de X en Y als ie negatief is :(
+		this.width = width;
+		this.height = width;
+		this.xSpawn = xSpawn;
+		this.ySpawn = ySpawn;
 		
 		// Aantal nodes aanpassen dan?
-		nodes = new Node[(int) (Math.ceil(width / 32))][(int)(Math.ceil(height / 32))];
-		
+		nodes = new Node[(int) (Math.floor(width / 32))][(int)(Math.floor(height / 32))];
 		mapBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void init() {
+		mapBounds = new Rectangle(x, y, width, height);
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
-//				if(x < 0) {
-//					x = x  + x * -1;
-//				}
-//				if(y < 0) {
-//					y = y  + y * -1;
-//				}
 				nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
 			}
 		}
@@ -59,10 +55,6 @@ public class AStarMap {
 	}
 	
 	public void render(Graphics g) {
-		
-		g.setColor(startNodeColour);
-		g.fillRect((int)(x + width / 2 - handler.getGameCamera().getxOffset()), (int)(y + height / 2 - handler.getGameCamera().getyOffset()), 32, 32);
-		
 		for(int i = 0; i < nodes.length; i++) {
 			for (int j = 0; j < nodes.length; j++) {
 				if(nodes[i][j] == null) {
@@ -90,11 +82,20 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1 || goalY < 0) {
-			System.out.println("---CALCULATING PATH WHEN PLAYER IS OUTSIDE THE ASTARMAP BOUNDS---");
-			return null;
+		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1|| goalY < 0) {
+			goalX = (int)Math.floor(xSpawn / 32 - x / 32);
+			goalY = (int)Math.floor(ySpawn / 32 - y / 32);
+			creature.setState(CombatState.BACKTRACK);
 		}
 		
+//
+//		if(goalX > (creature.getRadius().x + creature.getRadius().width) / 32 - 1 || goalX < creature.getRadius().x / 32 || goalY > (creature.getRadius().y + creature.getRadius().height) / 32 - 1 || goalY < creature.getRadius().y / 32) {
+//			goalX = (int)Math.floor(xSpawn / 32 - x / 32);
+//			goalY = (int)Math.floor(ySpawn / 32 - y / 32);
+//			creature.setState(CombatState.BACKTRACK);
+//		}
+		
+		// If the goal node is standing on a solid layer
 		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
 			return null;
 		}
@@ -103,6 +104,7 @@ public class AStarMap {
 		// If our start position is the same as our goal position ...
 		if (startX == goalX && startY == goalY)
 		{
+			creature.setState(CombatState.IDLE);
 			// Return an empty path, because we don't need to move at all.
 			return new LinkedList<Node>();
 		}
@@ -270,7 +272,7 @@ public class AStarMap {
 	}
 	
 	public Rectangle getMapBounds() {
-		return new Rectangle(x, y, width, height);
+		return mapBounds;
 	}
 
 	public int getX() {
