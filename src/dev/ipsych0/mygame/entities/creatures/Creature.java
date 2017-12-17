@@ -245,9 +245,15 @@ public abstract class Creature extends Entity {
 		//TODO: IETS MET TERUG LOPEN EN COMBAT STATES
 		
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
-			state = CombatState.ATTACK;
+			// TODO: PROBLEEM 1: HIJ BLIJFT HELE TIJD HEEN EN WEER TUSSEN PATHFINDING & BACKTRACK STATE HIER!!!
+			state = CombatState.PATHFINDING;
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+		}
+		
+		if(distanceToEntity(((int)this.getX() + this.getWidth() / 2), ((int)this.getY() + + this.getHeight() / 2),
+				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2) {
+			state = CombatState.ATTACK;
 		}
 		
 //		if(state == CombatState.BACKTRACK) {
@@ -256,7 +262,8 @@ public abstract class Creature extends Entity {
 //					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 //		}
 		
-		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) && state != CombatState.IDLE) {
+		// PROBLEEM 2
+		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) && state == CombatState.PATHFINDING) {
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		}
@@ -265,7 +272,7 @@ public abstract class Creature extends Entity {
 			randomWalk();
 		}
 		
-		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius)) {
+		if(state == CombatState.ATTACK) {
 			checkAttacks();
 		}
 

@@ -30,7 +30,7 @@ public class AStarMap {
 		this.ySpawn = ySpawn;
 		
 		// Aantal nodes aanpassen dan?
-		nodes = new Node[(int) (Math.floor(width / 32))][(int)(Math.floor(height / 32))];
+		nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int)(Math.floor(height / 32)) + 1];
 		mapBounds = new Rectangle(x, y, width, height);
 	}
 	

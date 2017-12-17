@@ -45,10 +45,10 @@ public class Scorpion extends Creature {
 		health = maxHealth;
 		combatLevel = 5;
 		
-		bounds.x = 4;
-		bounds.y = 4;
-		bounds.width = 24;
-		bounds.height = 24;
+		bounds.x = 2;
+		bounds.y = 2;
+		bounds.width = 28;
+		bounds.height = 28;
 		
 		pathFindRadiusX = 512 * 2;
 		pathFindRadiusY = 512 * 2;
