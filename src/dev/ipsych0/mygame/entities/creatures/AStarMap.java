@@ -82,7 +82,7 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length - 1 || goalX < 0 || goalY > nodes.length - 1|| goalY < 0) {
+		if(goalX > nodes.length - 1 || goalX <= 0 || goalY > nodes.length - 1|| goalY <= 0) {
 			goalX = (int)Math.floor(xSpawn / 32 - x / 32);
 			goalY = (int)Math.floor(ySpawn / 32 - y / 32);
 			creature.setState(CombatState.BACKTRACK);
@@ -158,7 +158,7 @@ public class AStarMap {
 			if (openList.isEmpty())
 			{
 				// Return an empty list.
-				return new LinkedList<Node>();
+				return null;
 			}
 			// But if it does, continue the loop.
 		}
