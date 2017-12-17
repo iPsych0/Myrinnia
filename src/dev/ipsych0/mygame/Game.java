@@ -172,7 +172,7 @@ public class Game implements Runnable {
 	      while (running) {
 	         double now = System.nanoTime();
 	         //int updateCount = 0;
-	         ticks++;
+	         //ticks++;
 	         
 
              //Do as many game updates as we need to, potentially playing catchup.
@@ -196,6 +196,7 @@ public class Game implements Runnable {
             //lastRenderTime = now;
          
             //Update the frames we got.
+            /* UNCOMMENT TO DISPLAY FPS
             int thisSecond = (int) (lastUpdateTime / 1000000000);
             
             if (thisSecond > lastSecondTime) {
@@ -203,6 +204,7 @@ public class Game implements Runnable {
 	            lastSecondTime = thisSecond;
 	            ticks = 0;
             }
+            */
          
             //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
             while (/* now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && */now - lastUpdateTime < TIME_BETWEEN_UPDATES){

@@ -122,7 +122,7 @@ public abstract class World {
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
 		
-		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
+//		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 	}
 
 	protected void loadWorld(String path){

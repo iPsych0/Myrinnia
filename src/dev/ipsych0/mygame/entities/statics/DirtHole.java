@@ -3,7 +3,9 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -12,11 +14,13 @@ public class DirtHole extends StaticEntity {
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private int speakingTurn;
+	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};
+	private String[] secondDialogue = {"Climb down.", "No thanks, I'm fine."};
 
 	public DirtHole(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		bounds.x = 1;
-		bounds.y = 1;
+		bounds.x = 0;
+		bounds.y = 0;
 		bounds.width = 32;
 		bounds.height = 32;
 		isNpc = true;
@@ -56,15 +60,40 @@ public class DirtHole extends StaticEntity {
 
 	@Override
 	public void interact() {
-		if(this.speakingTurn == 0) {
-			handler.sendMsg("You can climb down here. (Interact again)");
+		switch(speakingTurn) {
+		
+		case 0:
+			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
-		}
-		else if(this.speakingTurn == 1) {
-			handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-			handler.getWorld().setHandler(handler);
-			handler.getPlayer().setX(6016);
-			handler.getPlayer().setY(5312);
+			break;
+			
+		case 1:
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
+			speakingTurn++;
+			break;
+		case 2:
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			
+			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				chatDialogue = null;
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
+				handler.getPlayer().setX(6016);
+				handler.getPlayer().setY(5312);
+				break;
+			}
+			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
+				chatDialogue = null;
+				speakingTurn = 0;
+				break;
+			}
 		}
 	}
 

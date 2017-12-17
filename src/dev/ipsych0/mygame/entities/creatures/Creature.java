@@ -35,6 +35,7 @@ public abstract class Creature extends Entity {
 	protected float attackSpeed;
 	protected int maxHealth;
 	protected int combatLevel;
+	protected int attackRange = Tiles.TILEWIDTH * 2;
 	
 	// A* stuff
 	protected CombatState state;
@@ -84,6 +85,7 @@ public abstract class Creature extends Entity {
 		xMove = 0;
 		yMove = 0;
 		drawnOnMap = true;
+		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		
 	}
 	
@@ -250,29 +252,37 @@ public abstract class Creature extends Entity {
 	protected void combatStateManager() {
 		
 		// If the player is within the A* map AND within the aggro range, state = pathfinding (walk towards goal)
-		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
-			// TODO: PROBLEEM 1: HIJ BLIJFT HELE TIJD HEEN EN WEER TUSSEN PATHFINDING & BACKTRACK STATE HIER!!!
+		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;
-			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-					(int)Math.floor(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.floor(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+			int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
+			int playerY = (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
+			
+			if(playerX == map.getNodes().length - 1 || playerY == map.getNodes().length - 1) {
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						(int)Math.floor(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.floor(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+			}
+			else{
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						playerX, playerY);
+			}
 		}
 		
 		// If the player is <= X * TileWidth away from the Creature, attack him.
 		if(distanceToEntity(((int)this.getX() + this.getWidth() / 2), ((int)this.getY() + + this.getHeight() / 2),
-				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2 &&
-				handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) &&
+				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= attackRange &&
+				handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
 				handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.ATTACK;
 			checkAttacks();
 		}
 		
 		// If the Creature was attacking, but the player moved out of aggro range or out of the A* map bounds, backtrack to spawn.
-		if(state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) || state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+		if(state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.BACKTRACK;
 		}
 		
 		// If the Creature was following the player but he moved out of the aggro, backtrack.
-		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(radius) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		// If the Creature was following the player but he moved out of the A* map, backtrack.

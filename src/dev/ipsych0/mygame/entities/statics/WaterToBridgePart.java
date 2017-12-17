@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -15,6 +16,8 @@ public class WaterToBridgePart extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private boolean isFixed = false;
 	private int speakingTurn = 0;
+	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
+	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};
 	
 	public WaterToBridgePart(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -51,22 +54,41 @@ public class WaterToBridgePart extends StaticEntity {
 		switch(speakingTurn) {
 		
 		case 0:
-			handler.sendMsg("This bridge looks like it could be fixed...");
-			speakingTurn = 1;
+			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			speakingTurn++;
 			break;
 			
 		case 1:
-			if(!isFixed) {
-				if(handler.playerHasItem(Item.woodItem, 5)) {
-					handler.removeItem(Item.woodItem, 5);
-					this.speakingTurn = 1;
-					isFixed = true;
-					handler.sendMsg("You fixed the bridge!");
-					break;
-				}else {
-					handler.sendMsg("I don't have anything to fix the bridge with...");
-					break;
-				}
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			if(handler.playerHasItem(Item.woodItem, 5)) {
+				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
+				speakingTurn++;
+				break;
+			}else {
+				chatDialogue = null;
+				speakingTurn = 0;
+				break;
+			}
+		case 2:
+			if(chatDialogue == null) {
+				speakingTurn = 0;
+				break;
+			}
+			
+			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				chatDialogue = null;
+				handler.removeItem(Item.woodItem, 5);
+				isFixed = true;
+				handler.sendMsg("You fixed the bridge!");
+				break;
+			}
+			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
+				chatDialogue = null;
+				speakingTurn = 0;
+				break;
 			}
 		}
 		

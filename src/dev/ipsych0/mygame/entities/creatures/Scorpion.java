@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
@@ -39,11 +40,12 @@ public class Scorpion extends Creature {
 		setPower(0);
 		setVitality(7);
 		setDefence(0);
-		speed = DEFAULT_SPEED + 1.5f;
+		speed = DEFAULT_SPEED + 0.5f;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
 		combatLevel = 5;
+		attackRange = Tiles.TILEWIDTH * 6;
 		
 		bounds.x = 2;
 		bounds.y = 2;
@@ -89,18 +91,18 @@ public class Scorpion extends Creature {
 				p.render(g);
 			}
 		}
-		
-		g.setColor(Color.BLACK);
-		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
-		
-		map.render(g);
-		
-		if(nodes != null) {
-			for(Node n : nodes) {
-				g.setColor(pathColour);
-				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
-			}
-		}
+//		
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+//		
+//		map.render(g);
+//		
+//		if(nodes != null) {
+//			for(Node n : nodes) {
+//				g.setColor(pathColour);
+//				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+//			}
+//		}
 		
 	}
 

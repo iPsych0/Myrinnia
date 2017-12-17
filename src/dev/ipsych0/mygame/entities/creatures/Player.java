@@ -89,7 +89,7 @@ public class Player extends Creature{
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
-		speed = DEFAULT_SPEED + 1.5f;
+		speed = DEFAULT_SPEED + 1.0f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
@@ -490,6 +490,16 @@ public class Player extends Creature{
 			magicCooldown = (long) (300 / getAttackSpeed());
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public int getDamage(Entity dealer) {
+		// Default damage formula
+		Creature c = (Creature) dealer;
+		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
 	}
 	
 	/*
