@@ -91,9 +91,9 @@ public class Scorpion extends Creature {
 				p.render(g);
 			}
 		}
-//		
-//		g.setColor(Color.BLACK);
-//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+		
+		g.setColor(Color.BLACK);
+		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 //		
 //		map.render(g);
 //		
