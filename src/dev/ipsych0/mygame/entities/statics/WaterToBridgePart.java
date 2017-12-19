@@ -61,6 +61,7 @@ public class WaterToBridgePart extends StaticEntity {
 		case 1:
 			if(chatDialogue == null) {
 				speakingTurn = 0;
+				interact();
 				break;
 			}
 			if(handler.playerHasItem(Item.woodItem, 5)) {
@@ -75,6 +76,7 @@ public class WaterToBridgePart extends StaticEntity {
 		case 2:
 			if(chatDialogue == null) {
 				speakingTurn = 0;
+				interact();
 				break;
 			}
 			

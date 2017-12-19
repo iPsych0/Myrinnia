@@ -114,6 +114,7 @@ public abstract class Creature extends Entity {
 	public void moveX(){
 		if(xMove > 0){ // Moving right
 			direction = Direction.RIGHT;
+			lastFaced = Direction.RIGHT;
 			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) && 
@@ -125,6 +126,7 @@ public abstract class Creature extends Entity {
 			
 		}else if(xMove < 0){ // Moving left
 			direction = Direction.LEFT;
+			lastFaced = Direction.LEFT;
 			int tx = (int) (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
@@ -146,6 +148,7 @@ public abstract class Creature extends Entity {
 	public void moveY(){
 		if(yMove < 0){ // Up
 			direction = Direction.UP;
+			lastFaced = Direction.UP;
 			int ty = (int) (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
@@ -157,6 +160,7 @@ public abstract class Creature extends Entity {
 			
 		}else if (yMove > 0){ // Down
 			direction = Direction.DOWN;
+			lastFaced = Direction.DOWN;
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
@@ -282,7 +286,8 @@ public abstract class Creature extends Entity {
 		}
 		
 		// If the player has moved out of the aggro box and out of the A* map, 
-		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING) {
+		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+				!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
 			state = CombatState.BACKTRACK;
 		}
 		
@@ -355,6 +360,8 @@ public abstract class Creature extends Entity {
 //		System.out.println((int)y / 32);
 //		System.out.println("=========");
 		
+		
+		// TODO: Still a bug of some sort in movement (primarily on the Y axis), if the if-statements are switched around, problem exists on the X-axis
 		if (next.getX() != (int)((x + 8) / 32)){
 			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
 			move();
@@ -367,6 +374,7 @@ public abstract class Creature extends Entity {
 			}
 
 		}
+		
 		if(next.getY() != (int)((y + 8) / 32)) {
 			yMove = (next.getY() < (int)((y + 8) / 32) ? -speed : speed);
 			move();
