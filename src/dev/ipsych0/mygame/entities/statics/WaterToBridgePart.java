@@ -82,10 +82,15 @@ public class WaterToBridgePart extends StaticEntity {
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = null;
-				handler.removeItem(Item.woodItem, 5);
-				isFixed = true;
-				handler.sendMsg("You fixed the bridge!");
-				break;
+				if(handler.playerHasItem(Item.woodItem, 5)) {
+					handler.removeItem(Item.woodItem, 5);
+					isFixed = true;
+					handler.sendMsg("You fixed the bridge!");
+					break;
+				}else {
+					speakingTurn = 0;
+					break;
+				}
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
 				chatDialogue = null;

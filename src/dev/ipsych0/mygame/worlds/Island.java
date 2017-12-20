@@ -45,14 +45,14 @@ public class Island extends World {
 		
 		entityManager.addEntity(new Rock(handler, 5280, 5536));
 		
-		entityManager.addEntity(new Scorpion(handler, 4992, 6048));
-		entityManager.addEntity(new Scorpion(handler, 5088, 6112));
+//		entityManager.addEntity(new Scorpion(handler, 4992, 6048));
+//		entityManager.addEntity(new Scorpion(handler, 5088, 6112));
 		
 		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
 		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
 		
 		// Beach house
-		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
+//		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
 		
 		// Southern cliffs
 		entityManager.addEntity(new Whirlpool(handler, 1280, 6320));

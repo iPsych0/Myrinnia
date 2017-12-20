@@ -1,7 +1,4 @@
 ===Interfaces===
-
-- NPC chat interface afmaken: Hashtable distance
-- Inventory afmaken: Items usen/droppen
 - Bank systeem?
 - Random loot chests
 
