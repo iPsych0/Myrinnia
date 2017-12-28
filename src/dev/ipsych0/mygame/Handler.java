@@ -84,7 +84,7 @@ public class Handler {
 	 * Rounds off a number to two digits.
 	 */
 	public double roundOff(double value) {
-	    return (double)Math.ceil(value * 10d) / 10d;
+	    return (double)Math.round(value * 10d) / 10d;
 	}
 	
 	/*
