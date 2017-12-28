@@ -54,8 +54,8 @@ public abstract class Creature extends Entity {
 	// Radius variables:
 	protected int xSpawn = (int)getX();
 	protected int ySpawn = (int)getY();
-	protected int xRadius = 256;
-	protected int yRadius = 256;
+	protected int xRadius = 192;
+	protected int yRadius = 192;
 	protected Rectangle radius;
 	
 	protected enum Direction{
@@ -114,6 +114,7 @@ public abstract class Creature extends Entity {
 	public void moveX(){
 		if(xMove > 0){ // Moving right
 			direction = Direction.RIGHT;
+			lastFaced = Direction.RIGHT;
 			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) && 
@@ -125,6 +126,7 @@ public abstract class Creature extends Entity {
 			
 		}else if(xMove < 0){ // Moving left
 			direction = Direction.LEFT;
+			lastFaced = Direction.LEFT;
 			int tx = (int) (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 			
 			if(!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
@@ -146,6 +148,7 @@ public abstract class Creature extends Entity {
 	public void moveY(){
 		if(yMove < 0){ // Up
 			direction = Direction.UP;
+			lastFaced = Direction.UP;
 			int ty = (int) (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
@@ -157,6 +160,7 @@ public abstract class Creature extends Entity {
 			
 		}else if (yMove > 0){ // Down
 			direction = Direction.DOWN;
+			lastFaced = Direction.DOWN;
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
@@ -250,8 +254,7 @@ public abstract class Creature extends Entity {
 	 * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
 	 */
 	protected void combatStateManager() {
-		
-		// If the player is within the A* map AND within the aggro range, state = pathfinding (walk towards goal)
+		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;
 			int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
@@ -265,6 +268,27 @@ public abstract class Creature extends Entity {
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 						playerX, playerY);
 			}
+		}
+		
+		// If the player has moved out of the initial aggro box, but is still within the A* map, keep following
+		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING) {
+			int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
+			int playerY = (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
+			
+			if(playerX == map.getNodes().length - 1 || playerY == map.getNodes().length - 1) {
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						(int)Math.floor(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.floor(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+			}
+			else{
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						playerX, playerY);
+			}
+		}
+		
+		// If the player has moved out of the aggro box and out of the A* map, 
+		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+				!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+			state = CombatState.BACKTRACK;
 		}
 		
 		// If the player is <= X * TileWidth away from the Creature, attack him.
@@ -282,11 +306,11 @@ public abstract class Creature extends Entity {
 		}
 		
 		// If the Creature was following the player but he moved out of the aggro, backtrack.
-		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
-			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+//		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+//			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+//					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		// If the Creature was following the player but he moved out of the A* map, backtrack.
-		}else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		}
@@ -336,6 +360,8 @@ public abstract class Creature extends Entity {
 //		System.out.println((int)y / 32);
 //		System.out.println("=========");
 		
+		
+		// TODO: Still a bug of some sort in movement (primarily on the Y axis), if the if-statements are switched around, problem exists on the X-axis
 		if (next.getX() != (int)((x + 8) / 32)){
 			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
 			move();
@@ -348,6 +374,7 @@ public abstract class Creature extends Entity {
 			}
 
 		}
+		
 		if(next.getY() != (int)((y + 8) / 32)) {
 			yMove = (next.getY() < (int)((y + 8) / 32) ? -speed : speed);
 			move();

@@ -44,7 +44,7 @@ public class Handler {
 		this.game = game;
 		
 		// Instantiate the player and the worlds
-		player = new Player(this, 5152, 5600);
+		player = new Player(this, 4096, 2944);
 		chatWindow = new ChatWindow(this, 0, 600); //228,314
 		chatWindow.sendMessage("Welcome back!");
 		inventory = new InventoryWindow(this, 828, 0);

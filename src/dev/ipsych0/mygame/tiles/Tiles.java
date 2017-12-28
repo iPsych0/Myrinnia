@@ -11,7 +11,7 @@ public class Tiles {
 	
 	// First try-out tiles
 	
-	public static Tiles[] tiles = new Tiles[3072];
+	public static Tiles[] tiles = new Tiles[4096];
 
 	public static Tiles blackTile = new Tiles(Assets.black, 28);
 

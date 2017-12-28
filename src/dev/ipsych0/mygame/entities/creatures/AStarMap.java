@@ -82,10 +82,9 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX > nodes.length - 1 || goalX <= 0 || goalY > nodes.length - 1|| goalY <= 0) {
+		if(goalX >= nodes.length - 1 || goalX <= 0 || goalY >= nodes.length - 1|| goalY <= 0) {
 			goalX = (int)Math.floor(xSpawn / 32 - x / 32);
 			goalY = (int)Math.floor(ySpawn / 32 - y / 32);
-			creature.setState(CombatState.BACKTRACK);
 		}
 		
 		// If the goal node is standing on a solid layer
