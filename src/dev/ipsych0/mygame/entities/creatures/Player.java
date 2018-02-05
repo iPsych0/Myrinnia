@@ -89,7 +89,7 @@ public class Player extends Creature{
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
-		speed = DEFAULT_SPEED + 1.0f;
+		speed = DEFAULT_SPEED + 1.5f;
 		
 		attackExperience = 0;
 		attackLevel = 1;
