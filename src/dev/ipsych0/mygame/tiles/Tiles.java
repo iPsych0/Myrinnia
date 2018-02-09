@@ -15,7 +15,9 @@ public class Tiles {
 
 	public static Tiles blackTile = new Tiles(Assets.black, 28);
 
-	// Terrain
+	/*
+	 * Terrain
+	 */
 	public static Tiles darkGrass = new Tiles(Assets.darkGrass, 352);
 	public static Tiles darkGrassTopLeft = new Tiles(Assets.darkGrassTopLeft, 319);
 	public static Tiles darkGrassTopMiddle = new Tiles(Assets.darkGrassTopMiddle, 320);
@@ -217,104 +219,6 @@ public class Tiles {
 	public static Tiles flowerPatch1 = new Tiles(Assets.flowerPatch1, 412);
 	public static Tiles flowerPatch2 = new Tiles(Assets.flowerPatch2, 413);
 	public static Tiles flowerPatch3 = new Tiles(Assets.flowerPatch3, 414);
-
-	public static Tiles invisible = new Tiles(Assets.invisible, 736);
-	public static Tiles sparkleTile = new Tiles(Assets.sparkleTile, 649);
-	public static Tiles redMushroom = new Tiles(Assets.redMushroom, 1184);
-	public static Tiles blueMushroom = new Tiles(Assets.blueMushroom, 1168);
-	public static Tiles smallRedRock = new Tiles(Assets.smallRedRocks, 664);
-	
-	// Objects
-	public static Tiles woodenRoofTopLeft = new Tiles(Assets.woodenRoofTopLeft, 1521);
-	public static Tiles woodenRoofTopMiddle = new Tiles(Assets.woodenRoofTopMiddle, 1522);
-	public static Tiles woodenRoofTopRight = new Tiles(Assets.woodenRoofTopRight, 1523);
-	public static Tiles woodenRoofMiddleLeft = new Tiles(Assets.woodenRoofMiddleLeft, 1529);
-	public static Tiles woodenRoofMiddleMiddle = new Tiles(Assets.woodenRoofMiddleMiddle, 1530);
-	public static Tiles woodenRoofMiddleRight = new Tiles(Assets.woodenRoofMiddleRight, 1531);
-	public static Tiles woodenRoofBottomLeft = new Tiles(Assets.woodenRoofBottomLeft, 1537);
-	public static Tiles woodenRoofBottomMiddle = new Tiles(Assets.woodenRoofBottomMiddle, 1538);
-	public static Tiles woodenRoofBottomRight = new Tiles(Assets.woodenRoofBottomRight, 1539);
-	
-	public static Tiles greenRoofTopLeft = new Tiles(Assets.greenRoofTopLeft, 1526);
-	public static Tiles greenRoofTopMiddle = new Tiles(Assets.greenRoofTopMiddle, 1527);
-	public static Tiles greenRoofTopRight = new Tiles(Assets.greenRoofTopRight, 1528);
-	public static Tiles greenRoofMiddleLeft = new Tiles(Assets.greenRoofMiddleLeft, 1534);
-	public static Tiles greenRoofMiddleMiddle = new Tiles(Assets.greenRoofMiddleMiddle, 1535);
-	public static Tiles greenRoofMiddleRight = new Tiles(Assets.greenRoofMiddleRight, 1536);
-	public static Tiles greenRoofBottomLeft = new Tiles(Assets.greenRoofBottomLeft, 1542);
-	public static Tiles greenRoofBottomMiddle = new Tiles(Assets.greenRoofBottomMiddle, 1543);
-	public static Tiles greenRoofBottomRight = new Tiles(Assets.greenRoofBottomRight, 1544);
-
-	public static Tiles wallLeft = new Tiles(Assets.wallLeft, 1377);
-	public static Tiles wallRight = new Tiles(Assets.wallRight, 1379);
-	public static Tiles wallMiddle = new Tiles(Assets.wallMiddle, 1378);
-	public static Tiles lightWallLeft = new Tiles(Assets.lightWallLeft, 1369);
-	public static Tiles lightWallMiddle = new Tiles(Assets.lightWallMiddle, 1370);
-	public static Tiles lightWallRight = new Tiles(Assets.lightWallRight, 1371);
-	public static Tiles entrance = new Tiles(Assets.entrance, 1663);
-	public static Tiles woodenDoorTop = new Tiles(Assets.woodenDoorTop, 1423);
-	public static Tiles woodenDoorBottom = new Tiles(Assets.woodenDoorBottom, 1431);
-	
-	public static Tiles floorTopLeft = new Tiles(Assets.floorTopLeft, 1409);
-	public static Tiles floorTopMiddle = new Tiles(Assets.floorTopMiddle, 1410);
-	public static Tiles floorTopRight = new Tiles(Assets.floorTopRight, 1411);
-	public static Tiles floorMiddleLeft = new Tiles(Assets.floorMiddleLeft, 1417);
-	public static Tiles floorMiddleMiddle = new Tiles(Assets.floorMiddleMiddle, 1418);
-	public static Tiles floorMiddleRight = new Tiles(Assets.floorMiddleRight, 1419);
-	public static Tiles floorBottomLeft = new Tiles(Assets.floorBottomLeft, 1425);
-	public static Tiles floorBottomMiddle = new Tiles(Assets.floorBottomMiddle, 1426);
-	public static Tiles floorBottomRight = new Tiles(Assets.floorBottomRight, 1427);
-	
-	public static Tiles tree1TopLeft = new Tiles(Assets.tree1TopLeft, 1145);
-	public static Tiles tree1TopRight = new Tiles(Assets.tree1TopRight, 1146);
-	public static Tiles tree1BottomLeft = new Tiles(Assets.tree1BottomLeft, 1161);
-	public static Tiles tree1BottomRight = new Tiles(Assets.tree1BottomRight, 1162);
-	public static Tiles tree1BatchTopLeft = new Tiles(Assets.tree1BatchTopLeft, 1147);
-	public static Tiles tree1BatchTopRight = new Tiles(Assets.tree1BatchTopRight, 1148);
-	public static Tiles tree1BatchBottomLeft = new Tiles(Assets.tree1BatchBottomLeft, 1163);
-	public static Tiles tree1BatchBottomRight = new Tiles(Assets.tree1BatchBottomRight, 1164);
-	
-	public static Tiles pineTreeTopLeft = new Tiles(Assets.pineTreeTopLeft, 1081);
-	public static Tiles pineTreeTopRight = new Tiles(Assets.pineTreeTopRight, 1082);
-	public static Tiles pineTreeBottomLeft = new Tiles(Assets.pineTreeBottomLeft, 1097);
-	public static Tiles pineTreeBottomRight = new Tiles(Assets.pineTreeBottomRight, 1098);
-	public static Tiles pineTreeBatchTopLeft = new Tiles(Assets.pineTreeBatchTopLeft, 1083);
-	public static Tiles pineTreeBatchTopRight = new Tiles(Assets.pineTreeBatchTopRight, 1084);
-	public static Tiles pineTreeBatchBottomLeft = new Tiles(Assets.pineTreeBatchBottomLeft, 1099);
-	public static Tiles pineTreeBatchBottomRight = new Tiles(Assets.pineTreeBatchBottomRight, 1100);
-	
-	public static Tiles whiteWallTopLeft = new Tiles(Assets.whiteWallTopLeft, 1697);
-	public static Tiles whiteWallTopMiddle = new Tiles(Assets.whiteWallTopMiddle, 1698);
-	public static Tiles whiteWallTopRight = new Tiles(Assets.whiteWallTopRight, 1699);
-	public static Tiles whiteWallMiddleLeft = new Tiles(Assets.whiteWallMiddleLeft, 1713);
-	public static Tiles whiteWallMiddleMiddle = new Tiles(Assets.whiteWallMiddleMiddle, 1714);
-	public static Tiles whiteWallMiddleRight = new Tiles(Assets.whiteWallMiddleRight, 1715);
-	public static Tiles whiteWallBottomLeft = new Tiles(Assets.whiteWallBottomLeft, 1729);
-	public static Tiles whiteWallBottomMiddle = new Tiles(Assets.whiteWallBottomMiddle, 1730);
-	public static Tiles whiteWallBottomRight = new Tiles(Assets.whiteWallBottomRight, 1731);
-	
-	public static Tiles brownColumnTop = new Tiles(Assets.brownColumnTop, 1358);
-	public static Tiles brownColumnBottom = new Tiles(Assets.brownColumnBottom, 1366);
-	
-	public static Tiles smallWoodenStairTop = new Tiles(Assets.smallWoodenStairTop, 1400);
-	public static Tiles smallWoodenStairBottom = new Tiles(Assets.smallWoodenStairBottom, 1408);
-	
-	public static Tiles stairTopLeft = new Tiles(Assets.stairTopLeft, 1397);
-	public static Tiles stairTopMiddle = new Tiles(Assets.stairTopMiddle, 1398);
-	public static Tiles stairTopRight = new Tiles(Assets.stairTopRight, 1399);
-	public static Tiles stairBottomleLeft = new Tiles(Assets.stairBottomLeft, 1405);
-	public static Tiles stairBottomMiddle = new Tiles(Assets.stairBottomMiddle, 1406);
-	public static Tiles stairBottomRight = new Tiles(Assets.stairBottomRight, 1407);
-	
-	public static Tiles whiteWallWindowTopLeft = new Tiles(Assets.whiteWallWindowTopLeft, 1701);
-	public static Tiles whiteWallWindowTopRight = new Tiles(Assets.whiteWallWindowTopRight, 1702);
-	public static Tiles whiteWallWindowMiddleLeft = new Tiles(Assets.whiteWallWindowMiddleLeft, 1717);
-	public static Tiles whiteWallWindowMiddleRight = new Tiles(Assets.whiteWallWindowMiddleRight, 1718);
-	public static Tiles whiteWallWindowBottomLeft = new Tiles(Assets.whiteWallWindowBottomLeft, 1733);
-	public static Tiles whiteWallWindowBottomRight = new Tiles(Assets.whiteWallWindowBottomRight, 1734);
-	
-	public static Tiles cliffEntranceTop = new Tiles(Assets.cliffEntranceTop, 2133);
-	public static Tiles cliffEntranceBottom = new Tiles(Assets.cliffEntranceBottom, 2169);
 	
 	public static Tiles sandCliffTopLeft = new Tiles(Assets.sandCliffTopLeft, 1958);
 	public static Tiles sandCliffTopMiddle = new Tiles(Assets.sandCliffTopMiddle, 1959);
@@ -411,10 +315,158 @@ public class Tiles {
 	public static Tiles caveCliffCornerLowerRight = new Tiles(Assets.caveCliffCornerLowerRight, 312);
 	public static Tiles caveCliffCornerLowestLeft = new Tiles(Assets.caveCliffCornerLowestLeft, 343);
 	public static Tiles caveCliffCornerLowestRight = new Tiles(Assets.caveCliffCornerLowestRight, 344);
+
+	public static Tiles invisible = new Tiles(Assets.invisible, 736);
+	public static Tiles sparkleTile = new Tiles(Assets.sparkleTile, 649);
+	public static Tiles redMushroom = new Tiles(Assets.redMushroom, 1184);
+	public static Tiles blueMushroom = new Tiles(Assets.blueMushroom, 1168);
+	public static Tiles smallRedRock = new Tiles(Assets.smallRedRocks, 664);
+	
+	/*
+	 * Objects
+	 */
+	public static Tiles woodenRoofTopLeft = new Tiles(Assets.woodenRoofTopLeft, 1521);
+	public static Tiles woodenRoofTopMiddle = new Tiles(Assets.woodenRoofTopMiddle, 1522);
+	public static Tiles woodenRoofTopRight = new Tiles(Assets.woodenRoofTopRight, 1523);
+	public static Tiles woodenRoofMiddleLeft = new Tiles(Assets.woodenRoofMiddleLeft, 1529);
+	public static Tiles woodenRoofMiddleMiddle = new Tiles(Assets.woodenRoofMiddleMiddle, 1530);
+	public static Tiles woodenRoofMiddleRight = new Tiles(Assets.woodenRoofMiddleRight, 1531);
+	public static Tiles woodenRoofBottomLeft = new Tiles(Assets.woodenRoofBottomLeft, 1537);
+	public static Tiles woodenRoofBottomMiddle = new Tiles(Assets.woodenRoofBottomMiddle, 1538);
+	public static Tiles woodenRoofBottomRight = new Tiles(Assets.woodenRoofBottomRight, 1539);
+	
+	public static Tiles greenRoofTopLeft = new Tiles(Assets.greenRoofTopLeft, 1526);
+	public static Tiles greenRoofTopMiddle = new Tiles(Assets.greenRoofTopMiddle, 1527);
+	public static Tiles greenRoofTopRight = new Tiles(Assets.greenRoofTopRight, 1528);
+	public static Tiles greenRoofMiddleLeft = new Tiles(Assets.greenRoofMiddleLeft, 1534);
+	public static Tiles greenRoofMiddleMiddle = new Tiles(Assets.greenRoofMiddleMiddle, 1535);
+	public static Tiles greenRoofMiddleRight = new Tiles(Assets.greenRoofMiddleRight, 1536);
+	public static Tiles greenRoofBottomLeft = new Tiles(Assets.greenRoofBottomLeft, 1542);
+	public static Tiles greenRoofBottomMiddle = new Tiles(Assets.greenRoofBottomMiddle, 1543);
+	public static Tiles greenRoofBottomRight = new Tiles(Assets.greenRoofBottomRight, 1544);
+
+	public static Tiles wallLeft = new Tiles(Assets.wallLeft, 1377);
+	public static Tiles wallRight = new Tiles(Assets.wallRight, 1379);
+	public static Tiles wallMiddle = new Tiles(Assets.wallMiddle, 1378);
+	public static Tiles lightWallLeft = new Tiles(Assets.lightWallLeft, 1369);
+	public static Tiles lightWallMiddle = new Tiles(Assets.lightWallMiddle, 1370);
+	public static Tiles lightWallRight = new Tiles(Assets.lightWallRight, 1371);
+	public static Tiles entrance = new Tiles(Assets.entrance, 1663);
+	public static Tiles woodenDoorTop = new Tiles(Assets.woodenDoorTop, 1423);
+	public static Tiles woodenDoorBottom = new Tiles(Assets.woodenDoorBottom, 1431);
+	
+	public static Tiles floorTopLeft = new Tiles(Assets.floorTopLeft, 1409);
+	public static Tiles floorTopMiddle = new Tiles(Assets.floorTopMiddle, 1410);
+	public static Tiles floorTopRight = new Tiles(Assets.floorTopRight, 1411);
+	public static Tiles floorMiddleLeft = new Tiles(Assets.floorMiddleLeft, 1417);
+	public static Tiles floorMiddleMiddle = new Tiles(Assets.floorMiddleMiddle, 1418);
+	public static Tiles floorMiddleRight = new Tiles(Assets.floorMiddleRight, 1419);
+	public static Tiles floorBottomLeft = new Tiles(Assets.floorBottomLeft, 1425);
+	public static Tiles floorBottomMiddle = new Tiles(Assets.floorBottomMiddle, 1426);
+	public static Tiles floorBottomRight = new Tiles(Assets.floorBottomRight, 1427);
+	
+	public static Tiles tree1TopLeft = new Tiles(Assets.tree1TopLeft, 1145);
+	public static Tiles tree1TopRight = new Tiles(Assets.tree1TopRight, 1146);
+	public static Tiles tree1BottomLeft = new Tiles(Assets.tree1BottomLeft, 1161);
+	public static Tiles tree1BottomRight = new Tiles(Assets.tree1BottomRight, 1162);
+	public static Tiles tree1BatchTopLeft = new Tiles(Assets.tree1BatchTopLeft, 1147);
+	public static Tiles tree1BatchTopRight = new Tiles(Assets.tree1BatchTopRight, 1148);
+	public static Tiles tree1BatchBottomLeft = new Tiles(Assets.tree1BatchBottomLeft, 1163);
+	public static Tiles tree1BatchBottomRight = new Tiles(Assets.tree1BatchBottomRight, 1164);
+	
+	public static Tiles pineTreeTopLeft = new Tiles(Assets.pineTreeTopLeft, 1081);
+	public static Tiles pineTreeTopRight = new Tiles(Assets.pineTreeTopRight, 1082);
+	public static Tiles pineTreeBottomLeft = new Tiles(Assets.pineTreeBottomLeft, 1097);
+	public static Tiles pineTreeBottomRight = new Tiles(Assets.pineTreeBottomRight, 1098);
+	public static Tiles pineTreeBatchTopLeft = new Tiles(Assets.pineTreeBatchTopLeft, 1083);
+	public static Tiles pineTreeBatchTopRight = new Tiles(Assets.pineTreeBatchTopRight, 1084);
+	public static Tiles pineTreeBatchBottomLeft = new Tiles(Assets.pineTreeBatchBottomLeft, 1099);
+	public static Tiles pineTreeBatchBottomRight = new Tiles(Assets.pineTreeBatchBottomRight, 1100);
+	
+	public static Tiles whiteWallTopLeft = new Tiles(Assets.whiteWallTopLeft, 1697);
+	public static Tiles whiteWallTopMiddle = new Tiles(Assets.whiteWallTopMiddle, 1698);
+	public static Tiles whiteWallTopRight = new Tiles(Assets.whiteWallTopRight, 1699);
+	public static Tiles whiteWallMiddleLeft = new Tiles(Assets.whiteWallMiddleLeft, 1713);
+	public static Tiles whiteWallMiddleMiddle = new Tiles(Assets.whiteWallMiddleMiddle, 1714);
+	public static Tiles whiteWallMiddleRight = new Tiles(Assets.whiteWallMiddleRight, 1715);
+	public static Tiles whiteWallBottomLeft = new Tiles(Assets.whiteWallBottomLeft, 1729);
+	public static Tiles whiteWallBottomMiddle = new Tiles(Assets.whiteWallBottomMiddle, 1730);
+	public static Tiles whiteWallBottomRight = new Tiles(Assets.whiteWallBottomRight, 1731);
+	
+	public static Tiles brownColumnTop = new Tiles(Assets.brownColumnTop, 1358);
+	public static Tiles brownColumnBottom = new Tiles(Assets.brownColumnBottom, 1366);
+	
+	public static Tiles smallWoodenStairTop = new Tiles(Assets.smallWoodenStairTop, 1400);
+	public static Tiles smallWoodenStairBottom = new Tiles(Assets.smallWoodenStairBottom, 1408);
+	
+	public static Tiles stairTopLeft = new Tiles(Assets.stairTopLeft, 1397);
+	public static Tiles stairTopMiddle = new Tiles(Assets.stairTopMiddle, 1398);
+	public static Tiles stairTopRight = new Tiles(Assets.stairTopRight, 1399);
+	public static Tiles stairBottomleLeft = new Tiles(Assets.stairBottomLeft, 1405);
+	public static Tiles stairBottomMiddle = new Tiles(Assets.stairBottomMiddle, 1406);
+	public static Tiles stairBottomRight = new Tiles(Assets.stairBottomRight, 1407);
+	
+	public static Tiles whiteWallWindowTopLeft = new Tiles(Assets.whiteWallWindowTopLeft, 1701);
+	public static Tiles whiteWallWindowTopRight = new Tiles(Assets.whiteWallWindowTopRight, 1702);
+	public static Tiles whiteWallWindowMiddleLeft = new Tiles(Assets.whiteWallWindowMiddleLeft, 1717);
+	public static Tiles whiteWallWindowMiddleRight = new Tiles(Assets.whiteWallWindowMiddleRight, 1718);
+	public static Tiles whiteWallWindowBottomLeft = new Tiles(Assets.whiteWallWindowBottomLeft, 1733);
+	public static Tiles whiteWallWindowBottomRight = new Tiles(Assets.whiteWallWindowBottomRight, 1734);
+	
+	public static Tiles cliffEntranceTop = new Tiles(Assets.cliffEntranceTop, 2133);
+	public static Tiles cliffEntranceBottom = new Tiles(Assets.cliffEntranceBottom, 2169);
+
 	public static Tiles palmTreeTop = new Tiles(Assets.palmTreeTop, 1274);
 	public static Tiles palmTreeBotom = new Tiles(Assets.palmTreeBottom, 1290);
 	
-	// Furniture
+	public static Tiles boatTop1 = new Tiles(Assets.boatTop1, 3303);
+	public static Tiles boatTop2 = new Tiles(Assets.boatTop2, 3304);
+	public static Tiles boatTop3 = new Tiles(Assets.boatTop3, 3305);
+	public static Tiles boatTop4 = new Tiles(Assets.boatTop4, 3318);
+	public static Tiles boatTop5 = new Tiles(Assets.boatTop5, 3319);
+	public static Tiles boatTop6 = new Tiles(Assets.boatTop6, 3320);
+	public static Tiles boatTop7 = new Tiles(Assets.boatTop7, 3321);
+	public static Tiles boatTop8 = new Tiles(Assets.boatTop8, 3322);
+	public static Tiles boatTop9 = new Tiles(Assets.boatTop9, 3334);
+	public static Tiles boatTop10 = new Tiles(Assets.boatTop10, 3335);
+	public static Tiles boatTop11 = new Tiles(Assets.boatTop11, 3337);
+	public static Tiles boatTop12 = new Tiles(Assets.boatTop12, 3338);
+	public static Tiles boatTop13 = new Tiles(Assets.boatTop13, 3349);
+	public static Tiles boatTop14 = new Tiles(Assets.boatTop14, 3350);
+	public static Tiles boatTop15 = new Tiles(Assets.boatTop15, 3354);
+	public static Tiles boatTop16 = new Tiles(Assets.boatTop16, 3355);
+	public static Tiles boatTop17 = new Tiles(Assets.boatTop17, 3365);
+	public static Tiles boatTop18 = new Tiles(Assets.boatTop18, 3366);
+	public static Tiles boatTop19 = new Tiles(Assets.boatTop19, 3370);
+	public static Tiles boatTop20 = new Tiles(Assets.boatTop20, 3371);
+	public static Tiles boatStairsTopLeft = new Tiles(Assets.boatStairsTopLeft, 3388);
+	public static Tiles boatStairsBottomLeft = new Tiles(Assets.boatStairsBottomLeft, 3404);
+	public static Tiles boatStairsTopRight = new Tiles(Assets.boatStairsTopRight, 3389);
+	public static Tiles boatStairsBottomRight = new Tiles(Assets.boatStairsBottomRight, 3405);
+	public static Tiles boatStairs = new Tiles(Assets.boatStairs, 3356);
+	public static Tiles boatStairsMiddleTop = new Tiles(Assets.boatStairsMiddleTop, 3358);
+	public static Tiles boatStairsMiddleBottom = new Tiles(Assets.boatStairsMiddleBottom, 3374);
+	public static Tiles boatRailingMiddleLeft = new Tiles(Assets.boatRailingMiddleLeft, 3445);
+	public static Tiles boatRailingMiddleRight = new Tiles(Assets.boatRailingMiddleRight, 3447);
+	public static Tiles boatRailingLeft = new Tiles(Assets.boatRailingLeft, 3461);
+	public static Tiles boatRailingRight = new Tiles(Assets.boatRailingRight, 3463);
+	public static Tiles boatRailingBottomLeft = new Tiles(Assets.boatRailingBottomLeft, 3477);
+	public static Tiles boatRailingBottomRight = new Tiles(Assets.boatRailingBottomRight, 3479);
+	public static Tiles boatRailingBottom = new Tiles(Assets.boatRailingBottom, 3478);
+	public static Tiles boatRailingTop = new Tiles(Assets.boatRailingTop, 3462);
+	public static Tiles boatBack1 = new Tiles(Assets.boatBack1, 3493);
+	public static Tiles boatBack2 = new Tiles(Assets.boatBack2, 3509);
+	public static Tiles boatBack3 = new Tiles(Assets.boatBack3, 3525);
+	public static Tiles boatBack4 = new Tiles(Assets.boatBack4, 3495);
+	public static Tiles boatBack5 = new Tiles(Assets.boatBack5, 3511);
+	public static Tiles boatBack6 = new Tiles(Assets.boatBack6, 3527);
+	public static Tiles boatBackMiddleMiddle = new Tiles(Assets.boatBackMiddleMiddle, 3510);
+	public static Tiles boatBackMiddleBottom = new Tiles(Assets.boatBackMiddleBottom, 3526);
+	public static Tiles boatMiddle = new Tiles(Assets.boatMiddle, 3307);
+	
+	/*
+	 * Furniture
+	 */
 	public static Tiles pot1 = new Tiles(Assets.pot1, 2415);
 	public static Tiles waterBucket = new Tiles(Assets.waterBucket, 2370);
 	public static Tiles basket1 = new Tiles(Assets.basket1, 2355);
@@ -511,7 +563,9 @@ public class Tiles {
 	public static Tiles magicTreeRight5 = new Tiles(Assets.magicTreeRight5, 1282);
 	
 	
-	//CLASS
+	/*
+	 * Class data
+	 */
 	
 	public static final int TILEWIDTH = 32, TILEHEIGHT = 32;
 	

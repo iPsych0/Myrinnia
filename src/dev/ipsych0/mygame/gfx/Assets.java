@@ -66,7 +66,10 @@ public class Assets {
 	pineTreeTopRight, pineTreeBottomLeft, pineTreeBottomRight, pineTreeBatchTopLeft, pineTreeBatchTopRight, pineTreeBatchBottomLeft, pineTreeBatchBottomRight, logBridgeHorizontal, logBridgeVertical,
 	purpleFlower1, pinkFlower1, pinkFlower2, greyFlower1, redFlower1, yellowFlower1, plantPot1, greenMushroom, magicTreeLefter1, magicTreeLeft1, magicTreeRight1, magicTreeRighter1,
 	magicTreeLefter2, magicTreeLeft2, magicTreeRight2, magicTreeRighter2, magicTreeLefter3, magicTreeLeft3, magicTreeRight3, magicTreeRighter3, magicTreeLefter4, magicTreeLeft4,
-	magicTreeRight4, magicTreeRighter4, magicTreeLeft5, magicTreeRight5, dirtHole;
+	magicTreeRight4, magicTreeRighter4, magicTreeLeft5, magicTreeRight5, dirtHole, boatTop1, boatTop2, boatTop3, boatTop4, boatTop5, boatTop6, boatTop7, boatTop8, boatTop9, boatTop10, boatTop11, boatTop12,
+	boatTop13, boatTop14, boatTop15, boatTop16, boatTop17, boatTop18, boatTop19, boatTop20, boatStairsTopLeft, boatStairsBottomLeft, boatStairs, boatStairsMiddleTop, boatStairsMiddleBottom, boatStairsTopRight,
+	boatStairsBottomRight, boatRailingMiddleRight, boatRailingMiddleLeft, boatRailingLeft, boatRailingRight, boatRailingBottomLeft, boatRailingBottomRight, boatRailingBottom, boatRailingTop, boatBack1, boatBack2, boatBack3, boatBack4, boatBack5, boatBack6,
+	boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle;
 
 	
 	
@@ -174,6 +177,7 @@ public class Assets {
 		SpriteSheet furniture1 = new SpriteSheet(ImageLoader.loadImage("/textures/furniture1.png"));
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
 		SpriteSheet objects3 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites3.png"));
+		SpriteSheet ship_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ship.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -486,6 +490,61 @@ public class Assets {
 		logBridgeHorizontal = objects5.crop(0, height * 2, width, height);
 		logBridgeVertical = objects5.crop(width, height * 2, width, height);
 		dirtHole = objects5.crop(width, height * 12, width, height);
+		
+		/*
+		 * Ship sprites
+		 */
+		boatTop1 = ship_sheet.crop(width * 2, height * 0, width, height);
+		boatTop2 = ship_sheet.crop(width * 3, height * 0, width, height);
+		boatTop3 = ship_sheet.crop(width * 4, height * 0, width, height);
+		boatTop4 = ship_sheet.crop(width * 1, height * 1, width, height);
+		boatTop5 = ship_sheet.crop(width * 2, height * 1, width, height);
+		boatTop6 = ship_sheet.crop(width * 3, height * 1, width, height);
+		boatTop7 = ship_sheet.crop(width * 4, height * 1, width, height);
+		boatTop8 = ship_sheet.crop(width * 5, height * 1, width, height);
+		boatTop9 = ship_sheet.crop(width * 1, height * 2, width, height);
+		boatTop10 = ship_sheet.crop(width * 2, height * 2, width, height);
+		boatTop11 = ship_sheet.crop(width * 4, height * 2, width, height);
+		boatTop12 = ship_sheet.crop(width * 5, height * 2, width, height);
+		boatTop13 = ship_sheet.crop(width * 0, height * 3, width, height);
+		boatTop14 = ship_sheet.crop(width * 1, height * 3, width, height);
+		boatTop15 = ship_sheet.crop(width * 5, height * 3, width, height);
+		boatTop16 = ship_sheet.crop(width * 6, height * 3, width, height);
+		boatTop17 = ship_sheet.crop(width * 0, height * 4, width, height);
+		boatTop18 = ship_sheet.crop(width * 1, height * 4, width, height);
+		boatTop19 = ship_sheet.crop(width * 5, height * 4, width, height);
+		boatTop20 = ship_sheet.crop(width * 6, height * 4, width, height);
+		boatStairsTopLeft = ship_sheet.crop(width * 7, height * 5, width, height);
+		boatStairsBottomLeft = ship_sheet.crop(width * 7, height * 6, width, height);
+		boatStairsTopRight = ship_sheet.crop(width * 8, height * 5, width, height);
+		boatStairsBottomRight = ship_sheet.crop(width * 8, height * 6, width, height);
+		boatStairs = ship_sheet.crop(width * 7, height * 3, width, height);
+		boatStairsMiddleTop = ship_sheet.crop(width * 9, height * 3, width, height);
+		boatStairsMiddleBottom = ship_sheet.crop(width * 9, height * 4, width, height);
+		boatRailingMiddleLeft = ship_sheet.crop(width * 0, height * 9, width, height);
+		boatRailingMiddleRight = ship_sheet.crop(width * 2, height * 9, width, height);
+		boatRailingLeft = ship_sheet.crop(width * 0, height * 10, width, height);
+		boatRailingRight = ship_sheet.crop(width * 2, height * 10, width, height);
+		boatRailingBottomLeft = ship_sheet.crop(width * 0, height * 11, width, height);
+		boatRailingBottomRight = ship_sheet.crop(width * 2, height * 11, width, height);
+		boatRailingBottom = ship_sheet.crop(width * 1, height * 11, width, height);
+		boatRailingTop = ship_sheet.crop(width * 1, height * 10, width, height);
+		boatBack1 = ship_sheet.crop(width * 0, height * 12, width, height);
+		boatBack2 = ship_sheet.crop(width * 0, height * 13, width, height);
+		boatBack3 = ship_sheet.crop(width * 0, height * 14, width, height);
+		boatBack4 = ship_sheet.crop(width * 2, height * 12, width, height);
+		boatBack5 = ship_sheet.crop(width * 2, height * 13, width, height);
+		boatBack6 = ship_sheet.crop(width * 2, height * 14, width, height);
+		boatBackMiddleMiddle = ship_sheet.crop(width * 1, height * 13, width, height);
+		boatBackMiddleBottom = ship_sheet.crop(width * 1, height * 14, width, height);
+		boatMiddle = ship_sheet.crop(width * 6, height * 0, width, height);
+
+		
+//		boatTop1, boatTop2, boatTop3, boatTop4, boatTop5, boatTop6, boatTop7, boatTop8, boatTop9, boatTop10, boatTop11, boatTop12,
+//		boatTop13, boatTop14, boatTop15, boatTop16, boatTop17, boatTop18, boatTop19, boatTop20, boatStairsTopLeft, boatStairsBottomLeft, boatStairs, boatStairsMiddleTop, boatStairsMiddleBottom, boatStairsTopRight,
+//		boatStairsBottomRight, boatRailingMiddleLeft, boatRailingMiddleRight, boatRailingLeft, boatRailingRight, boatRailingBottomLeft, boatRailingBottomRight, boatRailingBottom, boatBack1, boatBack2, boatBack3, boatBack4, boatBack5, boatBack6,
+//		boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle;
+		
 
 		
 		/*

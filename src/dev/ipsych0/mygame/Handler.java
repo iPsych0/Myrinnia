@@ -44,7 +44,7 @@ public class Handler {
 		this.game = game;
 		
 		// Instantiate the player and the worlds
-		player = new Player(this, 5152, 5600);
+		player = new Player(this, 5120, 5600);
 		chatWindow = new ChatWindow(this, 0, 600); //228,314
 		chatWindow.sendMessage("Welcome back!");
 		inventory = new InventoryWindow(this, 828, 0);
@@ -84,7 +84,7 @@ public class Handler {
 	 * Rounds off a number to two digits.
 	 */
 	public double roundOff(double value) {
-	    return (double)Math.round(value * 10d) / 10d;
+	    return (double)Math.ceil(value * 10d) / 10d;
 	}
 	
 	/*

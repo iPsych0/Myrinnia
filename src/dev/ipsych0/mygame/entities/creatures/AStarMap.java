@@ -55,8 +55,8 @@ public class AStarMap {
 	}
 	
 	public void render(Graphics g) {
-		for(int i = 0; i < nodes.length; i++) {
-			for (int j = 0; j < nodes.length; j++) {
+		for(int i = 0; i < nodes.length - 1; i++) {
+			for (int j = 0; j < nodes.length - 1; j++) {
 				if(nodes[i][j] == null) {
 					return;
 				}
@@ -82,13 +82,14 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
-		if(goalX >= nodes.length - 1 || goalX <= 0 || goalY >= nodes.length - 1|| goalY <= 0) {
-			goalX = (int)Math.floor(xSpawn / 32 - x / 32);
-			goalY = (int)Math.floor(ySpawn / 32 - y / 32);
+		if(goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1|| goalY < 0) {
+			goalX = (int)(xSpawn / 32 - x / 32);
+			goalY = (int)(ySpawn / 32 - y / 32);
 		}
 		
 		// If the goal node is standing on a solid layer
 		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
+//			creature.setState(CombatState.BACKTRACK);
 			return null;
 		}
 		

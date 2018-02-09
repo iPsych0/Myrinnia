@@ -260,9 +260,9 @@ public abstract class Creature extends Entity {
 			int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
 			int playerY = (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 			
-			if(playerX == map.getNodes().length - 1 || playerY == map.getNodes().length - 1) {
+			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-						(int)Math.floor(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.floor(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+						(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 			}
 			else{
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
@@ -275,9 +275,9 @@ public abstract class Creature extends Entity {
 			int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
 			int playerY = (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 			
-			if(playerX == map.getNodes().length - 1 || playerY == map.getNodes().length - 1) {
+			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-						(int)Math.floor(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.floor(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+						(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 			}
 			else{
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
