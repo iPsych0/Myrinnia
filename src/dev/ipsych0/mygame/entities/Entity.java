@@ -36,6 +36,7 @@ public abstract class Entity {
 	protected int speakingTurn = 0;
 	private int ty = 0;
 	protected ChatDialogue chatDialogue;
+	protected boolean overlayDrawn = true;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -336,6 +337,14 @@ public abstract class Entity {
 
 	public void setSpeakingTurn(int speakingTurn) {
 		this.speakingTurn = speakingTurn;
+	}
+
+	public boolean isOverlayDrawn() {
+		return overlayDrawn;
+	}
+
+	public void setOverlayDrawn(boolean overlayDrawn) {
+		this.overlayDrawn = overlayDrawn;
 	}
 	
 }

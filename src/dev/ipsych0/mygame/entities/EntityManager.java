@@ -70,7 +70,8 @@ public class EntityManager {
 			
 			// If the mouse is hovered over an Entity, draw the overlay
 			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {
-				e.drawEntityOverlay(e, g);
+				if(e.isOverlayDrawn())
+					e.drawEntityOverlay(e, g);
 			}
 			
 			// Draw the damage while in combat

@@ -18,6 +18,7 @@ public class TeleportShrine1 extends StaticEntity {
 		bounds.height = 0;
 		attackable = false;
 		isNpc = false;
+		overlayDrawn = false;
 	}
 
 	@Override
