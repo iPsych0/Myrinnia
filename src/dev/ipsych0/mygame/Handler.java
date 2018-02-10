@@ -170,6 +170,10 @@ public class Handler {
 		return world;
 	}
 
+//	public void setWorld(int worldId) {
+//		this.world = getWorldHandler().getWorlds().get(id);
+//	}
+	
 	public void setWorld(World world) {
 		this.world = world;
 	}

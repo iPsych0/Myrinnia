@@ -142,15 +142,9 @@ public class Island extends World {
 			for (int i = 0; i < layers.length; i++) {
 				for(int y = yStart; y < yEnd; y++){
 					for(int x = xStart; x < xEnd; x++){
-						if(getTile(i,x,y) == Tiles.invisible) {
-							continue;
-						}else {
+						if(getTile(i,x,y) != Tiles.invisible) {
 							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-//							g.setColor(Color.YELLOW);
-//							g.drawRect((int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()),
-//									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()),
-//									32, 32);
+									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 						}
 					}
 				}
@@ -166,7 +160,7 @@ public class Island extends World {
 			entityManager.postRender(g);
 			
 			/* Uncomment to 
-			if(night) {
+			if(nightTime) {
 				renderNight(g);
 			}
 			*/

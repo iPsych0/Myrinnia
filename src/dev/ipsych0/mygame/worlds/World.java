@@ -35,6 +35,7 @@ public abstract class World {
 	protected Animation sparkles;
 	protected int worldID;
 	protected String[] layers;
+	private Color night = new Color(0, 13, 35);
 	
 	// Entities
 	
@@ -103,10 +104,10 @@ public abstract class World {
 	}
 	
 	protected void renderNight(Graphics g) {
-		float alpha = 0.4f;
+		float alpha = 0.6f;
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
-		g.setColor(Color.BLACK);
+		g.setColor(night);
 		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 		alpha = 1.0f;
 		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
