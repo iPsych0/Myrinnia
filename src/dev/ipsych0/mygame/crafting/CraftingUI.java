@@ -69,7 +69,7 @@ public class CraftingUI {
 			craftingSlots.add(new CraftingSlot(x + 176, y + 50, null));
 			
 			crs = new CraftResultSlot(x + width / 2 - 16, y + height - 160, null);
-			cb = new CraftButton(x + width / 2 - 48, y + height - 112, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE);
+			cb = new CraftButton(handler, x + width / 2 - 48, y + height - 112, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE);
 			
 			cbBounds = new Rectangle(cb.getBounds());
 			crsBounds = new Rectangle(crs.getBounds());

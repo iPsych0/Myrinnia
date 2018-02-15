@@ -689,7 +689,7 @@ public class ShopWindow {
 	            	index = i;
             	}
             }
-        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable && itemSlots.get(i).getItemStack().getAmount() == 0){
+        	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable() && itemSlots.get(i).getItemStack().getAmount() == 0 && itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
         		return i;
         	}
         	else if(itemSlots.get(i).getItemStack() != null && !item.isStackable()) {

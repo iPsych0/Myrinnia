@@ -254,7 +254,6 @@ public abstract class Creature extends Entity {
 	 * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
 	 */
 	protected void combatStateManager() {
-		System.out.println(state.toString());
 		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;
@@ -263,7 +262,7 @@ public abstract class Creature extends Entity {
 			
 			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-						(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+						(int)Math.round(((playerX + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 			}
 			else{
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
@@ -278,7 +277,7 @@ public abstract class Creature extends Entity {
 			
 			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-						(int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+						(int)Math.round(((playerX + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 			}
 			else{
 				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
@@ -364,9 +363,7 @@ public abstract class Creature extends Entity {
 		
 		
 		
-		// TODO: Still a bug of some sort in movement (primarily on the Y axis), if the if-statements are switched around, problem exists on the X-axis
 		if (next.getX() != (int)((x + 8) / 32)){
-			System.out.println(next.getX() + " and " + (int)(x + 8) / 32);
 			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
 			move();
 			if(x % 32 == 8) {

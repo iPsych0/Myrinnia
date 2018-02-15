@@ -29,10 +29,7 @@ public class CraftResultSlot {
 	
 	public void render(Graphics g) {
 		
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);

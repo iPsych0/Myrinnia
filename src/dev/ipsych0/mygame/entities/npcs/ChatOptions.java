@@ -37,7 +37,7 @@ public class ChatOptions {
 	
 	public void render(Graphics g) {
 		if(isHovering) {
-			g.drawImage(Assets.mainMenuButton[0], x + 1, y, width, height, null);
+			g.drawImage(Assets.mainMenuButton[0], x + 2, y + 1, width, height, null);
 		}else {
 			g.drawImage(Assets.mainMenuButton[1], x + 1, y, width, height, null);
 		}
