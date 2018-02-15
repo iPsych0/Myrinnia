@@ -254,6 +254,7 @@ public abstract class Creature extends Entity {
 	 * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
 	 */
 	protected void combatStateManager() {
+		System.out.println(state.toString());
 		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;
@@ -361,8 +362,11 @@ public abstract class Creature extends Entity {
 //		System.out.println("=========");
 		
 		
+		
+		
 		// TODO: Still a bug of some sort in movement (primarily on the Y axis), if the if-statements are switched around, problem exists on the X-axis
 		if (next.getX() != (int)((x + 8) / 32)){
+			System.out.println(next.getX() + " and " + (int)(x + 8) / 32);
 			xMove = (next.getX() < (int)((x + 8) / 32) ? -speed : speed);
 			move();
 			if(x % 32 == 8) {
@@ -371,6 +375,7 @@ public abstract class Creature extends Entity {
 					((LinkedList<Node>) nodes).removeFirst();
 				
 				xMove = 0;
+				yMove = 0;
 			}
 
 		}
@@ -383,6 +388,7 @@ public abstract class Creature extends Entity {
 				if(!((LinkedList<Node>) nodes).isEmpty())
 					((LinkedList<Node>) nodes).removeFirst();
 				
+				xMove = 0;
 				yMove = 0;
 			}
 
