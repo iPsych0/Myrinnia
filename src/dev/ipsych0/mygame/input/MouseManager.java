@@ -7,6 +7,7 @@ import java.awt.event.MouseMotionListener;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.items.InventoryWindow;
@@ -79,6 +80,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			rightPressed = true;
 			InventoryWindow.isEquipped = true;
 			CraftingUI.craftResultPressed = true;
+			EntityManager.isPressed = false;
 		}
 	}
 	

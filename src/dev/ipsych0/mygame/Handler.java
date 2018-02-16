@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl.Type;
 
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -32,6 +33,11 @@ public class Handler {
 	private ChatWindow chatWindow;
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
+	
+	/*
+	 * Set to true for debug mode
+	 */
+	public static boolean debugMode = false;
 	
 	/*
 	 * Index 0: Island

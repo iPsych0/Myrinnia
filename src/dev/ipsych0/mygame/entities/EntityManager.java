@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Projectile;
 
 public class EntityManager {
 	
@@ -17,6 +18,8 @@ public class EntityManager {
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Entity shoppingNpc;
+	private Entity selectedEntity;
+	public static boolean isPressed = false;
 	
 	/*
 	 * Compares Entity A to Entity B
@@ -67,6 +70,40 @@ public class EntityManager {
 			
 			Rectangle entityRect = new Rectangle((int)e.getX() - (int)handler.getGameCamera().getxOffset(),
 					(int)e.getY() - (int)handler.getGameCamera().getyOffset(), e.getWidth(), e.getHeight());
+			
+			if(e instanceof Creature) {
+				for(Projectile p : ((Creature)e).getProjectiles()) {
+					if(p.active) {
+						p.render(g);
+					}
+				}
+			}
+			
+			// If we rightclick an Entity, lock it to the top of the screen.
+			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer()) && handler.getMouseManager().isRightPressed() && !isPressed) {
+				isPressed = true;
+				if(e.isOverlayDrawn())
+					selectedEntity = e;
+			}
+			
+			// Keep rendering the selected Entity
+			if(selectedEntity != null) {
+				if(selectedEntity.active)
+					selectedEntity.drawEntityOverlay(selectedEntity, g);
+				else
+					selectedEntity = null;
+			}
+			
+			// If we clicked away, remove the locked UI component
+			if(!entityRect.contains(mouse) && !handler.getChatWindow().getWindowBounds().contains(mouse) &&
+					!handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) &&
+					!handler.getEquipment().getWindowBounds().contains(mouse) &&
+					!handler.getInventory().getWindowBounds().contains(mouse) &&
+					!e.equals(handler.getPlayer()) && handler.getMouseManager().isRightPressed() && !isPressed && selectedEntity != null) {
+				isPressed = true;
+				selectedEntity = null;
+			}
+			
 			
 			// If the mouse is hovered over an Entity, draw the overlay
 			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {

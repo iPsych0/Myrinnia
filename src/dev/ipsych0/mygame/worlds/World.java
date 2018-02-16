@@ -81,18 +81,6 @@ public abstract class World {
 	
 	public abstract void render(Graphics g);
 	
-	public boolean checkSolidLayer(int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height)
-			return true;
-		for(int i = 0; i < layers.length; i++) {
-			if(getTile(i, x, y).isSolid()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
 	public Tiles getTile(int layer, int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
 			return Tiles.blackTile;

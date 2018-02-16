@@ -43,7 +43,7 @@ public class AStarMap {
 		}
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
-				if(handler.getWorld().checkSolidLayer(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)) {
+				if(creature.collisionWithTile(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)){
 					nodes[i][j].setWalkable(false);
 				}
 			}
@@ -88,7 +88,7 @@ public class AStarMap {
 		}
 		
 		// If the goal node is standing on a solid layer
-		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
+		if(creature.collisionWithTile(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
 //			creature.setState(CombatState.BACKTRACK);
 			return null;
 		}

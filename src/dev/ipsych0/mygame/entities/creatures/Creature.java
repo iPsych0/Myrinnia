@@ -4,9 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
@@ -36,6 +40,7 @@ public abstract class Creature extends Entity {
 	protected int maxHealth;
 	protected int combatLevel;
 	protected int attackRange = Tiles.TILEWIDTH * 2;
+	protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
 	// A* stuff
 	protected CombatState state;
@@ -179,12 +184,25 @@ public abstract class Creature extends Entity {
 	 * Handles collision detection with Tiles
 	 */
 	protected boolean collisionWithTile(int x, int y){
+		// Debug
+		if(Handler.debugMode && this.equals(handler.getPlayer()))
+			return false;
+		
+		boolean walkableOnTop = false;
 		for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
 			if(handler.getWorld().getTile(i, x, y).isSolid()) {
-				return true;
+				walkableOnTop = false;
+			}else {
+				if(handler.getWorld().getTile(i, x, y) != Tiles.invisible)
+					walkableOnTop = true;
 			}
 		}
-		return false;
+		if(walkableOnTop) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	/**
@@ -202,6 +220,39 @@ public abstract class Creature extends Entity {
 		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity));
 		name[2] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
 		return name;
+	}
+	
+	protected void tickProjectiles() {
+		Iterator<Projectile> it = projectiles.iterator();
+		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+		while(it.hasNext()){
+			Projectile p = it.next();
+			if(!p.active){
+				deleted.add(p);
+			}
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+				if(!e.equals(handler.getPlayer())) {
+					continue;
+				}
+				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
+					if(e.isAttackable()) {
+						e.damage(this, e);
+						p.active = false;
+					}
+					if(!e.isAttackable()) {
+						p.active = false;
+					}
+				}
+				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
+					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+						p.active = false;
+					}
+				}
+			}
+			p.tick();
+		}
+		
+		projectiles.removeAll(deleted);
 	}
 	
 	/*
@@ -498,6 +549,14 @@ public abstract class Creature extends Entity {
 
 	public void setRadius(Rectangle radius) {
 		this.radius = radius;
+	}
+
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
+
+	public void setProjectiles(ArrayList<Projectile> projectiles) {
+		this.projectiles = projectiles;
 	}
 
 }

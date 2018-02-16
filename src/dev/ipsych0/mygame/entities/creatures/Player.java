@@ -143,21 +143,32 @@ public class Player extends Creature{
 		regenHealth();
 		
 		// Debug button for in-game testing
-//		if(handler.getKeyManager().position && debugButtonPressed){
-//			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
-//			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
-//					handler.getWorld().getEntityManager().getPlayer().getY());
+		if(handler.getKeyManager().position && debugButtonPressed){
+			
+			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			
+			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
+					handler.getWorld().getEntityManager().getPlayer().getY());
+			
+			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
+			Handler.debugMode = (Handler.debugMode) ? false : true;
+			
+			
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());
 //			System.out.println("Crafting XP = " + getCraftingExperience());
 //			System.out.println("Crafting level = " + getCraftingLevel());
+			
+			
 //			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
 //				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
 //			}
-//			
-//			debugButtonPressed = false;
-//			
-//		}
+			
+			debugButtonPressed = false;
+			
+		}
 		
 		// If space button is pressed
 		if(handler.getKeyManager().talk){
@@ -274,7 +285,8 @@ public class Player extends Creature{
 	/*
 	 * Ticks the projectiles of the player
 	 */
-	private void tickProjectiles() {
+	@Override
+	protected void tickProjectiles() {
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
 		while(it.hasNext()){
@@ -296,7 +308,7 @@ public class Player extends Creature{
 					}
 				}
 				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+					if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
 						p.active = false;
 						
 					}

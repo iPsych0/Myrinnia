@@ -25,8 +25,6 @@ public class Scorpion extends Creature {
 	private Random randDrop = new Random();
 	private int min = 1, max = 50;
 	
-	private ArrayList<Projectile> projectiles;
-	
 	private boolean initialized = false;
 	
 	 //Attack timer
@@ -54,8 +52,6 @@ public class Scorpion extends Creature {
 		
 		pathFindRadiusX = 512 * 2;
 		pathFindRadiusY = 512 * 2;
-		
-		projectiles = new ArrayList<Projectile>();
 		
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		
@@ -85,12 +81,6 @@ public class Scorpion extends Creature {
 		
 		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
-		
-		for(Projectile p : projectiles) {
-			if(p.active) {
-				p.render(g);
-			}
-		}
 		
 		g.setColor(Color.BLACK);
 		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
@@ -181,39 +171,6 @@ public class Scorpion extends Creature {
 //				return;
 //			}
 //		}
-	}
-	
-	private void tickProjectiles() {
-		Iterator<Projectile> it = projectiles.iterator();
-		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
-		while(it.hasNext()){
-			Projectile p = it.next();
-			if(!p.active){
-				deleted.add(p);
-			}
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-				if(!e.equals(handler.getPlayer())) {
-					continue;
-				}
-				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
-					if(e.isAttackable()) {
-						e.damage(this, e);
-						p.active = false;
-					}
-					if(!e.isAttackable()) {
-						p.active = false;
-					}
-				}
-				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
-						p.active = false;
-					}
-				}
-			}
-			p.tick();
-		}
-		
-		projectiles.removeAll(deleted);
 	}
 
 	@Override
