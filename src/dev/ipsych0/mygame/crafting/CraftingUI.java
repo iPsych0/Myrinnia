@@ -99,6 +99,24 @@ public class CraftingUI {
 			}
 			
 			if(handler.getKeyManager().escape) {
+				boolean invFull = false;
+				for(CraftingSlot cs : craftingSlots) {
+					if(cs.getItemStack() != null) {
+						if(!handler.invIsFull(cs.getItemStack().getItem())) {
+							handler.giveItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
+							cs.setItemStack(null);
+							findRecipe();
+						}else {
+							invFull = true;
+							handler.dropItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+							cs.setItemStack(null);
+							findRecipe();
+							
+						}
+					}
+				}
+				if(invFull)
+					handler.sendMsg("The remaining items in the crafting slots have been dropped.");
 				isOpen = false;
 			}
 			
