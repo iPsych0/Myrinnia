@@ -74,7 +74,12 @@ public class DialogueBox {
 			
 			Text.drawString(g, message, x + (width / 2), y + 32, true, Color.YELLOW, Assets.font14);
 			
+			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1,1);
 			for(DialogueButton db : buttons) {
+				if(db.getButtonBounds().contains(mouse))
+					db.setHovering(true);
+				else
+					db.setHovering(false);
 				db.render(g);
 			}
 			

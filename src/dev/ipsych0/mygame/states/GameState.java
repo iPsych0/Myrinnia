@@ -7,7 +7,7 @@ import dev.ipsych0.mygame.Handler;
 public class GameState extends State{
 
 	public static Font myFont;
-	public static Font chatFont = new Font("SansSerif", Font.BOLD, 14);
+	public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
 	
 	public GameState(Handler handler){
 		super(handler);

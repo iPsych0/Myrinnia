@@ -15,6 +15,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.ui.TextBox;
 import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.utils.DialogueButton;
@@ -112,7 +113,7 @@ public class ShopWindow {
 		buyXButton = new Rectangle(x + 145, y + (height / 2) + 64, 64, 32);
 		sellXButton = new Rectangle(x + (width / 2) + 145, y + (height / 2) + 64, 64, 32);
 		
-		exit = new Rectangle(x + width - 26, y + 10, 16, 16);
+		exit = new Rectangle(x + width - 35, y + 10, 24, 24);
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
@@ -410,34 +411,50 @@ public class ShopWindow {
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			g.setColor(Color.BLACK);
+			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+
 			// Buy/sell 1
-			g.drawRect(buy1Button.x, buy1Button.y, buy1Button.width, buy1Button.height);
-			g.drawRect(sell1Button.x, sell1Button.y, sell1Button.width, sell1Button.height);
+			if(buy1Button.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], buy1Button.x, buy1Button.y, buy1Button.width, buy1Button.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], buy1Button.x, buy1Button.y, buy1Button.width, buy1Button.height, null);
+			if(sell1Button.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], sell1Button.x, sell1Button.y, sell1Button.width, sell1Button.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], sell1Button.x, sell1Button.y, sell1Button.width, sell1Button.height, null);
 			Text.drawString(g, "Buy 1", x + 17 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell 1", x + 17 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			
 			// Buy/sell ALL
-			g.setColor(Color.BLACK);
-			g.drawRect(buyAllButton.x, buyAllButton.y, buyAllButton.width, buyAllButton.height);
-			g.drawRect(sellAllButton.x, sellAllButton.y, sellAllButton.width, sellAllButton.height);
+			if(buyAllButton.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], buyAllButton.x, buyAllButton.y, buyAllButton.width, buyAllButton.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], buyAllButton.x, buyAllButton.y, buyAllButton.width, buyAllButton.height, null);
+			if(sellAllButton.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], sellAllButton.x, sellAllButton.y, sellAllButton.width, sellAllButton.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], sellAllButton.x, sellAllButton.y, sellAllButton.width, sellAllButton.height, null);
 			Text.drawString(g, "Buy all", x + 81 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell all", x + 81 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			
 			// Buy/sell X
-			g.setColor(Color.BLACK);
-			g.drawRect(buyXButton.x, buyXButton.y, buyXButton.width, buyXButton.height);
-			g.drawRect(sellXButton.x, sellXButton.y, sellXButton.width, sellXButton.height);
+			if(buyXButton.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], buyXButton.x, buyXButton.y, buyXButton.width, buyXButton.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], buyXButton.x, buyXButton.y, buyXButton.width, buyXButton.height, null);
+			if(sellXButton.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], sellXButton.x, sellXButton.y, sellXButton.width, sellXButton.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], sellXButton.x, sellXButton.y, sellXButton.width, sellXButton.height, null);
 			Text.drawString(g, "Buy X", x + 145 + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Sell X", x + 145 + (width / 2) + 32, y + (height / 2) + 64 + 16, true, Color.YELLOW, Assets.font14);
 			
 			// test stuff close button
-			g.setColor(Color.YELLOW);
-			g.fillRect(x + width - 26, y + 10, 16, 16);
-			g.setColor(Color.BLACK);
-			g.drawRect(x + width - 26, y + 10, 16, 16);
-			Text.drawString(g, "X", x + width - 26 + 8, y + 10 + 8, true, Color.BLACK, Assets.font14);
-			
+			if(exit.contains(mouse))
+				g.drawImage(Assets.mainMenuButton[0], exit.x, exit.y, exit.width, exit.height, null);
+			else
+				g.drawImage(Assets.mainMenuButton[1], exit.x, exit.y, exit.width, exit.height, null);
+			Text.drawString(g, "X", exit.x + 12, y + 10 + 12, true, Color.YELLOW, GameState.chatFont);
 			for(ItemSlot is : itemSlots) {
 				
 				is.render(g);

@@ -14,6 +14,7 @@ public class DialogueButton {
 	public String text;
 	public Rectangle buttonBounds;
 	private String[] buttonParam = new String[2];
+	private boolean hovering = false;
 	
 	public DialogueButton(int x, int y, int width, int height, String text) {
 		this.x = x;
@@ -30,7 +31,10 @@ public class DialogueButton {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Assets.invSlot, x, y, width, height, null);
+		if(hovering)
+			g.drawImage(Assets.mainMenuButton[0], x, y, width, height, null);
+		else
+			g.drawImage(Assets.mainMenuButton[1], x, y, width, height, null);
 		Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
 	}
 	
@@ -93,6 +97,14 @@ public class DialogueButton {
 
 	public void setButtonParam(String[] buttonParam) {
 		this.buttonParam = buttonParam;
+	}
+
+	public boolean isHovering() {
+		return hovering;
+	}
+
+	public void setHovering(boolean hovering) {
+		this.hovering = hovering;
 	}
 
 }
