@@ -22,7 +22,7 @@ public class InventoryWindow implements Serializable {
 	
 	private int x, y;
 	private int width, height;
-	private Handler handler;
+	private transient Handler handler;
 	
 	private int numCols = 3;
 	private int numRows = 10;
@@ -611,6 +611,16 @@ public class InventoryWindow implements Serializable {
 
 	public void setCurrentSelectedSlot(ItemStack currentSelectedSlot) {
 		this.currentSelectedSlot = currentSelectedSlot;
+	}
+
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 
 }

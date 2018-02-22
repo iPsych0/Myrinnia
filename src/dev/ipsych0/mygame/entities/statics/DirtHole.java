@@ -85,8 +85,8 @@ public class DirtHole extends StaticEntity {
 				chatDialogue = null;
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
 				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(6016);
-				handler.getPlayer().setY(5312);
+				handler.getPlayer().setX(3008);
+				handler.getPlayer().setY(3392);
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {

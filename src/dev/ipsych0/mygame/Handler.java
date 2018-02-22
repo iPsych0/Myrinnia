@@ -5,7 +5,9 @@ import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -60,6 +62,19 @@ public class Handler {
 		worldHandler.addWorld(new TestLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap2.tmx", 1));
 		worldHandler.addWorld(new SwampLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, inventory, equipment, "res/worlds/island_indoors.tmx", 3));
+	}
+	
+	public String toJSON(Object o){
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		System.out.println(gson.toJson(o));
+		return gson.toJson(o);
+	}
+	
+	public Object fromJSON(String JSON, Object o) {
+		Gson gson = new Gson();
+		Object fromJSON = gson.fromJson(JSON, o.getClass());
+		return fromJSON;
+		
 	}
 
 	/*
