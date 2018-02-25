@@ -58,7 +58,6 @@ public class DialogueBox {
 							pressedButton = db;
 							pressedButton.pressedButton(answers[i], param);
 							isOpen = false;
-							break;
 						}
 					}
 				}
