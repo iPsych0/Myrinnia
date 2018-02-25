@@ -58,7 +58,7 @@ public class ChatDialogue {
 				
 				if(optionSlot.contains(mouse)) {
 					option.setHovering(true);
-					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
 						hasBeenPressed = false;
 						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
@@ -72,7 +72,7 @@ public class ChatDialogue {
 			continueButton.tick();
 			if(continueButtonBounds.contains(mouse)) {
 				continueButton.setHovering(true);
-				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
 					hasBeenPressed = false;
 					Player.hasInteracted = false;
 					continueButton.setPressed(true);

@@ -18,7 +18,7 @@ public class Tree extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private int speakingTurn;
 	private boolean isWoodcutting = false;
-	private int miningTimer = 0;
+	private int woodcuttingTimer = 0;
 	private int minAttempts = 2, maxAttempts = 6;
 	private int random = 0;
 	private int attempts = 0;
@@ -26,10 +26,7 @@ public class Tree extends StaticEntity {
 	public Tree(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
+		solid = true;
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;
@@ -39,7 +36,7 @@ public class Tree extends StaticEntity {
 	public void tick() {
 		if(isWoodcutting) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
-				miningTimer = 0;
+				woodcuttingTimer = 0;
 				speakingTurn = 0;
 				isWoodcutting = false;
 				return;
@@ -53,9 +50,9 @@ public class Tree extends StaticEntity {
 				}
 			}
 			
-			miningTimer++;
+			woodcuttingTimer++;
 			
-			if(miningTimer >= 180) {
+			if(woodcuttingTimer >= 180) {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
@@ -68,7 +65,7 @@ public class Tree extends StaticEntity {
 	        		attempts++;
 	        	}
 	        	speakingTurn = 0;
-	        	miningTimer = 0;
+	        	woodcuttingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
 	        		random = handler.getRandomNumber(minAttempts, maxAttempts);
