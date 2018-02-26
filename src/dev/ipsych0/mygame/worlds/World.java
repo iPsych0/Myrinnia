@@ -19,6 +19,7 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
@@ -53,6 +54,7 @@ public abstract class World {
 	protected CraftingUI craftingUI;
 	protected Player player;
 	protected ChatWindow chatWindow;
+	protected QuestManager questManager;
 	
 	// Actual code ---v
 	

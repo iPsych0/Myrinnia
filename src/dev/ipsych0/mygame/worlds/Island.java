@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Island extends World {
@@ -27,7 +28,7 @@ public class Island extends World {
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
 
-	public Island(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, String path, int worldID) {
+	public Island(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, QuestManager questManager, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
@@ -35,6 +36,7 @@ public class Island extends World {
 		this.chatWindow = chatWindow;
 		this.inventory = inventory;
 		this.equipment = equipment;
+		this.questManager = questManager;
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
@@ -83,6 +85,7 @@ public class Island extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			chatWindow.tick();
+			questManager.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
@@ -175,6 +178,8 @@ public class Island extends World {
 			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
+			
+			questManager.render(g);
 			
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);

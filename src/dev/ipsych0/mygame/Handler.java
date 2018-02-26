@@ -17,6 +17,7 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
@@ -35,6 +36,7 @@ public class Handler {
 	private ChatWindow chatWindow;
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
+	private QuestManager questManager;
 	
 	/*
 	 * Set to true for debug mode
@@ -57,11 +59,12 @@ public class Handler {
 		chatWindow.sendMessage("Welcome back!");
 		inventory = new InventoryWindow(this, 828, 0);
 		equipment = new EquipmentWindow(this, 828, 372);
-		island = new Island(this, player, chatWindow, inventory, equipment, "res/worlds/island.tmx", 0);
+		questManager = new QuestManager(this);
+		island = new Island(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
-		worldHandler.addWorld(new TestLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, player, chatWindow, inventory, equipment, "res/worlds/testmap.tmx", 2));
-		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, inventory, equipment, "res/worlds/island_indoors.tmx", 3));
+		worldHandler.addWorld(new TestLand(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/testmap2.tmx", 1));
+		worldHandler.addWorld(new SwampLand(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/testmap.tmx", 2));
+		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/island_indoors.tmx", 3));
 	}
 	
 	public String toJSON(Object o){
@@ -237,6 +240,14 @@ public class Handler {
 
 	public void setEquipment(EquipmentWindow equipment) {
 		this.equipment = equipment;
+	}
+
+	public QuestManager getQuestManager() {
+		return questManager;
+	}
+
+	public void setQuestManager(QuestManager questManager) {
+		this.questManager = questManager;
 	}
 
 }
