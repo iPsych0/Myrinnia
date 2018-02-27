@@ -8,6 +8,7 @@ import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Creature.Direction;
 import dev.ipsych0.mygame.entities.statics.StaticEntity;
 
 public class AStarMap {

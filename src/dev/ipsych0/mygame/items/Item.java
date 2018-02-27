@@ -14,8 +14,8 @@ public class Item implements Serializable{
 	// ItemList
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
-	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.MAGIC_WEAPON, ItemRarity.Common, 1, 10, 10, 5, 0, 3.0f, 5, true);
+	public static Item[] items = new Item[32];
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 12, 10, 10, 5, 0, 3.0f, 5, true);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0, 5, true);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0, -1, true);
 	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0, 10, false);
@@ -38,7 +38,7 @@ public class Item implements Serializable{
 	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
-	public boolean isStackable = true;
+	public boolean stackable = true;
 	
 	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
 		this.texture = texture;
@@ -53,7 +53,7 @@ public class Item implements Serializable{
 		this.attackSpeed = attackSpeed;
 		this.movementSpeed = movementSpeed;
 		this.price = price;
-		this.isStackable = isStackable;
+		this.stackable = isStackable;
 		
 		items[id] = this;
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
@@ -78,11 +78,11 @@ public class Item implements Serializable{
 	 * @params: x,y position and amount
 	 */
 	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, isStackable);
+		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable);
 		i.setPosition(x, y);
 		
 		// If the item is stackable, set the amount
-		if(i.isStackable)
+		if(i.stackable)
 			i.setCount(count);
 		// If the item is unstackable, the count is always 1.
 		else
@@ -246,11 +246,11 @@ public class Item implements Serializable{
 	}
 
 	public boolean isStackable() {
-		return isStackable;
+		return stackable;
 	}
 
-	public void setStackable(boolean isStackable) {
-		this.isStackable = isStackable;
+	public void setStackable(boolean stackable) {
+		this.stackable = stackable;
 	}
 
 }

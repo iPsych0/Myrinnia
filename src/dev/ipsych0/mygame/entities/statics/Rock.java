@@ -25,7 +25,6 @@ public class Rock extends StaticEntity {
 	public Rock(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		solid = true;
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;

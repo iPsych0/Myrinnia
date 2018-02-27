@@ -104,7 +104,7 @@ public abstract class Entity {
 	 */
 	public Entity getClosestEntity(){
 		double closestDistance;
-		Entity closestEntity = null;
+		Entity closestEntity;
 		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
 		ArrayList<Double> pythagoras = new ArrayList<Double>();
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
@@ -122,9 +122,7 @@ public abstract class Entity {
 		    Collections.sort(pythagoras);
 		}
 		closestDistance = pythagoras.get(0);
-		pythagoras.clear();
 		closestEntity = hashMap.get(closestDistance);
-		hashMap.clear();
 		return closestEntity;
 	}
 	
@@ -211,7 +209,7 @@ public abstract class Entity {
 	 * Returns the collision bounds of an Entity
 	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		return new Rectangle((int)Math.round((x + bounds.x + xOffset)), (int)Math.round((y + bounds.y + yOffset)), bounds.width, bounds.height);
 	}
 	
 	// Getters & Setters

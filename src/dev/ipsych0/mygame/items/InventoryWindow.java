@@ -108,7 +108,7 @@ public class InventoryWindow implements Serializable {
 					if(slot.contains(mouse)){
 						// If the itemstack already holds an item
 						if(is.getItemStack() != null) {
-							if(currentSelectedSlot.getItem().isStackable) {
+							if(currentSelectedSlot.getItem().stackable) {
 								// And if the item in the slot is stackable
 								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 									// Add the item back to the inventory

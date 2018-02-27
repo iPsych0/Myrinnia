@@ -22,10 +22,6 @@ public class WaterToBridgePart extends StaticEntity {
 	public WaterToBridgePart(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
 	}

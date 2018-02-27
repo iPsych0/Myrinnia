@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.Quest;
+import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
@@ -22,18 +23,16 @@ public class Campfire extends StaticEntity {
 	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
 	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
 	private Quest testQuest;
+	private QuestManager qm;
 
 	public Campfire(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
 		speakingTurn = 0;
 		campfire = new Animation(125, Assets.campfire);
+		qm = handler.getQuestManager();
 		testQuest = new Quest(handler, "Random Quest");
 	}
 
@@ -73,8 +72,6 @@ public class Campfire extends StaticEntity {
 		case 0:
 			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
-			handler.getQuestManager().getQuestList().add(testQuest);
-			testQuest.getQuestSteps().add(new QuestStep("Stap 1!"));
 			break;
 		case 1:
 			if(chatDialogue == null) {
@@ -85,8 +82,6 @@ public class Campfire extends StaticEntity {
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
-				testQuest.getQuestSteps().add(new QuestStep("Stap 2!"));
-				testQuest.nextStep();
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
@@ -104,8 +99,6 @@ public class Campfire extends StaticEntity {
 			}
 			chatDialogue = new ChatDialogue(handler, 0, 600, thirdDialogue);
 			speakingTurn++;
-			testQuest.getQuestSteps().add(new QuestStep("Stap 3!"));
-			testQuest.nextStep();
 			break;
 		case 3:
 			if(chatDialogue == null) {
@@ -119,7 +112,6 @@ public class Campfire extends StaticEntity {
 					handler.sendMsg("You found 1 log.");
 					chatDialogue = null;
 					speakingTurn = 0;
-					testQuest.setCompleted(true);
 				}else {
 					chatDialogue = null;
 					speakingTurn = 0;

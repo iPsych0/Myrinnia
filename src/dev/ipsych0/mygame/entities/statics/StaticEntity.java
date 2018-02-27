@@ -9,6 +9,8 @@ public abstract class StaticEntity extends Entity {
 		super(handler, x, y, width, height);
 		
 		staticNpc = true;
+		solid = true;
+		attackable = false;
 	}
 	
 	@Override

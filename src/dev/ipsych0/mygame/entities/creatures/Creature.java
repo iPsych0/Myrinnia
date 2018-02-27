@@ -308,8 +308,8 @@ public abstract class Creature extends Entity {
 	 */
 	protected void combatStateManager() {
 		
-		int playerX = (int)Math.round(((handler.getPlayer().getX() + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
-		int playerY = (int)Math.round(((handler.getPlayer().getY() + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
+		int playerX = (int)Math.round(((handler.getPlayer().getX() + 0) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
+		int playerY = (int)Math.round(((handler.getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 		
 		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {

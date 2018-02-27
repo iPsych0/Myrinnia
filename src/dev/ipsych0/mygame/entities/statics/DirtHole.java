@@ -12,19 +12,15 @@ public class DirtHole extends StaticEntity {
 
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private int speakingTurn;
+	private int speakingTurn = 0;
 	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};
 	private String[] secondDialogue = {"Climb down.", "No thanks, I'm fine."};
 
 	public DirtHole(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		bounds.x = 0;
-		bounds.y = 0;
-		bounds.width = 32;
-		bounds.height = 32;
+		
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 	}
 
 	@Override
