@@ -47,7 +47,7 @@ public class ChatWindow {
 			}	
 			width = numCols * (TextSlot.textWidth);
 			height = numRows * (TextSlot.textHeight + 1);
-			setWindowBounds(new Rectangle(x, y, width, height));
+			windowBounds = new Rectangle(x, y, width, height);
 			isCreated = true;
 		}
 	}

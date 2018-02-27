@@ -30,8 +30,6 @@ public class CraftingUI {
 	private CopyOnWriteArrayList<CraftingSlot> craftingSlots;
 	private CraftResultSlot crs;
 	private CraftButton cb;
-	private int numRows = 2;
-	private int numCols = 2;
 	private int craftAmount = 1;
 	public static boolean craftButtonPressed = false;
 	public static boolean craftResultPressed = false;
