@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.statics.StaticEntity;
 
 public class AStarMap {
 	
@@ -48,6 +50,15 @@ public class AStarMap {
 				}
 			}
 		}
+		
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			if(e instanceof StaticEntity) {
+				if(mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
+					nodes[(int)Math.round(((e.getX()) / 32)) - (int)(x) / 32][(int)Math.round(((e.getY()) / 32)) - (int)(y) / 32].setWalkable(false);
+				}
+			}
+		}
+		
 	}
 	
 	public void tick() {
@@ -87,10 +98,11 @@ public class AStarMap {
 			goalY = (int)(ySpawn / 32 - y / 32);
 		}
 		
-		// If the goal node is standing on a solid layer
-		if(creature.collisionWithTile(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
+		// If the goal node is standing on a non-walkable tile
+		if(!nodes[goalX][goalY].isWalkable()) {
 //			creature.setState(CombatState.BACKTRACK);
-			return null;
+			goalX = (int)(xSpawn / 32 - x / 32);
+			goalY = (int)(ySpawn / 32 - y / 32);
 		}
 		
 		

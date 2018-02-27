@@ -85,14 +85,14 @@ public class Scorpion extends Creature {
 		g.setColor(Color.BLACK);
 		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
 		
-//		map.render(g);
-//		
-//		if(nodes != null) {
-//			for(Node n : nodes) {
-//				g.setColor(pathColour);
-//				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
-//			}
-//		}
+		map.render(g);
+		
+		if(nodes != null) {
+			for(Node n : nodes) {
+				g.setColor(pathColour);
+				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+			}
+		}
 		
 	}
 

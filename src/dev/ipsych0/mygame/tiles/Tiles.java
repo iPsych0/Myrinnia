@@ -899,6 +899,12 @@ public class Tiles {
 		case 1266: return true;
 		case 1223: return true;
 		case 1893: return true;
+		case 2795: return true;
+		case 2792: return true;
+		case 2791: return true;
+		case 2811: return true;
+		case 2793: return true;
+		case 2808: return true;
 				
 		default: return false;
 		}

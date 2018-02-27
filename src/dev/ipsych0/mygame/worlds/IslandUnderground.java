@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.entities.statics.Campfire;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class IslandUnderground extends World {
@@ -22,7 +23,7 @@ public class IslandUnderground extends World {
 	private Rectangle beachCaveExit;
 	private Rectangle stoneHouse1Exit;
 
-	public IslandUnderground(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, String path, int worldID) {
+	public IslandUnderground(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, QuestManager questManager, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
@@ -30,6 +31,7 @@ public class IslandUnderground extends World {
 		this.chatWindow = chatWindow;
 		this.inventory = inventory;
 		this.equipment = equipment;
+		this.questManager = questManager;
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
@@ -60,6 +62,7 @@ public class IslandUnderground extends World {
 			miniMap.tick();
 			craftingUI.tick();
 			chatWindow.tick();
+			questManager.tick();
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1Exit)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
@@ -159,6 +162,8 @@ public class IslandUnderground extends World {
 			// MiniMap
 			miniMap.render(g);
 			craftingUI.render(g);
+			
+			questManager.render(g);
 			
 //			g.drawRect((int) (exit1.x - handler.getGameCamera().getxOffset()), (int) (exit1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (exit2.x - handler.getGameCamera().getxOffset()), (int) (exit2.y - handler.getGameCamera().getyOffset()), 32, 32);

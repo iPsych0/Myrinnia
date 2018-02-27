@@ -31,7 +31,7 @@ public abstract class Entity {
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
 	protected boolean shopping = false;
-	protected boolean isSolid = true;
+	protected boolean solid = true;
 	protected Entity damageDealer, damageReceiver;
 	protected int speakingTurn = 0;
 	private int ty = 0;
@@ -72,7 +72,7 @@ public abstract class Entity {
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
-			if(!e.isSolid)
+			if(!e.solid)
 				continue;
 			if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
 				return true;
@@ -345,6 +345,14 @@ public abstract class Entity {
 
 	public void setOverlayDrawn(boolean overlayDrawn) {
 		this.overlayDrawn = overlayDrawn;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
 	}
 	
 }
