@@ -64,10 +64,10 @@ public class InventoryWindow implements Serializable {
 			// Prevents multiple instances of the inventory being created over and over when picking up items
 			isCreated = true;
 			
-			getItemSlots().get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
-			getItemSlots().get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
-			getItemSlots().get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
-			getItemSlots().get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
+			itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
+			itemSlots.get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
+			itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
+			itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
 			
 		}
 	}
@@ -412,15 +412,14 @@ public class InventoryWindow implements Serializable {
         	}
         	else if(itemSlots.get(i).getItemStack() != null && item.isStackable()){
         		if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId()){
-        			System.out.println("We already have this item in our inventory!");
-        			
             		return i;
         		}
         	}
        }
-        if(index != -1)
-        	return index;
-       System.out.println("No free inventory slot available.");
+       if(index != -1)
+    	   return index;
+       
+       handler.sendMsg("Your inventory is full.");
        return -1;
 	}
 	
@@ -472,7 +471,6 @@ public class InventoryWindow implements Serializable {
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
 					itemSlots.get(i).setItemStack(null);
-					System.out.println("Hoe vaak");
 					hasItem = true;
 					return hasItem;
 				}
@@ -499,7 +497,7 @@ public class InventoryWindow implements Serializable {
 			if(itemSlots.get(i).getItemStack() == null){
 				emptySlots++;
 			}
-			if(itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
+			if(itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
 				return false;
 			}
 		}

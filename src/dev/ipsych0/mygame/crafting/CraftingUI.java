@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -96,7 +97,28 @@ public class CraftingUI {
 				hovering = false;
 			}
 			
-			if(handler.getKeyManager().escape) {
+			if(handler.getKeyManager().escape || Player.isMoving) {
+				if(crs.getItemStack() != null) {
+					int numItems = crs.getItemStack().getAmount();
+					for(int i = 0; i < numItems; i++) {
+						if(!handler.invIsFull(crs.getItemStack().getItem())) {
+							handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
+							if(crs.getItemStack().getAmount() > 1)
+								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+							else
+								crs.setItemStack(null);
+							findRecipe();
+						}else {
+							handler.dropItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+							if(crs.getItemStack().getAmount() > 1)
+								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+							else
+								crs.setItemStack(null);
+							findRecipe();
+						}
+					}
+				}
+				
 				boolean invFull = false;
 				for(CraftingSlot cs : craftingSlots) {
 					if(cs.getItemStack() != null) {
@@ -120,34 +142,39 @@ public class CraftingUI {
 			
 			// If left-clicked on the "craft" button, craft the item
 			if(handler.getMouseManager().isLeftPressed()) {
-				if(cbBounds.contains(mouse) && !hasBeenPressed && craftButtonPressed) {
-					hasBeenPressed = true;
+				if(cbBounds.contains(mouse) && craftButtonPressed) {
 					
 					craftItem();
 					
 					craftButtonPressed = false;
-					hasBeenPressed = false;
 				}
 			}
 			
 			// If right-clicked on the crafted item
 			if(handler.getMouseManager().isRightPressed()) {
-				if(crsBounds.contains(mouse) && !hasBeenPressed && craftResultPressed) {
+				if(crsBounds.contains(mouse) && craftResultPressed) {
 					// If there is no item in the slot, return
 					if(crs.getItemStack() == null) {
 						craftResultPressed = false;
 						return;
 					}
-					hasBeenPressed = true;
 					
+					int numItems = crs.getItemStack().getAmount();
 					// If inventory is not full, add item
-					if(!handler.invIsFull(crs.getItemStack().getItem())) {
-						handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
-						crs.setItemStack(null);
+					for(int i = 0; i < numItems; i++) {
+						if(handler.invIsFull(crs.getItemStack().getItem())) {
+							break;
+						}else {
+							handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
+							
+							if(crs.getItemStack().getAmount() > 1)
+								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+							else
+								crs.setItemStack(null);
+						}
 					}
 					
 					craftResultPressed = false;
-					hasBeenPressed = false;
 				}
 			}
 			
@@ -178,16 +205,37 @@ public class CraftingUI {
 					}
 				}
 				
-				// If we are dragging an item and let go of the mouse (not dragging anymore)
+				// If the item is released
 				if(itemSelected && !handler.getMouseManager().isDragged()) {
 					if(craftSlot.contains(mouse)){
-						// Add the item to the slot you're hovering over
-						if(cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+						// If the itemstack already holds an item
+						if(cs.getItemStack() != null) {
+							if(currentSelectedSlot.getItem().stackable) {
+								// And if the item in the slot is stackable
+								if(cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+									// Add the item back to the inventory
+									currentSelectedSlot = null;
+									itemSelected = false;
+									hasBeenPressed = false;
+									findRecipe();
+								
+								}else {
+									// If we cannot add the item to an existing stack
+									hasBeenPressed = false;
+									return;
+								}
+							}
+							else {
+								// If the item is not stackable / we cannot add the item
+								hasBeenPressed = false;
+							}
+						}else {
+							// If the item stack == null, we can safely add it.
+							cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
 							findRecipe();
-						
 						}
 					}
 				}
@@ -317,15 +365,12 @@ public class CraftingUI {
         	}
         	else if(craftingSlots.get(i).getItemStack() != null && item.isStackable()){
         		if(craftingSlots.get(i).getItemStack().getItem().getId() == item.getId()){
-        			System.out.println("We already have this item in our inventory!");
-        			
             		return i;
         		}
         	}
        }
         if(index != -1)
         	return index;
-       System.out.println("No free inventory slot available.");
        return -1;
 	}
 	
@@ -440,6 +485,8 @@ public class CraftingUI {
 				}
 				
 				// Add an item to the result slot
+				possibleRecipe = getRecipeItem(i);
+				craftRecipe = craftingRecipeList.getRecipes().get(i);
 				makeItem(i);
 				handler.getPlayer().addCraftingExperience(getCraftingRecipeList().getRecipes().get(i).getCraftingXP());
 				
@@ -451,6 +498,9 @@ public class CraftingUI {
 			sortedCraftRecipe.clear();
 			tempCraftRecipeList.clear();
 			matches = 0;
+			craftRecipe = null;
+			possibleRecipe = null;
+			craftImg = null;
 		}
 		
 		// Clear all ArrayLists
@@ -459,6 +509,7 @@ public class CraftingUI {
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
 		sortedCraftSlots.clear();
+		findRecipe();
 	}
 	/*
 	 * Create an item
@@ -467,9 +518,9 @@ public class CraftingUI {
 	public void makeItem(int recipeID) {
 		
 		// If the recipe hasn't been made before, make it discovered
-		if(craftRecipe != null) {
-			if(!craftRecipe.isDiscovered()) {
-				craftRecipe.setDiscovered(true);
+		if(craftRecipe == craftingRecipeList.getRecipes().get(recipeID)) {
+			if(!craftingRecipeList.getRecipes().get(recipeID).isDiscovered()) {
+				craftingRecipeList.getRecipes().get(recipeID).setDiscovered(true);
 				handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
 			}
 		}
@@ -514,8 +565,6 @@ public class CraftingUI {
 		}
 		
 		if(nullSlots == craftingSlots.size()) {
-			nullSlots = 0;
-			tempCraftSlotList.clear();
 			return;
 		}
 		

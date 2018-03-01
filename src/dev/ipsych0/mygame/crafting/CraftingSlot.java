@@ -37,10 +37,14 @@ public class CraftingSlot {
 		 * If there is an item in a slot, render it
 		 */
 		if(itemStack != null) {
+			
 			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
-			g.setColor(Color.YELLOW);
-			g.setFont(Assets.font14);
-			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			
+			if(itemStack.getItem().isStackable()) {
+				g.setColor(Color.YELLOW);
+				g.setFont(Assets.font14);
+				g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			}
 		}
 	}
 	

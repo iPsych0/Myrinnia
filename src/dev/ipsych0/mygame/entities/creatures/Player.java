@@ -162,9 +162,9 @@ public class Player extends Creature{
 //			System.out.println("Crafting level = " + getCraftingLevel());
 			
 			
-//			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
-//				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
-//			}
+			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
+				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+			}
 			
 			debugButtonPressed = false;
 			

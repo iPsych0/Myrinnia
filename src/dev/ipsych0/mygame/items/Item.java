@@ -129,8 +129,6 @@ public class Item implements Serializable{
             System.out.println("Something went wrong picking up this item.");
             return false;
         }
-        // Cannot pick up item because inventroy is full
-        handler.sendMsg("Your inventory is full. Please make some space!");
     	return false;
     }
 	
