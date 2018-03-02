@@ -32,12 +32,12 @@ public class Quest {
 	}
 	
 	public void render(Graphics g) {
-		if(questSteps.size() != 0 && !completed) {
-			g.drawString("QuestName: "+questName, (int)(handler.getPlayer().getX() - handler.getGameCamera().getxOffset() - 16), (int)(handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 50));
-			g.drawString("Current objective: "+questSteps.get(step).getObjective(), (int)(handler.getPlayer().getX() - handler.getGameCamera().getxOffset() - 16), (int)(handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32));
-		}
+		
 	}
 	
+	public int getStep() {
+		return step;
+	}
 	
 	public void nextStep() {
 		this.step++;
@@ -70,13 +70,9 @@ public class Quest {
 		this.questName = questName;
 	}
 
-
-
 	public QuestState getState() {
 		return state;
 	}
-
-
 
 	public void setState(QuestState state) {
 		this.state = state;

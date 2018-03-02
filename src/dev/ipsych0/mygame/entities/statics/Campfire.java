@@ -71,8 +71,6 @@ public class Campfire extends StaticEntity {
 		case 0:
 			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
-			handler.getQuestManager().getQuestMap().get(QuestList.TutorialQuest).nextStep();
-			handler.getQuestManager().getQuestMap().get(QuestList.YellowTest).setState(QuestState.IN_PROGRESS);
 			break;
 		case 1:
 			if(chatDialogue == null) {
@@ -83,6 +81,8 @@ public class Campfire extends StaticEntity {
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
+				handler.getQuestManager().getQuestMap().get(QuestList.YellowTest).setState(QuestState.IN_PROGRESS);
+				handler.getQuestManager().getQuestMap().get(QuestList.YellowTest).getQuestSteps().add(new QuestStep("Kill je moer"));
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
@@ -111,6 +111,7 @@ public class Campfire extends StaticEntity {
 				if(!handler.invIsFull(Item.woodItem)) {
 					handler.giveItem(Item.woodItem, 1);
 					handler.sendMsg("You found 1 log.");
+					handler.getQuestManager().getQuestMap().get(QuestList.YellowTest).setState(QuestState.COMPLETED);
 					chatDialogue = null;
 					speakingTurn = 0;
 				}else {
