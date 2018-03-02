@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+import java.util.HashMap;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
@@ -8,6 +9,8 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.Quest;
+import dev.ipsych0.mygame.quests.Quest.QuestState;
+import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -22,8 +25,6 @@ public class Campfire extends StaticEntity {
 	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
 	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
 	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
-	private Quest testQuest;
-	private QuestManager qm;
 
 	public Campfire(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
@@ -32,8 +33,6 @@ public class Campfire extends StaticEntity {
 		attackable = false;
 		speakingTurn = 0;
 		campfire = new Animation(125, Assets.campfire);
-		qm = handler.getQuestManager();
-		testQuest = new Quest(handler, "Random Quest");
 	}
 
 	@Override
@@ -72,6 +71,8 @@ public class Campfire extends StaticEntity {
 		case 0:
 			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
+			handler.getQuestManager().getQuestMap().get(QuestList.TutorialQuest).nextStep();
+			handler.getQuestManager().getQuestMap().get(QuestList.YellowTest).setState(QuestState.IN_PROGRESS);
 			break;
 		case 1:
 			if(chatDialogue == null) {

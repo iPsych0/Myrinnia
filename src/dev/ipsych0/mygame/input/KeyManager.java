@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class KeyManager implements KeyListener{
@@ -128,12 +129,23 @@ public class KeyManager implements KeyListener{
 				}
 			}
 			
+			// Crafting window toggle
 			if(e.getKeyCode() == KeyEvent.VK_H){
 				if(!CraftingUI.isOpen){
 					CraftingUI.isOpen = true;
 				}
 				else {
 					CraftingUI.isOpen = false;
+				}
+			}
+			
+			// QuestWindow toggle
+			if(e.getKeyCode() == KeyEvent.VK_Q){
+				if(!QuestUI.isOpen){
+					QuestUI.isOpen = true;
+				}
+				else {
+					QuestUI.isOpen = false;
 				}
 			}
 			

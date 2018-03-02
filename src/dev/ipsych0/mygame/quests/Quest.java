@@ -12,11 +12,17 @@ public class Quest {
 	protected ArrayList<QuestStep> questSteps;
 	protected int step = 0;
 	private String questName;
+	private QuestState state;
+	
+	public enum QuestState{
+		NOT_STARTED, IN_PROGRESS, COMPLETED
+	}
 	
 	public Quest(Handler handler, String questName) {
 		this.handler = handler;
 		this.questName = questName;
 		questSteps = new ArrayList<QuestStep>();
+		state = QuestState.NOT_STARTED;
 	}
 	
 	
@@ -62,6 +68,18 @@ public class Quest {
 
 	public void setQuestName(String questName) {
 		this.questName = questName;
+	}
+
+
+
+	public QuestState getState() {
+		return state;
+	}
+
+
+
+	public void setState(QuestState state) {
+		this.state = state;
 	}
 
 }
