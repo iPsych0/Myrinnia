@@ -19,8 +19,6 @@ public class Text {
 	 * Draws a String to the screen with specified font, colour and centred/not centred
 	 */
 	public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
-		g.setColor(color);
-		g.setFont(font);
 		int x = xPos;
 		int y = yPos;
 		
@@ -30,6 +28,10 @@ public class Text {
 			y = (yPos - fm.getHeight() / 2) + fm.getAscent();
 		}
 		
+		g.setFont(font);
+		g.setColor(Color.BLACK);
+		g.drawString(text, x+1, y+1);
+		g.setColor(color);
 		g.drawString(text, x, y);
 	}
 	

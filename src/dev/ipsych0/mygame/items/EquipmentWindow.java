@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.utils.Text;
 
 public class EquipmentWindow implements Serializable {
 	
@@ -149,9 +150,7 @@ public class EquipmentWindow implements Serializable {
 //			g.fillRect(x - 16, y - 16, width + 32, height);
 //			g.setColor(Color.BLACK);
 //			g.drawRect(x - 16, y - 16, width + 32, height);
-			g.setFont(Assets.font14);
-			g.setColor(Color.YELLOW);
-			g.drawString("Equipment", x + 38, y + 24);
+			Text.drawString(g, "Equipment", x + 34, y + 24, false, Color.YELLOW, Assets.font14);
 			
 			for(EquipmentSlot es : equipmentSlots){
 				es.render(g);
@@ -164,13 +163,12 @@ public class EquipmentWindow implements Serializable {
 			
 			g.drawImage(Assets.equipStats, 838, 550, 112, 160, null);
 			
-			g.setColor(Color.YELLOW);
-			g.drawString("Stats ", 876, 546);
-			g.drawString("Power = "+Integer.toString(handler.getPlayer().getPower()), 844, 572);
-			g.drawString("Defence = "+Integer.toString(handler.getPlayer().getDefence()), 844, 588);
-			g.drawString("Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 844, 604);
-			g.drawString("ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 844, 620);
-			g.drawString("Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 844, 636);
+			Text.drawString(g, "Stats ", 878, 546, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Power = "+Integer.toString(handler.getPlayer().getPower()), 844, 572, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Defence = "+Integer.toString(handler.getPlayer().getDefence()), 844, 588, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 844, 604, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 844, 620, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 844, 636, false, Color.YELLOW, Assets.font14);
 		}
 	}
 

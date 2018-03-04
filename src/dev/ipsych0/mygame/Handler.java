@@ -17,7 +17,10 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.quests.Quest;
+import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.quests.QuestStep;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
@@ -79,6 +82,14 @@ public class Handler {
 		return fromJSON;
 		
 	}
+	
+	public Quest getQuest(QuestList quest) {
+		return questManager.getQuestMap().get(quest);
+	}
+	
+	public void addQuestStep(QuestList quest, String objective) {
+		getQuest(quest).getQuestSteps().add(new QuestStep(objective));
+	}
 
 	/*
 	 * Generates a random numbers between min & max
@@ -139,7 +150,12 @@ public class Handler {
 	 * @params: Provide the item and the amount to be added
 	 */
 	public void giveItem(Item item, int amount) {
-		getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
+		if(getWorld().getInventory().findFreeSlot(item) == -1) {
+			sendMsg("The item(s) were dropped to the floor.");
+			dropItem(item, amount, (int)player.getX(), (int)player.getY());
+		} else{
+			getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
+		}
 	}
 	
 	/*

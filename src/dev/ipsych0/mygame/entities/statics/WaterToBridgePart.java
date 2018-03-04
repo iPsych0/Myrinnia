@@ -7,6 +7,8 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.quests.QuestList;
+import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -50,9 +52,19 @@ public class WaterToBridgePart extends StaticEntity {
 		switch(speakingTurn) {
 		
 		case 0:
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
-			speakingTurn++;
-			break;
+			if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.COMPLETED) {
+				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+				if(handler.getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
+					handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.IN_PROGRESS);
+					handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge [0/3]");
+				}
+				speakingTurn++;
+				break;
+			}else {
+				handler.sendMsg("Please complete The First Quest to proceed.");
+				speakingTurn = 0;
+				break;
+			}
 			
 		case 1:
 			if(chatDialogue == null) {
@@ -82,6 +94,12 @@ public class WaterToBridgePart extends StaticEntity {
 					handler.removeItem(Item.woodItem, 5);
 					isFixed = true;
 					handler.sendMsg("You fixed the bridge!");
+					if(handler.getQuest(QuestList.TheSecondQuest).getStep() == 2) {
+						handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
+					}else {
+						handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (handler.getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
+						handler.getQuest(QuestList.TheSecondQuest).nextStep();
+					}
 					break;
 				}else {
 					speakingTurn = 0;

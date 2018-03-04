@@ -162,9 +162,9 @@ public class Player extends Creature{
 //			System.out.println("Crafting level = " + getCraftingLevel());
 			
 			
-			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
-				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
-			}
+//			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
+//				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+//			}
 			
 			debugButtonPressed = false;
 			
@@ -413,9 +413,8 @@ public class Player extends Creature{
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
 		
-		g.setColor(Creature.hpColor);
-		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
+				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
 		
 		//System.out.println((int) ((x) - (x % 16)));
 //		

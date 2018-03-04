@@ -14,13 +14,18 @@ public class QuestUI {
 	public static boolean isOpen = false;
 	private int x, y, width, height;
 	private Handler handler;
+	private QuestHelpUI questHelpUI;
+	private Quest selectedQuest;
+	public static boolean hasBeenPressed;
 	
 	public QuestUI(Handler handler) {
 		this.handler = handler;
-		this.x = 200;
+		this.x = 0;
 		this.y = 150;
 		this.width = 200;
 		this.height = 400;
+		
+		questHelpUI = new QuestHelpUI(handler);
 	}
 	
 	public void tick() {
@@ -31,33 +36,45 @@ public class QuestUI {
 	
 	public void render(Graphics g) {
 		if(isOpen) {
-			g.setColor(Color.GRAY);
-			g.fillRect(x, y, width, height);
-			g.setColor(Color.BLACK);
-			g.drawRect(x, y, width, height);
+			g.drawImage(Assets.invScreen, x, y, width, height, null);
 			
+			Text.drawString(g, "Quests:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 			
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(int i = 0; i < handler.getQuestManager().getQuestList().size(); i++) {
 				Color color;
+				Rectangle text = new Rectangle(x, y + 32 + (i * 16), width, 16);
 				if(handler.getQuestManager().getQuestList().get(i).getState() == QuestState.NOT_STARTED)
-					color = Color.RED;
+					color = new Color(255,0,0);
 				else if(handler.getQuestManager().getQuestList().get(i).getState() == QuestState.IN_PROGRESS)
 					color = Color.YELLOW;
 				else
 					color = Color.GREEN;
 				
-				Text.drawString(g, handler.getQuestManager().getQuestList().get(i).getQuestName(), x + (width / 2), y + 8 + (i * 16), true, color, Assets.font14);
-				
-				Rectangle text = new Rectangle(x, y + (i * 16), width, 16);
-				g.drawRect(text.x, text.y, text.width, text.height);
-				
 				if(text.contains(mouse)) {
-					if(handler.getQuestManager().getQuestList().get(i).getQuestSteps().size() != 0) {
-						g.drawString(handler.getQuestManager().getQuestList().get(i).getQuestSteps().get(handler.getQuestManager().getQuestList().get(i).getStep()).getObjective(), handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY());
+					g.drawImage(Assets.mainMenuButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
+					if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+						hasBeenPressed = false;
+						if(selectedQuest == handler.getQuestManager().getQuestList().get(i)) {
+							QuestHelpUI.isOpen = !QuestHelpUI.isOpen;
+						}
+						else if(selectedQuest != handler.getQuestManager().getQuestList().get(i)) {
+							QuestHelpUI.isOpen = true;
+						}
+						else if(selectedQuest == null) {
+							QuestHelpUI.isOpen = true;
+						}
+						selectedQuest = handler.getQuestManager().getQuestList().get(i);
 					}
+				}else {
+					g.drawImage(Assets.mainMenuButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 				}
+				Text.drawString(g, handler.getQuestManager().getQuestList().get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
+			}
+			
+			if(QuestHelpUI.isOpen) {
+				questHelpUI.render(g, selectedQuest);
 			}
 		}
 	}

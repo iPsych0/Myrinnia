@@ -8,7 +8,6 @@ import dev.ipsych0.mygame.Handler;
 public class Quest {
 	
 	protected Handler handler;
-	protected boolean completed = false;
 	protected ArrayList<QuestStep> questSteps;
 	protected int step = 0;
 	private String questName;
@@ -43,17 +42,6 @@ public class Quest {
 		this.step++;
 	}
 
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-		if(completed == false) {
-			questSteps.clear();
-		}
-	}
-
 	public ArrayList<QuestStep> getQuestSteps() {
 		return questSteps;
 	}
@@ -76,6 +64,10 @@ public class Quest {
 
 	public void setState(QuestState state) {
 		this.state = state;
+		if(state == QuestState.COMPLETED) {
+			handler.sendMsg("Completed '" + this.questName + "'!");
+			questSteps.clear();
+		}
 	}
 
 }

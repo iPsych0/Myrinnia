@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.ui.UIManager;
 
@@ -73,6 +74,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			CraftingUI.craftButtonPressed = true;
 			ShopWindow.hasBeenPressed = true;
 			ChatDialogue.hasBeenPressed = true;
+			QuestUI.hasBeenPressed = true;
 		}
 		
 		// Right Click

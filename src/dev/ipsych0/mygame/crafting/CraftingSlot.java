@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingSlot {
 	
@@ -41,9 +42,7 @@ public class CraftingSlot {
 			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
 			
 			if(itemStack.getItem().isStackable()) {
-				g.setColor(Color.YELLOW);
-				g.setFont(Assets.font14);
-				g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+				Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
 			}
 		}
 	}

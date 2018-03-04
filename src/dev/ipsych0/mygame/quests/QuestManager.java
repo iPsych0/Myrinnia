@@ -17,9 +17,9 @@ public class QuestManager {
 		this.handler = handler;
 		questUI = new QuestUI(handler);
 		questList = new ArrayList<Quest>();
-		questList.add(new Quest(handler, "Tutorial Quest!"));
-		questList.add(new Quest(handler, "Test 2"));
-		questList.add(new Quest(handler, "This one should become yellow!"));
+		questList.add(new Quest(handler, "The First Quest"));
+		questList.add(new Quest(handler, "The Second Quest"));
+		questList.add(new Quest(handler, "The Third Quest"));
 		
 		for(int i = 0; i < questList.size(); i++) {
 			questMap.put(QuestList.values()[i], questList.get(i));

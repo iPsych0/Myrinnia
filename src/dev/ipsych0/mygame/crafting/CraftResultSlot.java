@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.utils.Text;
 
 public class CraftResultSlot {
 	
@@ -33,9 +34,7 @@ public class CraftResultSlot {
 		
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
-			g.setColor(Color.YELLOW);
-			g.setFont(Assets.font14);
-			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
 		}
 	}
 	
