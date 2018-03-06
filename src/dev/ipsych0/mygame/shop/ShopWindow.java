@@ -572,24 +572,29 @@ public class ShopWindow {
 	 */
 	private void buyAllItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
-			if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
-				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-					handler.removeItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
-					handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					inventoryLoaded = false;
-					
-					tradeSlot.setItemStack(null);
-					selectedSlot = null;
-					selectedShopItem.setAmount(0);
-					clearNonStockItems();
-					if(selectedShopItem != null)
-						selectedShopItem = null;
+			ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
+			int i = slots.size();
+			while(i != 0) {
+				if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
+					if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+						handler.removeItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
+						handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+						inventoryLoaded = false;
+						itemSlots.get(slots.get(i - 1)).getItemStack().setAmount(0);
+					}
+					hasBeenPressed = false;
+				}else {
+					handler.sendMsg("You don't have enough gold to buy " + tradeSlot.getItemStack().getAmount() + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+					hasBeenPressed = false;
+					break;
 				}
-				hasBeenPressed = false;
-			}else {
-				handler.sendMsg("You don't have enough gold to buy " + tradeSlot.getItemStack().getAmount() + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
-				hasBeenPressed = false;
+				i--;
 			}
+			tradeSlot.setItemStack(null);
+			selectedSlot = null;
+			clearNonStockItems();
+			if(selectedShopItem != null)
+				selectedShopItem = null;
 		}else {
 			hasBeenPressed = false;
 		}
@@ -606,16 +611,16 @@ public class ShopWindow {
 				return;
 			}
 			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
+				while(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					tradeSlot.setItemStack(null);
 					inventoryLoaded = false;
-					selectedSlot = null;
-					if(selectedInvItem != null)
-						selectedInvItem = null;
 				}
+				tradeSlot.setItemStack(null);
+				selectedSlot = null;
+				if(selectedInvItem != null)
+					selectedInvItem = null;
 			}
 			hasBeenPressed = false;
 		}else {
@@ -629,32 +634,44 @@ public class ShopWindow {
 	 */
 	private void buyXItem(int amount) {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
+			ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
+			int i = slots.size();
+			
+			if(amount == 1) {
+				i = 1;
+			}
 			if(amount > tradeSlot.getItemStack().getAmount()) {
 				amount = tradeSlot.getItemStack().getAmount();
 			}
-			if(handler.playerHasItem(Item.coinsItem, (amount * tradeSlot.getItemStack().getItem().getPrice()))) {
-				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-					handler.removeItem(Item.coinsItem, amount * tradeSlot.getItemStack().getItem().getPrice());
-					handler.giveItem(tradeSlot.getItemStack().getItem(), amount);
-					tradeSlot.setItemStack(null);
-					
-					if(selectedShopItem.getAmount() - amount >= 0) {
-						selectedShopItem.setAmount(selectedShopItem.getAmount() - amount);
-						clearNonStockItems();
-					}else {
-						selectedSlot.setItemStack(null);
+			if(!tradeSlot.getItemStack().getItem().isStackable())
+				amount = 1;
+			while (i != 0) {
+				if(handler.playerHasItem(Item.coinsItem, (amount * tradeSlot.getItemStack().getItem().getPrice()))) {
+					if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+						handler.removeItem(Item.coinsItem, amount * tradeSlot.getItemStack().getItem().getPrice());
+						handler.giveItem(tradeSlot.getItemStack().getItem(), amount);
+						
+						if(selectedShopItem.getItem().isStackable() && selectedShopItem.getAmount() - amount >= 0) {
+							selectedShopItem.setAmount(selectedShopItem.getAmount() - amount);
+						}else {
+							itemSlots.get(slots.get(i - 1)).getItemStack().setAmount(0);
+						}
+						
 					}
-					
-					inventoryLoaded = false;
-					selectedSlot = null;
-					if(selectedShopItem != null)
-						selectedShopItem = null;
+					hasBeenPressed = false;
+				}else {
+					handler.sendMsg("You don't have enough gold to buy " + amount + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+					hasBeenPressed = false;
+					break;
 				}
-				hasBeenPressed = false;
-			}else {
-				handler.sendMsg("You don't have enough gold to buy " + amount + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
-				hasBeenPressed = false;
+				i--;
 			}
+			tradeSlot.setItemStack(null);
+			clearNonStockItems();
+			inventoryLoaded = false;
+			selectedSlot = null;
+			if(selectedShopItem != null)
+				selectedShopItem = null;
 		}else {
 			hasBeenPressed = false;
 		}
@@ -671,21 +688,30 @@ public class ShopWindow {
 				hasBeenPressed = false;
 				return;
 			}
-			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-				if(amount > tradeSlot.getItemStack().getAmount()) {
-					amount = tradeSlot.getItemStack().getAmount();
-				}
-				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
-					handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
-					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
-					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
-					tradeSlot.setItemStack(null);
-					inventoryLoaded = false;
-					selectedSlot = null;
-					if(selectedInvItem != null)
-						selectedInvItem = null;
-				}
+			int inputAmount = amount;
+			if(amount > tradeSlot.getItemStack().getAmount() && tradeSlot.getItemStack().getItem().isStackable()) {
+				amount = tradeSlot.getItemStack().getAmount();
 			}
+			if(!tradeSlot.getItemStack().getItem().isStackable())
+				amount = 1;
+			while(inputAmount != 0) {
+				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
+					if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
+						handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
+						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
+						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
+						inventoryLoaded = false;
+						
+					}else {
+						break;
+					}
+				}
+				inputAmount--;
+			}
+			tradeSlot.setItemStack(null);
+			selectedSlot = null;
+			if(selectedInvItem != null)
+				selectedInvItem = null;
 			hasBeenPressed = false;
 		}else {
 			hasBeenPressed = false;
@@ -722,6 +748,18 @@ public class ShopWindow {
         	return index;
        System.out.println("No free inventory slot available.");
        return -1;
+	}
+	
+	private ArrayList<Integer> getMatchSlots(Item item) {
+		ArrayList<Integer> slots = new ArrayList<Integer>();
+		for(int i = 0; i < itemSlots.size(); i++) {
+			if(itemSlots.get(i).getItemStack() == null) {
+				continue;
+			}
+			if(itemSlots.get(i).getItemStack().getItem() == item)
+				slots.add(i);
+		}
+		return slots;
 	}
 
 	public CopyOnWriteArrayList<ItemSlot> getItemSlots() {

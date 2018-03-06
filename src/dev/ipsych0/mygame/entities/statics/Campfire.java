@@ -81,8 +81,10 @@ public class Campfire extends StaticEntity {
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
-				handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
-				handler.addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
+				if(!handler.questStarted(QuestList.TheFirstQuest)) {
+					handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
+					handler.addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
+				}
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
@@ -108,44 +110,30 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				if(!handler.invIsFull(Item.testSword)) {
-					handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
-					handler.giveItem(Item.testSword, 1);
-					chatDialogue = null;
-					speakingTurn = 0;
-				}else {
-					chatDialogue = null;
-					speakingTurn = 0;
-					handler.sendMsg("Your inventory is full.");
+				if(handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
+					if(!handler.invIsFull(Item.testSword)) {
+						handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+						handler.giveItem(Item.testSword, 1);
+						chatDialogue = null;
+						speakingTurn = 0;
+					}else {
+						chatDialogue = null;
+						speakingTurn = 0;
+						handler.sendMsg("Your inventory is full.");
+					}
+					break;
 				}
-				break;
+				else {
+					chatDialogue = null;
+					speakingTurn = 0;
+				}
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
-				speakingTurn = 3;
+				chatDialogue = null;
+				speakingTurn = 0;
 				break;
 			}
 		}
-//		if(this.speakingTurn == 0) {
-//			chatDialogue = new ChatDialogue(handler, 0, 600, true);
-//			speakingTurn++;
-//		}
-//		else if(this.speakingTurn == 1) {
-//			if(chatDialogue == null) {
-//				speakingTurn = 0;
-//				return;
-//			}
-//			
-//			if(chatDialogue.getChosenOption().getOptionID() == 1) {
-//				chatDialogue = new ChatDialogue(handler, 0, 600, false);
-//				speakingTurn++;
-//			}else {
-//				speakingTurn = 1;
-//			}
-//		}
-//		else if(this.speakingTurn == 2) {
-//			chatDialogue = null;
-//			speakingTurn = 0;
-//		}
 	}
 
 	@Override

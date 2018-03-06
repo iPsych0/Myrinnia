@@ -21,6 +21,7 @@ import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
@@ -81,6 +82,13 @@ public class Handler {
 		Object fromJSON = gson.fromJson(JSON, o.getClass());
 		return fromJSON;
 		
+	}
+	
+	public boolean questStarted(QuestList quest) {
+		if(questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
+			return false;
+		else
+			return true;
 	}
 	
 	public Quest getQuest(QuestList quest) {

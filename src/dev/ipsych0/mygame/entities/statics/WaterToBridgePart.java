@@ -94,11 +94,13 @@ public class WaterToBridgePart extends StaticEntity {
 					handler.removeItem(Item.woodItem, 5);
 					isFixed = true;
 					handler.sendMsg("You fixed the bridge!");
-					if(handler.getQuest(QuestList.TheSecondQuest).getStep() == 2) {
-						handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
-					}else {
-						handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (handler.getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
-						handler.getQuest(QuestList.TheSecondQuest).nextStep();
+					if(handler.getQuest(QuestList.TheSecondQuest).getState() == QuestState.IN_PROGRESS) {
+						if(handler.getQuest(QuestList.TheSecondQuest).getStep() == 2) {
+							handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
+						}else {
+							handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (handler.getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
+							handler.getQuest(QuestList.TheSecondQuest).nextStep();
+						}
 					}
 					break;
 				}else {

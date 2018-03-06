@@ -281,11 +281,10 @@ public class InventoryWindow implements Serializable {
 				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				if(currentSelectedSlot != null){
-					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
-							handler.getMouseManager().getMouseY(), null);
-						g.setFont(Assets.font14);
-						g.setColor(Color.BLACK);
-						g.drawString(Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16);
+					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX() - 14,
+							handler.getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
+						if(currentSelectedSlot.getItem().isStackable())
+							Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() - 14, handler.getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
 				}
 				
 				// If hovering over an item in the inventory, draw the tooltip
