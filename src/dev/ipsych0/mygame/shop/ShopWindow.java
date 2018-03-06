@@ -548,15 +548,19 @@ public class ShopWindow {
 			}
 			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
-					handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
-					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
-					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
-					inventoryLoaded = false;
-					
-					if(tradeSlot.getItemStack().getAmount() == 1) {
-						selectedInvItem = null;
-						selectedSlot = null;
-						tradeSlot.setItemStack(null);
+					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
+						handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
+						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
+						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
+						inventoryLoaded = false;
+						
+						if(tradeSlot.getItemStack().getAmount() == 1) {
+							selectedInvItem = null;
+							selectedSlot = null;
+							tradeSlot.setItemStack(null);
+						}
+					}else {
+						handler.sendMsg("You cannot sell any more items to the shop.");
 					}
 				}
 			}
@@ -612,10 +616,15 @@ public class ShopWindow {
 			}
 			if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
 				while(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
-					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
-					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					inventoryLoaded = false;
+					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
+						handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
+						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+						inventoryLoaded = false;
+					}else {
+						handler.sendMsg("You cannot sell any more items to the shop.");
+						break;
+					}
 				}
 				tradeSlot.setItemStack(null);
 				selectedSlot = null;
@@ -697,10 +706,15 @@ public class ShopWindow {
 			while(inputAmount != 0) {
 				if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
 					if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
-						handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
-						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
-						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
-						inventoryLoaded = false;
+						if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
+							handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
+							handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
+							itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
+							inventoryLoaded = false;
+						}else {
+							handler.sendMsg("You cannot sell any more items to the shop.");
+							break;
+						}
 						
 					}else {
 						break;
