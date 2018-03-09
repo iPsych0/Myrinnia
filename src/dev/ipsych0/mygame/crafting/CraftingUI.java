@@ -97,7 +97,19 @@ public class CraftingUI {
 				hovering = false;
 			}
 			
+			// If the window is closed or the player moves, re-add all items back to inventory or drop them if no space.
 			if(handler.getKeyManager().escape || Player.isMoving) {
+				if(currentSelectedSlot != null) {
+					if(!handler.invIsFull(currentSelectedSlot.getItem())) {
+						handler.giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+					}else {
+						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(),
+								(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+					}
+					currentSelectedSlot = null;
+					itemSelected = false;
+					hasBeenPressed = false;
+				}
 				if(crs.getItemStack() != null) {
 					int numItems = crs.getItemStack().getAmount();
 					for(int i = 0; i < numItems; i++) {
@@ -109,7 +121,8 @@ public class CraftingUI {
 								crs.setItemStack(null);
 							findRecipe();
 						}else {
-							handler.dropItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+							handler.dropItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount(),
+									(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
 							if(crs.getItemStack().getAmount() > 1)
 								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
 							else

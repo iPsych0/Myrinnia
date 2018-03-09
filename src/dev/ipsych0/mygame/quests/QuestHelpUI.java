@@ -35,10 +35,10 @@ public class QuestHelpUI {
 			if(selectedQuest != null) {
 				Text.drawString(g, selectedQuest.getQuestName()+":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 				
+				if(selectedQuest.getState() == QuestState.NOT_STARTED) {
+					// Render hier de quest requirements!!!
+				}
 				if(selectedQuest.getQuestSteps().size() != 0) {
-					for(int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26).length; i++) {
-						Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26)[i], x + (width / 2) + 7, y + 41 + (i * 16), true, Color.BLACK, Assets.font14);
-					}
 					for(int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26).length; i++) {
 						Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26)[i], x + (width / 2) + 6, y + 40 + (i * 16), true, Color.YELLOW, Assets.font14);
 					}
