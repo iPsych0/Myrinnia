@@ -154,7 +154,7 @@ public class CraftingUI {
 			}
 			
 			// If left-clicked on the "craft" button, craft the item
-			if(handler.getMouseManager().isLeftPressed()) {
+			if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 				if(cbBounds.contains(mouse) && craftButtonPressed) {
 					
 					craftItem();
@@ -164,7 +164,7 @@ public class CraftingUI {
 			}
 			
 			// If right-clicked on the crafted item
-			if(handler.getMouseManager().isRightPressed()) {
+			if(handler.getMouseManager().isRightPressed() && !handler.getMouseManager().isDragged()) {
 				if(crsBounds.contains(mouse) && craftResultPressed) {
 					// If there is no item in the slot, return
 					if(crs.getItemStack() == null) {
@@ -178,7 +178,7 @@ public class CraftingUI {
 						if(handler.invIsFull(crs.getItemStack().getItem())) {
 							break;
 						}else {
-							handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
+							handler.giveItem(crs.getItemStack().getItem(), 1);
 							
 							if(crs.getItemStack().getAmount() > 1)
 								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
@@ -489,19 +489,17 @@ public class CraftingUI {
 					}
 					if(tempCraftSlotList.get(j).getAmount() > tempCraftRecipeList.get(j).getAmount()) {
 						tempCraftSlotList.get(j).setAmount(tempCraftSlotList.get(j).getAmount() - tempCraftRecipeList.get(j).getAmount());
-						findRecipe();
 					}
 					else if(tempCraftSlotList.get(j).getAmount() == tempCraftRecipeList.get(j).getAmount()) {
 						craftingSlots.get(test[j]).setItemStack(null);
-						findRecipe();
 					}
 				}
-				
 				// Add an item to the result slot
 				possibleRecipe = getRecipeItem(i);
 				craftRecipe = craftingRecipeList.getRecipes().get(i);
 				makeItem(i);
 				handler.getPlayer().addCraftingExperience(getCraftingRecipeList().getRecipes().get(i).getCraftingXP());
+				findRecipe();
 				
 				// Set matches back to 0 for next craft and stop iterating
 				matches = 0;
@@ -522,7 +520,6 @@ public class CraftingUI {
 		tempCraftRecipeList.clear();
 		sortedCraftRecipe.clear();
 		sortedCraftSlots.clear();
-		findRecipe();
 	}
 	/*
 	 * Create an item
@@ -538,21 +535,7 @@ public class CraftingUI {
 			}
 		}
 		
-		
-		switch(recipeID) {
-			case 0:
-				if(crs.addItem(Item.testSword, 1));
-				break;
-			case 1:
-				if(crs.addItem(Item.coinsItem, 100));
-				break;
-			case 2:
-				if(crs.addItem(Item.woodItem, 100));
-				break;
-			case 3:
-				if(crs.addItem(Item.purpleSword, 1));
-				break;
-		}
+		crs.addItem(craftingRecipeList.getRecipes().get(recipeID).getResult().getItem(), craftingRecipeList.getRecipes().get(recipeID).getResult().getAmount());
 		
 	}
 	
@@ -578,6 +561,9 @@ public class CraftingUI {
 		}
 		
 		if(nullSlots == craftingSlots.size()) {
+			craftRecipe = null;
+			possibleRecipe = null;
+			craftImg = null;
 			return;
 		}
 		
@@ -634,6 +620,7 @@ public class CraftingUI {
 				
 				possibleRecipe = getRecipeItem(i);
 				craftRecipe = craftingRecipeList.getRecipes().get(i);
+				craftImg = craftingRecipeList.getRecipes().get(i).getResult().getItem().getTexture();
 				
 				totalCraftAmount = new String[craftingRecipeList.getRecipes().get(i).getComponents().size()];
 				int temp = 0;
@@ -661,8 +648,8 @@ public class CraftingUI {
 			sortedCraftRecipe.clear();
 			tempCraftRecipeList.clear();
 			matches = 0;
-			possibleRecipe = null;
 			craftRecipe = null;
+			possibleRecipe = null;
 			craftImg = null;
 		}
 		
@@ -679,23 +666,7 @@ public class CraftingUI {
 	 * @param: the recipe id
 	 */
 	public ItemStack getRecipeItem(int recipeID) {
-		
-		switch(recipeID) {
-			case 0:
-				craftImg = Assets.testSword;
-				return new ItemStack(Item.testSword, 1);
-			case 1:
-				craftImg = Assets.coins[2];
-				return new ItemStack(Item.coinsItem, 100);
-			case 2:
-				craftImg = Assets.wood;
-				return new ItemStack(Item.woodItem, 100);
-			case 3:
-				craftImg = Assets.purpleSword;
-				return new ItemStack(Item.purpleSword, 1);
-			default:
-				return new ItemStack(null);
-		}
+		return craftingRecipeList.getRecipes().get(recipeID).getResult();
 	}
 
 	public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
