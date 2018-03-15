@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame.crafting;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class CraftingRecipe {
 		components.add(item2);
 		components.add(item3);
 		components.add(item4);
+
 		
 		this.craftingXP = craftingXP;
 		this.discovered = discovered;
