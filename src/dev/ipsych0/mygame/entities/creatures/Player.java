@@ -163,7 +163,7 @@ public class Player extends Creature{
 			
 			
 //			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
-//				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+//				handler.getInventory().getItemSlots().get(i).addItem(Item.testSword, 1);
 //			}
 			
 			debugButtonPressed = false;

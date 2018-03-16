@@ -462,7 +462,7 @@ public class InventoryWindow implements Serializable {
 			if(itemSlots.get(i).getItemStack() == null){
 				continue;
 			}
-			if(item.getName() == itemSlots.get(i).getItemStack().getItem().getName()){
+			if(item.getId() == itemSlots.get(i).getItemStack().getItem().getId()){
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
 					return hasItem;
 				}
@@ -493,8 +493,9 @@ public class InventoryWindow implements Serializable {
 		for (int i = 0; i < itemSlots.size(); i++){
 			if(itemSlots.get(i).getItemStack() == null){
 				emptySlots++;
+				continue;
 			}
-			if(itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
+			if(itemSlots.get(i).getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
 				return false;
 			}
 		}

@@ -115,14 +115,14 @@ public class CraftingUI {
 					int numItems = crs.getItemStack().getAmount();
 					for(int i = 0; i < numItems; i++) {
 						if(!handler.invIsFull(crs.getItemStack().getItem())) {
-							handler.giveItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount());
+							handler.giveItem(crs.getItemStack().getItem(), 1);
 							if(crs.getItemStack().getAmount() > 1)
 								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
 							else
 								crs.setItemStack(null);
 							findRecipe();
 						}else {
-							handler.dropItem(crs.getItemStack().getItem(), crs.getItemStack().getAmount(),
+							handler.dropItem(crs.getItemStack().getItem(), 1,
 									(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
 							if(crs.getItemStack().getAmount() > 1)
 								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);

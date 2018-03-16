@@ -17,6 +17,7 @@ import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
@@ -76,11 +77,9 @@ public class Scorpion extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(Assets.scorpion, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
-		g.setColor(Creature.hpColor);
-		g.setFont(Creature.hpFont);
 		
-		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
+		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - handler.getGameCamera().getxOffset() - 8),
+				(int) (y - handler.getGameCamera().getyOffset()), false, Color.YELLOW, Creature.hpFont);
 		
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
