@@ -11,7 +11,7 @@ public class Launcher {
 //		double height = screenSize.getHeight();
 //		Game game = new Game("Myrinnia Pre-Alpha Development v0.4", (int)width, (int)height);
 		
-		Game game = new Game("Myrinnia Pre-Alpha Development v0.58", 960, 720);
+		Game game = new Game("Myrinnia Pre-Alpha Development v0.59", 960, 720);
 		game.start();
 	}
 

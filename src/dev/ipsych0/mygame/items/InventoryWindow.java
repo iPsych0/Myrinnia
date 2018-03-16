@@ -289,10 +289,7 @@ public class InventoryWindow implements Serializable {
 				
 				// If hovering over an item in the inventory, draw the tooltip
 				if(temp2.contains(temp) && is.getItemStack() != null){
-					g.setColor(interfaceColour);
-					g.fillRect(x - 145, y, 145, 130);
-					g.setColor(Color.BLACK);
-					g.drawRect(x - 145, y, 145, 130);
+					g.drawImage(Assets.invScreen, x - 145, y, 145, 130, null);
 					
 					Text.drawString(g, is.getItemStack().getItem().getName(), x - 142, y + 16, false, Color.YELLOW, Assets.font14);
 					

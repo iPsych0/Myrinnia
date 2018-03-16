@@ -721,19 +721,22 @@ public class ShopWindow {
 				hasBeenPressed = false;
 				return;
 			}
-			int inputAmount = amount;
+			
+			if(!tradeSlot.getItemStack().getItem().isStackable()) {
+				amount = 1;
+			}
 			if(amount > tradeSlot.getItemStack().getAmount() && tradeSlot.getItemStack().getItem().isStackable()) {
 				amount = tradeSlot.getItemStack().getAmount();
 			}
-			if(!tradeSlot.getItemStack().getItem().isStackable())
-				amount = 1;
+			
+			int inputAmount = amount;
+			
 			while(inputAmount != 0) {
-				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), amount)) {
+				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
-						handler.removeItem(tradeSlot.getItemStack().getItem(), amount);
-						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * amount));
-						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), amount);
-						inventoryLoaded = false;
+						handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
+						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
+						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					}else {
 						handler.sendMsg("You cannot sell any more items to the shop.");
 						break;
@@ -744,6 +747,7 @@ public class ShopWindow {
 				}
 				inputAmount--;
 			}
+			inventoryLoaded = false;
 			tradeSlot.setItemStack(null);
 			selectedSlot = null;
 			if(selectedInvItem != null)

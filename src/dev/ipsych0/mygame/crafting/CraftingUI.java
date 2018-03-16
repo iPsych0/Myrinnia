@@ -332,10 +332,7 @@ public class CraftingUI {
 					}
 					
 					if(hovering && craftRecipe.isDiscovered()) {
-						g.setColor(Color.DARK_GRAY);
-						g.fillRect(handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128);
-						g.setColor(Color.BLACK);
-						g.drawRect(handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128);
+						g.drawImage(Assets.invScreen, handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128, null);
 						
 						Text.drawString(g, possibleRecipe.getItem().getName(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
 						Text.drawString(g, possibleRecipe.getItem().getItemRarity().toString(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 32, false, ItemRarity.getColor(possibleRecipe.getItem()), Assets.font14);
@@ -466,6 +463,7 @@ public class CraftingUI {
 			if(matches == tempCraftRecipeList.size()) {
 				System.out.println("All items match for this recipe: '" + i + "'");
 				if(crs.getItemStack() != null && crs.getItemStack().getItem().getId() != getRecipeItem(i).getItem().getId()) {
+					findRecipe();
 					handler.sendMsg("Please claim your crafted item before creating a new one.");
 					break;
 				}
