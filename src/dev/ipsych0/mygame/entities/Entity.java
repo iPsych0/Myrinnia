@@ -37,6 +37,7 @@ public abstract class Entity {
 	private int ty = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
+	protected int lastHit = 0;
 	
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
@@ -146,20 +147,9 @@ public abstract class Entity {
 		damageReceiver = receiver;
 		damageReceiver.health -= damageDealer.getDamage(damageDealer);
 		damageReceiver.damaged = true;
-		
-		// Starts the timer for the hitsplat
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		            	damageReceiver.damaged = false;
-		            	ty = 0;
-		                
-		            }
-		        }, 
-		        480 
-		);
+		damageReceiver.ty = 0;
+		damageReceiver.lastHit = 0;
+
 		if(damageReceiver.health <= 0){
 			damageReceiver.active = false;
 			damageReceiver.die();
@@ -172,12 +162,16 @@ public abstract class Entity {
 	public void drawDamage(Entity dealer, Graphics g) {
 		if(damaged) {
 			ty--;
+			damageReceiver.lastHit++;
 			//g.setColor(Color.YELLOW);
 			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
-			g.setColor(Color.RED);
-			g.setFont(Assets.font32);
-			g.drawString(String.valueOf(dealer.getDamage(dealer)) ,
-					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
+			Text.drawString(g, String.valueOf(dealer.getDamage(dealer)) ,
+					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
+			
+			if(damageReceiver.lastHit >= 45) {
+				damageReceiver.damaged = false;
+				damageReceiver.lastHit = 0;
+			}
 		}
 	}
 	

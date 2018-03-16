@@ -85,6 +85,14 @@ public class QuestManager{
 	public void setQuestMap(HashMap<QuestList, Quest> questMap) {
 		this.questMap = questMap;
 	}
+
+	public QuestUI getQuestUI() {
+		return questUI;
+	}
+
+	public void setQuestUI(QuestUI questUI) {
+		this.questUI = questUI;
+	}
 	
 	
 

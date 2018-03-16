@@ -17,6 +17,7 @@ public class QuestUI {
 	private QuestHelpUI questHelpUI;
 	private Quest selectedQuest;
 	public static boolean hasBeenPressed;
+	private Rectangle bounds;
 	
 	public QuestUI(Handler handler) {
 		this.handler = handler;
@@ -24,6 +25,7 @@ public class QuestUI {
 		this.y = 150;
 		this.width = 200;
 		this.height = 400;
+		bounds = new Rectangle(x,y,width,height);
 		
 		questHelpUI = new QuestHelpUI(handler);
 	}
@@ -77,6 +79,22 @@ public class QuestUI {
 				questHelpUI.render(g, selectedQuest);
 			}
 		}
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
+	}
+
+	public QuestHelpUI getQuestHelpUI() {
+		return questHelpUI;
+	}
+
+	public void setQuestHelpUI(QuestHelpUI questHelpUI) {
+		this.questHelpUI = questHelpUI;
 	}
 
 }

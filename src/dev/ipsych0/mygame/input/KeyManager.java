@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 
@@ -146,6 +147,7 @@ public class KeyManager implements KeyListener{
 				}
 				else {
 					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
 				}
 			}
 			

@@ -22,6 +22,8 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
+import dev.ipsych0.mygame.quests.QuestHelpUI;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -561,6 +563,10 @@ public class Player extends Creature{
 		if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
 		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
+			return;
+		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return;
+		if(QuestHelpUI.isOpen && handler.getQuestManager().getQuestUI().getQuestHelpUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
 		
 		magicTimer = 0;
