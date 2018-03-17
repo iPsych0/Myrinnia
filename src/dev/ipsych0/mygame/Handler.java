@@ -92,6 +92,7 @@ public class Handler {
 	}
 	
 	public Quest getQuest(QuestList quest) {
+		System.out.println(questManager.getQuestMap().get(quest).getQuestName());
 		return questManager.getQuestMap().get(quest);
 	}
 	

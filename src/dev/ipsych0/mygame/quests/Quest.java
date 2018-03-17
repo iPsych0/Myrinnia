@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class Quest {
 	
@@ -13,13 +14,16 @@ public class Quest {
 	private String questName;
 	private QuestState state;
 	
+	private Zone zone;
+	
 	public enum QuestState{
 		NOT_STARTED, IN_PROGRESS, COMPLETED
 	}
 	
-	public Quest(Handler handler, String questName) {
+	public Quest(Handler handler, String questName, Zone zone) {
 		this.handler = handler;
 		this.questName = questName;
+		this.zone = zone;
 		questSteps = new ArrayList<QuestStep>();
 		state = QuestState.NOT_STARTED;
 	}
@@ -68,6 +72,18 @@ public class Quest {
 			handler.sendMsg("Completed '" + this.questName + "'!");
 			questSteps.clear();
 		}
+	}
+
+
+
+	public Zone getZone() {
+		return zone;
+	}
+
+
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
 
 }

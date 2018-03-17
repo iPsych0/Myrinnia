@@ -148,6 +148,7 @@ public class KeyManager implements KeyListener{
 				else {
 					QuestUI.isOpen = false;
 					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
 				}
 			}
 			
