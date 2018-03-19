@@ -67,27 +67,16 @@ public class QuestManager{
 		// Test Quests
 		testQuests.add(new Quest(handler, "The Test Quest", Zone.Mainland));
 		
+		Collections.sort(islandQuests, (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
 		
 		// Sorts every lists quests by name, alphabetically
 		for(int i = 0; i < allQuestLists.size(); i++) {
-			Collections.sort(allQuestLists.get(i), new Comparator<Quest>() {
-				@Override
-				public int compare(Quest o1, Quest o2) {
-					// TODO Auto-generated method stub
-					return o1.getQuestName().compareTo(o2.getQuestName());
-				}
-			});
+			Collections.sort(allQuestLists.get(i), (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
 		}
 		
 		// Sort the enum list of quests alphabetically as well
 		List<QuestList> questEnums = Arrays.asList(QuestList.values());
-		Collections.sort(questEnums, new Comparator<QuestList>() {
-			@Override
-			public int compare(QuestList o1, QuestList o2) {
-				// TODO Auto-generated method stub
-				return o1.getZone().toString().compareTo(o2.getZone().toString());
-			}
-		});
+		Collections.sort(questEnums, (o1, o2) -> o1.getZone().toString().compareTo(o2.getZone().toString()));
 		
 		int index = 0;
 		// Maps the QuestList enums to the Quest objects
@@ -102,23 +91,11 @@ public class QuestManager{
 	private void mapLists() {
 		// Sort the Zone list by Zone Name
 		List<Zone> zoneEnums = Arrays.asList(Zone.values());
-		Collections.sort(zoneEnums, new Comparator<Zone>() {
-			@Override
-			public int compare(Zone o1, Zone o2) {
-				// TODO Auto-generated method stub
-				return o1.toString().compareTo(o2.toString());
-			}
-		});
+		Collections.sort(zoneEnums, (o1, o2) -> o1.toString().compareTo(o2.toString()));
 		
 		
 		// Sort the allQuestLists by zone as well
-		Collections.sort(allQuestLists, new Comparator<ArrayList<Quest>>() {
-			@Override
-			public int compare(ArrayList<Quest> o1, ArrayList<Quest> o2) {
-				// TODO Auto-generated method stub
-				return o1.get(0).getZone().toString().compareTo(o2.get(0).getZone().toString());
-			}
-		});
+		Collections.sort(allQuestLists, (o1, o2) -> o1.get(0).getZone().toString().compareTo(o2.get(0).getZone().toString()));
 		
 		// Mapping the Zones together with the correct list of quests
 		for(int i = 0; i < allQuestLists.size(); i++) {
@@ -134,14 +111,6 @@ public class QuestManager{
 	public void render(Graphics g) {
 		if(QuestUI.isOpen)
 			questUI.render(g);
-	}
-
-	public ArrayList<Quest> getIslandQuests() {
-		return islandQuests;
-	}
-
-	public void setIslandQuests(ArrayList<Quest> questList) {
-		this.islandQuests = questList;
 	}
 
 	public HashMap<QuestList, Quest> getQuestMap() {

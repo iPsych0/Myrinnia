@@ -115,6 +115,8 @@ public class QuestUI {
 					g.drawImage(Assets.mainMenuButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
 					if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 						renderingQuests = false;
+						QuestHelpUI.isOpen = false;
+						hasBeenPressed = false;
 					}
 				}
 				else {

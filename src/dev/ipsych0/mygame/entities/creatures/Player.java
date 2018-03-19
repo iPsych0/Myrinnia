@@ -598,11 +598,7 @@ public class Player extends Creature{
 
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
 			double angle = Math.atan2((mouse.getY() + handler.getGameCamera().getyOffset() - 16) - y, (mouse.getX() + handler.getGameCamera().getxOffset() - 16) - x);
-			System.out.println(32 * Math.cos(angle));
-			System.out.println(32 * Math.sin(angle));
-			
 			Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
-			
 			
 			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 				if(e.equals(this))
