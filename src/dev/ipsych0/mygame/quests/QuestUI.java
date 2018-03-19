@@ -35,7 +35,12 @@ public class QuestUI {
 	
 	public void tick() {
 		if(isOpen) {
-			
+			if(handler.getKeyManager().escape) {
+				hasBeenPressed = false;
+				renderingQuests = false;
+				QuestHelpUI.isOpen = false;
+				isOpen = false;
+			}
 		}
 	}
 	
@@ -48,7 +53,7 @@ public class QuestUI {
 			if(!renderingQuests) {
 				Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 				for(int i = 0; i < handler.getQuestManager().getAllQuestLists().size(); i++) {
-					Rectangle text = new Rectangle(x, y + 32 + (i * 16), width, 16);
+					Rectangle text = new Rectangle(x + 4, y + 32 + (i * 16), width - 8, 16);
 					if(text.contains(mouse)) {
 						g.drawImage(Assets.mainMenuButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
@@ -75,7 +80,7 @@ public class QuestUI {
 				Text.drawString(g, "Quests:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 				for(int i = 0; i < handler.getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
 					Color color;
-					Rectangle text = new Rectangle(x, y + 32 + (i * 16), width, 16);
+					Rectangle text = new Rectangle(x + 4, y + 32 + (i * 16), width - 8, 16);
 					if(handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)
 						color = new Color(255,0,0);
 					else if(handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.IN_PROGRESS)

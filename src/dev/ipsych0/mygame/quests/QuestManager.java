@@ -17,12 +17,17 @@ public class QuestManager{
 	private Handler handler;
 	private QuestUI questUI;
 	
+	// Quest Lists per zone
 	private ArrayList<Quest> islandQuests = new ArrayList<Quest>();
 	private ArrayList<Quest> testQuests = new ArrayList<Quest>();
 	
+	// Get Quests by Enum value
 	private HashMap<QuestList, Quest> questMap = new HashMap<>();
 	
+	// Put all Quest Lists per zone into a List of all Quest Lists
 	private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
+	
+	// Map Zones to Quest Lists
 	private HashMap<Zone, ArrayList<Quest>> zoneMap = new HashMap<>();
 	
 	public QuestManager(Handler handler) {
@@ -92,10 +97,6 @@ public class QuestManager{
 				index++;
 			}
 		}
-		
-		/*
-		 * DEZE SHIT KLOPT NIET ^^^^^^^^^^
-		 */
 	}
 	
 	private void mapLists() {
@@ -128,19 +129,11 @@ public class QuestManager{
 	public void tick() {
 		if(QuestUI.isOpen)
 			questUI.tick();
-		
-		for(Quest q : islandQuests) {
-			q.tick();
-		}
 	}
 	
 	public void render(Graphics g) {
 		if(QuestUI.isOpen)
 			questUI.render(g);
-		
-		for(Quest q : islandQuests) {
-			q.render(g);
-		}
 	}
 
 	public ArrayList<Quest> getIslandQuests() {

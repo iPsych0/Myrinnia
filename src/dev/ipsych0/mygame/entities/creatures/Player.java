@@ -271,7 +271,7 @@ public class Player extends Creature{
 					 * If the player is wearing a melee weapon, check melee attacks
 					 */
 					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
-						checkAttacks();
+						checkAttacks(mouse);
 					/*
 					 * If the player is wearing a magic weapon, fire magic attacks
 					 */
@@ -423,8 +423,12 @@ public class Player extends Creature{
 //		g.setColor(playerBoxColour);
 //		g.fillRect((int) ((x) - handler.getGameCamera().getxOffset()), (int) ((y) - handler.getGameCamera().getyOffset()), 32, 32);
 		
-		
-
+		/* UNCOMMENT THIS TO SEE MELEE HITBOX
+		double angle = Math.atan2((handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset() - 16) - y, (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset() - 16) - x);
+		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+		g.setColor(Color.MAGENTA);
+		g.drawRect((int)(ar.x - handler.getGameCamera().getxOffset()), (int)(ar.y - handler.getGameCamera().getyOffset()), ar.width, ar.height);
+		 */
 		
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {
@@ -573,8 +577,8 @@ public class Player extends Creature{
 		
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
 			projectiles.add(new Projectile(handler, x, y,
-					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset() - 16),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset() - 16),
+					(int) (mouse.getX() + handler.getGameCamera().getxOffset() - 16),
+					(int) (mouse.getY() + handler.getGameCamera().getyOffset() - 16),
 					6.0f));
 		}
 		
@@ -583,52 +587,33 @@ public class Player extends Creature{
 	/*
 	 * Checks melee attacks
 	 */
-	protected void checkAttacks(){
+	protected void checkAttacks(Rectangle mouse){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
 		lastAttackTimer = System.currentTimeMillis();
 		if(attackTimer < attackCooldown)
 			return;
 		
-		// Set attack-box
-		Rectangle cb = getCollisionBounds(0,0);
-		Rectangle ar = new Rectangle();
-		int arSize = Creature.DEFAULT_CREATURE_HEIGHT;
-		ar.width = arSize;
-		ar.height = arSize;
-		
-		// Attack box setters
-		if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y - arSize;
-		}
-		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y + cb.height;
-		}
-		else if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x - arSize;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else{
-			return;
-		}
-		
 		attackTimer = 0;
-		
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
-				continue;
-			if(!e.isAttackable())
-				continue;
-			if(e.getCollisionBounds(0, 0).intersects(ar)){
-				// TODO: Change damage calculation formula
-				e.damage(this, e);
-				return;
+
+		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
+			double angle = Math.atan2((mouse.getY() + handler.getGameCamera().getyOffset() - 16) - y, (mouse.getX() + handler.getGameCamera().getxOffset() - 16) - x);
+			System.out.println(32 * Math.cos(angle));
+			System.out.println(32 * Math.sin(angle));
+			
+			Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+			
+			
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+				if(e.equals(this))
+					continue;
+				if(!e.isAttackable())
+					continue;
+				if(e.getCollisionBounds(0, 0).intersects(ar)){
+					// TODO: Change damage calculation formula
+					e.damage(this, e);
+					return;
+				}
 			}
 		}
 	}

@@ -72,8 +72,6 @@ public class ChatWindow {
 			
 			g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 			g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-			g.setColor(Color.YELLOW);
-			g.setFont(Assets.font14);
 			String world = handler.getWorld().getClass().getSimpleName().toString();
 			world = world.substring(0,1).toUpperCase() + world.substring(1).toLowerCase();
 			Text.drawString(g, world, x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
