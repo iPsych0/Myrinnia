@@ -103,6 +103,20 @@ public class QuestUI {
 					}
 				Text.drawString(g, handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
 				}
+				
+				Rectangle backButton = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
+				
+				if(backButton.contains(mouse)) {
+					g.drawImage(Assets.mainMenuButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
+					if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+						renderingQuests = false;
+					}
+				}
+				else {
+					g.drawImage(Assets.mainMenuButton[1], backButton.x, backButton.y, backButton.width, backButton.height, null);
+				}
+
+				Text.drawString(g, "Back", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
 			}
 			
 			if(QuestHelpUI.isOpen) {
