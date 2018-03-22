@@ -9,6 +9,7 @@ import javax.sound.sampled.Clip;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
@@ -17,11 +18,12 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.quests.Quest;
+import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
-import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
@@ -41,6 +43,8 @@ public class Handler {
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
 	private QuestManager questManager;
+	private MapLoader mapLoader;
+	private CraftingUI craftingUI;
 	
 	/*
 	 * Set to true for debug mode
@@ -64,11 +68,13 @@ public class Handler {
 		inventory = new InventoryWindow(this, 828, 0);
 		equipment = new EquipmentWindow(this, 828, 372);
 		questManager = new QuestManager(this);
-		island = new Island(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/island.tmx", 0);
+		mapLoader = new MapLoader();
+		craftingUI = new CraftingUI(this, 0, 180);
+		island = new Island(this, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
-		worldHandler.addWorld(new TestLand(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/testmap.tmx", 2));
-		worldHandler.addWorld(new IslandUnderground(this, player, chatWindow, inventory, equipment, questManager, "res/worlds/island_indoors.tmx", 3));
+		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
+		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
+		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
 	}
 	
 	public String toJSON(Object o){
@@ -273,6 +279,22 @@ public class Handler {
 
 	public void setQuestManager(QuestManager questManager) {
 		this.questManager = questManager;
+	}
+
+	public MapLoader getMapLoader() {
+		return mapLoader;
+	}
+
+	public void setMapLoader(MapLoader mapLoader) {
+		this.mapLoader = mapLoader;
+	}
+
+	public CraftingUI getCraftingUI() {
+		return craftingUI;
+	}
+
+	public void setCraftingUI(CraftingUI craftingUI) {
+		this.craftingUI = craftingUI;
 	}
 
 }

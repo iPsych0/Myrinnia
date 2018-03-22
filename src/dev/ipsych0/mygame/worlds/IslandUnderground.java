@@ -23,15 +23,10 @@ public class IslandUnderground extends World {
 	private Rectangle beachCaveExit;
 	private Rectangle stoneHouse1Exit;
 
-	public IslandUnderground(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, QuestManager questManager, String path, int worldID) {
+	public IslandUnderground(Handler handler, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
-		this.player = player;
-		this.chatWindow = chatWindow;
-		this.inventory = inventory;
-		this.equipment = equipment;
-		this.questManager = questManager;
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
@@ -54,62 +49,47 @@ public class IslandUnderground extends World {
 	@Override
 	public void tick() {
 		if(handler.getWorld() == this){
-			itemManager.tick();
-			entityManager.tick();
-			sparkles.tick();
-			inventory.tick();
-			equipment.tick();
-			miniMap.tick();
-			craftingUI.tick();
-			chatWindow.tick();
-			questManager.tick();
-			
+			super.tick();
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1Exit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(5056);
 				handler.getPlayer().setY(5440);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2Exit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4608);
 				handler.getPlayer().setY(5400);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3Exit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4384);
 				handler.getPlayer().setY(5800);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse1Exit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(5856);
 				handler.getPlayer().setY(5824);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCaveExit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(2688);
 				handler.getPlayer().setY(6136);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1Exit)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3808);
 				handler.getPlayer().setY(5160);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+				handler.getWorld().setHandler(handler);
 			}
 		}
 	}
@@ -117,53 +97,7 @@ public class IslandUnderground extends World {
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
-			// Set variables for rendering only the tiles that show on screen
-			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-			int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-			int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
-			
-			// Render the tiles
-			
-			for (int i = 0; i < layers.length; i++) {
-				for(int y = yStart; y < yEnd; y++){
-					for(int x = xStart; x < xEnd; x++){
-						if(getTile(i,x,y) == Tiles.invisible) {
-							continue;
-						}else {
-							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-						}
-					}
-				}
-			}
-			
-			// Items
-			
-			itemManager.render(g);
-			
-			// Entities & chat
-			entityManager.render(g);
-			chatWindow.render(g);
-			entityManager.postRender(g);
-			
-			/* Uncomment to 
-			if(night) {
-				renderNight(g);
-			}
-			*/
-			
-			renderHPandFPS(g);
-			
-			// Inventory & Equipment
-			inventory.render(g);
-			equipment.render(g);
-			
-			// MiniMap
-			miniMap.render(g);
-			craftingUI.render(g);
-			
-			questManager.render(g);
+			super.render(g);
 			
 //			g.drawRect((int) (exit1.x - handler.getGameCamera().getxOffset()), (int) (exit1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (exit2.x - handler.getGameCamera().getxOffset()), (int) (exit2.y - handler.getGameCamera().getyOffset()), 32, 32);

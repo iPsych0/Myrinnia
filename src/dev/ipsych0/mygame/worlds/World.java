@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -63,12 +64,17 @@ public abstract class World {
 			this.handler = handler;
 			
 			// World-specific classes
-			entityManager = new EntityManager(handler, handler.getPlayer());
-			itemManager = new ItemManager(handler);
-			mapLoader = new MapLoader();
-			miniMap = new MiniMap(handler, mapLoader, "res/worlds/testmap.tmx", 220, 100, 400, 400);
-			craftingUI = new CraftingUI(handler, 0, 180);
+			this.player = handler.getPlayer();
+			this.inventory = handler.getInventory();
+			this.equipment = handler.getEquipment();
+			this.chatWindow = handler.getChatWindow();
+			this.questManager = handler.getQuestManager();
 			
+			entityManager = new EntityManager(handler, player);
+			itemManager = new ItemManager(handler);
+			mapLoader = handler.getMapLoader();
+			miniMap = new MiniMap(handler, mapLoader, "res/worlds/testmap.tmx", 220, 100, 400, 400);
+			craftingUI = handler.getCraftingUI();
 			
 			// Dit is hoe ik items in de world zelf spawn
 			itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
@@ -79,9 +85,65 @@ public abstract class World {
 		}
 	}
 	
-	public abstract void tick();
+	public void tick() {
+		itemManager.tick();
+		entityManager.tick();
+		sparkles.tick();
+		inventory.tick();
+		equipment.tick();
+		craftingUI.tick();
+		chatWindow.tick();
+		questManager.tick();
+	}
 	
-	public abstract void render(Graphics g);
+	public void render(Graphics g) {
+		// Set variables for rendering only the tiles that show on screen
+		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
+		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
+		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
+		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
+		
+		// Render the tiles
+		
+		for (int i = 0; i < layers.length; i++) {
+			for(int y = yStart; y < yEnd; y++){
+				for(int x = xStart; x < xEnd; x++){
+					if(getTile(i,x,y) != Tiles.invisible) {
+						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+					}
+				}
+			}
+		}
+		
+		// Items
+		
+		itemManager.render(g);
+		
+		// Entities & chat
+		entityManager.render(g);
+		chatWindow.render(g);
+		entityManager.postRender(g);
+		
+		/* Uncomment to 
+		if(nightTime) {
+			renderNight(g);
+		}
+		*/
+		
+		renderHPandFPS(g);
+		
+		// Inventory & Equipment
+		inventory.render(g);
+		equipment.render(g);
+		
+		
+		// MiniMap
+		miniMap.render(g);
+		craftingUI.render(g);
+		
+		questManager.render(g);
+	}
 	
 	public Tiles getTile(int layer, int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
@@ -91,6 +153,21 @@ public abstract class World {
 		if(t == null)
 			return Tiles.invisible;
 		return t;
+	}
+	
+	protected boolean standingOnTile(Rectangle box) {
+		if(player.getCollisionBounds(0, 0).intersects(box)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	protected void goToWorld(int worldID, int x, int y) {
+		player.setX(x);
+		player.setY(y);
+		handler.setWorld(handler.getWorldHandler().getWorlds().get(worldID));
+		handler.getWorld().setHandler(handler);
 	}
 	
 	protected void renderNight(Graphics g) {
@@ -105,11 +182,9 @@ public abstract class World {
 	}
 	
 	protected void renderHPandFPS(Graphics g) {
-		g.setFont(Assets.font14);
-		g.setColor(Creature.hpColor);
 		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		g.drawString("HP: " + handler.roundOff((double)handler.getPlayer().getHealth() / (double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 146, 34);
-		
+		Text.drawString(g, "HP: " + handler.roundOff((double)handler.getPlayer().getHealth() /
+				(double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 146, 34, false, Color.YELLOW, Assets.font14);		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
 		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
 		

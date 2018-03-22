@@ -24,16 +24,11 @@ public class SwampLand extends World{
 	
 	private Rectangle testLandTile;
 
-	public SwampLand(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, QuestManager questManager, String path, int worldID) {
+	public SwampLand(Handler handler, String path, int worldID) {
 		super(handler);
 		
 		this.worldID = worldID;
-		this.player = player;
-		this.chatWindow = chatWindow;
-		this.inventory = inventory;
-		this.equipment = equipment;
-		this.questManager = questManager;
-		
+
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
 		
@@ -68,15 +63,7 @@ public class SwampLand extends World{
 	@Override
 	public void tick(){
 		if(handler.getWorld() == this){
-			inventory.tick();
-			equipment.tick();
-			itemManager.tick();
-			entityManager.tick();
-			sparkles.tick();
-			miniMap.tick();
-			craftingUI.tick();
-			chatWindow.tick();
-			
+			super.tick();
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
 				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
 				handler.getWorld().setHandler(handler);
@@ -90,51 +77,7 @@ public class SwampLand extends World{
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
-			// Set variables for rendering only the tiles that show on screen
-			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-			int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-			int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
-			
-			// Render the tiles
-			
-			for (int i = 0; i < layers.length; i++) {
-				for(int y = yStart; y < yEnd; y++){
-					for(int x = xStart; x < xEnd; x++){
-						if(getTile(i,x,y) == Tiles.invisible) {
-							continue;
-						}else {
-							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-						}
-					}
-				}
-			}
-			
-			// Items
-			
-			itemManager.render(g);
-			
-			// Entities & chat
-			entityManager.render(g);
-			chatWindow.render(g);
-			entityManager.postRender(g);
-			
-			/* Uncomment to 
-			if(night) {
-				renderNight(g);
-			}
-			*/
-			
-			renderHPandFPS(g);
-			
-			// Inventory & Equipment
-			inventory.render(g);
-			equipment.render(g);
-			
-			// MiniMap
-			miniMap.render(g);
-			craftingUI.render(g);
+			super.render(g);
 			
 			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}

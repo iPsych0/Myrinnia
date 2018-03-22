@@ -28,15 +28,8 @@ public class Island extends World {
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
 
-	public Island(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, QuestManager questManager, String path, int worldID) {
+	public Island(Handler handler, String path, int worldID) {
 		super(handler);
-		
-		this.worldID = worldID;
-		this.player = player;
-		this.chatWindow = chatWindow;
-		this.inventory = inventory;
-		this.equipment = equipment;
-		this.questManager = questManager;
 		
 		width = mapLoader.getMapWidth(path);
 		height = mapLoader.getMapHeight(path);
@@ -77,56 +70,50 @@ public class Island extends World {
 	@Override
 	public void tick() {
 		if(handler.getWorld() == this){
-			itemManager.tick();
-			entityManager.tick();
-			sparkles.tick();
-			inventory.tick();
-			equipment.tick();
-			miniMap.tick();
-			craftingUI.tick();
-			chatWindow.tick();
-			questManager.tick();
-			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(6016);
-				handler.getPlayer().setY(6140);
+			super.tick();
+			if(standingOnTile(house1)) {
+				goToWorld(3, 6016, 6140);
 			}
+//			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
+//				handler.getPlayer().setX(6016);
+//				handler.getPlayer().setY(6140);
+//				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+//				handler.getWorld().setHandler(handler);
+//			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4960);
 				handler.getPlayer().setY(6272);
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3904);
 				handler.getPlayer().setY(6272);
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(4960);
 				handler.getPlayer().setY(5552);
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCave)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(3744);
 				handler.getPlayer().setY(5360);
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
 			}
 			
 			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
 				handler.getPlayer().setX(6016);
 				handler.getPlayer().setY(5312);
+				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
+				handler.getWorld().setHandler(handler);
 			}
 		}
 	}
@@ -134,52 +121,7 @@ public class Island extends World {
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
-			// Set variables for rendering only the tiles that show on screen
-			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-			int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-			int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
-			
-			// Render the tiles
-			
-			for (int i = 0; i < layers.length; i++) {
-				for(int y = yStart; y < yEnd; y++){
-					for(int x = xStart; x < xEnd; x++){
-						if(getTile(i,x,y) != Tiles.invisible) {
-							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-									(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-						}
-					}
-				}
-			}
-			
-			// Items
-			
-			itemManager.render(g);
-			
-			// Entities & chat
-			entityManager.render(g);
-			chatWindow.render(g);
-			entityManager.postRender(g);
-			
-			/* Uncomment to 
-			if(nightTime) {
-				renderNight(g);
-			}
-			*/
-			
-			renderHPandFPS(g);
-			
-			// Inventory & Equipment
-			inventory.render(g);
-			equipment.render(g);
-			
-			
-			// MiniMap
-			miniMap.render(g);
-			craftingUI.render(g);
-			
-			questManager.render(g);
+			super.render(g);
 			
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
