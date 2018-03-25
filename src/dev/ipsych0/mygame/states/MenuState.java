@@ -15,6 +15,7 @@ public class MenuState extends State {
 	
 	private UIManager uiManager;
 	private boolean loaded = false;
+	public static boolean loadButtonPressed = false;
 
 	public MenuState(Handler handler){
 		super(handler);
@@ -41,12 +42,15 @@ public class MenuState extends State {
 			@Override
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
-				SaveManager.loadGame(handler);
+				loadButtonPressed = true;
+//				SaveManager.loadGame(handler);
+				SaveManager.loadEntities(handler);
 				SaveManager.loadInventory(handler);
 				SaveManager.loadEquipment(handler);
-				SaveManager.loadEntities(handler);
+				SaveManager.loadQuests(handler);
 				State.setState(handler.getGame().gameState);
 				handler.playMusic("res/music/myrinnia.wav");
+				loadButtonPressed = false;
 
 			}}));
 		

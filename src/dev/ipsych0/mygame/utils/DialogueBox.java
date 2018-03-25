@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.utils;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.sun.glass.events.KeyEvent;
@@ -11,12 +12,16 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.TextBox;
 
-public class DialogueBox {
+public class DialogueBox implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
 	public static boolean isOpen = false;
-	private Handler handler;
+	private transient Handler handler;
 	public String[] answers;
 	public String param = "";
 	public DialogueButton pressedButton = null;

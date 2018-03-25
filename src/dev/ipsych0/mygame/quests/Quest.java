@@ -1,14 +1,19 @@
 package dev.ipsych0.mygame.quests;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
 
-public class Quest {
+public class Quest implements Serializable {
 	
-	protected Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected transient Handler handler;
 	protected ArrayList<QuestStep> questSteps;
 	protected int step = 0;
 	private String questName;

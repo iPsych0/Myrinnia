@@ -42,16 +42,6 @@ public abstract class Creature extends Entity {
 	protected int attackRange = Tiles.TILEWIDTH * 2;
 	protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
-	// A* stuff
-	protected CombatState state;
-	protected List<Node> nodes;
-	protected AStarMap map;
-	protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
-	private int alpha = 127;
-	protected Color pathColour = new Color(0, 255, 255, alpha);
-	private int stuckTimerX = 0, stuckTimerY = 0;
-	private int lastX = (int)x, lastY = (int)y;
-	
 	// Walking timer
 	private int time = 0;
 	
@@ -64,6 +54,16 @@ public abstract class Creature extends Entity {
 	protected int xRadius = 192;
 	protected int yRadius = 192;
 	protected Rectangle radius;
+	
+	// A* stuff
+	protected CombatState state;
+	protected List<Node> nodes;
+	protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
+	protected AStarMap map = new AStarMap(handler, this, (int)xSpawn - pathFindRadiusX, (int)ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+	private int alpha = 127;
+	protected Color pathColour = new Color(0, 255, 255, alpha);
+	private int stuckTimerX = 0, stuckTimerY = 0;
+	private int lastX = (int)x, lastY = (int)y;
 	
 	protected enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -579,6 +579,14 @@ public abstract class Creature extends Entity {
 
 	public void setProjectiles(ArrayList<Projectile> projectiles) {
 		this.projectiles = projectiles;
+	}
+
+	public AStarMap getMap() {
+		return map;
+	}
+
+	public void setMap(AStarMap map) {
+		this.map = map;
 	}
 
 }

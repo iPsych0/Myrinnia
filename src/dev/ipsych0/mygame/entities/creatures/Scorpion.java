@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
@@ -61,6 +62,9 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
+		if(MenuState.loadButtonPressed) {
+			map.init();
+		}
 		if(!initialized) {
 			map.init();
 			initialized = true;
@@ -81,17 +85,17 @@ public class Scorpion extends Creature {
 		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - handler.getGameCamera().getxOffset() - 8),
 				(int) (y - handler.getGameCamera().getyOffset()), false, Color.YELLOW, Creature.hpFont);
 		
-//		g.setColor(Color.BLACK);
-//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
-//		
-//		map.render(g);
-//		
-//		if(nodes != null) {
-//			for(Node n : nodes) {
-//				g.setColor(pathColour);
-//				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
-//			}
-//		}
+		g.setColor(Color.BLACK);
+		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+		
+		map.render(g);
+		
+		if(nodes != null) {
+			for(Node n : nodes) {
+				g.setColor(pathColour);
+				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+			}
+		}
 		
 	}
 

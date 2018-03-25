@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.shop;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,8 +22,12 @@ import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.utils.DialogueButton;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ShopWindow {
+public class ShopWindow implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
 	private int numCols = 5;
 	private int numRows = 6;
@@ -33,7 +38,7 @@ public class ShopWindow {
 	private ItemStack selectedShopItem;
 	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
-	private Handler handler;
+	private transient Handler handler;
 	private ItemSlot tradeSlot;
 	public static boolean inventoryLoaded = false;
 	private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;

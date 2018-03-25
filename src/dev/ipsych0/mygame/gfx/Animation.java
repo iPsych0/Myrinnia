@@ -1,12 +1,17 @@
 package dev.ipsych0.mygame.gfx;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class Animation {
+public class Animation implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int speed, index;
 	private long lastTime, timer;
-	private BufferedImage[] frames;
+	private transient BufferedImage[] frames;
 	
 	public Animation(int speed, BufferedImage[] frames){
 		this.speed = speed;

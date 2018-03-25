@@ -228,6 +228,10 @@ public abstract class World {
 		return entityManager;
 	}
 
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	public Handler getHandler() {
 		return handler;
 	}

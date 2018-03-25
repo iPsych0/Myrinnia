@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame.worlds;
 
-public enum Zone {
+import java.io.Serializable;
+
+public enum Zone implements Serializable{
 	
 	Island, Mainland
 

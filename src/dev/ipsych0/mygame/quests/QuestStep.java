@@ -1,7 +1,13 @@
 package dev.ipsych0.mygame.quests;
 
-public class QuestStep {
+import java.io.Serializable;
+
+public class QuestStep implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String objective;
 	
 	public QuestStep(String objective) {

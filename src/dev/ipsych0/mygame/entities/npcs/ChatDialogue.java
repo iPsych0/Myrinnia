@@ -143,4 +143,12 @@ public class ChatDialogue implements Serializable{
 		this.menuOptions = menuOptions;
 	}
 
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
 }

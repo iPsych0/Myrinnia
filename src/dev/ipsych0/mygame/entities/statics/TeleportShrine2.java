@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
+import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine2 extends StaticEntity {
 	
@@ -59,20 +60,23 @@ public class TeleportShrine2 extends StaticEntity {
 				return;
 			}
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				speakingTurn = 0;
+				chatDialogue = null;
+				
 				// Clear previous saved data in order to write the new data
 				SaveManager.clearInventoryItems();
 				SaveManager.clearEquipmentItems();
-				SaveManager.clearSaveData();
+//				SaveManager.clearSaveData();
 				SaveManager.clearEntities();
 				
-				// Add the player data
-				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
-				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
-				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
-				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
-				
-				// Save the world!
-				SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
+//				// Add the player data
+//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
+//				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
+//				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
+//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
+//				
+//				// Save the world!
+//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
 				
 				// Add the inventory objects to an arraylist
 				for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
@@ -90,18 +94,17 @@ public class TeleportShrine2 extends StaticEntity {
 					SaveManager.addEquipmentItems((handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
 				}
 				
-				for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-					SaveManager.addEntityData(e);
+				for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
+					SaveManager.addEntityManagers(handler.getWorldHandler().getWorlds().get(i).getEntityManager());
 				}
 				
 				// Finally, save the game
 				SaveManager.saveInventory();
 				SaveManager.saveEquipment();
-				SaveManager.saveGame();
+//				SaveManager.saveGame();
 				SaveManager.saveEntities();
+				SaveManager.saveQuests();
 				handler.sendMsg("Game Saved!");
-				speakingTurn = 0;
-				chatDialogue = null;
 			}else {
 				speakingTurn = 0;
 				chatDialogue = null;

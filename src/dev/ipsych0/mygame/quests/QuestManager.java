@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.quests;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,9 +13,13 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.worlds.Zone;
 
-public class QuestManager{
+public class QuestManager implements Serializable{
 	
-	private Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private transient Handler handler;
 	private QuestUI questUI;
 	
 	// Quest Lists per zone

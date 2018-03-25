@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
+import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
@@ -20,7 +21,7 @@ public class Campfire extends StaticEntity {
 
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private transient Animation campfire;
+	private Animation campfire;
 	private int speakingTurn;
 	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
 	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
@@ -37,6 +38,9 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void tick() {
+		if(MenuState.loadButtonPressed) {
+			campfire = new Animation(125, Assets.campfire);
+		}
 		campfire.tick();
 	}
 	

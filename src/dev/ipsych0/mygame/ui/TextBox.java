@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -14,12 +15,16 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.utils.Text;
 
-public class TextBox implements KeyListener {
+public class TextBox implements KeyListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
 	public String charactersTyped = "";
 	public boolean numbersOnly = false;
-	private Handler handler;
+	private transient Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
 	public int index = 0;

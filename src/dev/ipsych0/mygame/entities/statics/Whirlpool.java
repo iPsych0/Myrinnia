@@ -8,14 +8,19 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Whirlpool extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private transient Animation spinning;
+	private Animation spinning;
 	private int speakingTurn;
 	private boolean isFishing = false;
 	private int fishingTimer = 0;
@@ -34,6 +39,9 @@ public class Whirlpool extends StaticEntity {
 
 	@Override
 	public void tick() {
+		if(MenuState.loadButtonPressed) {
+			spinning = new Animation(125, Assets.whirlpool);
+		}
 		spinning.tick();
 		if(isFishing) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {

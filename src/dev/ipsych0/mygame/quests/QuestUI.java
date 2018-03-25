@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.quests;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -10,11 +11,15 @@ import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.Zone;
 
-public class QuestUI {
+public class QuestUI implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
-	private Handler handler;
+	private transient Handler handler;
 	private QuestHelpUI questHelpUI;
 	private Quest selectedQuest;
 	private Zone selectedZone;

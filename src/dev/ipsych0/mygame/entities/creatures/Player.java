@@ -26,6 +26,7 @@ import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.utils.Text;
@@ -48,10 +49,10 @@ public class Player extends Creature{
 	public static boolean debugButtonPressed = false;
 	
 	// Walking Animations
-	private transient Animation aDown, aUp, aLeft, aRight, aDefault;
+	private Animation aDown, aUp, aLeft, aRight, aDefault;
 	
 	// Attacking Animations
-	private transient Animation attDown, attUp, attLeft, attRight;
+	private Animation attDown, attUp, attLeft, attRight;
 	private ArrayList<Projectile> projectiles;
 	
 	// Last faced direction
@@ -77,6 +78,7 @@ public class Player extends Creature{
 	
 	private int alpha = 200;
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
+	private boolean isLoaded = false;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -123,6 +125,20 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
+		if(MenuState.loadButtonPressed) {
+			// Animations
+			aDown = new Animation(250, Assets.player_down);
+			aUp = new Animation(250, Assets.player_up);
+			aLeft = new Animation(250, Assets.player_left);
+			aRight = new Animation(250, Assets.player_right);
+			
+			attDown = new Animation(333, Assets.player_attackingDown);
+			attUp = new Animation(333, Assets.player_attackingUp);
+			attLeft = new Animation(333, Assets.player_attackingLeft);
+			attRight = new Animation(333, Assets.player_attackingRight);
+			
+			aDefault = aDown;
+		}
 		
 		//Movement
 		if(movementAllowed) {

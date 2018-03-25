@@ -64,7 +64,7 @@ public class AStarMap implements Serializable{
 	}
 	
 	public void tick() {
-		mapBounds = new Rectangle(x, y, width, height);
+		
 	}
 	
 	public void render(Graphics g) {
@@ -324,6 +324,14 @@ public class AStarMap implements Serializable{
 
 	public void setMapBounds(Rectangle mapBounds) {
 		this.mapBounds = mapBounds;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 	
 	
