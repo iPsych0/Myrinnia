@@ -10,20 +10,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.items.ItemStack;
-import dev.ipsych0.mygame.worlds.World;
 
 public class SaveManager {
 	
 	public static ArrayList<String> variables;
 	public static ArrayList<ItemStack> inventory;
 	public static ArrayList<ItemStack> equipment;
+	public static CopyOnWriteArrayList<Entity> entities;
 
 	public SaveManager(Handler handler){
 		variables = new ArrayList<String>();
 		inventory = new ArrayList<ItemStack>();
 		equipment = new ArrayList<ItemStack>();
+		entities = new CopyOnWriteArrayList<Entity>();
 	}
 
 	public static void saveGame(){
@@ -77,6 +81,25 @@ public class SaveManager {
 			try {
 				o = new ObjectOutputStream(f);
 					o.writeObject(equipment);
+				o.close();
+				f.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveEntities(){
+		FileOutputStream f;
+		try {
+			f = new FileOutputStream(new File("res/savegames/entities.txt"));
+			ObjectOutputStream o;
+			try {
+				o = new ObjectOutputStream(f);
+					o.writeObject(entities);
 				o.close();
 				f.close();
 			}
@@ -150,7 +173,7 @@ public class SaveManager {
 		 */
 		System.out.println("Inventory size = "+ inventory.size());
 		for(int i = 0; i < inventory.size(); i++){
-			handler.getWorld().getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(inventory.get(i).getItem())).addItem(handler.getWorld().getInventory().getItemByID(inventory.get(i).getItem().getId()),
+			handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(inventory.get(i).getItem())).addItem(handler.getInventory().getItemByID(inventory.get(i).getItem().getId()),
 			inventory.get(i).getAmount());
 			
 		}
@@ -179,13 +202,40 @@ public class SaveManager {
 		System.out.println("Equipment size = "+ equipment.size());
 		for(int i = 0; i < equipment.size(); i++){
 			
-			handler.getWorld().getEquipment().getEquipmentSlots().get(equipment.get(i).getItem().getEquipSlot()).equipItem(handler.getWorld().getInventory().getItemByID(equipment.get(i).getItem().getId()));
+			handler.getEquipment().getEquipmentSlots().get(equipment.get(i).getItem().getEquipSlot()).equipItem(handler.getInventory().getItemByID(equipment.get(i).getItem().getId()));
 			handler.getPlayer().addEquipmentStats(equipment.get(i).getItem().getEquipSlot());
 		}
 	}
 	
+	public static void loadEntities(Handler handler){
+		entities = null;
+		FileInputStream fin;
+		try {
+			fin = new FileInputStream("res/savegames/entities.txt");
+			ObjectInputStream oin = new ObjectInputStream(fin);
+			entities = (CopyOnWriteArrayList<Entity>) oin.readObject();
+			oin.close();
+			fin.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	
+		/*
+		 * Set the Inventory items from read file
+		 */
+
+	}
+	
 	public static void addSaveData(String data){
 		variables.add(data);
+	}
+	
+	public static void addEntityData(Entity e){
+		entities.add(e);
 	}
 	
 	public static void addInventoryItems(ItemStack itemStack){
@@ -208,6 +258,10 @@ public class SaveManager {
 		equipment.clear();
 	}
 	
+	public static void clearEntities() {
+		entities.clear();
+	}
+	
 	public static ArrayList<String> getSaveData() {
 		return variables;
 	}
@@ -215,8 +269,13 @@ public class SaveManager {
 	public static ArrayList<ItemStack> getInventoryItems(){
 		return inventory;
 	}
+	
 	public static ArrayList<ItemStack> getEquipmentItems(){
 		return equipment;
+	}
+	
+	public static CopyOnWriteArrayList<Entity> getEntities(){
+		return entities;
 	}
 	
 }

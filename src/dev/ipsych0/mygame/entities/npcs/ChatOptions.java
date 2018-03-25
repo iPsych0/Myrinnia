@@ -3,14 +3,15 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatOptions {
+public class ChatOptions implements Serializable{
 	
-	private Handler handler;
+	private transient Handler handler;
 	private int x, y, width, height;
 	private String message;
 	private boolean isHovering = false;

@@ -1,6 +1,9 @@
 package dev.ipsych0.mygame;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
@@ -24,6 +27,7 @@ import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
 import dev.ipsych0.mygame.worlds.SwampLand;
@@ -77,17 +81,17 @@ public class Handler {
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
 	}
 	
-	public String toJSON(Object o){
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(gson.toJson(o));
-		return gson.toJson(o);
-	}
-	
-	public Object fromJSON(String JSON, Object o) {
-		Gson gson = new Gson();
-		Object fromJSON = gson.fromJson(JSON, o.getClass());
-		return fromJSON;
-		
+	public void toJSON(Object o){
+		try {
+			Writer writer = new FileWriter("res/savegames/inventory.json");
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String JSON = gson.toJson(o);
+			writer.write(JSON);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			sendMsg("Something went wrong saving your inventory!");
+		}
 	}
 	
 	public boolean questStarted(QuestList quest) {
@@ -149,7 +153,7 @@ public class Handler {
 	 * Sends a message to the chat log
 	 */
 	public void sendMsg(String message) {
-		getWorld().getChatWindow().sendMessage(message);
+		getChatWindow().sendMessage(message);
 	}
 	
 	/*
@@ -165,11 +169,11 @@ public class Handler {
 	 * @params: Provide the item and the amount to be added
 	 */
 	public void giveItem(Item item, int amount) {
-		if(getWorld().getInventory().findFreeSlot(item) == -1) {
+		if(getInventory().findFreeSlot(item) == -1) {
 			sendMsg("The item(s) were dropped to the floor.");
 			dropItem(item, amount, (int)player.getX(), (int)player.getY());
 		} else{
-			getInventory().getItemSlots().get(getWorld().getInventory().findFreeSlot(item)).addItem(item, amount);
+			getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
 		}
 	}
 	
@@ -295,6 +299,10 @@ public class Handler {
 
 	public void setCraftingUI(CraftingUI craftingUI) {
 		this.craftingUI = craftingUI;
+	}
+
+	public SaveManager getSaveManager() {
+		return game.getSaveManager();
 	}
 
 }

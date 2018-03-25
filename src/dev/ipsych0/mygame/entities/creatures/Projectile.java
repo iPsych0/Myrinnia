@@ -19,8 +19,8 @@ public class Projectile {
 	private int mouseX, mouseY;
 	private double angle;
 	private int maxRadius = 320;
-	private Animation magic;
-	private Handler handler;
+	private transient Animation magic;
+	private transient Handler handler;
 	private Rectangle bounds;
 	public boolean active;
 	

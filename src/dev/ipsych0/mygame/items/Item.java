@@ -116,11 +116,11 @@ public class Item implements Serializable{
 	 * Item pickup function
 	 */
 	public boolean pickUpItem (Item item) {
-        int inventoryIndex = handler.getWorld().getInventory().findFreeSlot(item);
+        int inventoryIndex = handler.getInventory().findFreeSlot(item);
         if (inventoryIndex >= 0) {
         	// If we have space
             if(id == item.getId()){
-            	if(handler.getWorld().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
+            	if(handler.getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
 	            	handler.sendMsg("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
 	            	pickedUp = true;
 	            	return true;

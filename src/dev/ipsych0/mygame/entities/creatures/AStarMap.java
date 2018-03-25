@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,10 +12,10 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Creature.Direction;
 import dev.ipsych0.mygame.entities.statics.StaticEntity;
 
-public class AStarMap {
+public class AStarMap implements Serializable{
 	
 	private int x, y, width, height, xSpawn, ySpawn;
-	private Handler handler;
+	private transient Handler handler;
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);

@@ -44,11 +44,11 @@ public class Game implements Runnable {
 	// Camera
 	private GameCamera gameCamera;
 	
-	private SaveManager saveManager;
-	
 	// Handler
 	
 	private Handler handler;
+	
+	private SaveManager saveManager;
 	
 	public Game(String title, int width, int height){
 		this.width = width;
@@ -80,7 +80,6 @@ public class Game implements Runnable {
 		// Set the initial state to the menu state
 		State.setState(menuState);
 		
-		// Instance the savemanager (needed to pass 
 		saveManager = new SaveManager(handler);
 	}
 	
@@ -167,7 +166,7 @@ public class Game implements Runnable {
 	      //final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 	      
 	      //Simple way of finding FPS.
-	      int lastSecondTime = (int) (lastUpdateTime / 1000000000);
+//	      int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 	      
 	      while (running) {
 	         double now = System.nanoTime();
@@ -277,5 +276,13 @@ public class Game implements Runnable {
 
 	public void setFramesPerSecond(int framesPerSecond) {
 		this.framesPerSecond = framesPerSecond;
+	}
+
+	public SaveManager getSaveManager() {
+		return saveManager;
+	}
+
+	public void setSaveManager(SaveManager saveManager) {
+		this.saveManager = saveManager;
 	}
 }

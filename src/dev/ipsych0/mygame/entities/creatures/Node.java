@@ -1,7 +1,8 @@
 package dev.ipsych0.mygame.entities.creatures;
 
+import java.io.Serializable;
 
-public class Node {
+public class Node implements Serializable {
 	
 	private int x, y;
 	private static final int MOVEMENT_COST = 10;

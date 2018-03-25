@@ -20,7 +20,7 @@ public class Campfire extends StaticEntity {
 
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private Animation campfire;
+	private transient Animation campfire;
 	private int speakingTurn;
 	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
 	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};

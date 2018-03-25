@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -62,6 +63,7 @@ public class TeleportShrine2 extends StaticEntity {
 				SaveManager.clearInventoryItems();
 				SaveManager.clearEquipmentItems();
 				SaveManager.clearSaveData();
+				SaveManager.clearEntities();
 				
 				// Add the player data
 				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
@@ -73,25 +75,30 @@ public class TeleportShrine2 extends StaticEntity {
 				SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
 				
 				// Add the inventory objects to an arraylist
-				for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
-					if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+				for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
+					if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
 						continue;
 					}
-					SaveManager.addInventoryItems(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+					SaveManager.addInventoryItems(handler.getInventory().getItemSlots().get(i).getItemStack());
 				}
 				
 				// Add equipment objects to an arraylist
-				for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
-					if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+				for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
+					if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 						continue;
 					}
-					SaveManager.addEquipmentItems((handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
+					SaveManager.addEquipmentItems((handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
+				}
+				
+				for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+					SaveManager.addEntityData(e);
 				}
 				
 				// Finally, save the game
 				SaveManager.saveInventory();
 				SaveManager.saveEquipment();
 				SaveManager.saveGame();
+				SaveManager.saveEntities();
 				handler.sendMsg("Game Saved!");
 				speakingTurn = 0;
 				chatDialogue = null;

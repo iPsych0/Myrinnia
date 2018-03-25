@@ -55,7 +55,7 @@ public class Tree extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
+	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully chopped some logs.");
 	        		attempts++;

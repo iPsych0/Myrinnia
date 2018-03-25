@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -12,10 +13,10 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatDialogue {
+public class ChatDialogue implements Serializable{
 	
 	private int x, y, width, height;
-	private Handler handler;
+	private transient Handler handler;
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;

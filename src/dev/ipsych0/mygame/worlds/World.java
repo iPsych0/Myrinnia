@@ -244,30 +244,6 @@ public abstract class World {
 		this.itemManager = itemManager;
 	}
 
-	public InventoryWindow getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(InventoryWindow inventory) {
-		this.inventory = inventory;
-	}
-
-	public EquipmentWindow getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(EquipmentWindow equipment) {
-		this.equipment = equipment;
-	}
-
-	public CraftingUI getCraftingUI() {
-		return craftingUI;
-	}
-
-	public void setCraftingUI(CraftingUI craftingUI) {
-		this.craftingUI = craftingUI;
-	}
-
 	public int getWorldID() {
 		return worldID;
 	}
@@ -282,13 +258,5 @@ public abstract class World {
 
 	public void setLayers(String[] layers) {
 		this.layers = layers;
-	}
-
-	public ChatWindow getChatWindow() {
-		return chatWindow;
-	}
-
-	public void setChatWindow(ChatWindow chatWindow) {
-		this.chatWindow = chatWindow;
 	}
 }

@@ -54,7 +54,7 @@ public class Rock extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.oreItem)).addItem(Item.oreItem,
+	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.oreItem)).addItem(Item.oreItem,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully mined some ore!");
 	        		attempts++;

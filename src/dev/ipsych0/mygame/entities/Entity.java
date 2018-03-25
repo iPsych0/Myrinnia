@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,9 +15,13 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable{
 
-	protected Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected transient Handler handler;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
@@ -345,6 +350,14 @@ public abstract class Entity {
 
 	public void setSolid(boolean solid) {
 		this.solid = solid;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 	
 }

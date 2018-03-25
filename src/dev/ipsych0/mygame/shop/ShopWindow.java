@@ -499,8 +499,8 @@ public class ShopWindow {
 	 * Refreshes the inventory in the shopwindow
 	 */
 	private void loadInventory() {
-		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++) {
-			invSlots.get(i).setItemStack(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack());
+		for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
+			invSlots.get(i).setItemStack(handler.getInventory().getItemSlots().get(i).getItemStack());
 		}
 	}
 	

@@ -48,10 +48,10 @@ public class Player extends Creature{
 	public static boolean debugButtonPressed = false;
 	
 	// Walking Animations
-	private Animation aDown, aUp, aLeft, aRight, aDefault;
+	private transient Animation aDown, aUp, aLeft, aRight, aDefault;
 	
 	// Attacking Animations
-	private Animation attDown, attUp, attLeft, attRight;
+	private transient Animation attDown, attUp, attLeft, attRight;
 	private ArrayList<Projectile> projectiles;
 	
 	// Last faced direction
@@ -266,16 +266,16 @@ public class Player extends Creature{
 		// If the player is pressing the attack button
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
-				if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
+				if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
 					/*
 					 * If the player is wearing a melee weapon, check melee attacks
 					 */
-					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
 						checkAttacks(mouse);
 					/*
 					 * If the player is wearing a magic weapon, fire magic attacks
 					 */
-					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MAGIC_WEAPON) {
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MAGIC_WEAPON) {
 						checkMagic(mouse);
 					}
 				}
@@ -448,14 +448,14 @@ public class Player extends Creature{
 			// If slotnumber = 12 (unequippable) return
 			return;
 		}
-		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+		if(handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 
 			// Sets the new stats
-			setAttackSpeed(getAttackSpeed() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
-			setVitality(getVitality() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
-			setPower(getPower() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
-			setDefence(getDefence() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
-			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+			setAttackSpeed(getAttackSpeed() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+			setVitality(getVitality() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+			setPower(getPower() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+			setDefence(getDefence() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+			speed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			attackCooldown = (long) (600 / getAttackSpeed());
 			magicCooldown = (long) (300 / getAttackSpeed());
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
@@ -469,38 +469,38 @@ public class Player extends Creature{
 		if(equipSlot == 12) {
 			return;
 		}
-		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+		if(handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 			
-			if(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
+			if(getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
 				setAttackSpeed(0);
 			}else {
-				setAttackSpeed(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+				setAttackSpeed(getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
 			}
 			
-			if(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
+			if(getVitality() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
 				setVitality(0);
 			}else {
-				setVitality(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+				setVitality(getVitality() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
 			}
 			
-			if(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
+			if(getPower() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
 				setPower(0);
 			}else {
-				setPower(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+				setPower(getPower() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
 			}
 			
-			if(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
+			if(getDefence() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
 				setDefence(0);
 			}else {
-				setDefence(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+				setDefence(getDefence() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
 			}
 			/*
 			 * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
 			 */
-			if(speed - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
+			if(speed - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
 				speed = 1.0f;
 			}else {
-				speed -= handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+				speed -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			}
 			
 			attackCooldown = (long) (600 / getAttackSpeed());
@@ -558,13 +558,13 @@ public class Player extends Creature{
 		if(magicTimer < magicCooldown)
 			return;
 		
-		if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+		if(InventoryWindow.isOpen && handler.getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
-		if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+		if(EquipmentWindow.isOpen && handler.getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
-		if(ChatWindow.chatIsOpen && handler.getWorld().getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+		if(ChatWindow.chatIsOpen && handler.getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
-		if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+		if(CraftingUI.isOpen && handler.getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return;
 		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
 			return;
@@ -664,33 +664,33 @@ public class Player extends Creature{
 	public void die(){
 		System.out.println("You died!");
 		// Drop all items
-		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
-			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+		for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
+			if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
-			handler.getWorld().getInventory().getItemSlots().get(i).setItemStack(null);
+			handler.getWorld().getItemManager().addItem(handler.getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getInventory().getItemSlots().get(i).getItemStack().getAmount()));
+			handler.getInventory().getItemSlots().get(i).setItemStack(null);
 		}
 		// If we're dragging an item from inventory while dying, drop it too!
-		if(handler.getWorld().getInventory().getCurrentSelectedSlot() != null) {
-			handler.dropItem(handler.getWorld().getInventory().getCurrentSelectedSlot().getItem(), handler.getWorld().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-			handler.getWorld().getInventory().setCurrentSelectedSlot(null);
+		if(handler.getInventory().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getInventory().getCurrentSelectedSlot().getItem(), handler.getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getInventory().setCurrentSelectedSlot(null);
 			InventoryWindow.hasBeenPressed = false;
 			InventoryWindow.itemSelected = false;
 		}
 		// Drop all equipment
-		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+		for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
+			if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
-			removeEquipmentStats(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
-			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
+			handler.getWorld().getItemManager().addItem(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
+			removeEquipmentStats(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
+			handler.getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		// If we're dragging an item from equipment while dying, drop it too!
-		if(handler.getWorld().getEquipment().getCurrentSelectedSlot() != null) {
-			handler.dropItem(handler.getWorld().getEquipment().getCurrentSelectedSlot().getItem(), handler.getWorld().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-			handler.getWorld().getEquipment().setCurrentSelectedSlot(null);
+		if(handler.getEquipment().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getEquipment().getCurrentSelectedSlot().getItem(), handler.getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getEquipment().setCurrentSelectedSlot(null);
 			EquipmentWindow.hasBeenPressed = false;
 			EquipmentWindow.itemSelected = false;
 		}
@@ -699,15 +699,9 @@ public class Player extends Creature{
 			this.setActive(true);
 			this.setHealth(DEFAULT_HEALTH);
 			
-			if(SaveManager.variables.size() != 0) {
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(SaveManager.variables.get(4))));
-				this.setX(Float.parseFloat(SaveManager.variables.get(1)));
-				this.setY(Float.parseFloat(SaveManager.variables.get(2)));
-			}else {
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				this.setX(xSpawn);
-				this.setY(ySpawn);
-			}
+			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+			this.setX(xSpawn);
+			this.setY(ySpawn);
 		}
 	}
 	
@@ -783,7 +777,7 @@ public class Player extends Creature{
 		 */
 		
 		if(xMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -795,7 +789,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(xMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -807,7 +801,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -819,7 +813,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -881,25 +875,25 @@ public class Player extends Creature{
 		 */
 		
 		if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aLeft.getDefaultFrame();
 			else
 				return attLeft.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aRight.getDefaultFrame();
 			else
 				return attRight.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aUp.getDefaultFrame();
 			else
 				return attUp.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aDown.getDefaultFrame();
 			else
 				return attDown.getCurrentFrame();

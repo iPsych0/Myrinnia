@@ -96,7 +96,7 @@ public class EntityManager {
 			
 			// If we clicked away, remove the locked UI component
 			if(!entityRect.contains(mouse) && !handler.getChatWindow().getWindowBounds().contains(mouse) &&
-					!handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) &&
+					!handler.getCraftingUI().getWindowBounds().contains(mouse) &&
 					!handler.getEquipment().getWindowBounds().contains(mouse) &&
 					!handler.getInventory().getWindowBounds().contains(mouse) &&
 					!e.equals(handler.getPlayer()) && handler.getMouseManager().isRightPressed() && !isPressed && selectedEntity != null) {

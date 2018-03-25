@@ -265,7 +265,7 @@ public class CraftingUI {
 								return;
 							}else {
 								// Otherwise add the item to the inventory
-								handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(cs.getItemStack().getItem())).addItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
+								handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(cs.getItemStack().getItem())).addItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
 								cs.setItemStack(null);
 								hasBeenPressed = false;
 								findRecipe();

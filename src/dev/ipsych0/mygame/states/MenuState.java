@@ -44,6 +44,7 @@ public class MenuState extends State {
 				SaveManager.loadGame(handler);
 				SaveManager.loadInventory(handler);
 				SaveManager.loadEquipment(handler);
+				SaveManager.loadEntities(handler);
 				State.setState(handler.getGame().gameState);
 				handler.playMusic("res/music/myrinnia.wav");
 
