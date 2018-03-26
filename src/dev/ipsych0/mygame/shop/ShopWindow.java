@@ -727,9 +727,6 @@ public class ShopWindow implements Serializable {
 				return;
 			}
 			
-			if(!tradeSlot.getItemStack().getItem().isStackable()) {
-				amount = 1;
-			}
 			if(amount > tradeSlot.getItemStack().getAmount() && tradeSlot.getItemStack().getItem().isStackable()) {
 				amount = tradeSlot.getItemStack().getAmount();
 			}
