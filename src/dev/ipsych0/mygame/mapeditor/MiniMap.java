@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
@@ -13,20 +14,18 @@ import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Utils;
 import dev.ipsych0.mygame.worlds.World;
 
-public class MiniMap{
+public class MiniMap implements Serializable{
 	
 	private Handler handler;
 	private int x, y, width, height;
 	private int[][] tiles;
 	private int[][] terrain;
-	private MapLoader mapLoader;
 	private String file;
 	private boolean tilesLoaded = false;
 	public static boolean isOpen = false;
 	
-	public MiniMap(Handler handler, MapLoader mapLoader, String path, int x, int y, int width, int height){
+	public MiniMap(Handler handler, String path, int x, int y, int width, int height){
 		this.handler = handler;
-		this.mapLoader = mapLoader;
 		this.x = x;
 		this.y = y;
 		this.width = width;

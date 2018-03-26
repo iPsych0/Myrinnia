@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame.entities.npcs;
 
-public class NPCText {
+import java.io.Serializable;
+
+public class NPCText implements Serializable{
 	
 	private String line;
 	

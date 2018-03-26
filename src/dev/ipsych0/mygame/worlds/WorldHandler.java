@@ -1,12 +1,13 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import dev.ipsych0.mygame.Handler;
 
-public class WorldHandler {
+public class WorldHandler implements Serializable{
 	private Handler handler;
 	private ArrayList<World> worlds;
 	private Island island;

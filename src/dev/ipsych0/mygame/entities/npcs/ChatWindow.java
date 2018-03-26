@@ -3,13 +3,14 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatWindow {
+public class ChatWindow implements Serializable{
 	
 	public static boolean chatIsOpen = true;
 	private boolean isCreated = false;

@@ -3,13 +3,14 @@ package dev.ipsych0.mygame.crafting;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.utils.Text;
 
-public class CraftResultSlot {
+public class CraftResultSlot implements Serializable {
 	
 	private int x, y;
 	public static final int SLOTSIZE = 32;

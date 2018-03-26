@@ -24,7 +24,7 @@ public class TextBox implements KeyListener, Serializable {
 	public int x, y, width, height;
 	public String charactersTyped = "";
 	public boolean numbersOnly = false;
-	private transient Handler handler;
+	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
 	public int index = 0;

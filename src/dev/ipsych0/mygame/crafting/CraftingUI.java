@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +22,7 @@ import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
-public class CraftingUI {
+public class CraftingUI implements Serializable{
 	
 	private int x, y, width, height;
 	public static boolean isOpen = false;

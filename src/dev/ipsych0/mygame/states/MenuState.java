@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.states;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.ClickListener;
@@ -44,10 +46,11 @@ public class MenuState extends State {
 				handler.getMouseManager().setUIManager(null);
 				loadButtonPressed = true;
 //				SaveManager.loadGame(handler);
-				SaveManager.loadEntities(handler);
-				SaveManager.loadInventory(handler);
-				SaveManager.loadEquipment(handler);
-				SaveManager.loadQuests(handler);
+//				SaveManager.loadWorlds(handler);
+//				SaveManager.loadInventory(handler);
+//				SaveManager.loadEquipment(handler);
+//				SaveManager.loadQuests(handler);
+				SaveManager.loadHandler(handler);
 				State.setState(handler.getGame().gameState);
 				handler.playMusic("res/music/myrinnia.wav");
 				loadButtonPressed = false;

@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 
-public class ItemManager {
+public class ItemManager implements Serializable{
 	
 	private Handler handler;
 	private ArrayList<Item> items;

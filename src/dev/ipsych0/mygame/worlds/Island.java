@@ -69,7 +69,7 @@ public class Island extends World {
 
 	@Override
 	public void tick() {
-		if(handler.getWorld() == this){
+		if(handler.getWorld().equals(this)){
 			super.tick();
 			if(standingOnTile(house1)) {
 				goToWorld(3, 6016, 6140);

@@ -26,7 +26,7 @@ public class Projectile implements Serializable {
 	private double angle;
 	private int maxRadius = 320;
 	private Animation magic;
-	private transient Handler handler;
+	private Handler handler;
 	private Rectangle bounds;
 	public boolean active;
 	

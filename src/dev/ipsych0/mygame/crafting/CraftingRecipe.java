@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.crafting;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 import dev.ipsych0.mygame.items.ItemStack;
 
-public class CraftingRecipe {
+public class CraftingRecipe implements Serializable{
 
 	private ItemStack item1, item2, item3, item4;
 	private ItemStack result;

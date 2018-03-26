@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
@@ -15,7 +16,7 @@ import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 
-public class KeyManager implements KeyListener{
+public class KeyManager implements KeyListener, Serializable{
 
 	private boolean[] keys, justPressed, cantPress;
 	public boolean up, down, left, right;

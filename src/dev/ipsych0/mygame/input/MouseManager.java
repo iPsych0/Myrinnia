@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -15,7 +16,7 @@ import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.ui.UIManager;
 
-public class MouseManager implements MouseListener, MouseMotionListener {
+public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
 	
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;

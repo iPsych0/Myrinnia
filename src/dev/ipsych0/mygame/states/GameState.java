@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.states;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 
 public class GameState extends State{

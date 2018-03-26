@@ -3,6 +3,7 @@ package dev.ipsych0.mygame;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.Writer;
 import java.util.Random;
 
@@ -35,8 +36,12 @@ import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
 
-public class Handler {
+public class Handler implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Game game;
 	private World world;
 	private Island island;

@@ -38,7 +38,7 @@ public class ShopWindow implements Serializable {
 	private ItemStack selectedShopItem;
 	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
-	private transient Handler handler;
+	private Handler handler;
 	private ItemSlot tradeSlot;
 	public static boolean inventoryLoaded = false;
 	private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;

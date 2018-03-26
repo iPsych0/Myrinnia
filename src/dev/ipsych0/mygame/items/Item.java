@@ -23,7 +23,7 @@ public class Item implements Serializable{
 	
 	// Class
 	
-	protected transient Handler handler;
+	protected Handler handler;
 	protected ItemType itemType;
 	protected ItemRarity itemRarity;
 	private transient BufferedImage texture;

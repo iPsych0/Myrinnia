@@ -21,7 +21,7 @@ public class DialogueBox implements Serializable {
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
 	public static boolean isOpen = false;
-	private transient Handler handler;
+	private Handler handler;
 	public String[] answers;
 	public String param = "";
 	public DialogueButton pressedButton = null;

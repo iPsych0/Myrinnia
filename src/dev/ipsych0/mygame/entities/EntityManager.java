@@ -20,7 +20,7 @@ public class EntityManager implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Handler handler;
+	private Handler handler;
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Entity shoppingNpc;

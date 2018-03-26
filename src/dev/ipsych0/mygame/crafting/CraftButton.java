@@ -2,11 +2,12 @@ package dev.ipsych0.mygame.crafting;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class CraftButton{
+public class CraftButton implements Serializable{
 	
 	private int x, y, width, height;
 	private Rectangle bounds;

@@ -2,11 +2,12 @@ package dev.ipsych0.mygame.ui;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 
-public class UIManager {
+public class UIManager implements Serializable {
 	
 	private Handler handler;
 	private CopyOnWriteArrayList<UIObject> objects;

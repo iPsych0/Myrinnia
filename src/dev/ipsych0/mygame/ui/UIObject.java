@@ -3,8 +3,9 @@ package dev.ipsych0.mygame.ui;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
-public abstract class UIObject {
+public abstract class UIObject implements Serializable {
 	
 	protected float x, y;
 	protected int width, height;

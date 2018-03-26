@@ -9,30 +9,32 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.worlds.World;
 
-public class SaveManager {
+public class SaveManager implements Serializable{
 	
 	public static ArrayList<String> variables;
 	public static ArrayList<ItemStack> inventory;
 	public static ArrayList<ItemStack> equipment;
-	public static ArrayList<EntityManager> entityManagers;
+	public static ArrayList<World> worlds;
 	
-	private Handler handler;
+	private static Handler handlerObject;
 	private static QuestManager questManager;
 
 	public SaveManager(Handler handler){
-		this.handler = handler;
+		handlerObject = handler;
 		variables = new ArrayList<String>();
 		inventory = new ArrayList<ItemStack>();
 		equipment = new ArrayList<ItemStack>();
-		entityManagers = new ArrayList<EntityManager>();
-		questManager = handler.getQuestManager();
+		worlds = new ArrayList<World>();
+		questManager = handlerObject.getQuestManager();
 	}
 
 	public static void saveGame(){
@@ -116,14 +118,33 @@ public class SaveManager {
 		}
 	}
 	
-	public static void saveEntities(){
+	public static void savehandler(){
 		FileOutputStream f;
 		try {
-			f = new FileOutputStream(new File("res/savegames/entities.txt"));
+			f = new FileOutputStream(new File("res/savegames/handler.txt"));
 			ObjectOutputStream o;
 			try {
 				o = new ObjectOutputStream(f);
-					o.writeObject(entityManagers);
+					o.writeObject(handlerObject);
+				o.close();
+				f.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveWorlds(){
+		FileOutputStream f;
+		try {
+			f = new FileOutputStream(new File("res/savegames/worlds.txt"));
+			ObjectOutputStream o;
+			try {
+				o = new ObjectOutputStream(f);
+					o.writeObject(worlds);
 				o.close();
 				f.close();
 			}
@@ -203,6 +224,27 @@ public class SaveManager {
 		}
 	}
 	
+	public static void loadHandler(Handler handler){
+		handlerObject = null;
+		FileInputStream fin;
+		try {
+			fin = new FileInputStream("res/savegames/handler.txt");
+			ObjectInputStream oin = new ObjectInputStream(fin);
+			handlerObject = (Handler) oin.readObject();
+			oin.close();
+			fin.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		handler.getGame().setHandler(handlerObject);
+		
+	}
+	
 	public static void loadQuests(Handler handler){
 		FileInputStream fin;
 		try {
@@ -248,12 +290,12 @@ public class SaveManager {
 		}
 	}
 	
-	public static void loadEntities(Handler handler){
+	public static void loadWorlds(Handler handler){
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream("res/savegames/entities.txt");
+			fin = new FileInputStream("res/savegames/worlds.txt");
 			ObjectInputStream oin = new ObjectInputStream(fin);
-			entityManagers = (ArrayList<EntityManager>) oin.readObject();
+			worlds = (ArrayList<World>) oin.readObject();
 			oin.close();
 			fin.close();
 		} catch (FileNotFoundException e) {
@@ -269,22 +311,26 @@ public class SaveManager {
 		 * Set the Entity settings from file
 		 */
 		
-		for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
-			handler.getWorldHandler().getWorlds().get(i).setEntityManager(entityManagers.get(i));
-			for(int j = 0; j < handler.getWorldHandler().getWorlds().get(i).getEntityManager().getEntities().size(); j++){
-				handler.getWorldHandler().getWorlds().get(i).getEntityManager().getEntities().get(j).setHandler(handler);
-				handler.getWorldHandler().getWorlds().get(i).getEntityManager().setHandler(handler);	
-				if(handler.getWorld().getEntityManager().getEntities().get(j) instanceof Creature) {
-					((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).setHandler(handler);
-					if(((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).getMap() != null) {
-						((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).getMap().setHandler(handler);
-					}
-				}
-			}
-		}
-		if(handler.getWorld().getEntityManager().getPlayer().getClosestEntity() != null)
-			if(handler.getWorld().getEntityManager().getPlayer().getClosestEntity().getChatDialogue() != null)
-				handler.getWorld().getEntityManager().getPlayer().getClosestEntity().getChatDialogue().setHandler(handler);
+		handler.getWorldHandler().setWorlds(worlds);
+		
+		handler.setWorld(handler.getWorldHandler().getWorlds().get(handler.getPlayer().getCurrentMap().getWorldID()));
+		
+//		for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
+//			handler.getWorldHandler().getWorlds().get(i).setEntityManager(worlds.get(i));
+//			for(int j = 0; j < handler.getWorldHandler().getWorlds().get(i).getEntityManager().getEntities().size(); j++){
+//				handler.getWorldHandler().getWorlds().get(i).getEntityManager().getEntities().get(j).setHandler(handler);
+//				handler.getWorldHandler().getWorlds().get(i).getEntityManager().setHandler(handler);	
+//				if(handler.getWorld().getEntityManager().getEntities().get(j) instanceof Creature) {
+//					((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).setHandler(handler);
+//					if(((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).getMap() != null) {
+//						((Creature)handler.getWorld().getEntityManager().getEntities().get(j)).getMap().setHandler(handler);
+//					}
+//				}
+//			}
+//		}
+//		if(handler.getWorld().getEntityManager().getPlayer().getClosestEntity() != null)
+//			if(handler.getWorld().getEntityManager().getPlayer().getClosestEntity().getChatDialogue() != null)
+//				handler.getWorld().getEntityManager().getPlayer().getClosestEntity().getChatDialogue().setHandler(handler);
 
 	}
 	
@@ -300,8 +346,8 @@ public class SaveManager {
 		equipment.add(itemStack);
 	}
 	
-	public static void addEntityManagers(EntityManager entityManager){
-		entityManagers.add(entityManager);
+	public static void addEntityManagers(World world){
+		worlds.add(world);
 	}
 	
 	public static void clearSaveData(){
@@ -316,8 +362,8 @@ public class SaveManager {
 		equipment.clear();
 	}
 	
-	public static void clearEntities() {
-		entityManagers.clear();
+	public static void clearWorlds() {
+		worlds.clear();
 	}
 	
 	public static ArrayList<String> getSaveData() {
@@ -332,8 +378,8 @@ public class SaveManager {
 		return equipment;
 	}
 	
-	public static ArrayList<EntityManager> getEntities(){
-		return entityManagers;
+	public static ArrayList<World> getWorlds(){
+		return worlds;
 	}
 	
 }

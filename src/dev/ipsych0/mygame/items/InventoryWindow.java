@@ -22,7 +22,7 @@ public class InventoryWindow implements Serializable {
 	
 	private int x, y;
 	private int width, height;
-	private transient Handler handler;
+	private Handler handler;
 	
 	private int numCols = 3;
 	private int numRows = 10;
