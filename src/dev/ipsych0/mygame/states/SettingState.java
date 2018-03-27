@@ -5,13 +5,16 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.ui.ClickListener;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.utils.Text;
 
 public class SettingState extends State{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 
@@ -23,17 +26,12 @@ public class SettingState extends State{
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
-
-			@Override
-			public void onClick() {
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
 				// On Click return to the Main Menu, set this UI Manager to null and stop loading this screen
-				State.setState(handler.getGame().settingState);
-					loaded = false;
-					State.setState(handler.getGame().menuState);
-					handler.getMouseManager().setUIManager(null);
-				
-			}}));
+//				State.setState(handler.getGame().settingState);
+//					loaded = false;
+//					State.setState(handler.getGame().menuState);
+//					handler.getMouseManager().setUIManager(null);
 		
 	}
 

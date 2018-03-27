@@ -29,6 +29,10 @@ import dev.ipsych0.mygame.utils.Utils;
 
 public abstract class World implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Variables
 	protected Handler handler;
 	protected MapLoader mapLoader;

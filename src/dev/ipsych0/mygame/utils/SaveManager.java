@@ -11,15 +11,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.worlds.World;
 
 public class SaveManager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static ArrayList<String> variables;
 	public static ArrayList<ItemStack> inventory;
 	public static ArrayList<ItemStack> equipment;
@@ -121,9 +128,14 @@ public class SaveManager implements Serializable{
 	public static void savehandler(){
 		FileOutputStream f;
 		try {
-			f = new FileOutputStream(new File("res/savegames/handler.txt"));
+			f = new FileOutputStream(new File("res/savegames/handler.sav"));
 			ObjectOutputStream o;
 			try {
+				MenuState.loadButtonPressed = false;
+				handlerObject.getGame().getDisplay().getFrame().removeMouseListener(handlerObject.getMouseManager());
+				handlerObject.getGame().getDisplay().getFrame().removeMouseMotionListener(handlerObject.getMouseManager());
+				handlerObject.getGame().getDisplay().getCanvas().removeMouseListener(handlerObject.getMouseManager());
+				handlerObject.getGame().getDisplay().getCanvas().removeMouseMotionListener(handlerObject.getMouseManager());
 				o = new ObjectOutputStream(f);
 					o.writeObject(handlerObject);
 				o.close();
@@ -228,7 +240,7 @@ public class SaveManager implements Serializable{
 		handlerObject = null;
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream("res/savegames/handler.txt");
+			fin = new FileInputStream("res/savegames/handler.sav");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			handlerObject = (Handler) oin.readObject();
 			oin.close();
@@ -241,7 +253,25 @@ public class SaveManager implements Serializable{
 			e.printStackTrace();
 		}
 		
-		handler.getGame().setHandler(handlerObject);
+		
+		for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
+			handler.getWorldHandler().getWorlds().get(i).setEntityManager(handlerObject.getWorldHandler().getWorlds().get(i).getEntityManager());
+			handler.getWorldHandler().getWorlds().get(i).setItemManager(handlerObject.getWorldHandler().getWorlds().get(i).getItemManager());
+		}
+		
+		handler.getGame().setKeyManager(handlerObject.getKeyManager());
+		handler.getGame().setMouseManager(handlerObject.getMouseManager());
+		handler.getGame().getDisplay().getFrame().addMouseListener(handlerObject.getMouseManager());
+		handler.getGame().getDisplay().getFrame().addKeyListener(handlerObject.getKeyManager());
+		handler.getGame().getDisplay().getFrame().addMouseMotionListener(handlerObject.getMouseManager());
+		handler.getGame().getDisplay().getCanvas().addMouseListener(handlerObject.getMouseManager());
+		handler.getGame().getDisplay().getCanvas().addMouseMotionListener(handlerObject.getMouseManager());
+		handler.setPlayer(handlerObject.getPlayer());
+		handler.getInventory().setItemSlots(handlerObject.getInventory().getItemSlots());
+		handler.getEquipment().setEquipmentSlots(handlerObject.getEquipment().getEquipmentSlots());
+		handler.setQuestManager(handlerObject.getQuestManager());
+		handler.getGame().setGameCamera(handlerObject.getGameCamera());
+//		handler.getGame().setHandler(handlerObject);
 		
 	}
 	

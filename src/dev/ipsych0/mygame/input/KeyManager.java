@@ -18,6 +18,10 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class KeyManager implements KeyListener, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean[] keys, justPressed, cantPress;
 	public boolean up, down, left, right;
 	public boolean chat;

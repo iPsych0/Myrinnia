@@ -10,6 +10,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class TextSlot implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int textWidth = 432;
 	public static final int textHeight = 15;
 	

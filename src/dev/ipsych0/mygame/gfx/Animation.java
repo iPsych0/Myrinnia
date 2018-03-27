@@ -1,7 +1,14 @@
 package dev.ipsych0.mygame.gfx;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
 
 public class Animation implements Serializable {
 	
@@ -42,6 +49,34 @@ public class Animation implements Serializable {
 	
 	public BufferedImage getDefaultFrame(){
 		return frames[1];
+	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+	    out.defaultWriteObject();
+	    out.writeInt(frames.length); // how many images are serialized?
+
+	    for (BufferedImage eachImage : frames) {
+	        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+	        ImageIO.write(eachImage, "png", buffer);
+
+	        out.writeInt(buffer.size()); // Prepend image with byte count
+	        buffer.writeTo(out);         // Write image
+	    }
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+	    in.defaultReadObject();
+
+	    int imageCount = in.readInt();
+	    this.frames = new BufferedImage[imageCount];
+	    for (int i = 0; i < imageCount; i++) {
+	        int size = in.readInt(); // Read byte count
+
+	        byte[] buffer = new byte[size];
+	        in.readFully(buffer); // Make sure you read all bytes of the image
+
+	        this.frames[i] = ImageIO.read(new ByteArrayInputStream(buffer));
+	    }
 	}
 
 }

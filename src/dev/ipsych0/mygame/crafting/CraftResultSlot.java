@@ -12,6 +12,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class CraftResultSlot implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;

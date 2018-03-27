@@ -9,6 +9,10 @@ import dev.ipsych0.mygame.Handler;
 
 public class UIManager implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private CopyOnWriteArrayList<UIObject> objects;
 	
@@ -25,16 +29,6 @@ public class UIManager implements Serializable {
 	public void render(Graphics g){
 		for(UIObject o : objects)
 			o.render(g);
-	}
-	
-	public void onMouseMove(MouseEvent e){
-		for(UIObject o : objects)
-			o.onMouseMove(e);
-	}
-	
-	public void onMouseRelease(MouseEvent e){
-		for(UIObject o : objects)
-			o.onMouseRelease(e);
 	}
 	
 	public void addObject(UIObject o){

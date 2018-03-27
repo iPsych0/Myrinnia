@@ -23,6 +23,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// RNG dice for drop table
 	private Random randDrop = new Random();
 	private int min = 1, max = 50;

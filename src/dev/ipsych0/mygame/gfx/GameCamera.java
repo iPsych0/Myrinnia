@@ -8,7 +8,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class GameCamera implements Serializable{
 	
-	private transient Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Handler handler;
 	private float xOffset, yOffset;
 	
 	public GameCamera(Handler handler, float xOffset, float yOffset){

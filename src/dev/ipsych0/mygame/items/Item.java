@@ -3,7 +3,15 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
@@ -250,5 +258,28 @@ public class Item implements Serializable{
 	public void setStackable(boolean stackable) {
 		this.stackable = stackable;
 	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+	    out.defaultWriteObject();
+	    out.writeInt(1); // how many images are serialized?
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        ImageIO.write(this.texture, "png", buffer);
+
+        out.writeInt(buffer.size()); // Prepend image with byte count
+        buffer.writeTo(out);         // Write image
+	    
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+	    in.defaultReadObject();
+
+        int size = in.readInt(); // Read byte count
+
+        byte[] buffer = new byte[size];
+        in.readFully(buffer); // Make sure you read all bytes of the image
+
+        this.texture = (ImageIO.read(new ByteArrayInputStream(buffer)));
+    }
 
 }

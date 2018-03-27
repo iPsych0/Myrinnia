@@ -18,22 +18,22 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
-import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// NPC killcounts
 	private int scorpionKC = 0;
 	

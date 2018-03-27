@@ -11,6 +11,10 @@ import dev.ipsych0.mygame.items.ItemStack;
 
 public class CraftingRecipeList implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<CraftingRecipe> recipes;
 	
 	/*

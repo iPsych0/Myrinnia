@@ -12,6 +12,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine2 extends StaticEntity {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int speakingTurn = 0;
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};

@@ -16,6 +16,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class MapLoader implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MapLoader(){
 		
 	}

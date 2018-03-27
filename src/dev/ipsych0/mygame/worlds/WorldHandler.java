@@ -8,6 +8,10 @@ import java.util.Iterator;
 import dev.ipsych0.mygame.Handler;
 
 public class WorldHandler implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private ArrayList<World> worlds;
 	private Island island;

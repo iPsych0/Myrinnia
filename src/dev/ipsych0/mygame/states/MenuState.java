@@ -2,11 +2,11 @@ package dev.ipsych0.mygame.states;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.Serializable;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.ui.ClickListener;
+import dev.ipsych0.mygame.gfx.ImageLoader;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.ui.UIObject;
@@ -15,9 +15,14 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class MenuState extends State {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	public static boolean loadButtonPressed = false;
+	private Rectangle newGameButton, continueButton, settingsButton;
 
 	public MenuState(Handler handler){
 		super(handler);
@@ -27,49 +32,22 @@ public class MenuState extends State {
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 216, 226, 96
+		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.mainMenuButton));
+		newGameButton = new Rectangle(367, 376, 226, 96);
 
-			@Override
-			public void onClick() {
-				handler.getMouseManager().setUIManager(null);
-				State.setState(handler.getGame().gameState);
-				handler.playMusic("res/music/myrinnia.wav");
-			}}));
 		
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 312, 226, 96
-
-			@Override
-			public void onClick() {
-				handler.getMouseManager().setUIManager(null);
-				loadButtonPressed = true;
-//				SaveManager.loadGame(handler);
-//				SaveManager.loadWorlds(handler);
-//				SaveManager.loadInventory(handler);
-//				SaveManager.loadEquipment(handler);
-//				SaveManager.loadQuests(handler);
-				SaveManager.loadHandler(handler);
-				State.setState(handler.getGame().gameState);
-				handler.playMusic("res/music/myrinnia.wav");
-				loadButtonPressed = false;
-
-			}}));
+		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.mainMenuButton));
+		continueButton = new Rectangle(367, 480, 226, 96);
 		
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton, new ClickListener(){ //367, 408, 226, 96
-
-			@Override
-			public void onClick() {
-				// Stop loading this UIManager and go to the settings screen
-				loaded = false;
-				State.setState(handler.getGame().settingState);
-				handler.getMouseManager().setUIManager(null);
-				
-			}}));
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
+		settingsButton = new Rectangle(367, 584, 226, 96);
+		
 		
 	}
 
@@ -81,6 +59,50 @@ public class MenuState extends State {
 				handler.getMouseManager().setUIManager(uiManager);
 				loaded = true;
 			}
+			
+			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			for(UIObject o : uiManager.getObjects()) {
+				if(o.getBounds().contains(mouse)) {
+					o.setHovering(true);
+				}else {
+					o.setHovering(false);
+				}
+			}
+			
+			if(newGameButton.contains(mouse)) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+					handler.getMouseManager().setUIManager(null);
+					State.setState(handler.getGame().gameState);
+					handler.playMusic("res/music/myrinnia.wav");
+				}
+			}
+			
+			if(continueButton.contains(mouse)) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+					handler.getMouseManager().setUIManager(null);
+					loadButtonPressed = true;
+//					SaveManager.loadGame(handler);
+//					SaveManager.loadWorlds(handler);
+//					SaveManager.loadInventory(handler);
+//					SaveManager.loadEquipment(handler);
+//					SaveManager.loadQuests(handler);
+					SaveManager.loadHandler(handler);
+					State.setState(handler.getGame().gameState);
+					handler.playMusic("res/music/myrinnia.wav");
+					loadButtonPressed = false;
+				}
+			}
+			
+			if(settingsButton.contains(mouse)) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+					// Stop loading this UIManager and go to the settings screen
+					loaded = false;
+					State.setState(handler.getGame().settingState);
+					handler.getMouseManager().setUIManager(null);
+				}
+			}
+			
 			uiManager.tick();
 		}
 	}

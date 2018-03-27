@@ -16,6 +16,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class MiniMap implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private int x, y, width, height;
 	private int[][] tiles;

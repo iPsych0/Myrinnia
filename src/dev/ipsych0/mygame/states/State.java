@@ -7,6 +7,10 @@ import dev.ipsych0.mygame.Handler;
 
 public abstract class State implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static State currentState = null;
 	
 	public static void setState(State state){

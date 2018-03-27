@@ -11,7 +11,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatOptions implements Serializable{
 	
-	private transient Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Handler handler;
 	private int x, y, width, height;
 	private String message;
 	private boolean isHovering = false;

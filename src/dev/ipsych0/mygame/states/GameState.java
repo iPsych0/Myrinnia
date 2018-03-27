@@ -8,6 +8,10 @@ import dev.ipsych0.mygame.Handler;
 
 public class GameState extends State{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Font myFont;
 	public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
 	

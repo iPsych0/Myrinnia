@@ -27,22 +27,6 @@ public class EntityManager implements Serializable{
 	private Entity selectedEntity;
 	public static boolean isPressed = false;
 	
-	/*
-	 * Compares Entity A to Entity B
-	 * @returns: -1 if the Y position is lower (render on top of Entity B)
-	 * 			  1 if the Y position is higher (render behind Entity B)
-	 */
-	private transient Comparator<Entity> renderSorter = new Comparator<Entity>(){
-		@Override
-		public int compare(Entity a, Entity b) {
-			if(a.getY() + a.getHeight() < b.getY() + b.getHeight()){
-				return -1;
-			}else{
-				return 1;
-			}
-		}
-	};
-	
 	public EntityManager(Handler handler, Player player){
 		this.handler = handler;
 		this.player = player;
@@ -51,18 +35,21 @@ public class EntityManager implements Serializable{
 	}
 	
 	public void tick(){
-		if(MenuState.loadButtonPressed) {
-			renderSorter = new Comparator<Entity>(){
-				@Override
-				public int compare(Entity a, Entity b) {
-					if(a.getY() + a.getHeight() < b.getY() + b.getHeight()){
-						return -1;
-					}else{
-						return 1;
-					}
+		/*
+		 * Compares Entity A to Entity B
+		 * @returns: -1 if the Y position is lower (render on top of Entity B)
+		 * 			  1 if the Y position is higher (render behind Entity B)
+		 */
+		Comparator<Entity> renderSorter = new Comparator<Entity>(){
+			@Override
+			public int compare(Entity a, Entity b) {
+				if(a.getY() + a.getHeight() < b.getY() + b.getHeight()){
+					return -1;
+				}else{
+					return 1;
 				}
-			};
-		}
+			}
+		};
 		// Iterate over all Entities and remove inactive ones
 		Iterator<Entity> it = entities.iterator();
 		Collection<Entity> deleted = new CopyOnWriteArrayList<Entity>();

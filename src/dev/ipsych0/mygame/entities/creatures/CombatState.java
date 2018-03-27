@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame.entities.creatures;
 
-public enum CombatState {
+import java.io.Serializable;
+
+public enum CombatState implements Serializable{
 	
 	IDLE, ATTACK, PATHFINDING, BACKTRACK
 

@@ -9,6 +9,10 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 
 public abstract class ShopKeeper extends Creature {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected ShopWindow shopWindow;
 
 	public ShopKeeper(Handler handler, float x, float y, int width, int height) {

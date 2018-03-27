@@ -2,11 +2,15 @@ package dev.ipsych0.mygame.ui;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.io.Serializable;
+
 
 public abstract class UIObject implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
@@ -23,20 +27,6 @@ public abstract class UIObject implements Serializable {
 	public abstract void tick();
 	
 	public abstract void render(Graphics g);
-	
-	public abstract void onClick();
-	
-	public void onMouseMove(MouseEvent e){
-		if(bounds.contains(e.getX(), e.getY()))
-			hovering = true;
-		else
-			hovering = false;
-	}
-	
-	public void onMouseRelease(MouseEvent e){
-		if(hovering && e.getButton() == MouseEvent.BUTTON1)
-			onClick();
-	}
 	
 	// Getters & setters
 
@@ -78,6 +68,14 @@ public abstract class UIObject implements Serializable {
 
 	public void setHovering(boolean hovering) {
 		this.hovering = hovering;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

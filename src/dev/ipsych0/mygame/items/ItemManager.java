@@ -11,6 +11,10 @@ import dev.ipsych0.mygame.Handler;
 
 public class ItemManager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private ArrayList<Item> items;
 

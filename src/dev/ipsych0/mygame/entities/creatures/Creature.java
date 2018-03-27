@@ -19,6 +19,10 @@ import dev.ipsych0.mygame.tiles.Tiles;
 public abstract class Creature extends Entity {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * Default Creature variables
 	 */

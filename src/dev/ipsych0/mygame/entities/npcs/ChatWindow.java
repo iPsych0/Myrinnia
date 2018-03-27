@@ -12,6 +12,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatWindow implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static boolean chatIsOpen = true;
 	private boolean isCreated = false;
 	

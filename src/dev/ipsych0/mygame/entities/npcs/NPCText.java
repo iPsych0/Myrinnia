@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class NPCText implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String line;
 	
 	public NPCText(String line){

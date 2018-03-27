@@ -18,6 +18,10 @@ import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
@@ -98,8 +102,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			rightPressed = false;
 		}
 		
-		if(uiManager != null)
-			uiManager.onMouseRelease(e);
 		
 	}
 	
@@ -110,8 +112,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
-		if(uiManager != null)
-			uiManager.onMouseMove(e);
 	}
 	
 	@Override
