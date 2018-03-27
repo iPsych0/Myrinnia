@@ -71,9 +71,6 @@ public class Projectile implements Serializable {
 	
 	public void tick() {
 		if(active) {
-			if(MenuState.loadButtonPressed) {
-				magic = new Animation(125, Assets.magicProjectile);
-			}
 			magic.tick();
 			
 			x += xVelocity;

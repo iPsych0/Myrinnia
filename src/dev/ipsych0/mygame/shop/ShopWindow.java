@@ -233,7 +233,7 @@ public class ShopWindow implements Serializable {
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
-				KeyManager.typingFocus = false;
+				handler.getKeyManager().setTextBoxTyping(false);
 				hasBeenPressed = false;
 				selectedSlot = null;
 				selectedInvItem = null;
@@ -270,7 +270,7 @@ public class ShopWindow implements Serializable {
 				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
-				KeyManager.typingFocus = false;
+				handler.getKeyManager().setTextBoxTyping(false);
 				makingChoice = false;
 				hasBeenPressed = false;
 			}
@@ -298,7 +298,7 @@ public class ShopWindow implements Serializable {
 				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.enterPressed = false;
-				KeyManager.typingFocus = false;
+				handler.getKeyManager().setTextBoxTyping(false);
 				makingChoice = false;
 				hasBeenPressed = false;
 			}

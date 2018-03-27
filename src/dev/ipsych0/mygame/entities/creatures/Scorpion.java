@@ -66,9 +66,6 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			map.init();
-		}
 		if(!initialized) {
 			map.init();
 			initialized = true;

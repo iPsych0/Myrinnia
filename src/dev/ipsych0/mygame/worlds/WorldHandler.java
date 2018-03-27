@@ -13,9 +13,7 @@ public class WorldHandler implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Handler handler;
-	private ArrayList<World> worlds;
-	private Island island;
-	
+	private ArrayList<World> worlds;	
 
 	public WorldHandler(Handler handler, Island island){
 		this.handler = handler;
@@ -47,13 +45,5 @@ public class WorldHandler implements Serializable{
 
 	public void setWorlds(ArrayList<World> worlds) {
 		this.worlds = worlds;
-	}
-
-	public Island getIsland() {
-		return island;
-	}
-
-	public void setIsland(Island island) {
-		this.island = island;
 	}
 }

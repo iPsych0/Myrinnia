@@ -37,11 +37,6 @@ public class SaveManager implements Serializable{
 
 	public SaveManager(Handler handler){
 		handlerObject = handler;
-		variables = new ArrayList<String>();
-		inventory = new ArrayList<ItemStack>();
-		equipment = new ArrayList<ItemStack>();
-		worlds = new ArrayList<World>();
-		questManager = handlerObject.getQuestManager();
 	}
 
 	public static void saveGame(){
@@ -131,11 +126,13 @@ public class SaveManager implements Serializable{
 			f = new FileOutputStream(new File("res/savegames/handler.sav"));
 			ObjectOutputStream o;
 			try {
-				MenuState.loadButtonPressed = false;
-				handlerObject.getGame().getDisplay().getFrame().removeMouseListener(handlerObject.getMouseManager());
-				handlerObject.getGame().getDisplay().getFrame().removeMouseMotionListener(handlerObject.getMouseManager());
-				handlerObject.getGame().getDisplay().getCanvas().removeMouseListener(handlerObject.getMouseManager());
-				handlerObject.getGame().getDisplay().getCanvas().removeMouseMotionListener(handlerObject.getMouseManager());
+//				MenuState.loadButtonPressed = false;
+//				handlerObject.getGame().getDisplay().getFrame().removeMouseListener(handlerObject.getMouseManager());
+//				handlerObject.getGame().getDisplay().getFrame().removeKeyListener(handlerObject.getKeyManager());
+//				handlerObject.getGame().getDisplay().getFrame().removeMouseMotionListener(handlerObject.getMouseManager());
+//				handlerObject.getGame().getDisplay().getCanvas().removeMouseListener(handlerObject.getMouseManager());
+//				handlerObject.getGame().getDisplay().getCanvas().removeMouseMotionListener(handlerObject.getMouseManager());
+				handlerObject.getGame().getMouseManager().setLeftPressed(false);
 				o = new ObjectOutputStream(f);
 					o.writeObject(handlerObject);
 				o.close();
@@ -253,12 +250,7 @@ public class SaveManager implements Serializable{
 			e.printStackTrace();
 		}
 		
-		
-		for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
-			handler.getWorldHandler().getWorlds().get(i).setEntityManager(handlerObject.getWorldHandler().getWorlds().get(i).getEntityManager());
-			handler.getWorldHandler().getWorlds().get(i).setItemManager(handlerObject.getWorldHandler().getWorlds().get(i).getItemManager());
-		}
-		
+		handler.getGame().setHandler(handlerObject);
 		handler.getGame().setKeyManager(handlerObject.getKeyManager());
 		handler.getGame().setMouseManager(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getFrame().addMouseListener(handlerObject.getMouseManager());
@@ -266,7 +258,16 @@ public class SaveManager implements Serializable{
 		handler.getGame().getDisplay().getFrame().addMouseMotionListener(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getCanvas().addMouseListener(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getCanvas().addMouseMotionListener(handlerObject.getMouseManager());
-		handler.setPlayer(handlerObject.getPlayer());
+		
+		handler.getWorldHandler().getWorlds().clear();
+		for(int i = 0; i < handlerObject.getWorldHandler().getWorlds().size(); i++) {
+			handler.getWorldHandler().getWorlds().add(handlerObject.getWorldHandler().getWorlds().get(i));
+//			handler.getWorldHandler().getWorlds().get(i).setEntityManager(handlerObject.getWorldHandler().getWorlds().get(i).getEntityManager());
+//			handler.getWorldHandler().getWorlds().get(i).setItemManager(handlerObject.getWorldHandler().getWorlds().get(i).getItemManager());
+		}
+		
+		handler.setChatWindow(handlerObject.getChatWindow());
+		handler.setCraftingUI(handlerObject.getCraftingUI());
 		handler.getInventory().setItemSlots(handlerObject.getInventory().getItemSlots());
 		handler.getEquipment().setEquipmentSlots(handlerObject.getEquipment().getEquipmentSlots());
 		handler.setQuestManager(handlerObject.getQuestManager());

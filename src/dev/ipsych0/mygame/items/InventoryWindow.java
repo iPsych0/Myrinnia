@@ -59,11 +59,11 @@ public class InventoryWindow implements Serializable {
 			}
 		}	
 			
-			itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.coinsItem, 1000);
-			itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
-			itemSlots.get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
-			itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
-			itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
+		itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.coinsItem, 1000);
+		itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
+		itemSlots.get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
+		itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
+		itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
 		
 	
 	}

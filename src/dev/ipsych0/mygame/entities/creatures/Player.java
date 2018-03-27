@@ -125,20 +125,6 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			// Animations
-			aDown = new Animation(250, Assets.player_down);
-			aUp = new Animation(250, Assets.player_up);
-			aLeft = new Animation(250, Assets.player_left);
-			aRight = new Animation(250, Assets.player_right);
-			
-			attDown = new Animation(333, Assets.player_attackingDown);
-			attUp = new Animation(333, Assets.player_attackingUp);
-			attLeft = new Animation(333, Assets.player_attackingLeft);
-			attRight = new Animation(333, Assets.player_attackingRight);
-			
-			aDefault = aDown;
-		}
 		
 		//Movement
 		if(movementAllowed) {

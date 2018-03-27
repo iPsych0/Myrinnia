@@ -261,25 +261,23 @@ public class Item implements Serializable{
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 	    out.defaultWriteObject();
-	    out.writeInt(1); // how many images are serialized?
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         ImageIO.write(this.texture, "png", buffer);
 
         out.writeInt(buffer.size()); // Prepend image with byte count
         buffer.writeTo(out);         // Write image
-	    
 	}
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 	    in.defaultReadObject();
 
         int size = in.readInt(); // Read byte count
-
+        System.out.println(size);
         byte[] buffer = new byte[size];
         in.readFully(buffer); // Make sure you read all bytes of the image
 
-        this.texture = (ImageIO.read(new ByteArrayInputStream(buffer)));
+        this.texture = ImageIO.read(new ByteArrayInputStream(buffer));
     }
 
 }

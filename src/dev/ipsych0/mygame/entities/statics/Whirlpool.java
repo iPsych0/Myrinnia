@@ -39,9 +39,6 @@ public class Whirlpool extends StaticEntity {
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			spinning = new Animation(125, Assets.whirlpool);
-		}
 		spinning.tick();
 		if(isFishing) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {

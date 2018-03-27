@@ -143,4 +143,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 		
 	}
 
+	public void setLeftPressed(boolean leftPressed) {
+		this.leftPressed = leftPressed;
+	}
+
 }

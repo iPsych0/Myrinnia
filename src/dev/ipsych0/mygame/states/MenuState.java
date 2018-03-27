@@ -21,7 +21,6 @@ public class MenuState extends State {
 	private static final long serialVersionUID = 1L;
 	private UIManager uiManager;
 	private boolean loaded = false;
-	public static boolean loadButtonPressed = false;
 	private Rectangle newGameButton, continueButton, settingsButton;
 
 	public MenuState(Handler handler){
@@ -81,16 +80,19 @@ public class MenuState extends State {
 			if(continueButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 					handler.getMouseManager().setUIManager(null);
-					loadButtonPressed = true;
 //					SaveManager.loadGame(handler);
 //					SaveManager.loadWorlds(handler);
 //					SaveManager.loadInventory(handler);
 //					SaveManager.loadEquipment(handler);
 //					SaveManager.loadQuests(handler);
-					SaveManager.loadHandler(handler);
+					handler.getGame().getDisplay().getFrame().removeMouseListener(handler.getMouseManager());
+					handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getKeyManager());
+					handler.getGame().getDisplay().getFrame().removeMouseMotionListener(handler.getMouseManager());
+					handler.getGame().getDisplay().getCanvas().removeMouseListener(handler.getMouseManager());
+					handler.getGame().getDisplay().getCanvas().removeMouseMotionListener(handler.getMouseManager());
 					State.setState(handler.getGame().gameState);
+					SaveManager.loadHandler(handler);
 					handler.playMusic("res/music/myrinnia.wav");
-					loadButtonPressed = false;
 				}
 			}
 			

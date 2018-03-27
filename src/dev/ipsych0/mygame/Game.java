@@ -21,7 +21,7 @@ public class Game implements Runnable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Display display;
+	private Display display;
 	private int width, height;
 	public String title;
 	public final int screenWidth = 960;//768
@@ -61,6 +61,9 @@ public class Game implements Runnable, Serializable {
 		this.title = title;
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
+	}
+	
+	private void init(){
 		display = new Display(title, width, height);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addKeyListener(keyManager);
@@ -80,10 +83,6 @@ public class Game implements Runnable, Serializable {
 		
 		// Set the initial state to the menu state
 		State.setState(menuState);
-	}
-	
-	private void init(){
-		// Load in the window + images
 		
 	}
 	

@@ -42,9 +42,6 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			campfire = new Animation(125, Assets.campfire);
-		}
 		campfire.tick();
 	}
 	

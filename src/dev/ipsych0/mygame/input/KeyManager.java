@@ -15,6 +15,7 @@ import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.ui.TextBox;
 
 public class KeyManager implements KeyListener, Serializable{
 
@@ -29,7 +30,7 @@ public class KeyManager implements KeyListener, Serializable{
 	public boolean position;
 	public boolean talk;
 	public boolean escape;
-	public static boolean typingFocus = false;
+	private boolean textBoxTyping = false;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -39,24 +40,7 @@ public class KeyManager implements KeyListener, Serializable{
 	
 	public void tick(){
 		
-		
-//		for(int i = 0; i < keys.length; i++){
-//			if(cantPress[i] && !keys[i]){
-//				cantPress[i] = false;
-//			}else if(justPressed[i]){
-//				cantPress[i] = true;
-//				justPressed[i] = false;
-//			}
-//			if(!cantPress[i] && keys[i]){
-//				justPressed[i] = true;
-//			}
-//		}
-//		
-//		if(keyJustPressed(KeyEvent.VK_E)){
-//			// Maybe hier optimaliseren van interfaces
-//		}
-		
-		if(!typingFocus) {
+		if(!textBoxTyping) {
 			// Movement keys
 			up = keys[KeyEvent.VK_W];
 			down = keys[KeyEvent.VK_S];
@@ -84,11 +68,30 @@ public class KeyManager implements KeyListener, Serializable{
 			escape = keys[KeyEvent.VK_ESCAPE];
 		}
 		
+		
+//		for(int i = 0; i < keys.length; i++){
+//			if(cantPress[i] && !keys[i]){
+//				cantPress[i] = false;
+//			}else if(justPressed[i]){
+//				cantPress[i] = true;
+//				justPressed[i] = false;
+//			}
+//			if(!cantPress[i] && keys[i]){
+//				justPressed[i] = true;
+//			}
+//		}
+//		
+//		if(keyJustPressed(KeyEvent.VK_E)){
+//			// Maybe hier optimaliseren van interfaces
+//		}
+		
+		
+		
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(!typingFocus) {
+		if(!textBoxTyping) {
 			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
 				return;
 			}
@@ -162,7 +165,7 @@ public class KeyManager implements KeyListener, Serializable{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(!typingFocus) {
+		if(!textBoxTyping) {
 			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
 				return;
 			}
@@ -172,7 +175,7 @@ public class KeyManager implements KeyListener, Serializable{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(!typingFocus) {
+		if(!textBoxTyping) {
 			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
 				Player.hasInteracted = false;
 			}
@@ -184,6 +187,14 @@ public class KeyManager implements KeyListener, Serializable{
 			return false;
 		}
 		return justPressed[keyCode];
+	}
+
+	public boolean isTextBoxTyping() {
+		return textBoxTyping;
+	}
+
+	public void setTextBoxTyping(boolean textBoxTyping) {
+		this.textBoxTyping = textBoxTyping;
 	}
 
 }

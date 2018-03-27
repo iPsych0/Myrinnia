@@ -158,7 +158,7 @@ public abstract class World implements Serializable {
 	}
 	
 	protected boolean standingOnTile(Rectangle box) {
-		if(player.getCollisionBounds(0, 0).intersects(box)) {
+		if(box.intersects(player.getCollisionBounds(0, 0))) {
 			return true;
 		}else {
 			return false;
@@ -169,7 +169,6 @@ public abstract class World implements Serializable {
 		player.setX(x);
 		player.setY(y);
 		handler.setWorld(handler.getWorldHandler().getWorlds().get(worldID));
-		handler.getWorld().setHandler(handler);
 	}
 	
 	protected void renderNight(Graphics g) {

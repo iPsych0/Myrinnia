@@ -62,13 +62,13 @@ public class TextBox implements KeyListener, Serializable {
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				focus = true;
-				KeyManager.typingFocus = true;
+				handler.getKeyManager().setTextBoxTyping(true);
 			}
 			
 			// Removes focus when clicked outside the textfield
 			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				focus = false;
-				KeyManager.typingFocus = false;
+				handler.getKeyManager().setTextBoxTyping(false);
 			}
 		}
 	}
@@ -140,7 +140,7 @@ public class TextBox implements KeyListener, Serializable {
 				DialogueBox.isOpen = false;
 				ShopWindow.hasBeenPressed = false;
 				ShopWindow.makingChoice = false;
-				KeyManager.typingFocus = false;
+				handler.getKeyManager().setTextBoxTyping(false);
 				return;
 			}
 			if(focus) {
