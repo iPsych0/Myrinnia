@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.utils;
 
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,12 +29,6 @@ public class SaveManager implements Serializable{
 			f = new FileOutputStream(new File("res/savegames/handler.sav"));
 			ObjectOutputStream o;
 			try {
-//				MenuState.loadButtonPressed = false;
-//				handlerObject.getGame().getDisplay().getFrame().removeMouseListener(handlerObject.getMouseManager());
-//				handlerObject.getGame().getDisplay().getFrame().removeKeyListener(handlerObject.getKeyManager());
-//				handlerObject.getGame().getDisplay().getFrame().removeMouseMotionListener(handlerObject.getMouseManager());
-//				handlerObject.getGame().getDisplay().getCanvas().removeMouseListener(handlerObject.getMouseManager());
-//				handlerObject.getGame().getDisplay().getCanvas().removeMouseMotionListener(handlerObject.getMouseManager());
 				handlerObject.getGame().getMouseManager().setLeftPressed(false);
 				o = new ObjectOutputStream(f);
 					o.writeObject(handlerObject);
@@ -69,16 +64,19 @@ public class SaveManager implements Serializable{
 		handler.getGame().setKeyManager(handlerObject.getKeyManager());
 		handler.getGame().setMouseManager(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getFrame().addMouseListener(handlerObject.getMouseManager());
-		handler.getGame().getDisplay().getFrame().addKeyListener(handlerObject.getKeyManager());
 		handler.getGame().getDisplay().getFrame().addMouseMotionListener(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getCanvas().addMouseListener(handlerObject.getMouseManager());
 		handler.getGame().getDisplay().getCanvas().addMouseMotionListener(handlerObject.getMouseManager());
+		for(KeyListener kl : handlerObject.getGame().getDisplay().getFrame().getKeyListeners()) {
+			handler.getGame().getDisplay().getFrame().removeKeyListener(kl);
+		}
+		for(KeyListener kl : handlerObject.getGame().getDisplay().getFrame().getKeyListeners()) {
+			handler.getGame().getDisplay().getFrame().addKeyListener(kl);
+		}
 		
 		handler.getWorldHandler().getWorlds().clear();
 		for(int i = 0; i < handlerObject.getWorldHandler().getWorlds().size(); i++) {
 			handler.getWorldHandler().getWorlds().add(handlerObject.getWorldHandler().getWorlds().get(i));
-//			handler.getWorldHandler().getWorlds().get(i).setEntityManager(handlerObject.getWorldHandler().getWorlds().get(i).getEntityManager());
-//			handler.getWorldHandler().getWorlds().get(i).setItemManager(handlerObject.getWorldHandler().getWorlds().get(i).getItemManager());
 		}
 		
 		handler.setChatWindow(handlerObject.getChatWindow());
@@ -87,7 +85,6 @@ public class SaveManager implements Serializable{
 		handler.getEquipment().setEquipmentSlots(handlerObject.getEquipment().getEquipmentSlots());
 		handler.setQuestManager(handlerObject.getQuestManager());
 		handler.getGame().setGameCamera(handlerObject.getGameCamera());
-//		handler.getGame().setHandler(handlerObject);
 		
 	}
 }

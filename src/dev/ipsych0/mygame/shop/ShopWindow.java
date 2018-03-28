@@ -44,7 +44,7 @@ public class ShopWindow implements Serializable {
 	private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;
 	private Rectangle windowBounds;
 	public static boolean makingChoice = false;
-	private DialogueBox dBox;
+	public static DialogueBox dBox;
 	private String[] answers = {"Yes", "No"};
 	public ItemSlot selectedSlot = null;
 	private int dialogueWidth = 300;
@@ -54,6 +54,7 @@ public class ShopWindow implements Serializable {
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
 	public static boolean hasBeenPressed = false;
+
 	
 	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
 		this.handler = handler;
@@ -267,7 +268,10 @@ public class ShopWindow implements Serializable {
 				}
 				
 				dBox.setPressedButton(null);
-				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
+				dBox.getTextBox().getSb().setLength(0);
+				dBox.getTextBox().index = 0;
+				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
+//				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.isOpen = false;
 				handler.getKeyManager().setTextBoxTyping(false);
@@ -295,7 +299,10 @@ public class ShopWindow implements Serializable {
 				}
 				
 				dBox.setPressedButton(null);
-				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
+				dBox.getTextBox().getSb().setLength(0);
+				dBox.getTextBox().index = 0;
+				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
+//				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
 				TextBox.enterPressed = false;
 				handler.getKeyManager().setTextBoxTyping(false);

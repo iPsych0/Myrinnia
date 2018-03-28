@@ -58,6 +58,7 @@ public class TextBox implements KeyListener, Serializable {
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
 				if(!focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
 					handler.getGame().getDisplay().getFrame().addKeyListener(this);
 				}
 				KeyManager.typingFocus = true;
@@ -202,6 +203,14 @@ public class TextBox implements KeyListener, Serializable {
 		}
 	}
 
+	public StringBuilder getSb() {
+		return sb;
+	}
+
+	public void setSb(StringBuilder sb) {
+		this.sb = sb;
+	}
+
 	public String getCharactersTyped() {
 		return charactersTyped;
 	}
@@ -209,5 +218,6 @@ public class TextBox implements KeyListener, Serializable {
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
 	}
+
 
 }

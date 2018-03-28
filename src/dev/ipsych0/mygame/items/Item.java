@@ -273,7 +273,6 @@ public class Item implements Serializable{
 	    in.defaultReadObject();
 
         int size = in.readInt(); // Read byte count
-        System.out.println(size);
         byte[] buffer = new byte[size];
         in.readFully(buffer); // Make sure you read all bytes of the image
 

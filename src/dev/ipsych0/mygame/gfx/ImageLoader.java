@@ -28,7 +28,6 @@ public class ImageLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DatatypeConverter.printBase64Binary(os.toByteArray()));
 		return DatatypeConverter.printBase64Binary(os.toByteArray());
 	}
 	

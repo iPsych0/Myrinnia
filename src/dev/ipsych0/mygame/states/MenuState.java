@@ -80,11 +80,6 @@ public class MenuState extends State {
 			if(continueButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
 					handler.getMouseManager().setUIManager(null);
-//					SaveManager.loadGame(handler);
-//					SaveManager.loadWorlds(handler);
-//					SaveManager.loadInventory(handler);
-//					SaveManager.loadEquipment(handler);
-//					SaveManager.loadQuests(handler);
 					handler.getGame().getDisplay().getFrame().removeMouseListener(handler.getMouseManager());
 					handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getKeyManager());
 					handler.getGame().getDisplay().getFrame().removeMouseMotionListener(handler.getMouseManager());

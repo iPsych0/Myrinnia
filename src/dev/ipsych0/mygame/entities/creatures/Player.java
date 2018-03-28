@@ -921,10 +921,8 @@ public class Player extends Creature{
 			aDefault = aDown;
 			return aDefault.getDefaultFrame();
 		}
-		
-		// Prompt error if none of the above images are loaded (that means apparently none of the above animations could be returned)
-		
-		handler.sendMsg("Something went wrong loading the player sprite!");
+	
+		// If lastFaced is null, return black tile
 		return Assets.black;
 	}
 	

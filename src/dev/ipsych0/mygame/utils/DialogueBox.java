@@ -25,7 +25,7 @@ public class DialogueBox implements Serializable {
 	public String[] answers;
 	public String param = "";
 	public DialogueButton pressedButton = null;
-	private TextBox tb;
+	public static TextBox tb;
 	private String message;
 	private boolean numbersOnly;
 
@@ -117,10 +117,6 @@ public class DialogueBox implements Serializable {
 
 	public TextBox getTextBox() {
 		return tb;
-	}
-
-	public void setTextBox(TextBox tb) {
-		this.tb = tb;
 	}
 
 }
