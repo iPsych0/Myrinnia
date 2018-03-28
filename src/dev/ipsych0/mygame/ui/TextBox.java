@@ -49,10 +49,6 @@ public class TextBox implements KeyListener, Serializable {
 		bounds = new Rectangle(x,y,width,height);
 		
 		sb = new StringBuilder(charactersTyped);
-		
-		// Add this keylistener to the frame/canvas
-		handler.getGame().getDisplay().getFrame().addKeyListener(this);
-		handler.getGame().getDisplay().getCanvas().addKeyListener(this);
 	}
 	
 	public void tick() {
@@ -61,14 +57,20 @@ public class TextBox implements KeyListener, Serializable {
 			
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				if(!focus) {
+					handler.getGame().getDisplay().getFrame().addKeyListener(this);
+				}
+				KeyManager.typingFocus = true;
 				focus = true;
-				handler.getKeyManager().setTextBoxTyping(true);
 			}
 			
 			// Removes focus when clicked outside the textfield
 			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				if(focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+				}
+				KeyManager.typingFocus = false;
 				focus = false;
-				handler.getKeyManager().setTextBoxTyping(false);
 			}
 		}
 	}
@@ -140,7 +142,7 @@ public class TextBox implements KeyListener, Serializable {
 				DialogueBox.isOpen = false;
 				ShopWindow.hasBeenPressed = false;
 				ShopWindow.makingChoice = false;
-				handler.getKeyManager().setTextBoxTyping(false);
+				KeyManager.typingFocus = false;
 				return;
 			}
 			if(focus) {

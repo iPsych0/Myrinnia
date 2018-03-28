@@ -30,7 +30,7 @@ public class KeyManager implements KeyListener, Serializable{
 	public boolean position;
 	public boolean talk;
 	public boolean escape;
-	private boolean textBoxTyping = false;
+	public static boolean typingFocus = false;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -40,7 +40,7 @@ public class KeyManager implements KeyListener, Serializable{
 	
 	public void tick(){
 		
-		if(!textBoxTyping) {
+		if(!typingFocus) {
 			// Movement keys
 			up = keys[KeyEvent.VK_W];
 			down = keys[KeyEvent.VK_S];
@@ -91,7 +91,7 @@ public class KeyManager implements KeyListener, Serializable{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(!textBoxTyping) {
+		if(!typingFocus) {
 			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
 				return;
 			}
@@ -165,7 +165,7 @@ public class KeyManager implements KeyListener, Serializable{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(!textBoxTyping) {
+		if(!typingFocus) {
 			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
 				return;
 			}
@@ -175,7 +175,7 @@ public class KeyManager implements KeyListener, Serializable{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(!textBoxTyping) {
+		if(!typingFocus) {
 			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
 				Player.hasInteracted = false;
 			}
@@ -190,11 +190,11 @@ public class KeyManager implements KeyListener, Serializable{
 	}
 
 	public boolean isTextBoxTyping() {
-		return textBoxTyping;
+		return typingFocus;
 	}
 
 	public void setTextBoxTyping(boolean textBoxTyping) {
-		this.textBoxTyping = textBoxTyping;
+		this.typingFocus = textBoxTyping;
 	}
 
 }
