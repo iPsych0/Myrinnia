@@ -84,12 +84,12 @@ public abstract class Creature extends Entity {
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
 		state = CombatState.IDLE;
-		setBaseDamage(DEFAULT_DAMAGE);
-		setPower(DEFAULT_POWER);
-		setDefence(DEFAULT_DEFENCE);
-		setVitality(DEFAULT_VITALITY);
-		speed = DEFAULT_SPEED;
-		setAttackSpeed(DEFAULT_ATTACKSPEED);
+		baseDamage = (DEFAULT_DAMAGE);
+		power = (DEFAULT_POWER);
+		defence = (DEFAULT_DEFENCE);
+		vitality = (DEFAULT_VITALITY);
+		speed = (DEFAULT_SPEED);
+		attackSpeed = (DEFAULT_ATTACKSPEED);
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
 		combatLevel = 1;
@@ -237,11 +237,8 @@ public abstract class Creature extends Entity {
 				deleted.add(p);
 			}
 			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-				if(!e.equals(handler.getPlayer())) {
-					continue;
-				}
 				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
-					if(e.isAttackable()) {
+					if(e.equals(handler.getPlayer())) {
 						e.damage(this, e);
 						p.active = false;
 					}

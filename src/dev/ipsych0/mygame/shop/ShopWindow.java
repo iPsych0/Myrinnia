@@ -54,6 +54,7 @@ public class ShopWindow implements Serializable {
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
 	public static boolean hasBeenPressed = false;
+	private double commission = 0.75;
 
 	
 	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
@@ -482,7 +483,7 @@ public class ShopWindow implements Serializable {
 			Text.drawString(g, "Inventory", x + 81 + (width / 2) + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			
 			if(selectedInvItem != null)
-				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + selectedInvItem.getItem().getPrice() * selectedInvItem.getAmount() + " coins. (" + selectedInvItem.getItem().getPrice() + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
+				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + (int)Math.floor((selectedInvItem.getItem().getPrice() * commission)) * selectedInvItem.getAmount() + " coins. (" + (int)Math.floor((selectedInvItem.getItem().getPrice() * commission)) + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 			if(selectedShopItem != null)
 				Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins. (" + selectedShopItem.getItem().getPrice() + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 			
@@ -561,7 +562,7 @@ public class ShopWindow implements Serializable {
 			if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
-					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
+					handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					inventoryLoaded = false;
 					
@@ -639,7 +640,7 @@ public class ShopWindow implements Serializable {
 			while(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * tradeSlot.getItemStack().getAmount()));
+					handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * tradeSlot.getItemStack().getAmount()));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					inventoryLoaded = false;
 				}else {
@@ -744,7 +745,7 @@ public class ShopWindow implements Serializable {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 						handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
-						handler.giveItem(Item.coinsItem, (tradeSlot.getItemStack().getItem().getPrice() * 1));
+						handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
 						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					}else {
 						handler.sendMsg("You cannot sell any more items to the shop.");
