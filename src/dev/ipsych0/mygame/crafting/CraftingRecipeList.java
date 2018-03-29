@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.crafting;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +9,12 @@ import java.util.Map;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 
-public class CraftingRecipeList {
+public class CraftingRecipeList implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<CraftingRecipe> recipes;
 	
 	/*

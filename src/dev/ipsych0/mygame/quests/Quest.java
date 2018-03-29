@@ -13,7 +13,7 @@ public class Quest implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected transient Handler handler;
+	protected Handler handler;
 	protected ArrayList<QuestStep> questSteps;
 	protected int step = 0;
 	private String questName;

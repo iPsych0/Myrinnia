@@ -16,6 +16,10 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class IslandUnderground extends World {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Rectangle house1Exit;
 	private Rectangle house2Exit;
 	private Rectangle house3Exit;

@@ -9,6 +9,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TeleportShrine1 extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public TeleportShrine1(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		

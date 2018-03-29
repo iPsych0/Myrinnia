@@ -3,11 +3,17 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
+
 import javax.swing.JFrame;
 
 
-public class Display {
+public class Display implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Canvas canvas;
 	

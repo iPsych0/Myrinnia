@@ -19,7 +19,7 @@ public class QuestUI implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
-	private transient Handler handler;
+	private Handler handler;
 	private QuestHelpUI questHelpUI;
 	private Quest selectedQuest;
 	private Zone selectedZone;

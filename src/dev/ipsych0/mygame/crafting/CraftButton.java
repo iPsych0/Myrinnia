@@ -2,12 +2,17 @@ package dev.ipsych0.mygame.crafting;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class CraftButton{
+public class CraftButton implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private Rectangle bounds;
 	private boolean hovering = false;

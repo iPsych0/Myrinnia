@@ -15,8 +15,12 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatDialogue implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
-	private transient Handler handler;
+	private Handler handler;
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;

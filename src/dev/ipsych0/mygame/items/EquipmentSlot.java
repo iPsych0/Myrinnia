@@ -14,7 +14,6 @@ public class EquipmentSlot implements Serializable{
 	
 	private int x, y;
 	private ItemStack itemStack;
-	private EquipmentWindow equipmentWindow;
 	public boolean stackable = false;
 	public static boolean hasSwapped = false;
 	int alpha = 127;

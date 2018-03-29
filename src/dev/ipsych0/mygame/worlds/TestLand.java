@@ -20,6 +20,10 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class TestLand extends World {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Rectangle swampLandTile;
 	private Rectangle islandTile;
 

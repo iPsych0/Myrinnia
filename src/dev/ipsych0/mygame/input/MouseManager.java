@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -13,10 +14,15 @@ import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.ui.UIManager;
 
-public class MouseManager implements MouseListener, MouseMotionListener {
+public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
@@ -75,6 +81,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			ShopWindow.hasBeenPressed = true;
 			ChatDialogue.hasBeenPressed = true;
 			QuestUI.hasBeenPressed = true;
+			State.hasBeenPressed = true;
 		}
 		
 		// Right Click
@@ -97,8 +104,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			rightPressed = false;
 		}
 		
-		if(uiManager != null)
-			uiManager.onMouseRelease(e);
 		
 	}
 	
@@ -109,8 +114,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
-		if(uiManager != null)
-			uiManager.onMouseMove(e);
 	}
 	
 	@Override
@@ -140,6 +143,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
+	}
+
+	public void setLeftPressed(boolean leftPressed) {
+		this.leftPressed = leftPressed;
 	}
 
 }

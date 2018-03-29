@@ -24,7 +24,7 @@ public class TextBox implements KeyListener, Serializable {
 	public int x, y, width, height;
 	public String charactersTyped = "";
 	public boolean numbersOnly = false;
-	private transient Handler handler;
+	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
 	public int index = 0;
@@ -49,10 +49,6 @@ public class TextBox implements KeyListener, Serializable {
 		bounds = new Rectangle(x,y,width,height);
 		
 		sb = new StringBuilder(charactersTyped);
-		
-		// Add this keylistener to the frame/canvas
-		handler.getGame().getDisplay().getFrame().addKeyListener(this);
-		handler.getGame().getDisplay().getCanvas().addKeyListener(this);
 	}
 	
 	public void tick() {
@@ -61,14 +57,21 @@ public class TextBox implements KeyListener, Serializable {
 			
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-				focus = true;
+				if(!focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+					handler.getGame().getDisplay().getFrame().addKeyListener(this);
+				}
 				KeyManager.typingFocus = true;
+				focus = true;
 			}
 			
 			// Removes focus when clicked outside the textfield
 			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-				focus = false;
+				if(focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+				}
 				KeyManager.typingFocus = false;
+				focus = false;
 			}
 		}
 	}
@@ -200,6 +203,14 @@ public class TextBox implements KeyListener, Serializable {
 		}
 	}
 
+	public StringBuilder getSb() {
+		return sb;
+	}
+
+	public void setSb(StringBuilder sb) {
+		this.sb = sb;
+	}
+
 	public String getCharactersTyped() {
 		return charactersTyped;
 	}
@@ -207,5 +218,6 @@ public class TextBox implements KeyListener, Serializable {
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
 	}
+
 
 }

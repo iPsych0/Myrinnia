@@ -1,8 +1,9 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public enum ItemRarity {
+public enum ItemRarity implements Serializable {
 	Common, Uncommon, Rare, Exquisite, Unique;
 	
 	public static Color getColor(Item item) {

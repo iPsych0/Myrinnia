@@ -12,6 +12,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine2 extends StaticEntity {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int speakingTurn = 0;
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
@@ -64,10 +68,10 @@ public class TeleportShrine2 extends StaticEntity {
 				chatDialogue = null;
 				
 				// Clear previous saved data in order to write the new data
-				SaveManager.clearInventoryItems();
-				SaveManager.clearEquipmentItems();
+//				SaveManager.clearInventoryItems();
+//				SaveManager.clearEquipmentItems();
 //				SaveManager.clearSaveData();
-				SaveManager.clearEntities();
+//				SaveManager.clearWorlds();
 				
 //				// Add the player data
 //				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
@@ -79,31 +83,32 @@ public class TeleportShrine2 extends StaticEntity {
 //				SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
 				
 				// Add the inventory objects to an arraylist
-				for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
-					if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
-						continue;
-					}
-					SaveManager.addInventoryItems(handler.getInventory().getItemSlots().get(i).getItemStack());
-				}
-				
-				// Add equipment objects to an arraylist
-				for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
-					if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
-						continue;
-					}
-					SaveManager.addEquipmentItems((handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
-				}
-				
-				for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
-					SaveManager.addEntityManagers(handler.getWorldHandler().getWorlds().get(i).getEntityManager());
-				}
-				
-				// Finally, save the game
-				SaveManager.saveInventory();
-				SaveManager.saveEquipment();
+//				for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
+//					if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
+//						continue;
+//					}
+//					SaveManager.addInventoryItems(handler.getInventory().getItemSlots().get(i).getItemStack());
+//				}
+//				
+//				// Add equipment objects to an arraylist
+//				for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
+//					if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+//						continue;
+//					}
+//					SaveManager.addEquipmentItems((handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
+//				}
+//				
+//				for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
+//					SaveManager.addEntityManagers(handler.getWorldHandler().getWorlds().get(i));
+//				}
+//				
+//				// Finally, save the game
+//				SaveManager.saveInventory();
+//				SaveManager.saveEquipment();
 //				SaveManager.saveGame();
-				SaveManager.saveEntities();
-				SaveManager.saveQuests();
+//				SaveManager.saveWorlds();
+//				SaveManager.saveQuests();
+				SaveManager.savehandler();
 				handler.sendMsg("Game Saved!");
 			}else {
 				speakingTurn = 0;

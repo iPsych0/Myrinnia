@@ -1,16 +1,19 @@
 package dev.ipsych0.mygame.worlds;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import dev.ipsych0.mygame.Handler;
 
-public class WorldHandler {
+public class WorldHandler implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private ArrayList<World> worlds;
-	private Island island;
-	
 
 	public WorldHandler(Handler handler, Island island){
 		this.handler = handler;
@@ -42,13 +45,5 @@ public class WorldHandler {
 
 	public void setWorlds(ArrayList<World> worlds) {
 		this.worlds = worlds;
-	}
-
-	public Island getIsland() {
-		return island;
-	}
-
-	public void setIsland(Island island) {
-		this.island = island;
 	}
 }

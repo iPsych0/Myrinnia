@@ -2,12 +2,17 @@ package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ContinueButton {
+public class ContinueButton implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private boolean isHovering = false;
 	private boolean isPressed = false;

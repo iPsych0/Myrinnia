@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
@@ -14,9 +15,14 @@ import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.ui.TextBox;
 
-public class KeyManager implements KeyListener{
+public class KeyManager implements KeyListener, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean[] keys, justPressed, cantPress;
 	public boolean up, down, left, right;
 	public boolean chat;
@@ -33,23 +39,6 @@ public class KeyManager implements KeyListener{
 	}
 	
 	public void tick(){
-		
-		
-//		for(int i = 0; i < keys.length; i++){
-//			if(cantPress[i] && !keys[i]){
-//				cantPress[i] = false;
-//			}else if(justPressed[i]){
-//				cantPress[i] = true;
-//				justPressed[i] = false;
-//			}
-//			if(!cantPress[i] && keys[i]){
-//				justPressed[i] = true;
-//			}
-//		}
-//		
-//		if(keyJustPressed(KeyEvent.VK_E)){
-//			// Maybe hier optimaliseren van interfaces
-//		}
 		
 		if(!typingFocus) {
 			// Movement keys
@@ -78,6 +67,25 @@ public class KeyManager implements KeyListener{
 			// UI keys
 			escape = keys[KeyEvent.VK_ESCAPE];
 		}
+		
+		
+//		for(int i = 0; i < keys.length; i++){
+//			if(cantPress[i] && !keys[i]){
+//				cantPress[i] = false;
+//			}else if(justPressed[i]){
+//				cantPress[i] = true;
+//				justPressed[i] = false;
+//			}
+//			if(!cantPress[i] && keys[i]){
+//				justPressed[i] = true;
+//			}
+//		}
+//		
+//		if(keyJustPressed(KeyEvent.VK_E)){
+//			// Maybe hier optimaliseren van interfaces
+//		}
+		
+		
 		
 	}
 	
@@ -179,6 +187,14 @@ public class KeyManager implements KeyListener{
 			return false;
 		}
 		return justPressed[keyCode];
+	}
+
+	public boolean isTextBoxTyping() {
+		return typingFocus;
+	}
+
+	public void setTextBoxTyping(boolean textBoxTyping) {
+		this.typingFocus = textBoxTyping;
 	}
 
 }

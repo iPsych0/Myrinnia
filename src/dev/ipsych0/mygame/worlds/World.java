@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -26,15 +27,18 @@ import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.utils.Utils;
 
-public abstract class World {
+public abstract class World implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Variables
 	protected Handler handler;
 	protected MapLoader mapLoader;
 	protected int width, height;
 	protected int[][][] tiles;
 	protected int spawnX, spawnY;
-	protected Animation sparkles;
 	protected int worldID;
 	protected String[] layers;
 	private Color night = new Color(0, 13, 35);
@@ -73,14 +77,13 @@ public abstract class World {
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
 			mapLoader = handler.getMapLoader();
-			miniMap = new MiniMap(handler, mapLoader, "res/worlds/testmap.tmx", 220, 100, 400, 400);
+			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = handler.getCraftingUI();
 			
 			// Dit is hoe ik items in de world zelf spawn
 			itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
 			
 			// World Animations
-			sparkles = new Animation(250, Assets.sparkles);
 			
 		}
 	}
@@ -88,7 +91,6 @@ public abstract class World {
 	public void tick() {
 		itemManager.tick();
 		entityManager.tick();
-		sparkles.tick();
 		inventory.tick();
 		equipment.tick();
 		craftingUI.tick();
@@ -156,7 +158,7 @@ public abstract class World {
 	}
 	
 	protected boolean standingOnTile(Rectangle box) {
-		if(player.getCollisionBounds(0, 0).intersects(box)) {
+		if(box.intersects(player.getCollisionBounds(0, 0))) {
 			return true;
 		}else {
 			return false;
@@ -167,7 +169,6 @@ public abstract class World {
 		player.setX(x);
 		player.setY(y);
 		handler.setWorld(handler.getWorldHandler().getWorlds().get(worldID));
-		handler.getWorld().setHandler(handler);
 	}
 	
 	protected void renderNight(Graphics g) {
@@ -262,5 +263,45 @@ public abstract class World {
 
 	public void setLayers(String[] layers) {
 		this.layers = layers;
+	}
+
+	public InventoryWindow getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryWindow inventory) {
+		this.inventory = inventory;
+	}
+
+	public EquipmentWindow getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(EquipmentWindow equipment) {
+		this.equipment = equipment;
+	}
+
+	public CraftingUI getCraftingUI() {
+		return craftingUI;
+	}
+
+	public void setCraftingUI(CraftingUI craftingUI) {
+		this.craftingUI = craftingUI;
+	}
+
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public void setChatWindow(ChatWindow chatWindow) {
+		this.chatWindow = chatWindow;
+	}
+
+	public QuestManager getQuestManager() {
+		return questManager;
+	}
+
+	public void setQuestManager(QuestManager questManager) {
+		this.questManager = questManager;
 	}
 }

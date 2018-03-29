@@ -6,10 +6,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.imageio.ImageIO;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -21,8 +29,12 @@ import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
-public class CraftingUI {
+public class CraftingUI implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	public static boolean isOpen = false;
 	private boolean isCreated = false;
@@ -41,7 +53,7 @@ public class CraftingUI {
 	private CraftingRecipeList craftingRecipeList;
 	private ItemStack possibleRecipe = null;
 	private String craftableRecipe;
-	private BufferedImage craftImg;
+	private transient BufferedImage craftImg;
 	private Rectangle previewImg;
 	private boolean hovering = false;
 	private Rectangle windowBounds;
@@ -742,6 +754,5 @@ public class CraftingUI {
 	public void setWindowBounds(Rectangle windowBounds) {
 		this.windowBounds = windowBounds;
 	}
-	
 
 }

@@ -19,6 +19,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class Campfire extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation campfire;
@@ -38,9 +42,6 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			campfire = new Animation(125, Assets.campfire);
-		}
 		campfire.tick();
 	}
 	

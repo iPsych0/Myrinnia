@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.mapeditor;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,8 +14,13 @@ import org.xml.sax.SAXException;
 
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class MapLoader {
+public class MapLoader implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MapLoader(){
 		
 	}

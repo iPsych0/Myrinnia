@@ -13,6 +13,10 @@ import dev.ipsych0.mygame.worlds.World;
 
 public class Rock extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private int speakingTurn;

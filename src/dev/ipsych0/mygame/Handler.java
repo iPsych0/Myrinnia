@@ -3,6 +3,7 @@ package dev.ipsych0.mygame;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.Writer;
 import java.util.Random;
 
@@ -35,8 +36,12 @@ import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
 
-public class Handler {
+public class Handler implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Game game;
 	private World world;
 	private Island island;
@@ -49,6 +54,7 @@ public class Handler {
 	private QuestManager questManager;
 	private MapLoader mapLoader;
 	private CraftingUI craftingUI;
+	private boolean soundMuted = false;
 	
 	/*
 	 * Set to true for debug mode
@@ -122,15 +128,17 @@ public class Handler {
 	 * Plays music (basic function.. needs expanding to check area)
 	 */
 	public void playMusic(String pathToMusic) {
-		try {
-			File file = new File(pathToMusic);
-			if(file.exists()) {
-				Clip clip = AudioSystem.getClip();
-				clip.open(AudioSystem.getAudioInputStream(file));
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
+		if(!soundMuted) {
+			try {
+				File file = new File(pathToMusic);
+				if(file.exists()) {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(file));
+					clip.loop(Clip.LOOP_CONTINUOUSLY);
+				}
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
 		}
 	}
 	
@@ -303,6 +311,14 @@ public class Handler {
 
 	public SaveManager getSaveManager() {
 		return game.getSaveManager();
+	}
+
+	public boolean isSoundMuted() {
+		return soundMuted;
+	}
+
+	public void setSoundMuted(boolean soundMuted) {
+		this.soundMuted = soundMuted;
 	}
 
 }

@@ -21,6 +21,10 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Island extends World {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Rectangle house1;
 	private Rectangle house2;
 	private Rectangle house3;
@@ -69,7 +73,7 @@ public class Island extends World {
 
 	@Override
 	public void tick() {
-		if(handler.getWorld() == this){
+		if(handler.getWorld().equals(this)){
 			super.tick();
 			if(standingOnTile(house1)) {
 				goToWorld(3, 6016, 6140);

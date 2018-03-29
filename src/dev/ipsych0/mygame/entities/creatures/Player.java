@@ -18,22 +18,22 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
-import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Player extends Creature{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// NPC killcounts
 	private int scorpionKC = 0;
 	
@@ -125,20 +125,6 @@ public class Player extends Creature{
 
 	@Override
 	public void tick() {
-		if(MenuState.loadButtonPressed) {
-			// Animations
-			aDown = new Animation(250, Assets.player_down);
-			aUp = new Animation(250, Assets.player_up);
-			aLeft = new Animation(250, Assets.player_left);
-			aRight = new Animation(250, Assets.player_right);
-			
-			attDown = new Animation(333, Assets.player_attackingDown);
-			attUp = new Animation(333, Assets.player_attackingUp);
-			attLeft = new Animation(333, Assets.player_attackingLeft);
-			attRight = new Animation(333, Assets.player_attackingRight);
-			
-			aDefault = aDown;
-		}
 		
 		//Movement
 		if(movementAllowed) {
@@ -935,10 +921,8 @@ public class Player extends Creature{
 			aDefault = aDown;
 			return aDefault.getDefaultFrame();
 		}
-		
-		// Prompt error if none of the above images are loaded (that means apparently none of the above animations could be returned)
-		
-		handler.sendMsg("Something went wrong loading the player sprite!");
+	
+		// If lastFaced is null, return black tile
 		return Assets.black;
 	}
 	

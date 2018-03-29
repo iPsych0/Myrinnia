@@ -2,6 +2,7 @@ package dev.ipsych0.mygame;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.display.Display;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -14,8 +15,12 @@ import dev.ipsych0.mygame.states.SettingState;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.utils.SaveManager;
 
-public class Game implements Runnable {
+public class Game implements Runnable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Display display;
 	private int width, height;
 	public String title;
@@ -27,10 +32,10 @@ public class Game implements Runnable {
 	private int framesPerSecond = 0;
 	
 	private boolean running = false;
-	private Thread thread;
+	private transient Thread thread;
 	
-	private BufferStrategy bs;
-	private Graphics g;
+	private transient BufferStrategy bs;
+	private transient Graphics g;
 	
 	// States
 	public State gameState;
@@ -59,7 +64,6 @@ public class Game implements Runnable {
 	}
 	
 	private void init(){
-		// Load in the window + images
 		display = new Display(title, width, height);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addKeyListener(keyManager);
@@ -67,20 +71,19 @@ public class Game implements Runnable {
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
-		
 		// Create instance of Handler & gamecamera
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
+		saveManager = new SaveManager(handler);
 		
 		// Create the different states for menus/game
-		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
+		gameState = new GameState(handler);
 		settingState = new SettingState(handler);
 		
 		// Set the initial state to the menu state
 		State.setState(menuState);
 		
-		saveManager = new SaveManager(handler);
 	}
 	
 	private void tick(){
@@ -284,5 +287,25 @@ public class Game implements Runnable {
 
 	public void setSaveManager(SaveManager saveManager) {
 		this.saveManager = saveManager;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
+	public void setKeyManager(KeyManager keyManager) {
+		this.keyManager = keyManager;
+	}
+
+	public void setMouseManager(MouseManager mouseManager) {
+		this.mouseManager = mouseManager;
+	}
+
+	public void setGameCamera(GameCamera gameCamera) {
+		this.gameCamera = gameCamera;
 	}
 }
