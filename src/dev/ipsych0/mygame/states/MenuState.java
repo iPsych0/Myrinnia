@@ -70,33 +70,31 @@ public class MenuState extends State {
 			}
 			
 			if(newGameButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().gameState);
 					handler.playMusic("res/music/myrinnia.wav");
+					hasBeenPressed = false;
 				}
 			}
 			
 			if(continueButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
-					handler.getGame().getDisplay().getFrame().removeMouseListener(handler.getMouseManager());
-					handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getKeyManager());
-					handler.getGame().getDisplay().getFrame().removeMouseMotionListener(handler.getMouseManager());
-					handler.getGame().getDisplay().getCanvas().removeMouseListener(handler.getMouseManager());
-					handler.getGame().getDisplay().getCanvas().removeMouseMotionListener(handler.getMouseManager());
 					State.setState(handler.getGame().gameState);
 					SaveManager.loadHandler(handler);
 					handler.playMusic("res/music/myrinnia.wav");
+					hasBeenPressed = false;
 				}
 			}
 			
 			if(settingsButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					// Stop loading this UIManager and go to the settings screen
 					loaded = false;
 					State.setState(handler.getGame().settingState);
 					handler.getMouseManager().setUIManager(null);
+					hasBeenPressed = false;
 				}
 			}
 			

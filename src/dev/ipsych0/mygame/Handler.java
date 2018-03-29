@@ -54,6 +54,7 @@ public class Handler implements Serializable {
 	private QuestManager questManager;
 	private MapLoader mapLoader;
 	private CraftingUI craftingUI;
+	private boolean soundMuted = false;
 	
 	/*
 	 * Set to true for debug mode
@@ -127,15 +128,17 @@ public class Handler implements Serializable {
 	 * Plays music (basic function.. needs expanding to check area)
 	 */
 	public void playMusic(String pathToMusic) {
-		try {
-			File file = new File(pathToMusic);
-			if(file.exists()) {
-				Clip clip = AudioSystem.getClip();
-				clip.open(AudioSystem.getAudioInputStream(file));
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
+		if(!soundMuted) {
+			try {
+				File file = new File(pathToMusic);
+				if(file.exists()) {
+					Clip clip = AudioSystem.getClip();
+					clip.open(AudioSystem.getAudioInputStream(file));
+					clip.loop(Clip.LOOP_CONTINUOUSLY);
+				}
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
 		}
 	}
 	
@@ -308,6 +311,14 @@ public class Handler implements Serializable {
 
 	public SaveManager getSaveManager() {
 		return game.getSaveManager();
+	}
+
+	public boolean isSoundMuted() {
+		return soundMuted;
+	}
+
+	public void setSoundMuted(boolean soundMuted) {
+		this.soundMuted = soundMuted;
 	}
 
 }

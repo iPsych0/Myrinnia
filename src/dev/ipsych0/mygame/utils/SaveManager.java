@@ -60,6 +60,12 @@ public class SaveManager implements Serializable{
 			e.printStackTrace();
 		}
 		
+		handler.getGame().getDisplay().getFrame().removeMouseListener(handler.getMouseManager());
+		handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getKeyManager());
+		handler.getGame().getDisplay().getFrame().removeMouseMotionListener(handler.getMouseManager());
+		handler.getGame().getDisplay().getCanvas().removeMouseListener(handler.getMouseManager());
+		handler.getGame().getDisplay().getCanvas().removeMouseMotionListener(handler.getMouseManager());
+		
 		handler.getGame().setHandler(handlerObject);
 		handler.getGame().setKeyManager(handlerObject.getKeyManager());
 		handler.getGame().setMouseManager(handlerObject.getMouseManager());
