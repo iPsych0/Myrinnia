@@ -109,7 +109,7 @@ public class Scorpion extends Creature {
 		if(randomNumber <= 10){
 			handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y, 5));
 		}
-		if(randomNumber >= 11 && randomNumber <= 50){
+		else if(randomNumber >= 11 && randomNumber <= 50){
 			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y, 10));
 			handler.dropItem(Item.purpleSword, 1, (int)x, (int)y);
 		}

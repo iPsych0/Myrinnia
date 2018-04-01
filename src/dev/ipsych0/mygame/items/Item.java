@@ -78,7 +78,7 @@ public class Item implements Serializable{
 	}
 	
 	public void render(Graphics g, int x, int y){
-		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
+		g.drawImage(texture, x + 4, y + 4, ITEMWIDTH, ITEMHEIGHT, null);
 	}
 	
 	/*
@@ -108,8 +108,8 @@ public class Item implements Serializable{
 	 */
 	public Rectangle itemPosition(float xOffset, float yOffset){
 		//
-		bounds.x = 1;
-		bounds.y = 1;
+		bounds.x = 0;
+		bounds.y = 0;
 		bounds.width = 32;
 		bounds.height = 32;
 		

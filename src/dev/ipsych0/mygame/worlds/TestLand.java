@@ -8,8 +8,7 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.EquipmentWindow;
@@ -44,8 +43,7 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
-		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		entityManager.addEntity(new TeleportShrine(handler, 200, 200));
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		

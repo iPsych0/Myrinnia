@@ -42,8 +42,9 @@ public class ItemManager implements Serializable{
 	}
 	
 	public void render(Graphics g){
-		for(Item i : items)
+		for(Item i : items) {
 			i.render(g);
+		}
 	}
 	
 	public void addItem(Item i){
@@ -62,6 +63,26 @@ public class ItemManager implements Serializable{
 		        }, 
 		        300000
 		);
+	}
+	
+	public void addItem(Item i, boolean isWorldSpawn){
+		i.setHandler(handler);
+		items.add(i);
+		
+		if(!isWorldSpawn) {
+			// Despawn timer for items dropped
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	
+			                items.remove(i);
+			               
+			            }
+			        }, 
+			        300000
+			);
+		}
 	}
 	
 	// Getters & Setters

@@ -10,7 +10,7 @@ import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.World;
 
-public class TeleportShrine2 extends StaticEntity {
+public class TeleportShrine extends StaticEntity {
 	
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class TeleportShrine2 extends StaticEntity {
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
 
-	public TeleportShrine2(Handler handler, float x, float y) {
+	public TeleportShrine(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
 		solid = true;
@@ -41,6 +41,8 @@ public class TeleportShrine2 extends StaticEntity {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(Assets.teleportShrine2, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+				, width, height, null);
+		g.drawImage(Assets.teleportShrine1, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - 32 - handler.getGameCamera().getyOffset())
 				, width, height, null);
 	}
 

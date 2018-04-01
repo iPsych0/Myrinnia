@@ -79,12 +79,6 @@ public abstract class World implements Serializable {
 			mapLoader = handler.getMapLoader();
 			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = handler.getCraftingUI();
-			
-			// Dit is hoe ik items in de world zelf spawn
-			itemManager.addItem(Item.woodItem.createNew(400, 400, 5));
-			
-			// World Animations
-			
 		}
 	}
 	

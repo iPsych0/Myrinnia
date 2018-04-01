@@ -9,13 +9,13 @@ import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.tiles.Tiles;
 
@@ -47,8 +47,7 @@ public class Island extends World {
 //		entityManager.addEntity(new Scorpion(handler, 4960, 5700));
 		entityManager.addEntity(new Scorpion(handler, 4640, 5740));
 		
-		entityManager.addEntity(new TeleportShrine2(handler, 5056, 5532));
-		entityManager.addEntity(new TeleportShrine1(handler, 5056, 5500));
+		entityManager.addEntity(new TeleportShrine(handler, 5056, 5532));
 		
 		// Beach house
 //		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
@@ -68,6 +67,9 @@ public class Island extends World {
 		beachHouse = new Rectangle(5856, 5808, 32, 32);
 		beachCave = new Rectangle(2688, 6120, 32, 32);
 		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
+		
+		// Dit is hoe ik items in de world zelf spawn
+		itemManager.addItem(Item.woodItem.createNew(5056, 5596, 5), true);
 		
 	}
 

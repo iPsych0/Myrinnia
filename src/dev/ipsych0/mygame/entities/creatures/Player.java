@@ -431,7 +431,7 @@ public class Player extends Creature{
 		g.setColor(Color.MAGENTA);
 		g.drawRect((int)(ar.x - handler.getGameCamera().getxOffset()), (int)(ar.y - handler.getGameCamera().getyOffset()), ar.width, ar.height);
 		 */
-		
+				
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {
 				if(active)
@@ -990,7 +990,7 @@ public class Player extends Creature{
 	}
 	
 	public Rectangle itemPickupRadius() {
-		return new Rectangle((int) (x + bounds.x - 48), (int) (y + bounds.y - 48), (bounds.width + 96), (bounds.height + 96));
+		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 	}
 
 	public int getMAX_HEALTH() {

@@ -10,8 +10,7 @@ import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.EquipmentWindow;
@@ -55,8 +54,7 @@ public class SwampLand extends World{
 //		entityManager.addEntity(new Scorpion(handler, 190, 888));
 //		entityManager.addEntity(new Scorpion(handler, 190, 800));
 		
-		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
-		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		entityManager.addEntity(new TeleportShrine(handler, 200, 200));
 		
 		entityManager.addEntity(new Whirlpool(handler, 672, 432));
 		
