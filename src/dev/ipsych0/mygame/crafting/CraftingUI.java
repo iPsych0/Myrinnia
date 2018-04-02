@@ -324,7 +324,7 @@ public class CraftingUI implements Serializable{
 			if(possibleRecipe != null) {
 				craftableRecipe = String.valueOf(possibleRecipe.getAmount());
 				
-				g.drawImage(Assets.chatwindow, x + width, y, width - 40, height / 2, null);
+				g.drawImage(Assets.shopWindow, x + width, y, width - 40, height / 2, null);
 				
 			}else {
 				g.dispose();

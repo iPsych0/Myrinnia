@@ -273,8 +273,6 @@ public class InventoryWindow implements Serializable {
 				
 				is.render(g);
 				
-				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
-				
 				if(currentSelectedSlot != null){
 					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX() - 14,
 							handler.getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
@@ -282,9 +280,12 @@ public class InventoryWindow implements Serializable {
 							Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() - 14, handler.getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
 				}
 				
+				Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+				
+				
 				// If hovering over an item in the inventory, draw the tooltip
 				if(temp2.contains(temp) && is.getItemStack() != null){
-					g.drawImage(Assets.invScreen, x - 145, y, 145, 130, null);
+					g.drawImage(Assets.shopWindow, x - 147, y, 148, 122, null);
 					
 					Text.drawString(g, is.getItemStack().getItem().getName(), x - 142, y + 16, false, Color.YELLOW, Assets.font14);
 					
@@ -310,7 +311,7 @@ public class InventoryWindow implements Serializable {
 								g.setColor(Color.YELLOW);
 							}
 							Text.drawString(g, "Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 48, false, g.getColor(), Assets.font14);
-							Text.drawString(g, "(" + (is.getItemStack().getItem().getPower() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 32, y + 48, false, g.getColor(), Assets.font14);
+							Text.drawString(g, "(" + (is.getItemStack().getItem().getPower() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x - 34, y + 48, false, g.getColor(), Assets.font14);
 							
 							/*
 							 * Draw defence colour red/green if stats are lower/higher
@@ -325,7 +326,7 @@ public class InventoryWindow implements Serializable {
 								g.setColor(Color.YELLOW);
 							}
 							Text.drawString(g, "Defence: " + is.getItemStack().getItem().getDefence(), x - 142, y + 64, false, g.getColor(), Assets.font14);
-							Text.drawString(g, "(" + (is.getItemStack().getItem().getDefence() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 32, y + 64, false, g.getColor(), Assets.font14);
+							Text.drawString(g, "(" + (is.getItemStack().getItem().getDefence() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x - 34, y + 64, false, g.getColor(), Assets.font14);
 							
 							/*
 							 * Draw vitality colour red/green if stats are lower/higher
@@ -339,7 +340,7 @@ public class InventoryWindow implements Serializable {
 								g.setColor(Color.YELLOW);
 							}
 							Text.drawString(g, "Vitality: " + is.getItemStack().getItem().getVitality(), x - 142, y + 80, false, g.getColor(), Assets.font14);
-							Text.drawString(g, "(" + (is.getItemStack().getItem().getVitality() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 32, y + 80, false, g.getColor(), Assets.font14);
+							Text.drawString(g, "(" + (is.getItemStack().getItem().getVitality() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x - 34, y + 80, false, g.getColor(), Assets.font14);
 							
 							/*
 							 * Draw atk speed colour red/green if stats are lower/higher
@@ -353,7 +354,7 @@ public class InventoryWindow implements Serializable {
 								g.setColor(Color.YELLOW);
 							}
 							Text.drawString(g, "ATK Speed: " + is.getItemStack().getItem().getAttackSpeed(), x - 142, y + 96, false, g.getColor(), Assets.font14);
-							Text.drawString(g, "(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 32, y + 96, false, g.getColor(), Assets.font14);
+							Text.drawString(g, "(" + (is.getItemStack().getItem().getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x - 34, y + 96, false, g.getColor(), Assets.font14);
 							
 							/*
 							 * Draw movement speed colour red/green if stats are lower/higher
@@ -367,7 +368,7 @@ public class InventoryWindow implements Serializable {
 								g.setColor(Color.YELLOW);
 							}
 							Text.drawString(g, "Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 112, false, g.getColor(), Assets.font14);
-							Text.drawString(g, "(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 32, y + 112, false, g.getColor(), Assets.font14);
+							Text.drawString(g, "(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 34, y + 112, false, g.getColor(), Assets.font14);
 						}else{
 							g.setColor(Color.YELLOW);
 							Text.drawString(g, "Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 48, false, g.getColor(), Assets.font14);

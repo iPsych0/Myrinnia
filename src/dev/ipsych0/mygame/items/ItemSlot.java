@@ -29,7 +29,7 @@ public class ItemSlot implements Serializable {
 	
 	public void render(Graphics g){
 		
-		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+		g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null){
 			if(itemStack.getItem() == Item.coinsItem){
@@ -47,7 +47,7 @@ public class ItemSlot implements Serializable {
 				}
 			}
 			
-			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
+			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			
 			if(itemStack.getItem().isStackable()) {
 				g.setFont(Assets.font14);

@@ -35,7 +35,7 @@ public class CraftResultSlot implements Serializable {
 	
 	public void render(Graphics g) {
 		
-		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+		g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);

@@ -122,6 +122,8 @@ public class Assets {
 	
 	// Equipment UI
 	public static BufferedImage equipSlot, equipScreen, equipStats;
+	public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
+	public static BufferedImage[] equipmentPlaceHolders;
 	
 	// Chatwindow UI
 	public static BufferedImage chatwindow, chatwindowTop;
@@ -178,8 +180,39 @@ public class Assets {
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
 		SpriteSheet objects3 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites3.png"));
 		SpriteSheet ship_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ship.png"));
+		SpriteSheet equipSlots = new SpriteSheet(ImageLoader.loadImage("/textures/equipment_placeholders3.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+//		earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
+		
+		equipmentPlaceHolders = new BufferedImage[12];
+		
+		earringSlot = equipSlots.crop(0, 0, width, height);
+		mainhandSlot = equipSlots.crop(0, height, width, height);
+		glovesSlot = equipSlots.crop(0, height * 2, width, height);
+		ringSlot1 = equipSlots.crop(0, height * 3, width, height);
+		helmSlot = equipSlots.crop(width, 0, width, height);
+		bodySlot = equipSlots.crop(width, height, width, height);
+		legsSlot = equipSlots.crop(width, height * 2, width, height);
+		bootsSlot = equipSlots.crop(width, height * 3, width, height);
+		amuletSlot = equipSlots.crop(width * 2, 0, width, height);
+		offhandSlot = equipSlots.crop(width * 2, height, width, height);
+		capeSlot = equipSlots.crop(width * 2, height * 2, width, height);
+		ringSlot2 = equipSlots.crop(width * 2, height * 3, width, height);
+		
+		equipmentPlaceHolders[0] = earringSlot;
+		equipmentPlaceHolders[1] = mainhandSlot;
+		equipmentPlaceHolders[2] = glovesSlot;
+		equipmentPlaceHolders[3] = ringSlot1;
+		equipmentPlaceHolders[4] = helmSlot;
+		equipmentPlaceHolders[5] = bodySlot;
+		equipmentPlaceHolders[6] = legsSlot;
+		equipmentPlaceHolders[7] = bootsSlot;
+		equipmentPlaceHolders[8] = amuletSlot;
+		equipmentPlaceHolders[9] = offhandSlot;
+		equipmentPlaceHolders[10] = capeSlot;
+		equipmentPlaceHolders[11] = ringSlot2;
 		
 		shopWindow = shop_window.crop(0, 0, 460, 313);
 		

@@ -37,14 +37,14 @@ public class CraftingSlot implements Serializable {
 //		g.setColor(Color.BLACK);
 //		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
-		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+		g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		/*
 		 * If there is an item in a slot, render it
 		 */
 		if(itemStack != null) {
 			
-			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
+			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			
 			if(itemStack.getItem().isStackable()) {
 				Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
