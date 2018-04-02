@@ -146,7 +146,7 @@ public class InventoryWindow implements Serializable {
 				// If item is right-clicked
 				if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
 					if(is.getItemStack() != null){
-						if(is.getItemStack().getItem().equipSlot == 12){
+						if(is.getItemStack().getItem().getEquipSlot() == 12){
 							// If the item's equipmentslot = 12, that means it's unequippable, so return
 							handler.sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
@@ -155,7 +155,7 @@ public class InventoryWindow implements Serializable {
 						}
 						
 						// If the item's equipmentslot is a valid slot
-						if(is.getItemStack().getItem().equipSlot >= 0 && is.getItemStack().getItem().equipSlot <= 11){
+						if(is.getItemStack().getItem().getEquipSlot() >= 0 && is.getItemStack().getItem().getEquipSlot() <= 11){
 							if(handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
 									is.getItemStack().getItem().getId() ==
 									handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
@@ -504,40 +504,40 @@ public class InventoryWindow implements Serializable {
 	 * @returns int: index of the equipment slot to be filled
 	 */
 	public int checkEquipmentSlot(Item item){
-		if(item.equipSlot == 0){
+		if(item.getEquipSlot() == 0){
 			return 0;
 		}
-		if(item.equipSlot == 1){
+		if(item.getEquipSlot() == 1){
 			return 1;
 		}
-		if(item.equipSlot == 2){
+		if(item.getEquipSlot() == 2){
 			return 2;
 		}
-		if(item.equipSlot == 3){
+		if(item.getEquipSlot() == 3){
 			return 3;
 		}
-		if(item.equipSlot == 4){
+		if(item.getEquipSlot() == 4){
 			return 4;
 		}
-		if(item.equipSlot == 5){
+		if(item.getEquipSlot() == 5){
 			return 5;
 		}
-		if(item.equipSlot == 6){
+		if(item.getEquipSlot() == 6){
 			return 6;
 		}
-		if(item.equipSlot == 7){
+		if(item.getEquipSlot() == 7){
 			return 7;
 		}
-		if(item.equipSlot == 8){
+		if(item.getEquipSlot() == 8){
 			return 8;
 		}
-		if(item.equipSlot == 9){
+		if(item.getEquipSlot() == 9){
 			return 9;
 		}
-		if(item.equipSlot == 10){
+		if(item.getEquipSlot() == 10){
 			return 10;
 		}
-		if(item.equipSlot == 11){
+		if(item.getEquipSlot() == 11){
 			return 11;
 		}
 		return -10;

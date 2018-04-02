@@ -23,11 +23,11 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[32];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, 12, 10, 10, 5, 0, 3.0f, 5, true);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0, 5, true);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0, -1, true);
-	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0, 10, false);
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MAGIC_WEAPON, ItemRarity.Exquisite, 1, 15, 5, 10, 0, 0, 20, false);
+	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.CRAFTING_MATERIAL, ItemRarity.Common, EquipSlot.NONE, 10, 10, 5, 0, 3.0f, 5, true);
+	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, EquipSlot.NONE, 0, 0 ,0 ,0 ,0, 5, true);
+	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, EquipSlot.NONE, 0 ,0 ,0 ,0 ,0, -1, true);
+	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, EquipSlot.MAINHAND, 11, 9, 10, 0, 0, 10, false);
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MAGIC_WEAPON, ItemRarity.Exquisite, EquipSlot.MAINHAND, 15, 5, 10, 0, 0, 20, false);
 	
 	// Class
 	
@@ -37,7 +37,7 @@ public class Item implements Serializable{
 	private transient BufferedImage texture;
 	protected String name;
 	protected final int id;
-	protected final int equipSlot;
+	protected final EquipSlot equipSlot;
 	protected final int power, defence, vitality;
 	protected final float attackSpeed, movementSpeed;
 	protected int x, y;
@@ -46,9 +46,9 @@ public class Item implements Serializable{
 	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
-	public boolean stackable = true;
+	public boolean stackable;
 	
-	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
+	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
@@ -152,7 +152,7 @@ public class Item implements Serializable{
 	}
 
 	public int getEquipSlot() {
-		return equipSlot;
+		return equipSlot.getSlotId();
 	}
 
 	public int getPower() {

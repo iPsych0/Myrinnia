@@ -366,7 +366,7 @@ public class ShopWindow implements Serializable {
 				if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
 					if(is.getItemStack() != null) {
 						// If the price = -1, item cannot be sold
-						if(is.getItemStack().getItem().getPrice() == -1) {
+						if(is.getItemStack().getItem().getPrice() <= -1) {
 							handler.sendMsg("You cannot sell this item.");
 							hasBeenPressed = false;
 							return;
@@ -554,7 +554,7 @@ public class ShopWindow implements Serializable {
 	 */
 	private void sellItem() {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
-			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+			if(tradeSlot.getItemStack().getItem().getPrice() <= -1) {
 				handler.sendMsg("You cannot sell this item.");
 				hasBeenPressed = false;
 				return;
@@ -632,7 +632,7 @@ public class ShopWindow implements Serializable {
 	 */
 	private void sellAllItem() {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
-			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+			if(tradeSlot.getItemStack().getItem().getPrice() <= -1) {
 				handler.sendMsg("You cannot sell this item.");
 				hasBeenPressed = false;
 				return;
@@ -729,7 +729,7 @@ public class ShopWindow implements Serializable {
 	 */
 	public void sellXItem(int amount) {
 		if(tradeSlot.getItemStack() != null && selectedShopItem == null) {
-			if(tradeSlot.getItemStack().getItem().getPrice() == -1) {
+			if(tradeSlot.getItemStack().getItem().getPrice() <= -1) {
 				handler.sendMsg("You cannot sell this item.");
 				hasBeenPressed = false;
 				return;
