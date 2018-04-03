@@ -12,8 +12,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import dev.ipsych0.mygame.tiles.Tiles;
-
 public class MapLoader implements Serializable{
 	
 	/**

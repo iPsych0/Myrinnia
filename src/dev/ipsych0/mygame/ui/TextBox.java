@@ -1,13 +1,11 @@
 package dev.ipsych0.mygame.ui;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -22,14 +20,13 @@ public class TextBox implements KeyListener, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
-	public String charactersTyped = "";
+	private String charactersTyped = "";
 	public boolean numbersOnly = false;
 	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
-	public int index = 0;
+	private int index = 0;
 	private StringBuilder sb;
-	private boolean loaded = false;
 	public static boolean enterPressed = false;
 	public static boolean isOpen = false;
 	private Color selected = new Color(102, 51, 0, 127);
@@ -217,6 +214,14 @@ public class TextBox implements KeyListener, Serializable {
 
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 

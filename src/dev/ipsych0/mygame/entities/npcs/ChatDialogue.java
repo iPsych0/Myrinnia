@@ -5,9 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -43,7 +40,7 @@ public class ChatDialogue implements Serializable{
 		// Zie DialogueBox functie voor inladen!!!
 		if(menuOptions.length > 1) {
 			for(int i = 0; i < menuOptions.length; i++) {
-				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, menuOptions[i]));
+				chatOptions.add(new ChatOptions(x + 16, y + 11 + (20 * i), i, menuOptions[i]));
 			}
 		}else{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));

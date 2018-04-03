@@ -68,48 +68,8 @@ public class TeleportShrine extends StaticEntity {
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				speakingTurn = 0;
 				chatDialogue = null;
-				
-				// Clear previous saved data in order to write the new data
-//				SaveManager.clearInventoryItems();
-//				SaveManager.clearEquipmentItems();
-//				SaveManager.clearSaveData();
-//				SaveManager.clearWorlds();
-				
-//				// Add the player data
-//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackExperience()));
-//				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getX()));
-//				SaveManager.addSaveData(Float.toString(handler.getWorld().getEntityManager().getPlayer().getY()));
-//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()));
-//				
-//				// Save the world!
-//				SaveManager.addSaveData(Integer.toString(handler.getWorld().getWorldID()));
-				
-				// Add the inventory objects to an arraylist
-//				for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
-//					if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
-//						continue;
-//					}
-//					SaveManager.addInventoryItems(handler.getInventory().getItemSlots().get(i).getItemStack());
-//				}
-//				
-//				// Add equipment objects to an arraylist
-//				for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
-//					if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
-//						continue;
-//					}
-//					SaveManager.addEquipmentItems((handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack()));
-//				}
-//				
-//				for(int i = 0; i < handler.getWorldHandler().getWorlds().size(); i++) {
-//					SaveManager.addEntityManagers(handler.getWorldHandler().getWorlds().get(i));
-//				}
-//				
-//				// Finally, save the game
-//				SaveManager.saveInventory();
-//				SaveManager.saveEquipment();
-//				SaveManager.saveGame();
-//				SaveManager.saveWorlds();
-//				SaveManager.saveQuests();
+	
+				// Save the game
 				SaveManager.savehandler();
 				handler.sendMsg("Game Saved!");
 			}else {

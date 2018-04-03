@@ -5,9 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.shop.ShopWindow;
 
 public class DialogueButton implements Serializable{
 	
@@ -15,9 +13,9 @@ public class DialogueButton implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public int x, y, width, height;
-	public String text;
-	public Rectangle buttonBounds;
+	private int x, y, width, height;
+	private String text;
+	private Rectangle buttonBounds;
 	private String[] buttonParam = new String[2];
 	private boolean hovering = false;
 	

@@ -3,20 +3,11 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
@@ -27,9 +18,6 @@ public class Scorpion extends Creature {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// RNG dice for drop table
-	private Random randDrop = new Random();
-	private int min = 1, max = 50;
 	
 	private boolean initialized = false;
 	
@@ -103,7 +91,7 @@ public class Scorpion extends Creature {
 	@Override
 	public void die() {
 		// Drop table stuff
-		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
+		int randomNumber = handler.getRandomNumber(1, 50);
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		
 		if(randomNumber <= 10){

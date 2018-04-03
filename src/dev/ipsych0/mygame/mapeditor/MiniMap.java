@@ -10,9 +10,6 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.utils.Utils;
-import dev.ipsych0.mygame.worlds.World;
 
 public class MiniMap implements Serializable{
 	
@@ -22,10 +19,6 @@ public class MiniMap implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private int x, y, width, height;
-	private int[][] tiles;
-	private int[][] terrain;
-	private String file;
-	private boolean tilesLoaded = false;
 	public static boolean isOpen = false;
 	
 	public MiniMap(Handler handler, String path, int x, int y, int width, int height){

@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.sun.glass.events.KeyEvent;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.TextBox;
@@ -22,10 +20,10 @@ public class DialogueBox implements Serializable {
 	private ArrayList<DialogueButton> buttons;
 	public static boolean isOpen = false;
 	private Handler handler;
-	public String[] answers;
-	public String param = "";
-	public DialogueButton pressedButton = null;
-	public static TextBox tb;
+	private String[] answers;
+	private String param = "";
+	private DialogueButton pressedButton = null;
+	private static TextBox tb;
 	private String message;
 	private boolean numbersOnly;
 

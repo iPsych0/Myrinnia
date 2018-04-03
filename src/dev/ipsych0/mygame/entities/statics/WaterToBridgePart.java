@@ -1,8 +1,6 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -10,7 +8,6 @@ import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.worlds.World;
 
 public class WaterToBridgePart extends StaticEntity {
 	
@@ -18,8 +15,6 @@ public class WaterToBridgePart extends StaticEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int xSpawn = (int) getX();
-	private int ySpawn = (int) getY();
 	private boolean isFixed = false;
 	private int speakingTurn = 0;
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
