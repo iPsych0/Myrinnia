@@ -3,13 +3,9 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.MenuState;
-import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Projectile implements Serializable {
 	
@@ -19,7 +15,6 @@ public class Projectile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private float x, y;
 	private int width, height;
-	private float xSpawn, ySpawn;
 	private double xVelocity, yVelocity;
 	private int maxX, maxY, minX, minY;
 	private int mouseX, mouseY;
@@ -46,10 +41,6 @@ public class Projectile implements Serializable {
 		bounds.y = 14;
 		bounds.width = 10;
 		bounds.height = 10;
-		
-		// Where the projectile starts
-		xSpawn = x;
-		ySpawn = y;
 		
 		// Max distance the projectile can travel
 		maxX = (int) (x + maxRadius);

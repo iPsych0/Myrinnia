@@ -1,18 +1,10 @@
 package dev.ipsych0.mygame;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.Writer;
 import java.util.Random;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -85,19 +77,6 @@ public class Handler implements Serializable {
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
 		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
-	}
-	
-	public void toJSON(Object o){
-		try {
-			Writer writer = new FileWriter("res/savegames/inventory.json");
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String JSON = gson.toJson(o);
-			writer.write(JSON);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			sendMsg("Something went wrong saving your inventory!");
-		}
 	}
 	
 	public boolean questStarted(QuestList quest) {

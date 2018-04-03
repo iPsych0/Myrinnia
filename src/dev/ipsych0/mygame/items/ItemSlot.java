@@ -69,7 +69,7 @@ public class ItemSlot implements Serializable {
 	 */
 	public boolean addItem(Item item, int amount) {
 		// If the item is stackable
-		if(itemStack != null && item.stackable) {
+		if(itemStack != null && item.isStackable()) {
 			if(item.getId() == itemStack.getItem().getId()) {
 				// If a stack already exists and the item is stackable, add to that stack
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
@@ -78,7 +78,7 @@ public class ItemSlot implements Serializable {
 				return false;
 			}
 			
-		} else if(!item.stackable){
+		} else if(!item.isStackable()){
 			// If the item isn't stackable
 			this.itemStack = new ItemStack(item);
 			return true;

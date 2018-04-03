@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -43,7 +42,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void tick() {
-		if(ShopWindow.isOpen)
+		if(ShopWindow.isOpen && handler.getPlayer().getShopKeeper() == this)
 			shopWindow.tick();
 	}
 
@@ -138,7 +137,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void postRender(Graphics g) {
-		if(ShopWindow.isOpen) {
+		if(ShopWindow.isOpen && handler.getPlayer().getShopKeeper() == this) {
 			shopWindow.render(g);
 			Text.drawString(g, "Lorraine's General Store", shopWindow.x + (shopWindow.width / 2), shopWindow.y + 16, true, Color.YELLOW, Assets.font14);
 		}

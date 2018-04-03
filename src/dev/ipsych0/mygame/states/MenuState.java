@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.ImageLoader;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.ui.UIObject;

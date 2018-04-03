@@ -13,9 +13,9 @@ public class Quest implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Handler handler;
-	protected ArrayList<QuestStep> questSteps;
-	protected int step = 0;
+	private Handler handler;
+	private ArrayList<QuestStep> questSteps;
+	private int step = 0;
 	private String questName;
 	private QuestState state;
 	

@@ -1,19 +1,13 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
-import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.quests.QuestList;
-import dev.ipsych0.mygame.quests.QuestManager;
-import dev.ipsych0.mygame.quests.QuestStep;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 

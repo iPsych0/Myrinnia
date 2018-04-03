@@ -1,6 +1,5 @@
 package dev.ipsych0.mygame.items;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -15,7 +14,6 @@ public class EquipmentSlot implements Serializable{
 	
 	private int x, y;
 	private ItemStack itemStack;
-	public boolean stackable = false;
 	public static boolean hasSwapped = false;
 	
 	public EquipmentSlot(int x, int y, ItemStack itemStack){
@@ -48,7 +46,7 @@ public class EquipmentSlot implements Serializable{
 	
 	public boolean equipItem(Item item) {
 		if(this.itemStack != null){
-			if(item.equipSlot == itemStack.getItem().equipSlot){
+			if(item.getEquipSlot() == itemStack.getItem().getEquipSlot()){
 				return false;
 			}else {
 				return true;

@@ -31,22 +31,22 @@ public class Item implements Serializable{
 	
 	// Class
 	
-	protected Handler handler;
-	protected ItemType itemType;
-	protected ItemRarity itemRarity;
+	private Handler handler;
+	private ItemType itemType;
+	private ItemRarity itemRarity;
 	private transient BufferedImage texture;
-	protected String name;
-	protected final int id;
-	protected final EquipSlot equipSlot;
-	protected final int power, defence, vitality;
-	protected final float attackSpeed, movementSpeed;
-	protected int x, y;
-	protected Rectangle bounds;
-	protected int count;
-	protected boolean pickedUp = false;
+	private String name;
+	private final int id;
+	private final EquipSlot equipSlot;
+	private final int power, defence, vitality;
+	private final float attackSpeed, movementSpeed;
+	private int x, y;
+	private Rectangle bounds;
+	private int count;
+	private boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
-	protected int price;
-	public boolean stackable;
+	private int price;
+	private boolean stackable;
 	
 	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
 		this.texture = texture;

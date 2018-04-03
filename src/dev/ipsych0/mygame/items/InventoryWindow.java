@@ -26,8 +26,6 @@ public class InventoryWindow implements Serializable {
 	
 	private int numCols = 3;
 	private int numRows = 10;
-	private int alpha = 127;
-	private Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	private CopyOnWriteArrayList<ItemSlot> itemSlots;
 	private ItemStack currentSelectedSlot;
@@ -104,7 +102,7 @@ public class InventoryWindow implements Serializable {
 					if(slot.contains(mouse)){
 						// If the itemstack already holds an item
 						if(is.getItemStack() != null) {
-							if(currentSelectedSlot.getItem().stackable) {
+							if(currentSelectedSlot.getItem().isStackable()) {
 								// And if the item in the slot is stackable
 								if(is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 									// Add the item back to the inventory

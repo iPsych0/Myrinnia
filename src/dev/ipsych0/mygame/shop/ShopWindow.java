@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -19,7 +18,6 @@ import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.ui.TextBox;
 import dev.ipsych0.mygame.utils.DialogueBox;
-import dev.ipsych0.mygame.utils.DialogueButton;
 import dev.ipsych0.mygame.utils.Text;
 
 public class ShopWindow implements Serializable {
@@ -31,8 +29,8 @@ public class ShopWindow implements Serializable {
 	public int x, y, width, height;
 	private int numCols = 5;
 	private int numRows = 6;
-	public CopyOnWriteArrayList<ItemSlot> itemSlots;
-	public CopyOnWriteArrayList<ItemSlot> invSlots;
+	private CopyOnWriteArrayList<ItemSlot> itemSlots;
+	private CopyOnWriteArrayList<ItemSlot> invSlots;
 	private int alpha = 62;
 	private Color selectedColor = new Color(0, 255, 255, alpha);
 	private ItemStack selectedShopItem;
@@ -46,7 +44,7 @@ public class ShopWindow implements Serializable {
 	public static boolean makingChoice = false;
 	public static DialogueBox dBox;
 	private String[] answers = {"Yes", "No"};
-	public ItemSlot selectedSlot = null;
+	private ItemSlot selectedSlot = null;
 	private int dialogueWidth = 300;
 	private int dialogueHeight = 150;
 	private int restockTimer = 0;
@@ -270,7 +268,7 @@ public class ShopWindow implements Serializable {
 				
 				dBox.setPressedButton(null);
 				dBox.getTextBox().getSb().setLength(0);
-				dBox.getTextBox().index = 0;
+				dBox.getTextBox().setIndex(0);
 				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
 //				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;
@@ -301,7 +299,7 @@ public class ShopWindow implements Serializable {
 				
 				dBox.setPressedButton(null);
 				dBox.getTextBox().getSb().setLength(0);
-				dBox.getTextBox().index = 0;
+				dBox.getTextBox().setIndex(0);
 				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
 //				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
 				DialogueBox.isOpen = false;

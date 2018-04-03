@@ -1,24 +1,14 @@
 package dev.ipsych0.mygame.crafting;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.imageio.ImageIO;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -26,7 +16,6 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemRarity;
 import dev.ipsych0.mygame.items.ItemStack;
-import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingUI implements Serializable{
@@ -236,7 +225,7 @@ public class CraftingUI implements Serializable{
 					if(craftSlot.contains(mouse)){
 						// If the itemstack already holds an item
 						if(cs.getItemStack() != null) {
-							if(currentSelectedSlot.getItem().stackable) {
+							if(currentSelectedSlot.getItem().isStackable()) {
 								// And if the item in the slot is stackable
 								if(cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
 									// Add the item back to the inventory

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
@@ -15,15 +13,13 @@ public class ChatOptions implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private int x, y, width, height;
 	private String message;
 	private boolean isHovering = false;
 	private int optionID;
-	Rectangle bounds;
+	private Rectangle bounds;
 	
-	public ChatOptions(Handler handler, int x, int y, int optionID, String message) {
-		this.handler = handler;
+	public ChatOptions(int x, int y, int optionID, String message) {
 		this.x = x;
 		this.y = y;
 		this.optionID = optionID;
