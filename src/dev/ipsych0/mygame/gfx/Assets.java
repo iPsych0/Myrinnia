@@ -141,6 +141,8 @@ public class Assets {
 	
 	public static BufferedImage shopWindow;
 	
+	public static BufferedImage controlsScreen;
+	
 	
 	public static void init(){
 		
@@ -181,6 +183,7 @@ public class Assets {
 		SpriteSheet objects3 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites3.png"));
 		SpriteSheet ship_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ship.png"));
 		SpriteSheet equipSlots = new SpriteSheet(ImageLoader.loadImage("/textures/equipment_placeholders3.png"));
+		SpriteSheet controls_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/controls_screen.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -215,6 +218,8 @@ public class Assets {
 		equipmentPlaceHolders[11] = ringSlot2;
 		
 		shopWindow = shop_window.crop(0, 0, 460, 313);
+		
+		controlsScreen = controls_sheet.crop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[2];
 		magicProjectile[0] = projectiles.crop(width * 9, height * 0, width, height);

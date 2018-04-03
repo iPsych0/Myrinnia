@@ -9,6 +9,7 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
+import dev.ipsych0.mygame.states.ControlsState;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.states.SettingState;
@@ -41,6 +42,7 @@ public class Game implements Runnable, Serializable {
 	public State gameState;
 	public State menuState;
 	public State settingState;
+	public State controlsState;
 	
 	//Input
 	private KeyManager keyManager;
@@ -80,6 +82,7 @@ public class Game implements Runnable, Serializable {
 		menuState = new MenuState(handler);
 		gameState = new GameState(handler);
 		settingState = new SettingState(handler);
+		controlsState = new ControlsState(handler);
 		
 		// Set the initial state to the menu state
 		State.setState(menuState);

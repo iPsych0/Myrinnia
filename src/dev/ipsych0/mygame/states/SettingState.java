@@ -66,7 +66,9 @@ public class SettingState extends State{
 			
 			if(controlsButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					System.out.println("Clicked Controls!");
+					handler.getMouseManager().setUIManager(null);
+					State.setState(handler.getGame().controlsState);
+					loaded = false;
 					hasBeenPressed = false;
 				}
 			}
@@ -106,7 +108,7 @@ public class SettingState extends State{
 			
 			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Controls", 480, 424, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Mute Sound", 480, 528, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Mute Sounds", 480, 528, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);
 		}
 		
