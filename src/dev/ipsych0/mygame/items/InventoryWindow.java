@@ -144,6 +144,12 @@ public class InventoryWindow implements Serializable {
 				// If item is right-clicked
 				if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !handler.getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
 					if(is.getItemStack() != null){
+						if(handler.getPlayer().isInCombat()) {
+							handler.sendMsg("You cannot equip items while in combat.");
+							hasBeenPressed = false;
+							isEquipped = false;
+							return;
+						}
 						if(is.getItemStack().getItem().getEquipSlot() == 12){
 							// If the item's equipmentslot = 12, that means it's unequippable, so return
 							handler.sendMsg("You cannot equip " + is.getItemStack().getItem().getName());

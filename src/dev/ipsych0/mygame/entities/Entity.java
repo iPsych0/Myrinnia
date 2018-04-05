@@ -42,7 +42,8 @@ public abstract class Entity implements Serializable{
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
 	protected int lastHit = 0;
-	
+	protected boolean inCombat = false;
+	protected int combatTimer = 0;
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -153,6 +154,8 @@ public abstract class Entity implements Serializable{
 		damageReceiver.damaged = true;
 		damageReceiver.ty = 0;
 		damageReceiver.lastHit = 0;
+		damageReceiver.combatTimer = 0;
+		damageReceiver.inCombat = true;
 
 		if(damageReceiver.health <= 0){
 			damageReceiver.active = false;
@@ -172,7 +175,7 @@ public abstract class Entity implements Serializable{
 			Text.drawString(g, String.valueOf(dealer.getDamage(dealer)) ,
 					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
 			
-			if(damageReceiver.lastHit >= 45) {
+			if(damageReceiver.lastHit == 45) {
 				damageReceiver.damaged = false;
 				damageReceiver.lastHit = 0;
 			}
@@ -357,6 +360,14 @@ public abstract class Entity implements Serializable{
 
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+	public boolean isInCombat() {
+		return inCombat;
+	}
+
+	public void setInCombat(boolean inCombat) {
+		this.inCombat = inCombat;
 	}
 	
 }

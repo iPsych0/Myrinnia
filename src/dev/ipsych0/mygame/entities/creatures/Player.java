@@ -139,6 +139,15 @@ public class Player extends Creature{
 			attRight.tick();
 		}
 		
+		if(inCombat) {
+			combatTimer++;
+			System.out.println(combatTimer);
+		}
+		if(combatTimer >= 300) {
+			inCombat = false;
+			combatTimer = 0;
+		}
+		
 		handler.getGameCamera().centerOnEntity(this);
 				
 		// Attacks
