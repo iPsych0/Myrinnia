@@ -156,6 +156,10 @@ public abstract class Entity implements Serializable{
 		damageReceiver.lastHit = 0;
 		damageReceiver.combatTimer = 0;
 		damageReceiver.inCombat = true;
+		if(damageDealer.equals(handler.getPlayer())) {
+			damageDealer.setInCombat(true);
+			damageDealer.combatTimer = 0;
+		}
 
 		if(damageReceiver.health <= 0){
 			damageReceiver.active = false;
