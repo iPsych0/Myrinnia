@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.Serializable;
+
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -79,6 +81,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			ChatDialogue.hasBeenPressed = true;
 			QuestUI.hasBeenPressed = true;
 			State.hasBeenPressed = true;
+			CharacterUI.hasBeenPressed = true;
 		}
 		
 		// Right Click
