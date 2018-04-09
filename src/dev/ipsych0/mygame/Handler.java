@@ -3,8 +3,11 @@ package dev.ipsych0.mygame;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Random;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -46,6 +49,7 @@ public class Handler implements Serializable {
 	private QuestManager questManager;
 	private MapLoader mapLoader;
 	private CraftingUI craftingUI;
+	private CharacterUI characterUI;
 	private boolean soundMuted = false;
 	
 	/*
@@ -72,6 +76,7 @@ public class Handler implements Serializable {
 		questManager = new QuestManager(this);
 		mapLoader = new MapLoader();
 		craftingUI = new CraftingUI(this, 0, 180);
+		characterUI = new CharacterUI(this);
 		island = new Island(this, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
@@ -297,6 +302,14 @@ public class Handler implements Serializable {
 
 	public void setSoundMuted(boolean soundMuted) {
 		this.soundMuted = soundMuted;
+	}
+
+	public CharacterUI getCharacterUI() {
+		return characterUI;
+	}
+
+	public void setCharacterUI(CharacterUI characterUI) {
+		this.characterUI = characterUI;
 	}
 
 }

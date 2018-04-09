@@ -3,6 +3,8 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -154,6 +156,15 @@ public class KeyManager implements KeyListener, Serializable{
 					QuestUI.isOpen = false;
 					QuestHelpUI.isOpen = false;
 					QuestUI.renderingQuests = false;
+				}
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_K){
+				if(!CharacterUI.isOpen){
+					CharacterUI.isOpen = true;
+				}
+				else {
+					CharacterUI.isOpen = false;
 				}
 			}
 			

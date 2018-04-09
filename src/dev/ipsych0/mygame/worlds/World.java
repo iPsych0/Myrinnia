@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -57,6 +58,7 @@ public abstract class World implements Serializable {
 	protected Player player;
 	protected ChatWindow chatWindow;
 	protected QuestManager questManager;
+	protected CharacterUI characterUI;
 	
 	// Actual code ---v
 	
@@ -70,6 +72,7 @@ public abstract class World implements Serializable {
 			this.equipment = handler.getEquipment();
 			this.chatWindow = handler.getChatWindow();
 			this.questManager = handler.getQuestManager();
+			this.characterUI = handler.getCharacterUI();
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -87,6 +90,7 @@ public abstract class World implements Serializable {
 		craftingUI.tick();
 		chatWindow.tick();
 		questManager.tick();
+		characterUI.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -136,6 +140,7 @@ public abstract class World implements Serializable {
 		craftingUI.render(g);
 		
 		questManager.render(g);
+		characterUI.render(g);
 	}
 	
 	public Tiles getTile(int layer, int x, int y){
