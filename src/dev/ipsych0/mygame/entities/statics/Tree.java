@@ -5,6 +5,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -58,6 +59,7 @@ public class Tree extends StaticEntity {
 	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully chopped some logs.");
+	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(10);
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("Your hatchet bounced off the tree...");

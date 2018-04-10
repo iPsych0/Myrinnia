@@ -23,6 +23,7 @@ import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.IslandUnderground;
@@ -50,6 +51,7 @@ public class Handler implements Serializable {
 	private MapLoader mapLoader;
 	private CraftingUI craftingUI;
 	private CharacterUI characterUI;
+	private SkillsUI skillsUI;
 	private boolean soundMuted = false;
 	
 	/*
@@ -77,6 +79,7 @@ public class Handler implements Serializable {
 		mapLoader = new MapLoader();
 		craftingUI = new CraftingUI(this, 0, 180);
 		characterUI = new CharacterUI(this);
+		skillsUI = new SkillsUI(this);
 		island = new Island(this, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
@@ -310,6 +313,14 @@ public class Handler implements Serializable {
 
 	public void setCharacterUI(CharacterUI characterUI) {
 		this.characterUI = characterUI;
+	}
+
+	public SkillsUI getSkillsUI() {
+		return skillsUI;
+	}
+
+	public void setSkillsUI(SkillsUI skillsUI) {
+		this.skillsUI = skillsUI;
 	}
 
 }

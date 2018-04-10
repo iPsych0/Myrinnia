@@ -15,6 +15,7 @@ import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsUI;
 
 public class KeyManager implements KeyListener, Serializable{
 
@@ -127,7 +128,7 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 			}
 			
-			// Chat window toggle
+			// Map toggle
 			if(e.getKeyCode() == KeyEvent.VK_M){
 				if(!MiniMap.isOpen){
 					MiniMap.isOpen = true;
@@ -159,12 +160,23 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 			}
 			
+			// CharacterUI toggle
 			if(e.getKeyCode() == KeyEvent.VK_K){
 				if(!CharacterUI.isOpen){
 					CharacterUI.isOpen = true;
 				}
 				else {
 					CharacterUI.isOpen = false;
+				}
+			}
+			
+			// Chat window toggle
+			if(e.getKeyCode() == KeyEvent.VK_L){
+				if(!SkillsUI.isOpen){
+					SkillsUI.isOpen = true;
+				}
+				else {
+					SkillsUI.isOpen = false;
 				}
 			}
 			

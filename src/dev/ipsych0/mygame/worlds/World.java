@@ -20,6 +20,7 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
@@ -59,6 +60,7 @@ public abstract class World implements Serializable {
 	protected ChatWindow chatWindow;
 	protected QuestManager questManager;
 	protected CharacterUI characterUI;
+	protected SkillsUI skillsUI;
 	
 	// Actual code ---v
 	
@@ -73,6 +75,7 @@ public abstract class World implements Serializable {
 			this.chatWindow = handler.getChatWindow();
 			this.questManager = handler.getQuestManager();
 			this.characterUI = handler.getCharacterUI();
+			this.skillsUI = handler.getSkillsUI();
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -91,6 +94,7 @@ public abstract class World implements Serializable {
 		chatWindow.tick();
 		questManager.tick();
 		characterUI.tick();
+		skillsUI.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -141,6 +145,7 @@ public abstract class World implements Serializable {
 		
 		questManager.render(g);
 		characterUI.render(g);
+		skillsUI.render(g);
 	}
 	
 	public Tiles getTile(int layer, int x, int y){
