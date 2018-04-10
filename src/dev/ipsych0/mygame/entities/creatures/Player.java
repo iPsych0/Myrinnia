@@ -141,8 +141,8 @@ public class Player extends Creature{
 		
 		if(inCombat) {
 			combatTimer++;
-			System.out.println(combatTimer);
 		}
+		
 		if(combatTimer >= 300) {
 			inCombat = false;
 			combatTimer = 0;

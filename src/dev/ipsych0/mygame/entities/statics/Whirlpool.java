@@ -6,6 +6,7 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
@@ -62,6 +63,7 @@ public class Whirlpool extends StaticEntity {
 	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
 	        				handler.getRandomNumber(1, 5));
 	        		handler.sendMsg("You caught something!");
+	        		handler.getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("The fish got away...");
