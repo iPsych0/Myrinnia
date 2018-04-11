@@ -310,6 +310,18 @@ public abstract class Creature extends Entity {
 		int playerX = (int)Math.round(((handler.getPlayer().getX() + 0) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
 		int playerY = (int)Math.round(((handler.getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 		
+		if(damaged) {
+			state = CombatState.PATHFINDING;
+			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						(int)Math.round(((playerX + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+			}
+			else{
+				nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+						playerX, playerY);
+			}
+		}
+		
 		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
 		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;

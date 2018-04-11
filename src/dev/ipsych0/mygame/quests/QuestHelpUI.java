@@ -38,7 +38,7 @@ public class QuestHelpUI implements Serializable {
 	
 	public void render(Graphics g, Quest selectedQuest) {
 		if(isOpen) {
-			g.drawImage(Assets.invScreen, x, y, width, height, null);
+			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
 			if(selectedQuest != null) {
 				Text.drawString(g, selectedQuest.getQuestName()+":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);

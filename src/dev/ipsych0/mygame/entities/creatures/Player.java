@@ -141,7 +141,9 @@ public class Player extends Creature{
 		handler.getGameCamera().centerOnEntity(this);
 				
 		// Attacks
-		regenHealth();
+		if(!inCombat) {
+			regenHealth();
+		}
 		
 		// Debug button for in-game testing
 		if(handler.getKeyManager().position && debugButtonPressed){

@@ -97,6 +97,27 @@ public class AStarMap implements Serializable{
 //		
 //		System.out.println(nodes.length);
 		
+		if(startX <= -1) {
+			creature.setxMove(creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		else if(startX >= nodes.length) {
+			creature.setxMove(-creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		if(startY <= -1) {
+			creature.setyMove(creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		else if(startY >= nodes.length) {
+			creature.setyMove(-creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		
 		if(goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1|| goalY < 0) {
 			goalX = (int)(xSpawn / 32 - x / 32);
 			goalY = (int)(ySpawn / 32 - y / 32);
