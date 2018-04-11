@@ -20,6 +20,7 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -186,9 +187,10 @@ public abstract class World implements Serializable {
 	protected void renderHPandFPS(Graphics g) {
 		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
 		Text.drawString(g, "HP: " + handler.roundOff((double)handler.getPlayer().getHealth() /
-				(double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 146, 34, false, Color.YELLOW, Assets.font14);		
+				(double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 176, 29, true, Color.YELLOW, Assets.font14);		
 		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
-		Text.drawString(g, Integer.toString(handler.getPlayer().getAttackLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, Integer.toString(handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, "EXP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), 176, 54, true, Color.YELLOW, Assets.font14);
 		
 //		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 	}

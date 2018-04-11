@@ -38,6 +38,7 @@ public class SkillsUI implements Serializable{
 		skillsList.add(new WoodcuttingSkill());
 		skillsList.add(new FishingSkill());
 		skillsList.add(new MiningSkill());
+		skillsList.add(new CombatSkill());
 		
 		
 		// Sort the Skills

@@ -1,7 +1,13 @@
 package dev.ipsych0.mygame.skills;
 
-public abstract class Skill {
+import java.io.Serializable;
+
+public abstract class Skill implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int experience, level;
 	protected int nextLevelXp = 100;
 	
@@ -29,7 +35,7 @@ public abstract class Skill {
 	
 	private void checkNextLevel() {
 		if(this.experience >= nextLevelXp) {
-			experience = (experience % nextLevelXp);
+			experience -= nextLevelXp;
 			addLevel();
 			nextLevelXp = (int)(nextLevelXp * 1.1);
 			checkNextLevel();

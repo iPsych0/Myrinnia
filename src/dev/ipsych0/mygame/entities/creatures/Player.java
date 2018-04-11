@@ -35,11 +35,6 @@ public class Player extends Creature{
 	// NPC killcounts
 	private int scorpionKC = 0;
 	
-	// Experience and levels
-	private int attackExperience;
-	private int attackLevel;
-	private int craftingExperience;
-	private int craftingLevel;
 	private int maxHealth;
 	
 	public static boolean hasInteracted = false;
@@ -92,11 +87,6 @@ public class Player extends Creature{
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
 		speed = DEFAULT_SPEED + 1.5f;
-		
-		attackExperience = 0;
-		attackLevel = 1;
-		craftingExperience = 0;
-		craftingLevel = 1;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
@@ -632,39 +622,6 @@ public class Player extends Creature{
 		return scorpionKC;
 	}
 
-	public int getAttackExperience() {
-		return attackExperience;
-	}
-
-	public void setAttackExperience(int attackExperience) {
-		this.attackExperience = attackExperience;
-	}
-
-	public void addAttackExperience(int attackXP) {
-		this.attackExperience = attackExperience + attackXP;
-	}
-
-	public int getAttackLevel() {
-		// Checks player levels (hard-coded)
-		if(getAttackExperience() >= 50 && getAttackExperience() <= 99){
-			setAttackLevel(2);
-		}
-		if(getAttackExperience() >= 100 && getAttackExperience() <= 199){
-			setAttackLevel(3);
-		}
-		if(getAttackExperience() >= 200 && getAttackExperience() <= 449){
-			setAttackLevel(4);
-		}
-		if(getAttackExperience() >= 450 && getAttackExperience() <= 999){
-			setAttackLevel(5);
-		}
-		return attackLevel;
-	}
-
-	public void setAttackLevel(int level) {
-		attackLevel = level;
-	}
-
 	public void addScorpionKC() {
 		scorpionKC++;
 	}
@@ -962,26 +919,6 @@ public class Player extends Creature{
 
 	public void setMovementAllowed(boolean movementAllowed) {
 		this.movementAllowed = movementAllowed;
-	}
-
-	public int getCraftingExperience() {
-		return craftingExperience;
-	}
-
-	public void setCraftingExperience(int craftingExperience) {
-		this.craftingExperience = craftingExperience;
-	}
-
-	public int getCraftingLevel() {
-		return craftingLevel;
-	}
-
-	public void setCraftingLevel(int craftingLevel) {
-		this.craftingLevel = craftingLevel;
-	}
-	
-	public void addCraftingExperience(int craftXP) {
-		this.craftingExperience = craftingExperience + craftXP;
 	}
 
 	public Direction getLastFaced() {

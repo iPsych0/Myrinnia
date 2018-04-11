@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemRarity;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingUI implements Serializable{
@@ -462,7 +463,14 @@ public class CraftingUI implements Serializable{
 			
 			// If we have all matching items and we don't have any empty slots, craft the item
 			if(matches == tempCraftRecipeList.size()) {
-				System.out.println("All items match for this recipe: '" + i + "'");
+				
+				// 
+				if(handler.getSkillsUI().getSkill(SkillsList.CRAFTING).getLevel() < craftingRecipeList.getRecipes().get(i).getRequiredLevel()) {
+					findRecipe();
+					handler.sendMsg("You need a crafting level of " + craftingRecipeList.getRecipes().get(i).getRequiredLevel() + " to make this item.");
+					break;
+				}
+				// If we try to craft a new item before claiming the last one, break
 				if(crs.getItemStack() != null && crs.getItemStack().getItem().getId() != getRecipeItem(i).getItem().getId()) {
 					findRecipe();
 					handler.sendMsg("Please claim your crafted item before creating a new one.");
@@ -504,7 +512,7 @@ public class CraftingUI implements Serializable{
 				possibleRecipe = getRecipeItem(i);
 				craftRecipe = craftingRecipeList.getRecipes().get(i);
 				makeItem(i);
-				handler.getPlayer().addCraftingExperience(getCraftingRecipeList().getRecipes().get(i).getCraftingXP());
+				handler.getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(craftingRecipeList.getRecipes().get(i).getCraftingXP());
 				findRecipe();
 				
 				// Set matches back to 0 for next craft and stop iterating

@@ -55,11 +55,11 @@ public class Tree extends StaticEntity {
 			if(woodcuttingTimer >= 180) {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
-	        	if(roll < 60) {
+	        	if(roll < 70) {
 	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully chopped some logs.");
-	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(10);
+	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("Your hatchet bounced off the tree...");

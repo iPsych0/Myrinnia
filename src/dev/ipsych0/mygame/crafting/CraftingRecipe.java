@@ -15,17 +15,19 @@ public class CraftingRecipe implements Serializable{
 	private ItemStack result;
 	private ArrayList<ItemStack> components;
 	private int craftingXP;
+	private int requiredLevel;
 	private boolean discovered;
 	
 	/*
 	 * Use this constructor for a recipe with 4 components
 	 */
-	public CraftingRecipe(int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4, ItemStack result) {
+	public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4, ItemStack result) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
 		this.item4 = item4;
 		this.result = result;
+		this.requiredLevel = requiredLevel;
 		
 		components = new ArrayList<ItemStack>();
 		
@@ -42,11 +44,12 @@ public class CraftingRecipe implements Serializable{
 	/*
 	 * Use this constructor for a recipe with 3 components
 	 */
-	public CraftingRecipe(int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack result) {
+	public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack result) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.item3 = item3;
 		this.result = result;
+		this.requiredLevel = requiredLevel;
 		
 		components = new ArrayList<ItemStack>();
 		
@@ -61,10 +64,11 @@ public class CraftingRecipe implements Serializable{
 	/*
 	 * Use this constructor for a recipe with 2 components
 	 */
-	public CraftingRecipe(int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack result) {
+	public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, ItemStack item1, ItemStack item2, ItemStack result) {
 		this.item1 = item1;
 		this.item2 = item2;
 		this.result = result;
+		this.requiredLevel = requiredLevel;
 		
 		components = new ArrayList<ItemStack>();
 		
@@ -78,9 +82,10 @@ public class CraftingRecipe implements Serializable{
 	/*
 	 * Use this constructor for a recipe with 1 components
 	 */
-	public CraftingRecipe(int craftingXP, boolean discovered, ItemStack item1, ItemStack result) {
+	public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, ItemStack item1, ItemStack result) {
 		this.item1 = item1;
 		this.result = result;
+		this.requiredLevel = requiredLevel;
 
 		components = new ArrayList<ItemStack>();
 		
@@ -120,6 +125,14 @@ public class CraftingRecipe implements Serializable{
 
 	public void setResult(ItemStack result) {
 		this.result = result;
+	}
+
+	public int getRequiredLevel() {
+		return requiredLevel;
+	}
+
+	public void setRequiredLevel(int requiredLevel) {
+		this.requiredLevel = requiredLevel;
 	}
 
 }

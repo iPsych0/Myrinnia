@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.utils.Text;
 
 public class CharacterUI implements Serializable{
@@ -100,9 +101,9 @@ public class CharacterUI implements Serializable{
 			
 			Text.drawString(g, "Character stats:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			
-			Text.drawString(g, "Combat lvl: " + handler.getPlayer().getCombatLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Combat lvl: " + handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "HP: " + handler.getPlayer().getHealth() + "/" + handler.getPlayer().getMAX_HEALTH(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "EXP: 0/250", x + 16, y + 96, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "EXP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
 			
 			// If we have points available, draw the 
 			if(baseStatPoints >= 1) {

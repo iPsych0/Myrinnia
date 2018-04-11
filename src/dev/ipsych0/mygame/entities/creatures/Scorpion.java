@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
@@ -108,7 +109,7 @@ public class Scorpion extends Creature {
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}
 		
-		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
+		handler.getSkillsUI().getSkill(SkillsList.COMBAT).addExperience(15);
 		
 		World currentWorld = handler.getWorld();
 		
