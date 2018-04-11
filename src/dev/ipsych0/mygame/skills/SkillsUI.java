@@ -34,11 +34,11 @@ public class SkillsUI implements Serializable{
 		skillsList = new ArrayList<Skill>();
 		skills = new HashMap<SkillsList, Skill>();
 		
-		skillsList.add(new CraftingSkill());
-		skillsList.add(new WoodcuttingSkill());
-		skillsList.add(new FishingSkill());
-		skillsList.add(new MiningSkill());
-		skillsList.add(new CombatSkill());
+		skillsList.add(new CraftingSkill(handler));
+		skillsList.add(new WoodcuttingSkill(handler));
+		skillsList.add(new FishingSkill(handler));
+		skillsList.add(new MiningSkill(handler));
+		skillsList.add(new CombatSkill(handler));
 		
 		
 		// Sort the Skills

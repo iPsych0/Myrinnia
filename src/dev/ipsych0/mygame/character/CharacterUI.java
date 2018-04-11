@@ -19,8 +19,8 @@ public class CharacterUI implements Serializable{
 	public int x = 0, y = 180, width = 192, height = 320;
 	private Handler handler;
 	public static boolean isOpen = false;
-	private int baseStatPoints = 5;
-	private int elementalStatPoints = 5;
+	private int baseStatPoints = 0;
+	private int elementalStatPoints = 0;
 	private int melee = 0, ranged = 0, magic = 0;
 	private int fire = 0, air = 0, water = 0, earth = 0;
 	private Rectangle meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
@@ -176,16 +176,16 @@ public class CharacterUI implements Serializable{
 		return baseStatPoints;
 	}
 
-	public void setBaseStatPoints(int baseStatPoints) {
-		this.baseStatPoints = baseStatPoints;
+	public void addBaseStatPoints() {
+		this.baseStatPoints++;
 	}
 
 	public int getElementalStatPoints() {
 		return elementalStatPoints;
 	}
 
-	public void setElementalStatPoints(int elementalStatPoints) {
-		this.elementalStatPoints = elementalStatPoints;
+	public void addElementalStatPoints() {
+		this.elementalStatPoints++;
 	}
 
 	public int getMelee() {

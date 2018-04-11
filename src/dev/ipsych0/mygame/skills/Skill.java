@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.skills;
 
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.Handler;
+
 public abstract class Skill implements Serializable {
 	
 	/**
@@ -10,8 +12,11 @@ public abstract class Skill implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected int experience, level;
 	protected int nextLevelXp = 100;
+	protected Handler handler;
 	
-	public Skill() {
+	public Skill(Handler handler) {
+		this.handler = handler;
+		
 		experience = 0;
 		level = 1;
 	}
