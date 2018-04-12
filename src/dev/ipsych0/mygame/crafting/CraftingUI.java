@@ -291,7 +291,7 @@ public class CraftingUI implements Serializable{
 		
 			g.drawImage(Assets.invScreen, x, y, width, height, null);
 
-			Text.drawString(g, "Crafting", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
+			Text.drawString(g, "Crafting", x + width / 2, y + 26, true, Color.YELLOW, Assets.font20);
 			
 			
 			crs.render(g);

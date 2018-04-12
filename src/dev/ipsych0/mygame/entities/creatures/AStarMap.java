@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import dev.ipsych0.mygame.Handler;
@@ -142,7 +143,7 @@ public class AStarMap implements Serializable{
 		// The set of nodes already visited.
 		List<Node> openList = new LinkedList<Node>();
 		// The set of currently discovered nodes still to be visited.
-		List<Node> closedList = new LinkedList<Node>();
+		HashSet<Node> closedList = new HashSet<Node>();
 
 		// Add starting node to open list.
 		openList.add(nodes[startX][startY]);
@@ -165,7 +166,7 @@ public class AStarMap implements Serializable{
 				return calcPath(nodes[startX][startY], current);
 			}
 
-			List<Node> adjacentNodes = getAdjacent(current, closedList);
+			HashSet<Node> adjacentNodes = getAdjacent(current, closedList);
 			for (Node adjacent : adjacentNodes)
 			{
 				// If node is not in the open list ...
@@ -235,9 +236,9 @@ public class AStarMap implements Serializable{
 		return cheapest;
 	}
 	
-	private List<Node> getAdjacent(Node node, List<Node> closedList)
+	private HashSet<Node> getAdjacent(Node node, HashSet<Node> closedList)
 	{
-		List<Node> adjacentNodes = new LinkedList<Node>();
+		HashSet<Node> adjacentNodes = new HashSet<Node>();
 		int x = node.getX() - (this.x / 32);
 		int y = node.getY() - (this.y / 32);
 		

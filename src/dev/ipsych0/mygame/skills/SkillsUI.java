@@ -28,6 +28,7 @@ public class SkillsUI implements Serializable{
 	private HashMap<SkillsList, Skill> skills;
 	private ArrayList<Skill> skillsList;
 	private Rectangle crafting, fishing, mining, woodcutting;
+	private SkillsOverviewUI overviewUI;
 	
 	public SkillsUI(Handler handler) {
 		this.handler = handler;
@@ -57,6 +58,8 @@ public class SkillsUI implements Serializable{
 		fishing = new Rectangle(x + 8, y + 80, 174, 32);
 		mining = new Rectangle(x + 8, y + 112, 174, 32);
 		woodcutting = new Rectangle(x + 8, y + 144, 174, 32);
+		
+		overviewUI = new SkillsOverviewUI(handler);
 	}
 	
 	public void tick() {
@@ -83,12 +86,16 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 				}
 			}
+			
+			overviewUI.tick();
 		}
 	}
 	
 	public void render(Graphics g) {
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
+			
+			overviewUI.render(g);
 			
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
@@ -140,5 +147,13 @@ public class SkillsUI implements Serializable{
 
 	public Skill getSkill(SkillsList skill) {
 		return skills.get(skill);
+	}
+
+	public SkillsOverviewUI getOverviewUI() {
+		return overviewUI;
+	}
+
+	public void setOverviewUI(SkillsOverviewUI overviewUI) {
+		this.overviewUI = overviewUI;
 	}
 }
