@@ -21,6 +21,8 @@ public class SkillsOverviewUI {
 	
 	public void render(Graphics g) {
 		g.drawImage(Assets.shopWindow, x, y, width, height, null);
+		
+	
 	}
 
 }
