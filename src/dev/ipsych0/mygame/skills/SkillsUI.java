@@ -69,22 +69,34 @@ public class SkillsUI implements Serializable{
 			if(crafting.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
+					SkillsOverviewUI.isOpen = true;
+					overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
 				}
 			}
 			else if(fishing.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
+					SkillsOverviewUI.isOpen = true;
+					overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
 				}
 			}
 			else if(mining.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
+					SkillsOverviewUI.isOpen = true;
+					overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
 				}
 			}
 			else if(woodcutting.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
+					SkillsOverviewUI.isOpen = true;
+					overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
 				}
+			}
+			
+			if(handler.getKeyManager().escape) {
+				SkillsOverviewUI.isOpen = false;
 			}
 			
 			overviewUI.tick();

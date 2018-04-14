@@ -464,7 +464,14 @@ public class CraftingUI implements Serializable{
 			// If we have all matching items and we don't have any empty slots, craft the item
 			if(matches == tempCraftRecipeList.size()) {
 				
-				// 
+				// If we haven't discovered the recipe yet
+				if(!craftingRecipeList.getRecipes().get(i).isDiscovered()) {
+					handler.sendMsg("Explore the world or do quests to unlock recipes!");
+					findRecipe();
+					break;
+				}
+				
+				// If we don't have the crafting level requirement
 				if(handler.getSkillsUI().getSkill(SkillsList.CRAFTING).getLevel() < craftingRecipeList.getRecipes().get(i).getRequiredLevel()) {
 					findRecipe();
 					handler.sendMsg("You need a crafting level of " + craftingRecipeList.getRecipes().get(i).getRequiredLevel() + " to make this item.");

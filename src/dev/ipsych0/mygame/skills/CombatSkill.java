@@ -14,5 +14,10 @@ public class CombatSkill extends Skill {
 		handler.getCharacterUI().addBaseStatPoints();
 		handler.getCharacterUI().addElementalStatPoints();
 	}
+	
+	@Override
+	public String toString() {
+		return "Combat";
+	}
 
 }

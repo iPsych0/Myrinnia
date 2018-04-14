@@ -8,5 +8,10 @@ public class MiningSkill extends Skill {
 		super(handler);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public String toString() {
+		return "Mining";
+	}
 
 }

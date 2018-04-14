@@ -6,7 +6,11 @@ public class CraftingSkill extends Skill {
 
 	public CraftingSkill(Handler handler) {
 		super(handler);
-		// TODO Auto-generated constructor stub
+
 	}
 
+	@Override
+	public String toString() {
+		return "Crafting";
+	}
 }

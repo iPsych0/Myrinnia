@@ -81,7 +81,7 @@ public class Campfire extends StaticEntity {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
 				if(!handler.questStarted(QuestList.TheFirstQuest)) {
-					handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
+					handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
 					handler.addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
 				}
 				break;
@@ -109,10 +109,11 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				if(handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
+				if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
 					if(!handler.invIsFull(Item.testSword)) {
-						handler.getQuestManager().getQuestMap().get(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+						handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
 						handler.giveItem(Item.testSword, 1);
+						handler.getCraftingUI().getCraftingRecipeList().getRecipeByItem(Item.purpleSword).setDiscovered(true);
 						chatDialogue = null;
 						speakingTurn = 0;
 					}else {

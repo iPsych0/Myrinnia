@@ -134,5 +134,19 @@ public class CraftingRecipe implements Serializable{
 	public void setRequiredLevel(int requiredLevel) {
 		this.requiredLevel = requiredLevel;
 	}
+	
+	@Override 
+	public String toString() {
+		String s = "You need: ";
+		for(int i = 0; i < this.components.size(); i++) {
+			s += components.get(i).getAmount() + "x ";
+			if(i == components.size()-1) {
+				s += components.get(i).getItem().getName();
+			}else {
+				s += components.get(i).getItem().getName() + ", ";
+			}
+		}
+		return s;
+	}
 
 }
