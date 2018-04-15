@@ -15,6 +15,7 @@ import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 
 public class KeyManager implements KeyListener, Serializable{
@@ -101,6 +102,13 @@ public class KeyManager implements KeyListener, Serializable{
 				Player.debugButtonPressed = true;
 			}
 			
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				SkillsUI.escapePressed = true;
+				QuestUI.escapePressed = true;
+				ShopWindow.escapePressed = true;
+				CharacterUI.escapePressed = true;
+			}
+			
 			// Inventory toggle
 			if(e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen){
 				if(!InventoryWindow.isOpen){
@@ -177,6 +185,7 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 				else {
 					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 			}
 			

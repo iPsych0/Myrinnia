@@ -29,6 +29,7 @@ public class SkillsUI implements Serializable{
 	private ArrayList<Skill> skillsList;
 	private Rectangle crafting, fishing, mining, woodcutting;
 	private SkillsOverviewUI overviewUI;
+	public static boolean escapePressed = false;
 	
 	public SkillsUI(Handler handler) {
 		this.handler = handler;
@@ -95,8 +96,15 @@ public class SkillsUI implements Serializable{
 				}
 			}
 			
-			if(handler.getKeyManager().escape) {
+			if(handler.getKeyManager().escape && SkillsOverviewUI.isOpen && escapePressed) {
 				SkillsOverviewUI.isOpen = false;
+				escapePressed = false;
+				return;
+			}
+			else if(handler.getKeyManager().escape && !SkillsOverviewUI.isOpen && escapePressed) {
+				SkillsUI.isOpen = false;
+				escapePressed = false;
+				return;
 			}
 			
 			overviewUI.tick();

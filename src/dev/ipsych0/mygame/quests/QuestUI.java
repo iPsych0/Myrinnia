@@ -26,6 +26,7 @@ public class QuestUI implements Serializable{
 	public static boolean hasBeenPressed;
 	private Rectangle bounds;
 	public static boolean renderingQuests = false;
+	public static boolean escapePressed = false;
 	
 	public QuestUI(Handler handler) {
 		this.handler = handler;
@@ -40,10 +41,20 @@ public class QuestUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			if(handler.getKeyManager().escape) {
+			if(QuestHelpUI.isOpen && handler.getKeyManager().escape && escapePressed) {
 				hasBeenPressed = false;
-				renderingQuests = false;
+				escapePressed = false;
 				QuestHelpUI.isOpen = false;
+			}
+			else if(!QuestHelpUI.isOpen && renderingQuests && handler.getKeyManager().escape && escapePressed) {
+				hasBeenPressed = false;
+				escapePressed = false;
+				renderingQuests = false;
+			}
+			else if(!QuestHelpUI.isOpen && handler.getKeyManager().escape && escapePressed) {
+				hasBeenPressed = false;
+				escapePressed = false;
+				renderingQuests = false;
 				isOpen = false;
 			}
 		}

@@ -26,6 +26,7 @@ public class CharacterUI implements Serializable{
 	private Rectangle meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
+	public static boolean escapePressed = false;
 	
 	public CharacterUI(Handler handler) {
 		this.handler = handler;
@@ -46,6 +47,12 @@ public class CharacterUI implements Serializable{
 	public void tick() {
 		if(isOpen) {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			
+			if(handler.getKeyManager().escape && escapePressed) {
+				isOpen = false;
+				hasBeenPressed = false;
+				return;
+			}
 			
 			// If Base stats are upped
 			if(baseStatPoints >= 1) {

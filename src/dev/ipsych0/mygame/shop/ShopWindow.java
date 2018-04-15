@@ -53,6 +53,7 @@ public class ShopWindow implements Serializable {
 	private ArrayList<ItemStack> shopItems;
 	public static boolean hasBeenPressed = false;
 	private double commission = 0.75;
+	public static boolean escapePressed = false;
 
 	
 	public ShopWindow(Handler handler, ArrayList<ItemStack> shopItems) {
@@ -228,7 +229,36 @@ public class ShopWindow implements Serializable {
 			/*
 			 * Closing the shop by click/escape/walking away
 			 */
-			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape || Player.isMoving) {
+			if(exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || Player.isMoving) {
+				isOpen = false;
+				inventoryLoaded = false;
+				DialogueBox.isOpen = false;
+				TextBox.isOpen = false;
+				handler.getKeyManager().setTextBoxTyping(false);
+				hasBeenPressed = false;
+				selectedSlot = null;
+				selectedInvItem = null;
+				selectedShopItem = null;
+				makingChoice = false;
+				dBox.setPressedButton(null);
+				InventoryWindow.isOpen = true;
+				EquipmentWindow.isOpen = true;
+				return;
+			}
+			
+			if(handler.getKeyManager().escape && makingChoice && escapePressed) {
+				escapePressed = false;
+				inventoryLoaded = false;
+				DialogueBox.isOpen = false;
+				TextBox.isOpen = false;
+				handler.getKeyManager().setTextBoxTyping(false);
+				hasBeenPressed = false;
+				makingChoice = false;
+				dBox.setPressedButton(null);
+				return;
+			}
+			else if(handler.getKeyManager().escape && !makingChoice && escapePressed) {
+				escapePressed = false;
 				isOpen = false;
 				inventoryLoaded = false;
 				DialogueBox.isOpen = false;
