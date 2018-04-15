@@ -87,6 +87,10 @@ public class Handler implements Serializable {
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
 	}
 	
+	public void discoverRecipe(Item item) {
+		craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(this, true);
+	}
+	
 	public boolean questStarted(QuestList quest) {
 		if(questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
 			return false;

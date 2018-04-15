@@ -546,12 +546,12 @@ public class CraftingUI implements Serializable{
 	public void makeItem(int recipeID) {
 		
 		// If the recipe hasn't been made before, make it discovered
-		if(craftRecipe == craftingRecipeList.getRecipes().get(recipeID)) {
-			if(!craftingRecipeList.getRecipes().get(recipeID).isDiscovered()) {
-				craftingRecipeList.getRecipes().get(recipeID).setDiscovered(true);
-				handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
-			}
-		}
+//		if(craftRecipe == craftingRecipeList.getRecipes().get(recipeID)) {
+//			if(!craftingRecipeList.getRecipes().get(recipeID).isDiscovered()) {
+//				craftingRecipeList.getRecipes().get(recipeID).setDiscovered(true);
+//				handler.sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
+//			}
+//		}
 		
 		crs.addItem(craftingRecipeList.getRecipes().get(recipeID).getResult().getItem(), craftingRecipeList.getRecipes().get(recipeID).getResult().getAmount());
 		

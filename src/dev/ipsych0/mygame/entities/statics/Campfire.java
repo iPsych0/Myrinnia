@@ -113,7 +113,7 @@ public class Campfire extends StaticEntity {
 					if(!handler.invIsFull(Item.testSword)) {
 						handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
 						handler.giveItem(Item.testSword, 1);
-						handler.getCraftingUI().getCraftingRecipeList().getRecipeByItem(Item.purpleSword).setDiscovered(true);
+						handler.discoverRecipe(Item.purpleSword);
 						chatDialogue = null;
 						speakingTurn = 0;
 					}else {

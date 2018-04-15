@@ -1,9 +1,15 @@
 package dev.ipsych0.mygame.skills;
 
+import java.io.Serializable;
+
 import dev.ipsych0.mygame.items.Item;
 
-public class SkillResource {
+public class SkillResource implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int levelRequirement;
 	private Item item;
 	

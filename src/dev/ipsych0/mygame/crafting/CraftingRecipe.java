@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.crafting;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.items.ItemStack;
 
 public class CraftingRecipe implements Serializable{
@@ -115,7 +116,8 @@ public class CraftingRecipe implements Serializable{
 		return discovered;
 	}
 
-	public void setDiscovered(boolean discovered) {
+	public void setDiscovered(Handler handler, boolean discovered) {
+		handler.sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
 		this.discovered = discovered;
 	}
 
