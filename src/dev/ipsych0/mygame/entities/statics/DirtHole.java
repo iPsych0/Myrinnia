@@ -16,7 +16,6 @@ public class DirtHole extends StaticEntity {
 	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private int speakingTurn = 0;
 	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};
 	private String[] secondDialogue = {"Climb down.", "No thanks, I'm fine."};
 
@@ -62,21 +61,25 @@ public class DirtHole extends StaticEntity {
 		switch(speakingTurn) {
 		
 		case 0:
+			speakingTurn++;
+			return;
+		
+		case 1:
 			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
 			break;
 			
-		case 1:
+		case 2:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 			speakingTurn++;
 			break;
-		case 2:
+		case 3:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			
@@ -90,7 +93,7 @@ public class DirtHole extends StaticEntity {
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
 				chatDialogue = null;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 		}

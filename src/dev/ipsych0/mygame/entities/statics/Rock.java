@@ -18,7 +18,6 @@ public class Rock extends StaticEntity {
 	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private int speakingTurn;
 	private boolean isMining = false;
 	private int miningTimer = 0;
 	private int minAttempts = 2, maxAttempts = 6;
@@ -30,7 +29,6 @@ public class Rock extends StaticEntity {
 		
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class Rock extends StaticEntity {
 		if(isMining) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
 				miningTimer = 0;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				isMining = false;
 				return;
 			}
@@ -66,7 +64,7 @@ public class Rock extends StaticEntity {
 	        		handler.sendMsg("You missed the swing...");
 	        		attempts++;
 	        	}
-	        	speakingTurn = 0;
+	        	speakingTurn = 1;
 	        	miningTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
@@ -106,11 +104,15 @@ public class Rock extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("Mining...");
-			speakingTurn = 1;
-			isMining = true;
+			speakingTurn++;
+			return;
 		}
 		if(this.speakingTurn == 1) {
+			handler.sendMsg("Mining...");
+			speakingTurn = 2;
+			isMining = true;
+		}
+		if(this.speakingTurn == 2) {
 			return;
 		}
 	}

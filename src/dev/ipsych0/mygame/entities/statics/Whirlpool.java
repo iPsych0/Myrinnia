@@ -19,7 +19,6 @@ public class Whirlpool extends StaticEntity {
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation spinning;
-	private int speakingTurn;
 	private boolean isFishing = false;
 	private int fishingTimer = 0;
 	private int minAttempts = 4, maxAttempts = 8;
@@ -31,7 +30,6 @@ public class Whirlpool extends StaticEntity {
 		
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 		spinning = new Animation(125, Assets.whirlpool);
 	}
 
@@ -41,7 +39,7 @@ public class Whirlpool extends StaticEntity {
 		if(isFishing) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
 				fishingTimer = 0;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				isFishing = false;
 				return;
 			}
@@ -69,7 +67,7 @@ public class Whirlpool extends StaticEntity {
 	        		handler.sendMsg("The fish got away...");
 	        		attempts++;
 	        	}
-	        	speakingTurn = 0;
+	        	speakingTurn = 1;
 	        	fishingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
@@ -109,11 +107,15 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("Fishing...");
-			speakingTurn = 1;
-			isFishing = true;
+			speakingTurn++;
+			return;
 		}
 		if(this.speakingTurn == 1) {
+			handler.sendMsg("Fishing...");
+			speakingTurn = 2;
+			isFishing = true;
+		}
+		if(this.speakingTurn == 2) {
 			return;
 		}
 	}

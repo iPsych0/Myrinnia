@@ -231,12 +231,14 @@ public class Player extends Creature{
 		if(isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
-			if(shopKeeper != null) {
-				shopKeeper = null;
-			}
 			if(closestEntity != null) {
 				closestEntity.setChatDialogue(null);
+				closestEntity.setSpeakingTurn(0);
+				closestEntity.interact();
 				closestEntity = null;
+			}
+			if(shopKeeper != null) {
+				shopKeeper = null;
 			}
 		}
 		

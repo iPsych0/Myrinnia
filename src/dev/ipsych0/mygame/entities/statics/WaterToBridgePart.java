@@ -16,7 +16,6 @@ public class WaterToBridgePart extends StaticEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean isFixed = false;
-	private int speakingTurn = 0;
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
 	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};
 	
@@ -51,6 +50,10 @@ public class WaterToBridgePart extends StaticEntity {
 		switch(speakingTurn) {
 		
 		case 0:
+			speakingTurn++;
+			return;
+		
+		case 1:
 			if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.COMPLETED) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 				if(handler.getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
@@ -61,14 +64,13 @@ public class WaterToBridgePart extends StaticEntity {
 				break;
 			}else {
 				handler.sendMsg("Please complete The First Quest to proceed.");
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			
-		case 1:
+		case 2:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
-				interact();
+				speakingTurn = 1;
 				break;
 			}
 			if(handler.playerHasItem(Item.woodItem, 5)) {
@@ -77,13 +79,12 @@ public class WaterToBridgePart extends StaticEntity {
 				break;
 			}else {
 				chatDialogue = null;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
-		case 2:
+		case 3:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
-				interact();
+				speakingTurn = 1;
 				break;
 			}
 			
@@ -103,13 +104,13 @@ public class WaterToBridgePart extends StaticEntity {
 					}
 					break;
 				}else {
-					speakingTurn = 0;
+					speakingTurn = 1;
 					break;
 				}
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
 				chatDialogue = null;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 		}

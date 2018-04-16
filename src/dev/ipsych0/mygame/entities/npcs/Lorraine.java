@@ -18,7 +18,6 @@ public class Lorraine extends ShopKeeper {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static boolean questStarted = false;
-	private int speakingTurn;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private ArrayList<ItemStack> shopItems;
@@ -26,7 +25,6 @@ public class Lorraine extends ShopKeeper {
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		speakingTurn = 1;
 		attackable = false;
 		isNpc = true;
 		isShop = true;
@@ -71,60 +69,34 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void interact() {
-		if(this.getSpeakingTurn() == 1 && !ShopWindow.isOpen){
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+		switch(speakingTurn){
+		
+		case 0:
 			speakingTurn++;
-		}
-		else if(this.getSpeakingTurn() == 2){
+			return;
+		
+		case 1:
+			if(!ShopWindow.isOpen){
+				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+				speakingTurn++;
+				break;
+			}else {
+				speakingTurn = 1;
+				break;
+			}
+		case 2:
 			if(chatDialogue == null) {
 				speakingTurn = 1;
-				return;
+				break;
 			}
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				ShopWindow.isOpen = true;
 				this.shopping = true;
 				chatDialogue = null;
 				speakingTurn = 1;
+				break;
 			}
 		}
-//		else if(this.getSpeakingTurn() == 3){
-//			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
-//			speakingTurn++;
-//			questStarted = true;
-//		}
-//		else if(this.getSpeakingTurn() == 4){
-//			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-//				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
-//			}
-//			else{
-//				handler.getPlayer().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
-//				speakingTurn++;
-//			}
-//		}
-//		else if(this.getSpeakingTurn() == 5){
-//			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
-//				handler.giveItem(Item.coinsItem, 1000);
-//				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
-//				speakingTurn++;
-//			}else{
-//				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
-//			}
-//		}
-//		else if(this.getSpeakingTurn() == 6){
-//			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
-//			speakingTurn++;
-//		}
-//		else if(this.getSpeakingTurn() == 7) {
-//			ShopWindow.isOpen = true;
-//			this.shopping = true;
-//			speakingTurn++;
-//		}
-//		else if(this.getSpeakingTurn() >= 8 ) {
-//			if(!ShopWindow.isOpen) {
-//				this.shopping = false;
-//				speakingTurn = 6;
-//			}
-//		}
 	}
 	
 	public int getSpeakingTurn() {

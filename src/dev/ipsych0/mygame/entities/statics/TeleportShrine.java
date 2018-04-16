@@ -16,7 +16,6 @@ public class TeleportShrine extends StaticEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int speakingTurn = 0;
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
 
@@ -49,31 +48,35 @@ public class TeleportShrine extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.getSpeakingTurn() == 0){
+			speakingTurn++;
+			return;
+		}
+		else if(this.getSpeakingTurn() == 1){
 			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
 		}
-		else if(this.getSpeakingTurn() == 1) {
+		else if(this.getSpeakingTurn() == 2) {
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				return;
 			}
 			chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 			speakingTurn++;
 		}
-		else if(this.getSpeakingTurn() == 2){
+		else if(this.getSpeakingTurn() == 3){
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				return;
 			}
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				chatDialogue = null;
 	
 				// Save the game
 				SaveManager.savehandler();
 				handler.sendMsg("Game Saved!");
 			}else {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				chatDialogue = null;
 			}
 		}

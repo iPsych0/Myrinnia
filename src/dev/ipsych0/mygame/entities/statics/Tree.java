@@ -17,7 +17,6 @@ public class Tree extends StaticEntity {
 	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private int speakingTurn;
 	private boolean isWoodcutting = false;
 	private int woodcuttingTimer = 0;
 	private int minAttempts = 2, maxAttempts = 6;
@@ -29,7 +28,6 @@ public class Tree extends StaticEntity {
 		
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 	}
 
 	@Override
@@ -37,7 +35,7 @@ public class Tree extends StaticEntity {
 		if(isWoodcutting) {
 			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
 				woodcuttingTimer = 0;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				isWoodcutting = false;
 				return;
 			}
@@ -65,7 +63,7 @@ public class Tree extends StaticEntity {
 	        		handler.sendMsg("Your hatchet bounced off the tree...");
 	        		attempts++;
 	        	}
-	        	speakingTurn = 0;
+	        	speakingTurn = 1;
 	        	woodcuttingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
@@ -105,11 +103,15 @@ public class Tree extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("Chop chop...");
-			speakingTurn = 1;
-			isWoodcutting = true;
+			speakingTurn++;
+			return;
 		}
 		if(this.speakingTurn == 1) {
+			handler.sendMsg("Chop chop...");
+			speakingTurn = 2;
+			isWoodcutting = true;
+		}
+		if(this.speakingTurn == 2) {
 			return;
 		}
 	}
