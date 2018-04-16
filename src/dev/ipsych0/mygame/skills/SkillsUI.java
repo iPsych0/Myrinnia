@@ -72,6 +72,8 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
+					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
+					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
 				}
 			}
 			else if(fishing.contains(mouse)) {
@@ -79,6 +81,8 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
+					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 				}
 			}
 			else if(mining.contains(mouse)) {
@@ -86,6 +90,8 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
+					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 				}
 			}
 			else if(woodcutting.contains(mouse)) {
@@ -93,6 +99,8 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
+					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 				}
 			}
 			

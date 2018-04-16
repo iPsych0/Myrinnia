@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.ui.ScrollBar;
 import dev.ipsych0.mygame.ui.UIManager;
 
 public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
@@ -86,6 +87,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			CharacterUI.hasBeenPressed = true;
 			SkillsUI.hasBeenPressed = true;
 			SkillsOverviewUI.hasBeenPressed = true;
+			ScrollBar.hasBeenPressed = true;
 		}
 		
 		// Right Click

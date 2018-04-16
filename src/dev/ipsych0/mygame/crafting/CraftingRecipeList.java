@@ -28,6 +28,7 @@ public class CraftingRecipeList implements Serializable{
 		recipes.add(new CraftingRecipe(2, 100, false, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
 		recipes.add(new CraftingRecipe(3, 5, false, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
 		
+		
 		Collections.sort(recipes, new Comparator<CraftingRecipe>() {
 
 			@Override
