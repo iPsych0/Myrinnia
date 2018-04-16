@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -20,9 +21,9 @@ public class Campfire extends StaticEntity {
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation campfire;
-	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
-	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
-	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
+	private String[] firstDialogue = {"Feel the fire.", "Leave."};
+	private String[] secondDialogue = {"You almost burned your fingers trying to examine the fire. However, a sword is revealed."};
+	private String[] thirdDialogue = {"Take the sword.", "Leave it."};
 
 	public Campfire(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);

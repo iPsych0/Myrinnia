@@ -38,6 +38,7 @@ public abstract class Entity implements Serializable{
 	protected boolean solid = true;
 	protected Entity damageDealer, damageReceiver;
 	protected int speakingTurn = 1;
+	protected int speakingCheckpoint = 0;
 	private int ty = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
@@ -372,6 +373,14 @@ public abstract class Entity implements Serializable{
 
 	public void setInCombat(boolean inCombat) {
 		this.inCombat = inCombat;
+	}
+
+	public int getSpeakingCheckpoint() {
+		return speakingCheckpoint;
+	}
+
+	public void setSpeakingCheckpoint(int speakingCheckpoint) {
+		this.speakingCheckpoint = speakingCheckpoint;
 	}
 	
 }

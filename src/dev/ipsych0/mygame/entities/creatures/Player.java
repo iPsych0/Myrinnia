@@ -233,7 +233,7 @@ public class Player extends Creature{
 			hasInteracted = false;
 			if(closestEntity != null) {
 				closestEntity.setChatDialogue(null);
-				closestEntity.setSpeakingTurn(0);
+				closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
 				closestEntity.interact();
 				closestEntity = null;
 			}
