@@ -72,9 +72,10 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
-					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
-					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
 					overviewUI.setSelectedCategory(SkillCategory.CraftingOther);
+					overviewUI.getScrollBar().setIndex(0);
+					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
+					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
 					overviewUI.getCategories().clear();
 					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
 						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
@@ -87,9 +88,10 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
-					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
-					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Fish);
+					overviewUI.getScrollBar().setIndex(0);
+					overviewUI.getScrollBar().setListSize(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
+					overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
 					overviewUI.getCategories().clear();
 					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
 						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
@@ -102,9 +104,10 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
-					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
-					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Ores);
+					overviewUI.getScrollBar().setIndex(0);
+					overviewUI.getScrollBar().setListSize(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
+					overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
 					overviewUI.getCategories().clear();
 					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
 						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
@@ -117,9 +120,10 @@ public class SkillsUI implements Serializable{
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
-					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
-					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Trees);
+					overviewUI.getScrollBar().setIndex(0);
+					overviewUI.getScrollBar().setListSize(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
+					overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
 					overviewUI.getCategories().clear();
 					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
 						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),

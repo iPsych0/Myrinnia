@@ -17,7 +17,7 @@ public class SkillsOverviewUI implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public int x = 192, y = 180, width = 256, height = 320;
+	public int x = 192, y = 180, width = 320, height = 320;
 	private Handler handler;
 	public static boolean isOpen = false;
 	private Skill selectedSkill;
@@ -49,6 +49,15 @@ public class SkillsOverviewUI implements Serializable{
 						if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 							hasBeenPressed = false;
 							selectedCategory = cb.getCategory();
+							if(selectedSkill == handler.getSkillsUI().getSkill(SkillsList.CRAFTING)){
+								scrollBar.setIndex(0);
+								scrollBar.setListSize(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size());
+								scrollBar.setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size());
+							}else {
+								scrollBar.setIndex(0);
+								scrollBar.setListSize(selectedSkill.getListByCategory(selectedCategory).size());
+								scrollBar.setScrollMaximum(selectedSkill.getListByCategory(selectedCategory).size());
+							}
 						}
 					}else {
 						cb.setHovering(false);
@@ -62,11 +71,11 @@ public class SkillsOverviewUI implements Serializable{
 						
 						Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (yPos * 32), 32, 32);
 						
-						if(slot.contains(mouse) && handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).isDiscovered() && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-							handler.sendMsg(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).toString());
+						if(slot.contains(mouse) && handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered() && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+							handler.sendMsg(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).toString());
 							hasBeenPressed = false;
 						}
-						else if(slot.contains(mouse) && !handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).isDiscovered() && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+						else if(slot.contains(mouse) && !handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered() && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 							handler.sendMsg("Explore the world or do quests to unlock recipes!");
 							hasBeenPressed = false;
 						}

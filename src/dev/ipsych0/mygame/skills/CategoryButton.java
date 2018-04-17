@@ -3,12 +3,17 @@ package dev.ipsych0.mygame.skills;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class CategoryButton {
+public class CategoryButton implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private SkillCategory category;
 	private Rectangle bounds;
