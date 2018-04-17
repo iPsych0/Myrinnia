@@ -31,7 +31,7 @@ public class ScrollBar {
 		this.itemsPerWindow = itemsPerWindow;
 		
 		scrollUp = new Rectangle(x, y, 32, 32);
-		scrollDown = new Rectangle(x, y + 32, 32, 32);
+		scrollDown = new Rectangle(x, y + height - 32, 32, 32);
 	}
 
 	public void tick() {

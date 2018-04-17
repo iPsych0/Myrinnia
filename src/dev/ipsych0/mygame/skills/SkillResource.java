@@ -12,10 +12,12 @@ public class SkillResource implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int levelRequirement;
 	private Item item;
+	private SkillCategory category;
 	
-	public SkillResource(int requirement, Item item) {
+	public SkillResource(int requirement, Item item, SkillCategory category) {
 		this.levelRequirement = requirement;
 		this.item = item;
+		this.category = category;
 	}
 
 	public int getLevelRequirement() {
@@ -32,6 +34,14 @@ public class SkillResource implements Serializable{
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	public SkillCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(SkillCategory category) {
+		this.category = category;
 	}
 
 }

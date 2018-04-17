@@ -2,8 +2,10 @@ package dev.ipsych0.mygame.skills;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.crafting.CraftingRecipe;
 
 public abstract class Skill implements Serializable {
 	
@@ -56,6 +58,18 @@ public abstract class Skill implements Serializable {
 
 	public ArrayList<SkillResource> getResources() {
 		return resources;
+	}
+	
+	public List<SkillResource> getListByCategory(SkillCategory category){
+		List<SkillResource> subList = new ArrayList<SkillResource>();
+		
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getCategory() == category) {
+				subList.add(resources.get(i));
+			}
+		}
+		
+		return subList;
 	}
 
 }

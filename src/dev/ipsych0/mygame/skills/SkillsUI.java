@@ -55,10 +55,10 @@ public class SkillsUI implements Serializable{
 			skills.put(skillsEnum.get(i), skillsList.get(i));
 		}
 		
-		crafting = new Rectangle(x + 8, y + 48, 174, 32);
-		fishing = new Rectangle(x + 8, y + 80, 174, 32);
-		mining = new Rectangle(x + 8, y + 112, 174, 32);
-		woodcutting = new Rectangle(x + 8, y + 144, 174, 32);
+		crafting = new Rectangle(x + 8, y + 40, 174, 32);
+		fishing = new Rectangle(x + 8, y + 72, 174, 32);
+		mining = new Rectangle(x + 8, y + 104, 174, 32);
+		woodcutting = new Rectangle(x + 8, y + 136, 174, 32);
 		
 		overviewUI = new SkillsOverviewUI(handler);
 	}
@@ -74,6 +74,7 @@ public class SkillsUI implements Serializable{
 					overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
 					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
 					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
+					overviewUI.setSelectedCategory(SkillCategory.CraftingOther);
 				}
 			}
 			else if(fishing.contains(mouse)) {
@@ -83,6 +84,7 @@ public class SkillsUI implements Serializable{
 					overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.setSelectedCategory(SkillCategory.Fish);
 				}
 			}
 			else if(mining.contains(mouse)) {
@@ -92,6 +94,7 @@ public class SkillsUI implements Serializable{
 					overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.setSelectedCategory(SkillCategory.Ores);
 				}
 			}
 			else if(woodcutting.contains(mouse)) {
@@ -101,6 +104,7 @@ public class SkillsUI implements Serializable{
 					overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
+					overviewUI.setSelectedCategory(SkillCategory.Trees);
 				}
 			}
 			
@@ -149,10 +153,10 @@ public class SkillsUI implements Serializable{
 			}else {
 				g.drawImage(Assets.mainMenuButton[1], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
 			}
-			Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 64, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel() , x + width / 2, y + 96, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 128, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 160, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel() , x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
 			
 			if(crafting.contains(mouse)) {
 				g.drawImage(Assets.mainMenuButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);

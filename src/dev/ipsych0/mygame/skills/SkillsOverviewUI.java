@@ -20,6 +20,7 @@ public class SkillsOverviewUI implements Serializable{
 	private Handler handler;
 	public static boolean isOpen = false;
 	private Skill selectedSkill;
+	private SkillCategory selectedCategory;
 	public static boolean hasBeenPressed = false;
 	private ScrollBar scrollBar;
 	private int maxPerScreen = 8;
@@ -27,7 +28,7 @@ public class SkillsOverviewUI implements Serializable{
 	public SkillsOverviewUI(Handler handler) {
 		this.handler = handler;
 		
-		scrollBar = new ScrollBar(handler, x + 40 + 64, y + height / 2 - 40, 32, 64, 0, maxPerScreen);
+		scrollBar = new ScrollBar(handler, x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
 	}
 	
 	public void tick() {
@@ -40,7 +41,7 @@ public class SkillsOverviewUI implements Serializable{
 				if(selectedSkill == handler.getSkillsUI().getSkill(SkillsList.CRAFTING)) {
 					for(int i = scrollBar.getIndex(); i < scrollBar.getScrollMaximum(); i++) {
 						
-						Rectangle slot = new Rectangle(x + 48, (y + 40) + (yPos * 32), 32, 32);
+						Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (yPos * 32), 32, 32);
 						
 						if(slot.contains(mouse) && handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).isDiscovered() && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 							handler.sendMsg(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).toString());
@@ -55,7 +56,7 @@ public class SkillsOverviewUI implements Serializable{
 				}else {
 					for(int i = scrollBar.getIndex(); i < scrollBar.getScrollMaximum(); i++) {
 						
-						Rectangle slot = new Rectangle(x + 48, (y + 40) + (yPos * 32), 32, 32);
+						Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (yPos * 32), 32, 32);
 						
 						if(slot.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 							handler.sendMsg("You can find this resource in: [Zones]");
@@ -78,48 +79,55 @@ public class SkillsOverviewUI implements Serializable{
 			if(selectedSkill != null) {
 				Text.drawString(g, selectedSkill.toString(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 				int yPos = 0;
+				
 				if(selectedSkill instanceof CraftingSkill) {
-					if(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size() > maxPerScreen) {
+					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 40, 80, 24, null);
+					Text.drawString(g, "Category 1", x + 56, y + 40 + 12, true, Color.YELLOW, Assets.font14);
+					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 64, 80, 24, null);
+					Text.drawString(g, "Category 2", x + 56, y + 64 + 12, true, Color.YELLOW, Assets.font14);
+					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 88, 80, 24, null);
+					Text.drawString(g, selectedCategory.getName(), x + 56, y + 88 + 12, true, Color.YELLOW, Assets.font14);
+					if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size() > maxPerScreen) {
 						for(int i = scrollBar.getIndex(); i < scrollBar.getIndex() + maxPerScreen; i++) {
 							
-							Rectangle slot = new Rectangle(x + 48, (y + 40) + (yPos * 32), 32, 32);
+							Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (yPos * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], x + 15, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.mainMenuButton[1], x + width - 111, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[0], x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[1], x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}
 							
-							if(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).isDiscovered()) {
-								g.drawImage(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).getResult().getItem().getTexture(), x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+							if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered()) {
+								g.drawImage(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).getResult().getItem().getTexture(), x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.undiscovered, x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.undiscovered, x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}
-							Text.drawString(g, String.valueOf(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).getRequiredLevel()), x + 32, (y + 40) + (yPos * 32) + 16, true, Color.YELLOW, Assets.font20);
+							Text.drawString(g, String.valueOf(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).getRequiredLevel()), x + width - 96, (y + 40) + (yPos * 32) + 16, true, Color.YELLOW, Assets.font20);
 							
 							scrollBar.render(g);
 							
 							yPos++;
 						}
 					}else {
-						for(int i = 0; i < handler.getCraftingUI().getCraftingRecipeList().getRecipes().size(); i++) {
+						for(int i = 0; i < handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size(); i++) {
 							
-							Rectangle slot = new Rectangle(x + 48, (y + 40) + (i * 32), 32, 32);
+							Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (i * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], x + 15, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.mainMenuButton[1], x + width - 111, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], x + 48, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[0], x + width - 80, (y + 40) + (i * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], x + 48, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[1], x + width - 80, (y + 40) + (i * 32), 32, 32, null);
 							}
 							
-							if(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).isDiscovered()) {
-								g.drawImage(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).getResult().getItem().getTexture(), x + 48, (y + 40) + (i * 32), 32, 32, null);
+							if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered()) {
+								g.drawImage(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).getResult().getItem().getTexture(), x + width - 80, (y + 40) + (i * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.undiscovered, x + 48, (y + 48) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.undiscovered, x + width - 80, (y + 48) + (i * 32), 32, 32, null);
 							}
-							Text.drawString(g, String.valueOf(handler.getCraftingUI().getCraftingRecipeList().getRecipes().get(i).getRequiredLevel()), x + 32, (y + 40) + (i * 32) + 16, true, Color.YELLOW, Assets.font20);
+							Text.drawString(g, String.valueOf(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).getRequiredLevel()), x + width - 96, (y + 40) + (i * 32) + 16, true, Color.YELLOW, Assets.font20);
 							
 							scrollBar.render(g);
 							
@@ -127,37 +135,37 @@ public class SkillsOverviewUI implements Serializable{
 						}
 					}
 				}else {
-					if(selectedSkill.getResources().size() > maxPerScreen) {
+					if(selectedSkill.getListByCategory(selectedCategory).size() > maxPerScreen) {
 						for(int i = scrollBar.getIndex(); i < scrollBar.getIndex() + maxPerScreen; i++) {
-							Rectangle slot = new Rectangle(x + 48, (y + 40) + (yPos * 32), 32, 32);
+							Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (yPos * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], x + 15, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.mainMenuButton[1], x + width - 111, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[0], x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], x + 48, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[1], x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
 							}
 							
-							g.drawImage(selectedSkill.getResources().get(i).getItem().getTexture(), x + 48, (y + 40) + (yPos * 32), 32, 32, null);
-							Text.drawString(g, String.valueOf(selectedSkill.getResources().get(i).getLevelRequirement()), x + 32, (y + 40) + (yPos * 32) + 16, true, Color.YELLOW, Assets.font20);
+							g.drawImage(selectedSkill.getListByCategory(selectedCategory).get(i).getItem().getTexture(), x + width - 80, (y + 40) + (yPos * 32), 32, 32, null);
+							Text.drawString(g, String.valueOf(selectedSkill.getListByCategory(selectedCategory).get(i).getLevelRequirement()), x + width - 96, (y + 40) + (yPos * 32) + 16, true, Color.YELLOW, Assets.font20);
 							
 							scrollBar.render(g);
 							
 							yPos++;
 						}
 					}else {
-						for(int i = 0; i < selectedSkill.getResources().size(); i++) {
-							Rectangle slot = new Rectangle(x + 48, (y + 40) + (i * 32), 32, 32);
+						for(int i = 0; i < selectedSkill.getListByCategory(selectedCategory).size(); i++) {
+							Rectangle slot = new Rectangle(x + width - 80, (y + 40) + (i * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], x + 15, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.mainMenuButton[1], x + width - 111, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], x + 48, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[0], x + width - 80, (y + 40) + (i * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], x + 48, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.mainMenuButton[1], x + width - 80, (y + 40) + (i * 32), 32, 32, null);
 							}
 							
-							g.drawImage(selectedSkill.getResources().get(i).getItem().getTexture(), x + 48, (y + 40) + (i * 32), 32, 32, null);
-							Text.drawString(g, String.valueOf(selectedSkill.getResources().get(i).getLevelRequirement()), x + 32, (y + 40) + (i * 32) + 16, true, Color.YELLOW, Assets.font20);
+							g.drawImage(selectedSkill.getListByCategory(selectedCategory).get(i).getItem().getTexture(), x + width - 80, (y + 40) + (i * 32), 32, 32, null);
+							Text.drawString(g, String.valueOf(selectedSkill.getListByCategory(selectedCategory).get(i).getLevelRequirement()), x + width - 96, (y + 40) + (i * 32) + 16, true, Color.YELLOW, Assets.font20);
 							
 							scrollBar.render(g);
 							yPos++;
@@ -182,6 +190,14 @@ public class SkillsOverviewUI implements Serializable{
 
 	public void setScrollBar(ScrollBar scrollBar) {
 		this.scrollBar = scrollBar;
+	}
+
+	public SkillCategory getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	public void setSelectedCategory(SkillCategory selectedCategory) {
+		this.selectedCategory = selectedCategory;
 	}
 
 }

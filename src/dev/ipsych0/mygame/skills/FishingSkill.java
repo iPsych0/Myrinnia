@@ -13,8 +13,7 @@ public class FishingSkill extends Skill {
 	}
 	
 	private void initResources() {
-		resources.add(new SkillResource(1, Item.coinsItem));
-		resources.add(new SkillResource(5, Item.oreItem));
+		resources.add(new SkillResource(1, Item.coinsItem, SkillCategory.Fish));
 	}
 	
 	@Override
