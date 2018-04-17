@@ -87,7 +87,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			CharacterUI.hasBeenPressed = true;
 			SkillsUI.hasBeenPressed = true;
 			SkillsOverviewUI.hasBeenPressed = true;
-			ScrollBar.hasBeenPressed = true;
 		}
 		
 		// Right Click
@@ -104,6 +103,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = false;
 			isDragged = false;
+			ScrollBar.clickTimer = 0;
+			ScrollBar.scrollTimer = 0;
 		}
 		else if(e.getButton() == MouseEvent.BUTTON3){
 			isDragged = false;

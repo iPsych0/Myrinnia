@@ -15,10 +15,11 @@ public class ScrollBar {
 	private Rectangle scrollUp, scrollDown;
 	private Handler handler;
 	private int scrollMinimum = 0, scrollMaximum;
-	public static boolean hasBeenPressed = false;
 	private int index = 0;
 	private int itemsPerWindow;
 	private int listSize;
+	public static int clickTimer = 0;
+	public static int scrollTimer = 0;
 	
 	public ScrollBar(Handler handler, int x, int y, int width, int height, int listSize, int itemsPerWindow) {
 		this.x = x;
@@ -36,31 +37,64 @@ public class ScrollBar {
 	public void tick() {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		
-		if(scrollUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-			hasBeenPressed = false;
-			
-			if(listSize < itemsPerWindow) {
-				return;
+		if(scrollUp.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			// The first click, move it up once
+			if(clickTimer == 0) {
+				if(listSize < itemsPerWindow) {
+					return;
+				}
+				if(index == scrollMinimum) {
+					return;
+				}else {
+					index--;
+				}
 			}
-			if(index == scrollMinimum) {
-				return;
-			}else {
-				index--;
+			clickTimer++;
+				
+			// After .5 seconds of pressing, start scrolling
+			if(clickTimer >= 30) {
+				scrollTimer++;
+				if(scrollTimer % 6 == 0) {
+					if(listSize < itemsPerWindow) {
+						return;
+					}
+					if(index == scrollMinimum) {
+						return;
+					}else {
+						index--;
+					}
+				}
 			}
-			System.out.println(index);
 		}
-		if(scrollDown.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-			hasBeenPressed = false;
+		
+		else if(scrollDown.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			// The first click, move it down once
+			if(clickTimer == 0) {
+				if(listSize < itemsPerWindow) {
+					return;
+				}
+				if(index == scrollMaximum - itemsPerWindow) {
+					return;
+				}else {
+					index++;
+				}
+			}
+			clickTimer++;
 			
-			if(listSize < itemsPerWindow) {
-				return;
+			// After .5 seconds of pressing, start scrolling
+			if(clickTimer >= 30) {
+				scrollTimer++;
+				if(scrollTimer % 6 == 0) {
+					if(listSize < itemsPerWindow) {
+						return;
+					}
+					if(index == scrollMaximum - itemsPerWindow) {
+						return;
+					}else {
+						index++;
+					}
+				}
 			}
-			if(index == scrollMaximum - itemsPerWindow) {
-				return;
-			}else {
-				index++;
-			}
-			System.out.println(index);
 		}
 	}
 	
