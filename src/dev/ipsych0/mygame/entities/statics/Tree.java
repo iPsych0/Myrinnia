@@ -107,9 +107,13 @@ public class Tree extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			handler.sendMsg("Chop chop...");
-			speakingTurn = 2;
-			isWoodcutting = true;
+			if(handler.playerHasSkillLevel(SkillsList.WOODCUTTING, Item.woodItem)) {
+				handler.sendMsg("Chop chop...");
+				speakingTurn = 2;
+				isWoodcutting = true;
+			}else {
+				handler.sendMsg("You need a woodcutting level of " + handler.getSkillResource(SkillsList.WOODCUTTING, Item.woodItem).getLevelRequirement() + " to chop this tree.");
+			}
 		}
 		if(this.speakingTurn == 2) {
 			return;

@@ -14,7 +14,7 @@ public class CategoryButton implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int x, y, width, height;
+	public int x, y, width, height;
 	private SkillCategory category;
 	private Rectangle bounds;
 	private boolean hovering = false;

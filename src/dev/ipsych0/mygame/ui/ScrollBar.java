@@ -16,7 +16,7 @@ public class ScrollBar implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int x, y, width, height;
+	public int x, y, width, height;
 	private Rectangle scrollUp, scrollDown;
 	private Handler handler;
 	private int scrollMinimum = 0, scrollMaximum;

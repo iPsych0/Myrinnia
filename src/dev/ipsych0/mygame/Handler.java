@@ -23,6 +23,9 @@ import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.skills.Skill;
+import dev.ipsych0.mygame.skills.SkillResource;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
@@ -85,6 +88,28 @@ public class Handler implements Serializable {
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
 		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
+	}
+	
+	public SkillResource getSkillResource(SkillsList skill, Item item) {
+		SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
+		return resource;
+	}
+	
+	public boolean playerHasSkillLevel(SkillsList skill, Item item) {
+		SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
+		if(resource != null) {
+			if(skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement()) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	
+	public Skill getSkill(SkillsList skill) {
+		return skillsUI.getSkill(skill);
 	}
 	
 	public void discoverRecipe(Item item) {

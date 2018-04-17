@@ -334,7 +334,7 @@ public class CraftingUI implements Serializable{
 					}
 					
 					if(hovering && craftRecipe.isDiscovered()) {
-						g.drawImage(Assets.invScreen, handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128, null);
+						g.drawImage(Assets.shopWindow, handler.getMouseManager().getMouseX() + 8, handler.getMouseManager().getMouseY(), 112, 128, null);
 						
 						Text.drawString(g, possibleRecipe.getItem().getName(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
 						Text.drawString(g, possibleRecipe.getItem().getItemRarity().toString(), handler.getMouseManager().getMouseX() + 12, handler.getMouseManager().getMouseY() + 32, false, ItemRarity.getColor(possibleRecipe.getItem()), Assets.font14);

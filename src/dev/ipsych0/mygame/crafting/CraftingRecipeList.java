@@ -25,26 +25,9 @@ public class CraftingRecipeList implements Serializable{
 		recipes = new ArrayList<CraftingRecipe>();
 		
 		recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 100)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
-		recipes.add(new CraftingRecipe(2, 100, true, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
-		recipes.add(new CraftingRecipe(3, 5, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
-		recipes.add(new CraftingRecipe(2, 100, true, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
-		recipes.add(new CraftingRecipe(3, 5, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
-		recipes.add(new CraftingRecipe(2, 100, true, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
-		recipes.add(new CraftingRecipe(3, 5, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
-		recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 100)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
-		recipes.add(new CraftingRecipe(2, 100, true, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
-		recipes.add(new CraftingRecipe(3, 5, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
-		recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 100)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
-		recipes.add(new CraftingRecipe(2, 100, true, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
-		recipes.add(new CraftingRecipe(3, 5, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
-		recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.Leatherwork, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 100)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
-		recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.Leatherwork, new ItemStack(Item.woodItem, 5), new ItemStack(Item.oreItem, 5), new ItemStack(Item.coinsItem, 100)));
-		recipes.add(new CraftingRecipe(1, 50, true, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
+		recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.oreItem, 2), new ItemStack(Item.woodItem, 5), new ItemStack(Item.coinsItem, 1), new ItemStack(Item.purpleSword, 1)));
+		recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coinsItem, 1), new ItemStack(Item.testSword, 1)));
+		recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.woodItem, 1)));
 		
 		
 		Collections.sort(recipes, new Comparator<CraftingRecipe>() {

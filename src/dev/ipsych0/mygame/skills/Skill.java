@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.crafting.CraftingRecipe;
+import dev.ipsych0.mygame.items.Item;
 
 public abstract class Skill implements Serializable {
 	
@@ -64,6 +64,21 @@ public abstract class Skill implements Serializable {
 	
 	public ArrayList<SkillCategory> getCategories() {
 		return categories;
+	}
+	
+	public SkillResource getResourceByItem(Item item) {
+		if(this == handler.getSkill(SkillsList.CRAFTING)) {
+			System.out.println("Trying to get SkillResource from CraftingSkill. [Skill::getResourceByItem()]");
+			return null;
+		}
+		
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getItem().getId() == item.getId()) {
+				return resources.get(i);
+			}
+		}
+		System.out.println("No such resource exists.");
+		return null;
 	}
 
 	public List<SkillResource> getListByCategory(SkillCategory category){
