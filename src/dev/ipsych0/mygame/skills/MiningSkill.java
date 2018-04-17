@@ -10,6 +10,7 @@ public class MiningSkill extends Skill {
 
 		initResources();
 		
+		categories.add(SkillCategory.Ores);
 	}
 	
 	private void initResources() {

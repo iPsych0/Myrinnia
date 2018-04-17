@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -24,9 +25,12 @@ public class SkillsOverviewUI implements Serializable{
 	public static boolean hasBeenPressed = false;
 	private ScrollBar scrollBar;
 	private int maxPerScreen = 8;
+	private ArrayList<CategoryButton> categories;
 	
 	public SkillsOverviewUI(Handler handler) {
 		this.handler = handler;
+		
+		categories = new ArrayList<CategoryButton>();
 		
 		scrollBar = new ScrollBar(handler, x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
 	}
@@ -38,6 +42,21 @@ public class SkillsOverviewUI implements Serializable{
 			if(selectedSkill != null) {
 				scrollBar.tick();
 				int yPos = 0;
+				
+				for(CategoryButton cb : categories) {
+					if(cb.getBounds().contains(mouse)) {
+						cb.setHovering(true);
+						if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+							hasBeenPressed = false;
+							selectedCategory = cb.getCategory();
+						}
+					}else {
+						cb.setHovering(false);
+					}
+					
+					cb.tick();
+				}
+				
 				if(selectedSkill == handler.getSkillsUI().getSkill(SkillsList.CRAFTING)) {
 					for(int i = scrollBar.getIndex(); i < scrollBar.getScrollMaximum(); i++) {
 						
@@ -80,13 +99,11 @@ public class SkillsOverviewUI implements Serializable{
 				Text.drawString(g, selectedSkill.toString(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 				int yPos = 0;
 				
-				if(selectedSkill instanceof CraftingSkill) {
-					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 40, 80, 24, null);
-					Text.drawString(g, "Category 1", x + 56, y + 40 + 12, true, Color.YELLOW, Assets.font14);
-					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 64, 80, 24, null);
-					Text.drawString(g, "Category 2", x + 56, y + 64 + 12, true, Color.YELLOW, Assets.font14);
-					g.drawImage(Assets.mainMenuButton[1], x + 16, y + 88, 80, 24, null);
-					Text.drawString(g, selectedCategory.getName(), x + 56, y + 88 + 12, true, Color.YELLOW, Assets.font14);
+				for(CategoryButton cb : categories) {
+					cb.render(g);
+				}
+				
+				if(selectedSkill == handler.getSkillsUI().getSkill(SkillsList.CRAFTING)) {
 					if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size() > maxPerScreen) {
 						for(int i = scrollBar.getIndex(); i < scrollBar.getIndex() + maxPerScreen; i++) {
 							
@@ -198,6 +215,14 @@ public class SkillsOverviewUI implements Serializable{
 
 	public void setSelectedCategory(SkillCategory selectedCategory) {
 		this.selectedCategory = selectedCategory;
+	}
+
+	public ArrayList<CategoryButton> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ArrayList<CategoryButton> categories) {
+		this.categories = categories;
 	}
 
 }

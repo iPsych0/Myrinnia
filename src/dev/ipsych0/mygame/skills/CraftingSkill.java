@@ -6,6 +6,9 @@ public class CraftingSkill extends Skill {
 
 	public CraftingSkill(Handler handler) {
 		super(handler);
+		
+		categories.add(SkillCategory.Leatherwork);
+		categories.add(SkillCategory.CraftingOther);
 
 	}
 

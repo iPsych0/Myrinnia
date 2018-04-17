@@ -10,6 +10,8 @@ public class FishingSkill extends Skill {
 		
 		initResources();
 		
+		categories.add(SkillCategory.Fish);
+		
 	}
 	
 	private void initResources() {

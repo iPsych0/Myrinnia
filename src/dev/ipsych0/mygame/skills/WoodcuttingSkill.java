@@ -10,6 +10,7 @@ public class WoodcuttingSkill extends Skill {
 
 		initResources();
 		
+		categories.add(SkillCategory.Trees);
 	}
 	
 	private void initResources() {

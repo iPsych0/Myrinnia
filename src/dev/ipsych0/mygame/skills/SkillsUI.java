@@ -75,6 +75,11 @@ public class SkillsUI implements Serializable{
 					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
 					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getRecipes().size());
 					overviewUI.setSelectedCategory(SkillCategory.CraftingOther);
+					overviewUI.getCategories().clear();
+					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+								overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
+					}
 				}
 			}
 			else if(fishing.contains(mouse)) {
@@ -85,6 +90,11 @@ public class SkillsUI implements Serializable{
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Fish);
+					overviewUI.getCategories().clear();
+					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+								overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
+					}
 				}
 			}
 			else if(mining.contains(mouse)) {
@@ -95,6 +105,11 @@ public class SkillsUI implements Serializable{
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Ores);
+					overviewUI.getCategories().clear();
+					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+								overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
+					}
 				}
 			}
 			else if(woodcutting.contains(mouse)) {
@@ -105,6 +120,11 @@ public class SkillsUI implements Serializable{
 					overviewUI.getScrollBar().setListSize(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.getScrollBar().setScrollMaximum(overviewUI.getSelectedSkill().getResources().size());
 					overviewUI.setSelectedCategory(SkillCategory.Trees);
+					overviewUI.getCategories().clear();
+					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+								overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
+					}
 				}
 			}
 			

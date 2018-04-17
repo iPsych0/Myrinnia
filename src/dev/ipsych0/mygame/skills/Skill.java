@@ -17,11 +17,13 @@ public abstract class Skill implements Serializable {
 	protected int nextLevelXp = 100;
 	protected Handler handler;
 	protected ArrayList<SkillResource> resources;
+	protected ArrayList<SkillCategory> categories;
 	
 	public Skill(Handler handler) {
 		this.handler = handler;
 		
 		resources = new ArrayList<SkillResource>();
+		categories = new ArrayList<SkillCategory>();
 		experience = 0;
 		level = 1;
 	}
@@ -60,6 +62,10 @@ public abstract class Skill implements Serializable {
 		return resources;
 	}
 	
+	public ArrayList<SkillCategory> getCategories() {
+		return categories;
+	}
+
 	public List<SkillResource> getListByCategory(SkillCategory category){
 		List<SkillResource> subList = new ArrayList<SkillResource>();
 		

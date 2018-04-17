@@ -2,7 +2,7 @@ package dev.ipsych0.mygame.skills;
 
 public enum SkillCategory {
 	
-	CraftingOther("Other"), Fish("Fish"), Ores("Ores"), Trees("Trees");
+	Leatherwork("Leatherwork"), CraftingOther("Other"), Fish("Fish"), Ores("Ores"), Trees("Trees");
 	
 	private String name;
 	
