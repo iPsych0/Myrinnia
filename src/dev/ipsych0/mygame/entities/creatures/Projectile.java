@@ -53,7 +53,7 @@ public class Projectile implements Serializable {
 		xVelocity = velocity * Math.cos(angle);
 		yVelocity = velocity * Math.sin(angle);
 		
-		magic = new Animation(125, Assets.magicProjectile);
+		magic = new Animation(83, Assets.magicProjectile);
 		
 		active = true;
 		

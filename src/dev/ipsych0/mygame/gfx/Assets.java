@@ -245,9 +245,10 @@ public class Assets {
 		
 		controlsScreen = controls_sheet.crop(0, 0, 460, 313);
 		
-		magicProjectile = new BufferedImage[2];
+		magicProjectile = new BufferedImage[3];
 		magicProjectile[0] = projectiles.crop(width * 9, height * 0, width, height);
 		magicProjectile[1] = projectiles.crop(width * 10, height * 0, width, height);
+		magicProjectile[2] = projectiles.crop(width * 11, height * 0, width, height);
 		
 		fish = ui_sheet.crop(width * 2, 0, width, height);
 		

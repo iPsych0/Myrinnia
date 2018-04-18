@@ -129,7 +129,7 @@ public class Item implements Serializable{
         	// If we have space
             if(id == item.getId()){
             	if(handler.getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-	            	handler.sendMsg("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
+	            	handler.sendMsg("Picked up " + item.getCount() + "x " + item.getName());
 	            	pickedUp = true;
 	            	return true;
             	}
