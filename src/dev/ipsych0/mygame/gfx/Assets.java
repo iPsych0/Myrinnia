@@ -160,16 +160,37 @@ public class Assets {
 		SpriteSheet ui_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ui-items.png"));
 		SpriteSheet projectiles = new SpriteSheet(ImageLoader.loadImage("/textures/projectiles.png"));
 		SpriteSheet swordSprites = new SpriteSheet(ImageLoader.loadImage("/textures/swordsprites.png"));
+		/*
+		 * Make skilling sheet for this
+		 */
 		SpriteSheet whirlPool = new SpriteSheet(ImageLoader.loadImage("/textures/whirlpool.png"));
 		SpriteSheet main_screen = new SpriteSheet(ImageLoader.loadImage("/textures/dark_priest.png"));
+		/*
+		 * Remove this one
+		 */
 		SpriteSheet swamp_land = new SpriteSheet(ImageLoader.loadImage("/textures/swampland.png"));
+		/*
+		 * Change this one
+		 */
 		SpriteSheet texture_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		SpriteSheet player_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/herosprites.png"));
+		/*
+		 * Add items to this
+		 */
 		SpriteSheet item_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/itemsprites.png"));
+		
 		SpriteSheet enemy_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemysprites.png"));
+		/*
+		 * Crop Lorraine out
+		 */
 		SpriteSheet lorraine_sprites = new SpriteSheet(ImageLoader.loadImage("/textures/lorrainesprites.png"));
+		
 		SpriteSheet terrain_tile = new SpriteSheet(ImageLoader.loadImage("/textures/terrain.png"));
+		/*
+		 * Add animated tiles
+		 */
 		SpriteSheet animated_terrain = new SpriteSheet(ImageLoader.loadImage("/textures/animated_terrain.png"));
+		
 		SpriteSheet trees_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/trees.png"));
 		SpriteSheet object_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites11.png"));
 		SpriteSheet test_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/empty_sprite_sheet.png"));
@@ -182,7 +203,10 @@ public class Assets {
 		SpriteSheet objects5 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites5.png"));
 		SpriteSheet objects3 = new SpriteSheet(ImageLoader.loadImage("/textures/object_sprites3.png"));
 		SpriteSheet ship_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ship.png"));
-		SpriteSheet equipSlots = new SpriteSheet(ImageLoader.loadImage("/textures/equipment_placeholders3.png"));
+		SpriteSheet equipSlots = new SpriteSheet(ImageLoader.loadImage("/textures/equipment_placeholders.png"));
+		/*
+		 * Update for new UI buttons
+		 */
 		SpriteSheet controls_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/controls_screen.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
@@ -225,8 +249,6 @@ public class Assets {
 		magicProjectile[0] = projectiles.crop(width * 9, height * 0, width, height);
 		magicProjectile[1] = projectiles.crop(width * 10, height * 0, width, height);
 		
-		purpleSword = swordSprites.crop(width, height * 0, width, height);
-		
 		fish = ui_sheet.crop(width * 2, 0, width, height);
 		
 		// Inventory sprites
@@ -259,7 +281,6 @@ public class Assets {
 		// Menu sprites
 
 		mainMenuButton = new BufferedImage[2];
-		
 		mainMenuButton[0] = ui_sheet.crop(width * 9, 0, width * 7, height * 3);
 		mainMenuButton[1] = ui_sheet.crop(width * 17, 0, width * 7, height * 3);
 		
@@ -273,6 +294,7 @@ public class Assets {
 		coins[2] = item_sheet.crop(width * 0, height * 4, width, height);
 		coins[3] = item_sheet.crop(width * 0, height * 5, width, height);
 		testSword = test_sheet.crop(width * 0, height * 0, width, height);
+		purpleSword = swordSprites.crop(width, height * 0, width, height);
 		
 		// Object Sprites
 		campfire = new BufferedImage[5];

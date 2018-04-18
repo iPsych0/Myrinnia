@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -142,13 +143,15 @@ public class Handler implements Serializable {
 	/*
 	 * Plays music (basic function.. needs expanding to check area)
 	 */
-	public void playMusic(String pathToMusic) {
+	public void playMusic(String fileName) {
 		if(!soundMuted) {
 			try {
-				File file = new File(pathToMusic);
+				File file = new File("res/music/"+fileName);
 				if(file.exists()) {
 					Clip clip = AudioSystem.getClip();
 					clip.open(AudioSystem.getAudioInputStream(file));
+					FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+					gainControl.setValue(-10);
 					clip.loop(Clip.LOOP_CONTINUOUSLY);
 				}
 			} catch (Exception e) {

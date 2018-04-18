@@ -72,7 +72,7 @@ public class MenuState extends State {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().gameState);
-					handler.playMusic("res/music/myrinnia.wav");
+					handler.playMusic("myrinnia.wav");
 					hasBeenPressed = false;
 				}
 			}
@@ -82,7 +82,7 @@ public class MenuState extends State {
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().gameState);
 					SaveManager.loadHandler(handler);
-					handler.playMusic("res/music/myrinnia.wav");
+					handler.playMusic("myrinnia.wav");
 					hasBeenPressed = false;
 				}
 			}
