@@ -207,7 +207,7 @@ public class Assets {
 		/*
 		 * Update for new UI buttons
 		 */
-		SpriteSheet controls_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/controls_screen.png"));
+		SpriteSheet controls_sheet = new SpriteSheet(ImageLoader.loadImage("/textures/ControlsScreen.png"));
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
