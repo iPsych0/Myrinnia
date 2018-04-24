@@ -9,7 +9,7 @@ import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.utils.MapLoader;
 
 public class TestLand extends World {
 	
@@ -22,6 +22,9 @@ public class TestLand extends World {
 
 	public TestLand(Handler handler, String path, int worldID) {
 		super(handler);
+		
+		this.worldID = worldID;
+		this.worldPath = path;
 		
 		width = MapLoader.getMapWidth(path);
 		height = MapLoader.getMapHeight(path);

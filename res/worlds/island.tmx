@@ -439,46 +439,45 @@
   <image source="../textures/trees.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="1337" name="city_sprites" tilewidth="32" tileheight="32" tilecount="360" columns="8">
- <image source="../textures/city_sprites.png" width="256" height="1450"/>
- <terraintypes>
-  <terrain name="StonePath" tile="81"/>
- </terraintypes>
- <tile id="72" terrain=",,,0"/>
- <tile id="73" terrain=",,0,0"/>
- <tile id="74" terrain=",,0,"/>
- <tile id="75" terrain="0,0,0,"/>
- <tile id="76" terrain="0,0,,0"/>
- <tile id="80" terrain=",0,,0"/>
- <tile id="81" terrain="0,0,0,0"/>
- <tile id="82" terrain="0,,0,"/>
- <tile id="83" terrain="0,,0,0"/>
- <tile id="84" terrain=",0,0,0"/>
- <tile id="88" terrain=",0,,"/>
- <tile id="89" terrain="0,0,,"/>
- <tile id="90" terrain="0,,,"/>
-</tileset>
+  <image source="../textures/city_sprites.png" width="256" height="1450"/>
+  <terraintypes>
+   <terrain name="StonePath" tile="81"/>
+  </terraintypes>
+  <tile id="72" terrain=",,,0"/>
+  <tile id="73" terrain=",,0,0"/>
+  <tile id="74" terrain=",,0,"/>
+  <tile id="75" terrain="0,0,0,"/>
+  <tile id="76" terrain="0,0,,0"/>
+  <tile id="80" terrain=",0,,0"/>
+  <tile id="81" terrain="0,0,0,0"/>
+  <tile id="82" terrain="0,,0,"/>
+  <tile id="83" terrain="0,,0,0"/>
+  <tile id="84" terrain=",0,0,0"/>
+  <tile id="88" terrain=",0,,"/>
+  <tile id="89" terrain="0,0,,"/>
+  <tile id="90" terrain="0,,,"/>
+ </tileset>
  <tileset firstgid="1697" name="roofs3" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/roofs3.png" width="512" height="512"/>
-</tileset>
+  <image source="../textures/roofs3.png" width="512" height="512"/>
+ </tileset>
  <tileset firstgid="1953" name="cliffs" tilewidth="32" tileheight="32" tilecount="324" columns="36">
- <image source="../textures/cliffs.png" width="1152" height="288"/>
-</tileset>
+  <image source="../textures/cliffs.png" width="1152" height="288"/>
+ </tileset>
  <tileset firstgid="2277" name="object_sprites17" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/object_sprites17.png" width="512" height="512"/>
-</tileset>
+  <image source="../textures/object_sprites17.png" width="512" height="512"/>
+ </tileset>
  <tileset firstgid="2533" name="furniture1" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/furniture1.png" width="512" height="512"/>
-</tileset>
+  <image source="../textures/furniture1.png" width="512" height="512"/>
+ </tileset>
  <tileset firstgid="2789" name="object_sprites5" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/object_sprites5.png" width="512" height="512"/>
-</tileset>
+  <image source="../textures/object_sprites5.png" width="512" height="512"/>
+ </tileset>
  <tileset firstgid="3045" name="object_sprites3" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/object_sprites3.png" width="512" height="512"/>
-</tileset>
+  <image source="../textures/object_sprites3.png" width="512" height="512"/>
+ </tileset>
  <tileset firstgid="3301" name="ship" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../textures/ship.png" width="512" height="512"/>
-</tileset>
-
+  <image source="../textures/ship.png" width="512" height="512"/>
+ </tileset>
  <layer name="Grass" width="200" height="200">
   <data encoding="csv">
 346,346,346,411,411,346,346,346,346,346,410,409,409,409,409,346,409,410,410,410,346,410,410,410,346,346,409,346,346,346,346,346,346,346,346,346,346,346,410,410,410,346,346,346,410,410,410,410,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,346,409,409,346,346,346,346,346,346,346,410,346,346,346,346,410,410,346,346,346,346,346,346,409,410,346,346,346,409,409,346,346,346,346,346,346,346,346,346,346,346,346,346,411,411,346,346,346,346,346,410,409,409,409,346,346,346,346,346,346,346,410,410,410,346,346,346,346,346,346,411,411,409,346,346,346,346,346,346,346,346,346,346,346,346,346,346,411,346,346,346,346,346,346,346,346,346,346,

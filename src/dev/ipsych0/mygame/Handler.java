@@ -55,6 +55,7 @@ public class Handler implements Serializable {
 	private CharacterUI characterUI;
 	private SkillsUI skillsUI;
 	private boolean soundMuted = false;
+	public static String worldPath = "res/worlds/island.tmx";
 	
 	/*
 	 * Set to true for debug mode

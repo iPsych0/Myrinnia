@@ -12,7 +12,7 @@ import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.utils.MapLoader;
 
 public class Island extends World {
 	
@@ -30,12 +30,13 @@ public class Island extends World {
 	public Island(Handler handler, String path, int worldID) {
 		super(handler);
 		
+		this.worldPath = path;
+		this.worldID = worldID;
+		
 		width = MapLoader.getMapWidth(path);
 		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
-		MapLoader.getTiledFirstGid(path);
-		MapLoader.getImageSource(path);
 		
 		entityManager.addEntity(new Tree(handler, 5216, 5536));
 		

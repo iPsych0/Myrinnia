@@ -144,7 +144,7 @@ public class Assets {
 	public static BufferedImage controlsScreen;
 	
 	
-public static void init(){
+	public static void init(){
 		
 		/*
 		 * Fonts
@@ -161,16 +161,13 @@ public static void init(){
 		SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
 		SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
 		SpriteSheet controls_sheet = new SpriteSheet("/textures/ControlsScreen.png");
+		SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow.png");
 		/*
 		 * Make skilling sheet for this
 		 */
 		SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
 		SpriteSheet main_screen = new SpriteSheet("/textures/dark_priest.png");
 
-		/*
-		 * Change this one
-		 */
-		SpriteSheet texture_sheet = new SpriteSheet("/textures/textures.png");
 		SpriteSheet player_sheet = new SpriteSheet("/textures/herosprites.png");
 		/*
 		 * Add items to this
@@ -182,8 +179,7 @@ public static void init(){
 		 * Crop Lorraine out
 		 */
 		SpriteSheet lorraine_sprites = new SpriteSheet("/textures/lorrainesprites.png");
-		
-		SpriteSheet terrain_tile = new SpriteSheet("/textures/terrain.png");
+		SpriteSheet object_sheet = new SpriteSheet("/textures/object_sprites11.png");
 		/*
 		 * Add animated tiles
 		 */
@@ -193,17 +189,17 @@ public static void init(){
 		/*
 		 * All Tiled Sprites
 		 */
-		SpriteSheet trees_sheet = new SpriteSheet("/textures/trees.png");
-		SpriteSheet object_sheet = new SpriteSheet("/textures/object_sprites11.png");
-		SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow.png");
-		SpriteSheet city_sprites = new SpriteSheet("/textures/city_sprites.png");
-		SpriteSheet roofs3_sheet = new SpriteSheet("/textures/roofs3.png");
-		SpriteSheet cliffs_sheet = new SpriteSheet("/textures/cliffs.png");
-		SpriteSheet objects17 = new SpriteSheet("/textures/object_sprites17.png");
-		SpriteSheet furniture1 = new SpriteSheet("/textures/furniture1.png");
-		SpriteSheet objects5 = new SpriteSheet("/textures/object_sprites5.png");
-		SpriteSheet objects3 = new SpriteSheet("/textures/object_sprites3.png");
-		SpriteSheet ship_sheet = new SpriteSheet("/textures/ship.png");
+		SpriteSheet texture_sheet = new SpriteSheet("/textures/textures.png", true);
+		SpriteSheet terrain_tile = new SpriteSheet("/textures/terrain.png", true);
+		SpriteSheet trees_sheet = new SpriteSheet("/textures/trees.png", true);
+		SpriteSheet city_sprites = new SpriteSheet("/textures/city_sprites.png", true);
+		SpriteSheet roofs3_sheet = new SpriteSheet("/textures/roofs3.png", true);
+		SpriteSheet cliffs_sheet = new SpriteSheet("/textures/cliffs.png", true);
+		SpriteSheet objects17 = new SpriteSheet("/textures/object_sprites17.png", true);
+		SpriteSheet furniture1 = new SpriteSheet("/textures/furniture1.png", true);
+		SpriteSheet objects5 = new SpriteSheet("/textures/object_sprites5.png", true);
+		SpriteSheet objects3 = new SpriteSheet("/textures/object_sprites3.png", true);
+		SpriteSheet ship_sheet = new SpriteSheet("/textures/ship.png", true);
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
@@ -211,18 +207,18 @@ public static void init(){
 		
 		equipmentPlaceHolders = new BufferedImage[12];
 		
-		earringSlot = equipSlots.tileCrop(0, 0, width, height);
-		mainhandSlot = equipSlots.tileCrop(0, height, width, height);
-		glovesSlot = equipSlots.tileCrop(0, height * 2, width, height);
-		ringSlot1 = equipSlots.tileCrop(0, height * 3, width, height);
-		helmSlot = equipSlots.tileCrop(width, 0, width, height);
-		bodySlot = equipSlots.tileCrop(width, height, width, height);
-		legsSlot = equipSlots.tileCrop(width, height * 2, width, height);
-		bootsSlot = equipSlots.tileCrop(width, height * 3, width, height);
-		amuletSlot = equipSlots.tileCrop(width * 2, 0, width, height);
-		offhandSlot = equipSlots.tileCrop(width * 2, height, width, height);
-		capeSlot = equipSlots.tileCrop(width * 2, height * 2, width, height);
-		ringSlot2 = equipSlots.tileCrop(width * 2, height * 3, width, height);
+		earringSlot = equipSlots.imageCrop(0, 0, width, height);
+		mainhandSlot = equipSlots.imageCrop(0, height, width, height);
+		glovesSlot = equipSlots.imageCrop(0, height * 2, width, height);
+		ringSlot1 = equipSlots.imageCrop(0, height * 3, width, height);
+		helmSlot = equipSlots.imageCrop(width, 0, width, height);
+		bodySlot = equipSlots.imageCrop(width, height, width, height);
+		legsSlot = equipSlots.imageCrop(width, height * 2, width, height);
+		bootsSlot = equipSlots.imageCrop(width, height * 3, width, height);
+		amuletSlot = equipSlots.imageCrop(width * 2, 0, width, height);
+		offhandSlot = equipSlots.imageCrop(width * 2, height, width, height);
+		capeSlot = equipSlots.imageCrop(width * 2, height * 2, width, height);
+		ringSlot2 = equipSlots.imageCrop(width * 2, height * 3, width, height);
 		
 		equipmentPlaceHolders[0] = earringSlot;
 		equipmentPlaceHolders[1] = mainhandSlot;
@@ -237,40 +233,40 @@ public static void init(){
 		equipmentPlaceHolders[10] = capeSlot;
 		equipmentPlaceHolders[11] = ringSlot2;
 		
-		shopWindow = shop_window.tileCrop(0, 0, 460, 313);
+		shopWindow = shop_window.imageCrop(0, 0, 460, 313);
 		
-		controlsScreen = controls_sheet.tileCrop(0, 0, 460, 313);
+		controlsScreen = controls_sheet.imageCrop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[3];
-		magicProjectile[0] = projectiles.tileCrop(width * 9, height * 0, width, height);
-		magicProjectile[1] = projectiles.tileCrop(width * 10, height * 0, width, height);
-		magicProjectile[2] = projectiles.tileCrop(width * 11, height * 0, width, height);
+		magicProjectile[0] = projectiles.imageCrop(width * 9, height * 0, width, height);
+		magicProjectile[1] = projectiles.imageCrop(width * 10, height * 0, width, height);
+		magicProjectile[2] = projectiles.imageCrop(width * 11, height * 0, width, height);
 		
-		fish = ui_sheet.tileCrop(width * 2, 0, width, height);
+		fish = ui_sheet.imageCrop(width * 2, 0, width, height);
 		
 		// Inventory sprites
-		invSlot = ui_sheet.tileCrop(width, 0, 32, 32);
-		invScreen = ui_sheet.tileCrop(0, height * 9, 132, 329);
+		invSlot = ui_sheet.imageCrop(width, 0, 32, 32);
+		invScreen = ui_sheet.imageCrop(0, height * 9, 132, 329);
 		
 		// Equipment sprites
-		equipScreen = ui_sheet.tileCrop(width * 13, height * 9, 132, 348);
-		equipSlot = ui_sheet.tileCrop(width, 0, 32, 32);
-		equipStats = ui_sheet.tileCrop(0, height * 20, 112, 160);
+		equipScreen = ui_sheet.imageCrop(width * 13, height * 9, 132, 348);
+		equipSlot = ui_sheet.imageCrop(width, 0, 32, 32);
+		equipStats = ui_sheet.imageCrop(0, height * 20, 112, 160);
 		
 		// Chat sprites
-		chatwindow = ui_sheet.tileCrop(0, height * 4, 432, 112);
-		chatwindowTop = ui_sheet.tileCrop(0, height * 8, 432, 20);
+		chatwindow = ui_sheet.imageCrop(0, height * 4, 432, 112);
+		chatwindowTop = ui_sheet.imageCrop(0, height * 8, 432, 20);
 		
 		// HP Overlay sprites
-		hpOverlay = ui_sheet.tileCrop(0, height, 288, 96);
+		hpOverlay = ui_sheet.imageCrop(0, height, 288, 96);
 		
 		// Crafting UI sprites
-		craftWindow = ui_sheet.tileCrop(width * 5, height * 9, 242, 320);
-		undiscovered = ui_sheet.tileCrop(0, 0, width, height);
+		craftWindow = ui_sheet.imageCrop(width * 5, height * 9, 242, 320);
+		undiscovered = ui_sheet.imageCrop(0, 0, width, height);
 		
 		// Main menu background
 		
-		mainScreenBackground = main_screen.tileCrop(0, 0, 960, 720);
+		mainScreenBackground = main_screen.imageCrop(0, 0, 960, 720);
 		
 		// Minimap images
 
@@ -278,42 +274,42 @@ public static void init(){
 		// Menu sprites
 
 		mainMenuButton = new BufferedImage[2];
-		mainMenuButton[0] = ui_sheet.tileCrop(width * 9, 0, width * 7, height * 3);
-		mainMenuButton[1] = ui_sheet.tileCrop(width * 17, 0, width * 7, height * 3);
+		mainMenuButton[0] = ui_sheet.imageCrop(width * 9, 0, width * 7, height * 3);
+		mainMenuButton[1] = ui_sheet.imageCrop(width * 17, 0, width * 7, height * 3);
 		
 		// Item Sprites
 		
-		wood = item_sheet.tileCrop(0, 0, width, height);
-		ore = item_sheet.tileCrop(0, height, width, height);
+		wood = item_sheet.imageCrop(0, 0, width, height);
+		ore = item_sheet.imageCrop(0, height, width, height);
 		
 		coins = new BufferedImage[4];
-		coins[0] = item_sheet.tileCrop(width * 0, height * 2, width, height);
-		coins[1] = item_sheet.tileCrop(width * 0, height * 3, width, height);
-		coins[2] = item_sheet.tileCrop(width * 0, height * 4, width, height);
-		coins[3] = item_sheet.tileCrop(width * 0, height * 5, width, height);
-		testSword = item_sheet.tileCrop(width, height * 0, width, height);
-		purpleSword = item_sheet.tileCrop(width * 2, height * 0, width, height);
+		coins[0] = item_sheet.imageCrop(width * 0, height * 2, width, height);
+		coins[1] = item_sheet.imageCrop(width * 0, height * 3, width, height);
+		coins[2] = item_sheet.imageCrop(width * 0, height * 4, width, height);
+		coins[3] = item_sheet.imageCrop(width * 0, height * 5, width, height);
+		testSword = item_sheet.imageCrop(width, height * 0, width, height);
+		purpleSword = item_sheet.imageCrop(width * 2, height * 0, width, height);
 		
 		// Object Sprites
 		campfire = new BufferedImage[5];
-		campfire[0] = objects17.tileCrop(0, height * 15, width, height);
-		campfire[1] = objects17.tileCrop(width, height * 15, width, height);
-		campfire[2] = objects17.tileCrop(width * 2, height * 15, width, height);
-		campfire[3] = objects17.tileCrop(width * 3, height * 15, width, height);
-		campfire[4] = objects17.tileCrop(width * 4, height * 15, width, height);
+		campfire[0] = objects17.imageCrop(0, height * 15, width, height);
+		campfire[1] = objects17.imageCrop(width, height * 15, width, height);
+		campfire[2] = objects17.imageCrop(width * 2, height * 15, width, height);
+		campfire[3] = objects17.imageCrop(width * 3, height * 15, width, height);
+		campfire[4] = objects17.imageCrop(width * 4, height * 15, width, height);
 		
-		teleportShrine1 = object_sheet.tileCrop(width * 7, height * 10, width, height);
-		teleportShrine2 = object_sheet.tileCrop(width * 7, height * 11, width, height);
-		teleportShrinePillar1 = object_sheet.tileCrop(width * 9, width * 10, width, height);
-		teleportShrinePillar2 = object_sheet.tileCrop(width * 9, width * 11, width, height);
+		teleportShrine1 = object_sheet.imageCrop(width * 7, height * 10, width, height);
+		teleportShrine2 = object_sheet.imageCrop(width * 7, height * 11, width, height);
+		teleportShrinePillar1 = object_sheet.imageCrop(width * 9, width * 10, width, height);
+		teleportShrinePillar2 = object_sheet.imageCrop(width * 9, width * 11, width, height);
 		
 		// Enemy Sprites
 		
-		scorpion = enemy_sheet.tileCrop(0, 0, width, height);
+		scorpion = enemy_sheet.imageCrop(0, 0, width, height);
 		
 		// NPC Sprites
 		
-		lorraine = lorraine_sprites.tileCrop(width * 7, 0, width, height);
+		lorraine = lorraine_sprites.imageCrop(width * 7, 0, width, height);
 		
 		// Player Sprites
 		
@@ -327,63 +323,63 @@ public static void init(){
 		player_left = new BufferedImage[3];
 		player_right = new BufferedImage[3];
 		
-		player_attackingLeft[0] = player_sheet.tileCrop(0, height * 4, width, height);
-		player_attackingLeft[1] = player_sheet.tileCrop(width, height * 4, width, height);
+		player_attackingLeft[0] = player_sheet.imageCrop(0, height * 4, width, height);
+		player_attackingLeft[1] = player_sheet.imageCrop(width, height * 4, width, height);
 		
-		player_attackingRight[0] = player_sheet.tileCrop(0, height * 5, width, height);
-		player_attackingRight[1] = player_sheet.tileCrop(width, height * 5, width, height);
+		player_attackingRight[0] = player_sheet.imageCrop(0, height * 5, width, height);
+		player_attackingRight[1] = player_sheet.imageCrop(width, height * 5, width, height);
 		
-		player_attackingDown[0] = player_sheet.tileCrop(0, height * 6, width, height);
-		player_attackingDown[1] = player_sheet.tileCrop(width, height * 6, width, height);
+		player_attackingDown[0] = player_sheet.imageCrop(0, height * 6, width, height);
+		player_attackingDown[1] = player_sheet.imageCrop(width, height * 6, width, height);
 		
-		player_attackingUp[0] = player_sheet.tileCrop(0, height * 7, width, height);
-		player_attackingUp[1] = player_sheet.tileCrop(width, height * 7, width, height);
+		player_attackingUp[0] = player_sheet.imageCrop(0, height * 7, width, height);
+		player_attackingUp[1] = player_sheet.imageCrop(width, height * 7, width, height);
 		
-		player_down[0] = player_sheet.tileCrop(0, 0, width, height);
-		player_down[1] = player_sheet.tileCrop(width, 0, width, height);
-		player_down[2] = player_sheet.tileCrop(width * 2, 0, width, height);
+		player_down[0] = player_sheet.imageCrop(0, 0, width, height);
+		player_down[1] = player_sheet.imageCrop(width, 0, width, height);
+		player_down[2] = player_sheet.imageCrop(width * 2, 0, width, height);
 		
-		player_up[0] = player_sheet.tileCrop(width * 6, height * 3, width, height);
-		player_up[1] = player_sheet.tileCrop(width * 7, height * 3, width, height);
-		player_up[2] = player_sheet.tileCrop(width * 8, height * 3, width, height);
+		player_up[0] = player_sheet.imageCrop(width * 6, height * 3, width, height);
+		player_up[1] = player_sheet.imageCrop(width * 7, height * 3, width, height);
+		player_up[2] = player_sheet.imageCrop(width * 8, height * 3, width, height);
 		
-		player_left[0] = player_sheet.tileCrop(0, height, width, height);
-		player_left[1] = player_sheet.tileCrop(width, height, width, height);
-		player_left[2] = player_sheet.tileCrop(width * 2, height, width, height);
+		player_left[0] = player_sheet.imageCrop(0, height, width, height);
+		player_left[1] = player_sheet.imageCrop(width, height, width, height);
+		player_left[2] = player_sheet.imageCrop(width * 2, height, width, height);
 		
-		player_right[0] = player_sheet.tileCrop(0, height * 2, width, height);
-		player_right[1] = player_sheet.tileCrop(width, height * 2, width, height);
-		player_right[2] = player_sheet.tileCrop(width * 2, height * 2, width, height);
+		player_right[0] = player_sheet.imageCrop(0, height * 2, width, height);
+		player_right[1] = player_sheet.imageCrop(width, height * 2, width, height);
+		player_right[2] = player_sheet.imageCrop(width * 2, height * 2, width, height);
 		
 		// Object sprites
-		woodenRoofTopLeft = city_sprites.tileCrop(0, height * 23, width, height);
-		woodenRoofTopMiddle = city_sprites.tileCrop(width, height * 23, width, height);
-		woodenRoofTopRight = city_sprites.tileCrop(width * 2, height * 23, width, height);
-		woodenRoofMiddleLeft = city_sprites.tileCrop(0, height * 24, width, height);
-		woodenRoofMiddleMiddle = city_sprites.tileCrop(width, height * 24, width, height);
-		woodenRoofMiddleRight = city_sprites.tileCrop(width * 2, height * 24, width, height);
-		woodenRoofBottomLeft = city_sprites.tileCrop(0, height * 25, width, height);
-		woodenRoofBottomMiddle = city_sprites.tileCrop(width, height * 25, width, height);
-		woodenRoofBottomRight = city_sprites.tileCrop(width * 2, height * 25, width, height);
+		woodenRoofTopLeft = city_sprites.tileCrop(0, height * 23, width, height, true);
+		woodenRoofTopMiddle = city_sprites.tileCrop(width, height * 23, width, height, true);
+		woodenRoofTopRight = city_sprites.tileCrop(width * 2, height * 23, width, height, true);
+		woodenRoofMiddleLeft = city_sprites.tileCrop(0, height * 24, width, height, true);
+		woodenRoofMiddleMiddle = city_sprites.tileCrop(width, height * 24, width, height, true);
+		woodenRoofMiddleRight = city_sprites.tileCrop(width * 2, height * 24, width, height, true);
+		woodenRoofBottomLeft = city_sprites.tileCrop(0, height * 25, width, height, true);
+		woodenRoofBottomMiddle = city_sprites.tileCrop(width, height * 25, width, height, true);
+		woodenRoofBottomRight = city_sprites.tileCrop(width * 2, height * 25, width, height, true);
 		
-		greenRoofTopLeft = city_sprites.tileCrop(width * 5, height * 23, width, height);
-		greenRoofTopMiddle = city_sprites.tileCrop(width * 6, height * 23, width, height);
-		greenRoofTopRight = city_sprites.tileCrop(width * 7, height * 23, width, height);
-		greenRoofMiddleLeft = city_sprites.tileCrop(width * 5, height * 24, width, height);
-		greenRoofMiddleMiddle = city_sprites.tileCrop(width * 6, height * 24, width, height);
-		greenRoofMiddleRight = city_sprites.tileCrop(width * 7, height * 24, width, height);
-		greenRoofBottomLeft = city_sprites.tileCrop(width * 5, height * 25, width, height);
-		greenRoofBottomMiddle = city_sprites.tileCrop(width * 6, height * 25, width, height);
-		greenRoofBottomRight = city_sprites.tileCrop(width * 7, height * 25, width, height);
+		greenRoofTopLeft = city_sprites.tileCrop(width * 5, height * 23, width, height, true);
+		greenRoofTopMiddle = city_sprites.tileCrop(width * 6, height * 23, width, height, true);
+		greenRoofTopRight = city_sprites.tileCrop(width * 7, height * 23, width, height, true);
+		greenRoofMiddleLeft = city_sprites.tileCrop(width * 5, height * 24, width, height, true);
+		greenRoofMiddleMiddle = city_sprites.tileCrop(width * 6, height * 24, width, height, true);
+		greenRoofMiddleRight = city_sprites.tileCrop(width * 7, height * 24, width, height, true);
+		greenRoofBottomLeft = city_sprites.tileCrop(width * 5, height * 25, width, height, true);
+		greenRoofBottomMiddle = city_sprites.tileCrop(width * 6, height * 25, width, height, true);
+		greenRoofBottomRight = city_sprites.tileCrop(width * 7, height * 25, width, height, true);
 
-		wallLeft = city_sprites.tileCrop(0, height * 5, width, height);
-		wallRight = city_sprites.tileCrop(width * 2, height * 5, width, height);
-		wallMiddle = city_sprites.tileCrop(width, height * 5, width, height);
+		wallLeft = city_sprites.tileCrop(0, height * 5, width, height, true);
+		wallRight = city_sprites.tileCrop(width * 2, height * 5, width, height, true);
+		wallMiddle = city_sprites.tileCrop(width, height * 5, width, height, true);
 		entrance  = city_sprites.tileCrop(width * 6, height * 40, width, height);
 		
-		lightWallLeft = city_sprites.tileCrop(0, height * 4, width, height);
-		lightWallMiddle = city_sprites.tileCrop(width, height * 4, width, height);
-		lightWallRight = city_sprites.tileCrop(width * 2, height * 4, width, height);
+		lightWallLeft = city_sprites.tileCrop(0, height * 4, width, height, true);
+		lightWallMiddle = city_sprites.tileCrop(width, height * 4, width, height, true);
+		lightWallRight = city_sprites.tileCrop(width * 2, height * 4, width, height, true);
 		woodenDoorTop = city_sprites.tileCrop(width * 6, height * 10, width, height);
 		woodenDoorBottom = city_sprites.tileCrop(width * 6, height * 11, width, height);
 		
@@ -397,8 +393,8 @@ public static void init(){
 		floorBottomMiddle = city_sprites.tileCrop(width, height * 11, width, height);
 		floorBottomRight = city_sprites.tileCrop(width * 2, height * 11, width, height);
 		
-		brownColumnTop = city_sprites.tileCrop(width * 5, height * 2, width, height);
-		brownColumnBottom = city_sprites.tileCrop(width * 5, height * 3, width, height);
+		brownColumnTop = city_sprites.tileCrop(width * 5, height * 2, width, height, true);
+		brownColumnBottom = city_sprites.tileCrop(width * 5, height * 3, width, height, true);
 		
 		smallWoodenStairTop = city_sprites.tileCrop(width * 7, height * 7, width, height);
 		smallWoodenStairBottom = city_sprites.tileCrop(width * 7, height * 8, width, height);
@@ -411,25 +407,25 @@ public static void init(){
 		stairBottomRight = city_sprites.tileCrop(width * 6, height * 8, width, height);
 		
 		
-		tree1TopLeft = trees_sheet.tileCrop(0, height * 4, width, height);
-		tree1TopRight = trees_sheet.tileCrop(width, height * 4, width, height);
-		tree1BottomLeft = trees_sheet.tileCrop(0, height * 5, width, height);
-		tree1BottomRight = trees_sheet.tileCrop(width, height * 5, width, height);
-		tree1BatchTopLeft = trees_sheet.tileCrop(width * 2, height * 4, width, height);
-		tree1BatchTopRight = trees_sheet.tileCrop(width * 3, height * 4, width, height);
-		tree1BatchBottomLeft = trees_sheet.tileCrop(width * 2, height * 5, width, height);
-		tree1BatchBottomRight = trees_sheet.tileCrop(width * 3, height * 5, width, height);
-		palmTreeTop = trees_sheet.tileCrop(width, height * 12, width, height);
-		palmTreeBottom = trees_sheet.tileCrop(width, height * 13, width, height);
+		tree1TopLeft = trees_sheet.tileCrop(0, height * 4, width, height, true);
+		tree1TopRight = trees_sheet.tileCrop(width, height * 4, width, height, true);
+		tree1BottomLeft = trees_sheet.tileCrop(0, height * 5, width, height, true);
+		tree1BottomRight = trees_sheet.tileCrop(width, height * 5, width, height, true);
+		tree1BatchTopLeft = trees_sheet.tileCrop(width * 2, height * 4, width, height, true);
+		tree1BatchTopRight = trees_sheet.tileCrop(width * 3, height * 4, width, height, true);
+		tree1BatchBottomLeft = trees_sheet.tileCrop(width * 2, height * 5, width, height, true);
+		tree1BatchBottomRight = trees_sheet.tileCrop(width * 3, height * 5, width, height, true);
+		palmTreeTop = trees_sheet.tileCrop(width, height * 12, width, height, true);
+		palmTreeBottom = trees_sheet.tileCrop(width, height * 13, width, height, true);
 		
-		pineTreeTopLeft = trees_sheet.tileCrop(0, 0, width, height);
-		pineTreeTopRight = trees_sheet.tileCrop(width, 0, width, height);
-		pineTreeBottomLeft = trees_sheet.tileCrop(0, height, width, height);
-		pineTreeBottomRight = trees_sheet.tileCrop(width, height, width, height);
-		pineTreeBatchTopLeft = trees_sheet.tileCrop(width * 2, 0, width, height);
-		pineTreeBatchTopRight = trees_sheet.tileCrop(width * 3, 0, width, height);
-		pineTreeBatchBottomLeft = trees_sheet.tileCrop(width * 2, height, width, height);
-		pineTreeBatchBottomRight = trees_sheet.tileCrop(width * 3, height, width, height);
+		pineTreeTopLeft = trees_sheet.tileCrop(0, 0, width, height, true);
+		pineTreeTopRight = trees_sheet.tileCrop(width, 0, width, height, true);
+		pineTreeBottomLeft = trees_sheet.tileCrop(0, height, width, height, true);
+		pineTreeBottomRight = trees_sheet.tileCrop(width, height, width, height, true);
+		pineTreeBatchTopLeft = trees_sheet.tileCrop(width * 2, 0, width, height, true);
+		pineTreeBatchTopRight = trees_sheet.tileCrop(width * 3, 0, width, height, true);
+		pineTreeBatchBottomLeft = trees_sheet.tileCrop(width * 2, height, width, height, true);
+		pineTreeBatchBottomRight = trees_sheet.tileCrop(width * 3, height, width, height, true);
 		
 //		pineTreeTopLeft = objects18.tileCrop(width * 4, 0, width, height);
 //		pineTreeTopRight = objects18.tileCrop(width * 5, 0, width, height);
@@ -440,109 +436,109 @@ public static void init(){
 //		pineTreeBatchBottomLeft = objects18.tileCrop(width * 6, height, width, height);
 //		pineTreeBatchBottomRight = objects18.tileCrop(width * 7, height, width, height);
 		
-		magicTreeLefter1 = trees_sheet.tileCrop(width * 7, height * 8, width, height);
-		magicTreeLeft1 = trees_sheet.tileCrop(width * 8, height * 8, width, height);
-		magicTreeRight1 = trees_sheet.tileCrop(width * 9, height * 8, width, height);
-		magicTreeRighter1 = trees_sheet.tileCrop(width * 10, height * 8, width, height);
-		magicTreeLefter2 = trees_sheet.tileCrop(width * 7, height * 9, width, height);
-		magicTreeLeft2 = trees_sheet.tileCrop(width * 8, height * 9, width, height);
-		magicTreeRight2 = trees_sheet.tileCrop(width * 9, height * 9, width, height);
-		magicTreeRighter2 = trees_sheet.tileCrop(width * 10, height * 9, width, height);
-		magicTreeLefter3 = trees_sheet.tileCrop(width * 7, height * 10, width, height);
-		magicTreeLeft3 = trees_sheet.tileCrop(width * 8, height * 10, width, height);
-		magicTreeRight3 = trees_sheet.tileCrop(width * 9, height * 10, width, height);
-		magicTreeRighter3 = trees_sheet.tileCrop(width * 10, height * 10, width, height);
-		magicTreeLefter4 = trees_sheet.tileCrop(width * 7, height * 11, width, height);
-		magicTreeLeft4 = trees_sheet.tileCrop(width * 8, height * 11, width, height);
-		magicTreeRight4 = trees_sheet.tileCrop(width * 9, height * 11, width, height);
-		magicTreeRighter4 = trees_sheet.tileCrop(width * 10, height * 11, width, height);
-		magicTreeLeft5 = trees_sheet.tileCrop(width * 8, height * 12, width, height);
-		magicTreeRight5 = trees_sheet.tileCrop(width * 9, height * 12, width, height);
+		magicTreeLefter1 = trees_sheet.tileCrop(width * 7, height * 8, width, height, true);
+		magicTreeLeft1 = trees_sheet.tileCrop(width * 8, height * 8, width, height, true);
+		magicTreeRight1 = trees_sheet.tileCrop(width * 9, height * 8, width, height, true);
+		magicTreeRighter1 = trees_sheet.tileCrop(width * 10, height * 8, width, height, true);
+		magicTreeLefter2 = trees_sheet.tileCrop(width * 7, height * 9, width, height, true);
+		magicTreeLeft2 = trees_sheet.tileCrop(width * 8, height * 9, width, height, true);
+		magicTreeRight2 = trees_sheet.tileCrop(width * 9, height * 9, width, height, true);
+		magicTreeRighter2 = trees_sheet.tileCrop(width * 10, height * 9, width, height, true);
+		magicTreeLefter3 = trees_sheet.tileCrop(width * 7, height * 10, width, height, true);
+		magicTreeLeft3 = trees_sheet.tileCrop(width * 8, height * 10, width, height, true);
+		magicTreeRight3 = trees_sheet.tileCrop(width * 9, height * 10, width, height, true);
+		magicTreeRighter3 = trees_sheet.tileCrop(width * 10, height * 10, width, height, true);
+		magicTreeLefter4 = trees_sheet.tileCrop(width * 7, height * 11, width, height, true);
+		magicTreeLeft4 = trees_sheet.tileCrop(width * 8, height * 11, width, height, true);
+		magicTreeRight4 = trees_sheet.tileCrop(width * 9, height * 11, width, height, true);
+		magicTreeRighter4 = trees_sheet.tileCrop(width * 10, height * 11, width, height, true);
+		magicTreeLeft5 = trees_sheet.tileCrop(width * 8, height * 12, width, height, true);
+		magicTreeRight5 = trees_sheet.tileCrop(width * 9, height * 12, width, height, true);
 
 		
 		
-		whiteWallTopLeft = roofs3_sheet.tileCrop(0, 0, width, height);
-		whiteWallTopMiddle = roofs3_sheet.tileCrop(width, 0, width, height);
-		whiteWallTopRight = roofs3_sheet.tileCrop(width * 2, 0, width, height);
-		whiteWallMiddleLeft = roofs3_sheet.tileCrop(0, height, width, height);
-		whiteWallMiddleMiddle = roofs3_sheet.tileCrop(width, height, width, height);
-		whiteWallMiddleRight = roofs3_sheet.tileCrop(width * 2, height, width, height);
-		whiteWallBottomLeft = roofs3_sheet.tileCrop(0, height * 2, width, height);
-		whiteWallBottomMiddle = roofs3_sheet.tileCrop(width, height * 2, width, height);
-		whiteWallBottomRight = roofs3_sheet.tileCrop(width * 2, height * 2, width, height);
+		whiteWallTopLeft = roofs3_sheet.tileCrop(0, 0, width, height, true);
+		whiteWallTopMiddle = roofs3_sheet.tileCrop(width, 0, width, height, true);
+		whiteWallTopRight = roofs3_sheet.tileCrop(width * 2, 0, width, height, true);
+		whiteWallMiddleLeft = roofs3_sheet.tileCrop(0, height, width, height, true);
+		whiteWallMiddleMiddle = roofs3_sheet.tileCrop(width, height, width, height, true);
+		whiteWallMiddleRight = roofs3_sheet.tileCrop(width * 2, height, width, height, true);
+		whiteWallBottomLeft = roofs3_sheet.tileCrop(0, height * 2, width, height, true);
+		whiteWallBottomMiddle = roofs3_sheet.tileCrop(width, height * 2, width, height, true);
+		whiteWallBottomRight = roofs3_sheet.tileCrop(width * 2, height * 2, width, height, true);
 		
-		whiteWallWindowTopLeft = roofs3_sheet.tileCrop(width * 4, 0, width, height);
-		whiteWallWindowTopRight = roofs3_sheet.tileCrop(width * 5, 0, width, height);
-		whiteWallWindowMiddleLeft = roofs3_sheet.tileCrop(width * 4, height, width, height);
-		whiteWallWindowMiddleRight = roofs3_sheet.tileCrop(width * 5, height, width, height);
-		whiteWallWindowBottomLeft = roofs3_sheet.tileCrop(width * 4, height * 2, width, height);
-		whiteWallWindowBottomRight = roofs3_sheet.tileCrop(width * 5, height * 2, width, height);
+		whiteWallWindowTopLeft = roofs3_sheet.tileCrop(width * 4, 0, width, height, true);
+		whiteWallWindowTopRight = roofs3_sheet.tileCrop(width * 5, 0, width, height, true);
+		whiteWallWindowMiddleLeft = roofs3_sheet.tileCrop(width * 4, height, width, height, true);
+		whiteWallWindowMiddleRight = roofs3_sheet.tileCrop(width * 5, height, width, height, true);
+		whiteWallWindowBottomLeft = roofs3_sheet.tileCrop(width * 4, height * 2, width, height, true);
+		whiteWallWindowBottomRight = roofs3_sheet.tileCrop(width * 5, height * 2, width, height, true);
 		
 		
 		// Furniture
-		pot1 = objects17.tileCrop(width * 10, height * 8, width, height);
-		basket1 = objects17.tileCrop(width * 14, height * 4, width, height);
-		basketApples = objects17.tileCrop(width * 15, height * 4, width, height);
-		waterBucket = objects17.tileCrop(width * 13, height * 5, width, height);
-		table1 = furniture1.tileCrop(width * 13, height * 2, width, height);
+		pot1 = objects17.tileCrop(width * 10, height * 8, width, height, true);
+		basket1 = objects17.tileCrop(width * 14, height * 4, width, height, true);
+		basketApples = objects17.tileCrop(width * 15, height * 4, width, height, true);
+		waterBucket = objects17.tileCrop(width * 13, height * 5, width, height, true);
+		table1 = furniture1.tileCrop(width * 13, height * 2, width, height, true);
 		stoolTop1 = furniture1.tileCrop(width * 10, height, width, height);
 		stoolBottom1 = furniture1.tileCrop(width * 9, height, width, height);
 		sandPit = objects17.tileCrop(width * 5, height * 13, width, height);
-		fireplaceTop = furniture1.tileCrop(width * 11, height * 7, width, height);
-		fireplaceBottom = furniture1.tileCrop(width * 11, height * 8, width, height);
-		bookcaseTopLeft = furniture1.tileCrop(width * 6, height * 12, width, height);
-		bookcaseTopRight = furniture1.tileCrop(width * 7, height * 12, width, height);
-		bookcaseBottomLeft = furniture1.tileCrop(width * 6, height * 13, width, height);
-		bookcaseBottomRight = furniture1.tileCrop(width * 7, height * 13, width, height);
-		bed1Top = furniture1.tileCrop(width * 4, height * 14, width, height);
-		bed1Bottom = furniture1.tileCrop(width * 4, height * 15, width, height);
-		drawer1 = furniture1.tileCrop(0, height * 10, width, height);
-		smallBookcaseTop = furniture1.tileCrop(width * 5, height * 12, width, height);
-		smallBookcaseBottom = furniture1.tileCrop(width * 5, height * 13, width, height);
-		wardrobe1Top = furniture1.tileCrop(width * 2, height * 10, width, height);
-		wardrobe1Bottom = furniture1.tileCrop(width * 2, height * 11, width, height);
-		breadShelfTop = furniture1.tileCrop(0, height * 12, width, height);
-		breadShelfBottom = furniture1.tileCrop(0, height * 13, width, height);
-		bottleShelfTop = furniture1.tileCrop(width * 4, height * 12, width, height);
-		bottleShelfBottom = furniture1.tileCrop(width * 4, height * 13, width, height);
-		plateShelfTop = furniture1.tileCrop(width * 4, height * 10, width, height);
-		plateShelfBottom = furniture1.tileCrop(width * 4, height * 11, width, height);
-		painting1 = furniture1.tileCrop(width * 12, height * 11, width, height);
-		painting2 = furniture1.tileCrop(width * 13, height * 11, width, height);
-		painting3 = furniture1.tileCrop(width * 14, height * 11, width, height);
-		painting4 = furniture1.tileCrop(width * 15, height * 11, width, height);
-		worldMap1Left = furniture1.tileCrop(width * 14, height * 12, width, height);
-		worldMap1Right = furniture1.tileCrop(width * 15, height * 12, width, height);
-		bigPainting1Left = furniture1.tileCrop(width * 14, height * 13, width, height);
-		bigPainting1Right = furniture1.tileCrop(width * 15, height * 13, width, height);
-		wallNote = furniture1.tileCrop(width * 12, height * 12, width, height);
+		fireplaceTop = furniture1.tileCrop(width * 11, height * 7, width, height, true);
+		fireplaceBottom = furniture1.tileCrop(width * 11, height * 8, width, height, true);
+		bookcaseTopLeft = furniture1.tileCrop(width * 6, height * 12, width, height, true);
+		bookcaseTopRight = furniture1.tileCrop(width * 7, height * 12, width, height, true);
+		bookcaseBottomLeft = furniture1.tileCrop(width * 6, height * 13, width, height, true);
+		bookcaseBottomRight = furniture1.tileCrop(width * 7, height * 13, width, height, true);
+		bed1Top = furniture1.tileCrop(width * 4, height * 14, width, height, true);
+		bed1Bottom = furniture1.tileCrop(width * 4, height * 15, width, height, true);
+		drawer1 = furniture1.tileCrop(0, height * 10, width, height, true);
+		smallBookcaseTop = furniture1.tileCrop(width * 5, height * 12, width, height, true);
+		smallBookcaseBottom = furniture1.tileCrop(width * 5, height * 13, width, height, true);
+		wardrobe1Top = furniture1.tileCrop(width * 2, height * 10, width, height, true);
+		wardrobe1Bottom = furniture1.tileCrop(width * 2, height * 11, width, height, true);
+		breadShelfTop = furniture1.tileCrop(0, height * 12, width, height, true);
+		breadShelfBottom = furniture1.tileCrop(0, height * 13, width, height, true);
+		bottleShelfTop = furniture1.tileCrop(width * 4, height * 12, width, height, true);
+		bottleShelfBottom = furniture1.tileCrop(width * 4, height * 13, width, height, true);
+		plateShelfTop = furniture1.tileCrop(width * 4, height * 10, width, height, true);
+		plateShelfBottom = furniture1.tileCrop(width * 4, height * 11, width, height, true);
+		painting1 = furniture1.tileCrop(width * 12, height * 11, width, height, true);
+		painting2 = furniture1.tileCrop(width * 13, height * 11, width, height, true);
+		painting3 = furniture1.tileCrop(width * 14, height * 11, width, height, true);
+		painting4 = furniture1.tileCrop(width * 15, height * 11, width, height, true);
+		worldMap1Left = furniture1.tileCrop(width * 14, height * 12, width, height, true);
+		worldMap1Right = furniture1.tileCrop(width * 15, height * 12, width, height, true);
+		bigPainting1Left = furniture1.tileCrop(width * 14, height * 13, width, height, true);
+		bigPainting1Right = furniture1.tileCrop(width * 15, height * 13, width, height, true);
+		wallNote = furniture1.tileCrop(width * 12, height * 12, width, height, true);
 		
-		crateApples = objects17.tileCrop(width * 12, height * 3, width, height);
-		cratePotatoes = objects17.tileCrop(width * 10, height * 4, width, height);
-		crateFish= objects17.tileCrop(width * 11, height * 4, width, height);
-		crateGroceries = objects17.tileCrop(width * 12, height * 4, width, height);
-		stackedCrateBottom = objects17.tileCrop(width * 10, height * 2, width, height);
-		stackedCrateTop = objects17.tileCrop(width * 10, height, width, height);
-		crate1 = objects17.tileCrop(width * 10, height * 3, width, height);
-		emptyCrate = objects17.tileCrop(width * 11, height * 3, width, height);
-		emptyBucket = objects17.tileCrop(width * 12, height * 5, width, height);
-		emptyBarrel = objects17.tileCrop(width * 14, height * 2, width, height);
-		barrel1 = objects17.tileCrop(width * 14, height, width, height);
-		bed2Top = furniture1.tileCrop(0, height * 14, width, height);
-		bed2Bottom = furniture1.tileCrop(0, height * 15, width, height);
-		curtainLeftTop = furniture1.tileCrop(width, height * 3, width, height);
-		curtainLeftBottom = furniture1.tileCrop(width, height * 4, width, height);
-		curtainMiddleTop = furniture1.tileCrop(0, height * 3, width, height);
-		curtainMiddleBottom = furniture1.tileCrop(0, height * 4, width, height);
-		curtainRightTop = furniture1.tileCrop(width * 2, height * 3, width, height);
-		curtainRightBottom = furniture1.tileCrop(width * 2, height * 4, width, height);
+		crateApples = objects17.tileCrop(width * 12, height * 3, width, height, true);
+		cratePotatoes = objects17.tileCrop(width * 10, height * 4, width, height, true);
+		crateFish= objects17.tileCrop(width * 11, height * 4, width, height, true);
+		crateGroceries = objects17.tileCrop(width * 12, height * 4, width, height, true);
+		stackedCrateBottom = objects17.tileCrop(width * 10, height * 2, width, height, true);
+		stackedCrateTop = objects17.tileCrop(width * 10, height, width, height, true);
+		crate1 = objects17.tileCrop(width * 10, height * 3, width, height, true);
+		emptyCrate = objects17.tileCrop(width * 11, height * 3, width, height, true);
+		emptyBucket = objects17.tileCrop(width * 12, height * 5, width, height, true);
+		emptyBarrel = objects17.tileCrop(width * 14, height * 2, width, height, true);
+		barrel1 = objects17.tileCrop(width * 14, height, width, height, true);
+		bed2Top = furniture1.tileCrop(0, height * 14, width, height, true);
+		bed2Bottom = furniture1.tileCrop(0, height * 15, width, height, true);
+		curtainLeftTop = furniture1.tileCrop(width, height * 3, width, height, true);
+		curtainLeftBottom = furniture1.tileCrop(width, height * 4, width, height, true);
+		curtainMiddleTop = furniture1.tileCrop(0, height * 3, width, height, true);
+		curtainMiddleBottom = furniture1.tileCrop(0, height * 4, width, height, true);
+		curtainRightTop = furniture1.tileCrop(width * 2, height * 3, width, height, true);
+		curtainRightBottom = furniture1.tileCrop(width * 2, height * 4, width, height, true);
 
-		signInn = objects5.tileCrop(width * 6, 0, width, height);
-		signArmour = objects5.tileCrop(width * 3, 0, width, height);
-		signWeapons = objects5.tileCrop(width * 2, 0, width, height);
-		signWorkshop = objects5.tileCrop(width * 6, height, width, height);
-		signBank = objects5.tileCrop(width * 4, 0, width, height);
-		signShop = objects5.tileCrop(width * 3, height, width, height);
+		signInn = objects5.tileCrop(width * 6, 0, width, height, true);
+		signArmour = objects5.tileCrop(width * 3, 0, width, height, true);
+		signWeapons = objects5.tileCrop(width * 2, 0, width, height, true);
+		signWorkshop = objects5.tileCrop(width * 6, height, width, height, true);
+		signBank = objects5.tileCrop(width * 4, 0, width, height, true);
+		signShop = objects5.tileCrop(width * 3, height, width, height, true);
 		woodenBridgeHorizontal = objects5.tileCrop(width * 3, height * 2, width, height);
 		woodenBridgeVertical = objects5.tileCrop(width * 2, height * 2, width, height);
 		logBridgeHorizontal = objects5.tileCrop(0, height * 2, width, height);
@@ -608,7 +604,7 @@ public static void init(){
 		/*
 		 * Tile Sprites
 		 */
-		black = texture_sheet.tileCrop(width * 3, height * 6, width, height);
+		black = texture_sheet.tileCrop(width * 3, height * 6, width, height, true);
 		invisible = terrain_tile.tileCrop(width * 7, height * 21, width, height);
 		
 		lightGrass = terrain_tile.tileCrop(width, height * 9, width, height);
@@ -624,7 +620,7 @@ public static void init(){
 		redFlower1 = roofs3_sheet.tileCrop(width * 4, height * 11, width, height);
 		plantPot1 = roofs3_sheet.tileCrop(width * 4, height * 12, width, height);
 		pinkFlower1 = trees_sheet.tileCrop(width * 13, height * 8, width, height);
-		greenMushroom = trees_sheet.tileCrop(width * 14, height * 8, width, height);
+		greenMushroom = trees_sheet.tileCrop(width * 14, height * 8, width, height, true);
 		pinkFlower2 = trees_sheet.tileCrop(width * 14, height * 9, width, height);
 
 		
@@ -645,67 +641,67 @@ public static void init(){
 		darkGrassPatch2 = terrain_tile.tileCrop(width * 7, height * 11, width, height);
 		darkGrassPatch3 = terrain_tile.tileCrop(width * 6, height * 11, width, height);
 		
-		waterSmallTopLeft = terrain_tile.tileCrop(width * 28, 0, width, height);
-		waterSmallTopRight = terrain_tile.tileCrop(width * 29, 0, width, height);
-		waterSmallBottomLeft = terrain_tile.tileCrop(width * 28, height, width, height);
-		waterSmallBottomRight = terrain_tile.tileCrop(width * 29, height, width, height);
-		waterTopLeft = terrain_tile.tileCrop(width * 27, height * 2, width, height);
-		waterTopMiddle = terrain_tile.tileCrop(width * 28, height * 2, width, height);
-		waterTopRight = terrain_tile.tileCrop(width * 29, height * 2, width, height);
-		waterMiddleLeft = terrain_tile.tileCrop(width * 27, height * 3, width, height);
-		waterMiddleMiddle = terrain_tile.tileCrop(width * 28, height * 3, width, height);
-		waterMiddleRight = terrain_tile.tileCrop(width * 29, height * 3, width, height);
-		waterBottomLeft = terrain_tile.tileCrop(width * 27, height * 4, width, height);
-		waterBottomMiddle = terrain_tile.tileCrop(width * 28, height * 4, width, height);
-		waterBottomRight = terrain_tile.tileCrop(width * 29, height * 4, width, height);
-		waterFlow1 = terrain_tile.tileCrop(width * 27, height * 5, width, height);
-		waterFlow2 = terrain_tile.tileCrop(width * 28, height * 5, width, height);
-		waterFlow3 = terrain_tile.tileCrop(width * 29, height * 5, width, height);
+		waterSmallTopLeft = terrain_tile.tileCrop(width * 28, 0, width, height, true);
+		waterSmallTopRight = terrain_tile.tileCrop(width * 29, 0, width, height, true);
+		waterSmallBottomLeft = terrain_tile.tileCrop(width * 28, height, width, height, true);
+		waterSmallBottomRight = terrain_tile.tileCrop(width * 29, height, width, height, true);
+		waterTopLeft = terrain_tile.tileCrop(width * 27, height * 2, width, height, true);
+		waterTopMiddle = terrain_tile.tileCrop(width * 28, height * 2, width, height, true);
+		waterTopRight = terrain_tile.tileCrop(width * 29, height * 2, width, height, true);
+		waterMiddleLeft = terrain_tile.tileCrop(width * 27, height * 3, width, height, true);
+		waterMiddleMiddle = terrain_tile.tileCrop(width * 28, height * 3, width, height, true);
+		waterMiddleRight = terrain_tile.tileCrop(width * 29, height * 3, width, height, true);
+		waterBottomLeft = terrain_tile.tileCrop(width * 27, height * 4, width, height, true);
+		waterBottomMiddle = terrain_tile.tileCrop(width * 28, height * 4, width, height, true);
+		waterBottomRight = terrain_tile.tileCrop(width * 29, height * 4, width, height, true);
+		waterFlow1 = terrain_tile.tileCrop(width * 27, height * 5, width, height, true);
+		waterFlow2 = terrain_tile.tileCrop(width * 28, height * 5, width, height, true);
+		waterFlow3 = terrain_tile.tileCrop(width * 29, height * 5, width, height, true);
 		
-		lavaSmallTopLeft = terrain_tile.tileCrop(width * 16, height * 0, width, height);
-		lavaSmallTopRight = terrain_tile.tileCrop(width * 17, height * 0, width, height);
-		lavaSmallBottomLeft = terrain_tile.tileCrop(width * 16, height * 1, width, height);
-		lavaSmallBottomRight = terrain_tile.tileCrop(width * 17, height * 1, width, height);
-		lavaTopLeft = terrain_tile.tileCrop(width * 15, height * 2, width, height);
-		lavaTopMiddle = terrain_tile.tileCrop(width * 16, height * 2, width, height);
-		lavaTopRight = terrain_tile.tileCrop(width * 17, height * 2, width, height);
-		lavaMiddleLeft = terrain_tile.tileCrop(width * 15, height * 3, width, height);
-		lavaMiddleMiddle = terrain_tile.tileCrop(width * 16, height * 3, width, height);
-		lavaMiddleRight = terrain_tile.tileCrop(width * 17, height * 3, width, height);
-		lavaBottomLeft = terrain_tile.tileCrop(width * 15, height * 4, width, height);
-		lavaBottomMiddle = terrain_tile.tileCrop(width * 16, height * 4, width, height);
-		lavaBottomRight = terrain_tile.tileCrop(width * 17, height * 4, width, height);
-		lavaFlow1 = terrain_tile.tileCrop(width * 15, height * 5, width, height);
-		lavaFlow2 = terrain_tile.tileCrop(width * 16, height * 5, width, height);
-		lavaFlow3 = terrain_tile.tileCrop(width * 17, height * 5, width, height);
+		lavaSmallTopLeft = terrain_tile.tileCrop(width * 16, height * 0, width, height, true);
+		lavaSmallTopRight = terrain_tile.tileCrop(width * 17, height * 0, width, height, true);
+		lavaSmallBottomLeft = terrain_tile.tileCrop(width * 16, height * 1, width, height, true);
+		lavaSmallBottomRight = terrain_tile.tileCrop(width * 17, height * 1, width, height, true);
+		lavaTopLeft = terrain_tile.tileCrop(width * 15, height * 2, width, height, true);
+		lavaTopMiddle = terrain_tile.tileCrop(width * 16, height * 2, width, height, true);
+		lavaTopRight = terrain_tile.tileCrop(width * 17, height * 2, width, height, true);
+		lavaMiddleLeft = terrain_tile.tileCrop(width * 15, height * 3, width, height, true);
+		lavaMiddleMiddle = terrain_tile.tileCrop(width * 16, height * 3, width, height, true);
+		lavaMiddleRight = terrain_tile.tileCrop(width * 17, height * 3, width, height, true);
+		lavaBottomLeft = terrain_tile.tileCrop(width * 15, height * 4, width, height, true);
+		lavaBottomMiddle = terrain_tile.tileCrop(width * 16, height * 4, width, height, true);
+		lavaBottomRight = terrain_tile.tileCrop(width * 17, height * 4, width, height, true);
+		lavaFlow1 = terrain_tile.tileCrop(width * 15, height * 5, width, height, true);
+		lavaFlow2 = terrain_tile.tileCrop(width * 16, height * 5, width, height, true);
+		lavaFlow3 = terrain_tile.tileCrop(width * 17, height * 5, width, height, true);
 		
-		sandWaterTopLeft = terrain_tile.tileCrop(width * 21, height * 8, width, height);
-		sandWaterTopMiddle = terrain_tile.tileCrop(width * 22, height * 8, width, height);
-		sandWaterTopRight = terrain_tile.tileCrop(width * 23, height * 8, width, height);
-		sandWaterMiddleLeft = terrain_tile.tileCrop(width * 21, height * 9, width, height);
-		sandWaterMiddleMiddle = terrain_tile.tileCrop(width * 22, height * 9, width, height);
-		sandWaterMiddleRight = terrain_tile.tileCrop(width * 23, height * 9, width, height);
-		sandWaterBottomLeft = terrain_tile.tileCrop(width * 21, height * 10, width, height);
-		sandWaterBottomMiddle = terrain_tile.tileCrop(width * 22, height * 10, width, height);
-		sandWaterBottomRight = terrain_tile.tileCrop(width * 23, height * 10, width, height);
-		sandWaterSmallTopLeft = terrain_tile.tileCrop(width * 22, height * 6, width, height);
-		sandWaterSmallTopRight = terrain_tile.tileCrop(width * 23, height * 6, width, height);
-		sandWaterSmallBottomLeft = terrain_tile.tileCrop(width * 22, height * 7, width, height);
-		sandWaterSmallBottomRight = terrain_tile.tileCrop(width * 23, height * 7, width, height);
+		sandWaterTopLeft = terrain_tile.tileCrop(width * 21, height * 8, width, height, true);
+		sandWaterTopMiddle = terrain_tile.tileCrop(width * 22, height * 8, width, height, true);
+		sandWaterTopRight = terrain_tile.tileCrop(width * 23, height * 8, width, height, true);
+		sandWaterMiddleLeft = terrain_tile.tileCrop(width * 21, height * 9, width, height, true);
+		sandWaterMiddleMiddle = terrain_tile.tileCrop(width * 22, height * 9, width, height, true);
+		sandWaterMiddleRight = terrain_tile.tileCrop(width * 23, height * 9, width, height, true);
+		sandWaterBottomLeft = terrain_tile.tileCrop(width * 21, height * 10, width, height, true);
+		sandWaterBottomMiddle = terrain_tile.tileCrop(width * 22, height * 10, width, height, true);
+		sandWaterBottomRight = terrain_tile.tileCrop(width * 23, height * 10, width, height, true);
+		sandWaterSmallTopLeft = terrain_tile.tileCrop(width * 22, height * 6, width, height, true);
+		sandWaterSmallTopRight = terrain_tile.tileCrop(width * 23, height * 6, width, height, true);
+		sandWaterSmallBottomLeft = terrain_tile.tileCrop(width * 22, height * 7, width, height, true);
+		sandWaterSmallBottomRight = terrain_tile.tileCrop(width * 23, height * 7, width, height, true);
 		
-		holeSmallTopLeft = terrain_tile.tileCrop(width * 19, height * 0, width, height);
-		holeSmallTopRight = terrain_tile.tileCrop(width * 20, height * 0, width, height);
-		holeSmallBottomLeft = terrain_tile.tileCrop(width * 19, height * 1, width, height);
-		holeSmallBottomRight = terrain_tile.tileCrop(width * 20, height * 1, width, height);
-		holeTopLeft = terrain_tile.tileCrop(width * 18, height * 2, width, height);
-		holeTopMiddle = terrain_tile.tileCrop(width * 19, height * 2, width, height);
-		holeTopRight = terrain_tile.tileCrop(width * 20, height * 2, width, height);
-		holeMiddleLeft = terrain_tile.tileCrop(width * 18, height * 3, width, height);
-		holeMiddleMiddle = terrain_tile.tileCrop(width * 19, height * 3, width, height);
-		holeMiddleRight = terrain_tile.tileCrop(width * 20, height * 3, width, height);
-		holeBottomLeft = terrain_tile.tileCrop(width * 18, height * 4, width, height);
-		holeBottomMiddle = terrain_tile.tileCrop(width * 19, height * 4, width, height);
-		holeBottomRight = terrain_tile.tileCrop(width * 20, height * 4, width, height);
+		holeSmallTopLeft = terrain_tile.tileCrop(width * 19, height * 0, width, height, true);
+		holeSmallTopRight = terrain_tile.tileCrop(width * 20, height * 0, width, height, true);
+		holeSmallBottomLeft = terrain_tile.tileCrop(width * 19, height * 1, width, height, true);
+		holeSmallBottomRight = terrain_tile.tileCrop(width * 20, height * 1, width, height, true);
+		holeTopLeft = terrain_tile.tileCrop(width * 18, height * 2, width, height, true);
+		holeTopMiddle = terrain_tile.tileCrop(width * 19, height * 2, width, height, true);
+		holeTopRight = terrain_tile.tileCrop(width * 20, height * 2, width, height, true);
+		holeMiddleLeft = terrain_tile.tileCrop(width * 18, height * 3, width, height, true);
+		holeMiddleMiddle = terrain_tile.tileCrop(width * 19, height * 3, width, height, true);
+		holeMiddleRight = terrain_tile.tileCrop(width * 20, height * 3, width, height, true);
+		holeBottomLeft = terrain_tile.tileCrop(width * 18, height * 4, width, height, true);
+		holeBottomMiddle = terrain_tile.tileCrop(width * 19, height * 4, width, height, true);
+		holeBottomRight = terrain_tile.tileCrop(width * 20, height * 4, width, height, true);
 		
 		transDirtTopLeft = terrain_tile.tileCrop(width * 0, height * 2, width, height);
 		transDirtTopMiddle = terrain_tile.tileCrop(width * 1, height * 2, width, height);
@@ -791,19 +787,19 @@ public static void init(){
 		snowPattern2 = terrain_tile.tileCrop(width * 19, height * 17, width, height);
 		snowPattern3 = terrain_tile.tileCrop(width * 20, height * 17, width, height);
 		
-		snowWaterTopLeft = terrain_tile.tileCrop(width * 21, height * 19, width, height);
-		snowWaterTopMiddle = terrain_tile.tileCrop(width * 22, height * 19, width, height);
-		snowWaterTopRight = terrain_tile.tileCrop(width * 23, height * 19, width, height);
-		snowWaterMiddleLeft = terrain_tile.tileCrop(width * 21, height * 20, width, height);
-		snowWaterMiddleMiddle = terrain_tile.tileCrop(width * 22, height * 20, width, height);
-		snowWaterMiddleRight = terrain_tile.tileCrop(width * 23, height * 20, width, height);
-		snowWaterBottomLeft = terrain_tile.tileCrop(width * 21, height * 21, width, height);
-		snowWaterBottomMiddle = terrain_tile.tileCrop(width * 22, height * 21, width, height);
-		snowWaterBottomRight = terrain_tile.tileCrop(width * 23, height * 21, width, height);
-		snowWaterSmallTopLeft = terrain_tile.tileCrop(width * 22, height * 17, width, height);
-		snowWaterSmallTopRight = terrain_tile.tileCrop(width * 23, height * 17, width, height);
-		snowWaterSmallBottomLeft = terrain_tile.tileCrop(width * 22, height * 18, width, height);
-		snowWaterSmallBottomRight = terrain_tile.tileCrop(width * 23, height * 18, width, height);
+		snowWaterTopLeft = terrain_tile.tileCrop(width * 21, height * 19, width, height, true);
+		snowWaterTopMiddle = terrain_tile.tileCrop(width * 22, height * 19, width, height, true);
+		snowWaterTopRight = terrain_tile.tileCrop(width * 23, height * 19, width, height, true);
+		snowWaterMiddleLeft = terrain_tile.tileCrop(width * 21, height * 20, width, height, true);
+		snowWaterMiddleMiddle = terrain_tile.tileCrop(width * 22, height * 20, width, height, true);
+		snowWaterMiddleRight = terrain_tile.tileCrop(width * 23, height * 20, width, height, true);
+		snowWaterBottomLeft = terrain_tile.tileCrop(width * 21, height * 21, width, height, true);
+		snowWaterBottomMiddle = terrain_tile.tileCrop(width * 22, height * 21, width, height, true);
+		snowWaterBottomRight = terrain_tile.tileCrop(width * 23, height * 21, width, height, true);
+		snowWaterSmallTopLeft = terrain_tile.tileCrop(width * 22, height * 17, width, height, true);
+		snowWaterSmallTopRight = terrain_tile.tileCrop(width * 23, height * 17, width, height, true);
+		snowWaterSmallBottomLeft = terrain_tile.tileCrop(width * 22, height * 18, width, height, true);
+		snowWaterSmallBottomRight = terrain_tile.tileCrop(width * 23, height * 18, width, height, true);
 		
 		sandTopLeft = terrain_tile.tileCrop(width * 18, height * 8, width, height);
 		sandTopMiddle = terrain_tile.tileCrop(width * 19, height * 8, width, height);
@@ -822,129 +818,130 @@ public static void init(){
 		sandPattern2 = terrain_tile.tileCrop(width * 19, height * 11, width, height);
 		sandPattern3 = terrain_tile.tileCrop(width * 20, height * 11, width, height);
 		
-		cliffEntranceTop = cliffs_sheet.tileCrop(0, height * 5, width, height);
+		cliffEntranceTop = cliffs_sheet.tileCrop(0, height * 5, width, height, true);
 		cliffEntranceBottom = cliffs_sheet.tileCrop(0, height * 6, width, height);
-		sandCliffTopLeft = cliffs_sheet.tileCrop(width * 5, 0, width, height);
-		sandCliffTopMiddle = cliffs_sheet.tileCrop(width * 6, 0, width, height);
-		sandCliffTopRight = cliffs_sheet.tileCrop(width * 7, 0, width, height);
-		sandCliffMiddleLeft = cliffs_sheet.tileCrop(width * 5, height, width, height);
-		sandCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 6, height, width, height);
-		sandCliffMiddleRight = cliffs_sheet.tileCrop(width * 7, height, width, height);
-		sandCliffBottomLeft = cliffs_sheet.tileCrop(width * 5, height * 2, width, height);
-		sandCliffBottomMiddle = cliffs_sheet.tileCrop(width * 6, height * 2, width, height);
-		sandCliffBottomRight = cliffs_sheet.tileCrop(width * 7, height * 2, width, height);
-		sandCliffLeft = cliffs_sheet.tileCrop(width * 5, height * 3, width, height);
-		sandCliffMiddle = cliffs_sheet.tileCrop(width * 6, height * 3, width, height);
-		sandCliffRight = cliffs_sheet.tileCrop(width * 7, height * 3, width, height);
-		sandCliffFootLeft = cliffs_sheet.tileCrop(width * 5, height * 4, width, height);
-		sandCliffFootMiddle = cliffs_sheet.tileCrop(width * 6, height * 4, width, height);
-		sandCliffFootRight = cliffs_sheet.tileCrop(width * 7, height * 4, width, height);
-		sandCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 8, 0, width, height);
-		sandCliffCornerTopRight = cliffs_sheet.tileCrop(width * 9, 0, width, height);
-		sandCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 8, height, width, height);
-		sandCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 9, height, width, height);
-		sandCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 8, height * 2, width, height);
-		sandCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 9, height * 2, width, height);
-		sandCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 8, height * 3, width, height);
-		sandCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 9, height * 3, width, height);
+		sandCliffTopLeft = cliffs_sheet.tileCrop(width * 5, 0, width, height, true);
+		sandCliffTopMiddle = cliffs_sheet.tileCrop(width * 6, 0, width, height, true);
+		sandCliffTopRight = cliffs_sheet.tileCrop(width * 7, 0, width, height, true);
+		sandCliffMiddleLeft = cliffs_sheet.tileCrop(width * 5, height, width, height, true);
+		sandCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 6, height, width, height, true);
+		sandCliffMiddleRight = cliffs_sheet.tileCrop(width * 7, height, width, height, true);
+		sandCliffBottomLeft = cliffs_sheet.tileCrop(width * 5, height * 2, width, height, true);
+		sandCliffBottomMiddle = cliffs_sheet.tileCrop(width * 6, height * 2, width, height, true);
+		sandCliffBottomRight = cliffs_sheet.tileCrop(width * 7, height * 2, width, height, true);
+		sandCliffLeft = cliffs_sheet.tileCrop(width * 5, height * 3, width, height, true);
+		sandCliffMiddle = cliffs_sheet.tileCrop(width * 6, height * 3, width, height, true);
+		sandCliffRight = cliffs_sheet.tileCrop(width * 7, height * 3, width, height, true);
+		sandCliffFootLeft = cliffs_sheet.tileCrop(width * 5, height * 4, width, height, true);
+		sandCliffFootMiddle = cliffs_sheet.tileCrop(width * 6, height * 4, width, height, true);
+		sandCliffFootRight = cliffs_sheet.tileCrop(width * 7, height * 4, width, height, true);
+		sandCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 8, 0, width, height, true);
+		sandCliffCornerTopRight = cliffs_sheet.tileCrop(width * 9, 0, width, height, true);
+		sandCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 8, height, width, height, true);
+		sandCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 9, height, width, height, true);
+		sandCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 8, height * 2, width, height, true);
+		sandCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 9, height * 2, width, height, true);
+		sandCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 8, height * 3, width, height, true);
+		sandCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 9, height * 3, width, height, true);
 		
-		grassCliffTopLeft = cliffs_sheet.tileCrop(width * 17, 0, width, height);
-		grassCliffTopMiddle = cliffs_sheet.tileCrop(width * 18, 0, width, height);
-		grassCliffTopRight = cliffs_sheet.tileCrop(width * 19, 0, width, height);
-		grassCliffMiddleLeft = cliffs_sheet.tileCrop(width * 17, height, width, height);
-		grassCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 18, height, width, height);
-		grassCliffMiddleRight = cliffs_sheet.tileCrop(width * 19, height, width, height);
-		grassCliffBottomLeft = cliffs_sheet.tileCrop(width * 17, height * 2, width, height);
-		grassCliffBottomMiddle = cliffs_sheet.tileCrop(width * 18, height * 2, width, height);
-		grassCliffBottomRight = cliffs_sheet.tileCrop(width * 19, height * 2, width, height);
-		grassCliffLeft = cliffs_sheet.tileCrop(width * 17, height * 3, width, height);
-		grassCliffMiddle = cliffs_sheet.tileCrop(width * 18, height * 3, width, height);
-		grassCliffRight = cliffs_sheet.tileCrop(width * 19, height * 3, width, height);
-		grassCliffFootLeft = cliffs_sheet.tileCrop(width * 17, height * 4, width, height);
-		grassCliffFootMiddle = cliffs_sheet.tileCrop(width * 18, height * 4, width, height);
-		grassCliffFootRight = cliffs_sheet.tileCrop(width * 19, height * 4, width, height);
-		grassCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 20, 0, width, height);
-		grassCliffCornerTopRight = cliffs_sheet.tileCrop(width * 21, 0, width, height);
-		grassCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 20, height, width, height);
-		grassCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 21, height, width, height);
-		grassCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 20, height * 2, width, height);
-		grassCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 21, height * 2, width, height);
-		grassCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 20, height * 3, width, height);
-		grassCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 21, height * 3, width, height);
+		grassCliffTopLeft = cliffs_sheet.tileCrop(width * 17, 0, width, height, true);
+		grassCliffTopMiddle = cliffs_sheet.tileCrop(width * 18, 0, width, height, true);
+		grassCliffTopRight = cliffs_sheet.tileCrop(width * 19, 0, width, height, true);
+		grassCliffMiddleLeft = cliffs_sheet.tileCrop(width * 17, height, width, height, true);
+		grassCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 18, height, width, height, true);
+		grassCliffMiddleRight = cliffs_sheet.tileCrop(width * 19, height, width, height, true);
+		grassCliffBottomLeft = cliffs_sheet.tileCrop(width * 17, height * 2, width, height, true);
+		grassCliffBottomMiddle = cliffs_sheet.tileCrop(width * 18, height * 2, width, height, true);
+		grassCliffBottomRight = cliffs_sheet.tileCrop(width * 19, height * 2, width, height, true);
+		grassCliffLeft = cliffs_sheet.tileCrop(width * 17, height * 3, width, height, true);
+		grassCliffMiddle = cliffs_sheet.tileCrop(width * 18, height * 3, width, height, true);
+		grassCliffRight = cliffs_sheet.tileCrop(width * 19, height * 3, width, height, true);
+		grassCliffFootLeft = cliffs_sheet.tileCrop(width * 17, height * 4, width, height, true);
+		grassCliffFootMiddle = cliffs_sheet.tileCrop(width * 18, height * 4, width, height, true);
+		grassCliffFootRight = cliffs_sheet.tileCrop(width * 19, height * 4, width, height, true);
+		grassCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 20, 0, width, height, true);
+		grassCliffCornerTopRight = cliffs_sheet.tileCrop(width * 21, 0, width, height, true);
+		grassCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 20, height, width, height, true);
+		grassCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 21, height, width, height, true);
+		grassCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 20, height * 2, width, height, true);
+		grassCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 21, height * 2, width, height, true);
+		grassCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 20, height * 3, width, height, true);
+		grassCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 21, height * 3, width, height, true);
 		
-		snowCliffTopLeft = cliffs_sheet.tileCrop(width * 29, 0, width, height);
-		snowCliffTopMiddle = cliffs_sheet.tileCrop(width * 30, 0, width, height);
-		snowCliffTopRight = cliffs_sheet.tileCrop(width * 31, 0, width, height);
-		snowCliffMiddleLeft = cliffs_sheet.tileCrop(width * 29, height, width, height);
-		snowCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 30, height, width, height);
-		snowCliffMiddleRight = cliffs_sheet.tileCrop(width * 31, height, width, height);
-		snowCliffBottomLeft = cliffs_sheet.tileCrop(width * 29, height * 2, width, height);
-		snowCliffBottomMiddle = cliffs_sheet.tileCrop(width * 30, height * 2, width, height);
-		snowCliffBottomRight = cliffs_sheet.tileCrop(width * 31, height * 2, width, height);
-		snowCliffLeft = cliffs_sheet.tileCrop(width * 29, height * 3, width, height);
-		snowCliffMiddle = cliffs_sheet.tileCrop(width * 30, height * 3, width, height);
-		snowCliffRight = cliffs_sheet.tileCrop(width * 31, height * 3, width, height);
-		snowCliffFootLeft = cliffs_sheet.tileCrop(width * 29, height * 4, width, height);
-		snowCliffFootMiddle = cliffs_sheet.tileCrop(width * 30, height * 4, width, height);
-		snowCliffFootRight = cliffs_sheet.tileCrop(width * 31, height * 4, width, height);
-		snowCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 32, 0, width, height);
-		snowCliffCornerTopRight = cliffs_sheet.tileCrop(width * 33, 0, width, height);
-		snowCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 32, height, width, height);
-		snowCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 33, height, width, height);
-		snowCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 32, height * 2, width, height);
-		snowCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 33, height * 2, width, height);
-		snowCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 32, height * 3, width, height);
-		snowCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 33, height * 3, width, height);
+		snowCliffTopLeft = cliffs_sheet.tileCrop(width * 29, 0, width, height, true);
+		snowCliffTopMiddle = cliffs_sheet.tileCrop(width * 30, 0, width, height, true);
+		snowCliffTopRight = cliffs_sheet.tileCrop(width * 31, 0, width, height, true);
+		snowCliffMiddleLeft = cliffs_sheet.tileCrop(width * 29, height, width, height, true);
+		snowCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 30, height, width, height, true);
+		snowCliffMiddleRight = cliffs_sheet.tileCrop(width * 31, height, width, height, true);
+		snowCliffBottomLeft = cliffs_sheet.tileCrop(width * 29, height * 2, width, height, true);
+		snowCliffBottomMiddle = cliffs_sheet.tileCrop(width * 30, height * 2, width, height, true);
+		snowCliffBottomRight = cliffs_sheet.tileCrop(width * 31, height * 2, width, height, true);
+		snowCliffLeft = cliffs_sheet.tileCrop(width * 29, height * 3, width, height, true);
+		snowCliffMiddle = cliffs_sheet.tileCrop(width * 30, height * 3, width, height, true);
+		snowCliffRight = cliffs_sheet.tileCrop(width * 31, height * 3, width, height, true);
+		snowCliffFootLeft = cliffs_sheet.tileCrop(width * 29, height * 4, width, height, true);
+		snowCliffFootMiddle = cliffs_sheet.tileCrop(width * 30, height * 4, width, height, true);
+		snowCliffFootRight = cliffs_sheet.tileCrop(width * 31, height * 4, width, height, true);
+		snowCliffCornerTopLeft = cliffs_sheet.tileCrop(width * 32, 0, width, height, true);
+		snowCliffCornerTopRight = cliffs_sheet.tileCrop(width * 33, 0, width, height, true);
+		snowCliffCornerBottomLeft = cliffs_sheet.tileCrop(width * 32, height, width, height, true);
+		snowCliffCornerBottomRight = cliffs_sheet.tileCrop(width * 33, height, width, height, true);
+		snowCliffCornerLowerLeft = cliffs_sheet.tileCrop(width * 32, height * 2, width, height, true);
+		snowCliffCornerLowerRight = cliffs_sheet.tileCrop(width * 33, height * 2, width, height, true);
+		snowCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 32, height * 3, width, height, true);
+		snowCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 33, height * 3, width, height, true);
 		
-		caveCliffTopLeft = terrain_tile.tileCrop(width * 24, height * 10, width, height);
-		caveCliffTopMiddle = terrain_tile.tileCrop(width * 25, height * 10, width, height);
-		caveCliffTopRight = terrain_tile.tileCrop(width * 26, height * 10, width, height);
-		caveCliffMiddleLeft = terrain_tile.tileCrop(width * 24, height * 11, width, height);
-		caveCliffMiddleMiddle = terrain_tile.tileCrop(width * 25, height * 11, width, height);
-		caveCliffMiddleRight = terrain_tile.tileCrop(width * 26, height * 11, width, height);
-		caveCliffBottomLeft = terrain_tile.tileCrop(width * 24, height * 12, width, height);
-		caveCliffBottomMiddle = terrain_tile.tileCrop(width * 25, height * 12, width, height);
-		caveCliffBottomRight = terrain_tile.tileCrop(width * 26, height * 12, width, height);
-		caveCliffLeft = terrain_tile.tileCrop(width * 24, height * 13, width, height);
-		caveCliffMiddle = terrain_tile.tileCrop(width * 25, height * 13, width, height);
-		caveCliffRight = terrain_tile.tileCrop(width * 26, height * 13, width, height);
-		caveCliffFootLeft = terrain_tile.tileCrop(width * 24, height * 14, width, height);
-		caveCliffFootMiddle = terrain_tile.tileCrop(width * 25, height * 14, width, height);
-		caveCliffFootRight = terrain_tile.tileCrop(width * 26, height * 14, width, height);
-		caveCliffCornerTopLeft = terrain_tile.tileCrop(width * 30, height * 5, width, height);
-		caveCliffCornerTopRight = terrain_tile.tileCrop(width * 31, height * 5, width, height);
-		caveCliffCornerBottomLeft = terrain_tile.tileCrop(width * 30, height * 6, width, height);
-		caveCliffCornerBottomRight = terrain_tile.tileCrop(width * 31, height * 6, width, height);
-		caveCliffCornerLowerLeft = terrain_tile.tileCrop(width * 30, height * 7, width, height);
-		caveCliffCornerLowerRight = terrain_tile.tileCrop(width * 31, height * 7, width, height);
-		caveCliffCornerLowestLeft = terrain_tile.tileCrop(width * 30, height * 8, width, height);
-		caveCliffCornerLowestRight = terrain_tile.tileCrop(width * 31, height * 8, width, height);
+		caveCliffTopLeft = terrain_tile.tileCrop(width * 24, height * 10, width, height, true);
+		caveCliffTopMiddle = terrain_tile.tileCrop(width * 25, height * 10, width, height, true);
+		caveCliffTopRight = terrain_tile.tileCrop(width * 26, height * 10, width, height, true);
+		caveCliffMiddleLeft = terrain_tile.tileCrop(width * 24, height * 11, width, height, true);
+		caveCliffMiddleMiddle = terrain_tile.tileCrop(width * 25, height * 11, width, height, true);
+		caveCliffMiddleRight = terrain_tile.tileCrop(width * 26, height * 11, width, height, true);
+		caveCliffBottomLeft = terrain_tile.tileCrop(width * 24, height * 12, width, height, true);
+		caveCliffBottomMiddle = terrain_tile.tileCrop(width * 25, height * 12, width, height, true);
+		caveCliffBottomRight = terrain_tile.tileCrop(width * 26, height * 12, width, height, true);
+		caveCliffLeft = terrain_tile.tileCrop(width * 24, height * 13, width, height, true);
+		caveCliffMiddle = terrain_tile.tileCrop(width * 25, height * 13, width, height, true);
+		caveCliffRight = terrain_tile.tileCrop(width * 26, height * 13, width, height, true);
+		caveCliffFootLeft = terrain_tile.tileCrop(width * 24, height * 14, width, height, true);
+		caveCliffFootMiddle = terrain_tile.tileCrop(width * 25, height * 14, width, height, true);
+		caveCliffFootRight = terrain_tile.tileCrop(width * 26, height * 14, width, height, true);
+		caveCliffCornerTopLeft = terrain_tile.tileCrop(width * 30, height * 5, width, height, true);
+		caveCliffCornerTopRight = terrain_tile.tileCrop(width * 31, height * 5, width, height, true);
+		caveCliffCornerBottomLeft = terrain_tile.tileCrop(width * 30, height * 6, width, height, true);
+		caveCliffCornerBottomRight = terrain_tile.tileCrop(width * 31, height * 6, width, height, true);
+		caveCliffCornerLowerLeft = terrain_tile.tileCrop(width * 30, height * 7, width, height, true);
+		caveCliffCornerLowerRight = terrain_tile.tileCrop(width * 31, height * 7, width, height, true);
+		caveCliffCornerLowestLeft = terrain_tile.tileCrop(width * 30, height * 8, width, height, true);
+		caveCliffCornerLowestRight = terrain_tile.tileCrop(width * 31, height * 8, width, height, true);
 		
 		// Ambiance tiles
 		sparkleTile = terrain_tile.tileCrop(width * 16, height * 18, width, height);
-		redMushroom = trees_sheet.tileCrop(width * 7, height * 6, width, height);
-		blueMushroom = trees_sheet.tileCrop(width * 7, height * 5, width, height);
-		smallRedRocks = terrain_tile.tileCrop(width * 31, height * 18, width, height);
+		redMushroom = trees_sheet.tileCrop(width * 7, height * 6, width, height, true);
+		blueMushroom = trees_sheet.tileCrop(width * 7, height * 5, width, height, true);
+		smallRedRocks = terrain_tile.tileCrop(width * 31, height * 18, width, height, true);
 		
 		// Animated ambiance details
 		sparkles = new BufferedImage[3];
-		sparkles[0] = animated_terrain.tileCrop(0, 0, width, height);
-		sparkles[1] = animated_terrain.tileCrop(width, 0, width, height);
-		sparkles[2] = animated_terrain.tileCrop(width * 2, 0, width, height);
+		sparkles[0] = animated_terrain.imageCrop(0, 0, width, height);
+		sparkles[1] = animated_terrain.imageCrop(width, 0, width, height);
+		sparkles[2] = animated_terrain.imageCrop(width * 2, 0, width, height);
+		
 		
 		// Skilling objects
-		tree = texture_sheet.tileCrop(width, height * 2, width, height);
-		rock = objects3.tileCrop(width * 4, height * 9, width, height);
+		tree = texture_sheet.imageCrop(width, height * 2, width, height);
+		rock = objects3.imageCrop(width * 4, height * 9, width, height);
 		
 		whirlpool = new BufferedImage[8];
-		whirlpool[0] = whirlPool.tileCrop(0, 0, width, height);
-		whirlpool[1] = whirlPool.tileCrop(width * 2, 0, width, height);
-		whirlpool[2] = whirlPool.tileCrop(width, 0, width, height);
-		whirlpool[3] = whirlPool.tileCrop(width * 3, 0, width, height);
-		whirlpool[4] = whirlPool.tileCrop(0, height, width, height);
-		whirlpool[5] = whirlPool.tileCrop(width * 2, height, width, height);
-		whirlpool[6] = whirlPool.tileCrop(width, height, width, height);
-		whirlpool[7] = whirlPool.tileCrop(width * 3, height, width, height);
+		whirlpool[0] = whirlPool.imageCrop(0, 0, width, height);
+		whirlpool[1] = whirlPool.imageCrop(width * 2, 0, width, height);
+		whirlpool[2] = whirlPool.imageCrop(width, 0, width, height);
+		whirlpool[3] = whirlPool.imageCrop(width * 3, 0, width, height);
+		whirlpool[4] = whirlPool.imageCrop(0, height, width, height);
+		whirlpool[5] = whirlPool.imageCrop(width * 2, height, width, height);
+		whirlpool[6] = whirlPool.imageCrop(width, height, width, height);
+		whirlpool[7] = whirlPool.imageCrop(width * 3, height, width, height);
 		
 	}
 	

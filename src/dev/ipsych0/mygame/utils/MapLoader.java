@@ -1,4 +1,4 @@
-package dev.ipsych0.mygame.mapeditor;
+package dev.ipsych0.mygame.utils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -156,10 +156,6 @@ public class MapLoader implements Serializable{
 				Node inner = n.getAttributes().getNamedItem("firstgid");
 				firstGids[i] = Integer.parseInt(inner.getNodeValue());
 			}
-			
-			for(int i = 0; i < firstGids.length; i++) {
-				System.out.println(firstGids[i]);
-			}
 			return firstGids;
 			
 		} catch (ParserConfigurationException e) {
@@ -175,7 +171,7 @@ public class MapLoader implements Serializable{
 		return null;
 	}
 	
-	public static String getImageSource(String path) {
+	public static int getImageIndex(String worldPath, String imagePath) {
 		// Creates a DocumentBuilder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -183,7 +179,7 @@ public class MapLoader implements Serializable{
 		
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(path);
+			Document doc = builder.parse(worldPath);
 			doc.normalize();
 
 			// Get all tileset objects
@@ -205,10 +201,11 @@ public class MapLoader implements Serializable{
 				// Get the source path and remove the first two dots
 				imageSource = sourceObject.getNodeValue().substring(2);
 				
-				System.out.println(imageSource);
+				if(imageSource.equals(imagePath)) {
+					return i;
+				}
 			}
 
-			return imageSource;
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -219,7 +216,74 @@ public class MapLoader implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
-		return null;
+		System.out.println("Couldn't find the index of the image path for world: "+worldPath+" - in: MapLoader::getImageIndex");
+		System.out.println(imagePath + " - is not a tileset used in Tiled Map Editor.");
+		return -1;
+	}
+	
+	public static int getTileCount(String worldPath, int imageIndex) {
+		// Creates a DocumentBuilder
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		int tileCount = -1;
+		
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(worldPath);
+			doc.normalize();
+
+			// Get all tileset objects
+			NodeList tilesets = doc.getElementsByTagName("tileset");
+			
+			Node n = tilesets.item(imageIndex);
+			Node inner = n.getAttributes().getNamedItem("tilecount");
+			tileCount = Integer.parseInt(inner.getNodeValue());
+			return tileCount;
+
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Artifact 'tileCount' not found for path: " + worldPath + " in: MapLoader::getTileCount");
+		return -1;
+	}
+	
+	public static int getTileColumns(String worldPath, int imageIndex) {
+		// Creates a DocumentBuilder
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		int columns = -1;
+		
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(worldPath);
+			doc.normalize();
+
+			// Get all tileset objects
+			NodeList tilesets = doc.getElementsByTagName("tileset");
+			
+			Node n = tilesets.item(imageIndex);
+			Node inner = n.getAttributes().getNamedItem("columns");
+			columns = Integer.parseInt(inner.getNodeValue());
+			return columns;
+
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Artifact 'columns' not found for path: " + worldPath + " in: MapLoader::getTileColumns");
+		return columns;
 	}
 }

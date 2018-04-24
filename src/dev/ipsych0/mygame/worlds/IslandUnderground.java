@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Campfire;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
+import dev.ipsych0.mygame.utils.MapLoader;
 
 public class IslandUnderground extends World {
 	
@@ -24,6 +24,7 @@ public class IslandUnderground extends World {
 	public IslandUnderground(Handler handler, String path, int worldID) {
 		super(handler);
 		
+		this.worldPath = path;
 		this.worldID = worldID;
 		
 		width = MapLoader.getMapWidth(path);

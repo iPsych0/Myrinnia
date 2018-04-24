@@ -17,12 +17,12 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.MapLoader;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.utils.Utils;
 
@@ -40,6 +40,7 @@ public abstract class World implements Serializable {
 	protected int worldID;
 	protected String[] layers;
 	private Color night = new Color(0, 13, 35);
+	protected String worldPath;
 	
 	// Entities
 	
@@ -103,7 +104,7 @@ public abstract class World implements Serializable {
 		for (int i = 0; i < layers.length; i++) {
 			for(int y = yStart; y < yEnd; y++){
 				for(int x = xStart; x < xEnd; x++){
-					if(getTile(i,x,y) != Tiles.invisible) {
+					if(getTile(i,x,y) != Tiles.tiles[736]) {
 						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 					}
@@ -298,5 +299,13 @@ public abstract class World implements Serializable {
 
 	public void setQuestManager(QuestManager questManager) {
 		this.questManager = questManager;
+	}
+
+	public String getWorldPath() {
+		return worldPath;
+	}
+
+	public void setWorldPath(String worldPath) {
+		this.worldPath = worldPath;
 	}
 }
