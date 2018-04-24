@@ -19,7 +19,7 @@ public class MapLoader implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MapLoader(){
+	private MapLoader(){
 		
 	}
 	
@@ -27,7 +27,7 @@ public class MapLoader implements Serializable{
 	 * Returns the width of the map from Tiled
 	 * @params: String path in OS
 	 */
-	public int getMapWidth(String path){
+	public static int getMapWidth(String path){
 		int mapWidth = 0;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -59,7 +59,7 @@ public class MapLoader implements Serializable{
 	 * Returns the height of the map from Tiled
 	 * @params: String path in OS
 	 */
-	public int getMapHeight(String path){
+	public static int getMapHeight(String path){
 		int mapHeight = 0;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -93,7 +93,7 @@ public class MapLoader implements Serializable{
 	 * @param: path - input path from OS to read in the .tmx file
 	 * @returns: String[] mapValues - all Tile IDs per layer
 	 */
-	public String[] groundTileParser(String path){
+	public static String[] getMapTiles(String path){
 		// Creates a DocumentBuilder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -137,7 +137,7 @@ public class MapLoader implements Serializable{
 		return null;
 	}
 	
-	public int[] getTiledFirstGid(String path) {
+	public static int[] getTiledFirstGid(String path) {
 		// Creates a DocumentBuilder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -145,10 +145,8 @@ public class MapLoader implements Serializable{
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
-			
-			// Get all tags
-			NodeList maps = doc.getElementsByTagName("layer");
-			
+
+			// Get all tileset objects
 			NodeList tilesets = doc.getElementsByTagName("tileset");
 			
 			int[] firstGids = new int[tilesets.getLength()];
@@ -173,7 +171,55 @@ public class MapLoader implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
+		return null;
+	}
+	
+	public static String getImageSource(String path) {
+		// Creates a DocumentBuilder
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
+		String imageSource = null;
+		
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(path);
+			doc.normalize();
+
+			// Get all tileset objects
+			NodeList tilesets = doc.getElementsByTagName("tileset");
+			
+			for(int i = 0; i < tilesets.getLength(); i++) {
+				// Get the tileset property
+				Node tilesetObject = tilesets.item(i);
+				
+				// Get the contents of a tileset
+				NodeList tilesetContents = tilesetObject.getChildNodes();
+				
+				// Get index 1 (always the image property)
+				Node imageObject = tilesetContents.item(1);
+				
+				// Get the source attribute
+				Node sourceObject = imageObject.getAttributes().getNamedItem("source");
+				
+				// Get the source path and remove the first two dots
+				imageSource = sourceObject.getNodeValue().substring(2);
+				
+				System.out.println(imageSource);
+			}
+
+			return imageSource;
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
 		return null;
 	}
 }
