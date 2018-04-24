@@ -18,7 +18,6 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.mapeditor.MapLoader;
-import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
@@ -51,9 +50,6 @@ public abstract class World implements Serializable {
 	
 	protected ItemManager itemManager;
 	
-	// MiniMap
-	protected MiniMap miniMap;
-	
 	protected InventoryWindow inventory;
 	protected EquipmentWindow equipment;
 	protected CraftingUI craftingUI;
@@ -81,7 +77,6 @@ public abstract class World implements Serializable {
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
 			mapLoader = handler.getMapLoader();
-			miniMap = new MiniMap(handler, "res/worlds/testmap.tmx", 220, 100, 400, 400);
 			craftingUI = handler.getCraftingUI();
 		}
 	}
@@ -141,7 +136,6 @@ public abstract class World implements Serializable {
 		
 		
 		// MiniMap
-		miniMap.render(g);
 		craftingUI.render(g);
 		
 		questManager.render(g);

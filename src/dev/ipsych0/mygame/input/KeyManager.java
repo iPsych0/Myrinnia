@@ -11,7 +11,6 @@ import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.mapeditor.MiniMap;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
@@ -133,16 +132,6 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 				else {
 					ChatWindow.chatIsOpen = false;
-				}
-			}
-			
-			// Map toggle
-			if(e.getKeyCode() == KeyEvent.VK_M){
-				if(!MiniMap.isOpen){
-					MiniMap.isOpen = true;
-				}
-				else {
-					MiniMap.isOpen = false;
 				}
 			}
 			
