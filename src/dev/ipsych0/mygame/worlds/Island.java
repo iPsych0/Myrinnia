@@ -33,6 +33,7 @@ public class Island extends World {
 		height = mapLoader.getMapHeight(path);
 		
 		loadWorld(path);
+		mapLoader.getTiledFirstGid(path);
 		
 		entityManager.addEntity(new Tree(handler, 5216, 5536));
 		

@@ -136,4 +136,44 @@ public class MapLoader implements Serializable{
 		}
 		return null;
 	}
+	
+	public int[] getTiledFirstGid(String path) {
+		// Creates a DocumentBuilder
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(path);
+			doc.normalize();
+			
+			// Get all tags
+			NodeList maps = doc.getElementsByTagName("layer");
+			
+			NodeList tilesets = doc.getElementsByTagName("tileset");
+			
+			int[] firstGids = new int[tilesets.getLength()];
+			
+			for(int i = 0; i < tilesets.getLength(); i++) {
+				Node n = tilesets.item(i);
+				Node inner = n.getAttributes().getNamedItem("firstgid");
+				firstGids[i] = Integer.parseInt(inner.getNodeValue());
+			}
+			
+			for(int i = 0; i < firstGids.length; i++) {
+				System.out.println(firstGids[i]);
+			}
+			return firstGids;
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
