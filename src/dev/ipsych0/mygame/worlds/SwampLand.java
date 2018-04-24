@@ -9,6 +9,7 @@ import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
+import dev.ipsych0.mygame.mapeditor.MapLoader;
 
 public class SwampLand extends World{
 	
@@ -23,8 +24,8 @@ public class SwampLand extends World{
 		
 		this.worldID = worldID;
 
-		width = mapLoader.getMapWidth(path);
-		height = mapLoader.getMapHeight(path);
+		width = MapLoader.getMapWidth(path);
+		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
 		

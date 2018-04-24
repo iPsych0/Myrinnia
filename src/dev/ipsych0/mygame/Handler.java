@@ -18,7 +18,6 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
 import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
@@ -52,7 +51,6 @@ public class Handler implements Serializable {
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
 	private QuestManager questManager;
-	private MapLoader mapLoader;
 	private CraftingUI craftingUI;
 	private CharacterUI characterUI;
 	private SkillsUI skillsUI;
@@ -80,7 +78,6 @@ public class Handler implements Serializable {
 		inventory = new InventoryWindow(this, 828, 0);
 		equipment = new EquipmentWindow(this, 828, 372);
 		questManager = new QuestManager(this);
-		mapLoader = new MapLoader();
 		craftingUI = new CraftingUI(this, 0, 180);
 		characterUI = new CharacterUI(this);
 		skillsUI = new SkillsUI(this);
@@ -309,14 +306,6 @@ public class Handler implements Serializable {
 
 	public void setQuestManager(QuestManager questManager) {
 		this.questManager = questManager;
-	}
-
-	public MapLoader getMapLoader() {
-		return mapLoader;
-	}
-
-	public void setMapLoader(MapLoader mapLoader) {
-		this.mapLoader = mapLoader;
 	}
 
 	public CraftingUI getCraftingUI() {

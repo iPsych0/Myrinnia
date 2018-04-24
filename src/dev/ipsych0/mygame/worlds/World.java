@@ -34,7 +34,6 @@ public abstract class World implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// Variables
 	protected Handler handler;
-	protected MapLoader mapLoader;
 	protected int width, height;
 	protected int[][][] tiles;
 	protected int spawnX, spawnY;
@@ -76,7 +75,6 @@ public abstract class World implements Serializable {
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
-			mapLoader = handler.getMapLoader();
 			craftingUI = handler.getCraftingUI();
 		}
 	}
@@ -190,7 +188,7 @@ public abstract class World implements Serializable {
 	}
 
 	protected void loadWorld(String path){
-		layers = mapLoader.groundTileParser(path);
+		layers = MapLoader.getMapTiles(path);
 		tiles = new int[layers.length][width][height];
 		
 		for (int i = 0; i < layers.length; i++) {
