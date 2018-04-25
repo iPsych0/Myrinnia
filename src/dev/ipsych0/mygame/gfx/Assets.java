@@ -143,6 +143,7 @@ public class Assets {
 	
 	public static BufferedImage controlsScreen;
 	
+	public static BufferedImage pileOfLogs1;
 	
 	public static void init(){
 		
@@ -622,6 +623,7 @@ public class Assets {
 		pinkFlower1 = trees_sheet.tileCrop(width * 13, height * 8, width, height);
 		greenMushroom = trees_sheet.tileCrop(width * 14, height * 8, width, height, true);
 		pinkFlower2 = trees_sheet.tileCrop(width * 14, height * 9, width, height);
+		pileOfLogs1 = objects17.tileCrop(width * 8, 0, width, height, true);
 
 		
 		darkGrass = terrain_tile.tileCrop(width * 7, height * 9, width, height);

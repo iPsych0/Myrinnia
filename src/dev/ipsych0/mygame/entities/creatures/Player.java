@@ -273,12 +273,12 @@ public class Player extends Creature{
 					/*
 					 * If the player is wearing a melee weapon, check melee attacks
 					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
 						checkAttacks(mouse);
 					/*
 					 * If the player is wearing a magic weapon, fire magic attacks
 					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MAGIC_WEAPON) {
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
 					}
 				}
@@ -582,7 +582,7 @@ public class Player extends Creature{
 			projectiles.add(new Projectile(handler, x, y,
 					(int) (mouse.getX() + handler.getGameCamera().getxOffset() - 16),
 					(int) (mouse.getY() + handler.getGameCamera().getyOffset() - 16),
-					6.0f));
+					9.0f));
 		}
 		
 	}

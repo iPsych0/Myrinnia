@@ -18,6 +18,8 @@ import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
@@ -186,6 +188,10 @@ public class Handler implements Serializable {
 	 */
 	public boolean invIsFull(Item item) {
 		return getInventory().inventoryIsFull(item);
+	}
+	
+	public boolean playerHasItemType(ItemType type) {
+		return getInventory().playerHasItemType(type);
 	}
 	
 	/*

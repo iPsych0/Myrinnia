@@ -144,11 +144,11 @@ public abstract class World implements Serializable {
 	
 	public Tiles getTile(int layer, int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
-			return Tiles.blackTile;
+			return Tiles.tiles[28];
 			
 		Tiles t = Tiles.tiles[tiles[layer][x][y]];
 		if(t == null)
-			return Tiles.invisible;
+			return Tiles.tiles[736];
 		return t;
 	}
 	

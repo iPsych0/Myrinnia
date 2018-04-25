@@ -10,15 +10,12 @@ import dev.ipsych0.mygame.utils.MapLoader;
 
 public class Tiles {
 	
-	// First try-out tiles
+	// Get all Tiled firstGids
+	private static int[] tileGids = MapLoader.getTiledFirstGid(Handler.worldPath);
 	
-	public static Tiles[] tiles = new Tiles[4096];
-
-	public static Tiles blackTile = new Tiles(Assets.black, 28, true);
-	public static Tiles invisible = new Tiles(Assets.invisible, 736, false);
-
-	
-	
+	// Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
+	public static Tiles[] tiles = new Tiles[(tileGids[tileGids.length - 1]
+			+ MapLoader.getTileCount(Handler.worldPath, tileGids.length - 1))];
 	
 	/*
 	 * Class data
@@ -30,7 +27,6 @@ public class Tiles {
 	protected final int id;
 	protected int x, y;
 	protected Rectangle bounds;
-	protected int layer;
 	protected boolean solid;
 	
 	public Tiles(BufferedImage texture, int id, boolean solid){
@@ -40,14 +36,6 @@ public class Tiles {
 		
 		bounds = new Rectangle(0, 0, TILEWIDTH, TILEHEIGHT);
 
-	}
-	
-	public int getLayer() {
-		return layer;
-	}
-	
-	public void setLayer(int layer) {
-		this.layer = layer;
 	}
 	
 	public int getX() {
@@ -62,21 +50,6 @@ public class Tiles {
 		this.x = x;
 		this.y = y;
 	}
-	
-	public Rectangle tilePosition(float xOffset, float yOffset){
-		//
-		bounds.x = 0;
-		bounds.y = 0;
-		bounds.width = 32;
-		bounds.height = 32;
-		
-		Rectangle ir = new Rectangle();
-		int arSize = TILEWIDTH;
-		ir.width = arSize;
-		ir.height = arSize;
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
-	}
-	
 
 	public void tick(){
 		
@@ -94,11 +67,9 @@ public class Tiles {
 		return texture;
 	}
 
-
 	public void setTexture(BufferedImage texture) {
 		this.texture = texture;
 	}
-
 
 	public boolean isSolid(){
 		return solid;
@@ -111,5 +82,4 @@ public class Tiles {
 	public int getId(){
 		return id;
 	}
-
 }

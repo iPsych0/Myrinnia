@@ -6,6 +6,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
@@ -108,9 +109,17 @@ public class Rock extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			handler.sendMsg("Mining...");
-			speakingTurn = 2;
-			isMining = true;
+			if(handler.playerHasSkillLevel(SkillsList.MINING, Item.oreItem)) {
+				if(handler.playerHasItemType(ItemType.PICKAXE)) {
+					handler.sendMsg("Mining...");
+					speakingTurn = 2;
+					isMining = true;
+				}else {
+					handler.sendMsg("You need a pickaxe to mine this rock.");
+				}
+			}else {
+				handler.sendMsg("You need a mining level of " + handler.getSkillResource(SkillsList.MINING, Item.oreItem).getLevelRequirement() + " to mine this rock.");
+			}
 		}
 		if(this.speakingTurn == 2) {
 			return;

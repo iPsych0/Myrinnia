@@ -17,31 +17,25 @@ public class SpriteSheet {
 
 	
 	private BufferedImage sheet;
-	private String path;
 	private int[] firstGids;
 	private int imageIndex;
-	private int tileCount;
 	private int columns;
-	private int imageWidth, imageHeight;
 	
 	public SpriteSheet(String path, boolean tile){
-		this.path = path;
 		this.sheet = ImageLoader.loadImage(path);
 		
 		if(tile) {
 			firstGids = MapLoader.getTiledFirstGid(Handler.worldPath);
 			imageIndex = MapLoader.getImageIndex(Handler.worldPath, path);
-			tileCount = MapLoader.getTileCount(Handler.worldPath, imageIndex);
 			columns = MapLoader.getTileColumns(Handler.worldPath, imageIndex);
 			
 			// Calculate the image width & height
-			imageWidth = columns * 32;
-			imageHeight = tileCount / columns * 32;
+//			imageWidth = columns * 32;
+//			imageHeight = tileCount / columns * 32;
 		}
 	}
 	
 	public SpriteSheet(String path){
-		this.path = path;
 		this.sheet = ImageLoader.loadImage(path);
 	}
 	

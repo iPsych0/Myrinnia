@@ -504,6 +504,26 @@ public class InventoryWindow implements Serializable {
 		}
 	}
 	
+	/**
+	 * Iterates over the inventory to see if the player has an item of the specified type
+	 * @param type - the ItemType to query for
+	 * @return true if player has such an item, false if not
+	 */
+	public boolean playerHasItemType(ItemType type) {
+		for(ItemSlot slot : itemSlots) {
+			
+			ItemStack is = slot.getItemStack();
+			
+			if(is == null)
+				continue;
+			
+			if(is.getItem().isType(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/*
 	 * Checks the equipment slot of an item
 	 * @returns int: index of the equipment slot to be filled
