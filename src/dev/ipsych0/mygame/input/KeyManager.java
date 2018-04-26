@@ -31,6 +31,7 @@ public class KeyManager implements KeyListener, Serializable{
 	public boolean talk;
 	public boolean escape;
 	public static boolean typingFocus = false;
+	private int lastUIKeyPressed = -1;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -102,6 +103,7 @@ public class KeyManager implements KeyListener, Serializable{
 			}
 			
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				lastUIKeyPressed = -1;
 				SkillsUI.escapePressed = true;
 				QuestUI.escapePressed = true;
 				ShopWindow.escapePressed = true;
@@ -135,18 +137,11 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 			}
 			
-			// Crafting window toggle
-			if(e.getKeyCode() == KeyEvent.VK_H){
-				if(!CraftingUI.isOpen){
-					CraftingUI.isOpen = true;
-				}
-				else {
-					CraftingUI.isOpen = false;
-				}
-			}
-			
 			// QuestWindow toggle
 			if(e.getKeyCode() == KeyEvent.VK_Q){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_Q;
 				if(!QuestUI.isOpen){
 					QuestUI.isOpen = true;
 				}
@@ -154,13 +149,26 @@ public class KeyManager implements KeyListener, Serializable{
 					QuestUI.isOpen = false;
 					QuestHelpUI.isOpen = false;
 					QuestUI.renderingQuests = false;
+					CharacterUI.isOpen = false;
+					CraftingUI.isOpen = false;
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 			}
 			
 			// CharacterUI toggle
 			if(e.getKeyCode() == KeyEvent.VK_K){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_K;
 				if(!CharacterUI.isOpen){
 					CharacterUI.isOpen = true;
+					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
+					CraftingUI.isOpen = false;
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 				else {
 					CharacterUI.isOpen = false;
@@ -169,8 +177,16 @@ public class KeyManager implements KeyListener, Serializable{
 			
 			// Chat window toggle
 			if(e.getKeyCode() == KeyEvent.VK_L){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_L;
 				if(!SkillsUI.isOpen){
 					SkillsUI.isOpen = true;
+					CharacterUI.isOpen = false;
+					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
+					CraftingUI.isOpen = false;
 				}
 				else {
 					SkillsUI.isOpen = false;
@@ -213,6 +229,14 @@ public class KeyManager implements KeyListener, Serializable{
 
 	public void setTextBoxTyping(boolean textBoxTyping) {
 		this.typingFocus = textBoxTyping;
+	}
+
+	public int getLastUIKeyPressed() {
+		return lastUIKeyPressed;
+	}
+
+	public void setLastUIKeyPressed(int lastUIKeyPressed) {
+		this.lastUIKeyPressed = lastUIKeyPressed;
 	}
 
 }

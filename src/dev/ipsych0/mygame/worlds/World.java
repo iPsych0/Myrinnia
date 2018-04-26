@@ -160,12 +160,6 @@ public abstract class World implements Serializable {
 		}
 	}
 	
-	protected void goToWorld(int worldID, int x, int y) {
-		player.setX(x);
-		player.setY(y);
-		handler.setWorld(handler.getWorldHandler().getWorlds().get(worldID));
-	}
-	
 	protected void renderNight(Graphics g) {
 		float alpha = 0.6f;
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);

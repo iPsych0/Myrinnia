@@ -76,7 +76,7 @@ public class Island extends World {
 		if(handler.getWorld().equals(this)){
 			super.tick();
 			if(standingOnTile(house1)) {
-				goToWorld(3, 6016, 6140);
+				handler.goToWorld(3, 6016, 6140);
 			}
 //			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
 //				handler.getPlayer().setX(6016);
@@ -85,39 +85,24 @@ public class Island extends World {
 //				handler.getWorld().setHandler(handler);
 //			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2)){
-				handler.getPlayer().setX(4960);
-				handler.getPlayer().setY(6272);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(house2)){
+				handler.goToWorld(3, 4960, 6272);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3)){
-				handler.getPlayer().setX(3904);
-				handler.getPlayer().setY(6272);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(house3)){
+				handler.goToWorld(3, 3904, 6272);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse)){
-				handler.getPlayer().setX(4960);
-				handler.getPlayer().setY(5552);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(beachHouse)){
+				handler.goToWorld(3, 4960, 5552);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCave)){
-				handler.getPlayer().setX(3744);
-				handler.getPlayer().setY(5360);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(beachCave)){
+				handler.goToWorld(3, 3744, 5360);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1)){
-				handler.getPlayer().setX(6016);
-				handler.getPlayer().setY(5312);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(stoneHouse1)){
+				handler.goToWorld(3, 6016, 5312);
 			}
 		}
 	}

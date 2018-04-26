@@ -49,46 +49,28 @@ public class IslandUnderground extends World {
 	public void tick() {
 		if(handler.getWorld() == this){
 			super.tick();
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1Exit)){
-				handler.getPlayer().setX(5056);
-				handler.getPlayer().setY(5440);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(house1Exit)){
+				handler.goToWorld(0, 5056, 5440);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house2Exit)){
-				handler.getPlayer().setX(4608);
-				handler.getPlayer().setY(5400);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(house2Exit)){
+				handler.goToWorld(0, 4608, 5400);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house3Exit)){
-				handler.getPlayer().setX(4384);
-				handler.getPlayer().setY(5800);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(house3Exit)){
+				handler.goToWorld(0, 4384, 5800);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachHouse1Exit)){
-				handler.getPlayer().setX(5856);
-				handler.getPlayer().setY(5824);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(beachHouse1Exit)){
+				handler.goToWorld(0, 5856, 5824);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(beachCaveExit)){
-				handler.getPlayer().setX(2688);
-				handler.getPlayer().setY(6136);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(beachCaveExit)){
+				handler.goToWorld(0, 2688, 6136);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(stoneHouse1Exit)){
-				handler.getPlayer().setX(3808);
-				handler.getPlayer().setY(5160);
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
+			if(standingOnTile(stoneHouse1Exit)){
+				handler.goToWorld(0, 3808, 5160);
 			}
 		}
 	}

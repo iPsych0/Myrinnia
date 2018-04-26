@@ -1,8 +1,9 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -82,6 +83,7 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
+				handler.getCraftingUI().openWindow();
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
 				if(!handler.questStarted(QuestList.TheFirstQuest)) {

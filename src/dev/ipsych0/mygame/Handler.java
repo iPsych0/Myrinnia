@@ -267,6 +267,12 @@ public class Handler implements Serializable {
 		this.world = world;
 	}
 	
+	public void goToWorld(int worldID, int x, int y) {
+		player.setX(x);
+		player.setY(y);
+		setWorld(worldHandler.getWorlds().get(worldID));
+	}
+	
 	public WorldHandler getWorldHandler() {
 		return worldHandler;
 	}

@@ -10,13 +10,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemRarity;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.quests.QuestHelpUI;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.skills.SkillsList;
+import dev.ipsych0.mygame.skills.SkillsOverviewUI;
+import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingUI implements Serializable{
@@ -86,7 +91,10 @@ public class CraftingUI implements Serializable{
 	}
 	
 	public void tick() {
-		
+		if(handler.getKeyManager().getLastUIKeyPressed() != -1) {
+			closeCraftingUI();
+			handler.getKeyManager().setLastUIKeyPressed(-1);
+		}
 		if(isOpen) {
 			
 			crs.tick();
@@ -102,58 +110,7 @@ public class CraftingUI implements Serializable{
 			
 			// If the window is closed or the player moves, re-add all items back to inventory or drop them if no space.
 			if(handler.getKeyManager().escape || Player.isMoving) {
-				if(currentSelectedSlot != null) {
-					if(!handler.invIsFull(currentSelectedSlot.getItem())) {
-						handler.giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
-					}else {
-						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(),
-								(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
-					}
-					currentSelectedSlot = null;
-					itemSelected = false;
-					hasBeenPressed = false;
-				}
-				if(crs.getItemStack() != null) {
-					int numItems = crs.getItemStack().getAmount();
-					for(int i = 0; i < numItems; i++) {
-						if(!handler.invIsFull(crs.getItemStack().getItem())) {
-							handler.giveItem(crs.getItemStack().getItem(), 1);
-							if(crs.getItemStack().getAmount() > 1)
-								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
-							else
-								crs.setItemStack(null);
-							findRecipe();
-						}else {
-							handler.dropItem(crs.getItemStack().getItem(), 1,
-									(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
-							if(crs.getItemStack().getAmount() > 1)
-								crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
-							else
-								crs.setItemStack(null);
-							findRecipe();
-						}
-					}
-				}
-				
-				boolean invFull = false;
-				for(CraftingSlot cs : craftingSlots) {
-					if(cs.getItemStack() != null) {
-						if(!handler.invIsFull(cs.getItemStack().getItem())) {
-							handler.giveItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
-							cs.setItemStack(null);
-							findRecipe();
-						}else {
-							invFull = true;
-							handler.dropItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
-							cs.setItemStack(null);
-							findRecipe();
-							
-						}
-					}
-				}
-				if(invFull)
-					handler.sendMsg("The remaining items in the crafting slots have been dropped.");
-				isOpen = false;
+				closeCraftingUI();
 			}
 			
 			// If left-clicked on the "craft" button, craft the item
@@ -357,6 +314,71 @@ public class CraftingUI implements Serializable{
 			
 		}
 		
+	}
+	
+	public void openWindow() {
+		CraftingUI.isOpen = true;
+		CharacterUI.isOpen = false;
+		QuestUI.isOpen = false;
+		QuestHelpUI.isOpen = false;
+		QuestUI.renderingQuests = false;
+		SkillsUI.isOpen = false;
+		SkillsOverviewUI.isOpen = false;
+	}
+	
+	private void closeCraftingUI() {
+		if(currentSelectedSlot != null) {
+			if(!handler.invIsFull(currentSelectedSlot.getItem())) {
+				handler.giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+			}else {
+				handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(),
+						(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+			}
+			currentSelectedSlot = null;
+			itemSelected = false;
+			hasBeenPressed = false;
+		}
+		if(crs.getItemStack() != null) {
+			int numItems = crs.getItemStack().getAmount();
+			for(int i = 0; i < numItems; i++) {
+				if(!handler.invIsFull(crs.getItemStack().getItem())) {
+					handler.giveItem(crs.getItemStack().getItem(), 1);
+					if(crs.getItemStack().getAmount() > 1)
+						crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+					else
+						crs.setItemStack(null);
+					findRecipe();
+				}else {
+					handler.dropItem(crs.getItemStack().getItem(), 1,
+							(int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+					if(crs.getItemStack().getAmount() > 1)
+						crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+					else
+						crs.setItemStack(null);
+					findRecipe();
+				}
+			}
+		}
+		
+		boolean invFull = false;
+		for(CraftingSlot cs : craftingSlots) {
+			if(cs.getItemStack() != null) {
+				if(!handler.invIsFull(cs.getItemStack().getItem())) {
+					handler.giveItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
+					cs.setItemStack(null);
+					findRecipe();
+				}else {
+					invFull = true;
+					handler.dropItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+					cs.setItemStack(null);
+					findRecipe();
+					
+				}
+			}
+		}
+		if(invFull)
+			handler.sendMsg("The remaining items in the crafting slots have been dropped.");
+		isOpen = false;
 	}
 	
 	/*

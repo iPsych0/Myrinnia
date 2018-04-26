@@ -53,20 +53,12 @@ public class TestLand extends World {
 		if(handler.getWorld() == this){
 			super.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(swampLandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(1490);
-				handler.getPlayer().setY(1305);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
+			if(standingOnTile(swampLandTile)){
+				handler.goToWorld(0, 1490, 1305);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(islandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(800);
-				handler.getPlayer().setY(750);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(2).getClass().getSimpleName());
+			if(standingOnTile(islandTile)){
+				handler.goToWorld(2, 800, 750);
 			}
 		}
 	}

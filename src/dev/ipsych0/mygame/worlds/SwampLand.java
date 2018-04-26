@@ -59,12 +59,8 @@ public class SwampLand extends World{
 	public void tick(){
 		if(handler.getWorld() == this){
 			super.tick();
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(testLandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(1));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(60);
-				handler.getPlayer().setY(164);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(1).getClass().getSimpleName());
+			if(standingOnTile(testLandTile)){
+				handler.goToWorld(1, 60, 164);
 			}
 		}
 	}
