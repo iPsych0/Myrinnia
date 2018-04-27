@@ -132,7 +132,7 @@ public class ShopWindow implements Serializable {
 		
 		// Keeps a timer before restocking an item or decrementing an item
 		restockTimer++;
-		if(restockTimer >= (seconds * 1)) {
+		if(restockTimer >= (seconds * 60)) {
 			for(int i = 0; i < shopItems.size(); i++) {
 				if(itemSlots.get(i).getItemStack() != null) {
 					if(itemSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {

@@ -40,8 +40,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void tick() {
-		if(ShopWindow.isOpen && handler.getPlayer().getShopKeeper() == this)
-			shopWindow.tick();
+		shopWindow.tick();
 	}
 
 	@Override

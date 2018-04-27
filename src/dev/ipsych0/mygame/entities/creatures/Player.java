@@ -86,7 +86,7 @@ public class Player extends Creature{
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 		health = maxHealth;
-		speed = DEFAULT_SPEED + 1.5f;
+		speed = DEFAULT_SPEED + 1.0f;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
@@ -236,9 +236,6 @@ public class Player extends Creature{
 				closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
 				closestEntity.interact();
 				closestEntity = null;
-			}
-			if(shopKeeper != null) {
-				shopKeeper = null;
 			}
 		}
 		
@@ -667,7 +664,7 @@ public class Player extends Creature{
 		// If we're dead, respawn
 		if(!active){
 			this.setActive(true);
-			this.setHealth(DEFAULT_HEALTH);
+			this.setHealth(maxHealth);
 			
 			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
 			this.setX(xSpawn);

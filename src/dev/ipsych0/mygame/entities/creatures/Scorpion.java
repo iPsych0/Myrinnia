@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
