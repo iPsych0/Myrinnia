@@ -466,7 +466,11 @@ public class Player extends Creature{
 			speed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			attackCooldown = (long) (600 / getAttackSpeed());
 			magicCooldown = (long) (300 / getAttackSpeed());
+			int previousMaxHP = maxHealth;
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			if(health == previousMaxHP) {
+				health = maxHealth;
+			}
 		}
 	}
 	
@@ -513,7 +517,11 @@ public class Player extends Creature{
 			
 			attackCooldown = (long) (600 / getAttackSpeed());
 			magicCooldown = (long) (300 / getAttackSpeed());
+			int previousMaxHP = maxHealth;
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			if(health >= previousMaxHP) {
+				health = maxHealth;
+			}
 		}
 	}
 	
