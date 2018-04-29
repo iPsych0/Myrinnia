@@ -39,7 +39,6 @@ public abstract class Creature extends Entity {
 	protected int defence;
 	protected int vitality;
 	protected float attackSpeed;
-	protected int maxHealth;
 	protected int combatLevel;
 	protected int attackRange = Tiles.TILEWIDTH * 2;
 	protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -550,14 +549,6 @@ public abstract class Creature extends Entity {
 
 	public void setBaseDamage(int baseDamage) {
 		this.baseDamage = baseDamage;
-	}
-
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-
-	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
 	}
 
 	public int getCombatLevel() {

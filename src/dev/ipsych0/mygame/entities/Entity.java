@@ -11,6 +11,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 
@@ -24,9 +25,10 @@ public abstract class Entity implements Serializable{
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
-	protected int health;
 	public static boolean isCloseToNPC = false;
+	protected int health;
 	public static final int DEFAULT_HEALTH = 100;
+	protected int maxHealth = DEFAULT_HEALTH;
 	protected boolean active = true;
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
@@ -189,17 +191,28 @@ public abstract class Entity implements Serializable{
 	}
 	
 	public void drawHP(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(HPOverlay.hpColorRed);
 		g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 2, 2);
-		g.setColor(Color.GREEN);
-		if(this.getHealth() >= ((Creature)this).getMaxHealth()) {
+				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		g.setColor(HPOverlay.hpColorRedOutline);
+		g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		
+		g.setColor(HPOverlay.hpColorGreen);
+		if(this.getHealth() >= this.getMaxHealth()) {
 			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 2, 2);
+					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 		}else {
 			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
 					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
-					(double)((Creature)this).getMaxHealth()), 6, 2, 2);
+					(double)this.getMaxHealth()), 6, 0, 4);
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+					(double)this.getMaxHealth()), 6, 0, 4);
 		}
 	}
 	
@@ -397,6 +410,14 @@ public abstract class Entity implements Serializable{
 
 	public void setSpeakingCheckpoint(int speakingCheckpoint) {
 		this.speakingCheckpoint = speakingCheckpoint;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 	
 }

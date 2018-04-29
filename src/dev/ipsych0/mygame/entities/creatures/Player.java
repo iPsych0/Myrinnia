@@ -37,9 +37,7 @@ public class Player extends Creature{
 
 	// NPC killcounts
 	private int scorpionKC = 0;
-	
-	private int maxHealth;
-	
+		
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
 	public static boolean debugButtonPressed = false;
@@ -1016,14 +1014,6 @@ public class Player extends Creature{
 	
 	public Rectangle itemPickupRadius() {
 		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
-	}
-
-	public int getMAX_HEALTH() {
-		return maxHealth;
-	}
-
-	public void setMAX_HEALTH(int mAX_HEALTH) {
-		maxHealth = mAX_HEALTH;
 	}
 
 }

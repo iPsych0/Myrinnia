@@ -71,7 +71,7 @@ public class EntityManager implements Serializable{
 		for(Entity e : entities){
 			
 			if(e.getDamageReceiver() != null && handler.getPlayer().isInCombat()) {
-				if(e instanceof Creature)
+				if(e.isAttackable())
 					e.drawHP(g);
 			}
 			
@@ -125,6 +125,10 @@ public class EntityManager implements Serializable{
 			}
 			
 			e.postRender(g);
+			
+			if(shoppingNpc != null) {
+				shoppingNpc.postRender(g);
+			}
 		}
 		
 	}
