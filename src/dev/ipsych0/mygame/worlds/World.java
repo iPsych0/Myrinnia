@@ -13,17 +13,15 @@ import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.quests.QuestManager;
-import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.MapLoader;
-import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.utils.Utils;
 
 public abstract class World implements Serializable {
@@ -58,6 +56,7 @@ public abstract class World implements Serializable {
 	protected QuestManager questManager;
 	protected CharacterUI characterUI;
 	protected SkillsUI skillsUI;
+	protected HPOverlay hpOverlay;
 	
 	// Actual code ---v
 	
@@ -73,6 +72,7 @@ public abstract class World implements Serializable {
 			this.questManager = handler.getQuestManager();
 			this.characterUI = handler.getCharacterUI();
 			this.skillsUI = handler.getSkillsUI();
+			this.hpOverlay = handler.getHpOverlay();
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -90,6 +90,7 @@ public abstract class World implements Serializable {
 		questManager.tick();
 		characterUI.tick();
 		skillsUI.tick();
+		hpOverlay.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -127,7 +128,7 @@ public abstract class World implements Serializable {
 		}
 		*/
 		
-		renderHPandFPS(g);
+		hpOverlay.render(g);
 		
 		// Inventory & Equipment
 		inventory.render(g);
@@ -169,17 +170,6 @@ public abstract class World implements Serializable {
 		alpha = 1.0f;
 		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
-	}
-	
-	protected void renderHPandFPS(Graphics g) {
-		g.drawImage(Assets.hpOverlay, 0, 0, 292, 96, null);
-		Text.drawString(g, "HP: " + handler.roundOff((double)handler.getPlayer().getHealth() /
-				(double)handler.getPlayer().getMAX_HEALTH() * 100) + "%", 176, 29, true, Color.YELLOW, Assets.font14);		
-		Text.drawString(g, "Lv. ", 36, 28, false, Color.YELLOW, Assets.font20);
-		Text.drawString(g, Integer.toString(handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()), 45, 64, true, Color.YELLOW, Assets.font32);
-		Text.drawString(g, "EXP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), 176, 54, true, Color.YELLOW, Assets.font14);
-		
-//		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
 	}
 
 	protected void loadWorld(String path){

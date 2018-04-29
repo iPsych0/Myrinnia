@@ -13,12 +13,12 @@ import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
@@ -56,6 +56,7 @@ public class Handler implements Serializable {
 	private CraftingUI craftingUI;
 	private CharacterUI characterUI;
 	private SkillsUI skillsUI;
+	private HPOverlay hpOverlay;
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
 	
@@ -84,6 +85,7 @@ public class Handler implements Serializable {
 		craftingUI = new CraftingUI(this, 0, 180);
 		characterUI = new CharacterUI(this);
 		skillsUI = new SkillsUI(this);
+		hpOverlay = new HPOverlay(this);
 		island = new Island(this, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
@@ -355,6 +357,14 @@ public class Handler implements Serializable {
 
 	public void setSkillsUI(SkillsUI skillsUI) {
 		this.skillsUI = skillsUI;
+	}
+
+	public HPOverlay getHpOverlay() {
+		return hpOverlay;
+	}
+
+	public void setHpOverlay(HPOverlay hpOverlay) {
+		this.hpOverlay = hpOverlay;
 	}
 
 }
