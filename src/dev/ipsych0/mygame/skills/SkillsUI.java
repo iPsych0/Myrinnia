@@ -30,6 +30,7 @@ public class SkillsUI implements Serializable{
 	private Rectangle crafting, fishing, mining, woodcutting;
 	private SkillsOverviewUI overviewUI;
 	public static boolean escapePressed = false;
+	private Rectangle bounds;
 	
 	public SkillsUI(Handler handler) {
 		this.handler = handler;
@@ -59,6 +60,8 @@ public class SkillsUI implements Serializable{
 		fishing = new Rectangle(x + 8, y + 72, 174, 32);
 		mining = new Rectangle(x + 8, y + 104, 174, 32);
 		woodcutting = new Rectangle(x + 8, y + 136, 174, 32);
+		
+		bounds = new Rectangle(x, y, width, height);
 		
 		overviewUI = new SkillsOverviewUI(handler);
 	}
@@ -211,5 +214,13 @@ public class SkillsUI implements Serializable{
 
 	public void setOverviewUI(SkillsOverviewUI overviewUI) {
 		this.overviewUI = overviewUI;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 }

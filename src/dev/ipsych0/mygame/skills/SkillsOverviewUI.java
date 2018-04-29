@@ -27,7 +27,7 @@ public class SkillsOverviewUI implements Serializable{
 	private ScrollBar scrollBar;
 	private int maxPerScreen = 8;
 	private ArrayList<CategoryButton> categories;
-	private Rectangle exit;
+	private Rectangle exit, bounds;
 	
 	public SkillsOverviewUI(Handler handler) {
 		this.handler = handler;
@@ -36,6 +36,7 @@ public class SkillsOverviewUI implements Serializable{
 		
 		scrollBar = new ScrollBar(handler, x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
 		
+		bounds = new Rectangle(x, y, width, height);
 		exit = new Rectangle(x + width - 34, y + 10, 24, 24);
 	}
 	
@@ -254,6 +255,14 @@ public class SkillsOverviewUI implements Serializable{
 
 	public void setCategories(ArrayList<CategoryButton> categories) {
 		this.categories = categories;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }
