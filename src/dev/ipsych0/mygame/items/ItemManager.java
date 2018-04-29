@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,11 +29,14 @@ public class ItemManager implements Serializable{
 		Collection<Item> deleted = new CopyOnWriteArrayList<Item>();
 		while(it.hasNext()){
 			Item i = it.next();
+			
 			// Checks player's position for any items nearby to pick up
 			if(handler.getMouseManager().isRightPressed() && handler.getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
-				if(i.pickUpItem(i)){
-					if(i.isPickedUp()){
-						deleted.add(i);
+				if(!handler.getPlayer().hasRightClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
+					if(i.pickUpItem(i)){
+						if(i.isPickedUp()){
+							deleted.add(i);
+						}
 					}
 				}
 			}
@@ -44,6 +48,9 @@ public class ItemManager implements Serializable{
 	public void render(Graphics g){
 		for(Item i : items) {
 			i.render(g);
+			
+			// Draw item bounds for picking up
+//			g.drawRect((int)(i.itemPosition(0, 0).x - handler.getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - handler.getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
 		}
 	}
 	

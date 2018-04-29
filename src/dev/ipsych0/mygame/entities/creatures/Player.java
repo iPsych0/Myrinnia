@@ -408,16 +408,20 @@ public class Player extends Creature{
 		g.setFont(GameState.myFont);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
-		/*
-		g.setColor(Color.RED);
-		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		*/
+		
+//		g.setColor(Color.RED);
+//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		
 		
 		
 		// Player box
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
+		
+		// Player item pickup radius
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(itemPickupRadius().x - handler.getGameCamera().getxOffset()), (int) (itemPickupRadius().y - handler.getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
 		
 		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
 				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
@@ -553,11 +557,11 @@ public class Player extends Creature{
 	}
 	
 	/**
-	 *  Checks if the mouse is clicked within a UI window
+	 *  Checks if the mouse is left-clicked within a UI window
 	 * @param mouse - mouse coordinates
 	 * @return true if within window, false if not
 	 */
-	private boolean clickedInUI(Rectangle mouse) {
+	public boolean hasLeftClickedUI(Rectangle mouse) {
 		if(InventoryWindow.isOpen && handler.getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		if(EquipmentWindow.isOpen && handler.getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
@@ -583,6 +587,38 @@ public class Player extends Creature{
 		return false;
 	}
 	
+	/**
+	 *  Checks if the mouse is right-clicked within a UI window
+	 * @param mouse - mouse coordinates
+	 * @return true if within window, false if not
+	 */
+	public boolean hasRightClickedUI(Rectangle mouse) {
+		if(InventoryWindow.isOpen && handler.getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(EquipmentWindow.isOpen && handler.getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(ChatWindow.chatIsOpen && handler.getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(CraftingUI.isOpen && handler.getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(ShopWindow.isOpen && handler.getMouseManager().isRightPressed())
+			return true;
+		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(QuestHelpUI.isOpen && handler.getQuestManager().getQuestUI().getQuestHelpUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(SkillsUI.isOpen && handler.getSkillsUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(SkillsOverviewUI.isOpen && handler.getSkillsUI().getOverviewUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(CharacterUI.isOpen && handler.getCharacterUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+
+		
+		// If the mouse is not clicked in one of the UI windows, return false
+		return false;
+	}
+	
 	/*
 	 * Check for magic attacks
 	 */
@@ -593,7 +629,7 @@ public class Player extends Creature{
 		if(magicTimer < magicCooldown)
 			return;
 		
-		if(clickedInUI(mouse))
+		if(hasLeftClickedUI(mouse))
 			return;
 		
 		magicTimer = 0;
@@ -617,7 +653,7 @@ public class Player extends Creature{
 		if(attackTimer < attackCooldown)
 			return;
 		
-		if(clickedInUI(mouse))
+		if(hasLeftClickedUI(mouse))
 			return;
 		
 		attackTimer = 0;
@@ -770,7 +806,7 @@ public class Player extends Creature{
 		 */
 		
 		if(xMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return getAnimationByLastFaced(lastFaced);
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
@@ -784,7 +820,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(xMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return getAnimationByLastFaced(lastFaced);
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
@@ -798,7 +834,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return getAnimationByLastFaced(lastFaced);
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
@@ -812,7 +848,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return getAnimationByLastFaced(lastFaced);
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
@@ -876,7 +912,7 @@ public class Player extends Creature{
 		 */
 		
 		if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return aLeft.getDefaultFrame();
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aLeft.getDefaultFrame();
@@ -884,7 +920,7 @@ public class Player extends Creature{
 				return attLeft.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return aRight.getDefaultFrame();
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aRight.getDefaultFrame();
@@ -892,7 +928,7 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return aUp.getDefaultFrame();
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aUp.getDefaultFrame();
@@ -900,7 +936,7 @@ public class Player extends Creature{
 				return attUp.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()) {
-			if(clickedInUI(mouse))
+			if(hasLeftClickedUI(mouse))
 				return aDown.getDefaultFrame();
 			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aDown.getDefaultFrame();
