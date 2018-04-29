@@ -20,6 +20,9 @@ public class SettingState extends State{
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle controlsButton, muteSoundButton, returnButton;
+	private Rectangle soundPopup;
+	private boolean displaySoundPressed = false;
+	private int displaySoundTimer = 0;
 
 	public SettingState(Handler handler) {
 		super(handler);
@@ -43,6 +46,7 @@ public class SettingState extends State{
 		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
 		returnButton = new Rectangle(367, 584, 226, 96);
 		
+		soundPopup = new Rectangle(328, 224, 306, 58);
 	}
 
 	@Override
@@ -75,10 +79,13 @@ public class SettingState extends State{
 			
 			if(muteSoundButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					System.out.println("Clicked Mute Sound!");
+					displaySoundTimer = 0;
+					displaySoundPressed = true;
 					if(!handler.isSoundMuted()) {
+						System.out.println("Muted sound!");
 						handler.setSoundMuted(true);
 					}else {
+						System.out.println("Unmuted sound!");
 						handler.setSoundMuted(false);
 					}
 					hasBeenPressed = false;
@@ -91,6 +98,8 @@ public class SettingState extends State{
 					State.setState(handler.getGame().menuState);
 					loaded = false;
 					hasBeenPressed = false;
+					displaySoundPressed = false;
+					displaySoundTimer = 0;
 				}
 			}
 			
@@ -105,6 +114,21 @@ public class SettingState extends State{
 //			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			this.uiManager.render(g);
+			
+			if(displaySoundPressed) {
+				displaySoundTimer++;
+				if(displaySoundTimer <= 120) {
+					g.drawImage(Assets.chatwindow, soundPopup.x, soundPopup.y, soundPopup.width, soundPopup.height, null);
+					if(!handler.isSoundMuted())
+						Text.drawString(g, "Sound unmuted!", soundPopup.x + soundPopup.width / 2, soundPopup.y + soundPopup.height / 2, true, Color.YELLOW, Assets.font20);
+					else
+						Text.drawString(g, "Sound muted!", soundPopup.x + soundPopup.width / 2, soundPopup.y + soundPopup.height / 2, true, Color.YELLOW, Assets.font20);
+				}
+				else {
+					displaySoundTimer = 0;
+					displaySoundPressed = false;
+				}
+			}
 			
 			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Controls", 480, 424, true, Color.YELLOW, Assets.font32);

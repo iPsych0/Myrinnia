@@ -27,7 +27,7 @@ public class SaveManager implements Serializable{
 	public static void savehandler(){
 		FileOutputStream f;
 		try {
-			f = new FileOutputStream(new File("res/savegames/handler.sav"));
+			f = new FileOutputStream(new File("res/savegames/savegame.sav"));
 			ObjectOutputStream o;
 			try {
 				handlerObject.getGame().getMouseManager().setLeftPressed(false);
@@ -48,7 +48,7 @@ public class SaveManager implements Serializable{
 		handlerObject = null;
 		FileInputStream fin;
 		try {
-			fin = new FileInputStream("res/savegames/handler.sav");
+			fin = new FileInputStream("res/savegames/savegame.sav");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			handlerObject = (Handler) oin.readObject();
 			oin.close();

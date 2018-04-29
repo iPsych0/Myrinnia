@@ -3,6 +3,9 @@ package dev.ipsych0.mygame.states;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -21,6 +24,9 @@ public class MenuState extends State {
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle newGameButton, continueButton, settingsButton;
+	private boolean displayError = false;
+	private int errorDisplayTimer = 0;
+	private Rectangle errorPopup;
 
 	public MenuState(Handler handler){
 		super(handler);
@@ -45,6 +51,8 @@ public class MenuState extends State {
 		 */
 		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
 		settingsButton = new Rectangle(367, 584, 226, 96);
+		
+		errorPopup = new Rectangle(328, 224, 306, 58);
 		
 		
 	}
@@ -79,11 +87,20 @@ public class MenuState extends State {
 			
 			if(continueButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					handler.getMouseManager().setUIManager(null);
-					State.setState(handler.getGame().gameState);
-					SaveManager.loadHandler(handler);
-					handler.playMusic("myrinnia.wav");
-					hasBeenPressed = false;
+					Path path = Paths.get("res/savegames/savegame.sav");
+					if (Files.notExists(path)) {
+						System.out.println(path.toString() + " does not exist.");
+						hasBeenPressed = false;
+						displayError = true;
+						errorDisplayTimer = 0;
+						return;
+					}else {
+						handler.getMouseManager().setUIManager(null);
+						State.setState(handler.getGame().gameState);
+						SaveManager.loadHandler(handler);
+						handler.playMusic("myrinnia.wav");
+						hasBeenPressed = false;
+					}
 				}
 			}
 			
@@ -94,6 +111,8 @@ public class MenuState extends State {
 					State.setState(handler.getGame().settingState);
 					handler.getMouseManager().setUIManager(null);
 					hasBeenPressed = false;
+					displayError = false;
+					errorDisplayTimer = 0;
 				}
 			}
 			
@@ -108,6 +127,18 @@ public class MenuState extends State {
 //		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			uiManager.render(g);
+			
+			if(displayError) {
+				errorDisplayTimer++;
+				if(errorDisplayTimer <= 120) {
+					g.drawImage(Assets.chatwindow, errorPopup.x, errorPopup.y, errorPopup.width, errorPopup.height, null);
+					Text.drawString(g, "You do not have a save file yet!", errorPopup.x + errorPopup.width / 2, errorPopup.y + errorPopup.height / 2, true, Color.YELLOW, Assets.font20);
+				}
+				else {
+					errorDisplayTimer = 0;
+					displayError = false;
+				}
+			}
 			
 			// Render the text in the main menu
 			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
