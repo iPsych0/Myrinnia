@@ -31,19 +31,19 @@ public class SettingState extends State{
 		/*
 		 * Controls Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.genericButton));
 		controlsButton = new Rectangle(367, 376, 226, 96);
 		
 		/*
 		 * Mute Sound
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.genericButton));
 		muteSoundButton = new Rectangle(367, 480, 226, 96);
 		
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
 		returnButton = new Rectangle(367, 584, 226, 96);
 		
 		soundPopup = new Rectangle(328, 224, 306, 58);

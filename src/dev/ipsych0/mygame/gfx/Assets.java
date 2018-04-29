@@ -96,7 +96,7 @@ public class Assets {
 	public static BufferedImage mainScreenBackground;
 	
 	// Main menu buttons
-	public static BufferedImage[] mainMenuButton;
+	public static BufferedImage[] genericButton;
 	
 	// Item images
 	public static BufferedImage wood, ore;
@@ -118,7 +118,7 @@ public class Assets {
 	public static BufferedImage swampLand;
 	
 	// Inventory UI
-	public static BufferedImage invSlot, invScreen;
+	public static BufferedImage invScreen;
 	
 	// Equipment UI
 	public static BufferedImage equipSlot, equipScreen, equipStats;
@@ -134,6 +134,7 @@ public class Assets {
 	
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
+	public static BufferedImage hpOverlayUIButton;
 	
 	public static BufferedImage[] whirlpool;
 	
@@ -244,7 +245,6 @@ public class Assets {
 		fish = ui_sheet.imageCrop(width * 2, 0, width, height);
 		
 		// Inventory sprites
-		invSlot = ui_sheet.imageCrop(width, 0, 32, 32);
 		invScreen = ui_sheet.imageCrop(0, height * 9, 132, 329);
 		
 		// Equipment sprites
@@ -257,7 +257,8 @@ public class Assets {
 		chatwindowTop = ui_sheet.imageCrop(0, height * 8, 432, 20);
 		
 		// HP Overlay sprites
-		hpOverlay = ui_sheet.imageCrop(0, height, 288, 96);
+		hpOverlay = ui_sheet.imageCrop(width * 3, 0, 160, 32);
+		hpOverlayUIButton = ui_sheet.imageCrop(width, 0, width, height);
 		
 		// Crafting UI sprites
 		craftWindow = ui_sheet.imageCrop(width * 5, height * 9, 242, 320);
@@ -272,9 +273,9 @@ public class Assets {
 		
 		// Menu sprites
 
-		mainMenuButton = new BufferedImage[2];
-		mainMenuButton[0] = ui_sheet.imageCrop(width * 9, 0, width * 7, height * 3);
-		mainMenuButton[1] = ui_sheet.imageCrop(width * 17, 0, width * 7, height * 3);
+		genericButton = new BufferedImage[2];
+		genericButton[0] = ui_sheet.imageCrop(width * 9, 0, width * 7, height * 3);
+		genericButton[1] = ui_sheet.imageCrop(width * 17, 0, width * 7, height * 3);
 		
 		// Item Sprites
 		

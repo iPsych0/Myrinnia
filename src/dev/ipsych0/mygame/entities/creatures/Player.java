@@ -159,6 +159,7 @@ public class Player extends Creature{
 					handler.getWorld().getEntityManager().getPlayer().getY());
 			
 			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
+			power = 250;
 			Handler.debugMode = (Handler.debugMode) ? false : true;
 			
 			
@@ -423,8 +424,9 @@ public class Player extends Creature{
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(itemPickupRadius().x - handler.getGameCamera().getxOffset()), (int) (itemPickupRadius().y - handler.getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
 		
-		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
+		// Draw HP above head
+//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
+//				(int) (x - handler.getGameCamera().getxOffset() - 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
 		
 		//System.out.println((int) ((x) - (x % 16)));
 //		

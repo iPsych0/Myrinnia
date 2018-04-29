@@ -71,7 +71,7 @@ public class QuestUI implements Serializable{
 				for(int i = 0; i < handler.getQuestManager().getAllQuestLists().size(); i++) {
 					Rectangle text = new Rectangle(x + 4, y + 32 + (i * 16), width - 8, 16);
 					if(text.contains(mouse)) {
-						g.drawImage(Assets.mainMenuButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
+						g.drawImage(Assets.genericButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 							hasBeenPressed = false;
 							for(int j = 0; j < handler.getQuestManager().getAllQuestLists().get(i).size(); j++) {
@@ -88,14 +88,14 @@ public class QuestUI implements Serializable{
 							}
 						}
 					}else {
-						g.drawImage(Assets.mainMenuButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
+						g.drawImage(Assets.genericButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 					}
 					Text.drawString(g, handler.getQuestManager().getAllQuestLists().get(i).get(0).getZone().toString(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
 					
 					Rectangle backButton = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 					
 					if(backButton.contains(mouse)) {
-						g.drawImage(Assets.mainMenuButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
+						g.drawImage(Assets.genericButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
 						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 							renderingQuests = false;
 							QuestUI.isOpen = false;
@@ -103,7 +103,7 @@ public class QuestUI implements Serializable{
 						}
 					}
 					else {
-						g.drawImage(Assets.mainMenuButton[1], backButton.x, backButton.y, backButton.width, backButton.height, null);
+						g.drawImage(Assets.genericButton[1], backButton.x, backButton.y, backButton.width, backButton.height, null);
 					}
 
 					Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
@@ -121,7 +121,7 @@ public class QuestUI implements Serializable{
 						color = Color.GREEN;
 					
 					if(text.contains(mouse)) {
-						g.drawImage(Assets.mainMenuButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
+						g.drawImage(Assets.genericButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 							hasBeenPressed = false;
 							if(selectedQuest == handler.getQuestManager().getZoneMap().get(selectedZone).get(i)) {
@@ -136,7 +136,7 @@ public class QuestUI implements Serializable{
 							selectedQuest = handler.getQuestManager().getZoneMap().get(selectedZone).get(i);
 						}
 					}else {
-						g.drawImage(Assets.mainMenuButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
+						g.drawImage(Assets.genericButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 					}
 				Text.drawString(g, handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
 				}
@@ -144,7 +144,7 @@ public class QuestUI implements Serializable{
 				Rectangle backButton = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 				
 				if(backButton.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
+					g.drawImage(Assets.genericButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
 					if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 						renderingQuests = false;
 						QuestHelpUI.isOpen = false;
@@ -152,7 +152,7 @@ public class QuestUI implements Serializable{
 					}
 				}
 				else {
-					g.drawImage(Assets.mainMenuButton[1], backButton.x, backButton.y, backButton.width, backButton.height, null);
+					g.drawImage(Assets.genericButton[1], backButton.x, backButton.y, backButton.width, backButton.height, null);
 				}
 
 				Text.drawString(g, "Back", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);

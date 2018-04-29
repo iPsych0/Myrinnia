@@ -35,10 +35,10 @@ public class EquipmentSlot implements Serializable{
 //		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
 		if(itemStack != null){
-			g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 		}else {
-			g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
+			g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 			g.drawImage(image, x, y, SLOTSIZE, SLOTSIZE, null);
 		}
 		

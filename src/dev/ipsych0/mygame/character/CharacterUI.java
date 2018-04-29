@@ -115,21 +115,21 @@ public class CharacterUI implements Serializable{
 			// If we have points available, draw the 
 			if(baseStatPoints >= 1) {
 				if(meleeUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 136, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 136, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 136, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 136, 16, 16, null);
 				}
 				
 				if(rangedUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 152, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 152, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 152, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 152, 16, 16, null);
 				}
 				
 				if(magicUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 168, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 168, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 168, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 168, 16, 16, null);
 				}
 				Text.drawString(g, "+", x + 101, y + 144, true, Color.YELLOW, Assets.font14);
 				Text.drawString(g, "+", x + 101, y + 160, true, Color.YELLOW, Assets.font14);
@@ -143,27 +143,27 @@ public class CharacterUI implements Serializable{
 
 			if(elementalStatPoints >= 1) {
 				if(fireUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 217, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 217, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 217, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 217, 16, 16, null);
 				}
 				
 				if(airUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 233, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 233, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 233, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 233, 16, 16, null);
 				}
 				
 				if(waterUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 249, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 249, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 249, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 249, 16, 16, null);
 				}
 				
 				if(earthUp.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], x + 92, y + 265, 16, 16, null);
+					g.drawImage(Assets.genericButton[0], x + 92, y + 265, 16, 16, null);
 				}else {
-					g.drawImage(Assets.mainMenuButton[1], x + 92, y + 265, 16, 16, null);
+					g.drawImage(Assets.genericButton[1], x + 92, y + 265, 16, 16, null);
 				}
 				
 				Text.drawString(g, "+", x + 101, y + 225, true, Color.YELLOW, Assets.font14);

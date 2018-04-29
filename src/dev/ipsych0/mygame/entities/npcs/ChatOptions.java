@@ -38,9 +38,9 @@ public class ChatOptions implements Serializable{
 	
 	public void render(Graphics g) {
 		if(isHovering) {
-			g.drawImage(Assets.mainMenuButton[0], x + 2, y + 1, width, height, null);
+			g.drawImage(Assets.genericButton[0], x + 2, y + 1, width, height, null);
 		}else {
-			g.drawImage(Assets.mainMenuButton[1], x + 1, y, width, height, null);
+			g.drawImage(Assets.genericButton[1], x + 1, y, width, height, null);
 		}
 		Text.drawString(g, message, x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
 	}

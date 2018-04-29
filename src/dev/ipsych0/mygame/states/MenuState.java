@@ -36,20 +36,20 @@ public class MenuState extends State {
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.genericButton));
 		newGameButton = new Rectangle(367, 376, 226, 96);
 
 		
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.genericButton));
 		continueButton = new Rectangle(367, 480, 226, 96);
 		
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
 		settingsButton = new Rectangle(367, 584, 226, 96);
 		
 		errorPopup = new Rectangle(328, 224, 306, 58);

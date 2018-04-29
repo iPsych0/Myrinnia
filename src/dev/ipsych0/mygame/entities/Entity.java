@@ -177,6 +177,7 @@ public abstract class Entity implements Serializable{
 			damageReceiver.lastHit++;
 			//g.setColor(Color.YELLOW);
 			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
+			
 			Text.drawString(g, String.valueOf(dealer.getDamage(dealer)) ,
 					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
 			
@@ -184,6 +185,21 @@ public abstract class Entity implements Serializable{
 				damageReceiver.damaged = false;
 				damageReceiver.lastHit = 0;
 			}
+		}
+	}
+	
+	public void drawHP(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 2, 2);
+		g.setColor(Color.GREEN);
+		if(this.getHealth() >= ((Creature)this).getMaxHealth()) {
+			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 2, 2);
+		}else {
+			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+					(double)((Creature)this).getMaxHealth()), 6, 2, 2);
 		}
 	}
 	

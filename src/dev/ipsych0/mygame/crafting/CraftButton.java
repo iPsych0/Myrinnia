@@ -38,9 +38,9 @@ public class CraftButton implements Serializable{
 
 	public void render(Graphics g) {
 		if(hovering)
-			g.drawImage(Assets.mainMenuButton[0], x + 1, y + 1, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE, null);
+			g.drawImage(Assets.genericButton[0], x + 1, y + 1, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE, null);
 		else
-			g.drawImage(Assets.mainMenuButton[1], x, y, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE, null);
+			g.drawImage(Assets.genericButton[1], x, y, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE, null);
 	}
 
 	public Rectangle getBounds() {

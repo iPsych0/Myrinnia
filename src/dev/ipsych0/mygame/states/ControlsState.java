@@ -30,12 +30,12 @@ public class ControlsState extends State {
 		overlay = new Rectangle(220, 232, 520, 313);
 		
 		// Interface buttons
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 120, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 168, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 216, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 264, 32, 32, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 120, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 168, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 216, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 264, 32, 32, Assets.genericButton));
 		
 		// Interface rectangles
 		i = new Rectangle(overlay.x + 24, overlay.y + 24, 32, 32);
@@ -46,10 +46,10 @@ public class ControlsState extends State {
 		c = new Rectangle(overlay.x + 24, overlay.y + 264, 32, 32);
 		
 		// WASD buttons
-		uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 48, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 96, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 176, overlay.y + 96, 32, 32, Assets.mainMenuButton));
-		uiManager.addObject(new UIImageButton(overlay.x + 272, overlay.y + 96, 32, 32, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 48, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 96, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 176, overlay.y + 96, 32, 32, Assets.genericButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 272, overlay.y + 96, 32, 32, Assets.genericButton));
 		
 		// WASD rectangles
 		w = new Rectangle(overlay.x + 224, overlay.y + 48, 32, 32);
@@ -58,13 +58,13 @@ public class ControlsState extends State {
 		d = new Rectangle(overlay.x + 272, overlay.y + 96, 32, 32);
 		
 		// Spacebar
-		uiManager.addObject(new UIImageButton(overlay.x + 192, overlay.y + 192, 96, 32, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(overlay.x + 192, overlay.y + 192, 96, 32, Assets.genericButton));
 		space = new Rectangle(overlay.x + 192, overlay.y + 192, 96, 32);
 		
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.mainMenuButton));
+		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
 		returnButton = new Rectangle(367, 584, 226, 96);
 		
 	}

@@ -69,6 +69,12 @@ public class EntityManager implements Serializable{
 	public void render(Graphics g){
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		for(Entity e : entities){
+			
+			if(e.getDamageReceiver() != null && handler.getPlayer().isInCombat()) {
+				if(e instanceof Creature)
+					e.drawHP(g);
+			}
+			
 			e.render(g);
 			
 			Rectangle entityRect = new Rectangle((int)e.getX() - (int)handler.getGameCamera().getxOffset(),
@@ -107,7 +113,6 @@ public class EntityManager implements Serializable{
 				selectedEntity = null;
 			}
 			
-			
 			// If the mouse is hovered over an Entity, draw the overlay
 			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {
 				if(e.isOverlayDrawn())
@@ -118,11 +123,10 @@ public class EntityManager implements Serializable{
 			if(e.isDamaged() && e.getDamageDealer() != null) {
 				e.drawDamage(e.getDamageDealer(), g);
 			}
+			
+			e.postRender(g);
 		}
 		
-		// If we're shopping, render the shopping screen on top
-		if(shoppingNpc != null)
-			shoppingNpc.postRender(g);
 	}
 	
 	public void postRender(Graphics g) {

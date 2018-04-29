@@ -29,9 +29,9 @@ public class ContinueButton implements Serializable{
 	
 	public void render(Graphics g) {
 		if(isHovering) {
-			g.drawImage(Assets.mainMenuButton[0], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[0], x, y, width, height, null);
 		}else {
-			g.drawImage(Assets.mainMenuButton[1], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[1], x, y, width, height, null);
 		}
 		Text.drawString(g, "Continue", x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
 	}

@@ -161,24 +161,24 @@ public class SkillsUI implements Serializable{
 			Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			
 			if(crafting.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], crafting.x, crafting.y, crafting.width, crafting.height, null);
+				g.drawImage(Assets.genericButton[0], crafting.x, crafting.y, crafting.width, crafting.height, null);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], crafting.x, crafting.y, crafting.width, crafting.height, null);
+				g.drawImage(Assets.genericButton[1], crafting.x, crafting.y, crafting.width, crafting.height, null);
 			}
 			if(fishing.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], fishing.x, fishing.y, fishing.width, fishing.height, null);
+				g.drawImage(Assets.genericButton[0], fishing.x, fishing.y, fishing.width, fishing.height, null);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], fishing.x, fishing.y, fishing.width, fishing.height, null);
+				g.drawImage(Assets.genericButton[1], fishing.x, fishing.y, fishing.width, fishing.height, null);
 			}
 			if(mining.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], mining.x, mining.y, mining.width, mining.height, null);
+				g.drawImage(Assets.genericButton[0], mining.x, mining.y, mining.width, mining.height, null);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], mining.x, mining.y, mining.width, mining.height, null);
+				g.drawImage(Assets.genericButton[1], mining.x, mining.y, mining.width, mining.height, null);
 			}
 			if(woodcutting.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
+				g.drawImage(Assets.genericButton[0], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
+				g.drawImage(Assets.genericButton[1], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
 			}
 			Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel() , x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
@@ -186,19 +186,19 @@ public class SkillsUI implements Serializable{
 			Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
 			
 			if(crafting.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
 				Text.drawString(g, String.valueOf(getSkill(SkillsList.CRAFTING).getExperience())+"/"+getSkill(SkillsList.CRAFTING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(fishing.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
 				Text.drawString(g, String.valueOf(getSkill(SkillsList.FISHING).getExperience())+"/"+getSkill(SkillsList.FISHING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(mining.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
 				Text.drawString(g, String.valueOf(getSkill(SkillsList.MINING).getExperience())+"/"+getSkill(SkillsList.MINING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(woodcutting.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
 				Text.drawString(g, String.valueOf(getSkill(SkillsList.WOODCUTTING).getExperience())+"/"+getSkill(SkillsList.WOODCUTTING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 		}

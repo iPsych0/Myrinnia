@@ -108,18 +108,18 @@ public class ScrollBar implements Serializable{
 		
 		if(listSize > itemsPerWindow) {
 			if(scrollUp.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
+				g.drawImage(Assets.genericButton[0], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
 				Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
+				g.drawImage(Assets.genericButton[1], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
 				Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
 			}
 			
 			if(scrollDown.contains(mouse)) {
-				g.drawImage(Assets.mainMenuButton[0], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
+				g.drawImage(Assets.genericButton[0], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
 				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font14);
 			}else {
-				g.drawImage(Assets.mainMenuButton[1], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
+				g.drawImage(Assets.genericButton[1], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
 				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font14);
 			}
 		}

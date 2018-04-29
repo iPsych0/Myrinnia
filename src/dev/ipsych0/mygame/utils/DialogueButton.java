@@ -35,9 +35,9 @@ public class DialogueButton implements Serializable{
 	
 	public void render(Graphics g) {
 		if(hovering)
-			g.drawImage(Assets.mainMenuButton[0], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[0], x, y, width, height, null);
 		else
-			g.drawImage(Assets.mainMenuButton[1], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[1], x, y, width, height, null);
 		Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
 	}
 	

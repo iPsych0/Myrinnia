@@ -36,7 +36,7 @@ public class CraftingSlot implements Serializable {
 //		g.setColor(Color.BLACK);
 //		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
 		
-		g.drawImage(Assets.mainMenuButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
+		g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		/*
 		 * If there is an item in a slot, render it

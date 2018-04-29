@@ -118,7 +118,7 @@ public class SkillsOverviewUI implements Serializable{
 				}
 				
 				if(exit.contains(mouse)) {
-					g.drawImage(Assets.mainMenuButton[0], exit.x, exit.y, exit.width, exit.height, null);
+					g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
 					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
 						isOpen = false;
 						hasBeenPressed = false;
@@ -126,7 +126,7 @@ public class SkillsOverviewUI implements Serializable{
 					}
 				}
 				else {
-					g.drawImage(Assets.mainMenuButton[1], exit.x, exit.y, exit.width, exit.height, null);
+					g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
 				}
 				Text.drawString(g, "X", exit.x + 12, exit.y + 11, true, Color.YELLOW, GameState.chatFont);
 				
@@ -136,11 +136,11 @@ public class SkillsOverviewUI implements Serializable{
 							
 							Rectangle slot = new Rectangle(categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							}
 							
 							if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered()) {
@@ -161,11 +161,11 @@ public class SkillsOverviewUI implements Serializable{
 							
 							Rectangle slot = new Rectangle(categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
 							}
 							
 							if(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).get(i).isDiscovered()) {
@@ -187,11 +187,11 @@ public class SkillsOverviewUI implements Serializable{
 						for(int i = scrollBar.getIndex(); i < scrollBar.getIndex() + maxPerScreen; i++) {
 							Rectangle slot = new Rectangle(x + categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							}
 							
 							g.drawImage(selectedSkill.getListByCategory(selectedCategory).get(i).getItem().getTexture(), categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32, null);
@@ -205,11 +205,11 @@ public class SkillsOverviewUI implements Serializable{
 						for(int i = 0; i < selectedSkill.getListByCategory(selectedCategory).size(); i++) {
 							Rectangle slot = new Rectangle(categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32);
 							
-							g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
+							g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
 							if(slot.contains(mouse)) {
-								g.drawImage(Assets.mainMenuButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[0], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
 							}else {
-								g.drawImage(Assets.mainMenuButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
+								g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);
 							}
 							
 							g.drawImage(selectedSkill.getListByCategory(selectedCategory).get(i).getItem().getTexture(), categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (i * 32), 32, 32, null);

@@ -73,8 +73,9 @@ public class Scorpion extends Creature {
 		g.drawImage(Assets.scorpion, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
 		
-		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - handler.getGameCamera().getxOffset() - 8),
-				(int) (y - handler.getGameCamera().getyOffset()), false, Color.YELLOW, Creature.hpFont);
+		// Draw HP above head
+//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - handler.getGameCamera().getxOffset() - 6),
+//				(int) (y - handler.getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
 		
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
@@ -175,6 +176,6 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
+		
 	}
 }
