@@ -83,7 +83,6 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				handler.getCraftingUI().openWindow();
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
 				if(!handler.questStarted(QuestList.TheFirstQuest)) {

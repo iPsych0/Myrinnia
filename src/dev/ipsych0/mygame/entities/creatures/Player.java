@@ -22,6 +22,7 @@ import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
@@ -60,6 +61,8 @@ public class Player extends Creature{
 	
 	// Regeneration timer
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
+	
+	private int basePower, baseVitality, baseDefence;
 
 	private boolean movementAllowed = true;
 	public static boolean isMoving = false;
@@ -447,6 +450,32 @@ public class Player extends Creature{
 		
 	}
 	
+	public void levelUpStats() {
+		// On the first level-up, increase by a fixed +2
+		if(handler.getSkill(SkillsList.COMBAT).getLevel() == 2) {
+			basePower = 2;
+			baseVitality = 2;
+			baseDefence = 2;
+		}
+		
+		// Get the old base power
+		int oldBasePower = basePower;
+		int oldBaseVitality = baseVitality;
+		int oldBaseDefence = baseDefence;
+		
+		// Multiply base stats by 10%, rounded up
+		basePower = (int) Math.ceil(basePower * 1.1);
+		baseVitality = (int) Math.ceil(baseVitality * 1.1);
+		baseDefence = (int) Math.ceil(baseDefence * 1.1);
+		
+		this.power += (basePower - oldBasePower);
+		this.vitality += (baseVitality - oldBaseVitality);
+		this.defence += (baseDefence - oldBaseDefence);
+		
+		this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+		this.health = maxHealth;
+	}
+	
 	/*
 	 * Adds the equipment stats
 	 * @param: the item's equipment slot
@@ -459,15 +488,15 @@ public class Player extends Creature{
 		if(handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 
 			// Sets the new stats
-			setAttackSpeed(getAttackSpeed() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
-			setVitality(getVitality() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
-			setPower(getPower() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
-			setDefence(getDefence() + handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+			attackSpeed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
+			vitality += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
+			power += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+			defence += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
 			speed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
-			attackCooldown = (long) (600 / getAttackSpeed());
-			magicCooldown = (long) (300 / getAttackSpeed());
+			attackCooldown = (long) (600 / attackSpeed);
+			magicCooldown = (long) (300 / attackSpeed);
 			int previousMaxHP = maxHealth;
-			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 			if(health == previousMaxHP) {
 				health = maxHealth;
 			}
@@ -486,25 +515,25 @@ public class Player extends Creature{
 			if(getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
 				setAttackSpeed(0);
 			}else {
-				setAttackSpeed(getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+				attackSpeed -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
 			}
 			
 			if(getVitality() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
 				setVitality(0);
 			}else {
-				setVitality(getVitality() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+				vitality -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
 			}
 			
 			if(getPower() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
 				setPower(0);
 			}else {
-				setPower(getPower() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+				power -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
 			}
 			
 			if(getDefence() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
 				setDefence(0);
 			}else {
-				setDefence(getDefence() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+				defence -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
 			}
 			/*
 			 * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
@@ -515,10 +544,10 @@ public class Player extends Creature{
 				speed -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			}
 			
-			attackCooldown = (long) (600 / getAttackSpeed());
-			magicCooldown = (long) (300 / getAttackSpeed());
+			attackCooldown = (long) (600 / attackSpeed);
+			magicCooldown = (long) (300 / attackSpeed);
 			int previousMaxHP = maxHealth;
-			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 			if(health >= previousMaxHP) {
 				health = maxHealth;
 			}

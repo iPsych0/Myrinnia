@@ -69,7 +69,7 @@ public class Assets {
 	magicTreeRight4, magicTreeRighter4, magicTreeLeft5, magicTreeRight5, dirtHole, boatTop1, boatTop2, boatTop3, boatTop4, boatTop5, boatTop6, boatTop7, boatTop8, boatTop9, boatTop10, boatTop11, boatTop12,
 	boatTop13, boatTop14, boatTop15, boatTop16, boatTop17, boatTop18, boatTop19, boatTop20, boatStairsTopLeft, boatStairsBottomLeft, boatStairs, boatStairsMiddleTop, boatStairsMiddleBottom, boatStairsTopRight,
 	boatStairsBottomRight, boatRailingMiddleRight, boatRailingMiddleLeft, boatRailingLeft, boatRailingRight, boatRailingBottomLeft, boatRailingBottomRight, boatRailingBottom, boatRailingTop, boatBack1, boatBack2, boatBack3, boatBack4, boatBack5, boatBack6,
-	boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle;
+	boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle, workbench;
 
 	
 	
@@ -99,10 +99,8 @@ public class Assets {
 	public static BufferedImage[] genericButton;
 	
 	// Item images
-	public static BufferedImage wood, ore;
+	public static BufferedImage wood, ore, testSword, purpleSword, testAxe, testPickaxe;
 	public static BufferedImage[] coins;
-	public static BufferedImage testSword;
-	public static BufferedImage purpleSword;
 	
 	// Enemy images
 	public static BufferedImage scorpion;
@@ -134,11 +132,10 @@ public class Assets {
 	
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
-	public static BufferedImage hpOverlayUIButton;
 	
 	public static BufferedImage[] whirlpool;
 	
-	public static BufferedImage fish;
+	public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon;
 	
 	public static BufferedImage shopWindow;
 	
@@ -242,7 +239,9 @@ public class Assets {
 		magicProjectile[1] = projectiles.imageCrop(width * 10, height * 0, width, height);
 		magicProjectile[2] = projectiles.imageCrop(width * 11, height * 0, width, height);
 		
-		fish = ui_sheet.imageCrop(width * 2, 0, width, height);
+		fishingIcon = ui_sheet.imageCrop(width * 2, 0, width, height);
+		woodcuttingIcon = ui_sheet.imageCrop(width * 3, 0, width, height);
+		miningIcon = ui_sheet.imageCrop(width, 0, width, height);
 		
 		// Inventory sprites
 		invScreen = ui_sheet.imageCrop(0, height * 9, 132, 329);
@@ -258,7 +257,6 @@ public class Assets {
 		
 		// HP Overlay sprites
 		hpOverlay = ui_sheet.imageCrop(width * 3, 0, 160, 32);
-		hpOverlayUIButton = ui_sheet.imageCrop(width, 0, width, height);
 		
 		// Crafting UI sprites
 		craftWindow = ui_sheet.imageCrop(width * 5, height * 9, 242, 320);
@@ -289,6 +287,9 @@ public class Assets {
 		coins[3] = item_sheet.imageCrop(width * 0, height * 5, width, height);
 		testSword = item_sheet.imageCrop(width, height * 0, width, height);
 		purpleSword = item_sheet.imageCrop(width * 2, height * 0, width, height);
+		testAxe = item_sheet.imageCrop(0, height * 6, width, height);
+		testPickaxe = item_sheet.imageCrop(0, height * 7, width, height);
+		
 		
 		// Object Sprites
 		campfire = new BufferedImage[5];
@@ -302,6 +303,8 @@ public class Assets {
 		teleportShrine2 = object_sheet.imageCrop(width * 7, height * 11, width, height);
 		teleportShrinePillar1 = object_sheet.imageCrop(width * 9, width * 10, width, height);
 		teleportShrinePillar2 = object_sheet.imageCrop(width * 9, width * 11, width, height);
+		
+		workbench = city_sprites.imageCrop(width * 5, 0, width * 2, height * 2);
 		
 		// Enemy Sprites
 		

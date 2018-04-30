@@ -26,8 +26,10 @@ public class Item implements Serializable{
 	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemRarity.Common, EquipSlot.NONE, 10, 10, 5, 0, 3.0f, 5, true, ItemType.CRAFTING_MATERIAL);
 	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemRarity.Uncommon, EquipSlot.NONE, 0, 0 ,0 ,0 ,0, 5, true, ItemType.CRAFTING_MATERIAL);
 	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, EquipSlot.NONE, 0 ,0 ,0 ,0 ,0, -1, true, ItemType.CURRENCY);
-	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 11, 9, 10, 0, 0, 10, false, ItemType.MELEE_WEAPON);
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 15, 5, 10, 0, 0, 20, false, ItemType.MAGIC_WEAPON, ItemType.AXE);
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 11, 9, 10, 0, 0, 10, false, ItemType.MELEE_WEAPON);
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 15, 5, 10, 0, 0, 20, false, ItemType.MAGIC_WEAPON);
+	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.AXE);
+	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.PICKAXE);
 	
 	// Class
 	

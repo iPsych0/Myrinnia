@@ -97,14 +97,6 @@ public class Lorraine extends ShopKeeper {
 			}
 		}
 	}
-	
-	public int getSpeakingTurn() {
-		return speakingTurn;
-	}
-
-	public void setSpeakingTurn(int speakingTurn) {
-		this.speakingTurn = speakingTurn;
-	}
 
 	@Override
 	public void postRender(Graphics g) {

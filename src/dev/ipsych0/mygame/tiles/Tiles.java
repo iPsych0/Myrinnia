@@ -6,16 +6,16 @@ import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.SpriteSheet;
 import dev.ipsych0.mygame.utils.MapLoader;
 
 public class Tiles {
 	
 	// Get all Tiled firstGids
-	private static int[] tileGids = MapLoader.getTiledFirstGid(Handler.worldPath);
 	
 	// Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
-	public static Tiles[] tiles = new Tiles[(tileGids[tileGids.length - 1]
-			+ MapLoader.getTileCount(Handler.worldPath, tileGids.length - 1))];
+	public static Tiles[] tiles = new Tiles[(SpriteSheet.firstGids[SpriteSheet.firstGids.length - 1]
+			+ MapLoader.getTileCount(Handler.worldPath, SpriteSheet.firstGids.length - 1))];
 	
 	/*
 	 * Class data

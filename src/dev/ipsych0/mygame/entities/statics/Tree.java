@@ -128,7 +128,7 @@ public class Tree extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isWoodcutting) {
-			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), 32, 32, null);
+			g.drawImage(Assets.woodcuttingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), 32, 32, null);
 		}
 		
 	}

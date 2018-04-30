@@ -17,7 +17,7 @@ public class SpriteSheet {
 
 	
 	private BufferedImage sheet;
-	private int[] firstGids;
+	public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.worldPath);
 	private int imageIndex;
 	private int columns;
 	
@@ -25,7 +25,6 @@ public class SpriteSheet {
 		this.sheet = ImageLoader.loadImage(path);
 		
 		if(tile) {
-			firstGids = MapLoader.getTiledFirstGid(Handler.worldPath);
 			imageIndex = MapLoader.getImageIndex(Handler.worldPath, path);
 			columns = MapLoader.getTileColumns(Handler.worldPath, imageIndex);
 			
@@ -52,6 +51,7 @@ public class SpriteSheet {
 				
 		int tileId = -1;
 		
+		// Get the Tiled id in the image
 		if(y == 0) 
 			tileId = 0 + (x / 32);
 		else if(x == 0) 
@@ -61,21 +61,9 @@ public class SpriteSheet {
 		else
 			tileId = (y / 32) * columns + (x / 32);
 
+		// Set the tile image
 		Tiles.tiles[(tileId+firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId+firstGids[imageIndex]), isSolid);
 
-		
-		/*
-		 * Hier shit doen als:
-		 * Haal op hoeveelste index het path is in de tilesets.
-		 * Bijvoorbeeld: '/textures/trees.png' = 3e index
-		 * Dan haal de Tiled Global IDs op uit MapLoader en pak de GID van die tileset (de 1e Tile #)
-		 * Tel vervolgens de x/y coordinaten bij de locatie op om de juiste ID te krijgen
-		 * Vervolgens zet "Tiles.tiles[ID] = new Tiles(sheet.getSubImage(x,y,width,height), ID);
-		 * 
-		 * ALSO!!!
-		 * Verander in Tiles class ('= new Tiles[4096]') naar = new Tiles[MapLoader.getGIDs.laatsteFirstGID+TileCount]
-		 * voor efficiënt en automatisch aanpasbare grootte!
-		 */
 		return sheet.getSubimage(x, y, width, height);
 	}
 	
@@ -91,6 +79,7 @@ public class SpriteSheet {
 		
 		int tileId = -1;
 
+		// Get the Tiled id in the image
 		if(y == 0) 
 			tileId = 0 + (x / 32);
 		else if(x == 0) 
@@ -100,24 +89,20 @@ public class SpriteSheet {
 		else
 			tileId = (y / 32) * columns + (x / 32);
 
+		// Set the tile image
 		Tiles.tiles[(tileId+firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId+firstGids[imageIndex]), false);
 		
-		
-		/*
-		 * Hier shit doen als:
-		 * Haal op hoeveelste index het path is in de tilesets.
-		 * Bijvoorbeeld: '/textures/trees.png' = 3e index
-		 * Dan haal de Tiled Global IDs op uit MapLoader en pak de GID van die tileset (de 1e Tile #)
-		 * Tel vervolgens de x/y coordinaten bij de locatie op om de juiste ID te krijgen
-		 * Vervolgens zet "Tiles.tiles[ID] = new Tiles(sheet.getSubImage(x,y,width,height), ID);
-		 * 
-		 * ALSO!!!
-		 * Verander in Tiles class ('= new Tiles[4096]') naar = new Tiles[MapLoader.getGIDs.laatsteFirstGID+TileCount]
-		 * voor efficiënt en automatisch aanpasbare grootte!
-		 */
 		return sheet.getSubimage(x, y, width, height);
 	}
 
+	/**
+	 * Crops images from SpriteSheets that are not Tiled tiles
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return cropped non-tile image
+	 */
 	public BufferedImage imageCrop(int x, int y, int width, int height){
 		return sheet.getSubimage(x, y, width, height);
 	}

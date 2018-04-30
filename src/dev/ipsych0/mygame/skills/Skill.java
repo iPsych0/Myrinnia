@@ -51,6 +51,7 @@ public abstract class Skill implements Serializable {
 			addLevel();
 			nextLevelXp = (int)(nextLevelXp * 1.1);
 			checkNextLevel();
+			handler.getPlayer().levelUpStats();
 		}
 	}
 

@@ -48,6 +48,7 @@ public class ShopWindow implements Serializable {
 	private int dialogueWidth = 300;
 	private int dialogueHeight = 150;
 	private int restockTimer = 0;
+	private int destockTimer = 0;
 	private int seconds = 60;
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
@@ -144,6 +145,17 @@ public class ShopWindow implements Serializable {
 				}
 			}
 			restockTimer = 0;
+		}
+		
+		// Keeps a timer before destocking non-stock items.
+		destockTimer++;
+		if(destockTimer >= (seconds * 180)) {
+			for(int i = defaultStock.length; i < itemSlots.size(); i++) {
+				if(itemSlots.get(i).getItemStack() != null)
+					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+			}
+			destockTimer = 0;
+			clearNonStockItems();
 		}
 		
 		if(isOpen) {

@@ -105,13 +105,15 @@ public class Scorpion extends Creature {
 			handler.dropItem(Item.purpleSword, 1, (int)x, (int)y);
 		}
 		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y, 50));
+		handler.dropItem(Item.testAxe, 1, (int)x, (int)y);
+		handler.dropItem(Item.testPickaxe, 1, (int)x, (int)y);
 		
 		
 		if(Lorraine.questStarted){
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}
 		
-		handler.getSkillsUI().getSkill(SkillsList.COMBAT).addExperience(20);
+		handler.getSkillsUI().getSkill(SkillsList.COMBAT).addExperience(50);
 		
 		World currentWorld = handler.getWorld();
 		
