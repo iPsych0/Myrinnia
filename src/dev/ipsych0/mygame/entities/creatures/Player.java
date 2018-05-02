@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemType;
@@ -618,6 +619,8 @@ public class Player extends Creature{
 		if(SkillsOverviewUI.isOpen && handler.getSkillsUI().getOverviewUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		if(CharacterUI.isOpen && handler.getCharacterUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(handler.getHpOverlay().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		
 		// If the mouse is not clicked in one of the UI windows, return false

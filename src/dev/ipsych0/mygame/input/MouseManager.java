@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
@@ -87,6 +88,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			CharacterUI.hasBeenPressed = true;
 			SkillsUI.hasBeenPressed = true;
 			SkillsOverviewUI.hasBeenPressed = true;
+			HPOverlay.hasBeenPressed = true;
 		}
 		
 		// Right Click

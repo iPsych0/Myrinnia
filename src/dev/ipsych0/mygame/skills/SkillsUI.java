@@ -12,6 +12,7 @@ import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.utils.Text;
 
 public class SkillsUI implements Serializable{
@@ -31,6 +32,7 @@ public class SkillsUI implements Serializable{
 	private SkillsOverviewUI overviewUI;
 	public static boolean escapePressed = false;
 	private Rectangle bounds;
+	private Rectangle exit;
 	
 	public SkillsUI(Handler handler) {
 		this.handler = handler;
@@ -62,6 +64,8 @@ public class SkillsUI implements Serializable{
 		woodcutting = new Rectangle(x + 8, y + 136, 174, 32);
 		
 		bounds = new Rectangle(x, y, width, height);
+		
+		exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 		
 		overviewUI = new SkillsOverviewUI(handler);
 	}
@@ -162,23 +166,31 @@ public class SkillsUI implements Serializable{
 			
 			if(crafting.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], crafting.x, crafting.y, crafting.width, crafting.height, null);
+				drawXpProgress(g, crafting, SkillsList.CRAFTING);
 			}else {
 				g.drawImage(Assets.genericButton[1], crafting.x, crafting.y, crafting.width, crafting.height, null);
+				drawXpProgress(g, crafting, SkillsList.CRAFTING);
 			}
 			if(fishing.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], fishing.x, fishing.y, fishing.width, fishing.height, null);
+				drawXpProgress(g, fishing, SkillsList.FISHING);
 			}else {
 				g.drawImage(Assets.genericButton[1], fishing.x, fishing.y, fishing.width, fishing.height, null);
+				drawXpProgress(g, fishing, SkillsList.FISHING);
 			}
 			if(mining.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], mining.x, mining.y, mining.width, mining.height, null);
+				drawXpProgress(g, mining, SkillsList.MINING);
 			}else {
 				g.drawImage(Assets.genericButton[1], mining.x, mining.y, mining.width, mining.height, null);
+				drawXpProgress(g, mining, SkillsList.MINING);
 			}
 			if(woodcutting.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
+				drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
 			}else {
 				g.drawImage(Assets.genericButton[1], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
+				drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
 			}
 			Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel() , x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
@@ -186,22 +198,41 @@ public class SkillsUI implements Serializable{
 			Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
 			
 			if(crafting.contains(mouse)) {
-				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
-				Text.drawString(g, String.valueOf(getSkill(SkillsList.CRAFTING).getExperience())+"/"+getSkill(SkillsList.CRAFTING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+				Text.drawString(g, String.valueOf(getSkill(SkillsList.CRAFTING).getExperience())+"/"+getSkill(SkillsList.CRAFTING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(fishing.contains(mouse)) {
-				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
-				Text.drawString(g, String.valueOf(getSkill(SkillsList.FISHING).getExperience())+"/"+getSkill(SkillsList.FISHING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+				Text.drawString(g, String.valueOf(getSkill(SkillsList.FISHING).getExperience())+"/"+getSkill(SkillsList.FISHING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(mining.contains(mouse)) {
-				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
-				Text.drawString(g, String.valueOf(getSkill(SkillsList.MINING).getExperience())+"/"+getSkill(SkillsList.MINING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+				Text.drawString(g, String.valueOf(getSkill(SkillsList.MINING).getExperience())+"/"+getSkill(SkillsList.MINING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
 			if(woodcutting.contains(mouse)) {
-				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
-				Text.drawString(g, String.valueOf(getSkill(SkillsList.WOODCUTTING).getExperience())+"/"+getSkill(SkillsList.WOODCUTTING).getNextLevelXp() + " EXP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+				g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+				Text.drawString(g, String.valueOf(getSkill(SkillsList.WOODCUTTING).getExperience())+"/"+getSkill(SkillsList.WOODCUTTING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
 			}
+			
+			if(exit.contains(mouse)) {
+				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
+				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					hasBeenPressed = false;
+					SkillsOverviewUI.isOpen = false;
+					SkillsUI.isOpen = false;
+				}
+			}else {
+				g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
+			}
+			Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
 		}
+	}
+	
+	public void drawXpProgress(Graphics g, Rectangle skillRect, SkillsList skill) {
+		g.setColor(HPOverlay.xpColor);
+		g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * handler.getSkill(skill).getExperience() / handler.getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
+		g.setColor(HPOverlay.xpColorOutline);
+		g.drawRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * handler.getSkill(skill).getExperience() / handler.getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
 	}
 
 	public Skill getSkill(SkillsList skill) {

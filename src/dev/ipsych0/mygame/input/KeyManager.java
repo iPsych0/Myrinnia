@@ -144,15 +144,15 @@ public class KeyManager implements KeyListener, Serializable{
 				lastUIKeyPressed = KeyEvent.VK_Q;
 				if(!QuestUI.isOpen){
 					QuestUI.isOpen = true;
+					CharacterUI.isOpen = false;
+					CraftingUI.isOpen = false;
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 				else {
 					QuestUI.isOpen = false;
 					QuestHelpUI.isOpen = false;
 					QuestUI.renderingQuests = false;
-					CharacterUI.isOpen = false;
-					CraftingUI.isOpen = false;
-					SkillsUI.isOpen = false;
-					SkillsOverviewUI.isOpen = false;
 				}
 			}
 			

@@ -27,6 +27,7 @@ public class CharacterUI implements Serializable{
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
 	public static boolean escapePressed = false;
+	private Rectangle exit;
 	
 	public CharacterUI(Handler handler) {
 		this.handler = handler;
@@ -41,6 +42,8 @@ public class CharacterUI implements Serializable{
 		earthUp = new Rectangle(x + 92, y + 265, 16, 16);
 		
 		bounds = new Rectangle(x, y, width, height);
+		
+		exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 		
 	}
 	
@@ -110,7 +113,7 @@ public class CharacterUI implements Serializable{
 			
 			Text.drawString(g, "Combat lvl: " + handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "HP: " + handler.getPlayer().getHealth() + "/" + handler.getPlayer().getMaxHealth(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "EXP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "XP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
 			
 			// If we have points available, draw the 
 			if(baseStatPoints >= 1) {
@@ -176,6 +179,17 @@ public class CharacterUI implements Serializable{
 			Text.drawString(g, "Air:       "+air, x + 16, y + 246, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Water:   "+water, x + 16, y + 262, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Earth:    "+earth, x + 16, y + 278, false, Color.YELLOW, Assets.font14);
+			
+			if(exit.contains(mouse)) {
+				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
+				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					hasBeenPressed = false;
+					isOpen = false;
+				}
+			}else {
+				g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
+			}
+			Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
 		}
 	}
 
