@@ -31,10 +31,10 @@ public class HPOverlay implements Serializable {
 	public HPOverlay(Handler handler) {
 		this.handler = handler;
 		
-		hpBar = new Rectangle(48,32,144,32);
-		xpBar = new Rectangle(48,64,144,32);
+		hpBar = new Rectangle(48,32,144,24);
+		xpBar = new Rectangle(48,56,144,24);
 		
-		bounds = new Rectangle(0, 0, 208, 144);
+		bounds = new Rectangle(0, 0, 208, 128);
 		
 		combatBar = new Rectangle(0,2,208,32);
 		
@@ -65,8 +65,8 @@ public class HPOverlay implements Serializable {
 		g.drawImage(Assets.genericButton[1], xpBar.x, xpBar.y, xpBar.width, xpBar.height, null);
 		
 		// Draw the HP/EXP pre-fix to bars
-		g.drawImage(Assets.genericButton[1], hpBar.x - 32, hpBar.y, 32, 32, null);
-		g.drawImage(Assets.genericButton[1], xpBar.x - 32, xpBar.y, 32, 32, null);
+		g.drawImage(Assets.genericButton[1], hpBar.x - 32, hpBar.y, 32, 24, null);
+		g.drawImage(Assets.genericButton[1], xpBar.x - 32, xpBar.y, 32, 24, null);
 		
 		// Skills UI button
 		if(skillsButton.contains(mouse)) {
