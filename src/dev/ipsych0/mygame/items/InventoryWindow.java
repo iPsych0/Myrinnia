@@ -134,7 +134,7 @@ public class InventoryWindow implements Serializable {
 				if(itemSelected && !handler.getMouseManager().isDragged()){
 					if(handler.getMouseManager().getMouseX() <= this.x && handler.getMouseManager().getMouseY() >= this.y){
 						// Drop the item
-						handler.getWorld().getItemManager().addItem(currentSelectedSlot.getItem().createNew((int)handler.getWorld().getEntityManager().getPlayer().getX(), (int)handler.getWorld().getEntityManager().getPlayer().getY(), currentSelectedSlot.getAmount()));
+						handler.dropItem(currentSelectedSlot.getItem(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), currentSelectedSlot.getAmount());
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
 						itemSelected = false;

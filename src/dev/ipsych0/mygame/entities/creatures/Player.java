@@ -737,7 +737,8 @@ public class Player extends Creature{
 			if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getInventory().getItemSlots().get(i).getItemStack().getAmount()));
+			handler.dropItem(handler.getInventory().getItemSlots().get(i).getItemStack().getItem(),
+					handler.getInventory().getItemSlots().get(i).getItemStack().getAmount(), (int)x, (int)y);
 			handler.getInventory().getItemSlots().get(i).setItemStack(null);
 		}
 		// If we're dragging an item from inventory while dying, drop it too!
@@ -752,7 +753,8 @@ public class Player extends Creature{
 			if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
+			handler.dropItem(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem(),
+					handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount(), (int)x, (int)y);
 			removeEquipmentStats(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
 			handler.getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}

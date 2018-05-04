@@ -67,7 +67,7 @@ public class Island extends World {
 		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
 		
 		// Dit is hoe ik items in de world zelf spawn
-		itemManager.addItem(Item.woodItem.createNew(5056, 5596, 5), true);
+		itemManager.addItem(Item.woodItem.createUnequippableItem(5056, 5596, 5), true);
 		
 	}
 

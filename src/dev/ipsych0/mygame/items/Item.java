@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class Item implements Serializable{
+public abstract class Item implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -23,45 +23,39 @@ public class Item implements Serializable{
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[32];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemRarity.Common, EquipSlot.NONE, 10, 10, 5, 0, 3.0f, 5, true, ItemType.CRAFTING_MATERIAL);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemRarity.Uncommon, EquipSlot.NONE, 0, 0 ,0 ,0 ,0, 5, true, ItemType.CRAFTING_MATERIAL);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, EquipSlot.NONE, 0 ,0 ,0 ,0 ,0, -1, true, ItemType.CURRENCY);
-	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 11, 9, 10, 0, 0, 10, false, ItemType.MELEE_WEAPON);
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 15, 5, 10, 0, 0, 20, false, ItemType.MAGIC_WEAPON);
-	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.AXE);
-	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.PICKAXE);
+	public static Item woodItem = new UnequippableItem(Assets.wood, "Logs", 0, ItemRarity.Common, 5, true, ItemType.CRAFTING_MATERIAL);
+	public static Item oreItem = new UnequippableItem(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.CRAFTING_MATERIAL);
+	public static Item coinsItem = new UnequippableItem(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
+	public static Item testSword = new EquippableItem(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 11, 9, 10, 0, 0, 10, false, ItemType.MELEE_WEAPON);
+	public static Item purpleSword = new EquippableItem(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 15, 5, 10, 0, 0, 20, false, ItemType.MAGIC_WEAPON);
+	public static Item testAxe = new EquippableItem(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.AXE);
+	public static Item testPickaxe = new EquippableItem(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, ItemType.MELEE_WEAPON, ItemType.PICKAXE);
 	
 	// Class
 	
 	private Handler handler;
-	private ItemType[] itemTypes;
-	private ItemRarity itemRarity;
-	private transient BufferedImage texture;
-	private String name;
-	private final int id;
-	private final EquipSlot equipSlot;
-	private final int power, defence, vitality;
-	private final float attackSpeed, movementSpeed;
-	private int x, y;
-	private Rectangle bounds;
-	private int count;
-	private boolean pickedUp = false;
+	protected ItemType[] itemTypes;
+	protected ItemRarity itemRarity;
+	protected transient BufferedImage texture;
+	protected String name;
+	protected final int id;
+	protected EquipSlot equipSlot;
+	protected int power, defence, vitality;
+	protected float attackSpeed, movementSpeed;
+	protected int x, y;
+	protected Rectangle bounds;
+	protected int count;
+	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
-	private int price;
-	private boolean stackable;
+	protected int price;
+	protected boolean stackable;
 	
-	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable, ItemType... itemTypes){
+	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean isStackable, ItemType... itemTypes){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
 		this.itemTypes = itemTypes;
 		this.itemRarity = itemRarity;
-		this.equipSlot = equipSlot;
-		this.power = power;
-		this.defence = defence;
-		this.vitality = vitality;
-		this.attackSpeed = attackSpeed;
-		this.movementSpeed = movementSpeed;
 		this.price = price;
 		this.stackable = isStackable;
 		
@@ -87,8 +81,21 @@ public class Item implements Serializable{
 	 * Adds a new item to the world
 	 * @params: x,y position and amount
 	 */
-	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes);
+	public Item createEquippableItem(int x, int y, int count){
+		Item i = new EquippableItem(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes);
+		i.setPosition(x, y);
+		
+		// If the item is stackable, set the amount
+		if(i.stackable)
+			i.setCount(count);
+		// If the item is unstackable, the count is always 1.
+		else
+			i.setCount(1);
+		return i;
+	}
+	
+	public Item createUnequippableItem(int x, int y, int count){
+		Item i = new UnequippableItem(texture, name, id, itemRarity, price, stackable, itemTypes);
 		i.setPosition(x, y);
 		
 		// If the item is stackable, set the amount

@@ -5,8 +5,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
@@ -25,13 +27,13 @@ public class QuestManager implements Serializable{
 	private ArrayList<Quest> testQuests = new ArrayList<Quest>();
 	
 	// Get Quests by Enum value
-	private HashMap<QuestList, Quest> questMap = new HashMap<>();
+	private EnumMap<QuestList, Quest> questMap = new EnumMap<QuestList, Quest>(QuestList.class);
 	
 	// Put all Quest Lists per zone into a List of all Quest Lists
 	private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
 	
 	// Map Zones to Quest Lists
-	private HashMap<Zone, ArrayList<Quest>> zoneMap = new HashMap<>();
+	private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<Zone, ArrayList<Quest>>(Zone.class);
 	
 	public QuestManager(Handler handler) {
 		this.handler = handler;
@@ -116,11 +118,11 @@ public class QuestManager implements Serializable{
 			questUI.render(g);
 	}
 
-	public HashMap<QuestList, Quest> getQuestMap() {
+	public EnumMap<QuestList, Quest> getQuestMap() {
 		return questMap;
 	}
 
-	public void setQuestMap(HashMap<QuestList, Quest> questMap) {
+	public void setQuestMap(EnumMap<QuestList, Quest> questMap) {
 		this.questMap = questMap;
 	}
 
@@ -140,11 +142,11 @@ public class QuestManager implements Serializable{
 		this.allQuestLists = allQuestLists;
 	}
 
-	public HashMap<Zone, ArrayList<Quest>> getZoneMap() {
+	public EnumMap<Zone, ArrayList<Quest>> getZoneMap() {
 		return zoneMap;
 	}
 
-	public void setZoneMap(HashMap<Zone, ArrayList<Quest>> zoneMap) {
+	public void setZoneMap(EnumMap<Zone, ArrayList<Quest>> zoneMap) {
 		this.zoneMap = zoneMap;
 	}
 	

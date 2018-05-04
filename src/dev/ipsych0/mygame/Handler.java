@@ -16,6 +16,7 @@ import dev.ipsych0.mygame.gfx.GameCamera;
 import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
+import dev.ipsych0.mygame.items.EquipSlot;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.Item;
@@ -174,7 +175,10 @@ public class Handler implements Serializable {
 	 * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
 	 */
 	public void dropItem(Item item, int amount, int x, int y) {
-		getWorld().getItemManager().addItem((item.createNew(x, y, amount)));
+		if(item.getEquipSlot() == EquipSlot.NONE.getSlotId())
+			getWorld().getItemManager().addItem((item.createUnequippableItem(x, y, amount)));
+		else
+			getWorld().getItemManager().addItem((item.createEquippableItem(x, y, amount)));
 	}
 	
 	/*
