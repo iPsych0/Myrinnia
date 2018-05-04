@@ -334,12 +334,27 @@ public class InventoryWindow implements Serializable {
 					Text.drawString(g, is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 32, false, g.getColor(), Assets.font14);
 					
 					if(is.getItemStack().getItem().getRequirements() != null) {
-						Text.drawString(g, "Requirements:", x - 142, y + 132, false, Color.YELLOW, Assets.font14);
+						boolean hasStats = false;
+						int numMatches = 0;
 						for(int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
+							if(is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
+								g.setColor(Color.RED);
+							}else {
+								g.setColor(Color.GREEN);
+								numMatches++;
+							}
 							Text.drawString(g, is.getItemStack().getItem().getRequirements()[i].getStat().toString() + ": " +
 									is.getItemStack().getItem().getRequirements()[i].getLevel(),
-									x - 142, y + 148 + (i * 16), false, Color.YELLOW, Assets.font14);
+									x - 142, y + 148 + (i * 16), false, g.getColor(), Assets.font14);
 						}
+						if(numMatches == is.getItemStack().getItem().getRequirements().length)
+							hasStats = true;
+						
+						if(hasStats)
+							g.setColor(Color.GREEN);
+						else
+							g.setColor(Color.RED);
+						Text.drawString(g, "Requirements:", x - 142, y + 132, false, g.getColor(), Assets.font14);
 					}
 					
 					if(is.getItemStack().getItem().getEquipSlot() != EquipSlot.NONE.getSlotId()){
