@@ -134,7 +134,7 @@ public class InventoryWindow implements Serializable {
 				if(itemSelected && !handler.getMouseManager().isDragged()){
 					if(handler.getMouseManager().getMouseX() <= this.x && handler.getMouseManager().getMouseY() >= this.y){
 						// Drop the item
-						handler.dropItem(currentSelectedSlot.getItem(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), currentSelectedSlot.getAmount());
+						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
 						itemSelected = false;
@@ -150,7 +150,7 @@ public class InventoryWindow implements Serializable {
 							isEquipped = false;
 							return;
 						}
-						if(is.getItemStack().getItem().getEquipSlot() == 12){
+						if(is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()){
 							// If the item's equipmentslot = 12, that means it's unequippable, so return
 							handler.sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
 							isEquipped = false;
@@ -159,7 +159,7 @@ public class InventoryWindow implements Serializable {
 						}
 						
 						// If the item's equipmentslot is a valid slot
-						if(is.getItemStack().getItem().getEquipSlot() >= 0 && is.getItemStack().getItem().getEquipSlot() <= 11){
+						if(is.getItemStack().getItem().getEquipSlot() != EquipSlot.NONE.getSlotId()){
 							if(handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
 									is.getItemStack().getItem().getId() ==
 									handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
@@ -202,9 +202,10 @@ public class InventoryWindow implements Serializable {
 
 								}else {
 									// Otherwise, swap the items and set the inventory stack to null
+									is.setItemStack(null);
 									handler.giveItem(equipSwap.getItem(), equipSwap.getAmount());
 									handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
-									is.setItemStack(null);
+						
 								}
 								
 								// Add the equipment stats after equipping
@@ -289,7 +290,16 @@ public class InventoryWindow implements Serializable {
 				
 				// If hovering over an item in the inventory, draw the tooltip
 				if(temp2.contains(temp) && is.getItemStack() != null){
-					g.drawImage(Assets.shopWindow, x - 147, y, 148, 122, null);
+					if(is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()) {
+						g.drawImage(Assets.shopWindow, x - 149, y + 1, 150, 64, null);
+					}
+					else {
+						if(is.getItemStack().getItem().getRequirements() == null)
+							g.drawImage(Assets.shopWindow, x - 149, y, 150, 122, null);
+						else
+							g.drawImage(Assets.shopWindow, x - 149, y, 150, 138 + (is.getItemStack().getItem().getRequirements().length * 16), null);
+					}
+						
 					
 					Text.drawString(g, is.getItemStack().getItem().getName(), x - 142, y + 16, false, Color.YELLOW, Assets.font14);
 					
@@ -299,7 +309,16 @@ public class InventoryWindow implements Serializable {
 					g.setColor(ItemRarity.getColor(is.getItemStack().getItem()));
 					Text.drawString(g, is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 32, false, g.getColor(), Assets.font14);
 					
-					if(is.getItemStack().getItem().getEquipSlot() != 12){
+					if(is.getItemStack().getItem().getRequirements() != null) {
+						Text.drawString(g, "Requirements:", x - 142, y + 132, false, Color.YELLOW, Assets.font14);
+						for(int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
+							Text.drawString(g, is.getItemStack().getItem().getRequirements()[i].getStat().toString() + ": " +
+									is.getItemStack().getItem().getRequirements()[i].getLevel(),
+									x - 142, y + 148 + (i * 16), false, Color.YELLOW, Assets.font14);
+						}
+					}
+					
+					if(is.getItemStack().getItem().getEquipSlot() != EquipSlot.NONE.getSlotId()){
 						// Only compare stats if an item is actually equipped
 						if(handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack() != null){
 							/*
@@ -373,6 +392,7 @@ public class InventoryWindow implements Serializable {
 							}
 							Text.drawString(g, "Mov. Speed: " + is.getItemStack().getItem().getMovementSpeed(), x - 142, y + 112, false, g.getColor(), Assets.font14);
 							Text.drawString(g, "(" + (is.getItemStack().getItem().getMovementSpeed() - handler.getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x - 34, y + 112, false, g.getColor(), Assets.font14);
+							
 						}else{
 							g.setColor(Color.YELLOW);
 							Text.drawString(g, "Power: " + is.getItemStack().getItem().getPower(), x - 142, y + 48, false, g.getColor(), Assets.font14);

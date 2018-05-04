@@ -117,7 +117,7 @@ public class EquipmentWindow implements Serializable {
 				if(itemSelected && !handler.getMouseManager().isDragged()){
 					if(handler.getMouseManager().getMouseX() <= this.x){
 						// Drop the item
-						handler.dropItem(currentSelectedSlot.getItem(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), currentSelectedSlot.getAmount());
+						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
 						itemSelected = false;

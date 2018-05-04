@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.HashMap;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -29,8 +28,6 @@ public class CharacterUI implements Serializable{
 	private Rectangle bounds;
 	public static boolean escapePressed = false;
 	private Rectangle exit;
-	
-	private HashMap<CharacterStats, Integer> stats = new HashMap<>();
 	
 	public CharacterUI(Handler handler) {
 		this.handler = handler;
