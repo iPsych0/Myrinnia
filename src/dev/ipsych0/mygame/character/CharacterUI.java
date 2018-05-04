@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
+import javax.print.DocFlavor.CHAR_ARRAY;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -21,8 +23,6 @@ public class CharacterUI implements Serializable{
 	public static boolean isOpen = false;
 	private int baseStatPoints = 0;
 	private int elementalStatPoints = 0;
-	private int melee = 0, ranged = 0, magic = 0;
-	private int fire = 0, air = 0, water = 0, earth = 0;
 	private Rectangle meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
@@ -44,7 +44,6 @@ public class CharacterUI implements Serializable{
 		bounds = new Rectangle(x, y, width, height);
 		
 		exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
-		
 	}
 	
 	public void tick() {
@@ -60,17 +59,17 @@ public class CharacterUI implements Serializable{
 			// If Base stats are upped
 			if(baseStatPoints >= 1) {
 				if(meleeUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					melee += 1;
+					CharacterStats.Melee.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
 				}
 				else if(rangedUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					ranged += 1;
+					CharacterStats.Ranged.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
 				}
 				else if(magicUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					magic += 1;
+					CharacterStats.Magic.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
 				}
@@ -79,22 +78,22 @@ public class CharacterUI implements Serializable{
 			// If Elemental stats are upped
 			if(elementalStatPoints >= 1) {
 				if(fireUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					fire += 1;
+					CharacterStats.Fire.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
 				else if(airUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					air += 1;
+					CharacterStats.Air.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
 				else if(waterUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					water += 1;
+					CharacterStats.Water.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
 				else if(earthUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					earth += 1;
+					CharacterStats.Earth.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
@@ -140,9 +139,9 @@ public class CharacterUI implements Serializable{
 			}
 			
 			Text.drawString(g, "Combat stats:", x + 16, y + 128, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + baseStatPoints + " points)", x + 120, y + 128, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Melee:   "+melee, x + 16, y + 148, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Ranged: "+ranged, x + 16, y + 164, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Magic:   "+magic, x + 16, y + 180, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Melee:   "+CharacterStats.Melee.getLevel(), x + 16, y + 148, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Ranged: "+CharacterStats.Ranged.getLevel(), x + 16, y + 164, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Magic:   "+CharacterStats.Magic.getLevel(), x + 16, y + 180, false, Color.YELLOW, Assets.font14);
 
 			if(elementalStatPoints >= 1) {
 				if(fireUp.contains(mouse)) {
@@ -175,10 +174,10 @@ public class CharacterUI implements Serializable{
 				Text.drawString(g, "+", x + 101, y + 273, true, Color.YELLOW, Assets.font14);
 			}
 			Text.drawString(g, "Elemental stats: ", x + 16, y + 208, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + elementalStatPoints + " points)", x + 120, y + 208, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Fire:      "+fire, x + 16, y + 230, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Air:       "+air, x + 16, y + 246, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Water:   "+water, x + 16, y + 262, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Earth:    "+earth, x + 16, y + 278, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Fire:      "+CharacterStats.Fire.getLevel(), x + 16, y + 230, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Air:       "+CharacterStats.Air.getLevel(), x + 16, y + 246, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Water:   "+CharacterStats.Water.getLevel(), x + 16, y + 262, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Earth:    "+CharacterStats.Earth.getLevel(), x + 16, y + 278, false, Color.YELLOW, Assets.font14);
 			
 			if(exit.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
@@ -207,62 +206,6 @@ public class CharacterUI implements Serializable{
 
 	public void addElementalStatPoints() {
 		this.elementalStatPoints++;
-	}
-
-	public int getMelee() {
-		return melee;
-	}
-
-	public void setMelee(int melee) {
-		this.melee = melee;
-	}
-
-	public int getRanged() {
-		return ranged;
-	}
-
-	public void setRanged(int ranged) {
-		this.ranged = ranged;
-	}
-
-	public int getMagic() {
-		return magic;
-	}
-
-	public void setMagic(int magic) {
-		this.magic = magic;
-	}
-
-	public int getFire() {
-		return fire;
-	}
-
-	public void setFire(int fire) {
-		this.fire = fire;
-	}
-
-	public int getAir() {
-		return air;
-	}
-
-	public void setAir(int air) {
-		this.air = air;
-	}
-
-	public int getWater() {
-		return water;
-	}
-
-	public void setWater(int water) {
-		this.water = water;
-	}
-
-	public int getEarth() {
-		return earth;
-	}
-
-	public void setEarth(int earth) {
-		this.earth = earth;
 	}
 
 	public Rectangle getBounds() {

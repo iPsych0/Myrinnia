@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.shop.ShopWindow;
@@ -168,6 +169,29 @@ public class InventoryWindow implements Serializable {
 								isEquipped = false;
 								hasBeenPressed = false;
 								return;
+							}
+							
+							// If we don't have the required level to equip that item, return
+							if(is.getItemStack().getItem().getRequirements() != null) {
+								String missingReqs = "";
+								boolean missing = false;
+								for(int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
+									if(is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
+										missing = true;
+										if(i < is.getItemStack().getItem().getRequirements().length - 1)
+											missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
+												is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " and ";
+										else
+											missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
+													is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " points";
+									}
+								}
+								if(missing) {
+									handler.sendMsg("You need "+ missingReqs + " to equip this item.");
+									isEquipped = false;
+									hasBeenPressed = false;
+									return;
+								}
 							}
 							
 							// If we have no item equipped in that slot
