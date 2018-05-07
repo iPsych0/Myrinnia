@@ -33,7 +33,7 @@ public class Scorpion extends Creature {
 		// Creature stats
 		setPower(0);
 		setVitality(7);
-		setDefence(0);
+		setDefence(10);
 		speed = DEFAULT_SPEED + 0.5f;
 		setAttackSpeed(DEFAULT_ATTACKSPEED);
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
@@ -113,7 +113,7 @@ public class Scorpion extends Creature {
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}
 		
-		handler.getSkillsUI().getSkill(SkillsList.COMBAT).addExperience(50);
+		handler.getSkill(SkillsList.COMBAT).addExperience(handler.getSkill(SkillsList.COMBAT).getNextLevelXp());
 		
 		World currentWorld = handler.getWorld();
 		
@@ -132,10 +132,10 @@ public class Scorpion extends Creature {
 	/*
 	 * Damage formula
 	 */
-	@Override
-	public int getDamage(Entity dealer) {
-		return super.getDamage(dealer) - 7;
-	}
+//	@Override
+//	public int getDamage(Entity dealer) {
+//		return super.getDamage(dealer) - 7;
+//	}
 	
 	/*
 	 * Checks the attack timers before the next attack 

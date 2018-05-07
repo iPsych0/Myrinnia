@@ -102,8 +102,8 @@ public abstract class Creature extends Entity {
 	 * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
 	 */
 	@Override
-	public int getDamage(Entity dealer) {
-		return super.getDamage(dealer);
+	public int getDamage(Entity dealer, Entity receiver) {
+		return super.getDamage(dealer, receiver);
 	}
 
 	/*
@@ -220,7 +220,7 @@ public abstract class Creature extends Entity {
 		}
 		String[] name = new String[3];
 		name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
-		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity));
+		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity, handler.getPlayer()));
 		name[2] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
 		return name;
 	}

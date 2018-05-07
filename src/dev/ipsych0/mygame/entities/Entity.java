@@ -139,10 +139,11 @@ public abstract class Entity implements Serializable{
 	 * Returns the damage an Entity should deal (Combat formula)
 	 * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
 	 */
-	public int getDamage(Entity dealer) {
+	public int getDamage(Entity dealer, Entity receiver) {
 		// Default damage formula
-		Creature c = (Creature) dealer;
-		return (int) Math.floor((c.getBaseDamage() + c.getPower()));
+		Creature d = (Creature) dealer;
+		Creature r = (Creature) receiver;
+		return (int) Math.floor((d.getBaseDamage() + d.getPower()) - (r.getDefence() * 0.75));
 	}
 	
 	/*
@@ -153,7 +154,7 @@ public abstract class Entity implements Serializable{
 	public void damage(Entity dealer, Entity receiver){
 		damageDealer = dealer;
 		damageReceiver = receiver;
-		damageReceiver.health -= damageDealer.getDamage(damageDealer);
+		damageReceiver.health -= damageDealer.getDamage(damageDealer, receiver);
 		damageReceiver.damaged = true;
 		damageReceiver.ty = 0;
 		damageReceiver.lastHit = 0;
@@ -180,7 +181,7 @@ public abstract class Entity implements Serializable{
 			//g.setColor(Color.YELLOW);
 			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
 			
-			Text.drawString(g, String.valueOf(dealer.getDamage(dealer)) ,
+			Text.drawString(g, String.valueOf(dealer.getDamage(dealer, damageReceiver)) ,
 					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
 			
 			if(damageReceiver.lastHit == 45) {

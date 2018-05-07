@@ -64,6 +64,7 @@ public class Player extends Creature{
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 	
 	private int basePower, baseVitality, baseDefence;
+	private double levelExponent = 1.1;
 
 	private boolean movementAllowed = true;
 	public static boolean isMoving = false;
@@ -89,7 +90,11 @@ public class Player extends Creature{
 		xSpawn = 5152.0f;
 		ySpawn = 5600.0f;
 		
-		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		basePower = 2;
+		baseVitality = 2;
+		baseDefence = 2;
+		
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
 		speed = DEFAULT_SPEED + 1.0f;
 		
@@ -452,22 +457,19 @@ public class Player extends Creature{
 	}
 	
 	public void levelUpStats() {
-		// On the first level-up, increase by a fixed +2
-		if(handler.getSkill(SkillsList.COMBAT).getLevel() == 2) {
-			basePower = 2;
-			baseVitality = 2;
-			baseDefence = 2;
-		}
 		
 		// Get the old base power
 		int oldBasePower = basePower;
 		int oldBaseVitality = baseVitality;
 		int oldBaseDefence = baseDefence;
 		
-		// Multiply base stats by 10%, rounded up
-		basePower = (int) Math.ceil(basePower * 1.1);
-		baseVitality = (int) Math.ceil(baseVitality * 1.1);
-		baseDefence = (int) Math.ceil(baseDefence * 1.1);
+		// Every level, formula is: Exponent (1.1) * 0.9985
+		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
+		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
+		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
+		
+		this.levelExponent *= 0.9985;
+		
 		
 		this.power += (basePower - oldBasePower);
 		this.vitality += (baseVitality - oldBaseVitality);
@@ -556,14 +558,14 @@ public class Player extends Creature{
 	}
 	
 	/**
-	 * 
+	 * Damage formula
 	 */
-	@Override
-	public int getDamage(Entity dealer) {
-		// Default damage formula
-		Creature c = (Creature) dealer;
-		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
-	}
+//	@Override
+//	public int getDamage(Entity dealer) {
+//		// Default damage formula
+//		Creature c = (Creature) dealer;
+//		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
+//	}
 	
 	/*
 	 * Regenerates health
