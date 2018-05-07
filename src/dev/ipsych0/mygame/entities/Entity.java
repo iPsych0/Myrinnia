@@ -143,7 +143,9 @@ public abstract class Entity implements Serializable{
 		// Default damage formula
 		Creature d = (Creature) dealer;
 		Creature r = (Creature) receiver;
-		return (int) Math.floor((d.getBaseDamage() + d.getPower()) - (r.getDefence() * 0.75));
+		if((int) Math.floor((d.getBaseDamage() + d.getPower()) - (r.getDefence() * 0.33)) <= 1)
+			return 1;
+		return (int) Math.floor((d.getBaseDamage() + d.getPower()) - (r.getDefence() * 0.33));
 	}
 	
 	/*
