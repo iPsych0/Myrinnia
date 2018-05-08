@@ -93,6 +93,7 @@ public class Player extends Creature{
 		basePower = 2;
 		baseVitality = 2;
 		baseDefence = 2;
+		baseDamage = 1;
 		
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
@@ -469,6 +470,10 @@ public class Player extends Creature{
 		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
 		
 		this.levelExponent *= 0.9985;
+		
+		System.out.println("Before: " + this.baseDamage);
+		this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
+		System.out.println("After: "+this.baseDamage);
 		
 		
 		this.power += (basePower - oldBasePower);

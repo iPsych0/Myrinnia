@@ -31,14 +31,21 @@ public class Scorpion extends Creature {
 		isNpc = false;
 		
 		// Creature stats
-		setPower(5);
-		setVitality(5);
-		setDefence(20);
+		power = 5;
+		vitality = 5;
+		defence = 10;
 		speed = DEFAULT_SPEED + 0.5f;
-		setAttackSpeed(DEFAULT_ATTACKSPEED);
-		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		attackSpeed = DEFAULT_ATTACKSPEED;
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
 		combatLevel = 5;
+		System.out.println("Before: " + baseDamage);
+		double exponent = 1.1;
+		for(int i = 1; i < combatLevel; i++) {
+			baseDamage = (int)Math.ceil((baseDamage * exponent) + 1);
+			exponent *= 0.9985;
+			System.out.println("After: "+baseDamage);
+		}
 		attackRange = Tiles.TILEWIDTH * 6;
 		
 		bounds.x = 2;

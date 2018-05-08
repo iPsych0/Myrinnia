@@ -28,7 +28,7 @@ public abstract class Creature extends Entity {
 	public static final int DEFAULT_CREATURE_WIDTH = 32,
 							DEFAULT_CREATURE_HEIGHT = 32;
 	
-	public static final int DEFAULT_DAMAGE = 10,
+	public static final int DEFAULT_DAMAGE = 1,
 							DEFAULT_POWER = 0,
 							DEFAULT_DEFENCE = 0,
 							DEFAULT_VITALITY = 0;
@@ -87,7 +87,7 @@ public abstract class Creature extends Entity {
 		vitality = (DEFAULT_VITALITY);
 		speed = (DEFAULT_SPEED);
 		attackSpeed = (DEFAULT_ATTACKSPEED);
-		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
 		combatLevel = 1;
 		xMove = 0;
