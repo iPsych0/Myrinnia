@@ -143,9 +143,7 @@ public abstract class Entity implements Serializable{
 		// Default damage formula
 		Creature d = (Creature) dealer;
 		Creature r = (Creature) receiver;
-		if(d.getBaseDamage() + d.getPower() - r.getDefence() <= 0)
-			return 0;
-		return d.getBaseDamage() + d.getPower() - r.getDefence();
+		return (int)Math.ceil((100.0/(100.0+r.getDefence())) * d.getPower()) + d.getBaseDamage();
 	}
 	
 	/*
@@ -183,14 +181,10 @@ public abstract class Entity implements Serializable{
 			//g.setColor(Color.YELLOW);
 			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
 			
-			if(dealer.getDamage(dealer, damageReceiver) != 0)
-				Text.drawString(g, String.valueOf(dealer.getDamage(dealer, damageReceiver)) ,
-						(int) (x - handler.getGameCamera().getxOffset() + 10),
-						(int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
-			else
-				Text.drawString(g, "Block", (int) (x - handler.getGameCamera().getxOffset() + 10),
-						(int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.YELLOW, Assets.font32);
-			
+			Text.drawString(g, String.valueOf(dealer.getDamage(dealer, damageReceiver)),
+					(int) (x - handler.getGameCamera().getxOffset() + 10),
+					(int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
+
 			if(damageReceiver.lastHit == 45) {
 				damageReceiver.damaged = false;
 				damageReceiver.lastHit = 0;

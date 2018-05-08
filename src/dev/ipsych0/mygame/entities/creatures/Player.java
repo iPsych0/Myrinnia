@@ -65,7 +65,9 @@ public class Player extends Creature{
 	
 	private int basePower, baseVitality, baseDefence;
 	private double levelExponent = 1.1;
-
+	private static boolean isLevelUp = false;
+	private int levelUpTimer = 0;
+	
 	private boolean movementAllowed = true;
 	public static boolean isMoving = false;
 	
@@ -455,30 +457,38 @@ public class Player extends Creature{
 			}
 		}
 		
+		if(isLevelUp) {
+			levelUpTimer++;
+			Text.drawString(g, "Level up!", (int)(x - handler.getGameCamera().getxOffset()), (int)(y - handler.getGameCamera().getyOffset() + 16 - levelUpTimer),
+					true, Color.YELLOW, Assets.font32);
+			if(levelUpTimer >= 60) {
+				levelUpTimer = 0;
+				isLevelUp = false;
+			}
+		}
+		
 	}
 	
 	public void levelUpStats() {
 		
-		// Get the old base power
-		int oldBasePower = basePower;
-		int oldBaseVitality = baseVitality;
-		int oldBaseDefence = baseDefence;
+		isLevelUp = true;
 		
-		// Every level, formula is: Exponent (1.1) * 0.9985
-		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
-		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
-		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
+		// Get the old base power
+//		int oldBasePower = basePower;
+//		int oldBaseVitality = baseVitality;
+//		int oldBaseDefence = baseDefence;
+//		
+//		// Every level, formula is: Exponent (1.1) * 0.9985
+//		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
+//		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
+//		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
 		
 		this.levelExponent *= 0.9985;
 		
-		System.out.println("Before: " + this.baseDamage);
 		this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-		System.out.println("After: "+this.baseDamage);
-		
-		
-		this.power += (basePower - oldBasePower);
-		this.vitality += (baseVitality - oldBaseVitality);
-		this.defence += (baseDefence - oldBaseDefence);
+//		this.power += (basePower - oldBasePower);
+//		this.vitality += (baseVitality - oldBaseVitality);
+//		this.defence += (baseDefence - oldBaseDefence);
 		
 		this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		this.health = maxHealth;

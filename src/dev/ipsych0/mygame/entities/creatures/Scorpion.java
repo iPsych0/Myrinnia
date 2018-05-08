@@ -39,12 +39,11 @@ public class Scorpion extends Creature {
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
 		combatLevel = 5;
-		System.out.println("Before: " + baseDamage);
+		
 		double exponent = 1.1;
 		for(int i = 1; i < combatLevel; i++) {
 			baseDamage = (int)Math.ceil((baseDamage * exponent) + 1);
 			exponent *= 0.9985;
-			System.out.println("After: "+baseDamage);
 		}
 		attackRange = Tiles.TILEWIDTH * 6;
 		
