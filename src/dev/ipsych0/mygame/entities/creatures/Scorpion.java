@@ -38,7 +38,7 @@ public class Scorpion extends Creature {
 		attackSpeed = DEFAULT_ATTACKSPEED;
 		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
-		combatLevel = 5;
+		combatLevel = 2;
 		
 		double exponent = 1.1;
 		for(int i = 1; i < combatLevel; i++) {

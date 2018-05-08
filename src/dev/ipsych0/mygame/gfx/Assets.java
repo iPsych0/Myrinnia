@@ -132,7 +132,7 @@ public class Assets {
 	
 	// HP Overlay UI
 	public static BufferedImage hpOverlay;
-	public static BufferedImage hpOverlaySkillsIcon, hpOverlayCharacterIcon, hpOverlayAbilitiesIcon;
+	public static BufferedImage hpOverlaySkillsIcon, hpOverlayCharacterIcon, hpOverlayAbilitiesIcon, hpOverlayQuestsIcon, hpOverlayMapIcon;
 	
 	public static BufferedImage[] whirlpool;
 	
@@ -261,6 +261,8 @@ public class Assets {
 		hpOverlayAbilitiesIcon = ui_sheet.imageCrop(width * 4, 0, width, height);
 		hpOverlayCharacterIcon = ui_sheet.imageCrop(width * 5, 0, width, height);
 		hpOverlaySkillsIcon = ui_sheet.imageCrop(width * 6, 0, width, height);
+		hpOverlayQuestsIcon = ui_sheet.imageCrop(width * 7, 0, width, height);
+		hpOverlayMapIcon = ui_sheet.imageCrop(width * 8, 0, width, height);
 		
 		// Crafting UI sprites
 		craftWindow = ui_sheet.imageCrop(width * 5, height * 9, 242, 320);
