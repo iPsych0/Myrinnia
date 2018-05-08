@@ -3,10 +3,13 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -24,11 +27,13 @@ public class EntityManager implements Serializable{
 	private Entity shoppingNpc;
 	private Entity selectedEntity;
 	public static boolean isPressed = false;
+	private LinkedList<HitSplat> hitSplats;
 	
 	public EntityManager(Handler handler, Player player){
 		this.handler = handler;
 		this.player = player;
 		entities = new CopyOnWriteArrayList<Entity>();
+		hitSplats = new LinkedList<>();
 		addEntity(player);
 	}
 	
@@ -61,6 +66,10 @@ public class EntityManager implements Serializable{
 				shoppingNpc = e;
 			}
 			e.tick();
+			// Update combat timers
+			if(e.isDamaged() && e.getDamageDealer() != null) {
+				e.updateCombatTimer();
+			}
 		}
 		entities.removeAll(deleted);
 		entities.sort(renderSorter);
@@ -119,16 +128,23 @@ public class EntityManager implements Serializable{
 					e.drawEntityOverlay(e, g);
 			}
 			
-			// Draw the damage while in combat
-			if(e.isDamaged() && e.getDamageDealer() != null) {
-				e.drawDamage(e.getDamageDealer(), g);
-			}
-			
 			e.postRender(g);
 			
 			if(shoppingNpc != null) {
 				shoppingNpc.postRender(g);
 			}
+		}
+		
+		Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();
+		if(hitSplats.size() != 0) {
+			for(HitSplat hs : hitSplats) {
+				if(hs.isActive()) {
+					hs.render(g);
+				}else {
+					deleted.add(hs);
+				}
+			}
+			hitSplats.removeAll(deleted);
 		}
 		
 	}
@@ -169,6 +185,14 @@ public class EntityManager implements Serializable{
 
 	public void setEntities(CopyOnWriteArrayList<Entity> entities) {
 		this.entities = entities;
+	}
+
+	public LinkedList<HitSplat> getHitSplats() {
+		return hitSplats;
+	}
+
+	public void setHitSplats(LinkedList<HitSplat> hitSplats) {
+		this.hitSplats = hitSplats;
 	}
 
 }

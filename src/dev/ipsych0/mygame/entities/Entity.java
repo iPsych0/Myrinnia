@@ -41,7 +41,6 @@ public abstract class Entity implements Serializable{
 	protected Entity damageDealer, damageReceiver;
 	protected int speakingTurn = 1;
 	protected int speakingCheckpoint = 0;
-	private int ty = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
 	protected int lastHit = 0;
@@ -154,12 +153,12 @@ public abstract class Entity implements Serializable{
 	public void damage(Entity dealer, Entity receiver){
 		damageDealer = dealer;
 		damageReceiver = receiver;
-		damageReceiver.health -= damageDealer.getDamage(damageDealer, receiver);
+		damageReceiver.health -= damageDealer.getDamage(dealer, receiver);
 		damageReceiver.damaged = true;
-		damageReceiver.ty = 0;
 		damageReceiver.lastHit = 0;
 		damageReceiver.combatTimer = 0;
 		damageReceiver.inCombat = true;
+		handler.getWorld().getEntityManager().getHitSplats().add(new HitSplat(handler, receiver, damageDealer.getDamage(damageDealer, receiver)));
 		if(damageDealer.equals(handler.getPlayer())) {
 			damageDealer.setInCombat(true);
 			damageDealer.combatTimer = 0;
@@ -174,16 +173,10 @@ public abstract class Entity implements Serializable{
 	/*
 	 * Drawing the hitsplat
 	 */
-	public void drawDamage(Entity dealer, Graphics g) {
+	public void updateCombatTimer() {
 		if(damaged) {
-			ty--;
 			damageReceiver.lastHit++;
-			//g.setColor(Color.YELLOW);
-			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
 			
-			Text.drawString(g, String.valueOf(dealer.getDamage(dealer, damageReceiver)),
-					(int) (x - handler.getGameCamera().getxOffset() + 10),
-					(int) (y - handler.getGameCamera().getyOffset() + 36 + ty), false, Color.RED, Assets.font32);
 
 			if(damageReceiver.lastHit == 45) {
 				damageReceiver.damaged = false;

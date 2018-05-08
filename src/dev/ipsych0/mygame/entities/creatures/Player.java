@@ -459,7 +459,7 @@ public class Player extends Creature{
 		
 		if(isLevelUp) {
 			levelUpTimer++;
-			Text.drawString(g, "Level up!", (int)(x - handler.getGameCamera().getxOffset()), (int)(y - handler.getGameCamera().getyOffset() + 16 - levelUpTimer),
+			Text.drawString(g, "Level up!", (int)(x - handler.getGameCamera().getxOffset() + 16), (int)(y - handler.getGameCamera().getyOffset() + 16 - levelUpTimer),
 					true, Color.YELLOW, Assets.font32);
 			if(levelUpTimer >= 60) {
 				levelUpTimer = 0;
@@ -473,7 +473,7 @@ public class Player extends Creature{
 		
 		isLevelUp = true;
 		
-		// Get the old base power
+//		// Get the old base power
 //		int oldBasePower = basePower;
 //		int oldBaseVitality = baseVitality;
 //		int oldBaseDefence = baseDefence;
