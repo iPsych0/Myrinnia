@@ -44,7 +44,7 @@ public class Assets {
 	greenRoofMiddleMiddle, greenRoofMiddleRight, greenRoofBottomLeft, greenRoofBottomMiddle, greenRoofBottomRight, wallLeft, wallRight, wallMiddle, entrance, floorTopLeft, floorTopMiddle,
 	floorTopRight, floorMiddleLeft, floorMiddleMiddle, floorMiddleRight, floorBottomLeft, floorBottomMiddle, floorBottomRight, tree1TopLeft, tree1TopRight, tree1BottomLeft, tree1BottomRight,
 	whiteWallTopLeft, whiteWallTopMiddle, whiteWallTopRight, whiteWallMiddleLeft, whiteWallMiddleMiddle, whiteWallMiddleRight, whiteWallBottomLeft, whiteWallBottomMiddle, whiteWallBottomRight,
-	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, brownColumnTop, brownColumnBottom,
+	whiteWallWindowTopLeft, whiteWallWindowTopRight, whiteWallWindowMiddleLeft, whiteWallWindowMiddleRight, whiteWallWindowBottomLeft, whiteWallWindowBottomRight, sandPillarTop, sandPillarBottom,
 	smallWoodenStairTop, smallWoodenStairBottom, stairTopLeft, stairTopMiddle, stairTopRight, stairBottomLeft, stairBottomMiddle, stairBottomRight, lightWallLeft, lightWallMiddle, lightWallRight,
 	woodenDoorTop, woodenDoorBottom, palmTreeTop, palmTreeBottom, tree1BatchTopLeft, tree1BatchTopRight, tree1BatchBottomLeft, tree1BatchBottomRight, sandCliffTopLeft, sandCliffTopMiddle, sandCliffTopRight,
 	sandCliffMiddleLeft, sandCliffMiddleMiddle, sandCliffMiddleRight, sandCliffBottomLeft, sandCliffBottomMiddle, sandCliffBottomRight, sandCliffLeft, sandCliffMiddle, sandCliffRight, sandCliffFootLeft,
@@ -69,7 +69,7 @@ public class Assets {
 	magicTreeRight4, magicTreeRighter4, magicTreeLeft5, magicTreeRight5, dirtHole, boatTop1, boatTop2, boatTop3, boatTop4, boatTop5, boatTop6, boatTop7, boatTop8, boatTop9, boatTop10, boatTop11, boatTop12,
 	boatTop13, boatTop14, boatTop15, boatTop16, boatTop17, boatTop18, boatTop19, boatTop20, boatStairsTopLeft, boatStairsBottomLeft, boatStairs, boatStairsMiddleTop, boatStairsMiddleBottom, boatStairsTopRight,
 	boatStairsBottomRight, boatRailingMiddleRight, boatRailingMiddleLeft, boatRailingLeft, boatRailingRight, boatRailingBottomLeft, boatRailingBottomRight, boatRailingBottom, boatRailingTop, boatBack1, boatBack2, boatBack3, boatBack4, boatBack5, boatBack6,
-	boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle, workbench;
+	boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle, workbench, ladderTop, ladderMiddle, ladderBottom;
 
 	
 	
@@ -200,9 +200,10 @@ public class Assets {
 		SpriteSheet ship_sheet = new SpriteSheet("/textures/ship.png", true);
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
-		
-//		earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
-		
+				
+		/*
+		 * Game UI Sprites
+		 */
 		equipmentPlaceHolders = new BufferedImage[12];
 		
 		earringSlot = equipSlots.imageCrop(0, 0, width, height);
@@ -269,23 +270,20 @@ public class Assets {
 		undiscovered = ui_sheet.imageCrop(0, 0, width, height);
 		
 		// Main menu background
-		
 		mainScreenBackground = main_screen.imageCrop(0, 0, 960, 720);
 		
-		// Minimap images
-
-		
-		// Menu sprites
-
+		/*
+		 * Generic Button Sprites
+		 */
 		genericButton = new BufferedImage[2];
 		genericButton[0] = ui_sheet.imageCrop(width * 9, 0, width * 7, height * 3);
 		genericButton[1] = ui_sheet.imageCrop(width * 17, 0, width * 7, height * 3);
 		
-		// Item Sprites
-		
+		/*
+		 * Item Sprites
+		 */
 		wood = item_sheet.imageCrop(0, 0, width, height);
 		ore = item_sheet.imageCrop(0, height, width, height);
-		
 		coins = new BufferedImage[4];
 		coins[0] = item_sheet.imageCrop(width * 0, height * 2, width, height);
 		coins[1] = item_sheet.imageCrop(width * 0, height * 3, width, height);
@@ -297,7 +295,9 @@ public class Assets {
 		testPickaxe = item_sheet.imageCrop(0, height * 7, width, height);
 		
 		
-		// Object Sprites
+		/*
+		 * Interactable Object Sprites
+		 */
 		campfire = new BufferedImage[5];
 		campfire[0] = objects17.imageCrop(0, height * 15, width, height);
 		campfire[1] = objects17.imageCrop(width, height * 15, width, height);
@@ -312,16 +312,18 @@ public class Assets {
 		
 		workbench = city_sprites.imageCrop(width * 5, 0, width * 2, height * 2);
 		
-		// Enemy Sprites
-		
+		/*
+		 * Enemy Animations
+		 */
 		scorpion = enemy_sheet.imageCrop(0, 0, width, height);
 		
 		// NPC Sprites
 		
 		lorraine = lorraine_sprites.imageCrop(width * 7, 0, width, height);
 		
-		// Player Sprites
-		
+		/*
+		 * Player Animations
+		 */
 		player_attackingLeft = new BufferedImage[2];
 		player_attackingRight = new BufferedImage[2];
 		player_attackingDown = new BufferedImage[2];
@@ -360,7 +362,9 @@ public class Assets {
 		player_right[1] = player_sheet.imageCrop(width, height * 2, width, height);
 		player_right[2] = player_sheet.imageCrop(width * 2, height * 2, width, height);
 		
-		// Object sprites
+		/*
+		 * Houses / Trees
+		 */
 		woodenRoofTopLeft = city_sprites.tileCrop(0, height * 23, width, height, true);
 		woodenRoofTopMiddle = city_sprites.tileCrop(width, height * 23, width, height, true);
 		woodenRoofTopRight = city_sprites.tileCrop(width * 2, height * 23, width, height, true);
@@ -402,8 +406,8 @@ public class Assets {
 		floorBottomMiddle = city_sprites.tileCrop(width, height * 11, width, height);
 		floorBottomRight = city_sprites.tileCrop(width * 2, height * 11, width, height);
 		
-		brownColumnTop = city_sprites.tileCrop(width * 5, height * 2, width, height, true);
-		brownColumnBottom = city_sprites.tileCrop(width * 5, height * 3, width, height, true);
+		sandPillarTop = city_sprites.tileCrop(width * 5, height * 2, width, height, true);
+		sandPillarBottom = city_sprites.tileCrop(width * 5, height * 3, width, height, true);
 		
 		smallWoodenStairTop = city_sprites.tileCrop(width * 7, height * 7, width, height);
 		smallWoodenStairBottom = city_sprites.tileCrop(width * 7, height * 8, width, height);
@@ -414,7 +418,6 @@ public class Assets {
 		stairBottomLeft = city_sprites.tileCrop(width * 4, height * 8, width, height);
 		stairBottomMiddle = city_sprites.tileCrop(width * 5, height * 8, width, height);
 		stairBottomRight = city_sprites.tileCrop(width * 6, height * 8, width, height);
-		
 		
 		tree1TopLeft = trees_sheet.tileCrop(0, height * 4, width, height, true);
 		tree1TopRight = trees_sheet.tileCrop(width, height * 4, width, height, true);
@@ -463,8 +466,6 @@ public class Assets {
 		magicTreeRighter4 = trees_sheet.tileCrop(width * 10, height * 11, width, height, true);
 		magicTreeLeft5 = trees_sheet.tileCrop(width * 8, height * 12, width, height, true);
 		magicTreeRight5 = trees_sheet.tileCrop(width * 9, height * 12, width, height, true);
-
-		
 		
 		whiteWallTopLeft = roofs3_sheet.tileCrop(0, 0, width, height, true);
 		whiteWallTopMiddle = roofs3_sheet.tileCrop(width, 0, width, height, true);
@@ -483,8 +484,9 @@ public class Assets {
 		whiteWallWindowBottomLeft = roofs3_sheet.tileCrop(width * 4, height * 2, width, height, true);
 		whiteWallWindowBottomRight = roofs3_sheet.tileCrop(width * 5, height * 2, width, height, true);
 		
-		
-		// Furniture
+		/*
+		 * Furniture
+		 */
 		pot1 = objects17.tileCrop(width * 10, height * 8, width, height, true);
 		basket1 = objects17.tileCrop(width * 14, height * 4, width, height, true);
 		basketApples = objects17.tileCrop(width * 15, height * 4, width, height, true);
@@ -602,16 +604,8 @@ public class Assets {
 		boatBackMiddleBottom = ship_sheet.tileCrop(width * 1, height * 14, width, height);
 		boatMiddle = ship_sheet.tileCrop(width * 6, height * 0, width, height);
 
-		
-//		boatTop1, boatTop2, boatTop3, boatTop4, boatTop5, boatTop6, boatTop7, boatTop8, boatTop9, boatTop10, boatTop11, boatTop12,
-//		boatTop13, boatTop14, boatTop15, boatTop16, boatTop17, boatTop18, boatTop19, boatTop20, boatStairsTopLeft, boatStairsBottomLeft, boatStairs, boatStairsMiddleTop, boatStairsMiddleBottom, boatStairsTopRight,
-//		boatStairsBottomRight, boatRailingMiddleLeft, boatRailingMiddleRight, boatRailingLeft, boatRailingRight, boatRailingBottomLeft, boatRailingBottomRight, boatRailingBottom, boatBack1, boatBack2, boatBack3, boatBack4, boatBack5, boatBack6,
-//		boatBackMiddleMiddle, boatBackMiddleBottom, boatMiddle;
-		
-
-		
 		/*
-		 * Tile Sprites
+		 * Terrain Tile Sprites
 		 */
 		black = texture_sheet.tileCrop(width * 3, height * 6, width, height, true);
 		invisible = terrain_tile.tileCrop(width * 7, height * 21, width, height);
@@ -832,7 +826,7 @@ public class Assets {
 		sandCliffTopMiddle = cliffs_sheet.tileCrop(width * 6, 0, width, height, true);
 		sandCliffTopRight = cliffs_sheet.tileCrop(width * 7, 0, width, height, true);
 		sandCliffMiddleLeft = cliffs_sheet.tileCrop(width * 5, height, width, height, true);
-		sandCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 6, height, width, height, true);
+		sandCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 6, height, width, height);
 		sandCliffMiddleRight = cliffs_sheet.tileCrop(width * 7, height, width, height, true);
 		sandCliffBottomLeft = cliffs_sheet.tileCrop(width * 5, height * 2, width, height, true);
 		sandCliffBottomMiddle = cliffs_sheet.tileCrop(width * 6, height * 2, width, height, true);
@@ -856,7 +850,7 @@ public class Assets {
 		grassCliffTopMiddle = cliffs_sheet.tileCrop(width * 18, 0, width, height, true);
 		grassCliffTopRight = cliffs_sheet.tileCrop(width * 19, 0, width, height, true);
 		grassCliffMiddleLeft = cliffs_sheet.tileCrop(width * 17, height, width, height, true);
-		grassCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 18, height, width, height, true);
+		grassCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 18, height, width, height);
 		grassCliffMiddleRight = cliffs_sheet.tileCrop(width * 19, height, width, height, true);
 		grassCliffBottomLeft = cliffs_sheet.tileCrop(width * 17, height * 2, width, height, true);
 		grassCliffBottomMiddle = cliffs_sheet.tileCrop(width * 18, height * 2, width, height, true);
@@ -880,7 +874,7 @@ public class Assets {
 		snowCliffTopMiddle = cliffs_sheet.tileCrop(width * 30, 0, width, height, true);
 		snowCliffTopRight = cliffs_sheet.tileCrop(width * 31, 0, width, height, true);
 		snowCliffMiddleLeft = cliffs_sheet.tileCrop(width * 29, height, width, height, true);
-		snowCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 30, height, width, height, true);
+		snowCliffMiddleMiddle = cliffs_sheet.tileCrop(width * 30, height, width, height);
 		snowCliffMiddleRight = cliffs_sheet.tileCrop(width * 31, height, width, height, true);
 		snowCliffBottomLeft = cliffs_sheet.tileCrop(width * 29, height * 2, width, height, true);
 		snowCliffBottomMiddle = cliffs_sheet.tileCrop(width * 30, height * 2, width, height, true);
@@ -900,11 +894,15 @@ public class Assets {
 		snowCliffCornerLowestLeft = cliffs_sheet.tileCrop(width * 32, height * 3, width, height, true);
 		snowCliffCornerLowestRight = cliffs_sheet.tileCrop(width * 33, height * 3, width, height, true);
 		
+		ladderTop = cliffs_sheet.tileCrop(width * 33, height * 4, width, height);
+		ladderMiddle = cliffs_sheet.tileCrop(width * 33, height * 5, width, height);
+		ladderBottom = cliffs_sheet.tileCrop(width * 33, height * 6, width, height);
+		
 		caveCliffTopLeft = terrain_tile.tileCrop(width * 24, height * 10, width, height, true);
 		caveCliffTopMiddle = terrain_tile.tileCrop(width * 25, height * 10, width, height, true);
 		caveCliffTopRight = terrain_tile.tileCrop(width * 26, height * 10, width, height, true);
 		caveCliffMiddleLeft = terrain_tile.tileCrop(width * 24, height * 11, width, height, true);
-		caveCliffMiddleMiddle = terrain_tile.tileCrop(width * 25, height * 11, width, height, true);
+		caveCliffMiddleMiddle = terrain_tile.tileCrop(width * 25, height * 11, width, height);
 		caveCliffMiddleRight = terrain_tile.tileCrop(width * 26, height * 11, width, height, true);
 		caveCliffBottomLeft = terrain_tile.tileCrop(width * 24, height * 12, width, height, true);
 		caveCliffBottomMiddle = terrain_tile.tileCrop(width * 25, height * 12, width, height, true);

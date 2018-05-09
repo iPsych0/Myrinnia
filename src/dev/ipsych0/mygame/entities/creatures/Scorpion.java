@@ -104,13 +104,13 @@ public class Scorpion extends Creature {
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		
 		if(randomNumber <= 10){
-			handler.dropItem(Item.woodItem, 5, (int)x, (int)y);
+			handler.dropItem(Item.regularLogs, 5, (int)x, (int)y);
 		}
 		else if(randomNumber >= 11 && randomNumber <= 50){
-			handler.dropItem(Item.oreItem, 10, (int)x, (int)y);
+			handler.dropItem(Item.regularOre, 10, (int)x, (int)y);
 			handler.dropItem(Item.purpleSword, 1, (int)x, (int)y);
 		}
-		handler.dropItem(Item.coinsItem, 50, (int)x, (int)y);
+		handler.dropItem(Item.coins, 50, (int)x, (int)y);
 		handler.dropItem(Item.testAxe, 1, (int)x, (int)y);
 		handler.dropItem(Item.testPickaxe, 1, (int)x, (int)y);
 		

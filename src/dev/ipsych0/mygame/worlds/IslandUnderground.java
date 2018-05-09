@@ -21,6 +21,8 @@ public class IslandUnderground extends World {
 	private Rectangle beachHouse1Exit;
 	private Rectangle beachCaveExit;
 	private Rectangle stoneHouse1Exit;
+	private Rectangle southwestVillageHouseExit;
+	private Rectangle northwestVillageHouseExit;
 
 	public IslandUnderground(Handler handler, String path, int worldID) {
 		super(handler);
@@ -44,7 +46,9 @@ public class IslandUnderground extends World {
 		house3Exit = new Rectangle(3904, 6320, 32, 32);
 		beachHouse1Exit = new Rectangle(4960, 5584, 32, 32);
 		beachCaveExit = new Rectangle(3728, 5392, 64, 32);
-		stoneHouse1Exit = new Rectangle(6016, 5344, 32,32);
+		stoneHouse1Exit = new Rectangle(6016, 5356, 32,32);
+		southwestVillageHouseExit = new Rectangle(4960, 4880, 32, 32);
+		northwestVillageHouseExit = new Rectangle(3040, 6318, 32, 32);
 	}
 
 	@Override
@@ -72,7 +76,15 @@ public class IslandUnderground extends World {
 			}
 			
 			if(standingOnTile(stoneHouse1Exit)){
-				handler.goToWorld(0, 3808, 5160);
+				handler.goToWorld(0, 3712, 5456);
+			}
+			
+			if(standingOnTile(southwestVillageHouseExit)){
+				handler.goToWorld(0, 3776, 5822);
+			}
+			
+			if(standingOnTile(northwestVillageHouseExit)){
+				handler.goToWorld(0, 4032, 5252);
 			}
 		}
 	}

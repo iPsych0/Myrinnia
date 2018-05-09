@@ -31,8 +31,8 @@ public class Lorraine extends ShopKeeper {
 		
 		shopItems = new ArrayList<ItemStack>();
 		
-		shopItems.add(new ItemStack(Item.woodItem, 5));
-		shopItems.add(new ItemStack(Item.oreItem, 10));
+		shopItems.add(new ItemStack(Item.regularLogs, 5));
+		shopItems.add(new ItemStack(Item.regularOre, 10));
 		shopItems.add(new ItemStack(Item.testSword, 1));
 		
 		shopWindow = new ShopWindow(handler, shopItems);

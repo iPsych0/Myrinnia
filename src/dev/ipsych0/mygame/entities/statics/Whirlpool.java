@@ -21,7 +21,7 @@ public class Whirlpool extends StaticEntity {
 	private Animation spinning;
 	private boolean isFishing = false;
 	private int fishingTimer = 0;
-	private int minAttempts = 4, maxAttempts = 8;
+	private int minAttempts = 4, maxAttempts = 9;
 	private int random = 0;
 	private int attempts = 0;
 
@@ -58,8 +58,7 @@ public class Whirlpool extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
-	        				handler.getRandomNumber(1, 5));
+	        		handler.giveItem(Item.regularFish, 1);
 	        		handler.sendMsg("You caught something!");
 	        		handler.getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
 	        		attempts++;

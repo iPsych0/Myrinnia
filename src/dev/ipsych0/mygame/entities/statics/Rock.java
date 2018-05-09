@@ -21,7 +21,7 @@ public class Rock extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private boolean isMining = false;
 	private int miningTimer = 0;
-	private int minAttempts = 2, maxAttempts = 6;
+	private int minAttempts = 3, maxAttempts = 6;
 	private int random = 0;
 	private int attempts = 0;
 
@@ -56,7 +56,7 @@ public class Rock extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.oreItem)).addItem(Item.oreItem,
+	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.regularOre)).addItem(Item.regularOre,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully mined some ore!");
 	        		handler.getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
@@ -109,7 +109,7 @@ public class Rock extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			if(handler.playerHasSkillLevel(SkillsList.MINING, Item.oreItem)) {
+			if(handler.playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
 				if(handler.playerHasItemType(ItemType.PICKAXE)) {
 					handler.sendMsg("Mining...");
 					speakingTurn = 2;
@@ -118,7 +118,7 @@ public class Rock extends StaticEntity {
 					handler.sendMsg("You need a pickaxe to mine this rock.");
 				}
 			}else {
-				handler.sendMsg("You need a mining level of " + handler.getSkillResource(SkillsList.MINING, Item.oreItem).getLevelRequirement() + " to mine this rock.");
+				handler.sendMsg("You need a mining level of " + handler.getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
 			}
 		}
 		if(this.speakingTurn == 2) {

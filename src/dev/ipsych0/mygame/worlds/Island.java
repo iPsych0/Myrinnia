@@ -26,6 +26,8 @@ public class Island extends World {
 	private Rectangle beachHouse;
 	private Rectangle beachCave;
 	private Rectangle stoneHouse1;
+	private Rectangle southwestVillageHouse;
+	private Rectangle northwestVillageHouse;
 
 	public Island(Handler handler, String path, int worldID) {
 		super(handler);
@@ -55,6 +57,8 @@ public class Island extends World {
 		
 		// Southern cliffs
 		entityManager.addEntity(new Whirlpool(handler, 1280, 6320));
+		entityManager.addEntity(new Whirlpool(handler, 4832, 6320));
+		entityManager.addEntity(new Whirlpool(handler, 5264, 6240));
 		
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4320));
 		entityManager.addEntity(new WaterToBridgePart(handler, 3584, 4352));
@@ -67,10 +71,12 @@ public class Island extends World {
 		house3 = new Rectangle(4384, 5776, 32, 32);
 		beachHouse = new Rectangle(5856, 5808, 32, 32);
 		beachCave = new Rectangle(2688, 6120, 32, 32);
-		stoneHouse1 = new Rectangle(3808, 5112, 32,32);
+		stoneHouse1 = new Rectangle(3712, 5440, 32,32);
+		southwestVillageHouse = new Rectangle(3776, 5784, 32, 32);
+		northwestVillageHouse = new Rectangle(4032, 5216, 32, 32);
 		
 		// Dit is hoe ik items in de world zelf spawn
-		itemManager.addItem(Item.woodItem.createUnequippableItem(5056, 5596, 5), true);
+		itemManager.addItem(Item.regularLogs.createUnequippableItem(5056, 5596, 5), true);
 		
 	}
 
@@ -106,6 +112,14 @@ public class Island extends World {
 			
 			if(standingOnTile(stoneHouse1)){
 				handler.goToWorld(3, 6016, 5312);
+			}
+			
+			if(standingOnTile(southwestVillageHouse)){
+				handler.goToWorld(3, 4960, 4848);
+			}
+			
+			if(standingOnTile(northwestVillageHouse)){
+				handler.goToWorld(3, 3040, 6288);
 			}
 		}
 	}

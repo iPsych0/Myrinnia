@@ -32,7 +32,7 @@ public class ItemSlot implements Serializable {
 		g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null){
-			if(itemStack.getItem() == Item.coinsItem){
+			if(itemStack.getItem() == Item.coins){
 				if(itemStack.getAmount() >= 1  && itemStack.getAmount() < 100){
 					itemStack.getItem().setTexture(Assets.coins[0]);
 				}

@@ -562,9 +562,9 @@ public class ShopWindow implements Serializable {
 	 */
 	private void buyItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
-			if(handler.playerHasItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
+			if(handler.playerHasItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
 				if(!handler.invIsFull(tradeSlot.getItemStack().getItem()) && selectedSlot.getItemStack().getAmount() > 0) {
-					handler.removeItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()));
+					handler.removeItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()));
 					handler.giveItem(tradeSlot.getItemStack().getItem(), 1);
 					inventoryLoaded = false;
 					
@@ -602,7 +602,7 @@ public class ShopWindow implements Serializable {
 			if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
-					handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
+					handler.giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					inventoryLoaded = false;
 					
@@ -630,9 +630,9 @@ public class ShopWindow implements Serializable {
 			ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
 			int i = 0;
 			while(i  < slots.size()) {
-				if(handler.playerHasItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
+				if(handler.playerHasItem(Item.coins, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
 					if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-						handler.removeItem(Item.coinsItem, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
+						handler.removeItem(Item.coins, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
 						handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					}else {
 						hasBeenPressed = false;
@@ -680,7 +680,7 @@ public class ShopWindow implements Serializable {
 			while(handler.playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					handler.removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * tradeSlot.getItemStack().getAmount()));
+					handler.giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * tradeSlot.getItemStack().getAmount()));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					inventoryLoaded = false;
 				}else {
@@ -715,9 +715,9 @@ public class ShopWindow implements Serializable {
 				amount = tradeSlot.getItemStack().getAmount();
 			}
 			while (index < amount) {
-				if(handler.playerHasItem(Item.coinsItem, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
+				if(handler.playerHasItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
 					if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
-						handler.removeItem(Item.coinsItem, 1 * tradeSlot.getItemStack().getItem().getPrice());
+						handler.removeItem(Item.coins, 1 * tradeSlot.getItemStack().getItem().getPrice());
 						handler.giveItem(tradeSlot.getItemStack().getItem(), 1);
 						
 					}else {
@@ -785,7 +785,7 @@ public class ShopWindow implements Serializable {
 				if(handler.playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 						handler.removeItem(tradeSlot.getItemStack().getItem(), 1);
-						handler.giveItem(Item.coinsItem, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
+						handler.giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
 						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					}else {
 						handler.sendMsg("You cannot sell any more items to the shop.");

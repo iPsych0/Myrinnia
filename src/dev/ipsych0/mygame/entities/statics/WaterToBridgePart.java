@@ -73,7 +73,7 @@ public class WaterToBridgePart extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			if(handler.playerHasItem(Item.woodItem, 5)) {
+			if(handler.playerHasItem(Item.regularLogs, 5)) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
 				break;
@@ -90,8 +90,8 @@ public class WaterToBridgePart extends StaticEntity {
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = null;
-				if(handler.playerHasItem(Item.woodItem, 5)) {
-					handler.removeItem(Item.woodItem, 5);
+				if(handler.playerHasItem(Item.regularLogs, 5)) {
+					handler.removeItem(Item.regularLogs, 5);
 					isFixed = true;
 					handler.sendMsg("You fixed the bridge!");
 					if(handler.getQuest(QuestList.TheSecondQuest).getState() == QuestState.IN_PROGRESS) {

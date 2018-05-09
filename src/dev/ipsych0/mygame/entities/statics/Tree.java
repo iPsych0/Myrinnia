@@ -20,7 +20,7 @@ public class Tree extends StaticEntity {
 	private int ySpawn = (int) getY();
 	private boolean isWoodcutting = false;
 	private int woodcuttingTimer = 0;
-	private int minAttempts = 2, maxAttempts = 6;
+	private int minAttempts = 3, maxAttempts = 6;
 	private int random = 0;
 	private int attempts = 0;
 
@@ -55,7 +55,7 @@ public class Tree extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 70) {
-	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.woodItem)).addItem(Item.woodItem,
+	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully chopped some logs.");
 	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
@@ -108,7 +108,7 @@ public class Tree extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			if(handler.playerHasSkillLevel(SkillsList.WOODCUTTING, Item.woodItem)) {
+			if(handler.playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
 				if(handler.playerHasItemType(ItemType.AXE)) {
 					handler.sendMsg("Chop chop...");
 					speakingTurn = 2;
@@ -117,7 +117,7 @@ public class Tree extends StaticEntity {
 					handler.sendMsg("You need an axe to chop this tree.");
 				}
 			}else {
-				handler.sendMsg("You need a woodcutting level of " + handler.getSkillResource(SkillsList.WOODCUTTING, Item.woodItem).getLevelRequirement() + " to chop this tree.");
+				handler.sendMsg("You need a woodcutting level of " + handler.getSkillResource(SkillsList.WOODCUTTING, Item.regularLogs).getLevelRequirement() + " to chop this tree.");
 			}
 		}
 		if(this.speakingTurn == 2) {

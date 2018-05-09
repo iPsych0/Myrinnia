@@ -58,9 +58,9 @@ public class InventoryWindow implements Serializable {
 			}
 		}	
 			
-		itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.coinsItem, 1000);
-		itemSlots.get(findFreeSlot(Item.woodItem)).addItem(Item.woodItem, 100);
-		itemSlots.get(findFreeSlot(Item.oreItem)).addItem(Item.oreItem, 100);
+		itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.coins, 1000);
+		itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs, 100);
+		itemSlots.get(findFreeSlot(Item.regularOre)).addItem(Item.regularOre, 100);
 		itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
 		itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
 		
@@ -228,7 +228,7 @@ public class InventoryWindow implements Serializable {
 									// Otherwise, swap the items and set the inventory stack to null
 									is.setItemStack(null);
 									handler.giveItem(equipSwap.getItem(), equipSwap.getAmount());
-									handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(itemSwap);
+									handler.getEquipment().getEquipmentSlots().get(checkEquipmentSlot(itemSwap.getItem())).setItem(itemSwap);
 						
 								}
 								

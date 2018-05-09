@@ -201,6 +201,11 @@ public class Player extends Creature{
 						if(closestEntity.isShop()) {
 							shopKeeper = (ShopKeeper) getClosestEntity();
 						}
+					}else {
+						if(closestEntity.getChatDialogue().getMenuOptions().length == 1) {
+							closestEntity.interact();
+							hasInteracted = true;
+						}
 					}
 				}
 			}
