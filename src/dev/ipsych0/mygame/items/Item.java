@@ -36,7 +36,7 @@ public abstract class Item implements Serializable{
 	/*
 	 * Equippable item
 	 */
-	public static Item testSword = new EquippableItem(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON});
+	public static Item testSword = new EquippableItem(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
 	public static Item purpleSword = new EquippableItem(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 5, 0, 2, 0, 0, 20, false, new ItemType[] {ItemType.MAGIC_WEAPON});
 	public static Item testAxe = new EquippableItem(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.AXE});
 	public static Item testPickaxe = new EquippableItem(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.PICKAXE});

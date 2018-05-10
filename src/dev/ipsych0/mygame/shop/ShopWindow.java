@@ -623,7 +623,6 @@ public class ShopWindow implements Serializable {
 	
 	/*
 	 * Buys all items in stock
-	 * TODO: Add money check to buy maximum quantity
 	 */
 	private void buyAllItem() {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
@@ -726,7 +725,7 @@ public class ShopWindow implements Serializable {
 						break;
 					}
 				}else {
-					handler.sendMsg("You don't have enough gold to buy " + amount + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+					handler.sendMsg("You don't have enough gold to buy " + (amount - index) + "x " + tradeSlot.getItemStack().getItem().getName() + ".");
 					hasBeenPressed = false;
 					amount = index;
 					break;
@@ -741,7 +740,7 @@ public class ShopWindow implements Serializable {
 				if(itemSlots.get(j).getItemStack() == null)
 					continue;
 				if(itemSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
-					if(itemSlots.get(j).getItemStack().getItem().isStackable() && itemSlots.get(j).getItemStack().getAmount() - amount > 0) {
+					if(itemSlots.get(j).getItemStack().getItem().isStackable() && itemSlots.get(j).getItemStack().getAmount() - amount >= 0) {
 						itemSlots.get(j).getItemStack().setAmount(itemSlots.get(j).getItemStack().getAmount() - amount);
 						matches++;
 					}

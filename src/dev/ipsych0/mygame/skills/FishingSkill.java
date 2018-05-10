@@ -15,7 +15,7 @@ public class FishingSkill extends Skill {
 	}
 	
 	private void initResources() {
-		resources.add(new SkillResource(1, Item.coins, SkillCategory.Fish));
+		resources.add(new SkillResource(1, Item.regularFish, SkillCategory.Fish));
 	}
 	
 	@Override
