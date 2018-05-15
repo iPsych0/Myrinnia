@@ -54,16 +54,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void die() {
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		                handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        5000 
-		);
+		
 	}
 
 	@Override
@@ -108,8 +99,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void respawn() {
-		// TODO Auto-generated method stub
-		
+		handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));		
 	}
 
 }

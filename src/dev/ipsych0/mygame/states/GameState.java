@@ -30,6 +30,5 @@ public class GameState extends State{
 	@Override
 	public void render(Graphics g) {
 		handler.getWorldHandler().render(g);
-		g.setFont(myFont);
 	}
 }

@@ -323,6 +323,10 @@ public abstract class Item implements Serializable{
 		return respawnTimer;
 	}
 
+	public void setRespawnTimer(int respawnTimer) {
+		this.respawnTimer = respawnTimer;
+	}
+
 	private void writeObject(ObjectOutputStream out) throws IOException {
 	    out.defaultWriteObject();
 

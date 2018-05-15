@@ -51,7 +51,15 @@ public class ItemManager implements Serializable{
 		if(added.size() > 0) {
 			for(Item i : added) {
 				i.startRespawnTimer();
-				if(i.getRespawnTimer() == 0) {
+				
+				// If item is picked up, reset the timer
+				if(i.isPickedUp()) {
+					i.setRespawnTimer(10800);
+					deleted.add(i);
+					added.remove(i);
+				}
+				// If the timer expires, remove the item
+				else if(i.getRespawnTimer() == 0) {
 					deleted.add(i);
 					added.remove(i);
 				}
