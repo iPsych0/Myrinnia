@@ -123,4 +123,10 @@ public class WaterToBridgePart extends StaticEntity {
 		
 	}
 
+	@Override
+	public void respawn() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

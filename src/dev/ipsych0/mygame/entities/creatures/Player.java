@@ -122,6 +122,7 @@ public class Player extends Creature{
 		
 		projectiles = new ArrayList<Projectile>();
 		
+		respawnTimer = 1;
 	}
 
 	@Override
@@ -787,6 +788,7 @@ public class Player extends Creature{
 			EquipmentWindow.hasBeenPressed = false;
 			EquipmentWindow.itemSelected = false;
 		}
+		
 		// If we're dead, respawn
 		if(!active){
 			this.setActive(true);
@@ -1078,6 +1080,11 @@ public class Player extends Creature{
 	
 	public Rectangle itemPickupRadius() {
 		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
+	}
+
+	@Override
+	public void respawn() {
+		
 	}
 
 }

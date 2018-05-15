@@ -106,4 +106,10 @@ public class Lorraine extends ShopKeeper {
 		}
 	}
 
+	@Override
+	public void respawn() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

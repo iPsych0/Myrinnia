@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -93,6 +94,11 @@ public class TeleportShrine extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void respawn() {
 		
 	}
 

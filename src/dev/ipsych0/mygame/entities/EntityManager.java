@@ -24,6 +24,7 @@ public class EntityManager implements Serializable{
 	private Handler handler;
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
+	private Collection<Entity> deleted;
 	private Entity shoppingNpc;
 	private Entity selectedEntity;
 	public static boolean isPressed = false;
@@ -33,6 +34,7 @@ public class EntityManager implements Serializable{
 		this.handler = handler;
 		this.player = player;
 		entities = new CopyOnWriteArrayList<Entity>();
+		deleted = new CopyOnWriteArrayList<Entity>();
 		hitSplats = new LinkedList<>();
 		addEntity(player);
 	}
@@ -55,7 +57,6 @@ public class EntityManager implements Serializable{
 		};
 		// Iterate over all Entities and remove inactive ones
 		Iterator<Entity> it = entities.iterator();
-		Collection<Entity> deleted = new CopyOnWriteArrayList<Entity>();
 		while(it.hasNext()){
 			Entity e = it.next();
 			if(!e.isActive()){
@@ -71,7 +72,18 @@ public class EntityManager implements Serializable{
 				e.updateCombatTimer();
 			}
 		}
-		entities.removeAll(deleted);
+		
+		// If enemies are dead, update the respawn timers
+		if(deleted.size() > 0) {
+			entities.removeAll(deleted);
+			for(Entity e : deleted) {
+				e.startRespawnTimer();
+				if(e.getRespawnTimer() == 0) {
+					e.respawn();
+					deleted.remove(e);
+				}
+			}
+		}
 		entities.sort(renderSorter);
 	}
 	
@@ -156,9 +168,6 @@ public class EntityManager implements Serializable{
 	
 	public void addEntity(Entity e){
 		entities.add(e);
-//		ListIterator<Entity> it = entities.listIterator();
-//		it.add(e);
-//		it.previous();
 	}
 
 	// Getters & Setters

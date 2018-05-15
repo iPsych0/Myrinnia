@@ -120,19 +120,6 @@ public class Scorpion extends Creature {
 		}
 		
 		handler.getSkill(SkillsList.COMBAT).addExperience(handler.getSkill(SkillsList.COMBAT).getNextLevelXp());
-		
-		World currentWorld = handler.getWorld();
-		
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		                currentWorld.getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        5000 
-		);
 	}
 	
 	/*
@@ -185,5 +172,10 @@ public class Scorpion extends Creature {
 	@Override
 	public void postRender(Graphics g) {
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
 	}
 }

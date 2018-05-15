@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
 
 public class ItemManager implements Serializable{
 	
@@ -17,16 +18,19 @@ public class ItemManager implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Handler handler;
-	private ArrayList<Item> items;
+	private CopyOnWriteArrayList<Item> items;
+	private Collection<Item> deleted;
+	private Collection<Item> added;
 
 	public ItemManager(Handler handler){
 		this.handler = handler;
-		items = new ArrayList<Item>();
+		items = new CopyOnWriteArrayList<Item>();
+		deleted = new CopyOnWriteArrayList<Item>();
+		added = new CopyOnWriteArrayList<Item>();
 	}
 	
 	public void tick(){
 		Iterator<Item> it = items.iterator();
-		Collection<Item> deleted = new CopyOnWriteArrayList<Item>();
 		while(it.hasNext()){
 			Item i = it.next();
 			
@@ -42,7 +46,22 @@ public class ItemManager implements Serializable{
 			}
 			i.tick();
 		}
-		items.removeAll(deleted);
+		
+		// If non-worldspawn Items are dropped, start timer for despawning
+		if(added.size() > 0) {
+			for(Item i : added) {
+				i.startRespawnTimer();
+				if(i.getRespawnTimer() == 0) {
+					deleted.add(i);
+					added.remove(i);
+				}
+			}
+		}
+		
+		// If Item's timer is 0, remove the items from the world.
+		if(deleted.size() > 0) {
+			items.removeAll(deleted);
+		}
 	}
 	
 	public void render(Graphics g){
@@ -57,39 +76,12 @@ public class ItemManager implements Serializable{
 	public void addItem(Item i){
 		i.setHandler(handler);
 		items.add(i);
-		
-		// Despawn timer for items dropped
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                items.remove(i);
-		               
-		            }
-		        }, 
-		        300000
-		);
+		added.add(i);
 	}
 	
 	public void addItem(Item i, boolean isWorldSpawn){
 		i.setHandler(handler);
 		items.add(i);
-		
-		if(!isWorldSpawn) {
-			// Despawn timer for items dropped
-			new java.util.Timer().schedule( 
-			        new java.util.TimerTask() {
-			            @Override
-			            public void run() {
-			            	
-			                items.remove(i);
-			               
-			            }
-			        }, 
-			        300000
-			);
-		}
 	}
 	
 	// Getters & Setters
@@ -102,11 +94,11 @@ public class ItemManager implements Serializable{
 		this.handler = handler;
 	}
 	
-	public ArrayList<Item> getItems() {
+	public CopyOnWriteArrayList<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(ArrayList<Item> items) {
+	public void setItems(CopyOnWriteArrayList<Item> items) {
 		this.items = items;
 	}
 

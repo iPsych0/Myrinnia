@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -41,21 +42,7 @@ public class Campfire extends StaticEntity {
 	
 	@Override
 	public void die(){
-		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
+
 	}
 
 	@Override
@@ -144,6 +131,11 @@ public class Campfire extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
 	}
 	
 }

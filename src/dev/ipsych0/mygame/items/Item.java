@@ -60,6 +60,7 @@ public abstract class Item implements Serializable{
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
 	protected boolean stackable;
+	private int respawnTimer = 10800;
 	
 	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean isStackable, ItemType... itemTypes){
 		this.texture = texture;
@@ -312,6 +313,14 @@ public abstract class Item implements Serializable{
 
 	public void setRequirements(ItemRequirement[] requirements) {
 		this.requirements = requirements;
+	}
+	
+	public void startRespawnTimer() {
+		this.respawnTimer--;
+	}
+	
+	public int getRespawnTimer() {
+		return respawnTimer;
 	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {

@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemType;
@@ -78,20 +79,6 @@ public class Tree extends StaticEntity {
 	@Override
 	public void die(){
 		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Tree(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
 	}
 
 	@Override
@@ -131,6 +118,11 @@ public class Tree extends StaticEntity {
 			g.drawImage(Assets.woodcuttingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), 32, 32, null);
 		}
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Tree(handler, xSpawn, ySpawn));
 	}
 	
 }

@@ -17,6 +17,7 @@ public class Workbench extends StaticEntity {
 		super(handler, x, y, 64, 64);
 		bounds.y = 16;
 		bounds.height -= 12;
+		
 		attackable = false;
 		isNpc = true;
 	}
@@ -83,6 +84,12 @@ public class Workbench extends StaticEntity {
 			}
 		}
 			
+		
+	}
+
+	@Override
+	public void respawn() {
+		// TODO Auto-generated method stub
 		
 	}
 }

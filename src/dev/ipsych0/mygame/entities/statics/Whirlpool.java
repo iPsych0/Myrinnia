@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
@@ -80,20 +81,6 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void die(){
 		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
 	}
 
 	@Override
@@ -125,6 +112,11 @@ public class Whirlpool extends StaticEntity {
 			g.drawImage(Assets.fishingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));		
 	}
 	
 }

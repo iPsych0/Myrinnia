@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -34,20 +35,6 @@ public class DirtHole extends StaticEntity {
 	@Override
 	public void die(){
 		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new DirtHole(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
 	}
 
 	@Override
@@ -103,6 +90,11 @@ public class DirtHole extends StaticEntity {
 	public void postRender(Graphics g) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new DirtHole(handler, xSpawn, ySpawn));
 	}
 	
 }

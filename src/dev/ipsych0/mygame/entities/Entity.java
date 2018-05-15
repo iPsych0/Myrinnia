@@ -46,6 +46,7 @@ public abstract class Entity implements Serializable{
 	protected int lastHit = 0;
 	protected boolean inCombat = false;
 	protected int combatTimer = 0;
+	protected int respawnTimer = 600;
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -67,6 +68,8 @@ public abstract class Entity implements Serializable{
 	public abstract void postRender(Graphics g);
 	
 	public abstract void die();
+	
+	public abstract void respawn();
 	
 	public abstract void interact();
 	
@@ -413,6 +416,14 @@ public abstract class Entity implements Serializable{
 
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
+	}
+	
+	public void startRespawnTimer() {
+		this.respawnTimer--;
+	}
+
+	public int getRespawnTimer() {
+		return respawnTimer;
 	}
 	
 }
