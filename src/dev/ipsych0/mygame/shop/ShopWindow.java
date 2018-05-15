@@ -581,7 +581,7 @@ public class ShopWindow implements Serializable {
 				}
 				hasBeenPressed = false;
 			}else {
-				handler.sendMsg("You don't have enough gold to buy " + 1 + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+				handler.sendMsg("You don't have enough gold to buy 1x " + tradeSlot.getItemStack().getItem().getName());
 				hasBeenPressed = false;
 			}
 		}else {
@@ -628,18 +628,32 @@ public class ShopWindow implements Serializable {
 		if(tradeSlot.getItemStack() != null && selectedInvItem == null) {
 			ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
 			int i = 0;
+			int buyAmount = 0;
 			while(i  < slots.size()) {
 				if(handler.playerHasItem(Item.coins, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()))) {
 					if(!handler.invIsFull(tradeSlot.getItemStack().getItem())) {
 						handler.removeItem(Item.coins, (tradeSlot.getItemStack().getAmount() * tradeSlot.getItemStack().getItem().getPrice()));
 						handler.giveItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+						buyAmount = tradeSlot.getItemStack().getAmount();
 					}else {
 						hasBeenPressed = false;
 						break;
 					}
 				}else {
-					handler.sendMsg("You don't have enough gold to buy " + slots.size() + " " + tradeSlot.getItemStack().getItem().getName() + "s.");
+					int coins = 0;
+					for(int j = 0; j < itemSlots.size(); j++) {
+						if(invSlots.get(j).getItemStack() != null) {
+							if(invSlots.get(j).getItemStack().getItem() == Item.coins) {
+								coins += invSlots.get(j).getItemStack().getAmount();
+							}
+						}
+					}
+					buyAmount = (int)Math.floor(coins / tradeSlot.getItemStack().getItem().getPrice());
+					handler.removeItem(Item.coins, (buyAmount * tradeSlot.getItemStack().getItem().getPrice()));
+					handler.giveItem(tradeSlot.getItemStack().getItem(), buyAmount);
+					handler.sendMsg("You don't have enough gold to buy " + (tradeSlot.getItemStack().getAmount() - buyAmount) + "x " + tradeSlot.getItemStack().getItem().getName());
 					hasBeenPressed = false;
+					i++;
 					break;
 				}
 				i++;
@@ -651,7 +665,7 @@ public class ShopWindow implements Serializable {
 				if(itemSlots.get(j).getItemStack() == null)
 					continue;
 				if(itemSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
-					itemSlots.get(j).getItemStack().setAmount(0);
+					itemSlots.get(j).getItemStack().setAmount((tradeSlot.getItemStack().getAmount() - buyAmount));
 					matches++;
 				}
 			}
@@ -725,7 +739,7 @@ public class ShopWindow implements Serializable {
 						break;
 					}
 				}else {
-					handler.sendMsg("You don't have enough gold to buy " + (amount - index) + "x " + tradeSlot.getItemStack().getItem().getName() + ".");
+					handler.sendMsg("You don't have enough gold to buy " + (amount - index) + "x " + tradeSlot.getItemStack().getItem().getName());
 					hasBeenPressed = false;
 					amount = index;
 					break;
