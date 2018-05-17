@@ -641,9 +641,9 @@ public class ShopWindow implements Serializable {
 					}
 				}else {
 					int coins = 0;
-					for(int j = 0; j < itemSlots.size(); j++) {
+					for(int j = 0; j < invSlots.size(); j++) {
 						if(invSlots.get(j).getItemStack() != null) {
-							if(invSlots.get(j).getItemStack().getItem() == Item.coins) {
+							if(invSlots.get(j).getItemStack().getItem().getId() == Item.coins.getId()) {
 								coins += invSlots.get(j).getItemStack().getAmount();
 							}
 						}
