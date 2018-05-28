@@ -528,7 +528,7 @@ public class ShopWindow implements Serializable {
 			
 			if(selectedSlot != null) {
 				g.setColor(selectedColor);
-				g.fillRoundRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 16, 16);
+				g.fillRoundRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
 			}
 			
 			if(makingChoice)

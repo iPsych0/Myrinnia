@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
@@ -635,6 +636,8 @@ public class Player extends Creature{
 			return true;
 		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
 			return true;
+		if(BankUI.isOpen && handler.getMouseManager().isLeftPressed())
+			return true;
 		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		if(QuestHelpUI.isOpen && handler.getQuestManager().getQuestUI().getQuestHelpUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
@@ -667,6 +670,8 @@ public class Player extends Creature{
 		if(CraftingUI.isOpen && handler.getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
 			return true;
 		if(ShopWindow.isOpen && handler.getMouseManager().isRightPressed())
+			return true;
+		if(BankUI.isOpen && handler.getMouseManager().isRightPressed())
 			return true;
 		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
 			return true;

@@ -33,11 +33,8 @@ public class BankUI implements Serializable{
 	private Rectangle bounds;
 	private boolean itemSelected;
 	private ItemStack currentSelectedSlot;
-	private From selectedItem;
-	
-	private enum From {
-		Inventory, Bank;
-	}
+	private Color selectedColor = new Color(0, 255, 255, 62);
+	private Rectangle exit;
 	
 	public BankUI(Handler handler) {
 		this.handler = handler;
@@ -68,6 +65,7 @@ public class BankUI implements Serializable{
 		}
 		
 		bounds = new Rectangle(x, y, width, height);
+		exit = new Rectangle(x + width - 36, y + 12, 24, 24);
 		
 		// Initially always open the first tab
 		openedTab = tabs.get(0);
@@ -84,14 +82,6 @@ public class BankUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			if(Player.isMoving /* || player exits the window */) {
-				handler.getPlayer().setBankEntity(null);
-				isOpen = false;
-				hasBeenPressed = false;
-				inventoryLoaded = false;
-				return;
-			}
-			
 			// Checks if the inventory should be refreshed
 			if(!inventoryLoaded) {
 				loadInventory();
@@ -99,6 +89,14 @@ public class BankUI implements Serializable{
 			}
 			
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1 ,1);
+			
+			if(Player.isMoving || exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+				handler.getPlayer().setBankEntity(null);
+				isOpen = false;
+				hasBeenPressed = false;
+				inventoryLoaded = false;
+				return;
+			}
 			
 			/*
 			 * BankTab mouse interaction
@@ -183,7 +181,6 @@ public class BankUI implements Serializable{
 									currentSelectedSlot = is.getItemStack();
 									is.setItemStack(null);
 									itemSelected = true;
-									selectedItem = From.Bank;
 								}
 								else{
 									hasBeenPressed = false;
@@ -205,7 +202,6 @@ public class BankUI implements Serializable{
 										currentSelectedSlot = null;
 										itemSelected = false;
 										hasBeenPressed = false;
-										selectedItem = null;
 									
 									}else {
 										// If we cannot add the item to an existing stack
@@ -223,7 +219,6 @@ public class BankUI implements Serializable{
 								currentSelectedSlot = null;
 								itemSelected = false;
 								hasBeenPressed = false;
-								selectedItem = null;
 							}
 						}
 					}
@@ -243,6 +238,9 @@ public class BankUI implements Serializable{
 								inventoryLoaded = false;
 								hasBeenPressed = false;
 								return;
+							}else {
+								hasBeenPressed = false;
+								return;
 							}
 						}
 					}
@@ -258,7 +256,6 @@ public class BankUI implements Serializable{
 									currentSelectedSlot = is.getItemStack();
 									handler.removeItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
 									itemSelected = true;
-									selectedItem = From.Inventory;
 									inventoryLoaded = false;
 								}
 								else{
@@ -281,7 +278,6 @@ public class BankUI implements Serializable{
 										currentSelectedSlot = null;
 										itemSelected = false;
 										hasBeenPressed = false;
-										selectedItem = null;
 										inventoryLoaded = false;
 										return;
 									}else {
@@ -300,7 +296,6 @@ public class BankUI implements Serializable{
 								currentSelectedSlot = null;
 								itemSelected = false;
 								hasBeenPressed = false;
-								selectedItem = null;
 								inventoryLoaded = false;
 								return;
 							}
@@ -330,13 +325,25 @@ public class BankUI implements Serializable{
 			
 			for(BankTab tab : tabs) {
 				tab.render(g);
-				if(tab.isOpen() && currentSelectedSlot != null) {
-					g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX() - 14,
-							handler.getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
-					if(currentSelectedSlot.getItem().isStackable())
-						Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() - 14, handler.getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
+				if(tab.isOpen()) {
+					g.setColor(selectedColor);
+					g.fillRoundRect(tab.x, tab.y, tab.width, tab.height, 4, 4);
 				}
 			}
+			
+			if(currentSelectedSlot != null) {
+				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX() - 14,
+						handler.getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
+				if(currentSelectedSlot.getItem().isStackable())
+					Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), handler.getMouseManager().getMouseX() - 14, handler.getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
+			}
+			
+			if(exit.contains(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY()))
+				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
+			else
+				g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
+			
+			Text.drawString(g, "X", exit.x + 12, exit.y + 12, true, Color.YELLOW, Assets.font14);
 		}
 	}
 	
