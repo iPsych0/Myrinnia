@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.npcs.Banker;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Campfire;
 import dev.ipsych0.mygame.entities.statics.Workbench;
@@ -40,6 +41,7 @@ public class IslandUnderground extends World {
 		entityManager.addEntity(new Campfire(handler, 6016, 5828));
 		entityManager.addEntity(new Campfire(handler, 6016, 4900));
 		entityManager.addEntity(new Workbench(handler, 6176, 5216));
+		entityManager.addEntity(new Banker(handler, 6016, 5056));
 		
 		house1Exit = new Rectangle(6016, 6192, 32, 32);
 		house2Exit = new Rectangle(4960, 6320, 32, 32);

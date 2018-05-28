@@ -16,14 +16,12 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
-import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
@@ -76,6 +74,7 @@ public class Player extends Creature{
 	
 	private ShopKeeper shopKeeper;
 	private Entity closestEntity;
+	private Entity bankEntity;
 	
 	private int alpha = 200;
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
@@ -201,6 +200,9 @@ public class Player extends Creature{
 						// If the closest Entity is a shop, open the shop
 						if(closestEntity.isShop()) {
 							shopKeeper = (ShopKeeper) getClosestEntity();
+						}
+						else if(closestEntity.isBank()) {
+							bankEntity = getClosestEntity();
 						}
 					}else {
 						if(closestEntity.getChatDialogue().getMenuOptions().length == 1) {
@@ -1078,6 +1080,14 @@ public class Player extends Creature{
 		return shopKeeper;
 	}
 	
+	public Entity getBankEntity() {
+		return bankEntity;
+	}
+
+	public void setBankEntity(Entity bankEntity) {
+		this.bankEntity = bankEntity;
+	}
+
 	public Rectangle itemPickupRadius() {
 		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 	}

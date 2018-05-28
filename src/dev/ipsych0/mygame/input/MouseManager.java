@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
@@ -89,6 +90,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			SkillsUI.hasBeenPressed = true;
 			SkillsOverviewUI.hasBeenPressed = true;
 			HPOverlay.hasBeenPressed = true;
+			BankUI.hasBeenPressed = true;
 		}
 		
 		// Right Click
@@ -97,6 +99,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			InventoryWindow.isEquipped = true;
 			CraftingUI.craftResultPressed = true;
 			EntityManager.isPressed = false;
+			BankUI.hasBeenPressed = true;
 		}
 	}
 	

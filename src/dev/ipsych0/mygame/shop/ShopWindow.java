@@ -29,8 +29,7 @@ public class ShopWindow implements Serializable {
 	public int x, y, width, height;
 	private int numCols = 5;
 	private int numRows = 6;
-	private CopyOnWriteArrayList<ItemSlot> itemSlots;
-	private CopyOnWriteArrayList<ItemSlot> invSlots;
+	private CopyOnWriteArrayList<ItemSlot> itemSlots, invSlots;
 	private int alpha = 62;
 	private Color selectedColor = new Color(0, 255, 255, alpha);
 	private ItemStack selectedShopItem;

@@ -8,6 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -58,6 +59,7 @@ public class Handler implements Serializable {
 	private CharacterUI characterUI;
 	private SkillsUI skillsUI;
 	private HPOverlay hpOverlay;
+	private BankUI bankUI;
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
 	
@@ -87,6 +89,7 @@ public class Handler implements Serializable {
 		characterUI = new CharacterUI(this);
 		skillsUI = new SkillsUI(this);
 		hpOverlay = new HPOverlay(this);
+		bankUI = new BankUI(this);
 		island = new Island(this, "res/worlds/island.tmx", 0);
 		worldHandler = new WorldHandler(this, island);
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
@@ -369,6 +372,14 @@ public class Handler implements Serializable {
 
 	public void setHpOverlay(HPOverlay hpOverlay) {
 		this.hpOverlay = hpOverlay;
+	}
+
+	public BankUI getBankUI() {
+		return bankUI;
+	}
+
+	public void setBankUI(BankUI bankUI) {
+		this.bankUI = bankUI;
 	}
 
 }

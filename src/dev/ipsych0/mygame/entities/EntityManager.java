@@ -11,9 +11,11 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Projectile;
+import dev.ipsych0.mygame.entities.npcs.Banker;
 
 public class EntityManager implements Serializable{
 	
@@ -145,6 +147,8 @@ public class EntityManager implements Serializable{
 			if(shoppingNpc != null) {
 				shoppingNpc.postRender(g);
 			}
+			if(handler.getPlayer().getBankEntity() != null)
+				handler.getPlayer().getBankEntity().postRender(g);
 		}
 		
 		Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();

@@ -33,6 +33,7 @@ public abstract class Entity implements Serializable{
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
+	protected boolean isBank = false;
 	protected boolean drawnOnMap = false;
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
@@ -424,6 +425,14 @@ public abstract class Entity implements Serializable{
 
 	public int getRespawnTimer() {
 		return respawnTimer;
+	}
+
+	public boolean isBank() {
+		return isBank;
+	}
+
+	public void setBank(boolean isBank) {
+		this.isBank = isBank;
 	}
 	
 }

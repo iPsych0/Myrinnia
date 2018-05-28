@@ -107,7 +107,7 @@ public class Assets {
 	
 	// NPC images
 	
-	public static BufferedImage lorraine;
+	public static BufferedImage lorraine, banker;
 	
 	// Green House images
 	public static BufferedImage greenHouseRoof, greenHouseWall, greenHouseEntrance;
@@ -320,6 +320,7 @@ public class Assets {
 		// NPC Sprites
 		
 		lorraine = lorraine_sprites.imageCrop(width * 7, 0, width, height);
+		banker = lorraine_sprites.imageCrop(width * 10, 0, width, height);
 		
 		/*
 		 * Player Animations
