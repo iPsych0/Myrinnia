@@ -709,6 +709,7 @@ public class Player extends Creature{
 					(int) (mouse.getX() + handler.getGameCamera().getxOffset() - 16),
 					(int) (mouse.getY() + handler.getGameCamera().getyOffset() - 16),
 					9.0f));
+			handler.playSoundEffect("fireball.wav");
 		}
 		
 	}

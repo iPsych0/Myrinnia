@@ -38,6 +38,9 @@ import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 public class Handler implements Serializable {
 
@@ -95,6 +98,8 @@ public class Handler implements Serializable {
 		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
 		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
+		
+		TinySound.init();
 	}
 	
 	public SkillResource getSkillResource(SkillsList skill, Item item) {
@@ -151,18 +156,16 @@ public class Handler implements Serializable {
 	 */
 	public void playMusic(String fileName) {
 		if(!soundMuted) {
-			try {
-				File file = new File("res/music/"+fileName);
-				if(file.exists()) {
-					Clip clip = AudioSystem.getClip();
-					clip.open(AudioSystem.getAudioInputStream(file));
-					FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-					gainControl.setValue(-10);
-					clip.loop(Clip.LOOP_CONTINUOUSLY);
-				}
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
+			Music song = TinySound.loadMusic("../res/music/"+fileName, true);
+			song.play(true, 0.3);
+//			TinySound.shutdown();
+		}
+	}
+	
+	public void playSoundEffect(String fileName) {
+		if(!soundMuted) {
+			Sound effect = TinySound.loadSound("../res/music/" + fileName, true);
+			effect.play(0.1);
 		}
 	}
 	
