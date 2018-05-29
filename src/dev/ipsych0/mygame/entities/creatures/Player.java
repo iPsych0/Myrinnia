@@ -57,7 +57,7 @@ public class Player extends Creature{
 	private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 	
 	// Magic timer
-	private long lastMagicTimer, magicCooldown = (long) (300 / getAttackSpeed()), magicTimer = magicCooldown;
+	private long lastMagicTimer, magicCooldown = (long) (600 / getAttackSpeed()), magicTimer = magicCooldown;
 	
 	// Regeneration timer
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
@@ -521,7 +521,7 @@ public class Player extends Creature{
 			defence += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
 			speed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			attackCooldown = (long) (600 / attackSpeed);
-			magicCooldown = (long) (300 / attackSpeed);
+			magicCooldown = (long) (600 / attackSpeed);
 			int previousMaxHP = maxHealth;
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 			if(health == previousMaxHP) {
@@ -572,7 +572,7 @@ public class Player extends Creature{
 			}
 			
 			attackCooldown = (long) (600 / attackSpeed);
-			magicCooldown = (long) (300 / attackSpeed);
+			magicCooldown = (long) (600 / attackSpeed);
 			int previousMaxHP = maxHealth;
 			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 			if(health >= previousMaxHP) {

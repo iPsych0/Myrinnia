@@ -237,9 +237,9 @@ public class Assets {
 		controlsScreen = controls_sheet.imageCrop(0, 0, 460, 313);
 		
 		magicProjectile = new BufferedImage[3];
-		magicProjectile[0] = projectiles.imageCrop(width * 9, height * 0, width, height);
-		magicProjectile[1] = projectiles.imageCrop(width * 10, height * 0, width, height);
-		magicProjectile[2] = projectiles.imageCrop(width * 11, height * 0, width, height);
+		magicProjectile[0] = projectiles.imageCrop(width * 3, height * 4, width, height);
+		magicProjectile[1] = projectiles.imageCrop(width * 4, height * 4, width, height);
+		magicProjectile[2] = projectiles.imageCrop(width * 5, height * 4, width, height);
 		
 		fishingIcon = ui_sheet.imageCrop(width * 2, 0, width, height);
 		woodcuttingIcon = ui_sheet.imageCrop(width * 3, 0, width, height);
