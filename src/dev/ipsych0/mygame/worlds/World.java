@@ -8,20 +8,24 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.MapLoader;
+import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.utils.Utils;
 
 public abstract class World implements Serializable {
@@ -91,6 +95,10 @@ public abstract class World implements Serializable {
 		characterUI.tick();
 		skillsUI.tick();
 		hpOverlay.tick();
+		if(BankUI.isOpen)
+			handler.getBankUI().tick();
+		if(ShopWindow.isOpen && player.getShopKeeper() != null)
+			player.getShopKeeper().getShopWindow().tick();
 	}
 	
 	public void render(Graphics g) {
@@ -141,6 +149,11 @@ public abstract class World implements Serializable {
 		questManager.render(g);
 		characterUI.render(g);
 		skillsUI.render(g);
+		
+		if(player.getBankEntity() != null) {
+			handler.getBankUI().render(g);
+			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
+		}
 	}
 	
 	public Tiles getTile(int layer, int x, int y){

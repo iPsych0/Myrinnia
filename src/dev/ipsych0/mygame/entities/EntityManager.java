@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
@@ -16,6 +17,8 @@ import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Projectile;
 import dev.ipsych0.mygame.entities.npcs.Banker;
+import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.utils.Text;
 
 public class EntityManager implements Serializable{
 	
@@ -147,8 +150,6 @@ public class EntityManager implements Serializable{
 			if(shoppingNpc != null) {
 				shoppingNpc.postRender(g);
 			}
-			if(handler.getPlayer().getBankEntity() != null)
-				handler.getPlayer().getBankEntity().postRender(g);
 		}
 		
 		Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();

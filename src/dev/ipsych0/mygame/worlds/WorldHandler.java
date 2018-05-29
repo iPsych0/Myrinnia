@@ -25,13 +25,15 @@ public class WorldHandler implements Serializable{
 		Iterator<World> it = worlds.iterator();
 		while(it.hasNext()){
 			World w = it.next();
-			w.tick();
+			if(w.equals(handler.getWorld()))
+				w.tick();
 		}
 	}
 	
 	public void render(Graphics g){
 		for(World w : worlds){
-			w.render(g);
+			if(w.equals(handler.getWorld()))
+				w.render(g);
 		}
 	}
 	

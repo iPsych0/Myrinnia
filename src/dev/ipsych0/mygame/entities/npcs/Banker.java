@@ -16,7 +16,7 @@ public class Banker extends Creature{
 	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
-	private String[] firstDialogue = {"Click this button to bank", "This button does nothing"};
+	private String[] firstDialogue = {"Please show me my bank.", "Never mind."};
 
 	public Banker(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -27,8 +27,7 @@ public class Banker extends Creature{
 
 	@Override
 	public void tick() {
-		if(BankUI.isOpen)
-			handler.getBankUI().tick();
+		
 	}
 
 	@Override
@@ -78,10 +77,7 @@ public class Banker extends Creature{
 
 	@Override
 	public void postRender(Graphics g) {
-		if(BankUI.isOpen) {
-			handler.getBankUI().render(g);
-			Text.drawString(g, "Bank of Myrinnia", handler.getBankUI().x + (handler.getBankUI().width / 2), handler.getBankUI().y + 16, true, Color.YELLOW, Assets.font14);
-		}
+		
 	}
 
 	@Override

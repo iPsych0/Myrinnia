@@ -67,16 +67,10 @@ public class BankUI implements Serializable{
 		bounds = new Rectangle(x, y, width, height);
 		exit = new Rectangle(x + width - 36, y + 12, 24, 24);
 		
+		tabs.get(0).getBankSlots().get(0).addItem(Item.coins, 25);
+		
 		// Initially always open the first tab
 		openedTab = tabs.get(0);
-		
-		// Hardcoded items in bank tabs
-		tabs.get(0).getBankSlots().get(0).addItem(Item.purpleSword, 1);
-		tabs.get(1).getBankSlots().get(0).addItem(Item.testSword, 1);
-		
-		for(int i = 0; i < tabs.get(3).getBankSlots().size(); i++) {
-			tabs.get(3).getBankSlots().get(i).addItem(Item.testAxe, 1);
-		}
 		
 	}
 	
@@ -90,7 +84,7 @@ public class BankUI implements Serializable{
 			
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1 ,1);
 			
-			if(Player.isMoving || exit.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || exit.contains(mouse) && handler.getMouseManager().isLeftPressed() || handler.getKeyManager().escape) {
 				handler.getPlayer().setBankEntity(null);
 				isOpen = false;
 				hasBeenPressed = false;
@@ -171,7 +165,7 @@ public class BankUI implements Serializable{
 					}
 					
 					// If an item is dragged
-					if(handler.getMouseManager().isDragged()){
+					else if(handler.getMouseManager().isDragged()){
 						if(slot.contains(mouse) && hasBeenPressed && !itemSelected) {
 							hasBeenPressed = false;
 							
@@ -227,6 +221,7 @@ public class BankUI implements Serializable{
 				/*
 				 * Inventory mouse interaction
 				 */
+				int slotIndex = 0;
 				for(ItemSlot is : invSlots) {
 					Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 					if(slot.contains(mouse) && handler.getMouseManager().isRightPressed() && hasBeenPressed) {
@@ -246,7 +241,7 @@ public class BankUI implements Serializable{
 					}
 					
 					// If an item is dragged
-					if(handler.getMouseManager().isDragged()){
+					else if(handler.getMouseManager().isDragged()){
 						if(slot.contains(mouse) && hasBeenPressed && !itemSelected) {
 							hasBeenPressed = false;
 							
@@ -292,7 +287,9 @@ public class BankUI implements Serializable{
 								}
 							}else {
 								// If the item stack == null, we can safely add it.
-								handler.giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+								handler.getInventory().getItemSlots().get(slotIndex)
+									   .addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+								System.out.println(slotIndex);
 								currentSelectedSlot = null;
 								itemSelected = false;
 								hasBeenPressed = false;
@@ -301,6 +298,7 @@ public class BankUI implements Serializable{
 							}
 						}
 					}
+				slotIndex++;
 				}
 			}
 		}

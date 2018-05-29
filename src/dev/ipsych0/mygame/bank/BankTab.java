@@ -78,7 +78,7 @@ public class BankTab implements Serializable{
 		if(bankSlots.get(0).getItemStack() != null)
 			g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);
 		else
-			Text.drawString(g, "Tab", x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, ""+(tabNumber+1), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
 		
 		if(isOpen) {
 			for(ItemSlot is : bankSlots) {

@@ -495,6 +495,7 @@ public class InventoryWindow implements Serializable {
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) >= 0){
 					found = true;
+					break;
 				}
 			}
 			else{
@@ -511,7 +512,7 @@ public class InventoryWindow implements Serializable {
 	public boolean removeItem(Item item, int amount){
 		boolean hasItem = false;
 		if(!playerHasItem(item, amount)) {
-			handler.sendMsg("You don't have enough " + item.getName().toLowerCase() + ".");
+			handler.sendMsg("You don't have " + amount + "x " + item.getName().toLowerCase());
 			return hasItem;
 		}
 		for(int i = 0; i < itemSlots.size(); i++){
@@ -520,7 +521,7 @@ public class InventoryWindow implements Serializable {
 			}
 			if(item.getId() == itemSlots.get(i).getItemStack().getItem().getId()){
 				if((itemSlots.get(i).getItemStack().getAmount() - amount) < 0){
-					return hasItem;
+					continue;
 				}
 				else if((itemSlots.get(i).getItemStack().getAmount() - amount) == 0){
 					itemSlots.get(i).setItemStack(null);
@@ -532,9 +533,6 @@ public class InventoryWindow implements Serializable {
 					hasItem = true;
 					return hasItem;
 				}
-			}
-			else{
-				continue;
 			}
 		}
 		return hasItem;

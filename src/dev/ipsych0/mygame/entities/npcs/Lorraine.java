@@ -21,7 +21,7 @@ public class Lorraine extends ShopKeeper {
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private ArrayList<ItemStack> shopItems;
-	private String[] firstDialogue = {"Click this button to trade", "This button does nothing"};
+	private String[] firstDialogue = {"I would like to see your shop.", "Leave."};
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -40,7 +40,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void tick() {
-		shopWindow.tick();
+		
 	}
 
 	@Override
