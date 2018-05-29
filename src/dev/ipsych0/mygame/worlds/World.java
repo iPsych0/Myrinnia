@@ -139,8 +139,8 @@ public abstract class World implements Serializable {
 		hpOverlay.render(g);
 		
 		// Inventory & Equipment
-		inventory.render(g);
 		equipment.render(g);
+		inventory.render(g);
 		
 		
 		// MiniMap
@@ -150,7 +150,7 @@ public abstract class World implements Serializable {
 		characterUI.render(g);
 		skillsUI.render(g);
 		
-		if(player.getBankEntity() != null) {
+		if(BankUI.isOpen && player.getBankEntity() != null) {
 			handler.getBankUI().render(g);
 			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
 		}

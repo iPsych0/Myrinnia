@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -72,6 +73,7 @@ public class InventoryWindow implements Serializable {
 		if(isOpen) {
 			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
+			int slotIndex = 0;
 			for(ItemSlot is : itemSlots) {
 				
 				is.tick();
@@ -89,6 +91,7 @@ public class InventoryWindow implements Serializable {
 								currentSelectedSlot = is.getItemStack();
 								is.setItemStack(null);
 								itemSelected = true;
+								BankUI.inventoryLoaded = false;
 							}
 							else{
 								hasBeenPressed = false;
@@ -110,6 +113,7 @@ public class InventoryWindow implements Serializable {
 									currentSelectedSlot = null;
 									itemSelected = false;
 									hasBeenPressed = false;
+									BankUI.inventoryLoaded = false;
 								
 								}else {
 									// If we cannot add the item to an existing stack
@@ -127,18 +131,22 @@ public class InventoryWindow implements Serializable {
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
+							BankUI.inventoryLoaded = false;
 						}
 					}
 				}
 				
 				// If the item is dragged outside the inventory
 				if(itemSelected && !handler.getMouseManager().isDragged()){
-					if(handler.getMouseManager().getMouseX() <= this.x && handler.getMouseManager().getMouseY() >= this.y){
+					if(handler.getMouseManager().getMouseX() <= this.x){
 						// Drop the item
-						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
-						currentSelectedSlot = null;
+						if(!BankUI.isOpen && !CraftingUI.isOpen) {
+							handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+							currentSelectedSlot = null;
+							itemSelected = false;
+							BankUI.inventoryLoaded = false;
+						}
 						hasBeenPressed = false;
-						itemSelected = false;
 					}
 				}
 
@@ -241,6 +249,7 @@ public class InventoryWindow implements Serializable {
 								itemSwap = null;
 								equipSwap = null;
 							}
+							BankUI.inventoryLoaded = false;
 						}
 						else{
 							isEquipped = false;
@@ -283,6 +292,7 @@ public class InventoryWindow implements Serializable {
 						}
 					}
 				}
+			slotIndex++;
 			}
 		}
 	}
@@ -533,6 +543,22 @@ public class InventoryWindow implements Serializable {
 					hasItem = true;
 					return hasItem;
 				}
+			}
+		}
+		return hasItem;
+	}
+	
+	/*
+	 * Checks if the player has the item+quantity and removes it
+	 * @returns boolean: true if successful, false if item+quantity requirement not met
+	 */
+	public boolean removeItem(ItemSlot is){
+		boolean hasItem = false;
+		for(int i = 0; i < itemSlots.size(); i++){
+			if(itemSlots.get(i).getItemStack() == is.getItemStack()){
+				itemSlots.get(i).setItemStack(null);
+				hasItem = true;
+				break;
 			}
 		}
 		return hasItem;

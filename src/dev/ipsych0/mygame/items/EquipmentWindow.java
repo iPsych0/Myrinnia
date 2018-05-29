@@ -155,11 +155,6 @@ public class EquipmentWindow implements Serializable {
 				equipmentSlots.get(i).render(g, Assets.equipmentPlaceHolders[i]);
 			}
 			
-			if(currentSelectedSlot != null){
-				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
-						handler.getMouseManager().getMouseY(), null);
-			}
-			
 			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 			
 			for(EquipmentSlot es : equipmentSlots) {
@@ -202,6 +197,11 @@ public class EquipmentWindow implements Serializable {
 			Text.drawString(g, "Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 844, 604, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 844, 620, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 844, 636, false, Color.YELLOW, Assets.font14);
+			
+			if(currentSelectedSlot != null){
+				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
+						handler.getMouseManager().getMouseY(), null);
+			}
 		}
 	}
 

@@ -28,9 +28,7 @@ public class BankTab implements Serializable{
 	private CopyOnWriteArrayList<ItemSlot> bankSlots;
 	private boolean isOpen = false;
 	private boolean hovering = false;
-	
-	public Handler getHandler() {return handler;}
-	
+		
 	public BankTab(Handler handler, int x, int y, int tabNumber) {
 		this.handler = handler;
 		this.x = x;

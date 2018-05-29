@@ -28,7 +28,7 @@ public class BankUI implements Serializable{
 	private ArrayList<BankTab> tabs = new ArrayList<>();
 	private BankTab openedTab;
 	private int maxTabs = 10;
-	private boolean inventoryLoaded;
+	public static boolean inventoryLoaded;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
 	private boolean itemSelected;
@@ -88,6 +88,11 @@ public class BankUI implements Serializable{
 				handler.getPlayer().setBankEntity(null);
 				isOpen = false;
 				hasBeenPressed = false;
+				if(currentSelectedSlot != null) {
+					handler.giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+					currentSelectedSlot = null;
+					itemSelected = false;
+				}
 				inventoryLoaded = false;
 				return;
 			}
@@ -229,7 +234,7 @@ public class BankUI implements Serializable{
 							if(openedTab.findFreeSlot(is.getItemStack().getItem()) != -1) {
 								openedTab.getBankSlots().get(openedTab.findFreeSlot(is.getItemStack().getItem()))
 										 .addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
-								handler.removeItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+								handler.getInventory().removeItem(is);
 								inventoryLoaded = false;
 								hasBeenPressed = false;
 								return;
@@ -249,7 +254,7 @@ public class BankUI implements Serializable{
 							if(currentSelectedSlot == null) {
 								if(is.getItemStack() != null) {
 									currentSelectedSlot = is.getItemStack();
-									handler.removeItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
+									handler.getInventory().removeItem(is);
 									itemSelected = true;
 									inventoryLoaded = false;
 								}
