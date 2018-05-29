@@ -1,7 +1,11 @@
 package dev.ipsych0.mygame;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 import dev.ipsych0.mygame.bank.BankUI;
@@ -230,6 +234,28 @@ public class Handler implements Serializable {
 	public boolean playerHasItem(Item item, int amount) {
 		return getInventory().playerHasItem(item, amount);
 	}
+	
+	public void scanAndDeleteOldFiles(String name, String suffix){
+		   // if the download is aborted, a temporary file will be left behind. this method deletes all temporary files left behind in the past
+		   DirectoryStream<Path> ds = null;
+		   try {
+		      ds = Files.newDirectoryStream(Paths.get(System.getProperty("java.io.tmpdir")), name + '*' + suffix);
+		      for(Path file : ds){
+		         if(file.toFile().delete())
+		            System.out.println("Old file " + file.toFile().getAbsolutePath() + " deleted successfully.");
+		         else
+		            System.out.println("Old file " + file.toFile().getAbsolutePath() + " denied being deleted. That evil file!");
+		      }
+		   } catch (IOException e) {
+		      e.printStackTrace();
+		   } finally {
+		      try {
+		         ds.close();
+		      } catch (IOException e) {
+		         e.printStackTrace();
+		      }
+		   }
+		}
 	
 	/*
 	 * Getters & Setters
