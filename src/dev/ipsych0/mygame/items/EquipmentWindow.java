@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
@@ -22,8 +23,6 @@ public class EquipmentWindow implements Serializable {
 	
 	private int numCols = 3;
 	private int numRows = 4;
-	int alpha = 127;
-	Color interfaceColour = new Color(130, 130, 130, alpha);
 	
 	private CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
 	private ItemStack currentSelectedSlot;
@@ -105,6 +104,7 @@ public class EquipmentWindow implements Serializable {
 						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
 						handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
 						es.setItem(null);
+						BankUI.inventoryLoaded = false;
 						hasBeenPressed = false;
 					}
 					else{

@@ -214,6 +214,7 @@ public class InventoryWindow implements Serializable {
 								}
 								isEquipped = false;
 								hasBeenPressed = false;
+								BankUI.inventoryLoaded = false;
 								return;
 							}
 							else{
@@ -248,8 +249,8 @@ public class InventoryWindow implements Serializable {
 								hasBeenPressed = false;
 								itemSwap = null;
 								equipSwap = null;
+								BankUI.inventoryLoaded = false;
 							}
-							BankUI.inventoryLoaded = false;
 						}
 						else{
 							isEquipped = false;
