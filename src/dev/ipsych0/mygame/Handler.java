@@ -1,13 +1,10 @@
 package dev.ipsych0.mygame;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Random;
 
+import dev.ipsych0.mygame.audio.AudioManager;
+import dev.ipsych0.mygame.audio.Source;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -38,9 +35,6 @@ import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
-import kuusisto.tinysound.Music;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
 
 public class Handler implements Serializable {
 
@@ -99,7 +93,31 @@ public class Handler implements Serializable {
 		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
 		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
 		
-		TinySound.init();
+	}
+	
+	public void playMusic(String song, float x, float y) {
+		if(!soundMuted) {
+			AudioManager.setListenerData(x, y);
+			int buffer = AudioManager.loadSound("../res/music/" + song);
+			if(AudioManager.musicFiles.size() > 0) {
+				AudioManager.musicFiles.removeFirst();
+			}
+			AudioManager.musicFiles.add(new Source());
+			AudioManager.musicFiles.get(0).setLooping(true);
+			AudioManager.musicFiles.get(0).play(buffer);
+		}
+	}
+	
+	public void playEffect(String effect, float x, float y) {
+		if(!soundMuted) {
+			AudioManager.setListenerData(x, y);
+			int buffer = AudioManager.loadSound("../res/music/" + effect);
+			if(AudioManager.soundfxFiles.size() > 0)
+				AudioManager.soundfxFiles.removeFirst();
+			AudioManager.soundfxFiles.add(new Source());
+			AudioManager.soundfxFiles.get(0).setLooping(false);
+			AudioManager.soundfxFiles.get(0).play(buffer);
+		}
 	}
 	
 	public SkillResource getSkillResource(SkillsList skill, Item item) {
@@ -151,23 +169,21 @@ public class Handler implements Serializable {
 		return randomNumber;
 	}
 	
-	/*
-	 * Plays music (basic function.. needs expanding to check area)
-	 */
-	public void playMusic(String fileName) {
-		if(!soundMuted) {
-			Music song = TinySound.loadMusic("../res/music/"+fileName, true);
-			song.play(true, 0.3);
-//			TinySound.shutdown();
-		}
-	}
-	
-	public void playSoundEffect(String fileName) {
-		if(!soundMuted) {
-			Sound effect = TinySound.loadSound("../res/music/" + fileName, true);
-			effect.play(0.1);
-		}
-	}
+//	/*
+//	 * Plays music (basic function.. needs expanding to check area)
+//	 */
+//	public void playMusic(String fileName) {
+//		if(!soundMuted) {
+//			
+//		}
+//	}
+//	
+//	public void playSoundEffect(String fileName) {
+//		if(!soundMuted) {
+//			Sound effect = TinySound.loadSound("../res/music/" + fileName, true);
+//			effect.play(0.1);
+//		}
+//	}
 	
 	/*
 	 * Rounds off a number to two digits.
@@ -234,28 +250,6 @@ public class Handler implements Serializable {
 	public boolean playerHasItem(Item item, int amount) {
 		return getInventory().playerHasItem(item, amount);
 	}
-	
-	public void scanAndDeleteOldFiles(String name, String suffix){
-		   // if the download is aborted, a temporary file will be left behind. this method deletes all temporary files left behind in the past
-		   DirectoryStream<Path> ds = null;
-		   try {
-		      ds = Files.newDirectoryStream(Paths.get(System.getProperty("java.io.tmpdir")), name + '*' + suffix);
-		      for(Path file : ds){
-		         if(file.toFile().delete())
-		            System.out.println("Old file " + file.toFile().getAbsolutePath() + " deleted successfully.");
-		         else
-		            System.out.println("Old file " + file.toFile().getAbsolutePath() + " denied being deleted. That evil file!");
-		      }
-		   } catch (IOException e) {
-		      e.printStackTrace();
-		   } finally {
-		      try {
-		         ds.close();
-		      } catch (IOException e) {
-		         e.printStackTrace();
-		      }
-		   }
-		}
 	
 	/*
 	 * Getters & Setters

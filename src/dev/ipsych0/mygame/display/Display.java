@@ -7,6 +7,9 @@ import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import javax.swing.JFrame;
 
+import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.audio.AudioManager;
+
 
 public class Display implements Serializable{
 	
@@ -36,6 +39,7 @@ public class Display implements Serializable{
 		// For the X (close) button
 		frame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
+	        	 AudioManager.cleanUp();
 	             System.exit(0);
 	          }        
 	       });

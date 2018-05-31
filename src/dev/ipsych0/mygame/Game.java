@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.audio.AudioManager;
 import dev.ipsych0.mygame.display.Display;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.GameCamera;
@@ -81,6 +82,8 @@ public class Game implements Runnable, Serializable {
 		gameState = new GameState(handler);
 		settingState = new SettingState(handler);
 		controlsState = new ControlsState(handler);
+		
+		AudioManager.init(handler);
 		
 		// Set the initial state to the menu state
 		State.setState(menuState);

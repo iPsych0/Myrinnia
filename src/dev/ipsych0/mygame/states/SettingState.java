@@ -10,7 +10,6 @@ import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.ui.UIObject;
 import dev.ipsych0.mygame.utils.Text;
-import kuusisto.tinysound.TinySound;
 
 public class SettingState extends State{
 	
@@ -85,11 +84,9 @@ public class SettingState extends State{
 					if(!handler.isSoundMuted()) {
 						System.out.println("Muted sound!");
 						handler.setSoundMuted(true);
-						TinySound.shutdown();
 					}else {
 						System.out.println("Unmuted sound!");
 						handler.setSoundMuted(false);
-						TinySound.init();
 					}
 					hasBeenPressed = false;
 				}

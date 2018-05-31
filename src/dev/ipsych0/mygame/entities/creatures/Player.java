@@ -183,7 +183,6 @@ public class Player extends Creature{
 //			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
 //				handler.getInventory().getItemSlots().get(i).addItem(Item.testSword, 1);
 //			}
-			
 			debugButtonPressed = false;
 			
 		}
@@ -704,12 +703,12 @@ public class Player extends Creature{
 		
 		magicTimer = 0;
 		
+		handler.playEffect("fireball.wav", 0, 0);
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
 			projectiles.add(new Projectile(handler, x, y,
 					(int) (mouse.getX() + handler.getGameCamera().getxOffset() - 16),
 					(int) (mouse.getY() + handler.getGameCamera().getyOffset() - 16),
 					9.0f));
-			handler.playSoundEffect("fireball.wav");
 		}
 		
 	}
