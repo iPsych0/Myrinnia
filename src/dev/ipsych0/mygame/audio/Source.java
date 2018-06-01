@@ -10,7 +10,13 @@ public class Source {
 		sourceId = AL10.alGenSources();
 	}
 	
-	public void play(int buffer) {
+	public void playMusic(int buffer) {
+		stop();
+		AL10.alSourcei(sourceId, AL10.AL_BUFFER, buffer);
+		AL10.alSourcePlay(sourceId);
+	}
+	
+	public void playEffect(int buffer) {
 		stop();
 		AL10.alSourcei(sourceId, AL10.AL_BUFFER, buffer);
 		AL10.alSourcePlay(sourceId);

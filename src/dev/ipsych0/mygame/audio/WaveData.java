@@ -59,10 +59,9 @@ public class WaveData {
     }
  
  
-    public static WaveData create(String file){
-        InputStream stream = Class.class.getResourceAsStream("/"+file);
+    public static WaveData create(BufferedInputStream is){
+        InputStream stream = is;
         if(stream==null){
-            System.err.println("Couldn't find file: "+file);
             return null;
         }
         InputStream bufferedInput = new BufferedInputStream(stream);

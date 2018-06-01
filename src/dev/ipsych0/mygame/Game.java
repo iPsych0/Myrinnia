@@ -93,6 +93,7 @@ public class Game implements Runnable, Serializable {
 	private void tick(){
 		mouseManager.tick();
 		keyManager.tick();
+		AudioManager.tick();
 		if(State.getState() != null){
 			State.getState().tick();
 		}

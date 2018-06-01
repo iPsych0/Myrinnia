@@ -1,11 +1,15 @@
 package dev.ipsych0.mygame.audio;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -29,7 +33,7 @@ public class AudioManager {
 	private static Handler handler;
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
-	public static Map<Zone, Source> musicMap = new HashMap<Zone, Source>();
+	public static Map<Zone, String> musicMap = new HashMap<Zone, String>();
 	
 	public static void init(Handler handlerClass) {
 		deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -40,19 +44,42 @@ public class AudioManager {
 		alCapabilities = AL.createCapabilities(alcCapabilities);
 		handler = handlerClass;
 		
-		if(alCapabilities.OpenAL10) {
-			System.out.println("Working!");
+		loadSongs();
+	}
+	
+	private static void loadSongs() {
+		musicMap.put(Zone.Island, "myrinnia.wav");
+	}
+	
+	public static void tick() {
+		// Check for music that has ended to clean up
+		if(!musicFiles.isEmpty()) {
+			Collection<Source> deleted = new ArrayList<Source>();
+			for(Source s : musicFiles) {
+				if(!s.isPlaying()) {
+					deleted.add(s);
+					s.delete();
+				}
+			}
+			musicFiles.removeAll(deleted);
+		}
+		
+		// Check for sound effects that have ended to clean up
+		if(!soundfxFiles.isEmpty()) {
+			Collection<Source> deleted = new ArrayList<Source>();
+			for(Source s : soundfxFiles) {
+				if(!s.isPlaying()) {
+					deleted.add(s);
+					s.delete();
+				}
+			}
+			soundfxFiles.removeAll(deleted);
 		}
 	}
 	
 	public static void setListenerData() {
-		AL10.alListener3f(AL10.AL_POSITION, handler.getPlayer().getX(), handler.getPlayer().getY(), 2);
-		AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 2);
-	}
-	
-	public static void setListenerData(float x, float y) {
-		AL10.alListener3f(AL10.AL_POSITION, x, y, 2);
-		AL10.alListener3f(AL10.AL_VELOCITY, x, y, 2);
+		AL10.alListener3f(AL10.AL_POSITION, 0, 0, 0);
+		AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
 	}
 	
 	public static void cleanUp() {
@@ -63,13 +90,14 @@ public class AudioManager {
 		ALC10.alcCloseDevice(device);
 	}
 	
-	public static int loadSound(String file) {
-		int buffer = AL10.alGenBuffers();
-		buffers.add(buffer);
-		WaveData waveFile = WaveData.create(file);
-		AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
-		waveFile.dispose();
-		return buffer;
-	}
+	public static int loadSound(File file) throws FileNotFoundException{
+		  int buffer = AL10.alGenBuffers();
+		  buffers.add(buffer);
+		  BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
+		  WaveData waveFile = WaveData.create(is);
+		  AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
+		  waveFile.dispose();
+		  return buffer;
+		 }
 
 }

@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.ui.UIManager;
 import dev.ipsych0.mygame.ui.UIObject;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.utils.Text;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class MenuState extends State {
 	
@@ -80,7 +81,7 @@ public class MenuState extends State {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().gameState);
-					handler.playMusic("myrinnia.wav", 0, 0);
+					handler.playMusic(Zone.Island, 0, 0);
 					hasBeenPressed = false;
 				}
 			}
@@ -98,7 +99,7 @@ public class MenuState extends State {
 						handler.getMouseManager().setUIManager(null);
 						State.setState(handler.getGame().gameState);
 						SaveManager.loadHandler(handler);
-						handler.playMusic("myrinnia.wav", 0, 0);
+						handler.playMusic(Zone.Island, 0, 0);
 						hasBeenPressed = false;
 					}
 				}

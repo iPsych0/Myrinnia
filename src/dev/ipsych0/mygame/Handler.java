@@ -1,5 +1,7 @@
 package dev.ipsych0.mygame;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -35,6 +37,7 @@ import dev.ipsych0.mygame.worlds.SwampLand;
 import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class Handler implements Serializable {
 
@@ -95,28 +98,40 @@ public class Handler implements Serializable {
 		
 	}
 	
-	public void playMusic(String song, float x, float y) {
+	public void playMusic(Zone zone, float x, float y) {
 		if(!soundMuted) {
-			AudioManager.setListenerData(x, y);
-			int buffer = AudioManager.loadSound("../res/music/" + song);
-			if(AudioManager.musicFiles.size() > 0) {
-				AudioManager.musicFiles.removeFirst();
+			AudioManager.setListenerData();
+			int buffer = -1;
+			String songName = AudioManager.musicMap.get(zone);
+			try {
+				buffer = AudioManager.loadSound(new File("res/music/" + songName));
+			} catch (FileNotFoundException e) {
+				System.err.println("Couldn't find file: "+songName);
+				e.printStackTrace();
+				System.exit(0);
 			}
 			AudioManager.musicFiles.add(new Source());
-			AudioManager.musicFiles.get(0).setLooping(true);
-			AudioManager.musicFiles.get(0).play(buffer);
+			AudioManager.musicFiles.getLast().setVolume(0.4f);
+			AudioManager.musicFiles.getLast().setLooping(true);
+			AudioManager.musicFiles.getLast().playMusic(buffer);
 		}
 	}
 	
 	public void playEffect(String effect, float x, float y) {
 		if(!soundMuted) {
-			AudioManager.setListenerData(x, y);
-			int buffer = AudioManager.loadSound("../res/music/" + effect);
-			if(AudioManager.soundfxFiles.size() > 0)
-				AudioManager.soundfxFiles.removeFirst();
+			AudioManager.setListenerData();
+			int buffer = -1;
+			try {
+				buffer = AudioManager.loadSound(new File("res/music/" + effect));
+			} catch (FileNotFoundException e) {
+				System.err.println("Couldn't find file: "+effect);
+				e.printStackTrace();
+				System.exit(0);
+			}
 			AudioManager.soundfxFiles.add(new Source());
-			AudioManager.soundfxFiles.get(0).setLooping(false);
-			AudioManager.soundfxFiles.get(0).play(buffer);
+			AudioManager.soundfxFiles.getLast().setVolume(0.2f);
+			AudioManager.soundfxFiles.getLast().setLooping(false);
+			AudioManager.soundfxFiles.getLast().playEffect(buffer);
 		}
 	}
 	
