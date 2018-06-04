@@ -26,7 +26,7 @@ public class Utils {
 			return Integer.parseInt(number);
 		}catch(NumberFormatException e){
 			e.printStackTrace();
-			System.out.println("Couldn't load tile: " + number);
+			System.out.println("Couldn't load tile with ID: " + number);
 			return 28;
 		}
 	}

@@ -29,7 +29,7 @@ public class TestLand extends World {
 		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
-		
+				
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
 		entityManager.addEntity(new Tree(handler, 360, 128));

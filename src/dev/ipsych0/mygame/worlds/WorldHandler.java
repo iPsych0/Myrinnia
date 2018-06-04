@@ -62,7 +62,9 @@ public class WorldHandler implements Serializable{
 	}
 	
 	public void render(Graphics g){
-		for(World w : worlds){
+		Iterator<World> it = worlds.iterator();
+		while(it.hasNext()){
+			World w = it.next();
 			w.render(g);
 		}
 	}

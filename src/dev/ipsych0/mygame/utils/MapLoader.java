@@ -18,9 +18,19 @@ public class MapLoader implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static DocumentBuilderFactory factory;
+	private static DocumentBuilder builder;
+	static {
+		factory = DocumentBuilderFactory.newInstance();
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-	private MapLoader(){
-		
+	public MapLoader(){
 	}
 	
 	/*
@@ -29,10 +39,8 @@ public class MapLoader implements Serializable{
 	 */
 	public static int getMapWidth(String path){
 		int mapWidth = 0;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			// Creates new DocumentBuilder on the file
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
@@ -41,10 +49,6 @@ public class MapLoader implements Serializable{
 			Node layer = tags.item(tags.getLength() - 1);
 			// Gets the width
 			mapWidth = Integer.parseInt(layer.getAttributes().getNamedItem("width").getTextContent());
-			
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,10 +65,7 @@ public class MapLoader implements Serializable{
 	 */
 	public static int getMapHeight(String path){
 		int mapHeight = 0;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
-			// Creates new DocumentBuilder on the file
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
@@ -73,11 +74,7 @@ public class MapLoader implements Serializable{
 			Node layer = tags.item(tags.getLength() - 1);
 			// Gets the height
 			mapHeight = Integer.parseInt(layer.getAttributes().getNamedItem("height").getTextContent());
-			
-			
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,39 +91,28 @@ public class MapLoader implements Serializable{
 	 * @returns: String[] mapValues - all Tile IDs per layer
 	 */
 	public static String[] getMapTiles(String path){
-		// Creates a DocumentBuilder
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 			
 			// Get all tags
 			NodeList maps = doc.getElementsByTagName("layer");
-
-			// Calculate number of layers
-			int testLayer = 0;
-			while(testLayer < maps.getLength()) {
-				testLayer++;
-			}
 			
 			// Index the String[] at the size of the number of layers
-			String[] mapValues = new String[testLayer];
+			String[] mapValues = new String[maps.getLength()];
 			
 			// Set variables to iterate over the maps
 			int layer = 0;
 			
 			// Fill the layers in the String[] (The entire String with all Tile IDs per layer)
-			while(layer < maps.getLength()) {
+			while(layer < mapValues.length) {
 				Node groundMap = maps.item(layer);
 				mapValues[layer] = groundMap.getTextContent();
 				layer++;
 			}
 			
 			return mapValues;
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,11 +124,7 @@ public class MapLoader implements Serializable{
 	}
 	
 	public static int[] getTiledFirstGid(String path) {
-		// Creates a DocumentBuilder
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(path);
 			doc.normalize();
 
@@ -157,9 +139,7 @@ public class MapLoader implements Serializable{
 				firstGids[i] = Integer.parseInt(inner.getNodeValue());
 			}
 			return firstGids;
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,13 +152,9 @@ public class MapLoader implements Serializable{
 	}
 	
 	public static int getImageIndex(String worldPath, String imagePath) {
-		// Creates a DocumentBuilder
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
 		String imageSource = null;
 		
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(worldPath);
 			doc.normalize();
 
@@ -206,9 +182,6 @@ public class MapLoader implements Serializable{
 				}
 			}
 
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,13 +195,9 @@ public class MapLoader implements Serializable{
 	}
 	
 	public static int getTileCount(String worldPath, int imageIndex) {
-		// Creates a DocumentBuilder
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
 		int tileCount = -1;
 		
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(worldPath);
 			doc.normalize();
 
@@ -240,9 +209,6 @@ public class MapLoader implements Serializable{
 			tileCount = Integer.parseInt(inner.getNodeValue());
 			return tileCount;
 
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -255,13 +221,10 @@ public class MapLoader implements Serializable{
 	}
 	
 	public static int getTileColumns(String worldPath, int imageIndex) {
-		// Creates a DocumentBuilder
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
+
 		int columns = -1;
 		
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(worldPath);
 			doc.normalize();
 
@@ -273,9 +236,6 @@ public class MapLoader implements Serializable{
 			columns = Integer.parseInt(inner.getNodeValue());
 			return columns;
 
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

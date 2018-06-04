@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.StringTokenizer;
 
 public class Text {
@@ -33,6 +34,11 @@ public class Text {
 		g.drawString(text, x+1, y+1);
 		g.setColor(color);
 		g.drawString(text, x, y);
+	}
+	
+	public static int getStringWidth(Graphics g, String text, Font font) {
+		FontMetrics fm = g.getFontMetrics(font);
+		return fm.stringWidth(text);
 	}
 	
 	/**

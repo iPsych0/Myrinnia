@@ -99,7 +99,13 @@ public class MenuState extends State {
 						handler.getMouseManager().setUIManager(null);
 						State.setState(handler.getGame().gameState);
 						SaveManager.loadHandler(handler);
-						handler.playMusic(Zone.Island, 0, 0);
+						Zone zoneSong = Zone.Island;
+						for(Zone z : Zone.values()) {
+							if(handler.getWorld() == handler.getWorldHandler().getWorldsMap().get(z)) {
+								zoneSong = z;
+							}
+						}
+						handler.playMusic(zoneSong, 0, 0);
 						hasBeenPressed = false;
 					}
 				}

@@ -112,8 +112,9 @@ public abstract class World implements Serializable {
 		for (int i = 0; i < layers.length; i++) {
 			for(int y = yStart; y < yEnd; y++){
 				for(int x = xStart; x < xEnd; x++){
-					if(getTile(i,x,y) != Tiles.tiles[736]) {
-						getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
+					Tiles t = getTile(i,x,y);
+					if(t != Tiles.tiles[736]) {
+						t.render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
 								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
 					}
 				}
@@ -190,8 +191,7 @@ public abstract class World implements Serializable {
 		
 		for (int i = 0; i < layers.length; i++) {
 			// Splits worlds files by spaces and puts them all in an array
-			layers[i] = layers[i].replace("\n", "").replace("\r", "");
-			layers[i] = layers[i].replace(" ", "").replace("\r", "");
+			layers[i] = layers[i].replace("\n", "").replace("\r", "").trim();
 			String[] tokens = layers[i].split(",");
 			
 			for (int y = 0; y < height; y++){
@@ -201,7 +201,6 @@ public abstract class World implements Serializable {
 				}
 			}
 		}
-		
 		
 	}
 	

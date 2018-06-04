@@ -34,7 +34,7 @@ public class IslandUnderground extends World {
 		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
-		
+				
 		entityManager.addEntity(new Lorraine(handler, 3904, 6080));
 		entityManager.addEntity(new Campfire(handler, 4960, 5438));
 		entityManager.addEntity(new Campfire(handler, 6016, 5828));

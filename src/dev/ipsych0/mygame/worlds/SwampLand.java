@@ -28,7 +28,7 @@ public class SwampLand extends World{
 		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
-		
+				
 		entityManager.addEntity(new Lorraine(handler, 732, 640));
 		
 		entityManager.addEntity(new Tree(handler, 160, 128));

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class GameState extends State{
 
@@ -17,7 +18,7 @@ public class GameState extends State{
 	public GameState(Handler handler){
 		super(handler);
 		// Setup new game world
-		handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+		handler.setWorld(handler.getWorldHandler().getWorldsMap().get(Zone.Island));
 		myFont = new Font("SansSerif", Font.BOLD, 12);
 		
 	}

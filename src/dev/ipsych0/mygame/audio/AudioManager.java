@@ -38,9 +38,12 @@ public class AudioManager {
 		deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
 		device = ALC10.alcOpenDevice(deviceName);
 		context = ALC10.alcCreateContext(device, attributes);
+		
 		ALC10.alcMakeContextCurrent(context);
+		
 		alcCapabilities = ALC.createCapabilities(device);
 		alCapabilities = AL.createCapabilities(alcCapabilities);
+		
 		handler = handlerClass;
 	}
 	

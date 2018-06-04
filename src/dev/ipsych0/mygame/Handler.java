@@ -30,11 +30,10 @@ import dev.ipsych0.mygame.skills.Skill;
 import dev.ipsych0.mygame.skills.SkillResource;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
+import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.states.TransitionState;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
-import dev.ipsych0.mygame.worlds.IslandUnderground;
-import dev.ipsych0.mygame.worlds.SwampLand;
-import dev.ipsych0.mygame.worlds.TestLand;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
 import dev.ipsych0.mygame.worlds.Zone;
@@ -111,7 +110,7 @@ public class Handler implements Serializable {
 				System.exit(0);
 			}
 			if(AudioManager.musicFiles.size() > 0)
-				AudioManager.musicFiles.getLast().delete();
+				AudioManager.musicFiles.getFirst().delete();
 			AudioManager.musicFiles.add(new Source());
 			AudioManager.musicFiles.getLast().setVolume(0.4f);
 			AudioManager.musicFiles.getLast().setLooping(true);
@@ -131,8 +130,8 @@ public class Handler implements Serializable {
 				System.exit(0);
 			}
 			AudioManager.soundfxFiles.add(new Source());
-			AudioManager.soundfxFiles.getLast().setVolume(2.5f);
-			AudioManager.soundfxFiles.getLast().setLooping(true);
+			AudioManager.soundfxFiles.getLast().setVolume(0.2f);
+			AudioManager.soundfxFiles.getLast().setLooping(false);
 			AudioManager.soundfxFiles.getLast().playEffect(buffer);
 			
 			// Move sound from left to right speaker
@@ -150,6 +149,21 @@ public class Handler implements Serializable {
 //			AudioManager.soundfxFiles.getLast().delete();
 			
 		}
+	}
+	
+	public void goToWorld(Zone zone, int x, int y) {
+		player.setX(x);
+		player.setY(y);
+		setWorld(worldHandler.getWorldsMap().get(zone));
+		
+		TransitionState transitionState = new TransitionState(this, zone);
+		State.setState(transitionState);
+		
+		for(Source s : AudioManager.soundfxFiles)
+			s.delete();
+		for(Source s : AudioManager.musicFiles)
+			s.delete();
+		playMusic(zone, x, y);
 	}
 	
 	public SkillResource getSkillResource(SkillsList skill, Item item) {
@@ -318,22 +332,9 @@ public class Handler implements Serializable {
 	public World getWorld() {
 		return world;
 	}
-
-//	public void setWorld(int worldId) {
-//		this.world = getWorldHandler().getWorlds().get(id);
-//	}
 	
 	public void setWorld(World world) {
 		this.world = world;
-	}
-	
-	public void goToWorld(Zone zone, int x, int y) {
-		player.setX(x);
-		player.setY(y);
-		setWorld(worldHandler.getWorldsMap().get(zone));
-		for(Source s : AudioManager.soundfxFiles)
-			s.delete();
-		playMusic(zone, x, y);
 	}
 	
 	public WorldHandler getWorldHandler() {
