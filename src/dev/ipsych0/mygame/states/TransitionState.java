@@ -39,12 +39,16 @@ public class TransitionState extends State{
 	public void render(Graphics g) {
 		handler.getWorldHandler().render(g);
 		
+		// Get the textWidth of the Zone name
 		int textWidth = Text.getStringWidth(g, zone.toString(), Assets.font20);
+		
+		// Fade in UI element
 		if(yOffset < 0) {
 			g.drawImage(Assets.genericButton[0], handler.getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, 32, null);
 			Text.drawString(g, zone.toString(), handler.getWidth() / 2, yOffset + 16, true, Color.YELLOW, Assets.font20);
 			yOffset++;
 		}
+		// Wait 3 seconds, then fade out UI element
 		if(yOffset == 0) {
 			idleTimer++;
 			g.drawImage(Assets.genericButton[0], handler.getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, 32, null);
@@ -54,6 +58,7 @@ public class TransitionState extends State{
 			}
 		}
 		
+		// Fade from black
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
 		g.setColor(Color.BLACK);

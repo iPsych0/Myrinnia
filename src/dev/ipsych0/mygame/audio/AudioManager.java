@@ -50,8 +50,13 @@ public class AudioManager {
 	public static void tick() {
 		// Check for music that has ended to clean up
 		if(!musicFiles.isEmpty()) {
+			System.out.println(musicFiles);
 			Collection<Source> deleted = new ArrayList<Source>();
 			for(Source s : musicFiles) {
+				if(s.isFadingIn()) 
+					fadeIn(s);
+				else if(s.isFadingOut())
+					fadeOut(s);
 				if(!s.isPlaying()) {
 					deleted.add(s);
 					s.delete();
@@ -70,6 +75,26 @@ public class AudioManager {
 				}
 			}
 			soundfxFiles.removeAll(deleted);
+		}
+	}
+	
+	private static void fadeIn(Source s) {
+		s.setFadingTimer(s.getFadingTimer()+1);
+		if(s.getFadingTimer() > 150) {
+			s.setFadeInVolume(s.getFadeInVolume()+0.002f);
+			s.setVolume(s.getFadeInVolume());
+			if(s.getFadeInVolume() >= 0.4f) {
+				s.setFadingIn(false);
+			}
+		}
+	}
+	
+	private static void fadeOut(Source s) {
+		s.setFadeOutVolume(s.getFadeOutVolume()-0.002f);
+		s.setVolume(s.getFadeOutVolume());
+		if(s.getFadeOutVolume() <= 0.0f) {
+			s.setFadingOut(false);
+			s.stop();
 		}
 	}
 	

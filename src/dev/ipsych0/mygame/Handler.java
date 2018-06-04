@@ -109,12 +109,21 @@ public class Handler implements Serializable {
 				e.printStackTrace();
 				System.exit(0);
 			}
-			if(AudioManager.musicFiles.size() > 0)
-				AudioManager.musicFiles.getFirst().delete();
-			AudioManager.musicFiles.add(new Source());
-			AudioManager.musicFiles.getLast().setVolume(0.4f);
-			AudioManager.musicFiles.getLast().setLooping(true);
-			AudioManager.musicFiles.getLast().playMusic(buffer);
+			if(AudioManager.musicFiles.size() > 0) {
+				if(AudioManager.musicFiles.getFirst() != AudioManager.musicFiles.getLast()) {
+					AudioManager.musicFiles.getFirst().setFadingOut(true);
+					AudioManager.musicFiles.add(new Source());
+					AudioManager.musicFiles.getLast().setVolume(0.0f);
+					AudioManager.musicFiles.getLast().setFadingIn(true);
+					AudioManager.musicFiles.getLast().setLooping(true);
+					AudioManager.musicFiles.getLast().playMusic(buffer);
+				}
+			}else {
+				AudioManager.musicFiles.add(new Source());
+				AudioManager.musicFiles.getLast().setVolume(0.4f);
+				AudioManager.musicFiles.getLast().setLooping(true);
+				AudioManager.musicFiles.getLast().playMusic(buffer);
+			}
 		}
 	}
 	
@@ -160,8 +169,6 @@ public class Handler implements Serializable {
 		State.setState(transitionState);
 		
 		for(Source s : AudioManager.soundfxFiles)
-			s.delete();
-		for(Source s : AudioManager.musicFiles)
 			s.delete();
 		playMusic(zone, x, y);
 	}
