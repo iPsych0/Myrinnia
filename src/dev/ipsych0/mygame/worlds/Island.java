@@ -29,11 +29,10 @@ public class Island extends World {
 	private Rectangle southwestVillageHouse;
 	private Rectangle northwestVillageHouse;
 
-	public Island(Handler handler, String path, int worldID) {
+	public Island(Handler handler, String path) {
 		super(handler);
 		
 		this.worldPath = path;
-		this.worldID = worldID;
 		
 		width = MapLoader.getMapWidth(path);
 		height = MapLoader.getMapHeight(path);
@@ -85,7 +84,7 @@ public class Island extends World {
 		if(handler.getWorld().equals(this)){
 			super.tick();
 			if(standingOnTile(house1)) {
-				handler.goToWorld(3, 6016, 6140);
+				handler.goToWorld(Zone.IslandUnderground, 6016, 6140);
 			}
 //			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(house1)){
 //				handler.getPlayer().setX(6016);
@@ -95,31 +94,31 @@ public class Island extends World {
 //			}
 			
 			if(standingOnTile(house2)){
-				handler.goToWorld(3, 4960, 6272);
+				handler.goToWorld(Zone.IslandUnderground, 4960, 6272);
 			}
 			
 			if(standingOnTile(house3)){
-				handler.goToWorld(3, 3904, 6272);
+				handler.goToWorld(Zone.IslandUnderground, 3904, 6272);
 			}
 			
 			if(standingOnTile(beachHouse)){
-				handler.goToWorld(3, 4960, 5552);
+				handler.goToWorld(Zone.IslandUnderground, 4960, 5552);
 			}
 			
 			if(standingOnTile(beachCave)){
-				handler.goToWorld(3, 3744, 5360);
+				handler.goToWorld(Zone.IslandUnderground, 3744, 5360);
 			}
 			
 			if(standingOnTile(stoneHouse1)){
-				handler.goToWorld(3, 6016, 5312);
+				handler.goToWorld(Zone.IslandUnderground, 6016, 5312);
 			}
 			
 			if(standingOnTile(southwestVillageHouse)){
-				handler.goToWorld(3, 4960, 4848);
+				handler.goToWorld(Zone.IslandUnderground, 4960, 4848);
 			}
 			
 			if(standingOnTile(northwestVillageHouse)){
-				handler.goToWorld(3, 3040, 6288);
+				handler.goToWorld(Zone.IslandUnderground, 3040, 6288);
 			}
 		}
 	}
@@ -134,13 +133,5 @@ public class Island extends World {
 //			g.drawRect((int) (house3.x - handler.getGameCamera().getxOffset()), (int) (house3.y - handler.getGameCamera().getyOffset()), 32, 32);
 			
 		}
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 }

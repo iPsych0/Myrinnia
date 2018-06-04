@@ -70,7 +70,7 @@ public class QuestManager implements Serializable{
 		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island));
 		
 		// Test Quests
-		testQuests.add(new Quest(handler, "The Test Quest", Zone.Mainland));
+		testQuests.add(new Quest(handler, "The Test Quest", Zone.IslandUnderground));
 		
 		Collections.sort(islandQuests, (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
 		

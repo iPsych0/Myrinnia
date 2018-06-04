@@ -19,11 +19,10 @@ public class SwampLand extends World{
 	private static final long serialVersionUID = 1L;
 	private Rectangle testLandTile;
 
-	public SwampLand(Handler handler, String path, int worldID) {
+	public SwampLand(Handler handler, String path) {
 		super(handler);
 		
 		this.worldPath = path;
-		this.worldID = worldID;
 
 		width = MapLoader.getMapWidth(path);
 		height = MapLoader.getMapHeight(path);
@@ -60,7 +59,7 @@ public class SwampLand extends World{
 		if(handler.getWorld() == this){
 			super.tick();
 			if(standingOnTile(testLandTile)){
-				handler.goToWorld(1, 60, 164);
+				handler.goToWorld(Zone.TestLand, 60, 164);
 			}
 		}
 	}
@@ -72,13 +71,5 @@ public class SwampLand extends World{
 			
 			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 168);
 		}
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 }

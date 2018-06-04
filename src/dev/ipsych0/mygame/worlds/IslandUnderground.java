@@ -25,11 +25,10 @@ public class IslandUnderground extends World {
 	private Rectangle southwestVillageHouseExit;
 	private Rectangle northwestVillageHouseExit;
 
-	public IslandUnderground(Handler handler, String path, int worldID) {
+	public IslandUnderground(Handler handler, String path) {
 		super(handler);
 		
 		this.worldPath = path;
-		this.worldID = worldID;
 		
 		width = MapLoader.getMapWidth(path);
 		height = MapLoader.getMapHeight(path);
@@ -58,35 +57,35 @@ public class IslandUnderground extends World {
 		if(handler.getWorld() == this){
 			super.tick();
 			if(standingOnTile(house1Exit)){
-				handler.goToWorld(0, 5056, 5440);
+				handler.goToWorld(Zone.Island, 5056, 5440);
 			}
 			
 			if(standingOnTile(house2Exit)){
-				handler.goToWorld(0, 4608, 5400);
+				handler.goToWorld(Zone.Island, 4608, 5400);
 			}
 			
 			if(standingOnTile(house3Exit)){
-				handler.goToWorld(0, 4384, 5800);
+				handler.goToWorld(Zone.Island, 4384, 5800);
 			}
 			
 			if(standingOnTile(beachHouse1Exit)){
-				handler.goToWorld(0, 5856, 5824);
+				handler.goToWorld(Zone.Island, 5856, 5824);
 			}
 			
 			if(standingOnTile(beachCaveExit)){
-				handler.goToWorld(0, 2688, 6136);
+				handler.goToWorld(Zone.Island, 2688, 6136);
 			}
 			
 			if(standingOnTile(stoneHouse1Exit)){
-				handler.goToWorld(0, 3712, 5456);
+				handler.goToWorld(Zone.Island, 3712, 5456);
 			}
 			
 			if(standingOnTile(southwestVillageHouseExit)){
-				handler.goToWorld(0, 3776, 5822);
+				handler.goToWorld(Zone.Island, 3776, 5822);
 			}
 			
 			if(standingOnTile(northwestVillageHouseExit)){
-				handler.goToWorld(0, 4032, 5252);
+				handler.goToWorld(Zone.Island, 4032, 5252);
 			}
 		}
 	}
@@ -100,13 +99,5 @@ public class IslandUnderground extends World {
 //			g.drawRect((int) (exit2.x - handler.getGameCamera().getxOffset()), (int) (exit2.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (exit3.x - handler.getGameCamera().getxOffset()), (int) (exit3.y - handler.getGameCamera().getyOffset()), 32, 32);
 		}
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 }

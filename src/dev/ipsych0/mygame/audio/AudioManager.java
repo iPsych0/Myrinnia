@@ -33,7 +33,6 @@ public class AudioManager {
 	private static Handler handler;
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
-	public static Map<Zone, String> musicMap = new HashMap<Zone, String>();
 	
 	public static void init(Handler handlerClass) {
 		deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -43,12 +42,6 @@ public class AudioManager {
 		alcCapabilities = ALC.createCapabilities(device);
 		alCapabilities = AL.createCapabilities(alcCapabilities);
 		handler = handlerClass;
-		
-		loadSongs();
-	}
-	
-	private static void loadSongs() {
-		musicMap.put(Zone.Island, "myrinnia.wav");
 	}
 	
 	public static void tick() {

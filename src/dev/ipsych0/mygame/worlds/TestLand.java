@@ -20,10 +20,9 @@ public class TestLand extends World {
 	private Rectangle swampLandTile;
 	private Rectangle islandTile;
 
-	public TestLand(Handler handler, String path, int worldID) {
+	public TestLand(Handler handler, String path) {
 		super(handler);
 		
-		this.worldID = worldID;
 		this.worldPath = path;
 		
 		width = MapLoader.getMapWidth(path);
@@ -54,11 +53,11 @@ public class TestLand extends World {
 			super.tick();
 			
 			if(standingOnTile(swampLandTile)){
-				handler.goToWorld(0, 1490, 1305);
+				handler.goToWorld(Zone.SwampLand, 1490, 1305);
 			}
 			
 			if(standingOnTile(islandTile)){
-				handler.goToWorld(2, 800, 750);
+				handler.goToWorld(Zone.Island, 800, 750);
 			}
 		}
 	}
@@ -71,13 +70,5 @@ public class TestLand extends World {
 			g.drawRect((int) (swampLandTile.x - handler.getGameCamera().getxOffset()), (int) (swampLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 			g.drawRect((int) (islandTile.x - handler.getGameCamera().getxOffset()), (int) (islandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 }

@@ -78,8 +78,10 @@ public class Handler implements Serializable {
 	public Handler(Game game){
 		this.game = game;
 		
-		// Instantiate the player and the worlds
+		// Instantiate the player
 		player = new Player(this, 5120, 5600);
+		
+		// Instantiate all interfaces
 		chatWindow = new ChatWindow(this, 0, 600); //228,314
 		chatWindow.sendMessage("Welcome back!");
 		inventory = new InventoryWindow(this, 828, 0);
@@ -90,19 +92,17 @@ public class Handler implements Serializable {
 		skillsUI = new SkillsUI(this);
 		hpOverlay = new HPOverlay(this);
 		bankUI = new BankUI(this);
-		island = new Island(this, "res/worlds/island.tmx", 0);
-		worldHandler = new WorldHandler(this, island);
-		worldHandler.addWorld(new TestLand(this, "res/worlds/testmap2.tmx", 1));
-		worldHandler.addWorld(new SwampLand(this, "res/worlds/testmap.tmx", 2));
-		worldHandler.addWorld(new IslandUnderground(this, "res/worlds/island_indoors.tmx", 3));
 		
+		// Set the starting world
+		island = new Island(this, "res/worlds/island.tmx");
+		worldHandler = new WorldHandler(this, island);
 	}
 	
 	public void playMusic(Zone zone, float x, float y) {
 		if(!soundMuted) {
 			AudioManager.setListenerData();
 			int buffer = -1;
-			String songName = AudioManager.musicMap.get(zone);
+			String songName = zone.getMusicFile();
 			try {
 				buffer = AudioManager.loadSound(new File("res/music/" + songName));
 			} catch (FileNotFoundException e) {
@@ -110,6 +110,8 @@ public class Handler implements Serializable {
 				e.printStackTrace();
 				System.exit(0);
 			}
+			if(AudioManager.musicFiles.size() > 0)
+				AudioManager.musicFiles.getLast().delete();
 			AudioManager.musicFiles.add(new Source());
 			AudioManager.musicFiles.getLast().setVolume(0.4f);
 			AudioManager.musicFiles.getLast().setLooping(true);
@@ -129,9 +131,24 @@ public class Handler implements Serializable {
 				System.exit(0);
 			}
 			AudioManager.soundfxFiles.add(new Source());
-			AudioManager.soundfxFiles.getLast().setVolume(0.2f);
-			AudioManager.soundfxFiles.getLast().setLooping(false);
+			AudioManager.soundfxFiles.getLast().setVolume(2.5f);
+			AudioManager.soundfxFiles.getLast().setLooping(true);
 			AudioManager.soundfxFiles.getLast().playEffect(buffer);
+			
+			// Move sound from left to right speaker
+//			float xPos = -10f;
+//			while(xPos < 10) {
+//				xPos += 0.03f;
+//				AudioManager.soundfxFiles.getLast().setPosition(xPos, 0);
+//				try {
+//					Thread.sleep(20);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			AudioManager.soundfxFiles.getLast().delete();
+			
 		}
 	}
 	
@@ -310,10 +327,13 @@ public class Handler implements Serializable {
 		this.world = world;
 	}
 	
-	public void goToWorld(int worldID, int x, int y) {
+	public void goToWorld(Zone zone, int x, int y) {
 		player.setX(x);
 		player.setY(y);
-		setWorld(worldHandler.getWorlds().get(worldID));
+		setWorld(worldHandler.getWorldsMap().get(zone));
+		for(Source s : AudioManager.soundfxFiles)
+			s.delete();
+		playMusic(zone, x, y);
 	}
 	
 	public WorldHandler getWorldHandler() {

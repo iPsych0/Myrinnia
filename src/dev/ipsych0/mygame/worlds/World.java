@@ -39,7 +39,6 @@ public abstract class World implements Serializable {
 	protected int width, height;
 	protected int[][][] tiles;
 	protected int spawnX, spawnY;
-	protected int worldID;
 	protected String[] layers;
 	private Color night = new Color(0, 13, 35);
 	protected String worldPath;
@@ -240,14 +239,6 @@ public abstract class World implements Serializable {
 
 	public void setItemManager(ItemManager itemManager) {
 		this.itemManager = itemManager;
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 
 	public String[] getLayers() {
