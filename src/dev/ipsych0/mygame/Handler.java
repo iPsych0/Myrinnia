@@ -97,9 +97,8 @@ public class Handler implements Serializable {
 		worldHandler = new WorldHandler(this, island);
 	}
 	
-	public void playMusic(Zone zone, float x, float y) {
+	public void playMusic(Zone zone) {
 		if(!soundMuted) {
-			AudioManager.setListenerData();
 			int buffer = -1;
 			String songName = zone.getMusicFile();
 			try {
@@ -110,15 +109,30 @@ public class Handler implements Serializable {
 				System.exit(0);
 			}
 			if(AudioManager.musicFiles.size() > 0) {
-				if(AudioManager.musicFiles.getFirst() != AudioManager.musicFiles.getLast()) {
-					AudioManager.musicFiles.getFirst().setFadingOut(true);
-					AudioManager.musicFiles.add(new Source());
-					AudioManager.musicFiles.getLast().setVolume(0.0f);
-					AudioManager.musicFiles.getLast().setFadingIn(true);
-					AudioManager.musicFiles.getLast().setLooping(true);
-					AudioManager.musicFiles.getLast().playMusic(buffer);
+				if(AudioManager.zone != null) {
+					if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
+						AudioManager.zone = zone;
+						AudioManager.musicFiles.add(new Source());
+						if(AudioManager.musicFiles.size() > 2) {
+							for(int i = 1; i < AudioManager.musicFiles.size() - 1; i++) {
+								AudioManager.musicFiles.get(i).stop();
+							}
+						}else {
+							AudioManager.musicFiles.getFirst().setFadingOut(true);
+						}
+						AudioManager.musicFiles.getLast().setVolume(0.0f);
+						AudioManager.musicFiles.getLast().setFadingIn(true);
+						AudioManager.musicFiles.getLast().setLooping(true);
+						AudioManager.musicFiles.getLast().playMusic(buffer);
+					}else {
+						AudioManager.zone = zone;
+						for(int i = 0; i < AudioManager.musicFiles.size() - 1; i++) {
+							AudioManager.musicFiles.get(i).setFadingOut(true);
+						}
+					}
 				}
 			}else {
+				AudioManager.zone = zone;
 				AudioManager.musicFiles.add(new Source());
 				AudioManager.musicFiles.getLast().setVolume(0.4f);
 				AudioManager.musicFiles.getLast().setLooping(true);
@@ -129,7 +143,6 @@ public class Handler implements Serializable {
 	
 	public void playEffect(String effect, float x, float y) {
 		if(!soundMuted) {
-			AudioManager.setListenerData();
 			int buffer = -1;
 			try {
 				buffer = AudioManager.loadSound(new File("res/music/" + effect));
@@ -163,6 +176,7 @@ public class Handler implements Serializable {
 	public void goToWorld(Zone zone, int x, int y) {
 		player.setX(x);
 		player.setY(y);
+		player.setZone(zone);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
 		TransitionState transitionState = new TransitionState(this, zone);
@@ -170,7 +184,7 @@ public class Handler implements Serializable {
 		
 		for(Source s : AudioManager.soundfxFiles)
 			s.delete();
-		playMusic(zone, x, y);
+		playMusic(zone);
 	}
 	
 	public SkillResource getSkillResource(SkillsList skill, Item item) {

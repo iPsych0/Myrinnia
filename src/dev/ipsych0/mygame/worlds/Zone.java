@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum Zone implements Serializable{
 	
-	Island("myrinnia.wav"), IslandUnderground("myrinnia.wav"), SwampLand("myrinnia.wav"), TestLand("myrinnia.wav");
+	Island("myrinnia.wav"), IslandUnderground("omniscient.wav"), SwampLand("ancient.wav"), TestLand("myrinnia.wav");
 	
 	String musicFile;
 	

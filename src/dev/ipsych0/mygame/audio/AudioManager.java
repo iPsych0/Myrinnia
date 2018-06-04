@@ -33,6 +33,7 @@ public class AudioManager {
 	private static Handler handler;
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
+	public static Zone zone;
 	
 	public static void init(Handler handlerClass) {
 		deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -50,8 +51,8 @@ public class AudioManager {
 	public static void tick() {
 		// Check for music that has ended to clean up
 		if(!musicFiles.isEmpty()) {
-			System.out.println(musicFiles);
 			Collection<Source> deleted = new ArrayList<Source>();
+			System.out.println(musicFiles);
 			for(Source s : musicFiles) {
 				if(s.isFadingIn()) 
 					fadeIn(s);
@@ -94,7 +95,7 @@ public class AudioManager {
 		s.setVolume(s.getFadeOutVolume());
 		if(s.getFadeOutVolume() <= 0.0f) {
 			s.setFadingOut(false);
-			s.stop();
+			s.delete();
 		}
 	}
 	

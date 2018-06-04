@@ -295,4 +295,5 @@ public abstract class World implements Serializable {
 	public void setWorldPath(String worldPath) {
 		this.worldPath = worldPath;
 	}
+
 }

@@ -93,6 +93,7 @@ public class SaveManager implements Serializable{
 		handler.setQuestManager(handlerObject.getQuestManager());
 		handler.getGame().setGameCamera(handlerObject.getGameCamera());
 		handler.setSoundMuted(handlerObject.isSoundMuted());
+		handler.getPlayer().setZone(handlerObject.getPlayer().getZone());
 		
 	}
 }

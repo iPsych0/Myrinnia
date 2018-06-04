@@ -81,7 +81,7 @@ public class MenuState extends State {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().gameState);
-					handler.playMusic(Zone.Island, 0, 0);
+					handler.playMusic(Zone.Island);
 					hasBeenPressed = false;
 				}
 			}
@@ -99,13 +99,7 @@ public class MenuState extends State {
 						handler.getMouseManager().setUIManager(null);
 						State.setState(handler.getGame().gameState);
 						SaveManager.loadHandler(handler);
-						Zone zoneSong = Zone.Island;
-						for(Zone z : Zone.values()) {
-							if(handler.getWorld() == handler.getWorldHandler().getWorldsMap().get(z)) {
-								zoneSong = z;
-							}
-						}
-						handler.playMusic(zoneSong, 0, 0);
+						handler.playMusic(handler.getPlayer().getZone());
 						hasBeenPressed = false;
 					}
 				}

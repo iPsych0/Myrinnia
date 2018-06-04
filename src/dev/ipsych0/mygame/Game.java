@@ -84,6 +84,7 @@ public class Game implements Runnable, Serializable {
 		controlsState = new ControlsState(handler);
 		
 		AudioManager.init(handler);
+		AudioManager.setListenerData();
 		
 		// Set the initial state to the menu state
 		State.setState(menuState);

@@ -28,6 +28,7 @@ import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class Player extends Creature{
 	
@@ -80,6 +81,7 @@ public class Player extends Creature{
 	private int alpha = 200;
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
 	private boolean isLoaded = false;
+	private Zone zone = Zone.Island;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -172,6 +174,11 @@ public class Player extends Creature{
 			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
 			power = 250;
 			Handler.debugMode = (Handler.debugMode) ? false : true;
+			
+			if(handler.getWorld() == handler.getWorldHandler().getWorldsMap().get(Zone.Island))
+				handler.goToWorld(Zone.SwampLand, 192, 128);
+			else
+				handler.goToWorld(Zone.Island, 5000, 5000);
 			
 			
 //			System.out.println("Attack level = " + getAttackLevel());
@@ -1100,6 +1107,14 @@ public class Player extends Creature{
 	@Override
 	public void respawn() {
 		
+	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
 
 }
