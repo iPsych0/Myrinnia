@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
@@ -26,6 +27,8 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
+import dev.ipsych0.mygame.states.PauseState;
+import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.Zone;
@@ -164,22 +167,19 @@ public class Player extends Creature{
 		// Debug button for in-game testing
 		if(handler.getKeyManager().position && debugButtonPressed){
 			
-			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
-			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+//			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+//			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+//			
+//			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
+//			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
+//					handler.getWorld().getEntityManager().getPlayer().getY());
+//			
+//			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
+//			power = 250;
+//			Handler.debugMode = (Handler.debugMode) ? false : true;
 			
-			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
-			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
-					handler.getWorld().getEntityManager().getPlayer().getY());
-			
-			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
-			power = 250;
-			Handler.debugMode = (Handler.debugMode) ? false : true;
-			
-			if(handler.getWorld() == handler.getWorldHandler().getWorldsMap().get(Zone.Island))
-				handler.goToWorld(Zone.SwampLand, 192, 128);
-			else
-				handler.goToWorld(Zone.Island, 5000, 5000);
-			
+			State.setState(handler.getGame().pauseState);
+						
 			
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());

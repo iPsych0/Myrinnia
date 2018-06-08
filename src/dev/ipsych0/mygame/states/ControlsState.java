@@ -71,7 +71,7 @@ public class ControlsState extends State {
 
 	@Override
 	public void tick() {
-		if(State.getState() == handler.getGame().controlsState){
+		if(State.getState() == this){
 			// If our UIManager was disabled, enable it if we get back to this Settings State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
@@ -103,14 +103,14 @@ public class ControlsState extends State {
 
 	@Override
 	public void render(Graphics g) {
-		if(State.getState() == handler.getGame().controlsState){
-//			g.setColor(Color.BLACK);
-//			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
+		if(State.getState() == this){
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			g.drawImage(Assets.controlsScreen, overlay.x, overlay.y, overlay.width, overlay.height, null);
 			this.uiManager.render(g);
 			
-			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+//			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
 			
 			Text.drawString(g, "Movement keys:", i.x + 216, i.y, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "W", w.x + 16, w.y + 16, true, Color.YELLOW, Assets.font14);

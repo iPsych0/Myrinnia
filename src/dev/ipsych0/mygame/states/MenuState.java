@@ -60,7 +60,7 @@ public class MenuState extends State {
 
 	@Override
 	public void tick() {
-		if(State.getState() == handler.getGame().menuState){
+		if(State.getState() == this){
 			// If our UIManager was disabled, enable it if we get back to this Menu State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
@@ -110,6 +110,7 @@ public class MenuState extends State {
 					// Stop loading this UIManager and go to the settings screen
 					loaded = false;
 					State.setState(handler.getGame().settingState);
+					SettingState.previousState = this;
 					handler.getMouseManager().setUIManager(null);
 					hasBeenPressed = false;
 					displayError = false;
@@ -123,10 +124,10 @@ public class MenuState extends State {
 
 	@Override
 	public void render(Graphics g) {
-		if(State.getState() == handler.getGame().menuState){
-//		g.setColor(Color.BLACK);
-//		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
+		if(State.getState() == this){
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			uiManager.render(g);
 			
 			if(displayError) {

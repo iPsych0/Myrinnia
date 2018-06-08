@@ -23,6 +23,7 @@ public class SettingState extends State{
 	private Rectangle soundPopup;
 	private boolean displaySoundPressed = false;
 	private int displaySoundTimer = 0;
+	public static State previousState;
 
 	public SettingState(Handler handler) {
 		super(handler);
@@ -51,7 +52,7 @@ public class SettingState extends State{
 
 	@Override
 	public void tick() {
-		if(State.getState() == handler.getGame().settingState){
+		if(State.getState() == this){
 			// If our UIManager was disabled, enable it if we get back to this Settings State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
@@ -95,7 +96,7 @@ public class SettingState extends State{
 			if(returnButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
-					State.setState(handler.getGame().menuState);
+					State.setState(previousState);
 					loaded = false;
 					hasBeenPressed = false;
 					displaySoundPressed = false;
@@ -109,10 +110,10 @@ public class SettingState extends State{
 
 	@Override
 	public void render(Graphics g) {
-		if(State.getState() == handler.getGame().settingState){
-//			g.setColor(Color.BLACK);
-//			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
-			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
+		if(State.getState() == this){
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			this.uiManager.render(g);
 			
 			if(displaySoundPressed) {
@@ -130,7 +131,11 @@ public class SettingState extends State{
 				}
 			}
 			
-			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+			if(previousState == handler.getGame().menuState)
+				Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+			else
+				Text.drawString(g, "Game Paused!", 480, 180, true, Color.YELLOW, Assets.font32);
+			
 			Text.drawString(g, "Controls", 480, 424, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Mute Sounds", 480, 528, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);

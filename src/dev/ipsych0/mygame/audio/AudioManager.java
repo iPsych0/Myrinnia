@@ -52,7 +52,6 @@ public class AudioManager {
 		// Check for music that has ended to clean up
 		if(!musicFiles.isEmpty()) {
 			Collection<Source> deleted = new ArrayList<Source>();
-			System.out.println(musicFiles);
 			for(Source s : musicFiles) {
 				if(s.isFadingIn()) 
 					fadeIn(s);
