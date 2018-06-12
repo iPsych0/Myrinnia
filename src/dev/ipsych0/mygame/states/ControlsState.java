@@ -71,7 +71,6 @@ public class ControlsState extends State {
 
 	@Override
 	public void tick() {
-		if(State.getState() == this){
 			// If our UIManager was disabled, enable it if we get back to this Settings State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
@@ -91,19 +90,18 @@ public class ControlsState extends State {
 			if(returnButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
-					State.setState(handler.getGame().settingState);
+					State.setState(new UITransitionState(handler, handler.getGame().settingState));
 					loaded = false;
 					hasBeenPressed = false;
 				}
 			}
 			
 			this.uiManager.tick();
-		}
+		
 	}
 
 	@Override
 	public void render(Graphics g) {
-		if(State.getState() == this){
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
@@ -150,6 +148,6 @@ public class ControlsState extends State {
 			Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);
 		}
 		
-	}
+	
 
 }

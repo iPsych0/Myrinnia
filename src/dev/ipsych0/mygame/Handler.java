@@ -31,7 +31,7 @@ import dev.ipsych0.mygame.skills.SkillResource;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
-import dev.ipsych0.mygame.states.TransitionState;
+import dev.ipsych0.mygame.states.ZoneTransitionState;
 import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.World;
@@ -179,7 +179,7 @@ public class Handler implements Serializable {
 		player.setZone(zone);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
-		TransitionState transitionState = new TransitionState(this, zone);
+		ZoneTransitionState transitionState = new ZoneTransitionState(this, zone);
 		State.setState(transitionState);
 		
 		for(Source s : AudioManager.soundfxFiles)

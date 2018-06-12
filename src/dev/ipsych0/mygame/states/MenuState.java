@@ -60,7 +60,6 @@ public class MenuState extends State {
 
 	@Override
 	public void tick() {
-		if(State.getState() == this){
 			// If our UIManager was disabled, enable it if we get back to this Menu State
 			if(!loaded) {
 				handler.getMouseManager().setUIManager(uiManager);
@@ -80,7 +79,7 @@ public class MenuState extends State {
 			if(newGameButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					handler.getMouseManager().setUIManager(null);
-					State.setState(handler.getGame().gameState);
+					State.setState(new UITransitionState(handler, handler.getGame().gameState));
 					handler.playMusic(Zone.Island);
 					hasBeenPressed = false;
 				}
@@ -97,7 +96,7 @@ public class MenuState extends State {
 						return;
 					}else {
 						handler.getMouseManager().setUIManager(null);
-						State.setState(handler.getGame().gameState);
+						State.setState(new UITransitionState(handler, handler.getGame().gameState));
 						SaveManager.loadHandler(handler);
 						handler.playMusic(handler.getPlayer().getZone());
 						hasBeenPressed = false;
@@ -109,7 +108,7 @@ public class MenuState extends State {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
 					// Stop loading this UIManager and go to the settings screen
 					loaded = false;
-					State.setState(handler.getGame().settingState);
+					State.setState(new UITransitionState(handler, handler.getGame().settingState));
 					SettingState.previousState = this;
 					handler.getMouseManager().setUIManager(null);
 					hasBeenPressed = false;
@@ -119,12 +118,11 @@ public class MenuState extends State {
 			}
 			
 			uiManager.tick();
-		}
+		
 	}
 
 	@Override
 	public void render(Graphics g) {
-		if(State.getState() == this){
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
@@ -148,5 +146,5 @@ public class MenuState extends State {
 			Text.drawString(g, "Continue", 480, 528, true, Color.YELLOW, Assets.font32);
 			Text.drawString(g, "Settings", 480, 632, true, Color.YELLOW, Assets.font32);
 		}
-	}
+	
 }

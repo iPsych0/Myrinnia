@@ -10,19 +10,18 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.Zone;
 
-public class TransitionState extends State{
+public class ZoneTransitionState extends AbstractTransitionState{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private float alpha = 1.0f;
 	private Zone zone;
 	private int yOffset = -32;
 	private int secondYOffset = 0;
 	private int idleTimer = 0;
-	
-	public TransitionState(Handler handler, Zone zone){
+
+	public ZoneTransitionState(Handler handler, Zone zone) {
 		super(handler);
 		this.zone = zone;
 	}
@@ -37,7 +36,7 @@ public class TransitionState extends State{
 
 	@Override
 	public void render(Graphics g) {
-		handler.getWorldHandler().render(g);
+		handler.getGame().gameState.render(g);
 		
 		// Get the textWidth of the Zone name
 		int textWidth = Text.getStringWidth(g, zone.toString(), Assets.font20);
@@ -70,4 +69,5 @@ public class TransitionState extends State{
 		
 		((Graphics2D) g).dispose();
 	}
+
 }

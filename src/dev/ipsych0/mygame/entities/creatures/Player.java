@@ -27,8 +27,8 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
-import dev.ipsych0.mygame.states.PauseState;
 import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.states.UITransitionState;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.Zone;
@@ -178,7 +178,7 @@ public class Player extends Creature{
 //			power = 250;
 //			Handler.debugMode = (Handler.debugMode) ? false : true;
 			
-			State.setState(handler.getGame().pauseState);
+			State.setState(new UITransitionState(handler, handler.getGame().pauseState));
 						
 			
 //			System.out.println("Attack level = " + getAttackLevel());
