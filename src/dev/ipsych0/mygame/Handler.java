@@ -95,6 +95,7 @@ public class Handler implements Serializable {
 		// Set the starting world
 		island = new Island(this, "res/worlds/island.tmx");
 		worldHandler = new WorldHandler(this, island);
+		
 	}
 	
 	public void playMusic(Zone zone) {

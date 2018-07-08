@@ -142,6 +142,8 @@ public class Assets {
 	
 	public static BufferedImage controlsScreen;
 	
+	public static BufferedImage[][] puzzlePieces;
+	
 	public static void init(){
 		
 		/*
@@ -155,6 +157,7 @@ public class Assets {
 		/*
 		 * Sprite Sheets
 		 */
+		SpriteSheet rsCastlePuzzle = new SpriteSheet("/textures/RS_CASTLE_PUZZLE.png");
 		SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items.png");
 		SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
 		SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
@@ -200,6 +203,13 @@ public class Assets {
 		SpriteSheet ship_sheet = new SpriteSheet("/textures/ship.png", true);
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
+		
+		puzzlePieces = new BufferedImage[5][5];
+		for(int y = 0; y < 5; y++) {
+			for(int x = 0; x < 5; x++) {
+				puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x * 32, y * 32, 32, 32);
+			}
+		}
 				
 		/*
 		 * Game UI Sprites

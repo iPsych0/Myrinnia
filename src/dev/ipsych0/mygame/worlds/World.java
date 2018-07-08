@@ -19,6 +19,8 @@ import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
+import dev.ipsych0.mygame.puzzles.Puzzle;
+import dev.ipsych0.mygame.puzzles.SliderPuzzle;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
@@ -60,6 +62,7 @@ public abstract class World implements Serializable {
 	protected CharacterUI characterUI;
 	protected SkillsUI skillsUI;
 	protected HPOverlay hpOverlay;
+	private Puzzle puzzle;
 	
 	// Actual code ---v
 	
@@ -76,6 +79,7 @@ public abstract class World implements Serializable {
 			this.characterUI = handler.getCharacterUI();
 			this.skillsUI = handler.getSkillsUI();
 			this.hpOverlay = handler.getHpOverlay();
+			this.puzzle = new SliderPuzzle(handler, 5);
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -98,6 +102,8 @@ public abstract class World implements Serializable {
 			handler.getBankUI().tick();
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
 			player.getShopKeeper().getShopWindow().tick();
+		
+		puzzle.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -154,6 +160,8 @@ public abstract class World implements Serializable {
 			handler.getBankUI().render(g);
 			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
 		}
+		
+		puzzle.render(g);
 	}
 	
 	public Tiles getTile(int layer, int x, int y){
@@ -202,10 +210,6 @@ public abstract class World implements Serializable {
 			}
 		}
 		
-	}
-	
-	public World getWorldByID(int worldID) {
-		return handler.getWorldHandler().getWorlds().get(worldID);
 	}
 	
 	public int getWidth(){

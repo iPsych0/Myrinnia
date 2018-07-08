@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
@@ -38,7 +40,8 @@ public class Whirlpool extends StaticEntity {
 	public void tick() {
 		spinning.tick();
 		if(isFishing) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
+					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
 				fishingTimer = 0;
 				speakingTurn = 1;
 				isFishing = false;

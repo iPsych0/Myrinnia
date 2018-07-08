@@ -2,6 +2,8 @@ package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
@@ -36,7 +38,8 @@ public class Rock extends StaticEntity {
 	@Override
 	public void tick() {
 		if(isMining) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
+					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
 				miningTimer = 0;
 				speakingTurn = 1;
 				isMining = false;
