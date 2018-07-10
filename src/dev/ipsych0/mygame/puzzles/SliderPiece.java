@@ -36,8 +36,7 @@ public class SliderPiece {
 	}
 	
 	public void tick() {
-		if(blank)
-			System.out.println(id);
+		
 	}
 	
 	public void render(Graphics g) {

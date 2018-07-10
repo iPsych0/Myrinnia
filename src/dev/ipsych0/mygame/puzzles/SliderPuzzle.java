@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.utils.Text;
 
 public class SliderPuzzle extends Puzzle {
 	
@@ -69,6 +74,10 @@ public class SliderPuzzle extends Puzzle {
 					sliderPieces[x][y].render(g);
 			}
 		}
+		
+		if(completed) {
+			Text.drawString(g, "CONGRATULATIONS, YOU HAVE SOLVED THE PUZZLE!", handler.getWidth() / 2, handler.getHeight() / 2, true, Color.YELLOW, Assets.font32);
+		}
 	}
 	
 	private void checkMove(int x, int y) {
@@ -92,16 +101,6 @@ public class SliderPuzzle extends Puzzle {
 	}
 	
 	private void move(SliderPiece oldPos, SliderPiece newPos) {
-		
-//		newPos.setBlank(true);
-//		oldPos.setBlank(false);
-		
-//		oldPos.setxPos(newPos.getxPos());
-//		oldPos.setyPos(newPos.getyPos());
-//		
-//		newPos.setxPos(oldPos.getxPos());
-//		newPos.setyPos(oldPos.getyPos());
-//	
 		
 		int oldX = oldPos.getxPos();
 		int oldY = oldPos.getyPos();
@@ -128,13 +127,26 @@ public class SliderPuzzle extends Puzzle {
 		oldPos.setId(newPos.getId());
 		newPos.setId(temp3);
 		
+		checkSolution();
+
+	}
+	
+	public void checkSolution() {
+		List<Integer> ids = new ArrayList<>();
+		for(int y = 0; y < maxSize; y++) {
+			for(int x = 0; x < maxSize; x++) {
+				ids.add(sliderPieces[x][y].getId());
+			}
+		}
 		
-//		
-//		SliderPiece temp = sliderPieces[oldXPos][oldYPos];
-//		sliderPieces[oldXPos][oldYPos] = sliderPieces[newXPos][newYPos];
-//		sliderPieces[newXPos][newYPos] = temp;
-		
-		
+		boolean result = true;
+		for(int i = 0; i < ids.size() - 1; i++) {
+			if(ids.get(i) >= ids.get(i+1)) {
+				result = false;
+				break;
+			}
+		}
+		this.setCompleted(result);
 	}
 	
 	public void shuffle(SliderPiece[][] matrix, int columns, Random rnd) {
@@ -144,33 +156,34 @@ public class SliderPuzzle extends Puzzle {
 	}
 	
 	public void swap(SliderPiece[][] matrix, int columns, int i, int j) {
-		int oldX = matrix[i / columns][i % columns].getxPos();
-		int oldY = matrix[i / columns][i % columns].getyPos();
+		SliderPiece old = matrix[i / columns][i % columns];
+		SliderPiece target = matrix[j / columns][j % columns];
 		
-		matrix[i / columns][i % columns].setxPos(matrix[j / columns][j % columns].getxPos());
-		matrix[i / columns][i % columns].setyPos(matrix[j / columns][j % columns].getyPos());
+		int oldX = old.getxPos();
+		int oldY = old.getyPos();
 		
-		SliderPiece tmp = matrix[i / columns][i % columns];
-	    matrix[i / columns][i % columns] = matrix[j / columns][j % columns];
-	    matrix[j / columns][j % columns] = tmp;
+		old.setxPos(target.getxPos());
+		old.setyPos(target.getyPos());
+		
+		SliderPiece tmp = old;
+	    old = target;
+	    target = tmp;
 	    
-	    matrix[j / columns][j % columns].setxPos(oldX);
-	    matrix[j / columns][j % columns].setyPos(oldY);
+	    target.setxPos(oldX);
+	    target.setyPos(oldY);
 	    
-	    if(matrix[i / columns][i % columns].getId() == 24 || matrix[j / columns][j % columns].getId() == 24) {
-		    matrix[i / columns][i % columns].setBlank(!matrix[i / columns][i % columns].isBlank());
-		    matrix[j / columns][j % columns].setBlank(!matrix[j / columns][j % columns].isBlank());
+	    if(old.getId() == 24 || target.getId() == 24) {
+		    old.setBlank(!old.isBlank());
+		    target.setBlank(!target.isBlank());
 	    }
 	    
-	    BufferedImage temp2 = matrix[i / columns][i % columns].getTexture();
-	    matrix[i / columns][i % columns].setTexture(matrix[j / columns][j % columns].getTexture());
-	    matrix[j / columns][j % columns].setTexture(temp2);
+	    BufferedImage temp2 = old.getTexture();
+	    old.setTexture(target.getTexture());
+	    target.setTexture(temp2);
 	    
-	    int temp3 = matrix[i / columns][i % columns].getId();
-	    matrix[i / columns][i % columns].setId(matrix[j / columns][j % columns].getId());
-	    matrix[j / columns][j % columns].setId(temp3);
-	    
-		
+	    int temp3 = old.getId();
+	    old.setId(target.getId());
+	    target.setId(temp3);
 	    
 	}
 	

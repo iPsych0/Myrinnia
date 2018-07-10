@@ -39,8 +39,14 @@ public class Display implements Serializable{
 		// For the X (close) button
 		frame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	        	 AudioManager.cleanUp();
-	             System.exit(0);
+	        	 try {
+	        		 AudioManager.cleanUp();
+	        	 }catch(Exception e) {
+	        		 
+	        		 System.err.println("Unexpected crash. Unable to close OpenAL audio context.");
+	        	 }finally {
+	        		 System.exit(0);
+	        	 }
 	          }        
 	       });
 		frame.setResizable(false);
