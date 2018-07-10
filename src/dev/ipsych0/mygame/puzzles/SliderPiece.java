@@ -43,8 +43,6 @@ public class SliderPiece {
 		g.drawImage(texture, handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32, null);
 		g.setColor(Color.BLACK);
 		g.drawRect(handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32);
-		if(!blank)
-			Text.drawString(g, String.valueOf(id), handler.getWidth() / 4 + (32 * xPos) + 16, handler.getHeight() / 4 + (32 * yPos) + 16, true, Color.YELLOW, Assets.font14);
 		
 		
 	}
