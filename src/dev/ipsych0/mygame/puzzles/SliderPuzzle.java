@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import dev.ipsych0.mygame.Handler;
 
@@ -26,15 +27,18 @@ public class SliderPuzzle extends Puzzle {
 		
 		sliderPieces = new SliderPiece[maxSize][maxSize];
 		
+		int id = 0;
 		for(int y = 0; y < maxSize; y++) {
 			for(int x = 0; x < maxSize; x++) {
 				if(x == maxSize-1 && y == maxSize-1) {
-					sliderPieces[x][y] = new SliderPiece(handler, x ,y, true);
+					sliderPieces[x][y] = new SliderPiece(handler, x ,y, true, id++);
 					break;
 				}
-				sliderPieces[x][y] = new SliderPiece(handler, x ,y);
+				sliderPieces[x][y] = new SliderPiece(handler, x ,y, id++);
 			}
 		}
+		
+		shuffle(sliderPieces, maxSize, new Random());
 		
 	}
 	
@@ -120,6 +124,10 @@ public class SliderPuzzle extends Puzzle {
 		oldPos.setTexture(newPos.getTexture());
 		newPos.setTexture(temp2);
 		
+		int temp3 = oldPos.getId();
+		oldPos.setId(newPos.getId());
+		newPos.setId(temp3);
+		
 		
 //		
 //		SliderPiece temp = sliderPieces[oldXPos][oldYPos];
@@ -127,6 +135,43 @@ public class SliderPuzzle extends Puzzle {
 //		sliderPieces[newXPos][newYPos] = temp;
 		
 		
+	}
+	
+	public void shuffle(SliderPiece[][] matrix, int columns, Random rnd) {
+	    int size = matrix.length * columns;
+	    for (int i = size; i > 1; i--)
+	        swap(matrix, columns, i - 1, rnd.nextInt(i));
+	}
+	
+	public void swap(SliderPiece[][] matrix, int columns, int i, int j) {
+		int oldX = matrix[i / columns][i % columns].getxPos();
+		int oldY = matrix[i / columns][i % columns].getyPos();
+		
+		matrix[i / columns][i % columns].setxPos(matrix[j / columns][j % columns].getxPos());
+		matrix[i / columns][i % columns].setyPos(matrix[j / columns][j % columns].getyPos());
+		
+		SliderPiece tmp = matrix[i / columns][i % columns];
+	    matrix[i / columns][i % columns] = matrix[j / columns][j % columns];
+	    matrix[j / columns][j % columns] = tmp;
+	    
+	    matrix[j / columns][j % columns].setxPos(oldX);
+	    matrix[j / columns][j % columns].setyPos(oldY);
+	    
+	    if(matrix[i / columns][i % columns].getId() == 24 || matrix[j / columns][j % columns].getId() == 24) {
+		    matrix[i / columns][i % columns].setBlank(!matrix[i / columns][i % columns].isBlank());
+		    matrix[j / columns][j % columns].setBlank(!matrix[j / columns][j % columns].isBlank());
+	    }
+	    
+	    BufferedImage temp2 = matrix[i / columns][i % columns].getTexture();
+	    matrix[i / columns][i % columns].setTexture(matrix[j / columns][j % columns].getTexture());
+	    matrix[j / columns][j % columns].setTexture(temp2);
+	    
+	    int temp3 = matrix[i / columns][i % columns].getId();
+	    matrix[i / columns][i % columns].setId(matrix[j / columns][j % columns].getId());
+	    matrix[j / columns][j % columns].setId(temp3);
+	    
+		
+	    
 	}
 	
 

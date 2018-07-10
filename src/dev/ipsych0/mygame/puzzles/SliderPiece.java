@@ -13,37 +13,39 @@ public class SliderPiece {
 	
 	private Handler handler;
 	private int xPos, yPos;
+	private int id;
 	private boolean blank = false;
 	private BufferedImage texture;
 	
-	public SliderPiece(Handler handler, int xPos, int yPos) {
+	public SliderPiece(Handler handler, int xPos, int yPos, int id) {
 		this.handler = handler;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.blank = false;
+		this.id = id;
 		texture = Assets.puzzlePieces[xPos][yPos];
 	}
 	
-	public SliderPiece(Handler handler, int xPos, int yPos, boolean isBlank) {
+	public SliderPiece(Handler handler, int xPos, int yPos, boolean isBlank, int id) {
 		this.handler = handler;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.blank = isBlank;
+		this.id = id;
 		texture = Assets.puzzlePieces[xPos][yPos];
 	}
 	
 	public void tick() {
-		
+		if(blank)
+			System.out.println(id);
 	}
 	
 	public void render(Graphics g) {
 		g.drawImage(texture, handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32, null);
 		g.setColor(Color.BLACK);
 		g.drawRect(handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32);
-//		if(blank)
-//			Text.drawString(g, "BLANK", handler.getWidth() / 4 + (32 * xPos) + 16, handler.getHeight() / 4 + (32 * yPos) + 16, true, Color.YELLOW, Assets.font14);
-//		else
-//			Text.drawString(g, xPos + "," + yPos, handler.getWidth() / 4 + (32 * xPos) + 16, handler.getHeight() / 4 + (32 * yPos) + 16, true, Color.YELLOW, Assets.font14);
+		if(!blank)
+			Text.drawString(g, String.valueOf(id), handler.getWidth() / 4 + (32 * xPos) + 16, handler.getHeight() / 4 + (32 * yPos) + 16, true, Color.YELLOW, Assets.font14);
 		
 		
 	}
@@ -82,6 +84,14 @@ public class SliderPiece {
 
 	public void setTexture(BufferedImage texture) {
 		this.texture = texture;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
