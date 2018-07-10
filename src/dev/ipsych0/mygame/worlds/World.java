@@ -62,7 +62,6 @@ public abstract class World implements Serializable {
 	protected CharacterUI characterUI;
 	protected SkillsUI skillsUI;
 	protected HPOverlay hpOverlay;
-	private Puzzle puzzle;
 	
 	// Actual code ---v
 	
@@ -79,7 +78,6 @@ public abstract class World implements Serializable {
 			this.characterUI = handler.getCharacterUI();
 			this.skillsUI = handler.getSkillsUI();
 			this.hpOverlay = handler.getHpOverlay();
-			this.puzzle = new SliderPuzzle(handler, 5);
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -103,7 +101,6 @@ public abstract class World implements Serializable {
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
 			player.getShopKeeper().getShopWindow().tick();
 		
-		puzzle.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -161,7 +158,6 @@ public abstract class World implements Serializable {
 			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
 		}
 		
-		puzzle.render(g);
 	}
 	
 	public Tiles getTile(int layer, int x, int y){

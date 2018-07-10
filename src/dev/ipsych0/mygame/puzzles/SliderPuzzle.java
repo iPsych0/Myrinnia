@@ -45,6 +45,20 @@ public class SliderPuzzle extends Puzzle {
 		
 		shuffle(sliderPieces, maxSize, new Random());
 		
+		while(!isSolvable(getPuzzleIds())) {
+			shuffle(sliderPieces, maxSize, new Random());
+		}		
+	}
+	
+	public int[] getPuzzleIds() {
+		int[] ids = new int[maxSize*maxSize];
+		int index = 0;
+		for(int y = 0; y < maxSize; y++){
+			for(int x = 0; x < maxSize; x++) {
+				ids[index++] = sliderPieces[x][y].getId();
+			}
+		}
+		return ids;
 	}
 	
 	public void tick() {
@@ -131,7 +145,7 @@ public class SliderPuzzle extends Puzzle {
 
 	}
 	
-	public void checkSolution() {
+	private void checkSolution() {
 		List<Integer> ids = new ArrayList<>();
 		for(int y = 0; y < maxSize; y++) {
 			for(int x = 0; x < maxSize; x++) {
@@ -149,13 +163,49 @@ public class SliderPuzzle extends Puzzle {
 		this.setCompleted(result);
 	}
 	
-	public void shuffle(SliderPiece[][] matrix, int columns, Random rnd) {
+	private boolean isSolvable(int[] puzzle)
+	{
+	    int parity = 0;
+	    int gridWidth = (int) Math.sqrt(puzzle.length);
+	    int row = 0; // the current row we are on
+	    int blankRow = 0; // the row with the blank tile
+
+	    for (int i = 0; i < puzzle.length; i++)
+	    {
+	        if (i % gridWidth == 0) { // advance to next row
+	            row++;
+	        }
+	        if (puzzle[i] == maxSize*maxSize-1) { // the blank tile
+	            blankRow = row; // save the row on which encountered
+	            continue;
+	        }
+	        for (int j = i + 1; j < puzzle.length; j++)
+	        {
+	            if (puzzle[i] > puzzle[j] && puzzle[j] != (maxSize*maxSize-1))
+	            {
+	                parity++;
+	            }
+	        }
+	    }
+
+	    if (gridWidth % 2 == 0) { // even grid
+	        if (blankRow % 2 == 0) { // blank on odd row; counting from bottom
+	            return parity % 2 == 0;
+	        } else { // blank on even row; counting from bottom
+	            return parity % 2 != 0;
+	        }
+	    } else { // odd grid
+	        return parity % 2 == 0;
+	    }
+	}
+	
+	private void shuffle(SliderPiece[][] matrix, int columns, Random rnd) {
 	    int size = matrix.length * columns;
 	    for (int i = size; i > 1; i--)
 	        swap(matrix, columns, i - 1, rnd.nextInt(i));
 	}
 	
-	public void swap(SliderPiece[][] matrix, int columns, int i, int j) {
+	private void swap(SliderPiece[][] matrix, int columns, int i, int j) {
 		SliderPiece old = matrix[i / columns][i % columns];
 		SliderPiece target = matrix[j / columns][j % columns];
 		
