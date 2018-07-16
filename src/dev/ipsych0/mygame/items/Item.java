@@ -84,6 +84,7 @@ public abstract class Item implements Serializable{
 			}
 		}catch(DuplicateIDException exc) {
 			exc.printStackTrace();
+			System.exit(1);
 		}
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
 	}

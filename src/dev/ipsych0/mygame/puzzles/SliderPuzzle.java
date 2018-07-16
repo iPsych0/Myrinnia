@@ -22,11 +22,21 @@ public class SliderPuzzle extends Puzzle {
 	public static boolean hasBeenPressed = false;
 	
 	public SliderPuzzle(Handler handler, int maxSize) {
+		if(maxSize > 10 || maxSize < 3) {
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.err.println("SliderPuzzle size must be between 3x3 and 10x10");
+				System.exit(1);
+			}
+		}
+		
 		this.handler = handler;
 		this.maxSize = maxSize;
 		
-		x = handler.getWidth() / 4;
-		y = handler.getHeight() / 4;
+		x = handler.getWidth() / 2 - maxSize * 32 / 2;
+		y = handler.getHeight() / 2 - maxSize * 32 / 2;
 		width = maxSize * 32;
 		height = maxSize * 32;
 		
@@ -37,9 +47,13 @@ public class SliderPuzzle extends Puzzle {
 			for(int x = 0; x < maxSize; x++) {
 				if(x == maxSize-1 && y == maxSize-1) {
 					sliderPieces[x][y] = new SliderPiece(handler, x ,y, true, id++);
+					sliderPieces[x][y].setWindowX(this.x);
+					sliderPieces[x][y].setWindowY(this.y);
 					break;
 				}
 				sliderPieces[x][y] = new SliderPiece(handler, x ,y, id++);
+				sliderPieces[x][y].setWindowX(this.x);
+				sliderPieces[x][y].setWindowY(this.y);
 			}
 		}
 		
@@ -163,15 +177,13 @@ public class SliderPuzzle extends Puzzle {
 		this.setCompleted(result);
 	}
 	
-	private boolean isSolvable(int[] puzzle)
-	{
+	private boolean isSolvable(int[] puzzle) {
 	    int parity = 0;
 	    int gridWidth = (int) Math.sqrt(puzzle.length);
 	    int row = 0; // the current row we are on
 	    int blankRow = 0; // the row with the blank tile
 
-	    for (int i = 0; i < puzzle.length; i++)
-	    {
+	    for (int i = 0; i < puzzle.length; i++) {
 	        if (i % gridWidth == 0) { // advance to next row
 	            row++;
 	        }
@@ -179,10 +191,8 @@ public class SliderPuzzle extends Puzzle {
 	            blankRow = row; // save the row on which encountered
 	            continue;
 	        }
-	        for (int j = i + 1; j < puzzle.length; j++)
-	        {
-	            if (puzzle[i] > puzzle[j] && puzzle[j] != (maxSize*maxSize-1))
-	            {
+	        for (int j = i + 1; j < puzzle.length; j++){
+	            if (puzzle[i] > puzzle[j] && puzzle[j] != (maxSize*maxSize-1)){
 	                parity++;
 	            }
 	        }
@@ -222,7 +232,7 @@ public class SliderPuzzle extends Puzzle {
 	    target.setxPos(oldX);
 	    target.setyPos(oldY);
 	    
-	    if(old.getId() == 24 || target.getId() == 24) {
+	    if(old.getId() == maxSize*maxSize-1 || target.getId() == maxSize*maxSize-1) {
 		    old.setBlank(!old.isBlank());
 		    target.setBlank(!target.isBlank());
 	    }

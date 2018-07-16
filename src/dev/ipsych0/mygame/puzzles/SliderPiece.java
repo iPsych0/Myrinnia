@@ -16,6 +16,7 @@ public class SliderPiece {
 	private int id;
 	private boolean blank = false;
 	private BufferedImage texture;
+	private int windowX, windowY;
 	
 	public SliderPiece(Handler handler, int xPos, int yPos, int id) {
 		this.handler = handler;
@@ -40,9 +41,11 @@ public class SliderPiece {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(texture, handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32, null);
+		g.drawImage(texture, windowX + (32 * xPos), windowY + (32 * yPos), 32, 32, null);
 		g.setColor(Color.BLACK);
-		g.drawRect(handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32);
+		g.drawRect(windowX + (32 * xPos), windowY + (32 * yPos), 32, 32);
+		if(!blank)
+			Text.drawString(g, String.valueOf(id), windowX + (32 * xPos) + 16, windowY + (32 * yPos) + 16, true, Color.YELLOW, Assets.font14);
 		
 		
 	}
@@ -64,7 +67,7 @@ public class SliderPiece {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(handler.getWidth() / 4 + (32 * xPos), handler.getHeight() / 4 + (32 * yPos), 32, 32);
+		return new Rectangle(windowX + (32 * xPos), windowY + (32 * yPos), 32, 32);
 	}
 
 	public boolean isBlank() {
@@ -89,6 +92,22 @@ public class SliderPiece {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getWindowX() {
+		return windowX;
+	}
+
+	public int getWindowY() {
+		return windowY;
+	}
+
+	public void setWindowX(int windowX) {
+		this.windowX = windowX;
+	}
+
+	public void setWindowY(int windowY) {
+		this.windowY = windowY;
 	}
 
 }

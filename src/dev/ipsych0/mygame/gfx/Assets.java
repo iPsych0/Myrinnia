@@ -204,9 +204,9 @@ public class Assets {
 		
 		// http://www.online-image-editor.com/ to remove white background from sprites, save as .png!
 		
-		puzzlePieces = new BufferedImage[5][5];
-		for(int y = 0; y < 5; y++) {
-			for(int x = 0; x < 5; x++) {
+		puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
+		for(int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
+			for(int x = 0; x < rsCastlePuzzle.getSheet().getWidth() / 32; x++) {
 				puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x * 32, y * 32, 32, 32);
 			}
 		}
