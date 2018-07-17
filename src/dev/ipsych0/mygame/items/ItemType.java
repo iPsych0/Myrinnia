@@ -1,16 +1,19 @@
 package dev.ipsych0.mygame.items;
 
-public enum ItemType {
-	LIGHT_ARMOUR, MEDIUM_ARMOUR, HEAVY_ARMOUR, CRAFTING_MATERIAL, MELEE_WEAPON, RANGED_WEAPON, MAGIC_WEAPON,
-	CURRENCY, QUEST_ITEM, UPGRADE_COMPONENT, POTION, FOOD, AXE, PICKAXE;
+import java.io.Serializable;
+
+public enum ItemType implements Serializable{
+	ARMOUR, ACCESSORY, MELEE_WEAPON, RANGED_WEAPON, MAGIC_WEAPON,
+	CRAFTING_MATERIAL, CURRENCY, QUEST_ITEM, UPGRADE_COMPONENT, POTION, FOOD, AXE, PICKAXE;
 	
-	private String test;
+	private String name;
 	
-	ItemType() {
+	ItemType(/*String name*/) {
+		//this.name = name;
 		// Constructor voor ItemTypes hier in de class !!!!!!!!!!!!!!!
 	}
 	
 	public String getString() {
-		return test;
+		return name;
 	}
 }

@@ -3,18 +3,31 @@ package dev.ipsych0.mygame.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
-import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
-import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.InventoryWindow;
+import dev.ipsych0.mygame.puzzles.SliderPuzzle;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsOverviewUI;
+import dev.ipsych0.mygame.skills.SkillsUI;
+import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.ui.ScrollBar;
 import dev.ipsych0.mygame.ui.UIManager;
 
-public class MouseManager implements MouseListener, MouseMotionListener {
+public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;
@@ -72,6 +85,14 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			CraftingUI.craftButtonPressed = true;
 			ShopWindow.hasBeenPressed = true;
 			ChatDialogue.hasBeenPressed = true;
+			QuestUI.hasBeenPressed = true;
+			State.hasBeenPressed = true;
+			CharacterUI.hasBeenPressed = true;
+			SkillsUI.hasBeenPressed = true;
+			SkillsOverviewUI.hasBeenPressed = true;
+			HPOverlay.hasBeenPressed = true;
+			BankUI.hasBeenPressed = true;
+			SliderPuzzle.hasBeenPressed = true;
 		}
 		
 		// Right Click
@@ -79,6 +100,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 			rightPressed = true;
 			InventoryWindow.isEquipped = true;
 			CraftingUI.craftResultPressed = true;
+			EntityManager.isPressed = false;
+			BankUI.hasBeenPressed = true;
 		}
 	}
 	
@@ -87,14 +110,14 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		if(e.getButton() == MouseEvent.BUTTON1){
 			leftPressed = false;
 			isDragged = false;
+			ScrollBar.clickTimer = 0;
+			ScrollBar.scrollTimer = 0;
 		}
 		else if(e.getButton() == MouseEvent.BUTTON3){
 			isDragged = false;
 			rightPressed = false;
 		}
 		
-		if(uiManager != null)
-			uiManager.onMouseRelease(e);
 		
 	}
 	
@@ -105,8 +128,6 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
-		if(uiManager != null)
-			uiManager.onMouseMove(e);
 	}
 	
 	@Override
@@ -136,6 +157,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
+	}
+
+	public void setLeftPressed(boolean leftPressed) {
+		this.leftPressed = leftPressed;
 	}
 
 }

@@ -3,41 +3,51 @@ package dev.ipsych0.mygame.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.Text;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Handler handler;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
-	protected int health;
 	public static boolean isCloseToNPC = false;
+	protected int health;
 	public static final int DEFAULT_HEALTH = 100;
+	protected int maxHealth = DEFAULT_HEALTH;
 	protected boolean active = true;
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
 	protected boolean isShop = false;
+	protected boolean isBank = false;
 	protected boolean drawnOnMap = false;
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
 	protected boolean shopping = false;
-	protected boolean isSolid = true;
+	protected boolean solid = true;
 	protected Entity damageDealer, damageReceiver;
-	protected int speakingTurn = 0;
-	private int ty = 0;
+	protected int speakingTurn = 1;
+	protected int speakingCheckpoint = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
-	
+	protected int lastHit = 0;
+	protected boolean inCombat = false;
+	protected int combatTimer = 0;
+	protected int respawnTimer = 600;
 	
 	public Entity(Handler handler, float x, float y, int width, int height){
 		this.handler = handler;
@@ -60,6 +70,8 @@ public abstract class Entity {
 	
 	public abstract void die();
 	
+	public abstract void respawn();
+	
 	public abstract void interact();
 	
 	public abstract String[] getEntityInfo(Entity hoveringEntity);
@@ -72,7 +84,7 @@ public abstract class Entity {
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
-			if(!e.isSolid)
+			if(!e.solid)
 				continue;
 			if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
 				return true;
@@ -104,7 +116,7 @@ public abstract class Entity {
 	 */
 	public Entity getClosestEntity(){
 		double closestDistance;
-		Entity closestEntity = null;
+		Entity closestEntity;
 		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
 		ArrayList<Double> pythagoras = new ArrayList<Double>();
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
@@ -122,9 +134,7 @@ public abstract class Entity {
 		    Collections.sort(pythagoras);
 		}
 		closestDistance = pythagoras.get(0);
-		pythagoras.clear();
 		closestEntity = hashMap.get(closestDistance);
-		hashMap.clear();
 		return closestEntity;
 	}
 	
@@ -132,10 +142,11 @@ public abstract class Entity {
 	 * Returns the damage an Entity should deal (Combat formula)
 	 * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
 	 */
-	public int getDamage(Entity dealer) {
+	public int getDamage(Entity dealer, Entity receiver) {
 		// Default damage formula
-		Creature c = (Creature) dealer;
-		return (int) Math.floor((c.getBaseDamage() + c.getPower()));
+		Creature d = (Creature) dealer;
+		Creature r = (Creature) receiver;
+		return (int)Math.ceil((100.0/(100.0+r.getDefence())) * d.getPower()) + d.getBaseDamage();
 	}
 	
 	/*
@@ -146,22 +157,17 @@ public abstract class Entity {
 	public void damage(Entity dealer, Entity receiver){
 		damageDealer = dealer;
 		damageReceiver = receiver;
-		damageReceiver.health -= damageDealer.getDamage(damageDealer);
+		damageReceiver.health -= damageDealer.getDamage(dealer, receiver);
 		damageReceiver.damaged = true;
-		
-		// Starts the timer for the hitsplat
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		            	damageReceiver.damaged = false;
-		            	ty = 0;
-		                
-		            }
-		        }, 
-		        480 
-		);
+		damageReceiver.lastHit = 0;
+		damageReceiver.combatTimer = 0;
+		damageReceiver.inCombat = true;
+		handler.getWorld().getEntityManager().getHitSplats().add(new HitSplat(handler, receiver, damageDealer.getDamage(damageDealer, receiver)));
+		if(damageDealer.equals(handler.getPlayer())) {
+			damageDealer.setInCombat(true);
+			damageDealer.combatTimer = 0;
+		}
+
 		if(damageReceiver.health <= 0){
 			damageReceiver.active = false;
 			damageReceiver.die();
@@ -171,15 +177,41 @@ public abstract class Entity {
 	/*
 	 * Drawing the hitsplat
 	 */
-	public void drawDamage(Entity dealer, Graphics g) {
+	public void updateCombatTimer() {
 		if(damaged) {
-			ty--;
-			//g.setColor(Color.YELLOW);
-			//g.fillRect((int) (x - handler.getGameCamera().getxOffset() + 8), (int) (y - handler.getGameCamera().getyOffset() + 24 + ty), 20, 16);
-			g.setColor(Color.RED);
-			g.setFont(Assets.font32);
-			g.drawString(String.valueOf(dealer.getDamage(dealer)) ,
-					(int) (x - handler.getGameCamera().getxOffset() + 10), (int) (y - handler.getGameCamera().getyOffset() + 36 + ty));
+			damageReceiver.lastHit++;
+			
+
+			if(damageReceiver.lastHit == 45) {
+				damageReceiver.damaged = false;
+				damageReceiver.lastHit = 0;
+			}
+		}
+	}
+	
+	public void drawHP(Graphics g) {
+		g.setColor(HPOverlay.hpColorRed);
+		g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		g.setColor(HPOverlay.hpColorRedOutline);
+		g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		
+		g.setColor(HPOverlay.hpColorGreen);
+		if(this.getHealth() >= this.getMaxHealth()) {
+			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		}else {
+			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+					(double)this.getMaxHealth()), 6, 0, 4);
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
+					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+					(double)this.getMaxHealth()), 6, 0, 4);
 		}
 	}
 	
@@ -211,7 +243,7 @@ public abstract class Entity {
 	 * Returns the collision bounds of an Entity
 	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		return new Rectangle((int)Math.round((x + bounds.x + xOffset)), (int)Math.round((y + bounds.y + yOffset)), bounds.width, bounds.height);
 	}
 	
 	// Getters & Setters
@@ -345,6 +377,62 @@ public abstract class Entity {
 
 	public void setOverlayDrawn(boolean overlayDrawn) {
 		this.overlayDrawn = overlayDrawn;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
+	public boolean isInCombat() {
+		return inCombat;
+	}
+
+	public void setInCombat(boolean inCombat) {
+		this.inCombat = inCombat;
+	}
+
+	public int getSpeakingCheckpoint() {
+		return speakingCheckpoint;
+	}
+
+	public void setSpeakingCheckpoint(int speakingCheckpoint) {
+		this.speakingCheckpoint = speakingCheckpoint;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+	
+	public void startRespawnTimer() {
+		this.respawnTimer--;
+	}
+
+	public int getRespawnTimer() {
+		return respawnTimer;
+	}
+
+	public boolean isBank() {
+		return isBank;
+	}
+
+	public void setBank(boolean isBank) {
+		this.isBank = isBank;
 	}
 	
 }

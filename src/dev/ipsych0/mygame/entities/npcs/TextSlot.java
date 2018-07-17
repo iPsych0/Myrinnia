@@ -2,20 +2,22 @@ package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+import java.io.Serializable;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
-public class TextSlot {
+public class TextSlot implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int textWidth = 432;
 	public static final int textHeight = 15;
 	
 	private int x, y;
 	private NPCText npcText;
-	int alpha = 127;
-	Color interfaceColour = new Color(100, 100, 100, alpha);
 	
 	public TextSlot(int x, int y, NPCText npcText){
 		this.x = x;

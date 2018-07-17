@@ -3,17 +3,21 @@ package dev.ipsych0.mygame.utils;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.shop.ShopWindow;
 
-public class DialogueButton {
+public class DialogueButton implements Serializable{
 	
-	public int x, y, width, height;
-	public String text;
-	public Rectangle buttonBounds;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int x, y, width, height;
+	private String text;
+	private Rectangle buttonBounds;
 	private String[] buttonParam = new String[2];
+	private boolean hovering = false;
 	
 	public DialogueButton(int x, int y, int width, int height, String text) {
 		this.x = x;
@@ -30,7 +34,10 @@ public class DialogueButton {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Assets.invSlot, x, y, width, height, null);
+		if(hovering)
+			g.drawImage(Assets.genericButton[0], x, y, width, height, null);
+		else
+			g.drawImage(Assets.genericButton[1], x, y, width, height, null);
 		Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
 	}
 	
@@ -93,6 +100,14 @@ public class DialogueButton {
 
 	public void setButtonParam(String[] buttonParam) {
 		this.buttonParam = buttonParam;
+	}
+
+	public boolean isHovering() {
+		return hovering;
+	}
+
+	public void setHovering(boolean hovering) {
+		this.hovering = hovering;
 	}
 
 }

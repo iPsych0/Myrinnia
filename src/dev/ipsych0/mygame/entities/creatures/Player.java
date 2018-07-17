@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.bank.BankUI;
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
@@ -18,29 +20,29 @@ import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.items.ItemType;
+import dev.ipsych0.mygame.quests.QuestHelpUI;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsOverviewUI;
+import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
-import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.utils.SaveManager;
+import dev.ipsych0.mygame.states.State;
+import dev.ipsych0.mygame.states.UITransitionState;
 import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class Player extends Creature{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// NPC killcounts
 	private int scorpionKC = 0;
-	
-	// Experience and levels
-	private int attackExperience;
-	private int attackLevel;
-	private int craftingExperience;
-	private int craftingLevel;
-	private int maxHealth;
-	
+		
 	public static boolean hasInteracted = false;
 	public static boolean worldLoaded = false;
 	public static boolean debugButtonPressed = false;
@@ -59,11 +61,16 @@ public class Player extends Creature{
 	private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 	
 	// Magic timer
-	private long lastMagicTimer, magicCooldown = (long) (300 / getAttackSpeed()), magicTimer = magicCooldown;
+	private long lastMagicTimer, magicCooldown = (long) (600 / getAttackSpeed()), magicTimer = magicCooldown;
 	
 	// Regeneration timer
 	private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
-
+	
+	private int basePower, baseVitality, baseDefence;
+	private double levelExponent = 1.1;
+	private static boolean isLevelUp = false;
+	private int levelUpTimer = 0;
+	
 	private boolean movementAllowed = true;
 	public static boolean isMoving = false;
 	
@@ -72,9 +79,12 @@ public class Player extends Creature{
 	
 	private ShopKeeper shopKeeper;
 	private Entity closestEntity;
+	private Entity bankEntity;
 	
 	private int alpha = 200;
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
+	private boolean isLoaded = false;
+	private Zone zone = Zone.Island;
 	
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -87,14 +97,14 @@ public class Player extends Creature{
 		xSpawn = 5152.0f;
 		ySpawn = 5600.0f;
 		
-		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
-		health = maxHealth;
-		speed = DEFAULT_SPEED + 1.5f;
+		basePower = 2;
+		baseVitality = 2;
+		baseDefence = 2;
+		baseDamage = 1;
 		
-		attackExperience = 0;
-		attackLevel = 1;
-		craftingExperience = 0;
-		craftingLevel = 1;
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+		health = maxHealth;
+		speed = DEFAULT_SPEED + 1.0f;
 		
 		// Set collision boundaries on sprite
 		bounds.x = 10;
@@ -117,6 +127,7 @@ public class Player extends Creature{
 		
 		projectiles = new ArrayList<Projectile>();
 		
+		respawnTimer = 1;
 	}
 
 	@Override
@@ -137,27 +148,51 @@ public class Player extends Creature{
 			attRight.tick();
 		}
 		
+		if(inCombat) {
+			combatTimer++;
+		}
+		
+		if(combatTimer >= 300) {
+			inCombat = false;
+			combatTimer = 0;
+		}
+		
 		handler.getGameCamera().centerOnEntity(this);
 				
 		// Attacks
-		regenHealth();
+		if(!inCombat) {
+			regenHealth();
+		}
 		
 		// Debug button for in-game testing
-//		if(handler.getKeyManager().position && debugButtonPressed){
+		if(handler.getKeyManager().position && debugButtonPressed){
+			
+//			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+//			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+//			
 //			handler.sendMsg("X coords: " + Float.toString(getX()) + " Y coords: " + Float.toString(getY()));
 //			System.out.println("Current X and Y coordinates are X: " + handler.getWorld().getEntityManager().getPlayer().getX() +" and Y: " + 
 //					handler.getWorld().getEntityManager().getPlayer().getY());
+//			
+//			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
+//			power = 250;
+//			Handler.debugMode = (Handler.debugMode) ? false : true;
+			
+			State.setState(new UITransitionState(handler, handler.getGame().pauseState));
+						
+			
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());
 //			System.out.println("Crafting XP = " + getCraftingExperience());
 //			System.out.println("Crafting level = " + getCraftingLevel());
+			
+			
 //			for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++) {
-//				handler.getInventory().getItemSlots().get(i).addItem(Item.coinsItem, 5);
+//				handler.getInventory().getItemSlots().get(i).addItem(Item.testSword, 1);
 //			}
-//			
-//			debugButtonPressed = false;
-//			
-//		}
+			debugButtonPressed = false;
+			
+		}
 		
 		// If space button is pressed
 		if(handler.getKeyManager().talk){
@@ -172,6 +207,14 @@ public class Player extends Creature{
 						// If the closest Entity is a shop, open the shop
 						if(closestEntity.isShop()) {
 							shopKeeper = (ShopKeeper) getClosestEntity();
+						}
+						else if(closestEntity.isBank()) {
+							bankEntity = getClosestEntity();
+						}
+					}else {
+						if(closestEntity.getChatDialogue().getMenuOptions().length == 1) {
+							closestEntity.interact();
+							hasInteracted = true;
 						}
 					}
 				}
@@ -214,14 +257,13 @@ public class Player extends Creature{
 		}
 		
 		// If the player moves or presses escape, close the shop and chat dialogue
-		if(isMoving || handler.getKeyManager().escape) {
+		if(isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
-			if(shopKeeper != null) {
-				shopKeeper = null;
-			}
 			if(closestEntity != null) {
 				closestEntity.setChatDialogue(null);
+				closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+				closestEntity.interact();
 				closestEntity = null;
 			}
 		}
@@ -253,16 +295,16 @@ public class Player extends Creature{
 		// If the player is pressing the attack button
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
-				if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
+				if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
 					/*
 					 * If the player is wearing a melee weapon, check melee attacks
 					 */
-					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MELEE_WEAPON)
-						checkAttacks();
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+						checkAttacks(mouse);
 					/*
 					 * If the player is wearing a magic weapon, fire magic attacks
 					 */
-					if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().getItemType() == ItemType.MAGIC_WEAPON) {
+					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
 					}
 				}
@@ -274,7 +316,8 @@ public class Player extends Creature{
 	/*
 	 * Ticks the projectiles of the player
 	 */
-	private void tickProjectiles() {
+	@Override
+	protected void tickProjectiles() {
 		Iterator<Projectile> it = projectiles.iterator();
 		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
 		while(it.hasNext()){
@@ -296,7 +339,7 @@ public class Player extends Creature{
 					}
 				}
 				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+					if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
 						p.active = false;
 						
 					}
@@ -380,8 +423,9 @@ public class Player extends Creature{
 	
 	@Override
 	public void render(Graphics g) {
+		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
 		if(movementAllowed) {
-			g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getxOffset()),
+			g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - handler.getGameCamera().getxOffset()),
 					(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		}else {
 			g.drawImage(getLastFacedImg(), (int) (x - handler.getGameCamera().getxOffset()),
@@ -390,29 +434,37 @@ public class Player extends Creature{
 		g.setFont(GameState.myFont);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
-		/*
-		g.setColor(Color.RED);
-		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		*/
+		
+//		g.setColor(Color.RED);
+//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		
 		
 		
 		// Player box
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height);
 		
-		g.setColor(Creature.hpColor);
-		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset() - 8 ));
+		// Player item pickup radius
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(itemPickupRadius().x - handler.getGameCamera().getxOffset()), (int) (itemPickupRadius().y - handler.getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
+		
+		// Draw HP above head
+//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
+//				(int) (x - handler.getGameCamera().getxOffset() - 4), (int) (y - handler.getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
 		
 		//System.out.println((int) ((x) - (x % 16)));
 //		
 //		g.setColor(playerBoxColour);
 //		g.fillRect((int) ((x) - handler.getGameCamera().getxOffset()), (int) ((y) - handler.getGameCamera().getyOffset()), 32, 32);
 		
-		
-
-		
+		/* UNCOMMENT THIS TO SEE MELEE HITBOX
+		double angle = Math.atan2((handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset() - 16) - y, (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset() - 16) - x);
+		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+		g.setColor(Color.MAGENTA);
+		g.drawRect((int)(ar.x - handler.getGameCamera().getxOffset()), (int)(ar.y - handler.getGameCamera().getyOffset()), ar.width, ar.height);
+		 */
+				
 		if(projectiles.size() >= 1) {
 			for(Projectile p : projectiles) {
 				if(active)
@@ -420,6 +472,41 @@ public class Player extends Creature{
 			}
 		}
 		
+		if(isLevelUp) {
+			levelUpTimer++;
+			Text.drawString(g, "Level up!", (int)(x - handler.getGameCamera().getxOffset() + 16), (int)(y - handler.getGameCamera().getyOffset() + 16 - levelUpTimer),
+					true, Color.YELLOW, Assets.font32);
+			if(levelUpTimer >= 60) {
+				levelUpTimer = 0;
+				isLevelUp = false;
+			}
+		}
+		
+	}
+	
+	public void levelUpStats() {
+		
+		isLevelUp = true;
+		
+//		// Get the old base power
+//		int oldBasePower = basePower;
+//		int oldBaseVitality = baseVitality;
+//		int oldBaseDefence = baseDefence;
+//		
+//		// Every level, formula is: Exponent (1.1) * 0.9985
+//		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
+//		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
+//		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
+		
+		this.levelExponent *= 0.9985;
+		
+		this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
+//		this.power += (basePower - oldBasePower);
+//		this.vitality += (baseVitality - oldBaseVitality);
+//		this.defence += (baseDefence - oldBaseDefence);
+		
+		this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+		this.health = maxHealth;
 	}
 	
 	/*
@@ -431,17 +518,21 @@ public class Player extends Creature{
 			// If slotnumber = 12 (unequippable) return
 			return;
 		}
-		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+		if(handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 
 			// Sets the new stats
-			setAttackSpeed(getAttackSpeed() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
-			setVitality(getVitality() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
-			setPower(getPower() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
-			setDefence(getDefence() + handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
-			speed += handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
-			attackCooldown = (long) (600 / getAttackSpeed());
-			magicCooldown = (long) (300 / getAttackSpeed());
-			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			attackSpeed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
+			vitality += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
+			power += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+			defence += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
+			speed += handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+			attackCooldown = (long) (600 / attackSpeed);
+			magicCooldown = (long) (600 / attackSpeed);
+			int previousMaxHP = maxHealth;
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+			if(health == previousMaxHP) {
+				health = maxHealth;
+			}
 		}
 	}
 	
@@ -452,55 +543,59 @@ public class Player extends Creature{
 		if(equipSlot == 12) {
 			return;
 		}
-		if(handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
+		if(handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null){
 			
-			if(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
+			if(getAttackSpeed() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
 				setAttackSpeed(0);
 			}else {
-				setAttackSpeed(getAttackSpeed() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed());
+				attackSpeed -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
 			}
 			
-			if(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
+			if(getVitality() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0){
 				setVitality(0);
 			}else {
-				setVitality(getVitality() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality());
+				vitality -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
 			}
 			
-			if(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
+			if(getPower() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
 				setPower(0);
 			}else {
-				setPower(getPower() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower());
+				power -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
 			}
 			
-			if(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
+			if(getDefence() - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
 				setDefence(0);
 			}else {
-				setDefence(getDefence() - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence());
+				defence -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
 			}
 			/*
 			 * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
 			 */
-			if(speed - handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
+			if(speed - handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
 				speed = 1.0f;
 			}else {
-				speed -= handler.getWorld().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+				speed -= handler.getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
 			}
 			
-			attackCooldown = (long) (600 / getAttackSpeed());
-			magicCooldown = (long) (300 / getAttackSpeed());
-			maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+			attackCooldown = (long) (600 / attackSpeed);
+			magicCooldown = (long) (600 / attackSpeed);
+			int previousMaxHP = maxHealth;
+			maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+			if(health >= previousMaxHP) {
+				health = maxHealth;
+			}
 		}
 	}
 	
 	/**
-	 * 
+	 * Damage formula
 	 */
-	@Override
-	public int getDamage(Entity dealer) {
-		// Default damage formula
-		Creature c = (Creature) dealer;
-		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
-	}
+//	@Override
+//	public int getDamage(Entity dealer) {
+//		// Default damage formula
+//		Creature c = (Creature) dealer;
+//		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
+//	}
 	
 	/*
 	 * Regenerates health
@@ -531,6 +626,75 @@ public class Player extends Creature{
 		}
 	}
 	
+	/**
+	 *  Checks if the mouse is left-clicked within a UI window
+	 * @param mouse - mouse coordinates
+	 * @return true if within window, false if not
+	 */
+	public boolean hasLeftClickedUI(Rectangle mouse) {
+		if(InventoryWindow.isOpen && handler.getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(EquipmentWindow.isOpen && handler.getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(ChatWindow.chatIsOpen && handler.getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(CraftingUI.isOpen && handler.getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(BankUI.isOpen && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(QuestHelpUI.isOpen && handler.getQuestManager().getQuestUI().getQuestHelpUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(SkillsUI.isOpen && handler.getSkillsUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(SkillsOverviewUI.isOpen && handler.getSkillsUI().getOverviewUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(CharacterUI.isOpen && handler.getCharacterUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(handler.getHpOverlay().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		
+		// If the mouse is not clicked in one of the UI windows, return false
+		return false;
+	}
+	
+	/**
+	 *  Checks if the mouse is right-clicked within a UI window
+	 * @param mouse - mouse coordinates
+	 * @return true if within window, false if not
+	 */
+	public boolean hasRightClickedUI(Rectangle mouse) {
+		if(InventoryWindow.isOpen && handler.getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(EquipmentWindow.isOpen && handler.getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(ChatWindow.chatIsOpen && handler.getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(CraftingUI.isOpen && handler.getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(ShopWindow.isOpen && handler.getMouseManager().isRightPressed())
+			return true;
+		if(BankUI.isOpen && handler.getMouseManager().isRightPressed())
+			return true;
+		if(QuestUI.isOpen && handler.getQuestManager().getQuestUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(QuestHelpUI.isOpen && handler.getQuestManager().getQuestUI().getQuestHelpUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(SkillsUI.isOpen && handler.getSkillsUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(SkillsOverviewUI.isOpen && handler.getSkillsUI().getOverviewUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+		if(CharacterUI.isOpen && handler.getCharacterUI().getBounds().contains(mouse) && handler.getMouseManager().isRightPressed())
+			return true;
+
+		
+		// If the mouse is not clicked in one of the UI windows, return false
+		return false;
+	}
+	
 	/*
 	 * Check for magic attacks
 	 */
@@ -541,24 +705,17 @@ public class Player extends Creature{
 		if(magicTimer < magicCooldown)
 			return;
 		
-		if(InventoryWindow.isOpen && handler.getWorld().getInventory().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-			return;
-		if(EquipmentWindow.isOpen && handler.getWorld().getEquipment().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-			return;
-		if(ChatWindow.chatIsOpen && handler.getWorld().getChatWindow().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-			return;
-		if(CraftingUI.isOpen && handler.getWorld().getCraftingUI().getWindowBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
-			return;
-		if(ShopWindow.isOpen && handler.getMouseManager().isLeftPressed())
+		if(hasLeftClickedUI(mouse))
 			return;
 		
 		magicTimer = 0;
 		
+		handler.playEffect("fireball.wav", 0, 0);
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
 			projectiles.add(new Projectile(handler, x, y,
-					(int) (handler.getMouseManager().getMouseX() + handler.getGameCamera().getxOffset() - 16),
-					(int) (handler.getMouseManager().getMouseY() + handler.getGameCamera().getyOffset() - 16),
-					6.0f));
+					(int) (mouse.getX() + handler.getGameCamera().getxOffset() - 16),
+					(int) (mouse.getY() + handler.getGameCamera().getyOffset() - 16),
+					9.0f));
 		}
 		
 	}
@@ -566,52 +723,32 @@ public class Player extends Creature{
 	/*
 	 * Checks melee attacks
 	 */
-	protected void checkAttacks(){
+	protected void checkAttacks(Rectangle mouse){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
 		lastAttackTimer = System.currentTimeMillis();
 		if(attackTimer < attackCooldown)
 			return;
 		
-		// Set attack-box
-		Rectangle cb = getCollisionBounds(0,0);
-		Rectangle ar = new Rectangle();
-		int arSize = Creature.DEFAULT_CREATURE_HEIGHT;
-		ar.width = arSize;
-		ar.height = arSize;
-		
-		// Attack box setters
-		if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y - arSize;
-		}
-		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y + cb.height;
-		}
-		else if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x - arSize;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()){
-			ar.x = cb.x + cb.width;
-			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
-		}
-		else{
+		if(hasLeftClickedUI(mouse))
 			return;
-		}
 		
 		attackTimer = 0;
-		
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
-			if(e.equals(this))
-				continue;
-			if(!e.isAttackable())
-				continue;
-			if(e.getCollisionBounds(0, 0).intersects(ar)){
-				// TODO: Change damage calculation formula
-				e.damage(this, e);
-				return;
+
+		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isDragged()) {
+			double angle = Math.atan2((mouse.getY() + handler.getGameCamera().getyOffset() - 16) - y, (mouse.getX() + handler.getGameCamera().getxOffset() - 16) - x);
+			Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+			
+			for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+				if(e.equals(this))
+					continue;
+				if(!e.isAttackable())
+					continue;
+				if(e.getCollisionBounds(0, 0).intersects(ar)){
+					// TODO: Change damage calculation formula
+					e.damage(this, e);
+					return;
+				}
 			}
 		}
 	}
@@ -625,39 +762,6 @@ public class Player extends Creature{
 		return scorpionKC;
 	}
 
-	public int getAttackExperience() {
-		return attackExperience;
-	}
-
-	public void setAttackExperience(int attackExperience) {
-		this.attackExperience = attackExperience;
-	}
-
-	public void addAttackExperience(int attackXP) {
-		this.attackExperience = attackExperience + attackXP;
-	}
-
-	public int getAttackLevel() {
-		// Checks player levels (hard-coded)
-		if(getAttackExperience() >= 50 && getAttackExperience() <= 99){
-			setAttackLevel(2);
-		}
-		if(getAttackExperience() >= 100 && getAttackExperience() <= 199){
-			setAttackLevel(3);
-		}
-		if(getAttackExperience() >= 200 && getAttackExperience() <= 449){
-			setAttackLevel(4);
-		}
-		if(getAttackExperience() >= 450 && getAttackExperience() <= 999){
-			setAttackLevel(5);
-		}
-		return attackLevel;
-	}
-
-	public void setAttackLevel(int level) {
-		attackLevel = level;
-	}
-
 	public void addScorpionKC() {
 		scorpionKC++;
 	}
@@ -666,50 +770,47 @@ public class Player extends Creature{
 	public void die(){
 		System.out.println("You died!");
 		// Drop all items
-		for(int i = 0; i < handler.getWorld().getInventory().getItemSlots().size(); i++){
-			if(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack() == null){
+		for(int i = 0; i < handler.getInventory().getItemSlots().size(); i++){
+			if(handler.getInventory().getItemSlots().get(i).getItemStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getInventory().getItemSlots().get(i).getItemStack().getAmount()));
-			handler.getWorld().getInventory().getItemSlots().get(i).setItemStack(null);
+			handler.dropItem(handler.getInventory().getItemSlots().get(i).getItemStack().getItem(),
+					handler.getInventory().getItemSlots().get(i).getItemStack().getAmount(), (int)x, (int)y);
+			handler.getInventory().getItemSlots().get(i).setItemStack(null);
 		}
 		// If we're dragging an item from inventory while dying, drop it too!
-		if(handler.getWorld().getInventory().getCurrentSelectedSlot() != null) {
-			handler.dropItem(handler.getWorld().getInventory().getCurrentSelectedSlot().getItem(), handler.getWorld().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-			handler.getWorld().getInventory().setCurrentSelectedSlot(null);
+		if(handler.getInventory().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getInventory().getCurrentSelectedSlot().getItem(), handler.getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getInventory().setCurrentSelectedSlot(null);
 			InventoryWindow.hasBeenPressed = false;
 			InventoryWindow.itemSelected = false;
 		}
 		// Drop all equipment
-		for(int i = 0; i < handler.getWorld().getEquipment().getEquipmentSlots().size(); i++){
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
+		for(int i = 0; i < handler.getEquipment().getEquipmentSlots().size(); i++){
+			if(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null){
 				continue;
 			}
-			handler.getWorld().getItemManager().addItem(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().createNew((int)this.x, (int)this.y, handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount()));
-			removeEquipmentStats(handler.getWorld().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
-			handler.getWorld().getEquipment().getEquipmentSlots().get(i).setItem(null);
+			handler.dropItem(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem(),
+					handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount(), (int)x, (int)y);
+			removeEquipmentStats(handler.getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
+			handler.getEquipment().getEquipmentSlots().get(i).setItem(null);
 		}
 		// If we're dragging an item from equipment while dying, drop it too!
-		if(handler.getWorld().getEquipment().getCurrentSelectedSlot() != null) {
-			handler.dropItem(handler.getWorld().getEquipment().getCurrentSelectedSlot().getItem(), handler.getWorld().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-			handler.getWorld().getEquipment().setCurrentSelectedSlot(null);
+		if(handler.getEquipment().getCurrentSelectedSlot() != null) {
+			handler.dropItem(handler.getEquipment().getCurrentSelectedSlot().getItem(), handler.getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
+			handler.getEquipment().setCurrentSelectedSlot(null);
 			EquipmentWindow.hasBeenPressed = false;
 			EquipmentWindow.itemSelected = false;
 		}
+		
 		// If we're dead, respawn
 		if(!active){
 			this.setActive(true);
-			this.setHealth(DEFAULT_HEALTH);
+			this.setHealth(maxHealth);
 			
-			if(SaveManager.variables.size() != 0) {
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(Integer.valueOf(SaveManager.variables.get(4))));
-				this.setX(Float.parseFloat(SaveManager.variables.get(1)));
-				this.setY(Float.parseFloat(SaveManager.variables.get(2)));
-			}else {
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				this.setX(xSpawn);
-				this.setY(ySpawn);
-			}
+			handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
+			this.setX(xSpawn);
+			this.setY(ySpawn);
 		}
 	}
 	
@@ -770,7 +871,7 @@ public class Player extends Creature{
 		if(lastFaced == Direction.DOWN)
 			return aDown.getCurrentFrame();
 		
-		handler.sendMsg("Can't get lastFaced animation");
+		System.out.println("Can't get the last faced animation frame");
 		return aDefault.getCurrentFrame();
 	}
 	
@@ -778,14 +879,16 @@ public class Player extends Creature{
 	 * All movement/attacking animations based on directions
 	 * @returns: the respective image
 	 */
-	private BufferedImage getAnimationDirection() {
+	private BufferedImage getAnimationDirection(Rectangle mouse) {
 		
 		/*
 		 * Animations for attacking while walking
 		 */
 		
 		if(xMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return getAnimationByLastFaced(lastFaced);
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -797,7 +900,9 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(xMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return getAnimationByLastFaced(lastFaced);
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -809,7 +914,9 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove < 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return getAnimationByLastFaced(lastFaced);
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -821,7 +928,9 @@ public class Player extends Creature{
 				return attRight.getCurrentFrame();
 		}
 		else if(yMove > 0 && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return getAnimationByLastFaced(lastFaced);
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return getAnimationByLastFaced(lastFaced);
 			else if(lastFaced == Direction.UP)
 				return attUp.getCurrentFrame();
@@ -883,25 +992,33 @@ public class Player extends Creature{
 		 */
 		
 		if(lastFaced == Direction.LEFT && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return aLeft.getDefaultFrame();
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aLeft.getDefaultFrame();
 			else
 				return attLeft.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.RIGHT && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return aRight.getDefaultFrame();
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aRight.getDefaultFrame();
 			else
 				return attRight.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.UP && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return aUp.getDefaultFrame();
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aUp.getDefaultFrame();
 			else
 				return attUp.getCurrentFrame();
 		}
 		else if(lastFaced == Direction.DOWN && handler.getMouseManager().isLeftPressed()) {
-			if(handler.getWorld().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+			if(hasLeftClickedUI(mouse))
+				return aDown.getDefaultFrame();
+			if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
 				return aDown.getDefaultFrame();
 			else
 				return attDown.getCurrentFrame();
@@ -927,10 +1044,8 @@ public class Player extends Creature{
 			aDefault = aDown;
 			return aDefault.getDefaultFrame();
 		}
-		
-		// Prompt error if none of the above images are loaded (that means apparently none of the above animations could be returned)
-		
-		handler.sendMsg("Something went wrong loading the player sprite!");
+	
+		// If lastFaced is null, return black tile
 		return Assets.black;
 	}
 	
@@ -938,9 +1053,9 @@ public class Player extends Creature{
 	 * Gets the current frame
 	 * @returns the current frame image
 	 */
-	private BufferedImage getCurrentAnimationFrame(){
+	private BufferedImage getCurrentAnimationFrame(Rectangle mouse){
 		// Walk and Attack animations
-		return getAnimationDirection();
+		return getAnimationDirection(mouse);
 	}
 
 	/*
@@ -965,26 +1080,6 @@ public class Player extends Creature{
 		this.movementAllowed = movementAllowed;
 	}
 
-	public int getCraftingExperience() {
-		return craftingExperience;
-	}
-
-	public void setCraftingExperience(int craftingExperience) {
-		this.craftingExperience = craftingExperience;
-	}
-
-	public int getCraftingLevel() {
-		return craftingLevel;
-	}
-
-	public void setCraftingLevel(int craftingLevel) {
-		this.craftingLevel = craftingLevel;
-	}
-	
-	public void addCraftingExperience(int craftXP) {
-		this.craftingExperience = craftingExperience + craftXP;
-	}
-
 	public Direction getLastFaced() {
 		return lastFaced;
 	}
@@ -997,16 +1092,29 @@ public class Player extends Creature{
 		return shopKeeper;
 	}
 	
+	public Entity getBankEntity() {
+		return bankEntity;
+	}
+
+	public void setBankEntity(Entity bankEntity) {
+		this.bankEntity = bankEntity;
+	}
+
 	public Rectangle itemPickupRadius() {
-		return new Rectangle((int) (x + bounds.x - 48), (int) (y + bounds.y - 48), (bounds.width + 96), (bounds.height + 96));
+		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 	}
 
-	public int getMAX_HEALTH() {
-		return maxHealth;
+	@Override
+	public void respawn() {
+		
 	}
 
-	public void setMAX_HEALTH(int mAX_HEALTH) {
-		maxHealth = mAX_HEALTH;
+	public Zone getZone() {
+		return zone;
+	}
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
 
 }

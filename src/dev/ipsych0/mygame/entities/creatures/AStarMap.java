@@ -3,13 +3,20 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.Entity;
+import dev.ipsych0.mygame.entities.statics.StaticEntity;
 
-public class AStarMap {
+public class AStarMap implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height, xSpawn, ySpawn;
 	private Handler handler;
 	private Node[][] nodes;
@@ -43,15 +50,24 @@ public class AStarMap {
 		}
 		for(int i = 0; i < nodes.length; i++) {
 			for(int j = 0; j < nodes.length; j++) {
-				if(handler.getWorld().checkSolidLayer(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)) {
+				if(creature.collisionWithTile(((int)Math.floor((i * 32) + x) / 32), (int)Math.floor((j * 32) + y) / 32)){
 					nodes[i][j].setWalkable(false);
 				}
 			}
 		}
+		
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			if(e instanceof StaticEntity) {
+				if(mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
+					nodes[(int)Math.round(((e.getX()) / 32)) - (int)(x) / 32][(int)Math.round(((e.getY()) / 32)) - (int)(y) / 32].setWalkable(false);
+				}
+			}
+		}
+		
 	}
 	
 	public void tick() {
-		mapBounds = new Rectangle(x, y, width, height);
+		
 	}
 	
 	public void render(Graphics g) {
@@ -82,15 +98,37 @@ public class AStarMap {
 //		
 //		System.out.println(nodes.length);
 		
+		if(startX <= -1) {
+			creature.setxMove(creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		else if(startX >= nodes.length) {
+			creature.setxMove(-creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		if(startY <= -1) {
+			creature.setyMove(creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		else if(startY >= nodes.length) {
+			creature.setyMove(-creature.getSpeed());
+			creature.move();
+			return new LinkedList<Node>();
+		}
+		
 		if(goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1|| goalY < 0) {
 			goalX = (int)(xSpawn / 32 - x / 32);
 			goalY = (int)(ySpawn / 32 - y / 32);
 		}
 		
-		// If the goal node is standing on a solid layer
-		if(handler.getWorld().checkSolidLayer(nodes[goalX][goalY].getX(), nodes[goalX][goalY].getY())) {
+		// If the goal node is standing on a non-walkable tile
+		if(!nodes[goalX][goalY].isWalkable()) {
 //			creature.setState(CombatState.BACKTRACK);
-			return null;
+			goalX = (int)(xSpawn / 32 - x / 32);
+			goalY = (int)(ySpawn / 32 - y / 32);
 		}
 		
 		
@@ -105,7 +143,7 @@ public class AStarMap {
 		// The set of nodes already visited.
 		List<Node> openList = new LinkedList<Node>();
 		// The set of currently discovered nodes still to be visited.
-		List<Node> closedList = new LinkedList<Node>();
+		HashSet<Node> closedList = new HashSet<Node>();
 
 		// Add starting node to open list.
 		openList.add(nodes[startX][startY]);
@@ -128,7 +166,7 @@ public class AStarMap {
 				return calcPath(nodes[startX][startY], current);
 			}
 
-			List<Node> adjacentNodes = getAdjacent(current, closedList);
+			HashSet<Node> adjacentNodes = getAdjacent(current, closedList);
 			for (Node adjacent : adjacentNodes)
 			{
 				// If node is not in the open list ...
@@ -198,9 +236,9 @@ public class AStarMap {
 		return cheapest;
 	}
 	
-	private List<Node> getAdjacent(Node node, List<Node> closedList)
+	private HashSet<Node> getAdjacent(Node node, HashSet<Node> closedList)
 	{
-		List<Node> adjacentNodes = new LinkedList<Node>();
+		HashSet<Node> adjacentNodes = new HashSet<Node>();
 		int x = node.getX() - (this.x / 32);
 		int y = node.getY() - (this.y / 32);
 		
@@ -310,6 +348,14 @@ public class AStarMap {
 
 	public void setMapBounds(Rectangle mapBounds) {
 		this.mapBounds = mapBounds;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 	
 	

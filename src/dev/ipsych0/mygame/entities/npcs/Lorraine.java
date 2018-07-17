@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -14,24 +13,26 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class Lorraine extends ShopKeeper {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static boolean questStarted = false;
-	private int speakingTurn;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private ArrayList<ItemStack> shopItems;
-	private String[] firstDialogue = {"Click this button to trade", "This button does nothing"};
+	private String[] firstDialogue = {"I would like to see your shop.", "Leave."};
 
 	public Lorraine(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		speakingTurn = 1;
 		attackable = false;
 		isNpc = true;
 		isShop = true;
 		
 		shopItems = new ArrayList<ItemStack>();
 		
-		shopItems.add(new ItemStack(Item.woodItem, 5));
-		shopItems.add(new ItemStack(Item.oreItem, 10));
+		shopItems.add(new ItemStack(Item.regularLogs, 5));
+		shopItems.add(new ItemStack(Item.regularOre, 10));
 		shopItems.add(new ItemStack(Item.testSword, 1));
 		
 		shopWindow = new ShopWindow(handler, shopItems);
@@ -39,8 +40,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void tick() {
-		if(ShopWindow.isOpen)
-			shopWindow.tick();
+		
 	}
 
 	@Override
@@ -54,90 +54,52 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void die() {
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		                handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        5000 
-		);
+		
 	}
 
 	@Override
 	public void interact() {
-		if(this.getSpeakingTurn() == 1 && !ShopWindow.isOpen){
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+		switch(speakingTurn){
+		
+		case 0:
 			speakingTurn++;
-		}
-		else if(this.getSpeakingTurn() == 2){
+			return;
+		
+		case 1:
+			if(!ShopWindow.isOpen){
+				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+				speakingTurn++;
+				break;
+			}else {
+				speakingTurn = 1;
+				break;
+			}
+		case 2:
 			if(chatDialogue == null) {
 				speakingTurn = 1;
-				return;
+				break;
 			}
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				ShopWindow.isOpen = true;
 				this.shopping = true;
 				chatDialogue = null;
 				speakingTurn = 1;
+				break;
 			}
 		}
-//		else if(this.getSpeakingTurn() == 3){
-//			handler.getPlayer().getChatWindow().sendMessage("Kill 5 scorpions and come back!");
-//			speakingTurn++;
-//			questStarted = true;
-//		}
-//		else if(this.getSpeakingTurn() == 4){
-//			if(handler.getWorld().getEntityManager().getPlayer().getScorpionKC() < 5){
-//				handler.getPlayer().getChatWindow().sendMessage("Please come back when you have killed " + (5 - handler.getWorld().getEntityManager().getPlayer().getScorpionKC()) + " more scorpions");
-//			}
-//			else{
-//				handler.getPlayer().getChatWindow().sendMessage("Thanks for killing the 5 scorpions! Here is your reward!");
-//				speakingTurn++;
-//			}
-//		}
-//		else if(this.getSpeakingTurn() == 5){
-//			if(!handler.getWorld().getInventory().inventoryIsFull(Item.coinsItem)){
-//				handler.giveItem(Item.coinsItem, 1000);
-//				handler.getPlayer().getChatWindow().sendMessage("You received 1000 coins as a reward.");
-//				speakingTurn++;
-//			}else{
-//				handler.getPlayer().getChatWindow().sendMessage("You don't have room for the reward. Free up 1 slot please!");
-//			}
-//		}
-//		else if(this.getSpeakingTurn() == 6){
-//			handler.getPlayer().getChatWindow().sendMessage("Thanks for helping!");
-//			speakingTurn++;
-//		}
-//		else if(this.getSpeakingTurn() == 7) {
-//			ShopWindow.isOpen = true;
-//			this.shopping = true;
-//			speakingTurn++;
-//		}
-//		else if(this.getSpeakingTurn() >= 8 ) {
-//			if(!ShopWindow.isOpen) {
-//				this.shopping = false;
-//				speakingTurn = 6;
-//			}
-//		}
-	}
-	
-	public int getSpeakingTurn() {
-		return speakingTurn;
-	}
-
-	public void setSpeakingTurn(int speakingTurn) {
-		this.speakingTurn = speakingTurn;
 	}
 
 	@Override
 	public void postRender(Graphics g) {
-		if(ShopWindow.isOpen) {
+		if(ShopWindow.isOpen && handler.getPlayer().getShopKeeper() == this) {
 			shopWindow.render(g);
 			Text.drawString(g, "Lorraine's General Store", shopWindow.x + (shopWindow.width / 2), shopWindow.y + 16, true, Color.YELLOW, Assets.font14);
 		}
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));		
 	}
 
 }

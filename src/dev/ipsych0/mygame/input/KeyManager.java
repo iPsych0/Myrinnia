@@ -2,19 +2,27 @@ package dev.ipsych0.mygame.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
+import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
-import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.mapeditor.MiniMap;
+import dev.ipsych0.mygame.quests.QuestHelpUI;
+import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsOverviewUI;
+import dev.ipsych0.mygame.skills.SkillsUI;
 
-public class KeyManager implements KeyListener{
+public class KeyManager implements KeyListener, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean[] keys, justPressed, cantPress;
 	public boolean up, down, left, right;
 	public boolean chat;
@@ -23,6 +31,7 @@ public class KeyManager implements KeyListener{
 	public boolean talk;
 	public boolean escape;
 	public static boolean typingFocus = false;
+	private int lastUIKeyPressed = -1;
 	
 	public KeyManager(){
 		keys = new boolean[256];
@@ -31,23 +40,6 @@ public class KeyManager implements KeyListener{
 	}
 	
 	public void tick(){
-		
-		
-//		for(int i = 0; i < keys.length; i++){
-//			if(cantPress[i] && !keys[i]){
-//				cantPress[i] = false;
-//			}else if(justPressed[i]){
-//				cantPress[i] = true;
-//				justPressed[i] = false;
-//			}
-//			if(!cantPress[i] && keys[i]){
-//				justPressed[i] = true;
-//			}
-//		}
-//		
-//		if(keyJustPressed(KeyEvent.VK_E)){
-//			// Maybe hier optimaliseren van interfaces
-//		}
 		
 		if(!typingFocus) {
 			// Movement keys
@@ -77,6 +69,25 @@ public class KeyManager implements KeyListener{
 			escape = keys[KeyEvent.VK_ESCAPE];
 		}
 		
+		
+//		for(int i = 0; i < keys.length; i++){
+//			if(cantPress[i] && !keys[i]){
+//				cantPress[i] = false;
+//			}else if(justPressed[i]){
+//				cantPress[i] = true;
+//				justPressed[i] = false;
+//			}
+//			if(!cantPress[i] && keys[i]){
+//				justPressed[i] = true;
+//			}
+//		}
+//		
+//		if(keyJustPressed(KeyEvent.VK_E)){
+//			// Maybe hier optimaliseren van interfaces
+//		}
+		
+		
+		
 	}
 	
 	@Override
@@ -89,6 +100,14 @@ public class KeyManager implements KeyListener{
 			
 			if(e.getKeyCode() == KeyEvent.VK_P) {
 				Player.debugButtonPressed = true;
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				lastUIKeyPressed = -1;
+				SkillsUI.escapePressed = true;
+				QuestUI.escapePressed = true;
+				ShopWindow.escapePressed = true;
+				CharacterUI.escapePressed = true;
 			}
 			
 			// Inventory toggle
@@ -118,22 +137,60 @@ public class KeyManager implements KeyListener{
 				}
 			}
 			
-			// Chat window toggle
-			if(e.getKeyCode() == KeyEvent.VK_M){
-				if(!MiniMap.isOpen){
-					MiniMap.isOpen = true;
+			// QuestWindow toggle
+			if(e.getKeyCode() == KeyEvent.VK_Q){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_Q;
+				if(!QuestUI.isOpen){
+					QuestUI.isOpen = true;
+					CharacterUI.isOpen = false;
+					CraftingUI.isOpen = false;
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 				else {
-					MiniMap.isOpen = false;
+					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
 				}
 			}
 			
-			if(e.getKeyCode() == KeyEvent.VK_H){
-				if(!CraftingUI.isOpen){
-					CraftingUI.isOpen = true;
+			// CharacterUI toggle
+			if(e.getKeyCode() == KeyEvent.VK_K){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_K;
+				if(!CharacterUI.isOpen){
+					CharacterUI.isOpen = true;
+					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
+					CraftingUI.isOpen = false;
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 				else {
+					CharacterUI.isOpen = false;
+				}
+			}
+			
+			// Chat window toggle
+			if(e.getKeyCode() == KeyEvent.VK_L){
+				if(ShopWindow.isOpen)
+					return;
+				lastUIKeyPressed = KeyEvent.VK_L;
+				if(!SkillsUI.isOpen){
+					SkillsUI.isOpen = true;
+					CharacterUI.isOpen = false;
+					QuestUI.isOpen = false;
+					QuestHelpUI.isOpen = false;
+					QuestUI.renderingQuests = false;
 					CraftingUI.isOpen = false;
+				}
+				else {
+					SkillsUI.isOpen = false;
+					SkillsOverviewUI.isOpen = false;
 				}
 			}
 			
@@ -164,6 +221,22 @@ public class KeyManager implements KeyListener{
 			return false;
 		}
 		return justPressed[keyCode];
+	}
+
+	public boolean isTextBoxTyping() {
+		return typingFocus;
+	}
+
+	public void setTextBoxTyping(boolean textBoxTyping) {
+		this.typingFocus = textBoxTyping;
+	}
+
+	public int getLastUIKeyPressed() {
+		return lastUIKeyPressed;
+	}
+
+	public void setLastUIKeyPressed(int lastUIKeyPressed) {
+		this.lastUIKeyPressed = lastUIKeyPressed;
 	}
 
 }

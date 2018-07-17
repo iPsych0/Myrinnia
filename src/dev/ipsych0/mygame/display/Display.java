@@ -1,13 +1,22 @@
 package dev.ipsych0.mygame.display;
+
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import javax.swing.JFrame;
 
+import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.audio.AudioManager;
 
-public class Display {
+
+public class Display implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Canvas canvas;
 	
@@ -30,7 +39,14 @@ public class Display {
 		// For the X (close) button
 		frame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
-	             System.exit(0);
+	        	 try {
+	        		 AudioManager.cleanUp();
+	        	 }catch(Exception e) {
+	        		 
+	        		 System.err.println("Unexpected crash. Unable to close OpenAL audio context.");
+	        	 }finally {
+	        		 System.exit(0);
+	        	 }
 	          }        
 	       });
 		frame.setResizable(false);

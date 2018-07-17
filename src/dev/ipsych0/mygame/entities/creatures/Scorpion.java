@@ -3,29 +3,23 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.Text;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Scorpion extends Creature {
 	
-	// RNG dice for drop table
-	private Random randDrop = new Random();
-	private int min = 1, max = 50;
-	
-	private ArrayList<Projectile> projectiles;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private boolean initialized = false;
 	
@@ -37,14 +31,20 @@ public class Scorpion extends Creature {
 		isNpc = false;
 		
 		// Creature stats
-		setPower(0);
-		setVitality(7);
-		setDefence(0);
+		power = 5;
+		vitality = 5;
+		defence = 10;
 		speed = DEFAULT_SPEED + 0.5f;
-		setAttackSpeed(DEFAULT_ATTACKSPEED);
-		maxHealth = (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
+		attackSpeed = DEFAULT_ATTACKSPEED;
+		maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
 		health = maxHealth;
-		combatLevel = 5;
+		combatLevel = 2;
+		
+		double exponent = 1.1;
+		for(int i = 1; i < combatLevel; i++) {
+			baseDamage = (int)Math.ceil((baseDamage * exponent) + 1);
+			exponent *= 0.9985;
+		}
 		attackRange = Tiles.TILEWIDTH * 6;
 		
 		bounds.x = 2;
@@ -54,8 +54,6 @@ public class Scorpion extends Creature {
 		
 		pathFindRadiusX = 512 * 2;
 		pathFindRadiusY = 512 * 2;
-		
-		projectiles = new ArrayList<Projectile>();
 		
 		radius = new Rectangle((int)x - xRadius, (int)y - yRadius, xRadius * 2, yRadius * 2);
 		
@@ -80,75 +78,57 @@ public class Scorpion extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(Assets.scorpion, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
 				, width, height, null);
-		g.setColor(Creature.hpColor);
-		g.setFont(Creature.hpFont);
 		
-		g.drawString(Integer.toString(getHealth()) + "/" + maxHealth,
-				(int) (x - handler.getGameCamera().getxOffset() - 8), (int) (y - handler.getGameCamera().getyOffset()));
+		// Draw HP above head
+//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - handler.getGameCamera().getxOffset() - 6),
+//				(int) (y - handler.getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
 		
-		for(Projectile p : projectiles) {
-			if(p.active) {
-				p.render(g);
-			}
-		}
-		
-		g.setColor(Color.BLACK);
-		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
-		
-		map.render(g);
-		
-		if(nodes != null) {
-			for(Node n : nodes) {
-				g.setColor(pathColour);
-				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
-			}
-		}
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int)(radius.x - handler.getGameCamera().getxOffset()), (int)(radius.y - handler.getGameCamera().getyOffset()), (int)(radius.width), (int)(radius.height));
+//		
+//		map.render(g);
+//		
+//		if(nodes != null) {
+//			for(Node n : nodes) {
+//				g.setColor(pathColour);
+//				g.fillRect((int)(n.getX() * 32 - handler.getGameCamera().getxOffset()), (int)(n.getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+//			}
+//		}
 		
 	}
 
 	@Override
 	public void die() {
 		// Drop table stuff
-		int randomNumber = randDrop.nextInt((max - min) + 1) + min;
+		int randomNumber = handler.getRandomNumber(1, 50);
 		System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 		
 		if(randomNumber <= 10){
-			handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y, 5));
+			handler.dropItem(Item.regularLogs, 5, (int)x, (int)y);
 		}
-		if(randomNumber >= 11 && randomNumber <= 50){
-			handler.getWorld().getItemManager().addItem(Item.oreItem.createNew((int) x, (int) y, 10));
+		else if(randomNumber >= 11 && randomNumber <= 50){
+			handler.dropItem(Item.regularOre, 10, (int)x, (int)y);
 			handler.dropItem(Item.purpleSword, 1, (int)x, (int)y);
 		}
-		handler.getWorld().getItemManager().addItem(Item.coinsItem.createNew((int) x, (int) y, 50));
+		handler.dropItem(Item.coins, 50, (int)x, (int)y);
+		handler.dropItem(Item.testAxe, 1, (int)x, (int)y);
+		handler.dropItem(Item.testPickaxe, 1, (int)x, (int)y);
 		
 		
 		if(Lorraine.questStarted){
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}
 		
-		handler.getWorld().getEntityManager().getPlayer().addAttackExperience(25);
-		
-		World currentWorld = handler.getWorld();
-		
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		                currentWorld.getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        5000 
-		);
+		handler.getSkill(SkillsList.COMBAT).addExperience(handler.getSkill(SkillsList.COMBAT).getNextLevelXp());
 	}
 	
 	/*
 	 * Damage formula
 	 */
-	@Override
-	public int getDamage(Entity dealer) {
-		return super.getDamage(dealer) - 7;
-	}
+//	@Override
+//	public int getDamage(Entity dealer) {
+//		return super.getDamage(dealer) - 7;
+//	}
 	
 	/*
 	 * Checks the attack timers before the next attack 
@@ -169,7 +149,8 @@ public class Scorpion extends Creature {
 		
 		attackTimer = 0;
 		
-		projectiles.add(new Projectile(handler, x, y, (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), 6.0f));
+		handler.playEffect("fireball.wav", 0, 0);
+		projectiles.add(new Projectile(handler, x, y, (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), 9.0f));
 		
 //		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
 //			if(!e.equals(handler.getPlayer())){
@@ -182,39 +163,6 @@ public class Scorpion extends Creature {
 //			}
 //		}
 	}
-	
-	private void tickProjectiles() {
-		Iterator<Projectile> it = projectiles.iterator();
-		Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
-		while(it.hasNext()){
-			Projectile p = it.next();
-			if(!p.active){
-				deleted.add(p);
-			}
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-				if(!e.equals(handler.getPlayer())) {
-					continue;
-				}
-				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
-					if(e.isAttackable()) {
-						e.damage(this, e);
-						p.active = false;
-					}
-					if(!e.isAttackable()) {
-						p.active = false;
-					}
-				}
-				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
-						p.active = false;
-					}
-				}
-			}
-			p.tick();
-		}
-		
-		projectiles.removeAll(deleted);
-	}
 
 	@Override
 	public void interact() {
@@ -224,6 +172,11 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Scorpion(handler, xSpawn, ySpawn));
 	}
 }

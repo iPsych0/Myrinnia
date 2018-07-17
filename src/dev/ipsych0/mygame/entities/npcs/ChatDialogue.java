@@ -3,17 +3,19 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatDialogue {
+public class ChatDialogue implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private Handler handler;
 	private ArrayList<ChatOptions> chatOptions;
@@ -38,7 +40,7 @@ public class ChatDialogue {
 		// Zie DialogueBox functie voor inladen!!!
 		if(menuOptions.length > 1) {
 			for(int i = 0; i < menuOptions.length; i++) {
-				chatOptions.add(new ChatOptions(handler, x + 16, y + 11 + (20 * i), i, menuOptions[i]));
+				chatOptions.add(new ChatOptions(x + 16, y + 11 + (20 * i), i, menuOptions[i]));
 			}
 		}else{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
@@ -58,7 +60,7 @@ public class ChatDialogue {
 				
 				if(optionSlot.contains(mouse)) {
 					option.setHovering(true);
-					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
 						hasBeenPressed = false;
 						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
@@ -72,7 +74,7 @@ public class ChatDialogue {
 			continueButton.tick();
 			if(continueButtonBounds.contains(mouse)) {
 				continueButton.setHovering(true);
-				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
 					hasBeenPressed = false;
 					Player.hasInteracted = false;
 					continueButton.setPressed(true);
@@ -140,6 +142,14 @@ public class ChatDialogue {
 
 	public void setMenuOptions(String[] menuOptions) {
 		this.menuOptions = menuOptions;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 
 }

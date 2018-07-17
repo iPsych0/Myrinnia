@@ -2,12 +2,16 @@ package dev.ipsych0.mygame.entities.npcs;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+import java.io.Serializable;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ContinueButton {
+public class ContinueButton implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private boolean isHovering = false;
 	private boolean isPressed = false;
@@ -25,9 +29,9 @@ public class ContinueButton {
 	
 	public void render(Graphics g) {
 		if(isHovering) {
-			g.drawImage(Assets.mainMenuButton[0], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[0], x, y, width, height, null);
 		}else {
-			g.drawImage(Assets.mainMenuButton[1], x, y, width, height, null);
+			g.drawImage(Assets.genericButton[1], x, y, width, height, null);
 		}
 		Text.drawString(g, "Continue", x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
 	}

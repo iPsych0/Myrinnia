@@ -1,38 +1,38 @@
 package dev.ipsych0.mygame.entities.statics;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Whirlpool extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation spinning;
-	private int speakingTurn;
 	private boolean isFishing = false;
 	private int fishingTimer = 0;
-	private int minAttempts = 4, maxAttempts = 8;
+	private int minAttempts = 4, maxAttempts = 9;
 	private int random = 0;
 	private int attempts = 0;
 
 	public Whirlpool(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 		spinning = new Animation(125, Assets.whirlpool);
 	}
 
@@ -40,9 +40,10 @@ public class Whirlpool extends StaticEntity {
 	public void tick() {
 		spinning.tick();
 		if(isFishing) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
+					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
 				fishingTimer = 0;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				isFishing = false;
 				return;
 			}
@@ -61,15 +62,15 @@ public class Whirlpool extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.coinsItem)).addItem(Item.coinsItem,
-	        				handler.getRandomNumber(1, 5));
+	        		handler.giveItem(Item.regularFish, 1);
 	        		handler.sendMsg("You caught something!");
+	        		handler.getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("The fish got away...");
 	        		attempts++;
 	        	}
-	        	speakingTurn = 0;
+	        	speakingTurn = 1;
 	        	fishingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
@@ -83,20 +84,6 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void die(){
 		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
 	}
 
 	@Override
@@ -109,11 +96,15 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("Fishing...");
-			speakingTurn = 1;
-			isFishing = true;
+			speakingTurn++;
+			return;
 		}
 		if(this.speakingTurn == 1) {
+			handler.sendMsg("Fishing...");
+			speakingTurn = 2;
+			isFishing = true;
+		}
+		if(this.speakingTurn == 2) {
 			return;
 		}
 	}
@@ -121,9 +112,14 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isFishing) {
-			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+			g.drawImage(Assets.fishingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));		
 	}
 	
 }

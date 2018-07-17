@@ -1,11 +1,17 @@
 package dev.ipsych0.mygame.gfx;
 
+import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.Entity;
 import dev.ipsych0.mygame.tiles.Tiles;
 
-public class GameCamera {
+public class GameCamera implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private float xOffset, yOffset;
 	

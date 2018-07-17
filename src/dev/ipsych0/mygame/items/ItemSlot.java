@@ -29,10 +29,10 @@ public class ItemSlot implements Serializable {
 	
 	public void render(Graphics g){
 		
-		g.drawImage(Assets.invSlot, x, y, SLOTSIZE, SLOTSIZE, null);
+		g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null){
-			if(itemStack.getItem() == Item.coinsItem){
+			if(itemStack.getItem() == Item.coins){
 				if(itemStack.getAmount() >= 1  && itemStack.getAmount() < 100){
 					itemStack.getItem().setTexture(Assets.coins[0]);
 				}
@@ -47,14 +47,16 @@ public class ItemSlot implements Serializable {
 				}
 			}
 			
-			g.drawImage(itemStack.getItem().getTexture(), x + 2, y + 2, SLOTSIZE - 4, SLOTSIZE - 4, null);
+			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 			
-			if(itemStack.getItem().isStackable) {
+			if(itemStack.getItem().isStackable()) {
 				g.setFont(Assets.font14);
+				g.setColor(Color.BLACK);
+				g.drawString(Integer.toString(itemStack.getAmount()), x+1, y + SLOTSIZE - 20);
 				g.setColor(Color.YELLOW);
 				g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
 			}
-			else if(!itemStack.getItem().isStackable && itemStack.getAmount() <= 0) {
+			else if(!itemStack.getItem().isStackable() && itemStack.getAmount() <= 0) {
 				g.setFont(Assets.font14);
 				g.setColor(Color.YELLOW);
 				g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
@@ -67,7 +69,7 @@ public class ItemSlot implements Serializable {
 	 */
 	public boolean addItem(Item item, int amount) {
 		// If the item is stackable
-		if(itemStack != null && item.isStackable) {
+		if(itemStack != null && item.isStackable()) {
 			if(item.getId() == itemStack.getItem().getId()) {
 				// If a stack already exists and the item is stackable, add to that stack
 				this.itemStack.setAmount(this.itemStack.getAmount() + amount);
@@ -76,7 +78,7 @@ public class ItemSlot implements Serializable {
 				return false;
 			}
 			
-		} else if(!item.isStackable){
+		} else if(!item.isStackable()){
 			// If the item isn't stackable
 			this.itemStack = new ItemStack(item);
 			return true;

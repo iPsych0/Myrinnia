@@ -3,34 +3,35 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.crafting.CraftingUI;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.quests.Quest.QuestState;
+import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Campfire extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation campfire;
-	private int speakingTurn;
-	private String[] firstDialogue = {"Feel the fire.", "Leave it alone."};
-	private String[] secondDialogue = {"That was hot... Wait, I see something... Okay it was nothing, never mind. Wow that was a long string. I should probably split this string up into multiple lines, because this won't work."};
-	private String[] thirdDialogue = {"Press this button to continue.", "Press this button to do nothing."};
+	private String[] firstDialogue = {"Feel the fire.", "Leave."};
+	private String[] secondDialogue = {"You almost burned your fingers trying to examine the fire. However, a sword is revealed."};
+	private String[] thirdDialogue = {"Take the sword.", "Leave it."};
 
 	public Campfire(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 		campfire = new Animation(125, Assets.campfire);
 	}
 
@@ -41,21 +42,7 @@ public class Campfire extends StaticEntity {
 	
 	@Override
 	public void die(){
-		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
+
 	}
 
 	@Override
@@ -66,88 +53,89 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void interact() {
+		
 		switch(speakingTurn) {
+		
 		case 0:
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
 			speakingTurn++;
 			break;
 		case 1:
+			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			speakingTurn++;
+			break;
+		case 2:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
 				speakingTurn++;
+				if(!handler.questStarted(QuestList.TheFirstQuest)) {
+					handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
+					handler.addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
+				}
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
 				chatDialogue = null;
-				speakingTurn = 0;
-				break;
-			}else {
 				speakingTurn = 1;
 				break;
+			}else {
+				speakingTurn = 2;
+				break;
 			}
-		case 2:
+		case 3:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			chatDialogue = new ChatDialogue(handler, 0, 600, thirdDialogue);
 			speakingTurn++;
 			break;
-		case 3:
+		case 4:
 			if(chatDialogue == null) {
-				speakingTurn = 0;
+				speakingTurn = 1;
 				break;
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				if(!handler.invIsFull(Item.woodItem)) {
-					handler.giveItem(Item.woodItem, 1);
-					handler.sendMsg("You found 1 log.");
-					chatDialogue = null;
-					speakingTurn = 0;
-				}else {
-					chatDialogue = null;
-					speakingTurn = 0;
-					handler.sendMsg("Your inventory is full.");
+				if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
+					if(!handler.invIsFull(Item.testSword)) {
+						handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+						handler.giveItem(Item.testSword, 1);
+						handler.discoverRecipe(Item.purpleSword);
+						chatDialogue = null;
+						speakingTurn = 1;
+					}else {
+						chatDialogue = null;
+						speakingTurn = 1;
+						handler.sendMsg("Your inventory is full.");
+					}
+					break;
 				}
-				break;
+				else {
+					chatDialogue = null;
+					speakingTurn = 1;
+				}
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
-				speakingTurn = 3;
+				chatDialogue = null;
+				speakingTurn = 1;
 				break;
 			}
 		}
-//		if(this.speakingTurn == 0) {
-//			chatDialogue = new ChatDialogue(handler, 0, 600, true);
-//			speakingTurn++;
-//		}
-//		else if(this.speakingTurn == 1) {
-//			if(chatDialogue == null) {
-//				speakingTurn = 0;
-//				return;
-//			}
-//			
-//			if(chatDialogue.getChosenOption().getOptionID() == 1) {
-//				chatDialogue = new ChatDialogue(handler, 0, 600, false);
-//				speakingTurn++;
-//			}else {
-//				speakingTurn = 1;
-//			}
-//		}
-//		else if(this.speakingTurn == 2) {
-//			chatDialogue = null;
-//			speakingTurn = 0;
-//		}
 	}
 
 	@Override
 	public void postRender(Graphics g) {
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
 	}
 	
 }

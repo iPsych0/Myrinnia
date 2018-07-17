@@ -3,59 +3,89 @@ package dev.ipsych0.mygame.items;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
+
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.gfx.Assets;
 
-public class Item implements Serializable{
+public abstract class Item implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	// ItemList
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
-	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Logs", 0, ItemType.MAGIC_WEAPON, ItemRarity.Common, 1, 10, 10, 5, 0, 3.0f, 5, true);
-	public static Item oreItem = new Item(Assets.ore, "Ore", 1, ItemType.CRAFTING_MATERIAL, ItemRarity.Uncommon, 12, 0, 0 ,0 ,0 ,0, 5, true);
-	public static Item coinsItem = new Item(Assets.coins[0], "Coins", 2, ItemType.CURRENCY, ItemRarity.Rare, 12, 0 ,0 ,0 ,0 ,0, -1, true);
-	public static Item testSword = new Item(Assets.testSword, "Sword", 3, ItemType.MELEE_WEAPON, ItemRarity.Unique, 1, 11, 9, 10, 0, 0, 10, false);
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemType.MAGIC_WEAPON, ItemRarity.Exquisite, 1, 15, 5, 10, 0, 0, 20, false);
+	public static Item[] items = new Item[32];
+	
+	/*
+	 * Unequippable Items 
+	 */
+	public static Item regularLogs = new UnequippableItem(Assets.wood, "Logs", 0, ItemRarity.Common, 5, true, ItemType.CRAFTING_MATERIAL);
+	public static Item regularOre = new UnequippableItem(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.CRAFTING_MATERIAL);
+	public static Item coins = new UnequippableItem(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
+	public static Item regularFish = new UnequippableItem(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.FOOD);
+	
+	/*
+	 * Equippable item
+	 */
+	public static Item testSword = new EquippableItem(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
+	public static Item purpleSword = new EquippableItem(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.MAGIC_WEAPON});
+	public static Item testAxe = new EquippableItem(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.AXE});
+	public static Item testPickaxe = new EquippableItem(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.PICKAXE});
 	
 	// Class
 	
-	protected transient Handler handler;
-	protected ItemType itemType;
+	protected Handler handler;
+	protected ItemType[] itemTypes;
 	protected ItemRarity itemRarity;
-	private transient BufferedImage texture;
+	protected ItemRequirement[] requirements;
+	protected transient BufferedImage texture;
 	protected String name;
 	protected final int id;
-	protected final int equipSlot;
-	protected final int power, defence, vitality;
-	protected final float attackSpeed, movementSpeed;
+	protected EquipSlot equipSlot;
+	protected int power, defence, vitality;
+	protected float attackSpeed, movementSpeed;
 	protected int x, y;
 	protected Rectangle bounds;
 	protected int count;
 	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
 	protected int price;
-	public boolean isStackable = true;
+	protected boolean stackable;
+	private int respawnTimer = 10800;
 	
-	public Item(BufferedImage texture, String name, int id, ItemType itemType, ItemRarity itemRarity, int equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, int price, boolean isStackable){
+	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean isStackable, ItemType... itemTypes){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
-		this.itemType = itemType;
+		this.itemTypes = itemTypes;
 		this.itemRarity = itemRarity;
-		this.equipSlot = equipSlot;
-		this.power = power;
-		this.defence = defence;
-		this.vitality = vitality;
-		this.attackSpeed = attackSpeed;
-		this.movementSpeed = movementSpeed;
 		this.price = price;
-		this.isStackable = isStackable;
+		this.stackable = isStackable;
 		
-		items[id] = this;
+		// Prevent duplicate IDs when creating items
+		try {
+			if(items[id] != null && !name.equals(items[id].name)) {
+				throw new DuplicateIDException(name, id);
+			}
+			else {
+				// If the item already exists, don't create a new reference
+				if(items[id] == null) {
+					items[id] = this;
+				}
+			}
+		}catch(DuplicateIDException exc) {
+			exc.printStackTrace();
+			System.exit(1);
+		}
 		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
 	}
 	
@@ -70,19 +100,37 @@ public class Item implements Serializable{
 	}
 	
 	public void render(Graphics g, int x, int y){
-		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
+		g.drawImage(texture, x + 4, y + 4, ITEMWIDTH, ITEMHEIGHT, null);
 	}
 	
 	/*
-	 * Adds a new item to the world
+	 * Adds a new item equippable item to the world
 	 * @params: x,y position and amount
 	 */
-	public Item createNew(int x, int y, int count){
-		Item i = new Item(texture, name, id, itemType, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, isStackable);
+	public Item createEquippableItem(int x, int y, int count){
+		Item i;
+		if(this.requirements == null) {
+			i = new EquippableItem(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes);
+		}else {
+			i = new EquippableItem(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+		}
 		i.setPosition(x, y);
 		
 		// If the item is stackable, set the amount
-		if(i.isStackable)
+		if(i.stackable)
+			i.setCount(count);
+		// If the item is unstackable, the count is always 1.
+		else
+			i.setCount(1);
+		return i;
+	}
+	
+	public Item createUnequippableItem(int x, int y, int count){
+		Item i = new UnequippableItem(texture, name, id, itemRarity, price, stackable, itemTypes);
+		i.setPosition(x, y);
+		
+		// If the item is stackable, set the amount
+		if(i.stackable)
 			i.setCount(count);
 		// If the item is unstackable, the count is always 1.
 		else
@@ -100,8 +148,8 @@ public class Item implements Serializable{
 	 */
 	public Rectangle itemPosition(float xOffset, float yOffset){
 		//
-		bounds.x = 1;
-		bounds.y = 1;
+		bounds.x = 0;
+		bounds.y = 0;
 		bounds.width = 32;
 		bounds.height = 32;
 		
@@ -116,12 +164,12 @@ public class Item implements Serializable{
 	 * Item pickup function
 	 */
 	public boolean pickUpItem (Item item) {
-        int inventoryIndex = handler.getWorld().getInventory().findFreeSlot(item);
+        int inventoryIndex = handler.getInventory().findFreeSlot(item);
         if (inventoryIndex >= 0) {
         	// If we have space
             if(id == item.getId()){
-            	if(handler.getWorld().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-	            	handler.sendMsg("Picked up " + item.getCount() + " " + item.name.toLowerCase() + "s.");
+            	if(handler.getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
+	            	handler.sendMsg("Picked up " + item.getCount() + "x " + item.getName());
 	            	pickedUp = true;
 	            	return true;
             	}
@@ -129,8 +177,6 @@ public class Item implements Serializable{
             System.out.println("Something went wrong picking up this item.");
             return false;
         }
-        // Cannot pick up item because inventroy is full
-        handler.sendMsg("Your inventory is full. Please make some space!");
     	return false;
     }
 	
@@ -146,7 +192,7 @@ public class Item implements Serializable{
 	}
 
 	public int getEquipSlot() {
-		return equipSlot;
+		return equipSlot.getSlotId();
 	}
 
 	public int getPower() {
@@ -220,13 +266,22 @@ public class Item implements Serializable{
 	public void setPickedUp(boolean pickedUp) {
 		this.pickedUp = pickedUp;
 	}
-
-	public ItemType getItemType() {
-		return itemType;
+	
+	public boolean isType(ItemType type) {
+		for(ItemType it : itemTypes) {
+			if(it == type) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
+	public ItemType[] getItemTypes() {
+		return itemTypes;
+	}
+
+	public void setItemType(ItemType[] itemTypes) {
+		this.itemTypes = itemTypes;
 	}
 
 	public ItemRarity getItemRarity() {
@@ -246,11 +301,51 @@ public class Item implements Serializable{
 	}
 
 	public boolean isStackable() {
-		return isStackable;
+		return stackable;
 	}
 
-	public void setStackable(boolean isStackable) {
-		this.isStackable = isStackable;
+	public void setStackable(boolean stackable) {
+		this.stackable = stackable;
 	}
+	
+	public ItemRequirement[] getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(ItemRequirement[] requirements) {
+		this.requirements = requirements;
+	}
+	
+	public void startRespawnTimer() {
+		this.respawnTimer--;
+	}
+	
+	public int getRespawnTimer() {
+		return respawnTimer;
+	}
+
+	public void setRespawnTimer(int respawnTimer) {
+		this.respawnTimer = respawnTimer;
+	}
+
+	private void writeObject(ObjectOutputStream out) throws IOException {
+	    out.defaultWriteObject();
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        ImageIO.write(this.texture, "png", buffer);
+
+        out.writeInt(buffer.size()); // Prepend image with byte count
+        buffer.writeTo(out);         // Write image
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+	    in.defaultReadObject();
+
+        int size = in.readInt(); // Read byte count
+        byte[] buffer = new byte[size];
+        in.readFully(buffer); // Make sure you read all bytes of the image
+
+        this.texture = ImageIO.read(new ByteArrayInputStream(buffer));
+    }
 
 }

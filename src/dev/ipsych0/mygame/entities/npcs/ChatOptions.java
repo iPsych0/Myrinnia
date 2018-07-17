@@ -3,22 +3,23 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
-import dev.ipsych0.mygame.Handler;
+import java.io.Serializable;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatOptions {
+public class ChatOptions implements Serializable{
 	
-	private Handler handler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	private String message;
 	private boolean isHovering = false;
 	private int optionID;
-	Rectangle bounds;
+	private Rectangle bounds;
 	
-	public ChatOptions(Handler handler, int x, int y, int optionID, String message) {
-		this.handler = handler;
+	public ChatOptions(int x, int y, int optionID, String message) {
 		this.x = x;
 		this.y = y;
 		this.optionID = optionID;
@@ -37,9 +38,9 @@ public class ChatOptions {
 	
 	public void render(Graphics g) {
 		if(isHovering) {
-			g.drawImage(Assets.mainMenuButton[0], x + 1, y, width, height, null);
+			g.drawImage(Assets.genericButton[0], x + 2, y + 1, width, height, null);
 		}else {
-			g.drawImage(Assets.mainMenuButton[1], x + 1, y, width, height, null);
+			g.drawImage(Assets.genericButton[1], x + 1, y, width, height, null);
 		}
 		Text.drawString(g, message, x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
 	}

@@ -3,13 +3,18 @@ package dev.ipsych0.mygame.crafting;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
+import java.io.Serializable;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
+import dev.ipsych0.mygame.utils.Text;
 
-public class CraftResultSlot {
+public class CraftResultSlot implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;
@@ -29,16 +34,11 @@ public class CraftResultSlot {
 	
 	public void render(Graphics g) {
 		
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+		g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
 		
 		if(itemStack != null) {
 			g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
-			g.setColor(Color.YELLOW);
-			g.setFont(Assets.font14);
-			g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+			Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
 		}
 	}
 	

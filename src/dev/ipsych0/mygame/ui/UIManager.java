@@ -1,13 +1,17 @@
 package dev.ipsych0.mygame.ui;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 
-public class UIManager {
+public class UIManager implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private CopyOnWriteArrayList<UIObject> objects;
 	
@@ -24,16 +28,6 @@ public class UIManager {
 	public void render(Graphics g){
 		for(UIObject o : objects)
 			o.render(g);
-	}
-	
-	public void onMouseMove(MouseEvent e){
-		for(UIObject o : objects)
-			o.onMouseMove(e);
-	}
-	
-	public void onMouseRelease(MouseEvent e){
-		for(UIObject o : objects)
-			o.onMouseRelease(e);
 	}
 	
 	public void addObject(UIObject o){

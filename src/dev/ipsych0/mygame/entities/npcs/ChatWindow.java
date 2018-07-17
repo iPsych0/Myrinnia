@@ -3,14 +3,19 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class ChatWindow {
+public class ChatWindow implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static boolean chatIsOpen = true;
 	private boolean isCreated = false;
 	
@@ -47,7 +52,7 @@ public class ChatWindow {
 			}	
 			width = numCols * (TextSlot.textWidth);
 			height = numRows * (TextSlot.textHeight + 1);
-			setWindowBounds(new Rectangle(x, y, width, height));
+			windowBounds = new Rectangle(x, y, width, height);
 			isCreated = true;
 		}
 	}
@@ -72,8 +77,6 @@ public class ChatWindow {
 			
 			g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 			g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-			g.setColor(Color.YELLOW);
-			g.setFont(Assets.font14);
 			String world = handler.getWorld().getClass().getSimpleName().toString();
 			world = world.substring(0,1).toUpperCase() + world.substring(1).toLowerCase();
 			Text.drawString(g, world, x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);

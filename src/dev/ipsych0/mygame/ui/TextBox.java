@@ -1,12 +1,11 @@
 package dev.ipsych0.mygame.ui;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.io.Serializable;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -14,17 +13,20 @@ import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.utils.DialogueBox;
 import dev.ipsych0.mygame.utils.Text;
 
-public class TextBox implements KeyListener {
+public class TextBox implements KeyListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
-	public String charactersTyped = "";
+	private String charactersTyped = "";
 	public boolean numbersOnly = false;
 	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
-	public int index = 0;
+	private int index = 0;
 	private StringBuilder sb;
-	private boolean loaded = false;
 	public static boolean enterPressed = false;
 	public static boolean isOpen = false;
 	private Color selected = new Color(102, 51, 0, 127);
@@ -44,10 +46,6 @@ public class TextBox implements KeyListener {
 		bounds = new Rectangle(x,y,width,height);
 		
 		sb = new StringBuilder(charactersTyped);
-		
-		// Add this keylistener to the frame/canvas
-		handler.getGame().getDisplay().getFrame().addKeyListener(this);
-		handler.getGame().getDisplay().getCanvas().addKeyListener(this);
 	}
 	
 	public void tick() {
@@ -56,14 +54,21 @@ public class TextBox implements KeyListener {
 			
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-				focus = true;
+				if(!focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+					handler.getGame().getDisplay().getFrame().addKeyListener(this);
+				}
 				KeyManager.typingFocus = true;
+				focus = true;
 			}
 			
 			// Removes focus when clicked outside the textfield
 			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
-				focus = false;
+				if(focus) {
+					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+				}
 				KeyManager.typingFocus = false;
+				focus = false;
 			}
 		}
 	}
@@ -195,6 +200,14 @@ public class TextBox implements KeyListener {
 		}
 	}
 
+	public StringBuilder getSb() {
+		return sb;
+	}
+
+	public void setSb(StringBuilder sb) {
+		this.sb = sb;
+	}
+
 	public String getCharactersTyped() {
 		return charactersTyped;
 	}
@@ -202,5 +215,14 @@ public class TextBox implements KeyListener {
 	public void setCharactersTyped(String charactersTyped) {
 		this.charactersTyped = charactersTyped;
 	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
 
 }

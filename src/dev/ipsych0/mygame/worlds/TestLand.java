@@ -4,38 +4,32 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.Lorraine;
 import dev.ipsych0.mygame.entities.statics.Rock;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine1;
-import dev.ipsych0.mygame.entities.statics.TeleportShrine2;
+import dev.ipsych0.mygame.entities.statics.TeleportShrine;
 import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
-import dev.ipsych0.mygame.items.EquipmentWindow;
-import dev.ipsych0.mygame.items.InventoryWindow;
-import dev.ipsych0.mygame.mapeditor.MapLoader;
-import dev.ipsych0.mygame.tiles.Tiles;
+import dev.ipsych0.mygame.utils.MapLoader;
 
 public class TestLand extends World {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Rectangle swampLandTile;
 	private Rectangle islandTile;
 
-	public TestLand(Handler handler, Player player, ChatWindow chatWindow, InventoryWindow inventory, EquipmentWindow equipment, String path, int worldID) {
+	public TestLand(Handler handler, String path) {
 		super(handler);
 		
-		this.worldID = worldID;
-		this.player = player;
-		this.chatWindow = chatWindow;
-		this.inventory = inventory;
-		this.equipment = equipment;
+		this.worldPath = path;
 		
-		width = mapLoader.getMapWidth(path);
-		height = mapLoader.getMapHeight(path);
+		width = MapLoader.getMapWidth(path);
+		height = MapLoader.getMapHeight(path);
 		
 		loadWorld(path);
-		
+				
 		entityManager.addEntity(new Lorraine(handler, 732, 440));
 		
 		entityManager.addEntity(new Tree(handler, 360, 128));
@@ -45,8 +39,7 @@ public class TestLand extends World {
 		
 		entityManager.addEntity(new Rock(handler, 448, 576));
 		
-		entityManager.addEntity(new TeleportShrine2(handler, 200, 200));
-		entityManager.addEntity(new TeleportShrine1(handler, 200, 168));
+		entityManager.addEntity(new TeleportShrine(handler, 200, 200));
 		
 		entityManager.addEntity(new Whirlpool(handler, 112, 928));
 		
@@ -57,29 +50,14 @@ public class TestLand extends World {
 	@Override
 	public void tick() {
 		if(handler.getWorld() == this){
-			itemManager.tick();
-			entityManager.tick();
-			sparkles.tick();
-			inventory.tick();
-			equipment.tick();
-			miniMap.tick();
-			craftingUI.tick();
-			chatWindow.tick();
+			super.tick();
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(swampLandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(0));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(1490);
-				handler.getPlayer().setY(1305);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(0).getClass().getSimpleName());
+			if(standingOnTile(swampLandTile)){
+				handler.goToWorld(Zone.SwampLand, 1490, 1305);
 			}
 			
-			if(getEntityManager().getPlayer().getCollisionBounds(0, 0).intersects(islandTile)){
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(2));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(800);
-				handler.getPlayer().setY(750);
-				System.out.println("Went to world: " + handler.getWorldHandler().getWorlds().get(2).getClass().getSimpleName());
+			if(standingOnTile(islandTile)){
+				handler.goToWorld(Zone.Island, 800, 750);
 			}
 		}
 	}
@@ -87,62 +65,10 @@ public class TestLand extends World {
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
-			// Set variables for rendering only the tiles that show on screen
-			int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-			int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-			int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-			int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
-			
-			// Render the tiles
-			
-			for (int i = 0; i < layers.length; i++) {
-				for(int y = yStart; y < yEnd; y++){
-					for(int x = xStart; x < xEnd; x++){
-						if(getTile(i,x,y) == Tiles.invisible) {
-							continue;
-						}else {
-							getTile(i,x,y).render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-							(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
-						}
-					}
-				}
-			}
-			
-			// Items
-			
-			itemManager.render(g);
-			
-			// Entities & chat
-			entityManager.render(g);
-			chatWindow.render(g);
-			entityManager.postRender(g);
-			
-			/* Uncomment to 
-			if(night) {
-				renderNight(g);
-			}
-			*/
-			
-			renderHPandFPS(g);
-			
-			// Inventory & Equipment
-			inventory.render(g);
-			equipment.render(g);
-			
-			// MiniMap
-			miniMap.render(g);
-			craftingUI.render(g);
+			super.render(g);
 			
 			g.drawRect((int) (swampLandTile.x - handler.getGameCamera().getxOffset()), (int) (swampLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 			g.drawRect((int) (islandTile.x - handler.getGameCamera().getxOffset()), (int) (islandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
 		}
-	}
-
-	public int getWorldID() {
-		return worldID;
-	}
-
-	public void setWorldID(int worldID) {
-		this.worldID = worldID;
 	}
 }

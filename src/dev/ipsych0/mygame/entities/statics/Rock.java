@@ -2,44 +2,46 @@ package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
-import dev.ipsych0.mygame.gfx.Animation;
+import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
+import dev.ipsych0.mygame.items.ItemType;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
 
 public class Rock extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
-	private int speakingTurn;
 	private boolean isMining = false;
 	private int miningTimer = 0;
-	private int minAttempts = 2, maxAttempts = 6;
+	private int minAttempts = 3, maxAttempts = 6;
 	private int random = 0;
 	private int attempts = 0;
 
 	public Rock(Handler handler, float x, float y) {
 		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
-		bounds.x = 1;
-		bounds.y = 1;
-		bounds.width = 32;
-		bounds.height = 32;
 		isNpc = true;
 		attackable = false;
-		speakingTurn = 0;
 	}
 
 	@Override
 	public void tick() {
 		if(isMining) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed()) {
+			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
+					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
 				miningTimer = 0;
-				speakingTurn = 0;
+				speakingTurn = 1;
 				isMining = false;
 				return;
 			}
@@ -58,15 +60,16 @@ public class Rock extends StaticEntity {
 				System.out.println(random + " and " + attempts);
 				int roll = handler.getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getWorld().getInventory().getItemSlots().get(handler.getWorld().getInventory().findFreeSlot(Item.oreItem)).addItem(Item.oreItem,
+	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.regularOre)).addItem(Item.regularOre,
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully mined some ore!");
+	        		handler.getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("You missed the swing...");
 	        		attempts++;
 	        	}
-	        	speakingTurn = 0;
+	        	speakingTurn = 1;
 	        	miningTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
@@ -79,21 +82,7 @@ public class Rock extends StaticEntity {
 	
 	@Override
 	public void die(){
-		
-		World currentWorld = handler.getWorld();
-		
-		// Resapwn
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		            	
-		                currentWorld.getEntityManager().addEntity(new Rock(handler, xSpawn, ySpawn));
-		                
-		            }
-		        }, 
-		        10000 
-		);
+
 	}
 
 	@Override
@@ -106,11 +95,23 @@ public class Rock extends StaticEntity {
 	@Override
 	public void interact() {
 		if(this.speakingTurn == 0) {
-			handler.sendMsg("Mining...");
-			speakingTurn = 1;
-			isMining = true;
+			speakingTurn++;
+			return;
 		}
 		if(this.speakingTurn == 1) {
+			if(handler.playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
+				if(handler.playerHasItemType(ItemType.PICKAXE)) {
+					handler.sendMsg("Mining...");
+					speakingTurn = 2;
+					isMining = true;
+				}else {
+					handler.sendMsg("You need a pickaxe to mine this rock.");
+				}
+			}else {
+				handler.sendMsg("You need a mining level of " + handler.getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
+			}
+		}
+		if(this.speakingTurn == 2) {
 			return;
 		}
 	}
@@ -119,9 +120,14 @@ public class Rock extends StaticEntity {
 	public void postRender(Graphics g) {
 		if(isMining) {
 			g.setColor(Color.WHITE);
-			g.drawImage(Assets.fish, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+			g.drawImage(Assets.miningIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		
+	}
+
+	@Override
+	public void respawn() {
+		handler.getWorld().getEntityManager().addEntity(new Rock(handler, xSpawn, ySpawn));		
 	}
 	
 }
