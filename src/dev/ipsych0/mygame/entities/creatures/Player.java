@@ -257,15 +257,15 @@ public class Player extends Creature{
 		}
 		
 		// If the player moves or presses escape, close the shop and chat dialogue
-		if(isMoving) {
+		if(closestEntity != null && isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
-			if(closestEntity != null) {
-				closestEntity.setChatDialogue(null);
-				closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
-				closestEntity.interact();
-				closestEntity = null;
-			}
+
+			closestEntity.setChatDialogue(null);
+			closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+			closestEntity.interact();
+			closestEntity = null;
+			
 		}
 		
 		// If there are projectiles, tick them
