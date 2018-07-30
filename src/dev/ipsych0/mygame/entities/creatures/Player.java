@@ -18,6 +18,7 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.EquipSlot;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemType;
@@ -295,16 +296,16 @@ public class Player extends Creature{
 		// If the player is pressing the attack button
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
-				if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
+				if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
 					/*
 					 * If the player is wearing a melee weapon, check melee attacks
 					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
 						checkAttacks(mouse);
 					/*
 					 * If the player is wearing a magic weapon, fire magic attacks
 					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
 					}
 				}

@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.abilities;
 
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 
 public abstract class Ability {
@@ -13,12 +14,13 @@ public abstract class Ability {
 	protected String name;
 	protected String description;
 	protected AbilityType abilityType;
-	protected Element element;
+	protected CharacterStats element;
 	protected boolean onCooldown, casting, inOvercast;
 	protected int baseDamage;
 	protected boolean activated;
+	protected CastState castState;
 	
-	public Ability(Element element, String name, AbilityType abilityType, int cooldownTimer, int castingTime, int overcastTime, int baseDamage, String description) {
+	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTimer, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
 		this.abilityType = abilityType;
 		this.cooldownTimer = cooldownTimer * 60;
@@ -27,14 +29,15 @@ public abstract class Ability {
 		this.name = name;
 		this.baseDamage = baseDamage;
 		this.description = description;
+		this.castState = CastState.READY;
 		
 	}
 		
 	public void tick() {
-
+		
 	}
 	
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics g, int x, int y);
 		
 	public abstract void cast();
 		
@@ -121,11 +124,11 @@ public abstract class Ability {
 		this.inOvercast = inOvercast;
 	}
 
-	public Element getElement() {
+	public CharacterStats getElement() {
 		return element;
 	}
 
-	public void setElement(Element element) {
+	public void setElement(CharacterStats element) {
 		this.element = element;
 	}
 

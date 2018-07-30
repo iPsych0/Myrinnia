@@ -24,19 +24,11 @@ public class AbilityManager {
 	}
 	
 	public void tick() {
-		Iterator<Ability> it = abilities.iterator();
-		while(it.hasNext()) {
-			Ability a = it.next();
-			a.tick();
-		}
+
 	}
 	
 	public void render(Graphics g) {
-		Iterator<Ability> it = abilities.iterator();
-		while(it.hasNext()) {
-			Ability a = it.next();
-			a.render(g);
-		}
+
 	}
 	
 	private void preCast() {
