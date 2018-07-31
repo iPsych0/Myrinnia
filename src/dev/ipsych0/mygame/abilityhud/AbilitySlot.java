@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.abilityhud;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
@@ -57,7 +58,9 @@ public class AbilitySlot {
 		this.y = y;
 	}
 	
-	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+	}
 	
 
 }

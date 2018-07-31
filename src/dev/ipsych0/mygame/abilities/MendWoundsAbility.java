@@ -6,9 +6,9 @@ import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
 
-public class FireBallAbility extends Ability {
+public class MendWoundsAbility extends Ability{
 
-	public FireBallAbility(CharacterStats element, String name, AbilityType abilityType, int cooldownTimer,
+	public MendWoundsAbility(CharacterStats element, String name, AbilityType abilityType, int cooldownTimer,
 			int castingTime, int overcastTime, int baseDamage, String description) {
 		super(element, name, abilityType, cooldownTimer, castingTime, overcastTime, baseDamage, description);
 		// TODO Auto-generated constructor stub
@@ -16,7 +16,7 @@ public class FireBallAbility extends Ability {
 
 	@Override
 	public void render(Graphics g, int x, int y) {
-		g.drawImage(Assets.magicProjectile[2], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+		g.drawImage(Assets.waterFlow1, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
 		
 	}
 
