@@ -33,6 +33,7 @@ public class HPOverlay implements Serializable {
 	public HPOverlay(Handler handler) {
 		this.handler = handler;
 		
+		// Bars
 		hpBar = new Rectangle(48,32,144,24);
 		xpBar = new Rectangle(48,56,144,24);
 		
@@ -40,19 +41,21 @@ public class HPOverlay implements Serializable {
 		
 		combatBar = new Rectangle(0,2,208,32);
 		
+		// Colors
 		hpColorRed = new Color(140, 0, 0);
 		hpColorGreen = new Color(50, 135, 0);
 		xpColor = new Color(180, 135, 5);
 		
+		hpColorRedOutline = new Color(190, 0, 0);
+		hpColorGreenOutline = new Color(50, 180, 0);
+		xpColorOutline = new Color(240, 160, 5);
+		
+		// Buttons
 		questsButton = new Rectangle(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32);
 		skillsButton = new Rectangle(bounds.x + bounds.width / 2 - 48, bounds.y + bounds.height - 40, 32, 32);
 		characterButton = new Rectangle(bounds.x + bounds.width / 2 - 16, bounds.y + bounds.height - 40, 32, 32);
 		abilitiesButton = new Rectangle(bounds.x + bounds.width / 2 + 16, bounds.y + bounds.height - 40, 32, 32);
 		mapButton = new Rectangle(bounds.x + bounds.width / 2 + 48, bounds.y + bounds.height - 40, 32, 32);
-		
-		hpColorRedOutline = new Color(190, 0, 0);
-		hpColorGreenOutline = new Color(50, 180, 0);
-		xpColorOutline = new Color(240, 160, 5);
 	}
 	
 	public void tick() {

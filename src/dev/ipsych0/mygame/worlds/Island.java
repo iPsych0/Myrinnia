@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.abilityhud.AbilityUI;
+import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
@@ -30,7 +30,7 @@ public class Island extends World {
 	private Rectangle southwestVillageHouse;
 	private Rectangle northwestVillageHouse;
 
-	private AbilityUI abilityUI;
+	private PlayerHUD playerHUD;
 	
 	public Island(Handler handler, String path) {
 		super(handler);
@@ -80,7 +80,7 @@ public class Island extends World {
 		// Dit is hoe ik items in de world zelf spawn
 		itemManager.addItem(Item.regularLogs.createUnequippableItem(5056, 5596, 5), true);
 		
-		abilityUI = new AbilityUI(handler, 0, handler.getHeight() - 32);
+		playerHUD = new PlayerHUD(handler, 0, handler.getHeight() - 32);
 		
 	}
 
@@ -127,14 +127,14 @@ public class Island extends World {
 			}
 		}
 		
-		abilityUI.tick();
+		playerHUD.tick();
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
 			super.render(g);
-			abilityUI.render(g);
+			playerHUD.render(g);
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house3.x - handler.getGameCamera().getxOffset()), (int) (house3.y - handler.getGameCamera().getyOffset()), 32, 32);

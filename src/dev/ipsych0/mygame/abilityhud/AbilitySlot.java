@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
+import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
 
 public class AbilitySlot {
@@ -26,10 +27,7 @@ public class AbilitySlot {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.CYAN);
-		g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+		g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 		if(ability != null)
 			ability.render(g, x, y);
 	}

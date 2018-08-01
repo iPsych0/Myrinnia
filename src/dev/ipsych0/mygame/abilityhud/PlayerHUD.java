@@ -16,16 +16,17 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.utils.Text;
 
-public class AbilityUI {
+public class PlayerHUD {
 	
 	private Handler handler;
 	private List<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
-	private static final int MAX_SLOTS = 6;
+	private static final int MAX_SLOTS = 10;
 	private HPBar hpBar;
 	private XPBar xpBar;
 	private int x, y, width, height;
+	private AbilityTooltip abilityTooltip;
 	
-	public AbilityUI(Handler handler, int x, int y) {
+	public PlayerHUD(Handler handler, int x, int y) {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
@@ -42,6 +43,8 @@ public class AbilityUI {
 		// Add XP Bar after HP Bar
 		xpBar = new XPBar(handler, hpBar.getX() + hpBar.getWidth(), y);
 		
+		abilityTooltip = new AbilityTooltip(0, handler.getHeight() / 2, 160, 224);
+		
 		this.width = x + xpBar.getX() + xpBar.getWidth();
 		this.height = y + ItemSlot.SLOTSIZE;
 	}
@@ -51,7 +54,7 @@ public class AbilityUI {
 		for(AbilitySlot as : slottedAbilities) {
 			as.tick();
 			if(as.getBounds().contains(mouse)){
-				
+				abilityTooltip.tick();
 			}
 		}
 		hpBar.tick();
@@ -64,17 +67,7 @@ public class AbilityUI {
 			as.render(g);
 			if(as.getBounds().contains(mouse)){
 				if(as.getAbility() != null) {
-					g.drawImage(Assets.invScreen, 0, handler.getHeight() / 2, 160, 224, null);
-					as.getAbility().render(g, 4, handler.getHeight() / 2 + 16);
-					Text.drawString(g, as.getAbility().getName(), 40, handler.getHeight() / 2 + 32, false, Color.YELLOW, Assets.font14);
-					Text.drawString(g, "Type: "+as.getAbility().getAbilityType(), 4, handler.getHeight() / 2 + 80, false, Color.YELLOW, Assets.font14);
-					Text.drawString(g, "Element: "+as.getAbility().getElement(), 4, handler.getHeight() / 2 + 96, false, Color.YELLOW, Assets.font14);
-					Text.drawString(g, "Base dmg: "+as.getAbility().getBaseDamage(), 4, handler.getHeight() / 2 + 112, false, Color.YELLOW, Assets.font14);
-					Text.drawString(g, "Cooldown: "+as.getAbility().getCooldownTimer(), 4, handler.getHeight() / 2 + 128, false, Color.YELLOW, Assets.font14);
-					String[] description = Text.splitIntoLine("Description: "+as.getAbility().getDescription(), 22);
-					for(int i = 0; i < description.length; i++) {
-						Text.drawString(g, description[i], 4, handler.getHeight() / 2 + 144 + (i * 16), false, Color.YELLOW, Assets.font14);
-					}
+					abilityTooltip.render(g, as.getAbility());
 				}
 			}
 		}

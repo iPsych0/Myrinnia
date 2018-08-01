@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.utils.Text;
 
@@ -16,7 +17,7 @@ public class XPBar {
 	public XPBar(Handler handler, int x, int y) {
 		this.handler = handler;
 		this.x = x;
-		this.y = y;
+		this.y = y - 32;
 		this.width = 32;
 		this.height = 64;
 	}
@@ -26,11 +27,20 @@ public class XPBar {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(x, y - 32, width, height);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y - 32, width, height);
-		Text.drawString(g, "XP", x + width / 2, y + height / 2 - 32, true, Color.BLACK, Assets.font14);
+		g.drawImage(Assets.invScreen, x, y, width, height, null);
+		// XP bar
+		double xp = handler.getSkill(SkillsList.COMBAT).getExperience();
+		double nextLvl = handler.getSkill(SkillsList.COMBAT).getNextLevelXp();
+		double offset = xp / nextLvl;
+		int yDiff = (int)(height * offset);
+		g.setColor(HPOverlay.xpColor);
+		g.fillRoundRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3, 2, 4);
+		g.setColor(HPOverlay.xpColorOutline);
+		g.drawRoundRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3, 2, 4);
+//		
+//		Text.drawString(g, handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(),
+//				x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
+		Text.drawString(g, "XP", x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
 	}
 
 	public int getX() {

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.utils.Text;
 
 public class HPBar {
@@ -15,7 +16,7 @@ public class HPBar {
 	public HPBar(Handler handler, int x, int y) {
 		this.handler = handler;
 		this.x = x;
-		this.y = y;
+		this.y = y - 32;
 		this.width = 32;
 		this.height = 64;
 	}
@@ -25,11 +26,28 @@ public class HPBar {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y - 32, width, height);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y - 32, width, height);
-		Text.drawString(g, "HP", x + width / 2, y + height / 2 - 32, true, Color.BLACK, Assets.font14);
+		// HP Bar
+		g.drawImage(Assets.invScreen, x, y, width, height, null);
+		g.setColor(HPOverlay.hpColorRed);
+		g.fillRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+		g.setColor(HPOverlay.hpColorRedOutline);
+		g.drawRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+		
+		g.setColor(HPOverlay.hpColorGreen);
+		if(handler.getPlayer().getHealth() >= handler.getPlayer().getMaxHealth()) {
+			g.fillRoundRect( x + 1,  y + 1,  width - 3,  height - 3, 2, 4);
+			
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect( x + 1,  y + 1,  width - 3,  height - 3, 2, 4);
+		}else {
+			double yOffset = (double)handler.getPlayer().getHealth() /
+					(double)handler.getPlayer().getMaxHealth();
+			g.fillRoundRect( x + 1,  y + 1 +(int)(height * (1-yOffset)), width - 3, height - 3, 2, 4);
+			
+			g.setColor(HPOverlay.hpColorGreenOutline);
+			g.drawRoundRect( x + 1,  y + 1 +(int)(height * (1-yOffset)), width - 3, height - 3, 2, 4);
+		}
+		Text.drawString(g, "HP", x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
 	}
 
 	public int getX() {

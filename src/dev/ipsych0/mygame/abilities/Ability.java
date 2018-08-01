@@ -23,9 +23,9 @@ public abstract class Ability {
 	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTimer, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
 		this.abilityType = abilityType;
-		this.cooldownTimer = cooldownTimer * 60;
-		this.castingTime = castingTime * 60;
-		this.overcastTime = overcastTime * 60;
+		this.cooldownTimer = cooldownTimer;
+		this.castingTime = castingTime;
+		this.overcastTime = overcastTime;
 		this.name = name;
 		this.baseDamage = baseDamage;
 		this.description = description;
