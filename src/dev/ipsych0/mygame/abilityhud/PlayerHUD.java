@@ -1,30 +1,28 @@
 package dev.ipsych0.mygame.abilityhud;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilities.Ability;
 import dev.ipsych0.mygame.abilities.AbilityType;
 import dev.ipsych0.mygame.abilities.EruptionAbility;
 import dev.ipsych0.mygame.abilities.FireBallAbility;
 import dev.ipsych0.mygame.abilities.MendWoundsAbility;
 import dev.ipsych0.mygame.character.CharacterStats;
-import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
-import dev.ipsych0.mygame.utils.Text;
 
 public class PlayerHUD {
 	
 	private Handler handler;
-	private List<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
 	private static final int MAX_SLOTS = 10;
+	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
 	private HPBar hpBar;
 	private XPBar xpBar;
 	private int x, y, width, height;
 	private AbilityTooltip abilityTooltip;
+	public static char pressedKey;
 	
 	public PlayerHUD(Handler handler, int x, int y) {
 		this.handler = handler;
@@ -49,8 +47,37 @@ public class PlayerHUD {
 		this.height = y + ItemSlot.SLOTSIZE;
 	}
 	
+	/**
+	 * Handles the pressed ability slot button
+	 */
+	public void handleKeyEvent() {
+		// If zero is pressed, use the last slot, instead of the first (keyboard order)
+		if(pressedKey == 48) {
+			Ability selectedAbility = slottedAbilities.get(slottedAbilities.size()-1).getAbility();
+			if(selectedAbility != null) {
+				selectedAbility.cast();
+			}
+		}
+		// For 1-9, use the first 9 slots.
+		else {
+			Ability selectedAbility = slottedAbilities.get(pressedKey-49).getAbility();
+			if(selectedAbility != null){
+				selectedAbility.cast();
+			}
+		}
+	}
+	
 	public void tick() {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		
+		if(pressedKey != '\u0000') {
+			// If 0-9 key is pressed, handle the key pressed.
+			handleKeyEvent();
+			// Set back to default/non-pressed value
+			pressedKey = '\u0000';
+		}
+		
+		// Tick the tooltip and other bars
 		for(AbilitySlot as : slottedAbilities) {
 			as.tick();
 			if(as.getBounds().contains(mouse)){
@@ -63,8 +90,16 @@ public class PlayerHUD {
 	
 	public void render(Graphics g) {
 		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		
+		int index = 0;
 		for(AbilitySlot as : slottedAbilities) {
-			as.render(g);
+			// Render the slots from 1-9, with the final slot 0
+			if(index++ == 9) {
+				as.render(g, 0);
+			}else {
+				as.render(g, index);
+			}
+			// Render the tooltip when hovering over an ability
 			if(as.getBounds().contains(mouse)){
 				if(as.getAbility() != null) {
 					abilityTooltip.render(g, as.getAbility());

@@ -21,7 +21,7 @@ public class EruptionAbility extends Ability {
 
 	@Override
 	public void cast() {
-		// TODO Auto-generated method stub
+		System.out.println("cast eruption");
 		
 	}
 

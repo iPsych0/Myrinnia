@@ -22,7 +22,7 @@ public class MendWoundsAbility extends Ability{
 
 	@Override
 	public void cast() {
-		// TODO Auto-generated method stub
+		System.out.println("cast heal");
 		
 	}
 

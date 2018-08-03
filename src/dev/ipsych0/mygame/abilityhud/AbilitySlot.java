@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.utils.Text;
 
 public class AbilitySlot {
 	
@@ -26,10 +27,11 @@ public class AbilitySlot {
 		
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g, int slotNum) {
 		g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 		if(ability != null)
 			ability.render(g, x, y);
+		Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
 	}
 	
 	public Ability getAbility() {
