@@ -15,6 +15,7 @@ public class AbilitySlot {
 	private Handler handler;
 	private Ability ability;
 	private int x, y;
+	private Color cooldownColor = new Color(24, 24, 24, 192);
 
 	public AbilitySlot(Handler handler, Ability ability, int x, int y) {
 		this.handler = handler;
@@ -29,8 +30,15 @@ public class AbilitySlot {
 	
 	public void render(Graphics g, int slotNum) {
 		g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-		if(ability != null)
+		if(ability != null) {
 			ability.render(g, x, y);
+			if(ability.isOnCooldown()) {
+				g.setColor(cooldownColor);
+				g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+				Text.drawString(g, String.valueOf(ability.getCooldownTimer()), x + 16, y, true, Color.YELLOW, Assets.font14);
+				
+			}
+		}
 		Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
 	}
 	

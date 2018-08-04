@@ -8,7 +8,7 @@ import dev.ipsych0.mygame.entities.creatures.Creature;
 public abstract class Ability {
 	
 	protected Creature caster;
-	protected int cooldownTimer;
+	protected int cooldownTime;
 	protected int castingTime;
 	protected int overcastTime;
 	protected String name;
@@ -16,14 +16,16 @@ public abstract class Ability {
 	protected AbilityType abilityType;
 	protected CharacterStats element;
 	protected boolean onCooldown, casting, inOvercast;
+	private int castingTimeTimer = 0;
+	private int cooldownTimer = 0;
 	protected int baseDamage;
 	protected boolean activated;
 	protected CastState castState;
 	
-	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTimer, int castingTime, int overcastTime, int baseDamage, String description) {
+	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
 		this.abilityType = abilityType;
-		this.cooldownTimer = cooldownTimer;
+		this.cooldownTime = cooldownTime;
 		this.castingTime = castingTime;
 		this.overcastTime = overcastTime;
 		this.name = name;
@@ -32,14 +34,38 @@ public abstract class Ability {
 		this.castState = CastState.READY;
 		
 	}
-		
-	public void tick() {
-		
-	}
 	
 	public abstract void render(Graphics g, int x, int y);
-		
+	
 	public abstract void cast();
+		
+	public void setCaster(Creature c) {
+		this.caster = c;
+		this.setActivated(true);
+		System.out.println("Cast: "+this.getName());
+	}
+	
+	public void tick() {
+		if(this.castingTime == castingTimeTimer++) {
+			this.setCasting(true);
+			this.setOnCooldown(true);
+		}
+		
+		if(casting) {
+			cast();
+		}
+		
+		if(onCooldown) {
+			cooldownTimer++;
+			if(cooldownTimer % 60 == 0) {
+				if(cooldownTime == 0) {
+					this.setOnCooldown(false);
+					this.setActivated(false);
+				}
+				cooldownTime -= 1;
+			}
+		}
+	}
 		
 
 	// Getters & Setters
@@ -56,16 +82,12 @@ public abstract class Ability {
 		return caster;
 	}
 
-	public void setCaster(Creature caster) {
-		this.caster = caster;
-	}
-
 	public int getCooldownTimer() {
-		return cooldownTimer;
+		return cooldownTime;
 	}
 
 	public void setCooldownTimer(int cooldownTimer) {
-		this.cooldownTimer = cooldownTimer;
+		this.cooldownTime = cooldownTimer;
 	}
 
 	public int getCastingTime() {

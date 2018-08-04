@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -93,6 +94,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			HPOverlay.hasBeenPressed = true;
 			BankUI.hasBeenPressed = true;
 			SliderPuzzle.hasBeenPressed = true;
+			PlayerHUD.hasBeenPressed = true;
 		}
 		
 		// Right Click

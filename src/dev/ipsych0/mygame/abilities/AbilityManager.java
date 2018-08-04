@@ -1,6 +1,7 @@
 package dev.ipsych0.mygame.abilities;
 
 import java.awt.Graphics;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -9,10 +10,11 @@ import dev.ipsych0.mygame.Handler;
 public class AbilityManager {
 	
 	private Handler handler;
-	private CopyOnWriteArrayList<Ability> abilities = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
 	private int preCastTimer = 0;
 	private int afterCastTimer = 0;
 	private Ability selectedAbility;
+	private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
 	
 	/*
 	 * Abilities (maybe via file inladen)
@@ -24,27 +26,34 @@ public class AbilityManager {
 	}
 	
 	public void tick() {
-
+		Iterator<Ability> it = activeAbilities.iterator();
+		while(it.hasNext()){
+			Ability a = it.next();
+			if(a.isActivated()) {
+				a.tick();
+			}else {
+				deleted.add(a);
+			}
+		}
+		
+		// Clear the non-active abilities
+		if(deleted.size() > 0) {
+			activeAbilities.removeAll(deleted);
+			deleted.clear();
+		}
 	}
 	
 	public void render(Graphics g) {
 
 	}
-	
-	private void preCast() {
-		// Timer logic for pre-cast (channel/casting time)
-	}
-	
-	private void postCast() {
-		// Timer logic for post-cast (afterCast timer)
+
+	public CopyOnWriteArrayList<Ability> getActiveAbilities() {
+		return activeAbilities;
 	}
 
-	public CopyOnWriteArrayList<Ability> getAbilities() {
-		return abilities;
+	public void setActiveAbilities(CopyOnWriteArrayList<Ability> activeAbilities) {
+		this.activeAbilities = activeAbilities;
 	}
 
-	public void setAbilities(CopyOnWriteArrayList<Ability> abilities) {
-		this.abilities = abilities;
-	}
 
 }

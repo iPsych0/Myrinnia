@@ -22,6 +22,7 @@ public class PlayerHUD {
 	private XPBar xpBar;
 	private int x, y, width, height;
 	private AbilityTooltip abilityTooltip;
+	public static boolean hasBeenPressed;
 	public static char pressedKey;
 	
 	public PlayerHUD(Handler handler, int x, int y) {
@@ -50,19 +51,31 @@ public class PlayerHUD {
 	/**
 	 * Handles the pressed ability slot button
 	 */
-	public void handleKeyEvent() {
-		// If zero is pressed, use the last slot, instead of the first (keyboard order)
-		if(pressedKey == 48) {
-			Ability selectedAbility = slottedAbilities.get(slottedAbilities.size()-1).getAbility();
-			if(selectedAbility != null) {
-				selectedAbility.cast();
+	private void handleKeyEvent() {
+		// Get the right index in the ability slots
+		int index = 0;
+		// Funky calculation. If 0 is pressed, it should be the last slot instead of first, otherwise the slot is 1-9 pressed -1 by index
+		Ability selectedAbility = slottedAbilities.get(index = pressedKey == 48 ? slottedAbilities.size()-1 : (pressedKey-49)).getAbility();
+		if(selectedAbility != null) {
+			if(selectedAbility.isOnCooldown()) {
+				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
+				return;
+			}else {
+				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
+				selectedAbility.setCaster(handler.getPlayer());
 			}
 		}
-		// For 1-9, use the first 9 slots.
-		else {
-			Ability selectedAbility = slottedAbilities.get(pressedKey-49).getAbility();
-			if(selectedAbility != null){
-				selectedAbility.cast();
+	}
+	
+	private void handleClickEvent(AbilitySlot slot) {
+		Ability selectedAbility = slot.getAbility();
+		if(selectedAbility != null) {
+			if(selectedAbility.isOnCooldown()) {
+				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
+				return;
+			}else {
+				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
+				selectedAbility.setCaster(handler.getPlayer());
 			}
 		}
 	}
@@ -82,6 +95,10 @@ public class PlayerHUD {
 			as.tick();
 			if(as.getBounds().contains(mouse)){
 				abilityTooltip.tick();
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+					handleClickEvent(as);
+					hasBeenPressed = false;
+				}
 			}
 		}
 		hpBar.tick();
