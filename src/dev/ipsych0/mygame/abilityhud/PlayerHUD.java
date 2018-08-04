@@ -33,7 +33,7 @@ public class PlayerHUD {
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(handler, null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, 0,0,0,10, "A weak fireball spell."));
+		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, 1,0,0,10, "A weak fireball spell."));
 		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, 10,0,0,25, "Causes an eruption that deals X AoE damage."));
 		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, 25,0,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
 		

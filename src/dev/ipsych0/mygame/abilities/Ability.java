@@ -57,18 +57,23 @@ public abstract class Ability {
 		
 		if(onCooldown) {
 			cooldownTimer++;
-			if(cooldownTimer % 60 == 0) {
-				if(cooldownTime == 0) {
-					this.setOnCooldown(false);
-					this.setActivated(false);
-				}
-				cooldownTime -= 1;
+			if(cooldownTimer / 60 == cooldownTime) {
+				this.setOnCooldown(false);
+				this.setActivated(false);
+				this.setCasting(false);
+				castingTimeTimer = 0;
+				cooldownTimer = 0;
+				
 			}
 		}
 	}
 		
 
 	// Getters & Setters
+	
+	public int getRemainingCooldown() {
+		return cooldownTime - (cooldownTimer/60);
+	}
 	
 	public AbilityType getAbilityType() {
 		return abilityType;
