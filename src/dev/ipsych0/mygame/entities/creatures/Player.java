@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilityhud.AbilitySlot;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -297,14 +298,16 @@ public class Player extends Creature{
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
 				if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
-					/*
-					 * If the player is wearing a melee weapon, check melee attacks
-					 */
+					for(AbilitySlot as : handler.getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+						if(as.getAbility() != null) {
+							if(as.getAbility().isChanneling())
+								return;
+						}
+					}
+					//Check melee auto attack
 					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
 						checkAttacks(mouse);
-					/*
-					 * If the player is wearing a magic weapon, fire magic attacks
-					 */
+					// Check magic auto attack
 					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
 					}
@@ -656,6 +659,8 @@ public class Player extends Creature{
 		if(CharacterUI.isOpen && handler.getCharacterUI().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		if(handler.getHpOverlay().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
+		if(handler.getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
 		
 		// If the mouse is not clicked in one of the UI windows, return false

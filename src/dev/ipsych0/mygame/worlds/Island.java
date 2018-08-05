@@ -30,7 +30,6 @@ public class Island extends World {
 	private Rectangle southwestVillageHouse;
 	private Rectangle northwestVillageHouse;
 
-	private PlayerHUD playerHUD;
 	
 	public Island(Handler handler, String path) {
 		super(handler);
@@ -79,9 +78,7 @@ public class Island extends World {
 				
 		// Dit is hoe ik items in de world zelf spawn
 		itemManager.addItem(Item.regularLogs.createUnequippableItem(5056, 5596, 5), true);
-		
-		playerHUD = new PlayerHUD(handler, 0, handler.getHeight() - 32);
-		
+				
 	}
 
 	@Override
@@ -125,16 +122,13 @@ public class Island extends World {
 			if(standingOnTile(northwestVillageHouse)){
 				handler.goToWorld(Zone.IslandUnderground, 3040, 6288);
 			}
-		}
-		
-		playerHUD.tick();
+		}	
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
 			super.render(g);
-			playerHUD.render(g);
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house3.x - handler.getGameCamera().getxOffset()), (int) (house3.y - handler.getGameCamera().getyOffset()), 32, 32);

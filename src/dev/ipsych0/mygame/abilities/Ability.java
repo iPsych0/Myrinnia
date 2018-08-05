@@ -16,11 +16,12 @@ public abstract class Ability {
 	protected AbilityType abilityType;
 	protected CharacterStats element;
 	protected boolean onCooldown, casting, inOvercast;
-	private int castingTimeTimer = 0;
-	private int cooldownTimer = 0;
+	protected int castingTimeTimer = 0;
+	protected int cooldownTimer = 0;
 	protected int baseDamage;
 	protected boolean activated;
 	protected CastState castState;
+	protected boolean channeling;
 	
 	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
@@ -32,7 +33,6 @@ public abstract class Ability {
 		this.baseDamage = baseDamage;
 		this.description = description;
 		this.castState = CastState.READY;
-		
 	}
 	
 	public abstract void render(Graphics g, int x, int y);
@@ -42,13 +42,17 @@ public abstract class Ability {
 	public void setCaster(Creature c) {
 		this.caster = c;
 		this.setActivated(true);
+		this.setOnCooldown(true);
+		if(this.getCastingTime() > 0) {
+			this.setChanneling(true);
+		}
 		System.out.println("Cast: "+this.getName());
 	}
 	
 	public void tick() {
-		if(this.castingTime == castingTimeTimer++) {
+		if(this.castingTime * 60 == castingTimeTimer++) {
 			this.setCasting(true);
-			this.setOnCooldown(true);
+			this.setChanneling(false);
 		}
 		
 		if(casting) {
@@ -56,15 +60,18 @@ public abstract class Ability {
 		}
 		
 		if(onCooldown) {
-			cooldownTimer++;
-			if(cooldownTimer / 60 == cooldownTime) {
-				this.setOnCooldown(false);
-				this.setActivated(false);
-				this.setCasting(false);
-				castingTimeTimer = 0;
-				cooldownTimer = 0;
-				
-			}
+			countDown();
+		}
+	}
+	
+	protected void countDown() {
+		cooldownTimer++;
+		if(cooldownTimer / 60 == cooldownTime) {
+			this.setOnCooldown(false);
+			this.setActivated(false);
+			this.setCasting(false);
+			castingTimeTimer = 0;
+			cooldownTimer = 0;
 		}
 	}
 		
@@ -173,6 +180,38 @@ public abstract class Ability {
 
 	public void setActivated(boolean isActivated) {
 		this.activated = isActivated;
+	}
+
+	public int getCooldownTime() {
+		return cooldownTime;
+	}
+
+	public void setCooldownTime(int cooldownTime) {
+		this.cooldownTime = cooldownTime;
+	}
+
+	public int getCastingTimeTimer() {
+		return castingTimeTimer;
+	}
+
+	public void setCastingTimeTimer(int castingTimeTimer) {
+		this.castingTimeTimer = castingTimeTimer;
+	}
+
+	public CastState getCastState() {
+		return castState;
+	}
+
+	public void setCastState(CastState castState) {
+		this.castState = castState;
+	}
+
+	public boolean isChanneling() {
+		return channeling;
+	}
+
+	public void setChanneling(boolean channeling) {
+		this.channeling = channeling;
 	}
 	
 	

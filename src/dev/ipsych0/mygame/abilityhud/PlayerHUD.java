@@ -10,6 +10,7 @@ import dev.ipsych0.mygame.abilities.AbilityType;
 import dev.ipsych0.mygame.abilities.EruptionAbility;
 import dev.ipsych0.mygame.abilities.FireBallAbility;
 import dev.ipsych0.mygame.abilities.MendWoundsAbility;
+import dev.ipsych0.mygame.abilities.NimbleFeetAbility;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.items.ItemSlot;
 
@@ -33,10 +34,11 @@ public class PlayerHUD {
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(handler, null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, 1,0,0,10, "A weak fireball spell."));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, 10,0,0,25, "Causes an eruption that deals X AoE damage."));
-		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, 25,0,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
-		
+		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, 5,1,0,10, "A weak fireball spell."));
+		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
+		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
+		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
+
 		// Add HP Bar after the last abilitySlot
 		hpBar = new HPBar(handler, slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
 		// Add XP Bar after HP Bar
@@ -57,6 +59,13 @@ public class PlayerHUD {
 		// Funky calculation. If 0 is pressed, it should be the last slot instead of first, otherwise the slot is 1-9 pressed -1 by index
 		Ability selectedAbility = slottedAbilities.get(index = pressedKey == 48 ? slottedAbilities.size()-1 : (pressedKey-49)).getAbility();
 		if(selectedAbility != null) {
+			for(AbilitySlot as : slottedAbilities) {
+				if(as.getAbility() != null) {
+					if(as.getAbility().isChanneling()) {
+						return;
+					}
+				}
+			}
 			if(selectedAbility.isOnCooldown()) {
 				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
@@ -70,6 +79,13 @@ public class PlayerHUD {
 	private void handleClickEvent(AbilitySlot slot) {
 		Ability selectedAbility = slot.getAbility();
 		if(selectedAbility != null) {
+			for(AbilitySlot as : slottedAbilities) {
+				if(as.getAbility() != null) {
+					if(as.getAbility().isChanneling()) {
+						return;
+					}
+				}
+			}
 			if(selectedAbility.isOnCooldown()) {
 				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
@@ -125,6 +141,34 @@ public class PlayerHUD {
 		}
 		hpBar.render(g);
 		xpBar.render(g);
+	}
+
+	public ArrayList<AbilitySlot> getSlottedAbilities() {
+		return slottedAbilities;
+	}
+
+	public void setSlottedAbilities(ArrayList<AbilitySlot> slottedAbilities) {
+		this.slottedAbilities = slottedAbilities;
+	}
+
+	public HPBar getHpBar() {
+		return hpBar;
+	}
+
+	public void setHpBar(HPBar hpBar) {
+		this.hpBar = hpBar;
+	}
+
+	public XPBar getXpBar() {
+		return xpBar;
+	}
+
+	public void setXpBar(XPBar xpBar) {
+		this.xpBar = xpBar;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width, height);
 	}
 	
 }
