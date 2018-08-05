@@ -16,6 +16,7 @@ public class AbilitySlot {
 	private Ability ability;
 	private int x, y;
 	private Color cooldownColor = new Color(24, 24, 24, 192);
+	private Color selectedColor = new Color(64, 64, 64, 192);
 
 	public AbilitySlot(Handler handler, Ability ability, int x, int y) {
 		this.handler = handler;
@@ -32,6 +33,10 @@ public class AbilitySlot {
 		g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 		if(ability != null) {
 			ability.render(g, x, y);
+			if(ability.isSelectable() && ability.isSelected()) {
+				g.setColor(selectedColor);
+				g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+			}
 			if(ability.isOnCooldown()) {
 				g.setColor(cooldownColor);
 				g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);

@@ -2,21 +2,22 @@ package dev.ipsych0.mygame.abilities;
 
 import java.awt.Graphics;
 
+import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
 
 public class NimbleFeetAbility extends Ability {
-	
+
 	private float baseMovementBoost = 1.0f;
 	private int boostTime = 5 * 60;
 	private int boostTimeTimer = 0;
 	private boolean initialBoostDone = false;
 
-	public NimbleFeetAbility(CharacterStats element, String name, AbilityType abilityType, int cooldownTime,
-			int castingTime, int overcastTime, int baseDamage, String description) {
-		super(element, name, abilityType, cooldownTime, castingTime, overcastTime, baseDamage, description);
+	public NimbleFeetAbility(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
+		super(handler, element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 		// TODO Auto-generated constructor stub
 	}
 

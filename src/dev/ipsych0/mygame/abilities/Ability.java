@@ -1,12 +1,15 @@
 package dev.ipsych0.mygame.abilities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
+import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 
 public abstract class Ability {
 	
+	protected Handler handler;
 	protected Creature caster;
 	protected int cooldownTime;
 	protected int castingTime;
@@ -20,19 +23,21 @@ public abstract class Ability {
 	protected int cooldownTimer = 0;
 	protected int baseDamage;
 	protected boolean activated;
-	protected CastState castState;
 	protected boolean channeling;
+	protected boolean selectable;
+	protected boolean selected;
 	
-	public Ability(CharacterStats element, String name, AbilityType abilityType, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
+	public Ability(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
+		this.handler = handler;
 		this.element = element;
 		this.abilityType = abilityType;
+		this.selectable = selectable;
 		this.cooldownTime = cooldownTime;
 		this.castingTime = castingTime;
 		this.overcastTime = overcastTime;
 		this.name = name;
 		this.baseDamage = baseDamage;
 		this.description = description;
-		this.castState = CastState.READY;
 	}
 	
 	public abstract void render(Graphics g, int x, int y);
@@ -50,9 +55,20 @@ public abstract class Ability {
 	}
 	
 	public void tick() {
-		if(this.castingTime * 60 == castingTimeTimer++) {
-			this.setCasting(true);
-			this.setChanneling(false);
+		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		if(isSelectable() && isSelected()) {
+				if(!handler.getPlayer().hasLeftClickedUI(mouse) && handler.getMouseManager().isLeftPressed()) {
+					setSelected(false);
+					if(this.getCastingTime() > 0) {
+						this.setChanneling(true);
+					}
+					this.setOnCooldown(true);
+				}
+		}else {
+			if(this.castingTime * 60 == castingTimeTimer++) {
+				this.setCasting(true);
+				this.setChanneling(false);
+			}
 		}
 		
 		if(casting) {
@@ -198,20 +214,28 @@ public abstract class Ability {
 		this.castingTimeTimer = castingTimeTimer;
 	}
 
-	public CastState getCastState() {
-		return castState;
-	}
-
-	public void setCastState(CastState castState) {
-		this.castState = castState;
-	}
-
 	public boolean isChanneling() {
 		return channeling;
 	}
 
 	public void setChanneling(boolean channeling) {
 		this.channeling = channeling;
+	}
+
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 	
 	

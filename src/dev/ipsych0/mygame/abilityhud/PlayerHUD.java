@@ -34,10 +34,10 @@ public class PlayerHUD {
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(handler, null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, 5,1,0,10, "A weak fireball spell."));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
-		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
-		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
+		slottedAbilities.get(0).setAbility(new FireBallAbility(handler, CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
+		slottedAbilities.get(1).setAbility(new EruptionAbility(handler, CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
+		slottedAbilities.get(2).setAbility(new MendWoundsAbility(handler, CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
+		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(handler, CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
 
 		// Add HP Bar after the last abilitySlot
 		hpBar = new HPBar(handler, slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
@@ -72,6 +72,10 @@ public class PlayerHUD {
 			}else {
 				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
 				selectedAbility.setCaster(handler.getPlayer());
+				if(selectedAbility.isSelectable()) {
+					boolean selected = !selectedAbility.isSelected() ? true : false;
+					selectedAbility.setSelected(selected);
+				}
 			}
 		}
 	}
@@ -92,6 +96,10 @@ public class PlayerHUD {
 			}else {
 				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
 				selectedAbility.setCaster(handler.getPlayer());
+				if(selectedAbility.isSelectable()) {
+					boolean selected = !selectedAbility.isSelected() ? true : false;
+					selectedAbility.setSelected(selected);
+				}
 			}
 		}
 	}

@@ -300,13 +300,13 @@ public class Player extends Creature{
 				if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
 					for(AbilitySlot as : handler.getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
 						if(as.getAbility() != null) {
-							if(as.getAbility().isChanneling())
+							if(as.getAbility().isChanneling() || as.getAbility().isSelected())
 								return;
 						}
 					}
 					//Check melee auto attack
 					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
-						checkAttacks(mouse);
+						checkMelee(mouse);
 					// Check magic auto attack
 					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
@@ -704,7 +704,7 @@ public class Player extends Creature{
 	/*
 	 * Check for magic attacks
 	 */
-	private void checkMagic(Rectangle mouse){
+	public void checkMagic(Rectangle mouse){
 		// Attack timers
 		magicTimer += System.currentTimeMillis() - lastMagicTimer;
 		lastMagicTimer = System.currentTimeMillis();
@@ -729,7 +729,7 @@ public class Player extends Creature{
 	/*
 	 * Checks melee attacks
 	 */
-	protected void checkAttacks(Rectangle mouse){
+	public void checkMelee(Rectangle mouse){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
 		lastAttackTimer = System.currentTimeMillis();
