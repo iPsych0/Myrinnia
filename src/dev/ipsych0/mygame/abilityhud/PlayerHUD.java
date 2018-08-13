@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.abilityhud;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
@@ -14,8 +15,12 @@ import dev.ipsych0.mygame.abilities.NimbleFeetAbility;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.items.ItemSlot;
 
-public class PlayerHUD {
+public class PlayerHUD implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private static final int MAX_SLOTS = 10;
 	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
@@ -26,10 +31,12 @@ public class PlayerHUD {
 	public static boolean hasBeenPressed;
 	public static char pressedKey;
 	
-	public PlayerHUD(Handler handler, int x, int y) {
+	public PlayerHUD(Handler handler) {
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
+		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
+		this.height = y + ItemSlot.SLOTSIZE;
+		this.x = handler.getWidth() / 2 - (width / 2);
+		this.y = handler.getHeight() - ItemSlot.SLOTSIZE;
 		
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(handler, null, x + (i * 32), y));
@@ -40,14 +47,14 @@ public class PlayerHUD {
 		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(handler, CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
 
 		// Add HP Bar after the last abilitySlot
-		hpBar = new HPBar(handler, slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
+//		hpBar = new HPBar(handler, slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
 		// Add XP Bar after HP Bar
-		xpBar = new XPBar(handler, hpBar.getX() + hpBar.getWidth(), y);
+//		xpBar = new XPBar(handler, hpBar.getX() + hpBar.getWidth(), y);
 		
 		abilityTooltip = new AbilityTooltip(0, handler.getHeight() / 2, 160, 224);
-		
-		this.width = x + xpBar.getX() + xpBar.getWidth();
-		this.height = y + ItemSlot.SLOTSIZE;
+
+//		this.width = x + xpBar.getX() + xpBar.getWidth();
+//		this.height = y + ItemSlot.SLOTSIZE;
 	}
 	
 	/**
@@ -125,8 +132,8 @@ public class PlayerHUD {
 				}
 			}
 		}
-		hpBar.tick();
-		xpBar.tick();
+//		hpBar.tick();
+//		xpBar.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -147,8 +154,8 @@ public class PlayerHUD {
 				}
 			}
 		}
-		hpBar.render(g);
-		xpBar.render(g);
+//		hpBar.render(g);
+//		xpBar.render(g);
 	}
 
 	public ArrayList<AbilitySlot> getSlottedAbilities() {

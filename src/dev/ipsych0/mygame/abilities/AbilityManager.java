@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.abilities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -9,8 +10,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 
-public class AbilityManager {
+public class AbilityManager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
 	private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
@@ -23,7 +28,7 @@ public class AbilityManager {
 		
 	public AbilityManager(Handler handler) {
 		this.handler = handler;
-		this.playerHUD = new PlayerHUD(handler, 0, handler.getHeight() - 32);
+		this.playerHUD = new PlayerHUD(handler);
 		
 	}
 	

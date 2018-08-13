@@ -2,13 +2,18 @@ package dev.ipsych0.mygame.abilityhud;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.abilities.Ability;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class AbilityTooltip {
+public class AbilityTooltip implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
 	
 	public AbilityTooltip(int x, int y, int width, int height) {

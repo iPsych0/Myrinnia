@@ -16,7 +16,7 @@ public class EruptionAbility extends Ability {
 	private Rectangle hitBox;
 	private boolean initDone;
 	private int renderTimer = 0;
-	private int displayTime = (int)(0.5 * 60);
+	private int displayTime = 1 * 60;
 	
 	public EruptionAbility(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {

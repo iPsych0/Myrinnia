@@ -60,7 +60,7 @@ public class Campfire extends StaticEntity {
 			speakingTurn++;
 			break;
 		case 1:
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			chatDialogue = new ChatDialogue(handler, firstDialogue);
 			speakingTurn++;
 			break;
 		case 2:
@@ -70,7 +70,7 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
+				chatDialogue = new ChatDialogue(handler, secondDialogue);
 				speakingTurn++;
 				if(!handler.questStarted(QuestList.TheFirstQuest)) {
 					handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
@@ -91,7 +91,7 @@ public class Campfire extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			chatDialogue = new ChatDialogue(handler, 0, 600, thirdDialogue);
+			chatDialogue = new ChatDialogue(handler, thirdDialogue);
 			speakingTurn++;
 			break;
 		case 4:

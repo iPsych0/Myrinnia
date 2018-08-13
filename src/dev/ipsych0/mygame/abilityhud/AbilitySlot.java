@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.abilityhud;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
@@ -10,8 +11,12 @@ import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
 import dev.ipsych0.mygame.utils.Text;
 
-public class AbilitySlot {
+public class AbilitySlot implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Handler handler;
 	private Ability ability;
 	private int x, y;

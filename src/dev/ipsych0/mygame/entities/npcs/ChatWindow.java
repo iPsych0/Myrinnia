@@ -29,13 +29,14 @@ public class ChatWindow implements Serializable{
 	
 	private CopyOnWriteArrayList<TextSlot> textSlots;
 	
-	public ChatWindow(Handler handler, int x, int y){
+	public ChatWindow(Handler handler){
 		if(!isCreated){
 			this.handler = handler;
-			this.x = x;
-			this.y = y;
-		
 			textSlots = new CopyOnWriteArrayList<TextSlot>();
+			width = numCols * (TextSlot.textWidth);
+			height = numRows * (TextSlot.textHeight + 1);
+			this.x = 0;
+			this.y = handler.getHeight() - height - 8;
 			
 			for(int i = 0; i < numCols; i++){
 				for(int j = 0; j < numRows; j++){
@@ -50,8 +51,7 @@ public class ChatWindow implements Serializable{
 					}
 				}
 			}	
-			width = numCols * (TextSlot.textWidth);
-			height = numRows * (TextSlot.textHeight + 1);
+			
 			windowBounds = new Rectangle(x, y, width, height);
 			isCreated = true;
 		}

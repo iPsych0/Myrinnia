@@ -26,14 +26,13 @@ public class ChatDialogue implements Serializable{
 	private int optionID;
 	private ChatOptions chosenOption;
 	
-	public ChatDialogue(Handler handler, int x, int y, String[] menuOptions) {
+	public ChatDialogue(Handler handler, String[] menuOptions) {
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
+		this.width = handler.getChatWindow().getWidth();
+		this.height = handler.getChatWindow().getHeight();
+		this.x = 0;
+		this.y = handler.getHeight() - height - 8;
 		this.menuOptions = menuOptions;
-		
-		width = 432;
-		height = 112;
 		
 		chatOptions = new ArrayList<ChatOptions>();
 		

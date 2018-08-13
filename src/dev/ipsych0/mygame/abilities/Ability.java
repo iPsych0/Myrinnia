@@ -2,13 +2,18 @@ package dev.ipsych0.mygame.abilities;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 
-public abstract class Ability {
+public abstract class Ability implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Handler handler;
 	protected Creature caster;
 	protected int cooldownTime;

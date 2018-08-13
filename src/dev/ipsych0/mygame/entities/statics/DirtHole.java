@@ -52,7 +52,7 @@ public class DirtHole extends StaticEntity {
 			return;
 		
 		case 1:
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			chatDialogue = new ChatDialogue(handler, firstDialogue);
 			speakingTurn++;
 			break;
 			
@@ -61,7 +61,7 @@ public class DirtHole extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
+			chatDialogue = new ChatDialogue(handler, secondDialogue);
 			speakingTurn++;
 			break;
 		case 3:
