@@ -27,7 +27,7 @@ public class ControlsState extends State {
 		super(handler);
 		this.uiManager = new UIManager(handler);
 		
-		overlay = new Rectangle(220, 232, 520, 313);
+		overlay = new Rectangle(handler.getWidth() / 2 - 260, 232, 520, 313);
 		
 		// Interface buttons
 		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton));
@@ -64,8 +64,8 @@ public class ControlsState extends State {
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
-		returnButton = new Rectangle(367, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		returnButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
 		
 	}
 
@@ -137,15 +137,15 @@ public class ControlsState extends State {
 			Text.drawString(g, "Spacebar", space.x + 48, space.y + 16, true, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Interact with NPCs/Objects:", space.x + 48, space.y - 24, true, Color.YELLOW, Assets.font14);
 			
-			Text.drawString(g, "Left click:", 648, 396, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "- Attack", 644, 416, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Left click:", overlay.x + overlay.width - 160, 396, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "- Attack", overlay.x + overlay.width - 160, 416, false, Color.YELLOW, Assets.font14);
 			
-			Text.drawString(g, "Right click:", 648, 448, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "- Pick up item", 644, 468, true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "- Equip item", 644, 488, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Right click:", overlay.x + overlay.width - 160, 448, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "- Pick up item", overlay.x + overlay.width - 160, 468, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "- Equip item", overlay.x + overlay.width - 160, 488, false, Color.YELLOW, Assets.font14);
 			
 			
-			Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Return", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
 		}
 		
 	

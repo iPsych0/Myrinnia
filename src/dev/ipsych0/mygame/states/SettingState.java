@@ -34,22 +34,22 @@ public class SettingState extends State{
 		/*
 		 * Controls Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.genericButton));
-		controlsButton = new Rectangle(367, 376, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
+		controlsButton = new Rectangle(handler.getWidth() / 2 - 113, 376, 226, 96);
 		
 		/*
 		 * Mute Sound
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.genericButton));
-		muteSoundButton = new Rectangle(367, 480, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
+		muteSoundButton = new Rectangle(handler.getWidth() / 2 - 113, 480, 226, 96);
 		
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
-		returnButton = new Rectangle(367, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		returnButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
 		
-		soundPopup = new Rectangle(328, 224, 306, 58);
+		soundPopup = new Rectangle(handler.getWidth() / 2 - 153, 224, 306, 58);
 	}
 
 	@Override
@@ -137,13 +137,13 @@ public class SettingState extends State{
 		}
 		
 		if(previousState == handler.getGame().menuState)
-			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Welcome to Myrinnia", handler.getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
 		else
-			Text.drawString(g, "Game Paused!", 480, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Game Paused!", handler.getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
 		
-		Text.drawString(g, "Controls", 480, 424, true, Color.YELLOW, Assets.font32);
-		Text.drawString(g, "Mute Sounds", 480, 528, true, Color.YELLOW, Assets.font32);
-		Text.drawString(g, "Return", 480, 632, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, "Controls", handler.getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, "Mute Sounds", handler.getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
+		Text.drawString(g, "Return", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
 	}
 		
 	

@@ -437,6 +437,8 @@ public class Player extends Creature{
 		}
 		g.setFont(GameState.myFont);
 		
+		Text.drawString(g, "FPS: " + handler.getGame().getFramesPerSecond(), 4, 160, false, Color.YELLOW, Assets.font14);
+		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		
 //		g.setColor(Color.RED);
