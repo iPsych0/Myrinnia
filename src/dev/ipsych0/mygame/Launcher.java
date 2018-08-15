@@ -9,6 +9,7 @@ public class Launcher {
 	 * Starts the game loop
 	 */
 	public static void main(String[] args){
+		System.setProperty("sun.java2d.opengl", "True");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
