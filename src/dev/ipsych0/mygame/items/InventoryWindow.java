@@ -36,12 +36,12 @@ public class InventoryWindow implements Serializable {
 	public static boolean itemSelected;
 	private Rectangle windowBounds;
 	
-	public InventoryWindow(Handler handler, int x, int y){
+	public InventoryWindow(Handler handler){
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
 		width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
 		height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
+		this.x = handler.getWidth() - width;
+		this.y = 0;
 		windowBounds = new Rectangle(x, y, width, height);
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		
@@ -718,6 +718,26 @@ public class InventoryWindow implements Serializable {
 
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+
+	public int getWidth() {
+		return width;
+	}
+
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+
+	public int getHeight() {
+		return height;
+	}
+
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

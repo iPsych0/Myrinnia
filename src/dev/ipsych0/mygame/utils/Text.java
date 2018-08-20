@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.StringTokenizer;
 
 public class Text {
@@ -29,6 +30,8 @@ public class Text {
 			y = (yPos - fm.getHeight() / 2) + fm.getAscent();
 		}
 		
+		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+		        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
 		g.drawString(text, x+1, y+1);

@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.Entity;
@@ -210,6 +211,10 @@ public class KeyManager implements KeyListener, Serializable{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if(!typingFocus) {
+			if(Character.isDigit(e.getKeyChar())) {
+				PlayerHUD.pressedKey = e.getKeyChar();
+				return;
+			}
 			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
 				Player.hasInteracted = false;
 			}

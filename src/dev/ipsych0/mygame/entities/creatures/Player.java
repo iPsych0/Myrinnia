@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilityhud.AbilitySlot;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -18,6 +19,7 @@ import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.entities.npcs.ShopKeeper;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.items.EquipSlot;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemType;
@@ -257,15 +259,15 @@ public class Player extends Creature{
 		}
 		
 		// If the player moves or presses escape, close the shop and chat dialogue
-		if(isMoving) {
+		if(closestEntity != null && isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
-			if(closestEntity != null) {
-				closestEntity.setChatDialogue(null);
-				closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
-				closestEntity.interact();
-				closestEntity = null;
-			}
+
+			closestEntity.setChatDialogue(null);
+			closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+			closestEntity.interact();
+			closestEntity = null;
+			
 		}
 		
 		// If there are projectiles, tick them
@@ -295,16 +297,18 @@ public class Player extends Creature{
 		// If the player is pressing the attack button
 		if(handler.getMouseManager().isLeftPressed() || handler.getMouseManager().isLeftPressed() && handler.getMouseManager().isDragged()){
 			if(movementAllowed) {
-				if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack() != null) {
-					/*
-					 * If the player is wearing a melee weapon, check melee attacks
-					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
-						checkAttacks(mouse);
-					/*
-					 * If the player is wearing a magic weapon, fire magic attacks
-					 */
-					if(handler.getEquipment().getEquipmentSlots().get(1).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+				if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
+					for(AbilitySlot as : handler.getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+						if(as.getAbility() != null) {
+							if(as.getAbility().isChanneling() || as.getAbility().isSelected())
+								return;
+						}
+					}
+					//Check melee auto attack
+					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+						checkMelee(mouse);
+					// Check magic auto attack
+					if(handler.getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
 						checkMagic(mouse);
 					}
 				}
@@ -432,6 +436,8 @@ public class Player extends Creature{
 					(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		}
 		g.setFont(GameState.myFont);
+		
+		Text.drawString(g, "FPS: " + handler.getGame().getFramesPerSecond(), 4, 160, false, Color.YELLOW, Assets.font14);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		
@@ -656,6 +662,8 @@ public class Player extends Creature{
 			return true;
 		if(handler.getHpOverlay().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
 			return true;
+		if(handler.getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed())
+			return true;
 		
 		// If the mouse is not clicked in one of the UI windows, return false
 		return false;
@@ -698,7 +706,7 @@ public class Player extends Creature{
 	/*
 	 * Check for magic attacks
 	 */
-	private void checkMagic(Rectangle mouse){
+	public void checkMagic(Rectangle mouse){
 		// Attack timers
 		magicTimer += System.currentTimeMillis() - lastMagicTimer;
 		lastMagicTimer = System.currentTimeMillis();
@@ -723,7 +731,7 @@ public class Player extends Creature{
 	/*
 	 * Checks melee attacks
 	 */
-	protected void checkAttacks(Rectangle mouse){
+	public void checkMelee(Rectangle mouse){
 		// Attack timers
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
 		lastAttackTimer = System.currentTimeMillis();

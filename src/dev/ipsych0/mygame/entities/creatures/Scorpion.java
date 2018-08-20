@@ -119,7 +119,8 @@ public class Scorpion extends Creature {
 			handler.getWorld().getEntityManager().getPlayer().addScorpionKC();
 		}
 		
-		handler.getSkill(SkillsList.COMBAT).addExperience(handler.getSkill(SkillsList.COMBAT).getNextLevelXp());
+//		FOR INSTA NEXT LEVEL: handler.getSkill(SkillsList.COMBAT).getNextLevelXp()
+		handler.getSkill(SkillsList.COMBAT).addExperience(25);
 	}
 	
 	/*

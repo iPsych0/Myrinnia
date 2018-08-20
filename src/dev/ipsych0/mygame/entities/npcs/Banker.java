@@ -54,7 +54,7 @@ public class Banker extends Creature{
 		
 		case 1:
 			if(!BankUI.isOpen){
-				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+				chatDialogue = new ChatDialogue(handler, firstDialogue);
 				speakingTurn++;
 				break;
 			}else {

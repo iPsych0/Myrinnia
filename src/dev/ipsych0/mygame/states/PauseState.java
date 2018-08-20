@@ -30,20 +30,20 @@ public class PauseState extends State {
 		/*
 		 * Resume Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.genericButton));
-		resumeButton = new Rectangle(367, 376, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
+		resumeButton = new Rectangle(handler.getWidth() / 2 - 113, 376, 226, 96);
 
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.genericButton));
-		settingsButton = new Rectangle(367, 480, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
+		settingsButton = new Rectangle(handler.getWidth() / 2 - 113, 480, 226, 96);
 		
 		/*
 		 * Quit Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
-		quitButton = new Rectangle(367, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		quitButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
 		
 				
 		
@@ -105,10 +105,10 @@ public class PauseState extends State {
 			uiManager.render(g);
 			
 			// Render the text in the main menu
-			Text.drawString(g, "Game Paused!", 480, 180, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Resume Game", 480, 424, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Settings", 480, 528, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Quit Game", 480, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Game Paused!", handler.getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Resume Game", handler.getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Settings", handler.getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Quit Game", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
 		}
 	
 }

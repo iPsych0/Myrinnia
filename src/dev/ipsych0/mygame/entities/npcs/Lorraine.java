@@ -67,7 +67,7 @@ public class Lorraine extends ShopKeeper {
 		
 		case 1:
 			if(!ShopWindow.isOpen){
-				chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+				chatDialogue = new ChatDialogue(handler, firstDialogue);
 				speakingTurn++;
 				break;
 			}else {

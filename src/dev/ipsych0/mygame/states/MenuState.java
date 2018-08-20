@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.audio.AudioManager;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.ui.UIImageButton;
 import dev.ipsych0.mygame.ui.UIManager;
@@ -24,7 +25,7 @@ public class MenuState extends State {
 	private static final long serialVersionUID = 1L;
 	private UIManager uiManager;
 	private boolean loaded = false;
-	private Rectangle newGameButton, continueButton, settingsButton;
+	private Rectangle newGameButton, continueButton, settingsButton, quitButton;
 	private boolean displayError = false;
 	private int errorDisplayTimer = 0;
 	private Rectangle errorPopup;
@@ -37,23 +38,29 @@ public class MenuState extends State {
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 376, 226, 96, Assets.genericButton));
-		newGameButton = new Rectangle(367, 376, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
+		newGameButton = new Rectangle(handler.getWidth() / 2 - 113, 376, 226, 96);
 
 		
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 480, 226, 96, Assets.genericButton));
-		continueButton = new Rectangle(367, 480, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
+		continueButton = new Rectangle(handler.getWidth() / 2 - 113, 480, 226, 96);
 		
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(367, 584, 226, 96, Assets.genericButton));
-		settingsButton = new Rectangle(367, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		settingsButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
 		
-		errorPopup = new Rectangle(328, 224, 306, 58);
+		/*
+		 * Quit Game Button
+		 */
+		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton));
+		quitButton = new Rectangle(handler.getWidth() / 2 - 113, 688, 226, 96);
+		
+		errorPopup = new Rectangle(handler.getWidth() / 2 - 153, 224, 306, 58);
 		
 		
 	}
@@ -117,6 +124,14 @@ public class MenuState extends State {
 				}
 			}
 			
+			if(quitButton.contains(mouse)) {
+				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+					AudioManager.cleanUp();
+					System.exit(0);
+					hasBeenPressed = false;
+				}
+			}
+			
 			uiManager.tick();
 		
 	}
@@ -141,10 +156,11 @@ public class MenuState extends State {
 			}
 			
 			// Render the text in the main menu
-			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "New Game", 480, 424, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Continue", 480, 528, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Settings", 480, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Welcome to Myrinnia", handler.getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "New Game", handler.getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Continue", handler.getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Settings", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Quit Game", handler.getWidth() / 2, 736, true, Color.YELLOW, Assets.font32);
 		}
 	
 }
