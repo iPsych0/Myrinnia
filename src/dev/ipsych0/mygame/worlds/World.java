@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilities.AbilityManager;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -19,8 +20,6 @@ import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
-import dev.ipsych0.mygame.puzzles.Puzzle;
-import dev.ipsych0.mygame.puzzles.SliderPuzzle;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
@@ -62,6 +61,7 @@ public abstract class World implements Serializable {
 	protected CharacterUI characterUI;
 	protected SkillsUI skillsUI;
 	protected HPOverlay hpOverlay;
+	protected AbilityManager abilityManager;
 	
 	// Actual code ---v
 	
@@ -78,6 +78,7 @@ public abstract class World implements Serializable {
 			this.characterUI = handler.getCharacterUI();
 			this.skillsUI = handler.getSkillsUI();
 			this.hpOverlay = handler.getHpOverlay();
+			this.abilityManager = handler.getAbilityManager();
 			
 			entityManager = new EntityManager(handler, player);
 			itemManager = new ItemManager(handler);
@@ -96,6 +97,7 @@ public abstract class World implements Serializable {
 		characterUI.tick();
 		skillsUI.tick();
 		hpOverlay.tick();
+		abilityManager.tick();
 		if(BankUI.isOpen)
 			handler.getBankUI().tick();
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -152,6 +154,8 @@ public abstract class World implements Serializable {
 		questManager.render(g);
 		characterUI.render(g);
 		skillsUI.render(g);
+		
+		abilityManager.render(g);
 		
 		if(BankUI.isOpen && player.getBankEntity() != null) {
 			handler.getBankUI().render(g);

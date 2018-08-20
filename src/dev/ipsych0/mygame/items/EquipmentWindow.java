@@ -29,12 +29,12 @@ public class EquipmentWindow implements Serializable {
 	public static boolean itemSelected;
 	private Rectangle windowBounds;
 	
-	public EquipmentWindow(Handler handler, int x, int y){
-		this.x = x;
-		this.y = y;
+	public EquipmentWindow(Handler handler){
 		this.handler = handler;
-		width = numCols * (EquipmentSlot.SLOTSIZE + 10) - 26;
+		width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
 		height = numRows * (EquipmentSlot.SLOTSIZE + 8);
+		this.x = handler.getWidth() - width;
+		this.y = handler.getInventory().getHeight();
 		windowBounds = new Rectangle(x, y, width, height);
 		
 		if(isCreated == false){
@@ -189,14 +189,15 @@ public class EquipmentWindow implements Serializable {
 				}
 			}
 			
-			g.drawImage(Assets.shopWindow, 838, 550, 112, 160, null);
+			g.drawImage(Assets.shopWindow, x + 10, y + height + 12, 112, 160, null);
 			
-			Text.drawString(g, "Stats ", 878, 546, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Power = "+Integer.toString(handler.getPlayer().getPower()), 844, 572, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Defence = "+Integer.toString(handler.getPlayer().getDefence()), 844, 588, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Vitality = "+Integer.toString(handler.getPlayer().getVitality()), 844, 604, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), 844, 620, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), 844, 636, false, Color.YELLOW, Assets.font14);
+			int index = 0;
+			Text.drawString(g, "Stats ", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Power = "+Integer.toString(handler.getPlayer().getPower()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Defence = "+Integer.toString(handler.getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Vitality = "+Integer.toString(handler.getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
 			
 			if(currentSelectedSlot != null){
 				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),

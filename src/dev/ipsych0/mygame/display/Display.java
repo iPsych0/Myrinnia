@@ -42,7 +42,6 @@ public class Display implements Serializable{
 	        	 try {
 	        		 AudioManager.cleanUp();
 	        	 }catch(Exception e) {
-	        		 
 	        		 System.err.println("Unexpected crash. Unable to close OpenAL audio context.");
 	        	 }finally {
 	        		 System.exit(0);
@@ -51,8 +50,12 @@ public class Display implements Serializable{
 	       });
 		frame.setResizable(false);
 		
-		// Window will appear in the center of the user's screen
-		frame.setLocationRelativeTo(null);
+		// Settings for fullscreen
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		
+		// Window will appear in the center of the user's screen --- Uncomment for windowed-mode
+//		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		canvas = new Canvas();

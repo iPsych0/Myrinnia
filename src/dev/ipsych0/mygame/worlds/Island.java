@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
@@ -12,8 +13,6 @@ import dev.ipsych0.mygame.entities.statics.Tree;
 import dev.ipsych0.mygame.entities.statics.WaterToBridgePart;
 import dev.ipsych0.mygame.entities.statics.Whirlpool;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.puzzles.Puzzle;
-import dev.ipsych0.mygame.puzzles.SliderPuzzle;
 import dev.ipsych0.mygame.utils.MapLoader;
 
 public class Island extends World {
@@ -31,6 +30,7 @@ public class Island extends World {
 	private Rectangle southwestVillageHouse;
 	private Rectangle northwestVillageHouse;
 
+	
 	public Island(Handler handler, String path) {
 		super(handler);
 		
@@ -78,7 +78,7 @@ public class Island extends World {
 				
 		// Dit is hoe ik items in de world zelf spawn
 		itemManager.addItem(Item.regularLogs.createUnequippableItem(5056, 5596, 5), true);
-		
+				
 	}
 
 	@Override
@@ -122,14 +122,13 @@ public class Island extends World {
 			if(standingOnTile(northwestVillageHouse)){
 				handler.goToWorld(Zone.IslandUnderground, 3040, 6288);
 			}
-		}
+		}	
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if(handler.getWorld() == this){
 			super.render(g);
-			
 //			g.drawRect((int) (house1.x - handler.getGameCamera().getxOffset()), (int) (house1.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house2.x - handler.getGameCamera().getxOffset()), (int) (house2.y - handler.getGameCamera().getyOffset()), 32, 32);
 //			g.drawRect((int) (house3.x - handler.getGameCamera().getxOffset()), (int) (house3.y - handler.getGameCamera().getyOffset()), 32, 32);

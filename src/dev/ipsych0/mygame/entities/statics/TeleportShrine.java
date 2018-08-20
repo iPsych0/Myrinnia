@@ -53,7 +53,7 @@ public class TeleportShrine extends StaticEntity {
 			return;
 		}
 		else if(this.getSpeakingTurn() == 1){
-			chatDialogue = new ChatDialogue(handler, 0, 600, firstDialogue);
+			chatDialogue = new ChatDialogue(handler, firstDialogue);
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 2) {
@@ -61,7 +61,7 @@ public class TeleportShrine extends StaticEntity {
 				speakingTurn = 1;
 				return;
 			}
-			chatDialogue = new ChatDialogue(handler, 0, 600, secondDialogue);
+			chatDialogue = new ChatDialogue(handler, secondDialogue);
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 3){

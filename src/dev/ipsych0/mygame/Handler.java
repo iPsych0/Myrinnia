@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.Random;
 
+import dev.ipsych0.mygame.abilities.AbilityManager;
 import dev.ipsych0.mygame.audio.AudioManager;
 import dev.ipsych0.mygame.audio.Source;
 import dev.ipsych0.mygame.bank.BankUI;
@@ -59,6 +60,7 @@ public class Handler implements Serializable {
 	private SkillsUI skillsUI;
 	private HPOverlay hpOverlay;
 	private BankUI bankUI;
+	private AbilityManager abilityManager;
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
 	
@@ -81,16 +83,17 @@ public class Handler implements Serializable {
 		player = new Player(this, 5120, 5600);
 		
 		// Instantiate all interfaces
-		chatWindow = new ChatWindow(this, 0, 600); //228,314
+		chatWindow = new ChatWindow(this); //228,314
 		chatWindow.sendMessage("Welcome back!");
-		inventory = new InventoryWindow(this, 828, 0);
-		equipment = new EquipmentWindow(this, 828, 372);
+		inventory = new InventoryWindow(this);
+		equipment = new EquipmentWindow(this);
 		questManager = new QuestManager(this);
 		craftingUI = new CraftingUI(this, 0, 180);
 		characterUI = new CharacterUI(this);
 		skillsUI = new SkillsUI(this);
 		hpOverlay = new HPOverlay(this);
 		bankUI = new BankUI(this);
+		abilityManager = new AbilityManager(this);
 		
 		// Set the starting world
 		island = new Island(this, "res/worlds/island.tmx");
@@ -457,6 +460,14 @@ public class Handler implements Serializable {
 
 	public void setBankUI(BankUI bankUI) {
 		this.bankUI = bankUI;
+	}
+
+	public AbilityManager getAbilityManager() {
+		return abilityManager;
+	}
+
+	public void setAbilityManager(AbilityManager abilityManager) {
+		this.abilityManager = abilityManager;
 	}
 
 }
