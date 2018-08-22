@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class QuestManager implements Serializable{
@@ -64,10 +65,10 @@ public class QuestManager implements Serializable{
 	}
 	
 	private void fillLists() {
-		// Island Quests
-		islandQuests.add(new Quest(handler, "The First Quest", Zone.Island));
+		// Island Quests		
+		islandQuests.add(new Quest(handler, "The First Quest", Zone.Island, new QuestRequirement(handler.getSkill(SkillsList.CRAFTING), 10)));
 		islandQuests.add(new Quest(handler, "The Second Quest", Zone.Island));
-		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island));
+		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(handler.getSkill(SkillsList.FISHING), 2)));
 		
 		// Test Quests
 		testQuests.add(new Quest(handler, "The Test Quest", Zone.IslandUnderground));

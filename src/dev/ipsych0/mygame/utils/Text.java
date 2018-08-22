@@ -6,6 +6,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.text.AttributedString;
 import java.util.StringTokenizer;
 
 public class Text {
@@ -37,6 +40,33 @@ public class Text {
 		g.drawString(text, x+1, y+1);
 		g.setColor(color);
 		g.drawString(text, x, y);
+	}
+	
+	/*
+	 * Draws a String to the screen with specified font, colour and centred/not centred
+	 */
+	public static void drawStringStrikeThru(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
+		int x = xPos;
+		int y = yPos;
+		
+		if(center) {
+			FontMetrics fm = g.getFontMetrics(font);
+			x = xPos - fm.stringWidth(text) / 2;
+			y = (yPos - fm.getHeight() / 2) + fm.getAscent();
+		}	
+		
+		AttributedString as = new AttributedString(text);
+
+		as.addAttribute(TextAttribute.FONT, font);
+		as.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+
+		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+		        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g.setFont(font);
+		g.setColor(Color.BLACK);
+		g.drawString(as.getIterator(), x+1, y+1);
+		g.setColor(color);
+		g.drawString(as.getIterator(), x, y);
 	}
 	
 	public static int getStringWidth(Graphics g, String text, Font font) {
