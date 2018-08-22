@@ -26,7 +26,9 @@ import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.quests.QuestRequirement;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.skills.CraftingSkill;
 import dev.ipsych0.mygame.skills.Skill;
 import dev.ipsych0.mygame.skills.SkillResource;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -175,6 +177,24 @@ public class Handler implements Serializable {
 //			AudioManager.soundfxFiles.getLast().delete();
 			
 		}
+	}
+	
+	public boolean hasQuestReqs(QuestList quest) {
+		Quest q = getQuest(quest);
+		for(int i = 0; i < q.getRequirements().length; i++) {
+			if(q.getRequirements()[i].getSkill() != null) {
+				if(getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()){
+					return false;
+				}
+			}
+			else if(q.getRequirements()[i].getQuest() != null) {
+				if(getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
+					return false;
+				}
+			}
+		}
+		// TODO: ADD CHECK FOR MISCELLANEOUS REQUIREMENTS (DESCRIPTION)
+		return true;
 	}
 	
 	public void goToWorld(Zone zone, int x, int y) {

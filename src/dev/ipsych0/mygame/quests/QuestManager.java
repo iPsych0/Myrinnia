@@ -66,9 +66,9 @@ public class QuestManager implements Serializable{
 	
 	private void fillLists() {
 		// Island Quests		
-		islandQuests.add(new Quest(handler, "The First Quest", Zone.Island, new QuestRequirement(handler.getSkill(SkillsList.CRAFTING), 10)));
-		islandQuests.add(new Quest(handler, "The Second Quest", Zone.Island));
-		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(handler.getSkill(SkillsList.FISHING), 2)));
+		islandQuests.add(new Quest(handler, "The First Quest", Zone.Island, new QuestRequirement(SkillsList.CRAFTING, 10)));
+		islandQuests.add(new Quest(handler, "The Second Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
+		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island));
 		
 		// Test Quests
 		testQuests.add(new Quest(handler, "The Test Quest", Zone.IslandUnderground));

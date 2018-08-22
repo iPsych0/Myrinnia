@@ -1,18 +1,20 @@
 package dev.ipsych0.mygame.quests;
 
 import dev.ipsych0.mygame.skills.Skill;
+import dev.ipsych0.mygame.skills.SkillsList;
 
 public class QuestRequirement {
 	
 	private String requirement;
-	private Skill skill;
+	private SkillsList skill;
 	private int level;
 	private QuestList quest;
 	
-	public QuestRequirement(Skill skill, int level) {
+	public QuestRequirement(SkillsList skill, int level) {
 		this.level = level;
 		this.skill = skill;
-		this.requirement = skill.toString() + " level " + level;
+		String s = skill.toString().substring(0, 1).toUpperCase() + skill.toString().substring(1).toLowerCase(); 
+		this.requirement =  s + " level " + level;
 	}
 	
 	public QuestRequirement(QuestList quest) {
@@ -28,11 +30,11 @@ public class QuestRequirement {
 		return requirement;
 	}
 
-	public Skill getSkill() {
+	public SkillsList getSkill() {
 		return skill;
 	}
 
-	public void setSkill(Skill skill) {
+	public void setSkill(SkillsList skill) {
 		this.skill = skill;
 	}
 

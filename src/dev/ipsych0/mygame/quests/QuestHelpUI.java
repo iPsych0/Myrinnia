@@ -66,7 +66,7 @@ public class QuestHelpUI implements Serializable {
 				Color requirementColor = Color.YELLOW;
 				for(int i = 0; i < selectedQuest.getRequirements().length; i++) {
 					if(selectedQuest.getRequirements()[i].getSkill() != null) {
-						if(selectedQuest.getRequirements()[i].getSkill().getLevel() >= selectedQuest.getRequirements()[i].getLevel()){
+						if(handler.getSkill(selectedQuest.getRequirements()[i].getSkill()).getLevel() >= selectedQuest.getRequirements()[i].getLevel()){
 							requirementColor = Color.GREEN;
 						}else {
 							requirementColor = Color.RED;
