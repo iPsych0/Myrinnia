@@ -43,17 +43,51 @@ public class QuestHelpUI implements Serializable {
 			if(selectedQuest != null) {
 				Text.drawString(g, selectedQuest.getQuestName()+":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 				
-				if(selectedQuest.getState() == QuestState.NOT_STARTED) {
-					// Render hier de quest requirements!!!
-				}
+				renderRequirements(g, selectedQuest);
+				
 				if(selectedQuest.getQuestSteps().size() != 0) {
+					Text.drawString(g, "Objective: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
 					for(int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26).length; i++) {
-						Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26)[i], x + (width / 2) + 6, y + 40 + (i * 16), true, Color.YELLOW, Assets.font14);
+						Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16), true, Color.YELLOW, Assets.font14);
 					}
 				}
 				else if(selectedQuest.getState() == QuestState.COMPLETED) {
 					Text.drawString(g, "Quest complete!", x + (width / 2) + 5, y + 40, true, Color.GREEN, Assets.font14);
 				}
+			}
+			
+		}
+	}
+	
+	private void renderRequirements(Graphics g, Quest selectedQuest) {
+		if(selectedQuest.getState() == QuestState.NOT_STARTED) {
+			Text.drawString(g, "Requirements: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+			if(selectedQuest.getRequirements() != null) {
+				Color requirementColor = Color.YELLOW;
+				for(int i = 0; i < selectedQuest.getRequirements().length; i++) {
+					if(selectedQuest.getRequirements()[i].getSkill() != null) {
+						if(selectedQuest.getRequirements()[i].getSkill().getLevel() >= selectedQuest.getRequirements()[i].getLevel()){
+							requirementColor = Color.GREEN;
+						}else {
+							requirementColor = Color.RED;
+						}
+					}
+					else if(selectedQuest.getRequirements()[i].getQuest() != null) {
+						if(handler.getQuest(selectedQuest.getRequirements()[i].getQuest()).getState() == QuestState.COMPLETED) {
+							requirementColor = Color.GREEN;
+						}else {
+							requirementColor = Color.RED;
+						}
+					}
+					for(int j = 0; j < Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26).length; j++) {
+						if(requirementColor == Color.RED)
+							Text.drawString(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+						else
+							Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+					}
+				}
+			}else {
+				Text.drawString(g, "None", x + (width / 2) + 6, y + 72, true, Color.GREEN, Assets.font14);
 			}
 			
 		}

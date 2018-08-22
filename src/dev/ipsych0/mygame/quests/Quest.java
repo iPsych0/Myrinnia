@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.quests;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
@@ -18,6 +19,7 @@ public class Quest implements Serializable {
 	private int step = 0;
 	private String questName;
 	private QuestState state;
+	private QuestRequirement[] requirements;
 	
 	private Zone zone;
 	
@@ -33,7 +35,14 @@ public class Quest implements Serializable {
 		state = QuestState.NOT_STARTED;
 	}
 	
-	
+	public Quest(Handler handler, String questName, Zone zone, QuestRequirement... questRequirements) {
+		this.handler = handler;
+		this.questName = questName;
+		this.zone = zone;
+		this.requirements = questRequirements;
+		questSteps = new ArrayList<QuestStep>();
+		state = QuestState.NOT_STARTED;
+	}
 	
 	public void tick() {
 		
@@ -79,16 +88,20 @@ public class Quest implements Serializable {
 		}
 	}
 
-
-
 	public Zone getZone() {
 		return zone;
 	}
 
-
-
 	public void setZone(Zone zone) {
 		this.zone = zone;
+	}
+
+	public QuestRequirement[] getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(QuestRequirement[] requirements) {
+		this.requirements = requirements;
 	}
 
 }

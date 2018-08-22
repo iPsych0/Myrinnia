@@ -87,10 +87,10 @@ public class Handler implements Serializable {
 		chatWindow.sendMessage("Welcome back!");
 		inventory = new InventoryWindow(this);
 		equipment = new EquipmentWindow(this);
+		skillsUI = new SkillsUI(this);
 		questManager = new QuestManager(this);
 		craftingUI = new CraftingUI(this, 0, 180);
 		characterUI = new CharacterUI(this);
-		skillsUI = new SkillsUI(this);
 		hpOverlay = new HPOverlay(this);
 		bankUI = new BankUI(this);
 		abilityManager = new AbilityManager(this);

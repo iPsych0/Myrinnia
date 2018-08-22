@@ -149,9 +149,9 @@ public class Assets {
 		/*
 		 * Fonts
 		 */
-		font14 = FontLoader.loadFont("res/fonts/optanebold.ttf", 14);
-		font20 = FontLoader.loadFont("res/fonts/optanebold.ttf", 20);
-		font32 = FontLoader.loadFont("res/fonts/optanebold.ttf", 32);
+		font14 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 14);
+		font20 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 20);
+		font32 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 32);
 		
 		
 		/*

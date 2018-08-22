@@ -26,6 +26,7 @@ import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.GameState;
@@ -181,7 +182,6 @@ public class Player extends Creature{
 //			Handler.debugMode = (Handler.debugMode) ? false : true;
 			
 			State.setState(new UITransitionState(handler, handler.getGame().pauseState));
-						
 			
 //			System.out.println("Attack level = " + getAttackLevel());
 //			System.out.println("Attack XP = " + getAttackExperience());
