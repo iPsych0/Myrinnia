@@ -103,10 +103,10 @@ public class MenuState extends State {
 						return;
 					}else {
 						handler.getMouseManager().setUIManager(null);
-						State.setState(new UITransitionState(handler, handler.getGame().gameState));
 						SaveManager.loadHandler(handler);
-						handler.playMusic(handler.getPlayer().getZone());
+						State.setState(new UITransitionState(handler, handler.getGame().recapState));
 						hasBeenPressed = false;
+						return;
 					}
 				}
 			}

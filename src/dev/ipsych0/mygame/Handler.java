@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
+import dev.ipsych0.mygame.gfx.ScreenShot;
 import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
@@ -26,9 +27,9 @@ import dev.ipsych0.mygame.quests.Quest;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
-import dev.ipsych0.mygame.quests.QuestRequirement;
 import dev.ipsych0.mygame.quests.QuestStep;
-import dev.ipsych0.mygame.skills.CraftingSkill;
+import dev.ipsych0.mygame.recap.RecapEvent;
+import dev.ipsych0.mygame.recap.RecapManager;
 import dev.ipsych0.mygame.skills.Skill;
 import dev.ipsych0.mygame.skills.SkillResource;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -63,6 +64,7 @@ public class Handler implements Serializable {
 	private HPOverlay hpOverlay;
 	private BankUI bankUI;
 	private AbilityManager abilityManager;
+	private RecapManager recapManager;
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
 	
@@ -96,6 +98,7 @@ public class Handler implements Serializable {
 		hpOverlay = new HPOverlay(this);
 		bankUI = new BankUI(this);
 		abilityManager = new AbilityManager(this);
+		recapManager = new RecapManager(this);
 		
 		// Set the starting world
 		island = new Island(this, "res/worlds/island.tmx");
@@ -177,6 +180,10 @@ public class Handler implements Serializable {
 //			AudioManager.soundfxFiles.getLast().delete();
 			
 		}
+	}
+	
+	public void addRecapEvent(String description) {
+		this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
 	}
 	
 	public boolean hasQuestReqs(QuestList quest) {
@@ -488,6 +495,14 @@ public class Handler implements Serializable {
 
 	public void setAbilityManager(AbilityManager abilityManager) {
 		this.abilityManager = abilityManager;
+	}
+
+	public RecapManager getRecapManager() {
+		return recapManager;
+	}
+
+	public void setRecapManager(RecapManager recapManager) {
+		this.recapManager = recapManager;
 	}
 
 }

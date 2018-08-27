@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.states.ControlsState;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.MenuState;
 import dev.ipsych0.mygame.states.PauseState;
+import dev.ipsych0.mygame.states.RecapState;
 import dev.ipsych0.mygame.states.SettingState;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.utils.SaveManager;
@@ -44,6 +45,7 @@ public class Game implements Runnable, Serializable {
 	public State settingState;
 	public State controlsState;
 	public State pauseState;
+	public State recapState;
 
 	// Input
 	private KeyManager keyManager;
@@ -85,6 +87,8 @@ public class Game implements Runnable, Serializable {
 		settingState = new SettingState(handler);
 		controlsState = new ControlsState(handler);
 		pauseState = new PauseState(handler);
+		recapState = new RecapState(handler);
+				
 
 		AudioManager.init(handler);
 		AudioManager.setListenerData();
