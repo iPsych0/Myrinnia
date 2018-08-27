@@ -54,7 +54,7 @@ public class WaterToBridgePart extends StaticEntity {
 			return;
 		
 		case 1:
-			if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.COMPLETED) {
+			if(handler.hasQuestReqs(QuestList.TheSecondQuest)) {
 				chatDialogue = new ChatDialogue(handler, firstDialogue);
 				if(handler.getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
 					handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.IN_PROGRESS);

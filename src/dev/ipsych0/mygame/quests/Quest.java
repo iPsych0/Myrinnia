@@ -84,6 +84,7 @@ public class Quest implements Serializable {
 		this.state = state;
 		if(state == QuestState.COMPLETED) {
 			handler.sendMsg("Completed '" + this.questName + "'!");
+			handler.addRecapEvent("Completed '" + this.questName + "'");
 			questSteps.clear();
 		}
 	}

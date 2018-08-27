@@ -111,7 +111,6 @@ public class Campfire extends StaticEntity {
 						handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
 						handler.giveItem(Item.testSword, 1);
 						handler.discoverRecipe(Item.purpleSword);
-						handler.addRecapEvent("Completed The First Quest!");
 						chatDialogue = null;
 						speakingTurn = 1;
 					}else {

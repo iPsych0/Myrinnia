@@ -61,6 +61,7 @@ public class Tree extends StaticEntity {
 	        				handler.getRandomNumber(1, 3));
 	        		handler.sendMsg("You succesfully chopped some logs.");
 	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
+	        		handler.addRecapEvent("Woodcutting");
 	        		attempts++;
 	        	}else {
 	        		handler.sendMsg("Your hatchet bounced off the tree...");

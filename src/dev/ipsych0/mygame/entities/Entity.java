@@ -222,9 +222,9 @@ public abstract class Entity implements Serializable{
 	 */
 	public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
 		int yPos = 12;
-		g.drawImage(Assets.chatwindow, 400, 1, 200, 50, null);
+		g.drawImage(Assets.chatwindow, handler.getWidth() / 2 - 100, 1, 200, 50, null);
 		for(int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-			Text.drawString(g, getEntityInfo(hoveringEntity)[i], 500, yPos, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, getEntityInfo(hoveringEntity)[i], handler.getWidth() / 2, yPos, true, Color.YELLOW, Assets.font14);
 			yPos += 14;
 		}
 	}

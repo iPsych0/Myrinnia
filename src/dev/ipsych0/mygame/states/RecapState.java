@@ -62,6 +62,7 @@ public class RecapState extends State {
 			g.setColor(new Color(27, 27, 27, 196));
 			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 			
+			Text.drawString(g, "You last did... ["+(index+1)+"/"+handler.getRecapManager().getEvents().size() +"]", handler.getWidth() / 2, 96, true, Color.YELLOW, Assets.font32);
 			
 			Text.drawString(g, event.getDescription(), handler.getWidth() / 2, handler.getHeight() / 2 - 96, true, Color.YELLOW, Assets.font32);
 			

@@ -94,7 +94,7 @@ public class MenuState extends State {
 			
 			if(continueButton.contains(mouse)) {
 				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					Path path = Paths.get("res/savegames/savegame.sav");
+					Path path = Paths.get("res/savegames/save.dat");
 					if (Files.notExists(path)) {
 						System.out.println(path.toString() + " does not exist.");
 						hasBeenPressed = false;
