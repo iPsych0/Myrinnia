@@ -53,7 +53,6 @@ public class Handler implements Serializable {
 	private Island island;
 	private WorldHandler worldHandler;
 	private Player player;
-	private Random rand = new Random();
 	private ChatWindow chatWindow;
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
@@ -94,7 +93,7 @@ public class Handler implements Serializable {
 		player = new Player(5120, 5600);
 		
 		// Instantiate all interfaces
-		chatWindow = new ChatWindow(); //228,314
+		chatWindow = new ChatWindow();
 		inventory = new InventoryWindow();
 		equipment = new EquipmentWindow();
 		skillsUI = new SkillsUI();
@@ -236,9 +235,8 @@ public class Handler implements Serializable {
 			}else {
 				return false;
 			}
-		}else {
-			return false;
 		}
+		return false;
 	}
 	
 	public Skill getSkill(SkillsList skill) {
@@ -268,25 +266,9 @@ public class Handler implements Serializable {
 	 * Generates a random numbers between min & max
 	 */
 	public int getRandomNumber(int min, int max){
-		int randomNumber = rand.nextInt((max - min) + 1) + min;
+		int randomNumber = new Random().nextInt((max - min) + 1) + min;
 		return randomNumber;
 	}
-	
-//	/*
-//	 * Plays music (basic function.. needs expanding to check area)
-//	 */
-//	public void playMusic(String fileName) {
-//		if(!soundMuted) {
-//			
-//		}
-//	}
-//	
-//	public void playSoundEffect(String fileName) {
-//		if(!soundMuted) {
-//			Sound effect = TinySound.loadSound("../res/music/" + fileName, true);
-//			effect.play(0.1);
-//		}
-//	}
 	
 	/*
 	 * Rounds off a number to two digits.
@@ -383,7 +365,7 @@ public class Handler implements Serializable {
 	}
 
 	public void setGame(Game game) {
-		this.game = game;
+		Handler.game = game;
 	}
 
 	public World getWorld() {

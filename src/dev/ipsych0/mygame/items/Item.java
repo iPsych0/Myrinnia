@@ -43,7 +43,6 @@ public abstract class Item implements Serializable{
 	
 	// Class
 	
-	protected Handler handler;
 	protected ItemType[] itemTypes;
 	protected ItemRarity itemRarity;
 	protected ItemRequirement[] requirements;
@@ -94,8 +93,6 @@ public abstract class Item implements Serializable{
 	}
 	
 	public void render(Graphics g){
-		if(handler == null)
-			return;
 		render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
 	}
 	
@@ -182,14 +179,6 @@ public abstract class Item implements Serializable{
 	
 	
 	// Getters & Setters
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
 
 	public int getEquipSlot() {
 		return equipSlot.getSlotId();
