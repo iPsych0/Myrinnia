@@ -20,8 +20,8 @@ public class TeleportShrine extends StaticEntity {
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
 
-	public TeleportShrine(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public TeleportShrine(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
 		solid = true;
 		attackable = false;
@@ -40,9 +40,9 @@ public class TeleportShrine extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.teleportShrine2, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.teleportShrine2, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
-		g.drawImage(Assets.teleportShrine1, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - 32 - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.teleportShrine1, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 32 - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 	}
 
@@ -53,7 +53,7 @@ public class TeleportShrine extends StaticEntity {
 			return;
 		}
 		else if(this.getSpeakingTurn() == 1){
-			chatDialogue = new ChatDialogue(handler, firstDialogue);
+			chatDialogue = new ChatDialogue(firstDialogue);
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 2) {
@@ -61,7 +61,7 @@ public class TeleportShrine extends StaticEntity {
 				speakingTurn = 1;
 				return;
 			}
-			chatDialogue = new ChatDialogue(handler, secondDialogue);
+			chatDialogue = new ChatDialogue(secondDialogue);
 			speakingTurn++;
 		}
 		else if(this.getSpeakingTurn() == 3){
@@ -75,7 +75,7 @@ public class TeleportShrine extends StaticEntity {
 	
 				// Save the game
 				SaveManager.savehandler();
-				handler.sendMsg("Game Saved!");
+				Handler.get().sendMsg("Game Saved!");
 			}else {
 				speakingTurn = 1;
 				chatDialogue = null;

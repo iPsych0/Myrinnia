@@ -18,11 +18,9 @@ public class QuestHelpUI implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
-	private Handler handler;
 	private Rectangle bounds;
 	
-	public QuestHelpUI(Handler handler) {
-		this.handler = handler;
+	public QuestHelpUI() {
 		this.x = 200;
 		this.y = 150;
 		this.width = 200;
@@ -66,14 +64,14 @@ public class QuestHelpUI implements Serializable {
 				Color requirementColor = Color.YELLOW;
 				for(int i = 0; i < selectedQuest.getRequirements().length; i++) {
 					if(selectedQuest.getRequirements()[i].getSkill() != null) {
-						if(handler.getSkill(selectedQuest.getRequirements()[i].getSkill()).getLevel() >= selectedQuest.getRequirements()[i].getLevel()){
+						if(Handler.get().getSkill(selectedQuest.getRequirements()[i].getSkill()).getLevel() >= selectedQuest.getRequirements()[i].getLevel()){
 							requirementColor = Color.GREEN;
 						}else {
 							requirementColor = Color.RED;
 						}
 					}
 					else if(selectedQuest.getRequirements()[i].getQuest() != null) {
-						if(handler.getQuest(selectedQuest.getRequirements()[i].getQuest()).getState() == QuestState.COMPLETED) {
+						if(Handler.get().getQuest(selectedQuest.getRequirements()[i].getQuest()).getState() == QuestState.COMPLETED) {
 							requirementColor = Color.GREEN;
 						}else {
 							requirementColor = Color.RED;

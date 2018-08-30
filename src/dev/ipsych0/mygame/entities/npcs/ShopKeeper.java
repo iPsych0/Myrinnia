@@ -14,10 +14,10 @@ public abstract class ShopKeeper extends Creature {
 	private static final long serialVersionUID = 1L;
 	protected ShopWindow shopWindow;
 
-	public ShopKeeper(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, width, height);
+	public ShopKeeper(float x, float y, int width, int height) {
+		super(x, y, width, height);
 		
-		shopWindow = new ShopWindow(handler, new ArrayList<ItemStack>());
+		shopWindow = new ShopWindow(new ArrayList<ItemStack>());
 		
 	}
 	

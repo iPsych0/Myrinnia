@@ -11,9 +11,9 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class FireBallAbility extends Ability {
 		
-	public FireBallAbility(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+	public FireBallAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		super(handler, element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,9 +25,9 @@ public class FireBallAbility extends Ability {
 
 	@Override
 	public void cast() {
-		handler.getMouseManager().setLeftPressed(true);
-		handler.getPlayer().checkMagic(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1));
-		handler.getMouseManager().setLeftPressed(false);
+		Handler.get().getMouseManager().setLeftPressed(true);
+		Handler.get().getPlayer().checkMagic(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1));
+		Handler.get().getMouseManager().setLeftPressed(false);
 		setCasting(false);
 	}
 	

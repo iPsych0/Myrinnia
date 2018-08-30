@@ -15,9 +15,9 @@ public class MendWoundsAbility extends Ability{
 	private int regenHeal = 3;
 	private boolean initialHealDone = false;
 
-	public MendWoundsAbility(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+	public MendWoundsAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		super(handler, element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 		// TODO Auto-generated constructor stub
 	}
 

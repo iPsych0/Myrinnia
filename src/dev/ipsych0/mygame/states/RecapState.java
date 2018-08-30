@@ -20,28 +20,28 @@ public class RecapState extends State {
 	private Rectangle continueButton;
 	private int index = 0;
 
-	public RecapState(Handler handler) {
-		super(handler);
+	public RecapState() {
+		super();
 		
-		this.continueButton = new Rectangle(handler.getWidth() / 2 - 160, handler.getHeight() / 2, 320, 96);
+		this.continueButton = new Rectangle(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() / 2, 320, 96);
 	}
 
 	@Override
 	public void tick() {
-		if(handler.getRecapManager().getEvents().size() == 0) {
-			State.setState(new UITransitionState(handler, handler.getGame().gameState));
-			handler.playMusic(handler.getPlayer().getZone());
+		if(Handler.get().getRecapManager().getEvents().size() == 0) {
+			State.setState(new UITransitionState(Handler.get().getGame().gameState));
+			Handler.get().playMusic(Handler.get().getPlayer().getZone());
 			return;
 		}else {
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
-			if(continueButton.contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
-				if(index == handler.getRecapManager().getEvents().size() - 1) {
-					State.setState(new UITransitionState(handler, handler.getGame().gameState));
-					handler.playMusic(handler.getPlayer().getZone());
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			if(continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(index == Handler.get().getRecapManager().getEvents().size() - 1) {
+					State.setState(new UITransitionState(Handler.get().getGame().gameState));
+					Handler.get().playMusic(Handler.get().getPlayer().getZone());
 					hasBeenPressed = false;
 					return;
 				}else {
-					State.setState(new UITransitionState(handler, this));
+					State.setState(new UITransitionState(this));
 					index++;
 					hasBeenPressed = false;
 				}
@@ -54,17 +54,17 @@ public class RecapState extends State {
 
 	@Override
 	public void render(Graphics g) {
-		if(handler.getRecapManager().getEvents().size() > 0) {
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		if(Handler.get().getRecapManager().getEvents().size() > 0) {
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
-			RecapEvent event = handler.getRecapManager().getEvents().get(index);
+			RecapEvent event = Handler.get().getRecapManager().getEvents().get(index);
 			g.drawImage(event.getImg(), 0, 0, event.getImg().getWidth(), event.getImg().getHeight(), null);
 			g.setColor(new Color(27, 27, 27, 196));
-			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+			g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 			
-			Text.drawString(g, "You last did... ["+(index+1)+"/"+handler.getRecapManager().getEvents().size() +"]", handler.getWidth() / 2, 96, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "You last did... ["+(index+1)+"/"+Handler.get().getRecapManager().getEvents().size() +"]", Handler.get().getWidth() / 2, 96, true, Color.YELLOW, Assets.font32);
 			
-			Text.drawString(g, event.getDescription(), handler.getWidth() / 2, handler.getHeight() / 2 - 96, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, event.getDescription(), Handler.get().getWidth() / 2, Handler.get().getHeight() / 2 - 96, true, Color.YELLOW, Assets.font32);
 			
 			if(continueButton.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], continueButton.x, continueButton.y, continueButton.width, continueButton.height, null);

@@ -28,8 +28,8 @@ public class Rock extends StaticEntity {
 	private int random = 0;
 	private int attempts = 0;
 
-	public Rock(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public Rock(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -38,8 +38,8 @@ public class Rock extends StaticEntity {
 	@Override
 	public void tick() {
 		if(isMining) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
-					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
+			if(Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
+					!Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
 				miningTimer = 0;
 				speakingTurn = 1;
 				isMining = false;
@@ -58,22 +58,22 @@ public class Rock extends StaticEntity {
 			
 			if(miningTimer >= 180) {
 				System.out.println(random + " and " + attempts);
-				int roll = handler.getRandomNumber(1, 100);
+				int roll = Handler.get().getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.regularOre)).addItem(Item.regularOre,
-	        				handler.getRandomNumber(1, 3));
-	        		handler.sendMsg("You succesfully mined some ore!");
-	        		handler.getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
+	        		Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(Item.regularOre)).addItem(Item.regularOre,
+	        				Handler.get().getRandomNumber(1, 3));
+	        		Handler.get().sendMsg("You succesfully mined some ore!");
+	        		Handler.get().getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
 	        		attempts++;
 	        	}else {
-	        		handler.sendMsg("You missed the swing...");
+	        		Handler.get().sendMsg("You missed the swing...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 1;
 	        	miningTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
-	        		random = handler.getRandomNumber(minAttempts, maxAttempts);
+	        		random = Handler.get().getRandomNumber(minAttempts, maxAttempts);
 	        	}
 			}
 			
@@ -87,7 +87,7 @@ public class Rock extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.rock, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.rock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 		postRender(g);
 	}
@@ -99,16 +99,16 @@ public class Rock extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			if(handler.playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
-				if(handler.playerHasItemType(ItemType.PICKAXE)) {
-					handler.sendMsg("Mining...");
+			if(Handler.get().playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
+				if(Handler.get().playerHasItemType(ItemType.PICKAXE)) {
+					Handler.get().sendMsg("Mining...");
 					speakingTurn = 2;
 					isMining = true;
 				}else {
-					handler.sendMsg("You need a pickaxe to mine this rock.");
+					Handler.get().sendMsg("You need a pickaxe to mine this rock.");
 				}
 			}else {
-				handler.sendMsg("You need a mining level of " + handler.getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
+				Handler.get().sendMsg("You need a mining level of " + Handler.get().getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
 			}
 		}
 		if(this.speakingTurn == 2) {
@@ -120,14 +120,14 @@ public class Rock extends StaticEntity {
 	public void postRender(Graphics g) {
 		if(isMining) {
 			g.setColor(Color.WHITE);
-			g.drawImage(Assets.miningIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+			g.drawImage(Assets.miningIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		
 	}
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Rock(handler, xSpawn, ySpawn));		
+		Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn));		
 	}
 	
 }

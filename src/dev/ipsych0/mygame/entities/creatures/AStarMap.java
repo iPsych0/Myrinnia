@@ -18,7 +18,6 @@ public class AStarMap implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private int x, y, width, height, xSpawn, ySpawn;
-	private Handler handler;
 	private Node[][] nodes;
 	private int alpha = 127;
 	private Color unwalkableColour = new Color(255, 0, 0, alpha);
@@ -26,8 +25,7 @@ public class AStarMap implements Serializable{
 	private Rectangle mapBounds;
 	private Creature creature;
 	
-	public AStarMap(Handler handler, Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
-		this.handler = handler;
+	public AStarMap(Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
 		this.creature = creature;
 		this.x = x;
 		this.y = y;
@@ -56,7 +54,7 @@ public class AStarMap implements Serializable{
 			}
 		}
 		
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
 			if(e instanceof StaticEntity) {
 				if(mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
 					nodes[(int)Math.round(((e.getX()) / 32)) - (int)(x) / 32][(int)Math.round(((e.getY()) / 32)) - (int)(y) / 32].setWalkable(false);
@@ -78,10 +76,10 @@ public class AStarMap implements Serializable{
 				}
 				if(nodes[i][j].isWalkable()) {
 					g.setColor(Color.MAGENTA);
-					g.drawRect((int)(nodes[i][j].getX() * 32 - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+					g.drawRect((int)(nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
 				}else {
 					g.setColor(unwalkableColour);
-					g.fillRect((int)(nodes[i][j].getX() * 32 - handler.getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - handler.getGameCamera().getyOffset()), 32, 32);
+					g.fillRect((int)(nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int)(nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
 				}
 			}
 		}
@@ -349,17 +347,5 @@ public class AStarMap implements Serializable{
 	public void setMapBounds(Rectangle mapBounds) {
 		this.mapBounds = mapBounds;
 	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
-	
-	
-	
-	
 
 }

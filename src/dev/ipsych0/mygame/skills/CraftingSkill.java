@@ -4,8 +4,8 @@ import dev.ipsych0.mygame.Handler;
 
 public class CraftingSkill extends Skill {
 
-	public CraftingSkill(Handler handler) {
-		super(handler);
+	public CraftingSkill() {
+		super();
 		
 		categories.add(SkillCategory.Leatherwork);
 		categories.add(SkillCategory.CraftingOther);

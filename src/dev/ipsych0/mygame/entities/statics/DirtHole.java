@@ -8,6 +8,7 @@ import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.worlds.World;
+import dev.ipsych0.mygame.worlds.Zone;
 
 public class DirtHole extends StaticEntity {
 
@@ -20,8 +21,8 @@ public class DirtHole extends StaticEntity {
 	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};
 	private String[] secondDialogue = {"Climb down.", "No thanks, I'm fine."};
 
-	public DirtHole(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public DirtHole(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -39,7 +40,7 @@ public class DirtHole extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.dirtHole, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.dirtHole, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 	}
 
@@ -52,7 +53,7 @@ public class DirtHole extends StaticEntity {
 			return;
 		
 		case 1:
-			chatDialogue = new ChatDialogue(handler, firstDialogue);
+			chatDialogue = new ChatDialogue(firstDialogue);
 			speakingTurn++;
 			break;
 			
@@ -61,7 +62,7 @@ public class DirtHole extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			chatDialogue = new ChatDialogue(handler, secondDialogue);
+			chatDialogue = new ChatDialogue(secondDialogue);
 			speakingTurn++;
 			break;
 		case 3:
@@ -72,10 +73,7 @@ public class DirtHole extends StaticEntity {
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = null;
-				handler.setWorld(handler.getWorldHandler().getWorlds().get(3));
-				handler.getWorld().setHandler(handler);
-				handler.getPlayer().setX(3008);
-				handler.getPlayer().setY(3392);
+				Handler.get().goToWorld(Zone.IslandUnderground, 3008, 3392);
 				break;
 			}
 			else if(chatDialogue.getChosenOption().getOptionID() == 1) {
@@ -94,7 +92,7 @@ public class DirtHole extends StaticEntity {
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new DirtHole(handler, xSpawn, ySpawn));
+		Handler.get().getWorld().getEntityManager().addEntity(new DirtHole(xSpawn, ySpawn));
 	}
 	
 }

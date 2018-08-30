@@ -48,7 +48,7 @@ public class Handler implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Game game;
+	private static Game game;
 	private World world;
 	private Island island;
 	private WorldHandler worldHandler;
@@ -68,42 +68,47 @@ public class Handler implements Serializable {
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
 	
+	private static Handler handler;
+	
 	/*
 	 * Set to true for debug mode
 	 */
 	public static boolean debugMode = false;
 	
-	/*
-	 * Index 0: Island
-	 * Index 1: TestLand
-	 * Index 2: SwampLand
-	 * Index 3: IslandUnderground
-	 */
+	public static Handler get() {
+		if(handler == null) {
+			handler = new Handler();
+			handler.init();
+		}
+		return handler;
+	}
 	
-	public Handler(Game game){
-		this.game = game;
+	private Handler(){
+		
+	}
+	
+	private void init() {
+		handler.setGame(Game.get());
 		
 		// Instantiate the player
-		player = new Player(this, 5120, 5600);
+		player = new Player(5120, 5600);
 		
 		// Instantiate all interfaces
-		chatWindow = new ChatWindow(this); //228,314
-		chatWindow.sendMessage("Welcome back!");
-		inventory = new InventoryWindow(this);
-		equipment = new EquipmentWindow(this);
-		skillsUI = new SkillsUI(this);
-		questManager = new QuestManager(this);
-		craftingUI = new CraftingUI(this, 0, 180);
-		characterUI = new CharacterUI(this);
-		hpOverlay = new HPOverlay(this);
-		bankUI = new BankUI(this);
-		abilityManager = new AbilityManager(this);
-		recapManager = new RecapManager(this);
+		chatWindow = new ChatWindow(); //228,314
+		inventory = new InventoryWindow();
+		equipment = new EquipmentWindow();
+		skillsUI = new SkillsUI();
+		questManager = new QuestManager();
+		craftingUI = new CraftingUI();
+		characterUI = new CharacterUI();
+		hpOverlay = new HPOverlay();
+		bankUI = new BankUI();
+		abilityManager = new AbilityManager();
+		recapManager = new RecapManager();
 		
 		// Set the starting world
-		island = new Island(this, "res/worlds/island.tmx");
-		worldHandler = new WorldHandler(this, island);
-		
+		island = new Island("res/worlds/island.tmx");
+		worldHandler = new WorldHandler(island);
 	}
 	
 	public void playMusic(Zone zone) {
@@ -210,7 +215,7 @@ public class Handler implements Serializable {
 		player.setZone(zone);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
-		ZoneTransitionState transitionState = new ZoneTransitionState(this, zone);
+		ZoneTransitionState transitionState = new ZoneTransitionState(zone);
 		State.setState(transitionState);
 		
 		for(Source s : AudioManager.soundfxFiles)
@@ -445,10 +450,6 @@ public class Handler implements Serializable {
 		this.craftingUI = craftingUI;
 	}
 
-	public SaveManager getSaveManager() {
-		return game.getSaveManager();
-	}
-
 	public boolean isSoundMuted() {
 		return soundMuted;
 	}
@@ -503,6 +504,10 @@ public class Handler implements Serializable {
 
 	public void setRecapManager(RecapManager recapManager) {
 		this.recapManager = recapManager;
+	}
+
+	public static void setHandler(Handler handler) {
+		Handler.handler = handler;
 	}
 
 }

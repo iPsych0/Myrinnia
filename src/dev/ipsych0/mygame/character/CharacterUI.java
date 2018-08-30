@@ -19,7 +19,6 @@ public class CharacterUI implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public int x = 0, y = 180, width = 192, height = 320;
-	private Handler handler;
 	public static boolean isOpen = false;
 	private int baseStatPoints = 0;
 	private int elementalStatPoints = 0;
@@ -29,9 +28,7 @@ public class CharacterUI implements Serializable{
 	public static boolean escapePressed = false;
 	private Rectangle exit;
 	
-	public CharacterUI(Handler handler) {
-		this.handler = handler;
-		
+	public CharacterUI() {		
 		meleeUp = new Rectangle(x + 92, y + 136, 16, 16);
 		rangedUp = new Rectangle(x + 92, y + 152, 16, 16);
 		magicUp = new Rectangle(x + 92, y + 168, 16, 16);
@@ -48,9 +45,9 @@ public class CharacterUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
-			if(handler.getKeyManager().escape && escapePressed) {
+			if(Handler.get().getKeyManager().escape && escapePressed) {
 				isOpen = false;
 				hasBeenPressed = false;
 				return;
@@ -58,17 +55,17 @@ public class CharacterUI implements Serializable{
 			
 			// If Base stats are upped
 			if(baseStatPoints >= 1) {
-				if(meleeUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(meleeUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Melee.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
 				}
-				else if(rangedUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				else if(rangedUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Ranged.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
 				}
-				else if(magicUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				else if(magicUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Magic.addLevel();
 					baseStatPoints -= 1;
 					hasBeenPressed = false;
@@ -77,22 +74,22 @@ public class CharacterUI implements Serializable{
 			
 			// If Elemental stats are upped
 			if(elementalStatPoints >= 1) {
-				if(fireUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(fireUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Fire.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
-				else if(airUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				else if(airUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Air.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
-				else if(waterUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				else if(waterUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Water.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
 				}
-				else if(earthUp.contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				else if(earthUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					CharacterStats.Earth.addLevel();
 					elementalStatPoints -= 1;
 					hasBeenPressed = false;
@@ -106,13 +103,13 @@ public class CharacterUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			Text.drawString(g, "Character stats:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			
-			Text.drawString(g, "Combat lvl: " + handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "HP: " + handler.getPlayer().getHealth() + "/" + handler.getPlayer().getMaxHealth(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "XP: "+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Combat lvl: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "HP: " + Handler.get().getPlayer().getHealth() + "/" + Handler.get().getPlayer().getMaxHealth(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "XP: "+Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
 			
 			// If we have points available, draw the 
 			if(baseStatPoints >= 1) {
@@ -181,7 +178,7 @@ public class CharacterUI implements Serializable{
 			
 			if(exit.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
-				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 					hasBeenPressed = false;
 					isOpen = false;
 				}

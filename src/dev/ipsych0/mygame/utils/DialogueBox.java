@@ -19,7 +19,6 @@ public class DialogueBox implements Serializable {
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
 	public static boolean isOpen = false;
-	private Handler handler;
 	private String[] answers;
 	private String param = "";
 	private DialogueButton pressedButton = null;
@@ -27,12 +26,11 @@ public class DialogueBox implements Serializable {
 	private String message;
 	private boolean numbersOnly;
 
-	public DialogueBox(Handler handler, int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
+	public DialogueBox(int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.handler = handler;
 		this.answers = answers;
 		this.message = message;
 		this.numbersOnly = numbersOnly;
@@ -43,19 +41,19 @@ public class DialogueBox implements Serializable {
 			buttons.add(new DialogueButton(x + (width / answers.length) - 32 - (32 / answers.length) + (i * 64), y + height - 48, 32, 32, answers[i]));
 		}
 		
-		tb = new TextBox(handler, x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, numbersOnly);
+		tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, numbersOnly);
 	}
 	
 	public void tick() {
 		
 		if(isOpen) {
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			for(DialogueButton db : buttons) {
 				db.tick();
 				tb.tick();
 				
-				if(db.getButtonBounds().contains(mouse) && handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged()) {
+				if(db.getButtonBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged()) {
 					for(int i = 0; i < buttons.size(); i++) {
 						if(db.getText().equals(answers[i]) && pressedButton == null) {
 							pressedButton = db;
@@ -76,7 +74,7 @@ public class DialogueBox implements Serializable {
 			
 			Text.drawString(g, message, x + (width / 2), y + 32, true, Color.YELLOW, Assets.font14);
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1,1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1,1);
 			for(DialogueButton db : buttons) {
 				if(db.getButtonBounds().contains(mouse))
 					db.setHovering(true);

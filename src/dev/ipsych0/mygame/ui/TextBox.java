@@ -22,7 +22,6 @@ public class TextBox implements KeyListener, Serializable {
 	public int x, y, width, height;
 	private String charactersTyped = "";
 	public boolean numbersOnly = false;
-	private Handler handler;
 	private Rectangle bounds;
 	private boolean focus = false;
 	private int index = 0;
@@ -35,8 +34,7 @@ public class TextBox implements KeyListener, Serializable {
 	private int blinkTimer = 0;
 	private String cursor = "|";
 	
-	public TextBox(Handler handler, int x, int y, int width, int height, boolean numbersOnly) {
-		this.handler = handler;
+	public TextBox(int x, int y, int width, int height, boolean numbersOnly) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -50,22 +48,22 @@ public class TextBox implements KeyListener, Serializable {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			// Sets focus when the textfield is clicked
-			if(bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			if(bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 				if(!focus) {
-					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
-					handler.getGame().getDisplay().getFrame().addKeyListener(this);
+					Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
+					Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
 				}
 				KeyManager.typingFocus = true;
 				focus = true;
 			}
 			
 			// Removes focus when clicked outside the textfield
-			if(!bounds.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+			if(!bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 				if(focus) {
-					handler.getGame().getDisplay().getFrame().removeKeyListener(this);
+					Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
 				}
 				KeyManager.typingFocus = false;
 				focus = false;

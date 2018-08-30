@@ -19,8 +19,8 @@ public class SwampLand extends World{
 	private static final long serialVersionUID = 1L;
 	private Rectangle testLandTile;
 
-	public SwampLand(Handler handler, String path) {
-		super(handler);
+	public SwampLand(String path) {
+		super();
 		
 		this.worldPath = path;
 
@@ -29,14 +29,14 @@ public class SwampLand extends World{
 		
 		loadWorld(path);
 				
-		entityManager.addEntity(new Lorraine(handler, 732, 640));
+		entityManager.addEntity(new Lorraine(732, 640));
 		
-		entityManager.addEntity(new Tree(handler, 160, 128));
-		entityManager.addEntity(new Tree(handler, 128, 128));
-		entityManager.addEntity(new Tree(handler, 96, 192));
-		entityManager.addEntity(new Tree(handler, 96, 160));
+		entityManager.addEntity(new Tree(160, 128));
+		entityManager.addEntity(new Tree(128, 128));
+		entityManager.addEntity(new Tree(96, 192));
+		entityManager.addEntity(new Tree(96, 160));
 		
-		entityManager.addEntity(new Rock(handler, 448, 576));
+		entityManager.addEntity(new Rock(448, 576));
 		
 //		entityManager.addEntity(new Scorpion(handler, 160, 400));
 //		entityManager.addEntity(new Scorpion(handler, 128, 800));
@@ -46,9 +46,9 @@ public class SwampLand extends World{
 //		entityManager.addEntity(new Scorpion(handler, 190, 888));
 //		entityManager.addEntity(new Scorpion(handler, 190, 800));
 		
-		entityManager.addEntity(new TeleportShrine(handler, 200, 200));
+		entityManager.addEntity(new TeleportShrine(200, 200));
 		
-		entityManager.addEntity(new Whirlpool(handler, 672, 432));
+		entityManager.addEntity(new Whirlpool(672, 432));
 		
 		testLandTile = new Rectangle(1568, 1300, 32, 200); 
 
@@ -56,20 +56,20 @@ public class SwampLand extends World{
 	
 	@Override
 	public void tick(){
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.tick();
 			if(standingOnTile(testLandTile)){
-				handler.goToWorld(Zone.TestLand, 60, 164);
+				Handler.get().goToWorld(Zone.TestLand, 60, 164);
 			}
 		}
 	}
 	
 	@Override
 	public void render(Graphics g) {
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.render(g);
 			
-			g.drawRect((int) (testLandTile.x - handler.getGameCamera().getxOffset()), (int) (testLandTile.y - handler.getGameCamera().getyOffset()), 32, 168);
+			g.drawRect((int) (testLandTile.x - Handler.get().getGameCamera().getxOffset()), (int) (testLandTile.y - Handler.get().getGameCamera().getyOffset()), 32, 168);
 		}
 	}
 }

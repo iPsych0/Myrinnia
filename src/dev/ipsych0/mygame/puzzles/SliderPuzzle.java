@@ -18,10 +18,9 @@ public class SliderPuzzle extends Puzzle {
 	private int x, y, width, height;
 	private int maxSize;
 	private SliderPiece[][] sliderPieces;
-	private Handler handler;
 	public static boolean hasBeenPressed = false;
 	
-	public SliderPuzzle(Handler handler, int maxSize) {
+	public SliderPuzzle(int maxSize) {
 		if(maxSize > 10 || maxSize < 3) {
 			try {
 				throw new Exception();
@@ -32,11 +31,10 @@ public class SliderPuzzle extends Puzzle {
 			}
 		}
 		
-		this.handler = handler;
 		this.maxSize = maxSize;
 		
-		x = handler.getWidth() / 2 - maxSize * 32 / 2;
-		y = handler.getHeight() / 2 - maxSize * 32 / 2;
+		x = Handler.get().getWidth() / 2 - maxSize * 32 / 2;
+		y = Handler.get().getHeight() / 2 - maxSize * 32 / 2;
 		width = maxSize * 32;
 		height = maxSize * 32;
 		
@@ -46,12 +44,12 @@ public class SliderPuzzle extends Puzzle {
 		for(int y = 0; y < maxSize; y++) {
 			for(int x = 0; x < maxSize; x++) {
 				if(x == maxSize-1 && y == maxSize-1) {
-					sliderPieces[x][y] = new SliderPiece(handler, x ,y, true, id++);
+					sliderPieces[x][y] = new SliderPiece(x ,y, true, id++);
 					sliderPieces[x][y].setWindowX(this.x);
 					sliderPieces[x][y].setWindowY(this.y);
 					break;
 				}
-				sliderPieces[x][y] = new SliderPiece(handler, x ,y, id++);
+				sliderPieces[x][y] = new SliderPiece(x ,y, id++);
 				sliderPieces[x][y].setWindowX(this.x);
 				sliderPieces[x][y].setWindowY(this.y);
 			}
@@ -76,7 +74,7 @@ public class SliderPuzzle extends Puzzle {
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 
 		for(int y = 0; y < maxSize; y++) {
 			for(int x = 0; x < maxSize; x++) {
@@ -84,7 +82,7 @@ public class SliderPuzzle extends Puzzle {
 					
 					sliderPieces[x][y].tick();
 					
-					if(sliderPieces[x][y].getBounds().contains(mouse) && handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+					if(sliderPieces[x][y].getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 						checkMove(x, y);
 						hasBeenPressed = false;
 					}
@@ -104,7 +102,7 @@ public class SliderPuzzle extends Puzzle {
 		}
 		
 		if(completed) {
-			Text.drawString(g, "CONGRATULATIONS, YOU HAVE SOLVED THE PUZZLE!", handler.getWidth() / 2, handler.getHeight() / 2, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "CONGRATULATIONS, YOU HAVE SOLVED THE PUZZLE!", Handler.get().getWidth() / 2, Handler.get().getHeight() / 2, true, Color.YELLOW, Assets.font32);
 		}
 	}
 	

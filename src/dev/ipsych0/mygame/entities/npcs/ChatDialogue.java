@@ -17,7 +17,6 @@ public class ChatDialogue implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private int x, y, width, height;
-	private Handler handler;
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
 	public static boolean hasBeenPressed = false;
@@ -26,12 +25,11 @@ public class ChatDialogue implements Serializable{
 	private int optionID;
 	private ChatOptions chosenOption;
 	
-	public ChatDialogue(Handler handler, String[] menuOptions) {
-		this.handler = handler;
-		this.width = handler.getChatWindow().getWidth();
-		this.height = handler.getChatWindow().getHeight();
+	public ChatDialogue(String[] menuOptions) {
+		this.width = Handler.get().getChatWindow().getWidth();
+		this.height = Handler.get().getChatWindow().getHeight();
 		this.x = 0;
-		this.y = handler.getHeight() - height - 8;
+		this.y = Handler.get().getHeight() - height - 8;
 		this.menuOptions = menuOptions;
 		
 		chatOptions = new ArrayList<ChatOptions>();
@@ -48,7 +46,7 @@ public class ChatDialogue implements Serializable{
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
 		if(menuOptions.length > 1) {
 			for(ChatOptions option : chatOptions) {
@@ -59,7 +57,7 @@ public class ChatDialogue implements Serializable{
 				
 				if(optionSlot.contains(mouse)) {
 					option.setHovering(true);
-					if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
+					if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
 						hasBeenPressed = false;
 						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
@@ -73,7 +71,7 @@ public class ChatDialogue implements Serializable{
 			continueButton.tick();
 			if(continueButtonBounds.contains(mouse)) {
 				continueButton.setHovering(true);
-				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed && !handler.getMouseManager().isDragged()) {
+				if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
 					hasBeenPressed = false;
 					Player.hasInteracted = false;
 					continueButton.setPressed(true);
@@ -100,7 +98,7 @@ public class ChatDialogue implements Serializable{
 		}
 		
 		g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-		Text.drawString(g, handler.getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
+		Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {
@@ -141,14 +139,6 @@ public class ChatDialogue implements Serializable{
 
 	public void setMenuOptions(String[] menuOptions) {
 		this.menuOptions = menuOptions;
-	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
 	}
 
 }

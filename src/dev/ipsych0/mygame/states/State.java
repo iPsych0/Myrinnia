@@ -23,11 +23,9 @@ public abstract class State implements Serializable{
 	}
 	
 	//CLASS
-	
-	protected Handler handler;
-	
-	public State(Handler handler){
-		this.handler = handler;
+		
+	public State(){
+		
 	}
 	
 	public abstract void tick();

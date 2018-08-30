@@ -30,37 +30,37 @@ public class MenuState extends State {
 	private int errorDisplayTimer = 0;
 	private Rectangle errorPopup;
 
-	public MenuState(Handler handler){
-		super(handler);
-		uiManager = new UIManager(handler);
-		handler.getMouseManager().setUIManager(uiManager);
+	public MenuState(){
+		super();
+		uiManager = new UIManager();
+		Handler.get().getMouseManager().setUIManager(uiManager);
 		
 		/*
 		 * New Game Button
 		 */
-		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
-		newGameButton = new Rectangle(handler.getWidth() / 2 - 113, 376, 226, 96);
+		uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
+		newGameButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 376, 226, 96);
 
 		
 		/*
 		 * Continue Button
 		 */
-		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
-		continueButton = new Rectangle(handler.getWidth() / 2 - 113, 480, 226, 96);
+		uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
+		continueButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 480, 226, 96);
 		
 		/*
 		 * Settings Button
 		 */
-		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-		settingsButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
 		
 		/*
 		 * Quit Game Button
 		 */
-		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton));
-		quitButton = new Rectangle(handler.getWidth() / 2 - 113, 688, 226, 96);
+		uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton));
+		quitButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 688, 226, 96);
 		
-		errorPopup = new Rectangle(handler.getWidth() / 2 - 153, 224, 306, 58);
+		errorPopup = new Rectangle(Handler.get().getWidth() / 2 - 153, 224, 306, 58);
 		
 		
 	}
@@ -69,11 +69,11 @@ public class MenuState extends State {
 	public void tick() {
 			// If our UIManager was disabled, enable it if we get back to this Menu State
 			if(!loaded) {
-				handler.getMouseManager().setUIManager(uiManager);
+				Handler.get().getMouseManager().setUIManager(uiManager);
 				loaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			for(UIObject o : uiManager.getObjects()) {
 				if(o.getBounds().contains(mouse)) {
@@ -84,16 +84,16 @@ public class MenuState extends State {
 			}
 			
 			if(newGameButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					handler.getMouseManager().setUIManager(null);
-					State.setState(new UITransitionState(handler, handler.getGame().gameState));
-					handler.playMusic(Zone.Island);
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+					Handler.get().getMouseManager().setUIManager(null);
+					State.setState(new UITransitionState(Handler.get().getGame().gameState));
+					Handler.get().playMusic(Zone.Island);
 					hasBeenPressed = false;
 				}
 			}
 			
 			if(continueButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					Path path = Paths.get("res/savegames/save.dat");
 					if (Files.notExists(path)) {
 						System.out.println(path.toString() + " does not exist.");
@@ -102,9 +102,9 @@ public class MenuState extends State {
 						errorDisplayTimer = 0;
 						return;
 					}else {
-						handler.getMouseManager().setUIManager(null);
-						SaveManager.loadHandler(handler);
-						State.setState(new UITransitionState(handler, handler.getGame().recapState));
+						Handler.get().getMouseManager().setUIManager(null);
+						SaveManager.loadHandler();
+						State.setState(new UITransitionState(Handler.get().getGame().recapState));
 						hasBeenPressed = false;
 						return;
 					}
@@ -112,12 +112,12 @@ public class MenuState extends State {
 			}
 			
 			if(settingsButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					// Stop loading this UIManager and go to the settings screen
 					loaded = false;
-					State.setState(new UITransitionState(handler, handler.getGame().settingState));
+					State.setState(new UITransitionState(Handler.get().getGame().settingState));
 					SettingState.previousState = this;
-					handler.getMouseManager().setUIManager(null);
+					Handler.get().getMouseManager().setUIManager(null);
 					hasBeenPressed = false;
 					displayError = false;
 					errorDisplayTimer = 0;
@@ -125,7 +125,7 @@ public class MenuState extends State {
 			}
 			
 			if(quitButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					AudioManager.cleanUp();
 					System.exit(0);
 					hasBeenPressed = false;
@@ -139,7 +139,7 @@ public class MenuState extends State {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+		g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			uiManager.render(g);
 			
@@ -156,11 +156,11 @@ public class MenuState extends State {
 			}
 			
 			// Render the text in the main menu
-			Text.drawString(g, "Welcome to Myrinnia", handler.getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "New Game", handler.getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Continue", handler.getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Settings", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
-			Text.drawString(g, "Quit Game", handler.getWidth() / 2, 736, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "New Game", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Continue", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Quit Game", Handler.get().getWidth() / 2, 736, true, Color.YELLOW, Assets.font32);
 		}
 	
 }

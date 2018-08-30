@@ -23,7 +23,6 @@ public class SkillsUI implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	public int x = 0, y = 180, width = 192, height = 320;
-	private Handler handler;
 	public static boolean isOpen = false;
 	public static boolean hasBeenPressed = false;
 	private HashMap<SkillsList, Skill> skills;
@@ -34,17 +33,16 @@ public class SkillsUI implements Serializable{
 	private Rectangle bounds;
 	private Rectangle exit;
 	
-	public SkillsUI(Handler handler) {
-		this.handler = handler;
+	public SkillsUI() {
 		skillsList = new ArrayList<Skill>();
 		skills = new HashMap<SkillsList, Skill>();
 		
-		skillsList.add(new CraftingSkill(handler));
-		skillsList.add(new WoodcuttingSkill(handler));
-		skillsList.add(new FishingSkill(handler));
-		skillsList.add(new MiningSkill(handler));
-		skillsList.add(new CombatSkill(handler));
-		skillsList.add(new BountyHunterSkill(handler));
+		skillsList.add(new CraftingSkill());
+		skillsList.add(new WoodcuttingSkill());
+		skillsList.add(new FishingSkill());
+		skillsList.add(new MiningSkill());
+		skillsList.add(new CombatSkill());
+		skillsList.add(new BountyHunterSkill());
 		
 		
 		// Sort the Skills
@@ -69,16 +67,16 @@ public class SkillsUI implements Serializable{
 		
 		exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 		
-		overviewUI = new SkillsOverviewUI(handler);
+		overviewUI = new SkillsOverviewUI();
 	}
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 
 			if(bountyHunter.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.BOUNTYHUNTER));
@@ -95,14 +93,14 @@ public class SkillsUI implements Serializable{
 			}
 			
 			else if(crafting.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
 					overviewUI.setSelectedCategory(SkillCategory.CraftingOther);
 					overviewUI.getScrollBar().setIndex(0);
-					overviewUI.getScrollBar().setListSize(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
-					overviewUI.getScrollBar().setScrollMaximum(handler.getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
+					overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
+					overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingRecipeList().getListByCategory(SkillCategory.CraftingOther).size());
 					overviewUI.getCategories().clear();
 					for(int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
 						overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
@@ -111,7 +109,7 @@ public class SkillsUI implements Serializable{
 				}
 			}
 			else if(fishing.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
@@ -127,7 +125,7 @@ public class SkillsUI implements Serializable{
 				}
 			}
 			else if(mining.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
@@ -143,7 +141,7 @@ public class SkillsUI implements Serializable{
 				}
 			}
 			else if(woodcutting.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = true;
 					overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
@@ -159,12 +157,12 @@ public class SkillsUI implements Serializable{
 				}
 			}
 			
-			if(handler.getKeyManager().escape && SkillsOverviewUI.isOpen && escapePressed) {
+			if(Handler.get().getKeyManager().escape && SkillsOverviewUI.isOpen && escapePressed) {
 				SkillsOverviewUI.isOpen = false;
 				escapePressed = false;
 				return;
 			}
-			else if(handler.getKeyManager().escape && !SkillsOverviewUI.isOpen && escapePressed) {
+			else if(Handler.get().getKeyManager().escape && !SkillsOverviewUI.isOpen && escapePressed) {
 				SkillsUI.isOpen = false;
 				escapePressed = false;
 				return;
@@ -180,7 +178,7 @@ public class SkillsUI implements Serializable{
 			
 			overviewUI.render(g);
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			
@@ -248,7 +246,7 @@ public class SkillsUI implements Serializable{
 			
 			if(exit.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
-				if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 					hasBeenPressed = false;
 					SkillsOverviewUI.isOpen = false;
 					SkillsUI.isOpen = false;
@@ -262,9 +260,9 @@ public class SkillsUI implements Serializable{
 	
 	public void drawXpProgress(Graphics g, Rectangle skillRect, SkillsList skill) {
 		g.setColor(HPOverlay.xpColor);
-		g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * handler.getSkill(skill).getExperience() / handler.getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
+		g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
 		g.setColor(HPOverlay.xpColorOutline);
-		g.drawRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * handler.getSkill(skill).getExperience() / handler.getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
+		g.drawRoundRect(skillRect.x + 2, skillRect.y + 1, (int)(skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
 	}
 
 	public Skill getSkill(SkillsList skill) {

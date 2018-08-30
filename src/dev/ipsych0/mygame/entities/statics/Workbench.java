@@ -13,8 +13,8 @@ public class Workbench extends StaticEntity {
 	private String[] firstDialogue = {"You may use this workbench to craft items."};
 	private String[] secondDialogue = {"Craft items", "Leave"};
 	
-	public Workbench(Handler handler, float x, float y) {
-		super(handler, x, y, 64, 64);
+	public Workbench(float x, float y) {
+		super(x, y, 64, 64);
 		bounds.y = 16;
 		bounds.height -= 12;
 		
@@ -30,7 +30,7 @@ public class Workbench extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.workbench, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		g.drawImage(Assets.workbench, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		
 	}
 
@@ -56,7 +56,7 @@ public class Workbench extends StaticEntity {
 		
 		case 1:
 			if(!CraftingUI.isOpen){
-				chatDialogue = new ChatDialogue(handler, firstDialogue);
+				chatDialogue = new ChatDialogue(firstDialogue);
 				speakingTurn++;
 				break;
 			}else {
@@ -68,12 +68,12 @@ public class Workbench extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			chatDialogue = new ChatDialogue(handler, secondDialogue);
+			chatDialogue = new ChatDialogue(secondDialogue);
 			speakingTurn++;
 			break;
 		case 3:
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				handler.getCraftingUI().openWindow();
+				Handler.get().getCraftingUI().openWindow();
 				chatDialogue = null;
 				speakingTurn = 1;
 				break;

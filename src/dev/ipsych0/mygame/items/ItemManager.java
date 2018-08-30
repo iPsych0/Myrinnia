@@ -17,13 +17,11 @@ public class ItemManager implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private CopyOnWriteArrayList<Item> items;
 	private Collection<Item> deleted;
 	private Collection<Item> added;
 
-	public ItemManager(Handler handler){
-		this.handler = handler;
+	public ItemManager(){
 		items = new CopyOnWriteArrayList<Item>();
 		deleted = new CopyOnWriteArrayList<Item>();
 		added = new CopyOnWriteArrayList<Item>();
@@ -35,8 +33,8 @@ public class ItemManager implements Serializable{
 			Item i = it.next();
 			
 			// Checks player's position for any items nearby to pick up
-			if(handler.getMouseManager().isRightPressed() && handler.getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
-				if(!handler.getPlayer().hasRightClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
+			if(Handler.get().getMouseManager().isRightPressed() && Handler.get().getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
+				if(!Handler.get().getPlayer().hasRightClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
 					if(i.pickUpItem(i)){
 						if(i.isPickedUp()){
 							deleted.add(i);
@@ -77,30 +75,22 @@ public class ItemManager implements Serializable{
 			i.render(g);
 			
 			// Draw item bounds for picking up
-//			g.drawRect((int)(i.itemPosition(0, 0).x - handler.getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - handler.getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
+//			g.drawRect((int)(i.itemPosition(0, 0).x - Handler.get().getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - Handler.get().getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
 		}
 	}
 	
 	public void addItem(Item i){
-		i.setHandler(handler);
+		i.setHandler(Handler.get());
 		items.add(i);
 		added.add(i);
 	}
 	
 	public void addItem(Item i, boolean isWorldSpawn){
-		i.setHandler(handler);
+		i.setHandler(Handler.get());
 		items.add(i);
 	}
 	
 	// Getters & Setters
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
 	
 	public CopyOnWriteArrayList<Item> getItems() {
 		return items;

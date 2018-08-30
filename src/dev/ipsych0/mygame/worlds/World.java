@@ -36,7 +36,6 @@ public abstract class World implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	// Variables
-	protected Handler handler;
 	protected int width, height;
 	protected int[][][] tiles;
 	protected int spawnX, spawnY;
@@ -65,25 +64,23 @@ public abstract class World implements Serializable {
 	
 	// Actual code ---v
 	
-	public World(Handler handler){
-		if(State.getState() == handler.getGame().gameState){
-			this.handler = handler;
+	public World(){
 			
 			// World-specific classes
-			this.player = handler.getPlayer();
-			this.inventory = handler.getInventory();
-			this.equipment = handler.getEquipment();
-			this.chatWindow = handler.getChatWindow();
-			this.questManager = handler.getQuestManager();
-			this.characterUI = handler.getCharacterUI();
-			this.skillsUI = handler.getSkillsUI();
-			this.hpOverlay = handler.getHpOverlay();
-			this.abilityManager = handler.getAbilityManager();
+			this.player = Handler.get().getPlayer();
+			this.inventory = Handler.get().getInventory();
+			this.equipment = Handler.get().getEquipment();
+			this.chatWindow = Handler.get().getChatWindow();
+			this.questManager = Handler.get().getQuestManager();
+			this.characterUI = Handler.get().getCharacterUI();
+			this.skillsUI = Handler.get().getSkillsUI();
+			this.hpOverlay = Handler.get().getHpOverlay();
+			this.abilityManager = Handler.get().getAbilityManager();
 			
-			entityManager = new EntityManager(handler, player);
-			itemManager = new ItemManager(handler);
-			craftingUI = handler.getCraftingUI();
-		}
+			entityManager = new EntityManager(player);
+			itemManager = new ItemManager();
+			craftingUI = Handler.get().getCraftingUI();
+		
 	}
 	
 	public void tick() {
@@ -99,7 +96,7 @@ public abstract class World implements Serializable {
 		hpOverlay.tick();
 		abilityManager.tick();
 		if(BankUI.isOpen)
-			handler.getBankUI().tick();
+			Handler.get().getBankUI().tick();
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
 			player.getShopKeeper().getShopWindow().tick();
 		
@@ -107,10 +104,10 @@ public abstract class World implements Serializable {
 	
 	public void render(Graphics g) {
 		// Set variables for rendering only the tiles that show on screen
-		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tiles.TILEWIDTH + 1);
-		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tiles.TILEHEIGHT + 1);
+		int xStart = (int) Math.max(0, Handler.get().getGameCamera().getxOffset() / Tiles.TILEWIDTH);
+		int xEnd = (int) Math.min(width, (Handler.get().getGameCamera().getxOffset() + Handler.get().getWidth()) / Tiles.TILEWIDTH + 1);
+		int yStart = (int) Math.max(0, Handler.get().getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
+		int yEnd = (int) Math.min(height, (Handler.get().getGameCamera().getyOffset() + Handler.get().getHeight()) / Tiles.TILEHEIGHT + 1);
 		
 		// Render the tiles
 		
@@ -119,8 +116,8 @@ public abstract class World implements Serializable {
 				for(int x = xStart; x < xEnd; x++){
 					Tiles t = getTile(i,x,y);
 					if(t != Tiles.tiles[736]) {
-						t.render(g, (int) (x * Tiles.TILEWIDTH - handler.getGameCamera().getxOffset()), 
-								(int) (y * Tiles.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+						t.render(g, (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()), 
+								(int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
 					}
 				}
 			}
@@ -158,7 +155,7 @@ public abstract class World implements Serializable {
 		abilityManager.render(g);
 		
 		if(BankUI.isOpen && player.getBankEntity() != null) {
-			handler.getBankUI().render(g);
+			Handler.get().getBankUI().render(g);
 			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
 		}
 		
@@ -187,7 +184,7 @@ public abstract class World implements Serializable {
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
 		g.setColor(night);
-		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+		g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 		alpha = 1.0f;
 		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
@@ -226,14 +223,6 @@ public abstract class World implements Serializable {
 
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
-	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
 	}
 
 	public ItemManager getItemManager() {

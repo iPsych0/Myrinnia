@@ -23,11 +23,11 @@ public class ControlsState extends State {
 	private Rectangle overlay;
 	private Rectangle w, a, s, d, i, c, q, m, k, l, space;
 
-	public ControlsState(Handler handler) {
-		super(handler);
-		this.uiManager = new UIManager(handler);
+	public ControlsState() {
+		super();
+		this.uiManager = new UIManager();
 		
-		overlay = new Rectangle(handler.getWidth() / 2 - 260, 232, 520, 313);
+		overlay = new Rectangle(Handler.get().getWidth() / 2 - 260, 232, 520, 313);
 		
 		// Interface buttons
 		uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton));
@@ -64,8 +64,8 @@ public class ControlsState extends State {
 		/*
 		 * The return button to the main menu
 		 */
-		uiManager.addObject(new UIImageButton(handler.getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-		returnButton = new Rectangle(handler.getWidth() / 2 - 113, 584, 226, 96);
+		uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
+		returnButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
 		
 	}
 
@@ -73,11 +73,11 @@ public class ControlsState extends State {
 	public void tick() {
 			// If our UIManager was disabled, enable it if we get back to this Settings State
 			if(!loaded) {
-				handler.getMouseManager().setUIManager(uiManager);
+				Handler.get().getMouseManager().setUIManager(uiManager);
 				loaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			for(UIObject o : uiManager.getObjects()) {
 				if(o.getBounds().contains(mouse)) {
@@ -88,9 +88,9 @@ public class ControlsState extends State {
 			}
 			
 			if(returnButton.contains(mouse)) {
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
-					handler.getMouseManager().setUIManager(null);
-					State.setState(new UITransitionState(handler, handler.getGame().settingState));
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+					Handler.get().getMouseManager().setUIManager(null);
+					State.setState(new UITransitionState(Handler.get().getGame().settingState));
 					loaded = false;
 					hasBeenPressed = false;
 				}
@@ -103,7 +103,7 @@ public class ControlsState extends State {
 	@Override
 	public void render(Graphics g) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+			g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
 			g.drawImage(Assets.controlsScreen, overlay.x, overlay.y, overlay.width, overlay.height, null);
 			this.uiManager.render(g);
@@ -145,7 +145,7 @@ public class ControlsState extends State {
 			Text.drawString(g, "- Equip item", overlay.x + overlay.width - 160, 488, false, Color.YELLOW, Assets.font14);
 			
 			
-			Text.drawString(g, "Return", handler.getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+			Text.drawString(g, "Return", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
 		}
 		
 	

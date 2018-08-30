@@ -5,8 +5,8 @@ import dev.ipsych0.mygame.items.Item;
 
 public class MiningSkill extends Skill {
 
-	public MiningSkill(Handler handler) {
-		super(handler);
+	public MiningSkill() {
+		super();
 
 		initResources();
 		

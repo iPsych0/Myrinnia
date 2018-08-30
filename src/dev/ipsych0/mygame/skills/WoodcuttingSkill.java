@@ -5,8 +5,8 @@ import dev.ipsych0.mygame.items.Item;
 
 public class WoodcuttingSkill extends Skill {
 
-	public WoodcuttingSkill(Handler handler) {
-		super(handler);
+	public WoodcuttingSkill() {
+		super();
 
 		initResources();
 		

@@ -97,6 +97,7 @@ public class KeyManager implements KeyListener, Serializable{
 			if(e.getKeyCode() < 0 || e.getKeyCode() >= keys.length){
 				return;
 			}
+
 			keys[e.getKeyCode()] = true;
 			
 			if(e.getKeyCode() == KeyEvent.VK_P) {

@@ -15,11 +15,9 @@ public class HPBar implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private int x, y, width, height;
 
-	public HPBar(Handler handler, int x, int y) {
-		this.handler = handler;
+	public HPBar(int x, int y) {
 		this.x = x;
 		this.y = y - 32;
 		this.width = 32;
@@ -39,14 +37,14 @@ public class HPBar implements Serializable{
 		g.drawRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
 		
 		g.setColor(HPOverlay.hpColorGreen);
-		if(handler.getPlayer().getHealth() >= handler.getPlayer().getMaxHealth()) {
+		if(Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
 			g.fillRoundRect( x + 1,  y + 1,  width - 3,  height - 3, 2, 4);
 			
 			g.setColor(HPOverlay.hpColorGreenOutline);
 			g.drawRoundRect( x + 1,  y + 1,  width - 3,  height - 3, 2, 4);
 		}else {
-			double yOffset = (double)handler.getPlayer().getHealth() /
-					(double)handler.getPlayer().getMaxHealth();
+			double yOffset = (double)Handler.get().getPlayer().getHealth() /
+					(double)Handler.get().getPlayer().getMaxHealth();
 			g.fillRoundRect( x + 1,  y + 1 +(int)(height * (1-yOffset)), width - 3, height - 3, 2, 4);
 			
 			g.setColor(HPOverlay.hpColorGreenOutline);
