@@ -60,7 +60,7 @@ public abstract class Creature extends Entity {
 	protected CombatState state;
 	protected List<Node> nodes;
 	protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
-	protected AStarMap map = new AStarMap(handler, this, (int)xSpawn - pathFindRadiusX, (int)ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+	protected AStarMap map = new AStarMap(this, (int)xSpawn - pathFindRadiusX, (int)ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
 	private int alpha = 127;
 	protected Color pathColour = new Color(0, 255, 255, alpha);
 	private int stuckTimerX = 0, stuckTimerY = 0;
@@ -78,8 +78,8 @@ public abstract class Creature extends Entity {
 	protected float speed;
 	protected float xMove, yMove;
 	
-	public Creature(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, width, height);
+	public Creature(float x, float y, int width, int height) {
+		super(x, y, width, height);
 		state = CombatState.IDLE;
 		baseDamage = (DEFAULT_DAMAGE);
 		power = (DEFAULT_POWER);
@@ -188,15 +188,15 @@ public abstract class Creature extends Entity {
 	 */
 	protected boolean collisionWithTile(int x, int y){
 		// Debug
-		if(Handler.debugMode && this.equals(handler.getPlayer()))
+		if(Handler.debugMode && this.equals(Handler.get().getPlayer()))
 			return false;
 		
 		boolean walkableOnTop = false;
-		for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-			if(handler.getWorld().getTile(i, x, y).isSolid()) {
+		for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+			if(Handler.get().getWorld().getTile(i, x, y).isSolid()) {
 				walkableOnTop = false;
 			}else {
-				if(handler.getWorld().getTile(i, x, y) != Tiles.tiles[736])
+				if(Handler.get().getWorld().getTile(i, x, y) != Tiles.tiles[736])
 					walkableOnTop = true;
 			}
 		}
@@ -220,7 +220,7 @@ public abstract class Creature extends Entity {
 		}
 		String[] name = new String[3];
 		name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
-		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity, handler.getPlayer()));
+		name[1] = "Max hit:" + String.valueOf(this.getDamage(hoveringEntity, Handler.get().getPlayer()));
 		name[2] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
 		return name;
 	}
@@ -233,9 +233,9 @@ public abstract class Creature extends Entity {
 			if(!p.active){
 				deleted.add(p);
 			}
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
 				if(p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0,0)) && p.active) {
-					if(e.equals(handler.getPlayer())) {
+					if(e.equals(Handler.get().getPlayer())) {
 						e.damage(this, e);
 						p.active = false;
 					}
@@ -243,8 +243,8 @@ public abstract class Creature extends Entity {
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < handler.getWorld().getLayers().length; i++) {
-					if(handler.getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+				for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+					if(Handler.get().getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
 						p.active = false;
 					}
 				}
@@ -306,8 +306,8 @@ public abstract class Creature extends Entity {
 	 */
 	protected void combatStateManager() {
 		
-		int playerX = (int)Math.round(((handler.getPlayer().getX() + 0) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
-		int playerY = (int)Math.round(((handler.getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
+		int playerX = (int)Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32;
+		int playerY = (int)Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 		
 		if(damaged) {
 			state = CombatState.PATHFINDING;
@@ -322,7 +322,7 @@ public abstract class Creature extends Entity {
 		}
 		
 		// If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
-		if(handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+		if(Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.PATHFINDING;
 			
 			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
@@ -336,8 +336,8 @@ public abstract class Creature extends Entity {
 		}
 		
 		// If the player has moved out of the initial aggro box, but is still within the A* map, keep following
-		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-				!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+		else if(!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+				!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
 			state = CombatState.PATHFINDING;
 			
 			if(playerX == map.getNodes().length || playerY == map.getNodes().length) {
@@ -351,27 +351,27 @@ public abstract class Creature extends Entity {
 		}
 		
 		// If the player has moved out of the aggro box and out of the A* map, 
-		else if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-				!handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+		else if(!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+				!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
 			state = CombatState.BACKTRACK;
 		}
 		
 		// If the player is <= X * TileWidth away from the Creature, attack him.
 		if(distanceToEntity(((int)this.getX() + this.getWidth() / 2), ((int)this.getY() + + this.getHeight() / 2),
-				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= attackRange &&
-				handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
-				handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+				((int)Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int)Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
+				Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
+				Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.ATTACK;
 			checkAttacks();
 		}
 		
 		// If the Creature was attacking, but the player moved out of aggro range or out of the A* map bounds, backtrack to spawn.
-		if(state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+		if(state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
 			state = CombatState.BACKTRACK;
 		}
 		
 		// If the Creature was following the player but he moved out of the A* map, backtrack.
-		if(!handler.getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+		if(!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
 		}

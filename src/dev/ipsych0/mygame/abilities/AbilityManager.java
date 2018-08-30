@@ -16,7 +16,6 @@ public class AbilityManager implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
 	private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
 	private Color castBarColor = new Color(240,160,5,224);
@@ -26,9 +25,8 @@ public class AbilityManager implements Serializable{
 	 * Abilities (maybe via file inladen)
 	 */
 		
-	public AbilityManager(Handler handler) {
-		this.handler = handler;
-		this.playerHUD = new PlayerHUD(handler);
+	public AbilityManager() {
+		this.playerHUD = new PlayerHUD();
 		
 	}
 	
@@ -62,10 +60,10 @@ public class AbilityManager implements Serializable{
 					float castTime =  a.getCastingTime() * 60;
 					float timeLeft = timer/castTime;
 					g.setColor(castBarColor);
-					g.fillRect((int)(a.getCaster().getX() - handler.getGameCamera().getxOffset() - 4), (int)(a.getCaster().getY() + a.getCaster().getHeight()-4 - handler.getGameCamera().getyOffset()),
+					g.fillRect((int)(a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int)(a.getCaster().getY() + a.getCaster().getHeight()-4 - Handler.get().getGameCamera().getyOffset()),
 							(int)(timeLeft * (a.getCaster().getWidth() + 4)), 8);
 					g.setColor(Color.BLACK);
-					g.drawRect((int)(a.getCaster().getX() - handler.getGameCamera().getxOffset() - 4), (int)(a.getCaster().getY() + a.getCaster().getHeight()-4 - handler.getGameCamera().getyOffset()),
+					g.drawRect((int)(a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int)(a.getCaster().getY() + a.getCaster().getHeight()-4 - Handler.get().getGameCamera().getyOffset()),
 							a.getCaster().getWidth() + 4, 8);
 				}
 			}

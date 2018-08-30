@@ -18,7 +18,6 @@ public class EquipmentWindow implements Serializable {
 	public static boolean isOpen = true;
 	private int x, y;
 	private int width, height;
-	private Handler handler;
 	public static boolean hasBeenPressed = false;
 	
 	private int numCols = 3;
@@ -29,12 +28,11 @@ public class EquipmentWindow implements Serializable {
 	public static boolean itemSelected;
 	private Rectangle windowBounds;
 	
-	public EquipmentWindow(Handler handler){
-		this.handler = handler;
-		width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
-		height = numRows * (EquipmentSlot.SLOTSIZE + 8);
-		this.x = handler.getWidth() - width;
-		this.y = handler.getInventory().getHeight();
+	public EquipmentWindow(){
+		this.width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
+		this.height = numRows * (EquipmentSlot.SLOTSIZE + 8);
+		this.x = Handler.get().getWidth() - width;
+		this.y = Handler.get().getInventory().getHeight();
 		windowBounds = new Rectangle(x, y, width, height);
 		
 		if(isCreated == false){
@@ -62,7 +60,7 @@ public class EquipmentWindow implements Serializable {
 	
 	public void tick(){
 		if(isOpen) {
-			Rectangle temp = new Rectangle(handler.getWorld().getHandler().getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle temp = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			for(EquipmentSlot es : equipmentSlots) {
 				
@@ -71,7 +69,7 @@ public class EquipmentWindow implements Serializable {
 				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), EquipmentSlot.SLOTSIZE, EquipmentSlot.SLOTSIZE);
 				
 				// If mouse is dragged
-				if(handler.getMouseManager().isDragged()){
+				if(Handler.get().getMouseManager().isDragged()){
 					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
@@ -79,7 +77,7 @@ public class EquipmentWindow implements Serializable {
 						if(currentSelectedSlot == null) {
 							if(es.getEquipmentStack() != null) {
 								currentSelectedSlot = es.getEquipmentStack();
-								handler.getPlayer().removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
+								Handler.get().getPlayer().removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
 								System.out.println("Currently holding: " + es.getEquipmentStack().getItem().getName());
 								es.setItem(null);
 								itemSelected = true;
@@ -93,16 +91,16 @@ public class EquipmentWindow implements Serializable {
 				}
 				
 				// If right-clicked on an item
-				if(temp2.contains(temp) && handler.getMouseManager().isRightPressed() && !hasBeenPressed){
+				if(temp2.contains(temp) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed){
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
 						// Unequip the item and remove the equipment stats
-						if(handler.getInventory().findFreeSlot(es.getEquipmentStack().getItem()) == -1) {
+						if(Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem()) == -1) {
 							hasBeenPressed = false;
 							return;
 						}
-						handler.getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
-						handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
+						Handler.get().getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
+						Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
 						es.setItem(null);
 						BankUI.inventoryLoaded = false;
 						hasBeenPressed = false;
@@ -114,10 +112,10 @@ public class EquipmentWindow implements Serializable {
 				}
 				
 				// If dragging an item outside the equipment window
-				if(itemSelected && !handler.getMouseManager().isDragged()){
-					if(handler.getMouseManager().getMouseX() <= this.x){
+				if(itemSelected && !Handler.get().getMouseManager().isDragged()){
+					if(Handler.get().getMouseManager().getMouseX() <= this.x){
 						// Drop the item
-						handler.dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)handler.getPlayer().getX(), (int)handler.getPlayer().getY());
+						Handler.get().dropItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount(), (int)Handler.get().getPlayer().getX(), (int)Handler.get().getPlayer().getY());
 						currentSelectedSlot = null;
 						hasBeenPressed = false;
 						itemSelected = false;
@@ -125,11 +123,11 @@ public class EquipmentWindow implements Serializable {
 				}
 				
 				// If releasing a dragged item inside the equipment window
-				if(itemSelected && !handler.getMouseManager().isDragged()) {
+				if(itemSelected && !Handler.get().getMouseManager().isDragged()) {
 					if(temp2.contains(temp)){
-						if(getEquipmentSlots().get(handler.getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem((currentSelectedSlot.getItem()))){
+						if(getEquipmentSlots().get(Handler.get().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem((currentSelectedSlot.getItem()))){
 							// Add the stats back and put the item back
-							handler.getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
+							Handler.get().getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
 							currentSelectedSlot = null;
 							itemSelected = false;
 							hasBeenPressed = false;
@@ -155,7 +153,7 @@ public class EquipmentWindow implements Serializable {
 				equipmentSlots.get(i).render(g, Assets.equipmentPlaceHolders[i]);
 			}
 			
-			Rectangle temp = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle temp = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			for(EquipmentSlot es : equipmentSlots) {
 				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
@@ -174,7 +172,7 @@ public class EquipmentWindow implements Serializable {
 					
 					if(es.getEquipmentStack().getItem().getEquipSlot() != 12){
 						// Only compare stats if an item is actually equipped
-						if(handler.getEquipment().getEquipmentSlots().get(es.getEquipmentStack().getItem().getEquipSlot()).getEquipmentStack() != null){
+						if(Handler.get().getEquipment().getEquipmentSlots().get(es.getEquipmentStack().getItem().getEquipSlot()).getEquipmentStack() != null){
 							/*
 							 * Draw item stats
 							 */
@@ -193,15 +191,15 @@ public class EquipmentWindow implements Serializable {
 			
 			int index = 0;
 			Text.drawString(g, "Stats ", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Power = "+Integer.toString(handler.getPlayer().getPower()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Defence = "+Integer.toString(handler.getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Vitality = "+Integer.toString(handler.getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "ATK Spd. = "+Float.toString(handler.getPlayer().getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-			Text.drawString(g, "Mov. Spd. = "+Float.toString(handler.getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Power = "+Integer.toString(Handler.get().getPlayer().getPower()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Defence = "+Integer.toString(Handler.get().getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Vitality = "+Integer.toString(Handler.get().getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "ATK Spd. = "+Float.toString(Handler.get().getPlayer().getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Mov. Spd. = "+Float.toString(Handler.get().getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
 			
 			if(currentSelectedSlot != null){
-				g.drawImage(currentSelectedSlot.getItem().getTexture(), handler.getMouseManager().getMouseX(),
-						handler.getMouseManager().getMouseY(), null);
+				g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),
+						Handler.get().getMouseManager().getMouseY(), null);
 			}
 		}
 	}

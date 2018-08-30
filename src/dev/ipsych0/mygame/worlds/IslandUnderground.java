@@ -25,8 +25,8 @@ public class IslandUnderground extends World {
 	private Rectangle southwestVillageHouseExit;
 	private Rectangle northwestVillageHouseExit;
 
-	public IslandUnderground(Handler handler, String path) {
-		super(handler);
+	public IslandUnderground(String path) {
+		super();
 		
 		this.worldPath = path;
 		
@@ -35,12 +35,12 @@ public class IslandUnderground extends World {
 		
 		loadWorld(path);
 				
-		entityManager.addEntity(new Lorraine(handler, 3904, 6080));
-		entityManager.addEntity(new Campfire(handler, 4960, 5438));
-		entityManager.addEntity(new Campfire(handler, 6016, 5828));
-		entityManager.addEntity(new Campfire(handler, 6016, 4900));
-		entityManager.addEntity(new Workbench(handler, 6176, 5216));
-		entityManager.addEntity(new Banker(handler, 6016, 5056));
+		entityManager.addEntity(new Lorraine(3904, 6080));
+		entityManager.addEntity(new Campfire(4960, 5438));
+		entityManager.addEntity(new Campfire(6016, 5828));
+		entityManager.addEntity(new Campfire(6016, 4900));
+		entityManager.addEntity(new Workbench(6176, 5216));
+		entityManager.addEntity(new Banker(6016, 5056));
 		
 		house1Exit = new Rectangle(6016, 6192, 32, 32);
 		house2Exit = new Rectangle(4960, 6320, 32, 32);
@@ -54,50 +54,50 @@ public class IslandUnderground extends World {
 
 	@Override
 	public void tick() {
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.tick();
 			if(standingOnTile(house1Exit)){
-				handler.goToWorld(Zone.Island, 5056, 5440);
+				Handler.get().goToWorld(Zone.Island, 5056, 5440);
 			}
 			
 			if(standingOnTile(house2Exit)){
-				handler.goToWorld(Zone.Island, 4608, 5400);
+				Handler.get().goToWorld(Zone.Island, 4608, 5400);
 			}
 			
 			if(standingOnTile(house3Exit)){
-				handler.goToWorld(Zone.Island, 4384, 5800);
+				Handler.get().goToWorld(Zone.Island, 4384, 5800);
 			}
 			
 			if(standingOnTile(beachHouse1Exit)){
-				handler.goToWorld(Zone.Island, 5856, 5824);
+				Handler.get().goToWorld(Zone.Island, 5856, 5824);
 			}
 			
 			if(standingOnTile(beachCaveExit)){
-				handler.goToWorld(Zone.Island, 2688, 6136);
+				Handler.get().goToWorld(Zone.Island, 2688, 6136);
 			}
 			
 			if(standingOnTile(stoneHouse1Exit)){
-				handler.goToWorld(Zone.Island, 3712, 5456);
+				Handler.get().goToWorld(Zone.Island, 3712, 5456);
 			}
 			
 			if(standingOnTile(southwestVillageHouseExit)){
-				handler.goToWorld(Zone.Island, 3776, 5822);
+				Handler.get().goToWorld(Zone.Island, 3776, 5822);
 			}
 			
 			if(standingOnTile(northwestVillageHouseExit)){
-				handler.goToWorld(Zone.Island, 4032, 5252);
+				Handler.get().goToWorld(Zone.Island, 4032, 5252);
 			}
 		}
 	}
 
 	@Override
 	public void render(Graphics g) {
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.render(g);
 			
-//			g.drawRect((int) (exit1.x - handler.getGameCamera().getxOffset()), (int) (exit1.y - handler.getGameCamera().getyOffset()), 32, 32);
-//			g.drawRect((int) (exit2.x - handler.getGameCamera().getxOffset()), (int) (exit2.y - handler.getGameCamera().getyOffset()), 32, 32);
-//			g.drawRect((int) (exit3.x - handler.getGameCamera().getxOffset()), (int) (exit3.y - handler.getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (exit1.x - Handler.get().getGameCamera().getxOffset()), (int) (exit1.y - Handler.get().getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (exit2.x - Handler.get().getGameCamera().getxOffset()), (int) (exit2.y - Handler.get().getGameCamera().getyOffset()), 32, 32);
+//			g.drawRect((int) (exit3.x - Handler.get().getGameCamera().getxOffset()), (int) (exit3.y - Handler.get().getGameCamera().getyOffset()), 32, 32);
 		}
 	}
 }

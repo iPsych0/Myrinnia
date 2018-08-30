@@ -17,12 +17,10 @@ public class WorldHandler implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private ArrayList<World> worlds;
 	private HashMap<Zone, World> worldsMap;
 
-	public WorldHandler(Handler handler, Island island){
-		this.handler = handler;
+	public WorldHandler(Island island){
 		worlds = new ArrayList<World>();
 		worldsMap = new HashMap<Zone, World>();
 		addWorld(island); // Starting world
@@ -32,9 +30,9 @@ public class WorldHandler implements Serializable{
 	
 	private void initWorlds() {
 		// Add new worlds here
-		addWorld(new TestLand(handler, "res/worlds/testmap2.tmx"));
-		addWorld(new SwampLand(handler, "res/worlds/testmap.tmx"));
-		addWorld(new IslandUnderground(handler, "res/worlds/island_indoors.tmx"));
+		addWorld(new TestLand("res/worlds/testmap2.tmx"));
+		addWorld(new SwampLand("res/worlds/testmap.tmx"));
+		addWorld(new IslandUnderground("res/worlds/island_indoors.tmx"));
 		
 		try {
 			Collections.sort(worlds, (o1, o2) ->

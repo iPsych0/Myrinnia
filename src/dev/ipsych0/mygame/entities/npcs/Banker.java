@@ -18,8 +18,8 @@ public class Banker extends Creature{
 	private int ySpawn = (int)getY();
 	private String[] firstDialogue = {"Please show me my bank.", "Never mind."};
 
-	public Banker(Handler handler, float x, float y) {
-		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+	public Banker(float x, float y) {
+		super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		attackable = false;
 		isNpc = true;
 		isBank = true;
@@ -32,11 +32,11 @@ public class Banker extends Creature{
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.banker, (int) (x - handler.getGameCamera().getxOffset()),
-				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		g.drawImage(Assets.banker, (int) (x - Handler.get().getGameCamera().getxOffset()),
+				(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 //		g.setColor(Color.red);
-//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+//		g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
+//				(int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class Banker extends Creature{
 		
 		case 1:
 			if(!BankUI.isOpen){
-				chatDialogue = new ChatDialogue(handler, firstDialogue);
+				chatDialogue = new ChatDialogue(firstDialogue);
 				speakingTurn++;
 				break;
 			}else {
@@ -82,7 +82,7 @@ public class Banker extends Creature{
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Banker(handler, xSpawn, ySpawn));		
+		Handler.get().getWorld().getEntityManager().addEntity(new Banker(xSpawn, ySpawn));		
 	}
 
 }

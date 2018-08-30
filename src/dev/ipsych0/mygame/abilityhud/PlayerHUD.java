@@ -21,7 +21,6 @@ public class PlayerHUD implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private static final int MAX_SLOTS = 10;
 	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
 	private HPBar hpBar;
@@ -31,27 +30,26 @@ public class PlayerHUD implements Serializable{
 	public static boolean hasBeenPressed;
 	public static char pressedKey;
 	
-	public PlayerHUD(Handler handler) {
-		this.handler = handler;
+	public PlayerHUD() {
 		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
 		this.height = y + ItemSlot.SLOTSIZE;
-		this.x = handler.getWidth() / 2 - (width / 2);
-		this.y = handler.getHeight() - ItemSlot.SLOTSIZE;
+		this.x = Handler.get().getWidth() / 2 - (width / 2);
+		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE;
 		
 		for(int i = 0; i < MAX_SLOTS; i++) {
-			slottedAbilities.add(new AbilitySlot(handler, null, x + (i * 32), y));
+			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(handler, CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(handler, CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
-		slottedAbilities.get(2).setAbility(new MendWoundsAbility(handler, CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
-		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(handler, CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
+		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
+		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
+		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
+		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
 
 		// Add HP Bar after the last abilitySlot
-//		hpBar = new HPBar(handler, slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
+//		hpBar = new HPBar(Handler.get(), slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
 		// Add XP Bar after HP Bar
-//		xpBar = new XPBar(handler, hpBar.getX() + hpBar.getWidth(), y);
+//		xpBar = new XPBar(Handler.get(), hpBar.getX() + hpBar.getWidth(), y);
 		
-		abilityTooltip = new AbilityTooltip(0, handler.getHeight() / 2, 160, 224);
+		abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
 
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
@@ -74,11 +72,11 @@ public class PlayerHUD implements Serializable{
 				}
 			}
 			if(selectedAbility.isOnCooldown()) {
-				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
+				Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
 			}else {
-				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
-				selectedAbility.setCaster(handler.getPlayer());
+				Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
+				selectedAbility.setCaster(Handler.get().getPlayer());
 				if(selectedAbility.isSelectable()) {
 					boolean selected = !selectedAbility.isSelected() ? true : false;
 					selectedAbility.setSelected(selected);
@@ -98,11 +96,11 @@ public class PlayerHUD implements Serializable{
 				}
 			}
 			if(selectedAbility.isOnCooldown()) {
-				handler.sendMsg(selectedAbility.getName() + " is on cooldown.");
+				Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
 			}else {
-				handler.getAbilityManager().getActiveAbilities().add(selectedAbility);
-				selectedAbility.setCaster(handler.getPlayer());
+				Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
+				selectedAbility.setCaster(Handler.get().getPlayer());
 				if(selectedAbility.isSelectable()) {
 					boolean selected = !selectedAbility.isSelected() ? true : false;
 					selectedAbility.setSelected(selected);
@@ -112,7 +110,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
 		if(pressedKey != '\u0000') {
 			// If 0-9 key is pressed, handle the key pressed.
@@ -126,7 +124,7 @@ public class PlayerHUD implements Serializable{
 			as.tick();
 			if(as.getBounds().contains(mouse)){
 				abilityTooltip.tick();
-				if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 					handleClickEvent(as);
 					hasBeenPressed = false;
 				}
@@ -137,7 +135,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
 		int index = 0;
 		for(AbilitySlot as : slottedAbilities) {

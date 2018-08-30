@@ -5,8 +5,8 @@ import dev.ipsych0.mygame.items.Item;
 
 public class BountyHunterSkill extends Skill {
 
-	public BountyHunterSkill(Handler handler) {
-		super(handler);
+	public BountyHunterSkill() {
+		super();
 		
 		categories.add(SkillCategory.BountyTargets);
 		

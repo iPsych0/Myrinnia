@@ -96,7 +96,7 @@ public abstract class Item implements Serializable{
 	public void render(Graphics g){
 		if(handler == null)
 			return;
-		render(g, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()));
+		render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
 	}
 	
 	public void render(Graphics g, int x, int y){
@@ -164,12 +164,12 @@ public abstract class Item implements Serializable{
 	 * Item pickup function
 	 */
 	public boolean pickUpItem (Item item) {
-        int inventoryIndex = handler.getInventory().findFreeSlot(item);
+        int inventoryIndex = Handler.get().getInventory().findFreeSlot(item);
         if (inventoryIndex >= 0) {
         	// If we have space
             if(id == item.getId()){
-            	if(handler.getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-	            	handler.sendMsg("Picked up " + item.getCount() + "x " + item.getName());
+            	if(Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
+	            	Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName());
 	            	pickedUp = true;
 	            	return true;
             	}

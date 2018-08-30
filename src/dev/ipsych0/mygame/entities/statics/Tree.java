@@ -25,8 +25,8 @@ public class Tree extends StaticEntity {
 	private int random = 0;
 	private int attempts = 0;
 
-	public Tree(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public Tree(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -35,8 +35,8 @@ public class Tree extends StaticEntity {
 	@Override
 	public void tick() {
 		if(isWoodcutting) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
-					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
+			if(Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
+					!Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
 				woodcuttingTimer = 0;
 				speakingTurn = 1;
 				isWoodcutting = false;
@@ -55,23 +55,23 @@ public class Tree extends StaticEntity {
 			
 			if(woodcuttingTimer >= 180) {
 				System.out.println(random + " and " + attempts);
-				int roll = handler.getRandomNumber(1, 100);
+				int roll = Handler.get().getRandomNumber(1, 100);
 	        	if(roll < 70) {
-	        		handler.getInventory().getItemSlots().get(handler.getInventory().findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs,
-	        				handler.getRandomNumber(1, 3));
-	        		handler.sendMsg("You succesfully chopped some logs.");
-	        		handler.getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
-	        		handler.addRecapEvent("Woodcutting");
+	        		Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs,
+	        				Handler.get().getRandomNumber(1, 3));
+	        		Handler.get().sendMsg("You succesfully chopped some logs.");
+	        		Handler.get().getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
+	        		Handler.get().addRecapEvent("Woodcutting");
 	        		attempts++;
 	        	}else {
-	        		handler.sendMsg("Your hatchet bounced off the tree...");
+	        		Handler.get().sendMsg("Your hatchet bounced off the tree...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 1;
 	        	woodcuttingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
-	        		random = handler.getRandomNumber(minAttempts, maxAttempts);
+	        		random = Handler.get().getRandomNumber(minAttempts, maxAttempts);
 	        	}
 			}
 			
@@ -85,7 +85,7 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.tree, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.tree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 		postRender(g);
 	}
@@ -97,16 +97,16 @@ public class Tree extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			if(handler.playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
-				if(handler.playerHasItemType(ItemType.AXE)) {
-					handler.sendMsg("Chop chop...");
+			if(Handler.get().playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
+				if(Handler.get().playerHasItemType(ItemType.AXE)) {
+					Handler.get().sendMsg("Chop chop...");
 					speakingTurn = 2;
 					isWoodcutting = true;
 				}else {
-					handler.sendMsg("You need an axe to chop this tree.");
+					Handler.get().sendMsg("You need an axe to chop this tree.");
 				}
 			}else {
-				handler.sendMsg("You need a woodcutting level of " + handler.getSkillResource(SkillsList.WOODCUTTING, Item.regularLogs).getLevelRequirement() + " to chop this tree.");
+				Handler.get().sendMsg("You need a woodcutting level of " + Handler.get().getSkillResource(SkillsList.WOODCUTTING, Item.regularLogs).getLevelRequirement() + " to chop this tree.");
 			}
 		}
 		if(this.speakingTurn == 2) {
@@ -117,14 +117,14 @@ public class Tree extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isWoodcutting) {
-			g.drawImage(Assets.woodcuttingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), 32, 32, null);
+			g.drawImage(Assets.woodcuttingIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32 ), 32, 32, null);
 		}
 		
 	}
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Tree(handler, xSpawn, ySpawn));
+		Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn));
 	}
 	
 }

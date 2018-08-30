@@ -23,8 +23,8 @@ public class Lorraine extends ShopKeeper {
 	private ArrayList<ItemStack> shopItems;
 	private String[] firstDialogue = {"I would like to see your shop.", "Leave."};
 
-	public Lorraine(Handler handler, float x, float y) {
-		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+	public Lorraine(float x, float y) {
+		super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		attackable = false;
 		isNpc = true;
 		isShop = true;
@@ -35,7 +35,7 @@ public class Lorraine extends ShopKeeper {
 		shopItems.add(new ItemStack(Item.regularOre, 10));
 		shopItems.add(new ItemStack(Item.testSword, 1));
 		
-		shopWindow = new ShopWindow(handler, shopItems);
+		shopWindow = new ShopWindow(shopItems);
 	}
 
 	@Override
@@ -45,11 +45,11 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.lorraine, (int) (x - handler.getGameCamera().getxOffset()),
-				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+		g.drawImage(Assets.lorraine, (int) (x - Handler.get().getGameCamera().getxOffset()),
+				(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 //		g.setColor(Color.red);
-//		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
-//				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+//		g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
+//				(int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Lorraine extends ShopKeeper {
 		
 		case 1:
 			if(!ShopWindow.isOpen){
-				chatDialogue = new ChatDialogue(handler, firstDialogue);
+				chatDialogue = new ChatDialogue(firstDialogue);
 				speakingTurn++;
 				break;
 			}else {
@@ -91,7 +91,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void postRender(Graphics g) {
-		if(ShopWindow.isOpen && handler.getPlayer().getShopKeeper() == this) {
+		if(ShopWindow.isOpen && Handler.get().getPlayer().getShopKeeper() == this) {
 			shopWindow.render(g);
 			Text.drawString(g, "Lorraine's General Store", shopWindow.x + (shopWindow.width / 2), shopWindow.y + 16, true, Color.YELLOW, Assets.font14);
 		}
@@ -99,7 +99,7 @@ public class Lorraine extends ShopKeeper {
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Lorraine(handler, xSpawn, ySpawn));		
+		Handler.get().getWorld().getEntityManager().addEntity(new Lorraine(xSpawn, ySpawn));		
 	}
 
 }

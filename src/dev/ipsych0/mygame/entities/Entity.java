@@ -21,7 +21,6 @@ public abstract class Entity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Handler handler;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
@@ -49,8 +48,7 @@ public abstract class Entity implements Serializable{
 	protected int combatTimer = 0;
 	protected int respawnTimer = 600;
 	
-	public Entity(Handler handler, float x, float y, int width, int height){
-		this.handler = handler;
+	public Entity(float x, float y, int width, int height){
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -81,7 +79,7 @@ public abstract class Entity implements Serializable{
 	 * @returns: true if collision, false if no collision
 	 */
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
 			if(!e.solid)
@@ -99,7 +97,7 @@ public abstract class Entity implements Serializable{
 	public boolean playerIsNearNpc(){
 		// Looks for the closest entity and returns that entity
 		if(distanceToEntity(((int)getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int)getClosestEntity().getY() + + getClosestEntity().getHeight() / 2),
-				((int)handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2), ((int)handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2){
+				((int)Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int)Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2){
 			// Interact with the respective speaking turn
 			isCloseToNPC = true;
 			return true;
@@ -119,16 +117,16 @@ public abstract class Entity implements Serializable{
 		Entity closestEntity;
 		HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
 		ArrayList<Double> pythagoras = new ArrayList<Double>();
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
 			if(!e.isNpc()){
 				continue;
 			}
-			if(e.equals(handler.getPlayer())){
+			if(e.equals(Handler.get().getPlayer())){
 				continue;
 			}
 			
-			int dx = (int) ((handler.getPlayer().getX() + handler.getPlayer().getWidth() / 2) - (e.getX() + e.getWidth() / 2));
-		    int dy = (int) ((handler.getPlayer().getY() + handler.getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
+			int dx = (int) ((Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2) - (e.getX() + e.getWidth() / 2));
+		    int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
 		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
 		    Collections.sort(pythagoras);
@@ -162,8 +160,8 @@ public abstract class Entity implements Serializable{
 		damageReceiver.lastHit = 0;
 		damageReceiver.combatTimer = 0;
 		damageReceiver.inCombat = true;
-		handler.getWorld().getEntityManager().getHitSplats().add(new HitSplat(handler, receiver, damageDealer.getDamage(damageDealer, receiver)));
-		if(damageDealer.equals(handler.getPlayer())) {
+		Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageDealer, receiver)));
+		if(damageDealer.equals(Handler.get().getPlayer())) {
 			damageDealer.setInCombat(true);
 			damageDealer.combatTimer = 0;
 		}
@@ -191,26 +189,26 @@ public abstract class Entity implements Serializable{
 	
 	public void drawHP(Graphics g) {
 		g.setColor(HPOverlay.hpColorRed);
-		g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 		g.setColor(HPOverlay.hpColorRedOutline);
-		g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-				(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+		g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 		
 		g.setColor(HPOverlay.hpColorGreen);
 		if(this.getHealth() >= this.getMaxHealth()) {
-			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+			g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+					(int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 			g.setColor(HPOverlay.hpColorGreenOutline);
-			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-					(int) (y - handler.getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+			g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+					(int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 		}else {
-			g.fillRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+			g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+					(int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
 					(double)this.getMaxHealth()), 6, 0, 4);
 			g.setColor(HPOverlay.hpColorGreenOutline);
-			g.drawRoundRect((int) (x - handler.getGameCamera().getxOffset() - 6),
-					(int) (y - handler.getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
+			g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+					(int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int)(44 * (double)this.getHealth() /
 					(double)this.getMaxHealth()), 6, 0, 4);
 		}
 	}
@@ -222,9 +220,9 @@ public abstract class Entity implements Serializable{
 	 */
 	public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
 		int yPos = 12;
-		g.drawImage(Assets.chatwindow, handler.getWidth() / 2 - 100, 1, 200, 50, null);
+		g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
 		for(int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-			Text.drawString(g, getEntityInfo(hoveringEntity)[i], handler.getWidth() / 2, yPos, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos, true, Color.YELLOW, Assets.font14);
 			yPos += 14;
 		}
 	}
@@ -385,14 +383,6 @@ public abstract class Entity implements Serializable{
 
 	public void setSolid(boolean solid) {
 		this.solid = solid;
-	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
 	}
 
 	public boolean isInCombat() {

@@ -11,15 +11,13 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class SliderPiece {
 	
-	private Handler handler;
 	private int xPos, yPos;
 	private int id;
 	private boolean blank = false;
 	private BufferedImage texture;
 	private int windowX, windowY;
 	
-	public SliderPiece(Handler handler, int xPos, int yPos, int id) {
-		this.handler = handler;
+	public SliderPiece(int xPos, int yPos, int id) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.blank = false;
@@ -27,8 +25,7 @@ public class SliderPiece {
 		texture = Assets.puzzlePieces[xPos][yPos];
 	}
 	
-	public SliderPiece(Handler handler, int xPos, int yPos, boolean isBlank, int id) {
-		this.handler = handler;
+	public SliderPiece(int xPos, int yPos, boolean isBlank, int id) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.blank = isBlank;

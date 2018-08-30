@@ -12,11 +12,9 @@ public class UIManager implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private CopyOnWriteArrayList<UIObject> objects;
 	
-	public UIManager(Handler handler){
-		this.handler = handler;
+	public UIManager(){
 		objects = new CopyOnWriteArrayList<UIObject>();
 	}
 	
@@ -36,16 +34,8 @@ public class UIManager implements Serializable {
 	
 	public void removeObject(UIObject o){
 		objects.remove(o);
-		}
-
-	public Handler getHandler() {
-		return handler;
 	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
-
+	
 	public CopyOnWriteArrayList<UIObject> getObjects() {
 		return objects;
 	}

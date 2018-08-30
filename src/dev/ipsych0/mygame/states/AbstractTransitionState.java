@@ -18,8 +18,8 @@ public abstract class AbstractTransitionState extends State{
 	private static final long serialVersionUID = 1L;
 	protected float alpha = 1.0f;
 	
-	public AbstractTransitionState(Handler handler){
-		super(handler);
+	public AbstractTransitionState(){
+		super();
 	}
 
 	@Override

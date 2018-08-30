@@ -15,21 +15,21 @@ public class GameState extends State{
 	public static Font myFont;
 	public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
 	
-	public GameState(Handler handler){
-		super(handler);
+	public GameState(){
+		super();
 		// Setup new game world
-		handler.setWorld(handler.getWorldHandler().getWorldsMap().get(Zone.Island));
+		Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.Island));
 		myFont = new Font("SansSerif", Font.BOLD, 12);
 		
 	}
 	
 	@Override
 	public void tick() {
-		handler.getWorldHandler().tick();
+		Handler.get().getWorldHandler().tick();
 	}
 
 	@Override
 	public void render(Graphics g) {
-		handler.getWorldHandler().render(g);
+		Handler.get().getWorldHandler().render(g);
 	}
 }

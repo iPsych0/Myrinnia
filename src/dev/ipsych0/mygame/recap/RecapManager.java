@@ -13,10 +13,8 @@ public class RecapManager implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private LinkedList<RecapEvent> events;
-	private Handler handler;
 	
-	public RecapManager(Handler handler) {
-		this.handler = handler;
+	public RecapManager() {
 		this.events = new LinkedList<RecapEvent>();
 	}
 	

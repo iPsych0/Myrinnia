@@ -12,11 +12,9 @@ public class GameCamera implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private float xOffset, yOffset;
 	
-	public GameCamera(Handler handler, float xOffset, float yOffset){
-		this.handler = handler;
+	public GameCamera(float xOffset, float yOffset){
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
@@ -24,20 +22,20 @@ public class GameCamera implements Serializable{
 	public void checkBlankSpace(){
 		if(xOffset < 0){
 			xOffset = 0;
-		} else if(xOffset > handler.getWorld().getWidth() * Tiles.TILEWIDTH - handler.getWidth()){
-			xOffset = handler.getWorld().getWidth() * Tiles.TILEWIDTH - handler.getWidth();
+		} else if(xOffset > Handler.get().getWorld().getWidth() * Tiles.TILEWIDTH - Handler.get().getWidth()){
+			xOffset = Handler.get().getWorld().getWidth() * Tiles.TILEWIDTH - Handler.get().getWidth();
 		}
 		
 		if(yOffset < 0){
 			yOffset = 0;
-		} else if(yOffset > handler.getWorld().getHeight() * Tiles.TILEHEIGHT - handler.getHeight()){
-			yOffset = handler.getWorld().getHeight() * Tiles.TILEHEIGHT - handler.getHeight();
+		} else if(yOffset > Handler.get().getWorld().getHeight() * Tiles.TILEHEIGHT - Handler.get().getHeight()){
+			yOffset = Handler.get().getWorld().getHeight() * Tiles.TILEHEIGHT - Handler.get().getHeight();
 		}
 	}
 	
 	public void centerOnEntity(Entity e){
-		xOffset = e.getX() - handler.getWidth() / 2 + e.getWidth() / 2;
-		yOffset = e.getY() - handler.getHeight() / 2 + e.getHeight() / 2;
+		xOffset = e.getX() - Handler.get().getWidth() / 2 + e.getWidth() / 2;
+		yOffset = e.getY() - Handler.get().getHeight() / 2 + e.getHeight() / 2;
 		checkBlankSpace();
 	}
 	

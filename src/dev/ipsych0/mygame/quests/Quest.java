@@ -14,7 +14,6 @@ public class Quest implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private ArrayList<QuestStep> questSteps;
 	private int step = 0;
 	private String questName;
@@ -27,16 +26,14 @@ public class Quest implements Serializable {
 		NOT_STARTED, IN_PROGRESS, COMPLETED
 	}
 	
-	public Quest(Handler handler, String questName, Zone zone) {
-		this.handler = handler;
+	public Quest(String questName, Zone zone) {
 		this.questName = questName;
 		this.zone = zone;
 		questSteps = new ArrayList<QuestStep>();
 		state = QuestState.NOT_STARTED;
 	}
 	
-	public Quest(Handler handler, String questName, Zone zone, QuestRequirement... questRequirements) {
-		this.handler = handler;
+	public Quest(String questName, Zone zone, QuestRequirement... questRequirements) {
 		this.questName = questName;
 		this.zone = zone;
 		this.requirements = questRequirements;
@@ -83,8 +80,8 @@ public class Quest implements Serializable {
 	public void setState(QuestState state) {
 		this.state = state;
 		if(state == QuestState.COMPLETED) {
-			handler.sendMsg("Completed '" + this.questName + "'!");
-			handler.addRecapEvent("Completed '" + this.questName + "'");
+			Handler.get().sendMsg("Completed '" + this.questName + "'!");
+			Handler.get().addRecapEvent("Completed '" + this.questName + "'");
 			questSteps.clear();
 		}
 	}

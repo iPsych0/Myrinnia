@@ -1,6 +1,8 @@
 package dev.ipsych0.mygame;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.io.Serializable;
 
@@ -53,14 +55,21 @@ public class Game implements Runnable, Serializable {
 
 	// Camera
 	private GameCamera gameCamera;
+	
+	private static Game game;
+	private static Handler handler;
 
-	// Handler
-
-	private Handler handler;
-
-	private SaveManager saveManager;
-
-	public Game(String title, int width, int height) {
+	public static Game get() {
+		if(game == null) {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			double width = screenSize.getWidth();
+			double height = screenSize.getHeight();
+			game = new Game("Elements of Myrinnia Pre-Alpha Development v0.7", (int)width, (int)height);
+		}
+		return game;
+	}
+	
+	private Game(String title, int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
@@ -76,21 +85,21 @@ public class Game implements Runnable, Serializable {
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
+		
+		handler = Handler.get();
 		// Create instance of Handler & gamecamera
-		handler = new Handler(this);
-		gameCamera = new GameCamera(handler, 0, 0);
-		saveManager = new SaveManager(handler);
+		gameCamera = new GameCamera(0, 0);
 
 		// Create the different states for menus/game
-		menuState = new MenuState(handler);
-		gameState = new GameState(handler);
-		settingState = new SettingState(handler);
-		controlsState = new ControlsState(handler);
-		pauseState = new PauseState(handler);
-		recapState = new RecapState(handler);
+		menuState = new MenuState();
+		gameState = new GameState();
+		settingState = new SettingState();
+		controlsState = new ControlsState();
+		pauseState = new PauseState();
+		recapState = new RecapState();
 				
 
-		AudioManager.init(handler);
+		AudioManager.init();
 		AudioManager.setListenerData();
 
 		// Set the initial state to the menu state
@@ -294,22 +303,6 @@ public class Game implements Runnable, Serializable {
 		this.framesPerSecond = framesPerSecond;
 	}
 
-	public SaveManager getSaveManager() {
-		return saveManager;
-	}
-
-	public void setSaveManager(SaveManager saveManager) {
-		this.saveManager = saveManager;
-	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
-
 	public void setKeyManager(KeyManager keyManager) {
 		this.keyManager = keyManager;
 	}
@@ -320,5 +313,9 @@ public class Game implements Runnable, Serializable {
 
 	public void setGameCamera(GameCamera gameCamera) {
 		this.gameCamera = gameCamera;
+	}
+
+	public static void setHandler(Handler handler) {
+		Game.handler = handler;
 	}
 }

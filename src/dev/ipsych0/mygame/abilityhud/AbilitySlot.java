@@ -17,14 +17,12 @@ public class AbilitySlot implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private Ability ability;
 	private int x, y;
 	private Color cooldownColor = new Color(24, 24, 24, 192);
 	private Color selectedColor = new Color(64, 64, 64, 192);
 
-	public AbilitySlot(Handler handler, Ability ability, int x, int y) {
-		this.handler = handler;
+	public AbilitySlot(Ability ability, int x, int y) {
 		this.ability = ability;
 		this.x = x;
 		this.y = y;
