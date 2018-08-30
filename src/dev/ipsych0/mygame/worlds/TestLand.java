@@ -20,8 +20,8 @@ public class TestLand extends World {
 	private Rectangle swampLandTile;
 	private Rectangle islandTile;
 
-	public TestLand(Handler handler, String path) {
-		super(handler);
+	public TestLand(String path) {
+		super();
 		
 		this.worldPath = path;
 		
@@ -30,18 +30,18 @@ public class TestLand extends World {
 		
 		loadWorld(path);
 				
-		entityManager.addEntity(new Lorraine(handler, 732, 440));
+		entityManager.addEntity(new Lorraine(732, 440));
 		
-		entityManager.addEntity(new Tree(handler, 360, 128));
-		entityManager.addEntity(new Tree(handler, 328, 128));
-		entityManager.addEntity(new Tree(handler, 296, 192));
-		entityManager.addEntity(new Tree(handler, 296, 160));
+		entityManager.addEntity(new Tree(360, 128));
+		entityManager.addEntity(new Tree(328, 128));
+		entityManager.addEntity(new Tree(296, 192));
+		entityManager.addEntity(new Tree(296, 160));
 		
-		entityManager.addEntity(new Rock(handler, 448, 576));
+		entityManager.addEntity(new Rock(448, 576));
 		
-		entityManager.addEntity(new TeleportShrine(handler, 200, 200));
+		entityManager.addEntity(new TeleportShrine(200, 200));
 		
-		entityManager.addEntity(new Whirlpool(handler, 112, 928));
+		entityManager.addEntity(new Whirlpool(112, 928));
 		
 		swampLandTile = new Rectangle(0, 70, 32, 350); 
 		islandTile = new Rectangle(1568, 70, 32, 350);
@@ -49,26 +49,26 @@ public class TestLand extends World {
 
 	@Override
 	public void tick() {
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.tick();
 			
 			if(standingOnTile(swampLandTile)){
-				handler.goToWorld(Zone.SwampLand, 1490, 1305);
+				Handler.get().goToWorld(Zone.SwampLand, 1490, 1305);
 			}
 			
 			if(standingOnTile(islandTile)){
-				handler.goToWorld(Zone.Island, 800, 750);
+				Handler.get().goToWorld(Zone.Island, 800, 750);
 			}
 		}
 	}
 
 	@Override
 	public void render(Graphics g) {
-		if(handler.getWorld() == this){
+		if(Handler.get().getWorld() == this){
 			super.render(g);
 			
-			g.drawRect((int) (swampLandTile.x - handler.getGameCamera().getxOffset()), (int) (swampLandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
-			g.drawRect((int) (islandTile.x - handler.getGameCamera().getxOffset()), (int) (islandTile.y - handler.getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (swampLandTile.x - Handler.get().getGameCamera().getxOffset()), (int) (swampLandTile.y - Handler.get().getGameCamera().getyOffset()), 32, 350);
+			g.drawRect((int) (islandTile.x - Handler.get().getGameCamera().getxOffset()), (int) (islandTile.y - Handler.get().getGameCamera().getyOffset()), 32, 350);
 		}
 	}
 }

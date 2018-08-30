@@ -18,7 +18,6 @@ public class ScrollBar implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
 	private Rectangle scrollUp, scrollDown;
-	private Handler handler;
 	private int scrollMinimum = 0, scrollMaximum;
 	private int index = 0;
 	private int itemsPerWindow;
@@ -26,12 +25,11 @@ public class ScrollBar implements Serializable{
 	public static int clickTimer = 0;
 	public static int scrollTimer = 0;
 	
-	public ScrollBar(Handler handler, int x, int y, int width, int height, int listSize, int itemsPerWindow) {
+	public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.handler = handler;
 		this.listSize = listSize;
 		this.itemsPerWindow = itemsPerWindow;
 		
@@ -40,9 +38,9 @@ public class ScrollBar implements Serializable{
 	}
 
 	public void tick() {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
-		if(scrollUp.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+		if(scrollUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 			// The first click, move it up once
 			if(clickTimer == 0) {
 				if(listSize < itemsPerWindow) {
@@ -72,7 +70,7 @@ public class ScrollBar implements Serializable{
 			}
 		}
 		
-		else if(scrollDown.contains(mouse) && handler.getMouseManager().isLeftPressed()) {
+		else if(scrollDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 			// The first click, move it down once
 			if(clickTimer == 0) {
 				if(listSize < itemsPerWindow) {
@@ -104,7 +102,7 @@ public class ScrollBar implements Serializable{
 	}
 	
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
 		if(listSize > itemsPerWindow) {
 			if(scrollUp.contains(mouse)) {

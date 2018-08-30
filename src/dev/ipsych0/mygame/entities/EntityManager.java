@@ -26,7 +26,6 @@ public class EntityManager implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Collection<Entity> deleted;
@@ -35,8 +34,7 @@ public class EntityManager implements Serializable{
 	public static boolean isPressed = false;
 	private LinkedList<HitSplat> hitSplats;
 	
-	public EntityManager(Handler handler, Player player){
-		this.handler = handler;
+	public EntityManager(Player player){
 		this.player = player;
 		entities = new CopyOnWriteArrayList<Entity>();
 		deleted = new CopyOnWriteArrayList<Entity>();
@@ -93,18 +91,18 @@ public class EntityManager implements Serializable{
 	}
 	
 	public void render(Graphics g){
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		for(Entity e : entities){
 			
-			if(e.getDamageReceiver() != null && handler.getPlayer().isInCombat()) {
+			if(e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
 				if(e.isAttackable())
 					e.drawHP(g);
 			}
 			
 			e.render(g);
 			
-			Rectangle entityRect = new Rectangle((int)e.getX() - (int)handler.getGameCamera().getxOffset(),
-					(int)e.getY() - (int)handler.getGameCamera().getyOffset(), e.getWidth(), e.getHeight());
+			Rectangle entityRect = new Rectangle((int)e.getX() - (int)Handler.get().getGameCamera().getxOffset(),
+					(int)e.getY() - (int)Handler.get().getGameCamera().getyOffset(), e.getWidth(), e.getHeight());
 			
 			if(e instanceof Creature) {
 				for(Projectile p : ((Creature)e).getProjectiles()) {
@@ -115,7 +113,7 @@ public class EntityManager implements Serializable{
 			}
 			
 			// If we rightclick an Entity, lock it to the top of the screen.
-			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer()) && handler.getMouseManager().isRightPressed() && !isPressed) {
+			if(entityRect.contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
 				isPressed = true;
 				if(e.isOverlayDrawn())
 					selectedEntity = e;
@@ -130,17 +128,17 @@ public class EntityManager implements Serializable{
 			}
 			
 			// If we clicked away, remove the locked UI component
-			if(!entityRect.contains(mouse) && !handler.getChatWindow().getWindowBounds().contains(mouse) &&
-					!handler.getCraftingUI().getWindowBounds().contains(mouse) &&
-					!handler.getEquipment().getWindowBounds().contains(mouse) &&
-					!handler.getInventory().getWindowBounds().contains(mouse) &&
-					!e.equals(handler.getPlayer()) && handler.getMouseManager().isRightPressed() && !isPressed && selectedEntity != null) {
+			if(!entityRect.contains(mouse) && !Handler.get().getChatWindow().getWindowBounds().contains(mouse) &&
+					!Handler.get().getCraftingUI().getWindowBounds().contains(mouse) &&
+					!Handler.get().getEquipment().getWindowBounds().contains(mouse) &&
+					!Handler.get().getInventory().getWindowBounds().contains(mouse) &&
+					!e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed && selectedEntity != null) {
 				isPressed = true;
 				selectedEntity = null;
 			}
 			
 			// If the mouse is hovered over an Entity, draw the overlay
-			if(entityRect.contains(mouse) && !e.equals(handler.getPlayer())) {
+			if(entityRect.contains(mouse) && !e.equals(Handler.get().getPlayer())) {
 				if(e.isOverlayDrawn())
 					e.drawEntityOverlay(e, g);
 			}
@@ -176,14 +174,6 @@ public class EntityManager implements Serializable{
 	}
 
 	// Getters & Setters
-	
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
 
 	public Player getPlayer() {
 		return player;

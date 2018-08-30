@@ -21,7 +21,6 @@ public class BankTab implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
-	private Handler handler;
 	private Rectangle bounds;
 	private int tabNumber;
 	public static int ROWS = 6, COLS = 5;
@@ -29,8 +28,7 @@ public class BankTab implements Serializable{
 	private boolean isOpen = false;
 	private boolean hovering = false;
 		
-	public BankTab(Handler handler, int x, int y, int tabNumber) {
-		this.handler = handler;
+	public BankTab(int x, int y, int tabNumber) {
 		this.x = x;
 		this.y = y;
 		this.width = ItemSlot.SLOTSIZE;
@@ -111,7 +109,7 @@ public class BankTab implements Serializable{
        if(index != -1)
     	   return index;
        
-       handler.sendMsg("This bank tab is full.");
+       Handler.get().sendMsg("This bank tab is full.");
        return -1;
 	}
 

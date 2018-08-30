@@ -9,20 +9,18 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class HitSplat {
 	
-	private Handler handler;
 	private Entity receiver;
 	private int damage;
 	private boolean active = false;
 	private int ty = 0;
 	private int xOffset, yOffset;
 	
-	public HitSplat(Handler handler, Entity receiver, int damage) {
-		this.handler = handler;
+	public HitSplat(Entity receiver, int damage) {
 		this.receiver = receiver;
 		this.damage = damage;
 		active = true;
-		xOffset = handler.getRandomNumber(-16, 16);
-		yOffset = handler.getRandomNumber(-8, 8);
+		xOffset = Handler.get().getRandomNumber(-16, 16);
+		yOffset = Handler.get().getRandomNumber(-8, 8);
 	}
 	
 	public void tick() {
@@ -35,8 +33,8 @@ public class HitSplat {
 		if(active) {
 			ty++;
 			Text.drawString(g, String.valueOf(damage),
-					(int) (receiver.x - handler.getGameCamera().getxOffset() + 6 + xOffset),
-					(int) (receiver.y - handler.getGameCamera().getyOffset() + 32 - ty + yOffset), false, Color.RED, Assets.font32);
+					(int) (receiver.x - Handler.get().getGameCamera().getxOffset() + 6 + xOffset),
+					(int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 32 - ty + yOffset), false, Color.RED, Assets.font32);
 			
 			if(ty >= 45) {
 				active = false;

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class QuestManager implements Serializable{
@@ -19,7 +20,6 @@ public class QuestManager implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Handler handler;
 	private QuestUI questUI;
 	
 	// Quest Lists per zone
@@ -35,9 +35,8 @@ public class QuestManager implements Serializable{
 	// Map Zones to Quest Lists
 	private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<Zone, ArrayList<Quest>>(Zone.class);
 	
-	public QuestManager(Handler handler) {
-		this.handler = handler;
-		questUI = new QuestUI(handler);
+	public QuestManager() {
+		questUI = new QuestUI();
 		
 		// Initializes all the lists of quests and zones
 		initLists();
@@ -64,13 +63,13 @@ public class QuestManager implements Serializable{
 	}
 	
 	private void fillLists() {
-		// Island Quests
-		islandQuests.add(new Quest(handler, "The First Quest", Zone.Island));
-		islandQuests.add(new Quest(handler, "The Second Quest", Zone.Island));
-		islandQuests.add(new Quest(handler, "The Third Quest", Zone.Island));
+		// Island Quests		
+		islandQuests.add(new Quest("The First Quest", Zone.Island, new QuestRequirement(SkillsList.CRAFTING, 10)));
+		islandQuests.add(new Quest("The Second Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
+		islandQuests.add(new Quest("The Third Quest", Zone.Island));
 		
 		// Test Quests
-		testQuests.add(new Quest(handler, "The Test Quest", Zone.IslandUnderground));
+		testQuests.add(new Quest("The Test Quest", Zone.IslandUnderground));
 		
 		Collections.sort(islandQuests, (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
 		

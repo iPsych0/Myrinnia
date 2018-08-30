@@ -5,8 +5,8 @@ import dev.ipsych0.mygame.items.Item;
 
 public class FishingSkill extends Skill {
 
-	public FishingSkill(Handler handler) {
-		super(handler);
+	public FishingSkill() {
+		super();
 		
 		initResources();
 		

@@ -15,8 +15,8 @@ public class UITransitionState extends AbstractTransitionState {
 	private static final long serialVersionUID = 1L;
 	private State newState;
 
-	public UITransitionState(Handler handler, State newState) {
-		super(handler);
+	public UITransitionState(State newState) {
+		super();
 		this.newState = newState;
 	}
 
@@ -36,7 +36,7 @@ public class UITransitionState extends AbstractTransitionState {
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		((Graphics2D) g).setComposite(ac);
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
+		g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 		if(alpha - (0.5 / 60) < 0)
 			alpha = 0;
 		else

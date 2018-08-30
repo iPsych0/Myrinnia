@@ -15,13 +15,10 @@ public abstract class Skill implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected int experience, level;
 	protected int nextLevelXp = 100;
-	protected Handler handler;
 	protected ArrayList<SkillResource> resources;
 	protected ArrayList<SkillCategory> categories;
 	
-	public Skill(Handler handler) {
-		this.handler = handler;
-		
+	public Skill() {		
 		resources = new ArrayList<SkillResource>();
 		categories = new ArrayList<SkillCategory>();
 		experience = 0;
@@ -50,7 +47,7 @@ public abstract class Skill implements Serializable {
 			experience -= nextLevelXp;
 			addLevel();
 			nextLevelXp = (int)(nextLevelXp * 1.1);
-			handler.getPlayer().levelUpStats();
+			Handler.get().getPlayer().levelUpStats();
 			checkNextLevel();
 		}
 	}
@@ -68,7 +65,7 @@ public abstract class Skill implements Serializable {
 	}
 	
 	public SkillResource getResourceByItem(Item item) {
-		if(this == handler.getSkill(SkillsList.CRAFTING)) {
+		if(this == Handler.get().getSkill(SkillsList.CRAFTING)) {
 			System.out.println("Trying to get SkillResource from CraftingSkill. [Skill::getResourceByItem()]");
 			return null;
 		}

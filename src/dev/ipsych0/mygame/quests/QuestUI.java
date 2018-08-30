@@ -19,7 +19,6 @@ public class QuestUI implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
-	private Handler handler;
 	private QuestHelpUI questHelpUI;
 	private Quest selectedQuest;
 	private Zone selectedZone;
@@ -28,30 +27,29 @@ public class QuestUI implements Serializable{
 	public static boolean renderingQuests = false;
 	public static boolean escapePressed = false;
 	
-	public QuestUI(Handler handler) {
-		this.handler = handler;
+	public QuestUI() {
 		this.x = 0;
 		this.y = 150;
 		this.width = 200;
 		this.height = 400;
 		bounds = new Rectangle(x,y,width,height);
 		
-		questHelpUI = new QuestHelpUI(handler);
+		questHelpUI = new QuestHelpUI();
 	}
 	
 	public void tick() {
 		if(isOpen) {
-			if(QuestHelpUI.isOpen && handler.getKeyManager().escape && escapePressed) {
+			if(QuestHelpUI.isOpen && Handler.get().getKeyManager().escape && escapePressed) {
 				hasBeenPressed = false;
 				escapePressed = false;
 				QuestHelpUI.isOpen = false;
 			}
-			else if(!QuestHelpUI.isOpen && renderingQuests && handler.getKeyManager().escape && escapePressed) {
+			else if(!QuestHelpUI.isOpen && renderingQuests && Handler.get().getKeyManager().escape && escapePressed) {
 				hasBeenPressed = false;
 				escapePressed = false;
 				renderingQuests = false;
 			}
-			else if(!QuestHelpUI.isOpen && handler.getKeyManager().escape && escapePressed) {
+			else if(!QuestHelpUI.isOpen && Handler.get().getKeyManager().escape && escapePressed) {
 				hasBeenPressed = false;
 				escapePressed = false;
 				renderingQuests = false;
@@ -64,39 +62,39 @@ public class QuestUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
 			if(!renderingQuests) {
 				Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
-				for(int i = 0; i < handler.getQuestManager().getAllQuestLists().size(); i++) {
+				for(int i = 0; i < Handler.get().getQuestManager().getAllQuestLists().size(); i++) {
 					Rectangle text = new Rectangle(x + 4, y + 32 + (i * 16), width - 8, 16);
 					if(text.contains(mouse)) {
 						g.drawImage(Assets.genericButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
-						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+						if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 							hasBeenPressed = false;
-							for(int j = 0; j < handler.getQuestManager().getAllQuestLists().get(i).size(); j++) {
-								if(selectedZone == handler.getQuestManager().getAllQuestLists().get(i).get(j).getZone()) {
+							for(int j = 0; j < Handler.get().getQuestManager().getAllQuestLists().get(i).size(); j++) {
+								if(selectedZone == Handler.get().getQuestManager().getAllQuestLists().get(i).get(j).getZone()) {
 									renderingQuests = true;
 								}
-								else if(selectedZone != handler.getQuestManager().getAllQuestLists().get(i).get(j).getZone()) {
+								else if(selectedZone != Handler.get().getQuestManager().getAllQuestLists().get(i).get(j).getZone()) {
 									renderingQuests = true;
 								}
 								else if(selectedZone == null) {
 									renderingQuests = false;
 								}
-								selectedZone = handler.getQuestManager().getAllQuestLists().get(i).get(j).getZone();
+								selectedZone = Handler.get().getQuestManager().getAllQuestLists().get(i).get(j).getZone();
 							}
 						}
 					}else {
 						g.drawImage(Assets.genericButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 					}
-					Text.drawString(g, handler.getQuestManager().getAllQuestLists().get(i).get(0).getZone().toString(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
+					Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().toString(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
 					
 					Rectangle backButton = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 					
 					if(backButton.contains(mouse)) {
 						g.drawImage(Assets.genericButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
-						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+						if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 							renderingQuests = false;
 							QuestUI.isOpen = false;
 							hasBeenPressed = false;
@@ -110,42 +108,42 @@ public class QuestUI implements Serializable{
 				}
 			}else {
 				Text.drawString(g, "Quests:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
-				for(int i = 0; i < handler.getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
+				for(int i = 0; i < Handler.get().getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
 					Color color;
 					Rectangle text = new Rectangle(x + 4, y + 32 + (i * 16), width - 8, 16);
-					if(handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)
+					if(Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)
 						color = new Color(255,0,0);
-					else if(handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.IN_PROGRESS)
+					else if(Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.IN_PROGRESS)
 						color = Color.YELLOW;
 					else
 						color = Color.GREEN;
 					
 					if(text.contains(mouse)) {
 						g.drawImage(Assets.genericButton[0], text.x + 4, text.y, text.width - 8, text.height - 1, null);
-						if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+						if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 							hasBeenPressed = false;
-							if(selectedQuest == handler.getQuestManager().getZoneMap().get(selectedZone).get(i)) {
+							if(selectedQuest == Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i)) {
 								QuestHelpUI.isOpen = !QuestHelpUI.isOpen;
 							}
-							else if(selectedQuest != handler.getQuestManager().getZoneMap().get(selectedZone).get(i)) {
+							else if(selectedQuest != Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i)) {
 								QuestHelpUI.isOpen = true;
 							}
 							else if(selectedQuest == null) {
 								QuestHelpUI.isOpen = true;
 							}
-							selectedQuest = handler.getQuestManager().getZoneMap().get(selectedZone).get(i);
+							selectedQuest = Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i);
 						}
 					}else {
 						g.drawImage(Assets.genericButton[1], text.x + 4, text.y, text.width - 8, text.height - 1, null);
 					}
-				Text.drawString(g, handler.getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
+				Text.drawString(g, Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
 				}
 				
 				Rectangle backButton = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
 				
 				if(backButton.contains(mouse)) {
 					g.drawImage(Assets.genericButton[0], backButton.x, backButton.y, backButton.width, backButton.height, null);
-					if(handler.getMouseManager().isLeftPressed() && !handler.getMouseManager().isDragged() && hasBeenPressed) {
+					if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
 						renderingQuests = false;
 						QuestHelpUI.isOpen = false;
 						hasBeenPressed = false;

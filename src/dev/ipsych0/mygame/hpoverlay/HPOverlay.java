@@ -22,7 +22,6 @@ public class HPOverlay implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Handler handler;
 	private Rectangle bounds;
 	private Rectangle combatBar, hpBar, xpBar;
 	private Rectangle skillsButton, characterButton, abilitiesButton, questsButton, mapButton;
@@ -30,8 +29,7 @@ public class HPOverlay implements Serializable {
 	public static Color hpColorRedOutline, hpColorGreenOutline, xpColorOutline;
 	public static boolean hasBeenPressed = false;
 	
-	public HPOverlay(Handler handler) {
-		this.handler = handler;
+	public HPOverlay() {
 		
 		// Bars
 		hpBar = new Rectangle(48,32,144,24);
@@ -64,7 +62,7 @@ public class HPOverlay implements Serializable {
 	
 	public void render(Graphics g) {
 		
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		
 		// Draw the bars
 		g.drawImage(Assets.genericButton[0], bounds.x, bounds.y, bounds.width, bounds.height, null);
@@ -78,7 +76,7 @@ public class HPOverlay implements Serializable {
 		// Quests UI button
 		if(questsButton.contains(mouse)) {
 			g.drawImage(Assets.genericButton[0], questsButton.x, questsButton.y, questsButton.width, questsButton.height, null);
-			if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+			if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				hasBeenPressed = false;
 				SkillsUI.isOpen = false;
 				SkillsOverviewUI.isOpen = false;
@@ -96,7 +94,7 @@ public class HPOverlay implements Serializable {
 		// Skills UI button
 		if(skillsButton.contains(mouse)) {
 			g.drawImage(Assets.genericButton[0], skillsButton.x, skillsButton.y, skillsButton.width, skillsButton.height, null);
-			if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+			if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				hasBeenPressed = false;
 				CharacterUI.isOpen = false;
 				QuestUI.isOpen = false;
@@ -110,7 +108,7 @@ public class HPOverlay implements Serializable {
 		// Character UI button
 		if(characterButton.contains(mouse)) {
 			g.drawImage(Assets.genericButton[0], characterButton.x, characterButton.y, characterButton.width, characterButton.height, null);
-			if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+			if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				hasBeenPressed = false;
 				SkillsUI.isOpen = false;
 				SkillsOverviewUI.isOpen = false;
@@ -125,9 +123,9 @@ public class HPOverlay implements Serializable {
 		// Abilities UI button
 		if(abilitiesButton.contains(mouse)) {
 			g.drawImage(Assets.genericButton[0], abilitiesButton.x, abilitiesButton.y, abilitiesButton.width, abilitiesButton.height, null);
-			if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+			if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				hasBeenPressed = false;
-				handler.sendMsg("Abilities menu coming soon!");
+				Handler.get().sendMsg("Abilities menu coming soon!");
 			}
 		}
 		else
@@ -136,9 +134,9 @@ public class HPOverlay implements Serializable {
 		// Map UI button
 		if(mapButton.contains(mouse)) {
 			g.drawImage(Assets.genericButton[0], mapButton.x, mapButton.y, mapButton.width, mapButton.height, null);
-			if(handler.getMouseManager().isLeftPressed() && hasBeenPressed) {
+			if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				hasBeenPressed = false;
-				handler.sendMsg("Map coming soon!");
+				Handler.get().sendMsg("Map coming soon!");
 			}
 		}
 		else
@@ -163,33 +161,33 @@ public class HPOverlay implements Serializable {
 		g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
 		
 		g.setColor(hpColorGreen);
-		if(handler.getPlayer().getHealth() >= handler.getPlayer().getMaxHealth()) {
+		if(Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
 			g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
 			
 			g.setColor(hpColorGreenOutline);
 			g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
 		}else {
-			g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, (int)(hpBar.width * (double)handler.getPlayer().getHealth() /
-					(double)handler.getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+			g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, (int)(hpBar.width * (double)Handler.get().getPlayer().getHealth() /
+					(double)Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
 			
 			g.setColor(hpColorGreenOutline);
-			g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, (int)(hpBar.width * (double)handler.getPlayer().getHealth() /
-					(double)handler.getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+			g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, (int)(hpBar.width * (double)Handler.get().getPlayer().getHealth() /
+					(double)Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
 		}
 		
 		// XP bar
 		g.setColor(xpColor);
-		g.fillRoundRect(xpBar.x + 2, xpBar.y + 1, (int)(xpBar.width * handler.getSkill(SkillsList.COMBAT).getExperience() / handler.getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
+		g.fillRoundRect(xpBar.x + 2, xpBar.y + 1, (int)(xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
 		g.setColor(xpColorOutline);
-		g.drawRoundRect(xpBar.x + 2, xpBar.y + 1, (int)(xpBar.width * handler.getSkill(SkillsList.COMBAT).getExperience() / handler.getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
+		g.drawRoundRect(xpBar.x + 2, xpBar.y + 1, (int)(xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
 		
-		Text.drawString(g, "Combat level: " + Integer.toString(handler.getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()),
+		Text.drawString(g, "Combat level: " + Integer.toString(Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()),
 				combatBar.x + combatBar.width / 2 , combatBar.y + combatBar.height / 2, true, Color.YELLOW, Assets.font14);
 		
-		Text.drawString(g, handler.getPlayer().getHealth() + "/" + 
-				handler.getPlayer().getMaxHealth(), hpBar.x + hpBar.width / 2, hpBar.y + hpBar.height / 2, true, Color.YELLOW, Assets.font14);
+		Text.drawString(g, Handler.get().getPlayer().getHealth() + "/" + 
+				Handler.get().getPlayer().getMaxHealth(), hpBar.x + hpBar.width / 2, hpBar.y + hpBar.height / 2, true, Color.YELLOW, Assets.font14);
 		
-		Text.drawString(g, handler.getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+handler.getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(),
+		Text.drawString(g, Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(),
 				xpBar.x + xpBar.width / 2, xpBar.y + xpBar.height / 2, true, Color.YELLOW, Assets.font14);
 
 		if(questsButton.contains(mouse)) {
@@ -214,7 +212,7 @@ public class HPOverlay implements Serializable {
 		}
 		
 		
-//		g.drawString("FPS: " + String.valueOf(handler.getGame().getFramesPerSecond()), 2, 140);
+//		g.drawString("FPS: " + String.valueOf(Handler.get().getGame().getFramesPerSecond()), 2, 140);
 	}
 
 	public Rectangle getBounds() {

@@ -18,9 +18,9 @@ public class EruptionAbility extends Ability {
 	private int renderTimer = 0;
 	private int displayTime = 1 * 60;
 	
-	public EruptionAbility(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+	public EruptionAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		super(handler, element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -29,7 +29,7 @@ public class EruptionAbility extends Ability {
 		g.drawImage(Assets.dirtHole, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 		if(hitBox != null) {
 			g.setColor(ability);
-			g.fillRect(hitBox.x - (int)handler.getGameCamera().getxOffset(), hitBox.y - (int)handler.getGameCamera().getyOffset(), hitBox.width, hitBox.height);
+			g.fillRect(hitBox.x - (int)Handler.get().getGameCamera().getxOffset(), hitBox.y - (int)Handler.get().getGameCamera().getyOffset(), hitBox.width, hitBox.height);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class EruptionAbility extends Ability {
 					caster.getWidth() + ItemSlot.SLOTSIZE * 2, caster.getHeight() + ItemSlot.SLOTSIZE * 2);
 			initDone = true;
 		
-			for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
 				if(hitBox.contains(e.getCollisionBounds(0, 0))) {
 					if(!e.equals(caster)) {
 						e.damage(caster, e);

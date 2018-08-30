@@ -1,18 +1,23 @@
 package dev.ipsych0.mygame.entities.statics;
 
+import java.awt.AWTException;
 import java.awt.Graphics;
+import java.awt.HeadlessException;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.crafting.CraftingUI;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
+import dev.ipsych0.mygame.gfx.ScreenShot;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
+import dev.ipsych0.mygame.recap.RecapEvent;
 import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.worlds.World;
 
 public class Campfire extends StaticEntity {
 
@@ -27,8 +32,8 @@ public class Campfire extends StaticEntity {
 	private String[] secondDialogue = {"You almost burned your fingers trying to examine the fire. However, a sword is revealed."};
 	private String[] thirdDialogue = {"Take the sword.", "Leave it."};
 
-	public Campfire(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public Campfire(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -47,7 +52,7 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(campfire.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(campfire.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 	}
 
@@ -60,7 +65,7 @@ public class Campfire extends StaticEntity {
 			speakingTurn++;
 			break;
 		case 1:
-			chatDialogue = new ChatDialogue(handler, firstDialogue);
+			chatDialogue = new ChatDialogue(firstDialogue);
 			speakingTurn++;
 			break;
 		case 2:
@@ -70,11 +75,11 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				chatDialogue = new ChatDialogue(handler, secondDialogue);
+				chatDialogue = new ChatDialogue(secondDialogue);
 				speakingTurn++;
-				if(!handler.questStarted(QuestList.TheFirstQuest)) {
-					handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
-					handler.addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
+				if(!Handler.get().questStarted(QuestList.TheFirstQuest)) {
+					Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
+					Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
 				}
 				break;
 			}
@@ -91,7 +96,7 @@ public class Campfire extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			chatDialogue = new ChatDialogue(handler, thirdDialogue);
+			chatDialogue = new ChatDialogue(thirdDialogue);
 			speakingTurn++;
 			break;
 		case 4:
@@ -101,17 +106,17 @@ public class Campfire extends StaticEntity {
 			}
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
-				if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
-					if(!handler.invIsFull(Item.testSword)) {
-						handler.getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
-						handler.giveItem(Item.testSword, 1);
-						handler.discoverRecipe(Item.purpleSword);
+				if(Handler.get().getQuest(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
+					if(!Handler.get().invIsFull(Item.testSword)) {
+						Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+						Handler.get().giveItem(Item.testSword, 1);
+						Handler.get().discoverRecipe(Item.purpleSword);
 						chatDialogue = null;
 						speakingTurn = 1;
 					}else {
 						chatDialogue = null;
 						speakingTurn = 1;
-						handler.sendMsg("Your inventory is full.");
+						Handler.get().sendMsg("Your inventory is full.");
 					}
 					break;
 				}
@@ -135,7 +140,7 @@ public class Campfire extends StaticEntity {
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Campfire(handler, xSpawn, ySpawn));
+		Handler.get().getWorld().getEntityManager().addEntity(new Campfire(xSpawn, ySpawn));
 	}
 	
 }

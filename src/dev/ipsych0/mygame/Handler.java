@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.GameCamera;
+import dev.ipsych0.mygame.gfx.ScreenShot;
 import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.input.KeyManager;
 import dev.ipsych0.mygame.input.MouseManager;
@@ -27,6 +28,8 @@ import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.quests.QuestStep;
+import dev.ipsych0.mygame.recap.RecapEvent;
+import dev.ipsych0.mygame.recap.RecapManager;
 import dev.ipsych0.mygame.skills.Skill;
 import dev.ipsych0.mygame.skills.SkillResource;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -45,7 +48,7 @@ public class Handler implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Game game;
+	private static Game game;
 	private World world;
 	private Island island;
 	private WorldHandler worldHandler;
@@ -61,44 +64,51 @@ public class Handler implements Serializable {
 	private HPOverlay hpOverlay;
 	private BankUI bankUI;
 	private AbilityManager abilityManager;
+	private RecapManager recapManager;
 	private boolean soundMuted = false;
 	public static String worldPath = "res/worlds/island.tmx";
+	
+	private static Handler handler;
 	
 	/*
 	 * Set to true for debug mode
 	 */
 	public static boolean debugMode = false;
 	
-	/*
-	 * Index 0: Island
-	 * Index 1: TestLand
-	 * Index 2: SwampLand
-	 * Index 3: IslandUnderground
-	 */
+	public static Handler get() {
+		if(handler == null) {
+			handler = new Handler();
+			handler.init();
+		}
+		return handler;
+	}
 	
-	public Handler(Game game){
-		this.game = game;
+	private Handler(){
+		
+	}
+	
+	private void init() {
+		handler.setGame(Game.get());
 		
 		// Instantiate the player
-		player = new Player(this, 5120, 5600);
+		player = new Player(5120, 5600);
 		
 		// Instantiate all interfaces
-		chatWindow = new ChatWindow(this); //228,314
-		chatWindow.sendMessage("Welcome back!");
-		inventory = new InventoryWindow(this);
-		equipment = new EquipmentWindow(this);
-		questManager = new QuestManager(this);
-		craftingUI = new CraftingUI(this, 0, 180);
-		characterUI = new CharacterUI(this);
-		skillsUI = new SkillsUI(this);
-		hpOverlay = new HPOverlay(this);
-		bankUI = new BankUI(this);
-		abilityManager = new AbilityManager(this);
+		chatWindow = new ChatWindow(); //228,314
+		inventory = new InventoryWindow();
+		equipment = new EquipmentWindow();
+		skillsUI = new SkillsUI();
+		questManager = new QuestManager();
+		craftingUI = new CraftingUI();
+		characterUI = new CharacterUI();
+		hpOverlay = new HPOverlay();
+		bankUI = new BankUI();
+		abilityManager = new AbilityManager();
+		recapManager = new RecapManager();
 		
 		// Set the starting world
-		island = new Island(this, "res/worlds/island.tmx");
-		worldHandler = new WorldHandler(this, island);
-		
+		island = new Island("res/worlds/island.tmx");
+		worldHandler = new WorldHandler(island);
 	}
 	
 	public void playMusic(Zone zone) {
@@ -177,13 +187,35 @@ public class Handler implements Serializable {
 		}
 	}
 	
+	public void addRecapEvent(String description) {
+		this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
+	}
+	
+	public boolean hasQuestReqs(QuestList quest) {
+		Quest q = getQuest(quest);
+		for(int i = 0; i < q.getRequirements().length; i++) {
+			if(q.getRequirements()[i].getSkill() != null) {
+				if(getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()){
+					return false;
+				}
+			}
+			else if(q.getRequirements()[i].getQuest() != null) {
+				if(getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
+					return false;
+				}
+			}
+		}
+		// TODO: ADD CHECK FOR MISCELLANEOUS REQUIREMENTS (DESCRIPTION)
+		return true;
+	}
+	
 	public void goToWorld(Zone zone, int x, int y) {
 		player.setX(x);
 		player.setY(y);
 		player.setZone(zone);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
-		ZoneTransitionState transitionState = new ZoneTransitionState(this, zone);
+		ZoneTransitionState transitionState = new ZoneTransitionState(zone);
 		State.setState(transitionState);
 		
 		for(Source s : AudioManager.soundfxFiles)
@@ -418,10 +450,6 @@ public class Handler implements Serializable {
 		this.craftingUI = craftingUI;
 	}
 
-	public SaveManager getSaveManager() {
-		return game.getSaveManager();
-	}
-
 	public boolean isSoundMuted() {
 		return soundMuted;
 	}
@@ -468,6 +496,18 @@ public class Handler implements Serializable {
 
 	public void setAbilityManager(AbilityManager abilityManager) {
 		this.abilityManager = abilityManager;
+	}
+
+	public RecapManager getRecapManager() {
+		return recapManager;
+	}
+
+	public void setRecapManager(RecapManager recapManager) {
+		this.recapManager = recapManager;
+	}
+
+	public static void setHandler(Handler handler) {
+		Handler.handler = handler;
 	}
 
 }

@@ -10,29 +10,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
 
 
-public class SaveManager implements Serializable{
+public class SaveManager {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static Handler handlerObject;
-
-	public SaveManager(Handler handler){
-		handlerObject = handler;
-	}
 	public static void savehandler(){
 		FileOutputStream f;
 		try {
 			f = new FileOutputStream(new File("res/savegames/save.dat"));
 			ObjectOutputStream o;
 			try {
-				handlerObject.getGame().getMouseManager().setLeftPressed(false);
+				Game.get().getMouseManager().setLeftPressed(false);
 				o = new ObjectOutputStream(f);
-					o.writeObject(handlerObject);
+					o.writeObject(Handler.get());
 				o.close();
 				f.close();
 			}
@@ -44,8 +36,8 @@ public class SaveManager implements Serializable{
 		}
 	}
 	
-	public static void loadHandler(Handler handler){
-		handlerObject = null;
+	public static void loadHandler(){
+		Handler handlerObject = null;
 		FileInputStream fin;
 		try {
 			fin = new FileInputStream("res/savegames/save.dat");
@@ -61,39 +53,7 @@ public class SaveManager implements Serializable{
 			e.printStackTrace();
 		}
 		
-		handler.getGame().getDisplay().getFrame().removeMouseListener(handler.getMouseManager());
-		handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getKeyManager());
-		handler.getGame().getDisplay().getFrame().removeMouseMotionListener(handler.getMouseManager());
-		handler.getGame().getDisplay().getCanvas().removeMouseListener(handler.getMouseManager());
-		handler.getGame().getDisplay().getCanvas().removeMouseMotionListener(handler.getMouseManager());
-		
-		handler.getGame().setHandler(handlerObject);
-		handler.getGame().setKeyManager(handlerObject.getKeyManager());
-		handler.getGame().setMouseManager(handlerObject.getMouseManager());
-		handler.getGame().getDisplay().getFrame().addMouseListener(handlerObject.getMouseManager());
-		handler.getGame().getDisplay().getFrame().addMouseMotionListener(handlerObject.getMouseManager());
-		handler.getGame().getDisplay().getCanvas().addMouseListener(handlerObject.getMouseManager());
-		handler.getGame().getDisplay().getCanvas().addMouseMotionListener(handlerObject.getMouseManager());
-		for(KeyListener kl : handlerObject.getGame().getDisplay().getFrame().getKeyListeners()) {
-			handler.getGame().getDisplay().getFrame().removeKeyListener(kl);
-		}
-		for(KeyListener kl : handlerObject.getGame().getDisplay().getFrame().getKeyListeners()) {
-			handler.getGame().getDisplay().getFrame().addKeyListener(kl);
-		}
-		
-		handler.getWorldHandler().getWorlds().clear();
-		for(int i = 0; i < handlerObject.getWorldHandler().getWorlds().size(); i++) {
-			handler.getWorldHandler().getWorlds().add(handlerObject.getWorldHandler().getWorlds().get(i));
-		}
-		
-		handler.setChatWindow(handlerObject.getChatWindow());
-		handler.setCraftingUI(handlerObject.getCraftingUI());
-		handler.getInventory().setItemSlots(handlerObject.getInventory().getItemSlots());
-		handler.getEquipment().setEquipmentSlots(handlerObject.getEquipment().getEquipmentSlots());
-		handler.setQuestManager(handlerObject.getQuestManager());
-		handler.getGame().setGameCamera(handlerObject.getGameCamera());
-		handler.setSoundMuted(handlerObject.isSoundMuted());
-		handler.getPlayer().setZone(handlerObject.getPlayer().getZone());
-		
+		Handler.setHandler(handlerObject);
+
 	}
 }

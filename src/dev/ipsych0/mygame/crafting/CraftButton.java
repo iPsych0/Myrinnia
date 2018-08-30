@@ -15,22 +15,20 @@ public class CraftButton implements Serializable{
 	private int x, y, width, height;
 	private Rectangle bounds;
 	private boolean hovering = false;
-	private Handler handler;
 	
-	public CraftButton(Handler handler, int x, int y, int width, int height) {
+	public CraftButton(int x, int y, int width, int height) {
 		
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.handler = handler;
 		
 		bounds = new Rectangle(x, y, width, height);
 		
 	}
 
 	public void tick() {
-		if(bounds.contains(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY()))
+		if(bounds.contains(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY()))
 			hovering = true;
 		else
 			hovering = false;

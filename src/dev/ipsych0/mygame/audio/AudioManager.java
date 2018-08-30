@@ -30,12 +30,11 @@ public class AudioManager {
 	private static ALCCapabilities alcCapabilities;
 	private static ALCapabilities alCapabilities;
 	private static List<Integer> buffers = new ArrayList<Integer>();
-	private static Handler handler;
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
 	public static Zone zone;
 	
-	public static void init(Handler handlerClass) {
+	public static void init() {
 		deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
 		device = ALC10.alcOpenDevice(deviceName);
 		context = ALC10.alcCreateContext(device, attributes);
@@ -45,7 +44,6 @@ public class AudioManager {
 		alcCapabilities = ALC.createCapabilities(device);
 		alCapabilities = AL.createCapabilities(alcCapabilities);
 		
-		handler = handlerClass;
 	}
 	
 	public static void tick() {

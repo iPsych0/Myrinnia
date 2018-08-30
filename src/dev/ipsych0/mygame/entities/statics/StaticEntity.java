@@ -10,8 +10,8 @@ public abstract class StaticEntity extends Entity {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public StaticEntity(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, width, height);
+	public StaticEntity(float x, float y, int width, int height) {
+		super(x, y, width, height);
 		
 		staticNpc = true;
 		solid = true;

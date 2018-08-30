@@ -4,15 +4,15 @@ import dev.ipsych0.mygame.Handler;
 
 public class CombatSkill extends Skill {
 
-	public CombatSkill(Handler handler) {
-		super(handler);
+	public CombatSkill() {
+		super();
 	}
 	
 	@Override
 	public void addLevel() {
 		this.level++;
-		handler.getCharacterUI().addBaseStatPoints();
-		handler.getCharacterUI().addElementalStatPoints();
+		Handler.get().getCharacterUI().addBaseStatPoints();
+		Handler.get().getCharacterUI().addElementalStatPoints();
 	}
 	
 	@Override

@@ -21,12 +21,10 @@ public class Projectile implements Serializable {
 	private double angle;
 	private int maxRadius = 320;
 	private Animation magic;
-	private Handler handler;
 	private Rectangle bounds;
 	public boolean active;
 	
-	public Projectile(Handler handler, float x, float y, int mouseX, int mouseY, float velocity) {
-		this.handler = handler;
+	public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
 		this.x = x;
 		this.y = y;
 		this.mouseX = mouseX;
@@ -77,7 +75,7 @@ public class Projectile implements Serializable {
 	
 	public void render(Graphics g) {
 		if(active) {
-			g.drawImage(magic.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+			g.drawImage(magic.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		}
 	}
 

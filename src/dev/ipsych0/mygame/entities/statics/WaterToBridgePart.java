@@ -19,8 +19,8 @@ public class WaterToBridgePart extends StaticEntity {
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
 	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};
 	
-	public WaterToBridgePart(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public WaterToBridgePart(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -40,7 +40,7 @@ public class WaterToBridgePart extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets.waterMiddleMiddle, (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(Assets.waterMiddleMiddle, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 			, width, height, null);
 	}
 
@@ -54,16 +54,16 @@ public class WaterToBridgePart extends StaticEntity {
 			return;
 		
 		case 1:
-			if(handler.getQuest(QuestList.TheFirstQuest).getState() == QuestState.COMPLETED) {
-				chatDialogue = new ChatDialogue(handler, firstDialogue);
-				if(handler.getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
-					handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.IN_PROGRESS);
-					handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge [0/3]");
+			if(Handler.get().hasQuestReqs(QuestList.TheSecondQuest)) {
+				chatDialogue = new ChatDialogue(firstDialogue);
+				if(Handler.get().getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
+					Handler.get().getQuest(QuestList.TheSecondQuest).setState(QuestState.IN_PROGRESS);
+					Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge [0/3]");
 				}
 				speakingTurn++;
 				break;
 			}else {
-				handler.sendMsg("Please complete The First Quest to proceed.");
+				Handler.get().sendMsg("Please complete The First Quest to proceed.");
 				speakingTurn = 1;
 				break;
 			}
@@ -73,8 +73,8 @@ public class WaterToBridgePart extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			if(handler.playerHasItem(Item.regularLogs, 5)) {
-				chatDialogue = new ChatDialogue(handler, secondDialogue);
+			if(Handler.get().playerHasItem(Item.regularLogs, 5)) {
+				chatDialogue = new ChatDialogue(secondDialogue);
 				speakingTurn++;
 				break;
 			}else {
@@ -90,16 +90,16 @@ public class WaterToBridgePart extends StaticEntity {
 			
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = null;
-				if(handler.playerHasItem(Item.regularLogs, 5)) {
-					handler.removeItem(Item.regularLogs, 5);
+				if(Handler.get().playerHasItem(Item.regularLogs, 5)) {
+					Handler.get().removeItem(Item.regularLogs, 5);
 					isFixed = true;
-					handler.sendMsg("You fixed the bridge!");
-					if(handler.getQuest(QuestList.TheSecondQuest).getState() == QuestState.IN_PROGRESS) {
-						if(handler.getQuest(QuestList.TheSecondQuest).getStep() == 2) {
-							handler.getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
+					Handler.get().sendMsg("You fixed the bridge!");
+					if(Handler.get().getQuest(QuestList.TheSecondQuest).getState() == QuestState.IN_PROGRESS) {
+						if(Handler.get().getQuest(QuestList.TheSecondQuest).getStep() == 2) {
+							Handler.get().getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
 						}else {
-							handler.addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (handler.getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
-							handler.getQuest(QuestList.TheSecondQuest).nextStep();
+							Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (Handler.get().getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
+							Handler.get().getQuest(QuestList.TheSecondQuest).nextStep();
 						}
 					}
 					break;

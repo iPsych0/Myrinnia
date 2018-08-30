@@ -28,8 +28,8 @@ public class Whirlpool extends StaticEntity {
 	private int random = 0;
 	private int attempts = 0;
 
-	public Whirlpool(Handler handler, float x, float y) {
-		super(handler, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+	public Whirlpool(float x, float y) {
+		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 		
 		isNpc = true;
 		attackable = false;
@@ -40,8 +40,8 @@ public class Whirlpool extends StaticEntity {
 	public void tick() {
 		spinning.tick();
 		if(isFishing) {
-			if(Player.isMoving || handler.getMouseManager().isLeftPressed() &&
-					!handler.getPlayer().hasLeftClickedUI(new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1))) {
+			if(Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
+					!Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
 				fishingTimer = 0;
 				speakingTurn = 1;
 				isFishing = false;
@@ -60,21 +60,21 @@ public class Whirlpool extends StaticEntity {
 			
 			if(fishingTimer >= 180) {
 				System.out.println(random + " and " + attempts);
-				int roll = handler.getRandomNumber(1, 100);
+				int roll = Handler.get().getRandomNumber(1, 100);
 	        	if(roll < 60) {
-	        		handler.giveItem(Item.regularFish, 1);
-	        		handler.sendMsg("You caught something!");
-	        		handler.getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
+	        		Handler.get().giveItem(Item.regularFish, 1);
+	        		Handler.get().sendMsg("You caught something!");
+	        		Handler.get().getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
 	        		attempts++;
 	        	}else {
-	        		handler.sendMsg("The fish got away...");
+	        		Handler.get().sendMsg("The fish got away...");
 	        		attempts++;
 	        	}
 	        	speakingTurn = 1;
 	        	fishingTimer = 0;
 	        	
 	        	if(attempts == minAttempts - 1) {
-	        		random = handler.getRandomNumber(minAttempts, maxAttempts);
+	        		random = Handler.get().getRandomNumber(minAttempts, maxAttempts);
 	        	}
 			}
 			
@@ -88,7 +88,7 @@ public class Whirlpool extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(spinning.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset())
+		g.drawImage(spinning.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
 				, width, height, null);
 		postRender(g);
 	}
@@ -100,7 +100,7 @@ public class Whirlpool extends StaticEntity {
 			return;
 		}
 		if(this.speakingTurn == 1) {
-			handler.sendMsg("Fishing...");
+			Handler.get().sendMsg("Fishing...");
 			speakingTurn = 2;
 			isFishing = true;
 		}
@@ -112,14 +112,14 @@ public class Whirlpool extends StaticEntity {
 	@Override
 	public void postRender(Graphics g) {
 		if(isFishing) {
-			g.drawImage(Assets.fishingIcon, (int) (handler.getPlayer().getX() - handler.getGameCamera().getxOffset()), (int) (handler.getPlayer().getY() - handler.getGameCamera().getyOffset() - 32 ), width, height, null);
+			g.drawImage(Assets.fishingIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32 ), width, height, null);
 		}
 		
 	}
 
 	@Override
 	public void respawn() {
-		handler.getWorld().getEntityManager().addEntity(new Whirlpool(handler, xSpawn, ySpawn));		
+		Handler.get().getWorld().getEntityManager().addEntity(new Whirlpool(xSpawn, ySpawn));		
 	}
 	
 }

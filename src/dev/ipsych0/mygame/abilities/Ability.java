@@ -14,7 +14,6 @@ public abstract class Ability implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Handler handler;
 	protected Creature caster;
 	protected int cooldownTime;
 	protected int castingTime;
@@ -32,8 +31,7 @@ public abstract class Ability implements Serializable {
 	protected boolean selectable;
 	protected boolean selected;
 	
-	public Ability(Handler handler, CharacterStats element, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		this.handler = handler;
+	public Ability(CharacterStats element, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
 		this.abilityType = abilityType;
 		this.selectable = selectable;
@@ -60,9 +58,9 @@ public abstract class Ability implements Serializable {
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 		if(isSelectable() && isSelected()) {
-				if(!handler.getPlayer().hasLeftClickedUI(mouse) && handler.getMouseManager().isLeftPressed()) {
+				if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 					setSelected(false);
 					if(this.getCastingTime() > 0) {
 						this.setChanneling(true);
