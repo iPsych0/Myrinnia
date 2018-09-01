@@ -43,7 +43,7 @@ public abstract class Entity implements Serializable{
 	protected int speakingCheckpoint = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
-	protected int lastHit = 0;
+	private int lastHit = 0;
 	protected boolean inCombat = false;
 	protected int combatTimer = 0;
 	protected int respawnTimer = 600;

@@ -117,6 +117,39 @@ public class AudioManager {
 		  AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
 		  waveFile.dispose();
 		  return buffer;
-		 }
+	 }
+	
+	public static void fadeSongs(Zone zone, int buffer) {
+		if(AudioManager.musicFiles.size() > 0) {
+			if(AudioManager.zone != null) {
+				if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
+					AudioManager.zone = zone;
+					AudioManager.musicFiles.add(new Source());
+					if(AudioManager.musicFiles.size() > 2) {
+						for(int i = 1; i < AudioManager.musicFiles.size() - 1; i++) {
+							AudioManager.musicFiles.get(i).stop();
+						}
+					}else {
+						AudioManager.musicFiles.getFirst().setFadingOut(true);
+					}
+					AudioManager.musicFiles.getLast().setVolume(0.0f);
+					AudioManager.musicFiles.getLast().setFadingIn(true);
+					AudioManager.musicFiles.getLast().setLooping(true);
+					AudioManager.musicFiles.getLast().playMusic(buffer);
+				}else {
+					AudioManager.zone = zone;
+					for(int i = 0; i < AudioManager.musicFiles.size() - 1; i++) {
+						AudioManager.musicFiles.get(i).setFadingOut(true);
+					}
+				}
+			}
+		}else {
+			AudioManager.zone = zone;
+			AudioManager.musicFiles.add(new Source());
+			AudioManager.musicFiles.getLast().setVolume(0.4f);
+			AudioManager.musicFiles.getLast().setLooping(true);
+			AudioManager.musicFiles.getLast().playMusic(buffer);
+		}
+	}
 
 }

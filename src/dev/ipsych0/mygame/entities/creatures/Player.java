@@ -256,7 +256,7 @@ public class Player extends Creature{
 			closestEntity.getChatDialogue().tick();
 		}
 		
-		// If the player moves or presses escape, close the shop and chat dialogue
+		// If the player moves, close the shop and chat dialogue
 		if(closestEntity != null && isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
@@ -269,7 +269,7 @@ public class Player extends Creature{
 		}
 		
 		// If there are projectiles, tick them
-		if(projectiles.size() != 0) {
+		if(projectiles.size() > 0) {
 			tickProjectiles();
 		}
 		
@@ -433,7 +433,6 @@ public class Player extends Creature{
 			g.drawImage(getLastFacedImg(), (int) (x - Handler.get().getGameCamera().getxOffset()),
 					(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		}
-		g.setFont(GameState.myFont);
 		
 		Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 4, 160, false, Color.YELLOW, Assets.font14);
 		
@@ -469,7 +468,7 @@ public class Player extends Creature{
 		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 		 */
 				
-		if(projectiles.size() >= 1) {
+		if(projectiles.size() > 0) {
 			for(Projectile p : projectiles) {
 				if(active)
 					p.render(g);

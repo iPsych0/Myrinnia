@@ -17,9 +17,8 @@ public class Projectile implements Serializable {
 	private int width, height;
 	private double xVelocity, yVelocity;
 	private int maxX, maxY, minX, minY;
-	private int mouseX, mouseY;
 	private double angle;
-	private int maxRadius = 320;
+	private static final int MAX_RADIUS = 320;
 	private Animation magic;
 	private Rectangle bounds;
 	public boolean active;
@@ -27,8 +26,6 @@ public class Projectile implements Serializable {
 	public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
 		this.x = x;
 		this.y = y;
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
 		
 		width = Creature.DEFAULT_CREATURE_WIDTH;
 		height = Creature.DEFAULT_CREATURE_HEIGHT;
@@ -41,10 +38,10 @@ public class Projectile implements Serializable {
 		bounds.height = 10;
 		
 		// Max distance the projectile can travel
-		maxX = (int) (x + maxRadius);
-		maxY = (int) (y + maxRadius);
-		minX = (int) (x - maxRadius);
-		minY = (int) (y - maxRadius);
+		maxX = (int) (x + MAX_RADIUS);
+		maxY = (int) (y + MAX_RADIUS);
+		minX = (int) (x - MAX_RADIUS);
+		minY = (int) (y - MAX_RADIUS);
 		
 		// The angle and speed of the projectile
 		angle = Math.atan2(mouseY - y, mouseX - x);

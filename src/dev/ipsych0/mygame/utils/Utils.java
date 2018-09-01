@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class Utils {
 	
+	/**
+	 * Loads the contents of a file as a String
+	 * @param path - location of the file
+	 * @return - Full length String of the file's contents
+	 */
 	public static String loadFileAsString(String path){
 		StringBuilder builder = new StringBuilder();
 		
@@ -21,6 +26,11 @@ public class Utils {
 		return builder.toString();
 	}
 	
+	/**
+	 * Parses Strings to Integers for reading Tiles
+	 * @param number - String parameter to parse
+	 * @return - Returns a number if it's valid, otherwise return a default black tile.
+	 */
 	public static int parseInt(String number){
 		try{
 			return Integer.parseInt(number);

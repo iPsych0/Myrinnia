@@ -26,7 +26,7 @@ public class BankUI implements Serializable{
 	private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
 	private ArrayList<BankTab> tabs = new ArrayList<>();
 	private BankTab openedTab;
-	private int maxTabs = 10;
+	private static final int MAX_TABS = 10;
 	public static boolean inventoryLoaded;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
@@ -42,8 +42,8 @@ public class BankUI implements Serializable{
 		height = 313;
 		
 		// Add all the tabs
-		for(int i = 0; i < maxTabs; i++) {
-			tabs.add(new BankTab(x + (width / 2) - ((maxTabs * 32 / 2)) + (i * 32), y + 32, i));
+		for(int i = 0; i < MAX_TABS; i++) {
+			tabs.add(new BankTab(x + (width / 2) - ((MAX_TABS * 32 / 2)) + (i * 32), y + 32, i));
 		}
 		
 		// Add the inventory slots

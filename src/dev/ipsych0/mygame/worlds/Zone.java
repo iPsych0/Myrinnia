@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public enum Zone implements Serializable{
 	
-	Island("myrinnia.wav"), IslandUnderground("omniscient.wav"), SwampLand("ancient.wav"), TestLand("myrinnia.wav");
+	Island("Island","myrinnia.wav"), IslandUnderground("Island Underground","omniscient.wav"), SwampLand("Swamp Land","ancient.wav"), TestLand("Test Land","myrinnia.wav");
 	
-	String musicFile;
+	private String musicFile;
+	private String name;
 	
-	Zone(String musicFile){
+	Zone(String name, String musicFile){
+		this.name = name;
 		this.musicFile = musicFile;
 	}
 
@@ -19,5 +21,15 @@ public enum Zone implements Serializable{
 	public void setMusicFile(String musicFile) {
 		this.musicFile = musicFile;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 
 }

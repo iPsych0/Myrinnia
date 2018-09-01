@@ -38,7 +38,6 @@ public abstract class World implements Serializable {
 	// Variables
 	protected int width, height;
 	protected int[][][] tiles;
-	protected int spawnX, spawnY;
 	protected String[] layers;
 	private Color night = new Color(0, 13, 35);
 	protected String worldPath;
@@ -66,20 +65,21 @@ public abstract class World implements Serializable {
 	
 	public World(){
 			
-			// World-specific classes
-			this.player = Handler.get().getPlayer();
-			this.inventory = Handler.get().getInventory();
-			this.equipment = Handler.get().getEquipment();
-			this.chatWindow = Handler.get().getChatWindow();
-			this.questManager = Handler.get().getQuestManager();
-			this.characterUI = Handler.get().getCharacterUI();
-			this.skillsUI = Handler.get().getSkillsUI();
-			this.hpOverlay = Handler.get().getHpOverlay();
-			this.abilityManager = Handler.get().getAbilityManager();
-			
-			entityManager = new EntityManager(player);
-			itemManager = new ItemManager();
-			craftingUI = Handler.get().getCraftingUI();
+		// World-specific classes
+		this.player = Handler.get().getPlayer();
+		this.inventory = Handler.get().getInventory();
+		this.equipment = Handler.get().getEquipment();
+		this.chatWindow = Handler.get().getChatWindow();
+		this.questManager = Handler.get().getQuestManager();
+		this.characterUI = Handler.get().getCharacterUI();
+		this.skillsUI = Handler.get().getSkillsUI();
+		this.hpOverlay = Handler.get().getHpOverlay();
+		this.abilityManager = Handler.get().getAbilityManager();
+		this.craftingUI = Handler.get().getCraftingUI();
+		
+		// This is each world's unique manager of Entities & Items
+		entityManager = new EntityManager(player);
+		itemManager = new ItemManager();
 		
 	}
 	

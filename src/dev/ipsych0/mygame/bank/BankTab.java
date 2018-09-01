@@ -23,7 +23,7 @@ public class BankTab implements Serializable{
 	public int x, y, width, height;
 	private Rectangle bounds;
 	private int tabNumber;
-	public static int ROWS = 6, COLS = 5;
+	public static final int ROWS = 6, COLS = 5;
 	private CopyOnWriteArrayList<ItemSlot> bankSlots;
 	private boolean isOpen = false;
 	private boolean hovering = false;

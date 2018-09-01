@@ -65,12 +65,12 @@ public class Handler implements Serializable {
 	private AbilityManager abilityManager;
 	private RecapManager recapManager;
 	private boolean soundMuted = false;
-	public static String worldPath = "res/worlds/island.tmx";
+	public static String initialWorldPath = "res/worlds/island.tmx";
 	
 	private static Handler handler;
 	
 	/*
-	 * Set to true for debug mode
+	 * Flag: Set to true for debug mode
 	 */
 	public static boolean debugMode = false;
 	
@@ -121,36 +121,9 @@ public class Handler implements Serializable {
 				e.printStackTrace();
 				System.exit(0);
 			}
-			if(AudioManager.musicFiles.size() > 0) {
-				if(AudioManager.zone != null) {
-					if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
-						AudioManager.zone = zone;
-						AudioManager.musicFiles.add(new Source());
-						if(AudioManager.musicFiles.size() > 2) {
-							for(int i = 1; i < AudioManager.musicFiles.size() - 1; i++) {
-								AudioManager.musicFiles.get(i).stop();
-							}
-						}else {
-							AudioManager.musicFiles.getFirst().setFadingOut(true);
-						}
-						AudioManager.musicFiles.getLast().setVolume(0.0f);
-						AudioManager.musicFiles.getLast().setFadingIn(true);
-						AudioManager.musicFiles.getLast().setLooping(true);
-						AudioManager.musicFiles.getLast().playMusic(buffer);
-					}else {
-						AudioManager.zone = zone;
-						for(int i = 0; i < AudioManager.musicFiles.size() - 1; i++) {
-							AudioManager.musicFiles.get(i).setFadingOut(true);
-						}
-					}
-				}
-			}else {
-				AudioManager.zone = zone;
-				AudioManager.musicFiles.add(new Source());
-				AudioManager.musicFiles.getLast().setVolume(0.4f);
-				AudioManager.musicFiles.getLast().setLooping(true);
-				AudioManager.musicFiles.getLast().playMusic(buffer);
-			}
+			
+			// Fade from first song to the next
+			AudioManager.fadeSongs(zone, buffer);
 		}
 	}
 	
@@ -169,20 +142,6 @@ public class Handler implements Serializable {
 			AudioManager.soundfxFiles.getLast().setLooping(false);
 			AudioManager.soundfxFiles.getLast().playEffect(buffer);
 			
-			// Move sound from left to right speaker
-//			float xPos = -10f;
-//			while(xPos < 10) {
-//				xPos += 0.03f;
-//				AudioManager.soundfxFiles.getLast().setPosition(xPos, 0);
-//				try {
-//					Thread.sleep(20);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			AudioManager.soundfxFiles.getLast().delete();
-			
 		}
 	}
 	
@@ -190,6 +149,11 @@ public class Handler implements Serializable {
 		this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
 	}
 	
+	/**
+	 * Checks if the player has quest requirements to begin specified quest
+	 * @param quest - The quest to check requirements for
+	 * @return - true if requirements are met, false if not
+	 */
 	public boolean hasQuestReqs(QuestList quest) {
 		Quest q = getQuest(quest);
 		for(int i = 0; i < q.getRequirements().length; i++) {
@@ -208,6 +172,12 @@ public class Handler implements Serializable {
 		return true;
 	}
 	
+	/**
+	 * Go from your current world to the next
+	 * @param zone - The new zone to enter
+	 * @param x - The X position in the new zone
+	 * @param y - The Y position in the new zone
+	 */
 	public void goToWorld(Zone zone, int x, int y) {
 		player.setX(x);
 		player.setY(y);
@@ -227,6 +197,7 @@ public class Handler implements Serializable {
 		return resource;
 	}
 	
+	
 	public boolean playerHasSkillLevel(SkillsList skill, Item item) {
 		SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
 		if(resource != null) {
@@ -243,6 +214,10 @@ public class Handler implements Serializable {
 		return skillsUI.getSkill(skill);
 	}
 	
+	/**
+	 * Unlock the specified recipe result item
+	 * @param item - The resulting item of the recipe to be unlocked
+	 */
 	public void discoverRecipe(Item item) {
 		craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(this, true);
 	}
@@ -250,8 +225,8 @@ public class Handler implements Serializable {
 	public boolean questStarted(QuestList quest) {
 		if(questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
 			return false;
-		else
-			return true;
+		
+		return true;
 	}
 	
 	public Quest getQuest(QuestList quest) {
@@ -286,6 +261,13 @@ public class Handler implements Serializable {
 			getWorld().getItemManager().addItem((item.createUnequippableItem(x, y, amount)));
 		else
 			getWorld().getItemManager().addItem((item.createEquippableItem(x, y, amount)));
+	}
+	
+	public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
+		if(item.getEquipSlot() == EquipSlot.NONE.getSlotId())
+			getWorld().getItemManager().addItem((item.createUnequippableItem(x, y, amount)), despawn);
+		else
+			getWorld().getItemManager().addItem((item.createEquippableItem(x, y, amount)), despawn);
 	}
 	
 	/*

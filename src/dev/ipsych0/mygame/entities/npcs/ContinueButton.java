@@ -19,8 +19,8 @@ public class ContinueButton implements Serializable{
 	public ContinueButton(int x, int y) {
 		this.x = x;
 		this.y = y;
-		width = 100;
-		height = 20;
+		this.width = 100;
+		this.height = 20;
 	}
 	
 	public void tick() {

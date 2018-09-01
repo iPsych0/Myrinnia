@@ -29,9 +29,7 @@ public class Game implements Runnable, Serializable {
 	private static final long serialVersionUID = 1L;
 	private Display display;
 	private int width, height;
-	public String title;
-	public int posX = 0;
-	public int posY = 0;
+	private String title;
 	private int ticks = 0;
 	private int framesPerSecond = 0;
 

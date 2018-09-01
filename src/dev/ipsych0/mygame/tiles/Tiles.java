@@ -15,7 +15,7 @@ public class Tiles {
 	
 	// Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
 	public static Tiles[] tiles = new Tiles[(SpriteSheet.firstGids[SpriteSheet.firstGids.length - 1]
-			+ MapLoader.getTileCount(Handler.worldPath, SpriteSheet.firstGids.length - 1))];
+			+ MapLoader.getTileCount(Handler.initialWorldPath, SpriteSheet.firstGids.length - 1))];
 	
 	/*
 	 * Class data

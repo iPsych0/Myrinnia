@@ -17,7 +17,7 @@ public class SpriteSheet {
 
 	
 	private BufferedImage sheet;
-	public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.worldPath);
+	public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.initialWorldPath);
 	private int imageIndex;
 	private int columns;
 	
@@ -25,8 +25,8 @@ public class SpriteSheet {
 		this.sheet = ImageLoader.loadImage(path);
 		
 		if(tile) {
-			imageIndex = MapLoader.getImageIndex(Handler.worldPath, path);
-			columns = MapLoader.getTileColumns(Handler.worldPath, imageIndex);
+			imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
+			columns = MapLoader.getTileColumns(Handler.initialWorldPath, imageIndex);
 			
 			// Calculate the image width & height
 //			imageWidth = columns * 32;

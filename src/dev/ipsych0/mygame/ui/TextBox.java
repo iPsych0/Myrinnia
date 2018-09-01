@@ -87,7 +87,7 @@ public class TextBox implements KeyListener, Serializable {
 				g.setColor(selected);
 				g.fillRect(x + 2, y, width - 4, height);
 				
-				if(blinkTimer >= 0 && blinkTimer < 30) {
+				if(blinkTimer >= 0 && blinkTimer < 60) {
 					cursor = "|";
 					if(!charactersTyped.isEmpty()) {
 						int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
@@ -96,11 +96,11 @@ public class TextBox implements KeyListener, Serializable {
 						Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 					}
 				}
-				else if(blinkTimer == 30) {
+				else if(blinkTimer == 60) {
 					cursor = "";
 					Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 				}
-				else if(blinkTimer >= 60) {
+				else if(blinkTimer >= 120) {
 					blinkTimer = 0;
 				}
 			}else {

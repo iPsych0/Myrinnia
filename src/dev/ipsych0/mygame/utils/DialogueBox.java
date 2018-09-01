@@ -22,7 +22,7 @@ public class DialogueBox implements Serializable {
 	private String[] answers;
 	private String param = "";
 	private DialogueButton pressedButton = null;
-	private static TextBox tb;
+	private TextBox tb;
 	private String message;
 	private boolean numbersOnly;
 
@@ -49,9 +49,9 @@ public class DialogueBox implements Serializable {
 		if(isOpen) {
 			
 			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			tb.tick();
 			for(DialogueButton db : buttons) {
 				db.tick();
-				tb.tick();
 				
 				if(db.getButtonBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged()) {
 					for(int i = 0; i < buttons.size(); i++) {

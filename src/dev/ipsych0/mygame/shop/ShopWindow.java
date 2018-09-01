@@ -27,11 +27,10 @@ public class ShopWindow implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public int x, y, width, height;
-	private int numCols = 5;
-	private int numRows = 6;
+	private static final int NUM_COLS = 5;
+	private static final int NUM_ROWS = 6;
 	private CopyOnWriteArrayList<ItemSlot> itemSlots, invSlots;
-	private int alpha = 62;
-	private Color selectedColor = new Color(0, 255, 255, alpha);
+	private Color selectedColor = new Color(0, 255, 255, 62);
 	private ItemStack selectedShopItem;
 	private ItemStack selectedInvItem;
 	public static boolean isOpen = false;
@@ -40,42 +39,42 @@ public class ShopWindow implements Serializable {
 	private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;
 	private Rectangle windowBounds;
 	public static boolean makingChoice = false;
-	public static DialogueBox dBox;
+	private DialogueBox dBox;
 	private String[] answers = {"Yes", "No"};
 	private ItemSlot selectedSlot = null;
-	private int dialogueWidth = 300;
-	private int dialogueHeight = 150;
+	private static final int DIALOGUE_WIDTH = 300;
+	private static final int DIALOGUE_HEIGHT = 150;
 	private int restockTimer = 0;
 	private int destockTimer = 0;
 	private int seconds = 60;
 	private int[] defaultStock;
 	private ArrayList<ItemStack> shopItems;
 	public static boolean hasBeenPressed = false;
-	private double commission = 0.75;
+	private static final double COMMISSION = 0.75;
 	public static boolean escapePressed = false;
 
 	
 	public ShopWindow(ArrayList<ItemStack> shopItems) {
 		this.shopItems = shopItems;
-		x = 240;
-		y = 150;
-		width = 460;
-		height = 313;
+		this.x = 240;
+		this.y = 150;
+		this.width = 460;
+		this.height = 313;
 		
 		// Initialize the shop slots and the inventory slots
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		invSlots = new CopyOnWriteArrayList<ItemSlot>();
 		
 		// Add the shop slots
-		for(int i = 0; i < numRows; i++){
-			for(int j = 0; j < numCols; j++){
-				if(j == (numRows)){
+		for(int i = 0; i < NUM_ROWS; i++){
+			for(int j = 0; j < NUM_COLS; j++){
+				if(j == (NUM_ROWS)){
 					x += 8;
 				}
 				
 				itemSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
 				
-				if(j == (numRows)){
+				if(j == (NUM_ROWS)){
 					x -= 8;
 				}
 			}
@@ -91,15 +90,15 @@ public class ShopWindow implements Serializable {
 		}
 		
 		// Add the inventory slots
-		for(int i = 0; i < numRows; i++){
-			for(int j = 0; j < numCols; j++){
-				if(j == (numRows)){
+		for(int i = 0; i < NUM_ROWS; i++){
+			for(int j = 0; j < NUM_COLS; j++){
+				if(j == (NUM_ROWS)){
 					x += 8;
 				}
 				
 				invSlots.add(new ItemSlot(x + (width / 2) + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
 				
-				if(j == (numRows)){
+				if(j == (NUM_ROWS)){
 					x -= 8;
 				}
 			}
@@ -122,38 +121,14 @@ public class ShopWindow implements Serializable {
 		windowBounds = new Rectangle(x, y, width, height);
 		
 		// Instance of the DialogueBox
-		dBox = new DialogueBox(x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
+		dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "Please confirm your trade.", true);
 		
 	}
 	
 	public void tick() {
 		
-		// Keeps a timer before restocking an item or decrementing an item
-		restockTimer++;
-		if(restockTimer >= (seconds * 60)) {
-			for(int i = 0; i < shopItems.size(); i++) {
-				if(itemSlots.get(i).getItemStack() != null) {
-					if(itemSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {
-						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() + 1);
-					}
-					if(itemSlots.get(i).getItemStack().getAmount() > defaultStock[i]) {
-						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
-					}
-				}
-			}
-			restockTimer = 0;
-		}
-		
-		// Keeps a timer before destocking non-stock items.
-		destockTimer++;
-		if(destockTimer >= (seconds * 180)) {
-			for(int i = defaultStock.length; i < itemSlots.size(); i++) {
-				if(itemSlots.get(i).getItemStack() != null)
-					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
-			}
-			destockTimer = 0;
-			clearNonStockItems();
-		}
+		// Restock shop
+		restock();
 		
 		if(isOpen) {
 			
@@ -169,284 +144,17 @@ public class ShopWindow implements Serializable {
 		
 			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
 			
-			/*
-			 * Buy 1 Button onClick
-			 */
-			if(buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
-				buyItem();
-				hasBeenPressed = false;
-				return;
-			}
+			// Handles any UI button logic
+			handleButtonClick(mouse);
 			
-			/*
-			 * Sell 1 Button onClick
-			 */
-			if(sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-				sellItem();
-				hasBeenPressed = false;
-				return;
-			}
+			// Checks if shop is closed
+			handleShopExit(mouse);
 			
-			/*
-			 * Buy All Button onClick
-			 */
-			if(buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
-				makingChoice = true;
-				DialogueBox.isOpen = true;
-				TextBox.isOpen = false;
-				dBox.setParam("BuyAll");
-				hasBeenPressed = false;
-				return;
-			}
+			submitShopRequest();
 			
-			/*
-			 * Sell All Button onClick
-			 */
-			if(sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-				makingChoice = true;
-				DialogueBox.isOpen = true;
-				TextBox.isOpen = false;
-				dBox.setParam("SellAll");
-				hasBeenPressed = false;
-				return;
-			}
-			
-			/*
-			 * Buy X Button onClick
-			 */
-			if(buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
-				makingChoice = true;
-				DialogueBox.isOpen = true;
-				TextBox.isOpen = true;
-				dBox.setParam("BuyX");
-				hasBeenPressed = false;
-				return;
-			}
-			
-			/*
-			 * Sell X Button onClick
-			 */
-			if(sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-				makingChoice = true;
-				DialogueBox.isOpen = true;
-				TextBox.isOpen = true;
-				dBox.setParam("SellX");
-				hasBeenPressed = false;
-				return;
-			}
-			
-			/*
-			 * Closing the shop by click/escape/walking away
-			 */
-			if(exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Player.isMoving) {
-				isOpen = false;
-				inventoryLoaded = false;
-				DialogueBox.isOpen = false;
-				TextBox.isOpen = false;
-				Handler.get().getKeyManager().setTextBoxTyping(false);
-				hasBeenPressed = false;
-				selectedSlot = null;
-				selectedInvItem = null;
-				selectedShopItem = null;
-				makingChoice = false;
-				dBox.setPressedButton(null);
-				InventoryWindow.isOpen = true;
-				EquipmentWindow.isOpen = true;
-				return;
-			}
-			
-			if(Handler.get().getKeyManager().escape && makingChoice && escapePressed) {
-				escapePressed = false;
-				inventoryLoaded = false;
-				DialogueBox.isOpen = false;
-				TextBox.isOpen = false;
-				Handler.get().getKeyManager().setTextBoxTyping(false);
-				hasBeenPressed = false;
-				makingChoice = false;
-				dBox.setPressedButton(null);
-				return;
-			}
-			else if(Handler.get().getKeyManager().escape && !makingChoice && escapePressed) {
-				escapePressed = false;
-				isOpen = false;
-				inventoryLoaded = false;
-				DialogueBox.isOpen = false;
-				TextBox.isOpen = false;
-				Handler.get().getKeyManager().setTextBoxTyping(false);
-				hasBeenPressed = false;
-				selectedSlot = null;
-				selectedInvItem = null;
-				selectedShopItem = null;
-				makingChoice = false;
-				dBox.setPressedButton(null);
-				InventoryWindow.isOpen = true;
-				EquipmentWindow.isOpen = true;
-				return;
-			}
-			
-			// If the dialoguebox is open and player is making a choice
-			if(makingChoice && dBox.getPressedButton() != null) {
-				if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
-					// If the user has typed in an amount and confirmed the trade per button, buy the item
-					if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
-						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-					}
-					// If the user has typed in an amount and confirmed the trade per button, sell the item
-					else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
-						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-					}
-				}
-				// If the user has typed in an amount and confirmed the trade per button, buy the item
-				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyAll") {
-					buyAllItem();
-				}
-				// If the user has typed in an amount and confirmed the trade per button, sell the item
-				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellAll") {
-					sellAllItem();
-				}
+			tickShopSlots(mouse);
 				
-				dBox.setPressedButton(null);
-				dBox.getTextBox().getSb().setLength(0);
-				dBox.getTextBox().setIndex(0);
-				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-//				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
-				DialogueBox.isOpen = false;
-				TextBox.isOpen = false;
-				Handler.get().getKeyManager().setTextBoxTyping(false);
-				makingChoice = false;
-				hasBeenPressed = false;
-			}
-			
-			if(TextBox.enterPressed && makingChoice) {
-				// If enter is pressed while making choice, this means a positive response ("Yes")
-				dBox.setPressedButton(dBox.getButtons().get(0));
-				dBox.getPressedButton().getButtonParam()[0] = "Yes";
-				dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
-				
-				// Buy X item
-				if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "BuyX") {
-					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
-						buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-					}
-				}
-				//Sell X item
-				else if(dBox.getPressedButton().getButtonParam()[0] == "Yes" && dBox.getPressedButton().getButtonParam()[1] == "SellX") {
-					if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
-						sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-					}
-				}
-				
-				dBox.setPressedButton(null);
-				dBox.getTextBox().getSb().setLength(0);
-				dBox.getTextBox().setIndex(0);
-				dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-//				dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
-				DialogueBox.isOpen = false;
-				TextBox.enterPressed = false;
-				Handler.get().getKeyManager().setTextBoxTyping(false);
-				makingChoice = false;
-				hasBeenPressed = false;
-			}
-			
-			for(ItemSlot is : itemSlots) {
-				is.tick();
-				
-				
-				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
-				
-				// If left-clicked, select an item
-				if(slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
-					if(is.getItemStack() != null) {
-						if(selectedShopItem == null) {
-							selectedInvItem = null;
-							selectedSlot = is;
-							selectedShopItem = is.getItemStack();
-							tradeSlot.setItemStack(selectedShopItem);
-							hasBeenPressed = false;
-							return;
-						}
-						// If we already have this item selected, deselect it
-						else if(selectedShopItem == is.getItemStack()) {
-							selectedSlot = null;
-							selectedInvItem = null;
-							selectedShopItem = null;
-							tradeSlot.setItemStack(null);
-							hasBeenPressed = false;
-							return;
-						}
-						// If clicked on a different item than the currently selected one, select new item
-						else if(selectedShopItem != is.getItemStack()) {
-							selectedSlot = is;
-							selectedInvItem = null;
-							selectedShopItem = is.getItemStack();
-							tradeSlot.setItemStack(selectedShopItem);
-							hasBeenPressed = false;
-							return;
-						}
-						// Otherwise, deselect current selected item
-					}else {
-						selectedSlot = null;
-						selectedInvItem = null;
-						selectedShopItem = null;
-						tradeSlot.setItemStack(null);
-						hasBeenPressed = false;
-						return;
-					}
-				}
-			}
-				
-			for(ItemSlot is : invSlots) {
-				is.tick();
-				
-				Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
-				
-				if(slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
-					if(is.getItemStack() != null) {
-						// If the price = -1, item cannot be sold
-						if(is.getItemStack().getItem().getPrice() <= -1) {
-							Handler.get().sendMsg("You cannot sell this item.");
-							hasBeenPressed = false;
-							return;
-						}
-						// Select an item
-						if(selectedInvItem == null) {
-							selectedSlot = is;
-							selectedShopItem = null;
-							selectedInvItem = is.getItemStack();
-							tradeSlot.setItemStack(selectedInvItem);
-							hasBeenPressed = false;
-							return;
-						}
-						// If we already have this item selected, deselect it
-						else if(selectedInvItem == is.getItemStack()) {
-							selectedSlot = null;
-							selectedShopItem = null;
-							selectedInvItem = null;
-							tradeSlot.setItemStack(null);
-							hasBeenPressed = false;
-							return;
-						}
-						// If clicked on a different item than the currently selected one, select new item
-						else if(selectedInvItem != is.getItemStack()) {
-							selectedSlot = is;
-							selectedShopItem = null;
-							selectedInvItem = is.getItemStack();
-							tradeSlot.setItemStack(selectedInvItem);
-							hasBeenPressed = false;
-							return;
-						}
-						// Otherwise, deselect current selected item
-					}else {
-						selectedSlot = null;
-						selectedShopItem = null;
-						selectedInvItem = null;
-						tradeSlot.setItemStack(null);
-						hasBeenPressed = false;
-						return;
-					}
-				}
-				
-			}
+			tickInventory(mouse);
 			
 			tradeSlot.tick();
 			
@@ -520,7 +228,7 @@ public class ShopWindow implements Serializable {
 			Text.drawString(g, "Inventory", x + 81 + (width / 2) + 32, y + 36, true, Color.YELLOW, Assets.font14);
 			
 			if(selectedInvItem != null)
-				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + (int)Math.floor((selectedInvItem.getItem().getPrice() * commission)) * selectedInvItem.getAmount() + " coins. (" + (int)Math.floor((selectedInvItem.getItem().getPrice() * commission)) + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
+				Text.drawString(g, selectedInvItem.getAmount() + " " + selectedInvItem.getItem().getName() + " will get you: " + (int)Math.floor((selectedInvItem.getItem().getPrice() * COMMISSION)) * selectedInvItem.getAmount() + " coins. (" + (int)Math.floor((selectedInvItem.getItem().getPrice() * COMMISSION)) + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 			if(selectedShopItem != null)
 				Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins. (" + selectedShopItem.getItem().getPrice() + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 			
@@ -531,6 +239,324 @@ public class ShopWindow implements Serializable {
 			
 			if(makingChoice)
 				dBox.render(g);
+		}
+	}
+	
+	private void handleShopExit(Rectangle mouse) {
+		if(exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Player.isMoving) {
+			isOpen = false;
+			inventoryLoaded = false;
+			DialogueBox.isOpen = false;
+			TextBox.isOpen = false;
+			Handler.get().getKeyManager().setTextBoxTyping(false);
+			hasBeenPressed = false;
+			selectedSlot = null;
+			selectedInvItem = null;
+			selectedShopItem = null;
+			makingChoice = false;
+			dBox.setPressedButton(null);
+			InventoryWindow.isOpen = true;
+			EquipmentWindow.isOpen = true;
+			return;
+		}
+		
+		if(Handler.get().getKeyManager().escape && makingChoice && escapePressed) {
+			escapePressed = false;
+			inventoryLoaded = false;
+			DialogueBox.isOpen = false;
+			TextBox.isOpen = false;
+			Handler.get().getKeyManager().setTextBoxTyping(false);
+			hasBeenPressed = false;
+			makingChoice = false;
+			dBox.setPressedButton(null);
+			return;
+		}
+		else if(Handler.get().getKeyManager().escape && !makingChoice && escapePressed) {
+			escapePressed = false;
+			isOpen = false;
+			inventoryLoaded = false;
+			DialogueBox.isOpen = false;
+			TextBox.isOpen = false;
+			Handler.get().getKeyManager().setTextBoxTyping(false);
+			hasBeenPressed = false;
+			selectedSlot = null;
+			selectedInvItem = null;
+			selectedShopItem = null;
+			makingChoice = false;
+			dBox.setPressedButton(null);
+			InventoryWindow.isOpen = true;
+			EquipmentWindow.isOpen = true;
+			return;
+		}
+	}
+
+	private void handleButtonClick(Rectangle mouse) {
+		/*
+		 * Buy 1 Button onClick
+		 */
+		if(buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+			buyItem();
+			hasBeenPressed = false;
+			return;
+		}
+		
+		/*
+		 * Sell 1 Button onClick
+		 */
+		if(sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+			sellItem();
+			hasBeenPressed = false;
+			return;
+		}
+		
+		/*
+		 * Buy All Button onClick
+		 */
+		if(buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+			makingChoice = true;
+			DialogueBox.isOpen = true;
+			TextBox.isOpen = false;
+			dBox.setParam("BuyAll");
+			hasBeenPressed = false;
+			return;
+		}
+		
+		/*
+		 * Sell All Button onClick
+		 */
+		if(sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+			makingChoice = true;
+			DialogueBox.isOpen = true;
+			TextBox.isOpen = false;
+			dBox.setParam("SellAll");
+			hasBeenPressed = false;
+			return;
+		}
+		
+		/*
+		 * Buy X Button onClick
+		 */
+		if(buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null){
+			makingChoice = true;
+			DialogueBox.isOpen = true;
+			TextBox.isOpen = true;
+			dBox.setParam("BuyX");
+			hasBeenPressed = false;
+			return;
+		}
+		
+		/*
+		 * Sell X Button onClick
+		 */
+		if(sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+			makingChoice = true;
+			DialogueBox.isOpen = true;
+			TextBox.isOpen = true;
+			dBox.setParam("SellX");
+			hasBeenPressed = false;
+			return;
+		}
+	}
+
+	private void restock() {
+		// Keeps a timer before restocking an item or decrementing an item
+		restockTimer++;
+		if(restockTimer >= (seconds * 60)) {
+			for(int i = 0; i < shopItems.size(); i++) {
+				if(itemSlots.get(i).getItemStack() != null) {
+					if(itemSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {
+						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() + 1);
+					}
+					if(itemSlots.get(i).getItemStack().getAmount() > defaultStock[i]) {
+						itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+					}
+				}
+			}
+			restockTimer = 0;
+		}
+		
+		// Keeps a timer before destocking non-stock items.
+		destockTimer++;
+		if(destockTimer >= (seconds * 180)) {
+			for(int i = defaultStock.length; i < itemSlots.size(); i++) {
+				if(itemSlots.get(i).getItemStack() != null)
+					itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+			}
+			destockTimer = 0;
+			clearNonStockItems();
+		}
+	}
+	
+	private void submitShopRequest() {
+		// If the dialoguebox is open and player is making a choice
+		if(makingChoice && dBox.getPressedButton() != null) {
+			if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+				// If the user has typed in an amount and confirmed the trade per button, buy the item
+				if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+						"BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+					buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+				// If the user has typed in an amount and confirmed the trade per button, sell the item
+				else if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+						"SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+					sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+				}
+			}
+			// If the user has typed in an amount and confirmed the trade per button, buy the item
+			if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+					"BuyAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+				buyAllItem();
+			}
+			// If the user has typed in an amount and confirmed the trade per button, sell the item
+			else if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+					"SellAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+				sellAllItem();
+			}
+			
+			dBox.setPressedButton(null);
+			dBox.getTextBox().getSb().setLength(0);
+			dBox.getTextBox().setIndex(0);
+			dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
+//			dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
+			DialogueBox.isOpen = false;
+			TextBox.isOpen = false;
+			Handler.get().getKeyManager().setTextBoxTyping(false);
+			makingChoice = false;
+			hasBeenPressed = false;
+		}
+		
+		if(TextBox.enterPressed && makingChoice) {
+			// If enter is pressed while making choice, this means a positive response ("Yes")
+			dBox.setPressedButton(dBox.getButtons().get(0));
+			dBox.getPressedButton().getButtonParam()[0] = "Yes";
+			dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
+			
+			// If the user has typed in an amount and confirmed the trade per button, buy the item
+			if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+					"BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+				buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+			}
+			// If the user has typed in an amount and confirmed the trade per button, sell the item
+			else if("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+					"SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+				sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+			}
+			
+			dBox.setPressedButton(null);
+			dBox.getTextBox().getSb().setLength(0);
+			dBox.getTextBox().setIndex(0);
+			dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
+			DialogueBox.isOpen = false;
+			TextBox.enterPressed = false;
+			Handler.get().getKeyManager().setTextBoxTyping(false);
+			makingChoice = false;
+			hasBeenPressed = false;
+		}
+	}
+	
+	private void tickShopSlots(Rectangle mouse) {
+		// Tick shop slots
+		for(ItemSlot is : itemSlots) {
+			is.tick();
+			
+			
+			Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+			
+			// If left-clicked, select an item
+			if(slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+				if(is.getItemStack() != null) {
+					if(selectedShopItem == null) {
+						selectedInvItem = null;
+						selectedSlot = is;
+						selectedShopItem = is.getItemStack();
+						tradeSlot.setItemStack(selectedShopItem);
+						hasBeenPressed = false;
+						return;
+					}
+					// If we already have this item selected, deselect it
+					else if(selectedShopItem == is.getItemStack()) {
+						selectedSlot = null;
+						selectedInvItem = null;
+						selectedShopItem = null;
+						tradeSlot.setItemStack(null);
+						hasBeenPressed = false;
+						return;
+					}
+					// If clicked on a different item than the currently selected one, select new item
+					else if(selectedShopItem != is.getItemStack()) {
+						selectedSlot = is;
+						selectedInvItem = null;
+						selectedShopItem = is.getItemStack();
+						tradeSlot.setItemStack(selectedShopItem);
+						hasBeenPressed = false;
+						return;
+					}
+					// Otherwise, deselect current selected item
+				}else {
+					selectedSlot = null;
+					selectedInvItem = null;
+					selectedShopItem = null;
+					tradeSlot.setItemStack(null);
+					hasBeenPressed = false;
+					return;
+				}
+			}
+		}
+	}
+	
+	private void tickInventory(Rectangle mouse) {
+		// Tick inventory slots
+		for(ItemSlot is : invSlots) {
+			is.tick();
+			
+			Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+			
+			if(slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+				if(is.getItemStack() != null) {
+					// If the price = -1, item cannot be sold
+					if(is.getItemStack().getItem().getPrice() <= -1) {
+						Handler.get().sendMsg("You cannot sell this item.");
+						hasBeenPressed = false;
+						return;
+					}
+					// Select an item
+					if(selectedInvItem == null) {
+						selectedSlot = is;
+						selectedShopItem = null;
+						selectedInvItem = is.getItemStack();
+						tradeSlot.setItemStack(selectedInvItem);
+						hasBeenPressed = false;
+						return;
+					}
+					// If we already have this item selected, deselect it
+					else if(selectedInvItem == is.getItemStack()) {
+						selectedSlot = null;
+						selectedShopItem = null;
+						selectedInvItem = null;
+						tradeSlot.setItemStack(null);
+						hasBeenPressed = false;
+						return;
+					}
+					// If clicked on a different item than the currently selected one, select new item
+					else if(selectedInvItem != is.getItemStack()) {
+						selectedSlot = is;
+						selectedShopItem = null;
+						selectedInvItem = is.getItemStack();
+						tradeSlot.setItemStack(selectedInvItem);
+						hasBeenPressed = false;
+						return;
+					}
+					// Otherwise, deselect current selected item
+				}else {
+					selectedSlot = null;
+					selectedShopItem = null;
+					selectedInvItem = null;
+					tradeSlot.setItemStack(null);
+					hasBeenPressed = false;
+					return;
+				}
+			}
+			
 		}
 	}
 	
@@ -599,7 +625,7 @@ public class ShopWindow implements Serializable {
 			if(Handler.get().playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
-					Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
+					Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					inventoryLoaded = false;
 					
@@ -690,7 +716,7 @@ public class ShopWindow implements Serializable {
 			while(Handler.get().playerHasItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount())) {
 				if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 					Handler.get().removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
-					Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * tradeSlot.getItemStack().getAmount()));
+					Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * tradeSlot.getItemStack().getAmount()));
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					inventoryLoaded = false;
 				}else {
@@ -795,7 +821,7 @@ public class ShopWindow implements Serializable {
 				if(Handler.get().playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
 					if(findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
 						Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
-						Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * commission)) * 1));
+						Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
 						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					}else {
 						Handler.get().sendMsg("You cannot sell any more items to the shop.");
