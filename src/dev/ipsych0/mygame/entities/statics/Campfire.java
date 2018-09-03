@@ -1,22 +1,14 @@
 package dev.ipsych0.mygame.entities.statics;
 
-import java.awt.AWTException;
 import java.awt.Graphics;
-import java.awt.HeadlessException;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.gfx.ScreenShot;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
 import dev.ipsych0.mygame.quests.QuestList;
-import dev.ipsych0.mygame.recap.RecapEvent;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Campfire extends StaticEntity {

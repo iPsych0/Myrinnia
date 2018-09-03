@@ -57,6 +57,7 @@ public class RecapEvent implements Serializable {
 
         out.writeInt(buffer.size()); // Prepend image with byte count
         buffer.writeTo(out);         // Write image
+        buffer.close();
 	}
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -66,7 +67,9 @@ public class RecapEvent implements Serializable {
         byte[] buffer = new byte[size];
         in.readFully(buffer); // Make sure you read all bytes of the image
 
-        this.img = ImageIO.read(new ByteArrayInputStream(buffer));
+        ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+        this.img = ImageIO.read(is);
+        is.close();
     }
 
 }

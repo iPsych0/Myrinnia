@@ -1,7 +1,6 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,7 +31,7 @@ public class ItemManager implements Serializable{
 			
 			// Checks player's position for any items nearby to pick up
 			if(Handler.get().getMouseManager().isRightPressed() && Handler.get().getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
-				if(!Handler.get().getPlayer().hasRightClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
+				if(!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
 					if(i.pickUpItem(i)){
 						if(i.isPickedUp()){
 							deleted.add(i);

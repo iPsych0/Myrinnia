@@ -19,7 +19,6 @@ import dev.ipsych0.mygame.states.PauseState;
 import dev.ipsych0.mygame.states.RecapState;
 import dev.ipsych0.mygame.states.SettingState;
 import dev.ipsych0.mygame.states.State;
-import dev.ipsych0.mygame.utils.SaveManager;
 
 public class Game implements Runnable, Serializable {
 

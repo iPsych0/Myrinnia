@@ -77,7 +77,7 @@ public class ControlsState extends State {
 				loaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(UIObject o : uiManager.getObjects()) {
 				if(o.getBounds().contains(mouse)) {

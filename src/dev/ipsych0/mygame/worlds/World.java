@@ -23,7 +23,6 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
-import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.MapLoader;
 import dev.ipsych0.mygame.utils.Text;

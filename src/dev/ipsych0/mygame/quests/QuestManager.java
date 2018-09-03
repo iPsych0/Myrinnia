@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.worlds.Zone;
 

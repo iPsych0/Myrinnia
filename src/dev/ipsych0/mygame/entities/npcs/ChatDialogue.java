@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -46,7 +47,7 @@ public class ChatDialogue implements Serializable{
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(menuOptions.length > 1) {
 			for(ChatOptions option : chatOptions) {

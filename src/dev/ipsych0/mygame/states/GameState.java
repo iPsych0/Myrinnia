@@ -19,7 +19,6 @@ public class GameState extends State{
 		super();
 		// Setup new game world
 		Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.Island));
-		myFont = new Font("SansSerif", Font.BOLD, 12);
 		
 	}
 	

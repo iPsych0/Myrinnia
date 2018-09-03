@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame.input;
 
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -33,6 +34,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 	private int mouseX, mouseY;
 	private UIManager uiManager;
 	private int mouseMovedTimer;
+	private Rectangle mouseCoords;
 
 	public MouseManager(){
 		
@@ -100,7 +102,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 		// Right Click
 		if(e.getButton() == MouseEvent.BUTTON3){
 			rightPressed = true;
-			InventoryWindow.isEquipped = true;
+			InventoryWindow.equipPressed = true;
 			CraftingUI.craftResultPressed = true;
 			EntityManager.isPressed = false;
 			BankUI.hasBeenPressed = true;
@@ -163,6 +165,14 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 
 	public void setLeftPressed(boolean leftPressed) {
 		this.leftPressed = leftPressed;
+	}
+
+	public Rectangle getMouseCoords() {
+		return mouseCoords;
+	}
+
+	public void setMouseCoords(Rectangle mouseCoords) {
+		this.mouseCoords = mouseCoords;
 	}
 
 }

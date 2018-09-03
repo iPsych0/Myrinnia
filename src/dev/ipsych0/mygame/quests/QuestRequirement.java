@@ -2,7 +2,6 @@ package dev.ipsych0.mygame.quests;
 
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.skills.Skill;
 import dev.ipsych0.mygame.skills.SkillsList;
 
 public class QuestRequirement implements Serializable{

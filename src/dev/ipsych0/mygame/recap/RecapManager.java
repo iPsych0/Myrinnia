@@ -1,10 +1,7 @@
 package dev.ipsych0.mygame.recap;
 
-import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
-
-import dev.ipsych0.mygame.Handler;
 
 public class RecapManager implements Serializable {
 	

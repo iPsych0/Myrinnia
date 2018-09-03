@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import javax.print.DocFlavor.CHAR_ARRAY;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -45,7 +43,7 @@ public class CharacterUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(Handler.get().getKeyManager().escape && escapePressed) {
 				isOpen = false;
@@ -103,7 +101,7 @@ public class CharacterUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			Text.drawString(g, "Character stats:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			

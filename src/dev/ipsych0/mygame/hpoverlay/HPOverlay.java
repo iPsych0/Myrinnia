@@ -62,7 +62,7 @@ public class HPOverlay implements Serializable {
 	
 	public void render(Graphics g) {
 		
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		// Draw the bars
 		g.drawImage(Assets.genericButton[0], bounds.x, bounds.y, bounds.width, bounds.height, null);

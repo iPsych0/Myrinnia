@@ -142,7 +142,7 @@ public class ShopWindow implements Serializable {
 				inventoryLoaded = true;
 			}
 		
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			// Handles any UI button logic
 			handleButtonClick(mouse);
@@ -169,8 +169,8 @@ public class ShopWindow implements Serializable {
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
-
+			Rectangle mouse = Handler.get().getMouse();
+			
 			// Buy/sell 1
 			if(buy1Button.contains(mouse))
 				g.drawImage(Assets.genericButton[0], buy1Button.x, buy1Button.y, buy1Button.width, buy1Button.height, null);

@@ -72,8 +72,7 @@ public class SkillsUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
-			
+			Rectangle mouse = Handler.get().getMouse();			
 
 			if(bountyHunter.contains(mouse)) {
 				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -178,7 +177,7 @@ public class SkillsUI implements Serializable{
 			
 			overviewUI.render(g);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			

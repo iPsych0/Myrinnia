@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
@@ -47,6 +48,7 @@ public abstract class Entity implements Serializable{
 	protected boolean inCombat = false;
 	protected int combatTimer = 0;
 	protected int respawnTimer = 600;
+	protected Rectangle collision;
 	
 	public Entity(float x, float y, int width, int height){
 		this.x = x;
@@ -56,6 +58,7 @@ public abstract class Entity implements Serializable{
 		health = DEFAULT_HEALTH;
 		
 		bounds = new Rectangle(0, 0, width, height);
+		collision = new Rectangle((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
 	}
 	
 	// Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
@@ -241,7 +244,8 @@ public abstract class Entity implements Serializable{
 	 * Returns the collision bounds of an Entity
 	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int)Math.round((x + bounds.x + xOffset)), (int)Math.round((y + bounds.y + yOffset)), bounds.width, bounds.height);
+		collision.setBounds((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
+		return collision;
 	}
 	
 	// Getters & Setters

@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.SpriteSheet;
 import dev.ipsych0.mygame.utils.MapLoader;
 

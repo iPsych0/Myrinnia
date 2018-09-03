@@ -1,6 +1,5 @@
 package dev.ipsych0.mygame.skills;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.items.Item;
 
 public class WoodcuttingSkill extends Skill {

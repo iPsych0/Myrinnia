@@ -40,7 +40,7 @@ public class SkillsOverviewUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(selectedSkill != null) {
 				scrollBar.tick();
@@ -105,8 +105,8 @@ public class SkillsOverviewUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
-
+			Rectangle mouse = Handler.get().getMouse();
+			
 			if(selectedSkill != null) {
 				Text.drawString(g, selectedSkill.toString(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 				int yPos = 0;

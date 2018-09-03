@@ -4,12 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -18,7 +17,6 @@ import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class AudioManager {
@@ -116,6 +114,12 @@ public class AudioManager {
 		  WaveData waveFile = WaveData.create(is);
 		  AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
 		  waveFile.dispose();
+		  try {
+			is.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		  return buffer;
 	 }
 	

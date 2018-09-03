@@ -1,7 +1,7 @@
 package dev.ipsych0.mygame.entities.npcs;
 
 import java.util.ArrayList;
-import dev.ipsych0.mygame.Handler;
+
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.shop.ShopWindow;

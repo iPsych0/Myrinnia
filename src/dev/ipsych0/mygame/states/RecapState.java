@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.states;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -33,7 +32,7 @@ public class RecapState extends State {
 			Handler.get().playMusic(Handler.get().getPlayer().getZone());
 			return;
 		}else {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			if(continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
 				if(index == Handler.get().getRecapManager().getEvents().size() - 1) {
 					State.setState(new UITransitionState(Handler.get().getGame().gameState));
@@ -55,7 +54,7 @@ public class RecapState extends State {
 	@Override
 	public void render(Graphics g) {
 		if(Handler.get().getRecapManager().getEvents().size() > 0) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			RecapEvent event = Handler.get().getRecapManager().getEvents().get(index);
 			g.drawImage(event.getImg(), 0, 0, event.getImg().getWidth(), event.getImg().getHeight(), null);

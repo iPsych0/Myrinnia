@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.crafting;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;

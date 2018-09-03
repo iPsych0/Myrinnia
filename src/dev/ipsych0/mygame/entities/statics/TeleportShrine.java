@@ -3,13 +3,10 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.SaveManager;
-import dev.ipsych0.mygame.worlds.World;
 
 public class TeleportShrine extends StaticEntity {
 	

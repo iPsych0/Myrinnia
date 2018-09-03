@@ -30,6 +30,7 @@ public class Tree extends StaticEntity {
 		
 		isNpc = true;
 		attackable = false;
+		
 	}
 
 	@Override

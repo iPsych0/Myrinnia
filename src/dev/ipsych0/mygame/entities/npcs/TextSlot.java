@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;

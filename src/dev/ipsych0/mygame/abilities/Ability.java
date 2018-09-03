@@ -58,7 +58,7 @@ public abstract class Ability implements Serializable {
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		if(isSelectable() && isSelected()) {
 				if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 					setSelected(false);

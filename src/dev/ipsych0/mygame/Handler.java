@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -36,7 +37,6 @@ import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.states.ZoneTransitionState;
-import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
@@ -172,6 +172,16 @@ public class Handler implements Serializable {
 		return true;
 	}
 	
+	public Rectangle getMouse() {
+		if(getMouseManager().getMouseCoords() != null) {
+			getMouseManager().getMouseCoords().setLocation(getMouseManager().getMouseX(), getMouseManager().getMouseY());
+			return getMouseManager().getMouseCoords();
+		}else {
+			getMouseManager().setMouseCoords(new Rectangle(getMouseManager().getMouseX(), getMouseManager().getMouseY(), 1, 1));
+			return getMouseManager().getMouseCoords();
+		}
+	}
+	
 	/**
 	 * Go from your current world to the next
 	 * @param zone - The new zone to enter
@@ -182,6 +192,7 @@ public class Handler implements Serializable {
 		player.setX(x);
 		player.setY(y);
 		player.setZone(zone);
+		getWorld().getEntityManager().setSelectedEntity(null);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
 		ZoneTransitionState transitionState = new ZoneTransitionState(zone);
@@ -294,13 +305,32 @@ public class Handler implements Serializable {
 	 * @params: Provide the item and the amount to be added
 	 */
 	public void giveItem(Item item, int amount) {
-		if(getInventory().findFreeSlot(item) == -1) {
-			sendMsg("The item(s) were dropped to the floor.");
-			dropItem(item, amount, (int)player.getX(), (int)player.getY());
-		} else{
-			getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
-		}
+		if(!item.isStackable()) {
+			if(getInventory().findFreeSlot(item) == -1) {
+				if(amount >= 1) {
+					dropItem(item, amount, (int)player.getX(), (int)player.getY());
+					if(amount != 1)
+						giveItem(item, (amount-1));
+					else
+						sendMsg("The item(s) were dropped to the floor.");
+				}
+			} else{
+				if(amount >= 1) {
+					getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
+					giveItem(item, (amount-1));
+				}
+			}
+		}else {
+			if(getInventory().findFreeSlot(item) == -1) {
+				dropItem(item, amount, (int)player.getX(), (int)player.getY());				
+				sendMsg("The item(s) were dropped to the floor.");
+			} else{
+				getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
+				
+			}
+		}	
 	}
+	
 	
 	/*
 	 * Removes an item + quantity from the inventory.

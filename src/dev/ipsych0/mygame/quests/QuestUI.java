@@ -62,7 +62,7 @@ public class QuestUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(!renderingQuests) {
 				Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);

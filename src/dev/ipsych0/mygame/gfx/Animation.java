@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 
 public class Animation implements Serializable {
@@ -54,13 +55,14 @@ public class Animation implements Serializable {
 	    out.defaultWriteObject();
 	    out.writeInt(frames.length); // how many images are serialized?
 
+	    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 	    for (BufferedImage eachImage : frames) {
-	        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 	        ImageIO.write(eachImage, "png", buffer);
 
 	        out.writeInt(buffer.size()); // Prepend image with byte count
 	        buffer.writeTo(out);         // Write image
 	    }
+	    buffer.close();
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -68,14 +70,18 @@ public class Animation implements Serializable {
 
 	    int imageCount = in.readInt();
 	    this.frames = new BufferedImage[imageCount];
+	    
+	    int size = in.readInt(); // Read byte count
+	    byte[] buffer = new byte[size];
+	    ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+	    
 	    for (int i = 0; i < imageCount; i++) {
-	        int size = in.readInt(); // Read byte count
-
-	        byte[] buffer = new byte[size];
 	        in.readFully(buffer); // Make sure you read all bytes of the image
 
-	        this.frames[i] = ImageIO.read(new ByteArrayInputStream(buffer));
+	        this.frames[i] = ImageIO.read(is);
+	        
 	    }
+	    is.close();
 	}
 
 }

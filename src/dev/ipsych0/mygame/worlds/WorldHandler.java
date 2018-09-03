@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.skills.SkillsList;
-
 public class WorldHandler implements Serializable{
 	/**
 	 * 
@@ -30,8 +27,8 @@ public class WorldHandler implements Serializable{
 	
 	private void initWorlds() {
 		// Add new worlds here
-		addWorld(new TestLand("res/worlds/testmap2.tmx"));
-		addWorld(new SwampLand("res/worlds/testmap.tmx"));
+//		addWorld(new TestLand("res/worlds/testmap2.tmx"));
+//		addWorld(new SwampLand("res/worlds/testmap.tmx"));
 		addWorld(new IslandUnderground("res/worlds/island_indoors.tmx"));
 		
 		try {
@@ -46,7 +43,7 @@ public class WorldHandler implements Serializable{
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			System.err.println("ERROR: World enum / World class not found!");
+			System.err.println("ERROR: World enum / World class match not found!");
 		}
 		
 	}

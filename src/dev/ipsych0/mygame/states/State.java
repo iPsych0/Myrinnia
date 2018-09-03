@@ -3,8 +3,6 @@ package dev.ipsych0.mygame.states;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.Handler;
-
 public abstract class State implements Serializable{
 	
 	/**

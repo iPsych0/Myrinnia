@@ -110,7 +110,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(pressedKey != '\u0000') {
 			// If 0-9 key is pressed, handle the key pressed.
@@ -135,7 +135,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		int index = 0;
 		for(AbilitySlot as : slottedAbilities) {

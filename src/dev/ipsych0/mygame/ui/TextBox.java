@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -48,7 +49,7 @@ public class TextBox implements KeyListener, Serializable {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {

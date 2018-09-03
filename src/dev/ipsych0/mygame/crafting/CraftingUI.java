@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -98,7 +99,7 @@ public class CraftingUI implements Serializable{
 			crs.tick();
 			cb.tick();
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(previewImg.contains(mouse)) {
 				hovering = true;

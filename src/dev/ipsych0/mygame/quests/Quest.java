@@ -3,7 +3,6 @@ package dev.ipsych0.mygame.quests;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;

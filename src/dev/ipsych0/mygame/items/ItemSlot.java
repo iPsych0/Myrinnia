@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.GameState;
 
 public class ItemSlot implements Serializable {
 

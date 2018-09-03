@@ -16,7 +16,6 @@ public class UITransitionState extends AbstractTransitionState {
 	private State newState;
 
 	public UITransitionState(State newState) {
-		super();
 		this.newState = newState;
 	}
 

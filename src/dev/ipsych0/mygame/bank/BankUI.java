@@ -79,7 +79,7 @@ public class BankUI implements Serializable{
 				inventoryLoaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1 ,1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(Player.isMoving || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Handler.get().getKeyManager().escape) {
 				Handler.get().getPlayer().setBankEntity(null);

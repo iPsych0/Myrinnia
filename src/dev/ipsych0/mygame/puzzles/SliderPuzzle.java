@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -74,8 +73,8 @@ public class SliderPuzzle extends Puzzle {
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
-
+		Rectangle mouse = Handler.get().getMouse();
+		
 		for(int y = 0; y < maxSize; y++) {
 			for(int x = 0; x < maxSize; x++) {
 				if(sliderPieces[x][y] != null) {

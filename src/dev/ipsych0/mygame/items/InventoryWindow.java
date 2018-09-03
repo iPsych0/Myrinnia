@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.bank.BankUI;
-import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.shop.ShopWindow;
@@ -19,7 +18,7 @@ public class InventoryWindow implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static boolean isOpen = true;
-	public static boolean isEquipped = false;
+	public static boolean equipPressed = false;
 	public static boolean hasBeenPressed = false;
 	
 	private int x, y;
@@ -69,9 +68,8 @@ public class InventoryWindow implements Serializable {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
-			int slotIndex = 0;
 			for(ItemSlot is : itemSlots) {
 				
 				is.tick();
@@ -149,18 +147,18 @@ public class InventoryWindow implements Serializable {
 				}
 
 				// If item is right-clicked
-				if(slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !Handler.get().getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
+				if(slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && equipPressed && !hasBeenPressed && !Handler.get().getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen){
 					if(is.getItemStack() != null){
 						if(Handler.get().getPlayer().isInCombat()) {
 							Handler.get().sendMsg("You cannot equip items while in combat.");
 							hasBeenPressed = false;
-							isEquipped = false;
+							equipPressed = false;
 							return;
 						}
 						if(is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()){
 							// If the item's equipmentslot = 12, that means it's unequippable, so return
 							Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
-							isEquipped = false;
+							equipPressed = false;
 							hasBeenPressed = false;
 							return;
 						}
@@ -172,7 +170,7 @@ public class InventoryWindow implements Serializable {
 									Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()){
 								// If trying to equip the exact same item, return message
 								Handler.get().sendMsg("You've already equipped this item!");
-								isEquipped = false;
+								equipPressed = false;
 								hasBeenPressed = false;
 								return;
 							}
@@ -194,7 +192,7 @@ public class InventoryWindow implements Serializable {
 								}
 								if(missing) {
 									Handler.get().sendMsg("You need "+ missingReqs + " to equip this item.");
-									isEquipped = false;
+									equipPressed = false;
 									hasBeenPressed = false;
 									return;
 								}
@@ -210,7 +208,7 @@ public class InventoryWindow implements Serializable {
 									// Or if only 1 item left, set the stack to null
 									is.setItemStack(null);
 								}
-								isEquipped = false;
+								equipPressed = false;
 								hasBeenPressed = false;
 								BankUI.inventoryLoaded = false;
 								return;
@@ -243,7 +241,7 @@ public class InventoryWindow implements Serializable {
 								Handler.get().getPlayer().addEquipmentStats(itemSwap.getItem().getEquipSlot());
 								
 								// Set the swaps back to null
-								isEquipped = false;
+								equipPressed = false;
 								hasBeenPressed = false;
 								itemSwap = null;
 								equipSwap = null;
@@ -251,13 +249,13 @@ public class InventoryWindow implements Serializable {
 							}
 						}
 						else{
-							isEquipped = false;
+							equipPressed = false;
 							hasBeenPressed = false;
 							return;
 						}
 					}
 					else{
-						isEquipped = false;
+						equipPressed = false;
 						hasBeenPressed = false;
 						return;
 					}
@@ -265,7 +263,7 @@ public class InventoryWindow implements Serializable {
 				
 				// If right-clicked on an item while CraftingUI is open
 				if(CraftingUI.isOpen) {
-					if(slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && isEquipped && !hasBeenPressed && !Handler.get().getMouseManager().isDragged()){
+					if(slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && equipPressed && !hasBeenPressed && !Handler.get().getMouseManager().isDragged()){
 
 						hasBeenPressed = true;
 						if(is.getItemStack() != null){
@@ -273,7 +271,7 @@ public class InventoryWindow implements Serializable {
 								// If all crafting slots are full, return
 								hasBeenPressed = false;
 								Handler.get().sendMsg("You cannot add more than 4 items to the crafting window.");
-								isEquipped = false;
+								equipPressed = false;
 								return;
 							} else {
 								// Otherwise, remove the stack from the inventory and put it in a crafting slot
@@ -291,7 +289,6 @@ public class InventoryWindow implements Serializable {
 						}
 					}
 				}
-			slotIndex++;
 			}
 		}
 	}
@@ -305,7 +302,7 @@ public class InventoryWindow implements Serializable {
 //			g.drawRect(x - 16, y - 16, width + 32, height - 8);
 			Text.drawString(g, "Inventory", x + 37, y + 24, false, Color.YELLOW, Assets.font14);
 			
-			Rectangle temp = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(ItemSlot is : itemSlots){
 				
@@ -322,7 +319,7 @@ public class InventoryWindow implements Serializable {
 				
 				
 				// If hovering over an item in the inventory, draw the tooltip
-				if(temp2.contains(temp) && is.getItemStack() != null){
+				if(temp2.contains(mouse) && is.getItemStack() != null){
 					if(is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()) {
 						g.drawImage(Assets.shopWindow, x - 149, y + 1, 150, 64, null);
 					}
@@ -611,42 +608,9 @@ public class InventoryWindow implements Serializable {
 	 * @returns int: index of the equipment slot to be filled
 	 */
 	public int checkEquipmentSlot(Item item){
-		if(item.getEquipSlot() == 0){
-			return 0;
-		}
-		if(item.getEquipSlot() == 1){
-			return 1;
-		}
-		if(item.getEquipSlot() == 2){
-			return 2;
-		}
-		if(item.getEquipSlot() == 3){
-			return 3;
-		}
-		if(item.getEquipSlot() == 4){
-			return 4;
-		}
-		if(item.getEquipSlot() == 5){
-			return 5;
-		}
-		if(item.getEquipSlot() == 6){
-			return 6;
-		}
-		if(item.getEquipSlot() == 7){
-			return 7;
-		}
-		if(item.getEquipSlot() == 8){
-			return 8;
-		}
-		if(item.getEquipSlot() == 9){
-			return 9;
-		}
-		if(item.getEquipSlot() == 10){
-			return 10;
-		}
-		if(item.getEquipSlot() == 11){
-			return 11;
-		}
+		if(item.getEquipSlot() >= 0 && item.getEquipSlot() <= 11)
+			return item.getEquipSlot();
+		
 		return -10;
 	}
 	

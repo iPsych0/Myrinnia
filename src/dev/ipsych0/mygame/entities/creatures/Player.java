@@ -26,10 +26,8 @@ import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
-import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
-import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.states.UITransitionState;
 import dev.ipsych0.mygame.utils.Text;
@@ -221,7 +219,7 @@ public class Player extends Creature{
 			}
 		}
 		
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		// If we're interacting with the closest Entity
 		if(closestEntity != null) {
@@ -425,7 +423,8 @@ public class Player extends Creature{
 	
 	@Override
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
+		
 		if(movementAllowed) {
 			g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),
 					(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
