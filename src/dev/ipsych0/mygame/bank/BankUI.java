@@ -36,10 +36,10 @@ public class BankUI implements Serializable{
 	private Rectangle exit;
 	
 	public BankUI() {		
-		x = 240;
-		y = 150;
 		width = 460;
 		height = 313;
+		x = Handler.get().getWidth() / 2 - width / 2;
+		y = Handler.get().getHeight() / 2 - height / 2;
 		
 		// Add all the tabs
 		for(int i = 0; i < MAX_TABS; i++) {

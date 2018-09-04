@@ -29,8 +29,8 @@ public class ChatDialogue implements Serializable{
 	public ChatDialogue(String[] menuOptions) {
 		this.width = Handler.get().getChatWindow().getWidth();
 		this.height = Handler.get().getChatWindow().getHeight();
-		this.x = 0;
-		this.y = Handler.get().getHeight() - height - 8;
+		this.x = Handler.get().getWidth() - width - 8;
+		this.y = Handler.get().getHeight() - height - 16;
 		this.menuOptions = menuOptions;
 		
 		chatOptions = new ArrayList<ChatOptions>();
@@ -60,7 +60,6 @@ public class ChatDialogue implements Serializable{
 					option.setHovering(true);
 					if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
 						hasBeenPressed = false;
-						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
 						Player.hasInteracted = false;
 					}
@@ -76,7 +75,6 @@ public class ChatDialogue implements Serializable{
 					hasBeenPressed = false;
 					Player.hasInteracted = false;
 					continueButton.setPressed(true);
-					System.out.println("Continue pressed.");
 				}
 			}else {
 				continueButton.setHovering(false);
@@ -98,8 +96,8 @@ public class ChatDialogue implements Serializable{
 			continueButton.render(g);
 		}
 		
-		g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-		Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
+		g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+		Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {

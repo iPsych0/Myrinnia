@@ -28,9 +28,9 @@ public class QuestUI implements Serializable{
 	public static boolean escapePressed = false;
 	
 	public QuestUI() {
-		this.x = 0;
+		this.x = 8;
 		this.y = 150;
-		this.width = 200;
+		this.width = 208;
 		this.height = 400;
 		bounds = new Rectangle(x,y,width,height);
 		

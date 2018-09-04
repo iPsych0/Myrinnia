@@ -37,8 +37,8 @@ public class InventoryWindow implements Serializable {
 	public InventoryWindow(){
 		width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
 		height = numRows * (ItemSlot.SLOTSIZE + 11) - 58;
-		this.x = Handler.get().getWidth() - width;
-		this.y = 0;
+		this.x = Handler.get().getWidth() - width - 8;
+		this.y = 8;
 		windowBounds = new Rectangle(x, y, width, height);
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		

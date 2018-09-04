@@ -57,10 +57,10 @@ public class CraftingUI implements Serializable{
 	private CraftingRecipe craftRecipe;
 	
 	public CraftingUI() {
-		this.x = 0;
-		this.y = 180;
 		this.width = 242;
 		this.height = 320;
+		this.x = Handler.get().getWidth() / 2 - width / 2;
+		this.y = Handler.get().getHeight() / 2 - height / 2;
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		

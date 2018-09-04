@@ -263,7 +263,6 @@ public class Player extends Creature{
 			closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
 			closestEntity.interact();
 			closestEntity = null;
-			
 		}
 		
 		// If there are projectiles, tick them
@@ -433,7 +432,7 @@ public class Player extends Creature{
 					(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		}
 		
-		Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 4, 160, false, Color.YELLOW, Assets.font14);
+		Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		

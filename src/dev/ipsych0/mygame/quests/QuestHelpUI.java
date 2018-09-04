@@ -21,7 +21,7 @@ public class QuestHelpUI implements Serializable {
 	private Rectangle bounds;
 	
 	public QuestHelpUI() {
-		this.x = 200;
+		this.x = 216;
 		this.y = 150;
 		this.width = 200;
 		this.height = 200;

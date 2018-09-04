@@ -56,10 +56,10 @@ public class ShopWindow implements Serializable {
 	
 	public ShopWindow(ArrayList<ItemStack> shopItems) {
 		this.shopItems = shopItems;
-		this.x = 240;
-		this.y = 150;
 		this.width = 460;
 		this.height = 313;
+		this.x = Handler.get().getWidth() / 2 - width / 2;
+		this.y = Handler.get().getHeight() / 2 - height / 2;
 		
 		// Initialize the shop slots and the inventory slots
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();

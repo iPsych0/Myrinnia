@@ -34,7 +34,7 @@ public class PlayerHUD implements Serializable{
 		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
 		this.height = y + ItemSlot.SLOTSIZE;
 		this.x = Handler.get().getWidth() / 2 - (width / 2);
-		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE;
+		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE - 8;
 		
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));

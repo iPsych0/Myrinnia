@@ -31,8 +31,8 @@ public class ChatWindow implements Serializable{
 		textSlots = new CopyOnWriteArrayList<TextSlot>();
 		width = numCols * (TextSlot.textWidth);
 		height = numRows * (TextSlot.textHeight + 1);
-		this.x = 0;
-		this.y = Handler.get().getHeight() - height - 8;
+		this.x = 8;
+		this.y = Handler.get().getHeight() - height - 16;
 		
 		for(int i = 0; i < numCols; i++){
 			for(int j = 0; j < numRows; j++){
@@ -63,9 +63,9 @@ public class ChatWindow implements Serializable{
 	public void render(Graphics g){
 		if(chatIsOpen){
 			g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
-			g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
+			g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
 			
-			Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
+			Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 8, true, Color.YELLOW, Assets.font14);
 			
 			for(TextSlot ts : textSlots){
 				ts.render(g);
