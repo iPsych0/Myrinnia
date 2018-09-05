@@ -25,6 +25,7 @@ public class ChatDialogue implements Serializable{
 	private Rectangle continueButtonBounds;
 	private int optionID;
 	private ChatOptions chosenOption;
+	private Rectangle bounds;
 	
 	public ChatDialogue(String[] menuOptions) {
 		this.width = Handler.get().getChatWindow().getWidth();
@@ -44,6 +45,8 @@ public class ChatDialogue implements Serializable{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
 			continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
 		}
+		
+		bounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void tick() {
@@ -138,6 +141,14 @@ public class ChatDialogue implements Serializable{
 
 	public void setMenuOptions(String[] menuOptions) {
 		this.menuOptions = menuOptions;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

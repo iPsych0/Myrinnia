@@ -115,11 +115,10 @@ public class Handler implements Serializable {
 			int buffer = -1;
 			String songName = zone.getMusicFile();
 			try {
-				buffer = AudioManager.loadSound(new File("res/music/" + songName));
+				buffer = AudioManager.loadSound("res/music/" + songName);
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find file: "+songName);
 				e.printStackTrace();
-				System.exit(0);
 			}
 			
 			// Fade from first song to the next
@@ -131,11 +130,10 @@ public class Handler implements Serializable {
 		if(!soundMuted) {
 			int buffer = -1;
 			try {
-				buffer = AudioManager.loadSound(new File("res/music/" + effect));
+				buffer = AudioManager.loadSound("res/music/" + effect);
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find file: "+effect);
 				e.printStackTrace();
-				System.exit(0);
 			}
 			AudioManager.soundfxFiles.add(new Source());
 			AudioManager.soundfxFiles.getLast().setVolume(0.2f);

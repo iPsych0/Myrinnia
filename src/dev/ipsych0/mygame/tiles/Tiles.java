@@ -25,16 +25,12 @@ public class Tiles {
 	protected BufferedImage texture;
 	protected final int id;
 	protected int x, y;
-	protected Rectangle bounds;
 	protected boolean solid;
 	
 	public Tiles(BufferedImage texture, int id, boolean solid){
 		this.texture = texture;
 		this.id = id;
 		this.solid = solid;
-		
-		bounds = new Rectangle(0, 0, TILEWIDTH, TILEHEIGHT);
-
 	}
 	
 	public int getX() {

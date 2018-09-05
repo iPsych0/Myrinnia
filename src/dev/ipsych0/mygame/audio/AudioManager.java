@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -30,6 +32,7 @@ public class AudioManager {
 	private static List<Integer> buffers = new ArrayList<Integer>();
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
+	public static Map<String, Integer> songMap = new HashMap<>();
 	public static Zone zone;
 	
 	public static void init() {
@@ -107,52 +110,57 @@ public class AudioManager {
 		ALC10.alcCloseDevice(device);
 	}
 	
-	public static int loadSound(File file) throws FileNotFoundException{
-		  int buffer = AL10.alGenBuffers();
-		  buffers.add(buffer);
-		  BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
-		  WaveData waveFile = WaveData.create(is);
-		  AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
-		  waveFile.dispose();
-		  try {
+	public static int loadSound(String file) throws FileNotFoundException{
+		// If the sound has been loaded already, load the same buffer to prevent memory consumption
+		if(songMap.containsKey(file)) {
+			return songMap.get(file);
+		}
+		int buffer = AL10.alGenBuffers();
+		buffers.add(buffer);
+		songMap.put(file, buffer);
+		BufferedInputStream is = new BufferedInputStream(new FileInputStream(new File(file)));
+		WaveData waveFile = WaveData.create(is);
+		AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
+		waveFile.dispose();
+		try {
 			is.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		  return buffer;
+		return buffer;
 	 }
 	
 	public static void fadeSongs(Zone zone, int buffer) {
-		if(AudioManager.musicFiles.size() > 0) {
+		if(musicFiles.size() > 0) {
 			if(AudioManager.zone != null) {
 				if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
 					AudioManager.zone = zone;
-					AudioManager.musicFiles.add(new Source());
-					if(AudioManager.musicFiles.size() > 2) {
-						for(int i = 1; i < AudioManager.musicFiles.size() - 1; i++) {
-							AudioManager.musicFiles.get(i).stop();
+					musicFiles.add(new Source());
+					if(musicFiles.size() > 2) {
+						for(int i = 1; i < musicFiles.size() - 1; i++) {
+							musicFiles.get(i).delete();
 						}
 					}else {
-						AudioManager.musicFiles.getFirst().setFadingOut(true);
+						musicFiles.getFirst().setFadingOut(true);
 					}
-					AudioManager.musicFiles.getLast().setVolume(0.0f);
-					AudioManager.musicFiles.getLast().setFadingIn(true);
-					AudioManager.musicFiles.getLast().setLooping(true);
-					AudioManager.musicFiles.getLast().playMusic(buffer);
+					musicFiles.getLast().setVolume(0.0f);
+					musicFiles.getLast().setFadingIn(true);
+					musicFiles.getLast().setLooping(true);
+					musicFiles.getLast().playMusic(buffer);
 				}else {
 					AudioManager.zone = zone;
-					for(int i = 0; i < AudioManager.musicFiles.size() - 1; i++) {
-						AudioManager.musicFiles.get(i).setFadingOut(true);
+					for(int i = 0; i < musicFiles.size() - 1; i++) {
+						musicFiles.get(i).setFadingOut(true);
 					}
 				}
 			}
 		}else {
 			AudioManager.zone = zone;
-			AudioManager.musicFiles.add(new Source());
-			AudioManager.musicFiles.getLast().setVolume(0.4f);
-			AudioManager.musicFiles.getLast().setLooping(true);
-			AudioManager.musicFiles.getLast().playMusic(buffer);
+			musicFiles.add(new Source());
+			musicFiles.getLast().setVolume(0.4f);
+			musicFiles.getLast().setLooping(true);
+			musicFiles.getLast().playMusic(buffer);
 		}
 	}
 

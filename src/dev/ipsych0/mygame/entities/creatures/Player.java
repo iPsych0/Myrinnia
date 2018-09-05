@@ -659,6 +659,11 @@ public class Player extends Creature{
 			return true;
 		if(Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
 			return true;
+		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
+			if(Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
+				return true;
+			}
+		}
 		
 		// If the mouse is not clicked in one of the UI windows, return false
 		return false;
