@@ -239,10 +239,10 @@ public abstract class Creature extends Entity {
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-					if(Handler.get().getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
-						p.active = false;
-					}
+			}
+			for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+				if(Handler.get().getWorld().getTile(i, (int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)).isSolid() && p.active) {
+					p.active = false;
 				}
 			}
 			p.tick();
@@ -331,6 +331,12 @@ public abstract class Creature extends Entity {
 			}
 		}
 		
+		// If the Creature was not following or attacking the player, move around randomly.
+		if(state == CombatState.IDLE) {
+			randomWalk();
+			return;
+		}
+		
 		// If the player has moved out of the initial aggro box, but is still within the A* map, keep following
 		else if(!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
 				!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
@@ -370,11 +376,6 @@ public abstract class Creature extends Entity {
 		if(!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
 			nodes = map.findPath((int)((x + 8) / 32) - (int)(xSpawn - pathFindRadiusX) / 32, (int)((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
 					(int)Math.round(((xSpawn + 8) / 32)) - (int)(xSpawn - pathFindRadiusX) / 32, (int)Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
-		}
-		
-		// If the Creature was not following or attacking the player, move around randomly.
-		if(state == CombatState.IDLE) {
-			randomWalk();
 		}
 
 		// If we have a path to follow and there are nodes left, followed the nodes.
