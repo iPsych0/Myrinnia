@@ -132,8 +132,8 @@ public abstract class Entity implements Serializable{
 		    int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
 		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
-		    Collections.sort(pythagoras);
 		}
+		Collections.sort(pythagoras);
 		closestDistance = pythagoras.get(0);
 		closestEntity = hashMap.get(closestDistance);
 		return closestEntity;

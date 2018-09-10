@@ -33,8 +33,6 @@ public abstract class Creature extends Entity {
 							DEFAULT_POWER = 0,
 							DEFAULT_DEFENCE = 0,
 							DEFAULT_VITALITY = 0;
-	public static Font hpFont = new Font("SansSerif", Font.BOLD, 12);
-	public static Color hpColor = new Color(255, 255, 48);
 	protected int baseDamage;
 	protected int power;
 	protected int defence;
@@ -46,9 +44,6 @@ public abstract class Creature extends Entity {
 	
 	// Walking timer
 	private int time = 0;
-	
-	// RNG dice for random movement
-	private Random randMove = new Random();
 	
 	// Radius variables:
 	protected int xSpawn = (int)getX();
@@ -261,10 +256,10 @@ public abstract class Creature extends Entity {
 	 */
 	protected void randomWalk() {
 		time++;
-		int i = (randMove.nextInt(60) + 30);
+		int i = (Handler.get().getRandomNumber(60, 90));
 		if(time % i == 0){
 			
-			int direction = randMove.nextInt(4);
+			int direction = Handler.get().getRandomNumber(0, 4);
 			
 			if(direction == 0){
 				xMove = 0;

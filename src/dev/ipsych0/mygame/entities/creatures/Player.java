@@ -86,6 +86,7 @@ public class Player extends Creature{
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
 	private boolean isLoaded = false;
 	private Zone zone = Zone.Island;
+	private Rectangle itemPickupRadius;
 	
 	public Player(float x, float y) {
 		super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -127,6 +128,8 @@ public class Player extends Creature{
 		projectiles = new ArrayList<Projectile>();
 		
 		respawnTimer = 1;
+		
+		itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 	}
 
 	@Override
@@ -337,11 +340,11 @@ public class Player extends Creature{
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-					if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
-						p.active = false;
-						
-					}
+			}
+			for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+				if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
+					p.active = false;
+					
 				}
 			}
 			p.tick();
@@ -761,11 +764,6 @@ public class Player extends Creature{
 		}
 	}
 	
-	@Override
-	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
-	}
-	
 	public int getScorpionKC() {
 		return scorpionKC;
 	}
@@ -1109,7 +1107,8 @@ public class Player extends Creature{
 	}
 
 	public Rectangle itemPickupRadius() {
-		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
+		itemPickupRadius.setLocation((int) (x + bounds.x - 24), (int) (y + bounds.y - 24));
+		return itemPickupRadius;
 	}
 
 	@Override

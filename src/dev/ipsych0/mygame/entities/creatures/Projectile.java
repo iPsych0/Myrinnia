@@ -22,6 +22,7 @@ public class Projectile implements Serializable {
 	private static final int MAX_RADIUS = 320;
 	private Animation magic;
 	private Rectangle bounds;
+	private Rectangle collision;
 	public boolean active;
 	
 	public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
@@ -32,6 +33,7 @@ public class Projectile implements Serializable {
 		height = Creature.DEFAULT_CREATURE_HEIGHT;
 		
 		bounds = new Rectangle((int)x,(int)y,width,height);
+		collision = new Rectangle(bounds);
 		
 		bounds.x = 10;
 		bounds.y = 14;
@@ -111,7 +113,8 @@ public class Projectile implements Serializable {
 	}
 
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		collision.setLocation((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset));
+		return collision;
 	}
 
 	public void setBounds(Rectangle bounds) {
