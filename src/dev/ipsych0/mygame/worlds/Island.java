@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
@@ -20,7 +19,7 @@ public class Island extends World {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5184904694109102870L;
 	private Rectangle house1;
 	private Rectangle house2;
 	private Rectangle house3;
@@ -52,9 +51,6 @@ public class Island extends World {
 //		entityManager.addEntity(new Scorpion(handler, 4600, 5780));
 		
 		entityManager.addEntity(new TeleportShrine(5056, 5532));
-		
-		// Beach house
-//		entityManager.addEntity(new Whirlpool(handler, 5856, 6096));
 		
 		// Southern cliffs
 		entityManager.addEntity(new Whirlpool(1280, 6320));

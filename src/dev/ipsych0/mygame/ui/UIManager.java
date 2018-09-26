@@ -4,14 +4,12 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import dev.ipsych0.mygame.Handler;
-
 public class UIManager implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2791935865770773924L;
 	private CopyOnWriteArrayList<UIObject> objects;
 	
 	public UIManager(){

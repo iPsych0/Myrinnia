@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import javax.print.DocFlavor.CHAR_ARRAY;
-
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.skills.SkillsList;
@@ -17,8 +15,8 @@ public class CharacterUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	public int x = 0, y = 180, width = 192, height = 320;
+	private static final long serialVersionUID = 2534979108806910921L;
+	public int x = 8, y = 180, width = 208, height = 320;
 	public static boolean isOpen = false;
 	private int baseStatPoints = 0;
 	private int elementalStatPoints = 0;
@@ -45,7 +43,7 @@ public class CharacterUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(Handler.get().getKeyManager().escape && escapePressed) {
 				isOpen = false;
@@ -103,7 +101,7 @@ public class CharacterUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			Text.drawString(g, "Character stats:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			
@@ -135,7 +133,7 @@ public class CharacterUI implements Serializable{
 				Text.drawString(g, "+", x + 101, y + 176, true, Color.YELLOW, Assets.font14);
 			}
 			
-			Text.drawString(g, "Combat stats:", x + 16, y + 128, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + baseStatPoints + " points)", x + 120, y + 128, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Combat stats:", x + 16, y + 128, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + baseStatPoints + " points)", x + 128, y + 128, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Melee:   "+CharacterStats.Melee.getLevel(), x + 16, y + 148, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Ranged: "+CharacterStats.Ranged.getLevel(), x + 16, y + 164, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Magic:   "+CharacterStats.Magic.getLevel(), x + 16, y + 180, false, Color.YELLOW, Assets.font14);
@@ -170,7 +168,7 @@ public class CharacterUI implements Serializable{
 				Text.drawString(g, "+", x + 101, y + 257, true, Color.YELLOW, Assets.font14);
 				Text.drawString(g, "+", x + 101, y + 273, true, Color.YELLOW, Assets.font14);
 			}
-			Text.drawString(g, "Elemental stats: ", x + 16, y + 208, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + elementalStatPoints + " points)", x + 120, y + 208, false, Color.YELLOW, Assets.font14);
+			Text.drawString(g, "Elemental stats: ", x + 16, y + 208, false, Color.YELLOW, Assets.font14); Text.drawString(g, "(" + elementalStatPoints + " points)", x + 128, y + 208, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Fire:      "+CharacterStats.Fire.getLevel(), x + 16, y + 230, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Air:       "+CharacterStats.Air.getLevel(), x + 16, y + 246, false, Color.YELLOW, Assets.font14);
 			Text.drawString(g, "Water:   "+CharacterStats.Water.getLevel(), x + 16, y + 262, false, Color.YELLOW, Assets.font14);

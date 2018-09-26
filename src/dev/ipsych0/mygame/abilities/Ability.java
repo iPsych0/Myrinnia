@@ -10,10 +10,11 @@ import dev.ipsych0.mygame.entities.creatures.Creature;
 
 public abstract class Ability implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6105053373876560350L;
 	protected Creature caster;
 	protected int cooldownTime;
 	protected int castingTime;
@@ -58,7 +59,7 @@ public abstract class Ability implements Serializable {
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		if(isSelectable() && isSelected()) {
 				if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 					setSelected(false);

@@ -15,7 +15,7 @@ public class UIImageButton extends UIObject {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1839735101824151769L;
 	private transient BufferedImage[] images;
 
 	public UIImageButton(float x, float y, int width, int height, BufferedImage[] images) {
@@ -40,13 +40,14 @@ public class UIImageButton extends UIObject {
 	    out.defaultWriteObject();
 	    out.writeInt(images.length); // how many images are serialized?
 
+	    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 	    for (BufferedImage eachImage : images) {
-	        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 	        ImageIO.write(eachImage, "png", buffer);
 
 	        out.writeInt(buffer.size()); // Prepend image with byte count
 	        buffer.writeTo(out);         // Write image
 	    }
+	    buffer.close();
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -54,14 +55,18 @@ public class UIImageButton extends UIObject {
 
 	    int imageCount = in.readInt();
 	    this.images = new BufferedImage[imageCount];
+	    
+        int size = in.readInt(); // Read byte count
+	    byte[] buffer = new byte[size];
+	    ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+	    
 	    for (int i = 0; i < imageCount; i++) {
-	        int size = in.readInt(); // Read byte count
-
-	        byte[] buffer = new byte[size];
 	        in.readFully(buffer); // Make sure you read all bytes of the image
 
-	        this.images[i] = ImageIO.read(new ByteArrayInputStream(buffer));
+
+	        this.images[i] = ImageIO.read(is);
 	    }
+	    is.close();
 	}
 	
 }

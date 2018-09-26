@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.bank.BankUI;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -12,9 +13,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class EquipmentWindow implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
-	public static boolean isCreated = false;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7002329052826588263L;
 	public static boolean isOpen = true;
 	private int x, y;
 	private int width, height;
@@ -31,36 +33,30 @@ public class EquipmentWindow implements Serializable {
 	public EquipmentWindow(){
 		this.width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
 		this.height = numRows * (EquipmentSlot.SLOTSIZE + 8);
-		this.x = Handler.get().getWidth() - width;
-		this.y = Handler.get().getInventory().getHeight();
+		this.x = Handler.get().getWidth() - width - 8;
+		this.y = Handler.get().getInventory().getHeight() + 16;
 		windowBounds = new Rectangle(x, y, width, height);
 		
-		if(isCreated == false){
-			equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
-			
-			for(int i = 0; i < numCols; i++){
-				for(int j = 0; j < numRows; j++){
-					if(j == (numRows)){
-						x += 8;
-					}
-					
-					equipmentSlots.add(new EquipmentSlot(x + 17 + (i * (EquipmentSlot.SLOTSIZE)), y + 32 + (j * EquipmentSlot.SLOTSIZE), null));
-					
-					if(j == (numRows)){
-						x -= 8;
-					}
-				}
-			}	
+		equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
 		
-			// Prevents multiple instances of the equipment window being created over and over when equipping items
-			isCreated = true;
-			
-		}
+		for(int i = 0; i < numCols; i++){
+			for(int j = 0; j < numRows; j++){
+				if(j == (numRows)){
+					x += 8;
+				}
+				
+				equipmentSlots.add(new EquipmentSlot(x + 17 + (i * (EquipmentSlot.SLOTSIZE)), y + 32 + (j * EquipmentSlot.SLOTSIZE), null));
+				
+				if(j == (numRows)){
+					x -= 8;
+				}
+			}
+		}				
 	}
 	
 	public void tick(){
 		if(isOpen) {
-			Rectangle temp = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(EquipmentSlot es : equipmentSlots) {
 				
@@ -70,7 +66,7 @@ public class EquipmentWindow implements Serializable {
 				
 				// If mouse is dragged
 				if(Handler.get().getMouseManager().isDragged()){
-					if(temp2.contains(temp) && !hasBeenPressed && !itemSelected) {
+					if(temp2.contains(mouse) && !hasBeenPressed && !itemSelected) {
 						hasBeenPressed = true;
 						
 						// Stick the item to the mouse
@@ -91,7 +87,7 @@ public class EquipmentWindow implements Serializable {
 				}
 				
 				// If right-clicked on an item
-				if(temp2.contains(temp) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed){
+				if(temp2.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed){
 					if(es.getEquipmentStack() != null){
 						hasBeenPressed = true;
 						// Unequip the item and remove the equipment stats
@@ -124,7 +120,7 @@ public class EquipmentWindow implements Serializable {
 				
 				// If releasing a dragged item inside the equipment window
 				if(itemSelected && !Handler.get().getMouseManager().isDragged()) {
-					if(temp2.contains(temp)){
+					if(temp2.contains(mouse)){
 						if(getEquipmentSlots().get(Handler.get().getInventory().checkEquipmentSlot(currentSelectedSlot.getItem())).equipItem((currentSelectedSlot.getItem()))){
 							// Add the stats back and put the item back
 							Handler.get().getPlayer().addEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
@@ -153,13 +149,13 @@ public class EquipmentWindow implements Serializable {
 				equipmentSlots.get(i).render(g, Assets.equipmentPlaceHolders[i]);
 			}
 			
-			Rectangle temp = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(EquipmentSlot es : equipmentSlots) {
-				Rectangle temp2 = new Rectangle(es.getX(), es.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+				Rectangle slot = new Rectangle(es.getX(), es.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 				
 				// If hovering over an item in the inventory, draw the tooltip
-				if(temp2.contains(temp) && es.getEquipmentStack() != null){
+				if(slot.contains(mouse) && es.getEquipmentStack() != null){
 					g.drawImage(Assets.shopWindow, x - 147, y, 148, 122, null);
 					
 					Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 141, y + 16, false, Color.YELLOW, Assets.font14);

@@ -16,7 +16,7 @@ public class QuestUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1884515804631042331L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
 	private QuestHelpUI questHelpUI;
@@ -28,9 +28,9 @@ public class QuestUI implements Serializable{
 	public static boolean escapePressed = false;
 	
 	public QuestUI() {
-		this.x = 0;
+		this.x = 8;
 		this.y = 150;
-		this.width = 200;
+		this.width = 208;
 		this.height = 400;
 		bounds = new Rectangle(x,y,width,height);
 		
@@ -62,7 +62,7 @@ public class QuestUI implements Serializable{
 		if(isOpen) {
 			g.drawImage(Assets.shopWindow, x, y, width, height, null);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(!renderingQuests) {
 				Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);

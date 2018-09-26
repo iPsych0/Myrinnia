@@ -9,6 +9,10 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class MendWoundsAbility extends Ability{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7613939541331724237L;
 	private int regenTimer = 0;
 	private int regenSeconds = 5 * 60;
 	private int baseHeal = 30;

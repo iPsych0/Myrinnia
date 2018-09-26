@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.entities.creatures.Player;
@@ -26,10 +27,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingUI implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6741379998525736950L;
 	private int x, y, width, height;
 	public static boolean isOpen = false;
 	private boolean isCreated = false;
@@ -56,10 +58,10 @@ public class CraftingUI implements Serializable{
 	private CraftingRecipe craftRecipe;
 	
 	public CraftingUI() {
-		this.x = 0;
-		this.y = 180;
 		this.width = 242;
 		this.height = 320;
+		this.x = Handler.get().getWidth() / 2 - width / 2;
+		this.y = Handler.get().getHeight() / 2 - height / 2;
 		
 		windowBounds = new Rectangle(x, y, width, height);
 		
@@ -98,7 +100,7 @@ public class CraftingUI implements Serializable{
 			crs.tick();
 			cb.tick();
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(previewImg.contains(mouse)) {
 				hovering = true;

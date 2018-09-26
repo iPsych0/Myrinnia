@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
@@ -25,17 +24,21 @@ public class ImageLoader {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			ImageIO.write(image, "png", os);
+			String base64 = DatatypeConverter.printBase64Binary(os.toByteArray());
+			os.close();
+			return base64;
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return DatatypeConverter.printBase64Binary(os.toByteArray());
 	}
 	
 	public static BufferedImage dataUrlToImage(String base64String) {     
 	    byte[] bytes = DatatypeConverter.parseBase64Binary(base64String);
 
 	    try (ByteArrayInputStream in = new ByteArrayInputStream(bytes)) {
-	        return ImageIO.read(in);
+	        BufferedImage img = ImageIO.read(in);
+	        in.close();
+	        return img;
 	    } catch (IOException e) {
 	        throw new RuntimeException(e);
 	    }

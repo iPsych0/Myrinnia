@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,7 +19,6 @@ import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class AudioManager {
@@ -32,6 +32,7 @@ public class AudioManager {
 	private static List<Integer> buffers = new ArrayList<Integer>();
 	public static LinkedList<Source> musicFiles = new LinkedList<>();
 	public static LinkedList<Source> soundfxFiles = new LinkedList<>();
+	public static Map<String, Integer> songMap = new HashMap<>();
 	public static Zone zone;
 	
 	public static void init() {
@@ -109,14 +110,58 @@ public class AudioManager {
 		ALC10.alcCloseDevice(device);
 	}
 	
-	public static int loadSound(File file) throws FileNotFoundException{
-		  int buffer = AL10.alGenBuffers();
-		  buffers.add(buffer);
-		  BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
-		  WaveData waveFile = WaveData.create(is);
-		  AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
-		  waveFile.dispose();
-		  return buffer;
-		 }
+	public static int loadSound(String file) throws FileNotFoundException{
+		// If the sound has been loaded already, load the same buffer to prevent memory consumption
+		if(songMap.containsKey(file)) {
+			return songMap.get(file);
+		}
+		int buffer = AL10.alGenBuffers();
+		buffers.add(buffer);
+		songMap.put(file, buffer);
+		BufferedInputStream is = new BufferedInputStream(new FileInputStream(new File(file)));
+		WaveData waveFile = WaveData.create(is);
+		AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
+		waveFile.dispose();
+		try {
+			is.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return buffer;
+	 }
+	
+	public static void fadeSongs(Zone zone, int buffer) {
+		if(musicFiles.size() > 0) {
+			if(AudioManager.zone != null) {
+				if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
+					AudioManager.zone = zone;
+					musicFiles.add(new Source());
+					if(musicFiles.size() > 2) {
+						for(int i = 1; i < musicFiles.size() - 1; i++) {
+							musicFiles.get(i).delete();
+						}
+					}else {
+						musicFiles.getFirst().setFadingOut(true);
+					}
+					musicFiles.getLast().setVolume(0.0f);
+					musicFiles.getLast().setFadingIn(true);
+					musicFiles.getLast().setLooping(true);
+					musicFiles.getLast().playMusic(buffer);
+				}else {
+					AudioManager.zone = zone;
+					for(int i = 0; i < musicFiles.size() - 1; i++) {
+						musicFiles.get(i).setFadingOut(true);
+					}
+				}
+			}
+		}else {
+			AudioManager.zone = zone;
+			musicFiles.add(new Source());
+			musicFiles.getLast().setVolume(0.4f);
+			musicFiles.getLast().setLooping(true);
+			musicFiles.getLast().playMusic(buffer);
+		}
+	}
 
 }

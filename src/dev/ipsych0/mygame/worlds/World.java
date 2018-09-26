@@ -23,7 +23,6 @@ import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.quests.QuestManager;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
-import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.tiles.Tiles;
 import dev.ipsych0.mygame.utils.MapLoader;
 import dev.ipsych0.mygame.utils.Text;
@@ -34,11 +33,10 @@ public abstract class World implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	// Variables
+	private static final long serialVersionUID = 2377316128534163815L;
+	
 	protected int width, height;
 	protected int[][][] tiles;
-	protected int spawnX, spawnY;
 	protected String[] layers;
 	private Color night = new Color(0, 13, 35);
 	protected String worldPath;
@@ -66,20 +64,21 @@ public abstract class World implements Serializable {
 	
 	public World(){
 			
-			// World-specific classes
-			this.player = Handler.get().getPlayer();
-			this.inventory = Handler.get().getInventory();
-			this.equipment = Handler.get().getEquipment();
-			this.chatWindow = Handler.get().getChatWindow();
-			this.questManager = Handler.get().getQuestManager();
-			this.characterUI = Handler.get().getCharacterUI();
-			this.skillsUI = Handler.get().getSkillsUI();
-			this.hpOverlay = Handler.get().getHpOverlay();
-			this.abilityManager = Handler.get().getAbilityManager();
-			
-			entityManager = new EntityManager(player);
-			itemManager = new ItemManager();
-			craftingUI = Handler.get().getCraftingUI();
+		// World-specific classes
+		this.player = Handler.get().getPlayer();
+		this.inventory = Handler.get().getInventory();
+		this.equipment = Handler.get().getEquipment();
+		this.chatWindow = Handler.get().getChatWindow();
+		this.questManager = Handler.get().getQuestManager();
+		this.characterUI = Handler.get().getCharacterUI();
+		this.skillsUI = Handler.get().getSkillsUI();
+		this.hpOverlay = Handler.get().getHpOverlay();
+		this.abilityManager = Handler.get().getAbilityManager();
+		this.craftingUI = Handler.get().getCraftingUI();
+		
+		// This is each world's unique manager of Entities & Items
+		entityManager = new EntityManager(player);
+		itemManager = new ItemManager();
 		
 	}
 	

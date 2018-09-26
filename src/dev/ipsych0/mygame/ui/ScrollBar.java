@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -15,7 +14,7 @@ public class ScrollBar implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8698572954217286128L;
 	public int x, y, width, height;
 	private Rectangle scrollUp, scrollDown;
 	private int scrollMinimum = 0, scrollMaximum;
@@ -38,7 +37,7 @@ public class ScrollBar implements Serializable{
 	}
 
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(scrollUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 			// The first click, move it up once
@@ -102,7 +101,7 @@ public class ScrollBar implements Serializable{
 	}
 	
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(listSize > itemsPerWindow) {
 			if(scrollUp.contains(mouse)) {

@@ -12,6 +12,10 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class EruptionAbility extends Ability {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4028579023728693627L;
 	private Color ability = new Color(89, 58, 2, 224);
 	private Rectangle hitBox;
 	private boolean initDone;

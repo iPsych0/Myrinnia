@@ -1,22 +1,19 @@
 package dev.ipsych0.mygame.items;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.Entity;
 
 public class ItemManager implements Serializable{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1092891818645452920L;
 	private CopyOnWriteArrayList<Item> items;
 	private Collection<Item> deleted;
 	private Collection<Item> added;
@@ -34,7 +31,7 @@ public class ItemManager implements Serializable{
 			
 			// Checks player's position for any items nearby to pick up
 			if(Handler.get().getMouseManager().isRightPressed() && Handler.get().getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))){
-				if(!Handler.get().getPlayer().hasRightClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
+				if(!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
 					if(i.pickUpItem(i)){
 						if(i.isPickedUp()){
 							deleted.add(i);
@@ -80,13 +77,11 @@ public class ItemManager implements Serializable{
 	}
 	
 	public void addItem(Item i){
-		i.setHandler(Handler.get());
 		items.add(i);
 		added.add(i);
 	}
 	
 	public void addItem(Item i, boolean isWorldSpawn){
-		i.setHandler(Handler.get());
 		items.add(i);
 	}
 	

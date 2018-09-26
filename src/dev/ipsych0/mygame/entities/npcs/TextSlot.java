@@ -3,26 +3,28 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
 public class TextSlot implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6041297662264038958L;
 	public static final int textWidth = 432;
 	public static final int textHeight = 15;
 	
 	private int x, y;
-	private NPCText npcText;
+	private String message;
 	
-	public TextSlot(int x, int y, NPCText npcText){
+	public TextSlot(int x, int y, String message){
 		this.x = x;
 		this.y = y;
-		this.npcText = npcText;
+		this.message = message;
 	}
 	
 	public void tick(){
@@ -39,22 +41,18 @@ public class TextSlot implements Serializable{
 		g.setFont(GameState.myFont);
 		g.setColor(Color.YELLOW);
 		
-		if(npcText != null){
-			Text.drawString(g, npcText.getLine(), x + 6, y + 24, false, Color.YELLOW, Assets.font14);
+		if(message != null){
+			Text.drawString(g, message, x + 6, y + 24, false, Color.YELLOW, Assets.font14);
 			//g.drawString(npcText.getLine(), x + 5, y + 28);
 		}
 	}
 	
-	public void addTextSlot(String message){
-		this.npcText = new NPCText(message);
+	public void setMessage(String message){
+		this.message = message;
 	}
 
-	public NPCText getNpcText() {
-		return npcText;
-	}
-
-	public void setNpcText(NPCText npcText) {
-		this.npcText = npcText;
+	public String getMessage() {
+		return message;
 	}
 
 	public int getX() {

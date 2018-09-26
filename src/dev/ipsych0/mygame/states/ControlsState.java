@@ -16,7 +16,7 @@ public class ControlsState extends State {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8517192489288492030L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle returnButton;
@@ -77,7 +77,7 @@ public class ControlsState extends State {
 				loaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(UIObject o : uiManager.getObjects()) {
 				if(o.getBounds().contains(mouse)) {

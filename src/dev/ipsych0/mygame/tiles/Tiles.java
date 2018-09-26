@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.gfx.SpriteSheet;
 import dev.ipsych0.mygame.utils.MapLoader;
 
@@ -15,7 +14,7 @@ public class Tiles {
 	
 	// Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
 	public static Tiles[] tiles = new Tiles[(SpriteSheet.firstGids[SpriteSheet.firstGids.length - 1]
-			+ MapLoader.getTileCount(Handler.worldPath, SpriteSheet.firstGids.length - 1))];
+			+ MapLoader.getTileCount(Handler.initialWorldPath, SpriteSheet.firstGids.length - 1))];
 	
 	/*
 	 * Class data
@@ -26,16 +25,12 @@ public class Tiles {
 	protected BufferedImage texture;
 	protected final int id;
 	protected int x, y;
-	protected Rectangle bounds;
 	protected boolean solid;
 	
 	public Tiles(BufferedImage texture, int id, boolean solid){
 		this.texture = texture;
 		this.id = id;
 		this.solid = solid;
-		
-		bounds = new Rectangle(0, 0, TILEWIDTH, TILEHEIGHT);
-
 	}
 	
 	public int getX() {

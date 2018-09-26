@@ -1,12 +1,13 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
-import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.quests.Quest.QuestState;
+import dev.ipsych0.mygame.quests.QuestList;
 import dev.ipsych0.mygame.tiles.Tiles;
 
 public class WaterToBridgePart extends StaticEntity {
@@ -14,7 +15,7 @@ public class WaterToBridgePart extends StaticEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3731445475301213402L;
 	private boolean isFixed = false;
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
 	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};

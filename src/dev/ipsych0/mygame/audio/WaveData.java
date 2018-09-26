@@ -4,12 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
- 
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
- 
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
  
@@ -74,6 +74,12 @@ public class WaveData {
             e.printStackTrace();
         }
         WaveData wavStream = new WaveData(audioStream);
+        try {
+			bufferedInput.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return wavStream;
     }
  

@@ -10,8 +10,12 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class NimbleFeetAbility extends Ability {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6275665878660555382L;
 	private float baseMovementBoost = 1.0f;
-	private int boostTime = 5 * 60;
+	private int boostTime = 20 * 60;
 	private int boostTimeTimer = 0;
 	private boolean initialBoostDone = false;
 
@@ -31,11 +35,12 @@ public class NimbleFeetAbility extends Ability {
 		if(!initialBoostDone) {
 			getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
 			initialBoostDone = true;
+			Handler.debugMode = true;
 		}
 		boostTimeTimer++;
 		if(boostTimeTimer >= boostTime) {
-			if(getCaster().getSpeed() - baseMovementBoost < Creature.DEFAULT_SPEED+1.0f) 
-				getCaster().setSpeed(Creature.DEFAULT_SPEED+1.0f);
+			if(getCaster().getSpeed() - baseMovementBoost < Creature.DEFAULT_SPEED+3.0f) 
+				getCaster().setSpeed(Creature.DEFAULT_SPEED+3.0f);
 			else
 				getCaster().setSpeed(getCaster().getSpeed() - baseMovementBoost);
 			

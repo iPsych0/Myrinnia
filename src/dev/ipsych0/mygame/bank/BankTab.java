@@ -16,14 +16,15 @@ import dev.ipsych0.mygame.utils.Text;
 public class BankTab implements Serializable{
 	
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3186907209395979291L;
 	public int x, y, width, height;
 	private Rectangle bounds;
 	private int tabNumber;
-	public static int ROWS = 6, COLS = 5;
+	public static final int ROWS = 6, COLS = 5;
 	private CopyOnWriteArrayList<ItemSlot> bankSlots;
 	private boolean isOpen = false;
 	private boolean hovering = false;

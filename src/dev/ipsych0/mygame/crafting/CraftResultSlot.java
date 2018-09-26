@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
@@ -11,10 +12,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class CraftResultSlot implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8523315261993088996L;
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;

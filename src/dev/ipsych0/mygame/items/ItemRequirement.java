@@ -6,6 +6,10 @@ import dev.ipsych0.mygame.character.CharacterStats;
 
 public class ItemRequirement implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3896881180268598158L;
 	private CharacterStats stat;
 	private int level;
 	

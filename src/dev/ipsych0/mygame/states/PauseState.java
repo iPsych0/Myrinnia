@@ -17,7 +17,7 @@ public class PauseState extends State {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4884725655029471387L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle resumeButton, settingsButton, quitButton;
@@ -57,7 +57,7 @@ public class PauseState extends State {
 				loaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			for(UIObject o : uiManager.getObjects()) {
 				if(o.getBounds().contains(mouse)) {

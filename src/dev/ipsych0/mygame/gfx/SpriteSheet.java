@@ -1,13 +1,6 @@
 package dev.ipsych0.mygame.gfx;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import javax.imageio.ImageIO;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -17,7 +10,7 @@ public class SpriteSheet {
 
 	
 	private BufferedImage sheet;
-	public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.worldPath);
+	public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.initialWorldPath);
 	private int imageIndex;
 	private int columns;
 	
@@ -25,8 +18,8 @@ public class SpriteSheet {
 		this.sheet = ImageLoader.loadImage(path);
 		
 		if(tile) {
-			imageIndex = MapLoader.getImageIndex(Handler.worldPath, path);
-			columns = MapLoader.getTileColumns(Handler.worldPath, imageIndex);
+			imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
+			columns = MapLoader.getTileColumns(Handler.initialWorldPath, imageIndex);
 			
 			// Calculate the image width & height
 //			imageWidth = columns * 32;

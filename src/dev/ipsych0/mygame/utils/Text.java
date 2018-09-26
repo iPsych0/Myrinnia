@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
 import java.text.AttributedString;
 import java.util.StringTokenizer;
 

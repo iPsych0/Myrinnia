@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -12,10 +13,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatDialogue implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8130149340424276218L;
 	private int x, y, width, height;
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;
@@ -24,12 +26,13 @@ public class ChatDialogue implements Serializable{
 	private Rectangle continueButtonBounds;
 	private int optionID;
 	private ChatOptions chosenOption;
+	private Rectangle bounds;
 	
 	public ChatDialogue(String[] menuOptions) {
 		this.width = Handler.get().getChatWindow().getWidth();
 		this.height = Handler.get().getChatWindow().getHeight();
-		this.x = 0;
-		this.y = Handler.get().getHeight() - height - 8;
+		this.x = Handler.get().getWidth() - width - 8;
+		this.y = Handler.get().getHeight() - height - 16;
 		this.menuOptions = menuOptions;
 		
 		chatOptions = new ArrayList<ChatOptions>();
@@ -43,10 +46,12 @@ public class ChatDialogue implements Serializable{
 			continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
 			continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
 		}
+		
+		bounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(menuOptions.length > 1) {
 			for(ChatOptions option : chatOptions) {
@@ -59,7 +64,6 @@ public class ChatDialogue implements Serializable{
 					option.setHovering(true);
 					if(Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
 						hasBeenPressed = false;
-						System.out.println("Chose option: '" + option.getMessage() + "'");
 						chosenOption = option;
 						Player.hasInteracted = false;
 					}
@@ -75,7 +79,6 @@ public class ChatDialogue implements Serializable{
 					hasBeenPressed = false;
 					Player.hasInteracted = false;
 					continueButton.setPressed(true);
-					System.out.println("Continue pressed.");
 				}
 			}else {
 				continueButton.setHovering(false);
@@ -97,8 +100,8 @@ public class ChatDialogue implements Serializable{
 			continueButton.render(g);
 		}
 		
-		g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-		Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
+		g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+		Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 	}
 
 	public ArrayList<ChatOptions> getChatOptions() {
@@ -139,6 +142,14 @@ public class ChatDialogue implements Serializable{
 
 	public void setMenuOptions(String[] menuOptions) {
 		this.menuOptions = menuOptions;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 	}
 
 }

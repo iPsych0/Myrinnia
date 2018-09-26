@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
@@ -13,10 +12,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class AbilitySlot implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4376752517769900190L;
 	private Ability ability;
 	private int x, y;
 	private Color cooldownColor = new Color(24, 24, 24, 192);

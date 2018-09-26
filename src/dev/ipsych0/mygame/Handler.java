@@ -1,5 +1,6 @@
 package dev.ipsych0.mygame;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -36,7 +37,6 @@ import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.states.ZoneTransitionState;
-import dev.ipsych0.mygame.utils.SaveManager;
 import dev.ipsych0.mygame.worlds.Island;
 import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.WorldHandler;
@@ -44,16 +44,16 @@ import dev.ipsych0.mygame.worlds.Zone;
 
 public class Handler implements Serializable {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4768616559126746790L;
 	private static Game game;
 	private World world;
 	private Island island;
 	private WorldHandler worldHandler;
 	private Player player;
-	private Random rand = new Random();
 	private ChatWindow chatWindow;
 	private InventoryWindow inventory;
 	private EquipmentWindow equipment;
@@ -66,12 +66,12 @@ public class Handler implements Serializable {
 	private AbilityManager abilityManager;
 	private RecapManager recapManager;
 	private boolean soundMuted = false;
-	public static String worldPath = "res/worlds/island.tmx";
+	public static String initialWorldPath = "res/worlds/island.tmx";
 	
 	private static Handler handler;
 	
 	/*
-	 * Set to true for debug mode
+	 * Flag: Set to true for debug mode
 	 */
 	public static boolean debugMode = false;
 	
@@ -94,7 +94,7 @@ public class Handler implements Serializable {
 		player = new Player(5120, 5600);
 		
 		// Instantiate all interfaces
-		chatWindow = new ChatWindow(); //228,314
+		chatWindow = new ChatWindow();
 		inventory = new InventoryWindow();
 		equipment = new EquipmentWindow();
 		skillsUI = new SkillsUI();
@@ -116,42 +116,14 @@ public class Handler implements Serializable {
 			int buffer = -1;
 			String songName = zone.getMusicFile();
 			try {
-				buffer = AudioManager.loadSound(new File("res/music/" + songName));
+				buffer = AudioManager.loadSound("res/music/" + songName);
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find file: "+songName);
 				e.printStackTrace();
-				System.exit(0);
 			}
-			if(AudioManager.musicFiles.size() > 0) {
-				if(AudioManager.zone != null) {
-					if(!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
-						AudioManager.zone = zone;
-						AudioManager.musicFiles.add(new Source());
-						if(AudioManager.musicFiles.size() > 2) {
-							for(int i = 1; i < AudioManager.musicFiles.size() - 1; i++) {
-								AudioManager.musicFiles.get(i).stop();
-							}
-						}else {
-							AudioManager.musicFiles.getFirst().setFadingOut(true);
-						}
-						AudioManager.musicFiles.getLast().setVolume(0.0f);
-						AudioManager.musicFiles.getLast().setFadingIn(true);
-						AudioManager.musicFiles.getLast().setLooping(true);
-						AudioManager.musicFiles.getLast().playMusic(buffer);
-					}else {
-						AudioManager.zone = zone;
-						for(int i = 0; i < AudioManager.musicFiles.size() - 1; i++) {
-							AudioManager.musicFiles.get(i).setFadingOut(true);
-						}
-					}
-				}
-			}else {
-				AudioManager.zone = zone;
-				AudioManager.musicFiles.add(new Source());
-				AudioManager.musicFiles.getLast().setVolume(0.4f);
-				AudioManager.musicFiles.getLast().setLooping(true);
-				AudioManager.musicFiles.getLast().playMusic(buffer);
-			}
+			
+			// Fade from first song to the next
+			AudioManager.fadeSongs(zone, buffer);
 		}
 	}
 	
@@ -159,30 +131,15 @@ public class Handler implements Serializable {
 		if(!soundMuted) {
 			int buffer = -1;
 			try {
-				buffer = AudioManager.loadSound(new File("res/music/" + effect));
+				buffer = AudioManager.loadSound("res/music/" + effect);
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find file: "+effect);
 				e.printStackTrace();
-				System.exit(0);
 			}
 			AudioManager.soundfxFiles.add(new Source());
 			AudioManager.soundfxFiles.getLast().setVolume(0.2f);
 			AudioManager.soundfxFiles.getLast().setLooping(false);
 			AudioManager.soundfxFiles.getLast().playEffect(buffer);
-			
-			// Move sound from left to right speaker
-//			float xPos = -10f;
-//			while(xPos < 10) {
-//				xPos += 0.03f;
-//				AudioManager.soundfxFiles.getLast().setPosition(xPos, 0);
-//				try {
-//					Thread.sleep(20);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			AudioManager.soundfxFiles.getLast().delete();
 			
 		}
 	}
@@ -191,6 +148,11 @@ public class Handler implements Serializable {
 		this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
 	}
 	
+	/**
+	 * Checks if the player has quest requirements to begin specified quest
+	 * @param quest - The quest to check requirements for
+	 * @return - true if requirements are met, false if not
+	 */
 	public boolean hasQuestReqs(QuestList quest) {
 		Quest q = getQuest(quest);
 		for(int i = 0; i < q.getRequirements().length; i++) {
@@ -209,10 +171,27 @@ public class Handler implements Serializable {
 		return true;
 	}
 	
+	public Rectangle getMouse() {
+		if(getMouseManager().getMouseCoords() != null) {
+			getMouseManager().getMouseCoords().setLocation(getMouseManager().getMouseX(), getMouseManager().getMouseY());
+			return getMouseManager().getMouseCoords();
+		}else {
+			getMouseManager().setMouseCoords(new Rectangle(getMouseManager().getMouseX(), getMouseManager().getMouseY(), 1, 1));
+			return getMouseManager().getMouseCoords();
+		}
+	}
+	
+	/**
+	 * Go from your current world to the next
+	 * @param zone - The new zone to enter
+	 * @param x - The X position in the new zone
+	 * @param y - The Y position in the new zone
+	 */
 	public void goToWorld(Zone zone, int x, int y) {
 		player.setX(x);
 		player.setY(y);
 		player.setZone(zone);
+		getWorld().getEntityManager().setSelectedEntity(null);
 		setWorld(worldHandler.getWorldsMap().get(zone));
 		
 		ZoneTransitionState transitionState = new ZoneTransitionState(zone);
@@ -228,6 +207,7 @@ public class Handler implements Serializable {
 		return resource;
 	}
 	
+	
 	public boolean playerHasSkillLevel(SkillsList skill, Item item) {
 		SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
 		if(resource != null) {
@@ -236,15 +216,18 @@ public class Handler implements Serializable {
 			}else {
 				return false;
 			}
-		}else {
-			return false;
 		}
+		return false;
 	}
 	
 	public Skill getSkill(SkillsList skill) {
 		return skillsUI.getSkill(skill);
 	}
 	
+	/**
+	 * Unlock the specified recipe result item
+	 * @param item - The resulting item of the recipe to be unlocked
+	 */
 	public void discoverRecipe(Item item) {
 		craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(this, true);
 	}
@@ -252,8 +235,8 @@ public class Handler implements Serializable {
 	public boolean questStarted(QuestList quest) {
 		if(questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
 			return false;
-		else
-			return true;
+		
+		return true;
 	}
 	
 	public Quest getQuest(QuestList quest) {
@@ -268,25 +251,9 @@ public class Handler implements Serializable {
 	 * Generates a random numbers between min & max
 	 */
 	public int getRandomNumber(int min, int max){
-		int randomNumber = rand.nextInt((max - min) + 1) + min;
+		int randomNumber = new Random().nextInt((max - min) + 1) + min;
 		return randomNumber;
 	}
-	
-//	/*
-//	 * Plays music (basic function.. needs expanding to check area)
-//	 */
-//	public void playMusic(String fileName) {
-//		if(!soundMuted) {
-//			
-//		}
-//	}
-//	
-//	public void playSoundEffect(String fileName) {
-//		if(!soundMuted) {
-//			Sound effect = TinySound.loadSound("../res/music/" + fileName, true);
-//			effect.play(0.1);
-//		}
-//	}
 	
 	/*
 	 * Rounds off a number to two digits.
@@ -304,6 +271,13 @@ public class Handler implements Serializable {
 			getWorld().getItemManager().addItem((item.createUnequippableItem(x, y, amount)));
 		else
 			getWorld().getItemManager().addItem((item.createEquippableItem(x, y, amount)));
+	}
+	
+	public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
+		if(item.getEquipSlot() == EquipSlot.NONE.getSlotId())
+			getWorld().getItemManager().addItem((item.createUnequippableItem(x, y, amount)), despawn);
+		else
+			getWorld().getItemManager().addItem((item.createEquippableItem(x, y, amount)), despawn);
 	}
 	
 	/*
@@ -330,13 +304,32 @@ public class Handler implements Serializable {
 	 * @params: Provide the item and the amount to be added
 	 */
 	public void giveItem(Item item, int amount) {
-		if(getInventory().findFreeSlot(item) == -1) {
-			sendMsg("The item(s) were dropped to the floor.");
-			dropItem(item, amount, (int)player.getX(), (int)player.getY());
-		} else{
-			getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
-		}
+		if(!item.isStackable()) {
+			if(getInventory().findFreeSlot(item) == -1) {
+				if(amount >= 1) {
+					dropItem(item, amount, (int)player.getX(), (int)player.getY());
+					if(amount != 1)
+						giveItem(item, (amount-1));
+					else
+						sendMsg("The item(s) were dropped to the floor.");
+				}
+			} else{
+				if(amount >= 1) {
+					getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
+					giveItem(item, (amount-1));
+				}
+			}
+		}else {
+			if(getInventory().findFreeSlot(item) == -1) {
+				dropItem(item, amount, (int)player.getX(), (int)player.getY());				
+				sendMsg("The item(s) were dropped to the floor.");
+			} else{
+				getInventory().getItemSlots().get(getInventory().findFreeSlot(item)).addItem(item, amount);
+				
+			}
+		}	
 	}
+	
 	
 	/*
 	 * Removes an item + quantity from the inventory.
@@ -383,7 +376,7 @@ public class Handler implements Serializable {
 	}
 
 	public void setGame(Game game) {
-		this.game = game;
+		Handler.game = game;
 	}
 
 	public World getWorld() {

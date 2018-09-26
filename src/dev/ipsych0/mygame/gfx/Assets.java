@@ -160,11 +160,11 @@ public class Assets {
 		 * Sprite Sheets
 		 */
 		SpriteSheet rsCastlePuzzle = new SpriteSheet("/textures/RS_CASTLE_PUZZLE.png");
-		SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items.png");
+		SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
 		SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
 		SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
 		SpriteSheet controls_sheet = new SpriteSheet("/textures/ControlsScreen.png");
-		SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow.png");
+		SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow-new.png");
 		/*
 		 * Make skilling sheet for this
 		 */

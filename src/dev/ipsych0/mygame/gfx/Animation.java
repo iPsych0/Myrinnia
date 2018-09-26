@@ -7,14 +7,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 
 public class Animation implements Serializable {
 	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6957117142545976181L;
 	private int speed, index;
 	private long lastTime, timer;
 	private transient BufferedImage[] frames;

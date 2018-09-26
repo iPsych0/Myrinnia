@@ -20,9 +20,8 @@ public class SkillsUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	public int x = 0, y = 180, width = 192, height = 320;
+	private static final long serialVersionUID = -7078989753242847318L;
+	public int x = 8, y = 180, width = 208, height = 320;
 	public static boolean isOpen = false;
 	public static boolean hasBeenPressed = false;
 	private HashMap<SkillsList, Skill> skills;
@@ -57,11 +56,11 @@ public class SkillsUI implements Serializable{
 			skills.put(skillsEnum.get(i), skillsList.get(i));
 		}
 		
-		bountyHunter = new Rectangle(x + 8, y + 40, 174, 32);
-		crafting = new Rectangle(x + 8, y + 72, 174, 32);
-		fishing = new Rectangle(x + 8, y + 104, 174, 32);
-		mining = new Rectangle(x + 8, y + 136, 174, 32);
-		woodcutting = new Rectangle(x + 8, y + 168, 174, 32);
+		bountyHunter = new Rectangle(x + 16, y + 40, 174, 32);
+		crafting = new Rectangle(x + 16, y + 72, 174, 32);
+		fishing = new Rectangle(x + 16, y + 104, 174, 32);
+		mining = new Rectangle(x + 16, y + 136, 174, 32);
+		woodcutting = new Rectangle(x + 16, y + 168, 174, 32);
 		
 		bounds = new Rectangle(x, y, width, height);
 		
@@ -72,8 +71,7 @@ public class SkillsUI implements Serializable{
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
-			
+			Rectangle mouse = Handler.get().getMouse();			
 
 			if(bountyHunter.contains(mouse)) {
 				if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -178,7 +176,7 @@ public class SkillsUI implements Serializable{
 			
 			overviewUI.render(g);
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 			

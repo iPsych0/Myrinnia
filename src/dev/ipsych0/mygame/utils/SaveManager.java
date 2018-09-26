@@ -1,6 +1,5 @@
 package dev.ipsych0.mygame.utils;
 
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import dev.ipsych0.mygame.Game;
 import dev.ipsych0.mygame.Handler;
@@ -16,33 +14,48 @@ import dev.ipsych0.mygame.Handler;
 
 public class SaveManager {
 	
+	private SaveManager() {
+		
+	}
+	
+	/**
+	 * Saves the game state
+	 */
 	public static void savehandler(){
 		FileOutputStream f;
+		ObjectOutputStream o;
 		try {
 			f = new FileOutputStream(new File("res/savegames/save.dat"));
-			ObjectOutputStream o;
-			try {
-				Game.get().getMouseManager().setLeftPressed(false);
-				o = new ObjectOutputStream(f);
-					o.writeObject(Handler.get());
-				o.close();
-				f.close();
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+			
+			// Disable the left-click that was pressed when selecting 'save'
+			Game.get().getMouseManager().setLeftPressed(false);
+			
+			// Write the Handler object
+			o = new ObjectOutputStream(f);
+				o.writeObject(Handler.get());
+			o.close();
+			f.close();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Loads the game state
+	 */
 	public static void loadHandler(){
 		Handler handlerObject = null;
 		FileInputStream fin;
+		ObjectInputStream oin;
 		try {
 			fin = new FileInputStream("res/savegames/save.dat");
-			ObjectInputStream oin = new ObjectInputStream(fin);
+			oin = new ObjectInputStream(fin);
+			
+			// Load in the Handler object
 			handlerObject = (Handler) oin.readObject();
+			
 			oin.close();
 			fin.close();
 		} catch (FileNotFoundException e) {
@@ -53,6 +66,7 @@ public class SaveManager {
 			e.printStackTrace();
 		}
 		
+		// Set the Handler to the loaded version
 		Handler.setHandler(handlerObject);
 
 	}

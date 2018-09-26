@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.worlds.Zone;
 
@@ -19,7 +16,8 @@ public class QuestManager implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4508062817810741935L;
+
 	private QuestUI questUI;
 	
 	// Quest Lists per zone

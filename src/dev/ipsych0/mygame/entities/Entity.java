@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
@@ -17,10 +18,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public abstract class Entity implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6319447656301966908L;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
@@ -43,10 +45,11 @@ public abstract class Entity implements Serializable{
 	protected int speakingCheckpoint = 0;
 	protected ChatDialogue chatDialogue;
 	protected boolean overlayDrawn = true;
-	protected int lastHit = 0;
+	private int lastHit = 0;
 	protected boolean inCombat = false;
 	protected int combatTimer = 0;
 	protected int respawnTimer = 600;
+	protected Rectangle collision;
 	
 	public Entity(float x, float y, int width, int height){
 		this.x = x;
@@ -56,6 +59,7 @@ public abstract class Entity implements Serializable{
 		health = DEFAULT_HEALTH;
 		
 		bounds = new Rectangle(0, 0, width, height);
+		collision = new Rectangle((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
 	}
 	
 	// Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
@@ -129,8 +133,8 @@ public abstract class Entity implements Serializable{
 		    int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
 		    hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
 		    pythagoras.add(Math.sqrt(dx * dx + dy * dy));
-		    Collections.sort(pythagoras);
 		}
+		Collections.sort(pythagoras);
 		closestDistance = pythagoras.get(0);
 		closestEntity = hashMap.get(closestDistance);
 		return closestEntity;
@@ -241,7 +245,8 @@ public abstract class Entity implements Serializable{
 	 * Returns the collision bounds of an Entity
 	 */
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int)Math.round((x + bounds.x + xOffset)), (int)Math.round((y + bounds.y + yOffset)), bounds.width, bounds.height);
+		collision.setBounds((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
+		return collision;
 	}
 	
 	// Getters & Setters

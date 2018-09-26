@@ -20,13 +20,13 @@ public class BankUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1728128423147794469L;
 	public static int x, y, width, height;
 	public static boolean isOpen = false;
 	private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
 	private ArrayList<BankTab> tabs = new ArrayList<>();
 	private BankTab openedTab;
-	private int maxTabs = 10;
+	private static final int MAX_TABS = 10;
 	public static boolean inventoryLoaded;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
@@ -36,14 +36,14 @@ public class BankUI implements Serializable{
 	private Rectangle exit;
 	
 	public BankUI() {		
-		x = 240;
-		y = 150;
 		width = 460;
 		height = 313;
+		x = Handler.get().getWidth() / 2 - width / 2;
+		y = Handler.get().getHeight() / 2 - height / 2;
 		
 		// Add all the tabs
-		for(int i = 0; i < maxTabs; i++) {
-			tabs.add(new BankTab(x + (width / 2) - ((maxTabs * 32 / 2)) + (i * 32), y + 32, i));
+		for(int i = 0; i < MAX_TABS; i++) {
+			tabs.add(new BankTab(x + (width / 2) - ((MAX_TABS * 32 / 2)) + (i * 32), y + 32, i));
 		}
 		
 		// Add the inventory slots
@@ -79,7 +79,7 @@ public class BankUI implements Serializable{
 				inventoryLoaded = true;
 			}
 			
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1 ,1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			if(Player.isMoving || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Handler.get().getKeyManager().escape) {
 				Handler.get().getPlayer().setBankEntity(null);

@@ -3,6 +3,7 @@ package dev.ipsych0.mygame.crafting;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
@@ -10,10 +11,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingSlot implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4758228481988705528L;
 	private int x, y;
 	public static final int SLOTSIZE = 32;
 	private ItemStack itemStack;

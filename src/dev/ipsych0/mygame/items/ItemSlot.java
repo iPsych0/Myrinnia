@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-import dev.ipsych0.mygame.entities.creatures.Creature;
 import dev.ipsych0.mygame.gfx.Assets;
-import dev.ipsych0.mygame.states.GameState;
 
 public class ItemSlot implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6580595372033787037L;
 
 	public static final int SLOTSIZE = 32;
 	

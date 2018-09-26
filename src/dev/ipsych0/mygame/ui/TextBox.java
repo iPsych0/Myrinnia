@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.input.KeyManager;
@@ -18,7 +19,7 @@ public class TextBox implements KeyListener, Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2516956275598468379L;
 	public int x, y, width, height;
 	private String charactersTyped = "";
 	public boolean numbersOnly = false;
@@ -48,7 +49,7 @@ public class TextBox implements KeyListener, Serializable {
 	
 	public void tick() {
 		if(isOpen) {
-			Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+			Rectangle mouse = Handler.get().getMouse();
 			
 			// Sets focus when the textfield is clicked
 			if(bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
@@ -87,7 +88,7 @@ public class TextBox implements KeyListener, Serializable {
 				g.setColor(selected);
 				g.fillRect(x + 2, y, width - 4, height);
 				
-				if(blinkTimer >= 0 && blinkTimer < 30) {
+				if(blinkTimer >= 0 && blinkTimer < 60) {
 					cursor = "|";
 					if(!charactersTyped.isEmpty()) {
 						int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
@@ -96,11 +97,11 @@ public class TextBox implements KeyListener, Serializable {
 						Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 					}
 				}
-				else if(blinkTimer == 30) {
+				else if(blinkTimer == 60) {
 					cursor = "";
 					Text.drawString(g, cursor, x + (width / 2), y + 17, true, cursorColor, Assets.font20);
 				}
-				else if(blinkTimer >= 60) {
+				else if(blinkTimer >= 120) {
 					blinkTimer = 0;
 				}
 			}else {

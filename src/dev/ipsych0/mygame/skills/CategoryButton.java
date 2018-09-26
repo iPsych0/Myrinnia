@@ -13,7 +13,7 @@ public class CategoryButton implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5801506235295805009L;
 	public int x, y, width, height;
 	private SkillCategory category;
 	private Rectangle bounds;

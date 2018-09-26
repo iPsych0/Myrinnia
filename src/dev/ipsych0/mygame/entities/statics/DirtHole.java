@@ -3,19 +3,18 @@ package dev.ipsych0.mygame.entities.statics;
 import java.awt.Graphics;
 
 import dev.ipsych0.mygame.Handler;
-import dev.ipsych0.mygame.entities.creatures.Scorpion;
 import dev.ipsych0.mygame.entities.npcs.ChatDialogue;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.tiles.Tiles;
-import dev.ipsych0.mygame.worlds.World;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class DirtHole extends StaticEntity {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -342972644048517256L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};

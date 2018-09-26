@@ -9,7 +9,7 @@ public class SkillResource implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 242384514442352183L;
 	private int levelRequirement;
 	private Item item;
 	private SkillCategory category;

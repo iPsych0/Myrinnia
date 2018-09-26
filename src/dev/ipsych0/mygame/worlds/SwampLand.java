@@ -16,7 +16,7 @@ public class SwampLand extends World{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3169176858936135534L;
 	private Rectangle testLandTile;
 
 	public SwampLand(String path) {

@@ -13,10 +13,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Tree extends StaticEntity {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -524381157898161854L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private boolean isWoodcutting = false;
@@ -30,6 +31,7 @@ public class Tree extends StaticEntity {
 		
 		isNpc = true;
 		attackable = false;
+		
 	}
 
 	@Override

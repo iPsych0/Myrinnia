@@ -18,8 +18,10 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public abstract class Item implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5417348314768685085L;
 	// ItemList
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
@@ -43,7 +45,6 @@ public abstract class Item implements Serializable{
 	
 	// Class
 	
-	protected Handler handler;
 	protected ItemType[] itemTypes;
 	protected ItemRarity itemRarity;
 	protected ItemRequirement[] requirements;
@@ -55,6 +56,7 @@ public abstract class Item implements Serializable{
 	protected float attackSpeed, movementSpeed;
 	protected int x, y;
 	protected Rectangle bounds;
+	protected Rectangle position;
 	protected int count;
 	protected boolean pickedUp = false;
 	public static boolean pickUpKeyPressed = false;
@@ -86,7 +88,8 @@ public abstract class Item implements Serializable{
 			exc.printStackTrace();
 			System.exit(1);
 		}
-		bounds = new Rectangle(0, 0, ITEMWIDTH, ITEMHEIGHT);
+		bounds = new Rectangle(0, 0, 32, 32);
+		position = new Rectangle(0, 0, 32, 32);
 	}
 	
 	public void tick(){
@@ -94,8 +97,6 @@ public abstract class Item implements Serializable{
 	}
 	
 	public void render(Graphics g){
-		if(handler == null)
-			return;
 		render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
 	}
 	
@@ -147,17 +148,8 @@ public abstract class Item implements Serializable{
 	 * Returns the position of the item
 	 */
 	public Rectangle itemPosition(float xOffset, float yOffset){
-		//
-		bounds.x = 0;
-		bounds.y = 0;
-		bounds.width = 32;
-		bounds.height = 32;
-		
-		Rectangle ir = new Rectangle();
-		int arSize = ITEMWIDTH;
-		ir.width = arSize;
-		ir.height = arSize;
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		position.setBounds((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), 32, 32);
+		return position;
 	}
 	
 	/*
@@ -182,14 +174,6 @@ public abstract class Item implements Serializable{
 	
 	
 	// Getters & Setters
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
 
 	public int getEquipSlot() {
 		return equipSlot.getSlotId();
@@ -328,6 +312,14 @@ public abstract class Item implements Serializable{
 		this.respawnTimer = respawnTimer;
 	}
 
+	public Rectangle getPosition() {
+		return position;
+	}
+
+	public void setPosition(Rectangle position) {
+		this.position = position;
+	}
+
 	private void writeObject(ObjectOutputStream out) throws IOException {
 	    out.defaultWriteObject();
 
@@ -336,6 +328,7 @@ public abstract class Item implements Serializable{
 
         out.writeInt(buffer.size()); // Prepend image with byte count
         buffer.writeTo(out);         // Write image
+        buffer.close();
 	}
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -345,7 +338,9 @@ public abstract class Item implements Serializable{
         byte[] buffer = new byte[size];
         in.readFully(buffer); // Make sure you read all bytes of the image
 
-        this.texture = ImageIO.read(new ByteArrayInputStream(buffer));
+        ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+        this.texture = ImageIO.read(is);
+        is.close();
     }
 
 }

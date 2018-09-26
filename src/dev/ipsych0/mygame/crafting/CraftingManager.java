@@ -5,16 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import dev.ipsych0.mygame.items.Item;
 import dev.ipsych0.mygame.items.ItemStack;
 import dev.ipsych0.mygame.skills.SkillCategory;
 
 public class CraftingManager implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5224910817694774668L;
 	private List<CraftingRecipe> recipes;
 	
 	/*

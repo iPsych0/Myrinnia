@@ -3,15 +3,17 @@ package dev.ipsych0.mygame.entities.npcs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
 public class ContinueButton implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7648763333442088047L;
 	private int x, y, width, height;
 	private boolean isHovering = false;
 	private boolean isPressed = false;
@@ -19,8 +21,8 @@ public class ContinueButton implements Serializable{
 	public ContinueButton(int x, int y) {
 		this.x = x;
 		this.y = y;
-		width = 100;
-		height = 20;
+		this.width = 100;
+		this.height = 20;
 	}
 	
 	public void tick() {

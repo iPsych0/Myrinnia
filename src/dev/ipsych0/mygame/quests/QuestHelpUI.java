@@ -15,13 +15,13 @@ public class QuestHelpUI implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7088128893254827094L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
 	private Rectangle bounds;
 	
 	public QuestHelpUI() {
-		this.x = 200;
+		this.x = 216;
 		this.y = 150;
 		this.width = 200;
 		this.height = 200;

@@ -12,12 +12,13 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatWindow implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5673402739754368073L;
+
 	public static boolean chatIsOpen = true;
-	private boolean isCreated = false;
 	
 	private int x, y;
 	private int width, height;
@@ -29,30 +30,27 @@ public class ChatWindow implements Serializable{
 	private CopyOnWriteArrayList<TextSlot> textSlots;
 	
 	public ChatWindow(){
-		if(!isCreated){
-			textSlots = new CopyOnWriteArrayList<TextSlot>();
-			width = numCols * (TextSlot.textWidth);
-			height = numRows * (TextSlot.textHeight + 1);
-			this.x = 0;
-			this.y = Handler.get().getHeight() - height - 8;
-			
-			for(int i = 0; i < numCols; i++){
-				for(int j = 0; j < numRows; j++){
-					if(j == (numRows)){
-						x += 8;
-					}
-					
-					textSlots.add(new TextSlot(x + (i * (TextSlot.textWidth)), y + (j * TextSlot.textHeight), null));
-					
-					if(j == (numRows)){
-						x -= 8;
-					}
+		textSlots = new CopyOnWriteArrayList<TextSlot>();
+		width = numCols * (TextSlot.textWidth);
+		height = numRows * (TextSlot.textHeight + 1);
+		this.x = 8;
+		this.y = Handler.get().getHeight() - height - 16;
+		
+		for(int i = 0; i < numCols; i++){
+			for(int j = 0; j < numRows; j++){
+				if(j == (numRows)){
+					x += 8;
 				}
-			}	
-			
-			windowBounds = new Rectangle(x, y, width, height);
-			isCreated = true;
-		}
+				
+				textSlots.add(new TextSlot(x + (i * (TextSlot.textWidth)), y + (j * TextSlot.textHeight), null));
+				
+				if(j == (numRows)){
+					x -= 8;
+				}
+			}
+		}	
+		
+		windowBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public void tick(){
@@ -64,20 +62,12 @@ public class ChatWindow implements Serializable{
 		}
 	}
 	
-	// Renders even if not within distance --> fix
 	public void render(Graphics g){
 		if(chatIsOpen){
-//			g.setColor(interfaceColour);
-//			g.fillRect(x, y, width, height - 121); 
-//			g.setColor(Color.BLACK);
-//			g.drawRect(x, y, width, height - 121);
-//			g.setFont(GameState.myFont);
-			
 			g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
-			g.drawImage(Assets.chatwindowTop, x, y - 9, width, 20, null);
-			String world = Handler.get().getWorld().getClass().getSimpleName().toString();
-			world = world.substring(0,1).toUpperCase() + world.substring(1).toLowerCase();
-			Text.drawString(g, world, x + (width / 2), y + 1, true, Color.YELLOW, Assets.font14);
+			g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+			
+			Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 8, true, Color.YELLOW, Assets.font14);
 			
 			for(TextSlot ts : textSlots){
 				ts.render(g);
@@ -93,7 +83,7 @@ public class ChatWindow implements Serializable{
         int chatIndex = freeTextSlot();
        // System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
         if(chatIndex >= 0){
-	    	getTextSlots().get(chatIndex).addTextSlot(message);
+	    	getTextSlots().get(chatIndex).setMessage(message);
 	    	//System.out.println("Added the line '" + message + "'");
 	    	return true;
         }
@@ -108,21 +98,21 @@ public class ChatWindow implements Serializable{
 	 */
 	public int freeTextSlot() {
 		// Als de chat leeg is, vul altijd de 1e slot
-		if(textSlots.get(textSlots.size() - 1).getNpcText() == null){
+		if(textSlots.get(textSlots.size() - 1).getMessage() == null){
 			return (textSlots.size() - 1);
 		}
         for (int i = 0; i < textSlots.size(); i++) {
         	// Als textslot (i) != null is ...
-        	if (textSlots.get(i).getNpcText() != null) {
+        	if (textSlots.get(i).getMessage() != null) {
         		// Als alle slots vol zijn, maak de bovenste slot dan "null" en ga door met het 1e vakje (die zet ie dan weer naar 0, etc. voor de rest)
         		if(i == 0){
-        			textSlots.get(0).setNpcText(null);
+        			textSlots.get(0).setMessage(null);
         			continue;
         		}
         		// Zet textslot (i) in temporary
-        		NPCText temporary = textSlots.get(i).getNpcText();
+        		String temporary = textSlots.get(i).getMessage();
         		// Zet slot i - 1 (0 - 1 = -1) naar temp
-        		textSlots.get(i - 1).setNpcText(temporary);
+        		textSlots.get(i - 1).setMessage(temporary);
             }
         }
         return (textSlots.size() - 1);

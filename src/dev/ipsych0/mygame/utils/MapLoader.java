@@ -13,11 +13,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class MapLoader implements Serializable{
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5948158902228537298L;
 	private static DocumentBuilderFactory factory;
 	private static DocumentBuilder builder;
 	static {

@@ -26,10 +26,8 @@ import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
 import dev.ipsych0.mygame.shop.ShopWindow;
-import dev.ipsych0.mygame.skills.SkillsList;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
-import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.states.State;
 import dev.ipsych0.mygame.states.UITransitionState;
 import dev.ipsych0.mygame.utils.Text;
@@ -38,10 +36,12 @@ import dev.ipsych0.mygame.worlds.Zone;
 
 public class Player extends Creature{
 	
+	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7176335479649325606L;
 
 	// NPC killcounts
 	private int scorpionKC = 0;
@@ -71,7 +71,7 @@ public class Player extends Creature{
 	
 	private int basePower, baseVitality, baseDefence;
 	private double levelExponent = 1.1;
-	private static boolean isLevelUp = false;
+	public static boolean isLevelUp = false;
 	private int levelUpTimer = 0;
 	
 	private boolean movementAllowed = true;
@@ -88,6 +88,7 @@ public class Player extends Creature{
 	private Color playerBoxColour = new Color(0, 255, 0, alpha);
 	private boolean isLoaded = false;
 	private Zone zone = Zone.Island;
+	private Rectangle itemPickupRadius;
 	
 	public Player(float x, float y) {
 		super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -129,6 +130,8 @@ public class Player extends Creature{
 		projectiles = new ArrayList<Projectile>();
 		
 		respawnTimer = 1;
+		
+		itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 	}
 
 	@Override
@@ -221,7 +224,7 @@ public class Player extends Creature{
 			}
 		}
 		
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		// If we're interacting with the closest Entity
 		if(closestEntity != null) {
@@ -256,7 +259,7 @@ public class Player extends Creature{
 			closestEntity.getChatDialogue().tick();
 		}
 		
-		// If the player moves or presses escape, close the shop and chat dialogue
+		// If the player moves, close the shop and chat dialogue
 		if(closestEntity != null && isMoving) {
 			Entity.isCloseToNPC = false;
 			hasInteracted = false;
@@ -265,11 +268,10 @@ public class Player extends Creature{
 			closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
 			closestEntity.interact();
 			closestEntity = null;
-			
 		}
 		
 		// If there are projectiles, tick them
-		if(projectiles.size() != 0) {
+		if(projectiles.size() > 0) {
 			tickProjectiles();
 		}
 		
@@ -340,11 +342,11 @@ public class Player extends Creature{
 						p.active = false;
 					}
 				}
-				for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-					if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
-						p.active = false;
-						
-					}
+			}
+			for(int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+				if(collisionWithTile((int)((p.getX() + 16) / 32), (int)((p.getY() + 16) / 32)) && p.active) {
+					p.active = false;
+					
 				}
 			}
 			p.tick();
@@ -425,7 +427,8 @@ public class Player extends Creature{
 	
 	@Override
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
+		
 		if(movementAllowed) {
 			g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),
 					(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
@@ -433,9 +436,8 @@ public class Player extends Creature{
 			g.drawImage(getLastFacedImg(), (int) (x - Handler.get().getGameCamera().getxOffset()),
 					(int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		}
-		g.setFont(GameState.myFont);
 		
-		Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 4, 160, false, Color.YELLOW, Assets.font14);
+		Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
 		
 		// UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 		
@@ -469,7 +471,7 @@ public class Player extends Creature{
 		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 		 */
 				
-		if(projectiles.size() >= 1) {
+		if(projectiles.size() > 0) {
 			for(Projectile p : projectiles) {
 				if(active)
 					p.render(g);
@@ -488,7 +490,7 @@ public class Player extends Creature{
 		
 	}
 	
-	public void levelUpStats() {
+	public void levelUp() {
 		
 		isLevelUp = true;
 		
@@ -662,6 +664,11 @@ public class Player extends Creature{
 			return true;
 		if(Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
 			return true;
+		if(closestEntity != null && closestEntity.getChatDialogue() != null) {
+			if(Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
+				return true;
+			}
+		}
 		
 		// If the mouse is not clicked in one of the UI windows, return false
 		return false;
@@ -757,11 +764,6 @@ public class Player extends Creature{
 				}
 			}
 		}
-	}
-	
-	@Override
-	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
 	public int getScorpionKC() {
@@ -1107,7 +1109,8 @@ public class Player extends Creature{
 	}
 
 	public Rectangle itemPickupRadius() {
-		return new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
+		itemPickupRadius.setLocation((int) (x + bounds.x - 24), (int) (y + bounds.y - 24));
+		return itemPickupRadius;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package dev.ipsych0.mygame.entities.statics;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -10,6 +9,10 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Workbench extends StaticEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8804679431303966524L;
 	private String[] firstDialogue = {"You may use this workbench to craft items."};
 	private String[] secondDialogue = {"Craft items", "Leave"};
 	

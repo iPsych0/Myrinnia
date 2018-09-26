@@ -1,17 +1,14 @@
 package dev.ipsych0.mygame.recap;
 
-import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
-
-import dev.ipsych0.mygame.Handler;
 
 public class RecapManager implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3117488414266717174L;
 	private LinkedList<RecapEvent> events;
 	
 	public RecapManager() {

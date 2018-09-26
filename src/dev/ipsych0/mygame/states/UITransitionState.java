@@ -12,11 +12,10 @@ public class UITransitionState extends AbstractTransitionState {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8513594300991244715L;
 	private State newState;
 
 	public UITransitionState(State newState) {
-		super();
 		this.newState = newState;
 	}
 

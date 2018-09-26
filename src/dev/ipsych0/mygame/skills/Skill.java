@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.items.Item;
 
 public abstract class Skill implements Serializable {
@@ -12,7 +13,7 @@ public abstract class Skill implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2650558782741069411L;
 	protected int experience, level;
 	protected int nextLevelXp = 100;
 	protected ArrayList<SkillResource> resources;
@@ -42,13 +43,13 @@ public abstract class Skill implements Serializable {
 		this.level++;
 	}
 	
-	private void checkNextLevel() {
-		if(this.experience >= nextLevelXp) {
+	protected void checkNextLevel() {
+		if(experience >= nextLevelXp) {
 			experience -= nextLevelXp;
 			addLevel();
 			nextLevelXp = (int)(nextLevelXp * 1.1);
-			Handler.get().getPlayer().levelUpStats();
 			checkNextLevel();
+			Player.isLevelUp = true;
 		}
 	}
 

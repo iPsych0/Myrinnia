@@ -17,11 +17,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class HPOverlay implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 4442630766249828531L;
 	private Rectangle bounds;
 	private Rectangle combatBar, hpBar, xpBar;
 	private Rectangle skillsButton, characterButton, abilitiesButton, questsButton, mapButton;
@@ -32,21 +32,21 @@ public class HPOverlay implements Serializable {
 	public HPOverlay() {
 		
 		// Bars
-		hpBar = new Rectangle(48,32,144,24);
-		xpBar = new Rectangle(48,56,144,24);
+		hpBar = new Rectangle(56,38,144,24);
+		xpBar = new Rectangle(56,64,144,24);
 		
-		bounds = new Rectangle(0, 0, 208, 128);
+		bounds = new Rectangle(8, 8, 208, 128);
 		
-		combatBar = new Rectangle(0,2,208,32);
+		combatBar = new Rectangle(8,10,208,32);
 		
 		// Colors
-		hpColorRed = new Color(140, 0, 0);
-		hpColorGreen = new Color(50, 135, 0);
-		xpColor = new Color(180, 135, 5);
+		hpColorRed = new Color(148, 8, 0);
+		hpColorGreen = new Color(58, 143, 0);
+		xpColor = new Color(188, 143, 5);
 		
-		hpColorRedOutline = new Color(190, 0, 0);
-		hpColorGreenOutline = new Color(50, 180, 0);
-		xpColorOutline = new Color(240, 160, 5);
+		hpColorRedOutline = new Color(198, 8, 0);
+		hpColorGreenOutline = new Color(58, 188, 0);
+		xpColorOutline = new Color(248, 168, 5);
 		
 		// Buttons
 		questsButton = new Rectangle(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32);
@@ -62,7 +62,7 @@ public class HPOverlay implements Serializable {
 	
 	public void render(Graphics g) {
 		
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		// Draw the bars
 		g.drawImage(Assets.genericButton[0], bounds.x, bounds.y, bounds.width, bounds.height, null);

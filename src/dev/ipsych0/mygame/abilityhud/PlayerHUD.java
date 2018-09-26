@@ -17,10 +17,11 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class PlayerHUD implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2357471540127327333L;
 	private static final int MAX_SLOTS = 10;
 	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
 	private HPBar hpBar;
@@ -34,7 +35,7 @@ public class PlayerHUD implements Serializable{
 		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
 		this.height = y + ItemSlot.SLOTSIZE;
 		this.x = Handler.get().getWidth() / 2 - (width / 2);
-		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE;
+		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE - 8;
 		
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
@@ -110,7 +111,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void tick() {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		if(pressedKey != '\u0000') {
 			// If 0-9 key is pressed, handle the key pressed.
@@ -135,7 +136,7 @@ public class PlayerHUD implements Serializable{
 	}
 	
 	public void render(Graphics g) {
-		Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+		Rectangle mouse = Handler.get().getMouse();
 		
 		int index = 0;
 		for(AbilitySlot as : slottedAbilities) {

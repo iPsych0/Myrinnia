@@ -19,19 +19,17 @@ import dev.ipsych0.mygame.states.PauseState;
 import dev.ipsych0.mygame.states.RecapState;
 import dev.ipsych0.mygame.states.SettingState;
 import dev.ipsych0.mygame.states.State;
-import dev.ipsych0.mygame.utils.SaveManager;
 
 public class Game implements Runnable, Serializable {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1320270378451615572L;
 	private Display display;
 	private int width, height;
-	public String title;
-	public int posX = 0;
-	public int posY = 0;
+	private String title;
 	private int ticks = 0;
 	private int framesPerSecond = 0;
 

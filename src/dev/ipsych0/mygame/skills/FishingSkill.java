@@ -1,9 +1,13 @@
 package dev.ipsych0.mygame.skills;
 
-import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.items.Item;
 
 public class FishingSkill extends Skill {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6524654729089699242L;
 
 	public FishingSkill() {
 		super();

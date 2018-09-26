@@ -8,10 +8,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class GameCamera implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6890827040135434870L;
 	private float xOffset, yOffset;
 	
 	public GameCamera(float xOffset, float yOffset){

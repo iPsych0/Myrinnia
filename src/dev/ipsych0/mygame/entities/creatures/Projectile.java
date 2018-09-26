@@ -3,37 +3,38 @@ package dev.ipsych0.mygame.entities.creatures;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.gfx.Animation;
 import dev.ipsych0.mygame.gfx.Assets;
 
 public class Projectile implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2796906732989163136L;
 	private float x, y;
 	private int width, height;
 	private double xVelocity, yVelocity;
 	private int maxX, maxY, minX, minY;
-	private int mouseX, mouseY;
 	private double angle;
-	private int maxRadius = 320;
+	private static final int MAX_RADIUS = 320;
 	private Animation magic;
 	private Rectangle bounds;
+	private Rectangle collision;
 	public boolean active;
 	
 	public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
 		this.x = x;
 		this.y = y;
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
 		
 		width = Creature.DEFAULT_CREATURE_WIDTH;
 		height = Creature.DEFAULT_CREATURE_HEIGHT;
 		
 		bounds = new Rectangle((int)x,(int)y,width,height);
+		collision = new Rectangle(bounds);
 		
 		bounds.x = 10;
 		bounds.y = 14;
@@ -41,10 +42,10 @@ public class Projectile implements Serializable {
 		bounds.height = 10;
 		
 		// Max distance the projectile can travel
-		maxX = (int) (x + maxRadius);
-		maxY = (int) (y + maxRadius);
-		minX = (int) (x - maxRadius);
-		minY = (int) (y - maxRadius);
+		maxX = (int) (x + MAX_RADIUS);
+		maxY = (int) (y + MAX_RADIUS);
+		minX = (int) (x - MAX_RADIUS);
+		minY = (int) (y - MAX_RADIUS);
 		
 		// The angle and speed of the projectile
 		angle = Math.atan2(mouseY - y, mouseX - x);
@@ -113,7 +114,8 @@ public class Projectile implements Serializable {
 	}
 
 	public Rectangle getCollisionBounds(float xOffset, float yOffset){
-		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+		collision.setLocation((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset));
+		return collision;
 	}
 
 	public void setBounds(Rectangle bounds) {
