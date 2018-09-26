@@ -15,8 +15,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class InventoryWindow implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2445807581436976803L;
 	public static boolean isOpen = true;
 	public static boolean equipPressed = false;
 	public static boolean hasBeenPressed = false;

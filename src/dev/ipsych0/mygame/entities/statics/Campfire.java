@@ -13,10 +13,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Campfire extends StaticEntity {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1894028112446761958L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private Animation campfire;

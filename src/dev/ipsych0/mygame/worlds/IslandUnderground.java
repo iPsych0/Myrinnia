@@ -15,7 +15,7 @@ public class IslandUnderground extends World {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4712823915790438486L;
 	private Rectangle house1Exit;
 	private Rectangle house2Exit;
 	private Rectangle house3Exit;

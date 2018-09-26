@@ -17,7 +17,7 @@ public class PauseState extends State {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4884725655029471387L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle resumeButton, settingsButton, quitButton;

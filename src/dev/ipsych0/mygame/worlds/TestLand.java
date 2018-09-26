@@ -16,7 +16,7 @@ public class TestLand extends World {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 71527867632258853L;
 	private Rectangle swampLandTile;
 	private Rectangle islandTile;
 

@@ -36,10 +36,12 @@ import dev.ipsych0.mygame.worlds.Zone;
 
 public class Player extends Creature{
 	
+	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7176335479649325606L;
 
 	// NPC killcounts
 	private int scorpionKC = 0;
@@ -69,7 +71,7 @@ public class Player extends Creature{
 	
 	private int basePower, baseVitality, baseDefence;
 	private double levelExponent = 1.1;
-	private static boolean isLevelUp = false;
+	public static boolean isLevelUp = false;
 	private int levelUpTimer = 0;
 	
 	private boolean movementAllowed = true;
@@ -488,7 +490,7 @@ public class Player extends Creature{
 		
 	}
 	
-	public void levelUpStats() {
+	public void levelUp() {
 		
 		isLevelUp = true;
 		

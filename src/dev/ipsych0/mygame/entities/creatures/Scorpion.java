@@ -12,11 +12,12 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Scorpion extends Creature {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 917078714756242679L;
+
 	private boolean initialized = false;
 	
 	 //Attack timer

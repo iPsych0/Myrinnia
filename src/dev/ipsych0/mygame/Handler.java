@@ -44,10 +44,11 @@ import dev.ipsych0.mygame.worlds.Zone;
 
 public class Handler implements Serializable {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4768616559126746790L;
 	private static Game game;
 	private World world;
 	private Island island;

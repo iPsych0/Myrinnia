@@ -13,8 +13,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class EquipmentWindow implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7002329052826588263L;
 	public static boolean isOpen = true;
 	private int x, y;
 	private int width, height;

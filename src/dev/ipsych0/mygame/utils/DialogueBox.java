@@ -15,7 +15,7 @@ public class DialogueBox implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5830274597655100531L;
 	public int x, y, width, height;
 	private ArrayList<DialogueButton> buttons;
 	public static boolean isOpen = false;

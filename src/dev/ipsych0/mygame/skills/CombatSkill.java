@@ -4,9 +4,10 @@ import dev.ipsych0.mygame.Handler;
 
 public class CombatSkill extends Skill {
 
-	public CombatSkill() {
-		super();
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8746462876499708037L;
 	
 	@Override
 	public void addLevel() {
@@ -18,6 +19,17 @@ public class CombatSkill extends Skill {
 	@Override
 	public String toString() {
 		return "Combat";
+	}
+	
+	@Override
+	protected void checkNextLevel() {
+		if(experience >= nextLevelXp) {
+			experience -= nextLevelXp;
+			addLevel();
+			nextLevelXp = (int)(nextLevelXp * 1.1);
+			Handler.get().getPlayer().levelUp();
+			checkNextLevel();
+		}
 	}
 
 }

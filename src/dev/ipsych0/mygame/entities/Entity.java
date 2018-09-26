@@ -18,10 +18,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public abstract class Entity implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6319447656301966908L;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;

@@ -15,7 +15,7 @@ public class WaterToBridgePart extends StaticEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3731445475301213402L;
 	private boolean isFixed = false;
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
 	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};

@@ -18,7 +18,7 @@ public class SettingState extends State{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5598711872871726397L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle controlsButton, muteSoundButton, returnButton;

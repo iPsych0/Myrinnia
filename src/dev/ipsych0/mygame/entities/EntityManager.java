@@ -20,7 +20,7 @@ public class EntityManager implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4034952590793061132L;
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Collection<Entity> deleted;

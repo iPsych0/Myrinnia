@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Node implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 959446737334137173L;
 	private int x, y;
 	private static final int MOVEMENT_COST = 10;
 	private boolean walkable;

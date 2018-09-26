@@ -7,7 +7,7 @@ public class QuestStep implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7195660759638554120L;
 	private String objective;
 	
 	public QuestStep(String objective) {

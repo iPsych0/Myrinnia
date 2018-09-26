@@ -16,7 +16,7 @@ public class RecapEvent implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6372863712369781038L;
 	private transient BufferedImage img;
 	private String description;
 	

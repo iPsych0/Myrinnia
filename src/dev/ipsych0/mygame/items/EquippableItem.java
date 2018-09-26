@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 public class EquippableItem extends Item{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4763209428807009943L;
+
+	/**
 	 * Constructor for equippable Items WITH requirements to wield
 	 * @param texture
 	 * @param name

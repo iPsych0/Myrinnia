@@ -10,10 +10,11 @@ import dev.ipsych0.mygame.utils.SaveManager;
 
 public class TeleportShrine extends StaticEntity {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8566165980826138340L;
 	private String[] firstDialogue = {"Would you like to save your game?"};
 	private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
 

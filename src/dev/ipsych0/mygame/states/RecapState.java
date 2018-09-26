@@ -10,12 +10,11 @@ import dev.ipsych0.mygame.recap.RecapEvent;
 import dev.ipsych0.mygame.utils.Text;
 
 public class RecapState extends State {
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1824990655259776935L;
 	private Rectangle continueButton;
 	private int index = 0;
 

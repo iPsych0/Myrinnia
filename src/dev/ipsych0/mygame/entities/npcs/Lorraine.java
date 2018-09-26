@@ -14,10 +14,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class Lorraine extends ShopKeeper {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3340636213278064668L;
 	public static boolean questStarted = false;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();

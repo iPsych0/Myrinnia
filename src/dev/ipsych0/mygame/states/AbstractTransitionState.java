@@ -7,7 +7,7 @@ public abstract class AbstractTransitionState extends State{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8450007202214676369L;
 	protected float alpha = 1.0f;
 	
 	public AbstractTransitionState(){

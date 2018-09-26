@@ -14,10 +14,11 @@ import dev.ipsych0.mygame.tiles.Tiles;
 
 public class Rock extends StaticEntity {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8123420086619425263L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private boolean isMining = false;

@@ -9,10 +9,11 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class CraftButton implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1608461834826405658L;
 	private int x, y, width, height;
 	private Rectangle bounds;
 	private boolean hovering = false;

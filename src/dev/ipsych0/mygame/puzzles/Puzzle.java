@@ -1,9 +1,14 @@
 package dev.ipsych0.mygame.puzzles;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public abstract class Puzzle {
+public abstract class Puzzle implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1393761869484926871L;
 	protected boolean completed;
 	
 	public abstract void tick();

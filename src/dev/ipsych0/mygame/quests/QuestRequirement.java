@@ -9,7 +9,7 @@ public class QuestRequirement implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5167302310948105649L;
 	private String requirement;
 	private SkillsList skill;
 	private int level;

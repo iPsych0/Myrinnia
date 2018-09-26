@@ -11,7 +11,7 @@ public class GameState extends State{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1598032694820560072L;
 	public static Font myFont;
 	public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
 	

@@ -16,10 +16,11 @@ import dev.ipsych0.mygame.utils.Text;
 public class BankTab implements Serializable{
 	
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3186907209395979291L;
 	public int x, y, width, height;
 	private Rectangle bounds;
 	private int tabNumber;

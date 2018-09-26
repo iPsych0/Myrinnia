@@ -10,6 +10,10 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class NimbleFeetAbility extends Ability {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6275665878660555382L;
 	private float baseMovementBoost = 1.0f;
 	private int boostTime = 20 * 60;
 	private int boostTimeTimer = 0;

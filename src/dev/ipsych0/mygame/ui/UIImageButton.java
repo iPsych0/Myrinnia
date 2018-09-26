@@ -15,7 +15,7 @@ public class UIImageButton extends UIObject {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1839735101824151769L;
 	private transient BufferedImage[] images;
 
 	public UIImageButton(float x, float y, int width, int height, BufferedImage[] images) {

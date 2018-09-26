@@ -33,8 +33,8 @@ public abstract class World implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	// Variables
+	private static final long serialVersionUID = 2377316128534163815L;
+	
 	protected int width, height;
 	protected int[][][] tiles;
 	protected String[] layers;

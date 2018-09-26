@@ -22,10 +22,11 @@ import dev.ipsych0.mygame.states.State;
 
 public class Game implements Runnable, Serializable {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1320270378451615572L;
 	private Display display;
 	private int width, height;
 	private String title;

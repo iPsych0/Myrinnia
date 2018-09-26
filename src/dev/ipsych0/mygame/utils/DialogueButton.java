@@ -12,7 +12,7 @@ public class DialogueButton implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4508512327560107696L;
 	private int x, y, width, height;
 	private String text;
 	private Rectangle buttonBounds;

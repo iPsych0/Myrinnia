@@ -8,11 +8,11 @@ import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.worlds.Zone;
 
 public class Quest implements Serializable {
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3216607526116365186L;
 	private ArrayList<QuestStep> questSteps;
 	private int step = 0;
 	private String questName;

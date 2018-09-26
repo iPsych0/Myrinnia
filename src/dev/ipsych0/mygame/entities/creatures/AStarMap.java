@@ -14,10 +14,11 @@ import dev.ipsych0.mygame.entities.statics.StaticEntity;
 
 public class AStarMap implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2351067336940681663L;
 	private int x, y, width, height, xSpawn, ySpawn;
 	private Node[][] nodes;
 	private int alpha = 127;

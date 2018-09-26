@@ -4,9 +4,13 @@ import dev.ipsych0.mygame.items.Item;
 
 public class MiningSkill extends Skill {
 
-	public MiningSkill() {
-		super();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3083043178984091437L;
 
+	public MiningSkill() {
+		
 		initResources();
 		
 		categories.add(SkillCategory.Ores);

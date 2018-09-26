@@ -22,7 +22,7 @@ public class MenuState extends State {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 408918728311321161L;
 	private UIManager uiManager;
 	private boolean loaded = false;
 	private Rectangle newGameButton, continueButton, settingsButton, quitButton;

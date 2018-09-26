@@ -9,10 +9,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ContinueButton implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7648763333442088047L;
 	private int x, y, width, height;
 	private boolean isHovering = false;
 	private boolean isPressed = false;

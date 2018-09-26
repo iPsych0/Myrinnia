@@ -20,7 +20,7 @@ public class BankUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1728128423147794469L;
 	public static int x, y, width, height;
 	public static boolean isOpen = false;
 	private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();

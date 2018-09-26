@@ -8,7 +8,10 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class ItemSlot implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6580595372033787037L;
 
 	public static final int SLOTSIZE = 32;
 	

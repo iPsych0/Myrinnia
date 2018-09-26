@@ -27,10 +27,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class CraftingUI implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6741379998525736950L;
 	private int x, y, width, height;
 	public static boolean isOpen = false;
 	private boolean isCreated = false;

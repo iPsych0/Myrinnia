@@ -18,8 +18,10 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public abstract class Item implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5417348314768685085L;
 	// ItemList
 	
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;

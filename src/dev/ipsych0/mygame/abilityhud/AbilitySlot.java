@@ -12,10 +12,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class AbilitySlot implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4376752517769900190L;
 	private Ability ability;
 	private int x, y;
 	private Color cooldownColor = new Color(24, 24, 24, 192);

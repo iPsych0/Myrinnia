@@ -10,7 +10,7 @@ public abstract class UIObject implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5668099551677326216L;
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;

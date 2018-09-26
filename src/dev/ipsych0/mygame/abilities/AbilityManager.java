@@ -12,10 +12,11 @@ import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 
 public class AbilityManager implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1274154274799386875L;
 	private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
 	private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
 	private Color castBarColor = new Color(240,160,5,224);

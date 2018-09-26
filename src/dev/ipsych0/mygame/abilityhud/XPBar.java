@@ -12,10 +12,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class XPBar implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7205279220333584109L;
 	private int x, y, width, height;
 
 	public XPBar(int x, int y) {

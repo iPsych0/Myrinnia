@@ -14,6 +14,10 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class SliderPuzzle extends Puzzle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7593139421617220554L;
 	private int x, y, width, height;
 	private int maxSize;
 	private SliderPiece[][] sliderPieces;

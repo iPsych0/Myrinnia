@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 public class ItemStack implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6216487918948558086L;
 	private int amount;
 	private Item item;
 	

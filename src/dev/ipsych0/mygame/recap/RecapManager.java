@@ -8,7 +8,7 @@ public class RecapManager implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3117488414266717174L;
 	private LinkedList<RecapEvent> events;
 	
 	public RecapManager() {

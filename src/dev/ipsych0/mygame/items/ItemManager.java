@@ -13,7 +13,7 @@ public class ItemManager implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1092891818645452920L;
 	private CopyOnWriteArrayList<Item> items;
 	private Collection<Item> deleted;
 	private Collection<Item> added;

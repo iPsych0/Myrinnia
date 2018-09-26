@@ -16,7 +16,8 @@ public class QuestManager implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4508062817810741935L;
+
 	private QuestUI questUI;
 	
 	// Quest Lists per zone

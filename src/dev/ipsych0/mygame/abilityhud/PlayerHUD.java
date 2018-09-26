@@ -17,10 +17,11 @@ import dev.ipsych0.mygame.items.ItemSlot;
 
 public class PlayerHUD implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2357471540127327333L;
 	private static final int MAX_SLOTS = 10;
 	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
 	private HPBar hpBar;

@@ -11,10 +11,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class HPBar implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6791617940244093129L;
 	private int x, y, width, height;
 
 	public HPBar(int x, int y) {

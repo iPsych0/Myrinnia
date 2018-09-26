@@ -19,7 +19,7 @@ public class Island extends World {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5184904694109102870L;
 	private Rectangle house1;
 	private Rectangle house2;
 	private Rectangle house3;

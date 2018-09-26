@@ -10,10 +10,11 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Projectile implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2796906732989163136L;
 	private float x, y;
 	private int width, height;
 	private double xVelocity, yVelocity;

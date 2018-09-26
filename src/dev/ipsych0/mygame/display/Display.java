@@ -13,10 +13,11 @@ import dev.ipsych0.mygame.audio.AudioManager;
 
 public class Display implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5463768214564927571L;
 	private JFrame frame;
 	private Canvas canvas;
 	

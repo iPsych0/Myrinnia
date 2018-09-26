@@ -17,11 +17,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class HPOverlay implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 4442630766249828531L;
 	private Rectangle bounds;
 	private Rectangle combatBar, hpBar, xpBar;
 	private Rectangle skillsButton, characterButton, abilitiesButton, questsButton, mapButton;

@@ -12,10 +12,11 @@ import dev.ipsych0.mygame.skills.SkillCategory;
 
 public class CraftingManager implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5224910817694774668L;
 	private List<CraftingRecipe> recipes;
 	
 	/*

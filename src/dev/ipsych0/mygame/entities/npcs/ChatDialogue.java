@@ -13,10 +13,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class ChatDialogue implements Serializable{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8130149340424276218L;
 	private int x, y, width, height;
 	private ArrayList<ChatOptions> chatOptions;
 	private ContinueButton continueButton;

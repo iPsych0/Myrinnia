@@ -15,7 +15,7 @@ public class ZoneTransitionState extends AbstractTransitionState{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 353118389669820751L;
 	private Zone zone;
 	private int yOffset = -32;
 	private int secondYOffset = 0;

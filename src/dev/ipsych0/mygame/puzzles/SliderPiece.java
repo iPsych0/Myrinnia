@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.utils.Text;
 
-public class SliderPiece {
+public class SliderPiece implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2140201307399035730L;
 	private int xPos, yPos;
 	private int id;
 	private boolean blank = false;

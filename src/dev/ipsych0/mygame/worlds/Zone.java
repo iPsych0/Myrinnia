@@ -2,7 +2,7 @@ package dev.ipsych0.mygame.worlds;
 
 import java.io.Serializable;
 
-public enum Zone implements Serializable{
+public enum Zone {
 	
 	Island("Island","myrinnia.wav"), IslandUnderground("Island Underground","omniscient.wav"), SwampLand("Swamp Land","ancient.wav"), TestLand("Test Land","myrinnia.wav");
 	

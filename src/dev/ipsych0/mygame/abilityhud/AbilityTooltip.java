@@ -10,10 +10,11 @@ import dev.ipsych0.mygame.utils.Text;
 
 public class AbilityTooltip implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8419146815388425820L;
 	private int x, y, width, height;
 	
 	public AbilityTooltip(int x, int y, int width, int height) {

@@ -19,7 +19,7 @@ public class TextBox implements KeyListener, Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2516956275598468379L;
 	public int x, y, width, height;
 	private String charactersTyped = "";
 	public boolean numbersOnly = false;

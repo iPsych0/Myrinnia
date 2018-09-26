@@ -10,10 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WorldHandler implements Serializable{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4805050782549865233L;
 	private ArrayList<World> worlds;
 	private HashMap<Zone, World> worldsMap;
 

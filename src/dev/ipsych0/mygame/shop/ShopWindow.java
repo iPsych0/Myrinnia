@@ -25,7 +25,7 @@ public class ShopWindow implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5778791089622654030L;
 	public int x, y, width, height;
 	private static final int NUM_COLS = 5;
 	private static final int NUM_ROWS = 6;

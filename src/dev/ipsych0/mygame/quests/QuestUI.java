@@ -16,7 +16,7 @@ public class QuestUI implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1884515804631042331L;
 	public static boolean isOpen = false;
 	private int x, y, width, height;
 	private QuestHelpUI questHelpUI;

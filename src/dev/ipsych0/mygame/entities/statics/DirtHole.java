@@ -10,10 +10,11 @@ import dev.ipsych0.mygame.worlds.Zone;
 
 public class DirtHole extends StaticEntity {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -342972644048517256L;
 	private int xSpawn = (int) getX();
 	private int ySpawn = (int) getY();
 	private String[] firstDialogue = {"Upon closer inspection you find that you can climb down this hole."};

@@ -9,10 +9,11 @@ import dev.ipsych0.mygame.skills.SkillCategory;
 
 public class CraftingRecipe implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3659085845474939235L;
 	private ItemStack item1, item2, item3, item4;
 	private ItemStack result;
 	private ArrayList<ItemStack> components;

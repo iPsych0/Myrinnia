@@ -29,7 +29,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -98228253788414846L;
 	private boolean leftPressed, rightPressed, isDragged;
 	private int mouseX, mouseY;
 	private UIManager uiManager;

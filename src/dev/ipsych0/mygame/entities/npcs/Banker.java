@@ -9,10 +9,11 @@ import dev.ipsych0.mygame.gfx.Assets;
 
 public class Banker extends Creature{
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6734284480542153325L;
 	private int xSpawn = (int)getX();
 	private int ySpawn = (int)getY();
 	private String[] firstDialogue = {"Please show me my bank.", "Never mind."};
