@@ -33,12 +33,9 @@ public abstract class Entity implements Serializable{
 	protected boolean active = true;
 	protected boolean attackable = true;
 	protected boolean isNpc = false;
-	protected boolean isShop = false;
-	protected boolean isBank = false;
 	protected boolean drawnOnMap = false;
 	protected boolean damaged = false;
 	protected boolean staticNpc = false;
-	protected boolean shopping = false;
 	protected boolean solid = true;
 	protected Entity damageDealer, damageReceiver;
 	protected int speakingTurn = 1;
@@ -318,14 +315,6 @@ public abstract class Entity implements Serializable{
 		this.isNpc = isNpc;
 	}
 
-	public boolean isShop() {
-		return isShop;
-	}
-
-	public void setShop(boolean isShop) {
-		this.isShop = isShop;
-	}
-
 	public boolean isDrawnOnMap() {
 		return drawnOnMap;
 	}
@@ -420,14 +409,6 @@ public abstract class Entity implements Serializable{
 
 	public int getRespawnTimer() {
 		return respawnTimer;
-	}
-
-	public boolean isBank() {
-		return isBank;
-	}
-
-	public void setBank(boolean isBank) {
-		this.isBank = isBank;
 	}
 	
 }

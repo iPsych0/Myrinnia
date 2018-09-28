@@ -14,6 +14,7 @@ import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
 import dev.ipsych0.mygame.entities.EntityManager;
 import dev.ipsych0.mygame.entities.creatures.Player;
+import dev.ipsych0.mygame.entities.npcs.AbilityTrainer;
 import dev.ipsych0.mygame.entities.npcs.ChatWindow;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.hpoverlay.HPOverlay;
@@ -21,6 +22,7 @@ import dev.ipsych0.mygame.items.EquipmentWindow;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemManager;
 import dev.ipsych0.mygame.quests.QuestManager;
+import dev.ipsych0.mygame.shop.AbilityShopWindow;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsUI;
 import dev.ipsych0.mygame.tiles.Tiles;
@@ -94,10 +96,13 @@ public abstract class World implements Serializable {
 		skillsUI.tick();
 		hpOverlay.tick();
 		abilityManager.tick();
-		if(BankUI.isOpen)
+		if(BankUI.isOpen && player.getBankEntity() != null)
 			Handler.get().getBankUI().tick();
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
 			player.getShopKeeper().getShopWindow().tick();
+		if(AbilityShopWindow.isOpen && player.getAbilityTrainer() != null){
+			player.getAbilityTrainer().tick();
+		}
 		
 	}
 	
@@ -156,6 +161,14 @@ public abstract class World implements Serializable {
 		if(BankUI.isOpen && player.getBankEntity() != null) {
 			Handler.get().getBankUI().render(g);
 			Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
+		}
+		if(ShopWindow.isOpen && player.getShopKeeper() != null) {
+			ShopWindow sw = player.getShopKeeper().getShopWindow();
+			sw.render(g);
+			Text.drawString(g, player.getShopKeeper().getShopName(), sw.x + (sw.width / 2), sw.y + 16, true, Color.YELLOW, Assets.font14);
+		}
+		if(AbilityShopWindow.isOpen && player.getAbilityTrainer() != null){
+			player.getAbilityTrainer().getAbilityShopWindow().render(g);
 		}
 		
 	}

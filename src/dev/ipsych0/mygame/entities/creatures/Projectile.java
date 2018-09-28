@@ -21,7 +21,7 @@ public class Projectile implements Serializable {
 	private int maxX, maxY, minX, minY;
 	private double angle;
 	private static final int MAX_RADIUS = 320;
-	private Animation magic;
+	private Animation projectile;
 	private Rectangle bounds;
 	private Rectangle collision;
 	public boolean active;
@@ -34,13 +34,13 @@ public class Projectile implements Serializable {
 		height = Creature.DEFAULT_CREATURE_HEIGHT;
 		
 		bounds = new Rectangle((int)x,(int)y,width,height);
-		collision = new Rectangle(bounds);
-		
 		bounds.x = 10;
 		bounds.y = 14;
 		bounds.width = 10;
 		bounds.height = 10;
-		
+
+		collision = new Rectangle(bounds);
+
 		// Max distance the projectile can travel
 		maxX = (int) (x + MAX_RADIUS);
 		maxY = (int) (y + MAX_RADIUS);
@@ -52,16 +52,14 @@ public class Projectile implements Serializable {
 		xVelocity = velocity * Math.cos(angle);
 		yVelocity = velocity * Math.sin(angle);
 		
-		magic = new Animation(83, Assets.magicProjectile);
+		projectile = new Animation(83, Assets.magicProjectile);
 		
 		active = true;
-		
-		
 	}
 	
 	public void tick() {
 		if(active) {
-			magic.tick();
+			projectile.tick();
 			
 			x += xVelocity;
 			y += yVelocity;
@@ -76,7 +74,7 @@ public class Projectile implements Serializable {
 	
 	public void render(Graphics g) {
 		if(active) {
-			g.drawImage(magic.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+			g.drawImage(projectile.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 		}
 	}
 

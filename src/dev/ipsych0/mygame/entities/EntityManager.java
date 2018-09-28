@@ -24,7 +24,6 @@ public class EntityManager implements Serializable{
 	private Player player;
 	private CopyOnWriteArrayList<Entity> entities;
 	private Collection<Entity> deleted;
-	private Entity shoppingNpc;
 	private Entity selectedEntity;
 	public static boolean isPressed = false;
 	private LinkedList<HitSplat> hitSplats;
@@ -45,10 +44,7 @@ public class EntityManager implements Serializable{
 			if(!e.isActive()){
 				deleted.add(e);
 			}
-			//If the player is shopping with this Entity, set the shopping Entity to this one.
-			if(e.shopping) {
-				shoppingNpc = e;
-			}
+
 			e.tick();
 			// Update combat timers
 			if(e.isDamaged() && e.getDamageDealer() != null) {
@@ -131,10 +127,7 @@ public class EntityManager implements Serializable{
 			}
 			
 			e.postRender(g);
-			
-			if(shoppingNpc != null) {
-				shoppingNpc.postRender(g);
-			}
+
 		}
 		
 		Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();

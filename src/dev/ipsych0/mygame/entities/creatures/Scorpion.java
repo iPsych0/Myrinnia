@@ -111,11 +111,6 @@ public class Scorpion extends Creature {
 		Handler.get().dropItem(Item.testAxe, 1, (int)x, (int)y);
 		Handler.get().dropItem(Item.testPickaxe, 1, (int)x, (int)y);
 		
-		
-		if(Lorraine.questStarted){
-			Handler.get().getWorld().getEntityManager().getPlayer().addScorpionKC();
-		}
-		
 //		FOR INSTA NEXT LEVEL: Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()
 		Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
 	}

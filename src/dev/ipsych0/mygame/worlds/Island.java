@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.entities.creatures.Scorpion;
+import dev.ipsych0.mygame.entities.npcs.AbilityMaster;
 import dev.ipsych0.mygame.entities.statics.DirtHole;
 import dev.ipsych0.mygame.entities.statics.Rock;
 import dev.ipsych0.mygame.entities.statics.TeleportShrine;
@@ -51,6 +52,7 @@ public class Island extends World {
 //		entityManager.addEntity(new Scorpion(handler, 4600, 5780));
 		
 		entityManager.addEntity(new TeleportShrine(5056, 5532));
+		entityManager.addEntity(new AbilityMaster(5088, 5532));
 		
 		// Southern cliffs
 		entityManager.addEntity(new Whirlpool(1280, 6320));
