@@ -17,6 +17,7 @@ import dev.ipsych0.mygame.hpoverlay.HPOverlay;
 import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.puzzles.SliderPuzzle;
 import dev.ipsych0.mygame.quests.QuestUI;
+import dev.ipsych0.mygame.shop.AbilityShopWindow;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
@@ -97,6 +98,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
 			BankUI.hasBeenPressed = true;
 			SliderPuzzle.hasBeenPressed = true;
 			PlayerHUD.hasBeenPressed = true;
+			AbilityShopWindow.hasBeenPressed = true;
 		}
 		
 		// Right Click

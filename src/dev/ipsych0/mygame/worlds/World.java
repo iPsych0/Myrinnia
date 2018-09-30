@@ -101,7 +101,7 @@ public abstract class World implements Serializable {
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
 			player.getShopKeeper().getShopWindow().tick();
 		if(AbilityShopWindow.isOpen && player.getAbilityTrainer() != null){
-			player.getAbilityTrainer().tick();
+			player.getAbilityTrainer().getAbilityShopWindow().tick();
 		}
 		
 	}

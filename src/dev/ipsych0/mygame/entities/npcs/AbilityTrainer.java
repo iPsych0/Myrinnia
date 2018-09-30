@@ -18,7 +18,6 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
         attackable = false;
         isNpc = true;
-        abilityShopWindow = new AbilityShopWindow(new ArrayList<Ability>());
     }
 
     public AbilityShopWindow getAbilityShopWindow() {

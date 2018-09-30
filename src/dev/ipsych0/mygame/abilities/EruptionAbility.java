@@ -45,6 +45,8 @@ public class EruptionAbility extends Ability {
 		
 			for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
 				if(hitBox.contains(e.getCollisionBounds(0, 0))) {
+					if(!e.isAttackable())
+						continue;
 					if(!e.equals(caster)) {
 						e.damage(caster, e);
 					}

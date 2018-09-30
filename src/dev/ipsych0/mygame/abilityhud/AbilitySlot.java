@@ -44,7 +44,7 @@ public class AbilitySlot implements Serializable {
 				g.setColor(cooldownColor);
 				g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
 				Text.drawString(g, String.valueOf(ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
-				
+
 			}
 		}
 		Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
