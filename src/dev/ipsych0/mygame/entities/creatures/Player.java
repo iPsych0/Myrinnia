@@ -69,7 +69,7 @@ public class Player extends Creature {
     private int basePower, baseVitality, baseDefence;
     private double levelExponent = 1.1;
     public static boolean isLevelUp = false;
-    private int levelUpTimer = 0;
+    private int levelUpTimer;
 
     private boolean movementAllowed = true;
     public static boolean isMoving = false;
@@ -84,6 +84,8 @@ public class Player extends Creature {
 
     private Zone zone = Zone.Island;
     private Rectangle itemPickupRadius;
+
+    private int abilityPoints;
 
     public Player(float x, float y) {
         super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
@@ -1105,4 +1107,11 @@ public class Player extends Creature {
         this.abilityTrainer = abilityTrainer;
     }
 
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+
+    public void setAbilityPoints(int abilityPoints) {
+        this.abilityPoints = abilityPoints;
+    }
 }

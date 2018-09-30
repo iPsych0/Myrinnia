@@ -22,6 +22,8 @@ public class MendWoundsAbility extends Ability{
 	public MendWoundsAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+
+		price = 2;
 	}
 
 	@Override

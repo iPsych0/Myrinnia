@@ -41,7 +41,7 @@ public class PlayerHUD implements Serializable{
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
 		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Fire, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
+		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
 		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
 		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
 

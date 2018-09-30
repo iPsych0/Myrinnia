@@ -32,6 +32,7 @@ public abstract class Ability implements Serializable {
 	protected boolean selectable;
 	protected boolean selected;
 	protected boolean unlocked;
+	protected int price;
 	
 	public Ability(CharacterStats element, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
@@ -251,5 +252,13 @@ public abstract class Ability implements Serializable {
 
 	public void setUnlocked(boolean unlocked) {
 		this.unlocked = unlocked;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }
