@@ -142,7 +142,7 @@ public class Scorpion extends Creature {
 		
 		attackTimer = 0;
 		
-		Handler.get().playEffect("fireball.wav", 0, 0);
+		Handler.get().playEffect("fireball.wav");
 		projectiles.add(new Projectile(x, y, (int)Handler.get().getPlayer().getX(), (int)Handler.get().getPlayer().getY(), 9.0f));
 		
 //		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
@@ -159,8 +159,7 @@ public class Scorpion extends Creature {
 
 	@Override
 	public void interact() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -19,7 +19,6 @@ public class FireBallAbility extends Ability {
 	public FireBallAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

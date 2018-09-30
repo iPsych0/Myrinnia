@@ -44,9 +44,6 @@ public class Player extends Creature {
      */
     private static final long serialVersionUID = -7176335479649325606L;
 
-    // NPC killcounts
-    private int scorpionKC = 0;
-
     public static boolean hasInteracted = false;
     public static boolean debugButtonPressed = false;
 
@@ -717,7 +714,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("fireball.wav", 0, 0);
+        Handler.get().playEffect("fireball.wav");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -758,14 +755,6 @@ public class Player extends Creature {
                 }
             }
         }
-    }
-
-    public int getScorpionKC() {
-        return scorpionKC;
-    }
-
-    public void addScorpionKC() {
-        scorpionKC++;
     }
 
     @Override
@@ -814,6 +803,11 @@ public class Player extends Creature {
             this.setX(xSpawn);
             this.setY(ySpawn);
         }
+    }
+
+    @Override
+    public void respawn() {
+
     }
 
     /*
@@ -1093,11 +1087,6 @@ public class Player extends Creature {
     public Rectangle itemPickupRadius() {
         itemPickupRadius.setLocation((int) (x + bounds.x - 24), (int) (y + bounds.y - 24));
         return itemPickupRadius;
-    }
-
-    @Override
-    public void respawn() {
-
     }
 
     public Zone getZone() {

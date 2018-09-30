@@ -127,7 +127,7 @@ public class Handler implements Serializable {
 		}
 	}
 	
-	public void playEffect(String effect, float x, float y) {
+	public void playEffect(String effect) {
 		if(!soundMuted) {
 			int buffer = -1;
 			try {
@@ -156,11 +156,13 @@ public class Handler implements Serializable {
 	public boolean hasQuestReqs(QuestList quest) {
 		Quest q = getQuest(quest);
 		for(int i = 0; i < q.getRequirements().length; i++) {
-			if(q.getRequirements()[i].getSkill() != null) {
+            // Check skill requirements
+            if(q.getRequirements()[i].getSkill() != null) {
 				if(getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()){
 					return false;
 				}
 			}
+			// Check quest requirements
 			else if(q.getRequirements()[i].getQuest() != null) {
 				if(getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
 					return false;

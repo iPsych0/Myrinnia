@@ -85,8 +85,7 @@ public class DirtHole extends StaticEntity {
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

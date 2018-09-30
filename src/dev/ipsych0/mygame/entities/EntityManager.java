@@ -68,7 +68,6 @@ public class EntityManager implements Serializable{
 		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity o1, Entity o2) {
-				// TODO Auto-generated method stub
 				Float a = o1.getY() + o1.getHeight();
 				Float b = o2.getY() + o2.getHeight();
 				return a.compareTo(b);

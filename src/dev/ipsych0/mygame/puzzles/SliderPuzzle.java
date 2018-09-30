@@ -28,7 +28,6 @@ public class SliderPuzzle extends Puzzle {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				System.err.println("SliderPuzzle size must be between 3x3 and 10x10");
 				System.exit(1);
 			}

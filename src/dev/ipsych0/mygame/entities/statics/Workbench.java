@@ -27,8 +27,7 @@ public class Workbench extends StaticEntity {
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -39,14 +38,12 @@ public class Workbench extends StaticEntity {
 
 	@Override
 	public void postRender(Graphics g) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -92,7 +89,6 @@ public class Workbench extends StaticEntity {
 
 	@Override
 	public void respawn() {
-		// TODO Auto-generated method stub
-		
+
 	}
 }

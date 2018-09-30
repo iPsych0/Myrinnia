@@ -437,7 +437,6 @@ public class CraftingUI implements Serializable{
 
 			@Override
 			public int compare(ItemStack o1, ItemStack o2) {
-				// TODO Auto-generated method stub
 				Integer a = o1.getItem().getId();
 				Integer b = o2.getItem().getId();
 				return a.compareTo(b);
@@ -460,7 +459,6 @@ public class CraftingUI implements Serializable{
 
 				@Override
 				public int compare(ItemStack o1, ItemStack o2) {
-					// TODO Auto-generated method stub
 					Integer a = o1.getItem().getId();
 					Integer b = o2.getItem().getId();
 					return a.compareTo(b);
@@ -611,7 +609,6 @@ public class CraftingUI implements Serializable{
 
 			@Override
 			public int compare(ItemStack o1, ItemStack o2) {
-				// TODO Auto-generated method stub
 				Integer a = o1.getItem().getId();
 				Integer b = o2.getItem().getId();
 				return a.compareTo(b);
@@ -634,7 +631,6 @@ public class CraftingUI implements Serializable{
 
 				@Override
 				public int compare(ItemStack o1, ItemStack o2) {
-					// TODO Auto-generated method stub
 					Integer a = o1.getItem().getId();
 					Integer b = o2.getItem().getId();
 					return a.compareTo(b);

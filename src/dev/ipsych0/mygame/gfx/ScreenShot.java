@@ -14,7 +14,6 @@ public class ScreenShot {
 		try {
 			image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 		} catch (HeadlessException | AWTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return image;

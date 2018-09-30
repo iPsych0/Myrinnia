@@ -25,7 +25,6 @@ public class MapLoader implements Serializable{
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -50,10 +49,8 @@ public class MapLoader implements Serializable{
 			// Gets the width
 			mapWidth = Integer.parseInt(layer.getAttributes().getNamedItem("width").getTextContent());
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return mapWidth;
@@ -76,10 +73,8 @@ public class MapLoader implements Serializable{
 			mapHeight = Integer.parseInt(layer.getAttributes().getNamedItem("height").getTextContent());
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return mapHeight;
@@ -114,10 +109,8 @@ public class MapLoader implements Serializable{
 			return mapValues;
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -141,10 +134,8 @@ public class MapLoader implements Serializable{
 			return firstGids;
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
@@ -183,10 +174,8 @@ public class MapLoader implements Serializable{
 			}
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Couldn't find the index of the image path for world: "+worldPath+" - in: MapLoader::getImageIndex");
@@ -210,10 +199,8 @@ public class MapLoader implements Serializable{
 			return tileCount;
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Artifact 'tileCount' not found for path: " + worldPath + " in: MapLoader::getTileCount");
@@ -237,10 +224,8 @@ public class MapLoader implements Serializable{
 			return columns;
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Artifact 'columns' not found for path: " + worldPath + " in: MapLoader::getTileColumns");

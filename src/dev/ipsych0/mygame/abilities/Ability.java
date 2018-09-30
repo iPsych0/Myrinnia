@@ -47,7 +47,9 @@ public abstract class Ability implements Serializable {
 	public abstract void render(Graphics g, int x, int y);
 	
 	public abstract void cast();
-		
+
+
+
 	public void setCaster(Creature c) {
 		this.caster = c;
 		this.setActivated(true);
