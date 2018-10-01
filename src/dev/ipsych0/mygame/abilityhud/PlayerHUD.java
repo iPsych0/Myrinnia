@@ -40,10 +40,10 @@ public class PlayerHUD implements Serializable{
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
-		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
-		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, "Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
+		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, CharacterStats.Magic, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
+		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, CharacterStats.Melee, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
+		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, CharacterStats.Magic, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
+		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, CharacterStats.Ranged,"Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
 
 		// Add HP Bar after the last abilitySlot
 //		hpBar = new HPBar(Handler.get(), slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);

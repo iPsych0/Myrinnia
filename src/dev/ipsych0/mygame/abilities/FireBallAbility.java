@@ -16,9 +16,9 @@ public class FireBallAbility extends Ability {
 	 */
 	private static final long serialVersionUID = -2623074711686137258L;
 
-	public FireBallAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+	public FireBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+		super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 
 		price = 1;
 	}

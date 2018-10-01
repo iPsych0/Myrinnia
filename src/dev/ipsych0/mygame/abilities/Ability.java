@@ -23,6 +23,7 @@ public abstract class Ability implements Serializable {
 	protected String description;
 	protected AbilityType abilityType;
 	protected CharacterStats element;
+	protected CharacterStats combatStyle;
 	protected boolean onCooldown, casting, inOvercast;
 	protected int castingTimeTimer = 0;
 	protected int cooldownTimer = 0;
@@ -34,8 +35,9 @@ public abstract class Ability implements Serializable {
 	protected boolean unlocked;
 	protected int price;
 	
-	public Ability(CharacterStats element, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
+	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
 		this.element = element;
+		this.combatStyle = combatStyle;
 		this.abilityType = abilityType;
 		this.selectable = selectable;
 		this.cooldownTime = cooldownTime;
@@ -260,5 +262,13 @@ public abstract class Ability implements Serializable {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public CharacterStats getCombatStyle() {
+		return combatStyle;
+	}
+
+	public void setCombatStyle(CharacterStats combatStyle) {
+		this.combatStyle = combatStyle;
 	}
 }

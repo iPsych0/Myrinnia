@@ -19,9 +19,9 @@ public class NimbleFeetAbility extends Ability {
 	private int boostTimeTimer = 0;
 	private boolean initialBoostDone = false;
 
-	public NimbleFeetAbility(CharacterStats element, String name, AbilityType abilityType, boolean selectable,
+	public NimbleFeetAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
 			int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
-		super(element, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+		super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
 
 		price = 2;
 	}
