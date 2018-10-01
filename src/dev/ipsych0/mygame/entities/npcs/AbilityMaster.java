@@ -32,30 +32,6 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
         abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
         abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
         abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
 
 
         abilityShopWindow = new AbilityShopWindow(abilities);

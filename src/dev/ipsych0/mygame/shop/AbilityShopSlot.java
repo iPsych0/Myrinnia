@@ -13,6 +13,7 @@ public class AbilityShopSlot implements Serializable {
     private int x, y;
     private boolean hovering;
     private Rectangle bounds;
+    private Color unlockedColor = new Color(106, 105, 105, 96);
 
     public AbilityShopSlot(Ability ability, int x, int y) {
         this.ability = ability;
@@ -31,6 +32,10 @@ public class AbilityShopSlot implements Serializable {
         else
             g.drawImage(Assets.genericButton[1], x, y, 32, 32, null);
         ability.render(g, x, y);
+        if(ability.isUnlocked()){
+            g.setColor(unlockedColor);
+            g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+        }
     }
 
     public Ability getAbility() {

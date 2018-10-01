@@ -2,8 +2,10 @@ package dev.ipsych0.mygame.shop;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
+import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
 import dev.ipsych0.mygame.items.ItemSlot;
+import dev.ipsych0.mygame.states.GameState;
 import dev.ipsych0.mygame.utils.Text;
 
 import java.awt.*;
@@ -23,6 +25,7 @@ public class AbilityShopWindow implements Serializable {
     private AbilityShopSlot selectedSlot;
     private Color selectedColor = new Color(0, 255, 255, 62);
     private Rectangle buyButton;
+    private Rectangle exit;
 
     public AbilityShopWindow(ArrayList<Ability> abilities) {
         width = 460;
@@ -48,11 +51,12 @@ public class AbilityShopWindow implements Serializable {
         }
 
         buyButton = new Rectangle(x + width / 2 - 32, y + height - 64, 64, 32);
+        exit = new Rectangle(x + width - 35, y + 10, 24, 24);
 
         /**
          * TODO: REMOVE THIS DUMMY DATA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          */
-        Handler.get().getPlayer().setAbilityPoints(5);
+        Handler.get().getPlayer().setAbilityPoints(10);
     }
 
     public void tick(){
@@ -73,6 +77,12 @@ public class AbilityShopWindow implements Serializable {
                 }
             }
         }
+
+        if(exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Player.isMoving || Handler.get().getKeyManager().escape){
+            isOpen = false;
+            hasBeenPressed = false;
+            selectedSlot = null;
+        }
     }
 
     public void render(Graphics g){
@@ -87,6 +97,10 @@ public class AbilityShopWindow implements Serializable {
                 slot.setHovering(false);
             }
             slot.render(g);
+
+            if(slot.getAbility().isUnlocked()){
+                Text.drawString(g, "✓", slot.getX() + 24, slot.getY() + 28, true, Color.GREEN, Assets.font14);
+            }
         }
 
         Text.drawString(g, "Ability Points: " + Handler.get().getPlayer().getAbilityPoints(), x + 4, y + 18, false, Color.YELLOW, Assets.font14);
@@ -110,6 +124,13 @@ public class AbilityShopWindow implements Serializable {
             g.drawImage(Assets.genericButton[0], buyButton.x, buyButton.y, buyButton.width, buyButton.height, null);
         else
             g.drawImage(Assets.genericButton[1], buyButton.x, buyButton.y, buyButton.width, buyButton.height, null);
+
+        // Exit button
+        if(exit.contains(mouse))
+            g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
+        else
+            g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
+        Text.drawString(g, "X", exit.x + 12, y + 10 + 12, true, Color.YELLOW, GameState.chatFont);
 
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
     }
