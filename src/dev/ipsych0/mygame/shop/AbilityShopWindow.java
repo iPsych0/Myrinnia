@@ -2,6 +2,7 @@ package dev.ipsych0.mygame.shop;
 
 import dev.ipsych0.mygame.Handler;
 import dev.ipsych0.mygame.abilities.Ability;
+import dev.ipsych0.mygame.abilityhud.AbilityTooltip;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Player;
 import dev.ipsych0.mygame.gfx.Assets;
@@ -39,7 +40,7 @@ public class AbilityShopWindow implements Serializable {
     private String[] answers = {"Yes", "No"};
     public static boolean makingChoice = false;
 
-
+    private AbilityTooltip abilityTooltip;
 
     public AbilityShopWindow(ArrayList<Ability> abilities) {
         this.width = 460;
@@ -65,6 +66,8 @@ public class AbilityShopWindow implements Serializable {
             allSlots.add(new AbilityShopSlot(a,x + 16 + xPos++ * 32, y + 128 + yPos * 32));
         }
         currentSlots = allSlots;
+
+        abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
 
         buyButton = new Rectangle(x + width / 2 - 32, y + height - 64, 64, 32);
         exitButton = new Rectangle(x + width - 35, y + 10, 24, 24);
@@ -125,6 +128,7 @@ public class AbilityShopWindow implements Serializable {
         for(AbilityShopSlot slot : currentSlots){
             if(slot.getBounds().contains(mouse)){
                 slot.setHovering(true);
+                abilityTooltip.render(g, slot.getAbility());
             }else{
                 slot.setHovering(false);
             }
