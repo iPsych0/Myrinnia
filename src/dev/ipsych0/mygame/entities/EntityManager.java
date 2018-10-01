@@ -110,11 +110,9 @@ public class EntityManager implements Serializable{
 			}
 			
 			// If we clicked away, remove the locked UI component
-			if(!e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !Handler.get().getChatWindow().getWindowBounds().contains(mouse) &&
-					!Handler.get().getCraftingUI().getWindowBounds().contains(mouse) &&
-					!Handler.get().getEquipment().getWindowBounds().contains(mouse) &&
-					!Handler.get().getInventory().getWindowBounds().contains(mouse) &&
-					!e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed && selectedEntity != null) {
+			if(selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
+					!Handler.get().getPlayer().hasRightClickedUI(mouse) &&
+					!e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
 				isPressed = true;
 				selectedEntity = null;
 			}

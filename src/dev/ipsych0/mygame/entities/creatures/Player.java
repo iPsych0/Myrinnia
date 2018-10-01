@@ -27,6 +27,7 @@ import dev.ipsych0.mygame.items.InventoryWindow;
 import dev.ipsych0.mygame.items.ItemType;
 import dev.ipsych0.mygame.quests.QuestHelpUI;
 import dev.ipsych0.mygame.quests.QuestUI;
+import dev.ipsych0.mygame.shop.AbilityShopWindow;
 import dev.ipsych0.mygame.shop.ShopWindow;
 import dev.ipsych0.mygame.skills.SkillsOverviewUI;
 import dev.ipsych0.mygame.skills.SkillsUI;
@@ -656,6 +657,11 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
+        if (abilityTrainer != null && AbilityShopWindow.isOpen){
+            if( Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+                return true;
+            }
+        }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             if (Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
                 return true;
@@ -695,6 +701,20 @@ public class Player extends Creature {
             return true;
         if (CharacterUI.isOpen && Handler.get().getCharacterUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
+        if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+            return true;
+        if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+            return true;
+        if (abilityTrainer != null && AbilityShopWindow.isOpen){
+            if( Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+                return true;
+            }
+        }
+        if (closestEntity != null && closestEntity.getChatDialogue() != null) {
+            if (Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
+                return true;
+            }
+        }
 
 
         // If the mouse is not clicked in one of the UI windows, return false
