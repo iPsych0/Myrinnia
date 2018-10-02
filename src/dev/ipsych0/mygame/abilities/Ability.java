@@ -5,8 +5,11 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 
 import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilityhud.AbilitySlot;
+import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.character.CharacterStats;
 import dev.ipsych0.mygame.entities.creatures.Creature;
+import dev.ipsych0.mygame.entities.creatures.Player;
 
 public abstract class Ability implements Serializable {
 	
@@ -67,13 +70,23 @@ public abstract class Ability implements Serializable {
 	public void tick() {
 		Rectangle mouse = Handler.get().getMouse();
 		if(isSelectable() && isSelected()) {
-				if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-					setSelected(false);
-					if(this.getCastingTime() > 0) {
-						this.setChanneling(true);
+			if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed() || PlayerHUD.lastPressedKey == PlayerHUD.pressedKey && PlayerHUD.pressedKey != '\u0000') {
+				setSelected(false);
+				PlayerHUD.pressedKey = '\u0000';
+				PlayerHUD.lastPressedKey = '\u0000';
+				for(AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+					if(as.getAbility() != null) {
+						if(as.getAbility().isChanneling()) {
+							this.setActivated(false);
+							return;
+						}
 					}
-					this.setOnCooldown(true);
 				}
+				if(this.getCastingTime() > 0) {
+					this.setChanneling(true);
+				}
+				this.setOnCooldown(true);
+			}
 		}else {
 			if(this.castingTime * 60 == castingTimeTimer++) {
 				this.setCasting(true);

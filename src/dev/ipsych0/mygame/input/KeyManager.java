@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
+import dev.ipsych0.mygame.Handler;
+import dev.ipsych0.mygame.abilityhud.AbilitySlot;
 import dev.ipsych0.mygame.abilityhud.PlayerHUD;
 import dev.ipsych0.mygame.character.CharacterUI;
 import dev.ipsych0.mygame.crafting.CraftingUI;
@@ -214,7 +216,24 @@ public class KeyManager implements KeyListener, Serializable{
 	public void keyTyped(KeyEvent e) {
 		if(!typingFocus) {
 			if(Character.isDigit(e.getKeyChar())) {
-				PlayerHUD.pressedKey = e.getKeyChar();
+				// Invalidate input while channeling
+				for(AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+					if(as.getAbility() != null) {
+						if(as.getAbility().isChanneling()) {
+							return;
+						}
+					}
+				}
+
+				// Set the pressed keys for the ability bar
+				PlayerHUD.hasBeenTyped = true;
+				if(PlayerHUD.pressedKey == '\u0000'){
+					PlayerHUD.pressedKey = e.getKeyChar();
+					return;
+				}else{
+					PlayerHUD.lastPressedKey = PlayerHUD.pressedKey;
+					PlayerHUD.pressedKey = e.getKeyChar();
+				}
 				return;
 			}
 			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
@@ -222,7 +241,7 @@ public class KeyManager implements KeyListener, Serializable{
 			}
 		}
 	}
-	
+
 	public boolean keyJustPressed(int keyCode){
 		if(keyCode < 0 || keyCode >= keys.length){
 			return false;

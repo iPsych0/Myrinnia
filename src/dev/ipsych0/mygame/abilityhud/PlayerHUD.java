@@ -29,7 +29,9 @@ public class PlayerHUD implements Serializable{
 	private int x, y, width, height;
 	private AbilityTooltip abilityTooltip;
 	public static boolean hasBeenPressed;
+	public static boolean hasBeenTyped;
 	public static char pressedKey;
+	public static char lastPressedKey;
 	
 	public PlayerHUD() {
 		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -61,9 +63,8 @@ public class PlayerHUD implements Serializable{
 	 */
 	private void handleKeyEvent() {
 		// Get the right index in the ability slots
-		int index = 0;
 		// Funky calculation. If 0 is pressed, it should be the last slot instead of first, otherwise the slot is 1-9 pressed -1 by index
-		Ability selectedAbility = slottedAbilities.get(index = pressedKey == 48 ? slottedAbilities.size()-1 : (pressedKey-49)).getAbility();
+		Ability selectedAbility = slottedAbilities.get(pressedKey == 48 ? slottedAbilities.size()-1 : (pressedKey-49)).getAbility();
 		if(selectedAbility != null) {
 			for(AbilitySlot as : slottedAbilities) {
 				if(as.getAbility() != null) {
@@ -76,11 +77,12 @@ public class PlayerHUD implements Serializable{
 				Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
 			}else {
-				Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
-				selectedAbility.setCaster(Handler.get().getPlayer());
 				if(selectedAbility.isSelectable()) {
-					boolean selected = !selectedAbility.isSelected() ? true : false;
-					selectedAbility.setSelected(selected);
+					selectedAbility.setSelected(true);
+				}
+				if(!Handler.get().getAbilityManager().getActiveAbilities().contains(selectedAbility)) {
+					Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
+					selectedAbility.setCaster(Handler.get().getPlayer());
 				}
 			}
 		}
@@ -100,11 +102,12 @@ public class PlayerHUD implements Serializable{
 				Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
 				return;
 			}else {
-				Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
-				selectedAbility.setCaster(Handler.get().getPlayer());
 				if(selectedAbility.isSelectable()) {
-					boolean selected = !selectedAbility.isSelected() ? true : false;
-					selectedAbility.setSelected(selected);
+					selectedAbility.setSelected(true);
+				}
+				if(!Handler.get().getAbilityManager().getActiveAbilities().contains(selectedAbility)) {
+					Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
+					selectedAbility.setCaster(Handler.get().getPlayer());
 				}
 			}
 		}
@@ -112,12 +115,11 @@ public class PlayerHUD implements Serializable{
 	
 	public void tick() {
 		Rectangle mouse = Handler.get().getMouse();
-		
-		if(pressedKey != '\u0000') {
-			// If 0-9 key is pressed, handle the key pressed.
+
+		// Check for input
+		if(hasBeenTyped) {
 			handleKeyEvent();
-			// Set back to default/non-pressed value
-			pressedKey = '\u0000';
+			hasBeenTyped = false;
 		}
 		
 		// Tick the tooltip and other bars
