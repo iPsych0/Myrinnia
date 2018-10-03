@@ -225,16 +225,9 @@ public class KeyManager implements KeyListener, Serializable{
 					}
 				}
 
-				// Set the pressed keys for the ability bar
+				// Set the pressed key for the ability bar
 				PlayerHUD.hasBeenTyped = true;
-				if(PlayerHUD.pressedKey == '\u0000'){
-					PlayerHUD.pressedKey = e.getKeyChar();
-					return;
-				}else{
-					PlayerHUD.lastPressedKey = PlayerHUD.pressedKey;
-					PlayerHUD.pressedKey = e.getKeyChar();
-				}
-				return;
+				PlayerHUD.pressedKey = e.getKeyChar();
 			}
 			if(e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC){
 				Player.hasInteracted = false;

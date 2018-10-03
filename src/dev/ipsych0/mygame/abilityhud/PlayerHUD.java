@@ -46,6 +46,7 @@ public class PlayerHUD implements Serializable{
 		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, CharacterStats.Melee, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
 		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, CharacterStats.Magic, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
 		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, CharacterStats.Ranged,"Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
+		slottedAbilities.get(4).setAbility(new FireBallAbility(CharacterStats.Fire, CharacterStats.Magic, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
 
 		// Add HP Bar after the last abilitySlot
 //		hpBar = new HPBar(Handler.get(), slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
@@ -70,6 +71,9 @@ public class PlayerHUD implements Serializable{
 				if(as.getAbility() != null) {
 					if(as.getAbility().isChanneling()) {
 						return;
+					}else if(as.getAbility().isSelectable() && as.getAbility().isSelected()){
+						as.getAbility().setSelected(false);
+						as.getAbility().setActivated(false);
 					}
 				}
 			}

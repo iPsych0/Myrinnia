@@ -70,10 +70,8 @@ public abstract class Ability implements Serializable {
 	public void tick() {
 		Rectangle mouse = Handler.get().getMouse();
 		if(isSelectable() && isSelected()) {
-			if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed() || PlayerHUD.lastPressedKey == PlayerHUD.pressedKey && PlayerHUD.pressedKey != '\u0000') {
+			if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
 				setSelected(false);
-				PlayerHUD.pressedKey = '\u0000';
-				PlayerHUD.lastPressedKey = '\u0000';
 				for(AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
 					if(as.getAbility() != null) {
 						if(as.getAbility().isChanneling()) {
