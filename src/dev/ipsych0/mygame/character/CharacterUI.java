@@ -18,8 +18,8 @@ public class CharacterUI implements Serializable{
 	private static final long serialVersionUID = 2534979108806910921L;
 	public int x = 8, y = 180, width = 208, height = 320;
 	public static boolean isOpen = false;
-	private int baseStatPoints = 0;
-	private int elementalStatPoints = 0;
+	private int baseStatPoints = 5;
+	private int elementalStatPoints = 5;
 	private Rectangle meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
 	public static boolean hasBeenPressed = false;
 	private Rectangle bounds;
@@ -195,12 +195,20 @@ public class CharacterUI implements Serializable{
 		this.baseStatPoints++;
 	}
 
+	public void addBaseStatPoints(int points) {
+		this.baseStatPoints += points;
+	}
+
 	public int getElementalStatPoints() {
 		return elementalStatPoints;
 	}
 
 	public void addElementalStatPoints() {
 		this.elementalStatPoints++;
+	}
+
+	public void addElementalStatPoints(int points) {
+		this.elementalStatPoints += points;
 	}
 
 	public Rectangle getBounds() {
