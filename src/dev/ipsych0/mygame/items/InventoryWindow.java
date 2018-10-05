@@ -473,6 +473,34 @@ public class InventoryWindow implements Serializable {
         return -1;
     }
 
+    public void giveItem(Item item, int amount){
+        int playerX = (int) Handler.get().getPlayer().getX();
+        int playerY = (int) Handler.get().getPlayer().getY();
+        if(!item.isStackable()) {
+            if(findFreeSlot(item) == -1) {
+                if(amount >= 1) {
+                    Handler.get().dropItem(item, amount, playerX, playerY);
+                    if(amount != 1)
+                        giveItem(item, (amount-1));
+                    else
+                        Handler.get().sendMsg("The item(s) were dropped to the floor.");
+                }
+            } else{
+                if(amount >= 1) {
+                    getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
+                    giveItem(item, (amount-1));
+                }
+            }
+        }else {
+            if(findFreeSlot(item) == -1) {
+                Handler.get().dropItem(item, amount, playerX, playerY);
+                Handler.get().sendMsg("The item(s) were dropped to the floor.");
+            } else{
+                getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
+            }
+        }
+    }
+
     /*
      * Checks the inventory for a given item & quantity met
      * @returns boolean: true if player has item + quantity, false if player doesn't have item or doesn't have enough
@@ -559,7 +587,7 @@ public class InventoryWindow implements Serializable {
      * Checks if the player has the item+quantity and removes it
      * @returns boolean: true if successful, false if item+quantity requirement not met
      */
-    public boolean removeItem(ItemSlot is) {
+    public boolean removeBankItemSlot(ItemSlot is) {
         boolean hasItem = false;
         for (int i = 0; i < itemSlots.size(); i++) {
             if (itemSlots.get(i).getItemStack() == is.getItemStack()) {

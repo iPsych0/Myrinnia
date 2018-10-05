@@ -83,6 +83,11 @@ public class Lorraine extends ShopKeeper {
                     speakingTurn = 1;
                     break;
                 }
+                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                    chatDialogue = null;
+                    speakingTurn = 1;
+                    break;
+                }
         }
     }
 

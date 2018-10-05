@@ -46,6 +46,7 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
                 stat.setLevel(0);
             }
             resetCost *= 2;
+            Handler.get().sendMsg("Your Skill Points have been reset.");
         }else{
             Handler.get().sendMsg("You don't have enough gold to reset your Skill Points.");
         }

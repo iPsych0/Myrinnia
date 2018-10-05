@@ -88,7 +88,7 @@ public class ChatWindow implements Serializable{
 	    	return true;
         }
         else{
-        	System.out.println("Something went wrong with the chatIndex in sendMessage:ChatWindow (negative index)");
+        	System.err.println("Something went wrong with the chatIndex in sendMessage:ChatWindow (negative index)");
         	return false;
         }
     }

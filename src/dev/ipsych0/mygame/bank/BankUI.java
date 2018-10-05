@@ -231,7 +231,7 @@ public class BankUI implements Serializable{
 							if(openedTab.findFreeSlot(is.getItemStack().getItem()) != -1) {
 								openedTab.getBankSlots().get(openedTab.findFreeSlot(is.getItemStack().getItem()))
 										 .addItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
-								Handler.get().getInventory().removeItem(is);
+								Handler.get().getInventory().removeBankItemSlot(is);
 								inventoryLoaded = false;
 								hasBeenPressed = false;
 								return;
@@ -251,7 +251,7 @@ public class BankUI implements Serializable{
 							if(currentSelectedSlot == null) {
 								if(is.getItemStack() != null) {
 									currentSelectedSlot = is.getItemStack();
-									Handler.get().getInventory().removeItem(is);
+									Handler.get().getInventory().removeBankItemSlot(is);
 									itemSelected = true;
 									inventoryLoaded = false;
 								}
