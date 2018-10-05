@@ -22,7 +22,9 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
-    private String[] firstDialogue = {"I would like to learn new abilities.", "Leave."};
+    private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?","Leave."};
+    private String[] secondDialogue = {"I can reset your Skill Points for a fee of " + AbilityTrainer.resetCost + " gold."};
+    private String[] thirdDialogue = {"Reset points (" + AbilityTrainer.resetCost + " gold).", "Never mind."};
 
     public AbilityMaster(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -92,6 +94,36 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     speakingTurn = 1;
                     break;
                 }
+                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                    speakingTurn++;
+                    chatDialogue = new ChatDialogue(secondDialogue);
+                    break;
+                }
+            case 3:
+                if (chatDialogue == null) {
+                    speakingTurn = 1;
+                    break;
+                }
+                chatDialogue = new ChatDialogue(thirdDialogue);
+                speakingTurn++;
+                break;
+            case 4:
+                if (chatDialogue == null) {
+                    speakingTurn = 1;
+                    break;
+                }
+                if (chatDialogue.getChosenOption().getOptionID() == 0) {
+                    resetSkillPoints();
+                    chatDialogue = null;
+                    speakingTurn = 1;
+                    break;
+                }
+                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                    chatDialogue = null;
+                    speakingTurn = 1;
+                    break;
+                }
+
         }
     }
 }

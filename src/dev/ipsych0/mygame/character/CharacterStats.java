@@ -7,7 +7,7 @@ public enum CharacterStats {
 	private int level;
 	
 	CharacterStats(){
-		level = 0;
+		this.level = 0;
 	}
 
 	public int getLevel() {
