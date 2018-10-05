@@ -58,8 +58,8 @@ public class AbilityManager implements Serializable{
 			if(a.isActivated()) {
 				if(!a.isCasting() && a.getCastingTime() > 0 && a.getCastingTimeTimer() <= a.getCastingTime()*60 && a.getCastingTimeTimer() > 0) {
 					float timer = a.getCastingTimeTimer();
-					float castTime =  a.getCastingTime() * 60;
-					float timeLeft = timer/castTime;
+					double castTime =  a.getCastingTime() * 60;
+					double timeLeft = timer/castTime;
 					g.setColor(castBarColor);
 					g.fillRect((int)(a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int)(a.getCaster().getY() + a.getCaster().getHeight()-4 - Handler.get().getGameCamera().getyOffset()),
 							(int)(timeLeft * (a.getCaster().getWidth() + 4)), 8);

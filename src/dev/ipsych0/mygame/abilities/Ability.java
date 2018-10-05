@@ -19,9 +19,9 @@ public abstract class Ability implements Serializable {
 	 */
 	private static final long serialVersionUID = 6105053373876560350L;
 	protected Creature caster;
-	protected int cooldownTime;
-	protected int castingTime;
-	protected int overcastTime;
+	protected double cooldownTime;
+	protected double castingTime;
+	protected double overcastTime;
 	protected String name;
 	protected String description;
 	protected AbilityType abilityType;
@@ -38,7 +38,7 @@ public abstract class Ability implements Serializable {
 	protected boolean unlocked;
 	protected int price;
 	
-	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, int cooldownTime, int castingTime, int overcastTime, int baseDamage, String description) {
+	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, String description) {
 		this.element = element;
 		this.combatStyle = combatStyle;
 		this.abilityType = abilityType;
@@ -115,7 +115,7 @@ public abstract class Ability implements Serializable {
 
 	// Getters & Setters
 	
-	public int getRemainingCooldown() {
+	public double getRemainingCooldown() {
 		return cooldownTime - (cooldownTimer/60);
 	}
 	
@@ -131,23 +131,23 @@ public abstract class Ability implements Serializable {
 		return caster;
 	}
 
-	public int getCooldownTimer() {
+	public double getCooldownTimer() {
 		return cooldownTime;
 	}
 
-	public void setCooldownTimer(int cooldownTimer) {
+	public void setCooldownTimer(double cooldownTimer) {
 		this.cooldownTime = cooldownTimer;
 	}
 
-	public int getCastingTime() {
+	public double getCastingTime() {
 		return castingTime;
 	}
 
-	public void setCastingTime(int castingTime) {
+	public void setCastingTime(double castingTime) {
 		this.castingTime = castingTime;
 	}
 
-	public int getOvercastTime() {
+	public double getOvercastTime() {
 		return overcastTime;
 	}
 
@@ -219,7 +219,7 @@ public abstract class Ability implements Serializable {
 		this.activated = isActivated;
 	}
 
-	public int getCooldownTime() {
+	public double getCooldownTime() {
 		return cooldownTime;
 	}
 
