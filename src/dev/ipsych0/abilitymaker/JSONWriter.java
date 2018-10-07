@@ -1,7 +1,7 @@
 package dev.ipsych0.abilitymaker;
 
-import dev.ipsych0.mygame.abilities.AbilityType;
-import dev.ipsych0.mygame.character.CharacterStats;
+import dev.ipsych0.myrinnia.abilities.AbilityType;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 
 public class JSONWriter {
 
