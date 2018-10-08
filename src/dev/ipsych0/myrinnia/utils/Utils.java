@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dev.ipsych0.myrinnia.abilities.Ability;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -9,6 +10,7 @@ import java.lang.reflect.Type;
 public class Utils {
 
 	private static Gson gson;
+	public static File abilityJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
 	
 	/**
 	 * Loads the contents of a file as a String
@@ -52,7 +54,7 @@ public class Utils {
 		return gson;
 	}
 
-	public static <T> T fromJson(String path, final Class<?> clazz){
+	private static <T> T abilityFromJson(String path, final Class<?> clazz){
 		FileInputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(new File("src/dev/ipsych0/myrinnia/abilities/json/" + path.toLowerCase()));
@@ -72,7 +74,7 @@ public class Utils {
 		return null;
 	}
 
-	public static Class<?> getClassFromString(String jsonFile){
+	private static Class<?> getClassFromString(String jsonFile){
         FileInputStream inputStream = null;
         String name = null;
         try {
@@ -107,6 +109,10 @@ public class Utils {
             System.exit(1);
         }
         return clazz;
+    }
+
+    public static Ability loadAbility(String path){
+        return abilityFromJson(path, getClassFromString(path));
     }
 
 }

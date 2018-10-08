@@ -45,9 +45,8 @@ public class PlayerHUD implements Serializable{
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
 
-		File folder = new File("src/dev/ipsych0/myrinnia/abilities/json/");
-        for(int i = 0; i < folder.listFiles().length; i++){
-            slottedAbilities.get(i).setAbility(Utils.fromJson(folder.listFiles()[i].getName(), Utils.getClassFromString(folder.listFiles()[i].getName())));
+        for(int i = 0; i < Utils.abilityJsonDirectory.listFiles().length; i++){
+            slottedAbilities.get(i).setAbility(Utils.loadAbility(Utils.abilityJsonDirectory.listFiles()[i].getName()));
         }
 
 		// Add HP Bar after the last abilitySlot

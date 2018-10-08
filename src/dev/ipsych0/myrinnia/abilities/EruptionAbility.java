@@ -19,14 +19,13 @@ public class EruptionAbility extends Ability {
     private Color ability;
     private Rectangle hitBox;
     private boolean initDone;
-    private int renderTimer = 0;
-    private int displayTime = 1 * 60;
+    private int renderTimer;
+    private int displayTime;
 
     public EruptionAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                            double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
-        ability = new Color(89, 58, 2, 224);
     }
 
     @Override
@@ -41,6 +40,8 @@ public class EruptionAbility extends Ability {
     @Override
     public void cast() {
         if (!initDone) {
+            ability = new Color(89, 58, 2, 224);
+            displayTime = 1 * 60;
             hitBox = new Rectangle((int) caster.getX() - ItemSlot.SLOTSIZE, (int) caster.getY() - ItemSlot.SLOTSIZE,
                     caster.getWidth() + ItemSlot.SLOTSIZE * 2, caster.getHeight() + ItemSlot.SLOTSIZE * 2);
             initDone = true;
