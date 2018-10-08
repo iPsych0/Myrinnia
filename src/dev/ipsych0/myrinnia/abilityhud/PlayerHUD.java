@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilityhud;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -43,11 +44,11 @@ public class PlayerHUD implements Serializable{
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(Utils.fromJson("Fireball.json", FireBallAbility.class));
-		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, CharacterStats.Melee, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
-		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, CharacterStats.Magic, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
-		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, CharacterStats.Ranged,"Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));
-		slottedAbilities.get(4).setAbility(new FireBallAbility(CharacterStats.Fire, CharacterStats.Magic, "Fireball", AbilityType.AutoAttack, true, 5,1,0,10, "A weak fireball spell."));
+
+		File folder = new File("src/dev/ipsych0/myrinnia/abilities/json/");
+        for(int i = 0; i < folder.listFiles().length; i++){
+            slottedAbilities.get(i).setAbility(Utils.fromJson(folder.listFiles()[i].getName(), Utils.getClassFromString(folder.listFiles()[i].getName())));
+        }
 
 		// Add HP Bar after the last abilitySlot
 //		hpBar = new HPBar(Handler.get(), slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);

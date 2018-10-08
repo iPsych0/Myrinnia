@@ -25,8 +25,10 @@ public class JSONAbility {
     protected boolean selected;
     protected boolean unlocked;
     protected int price;
+    private String className;
 
-    public JSONAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, String description) {
+    public JSONAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String className, String description) {
+        this.className = className;
         this.element = element;
         this.combatStyle = combatStyle;
         this.abilityType = abilityType;
@@ -36,6 +38,7 @@ public class JSONAbility {
         this.overcastTime = overcastTime;
         this.name = name;
         this.baseDamage = baseDamage;
+        this.price = price;
         this.description = description;
     }
 }

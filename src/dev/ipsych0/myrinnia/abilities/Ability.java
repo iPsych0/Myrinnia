@@ -36,7 +36,7 @@ public abstract class Ability implements Serializable {
 	protected boolean unlocked;
 	protected int price;
 	
-	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, String description) {
+	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
 		this.element = element;
 		this.combatStyle = combatStyle;
 		this.abilityType = abilityType;
@@ -46,6 +46,7 @@ public abstract class Ability implements Serializable {
 		this.overcastTime = overcastTime;
 		this.name = name;
 		this.baseDamage = baseDamage;
+		this.price = price;
 		this.description = description;
 	}
 	

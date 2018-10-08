@@ -1,9 +1,9 @@
 {
-  "cooldownTime": 5.0,
-  "castingTime": 0.5,
+  "cooldownTime": 10.0,
+  "castingTime": 0.25,
   "overcastTime": 0.0,
   "name": "Fireball",
-  "description": "A test ability.",
+  "description": "Test hing",
   "abilityType": "AutoAttack",
   "element": "Fire",
   "combatStyle": "Melee",
@@ -18,5 +18,6 @@
   "selectable": true,
   "selected": false,
   "unlocked": false,
-  "price": 0
+  "price": 3,
+  "className": "dev.ipsych0.myrinnia.abilities.FireBallAbility"
 }

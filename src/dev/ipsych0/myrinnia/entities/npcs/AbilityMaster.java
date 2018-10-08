@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
@@ -26,10 +27,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         abilities = new ArrayList<>();
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(0).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(1).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(2).getAbility());
-        abilities.add(Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities().get(3).getAbility());
+
+        for(AbilitySlot a : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()){
+            if(a.getAbility() != null) {
+                abilities.add(a.getAbility());
+            }
+        }
+
 
 
         abilityShopWindow = new AbilityShopWindow(abilities);

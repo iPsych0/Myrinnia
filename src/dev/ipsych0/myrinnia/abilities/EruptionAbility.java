@@ -16,17 +16,17 @@ public class EruptionAbility extends Ability {
      *
      */
     private static final long serialVersionUID = 4028579023728693627L;
-    private Color ability = new Color(89, 58, 2, 224);
+    private Color ability;
     private Rectangle hitBox;
     private boolean initDone;
     private int renderTimer = 0;
     private int displayTime = 1 * 60;
 
     public EruptionAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                           double cooldownTime, double castingTime, double overcastTime, int baseDamage, String description) {
-        super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+                           double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+        super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
-        price = 3;
+        ability = new Color(89, 58, 2, 224);
     }
 
     @Override

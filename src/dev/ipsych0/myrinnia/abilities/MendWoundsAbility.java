@@ -19,8 +19,8 @@ public class MendWoundsAbility extends Ability {
     private boolean initialHealDone = false;
 
     public MendWoundsAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                             double cooldownTime, double castingTime, double overcastTime, int baseDamage, String description) {
-        super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, description);
+                             double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+        super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
         price = 2;
     }
