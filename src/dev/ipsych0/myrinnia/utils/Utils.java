@@ -1,10 +1,13 @@
 package dev.ipsych0.myrinnia.utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 
 public class Utils {
+
+	private static Gson gson;
 	
 	/**
 	 * Loads the contents of a file as a String
@@ -39,6 +42,34 @@ public class Utils {
 			System.out.println("Couldn't load tile with ID: " + number);
 			return 28;
 		}
+	}
+
+	public static Gson getGson(){
+		if(gson == null){
+			gson = new GsonBuilder().setPrettyPrinting().create();
+		}
+		return gson;
+	}
+
+	public static <T> T fromJson(String path, final Class<T> clazz){
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(new File(path));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.err.println("File '" + path + "' not found.");
+			System.exit(1);
+		}
+		try {
+			final Gson gson = getGson();
+			final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			return gson.fromJson(reader, clazz);
+		} catch (final Exception e) {
+			e.printStackTrace();
+			System.err.println("Json file could not be loaded.");
+			System.exit(1);
+		}
+		return null;
 	}
 
 }

@@ -1,5 +1,6 @@
 package dev.ipsych0.abilitymaker;
 
+import com.google.gson.Gson;
 import dev.ipsych0.myrinnia.abilities.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 
@@ -95,17 +96,22 @@ public class Window extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         // The labels for the display text
-        elementLabel = new JLabel("Element:", SwingConstants.CENTER);
-        combatStyleLabel = new JLabel("Combat Style:", SwingConstants.CENTER);
-        nameLabel = new JLabel("Ability name:", SwingConstants.CENTER);
-        typeLabel = new JLabel("Ability type:", SwingConstants.CENTER);
-        selectableLabel = new JLabel("Selectable:", SwingConstants.CENTER);
-        cooldownLabel = new JLabel("Cooldown time:", SwingConstants.CENTER);
-        castingLabel = new JLabel("Casting time:", SwingConstants.CENTER);
-        overcastLabel = new JLabel("Overcast time:", SwingConstants.CENTER);
-        baseDmgLabel = new JLabel("Base damage:", SwingConstants.CENTER);
-        descriptionLabel = new JLabel("Description:", SwingConstants.CENTER);
-        errorLabel = new JLabel("",SwingConstants.CENTER);
+        elementLabel = new JLabel("Element:", JLabel.CENTER);
+        combatStyleLabel = new JLabel("Combat Style:", JLabel.CENTER);
+        nameLabel = new JLabel("Ability name:", JLabel.CENTER);
+        typeLabel = new JLabel("Ability type:", JLabel.CENTER);
+        selectableLabel = new JLabel("Selectable:", JLabel.CENTER);
+        cooldownLabel = new JLabel("Cooldown time:", JLabel.CENTER);
+        castingLabel = new JLabel("Casting time:", JLabel.CENTER);
+        overcastLabel = new JLabel("Overcast time:", JLabel.CENTER);
+        baseDmgLabel = new JLabel("Base damage:", JLabel.CENTER);
+        descriptionLabel = new JLabel("Description:", JLabel.CENTER);
+        errorLabel = new JLabel("",JLabel.CENTER);
+
+        elementLabel.setAlignmentX(0);
+        combatStyleLabel.setAlignmentX(0);
+        nameLabel.setAlignmentX(0);
+        typeLabel.setAlignmentX(0);
 
         // Input fields
         nameInput = new JTextField(64);

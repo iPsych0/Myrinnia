@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import dev.ipsych0.abilitymaker.JSONAbility;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityType;
@@ -14,6 +15,7 @@ import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
 import dev.ipsych0.myrinnia.abilities.NimbleFeetAbility;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 public class PlayerHUD implements Serializable{
 	
@@ -23,26 +25,25 @@ public class PlayerHUD implements Serializable{
 	 */
 	private static final long serialVersionUID = 2357471540127327333L;
 	private static final int MAX_SLOTS = 10;
-	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<AbilitySlot>();
+	private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<>();
 	private HPBar hpBar;
 	private XPBar xpBar;
-	private int x, y, width, height;
+	private static int x, y, width, height;
 	private AbilityTooltip abilityTooltip;
 	public static boolean hasBeenPressed;
 	public static boolean hasBeenTyped;
 	public static char pressedKey;
-	public static char lastPressedKey;
-	
+
 	public PlayerHUD() {
-		this.width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
-		this.height = y + ItemSlot.SLOTSIZE;
-		this.x = Handler.get().getWidth() / 2 - (width / 2);
-		this.y = Handler.get().getHeight() - ItemSlot.SLOTSIZE - 8;
+		width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
+		height = y + ItemSlot.SLOTSIZE;
+		x = Handler.get().getWidth() / 2 - (width / 2);
+		y = Handler.get().getHeight() - ItemSlot.SLOTSIZE - 8;
 		
 		for(int i = 0; i < MAX_SLOTS; i++) {
 			slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
 		}
-		slottedAbilities.get(0).setAbility(new FireBallAbility(CharacterStats.Fire, CharacterStats.Magic, "Fireball", AbilityType.AutoAttack, true, 5,0.5,0,10, "A weak fireball spell."));
+		slottedAbilities.get(0).setAbility(Utils.fromJson("Fireball.json", FireBallAbility.class));
 		slottedAbilities.get(1).setAbility(new EruptionAbility(CharacterStats.Earth, CharacterStats.Melee, "Eruption", AbilityType.StandardAbility, false, 10,2,0,25, "Causes an eruption that deals X AoE damage."));
 		slottedAbilities.get(2).setAbility(new MendWoundsAbility(CharacterStats.Water, CharacterStats.Magic, "Mend Wounds", AbilityType.HealingAbility, false, 25,1,0,0, "Heal yourself for X amount of health and gain regeneration for Y seconds."));
 		slottedAbilities.get(3).setAbility(new NimbleFeetAbility(CharacterStats.Air, CharacterStats.Ranged,"Nimble Feet", AbilityType.StandardAbility, false, 20,0,0,0, "Increases movement speed by 1.0 for 5 seconds."));

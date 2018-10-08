@@ -1,0 +1,22 @@
+{
+  "cooldownTime": 5.0,
+  "castingTime": 0.5,
+  "overcastTime": 0.0,
+  "name": "Fireball",
+  "description": "A test ability.",
+  "abilityType": "AutoAttack",
+  "element": "Fire",
+  "combatStyle": "Melee",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": true,
+  "selected": false,
+  "unlocked": false,
+  "price": 0
+}
