@@ -1,6 +1,5 @@
 package dev.ipsych0.abilitymaker;
 
-import com.google.gson.Gson;
 import dev.ipsych0.myrinnia.abilities.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 
@@ -28,7 +27,7 @@ public class Window extends JFrame {
             errorPanel = new JPanel();
 
     private JLabel elementLabel, combatStyleLabel, nameLabel, typeLabel, selectableLabel, cooldownLabel,
-                   castingLabel, overcastLabel, baseDmgLabel, descriptionLabel, priceLabel, errorLabel;
+            castingLabel, overcastLabel, baseDmgLabel, descriptionLabel, priceLabel, errorLabel;
 
     private JTextField nameInput, cooldownInput, castingInput, overcastInput, baseDmgInput, descriptionInput, priceInput;
 
@@ -44,7 +43,7 @@ public class Window extends JFrame {
 
     private JButton createButton = new JButton("Create Ability");
 
-    public Window(){
+    public Window() {
         super("Ability Maker v1.0");
         init();
         addFields();
@@ -56,11 +55,11 @@ public class Window extends JFrame {
         createButton.addActionListener(e -> {
 
             // Get the input fields
-            CharacterStats element = CharacterStats.valueOf((String)elementDropDown.getSelectedItem());
-            CharacterStats combatStyle = CharacterStats.valueOf((String)combatStyleDropDown.getSelectedItem());
+            CharacterStats element = CharacterStats.valueOf((String) elementDropDown.getSelectedItem());
+            CharacterStats combatStyle = CharacterStats.valueOf((String) combatStyleDropDown.getSelectedItem());
             String name = nameInput.getText();
-            AbilityType abilityType = AbilityType.valueOf((String)typeDropDown.getSelectedItem());
-            boolean selectable = Boolean.valueOf((String)selectableDropDown.getSelectedItem());
+            AbilityType abilityType = AbilityType.valueOf((String) typeDropDown.getSelectedItem());
+            boolean selectable = Boolean.valueOf((String) selectableDropDown.getSelectedItem());
             double cooldownTime = -1;
             double castingTime = -1;
             double overcastTime = -1;
@@ -77,7 +76,7 @@ public class Window extends JFrame {
                 baseDamage = Integer.parseInt(baseDmgInput.getText());
                 price = Integer.parseInt(priceInput.getText());
                 className = name + "Ability";
-            }catch (Exception exc){
+            } catch (Exception exc) {
 
             }
 
@@ -85,10 +84,10 @@ public class Window extends JFrame {
             boolean valid = JSONWriter.validate(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, className, description);
 
             // If valid, write to JSON file
-            if(valid){
+            if (valid) {
                 errorLabel.setText("");
                 JSONWriter.write(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, className, description);
-            }else{
+            } else {
                 errorLabel.setText("<html><font color='red'>Please fill in correct values.</font></html>");
             }
         });
@@ -112,7 +111,7 @@ public class Window extends JFrame {
         baseDmgLabel = new JLabel("Base damage:", JLabel.CENTER);
         descriptionLabel = new JLabel("Description:", JLabel.CENTER);
         priceLabel = new JLabel("Ability Point price at Ability Trainer:", JLabel.CENTER);
-        errorLabel = new JLabel("",JLabel.CENTER);
+        errorLabel = new JLabel("", JLabel.CENTER);
 
         elementLabel.setMaximumSize(new Dimension(220, 0));
         elementLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -163,14 +162,14 @@ public class Window extends JFrame {
         selectableDropDown = new JComboBox<>(selectables);
         selectableDropDown.setSelectedIndex(1);
 
-        ((JLabel)elementDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
-        ((JLabel)elementDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        ((JLabel)combatStyleDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
-        ((JLabel)combatStyleDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        ((JLabel)typeDropDown.getRenderer()).setMaximumSize(new Dimension(250,0));
-        ((JLabel)typeDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        ((JLabel)selectableDropDown.getRenderer()).setMaximumSize(new Dimension(250,0));
-        ((JLabel)selectableDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        ((JLabel) elementDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
+        ((JLabel) elementDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        ((JLabel) combatStyleDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
+        ((JLabel) combatStyleDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        ((JLabel) typeDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
+        ((JLabel) typeDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        ((JLabel) selectableDropDown.getRenderer()).setMaximumSize(new Dimension(250, 0));
+        ((JLabel) selectableDropDown.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
         createButton.setMaximumSize(new Dimension(220, 0));
         createButton.setHorizontalAlignment(SwingConstants.CENTER);

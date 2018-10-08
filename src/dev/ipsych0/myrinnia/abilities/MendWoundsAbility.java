@@ -12,17 +12,16 @@ public class MendWoundsAbility extends Ability {
      *
      */
     private static final long serialVersionUID = -7613939541331724237L;
-    private int regenTimer = 0;
-    private int regenSeconds = 5 * 60;
-    private int baseHeal = 30;
-    private int regenHeal = 3;
+    private int regenTimer;
+    private int regenSeconds;
+    private int baseHeal;
+    private int regenHeal;
     private boolean initialHealDone = false;
 
     public MendWoundsAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                              double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
-        price = 2;
     }
 
     @Override
@@ -34,6 +33,9 @@ public class MendWoundsAbility extends Ability {
     public void cast() {
         // Heal to max HP if current HP + baseHeal >= max HP already, otherwise add baseHeal
         if (!initialHealDone) {
+            regenSeconds = 5 * 60;
+            baseHeal = 30;
+            regenHeal = 3;
             int heal = 0;
             this.caster.setHealth(heal = (this.caster.getHealth() + baseHeal >= this.caster.getMaxHealth()) ?
                     this.caster.getMaxHealth() : (this.caster.getHealth() + baseHeal));

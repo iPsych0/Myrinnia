@@ -89,7 +89,7 @@ public class Utils {
             String line;
             while((line = reader.readLine()) != null){
                 if(line.contains("className")){
-                    name = line.substring(16, line.length()-1);
+                    name = line.substring(16, line.length()-1).replace(" ", "");
                     break;
                 }
             }

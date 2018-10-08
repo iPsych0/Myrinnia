@@ -1,9 +1,9 @@
 {
-  "cooldownTime": 10.0,
+  "cooldownTime": 5.0,
   "castingTime": 0.25,
   "overcastTime": 0.0,
   "name": "Fireball",
-  "description": "Test hing",
+  "description": "Test thing",
   "abilityType": "AutoAttack",
   "element": "Fire",
   "combatStyle": "Melee",

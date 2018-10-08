@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.gfx;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Assets {
@@ -143,8 +143,8 @@ public class Assets {
 	public static BufferedImage controlsScreen;
 	
 	public static BufferedImage[][] puzzlePieces;
-	
-	public static void init(){
+
+    public static void init(){
 		
 		/*
 		 * Fonts

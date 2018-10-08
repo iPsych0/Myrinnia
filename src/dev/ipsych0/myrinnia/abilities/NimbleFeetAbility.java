@@ -14,10 +14,10 @@ public class NimbleFeetAbility extends Ability {
      *
      */
     private static final long serialVersionUID = 6275665878660555382L;
-    private float baseMovementBoost = 1.0f;
-    private int boostTime = 20 * 60;
-    private int boostTimeTimer = 0;
-    private boolean initialBoostDone = false;
+    private float baseMovementBoost;
+    private int boostTime;
+    private int boostTimeTimer;
+    private boolean initialBoostDone;
 
     public NimbleFeetAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                              double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
@@ -34,6 +34,8 @@ public class NimbleFeetAbility extends Ability {
     @Override
     public void cast() {
         if (!initialBoostDone) {
+            baseMovementBoost = 1.0f;
+            boostTime = 20 * 60;
             getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
             initialBoostDone = true;
             Handler.debugMode = true;
