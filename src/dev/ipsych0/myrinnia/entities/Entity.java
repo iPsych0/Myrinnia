@@ -80,6 +80,8 @@ public abstract class Entity implements Serializable{
 	 * @returns: true if collision, false if no collision
 	 */
 	public boolean checkEntityCollisions(float xOffset, float yOffset){
+		if (Handler.debugMode && this.equals(Handler.get().getPlayer()))
+			return false;
 		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
 			if(e.equals(this))
 				continue;
