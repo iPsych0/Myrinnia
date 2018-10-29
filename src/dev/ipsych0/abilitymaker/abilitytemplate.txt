@@ -1,0 +1,28 @@
+package dev.ipsych0.myrinnia.abilities;
+
+import java.awt.Graphics;
+import java.io.Serializable;
+
+import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ItemSlot;
+
+
+public class TestAbility extends Ability implements Serializable {
+
+    public TestAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
+                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+        super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
+    }
+
+    @Override
+    public void render(Graphics g, int x, int y) {
+        g.drawImage(Assets.TestImage, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+    }
+
+    @Override
+    public void cast() {
+
+    }
+
+}
