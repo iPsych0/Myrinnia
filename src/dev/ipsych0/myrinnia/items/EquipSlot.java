@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.items;
 
 public enum EquipSlot{
-	HELM(4), BODY(5), LEGS(6), BOOTS(7), MAINHAND(1), OFFHAND(9), EARRINGS(0), CAPE(10), AMULET(8), GLOVES(2), RING_LEFT(3), RING_RIGHT(11), NONE(12);
+	Helm(4), Body(5), Legs(6), Boots(7), Mainhand(1), Offhand(9), Earrings(0), Cape(10), Amulet(8), Gloves(2), Ring_Left(3), Ring_Right(11), None(12);
 	
 	private int slotId;
 	

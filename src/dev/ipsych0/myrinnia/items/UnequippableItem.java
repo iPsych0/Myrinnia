@@ -13,7 +13,7 @@ public class UnequippableItem extends Item{
 			boolean isStackable, ItemType... itemTypes) {
 		super(texture, name, id, itemRarity, price, isStackable, itemTypes);
 		
-		this.equipSlot = EquipSlot.NONE;
+		this.equipSlot = EquipSlot.None;
 		this.power = 0;
 		this.defence = 0;
 		this.vitality = 0;

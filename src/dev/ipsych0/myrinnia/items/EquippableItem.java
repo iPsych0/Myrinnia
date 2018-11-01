@@ -22,15 +22,15 @@ public class EquippableItem extends Item{
 	 * @param attackSpeed
 	 * @param movementSpeed
 	 * @param price
-	 * @param isStackable
+	 * @param stackable
 	 * @param itemTypes
 	 * @param requirements
 	 */
 	public EquippableItem(BufferedImage texture, String name, int id, ItemRarity itemRarity,
 			EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
-			int price, boolean isStackable, ItemType[] itemTypes, ItemRequirement... requirements) {
+			int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
 		
-		super(texture, name, id, itemRarity, price, isStackable, itemTypes);
+		super(texture, name, id, itemRarity, price, stackable, itemTypes);
 		
 		this.requirements = requirements;
 		this.equipSlot = equipSlot;
@@ -55,14 +55,14 @@ public class EquippableItem extends Item{
 	 * @param attackSpeed
 	 * @param movementSpeed
 	 * @param price
-	 * @param isStackable
+	 * @param stackable
 	 * @param itemTypes
 	 */
 	public EquippableItem(BufferedImage texture, String name, int id, ItemRarity itemRarity,
 			EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
-			int price, boolean isStackable, ItemType[] itemTypes) {
+			int price, boolean stackable, ItemType[] itemTypes) {
 		
-		super(texture, name, id, itemRarity, price, isStackable, itemTypes);
+		super(texture, name, id, itemRarity, price, stackable, itemTypes);
 		
 		this.requirements = null;
 		this.equipSlot = equipSlot;

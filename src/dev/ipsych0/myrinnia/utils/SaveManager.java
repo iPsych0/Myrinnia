@@ -35,10 +35,9 @@ public class SaveManager {
 				o.writeObject(Handler.get());
 			o.close();
 			f.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+			Handler.get().sendMsg("WARNING: Could not save your game, please try again!");
 		}
 	}
 	
@@ -58,12 +57,9 @@ public class SaveManager {
 			
 			oin.close();
 			fin.close();
-		} catch (FileNotFoundException e) {
+		}catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		// Set the Handler to the loaded version

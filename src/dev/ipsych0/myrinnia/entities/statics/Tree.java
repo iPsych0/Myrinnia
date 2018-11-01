@@ -100,7 +100,7 @@ public class Tree extends StaticEntity {
 		}
 		if(this.speakingTurn == 1) {
 			if(Handler.get().playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
-				if(Handler.get().playerHasItemType(ItemType.AXE)) {
+				if(Handler.get().playerHasItemType(ItemType.Axe)) {
 					Handler.get().sendMsg("Chop chop...");
 					speakingTurn = 2;
 					isWoodcutting = true;

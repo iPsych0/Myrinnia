@@ -75,7 +75,7 @@ public class Island extends World {
 		northwestVillageHouse = new Rectangle(4032, 5216, 32, 32);
 				
 		// Dit is hoe ik items in de world zelf spawn
-		itemManager.addItem(Item.regularLogs.createUnequippableItem(5056, 5596, 5), true);
+		itemManager.addItem(Item.regularLogs.createItem(5056, 5596, 5), true);
 				
 	}
 

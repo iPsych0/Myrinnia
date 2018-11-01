@@ -49,7 +49,7 @@ public class Utils {
 
 	public static Gson getGson(){
 		if(gson == null){
-			gson = new GsonBuilder().setPrettyPrinting().create();
+			gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 		}
 		return gson;
 	}

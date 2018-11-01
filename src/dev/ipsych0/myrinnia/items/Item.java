@@ -16,35 +16,35 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
-public abstract class Item implements Serializable{
-	
+public class Item implements Serializable{
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5417348314768685085L;
 	// ItemList
-	
+
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
 	public static Item[] items = new Item[32];
-	
+
 	/*
-	 * Unequippable Items 
+	 * Unequippable Items
 	 */
-	public static Item regularLogs = new UnequippableItem(Assets.wood, "Logs", 0, ItemRarity.Common, 5, true, ItemType.CRAFTING_MATERIAL);
-	public static Item regularOre = new UnequippableItem(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.CRAFTING_MATERIAL);
-	public static Item coins = new UnequippableItem(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
-	public static Item regularFish = new UnequippableItem(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.FOOD);
-	
+	public static Item regularLogs = new Item(Assets.wood, "Logs", 0, ItemRarity.Common, 5, true, ItemType.Crafting_Material);
+	public static Item regularOre = new Item(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.Crafting_Material);
+	public static Item coins = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.Currency);
+	public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.Food);
+
 	/*
 	 * Equippable item
 	 */
-	public static Item testSword = new EquippableItem(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.MAINHAND, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
-	public static Item purpleSword = new EquippableItem(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.MAINHAND, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.MAGIC_WEAPON});
-	public static Item testAxe = new EquippableItem(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.AXE});
-	public static Item testPickaxe = new EquippableItem(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.MAINHAND, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.PICKAXE});
-	
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.Mainhand, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon}, new ItemRequirement(CharacterStats.Melee, 2));
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.Mainhand, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.Magic_Weapon});
+	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon, ItemType.Axe});
+	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon, ItemType.Pickaxe});
+
 	// Class
-	
+
 	protected ItemType[] itemTypes;
 	protected ItemRarity itemRarity;
 	protected ItemRequirement[] requirements;
@@ -63,16 +63,22 @@ public abstract class Item implements Serializable{
 	protected int price;
 	protected boolean stackable;
 	private int respawnTimer = 10800;
-	
-	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean isStackable, ItemType... itemTypes){
+
+	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes){
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
 		this.itemTypes = itemTypes;
 		this.itemRarity = itemRarity;
 		this.price = price;
-		this.stackable = isStackable;
-		
+		this.stackable = stackable;
+		this.equipSlot = EquipSlot.None;
+		this.power = 0;
+		this.defence = 0;
+		this.vitality = 0;
+		this.attackSpeed = 0;
+		this.movementSpeed = 0;
+
 		// Prevent duplicate IDs when creating items
 		try {
 			if(items[id] != null && !name.equals(items[id].name)) {
@@ -88,35 +94,70 @@ public abstract class Item implements Serializable{
 			exc.printStackTrace();
 			System.exit(1);
 		}
+
 		bounds = new Rectangle(0, 0, 32, 32);
 		position = new Rectangle(0, 0, 32, 32);
 	}
-	
-	public void tick(){
-		
+
+	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
+				EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
+				int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
+		this.texture = texture;
+		this.name = name;
+		this.id = id;
+		this.itemTypes = itemTypes;
+		this.itemRarity = itemRarity;
+		this.price = price;
+		this.stackable = stackable;
+		this.equipSlot = equipSlot;
+		this.requirements = requirements;
+		this.power = power;
+		this.defence = defence;
+		this.vitality = vitality;
+		this.attackSpeed = attackSpeed;
+		this.movementSpeed = movementSpeed;
+
+		// Prevent duplicate IDs when creating items
+		try {
+			if(items[id] != null && !name.equals(items[id].name)) {
+				throw new DuplicateIDException(name, id);
+			}
+			else {
+				// If the item already exists, don't create a new reference
+				if(items[id] == null) {
+					items[id] = this;
+				}
+			}
+		}catch(DuplicateIDException exc) {
+			exc.printStackTrace();
+			System.exit(1);
+		}
+
+		bounds = new Rectangle(0, 0, 32, 32);
+		position = new Rectangle(0, 0, 32, 32);
 	}
-	
+
+	public void tick(){
+
+	}
+
 	public void render(Graphics g){
 		render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
 	}
-	
+
 	public void render(Graphics g, int x, int y){
 		g.drawImage(texture, x + 4, y + 4, ITEMWIDTH, ITEMHEIGHT, null);
 	}
-	
+
 	/*
 	 * Adds a new item equippable item to the world
 	 * @params: x,y position and amount
 	 */
-	public Item createEquippableItem(int x, int y, int count){
-		Item i;
-		if(this.requirements == null) {
-			i = new EquippableItem(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes);
-		}else {
-			i = new EquippableItem(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
-		}
+	public Item createItem(int x, int y, int count) {
+		Item i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+
 		i.setPosition(x, y);
-		
+
 		// If the item is stackable, set the amount
 		if(i.stackable)
 			i.setCount(count);
@@ -125,25 +166,12 @@ public abstract class Item implements Serializable{
 			i.setCount(1);
 		return i;
 	}
-	
-	public Item createUnequippableItem(int x, int y, int count){
-		Item i = new UnequippableItem(texture, name, id, itemRarity, price, stackable, itemTypes);
-		i.setPosition(x, y);
-		
-		// If the item is stackable, set the amount
-		if(i.stackable)
-			i.setCount(count);
-		// If the item is unstackable, the count is always 1.
-		else
-			i.setCount(1);
-		return i;
-	}
-	
+
 	public void setPosition(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/*
 	 * Returns the position of the item
 	 */
@@ -151,7 +179,7 @@ public abstract class Item implements Serializable{
 		position.setBounds((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), 32, 32);
 		return position;
 	}
-	
+
 	/*
 	 * Item pickup function
 	 */
@@ -171,8 +199,8 @@ public abstract class Item implements Serializable{
         }
     	return false;
     }
-	
-	
+
+
 	// Getters & Setters
 
 	public int getEquipSlot() {
@@ -250,7 +278,7 @@ public abstract class Item implements Serializable{
 	public void setPickedUp(boolean pickedUp) {
 		this.pickedUp = pickedUp;
 	}
-	
+
 	public boolean isType(ItemType type) {
 		for(ItemType it : itemTypes) {
 			if(it == type) {
@@ -291,7 +319,7 @@ public abstract class Item implements Serializable{
 	public void setStackable(boolean stackable) {
 		this.stackable = stackable;
 	}
-	
+
 	public ItemRequirement[] getRequirements() {
 		return requirements;
 	}
@@ -299,11 +327,11 @@ public abstract class Item implements Serializable{
 	public void setRequirements(ItemRequirement[] requirements) {
 		this.requirements = requirements;
 	}
-	
+
 	public void startRespawnTimer() {
 		this.respawnTimer--;
 	}
-	
+
 	public int getRespawnTimer() {
 		return respawnTimer;
 	}
@@ -330,7 +358,7 @@ public abstract class Item implements Serializable{
         buffer.writeTo(out);         // Write image
         buffer.close();
 	}
-	
+
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 	    in.defaultReadObject();
 

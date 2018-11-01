@@ -296,7 +296,7 @@ public class Player extends Creature {
         // If the player is pressing the attack button
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
-                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
+                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
                     for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
                         if (as.getAbility() != null) {
                             if (as.getAbility().isChanneling() || as.getAbility().isSelected())
@@ -304,10 +304,10 @@ public class Player extends Creature {
                         }
                     }
                     //Check melee auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.Melee_Weapon))
                         checkMelee(mouse);
                     // Check magic auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.Magic_Weapon)) {
                         checkMagic(mouse);
                     }
                 }
