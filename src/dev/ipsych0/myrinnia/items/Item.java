@@ -63,6 +63,8 @@ public class Item implements Serializable{
 	protected int price;
 	protected boolean stackable;
 	private int respawnTimer = 10800;
+	public static int number = 0;
+	protected boolean equippable;
 
 	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes){
 		this.texture = texture;
@@ -73,6 +75,7 @@ public class Item implements Serializable{
 		this.price = price;
 		this.stackable = stackable;
 		this.equipSlot = EquipSlot.None;
+		this.equippable = false;
 		this.power = 0;
 		this.defence = 0;
 		this.vitality = 0;
@@ -82,12 +85,12 @@ public class Item implements Serializable{
 		// Prevent duplicate IDs when creating items
 		try {
 			if(items[id] != null && !name.equals(items[id].name)) {
-				throw new DuplicateIDException(name, id);
+                throw new DuplicateIDException(name, id);
 			}
 			else {
 				// If the item already exists, don't create a new reference
 				if(items[id] == null) {
-					items[id] = this;
+                    items[id] = this;
 				}
 			}
 		}catch(DuplicateIDException exc) {
@@ -110,6 +113,7 @@ public class Item implements Serializable{
 		this.price = price;
 		this.stackable = stackable;
 		this.equipSlot = equipSlot;
+		this.equippable = true;
 		this.requirements = requirements;
 		this.power = power;
 		this.defence = defence;
@@ -125,7 +129,7 @@ public class Item implements Serializable{
 			else {
 				// If the item already exists, don't create a new reference
 				if(items[id] == null) {
-					items[id] = this;
+                    items[id] = this;
 				}
 			}
 		}catch(DuplicateIDException exc) {
@@ -154,7 +158,12 @@ public class Item implements Serializable{
 	 * @params: x,y position and amount
 	 */
 	public Item createItem(int x, int y, int count) {
-		Item i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+	    Item i;
+        if (this.equippable) {
+            i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+        }else{
+            i = new Item(texture, name, id, itemRarity, price, stackable, itemTypes);
+        }
 
 		i.setPosition(x, y);
 

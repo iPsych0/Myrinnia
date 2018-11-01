@@ -76,7 +76,9 @@ public class Island extends World {
 				
 		// Dit is hoe ik items in de world zelf spawn
 		itemManager.addItem(Item.regularLogs.createItem(5056, 5596, 5), true);
-				
+		itemManager.addItem(Item.regularLogs.createItem(5056, 5596, 5), true);
+		itemManager.addItem(Item.regularLogs.createItem(5056, 5596, 5), true);
+
 	}
 
 	@Override
