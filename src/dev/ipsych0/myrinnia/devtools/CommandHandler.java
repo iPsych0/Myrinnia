@@ -13,12 +13,8 @@ class CommandHandler {
             // Command to give items to the player
             case GIVE:
                 try {
-                    if (Integer.parseInt(commands[1]) < 0 || Integer.parseInt(commands[1]) >= Integer.MAX_VALUE) {
-                        Handler.get().sendMsg("Cannot provide negative or above max integer Item ID.");
-                        break;
-                    }
-                    if (Integer.parseInt(commands[2]) <= 0 || Integer.parseInt(commands[2]) >= 999_999_999) {
-                        Handler.get().sendMsg("Cannot provide negative amount or above 999,999,999 of an item.");
+                    if (Integer.parseInt(commands[2]) <= 0) {
+                        Handler.get().sendMsg("Must request at least 1 item.");
                         break;
                     }
                     Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
@@ -29,12 +25,14 @@ class CommandHandler {
             // Command for teleporting around different maps
             case TELE:
                 try {
-                    if(commands.length == 4) {
+                    // Tele command to different Zone
+                    if (commands.length == 4) {
                         Zone zone = Zone.valueOf(commands[1]);
                         Integer xPos = Integer.parseInt(commands[2]);
                         Integer yPos = Integer.parseInt(commands[3]);
                         Handler.get().goToWorld(zone, xPos, yPos);
-                    }else if(commands.length == 3){
+                    // Tele command within same Zone
+                    } else if (commands.length == 3) {
                         Integer xPos = Integer.parseInt(commands[1]);
                         Integer yPos = Integer.parseInt(commands[2]);
                         Handler.get().getPlayer().setX(xPos);
@@ -46,8 +44,8 @@ class CommandHandler {
                 break;
             // Noclip command
             case NOCLIP:
-                Handler.debugMode = !Handler.debugMode;
-                Handler.get().sendMsg("No-clipping: " + Handler.debugMode);
+                Handler.noclipMode = !Handler.noclipMode;
+                Handler.get().sendMsg("No-clipping: " + Handler.noclipMode);
                 break;
             // Change level commands
             case SETLEVEL:
@@ -66,7 +64,7 @@ class CommandHandler {
                     for (int i = 0; i < level; i++) {
                         s.addExperience(s.getNextLevelXp());
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Handler.get().sendMsg("Could not parse command.");
                 }
                 break;

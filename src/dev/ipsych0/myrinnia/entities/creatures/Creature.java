@@ -182,7 +182,7 @@ public abstract class Creature extends Entity {
 	 */
 	protected boolean collisionWithTile(int x, int y){
 		// Debug
-		if(Handler.debugMode && this.equals(Handler.get().getPlayer()))
+		if(Handler.noclipMode && this.equals(Handler.get().getPlayer()))
 			return false;
 		
 		boolean walkableOnTop = false;

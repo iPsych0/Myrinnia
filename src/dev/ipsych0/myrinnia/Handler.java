@@ -75,7 +75,7 @@ public class Handler implements Serializable {
     /*
      * Flag: Set to true for debug mode
      */
-    public static boolean debugMode = false;
+    public static boolean noclipMode = false;
 
     public static Handler get() {
         if (handler == null) {
