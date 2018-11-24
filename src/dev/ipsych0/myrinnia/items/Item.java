@@ -32,17 +32,17 @@ public class Item implements Serializable{
 	 * Unequippable Items
 	 */
 	public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
-	public static Item regularOre = new Item(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.Crafting_Material);
-	public static Item coins = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.Currency);
-	public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.Food);
+	public static Item regularOre = Utils.loadItem("1_ore.json", Assets.ore);
+	public static Item coins = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
+	public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.FOOD);
 
 	/*
 	 * Equippable item
 	 */
-	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.Mainhand, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon}, new ItemRequirement(CharacterStats.Melee, 2));
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.Mainhand, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.Magic_Weapon});
-	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon, ItemType.Axe});
-	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.Melee_Weapon, ItemType.Pickaxe});
+	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.Mainhand, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
+	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.Mainhand, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.MAGIC_WEAPON});
+	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.AXE});
+	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.PICKAXE});
 
 	// Class
 

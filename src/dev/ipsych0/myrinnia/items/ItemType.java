@@ -3,8 +3,8 @@ package dev.ipsych0.myrinnia.items;
 import java.io.Serializable;
 
 public enum ItemType implements Serializable{
-	Armour, Accessory, Melee_Weapon, Ranged_Weapon, Magic_Weapon,
-	Crafting_Material, Currency, Quest_Item, Upgrade_Component, Potion, Food, Axe, Pickaxe;
+	ARMOUR, ACCESSORY, MELEE_WEAPON, RANGED_WEAPON, MAGIC_WEAPON,
+	CRAFTING_MATERIAL, CURRENCY, QUEST_ITEM, UPGRADE_COMPONENT, POTION, FOOD, AXE, PICKAXE;
 	
 	private String name;
 	

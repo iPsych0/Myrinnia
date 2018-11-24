@@ -304,10 +304,10 @@ public class Player extends Creature {
                         }
                     }
                     //Check melee auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.Melee_Weapon))
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
                     // Check magic auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.Magic_Weapon)) {
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
                     }
                 }

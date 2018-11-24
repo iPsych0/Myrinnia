@@ -76,7 +76,7 @@ class Window extends JFrame {
         createButton.addActionListener(e -> {
 
             // Check if our list of IDs is still valid, so we will always generate a unique ID
-            IDSerializer.validateIDs();
+//            IDSerializer.validateIDs();
 
             String name = nameInput.getText();
             ItemRarity rarity = ItemRarity.valueOf((String)rarityDropDown.getSelectedItem());
@@ -125,7 +125,7 @@ class Window extends JFrame {
                     String[] split = formatted.split(",");
                     itemTypes = new ItemType[split.length];
                     for (int i = 0; i < split.length; i++) {
-                        String capitalized = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
+                        String capitalized = split[i].toUpperCase();
                         itemTypes[i] = ItemType.valueOf(capitalized);
                     }
                 }else {

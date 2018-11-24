@@ -2,9 +2,9 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Common",
-  "name": "Wood",
-  "id": 0,
+  "itemRarity": "Uncommon",
+  "name": "Ore",
+  "id": 1,
   "equipSlot": "None",
   "power": 0,
   "defence": 0,

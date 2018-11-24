@@ -17,7 +17,7 @@ class JSONWriter {
     static boolean validate(String name, ItemRarity itemRarity,
                             int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality,
                             float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement... requirements) {
-        return !name.isEmpty() && itemRarity != null && price > 0 && equipSlot != null;
+        return !name.isEmpty() && itemRarity != null && price >= -1 && equipSlot != null;
     }
 
     static void write(String name, ItemRarity rarity, int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement[] itemRequirements) {

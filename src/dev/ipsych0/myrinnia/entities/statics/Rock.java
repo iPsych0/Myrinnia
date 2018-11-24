@@ -99,7 +99,7 @@ public class Rock extends StaticEntity {
 		}
 		if(this.speakingTurn == 1) {
 			if(Handler.get().playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
-				if(Handler.get().playerHasItemType(ItemType.Pickaxe)) {
+				if(Handler.get().playerHasItemType(ItemType.PICKAXE)) {
 					Handler.get().sendMsg("Mining...");
 					speakingTurn = 2;
 					isMining = true;
