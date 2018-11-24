@@ -23,7 +23,7 @@ public class TextBox implements KeyListener, Serializable {
     private String charactersTyped = "";
     public boolean numbersOnly = false;
     private Rectangle bounds;
-    private boolean focus = false;
+    public static boolean focus = false;
     private int index = 0;
     private StringBuilder sb;
     public static boolean enterPressed = false;
@@ -66,6 +66,15 @@ public class TextBox implements KeyListener, Serializable {
                 focus = false;
             }
         }
+    }
+
+    public void setKeyListeners(){
+        Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
+        Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
+    }
+
+    public void removeListeners() {
+        Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
     }
 
     public void render(Graphics g) {
@@ -128,6 +137,7 @@ public class TextBox implements KeyListener, Serializable {
                 ShopWindow.makingChoice = false;
                 KeyManager.typingFocus = false;
                 DevToolUI.isOpen = false;
+                removeListeners();
                 return;
             }
             if (focus) {
@@ -138,6 +148,7 @@ public class TextBox implements KeyListener, Serializable {
                     }
                     enterPressed = true;
                     focus = false;
+                    removeListeners();
                     charactersTyped = sb.toString();
                     sb.setLength(0);
                     index = 0;
@@ -210,6 +221,4 @@ public class TextBox implements KeyListener, Serializable {
     public void setIndex(int index) {
         this.index = index;
     }
-
-
 }

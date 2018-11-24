@@ -23,8 +23,8 @@ public class QuestHelpUI implements Serializable {
 	public QuestHelpUI() {
 		this.x = 216;
 		this.y = 150;
-		this.width = 200;
-		this.height = 200;
+		this.width = 208;
+		this.height = 400;
 		bounds = new Rectangle(x,y,width,height);
 	}
 	
@@ -40,17 +40,23 @@ public class QuestHelpUI implements Serializable {
 
 			if(selectedQuest != null) {
 				Text.drawString(g, selectedQuest.getQuestName()+":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
-				
-				renderRequirements(g, selectedQuest);
-				
-				if(selectedQuest.getQuestSteps().size() != 0) {
-					Text.drawString(g, "Objective: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
-					for(int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26).length; i++) {
-						Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(selectedQuest.getStep()).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16), true, Color.YELLOW, Assets.font14);
-					}
+
+				if(selectedQuest.getState() == QuestState.COMPLETED) {
+					Text.drawString(g, "Quest complete!", x + (width / 2) + 6, y + 40, true, Color.GREEN, Assets.font14);
+				}else if(selectedQuest.getState() == QuestState.IN_PROGRESS){
+					Text.drawString(g, "Quest Log: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+				}else{
+					renderRequirements(g, selectedQuest);
 				}
-				else if(selectedQuest.getState() == QuestState.COMPLETED) {
-					Text.drawString(g, "Quest complete!", x + (width / 2) + 5, y + 40, true, Color.GREEN, Assets.font14);
+
+				for(int j = 0; j < selectedQuest.getQuestSteps().size(); j++) {
+					for(int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length; i++) {
+						if(selectedQuest.getQuestSteps().get(j).isFinished()) {
+							Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.YELLOW, Assets.font14);
+						}else{
+							Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.YELLOW, Assets.font14);
+						}
+					}
 				}
 			}
 			

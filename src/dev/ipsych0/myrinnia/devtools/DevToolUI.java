@@ -12,6 +12,7 @@ public class DevToolUI {
     public static boolean isOpen = false;
     private static TextBox textBox;
     private CommandHandler commandHandler;
+    private boolean initialized = false;
 
     public DevToolUI() {
         x = Handler.get().getChatWindow().getX();
@@ -26,6 +27,10 @@ public class DevToolUI {
 
     public void tick() {
         if (isOpen) {
+            if(!initialized) {
+                textBox.setKeyListeners();
+                initialized = true;
+            }
             textBox.tick();
             if (TextBox.enterPressed) {
 
@@ -41,8 +46,8 @@ public class DevToolUI {
                 textBox.setCharactersTyped(textBox.getSb().toString());
                 TextBox.isOpen = false;
                 DevToolUI.isOpen = false;
-
-
+                initialized = false;
+                textBox.removeListeners();
             }
         }
     }

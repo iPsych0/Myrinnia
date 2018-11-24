@@ -53,6 +53,7 @@ public class Quest implements Serializable {
 	}
 	
 	public void nextStep() {
+		this.getQuestSteps().get(step).setFinished(true);
 		this.step++;
 	}
 
@@ -81,7 +82,6 @@ public class Quest implements Serializable {
 		if(state == QuestState.COMPLETED) {
 			Handler.get().sendMsg("Completed '" + this.questName + "'!");
 			Handler.get().addRecapEvent("Completed '" + this.questName + "'");
-			questSteps.clear();
 		}
 	}
 

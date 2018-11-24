@@ -206,6 +206,8 @@ public class KeyManager implements KeyListener, Serializable{
 			if(e.getKeyCode() == KeyEvent.VK_T){
 				DevToolUI.isOpen = !DevToolUI.isOpen;
 				TextBox.isOpen = !TextBox.isOpen;
+				TextBox.focus = !TextBox.focus;
+				typingFocus = !typingFocus;
 			}
 		}
 	}

@@ -19,7 +19,7 @@ class CommandHandler {
                     }
                     Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
                 } catch (Exception e) {
-                    Handler.get().sendMsg("Could not parse command.");
+                    Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'");
                 }
                 break;
             // Command for teleporting around different maps
@@ -39,16 +39,16 @@ class CommandHandler {
                         Handler.get().getPlayer().setY(yPos);
                     }
                 } catch (Exception e) {
-                    Handler.get().sendMsg("Could not parse command.");
+                    Handler.get().sendMsg("Error. Syntax: 'tele (optional:Zone) {X-coords} {Y-coords}'");
                 }
                 break;
             // Noclip command
             case NOCLIP:
                 Handler.noclipMode = !Handler.noclipMode;
-                Handler.get().sendMsg("No-clipping: " + Handler.noclipMode);
+                Handler.get().sendMsg("No-clip: " + (Handler.noclipMode ? "Enabled." : "Disabled."));
                 break;
             // Change level commands
-            case SETLEVEL:
+            case SET:
                 try {
 
                     // Get the skill and level
@@ -65,7 +65,7 @@ class CommandHandler {
                         s.addExperience(s.getNextLevelXp());
                     }
                 } catch (Exception e) {
-                    Handler.get().sendMsg("Could not parse command.");
+                    Handler.get().sendMsg("Error. Syntax: 'set {skillName} {level}'");
                 }
                 break;
             default:
