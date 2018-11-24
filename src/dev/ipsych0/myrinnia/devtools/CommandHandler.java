@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.AStarMap;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -66,6 +67,11 @@ class CommandHandler {
                     }
                 } catch (Exception e) {
                     Handler.get().sendMsg("Error. Syntax: 'set {skillName} {level}'");
+                }
+                break;
+            case DEBUG:
+                if(commands[1].equalsIgnoreCase("a*")){
+                    AStarMap.debugMode = !AStarMap.debugMode;
                 }
                 break;
             default:

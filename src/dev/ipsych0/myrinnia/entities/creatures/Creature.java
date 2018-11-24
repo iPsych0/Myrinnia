@@ -1,17 +1,13 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.tiles.Tiles;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Creature extends Entity {
 
@@ -217,6 +213,23 @@ public abstract class Creature extends Entity {
 		name[1] = "Max hit: " + String.valueOf(this.getDamage(hoveringEntity, Handler.get().getPlayer()));
 		name[2] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
 		return name;
+	}
+
+	@Override
+	public void postRender(Graphics g){
+		if(AStarMap.debugMode) {
+			g.setColor(Color.BLACK);
+			g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), (int) (radius.width), (int) (radius.height));
+
+			map.render(g);
+
+			if (nodes != null) {
+				for (Node n : nodes) {
+					g.setColor(pathColour);
+					g.fillRect((int) (n.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (n.getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
+				}
+			}
+		}
 	}
 	
 	protected void tickProjectiles() {

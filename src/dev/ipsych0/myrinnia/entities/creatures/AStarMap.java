@@ -24,6 +24,7 @@ public class AStarMap implements Serializable {
     private Color startNodeColour = new Color(0, 0, 255, 96);
     private Rectangle mapBounds;
     private Creature creature;
+    public static boolean debugMode = false;
 
     public AStarMap(Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
         this.creature = creature;
