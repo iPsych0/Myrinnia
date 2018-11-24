@@ -7,7 +7,8 @@ public enum QuestList {
 	TheFirstQuest("The First Quest", Zone.Island),
 	TheSecondQuest("The Second Quest", Zone.Island),
 	TheThirdQuest("The Third Quest", Zone.Island),
-	TheTestQuest("The Test Quest", Zone.IslandUnderground);
+	TheTestQuest("The Test Quest", Zone.IslandUnderground),
+	AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
 	
 	private Zone zone;
 	private String name;

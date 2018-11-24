@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.worlds;
 
 public enum Zone {
 	
-	Island("Island","myrinnia.wav"), IslandUnderground("Island Underground","omniscient.wav"), SwampLand("Swamp Land","ancient.wav"), TestLand("Test Land","myrinnia.wav");
+	Island("Island","myrinnia.wav"), IslandUnderground("Island Underground","omniscient.wav"), SwampLand("Swamp Land","ancient.wav"), TestLand("Test Land","myrinnia.wav"), Myrinnia("Myrinnia","");
 	
 	private String musicFile;
 	private String name;
