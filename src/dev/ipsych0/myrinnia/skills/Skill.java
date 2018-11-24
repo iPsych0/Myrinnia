@@ -35,8 +35,16 @@ public abstract class Skill implements Serializable {
 		checkNextLevel();
 	}
 
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
 	public int getLevel() {
 		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public void addLevel() {
@@ -55,6 +63,10 @@ public abstract class Skill implements Serializable {
 
 	public int getNextLevelXp() {
 		return nextLevelXp;
+	}
+
+	public void setNextLevelXp(int nextLevelXp) {
+		this.nextLevelXp = nextLevelXp;
 	}
 
 	public ArrayList<SkillResource> getResources() {

@@ -632,7 +632,7 @@ public class InventoryWindow implements Serializable {
 
             ItemStack is = slot.getItemStack();
 
-            if (is == null)
+            if (is == null || is.getItem().getItemTypes() == null)
                 continue;
 
             if (is.getItem().isType(type)) {

@@ -2,5 +2,5 @@ package dev.ipsych0.myrinnia.devtools;
 
 public enum Commands {
 
-    GIVE, TELE, NOCLIP
+    GIVE, TELE, NOCLIP, SETLEVEL
 }
