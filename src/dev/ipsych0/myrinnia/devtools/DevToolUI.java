@@ -16,7 +16,7 @@ public class DevToolUI {
 
     public DevToolUI() {
         x = Handler.get().getChatWindow().getX();
-        y = Handler.get().getChatWindow().getY() - 128;
+        y = Handler.get().getChatWindow().getY() - 64;
         width = Handler.get().getChatWindow().getWidth();
         height = 32;
 

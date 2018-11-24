@@ -19,9 +19,7 @@ public class AStarMap implements Serializable {
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
-    private int alpha = 127;
-    private Color unwalkableColour = new Color(255, 0, 0, alpha);
-    private Color startNodeColour = new Color(0, 0, 255, 96);
+    private Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
     public static boolean debugMode = false;
@@ -76,7 +74,7 @@ public class AStarMap implements Serializable {
                     return;
                 }
                 if (nodes[i][j].isWalkable()) {
-                    g.setColor(Color.MAGENTA);
+                    g.setColor(Color.RED);
                     g.drawRect((int) (nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 } else {
                     g.setColor(unwalkableColour);
