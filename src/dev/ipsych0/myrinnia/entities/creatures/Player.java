@@ -259,7 +259,7 @@ public class Player extends Creature {
         }
 
         // If the player moves, close the shops and chat dialogue
-        if (closestEntity != null && isMoving) {
+        if (closestEntity != null && isMoving && closestEntity.getChatDialogue() != null) {
             Entity.isCloseToNPC = false;
             hasInteracted = false;
 
