@@ -4,7 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.io.Serializable;
 

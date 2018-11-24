@@ -76,7 +76,7 @@ class Window extends JFrame {
         createButton.addActionListener(e -> {
 
             // Check if our list of IDs is still valid, so we will always generate a unique ID
-            checkItemIDs();
+            IDSerializer.validateIDs();
 
             String name = nameInput.getText();
             ItemRarity rarity = ItemRarity.valueOf((String)rarityDropDown.getSelectedItem());
@@ -183,37 +183,6 @@ class Window extends JFrame {
             }
 
         });
-    }
-
-    private void checkItemIDs() {
-        // Get the IDs
-        IDGenerator idGenerator = IDGenerator.getInstance();
-        Set<Integer> ids = IDSerializer.loadIDs();
-
-        // Load all item ID prefixes from the file names
-        int[] jsonItemIds = JSONLoader.loadIdPrefixesFromJsonFiles();
-
-        if(jsonItemIds == null){
-            System.err.println("Failed to load item id prefixes. Closing to prevent further failure.");
-            System.exit(1);
-        }
-
-        // Find unused IDs
-        if(jsonItemIds.length > 0) {
-            int fixes = 0;
-            for (int i = 0; i < ids.size(); i++) {
-                if(jsonItemIds[i] != (i+fixes)){
-                    fixes++;
-                    ids.remove(i);
-                }
-            }
-        }else{
-            ids.clear();
-        }
-
-        // Save the new IDs
-        idGenerator.setUniqueIds(ids);
-        IDSerializer.saveIDs();
     }
 
     /**

@@ -5,7 +5,7 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.awt.*;
 import java.io.Serializable;

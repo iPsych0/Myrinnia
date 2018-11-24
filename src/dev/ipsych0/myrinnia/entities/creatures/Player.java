@@ -27,8 +27,8 @@ import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
-import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -205,7 +205,7 @@ public class Player extends Creature {
                         closestEntity.interact();
                         hasInteracted = true;
 
-                        // If the closest Entity is a shop, open the shop
+                        // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
                             shopKeeper = (ShopKeeper) getClosestEntity();
                         } else if (closestEntity instanceof Banker) {
@@ -258,7 +258,7 @@ public class Player extends Creature {
             closestEntity.getChatDialogue().tick();
         }
 
-        // If the player moves, close the shop and chat dialogue
+        // If the player moves, close the shops and chat dialogue
         if (closestEntity != null && isMoving) {
             Entity.isCloseToNPC = false;
             hasInteracted = false;

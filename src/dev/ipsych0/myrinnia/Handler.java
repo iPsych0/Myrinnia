@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
@@ -65,6 +66,7 @@ public class Handler implements Serializable {
     private BankUI bankUI;
     private AbilityManager abilityManager;
     private RecapManager recapManager;
+    private DevToolUI devToolUI;
     private boolean soundMuted = false;
     public static String initialWorldPath = "res/worlds/island.tmx";
 
@@ -105,6 +107,8 @@ public class Handler implements Serializable {
         bankUI = new BankUI();
         abilityManager = new AbilityManager();
         recapManager = new RecapManager();
+        devToolUI = new DevToolUI();
+
 
         // Set the starting world
         island = new Island("res/worlds/island.tmx");
@@ -479,6 +483,14 @@ public class Handler implements Serializable {
 
     public static void setHandler(Handler handler) {
         Handler.handler = handler;
+    }
+
+    public DevToolUI getDevToolUI() {
+        return devToolUI;
+    }
+
+    public void setDevToolUI(DevToolUI devToolUI) {
+        this.devToolUI = devToolUI;
     }
 
 }

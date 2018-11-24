@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.PlayerHUD;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
@@ -16,9 +17,11 @@ import dev.ipsych0.myrinnia.items.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.utils.Text;
 
 public class KeyManager implements KeyListener, Serializable{
 
@@ -180,7 +183,7 @@ public class KeyManager implements KeyListener, Serializable{
 				}
 			}
 			
-			// Chat window toggle
+			// Skills window toggle
 			if(e.getKeyCode() == KeyEvent.VK_L){
 				if(ShopWindow.isOpen)
 					return;
@@ -198,7 +201,12 @@ public class KeyManager implements KeyListener, Serializable{
 					SkillsOverviewUI.isOpen = false;
 				}
 			}
-			
+
+			// Toggle dev tool window
+			if(e.getKeyCode() == KeyEvent.VK_T){
+				DevToolUI.isOpen = !DevToolUI.isOpen;
+				TextBox.isOpen = !TextBox.isOpen;
+			}
 		}
 	}
 

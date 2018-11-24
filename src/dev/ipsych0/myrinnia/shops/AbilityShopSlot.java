@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.shop;
+package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
