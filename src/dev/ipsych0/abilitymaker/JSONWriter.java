@@ -40,6 +40,7 @@ public class JSONWriter {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
         // Create the class from a template
@@ -57,6 +58,7 @@ public class JSONWriter {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }

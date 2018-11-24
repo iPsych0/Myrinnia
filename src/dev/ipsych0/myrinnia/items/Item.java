@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 public class Item implements Serializable{
 
@@ -25,12 +26,12 @@ public class Item implements Serializable{
 	// ItemList
 
 	public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
-	public static Item[] items = new Item[32];
+	public static Item[] items = new Item[1024];
 
 	/*
 	 * Unequippable Items
 	 */
-	public static Item regularLogs = new Item(Assets.wood, "Logs", 0, ItemRarity.Common, 5, true, ItemType.Crafting_Material);
+	public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
 	public static Item regularOre = new Item(Assets.ore, "Ore", 1, ItemRarity.Uncommon, 5, true, ItemType.Crafting_Material);
 	public static Item coins = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.Currency);
 	public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.Food);
@@ -63,7 +64,6 @@ public class Item implements Serializable{
 	protected int price;
 	protected boolean stackable;
 	private int respawnTimer = 10800;
-	public static int number = 0;
 	protected boolean equippable;
 
 	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes){
@@ -159,7 +159,7 @@ public class Item implements Serializable{
 	 */
 	public Item createItem(int x, int y, int count) {
 	    Item i;
-        if (this.equippable) {
+        if (this.isEquippable()) {
             i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
         }else{
             i = new Item(texture, name, id, itemRarity, price, stackable, itemTypes);
@@ -355,6 +355,14 @@ public class Item implements Serializable{
 
 	public void setPosition(Rectangle position) {
 		this.position = position;
+	}
+
+	public boolean isEquippable() {
+		return equippable;
+	}
+
+	public void setEquippable(boolean equippable) {
+		this.equippable = equippable;
 	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {

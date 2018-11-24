@@ -9,6 +9,9 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 class Window extends JFrame {
 
@@ -71,6 +74,10 @@ class Window extends JFrame {
         });
 
         createButton.addActionListener(e -> {
+
+            // Check if our list of IDs is still valid, so we will always generate a unique ID
+            checkItemIDs();
+
             String name = nameInput.getText();
             ItemRarity rarity = ItemRarity.valueOf((String)rarityDropDown.getSelectedItem());
             boolean stackable = stackableDropDown.getSelectedIndex() == 0;
@@ -126,7 +133,7 @@ class Window extends JFrame {
                 }
             }catch (Exception exc){
                 exc.printStackTrace();
-                System.err.println("Could not parse one or more ItemTypes. Please check myrinnia/item/ItemTypes.java for a list of possible values.");
+                System.err.println("Could not parse one or more ItemTypes. Please check src/dev/ipsych0/myrinnia/items/ItemTypes.java for a list of possible values.");
                 return;
             }
 
@@ -152,12 +159,12 @@ class Window extends JFrame {
                 }
             }
             catch (IllegalArgumentException iae){
-                System.err.println("Please provide an even number of Key-Value pairs.");
+                System.err.println("Please provide an even number of Key-Value pairs, separated by commas.");
                 return;
             }
             catch (Exception exc){
                 exc.printStackTrace();
-                System.err.println("Could not parse one or more ItemRequirements. Make sure you separate the values by comma's using 'Stat,Level', like so: 'Melee,2,Ranged,5'. Please check myrinnia/character/CharacterStats.java for a list of possible values.");
+                System.err.println("Could not parse one or more ItemRequirements. Make sure you separate the values by commas using 'Stat,Level', like so: 'Melee,2,Ranged,5'. Please check myrinnia/character/CharacterStats.java for a list of possible values.");
                 return;
             }
 
@@ -176,6 +183,37 @@ class Window extends JFrame {
             }
 
         });
+    }
+
+    private void checkItemIDs() {
+        // Get the IDs
+        IDGenerator idGenerator = IDGenerator.getInstance();
+        Set<Integer> ids = IDSerializer.loadIDs();
+
+        // Load all item ID prefixes from the file names
+        int[] jsonItemIds = JSONLoader.loadIdPrefixesFromJsonFiles();
+
+        if(jsonItemIds == null){
+            System.err.println("Failed to load item id prefixes. Closing to prevent further failure.");
+            System.exit(1);
+        }
+
+        // Find unused IDs
+        if(jsonItemIds.length > 0) {
+            int fixes = 0;
+            for (int i = 0; i < ids.size(); i++) {
+                if(jsonItemIds[i] != (i+fixes)){
+                    fixes++;
+                    ids.remove(i);
+                }
+            }
+        }else{
+            ids.clear();
+        }
+
+        // Save the new IDs
+        idGenerator.setUniqueIds(ids);
+        IDSerializer.saveIDs();
     }
 
     /**
