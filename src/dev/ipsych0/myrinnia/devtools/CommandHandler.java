@@ -20,7 +20,14 @@ class CommandHandler {
                         Handler.get().sendMsg("Must request at least 1 item.");
                         break;
                     }
+                    if (Item.items[Integer.parseInt(commands[1])] == null) {
+                        throw new IllegalArgumentException();
+                    }
                     Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
+                } catch (NumberFormatException e) {
+                    Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
+                } catch (IllegalArgumentException e) {
+                    Handler.get().sendMsg("Item with ID: '" + commands[1] + "' does not exist.");
                 } catch (Exception e) {
                     Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
                 }
@@ -31,9 +38,13 @@ class CommandHandler {
                     // Tele command to different Zone
                     if (commands.length == 4) {
                         Zone zone = Zone.valueOf(commands[1]);
-                        Integer xPos = Integer.parseInt(commands[2]);
-                        Integer yPos = Integer.parseInt(commands[3]);
-                        Handler.get().goToWorld(zone, xPos, yPos);
+                        if (Handler.get().getWorldHandler().getWorldsMap().containsKey(zone)) {
+                            Integer xPos = Integer.parseInt(commands[2]);
+                            Integer yPos = Integer.parseInt(commands[3]);
+                            Handler.get().goToWorld(zone, xPos, yPos);
+                        } else {
+                            Handler.get().sendMsg("World '" + zone.toString() + "' exists, but is not actively managed by the WorldHandler right now.");
+                        }
                         // Tele command within same Zone
                     } else if (commands.length == 3) {
                         Integer xPos = Integer.parseInt(commands[1]);
@@ -54,8 +65,8 @@ class CommandHandler {
             case SET:
                 // Check if the argument is a skill
                 boolean isSkill = false;
-                for(SkillsList skill : SkillsList.values()){
-                    if(skill.toString().equalsIgnoreCase(commands[1])){
+                for (SkillsList skill : SkillsList.values()) {
+                    if (skill.toString().equalsIgnoreCase(commands[1])) {
                         isSkill = true;
                     }
                 }
@@ -86,11 +97,11 @@ class CommandHandler {
                             Handler.get().getPlayer().setVitality(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("defence")) {
                             Handler.get().getPlayer().setDefence(Integer.parseInt(commands[2]));
-                        } else if(commands[1].equalsIgnoreCase("movspeed")){
+                        } else if (commands[1].equalsIgnoreCase("movspeed")) {
                             Handler.get().getPlayer().setSpeed(Integer.parseInt(commands[2]));
-                        } else if(commands[1].equalsIgnoreCase("atkspeed")){
+                        } else if (commands[1].equalsIgnoreCase("atkspeed")) {
                             Handler.get().getPlayer().setAttackSpeed(Integer.parseInt(commands[2]));
-                        }else{
+                        } else {
                             Handler.get().sendMsg("Syntax error: '" + commands[1] + "' is not a skill or attribute.");
                         }
                     } catch (Exception e) {

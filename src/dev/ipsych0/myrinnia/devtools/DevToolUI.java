@@ -66,7 +66,7 @@ public class DevToolUI {
         String[] commands = command.split(" ");
         Commands firstCommand = null;
         try{
-            firstCommand = Enum.valueOf(Commands.class, commands[0].toUpperCase());
+            firstCommand = Commands.valueOf(commands[0].toUpperCase());
         }catch (Exception e){
             Handler.get().sendMsg("'"+commands[0] + "' is not a command.");
             return;
