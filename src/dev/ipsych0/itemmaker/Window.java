@@ -8,10 +8,8 @@ import dev.ipsych0.myrinnia.items.ItemType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 class Window extends JFrame {
 
@@ -78,20 +76,23 @@ class Window extends JFrame {
             // Check if our list of IDs is still valid, so we will always generate a unique ID
 //            IDSerializer.validateIDs();
 
+            if(nameInput.getText().isEmpty()){
+                System.err.println("Please fill in a name.");
+                return;
+            }
             String name = nameInput.getText();
-            ItemRarity rarity = ItemRarity.valueOf((String)rarityDropDown.getSelectedItem());
+            ItemRarity rarity = ItemRarity.valueOf((String) rarityDropDown.getSelectedItem());
             boolean stackable = stackableDropDown.getSelectedIndex() == 0;
             int price;
-            try{
-                if(!priceInput.getText().isEmpty()) {
+            try {
+                if (!priceInput.getText().isEmpty()) {
                     price = Integer.parseInt(priceInput.getText());
-                }else{
+                } else {
                     System.err.println("Price field cannot be empty.");
                     return;
                 }
-            }catch (NumberFormatException nfe){
-                price = -1;
-                System.err.println("Could not parse number ");
+            } catch (NumberFormatException nfe) {
+                System.err.println("Could not parse price value '" + priceInput.getText() + "'.");
                 return;
             }
             boolean equippable = equippableDropDown.getSelectedIndex() == 0;
@@ -100,14 +101,19 @@ class Window extends JFrame {
             int power, defence, vitality;
             float attackSpeed, movementSpeed;
 
-            if(equippable){
-                equipSlot = EquipSlot.valueOf((String)equipSlotDropDown.getSelectedItem());
+            if (equippable) {
+                if (equipSlotDropDown.getSelectedItem() == null || powerInput.getText().isEmpty() || defenceInput.getText().isEmpty() ||
+                       vitalityInput.getText().isEmpty() || attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
+                    System.err.println("Please fill in -all- equipment stats.");
+                    return;
+                }
+                equipSlot = EquipSlot.valueOf((String) equipSlotDropDown.getSelectedItem());
                 power = Integer.parseInt(powerInput.getText());
                 defence = Integer.parseInt(defenceInput.getText());
                 vitality = Integer.parseInt(vitalityInput.getText());
                 attackSpeed = Float.parseFloat(attackSpeedInput.getText());
                 movementSpeed = Float.parseFloat(movementSpeedInput.getText());
-            }else{
+            } else {
                 equipSlot = EquipSlot.None;
                 power = 0;
                 defence = 0;
@@ -118,20 +124,38 @@ class Window extends JFrame {
 
             // Try to get the ItemTypes
             ItemType[] itemTypes;
-            try{
+            try {
                 String raw = itemTypeInput.getText();
-                if(raw.length() > 0) {
+                if (raw.length() > 0) {
                     String formatted = raw.replaceAll(" ", "");
                     String[] split = formatted.split(",");
                     itemTypes = new ItemType[split.length];
                     for (int i = 0; i < split.length; i++) {
                         String capitalized = split[i].toUpperCase();
-                        itemTypes[i] = ItemType.valueOf(capitalized);
+                        try {
+                            itemTypes[i] = ItemType.valueOf(capitalized);
+                        } catch (IllegalArgumentException iae) {
+                            System.err.println("'" + capitalized + "' is not a valid ItemType. See src/dev/ipsych0/myrinnia/items/ItemTypes.java for possible values.");
+                            return;
+                        }
                     }
-                }else {
+                    if (equippable) {
+                        if (equipSlot == EquipSlot.Mainhand) {
+                            List<ItemType> typeList = Arrays.asList(itemTypes);
+                            if (!typeList.contains(ItemType.MELEE_WEAPON) && !typeList.contains(ItemType.MAGIC_WEAPON) && !typeList.contains(ItemType.RANGED_WEAPON)) {
+                                System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                                return;
+                            }
+                        }
+                    }
+                } else {
+                    if (equippable && equipSlot == EquipSlot.Mainhand) {
+                        System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                        return;
+                    }
                     itemTypes = null;
                 }
-            }catch (Exception exc){
+            } catch (Exception exc) {
                 exc.printStackTrace();
                 System.err.println("Could not parse one or more ItemTypes. Please check src/dev/ipsych0/myrinnia/items/ItemTypes.java for a list of possible values.");
                 return;
@@ -139,46 +163,44 @@ class Window extends JFrame {
 
             // Try to get the ItemRequirements
             ItemRequirement[] itemRequirements;
-            try{
+            try {
                 String raw = itemRequirementsInput.getText();
-                if(raw.length() >= 2) {
+                if (raw.length() >= 2) {
                     String formatted = raw.replaceAll(" ", "");
                     String[] split = formatted.split(",");
-                    if(split.length % 2 != 0){
+                    if (split.length % 2 != 0) {
                         throw new IllegalArgumentException();
                     }
                     itemRequirements = new ItemRequirement[split.length / 2];
                     int index = 0;
                     for (int i = 0; i < split.length; i += 2) {
-                        String stat = split[i].substring(0,1).toUpperCase() + split[i].substring(1).toLowerCase();
+                        String stat = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
                         ItemRequirement ir = new ItemRequirement(CharacterStats.valueOf(stat), Integer.parseInt(split[i + 1]));
                         itemRequirements[index++] = ir;
                     }
-                }else {
+                } else {
                     itemRequirements = null;
                 }
-            }
-            catch (IllegalArgumentException iae){
+            } catch (IllegalArgumentException iae) {
                 System.err.println("Please provide an even number of Key-Value pairs, separated by commas.");
                 return;
-            }
-            catch (Exception exc){
+            } catch (Exception exc) {
                 exc.printStackTrace();
                 System.err.println("Could not parse one or more ItemRequirements. Make sure you separate the values by commas using 'Stat,Level', like so: 'Melee,2,Ranged,5'. Please check myrinnia/character/CharacterStats.java for a list of possible values.");
                 return;
             }
 
-            boolean validated = JSONWriter.validate(name,rarity,price,stackable,equipSlot,power,defence,vitality,attackSpeed,movementSpeed,itemTypes,itemRequirements);
+            boolean validated = JSONWriter.validate(name, rarity, price, stackable, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
 
-            if(validated){
+            if (validated) {
                 try {
                     JSONWriter.write(name, rarity, price, stackable, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
-                }catch (Exception exc){
+                } catch (Exception exc) {
                     exc.printStackTrace();
                     System.err.println("Failed to write to JSON file!");
                     System.exit(1);
                 }
-            }else{
+            } else {
                 System.err.println("One or more fields are invalid. Please try again with the right format.");
             }
 

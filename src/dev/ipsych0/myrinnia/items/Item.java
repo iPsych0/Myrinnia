@@ -289,6 +289,9 @@ public class Item implements Serializable{
 	}
 
 	public boolean isType(ItemType type) {
+		if(itemTypes == null){
+			return false;
+		}
 		for(ItemType it : itemTypes) {
 			if(it == type) {
 				return true;

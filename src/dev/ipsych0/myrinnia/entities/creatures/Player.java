@@ -307,12 +307,21 @@ public class Player extends Creature {
                     if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
                     // Check magic auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+                    else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
+                    }
+                    else if(Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)){
+                        checkRanged(mouse);
+                    }else{
+                        System.err.println("Item: '" + Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName() + "' does not have a melee/magic/ranged weapon type assigned to it.");
                     }
                 }
             }
         }
+
+    }
+
+    private void checkRanged(Rectangle mouse) {
 
     }
 
