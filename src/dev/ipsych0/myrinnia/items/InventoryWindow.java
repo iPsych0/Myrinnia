@@ -12,7 +12,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Text;
 
 public class InventoryWindow implements Serializable {
@@ -157,7 +157,7 @@ public class InventoryWindow implements Serializable {
                             equipPressed = false;
                             return;
                         }
-                        if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()) {
+                        if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                             // If the item's equipmentslot = 12, that means it's unequippable, so return
                             Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
                             equipPressed = false;
@@ -166,7 +166,7 @@ public class InventoryWindow implements Serializable {
                         }
 
                         // If the item's equipmentslot is a valid slot
-                        if (is.getItemStack().getItem().getEquipSlot() != EquipSlot.NONE.getSlotId()) {
+                        if (is.getItemStack().getItem().getEquipSlot() != EquipSlot.None.getSlotId()) {
                             if (Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
                                     is.getItemStack().getItem().getId() ==
                                             Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()) {
@@ -178,7 +178,7 @@ public class InventoryWindow implements Serializable {
                             }
 
                             // If we don't have the required level to equip that item, return
-                            if (is.getItemStack().getItem().getRequirements() != null) {
+                            if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
                                 String missingReqs = "";
                                 boolean missing = false;
                                 for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
@@ -318,10 +318,10 @@ public class InventoryWindow implements Serializable {
 
                 // If hovering over an item in the inventory, draw the tooltip
                 if (temp2.contains(mouse) && is.getItemStack() != null) {
-                    if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.NONE.getSlotId()) {
+                    if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                         g.drawImage(Assets.shopWindow, x - 149, y + 1, 150, 64, null);
                     } else {
-                        if (is.getItemStack().getItem().getRequirements() == null)
+                        if (is.getItemStack().getItem().getRequirements() == null || is.getItemStack().getItem().getRequirements().length == 0)
                             g.drawImage(Assets.shopWindow, x - 149, y, 150, 122, null);
                         else
                             g.drawImage(Assets.shopWindow, x - 149, y, 150, 138 + (is.getItemStack().getItem().getRequirements().length * 16), null);
@@ -336,7 +336,7 @@ public class InventoryWindow implements Serializable {
                     g.setColor(ItemRarity.getColor(is.getItemStack().getItem()));
                     Text.drawString(g, is.getItemStack().getItem().getItemRarity().toString(), x - 142, y + 32, false, g.getColor(), Assets.font14);
 
-                    if (is.getItemStack().getItem().getRequirements() != null) {
+                    if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
                         boolean hasStats = false;
                         int numMatches = 0;
                         for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
@@ -360,7 +360,7 @@ public class InventoryWindow implements Serializable {
                         Text.drawString(g, "Requirements:", x - 142, y + 132, false, g.getColor(), Assets.font14);
                     }
 
-                    if (is.getItemStack().getItem().getEquipSlot() != EquipSlot.NONE.getSlotId()) {
+                    if (is.getItemStack().getItem().getEquipSlot() != EquipSlot.None.getSlotId()) {
                         // Only compare stats if an item is actually equipped
                         if (Handler.get().getEquipment().getEquipmentSlots().get(is.getItemStack().getItem().getEquipSlot()).getEquipmentStack() != null) {
                             /*
@@ -632,7 +632,7 @@ public class InventoryWindow implements Serializable {
 
             ItemStack is = slot.getItemStack();
 
-            if (is == null)
+            if (is == null || is.getItem().getItemTypes() == null)
                 continue;
 
             if (is.getItem().isType(type)) {

@@ -3,7 +3,9 @@ package dev.ipsych0.myrinnia.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.items.Item;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Type;
 
@@ -11,6 +13,7 @@ public class Utils {
 
 	private static Gson gson;
 	public static File abilityJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
+	public static File itemJsonDirectory = new File("src/dev/ipsych0/myrinnia/items/json/");
 	
 	/**
 	 * Loads the contents of a file as a String
@@ -54,13 +57,14 @@ public class Utils {
 		return gson;
 	}
 
-	private static <T> T abilityFromJson(String path, final Class<?> clazz){
+	private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz){
 		FileInputStream inputStream = null;
 		try {
-			inputStream = new FileInputStream(new File("src/dev/ipsych0/myrinnia/abilities/json/" + path.toLowerCase()));
+			jsonFile = "src/dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
+			inputStream = new FileInputStream(new File(jsonFile));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.err.println("File '" + path.toLowerCase() + "' not found.");
+			System.err.println("File '" + jsonFile.toLowerCase() + "' not found.");
 			System.exit(1);
 		}
 		try {
@@ -74,11 +78,12 @@ public class Utils {
 		return null;
 	}
 
-	private static Class<?> getClassFromString(String jsonFile){
+	private static Class<?> getClassFromString(String jsonFile, String packageName){
         FileInputStream inputStream = null;
         String name = null;
         try {
-            inputStream = new FileInputStream(new File("src/dev/ipsych0/myrinnia/abilities/json/" + jsonFile.toLowerCase()));
+			jsonFile = "src/dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
+			inputStream = new FileInputStream(new File(jsonFile));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.err.println("File '" + jsonFile.toLowerCase() + "' not found.");
@@ -112,7 +117,13 @@ public class Utils {
     }
 
     public static Ability loadAbility(String path){
-        return abilityFromJson(path, getClassFromString(path));
+        return loadObjectFromJsonFile(path, "abilities", getClassFromString(path, "abilities"));
     }
+
+	public static Item loadItem(String path, BufferedImage sprite){
+		Item i = loadObjectFromJsonFile(path, "items", Item.class);
+		i.setTexture(sprite);
+		return i;
+	}
 
 }

@@ -11,18 +11,18 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
 public class WaterToBridgePart extends StaticEntity {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3731445475301213402L;
 	private boolean isFixed = false;
 	private String[] firstDialogue = {"This bridge part looks like it can be fixed with some logs. I think 5 logs should do."};
 	private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)","Leave the bridge."};
-	
+
 	public WaterToBridgePart(float x, float y) {
 		super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-		
+
 		isNpc = true;
 		attackable = false;
 	}
@@ -33,7 +33,7 @@ public class WaterToBridgePart extends StaticEntity {
 			die();
 		}
 	}
-	
+
 	@Override
 	public void die(){
 		this.active = false;
@@ -47,19 +47,19 @@ public class WaterToBridgePart extends StaticEntity {
 
 	@Override
 	public void interact() {
-		
+
 		switch(speakingTurn) {
-		
+
 		case 0:
 			speakingTurn++;
 			return;
-		
+
 		case 1:
 			if(Handler.get().hasQuestReqs(QuestList.TheSecondQuest)) {
 				chatDialogue = new ChatDialogue(firstDialogue);
 				if(Handler.get().getQuest(QuestList.TheSecondQuest).getState() != QuestState.IN_PROGRESS) {
 					Handler.get().getQuest(QuestList.TheSecondQuest).setState(QuestState.IN_PROGRESS);
-					Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge [0/3]");
+					Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge [1/3]");
 				}
 				speakingTurn++;
 				break;
@@ -68,7 +68,7 @@ public class WaterToBridgePart extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			
+
 		case 2:
 			if(chatDialogue == null) {
 				speakingTurn = 1;
@@ -88,7 +88,7 @@ public class WaterToBridgePart extends StaticEntity {
 				speakingTurn = 1;
 				break;
 			}
-			
+
 			if(chatDialogue.getChosenOption().getOptionID() == 0) {
 				chatDialogue = null;
 				if(Handler.get().playerHasItem(Item.regularLogs, 5)) {
@@ -97,9 +97,10 @@ public class WaterToBridgePart extends StaticEntity {
 					Handler.get().sendMsg("You fixed the bridge!");
 					if(Handler.get().getQuest(QuestList.TheSecondQuest).getState() == QuestState.IN_PROGRESS) {
 						if(Handler.get().getQuest(QuestList.TheSecondQuest).getStep() == 2) {
+							Handler.get().getQuest(QuestList.TheSecondQuest).nextStep();
 							Handler.get().getQuest(QuestList.TheSecondQuest).setState(QuestState.COMPLETED);
 						}else {
-							Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (Handler.get().getQuest(QuestList.TheSecondQuest).getStep()+1) +"/3]");
+							Handler.get().addQuestStep(QuestList.TheSecondQuest, "Fix the bridge ["+ (Handler.get().getQuest(QuestList.TheSecondQuest).getStep()+2) +"/3]");
 							Handler.get().getQuest(QuestList.TheSecondQuest).nextStep();
 						}
 					}
@@ -115,13 +116,13 @@ public class WaterToBridgePart extends StaticEntity {
 				break;
 			}
 		}
-		
-		
+
+
 	}
 
 	@Override
 	public void postRender(Graphics g) {
-		
+
 	}
 
 	@Override

@@ -5,7 +5,9 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
+
     private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?","Leave."};
     private String[] secondDialogue = {"I can reset your Skill Points for a fee of " + AbilityTrainer.resetCost + " gold."};
     private String[] thirdDialogue = {"Reset points (" + AbilityTrainer.resetCost + " gold).", "Never mind."};
@@ -89,6 +92,9 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     break;
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
+                    if(Handler.get().getQuest(QuestList.AMysteriousFinding).getState() != Quest.QuestState.COMPLETED){
+                        Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
+                    }
                     AbilityShopWindow.isOpen = true;
                     chatDialogue = null;
                     speakingTurn = 1;

@@ -8,7 +8,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 
 public class Lorraine extends ShopKeeper {
 
@@ -20,7 +20,7 @@ public class Lorraine extends ShopKeeper {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private ArrayList<ItemStack> shopItems;
-    private String[] firstDialogue = {"I would like to see your shop.", "Leave."};
+    private String[] firstDialogue = {"I would like to see your shops.", "Leave."};
 
     public Lorraine(float x, float y) {
         super("Lorraine's General Store", x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);

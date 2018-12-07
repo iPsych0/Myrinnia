@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 
 public abstract class ShopKeeper extends Creature {
 	

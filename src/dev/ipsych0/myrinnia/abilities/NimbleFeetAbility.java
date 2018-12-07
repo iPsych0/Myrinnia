@@ -38,7 +38,6 @@ public class NimbleFeetAbility extends Ability {
             boostTime = 20 * 60;
             getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
             initialBoostDone = true;
-            Handler.debugMode = true;
         }
         boostTimeTimer++;
         if (boostTimeTimer >= boostTime) {

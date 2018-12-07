@@ -40,9 +40,10 @@ public class JSONWriter {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
-        // Create the class frmo a template
+        // Create the class from a template
         try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/abilities/" + fileName + "Ability.java")) {
             for(String s : Files.readAllLines(Paths.get("src/dev/ipsych0/abilitymaker/abilitytemplate.txt"))){
                 // Replace the Test class name with the real class name
@@ -57,6 +58,7 @@ public class JSONWriter {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
