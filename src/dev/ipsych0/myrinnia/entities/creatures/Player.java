@@ -27,8 +27,8 @@ import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
-import dev.ipsych0.myrinnia.shop.AbilityShopWindow;
-import dev.ipsych0.myrinnia.shop.ShopWindow;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -205,7 +205,7 @@ public class Player extends Creature {
                         closestEntity.interact();
                         hasInteracted = true;
 
-                        // If the closest Entity is a shop, open the shop
+                        // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
                             shopKeeper = (ShopKeeper) getClosestEntity();
                         } else if (closestEntity instanceof Banker) {
@@ -258,8 +258,8 @@ public class Player extends Creature {
             closestEntity.getChatDialogue().tick();
         }
 
-        // If the player moves, close the shop and chat dialogue
-        if (closestEntity != null && isMoving) {
+        // If the player moves, close the shops and chat dialogue
+        if (closestEntity != null && isMoving && closestEntity.getChatDialogue() != null) {
             Entity.isCloseToNPC = false;
             hasInteracted = false;
 
@@ -296,7 +296,7 @@ public class Player extends Creature {
         // If the player is pressing the attack button
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
-                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack() != null) {
+                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
                     for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
                         if (as.getAbility() != null) {
                             if (as.getAbility().isChanneling() || as.getAbility().isSelected())
@@ -304,15 +304,24 @@ public class Player extends Creature {
                         }
                     }
                     //Check melee auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
                     // Check magic auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.MAINHAND.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+                    else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
+                    }
+                    else if(Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)){
+                        checkRanged(mouse);
+                    }else{
+                        System.err.println("Item: '" + Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName() + "' does not have a melee/magic/ranged weapon type assigned to it.");
                     }
                 }
             }
         }
+
+    }
+
+    private void checkRanged(Rectangle mouse) {
 
     }
 

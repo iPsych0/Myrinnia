@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.shop;
+package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
@@ -54,7 +54,7 @@ public class AbilityShopWindow implements Serializable {
             System.exit(1);
         }
 
-        // Add the shop slots
+        // Add the shops slots
         allSlots = new ArrayList<>(abilities.size());
         int xPos = 0;
         int yPos = 0;

@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.shop;
+package dev.ipsych0.myrinnia.shops;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -61,11 +61,11 @@ public class ShopWindow implements Serializable {
 		this.x = Handler.get().getWidth() / 2 - width / 2;
 		this.y = Handler.get().getHeight() / 2 - height / 2;
 		
-		// Initialize the shop slots and the inventory slots
+		// Initialize the shops slots and the inventory slots
 		itemSlots = new CopyOnWriteArrayList<ItemSlot>();
 		invSlots = new CopyOnWriteArrayList<ItemSlot>();
 		
-		// Add the shop slots
+		// Add the shops slots
 		for(int i = 0; i < NUM_ROWS; i++){
 			for(int j = 0; j < NUM_COLS; j++){
 				if(j == (NUM_ROWS)){
@@ -80,10 +80,10 @@ public class ShopWindow implements Serializable {
 			}
 		}
 
-		// Initialize the default stock of the shop
+		// Initialize the default stock of the shops
 		defaultStock = new int[shopItems.size()];
 		
-		// Fill the shop slots with the shop items and set the default stock
+		// Fill the shops slots with the shops items and set the default stock
 		for (int i = 0; i < shopItems.size(); i++) {
 			itemSlots.get(i).addItem(shopItems.get(i).getItem(), shopItems.get(i).getAmount());
 			defaultStock[i] = shopItems.get(i).getAmount();
@@ -127,7 +127,7 @@ public class ShopWindow implements Serializable {
 	
 	public void tick() {
 		
-		// Restock shop
+		// Restock shops
 		restock();
 		
 		if(isOpen) {
@@ -147,7 +147,7 @@ public class ShopWindow implements Serializable {
 			// Handles any UI button logic
 			handleButtonClick(mouse);
 			
-			// Checks if shop is closed
+			// Checks if shops is closed
 			handleShopExit(mouse);
 			
 			submitShopRequest();
@@ -455,7 +455,7 @@ public class ShopWindow implements Serializable {
 	}
 	
 	private void tickShopSlots(Rectangle mouse) {
-		// Tick shop slots
+		// Tick shops slots
 		for(ItemSlot is : itemSlots) {
 			is.tick();
 			
@@ -635,7 +635,7 @@ public class ShopWindow implements Serializable {
 						tradeSlot.setItemStack(null);
 					}
 				}else {
-					Handler.get().sendMsg("You cannot sell any more items to the shop.");
+					Handler.get().sendMsg("You cannot sell any more items to the shops.");
 				}
 			}
 			hasBeenPressed = false;
@@ -720,7 +720,7 @@ public class ShopWindow implements Serializable {
 					itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
 					inventoryLoaded = false;
 				}else {
-					Handler.get().sendMsg("You cannot sell any more items to the shop.");
+					Handler.get().sendMsg("You cannot sell any more items to the shops.");
 					break;
 				}
 			}
@@ -735,7 +735,7 @@ public class ShopWindow implements Serializable {
 	}
 	
 	/**
-	 * Buys X amount of items from the shop
+	 * Buys X amount of items from the shops
 	 * @param amount - quantity to buy
 	 */
 	private void buyXItem(int amount) {
@@ -824,7 +824,7 @@ public class ShopWindow implements Serializable {
 						Handler.get().giveItem(Item.coins, (int)(Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
 						itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
 					}else {
-						Handler.get().sendMsg("You cannot sell any more items to the shop.");
+						Handler.get().sendMsg("You cannot sell any more items to the shops.");
 						break;
 					}
 					
@@ -845,7 +845,7 @@ public class ShopWindow implements Serializable {
 	}
 	
 	/*
-	 * Finds a free slot in the shop when selling an item
+	 * Finds a free slot in the shops when selling an item
 	 * @returns -1 if no free slot found
 	 */
 	public int findFreeSlot(Item item) {

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -55,6 +56,12 @@ public class ChatWindow implements Serializable{
 	
 	public void tick(){
 		if(chatIsOpen){
+
+			// Tick dev tool
+			if(DevToolUI.isOpen){
+				Handler.get().getDevToolUI().tick();
+			}
+
 			for(TextSlot ts : textSlots){
 				ts.tick();
 				
@@ -64,6 +71,12 @@ public class ChatWindow implements Serializable{
 	
 	public void render(Graphics g){
 		if(chatIsOpen){
+
+			// Render dev tool
+			if(DevToolUI.isOpen){
+				Handler.get().getDevToolUI().render(g);
+			}
+
 			g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 			g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
 			
