@@ -1,14 +1,14 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "MAGIC_WEAPON"
   ],
-  "itemRarity": "Common",
-  "name": "wood",
-  "id": 0,
-  "equipSlot": "None",
-  "power": 0,
+  "itemRarity": "Rare",
+  "name": "Magic wand",
+  "id": 2,
+  "equipSlot": "Mainhand",
+  "power": 25,
   "defence": 0,
-  "vitality": 0,
+  "vitality": 10,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -27,7 +27,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 5,
-  "stackable": true,
+  "price": 25,
+  "stackable": false,
   "respawnTimer": 10800
 }

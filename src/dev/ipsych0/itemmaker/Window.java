@@ -317,11 +317,11 @@ class Window extends JFrame {
         priceLabel = new JLabel("Buy price for shops:", JLabel.CENTER);
         equippableLabel = new JLabel("Is it equippable?:", JLabel.CENTER);
         equipSlotLabel = new JLabel("Which equipment slot does the item go in?", JLabel.CENTER);
-        powerLabel = new JLabel("Power stat:", JLabel.CENTER);
-        defenceLabel = new JLabel("Defence stat:", JLabel.CENTER);
-        vitalityLabel = new JLabel("Vitality stat:", JLabel.CENTER);
-        attackSpeedLabel = new JLabel("Attack Speed stat:", JLabel.CENTER);
-        movementSpeedLabel = new JLabel("Movement Speed stat:", JLabel.CENTER);
+        powerLabel = new JLabel("Power bonus:", JLabel.CENTER);
+        defenceLabel = new JLabel("Defence bonus:", JLabel.CENTER);
+        vitalityLabel = new JLabel("Vitality bonus:", JLabel.CENTER);
+        attackSpeedLabel = new JLabel("Attack Speed bonus:", JLabel.CENTER);
+        movementSpeedLabel = new JLabel("Movement Speed bonus:", JLabel.CENTER);
         itemTypeLabel = new JLabel("Item Types (Comma separated)", JLabel.CENTER);
         itemRequirementsLabel = new JLabel("Requirements: (skill,level)", JLabel.CENTER);
 

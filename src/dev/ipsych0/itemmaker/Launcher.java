@@ -45,8 +45,6 @@ class Launcher {
 
                     itemIndex++;
                 }
-            } else {
-                ids.clear();
             }
 
             // Save the new IDs

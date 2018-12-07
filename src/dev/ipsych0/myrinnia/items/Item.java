@@ -33,14 +33,14 @@ public class Item implements Serializable{
 	 */
 	public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
 	public static Item regularOre = Utils.loadItem("1_ore.json", Assets.ore);
-	public static Item coins = new Item(Assets.coins[0], "Coins", 2, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
+	public static Item coins = new Item(Assets.coins[0], "Coins", 10, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
 	public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.FOOD);
 
 	/*
 	 * Equippable item
 	 */
 	public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.Mainhand, 5, 0, 2, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
-	public static Item purpleSword = new Item(Assets.purpleSword, "Purple Sword", 4, ItemRarity.Exquisite, EquipSlot.Mainhand, 10, 5, 5, 0, 0, 20, false, new ItemType[] {ItemType.MAGIC_WEAPON});
+	public static Item purpleSword = Utils.loadItem("2_magic_wand.json", Assets.purpleSword);
 	public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.AXE});
 	public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[] {ItemType.MELEE_WEAPON, ItemType.PICKAXE});
 
@@ -105,13 +105,7 @@ public class Item implements Serializable{
 	public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
 				EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
 				int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
-		this.texture = texture;
-		this.name = name;
-		this.id = id;
-		this.itemTypes = itemTypes;
-		this.itemRarity = itemRarity;
-		this.price = price;
-		this.stackable = stackable;
+		this(texture, name, id, itemRarity, price, stackable, itemTypes);
 		this.equipSlot = equipSlot;
 		this.equippable = true;
 		this.requirements = requirements;
@@ -120,25 +114,6 @@ public class Item implements Serializable{
 		this.vitality = vitality;
 		this.attackSpeed = attackSpeed;
 		this.movementSpeed = movementSpeed;
-
-		// Prevent duplicate IDs when creating items
-		try {
-			if(items[id] != null && !name.equals(items[id].name)) {
-				throw new DuplicateIDException(name, id);
-			}
-			else {
-				// If the item already exists, don't create a new reference
-				if(items[id] == null) {
-                    items[id] = this;
-				}
-			}
-		}catch(DuplicateIDException exc) {
-			exc.printStackTrace();
-			System.exit(1);
-		}
-
-		bounds = new Rectangle(0, 0, 32, 32);
-		position = new Rectangle(0, 0, 32, 32);
 	}
 
 	public void tick(){

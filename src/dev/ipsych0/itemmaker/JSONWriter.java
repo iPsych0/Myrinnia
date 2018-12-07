@@ -17,22 +17,24 @@ class JSONWriter {
     static boolean validate(String name, ItemRarity itemRarity,
                             int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality,
                             float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement... requirements) {
-        return !name.isEmpty() && itemRarity != null && price >= -1 && equipSlot != null;
+        return !name.isEmpty() && !name.trim().isEmpty() && itemRarity != null && price >= -1 && equipSlot != null;
     }
 
     static void write(String name, ItemRarity rarity, int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement[] itemRequirements) {
         // Create the JSON object
         Gson gson = Utils.getGson();
+
+        name = name.toLowerCase().trim();
         JSONItem item = new JSONItem(null, name, rarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, itemRequirements);
         // Create the JSON String
         String json = gson.toJson(item);
 
-        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/items/json/" + name.toLowerCase() + ".json"))) {
-            System.err.println("File '" + name.toLowerCase() + ".json' already exists.");
+        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/items/json/" + name.replaceAll(" ","_") + ".json"))) {
+            System.err.println("File '" + name.replaceAll(" ","_") + ".json' already exists.");
             return;
         }
         // Write the JSON file
-        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.toLowerCase() + ".json")) {
+        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.replaceAll(" ","_") + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();

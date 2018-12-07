@@ -40,7 +40,7 @@ class JSONItem implements Serializable {
                     int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
 
         this.texture = texture;
-        this.name = name;
+        this.name = name.substring(0,1).toUpperCase() + name.substring(1);
         this.id = IDGenerator.getInstance().getNextId();
         this.itemRarity = itemRarity;
         this.price = price;
