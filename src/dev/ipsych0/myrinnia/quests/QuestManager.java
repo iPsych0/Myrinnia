@@ -56,7 +56,7 @@ public class QuestManager implements Serializable{
 	private void fillLists() {
 
 		// Island Quests		
-		islandQuests.add(new Quest("The First Quest", Zone.Island, new QuestRequirement(SkillsList.CRAFTING, 10)));
+		islandQuests.add(new Quest("The First Quest", Zone.Island));
 		islandQuests.add(new Quest("The Second Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
 		islandQuests.add(new Quest("The Third Quest", Zone.Island));
 		
@@ -86,6 +86,7 @@ public class QuestManager implements Serializable{
 					index++;
 				}catch (ArrayIndexOutOfBoundsException e){
 					System.err.println("Error mapping quests to enums. Please check if you have added the quest to 'QuestList.java'.");
+					System.exit(1);
 				}
 			}
 		}

@@ -160,22 +160,30 @@ public class Handler implements Serializable {
      */
     public boolean hasQuestReqs(QuestList quest) {
         Quest q = getQuest(quest);
+        boolean hasAllRequirements = true;
+
         for (int i = 0; i < q.getRequirements().length; i++) {
             // Check skill requirements
             if (q.getRequirements()[i].getSkill() != null) {
                 if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
-                    return false;
+                    hasAllRequirements = false;
                 }
             }
             // Check quest requirements
             else if (q.getRequirements()[i].getQuest() != null) {
                 if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
-                    return false;
+                    hasAllRequirements = false;
                 }
+            // Check miscellaneous requirements
+            } else if (!q.getRequirements()[i].isTaskDone()) {
+                hasAllRequirements = false;
             }
         }
-        // TODO: ADD CHECK FOR MISCELLANEOUS REQUIREMENTS (DESCRIPTION)
-        return true;
+
+        if (!hasAllRequirements)
+            sendMsg("You do not meet the requirements to start " + q.getQuestName() + ".");
+
+        return hasAllRequirements;
     }
 
     public Rectangle getMouse() {

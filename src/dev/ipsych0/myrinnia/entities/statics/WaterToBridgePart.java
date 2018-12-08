@@ -64,7 +64,6 @@ public class WaterToBridgePart extends StaticEntity {
 				speakingTurn++;
 				break;
 			}else {
-				Handler.get().sendMsg("Please complete The First Quest to proceed.");
 				speakingTurn = 1;
 				break;
 			}

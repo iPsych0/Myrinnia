@@ -40,8 +40,32 @@ public class ScrollBar implements Serializable{
 		Rectangle mouse = Handler.get().getMouse();
 		
 		if(scrollUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-			// The first click, move it up once
-			if(clickTimer == 0) {
+			scrollUp();
+		}
+		
+		else if(scrollDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+			scrollDown();
+		}
+	}
+
+	private void scrollUp() {
+		// The first click, move it up once
+		if(clickTimer == 0) {
+			if(listSize < itemsPerWindow) {
+				return;
+			}
+			if(index == scrollMinimum) {
+				return;
+			}else {
+				index--;
+			}
+		}
+		clickTimer++;
+
+		// After .5 seconds of pressing, start scrolling
+		if(clickTimer >= 30) {
+			scrollTimer++;
+			if(scrollTimer % 6 == 0) {
 				if(listSize < itemsPerWindow) {
 					return;
 				}
@@ -51,58 +75,12 @@ public class ScrollBar implements Serializable{
 					index--;
 				}
 			}
-			clickTimer++;
-				
-			// After .5 seconds of pressing, start scrolling
-			if(clickTimer >= 30) {
-				scrollTimer++;
-				if(scrollTimer % 6 == 0) {
-					if(listSize < itemsPerWindow) {
-						return;
-					}
-					if(index == scrollMinimum) {
-						return;
-					}else {
-						index--;
-					}
-				}
-			}
-		}
-		
-		else if(scrollDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-			// The first click, move it down once
-			if(clickTimer == 0) {
-				if(listSize < itemsPerWindow) {
-					return;
-				}
-				if(index == scrollMaximum - itemsPerWindow) {
-					return;
-				}else {
-					index++;
-				}
-			}
-			clickTimer++;
-			
-			// After .5 seconds of pressing, start scrolling
-			if(clickTimer >= 30) {
-				scrollTimer++;
-				if(scrollTimer % 6 == 0) {
-					if(listSize < itemsPerWindow) {
-						return;
-					}
-					if(index == scrollMaximum - itemsPerWindow) {
-						return;
-					}else {
-						index++;
-					}
-				}
-			}
 		}
 	}
-	
+
 	public void render(Graphics g) {
 		Rectangle mouse = Handler.get().getMouse();
-		
+
 		if(listSize > itemsPerWindow) {
 			if(scrollUp.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
@@ -111,13 +89,43 @@ public class ScrollBar implements Serializable{
 				g.drawImage(Assets.genericButton[1], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
 				Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
 			}
-			
+
 			if(scrollDown.contains(mouse)) {
 				g.drawImage(Assets.genericButton[0], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font14);
+				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
 			}else {
 				g.drawImage(Assets.genericButton[1], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font14);
+				Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
+			}
+		}
+	}
+
+	private void scrollDown() {
+		// The first click, move it down once
+		if(clickTimer == 0) {
+			if(listSize < itemsPerWindow) {
+				return;
+			}
+			if(index == scrollMaximum - itemsPerWindow) {
+				return;
+			}else {
+				index++;
+			}
+		}
+		clickTimer++;
+
+		// After .5 seconds of pressing, start scrolling
+		if(clickTimer >= 30) {
+			scrollTimer++;
+			if(scrollTimer % 6 == 0) {
+				if(listSize < itemsPerWindow) {
+					return;
+				}
+				if(index == scrollMaximum - itemsPerWindow) {
+					return;
+				}else {
+					index++;
+				}
 			}
 		}
 	}

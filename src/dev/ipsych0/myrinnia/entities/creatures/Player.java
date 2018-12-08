@@ -92,7 +92,6 @@ public class Player extends Creature {
         super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 
         // Player combat/movement settings:
-        setNpc(false);
 
         xSpawn = 5152.0f;
         ySpawn = 5600.0f;
