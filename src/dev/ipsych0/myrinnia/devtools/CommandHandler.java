@@ -7,9 +7,13 @@ import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-class CommandHandler {
+class CommandHandler implements Serializable {
+
+
+    private static final long serialVersionUID = 1908102828227319857L;
 
     void handle(String[] commands, Commands firstCommand) {
         switch (firstCommand) {

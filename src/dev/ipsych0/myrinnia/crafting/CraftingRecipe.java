@@ -123,8 +123,8 @@ public class CraftingRecipe implements Serializable{
 		return discovered;
 	}
 
-	public void setDiscovered(Handler handler, boolean discovered) {
-		handler.sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
+	public void setDiscovered(boolean discovered) {
+		Handler.get().sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
 		this.discovered = discovered;
 	}
 

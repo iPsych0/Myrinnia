@@ -5,9 +5,11 @@ import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class DevToolUI {
+public class DevToolUI implements Serializable {
 
+    private static final long serialVersionUID = 518181399399230861L;
     private static int x, y, width, height;
     public static boolean isOpen = false;
     private static TextBox textBox;

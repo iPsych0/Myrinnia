@@ -219,19 +219,14 @@ public class Handler implements Serializable {
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {
-        SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
-        return resource;
+        return skillsUI.getSkill(skill).getResourceByItem(item);
     }
 
 
     public boolean playerHasSkillLevel(SkillsList skill, Item item) {
         SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
         if (resource != null) {
-            if (skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement()) {
-                return true;
-            } else {
-                return false;
-            }
+            return skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement();
         }
         return false;
     }
@@ -246,14 +241,11 @@ public class Handler implements Serializable {
      * @param item - The resulting item of the recipe to be unlocked
      */
     public void discoverRecipe(Item item) {
-        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(this, true);
+        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(true);
     }
 
     public boolean questStarted(QuestList quest) {
-        if (questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
-            return false;
-
-        return true;
+        return questManager.getQuestMap().get(quest).getState() != QuestState.NOT_STARTED;
     }
 
     public Quest getQuest(QuestList quest) {
@@ -283,7 +275,7 @@ public class Handler implements Serializable {
      * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
-        getWorld().getItemManager().addItem((item.createItem(x, y, amount)));
+        dropItem(item, amount, x, y, true);
     }
 
     public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
