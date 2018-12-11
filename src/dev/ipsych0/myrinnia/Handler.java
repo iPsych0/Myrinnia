@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -67,6 +68,7 @@ public class Handler implements Serializable {
     private AbilityManager abilityManager;
     private RecapManager recapManager;
     private DevToolUI devToolUI;
+    private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
     public static String initialWorldPath = "res/worlds/island.tmx";
 
@@ -108,6 +110,7 @@ public class Handler implements Serializable {
         abilityManager = new AbilityManager();
         recapManager = new RecapManager();
         devToolUI = new DevToolUI();
+        abilityOverviewUI = new AbilityOverviewUI();
 
 
         // Set the starting world
@@ -493,4 +496,11 @@ public class Handler implements Serializable {
         this.devToolUI = devToolUI;
     }
 
+    public AbilityOverviewUI getAbilityOverviewUI() {
+        return abilityOverviewUI;
+    }
+
+    public void setAbilityOverviewUI(AbilityOverviewUI abilityOverviewUI) {
+        this.abilityOverviewUI = abilityOverviewUI;
+    }
 }

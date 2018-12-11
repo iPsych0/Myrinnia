@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
@@ -60,6 +61,7 @@ public abstract class World implements Serializable {
 	protected SkillsUI skillsUI;
 	protected HPOverlay hpOverlay;
 	protected AbilityManager abilityManager;
+	protected AbilityOverviewUI abilityOverviewUI;
 	
 	// Actual code ---v
 	
@@ -76,6 +78,7 @@ public abstract class World implements Serializable {
 		this.hpOverlay = Handler.get().getHpOverlay();
 		this.abilityManager = Handler.get().getAbilityManager();
 		this.craftingUI = Handler.get().getCraftingUI();
+		this.abilityOverviewUI = Handler.get().getAbilityOverviewUI();
 		
 		// This is each world's unique manager of Entities & Items
 		entityManager = new EntityManager(player);
@@ -95,6 +98,7 @@ public abstract class World implements Serializable {
 		skillsUI.tick();
 		hpOverlay.tick();
 		abilityManager.tick();
+		abilityOverviewUI.tick();
 		if(BankUI.isOpen && player.getBankEntity() != null)
 			Handler.get().getBankUI().tick();
 		if(ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -156,6 +160,8 @@ public abstract class World implements Serializable {
 		skillsUI.render(g);
 		
 		abilityManager.render(g);
+
+		abilityOverviewUI.render(g);
 		
 		if(BankUI.isOpen && player.getBankEntity() != null) {
 			Handler.get().getBankUI().render(g);
