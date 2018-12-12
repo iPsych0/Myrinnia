@@ -15,6 +15,10 @@ public class AbilityOverviewUI {
     private List<AbilityOverviewUIButton> uiButtons = new ArrayList<>();
     private Rectangle bounds;
 
+    public static boolean isOpen;
+    public static boolean escapePressed;
+    public static boolean hasBeenPressed;
+
     public AbilityOverviewUI(){
         this.width = 460;
         this.height = 460;
@@ -23,9 +27,9 @@ public class AbilityOverviewUI {
         this.bounds = new Rectangle(x, y, width, height);
 
 
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 16, y + 32, CharacterStats.Melee));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 16, y + 32,  CharacterStats.Ranged));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + (width / 4) - 16, y + 32, CharacterStats.Magic));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 32, CharacterStats.Melee));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 32, y + 32,  CharacterStats.Ranged));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + (width / 4) - 32, y + 32, CharacterStats.Magic));
 
         uiButtons.add(new AbilityOverviewUIButton(x + width, y, CharacterStats.Fire));
         uiButtons.add(new AbilityOverviewUIButton(x + width, y + 32, CharacterStats.Air));
@@ -35,18 +39,27 @@ public class AbilityOverviewUI {
     }
 
     public void tick(){
-
+        if(isOpen){
+            if(Handler.get().getKeyManager().escape && escapePressed) {
+                escapePressed = false;
+                isOpen = false;
+                hasBeenPressed = false;
+                return;
+            }
+        }
     }
 
     public void render(Graphics g){
-        g.drawImage(Assets.shopWindow, x, y, width, height, null);
+        if(isOpen) {
+            g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
-        Rectangle mouse = Handler.get().getMouse();
+            Rectangle mouse = Handler.get().getMouse();
 
-        for(AbilityOverviewUIButton button : uiButtons){
-            button.render(g);
-            if(button.getBounds().contains(mouse)){
-                Text.drawString(g, button.getStat().toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font20);
+            for (AbilityOverviewUIButton button : uiButtons) {
+                button.render(g);
+                if (button.getBounds().contains(mouse)) {
+                    Text.drawString(g, button.getStat().toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font20);
+                }
             }
         }
     }

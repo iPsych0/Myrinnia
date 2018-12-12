@@ -78,6 +78,7 @@ public class Player extends Creature {
     public static boolean mouseMoved = false;
     private float xSpawn, ySpawn;
 
+    // Entities we can interact with, with different functions
     private Entity closestEntity;
     private ShopKeeper shopKeeper;
     private AbilityTrainer abilityTrainer;
@@ -207,10 +208,12 @@ public class Player extends Creature {
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
                             shopKeeper = (ShopKeeper) getClosestEntity();
+                            shopKeeper.getShopWindow().setLastShopWindow();
                         } else if (closestEntity instanceof Banker) {
                             bankEntity = (Banker) getClosestEntity();
                         } else if (closestEntity instanceof AbilityTrainer) {
                             abilityTrainer = (AbilityTrainer) getClosestEntity();
+                            abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
                         }
                     } else {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {

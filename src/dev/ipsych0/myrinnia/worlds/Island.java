@@ -53,7 +53,7 @@ public class Island extends World {
 		
 		entityManager.addEntity(new TeleportShrine(5056, 5532));
 		entityManager.addEntity(new AbilityMaster(5088, 5532));
-		
+
 		// Southern cliffs
 		entityManager.addEntity(new Whirlpool(1280, 6320));
 		entityManager.addEntity(new Whirlpool(4832, 6320));

@@ -52,6 +52,7 @@ public class ShopWindow implements Serializable {
 	public static boolean hasBeenPressed = false;
 	private static final double COMMISSION = 0.75;
 	public static boolean escapePressed = false;
+	public static ShopWindow lastOpenedWindow;
 
 	
 	public ShopWindow(ArrayList<ItemStack> shopItems) {
@@ -241,22 +242,31 @@ public class ShopWindow implements Serializable {
 				dBox.render(g);
 		}
 	}
-	
-	private void handleShopExit(Rectangle mouse) {
+
+	public void setLastShopWindow(){
+		ShopWindow.lastOpenedWindow = this;
+	}
+
+	public void exit(){
+		isOpen = false;
+		inventoryLoaded = false;
+		DialogueBox.isOpen = false;
+		TextBox.isOpen = false;
+		Handler.get().getKeyManager().setTextBoxTyping(false);
+		hasBeenPressed = false;
+		selectedSlot = null;
+		selectedInvItem = null;
+		selectedShopItem = null;
+		makingChoice = false;
+		dBox.setPressedButton(null);
+		InventoryWindow.isOpen = true;
+		EquipmentWindow.isOpen = true;
+		escapePressed = false;
+	}
+
+	public void handleShopExit(Rectangle mouse) {
 		if(exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Player.isMoving) {
-			isOpen = false;
-			inventoryLoaded = false;
-			DialogueBox.isOpen = false;
-			TextBox.isOpen = false;
-			Handler.get().getKeyManager().setTextBoxTyping(false);
-			hasBeenPressed = false;
-			selectedSlot = null;
-			selectedInvItem = null;
-			selectedShopItem = null;
-			makingChoice = false;
-			dBox.setPressedButton(null);
-			InventoryWindow.isOpen = true;
-			EquipmentWindow.isOpen = true;
+			exit();
 			return;
 		}
 		
@@ -272,20 +282,7 @@ public class ShopWindow implements Serializable {
 			return;
 		}
 		else if(Handler.get().getKeyManager().escape && !makingChoice && escapePressed) {
-			escapePressed = false;
-			isOpen = false;
-			inventoryLoaded = false;
-			DialogueBox.isOpen = false;
-			TextBox.isOpen = false;
-			Handler.get().getKeyManager().setTextBoxTyping(false);
-			hasBeenPressed = false;
-			selectedSlot = null;
-			selectedInvItem = null;
-			selectedShopItem = null;
-			makingChoice = false;
-			dBox.setPressedButton(null);
-			InventoryWindow.isOpen = true;
-			EquipmentWindow.isOpen = true;
+			exit();
 			return;
 		}
 	}
