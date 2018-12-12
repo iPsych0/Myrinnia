@@ -188,6 +188,7 @@ public class KeyManager implements KeyListener, Serializable {
                     AbilityShopWindow.lastOpenedWindow.exit();
                 }
                 Handler.get().getBankUI().exit();
+                Handler.get().getCraftingUI().closeCraftingUI();
                 AbilityOverviewUI.isOpen = !AbilityOverviewUI.isOpen;
             }
 

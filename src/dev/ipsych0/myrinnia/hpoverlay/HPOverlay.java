@@ -135,6 +135,7 @@ public class HPOverlay implements Serializable {
                     AbilityShopWindow.lastOpenedWindow.exit();
                 }
                 Handler.get().getBankUI().exit();
+                Handler.get().getCraftingUI().closeCraftingUI();
                 AbilityOverviewUI.isOpen = !AbilityOverviewUI.isOpen;
             }
         } else

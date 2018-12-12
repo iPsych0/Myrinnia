@@ -326,7 +326,7 @@ public class CraftingUI implements Serializable{
 		SkillsOverviewUI.isOpen = false;
 	}
 	
-	private void closeCraftingUI() {
+	public void closeCraftingUI() {
 		if(currentSelectedSlot != null) {
 			if(!Handler.get().invIsFull(currentSelectedSlot.getItem())) {
 				Handler.get().giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
