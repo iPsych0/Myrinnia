@@ -28,7 +28,7 @@ public class JSONAbility {
     private String className;
 
     public JSONAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String className, String description) {
-        this.className = className;
+        this.className = className.replaceAll(" ","");
         this.element = element;
         this.combatStyle = combatStyle;
         this.abilityType = abilityType;

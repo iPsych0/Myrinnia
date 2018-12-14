@@ -108,8 +108,8 @@ public class AbilityManager implements Serializable {
     }
 
     public List<Ability> getAbilityByStyleAndElement(CharacterStats combatStyle, CharacterStats element){
-        List<Ability> filtered = allAbilities;
-        allAbilities.removeIf((a) -> a.getElement() != element && a.getCombatStyle() != combatStyle);
+        List<Ability> filtered = new ArrayList<>(allAbilities);
+        filtered.removeIf((a) -> a.getElement() != element && a.getCombatStyle() != combatStyle);
         return filtered;
     }
 }

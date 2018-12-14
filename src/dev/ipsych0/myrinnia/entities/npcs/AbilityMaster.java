@@ -31,13 +31,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
         abilities = new ArrayList<>();
 
-        for(AbilitySlot a : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()){
-            if(a.getAbility() != null) {
-                abilities.add(a.getAbility());
-            }
-        }
-
-
+        abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
 
         abilityShopWindow = new AbilityShopWindow(abilities);
 

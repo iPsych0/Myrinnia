@@ -7,9 +7,11 @@ import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class AbilityOverviewUIButton {
+public class AbilityOverviewUIButton implements Serializable {
 
+    private static final long serialVersionUID = -4740203689067214388L;
     private int x, y, width, height;
     private CharacterStats stat;
     private Rectangle bounds;

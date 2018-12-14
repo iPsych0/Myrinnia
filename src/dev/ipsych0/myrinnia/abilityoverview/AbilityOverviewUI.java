@@ -9,11 +9,14 @@ import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbilityOverviewUI {
+public class AbilityOverviewUI implements Serializable {
 
+
+    private static final long serialVersionUID = -8142886045140646059L;
     private int x, y, width, height;
     private List<AbilityOverviewUIButton> uiButtons = new ArrayList<>();
     private Rectangle bounds;

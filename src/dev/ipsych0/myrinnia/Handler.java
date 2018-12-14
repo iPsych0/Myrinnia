@@ -107,9 +107,9 @@ public class Handler implements Serializable {
         characterUI = new CharacterUI();
         hpOverlay = new HPOverlay();
         bankUI = new BankUI();
-        abilityManager = new AbilityManager();
         recapManager = new RecapManager();
         devToolUI = new DevToolUI();
+        abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
 
 
