@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.shops;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -202,6 +203,11 @@ public class AbilityShopWindow implements Serializable {
         }
     }
 
+    public static void open(){
+        AbilityOverviewUI.isOpen = false;
+        AbilityShopWindow.isOpen = true;
+    }
+
     private void handleButtonClicks(Rectangle mouse) {
         // Buy button
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -253,7 +259,6 @@ public class AbilityShopWindow implements Serializable {
             currentSlots = magicSlots;
             return;
         }
-
     }
 
     private void drawButtons(Graphics g, Rectangle mouse) {

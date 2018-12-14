@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.utils.Text;
 
 public class BankUI implements Serializable {
@@ -290,6 +292,11 @@ public class BankUI implements Serializable {
                 }
             }
         }
+    }
+
+    public static void open(){
+        AbilityOverviewUI.isOpen = false;
+        BankUI.isOpen = true;
     }
 
     public void exit() {

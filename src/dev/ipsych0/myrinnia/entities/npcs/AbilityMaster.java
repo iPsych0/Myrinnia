@@ -87,7 +87,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
-                    AbilityShopWindow.isOpen = true;
+                    AbilityShopWindow.open();
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;

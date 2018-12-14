@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -324,6 +325,7 @@ public class CraftingUI implements Serializable{
 		QuestUI.renderingQuests = false;
 		SkillsUI.isOpen = false;
 		SkillsOverviewUI.isOpen = false;
+		AbilityOverviewUI.isOpen = false;
 	}
 	
 	public void closeCraftingUI() {

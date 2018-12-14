@@ -57,7 +57,7 @@ public class BankerNPC extends Banker implements Serializable {
                     break;
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    BankUI.isOpen = true;
+                    BankUI.open();
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;
