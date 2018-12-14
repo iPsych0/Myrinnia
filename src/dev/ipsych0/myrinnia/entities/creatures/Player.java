@@ -298,7 +298,7 @@ public class Player extends Creature {
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
                 if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
-                    for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+                    for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
                         if (as.getAbility() != null) {
                             if (as.getAbility().isChanneling() || as.getAbility().isSelected())
                                 return;
@@ -664,7 +664,7 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
@@ -714,7 +714,7 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+        if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;

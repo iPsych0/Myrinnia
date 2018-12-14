@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.PlayerHUD;
+import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -25,14 +25,14 @@ public class AbilityManager implements Serializable {
     private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
     private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
     private Color castBarColor = new Color(240, 160, 5, 224);
-    private PlayerHUD playerHUD;
+    private AbilityHUD abilityHUD;
 
     /*
      * Abilities (maybe via file inladen)
      */
 
     public AbilityManager() {
-        this.playerHUD = new PlayerHUD();
+        this.abilityHUD = new AbilityHUD();
         try {
             for (File f : Utils.abilityJsonDirectory.listFiles()) {
                 allAbilities.add(Utils.loadAbility(f.getName()));
@@ -44,7 +44,7 @@ public class AbilityManager implements Serializable {
     }
 
     public void tick() {
-        playerHUD.tick();
+        abilityHUD.tick();
         Iterator<Ability> it = activeAbilities.iterator();
         while (it.hasNext()) {
             Ability a = it.next();
@@ -63,7 +63,7 @@ public class AbilityManager implements Serializable {
     }
 
     public void render(Graphics g) {
-        playerHUD.render(g);
+        abilityHUD.render(g);
         Iterator<Ability> it = activeAbilities.iterator();
         while (it.hasNext()) {
             Ability a = it.next();
@@ -91,12 +91,12 @@ public class AbilityManager implements Serializable {
         this.activeAbilities = activeAbilities;
     }
 
-    public PlayerHUD getPlayerHUD() {
-        return playerHUD;
+    public AbilityHUD getAbilityHUD() {
+        return abilityHUD;
     }
 
-    public void setPlayerHUD(PlayerHUD playerHUD) {
-        this.playerHUD = playerHUD;
+    public void setAbilityHUD(AbilityHUD abilityHUD) {
+        this.abilityHUD = abilityHUD;
     }
 
     public List<Ability> getAllAbilities() {

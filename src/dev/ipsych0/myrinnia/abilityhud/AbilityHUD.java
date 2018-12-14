@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerHUD implements Serializable {
+public class AbilityHUD implements Serializable {
 
 
     /**
@@ -25,7 +25,7 @@ public class PlayerHUD implements Serializable {
     public static boolean hasBeenTyped;
     public static char pressedKey;
 
-    public PlayerHUD() {
+    public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
         height = y + ItemSlot.SLOTSIZE;
         x = Handler.get().getWidth() / 2 - (width / 2);

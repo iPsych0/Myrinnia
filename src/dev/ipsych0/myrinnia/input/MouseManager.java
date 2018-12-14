@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.input;
 
-import dev.ipsych0.myrinnia.abilityhud.PlayerHUD;
+import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
@@ -98,7 +98,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
             HPOverlay.hasBeenPressed = true;
             BankUI.hasBeenPressed = true;
             SliderPuzzle.hasBeenPressed = true;
-            PlayerHUD.hasBeenPressed = true;
+            AbilityHUD.hasBeenPressed = true;
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
         }

@@ -91,7 +91,7 @@ public class CraftingUI implements Serializable {
 
     public void tick() {
         if (Handler.get().getKeyManager().getLastUIKeyPressed() != -1) {
-            closeCraftingUI();
+            exit();
             Handler.get().getKeyManager().setLastUIKeyPressed(-1);
         }
         if (isOpen) {
@@ -109,7 +109,7 @@ public class CraftingUI implements Serializable {
 
             // If the window is closed or the player moves, re-add all items back to inventory or drop them if no space.
             if (Handler.get().getKeyManager().escape || Player.isMoving) {
-                closeCraftingUI();
+                exit();
             }
 
             // If left-clicked on the "craft" button, craft the item
@@ -323,7 +323,7 @@ public class CraftingUI implements Serializable {
         AbilityOverviewUI.exit();
     }
 
-    public void closeCraftingUI() {
+    public void exit() {
         if (currentSelectedSlot != null) {
             if (!Handler.get().invIsFull(currentSelectedSlot.getItem())) {
                 Handler.get().giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());

@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.input;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityhud.PlayerHUD;
+import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
@@ -186,7 +186,7 @@ public class KeyManager implements KeyListener, Serializable {
                     AbilityShopWindow.lastOpenedWindow.exit();
                 }
                 Handler.get().getBankUI().exit();
-                Handler.get().getCraftingUI().closeCraftingUI();
+                Handler.get().getCraftingUI().exit();
                 AbilityOverviewUI.isOpen = !AbilityOverviewUI.isOpen;
             }
 
@@ -215,7 +215,7 @@ public class KeyManager implements KeyListener, Serializable {
         if (!typingFocus) {
             if (Character.isDigit(e.getKeyChar())) {
                 // Invalidate input while channeling
-                for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+                for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
                     if (as.getAbility() != null) {
                         if (as.getAbility().isChanneling()) {
                             return;
@@ -224,8 +224,8 @@ public class KeyManager implements KeyListener, Serializable {
                 }
 
                 // Set the pressed key for the ability bar
-                PlayerHUD.hasBeenTyped = true;
-                PlayerHUD.pressedKey = e.getKeyChar();
+                AbilityHUD.hasBeenTyped = true;
+                AbilityHUD.pressedKey = e.getKeyChar();
             }
             if (e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC) {
                 Player.hasInteracted = false;

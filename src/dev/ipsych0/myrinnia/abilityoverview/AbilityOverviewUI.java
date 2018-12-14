@@ -112,7 +112,7 @@ public class AbilityOverviewUI implements Serializable {
                 } else if (currentSelectedAbility != null && !Handler.get().getMouseManager().isLeftPressed()) {
                     boolean alreadyHasAbility = false;
                     AbilitySlot foundSlot = null;
-                    for (AbilitySlot hudSlot : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+                    for (AbilitySlot hudSlot : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
                         if (hudSlot.getBounds().contains(mouse) && foundSlot == null) {
                             foundSlot = hudSlot;
                         }
