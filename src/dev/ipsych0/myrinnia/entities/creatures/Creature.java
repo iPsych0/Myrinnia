@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
@@ -61,7 +60,7 @@ public abstract class Creature extends Entity {
     }
 
     protected Direction direction;
-     // Last faced direction
+    // Last faced direction
     private Direction lastFaced;
 
     protected float speed;

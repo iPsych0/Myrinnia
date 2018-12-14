@@ -1,10 +1,5 @@
 package dev.ipsych0.myrinnia;
 
-import java.awt.Rectangle;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.Random;
-
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
@@ -20,7 +15,6 @@ import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.items.EquipSlot;
 import dev.ipsych0.myrinnia.items.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
@@ -43,6 +37,11 @@ import dev.ipsych0.myrinnia.worlds.Island;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.Random;
 
 public class Handler implements Serializable {
 
@@ -177,7 +176,7 @@ public class Handler implements Serializable {
                 if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
                     hasAllRequirements = false;
                 }
-            // Check miscellaneous requirements
+                // Check miscellaneous requirements
             } else if (!q.getRequirements()[i].isTaskDone()) {
                 hasAllRequirements = false;
             }

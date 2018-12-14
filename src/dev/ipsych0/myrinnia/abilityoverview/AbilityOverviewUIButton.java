@@ -30,9 +30,9 @@ public class AbilityOverviewUIButton implements Serializable {
     }
 
     public void render(Graphics g) {
-        if(bounds.contains(Handler.get().getMouse())) {
+        if (bounds.contains(Handler.get().getMouse())) {
             g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        }else{
+        } else {
             g.drawImage(Assets.genericButton[1], x, y, width, height, null);
         }
         Text.drawString(g, stat.toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);

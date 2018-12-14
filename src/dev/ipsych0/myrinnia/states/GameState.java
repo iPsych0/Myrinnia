@@ -1,34 +1,33 @@
 package dev.ipsych0.myrinnia.states;
 
-import java.awt.Font;
-import java.awt.Graphics;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
-public class GameState extends State{
+import java.awt.*;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1598032694820560072L;
-	public static Font myFont;
-	public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
-	
-	public GameState(){
-		super();
-		// Setup new game world
-		Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.Island));
-		
-	}
-	
-	@Override
-	public void tick() {
-		Handler.get().getWorldHandler().tick();
-	}
+public class GameState extends State {
 
-	@Override
-	public void render(Graphics g) {
-		Handler.get().getWorldHandler().render(g);
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1598032694820560072L;
+    public static Font myFont;
+    public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
+
+    public GameState() {
+        super();
+        // Setup new game world
+        Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.Island));
+
+    }
+
+    @Override
+    public void tick() {
+        Handler.get().getWorldHandler().tick();
+    }
+
+    @Override
+    public void render(Graphics g) {
+        Handler.get().getWorldHandler().render(g);
+    }
 }

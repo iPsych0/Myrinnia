@@ -6,9 +6,7 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -85,16 +83,16 @@ public class AbilityOverviewUI implements Serializable {
                 return;
             }
 
-            for(AbilityOverviewUIButton uiButton : uiButtons){
+            for (AbilityOverviewUIButton uiButton : uiButtons) {
                 // Change list of abilities when clicking a new category
-                if(uiButton.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
+                if (uiButton.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                     hasBeenPressed = false;
                     displayedAbilities.clear();
                     // Handle combat style buttons
-                    if(uiButton.getStat() == CharacterStats.Melee || uiButton.getStat() == CharacterStats.Ranged || uiButton.getStat() == CharacterStats.Magic) {
+                    if (uiButton.getStat() == CharacterStats.Melee || uiButton.getStat() == CharacterStats.Ranged || uiButton.getStat() == CharacterStats.Magic) {
                         displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(uiButton.getStat(), lastElementTab.getStat());
                         lastCombatTab = uiButton;
-                    }else{
+                    } else {
                         // Handle element buttons
                         displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(lastCombatTab.getStat(), uiButton.getStat());
                         lastElementTab = uiButton;
@@ -110,12 +108,12 @@ public class AbilityOverviewUI implements Serializable {
                     if (as.getAbility().isUnlocked()) {
                         currentSelectedAbility = as.getAbility();
                     }
-                // If we were dragging and let go, check the slot to put the ability
+                    // If we were dragging and let go, check the slot to put the ability
                 } else if (currentSelectedAbility != null && !Handler.get().getMouseManager().isLeftPressed()) {
                     boolean alreadyHasAbility = false;
                     AbilitySlot foundSlot = null;
                     for (AbilitySlot hudSlot : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
-                        if(hudSlot.getBounds().contains(mouse) && foundSlot == null){
+                        if (hudSlot.getBounds().contains(mouse) && foundSlot == null) {
                             foundSlot = hudSlot;
                         }
                         if (hudSlot.getAbility() != null && hudSlot.getAbility() == currentSelectedAbility) {
@@ -140,7 +138,7 @@ public class AbilityOverviewUI implements Serializable {
         }
     }
 
-    public static void exit(){
+    public static void exit() {
         escapePressed = false;
         isOpen = false;
         hasBeenPressed = false;
@@ -167,7 +165,7 @@ public class AbilityOverviewUI implements Serializable {
 
             for (AbilitySlot as : abilitySlots) {
                 as.render(g);
-                if(as.getBounds().contains(mouse)){
+                if (as.getBounds().contains(mouse)) {
                     abilityTooltip.render(g, as.getAbility());
                 }
             }

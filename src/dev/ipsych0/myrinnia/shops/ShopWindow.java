@@ -1,25 +1,18 @@
 package dev.ipsych0.myrinnia.shops;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
-import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ItemSlot;
-import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.states.GameState;
+import dev.ipsych0.myrinnia.items.*;
 import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Text;
+
+import java.awt.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ShopWindow implements Serializable {
 

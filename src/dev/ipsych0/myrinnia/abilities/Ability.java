@@ -1,293 +1,291 @@
 package dev.ipsych0.myrinnia.abilities;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.io.Serializable;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 
+import java.awt.*;
+import java.io.Serializable;
+
 public abstract class Ability implements Serializable {
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6105053373876560350L;
-	protected Creature caster;
-	protected double cooldownTime;
-	protected double castingTime;
-	protected double overcastTime;
-	protected String name;
-	protected String description;
-	protected AbilityType abilityType;
-	protected CharacterStats element;
-	protected CharacterStats combatStyle;
-	protected boolean onCooldown, casting, inOvercast;
-	protected int castingTimeTimer = 0;
-	protected int cooldownTimer = 0;
-	protected int baseDamage;
-	protected boolean activated;
-	protected boolean channeling;
-	protected boolean selectable;
-	protected boolean selected;
-	protected boolean unlocked;
-	protected int price;
-	protected int id;
-
-	public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
-		this.element = element;
-		this.combatStyle = combatStyle;
-		this.abilityType = abilityType;
-		this.selectable = selectable;
-		this.cooldownTime = cooldownTime;
-		this.castingTime = castingTime;
-		this.overcastTime = overcastTime;
-		this.name = name;
-		this.baseDamage = baseDamage;
-		this.price = price;
-		this.description = description;
-	}
-	
-	public abstract void render(Graphics g, int x, int y);
-	
-	public abstract void cast();
 
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6105053373876560350L;
+    protected Creature caster;
+    protected double cooldownTime;
+    protected double castingTime;
+    protected double overcastTime;
+    protected String name;
+    protected String description;
+    protected AbilityType abilityType;
+    protected CharacterStats element;
+    protected CharacterStats combatStyle;
+    protected boolean onCooldown, casting, inOvercast;
+    protected int castingTimeTimer = 0;
+    protected int cooldownTimer = 0;
+    protected int baseDamage;
+    protected boolean activated;
+    protected boolean channeling;
+    protected boolean selectable;
+    protected boolean selected;
+    protected boolean unlocked;
+    protected int price;
+    protected int id;
 
-	public void setCaster(Creature c) {
-		this.caster = c;
-		this.setActivated(true);
-		this.setOnCooldown(true);
-		if(this.getCastingTime() > 0) {
-			this.setChanneling(true);
-		}
-		System.out.println("Cast: "+this.getName());
-	}
-	
-	public void tick() {
-		Rectangle mouse = Handler.get().getMouse();
-		if(isSelectable() && isSelected()) {
-			if(!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-				setSelected(false);
-				for(AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
-					if(as.getAbility() != null) {
-						if(as.getAbility().isChanneling()) {
-							this.setActivated(false);
-							return;
-						}
-					}
-				}
-				if(this.getCastingTime() > 0) {
-					this.setChanneling(true);
-				}
-				this.setOnCooldown(true);
-			}
-		}else {
-			if(this.castingTime * 60 == castingTimeTimer++) {
-				this.setCasting(true);
-				this.setChanneling(false);
-			}
-		}
-		
-		if(casting) {
-			cast();
-		}
-		
-		if(onCooldown) {
-			countDown();
-		}
-	}
-	
-	protected void countDown() {
-		cooldownTimer++;
-		if(cooldownTimer / 60 == cooldownTime) {
-			this.setOnCooldown(false);
-			this.setActivated(false);
-			this.setCasting(false);
-			castingTimeTimer = 0;
-			cooldownTimer = 0;
-		}
-	}
-		
+    public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+        this.element = element;
+        this.combatStyle = combatStyle;
+        this.abilityType = abilityType;
+        this.selectable = selectable;
+        this.cooldownTime = cooldownTime;
+        this.castingTime = castingTime;
+        this.overcastTime = overcastTime;
+        this.name = name;
+        this.baseDamage = baseDamage;
+        this.price = price;
+        this.description = description;
+    }
 
-	// Getters & Setters
-	
-	public double getRemainingCooldown() {
-		return cooldownTime - (cooldownTimer/60);
-	}
-	
-	public AbilityType getAbilityType() {
-		return abilityType;
-	}
+    public abstract void render(Graphics g, int x, int y);
 
-	public void setAbilityType(AbilityType abilityType) {
-		this.abilityType = abilityType;
-	}
+    public abstract void cast();
 
-	public Creature getCaster() {
-		return caster;
-	}
 
-	public double getCooldownTimer() {
-		return cooldownTime;
-	}
+    public void setCaster(Creature c) {
+        this.caster = c;
+        this.setActivated(true);
+        this.setOnCooldown(true);
+        if (this.getCastingTime() > 0) {
+            this.setChanneling(true);
+        }
+        System.out.println("Cast: " + this.getName());
+    }
 
-	public void setCooldownTimer(double cooldownTimer) {
-		this.cooldownTime = cooldownTimer;
-	}
+    public void tick() {
+        Rectangle mouse = Handler.get().getMouse();
+        if (isSelectable() && isSelected()) {
+            if (!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                setSelected(false);
+                for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+                    if (as.getAbility() != null) {
+                        if (as.getAbility().isChanneling()) {
+                            this.setActivated(false);
+                            return;
+                        }
+                    }
+                }
+                if (this.getCastingTime() > 0) {
+                    this.setChanneling(true);
+                }
+                this.setOnCooldown(true);
+            }
+        } else {
+            if (this.castingTime * 60 == castingTimeTimer++) {
+                this.setCasting(true);
+                this.setChanneling(false);
+            }
+        }
 
-	public double getCastingTime() {
-		return castingTime;
-	}
+        if (casting) {
+            cast();
+        }
 
-	public void setCastingTime(double castingTime) {
-		this.castingTime = castingTime;
-	}
+        if (onCooldown) {
+            countDown();
+        }
+    }
 
-	public double getOvercastTime() {
-		return overcastTime;
-	}
+    protected void countDown() {
+        cooldownTimer++;
+        if (cooldownTimer / 60 == cooldownTime) {
+            this.setOnCooldown(false);
+            this.setActivated(false);
+            this.setCasting(false);
+            castingTimeTimer = 0;
+            cooldownTimer = 0;
+        }
+    }
 
-	public void setOvercastTime(int overcastTime) {
-		this.overcastTime = overcastTime;
-	}
 
-	public String getName() {
-		return name;
-	}
+    // Getters & Setters
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public double getRemainingCooldown() {
+        return cooldownTime - (cooldownTimer / 60);
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public AbilityType getAbilityType() {
+        return abilityType;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setAbilityType(AbilityType abilityType) {
+        this.abilityType = abilityType;
+    }
 
-	public boolean isOnCooldown() {
-		return onCooldown;
-	}
+    public Creature getCaster() {
+        return caster;
+    }
 
-	public void setOnCooldown(boolean onCooldown) {
-		this.onCooldown = onCooldown;
-	}
+    public double getCooldownTimer() {
+        return cooldownTime;
+    }
 
-	public boolean isCasting() {
-		return casting;
-	}
+    public void setCooldownTimer(double cooldownTimer) {
+        this.cooldownTime = cooldownTimer;
+    }
 
-	public void setCasting(boolean casting) {
-		this.casting = casting;
-	}
+    public double getCastingTime() {
+        return castingTime;
+    }
 
-	public boolean isInOvercast() {
-		return inOvercast;
-	}
+    public void setCastingTime(double castingTime) {
+        this.castingTime = castingTime;
+    }
 
-	public void setInOvercast(boolean inOvercast) {
-		this.inOvercast = inOvercast;
-	}
+    public double getOvercastTime() {
+        return overcastTime;
+    }
 
-	public CharacterStats getElement() {
-		return element;
-	}
+    public void setOvercastTime(int overcastTime) {
+        this.overcastTime = overcastTime;
+    }
 
-	public void setElement(CharacterStats element) {
-		this.element = element;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getBaseDamage() {
-		return baseDamage;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setBaseDamage(int baseDamage) {
-		this.baseDamage = baseDamage;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public boolean isActivated() {
-		return activated;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setActivated(boolean isActivated) {
-		this.activated = isActivated;
-	}
+    public boolean isOnCooldown() {
+        return onCooldown;
+    }
 
-	public double getCooldownTime() {
-		return cooldownTime;
-	}
+    public void setOnCooldown(boolean onCooldown) {
+        this.onCooldown = onCooldown;
+    }
 
-	public void setCooldownTime(int cooldownTime) {
-		this.cooldownTime = cooldownTime;
-	}
+    public boolean isCasting() {
+        return casting;
+    }
 
-	public int getCastingTimeTimer() {
-		return castingTimeTimer;
-	}
+    public void setCasting(boolean casting) {
+        this.casting = casting;
+    }
 
-	public void setCastingTimeTimer(int castingTimeTimer) {
-		this.castingTimeTimer = castingTimeTimer;
-	}
+    public boolean isInOvercast() {
+        return inOvercast;
+    }
 
-	public boolean isChanneling() {
-		return channeling;
-	}
+    public void setInOvercast(boolean inOvercast) {
+        this.inOvercast = inOvercast;
+    }
 
-	public void setChanneling(boolean channeling) {
-		this.channeling = channeling;
-	}
+    public CharacterStats getElement() {
+        return element;
+    }
 
-	public boolean isSelectable() {
-		return selectable;
-	}
+    public void setElement(CharacterStats element) {
+        this.element = element;
+    }
 
-	public void setSelectable(boolean selectable) {
-		this.selectable = selectable;
-	}
+    public int getBaseDamage() {
+        return baseDamage;
+    }
 
-	public boolean isSelected() {
-		return selected;
-	}
+    public void setBaseDamage(int baseDamage) {
+        this.baseDamage = baseDamage;
+    }
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+    public boolean isActivated() {
+        return activated;
+    }
 
-	public boolean isUnlocked() {
-		return unlocked;
-	}
+    public void setActivated(boolean isActivated) {
+        this.activated = isActivated;
+    }
 
-	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
-	}
+    public double getCooldownTime() {
+        return cooldownTime;
+    }
 
-	public int getPrice() {
-		return price;
-	}
+    public void setCooldownTime(int cooldownTime) {
+        this.cooldownTime = cooldownTime;
+    }
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
+    public int getCastingTimeTimer() {
+        return castingTimeTimer;
+    }
 
-	public CharacterStats getCombatStyle() {
-		return combatStyle;
-	}
+    public void setCastingTimeTimer(int castingTimeTimer) {
+        this.castingTimeTimer = castingTimeTimer;
+    }
 
-	public void setCombatStyle(CharacterStats combatStyle) {
-		this.combatStyle = combatStyle;
-	}
+    public boolean isChanneling() {
+        return channeling;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setChanneling(boolean channeling) {
+        this.channeling = channeling;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public boolean isSelectable() {
+        return selectable;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked(boolean unlocked) {
+        this.unlocked = unlocked;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public CharacterStats getCombatStyle() {
+        return combatStyle;
+    }
+
+    public void setCombatStyle(CharacterStats combatStyle) {
+        this.combatStyle = combatStyle;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -94,7 +94,7 @@ public class AbilityShopWindow implements Serializable {
         Handler.get().getPlayer().setAbilityPoints(10);
     }
 
-    public void setLastOpenedWindow(){
+    public void setLastOpenedWindow() {
         AbilityShopWindow.lastOpenedWindow = this;
     }
 
@@ -203,7 +203,7 @@ public class AbilityShopWindow implements Serializable {
         }
     }
 
-    public static void open(){
+    public static void open() {
         AbilityOverviewUI.exit();
         AbilityShopWindow.isOpen = true;
     }

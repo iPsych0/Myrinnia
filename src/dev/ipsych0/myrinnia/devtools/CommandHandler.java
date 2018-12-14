@@ -8,7 +8,6 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 class CommandHandler implements Serializable {
 

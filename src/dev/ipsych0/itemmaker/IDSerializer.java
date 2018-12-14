@@ -3,11 +3,12 @@ package dev.ipsych0.itemmaker;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 class IDSerializer {
 
-    static void saveIDs(){
+    static void saveIDs() {
         FileOutputStream f;
         ObjectOutputStream o;
         try {
@@ -28,7 +29,7 @@ class IDSerializer {
         FileInputStream fin;
         ObjectInputStream oin;
         try {
-            if(Files.notExists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))){
+            if (Files.notExists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))) {
                 saveIDs();
                 return new HashSet<>();
             }

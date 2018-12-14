@@ -1,14 +1,5 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
@@ -37,6 +28,13 @@ import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Creature {
 
@@ -309,13 +307,12 @@ public class Player extends Creature {
                     //Check melee auto attack
                     if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
-                    // Check magic auto attack
+                        // Check magic auto attack
                     else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
-                    }
-                    else if(Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)){
+                    } else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)) {
                         checkRanged(mouse);
-                    }else{
+                    } else {
                         System.err.println("Item: '" + Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName() + "' does not have a melee/magic/ranged weapon type assigned to it.");
                     }
                 }
@@ -669,10 +666,10 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if(AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (abilityTrainer != null && AbilityShopWindow.isOpen){
-            if( Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+        if (abilityTrainer != null && AbilityShopWindow.isOpen) {
+            if (Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
                 return true;
             }
         }
@@ -719,10 +716,10 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if(AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+        if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (abilityTrainer != null && AbilityShopWindow.isOpen){
-            if( Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+        if (abilityTrainer != null && AbilityShopWindow.isOpen) {
+            if (Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
                 return true;
             }
         }

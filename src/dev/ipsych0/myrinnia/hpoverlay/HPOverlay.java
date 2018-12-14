@@ -1,13 +1,7 @@
 package dev.ipsych0.myrinnia.hpoverlay;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.io.Serializable;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
-import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
@@ -18,6 +12,9 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.utils.Text;
+
+import java.awt.*;
+import java.io.Serializable;
 
 public class HPOverlay implements Serializable {
 
@@ -128,10 +125,10 @@ public class HPOverlay implements Serializable {
             g.drawImage(Assets.genericButton[0], abilitiesButton.x, abilitiesButton.y, abilitiesButton.width, abilitiesButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
-                if(ShopWindow.lastOpenedWindow != null){
+                if (ShopWindow.lastOpenedWindow != null) {
                     ShopWindow.lastOpenedWindow.exit();
                 }
-                if(AbilityShopWindow.lastOpenedWindow != null){
+                if (AbilityShopWindow.lastOpenedWindow != null) {
                     AbilityShopWindow.lastOpenedWindow.exit();
                 }
                 Handler.get().getBankUI().exit();

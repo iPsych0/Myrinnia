@@ -2,7 +2,10 @@ package dev.ipsych0.itemmaker;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 class Launcher {
 
@@ -12,7 +15,7 @@ class Launcher {
         IDGenerator idGenerator = IDGenerator.getInstance();
 
         // Check if file already exists.
-        if(Files.exists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))) {
+        if (Files.exists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))) {
             Set<Integer> ids = IDSerializer.loadIDs();
 
             // Load all item ID prefixes from the file names

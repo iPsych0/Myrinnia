@@ -8,9 +8,9 @@ package dev.ipsych0.myrinnia.items;
  * Mighty = power boost
  * Sturdy = defence boost
  * Resilient = vitality boost
- * Dexterous = attack speed boost 
+ * Dexterous = attack speed boost
  * Agile = movement speed boost
  */
 public enum ItemPrefix {
-	Incinerated, Venomous, Frostbitten, Restorative, Mighty, Sturdy, Resilient, Dexterous, Agile
+    Incinerated, Venomous, Frostbitten, Restorative, Mighty, Sturdy, Resilient, Dexterous, Agile
 }

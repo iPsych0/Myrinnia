@@ -1,14 +1,9 @@
 package dev.ipsych0.myrinnia.input;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.Serializable;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.PlayerHUD;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
-import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
@@ -24,7 +19,10 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.utils.Text;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 public class KeyManager implements KeyListener, Serializable {
 
@@ -181,10 +179,10 @@ public class KeyManager implements KeyListener, Serializable {
             }
 
             if (e.getKeyCode() == KeyEvent.VK_B) {
-                if(ShopWindow.lastOpenedWindow != null){
+                if (ShopWindow.lastOpenedWindow != null) {
                     ShopWindow.lastOpenedWindow.exit();
                 }
-                if(AbilityShopWindow.lastOpenedWindow != null){
+                if (AbilityShopWindow.lastOpenedWindow != null) {
                     AbilityShopWindow.lastOpenedWindow.exit();
                 }
                 Handler.get().getBankUI().exit();
