@@ -182,7 +182,7 @@ public class AbilityShopWindow implements Serializable {
 
         if (abilityPoints >= price) {
             Handler.get().getPlayer().setAbilityPoints(abilityPoints - price);
-            ability.setUnlocked(true);
+            Handler.get().getAbilityManager().getAllAbilities().get(ability.getId()).setUnlocked(true);
             Handler.get().sendMsg("Unlocked '" + ability.getName() + "'!");
             selectedSlot = null;
         } else {
