@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.abilityoverview;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.states.GameState;
@@ -22,6 +24,8 @@ public class AbilityOverviewUI {
 
     private Rectangle innerUI;
     private Rectangle exit;
+    private List<AbilitySlot> abilitySlots;
+    private List<Ability> displayedAbilities;
 
     public AbilityOverviewUI(){
         this.width = 460;
@@ -42,6 +46,14 @@ public class AbilityOverviewUI {
 
         innerUI = new Rectangle(x + 32, y + 96, width - 64, height - 128);
         exit = new Rectangle(x + width - 35, y + 10, 24, 24);
+
+        // Initially fill the list with Melee+Fire abilities by default
+        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(CharacterStats.Melee, CharacterStats.Fire);
+        abilitySlots = new ArrayList<>(displayedAbilities.size());
+        for(int i = 0; i < displayedAbilities.size(); i++){
+            abilitySlots.add(new AbilitySlot(displayedAbilities.get(i), x + 64, y + 128 + (i * 32)));
+        }
+
     }
 
     public void tick(){
@@ -75,6 +87,10 @@ public class AbilityOverviewUI {
                 if (button.getBounds().contains(mouse)) {
                     Text.drawString(g, button.getStat().toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font20);
                 }
+            }
+
+            for(AbilitySlot as : abilitySlots){
+                as.render(g);
             }
         }
     }
