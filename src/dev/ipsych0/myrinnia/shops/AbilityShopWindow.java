@@ -269,7 +269,7 @@ public class AbilityShopWindow implements Serializable {
             g.drawImage(Assets.genericButton[0], exitButton.x, exitButton.y, exitButton.width, exitButton.height, null);
         else
             g.drawImage(Assets.genericButton[1], exitButton.x, exitButton.y, exitButton.width, exitButton.height, null);
-        Text.drawString(g, "X", exitButton.x + 12, y + 10 + 12, true, Color.YELLOW, GameState.chatFont);
+        Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);
 
         // All button
         if (allButton.contains(mouse))

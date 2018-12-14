@@ -126,7 +126,7 @@ public class SkillsOverviewUI implements Serializable{
 				else {
 					g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
 				}
-				Text.drawString(g, "X", exit.x + 12, exit.y + 11, true, Color.YELLOW, GameState.chatFont);
+				Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
 				
 				if(selectedSkill == Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING)) {
 					if(Handler.get().getCraftingUI().getCraftingRecipeList().getListByCategory(selectedCategory).size() > maxPerScreen) {

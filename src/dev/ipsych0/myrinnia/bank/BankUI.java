@@ -336,12 +336,12 @@ public class BankUI implements Serializable {
                     Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
             }
 
-            if (exit.contains(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY()))
+            if (exit.contains(Handler.get().getMouse()))
                 g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
             else
                 g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
 
-            Text.drawString(g, "X", exit.x + 12, exit.y + 12, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
         }
     }
 

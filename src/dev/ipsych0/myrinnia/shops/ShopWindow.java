@@ -213,7 +213,7 @@ public class ShopWindow implements Serializable {
 				g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
 			else
 				g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
-			Text.drawString(g, "X", exit.x + 12, y + 10 + 12, true, Color.YELLOW, GameState.chatFont);
+			Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
 			for(ItemSlot is : itemSlots) {
 				
 				is.render(g);
