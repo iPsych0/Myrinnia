@@ -3,8 +3,10 @@ package dev.ipsych0.myrinnia.abilityoverview;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,8 +32,11 @@ public class AbilityOverviewUI implements Serializable {
     private List<Ability> displayedAbilities;
     private Ability currentSelectedAbility;
 
-    private CharacterStats lastCombatTab;
-    private CharacterStats lastElementTab;
+    private AbilityOverviewUIButton lastCombatTab;
+    private AbilityOverviewUIButton lastElementTab;
+
+    private AbilityTooltip abilityTooltip;
+    private static Color selectedColor = new Color(0, 255, 255, 62);
 
     public AbilityOverviewUI() {
         this.width = 460;
@@ -55,17 +60,21 @@ public class AbilityOverviewUI implements Serializable {
 
         // Initially fill the list with Melee+Fire abilities by default
         displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(CharacterStats.Melee, CharacterStats.Fire);
-        lastCombatTab = CharacterStats.Melee;
-        lastElementTab = CharacterStats.Fire;
+        lastCombatTab = uiButtons.get(0); // Melee
+        lastElementTab = uiButtons.get(3); // Fire
+
+        // Fill the slots
         abilitySlots = new ArrayList<>(displayedAbilities.size());
         for (int i = 0; i < displayedAbilities.size(); i++) {
             abilitySlots.add(new AbilitySlot(displayedAbilities.get(i), x + 64, y + 128 + (i * 32)));
         }
 
+        abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
     }
 
     public void tick() {
         if (isOpen) {
+            // Close when escape pressed
             if (Handler.get().getKeyManager().escape && escapePressed) {
                 escapePressed = false;
                 isOpen = false;
@@ -76,31 +85,36 @@ public class AbilityOverviewUI implements Serializable {
             Rectangle mouse = Handler.get().getMouse();
 
             for(AbilityOverviewUIButton uiButton : uiButtons){
+                // Change list of abilities when clicking a new category
                 if(uiButton.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
                     hasBeenPressed = false;
                     displayedAbilities.clear();
+                    // Handle combat style buttons
                     if(uiButton.getStat() == CharacterStats.Melee || uiButton.getStat() == CharacterStats.Ranged || uiButton.getStat() == CharacterStats.Magic) {
-                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(uiButton.getStat(), lastElementTab);
-                        lastCombatTab = uiButton.getStat();
+                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(uiButton.getStat(), lastElementTab.getStat());
+                        lastCombatTab = uiButton;
                     }else{
-                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(lastCombatTab, uiButton.getStat());
-                        lastElementTab = uiButton.getStat();
+                        // Handle element buttons
+                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(lastCombatTab.getStat(), uiButton.getStat());
+                        lastElementTab = uiButton;
                     }
                     updateSlots();
                 }
             }
 
             for (AbilitySlot as : abilitySlots) {
+                // Check for dragging an ability
                 if (as.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && currentSelectedAbility == null) {
                     hasBeenPressed = false;
                     if (as.getAbility().isUnlocked()) {
                         currentSelectedAbility = as.getAbility();
                     }
+                // If we were dragging and let go, check the slot to put the ability
                 } else if (currentSelectedAbility != null && !Handler.get().getMouseManager().isLeftPressed()) {
                     boolean alreadyHasAbility = false;
                     AbilitySlot foundSlot = null;
                     for (AbilitySlot hudSlot : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
-                        if (foundSlot == null) {
+                        if(hudSlot.getBounds().contains(mouse) && foundSlot == null){
                             foundSlot = hudSlot;
                         }
                         if (hudSlot.getAbility() != null && hudSlot.getAbility() == currentSelectedAbility) {
@@ -142,18 +156,22 @@ public class AbilityOverviewUI implements Serializable {
 
             for (AbilityOverviewUIButton button : uiButtons) {
                 button.render(g);
-                if (button.getBounds().contains(mouse)) {
-                    Text.drawString(g, button.getStat().toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font20);
-                }
             }
 
             for (AbilitySlot as : abilitySlots) {
                 as.render(g);
+                if(as.getBounds().contains(mouse)){
+                    abilityTooltip.render(g, as.getAbility());
+                }
             }
 
             if (currentSelectedAbility != null) {
                 currentSelectedAbility.render(g, Handler.get().getMouse().x, Handler.get().getMouse().y);
             }
+
+            g.setColor(selectedColor);
+            g.fillRoundRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height, 4, 4);
+            g.fillRoundRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height, 4, 4);
         }
     }
 
