@@ -295,7 +295,7 @@ public class BankUI implements Serializable {
     }
 
     public static void open(){
-        AbilityOverviewUI.isOpen = false;
+        AbilityOverviewUI.exit();
         BankUI.isOpen = true;
     }
 

@@ -204,7 +204,7 @@ public class AbilityShopWindow implements Serializable {
     }
 
     public static void open(){
-        AbilityOverviewUI.isOpen = false;
+        AbilityOverviewUI.exit();
         AbilityShopWindow.isOpen = true;
     }
 

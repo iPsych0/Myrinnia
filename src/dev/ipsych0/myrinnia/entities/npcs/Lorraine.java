@@ -76,7 +76,7 @@ public class Lorraine extends ShopKeeper {
                     break;
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    ShopWindow.isOpen = true;
+                    ShopWindow.open();
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;

@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class AbilityOverviewUI implements Serializable {
     private int x, y, width, height;
     private List<AbilityOverviewUIButton> uiButtons = new ArrayList<>();
     private Rectangle bounds;
+    private Rectangle clickableArea;
 
     public static boolean isOpen;
     public static boolean escapePressed;
@@ -44,6 +46,7 @@ public class AbilityOverviewUI implements Serializable {
         this.x = Handler.get().getWidth() / 2 - width / 2;
         this.y = Handler.get().getHeight() / 2 - height / 2;
         this.bounds = new Rectangle(x, y, width, height);
+        this.clickableArea = new Rectangle(bounds.x - 64, bounds.y - 64, width + 128, height + 128);
 
 
         uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 32, CharacterStats.Melee));
@@ -74,15 +77,13 @@ public class AbilityOverviewUI implements Serializable {
 
     public void tick() {
         if (isOpen) {
+            Rectangle mouse = Handler.get().getMouse();
+
             // Close when escape pressed
-            if (Handler.get().getKeyManager().escape && escapePressed) {
-                escapePressed = false;
-                isOpen = false;
-                hasBeenPressed = false;
+            if (Handler.get().getKeyManager().escape && escapePressed || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                exit();
                 return;
             }
-
-            Rectangle mouse = Handler.get().getMouse();
 
             for(AbilityOverviewUIButton uiButton : uiButtons){
                 // Change list of abilities when clicking a new category
@@ -139,6 +140,12 @@ public class AbilityOverviewUI implements Serializable {
         }
     }
 
+    public static void exit(){
+        escapePressed = false;
+        isOpen = false;
+        hasBeenPressed = false;
+    }
+
     public void render(Graphics g) {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
@@ -179,7 +186,7 @@ public class AbilityOverviewUI implements Serializable {
         return bounds;
     }
 
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
+    public Rectangle getClickableArea() {
+        return clickableArea;
     }
 }

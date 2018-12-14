@@ -325,7 +325,7 @@ public class CraftingUI implements Serializable{
 		QuestUI.renderingQuests = false;
 		SkillsUI.isOpen = false;
 		SkillsOverviewUI.isOpen = false;
-		AbilityOverviewUI.isOpen = false;
+		AbilityOverviewUI.exit();
 	}
 	
 	public void closeCraftingUI() {
