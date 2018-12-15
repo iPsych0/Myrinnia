@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.abilityhud;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
@@ -19,11 +20,13 @@ public class AbilitySlot implements Serializable {
     private int x, y;
     private Color cooldownColor = new Color(24, 24, 24, 192);
     private Color selectedColor = new Color(64, 64, 64, 192);
+    private Rectangle bounds;
 
     public AbilitySlot(Ability ability, int x, int y) {
         this.ability = ability;
         this.x = x;
         this.y = y;
+        this.bounds = new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
     }
 
     public void tick() {
@@ -31,7 +34,11 @@ public class AbilitySlot implements Serializable {
     }
 
     public void render(Graphics g, int slotNum) {
-        g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        if(bounds.contains(Handler.get().getMouse())) {
+            g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        }else{
+            g.drawImage(Assets.genericButton[1], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        }
         if (ability != null) {
             ability.render(g, x, y);
             if (ability.isSelectable() && ability.isSelected()) {
@@ -49,7 +56,11 @@ public class AbilitySlot implements Serializable {
     }
 
     public void render(Graphics g) {
-        g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        if(bounds.contains(Handler.get().getMouse())) {
+            g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        }else{
+            g.drawImage(Assets.genericButton[1], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        }
         if (ability != null) {
             ability.render(g, x, y);
             if (!ability.isUnlocked()) {
@@ -84,7 +95,7 @@ public class AbilitySlot implements Serializable {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+        return bounds;
     }
 
 

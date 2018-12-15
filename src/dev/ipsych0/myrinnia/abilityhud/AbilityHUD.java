@@ -2,7 +2,10 @@ package dev.ipsych0.myrinnia.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -24,6 +27,14 @@ public class AbilityHUD implements Serializable {
     public static boolean hasBeenPressed;
     public static boolean hasBeenTyped;
     public static char pressedKey;
+    public static boolean locked = true;
+    private static Ability selectedAbility;
+    private static AbilitySlot oldSlot;
+    private Rectangle lockButton;
+    private static Color lockedColor = new Color(148, 8, 0, 192),
+                         unlockedColor = new Color(58, 143, 0, 192),
+                         hoverLockedColor = new Color(192, 8, 0, 192),
+                         hoverUnlockedColor = new Color(58, 186, 0, 192);
 
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -42,6 +53,7 @@ public class AbilityHUD implements Serializable {
 
         abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
 
+        lockButton = new Rectangle(x + width, y, 16, 16);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
     }
@@ -80,28 +92,66 @@ public class AbilityHUD implements Serializable {
     }
 
     private void handleClickEvent(AbilitySlot slot) {
-        Ability selectedAbility = slot.getAbility();
-        if (selectedAbility != null) {
-            for (AbilitySlot as : slottedAbilities) {
-                if (as.getAbility() != null) {
-                    if (as.getAbility().isChanneling()) {
-                        return;
+        if (locked) {
+            Ability selectedAbility = slot.getAbility();
+            if (selectedAbility != null) {
+                for (AbilitySlot as : slottedAbilities) {
+                    if (as.getAbility() != null) {
+                        if (as.getAbility().isChanneling()) {
+                            return;
+                        }
+                    }
+                }
+                if (selectedAbility.isOnCooldown()) {
+                    Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
+                    return;
+                } else {
+                    if (selectedAbility.isSelectable()) {
+                        selectedAbility.setSelected(true);
+                    }
+                    if (!Handler.get().getAbilityManager().getActiveAbilities().contains(selectedAbility)) {
+                        Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
+                        selectedAbility.setCaster(Handler.get().getPlayer());
                     }
                 }
             }
-            if (selectedAbility.isOnCooldown()) {
-                Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
-                return;
-            } else {
-                if (selectedAbility.isSelectable()) {
-                    selectedAbility.setSelected(true);
-                }
-                if (!Handler.get().getAbilityManager().getActiveAbilities().contains(selectedAbility)) {
-                    Handler.get().getAbilityManager().getActiveAbilities().add(selectedAbility);
-                    selectedAbility.setCaster(Handler.get().getPlayer());
+        }
+    }
+
+    private void handleDrag(AbilitySlot abilitySlot) {
+        if (!locked) {
+            if(Handler.get().getMouseManager().isLeftPressed()) {
+                if (selectedAbility == null) {
+                    selectedAbility = abilitySlot.getAbility();
+                    abilitySlot.setAbility(null);
+                    oldSlot = abilitySlot;
+                    return;
                 }
             }
+            else if(!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null){
+                for(AbilitySlot as : slottedAbilities){
+                    if(as.getBounds().contains(Handler.get().getMouse())) {
+                        if (as.getAbility() == null) {
+                            as.setAbility(selectedAbility);
+                            selectedAbility = null;
+                        } else {
+                            oldSlot.setAbility(as.getAbility());
+                            as.setAbility(selectedAbility);
+                            selectedAbility = null;
+                        }
+                    }
+                }
+            }
+            hasBeenPressed = false;
         }
+    }
+
+    public static void unlock() {
+        AbilityHUD.locked = false;
+    }
+
+    public static void lock() {
+        AbilityHUD.locked = true;
     }
 
     public void tick() {
@@ -113,15 +163,23 @@ public class AbilityHUD implements Serializable {
             hasBeenTyped = false;
         }
 
+        if(lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
+            hasBeenPressed = false;
+            AbilityHUD.locked = !AbilityHUD.locked;
+        }
+
         // Tick the tooltip and other bars
         for (AbilitySlot as : slottedAbilities) {
             as.tick();
             if (as.getBounds().contains(mouse)) {
                 abilityTooltip.tick();
-                if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    handleClickEvent(as);
+                if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                    if (!Handler.get().getMouseManager().isDragged()) {
+                        handleClickEvent(as);
+                    }
                     hasBeenPressed = false;
                 }
+                handleDrag(as);
             }
         }
 //		hpBar.tick();
@@ -145,6 +203,32 @@ public class AbilityHUD implements Serializable {
                     abilityTooltip.render(g, as.getAbility());
                 }
             }
+        }
+
+        if (selectedAbility != null) {
+            selectedAbility.render(g, mouse.x, mouse.y);
+        }
+        if (lockButton.contains(mouse)) {
+            g.drawImage(Assets.genericButton[0], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
+        } else {
+            g.drawImage(Assets.genericButton[1], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
+        }
+        if(locked){
+            if (lockButton.contains(mouse)) {
+                g.setColor(hoverLockedColor);
+            } else {
+                g.setColor(lockedColor);
+            }
+            g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
+            Text.drawString(g, "L", lockButton.x + lockButton.width / 2 - 1, lockButton.y + lockButton.height / 2 + 1, true, Color.YELLOW, Assets.font14);
+        }else{
+            if (lockButton.contains(mouse)) {
+                g.setColor(hoverUnlockedColor);
+            } else {
+                g.setColor(unlockedColor);
+            }
+            g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
+            Text.drawString(g, "U", lockButton.x + lockButton.width / 2 - 1, lockButton.y + lockButton.height / 2 + 1, true, Color.YELLOW, Assets.font14);
         }
 //		hpBar.render(g);
 //		xpBar.render(g);
