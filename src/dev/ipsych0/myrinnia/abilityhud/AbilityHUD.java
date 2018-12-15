@@ -3,9 +3,7 @@ package dev.ipsych0.myrinnia.abilityhud;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemSlot;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -30,11 +28,12 @@ public class AbilityHUD implements Serializable {
     public static boolean locked = true;
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
-    private Rectangle lockButton;
+    private Rectangle lockButton, unlockButton;
     private static Color lockedColor = new Color(148, 8, 0, 192),
-                         unlockedColor = new Color(58, 143, 0, 192),
-                         hoverLockedColor = new Color(192, 8, 0, 192),
-                         hoverUnlockedColor = new Color(58, 186, 0, 192);
+            unlockedColor = new Color(58, 143, 0, 192),
+            hoverLockedColor = new Color(192, 8, 0, 192),
+            hoverUnlockedColor = new Color(58, 186, 0, 192);
+    private Rectangle bounds;
 
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -53,7 +52,9 @@ public class AbilityHUD implements Serializable {
 
         abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
 
-        lockButton = new Rectangle(x + width, y, 16, 16);
+        lockButton = new Rectangle(x + width + 1, y, 16, 16);
+        unlockButton = new Rectangle(x + width + 1, y + 16, 16, 16);
+        bounds = new Rectangle(x, y, width + 16, height);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
     }
@@ -120,17 +121,16 @@ public class AbilityHUD implements Serializable {
 
     private void handleDrag(AbilitySlot abilitySlot) {
         if (!locked) {
-            if(Handler.get().getMouseManager().isLeftPressed()) {
+            if (Handler.get().getMouseManager().isLeftPressed()) {
                 if (selectedAbility == null) {
                     selectedAbility = abilitySlot.getAbility();
                     abilitySlot.setAbility(null);
                     oldSlot = abilitySlot;
                     return;
                 }
-            }
-            else if(!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null){
-                for(AbilitySlot as : slottedAbilities){
-                    if(as.getBounds().contains(Handler.get().getMouse())) {
+            } else if (!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null) {
+                for (AbilitySlot as : slottedAbilities) {
+                    if (as.getBounds().contains(Handler.get().getMouse())) {
                         if (as.getAbility() == null) {
                             as.setAbility(selectedAbility);
                             selectedAbility = null;
@@ -163,9 +163,19 @@ public class AbilityHUD implements Serializable {
             hasBeenTyped = false;
         }
 
-        if(lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
+        if (lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            if(!locked){
+                Handler.get().sendMsg("Locked abilities.");
+            }
             hasBeenPressed = false;
-            AbilityHUD.locked = !AbilityHUD.locked;
+            AbilityHUD.locked = true;
+        }
+        else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            if(locked){
+                Handler.get().sendMsg("Unlocked abilities.");
+            }
+            hasBeenPressed = false;
+            AbilityHUD.locked = false;
         }
 
         // Tick the tooltip and other bars
@@ -208,28 +218,35 @@ public class AbilityHUD implements Serializable {
         if (selectedAbility != null) {
             selectedAbility.render(g, mouse.x, mouse.y);
         }
+
         if (lockButton.contains(mouse)) {
             g.drawImage(Assets.genericButton[0], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
         } else {
             g.drawImage(Assets.genericButton[1], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
         }
-        if(locked){
-            if (lockButton.contains(mouse)) {
-                g.setColor(hoverLockedColor);
-            } else {
-                g.setColor(lockedColor);
-            }
-            g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
-            Text.drawString(g, "L", lockButton.x + lockButton.width / 2 - 1, lockButton.y + lockButton.height / 2 + 1, true, Color.YELLOW, Assets.font14);
-        }else{
-            if (lockButton.contains(mouse)) {
-                g.setColor(hoverUnlockedColor);
-            } else {
-                g.setColor(unlockedColor);
-            }
-            g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
-            Text.drawString(g, "U", lockButton.x + lockButton.width / 2 - 1, lockButton.y + lockButton.height / 2 + 1, true, Color.YELLOW, Assets.font14);
+
+        if (unlockButton.contains(mouse)) {
+            g.drawImage(Assets.genericButton[0], unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
+        } else {
+            g.drawImage(Assets.genericButton[1], unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
         }
+
+        if (lockButton.contains(mouse)) {
+            g.setColor(hoverLockedColor);
+        } else {
+            g.setColor(lockedColor);
+        }
+        g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
+        g.drawImage(Assets.locked, lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
+
+        if (unlockButton.contains(mouse)) {
+            g.setColor(hoverUnlockedColor);
+        } else {
+            g.setColor(unlockedColor);
+        }
+        g.fillRoundRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, 2, 2);
+        g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
+
 //		hpBar.render(g);
 //		xpBar.render(g);
     }
@@ -259,7 +276,7 @@ public class AbilityHUD implements Serializable {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return bounds;
     }
 
 }

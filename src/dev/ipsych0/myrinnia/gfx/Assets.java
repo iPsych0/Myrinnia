@@ -131,6 +131,7 @@ public class Assets {
     // HP Overlay UI
     public static BufferedImage hpOverlay;
     public static BufferedImage hpOverlaySkillsIcon, hpOverlayCharacterIcon, hpOverlayAbilitiesIcon, hpOverlayQuestsIcon, hpOverlayMapIcon;
+    public static BufferedImage locked, unlocked;
 
     public static BufferedImage[] whirlpool;
 
@@ -288,6 +289,9 @@ public class Assets {
         genericButton = new BufferedImage[2];
         genericButton[0] = ui_sheet.imageCrop(9, 0, width * 7, height * 3);
         genericButton[1] = ui_sheet.imageCrop(17, 0, width * 7, height * 3);
+
+        locked = ui_sheet.imageCrop(0, 1, 16, 16);
+        unlocked = ui_sheet.imageCrop(1, 1, 16, 16);
 
         /*
          * Item Sprites
