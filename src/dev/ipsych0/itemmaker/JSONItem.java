@@ -33,6 +33,7 @@ class JSONItem implements Serializable {
     static boolean pickUpKeyPressed = false;
     int price;
     boolean stackable;
+    boolean equippable;
     int respawnTimer = 10800;
 
     public JSONItem(BufferedImage texture, String name, ItemRarity itemRarity,
@@ -48,6 +49,7 @@ class JSONItem implements Serializable {
         this.itemTypes = itemTypes;
         this.requirements = requirements;
         this.equipSlot = equipSlot;
+        this.equippable = (equipSlot != EquipSlot.None);
         this.power = power;
         this.defence = defence;
         this.vitality = vitality;

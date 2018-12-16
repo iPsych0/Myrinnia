@@ -29,10 +29,10 @@ public class AbilityHUD implements Serializable {
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
     private Rectangle lockButton, unlockButton;
-    private static Color lockedColor = new Color(148, 8, 0, 192),
-            unlockedColor = new Color(58, 143, 0, 192),
-            hoverLockedColor = new Color(192, 8, 0, 192),
-            hoverUnlockedColor = new Color(58, 186, 0, 192);
+    private static Color lockedColor = new Color(192, 8, 0, 192),
+            unlockedColor = new Color(8, 148, 0, 192),
+            hoverLockedColor = new Color(250, 8, 0, 192),
+            hoverUnlockedColor = new Color(8, 192, 0, 192);
     private Rectangle bounds;
 
     public AbilityHUD() {

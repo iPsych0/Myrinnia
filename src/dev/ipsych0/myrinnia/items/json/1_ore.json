@@ -29,5 +29,6 @@
   "pickedUp": false,
   "price": 5,
   "stackable": true,
+  "equippable": false,
   "respawnTimer": 10800
 }
