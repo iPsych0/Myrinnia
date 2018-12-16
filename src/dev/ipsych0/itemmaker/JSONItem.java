@@ -1,6 +1,6 @@
 package dev.ipsych0.itemmaker;
 
-import dev.ipsych0.myrinnia.items.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;

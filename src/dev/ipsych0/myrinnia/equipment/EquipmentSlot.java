@@ -1,6 +1,8 @@
-package dev.ipsych0.myrinnia.items;
+package dev.ipsych0.myrinnia.equipment;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ItemStack;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

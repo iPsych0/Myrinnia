@@ -1,8 +1,11 @@
-package dev.ipsych0.myrinnia.items;
+package dev.ipsych0.myrinnia.equipment;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ItemRarity;
+import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.items.ItemStack;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

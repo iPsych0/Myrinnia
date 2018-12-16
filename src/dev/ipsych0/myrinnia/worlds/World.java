@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.items.EquipmentWindow;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.quests.QuestManager;

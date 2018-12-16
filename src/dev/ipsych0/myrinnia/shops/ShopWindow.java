@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.shops;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.*;
 import dev.ipsych0.myrinnia.ui.TextBox;
