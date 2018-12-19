@@ -300,16 +300,15 @@ public abstract class Creature extends Entity {
 
     }
 
-    /**
-     * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
-     */
-    protected void combatStateManager() {
+    protected void findPath(){
+        if(state == CombatState.BACKTRACK){
+            nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+                    (int) Math.round(((xSpawn + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+        }
+        else {
+            int playerX = (int) Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32;
+            int playerY = (int) Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 
-        int playerX = (int) Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32;
-        int playerY = (int) Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
-
-        if (damaged) {
-            state = CombatState.PATHFINDING;
             if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
                 nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
                         (int) Math.round(((playerX + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
@@ -318,18 +317,20 @@ public abstract class Creature extends Entity {
                         playerX, playerY);
             }
         }
+    }
+
+    /**
+     * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
+     */
+    protected void combatStateManager() {
+
+        if (damaged) {
+            state = CombatState.PATHFINDING;
+        }
 
         // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
         if (Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
-
-            if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                        (int) Math.round(((playerX + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
-            } else {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                        playerX, playerY);
-            }
         }
 
         // If the Creature was not following or attacking the player, move around randomly.
@@ -342,14 +343,6 @@ public abstract class Creature extends Entity {
         else if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
                 !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.PATHFINDING;
-
-            if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                        (int) Math.round(((playerX + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
-            } else {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                        playerX, playerY);
-            }
         }
 
         // If the player has moved out of the aggro box and out of the A* map,
@@ -374,15 +367,12 @@ public abstract class Creature extends Entity {
 
         // If the Creature was following the player but he moved out of the A* map, backtrack.
         if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
-            nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                    (int) Math.round(((xSpawn + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+            state = CombatState.BACKTRACK;
         }
 
-        // If we have a path to follow and there are nodes left, followed the nodes.
-        if (nodes != null) {
-            if (nodes.size() != 0) {
-                followAStar(nodes);
-            }
+        if(state == CombatState.PATHFINDING || state == CombatState.BACKTRACK){
+            findPath();
+            followAStar(nodes);
         }
     }
 
