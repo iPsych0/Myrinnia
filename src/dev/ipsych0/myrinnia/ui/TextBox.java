@@ -161,8 +161,8 @@ public class TextBox implements KeyListener, Serializable {
                         sb.deleteCharAt(index - 1);
                         index--;
                         charactersTyped = sb.toString();
-                        return;
                     }
+                    return;
                 }
 
                 // If numbersOnly is true, only digits allowed
@@ -174,8 +174,6 @@ public class TextBox implements KeyListener, Serializable {
                             sb.append(e.getKeyChar());
                             index++;
                             charactersTyped = sb.toString();
-                        } else {
-                            return;
                         }
                     }
                 } else {
@@ -184,10 +182,7 @@ public class TextBox implements KeyListener, Serializable {
                         sb.append(e.getKeyChar());
                         index++;
                         charactersTyped = sb.toString();
-                    } else {
-                        return;
                     }
-
                 }
             }
         } else {
