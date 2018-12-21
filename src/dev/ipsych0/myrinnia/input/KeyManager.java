@@ -1,8 +1,8 @@
 package dev.ipsych0.myrinnia.input;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
+import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
@@ -19,7 +19,6 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -77,25 +76,6 @@ public class KeyManager implements KeyListener, Serializable {
             // UI keys
             escape = keys[KeyEvent.VK_ESCAPE];
         }
-
-
-//		for(int i = 0; i < keys.length; i++){
-//			if(cantPress[i] && !keys[i]){
-//				cantPress[i] = false;
-//			}else if(justPressed[i]){
-//				cantPress[i] = true;
-//				justPressed[i] = false;
-//			}
-//			if(!cantPress[i] && keys[i]){
-//				justPressed[i] = true;
-//			}
-//		}
-//		
-//		if(keyJustPressed(KeyEvent.VK_E)){
-//			// Maybe hier optimaliseren van interfaces
-//		}
-
-
     }
 
     @Override
@@ -193,7 +173,7 @@ public class KeyManager implements KeyListener, Serializable {
 
             // Toggle dev tool window
             if (e.getKeyCode() == KeyEvent.VK_T) {
-                if(!DevToolUI.isOpen){
+                if (!DevToolUI.isOpen) {
                     TextBox.focus = true;
                     typingFocus = true;
                 }
@@ -236,19 +216,8 @@ public class KeyManager implements KeyListener, Serializable {
         }
     }
 
-    public boolean keyJustPressed(int keyCode) {
-        if (keyCode < 0 || keyCode >= keys.length) {
-            return false;
-        }
-        return justPressed[keyCode];
-    }
-
-    public boolean isTextBoxTyping() {
-        return typingFocus;
-    }
-
     public void setTextBoxTyping(boolean textBoxTyping) {
-        this.typingFocus = textBoxTyping;
+        KeyManager.typingFocus = textBoxTyping;
     }
 
     public int getLastUIKeyPressed() {

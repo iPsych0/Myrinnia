@@ -54,7 +54,7 @@ public class Game implements Runnable, Serializable {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             double width = screenSize.getWidth();
             double height = screenSize.getHeight();
-            game = new Game("Elements of Myrinnia Pre-Alpha Development v0.7", (int) width, (int) height);
+            game = new Game("Elements of Myrinnia Pre-Alpha Development v0.8", (int) width, (int) height);
         }
         return game;
     }

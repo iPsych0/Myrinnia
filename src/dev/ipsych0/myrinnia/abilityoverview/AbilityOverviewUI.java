@@ -31,6 +31,7 @@ public class AbilityOverviewUI implements Serializable {
     private List<AbilitySlot> abilitySlots;
     private List<Ability> displayedAbilities;
     private Ability currentSelectedAbility;
+    private static final int MAX_SLOTS_VERTICAL = 9;
 
     private AbilityOverviewUIButton lastCombatTab;
     private AbilityOverviewUIButton lastElementTab;
@@ -66,9 +67,7 @@ public class AbilityOverviewUI implements Serializable {
 
         // Fill the slots
         abilitySlots = new ArrayList<>(displayedAbilities.size());
-        for (int i = 0; i < displayedAbilities.size(); i++) {
-            abilitySlots.add(new AbilitySlot(displayedAbilities.get(i), x + 64, y + 128 + (i * 32)));
-        }
+        updateSlots();
 
         abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
     }
@@ -133,8 +132,36 @@ public class AbilityOverviewUI implements Serializable {
 
     private void updateSlots() {
         abilitySlots = new ArrayList<>(displayedAbilities.size());
-        for (int i = 0; i < displayedAbilities.size(); i++) {
-            abilitySlots.add(new AbilitySlot(displayedAbilities.get(i), x + 64, y + 128 + (i * 32)));
+        int index = 0;
+        double verticalColumns = Math.ceil((double)displayedAbilities.size() / (double)MAX_SLOTS_VERTICAL);
+        if(abilitySlots.size() > verticalColumns * MAX_SLOTS_VERTICAL){
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                System.err.println("TODO: Add page browsing in Ability Window UI when there are more than 99 matches!");
+                System.exit(1);
+            }
+        }
+        for (int i = 0; i < verticalColumns; i++) {
+            // If we've reached the last column
+            if(i == verticalColumns - 1){
+                // If we have less than the max number of slots for that column, only fill the remaining ones
+                if(displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
+                    for (int j = 0; j < displayedAbilities.size() % MAX_SLOTS_VERTICAL; j++) {
+                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                    }
+                    // Otherwise, fill to the vertical max
+                }else{
+                    for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
+                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                    }
+                }
+                // For the other columns, fill them to the vertical max
+            }else {
+                for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
+                    abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                }
+            }
         }
     }
 

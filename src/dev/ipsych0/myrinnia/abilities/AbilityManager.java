@@ -30,7 +30,6 @@ public class AbilityManager implements Serializable {
     /*
      * Abilities (maybe via file inladen)
      */
-
     public AbilityManager() {
         this.abilityHUD = new AbilityHUD();
         try {
