@@ -121,7 +121,7 @@ public class AStarMap implements Serializable {
 
         // If the goal node is standing on a non-walkable tile
         if (!nodes[goalX][goalY].isWalkable()) {
-			creature.setState(CombatState.BACKTRACK);
+            creature.setState(CombatState.BACKTRACK);
             goalX = (int) (xSpawn / 32 - x / 32);
             goalY = (int) (ySpawn / 32 - y / 32);
         }

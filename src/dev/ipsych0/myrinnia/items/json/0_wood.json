@@ -3,7 +3,7 @@
     "CRAFTING_MATERIAL"
   ],
   "itemRarity": "Common",
-  "name": "wood",
+  "name": "Wood",
   "id": 0,
   "equipSlot": "None",
   "power": 0,
@@ -29,5 +29,6 @@
   "pickedUp": false,
   "price": 5,
   "stackable": true,
+  "equippable": false,
   "respawnTimer": 10800
 }

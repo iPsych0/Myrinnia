@@ -1,16 +1,8 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingUI;
@@ -21,8 +13,8 @@ import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.EquipSlot;
-import dev.ipsych0.myrinnia.items.EquipmentWindow;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
@@ -36,6 +28,13 @@ import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Creature {
 
@@ -78,6 +77,7 @@ public class Player extends Creature {
     public static boolean mouseMoved = false;
     private float xSpawn, ySpawn;
 
+    // Entities we can interact with, with different functions
     private Entity closestEntity;
     private ShopKeeper shopKeeper;
     private AbilityTrainer abilityTrainer;
@@ -92,7 +92,6 @@ public class Player extends Creature {
         super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 
         // Player combat/movement settings:
-        setNpc(false);
 
         xSpawn = 5152.0f;
         ySpawn = 5600.0f;
@@ -208,10 +207,12 @@ public class Player extends Creature {
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
                             shopKeeper = (ShopKeeper) getClosestEntity();
+                            shopKeeper.getShopWindow().setLastShopWindow();
                         } else if (closestEntity instanceof Banker) {
                             bankEntity = (Banker) getClosestEntity();
                         } else if (closestEntity instanceof AbilityTrainer) {
                             abilityTrainer = (AbilityTrainer) getClosestEntity();
+                            abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
                         }
                     } else {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
@@ -297,7 +298,7 @@ public class Player extends Creature {
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
                 if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
-                    for (AbilitySlot as : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()) {
+                    for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
                         if (as.getAbility() != null) {
                             if (as.getAbility().isChanneling() || as.getAbility().isSelected())
                                 return;
@@ -306,13 +307,12 @@ public class Player extends Creature {
                     //Check melee auto attack
                     if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
-                    // Check magic auto attack
+                        // Check magic auto attack
                     else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
-                    }
-                    else if(Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)){
+                    } else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)) {
                         checkRanged(mouse);
-                    }else{
+                    } else {
                         System.err.println("Item: '" + Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName() + "' does not have a melee/magic/ranged weapon type assigned to it.");
                     }
                 }
@@ -664,10 +664,12 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (abilityTrainer != null && AbilityShopWindow.isOpen){
-            if( Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+        if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+            return true;
+        if (abilityTrainer != null && AbilityShopWindow.isOpen) {
+            if (Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
                 return true;
             }
         }
@@ -712,10 +714,12 @@ public class Player extends Creature {
             return true;
         if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (Handler.get().getAbilityManager().getPlayerHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+        if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (abilityTrainer != null && AbilityShopWindow.isOpen){
-            if( Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)){
+        if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+            return true;
+        if (abilityTrainer != null && AbilityShopWindow.isOpen) {
+            if (Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
                 return true;
             }
         }

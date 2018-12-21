@@ -1,12 +1,11 @@
 package dev.ipsych0.myrinnia.abilities;
 
-import java.awt.Graphics;
-
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+
+import java.awt.*;
 
 public class NimbleFeetAbility extends Ability {
 
@@ -23,7 +22,6 @@ public class NimbleFeetAbility extends Ability {
                              double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
-        price = 2;
     }
 
     @Override
@@ -35,14 +33,14 @@ public class NimbleFeetAbility extends Ability {
     public void cast() {
         if (!initialBoostDone) {
             baseMovementBoost = 1.0f;
-            boostTime = 20 * 60;
+            boostTime = 5 * 60;
             getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
             initialBoostDone = true;
         }
         boostTimeTimer++;
         if (boostTimeTimer >= boostTime) {
-            if (getCaster().getSpeed() - baseMovementBoost < Creature.DEFAULT_SPEED + 3.0f)
-                getCaster().setSpeed(Creature.DEFAULT_SPEED + 3.0f);
+            if (getCaster().getSpeed() - baseMovementBoost <= Creature.DEFAULT_SPEED + 1.0f)
+                getCaster().setSpeed(Creature.DEFAULT_SPEED + 1.0f);
             else
                 getCaster().setSpeed(getCaster().getSpeed() - baseMovementBoost);
 

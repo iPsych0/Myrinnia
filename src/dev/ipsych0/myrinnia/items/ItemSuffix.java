@@ -9,5 +9,5 @@ package dev.ipsych0.myrinnia.items;
  */
 
 public enum ItemSuffix {
-	of_the_Elf, of_the_Dwarf, of_the_Human, of_the_Nomad, of_the_Warmonger
+    of_the_Elf, of_the_Dwarf, of_the_Human, of_the_Nomad, of_the_Warmonger
 }

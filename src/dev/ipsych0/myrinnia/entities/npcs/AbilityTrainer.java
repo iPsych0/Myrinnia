@@ -31,21 +31,20 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
         this.abilityShopWindow = abilityShopWindow;
     }
 
-    public void resetSkillPoints(){
-        if(Handler.get().playerHasItem(Item.coins, resetCost)){
+    public void resetSkillPoints() {
+        if (Handler.get().playerHasItem(Item.coins, resetCost)) {
             Handler.get().removeItem(Item.coins, resetCost);
-            for(CharacterStats stat : CharacterStats.values()){
-                if(stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
+            for (CharacterStats stat : CharacterStats.values()) {
+                if (stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
                     Handler.get().getCharacterUI().addBaseStatPoints(stat.getLevel());
-                }
-                else{
+                } else {
                     Handler.get().getCharacterUI().addElementalStatPoints(stat.getLevel());
                 }
                 stat.setLevel(0);
             }
             resetCost *= 2;
             Handler.get().sendMsg("Your Skill Points have been reset.");
-        }else{
+        } else {
             Handler.get().sendMsg("You don't have enough gold to reset your Skill Points.");
         }
     }

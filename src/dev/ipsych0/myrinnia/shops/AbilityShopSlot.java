@@ -22,17 +22,17 @@ public class AbilityShopSlot implements Serializable {
         this.bounds = new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
     }
 
-    public void tick(){
+    public void tick() {
 
     }
 
-    public void render(Graphics g){
-        if(hovering)
+    public void render(Graphics g) {
+        if (hovering)
             g.drawImage(Assets.genericButton[0], x, y, 32, 32, null);
         else
             g.drawImage(Assets.genericButton[1], x, y, 32, 32, null);
         ability.render(g, x, y);
-        if(ability.isUnlocked()){
+        if (ability.isUnlocked()) {
             g.setColor(unlockedColor);
             g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
         }

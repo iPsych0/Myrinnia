@@ -1,7 +1,7 @@
 package dev.ipsych0.itemmaker;
 
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.items.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -76,7 +76,7 @@ class Window extends JFrame {
             // Check if our list of IDs is still valid, so we will always generate a unique ID
 //            IDSerializer.validateIDs();
 
-            if(nameInput.getText().isEmpty()){
+            if (nameInput.getText().isEmpty()) {
                 System.err.println("Please fill in a name.");
                 return;
             }
@@ -103,7 +103,7 @@ class Window extends JFrame {
 
             if (equippable) {
                 if (equipSlotDropDown.getSelectedItem() == null || powerInput.getText().isEmpty() || defenceInput.getText().isEmpty() ||
-                       vitalityInput.getText().isEmpty() || attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
+                        vitalityInput.getText().isEmpty() || attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
                     System.err.println("Please fill in -all- equipment stats.");
                     return;
                 }

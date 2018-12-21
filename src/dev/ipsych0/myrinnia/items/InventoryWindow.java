@@ -1,19 +1,18 @@
 package dev.ipsych0.myrinnia.items;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.utils.Text;
+
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.bank.BankUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
-import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.utils.Text;
 
 public class InventoryWindow implements Serializable {
 
@@ -472,29 +471,29 @@ public class InventoryWindow implements Serializable {
         return -1;
     }
 
-    public void giveItem(Item item, int amount){
+    public void giveItem(Item item, int amount) {
         int playerX = (int) Handler.get().getPlayer().getX();
         int playerY = (int) Handler.get().getPlayer().getY();
-        if(!item.isStackable()) {
-            if(findFreeSlot(item) == -1) {
-                if(amount >= 1) {
+        if (!item.isStackable()) {
+            if (findFreeSlot(item) == -1) {
+                if (amount >= 1) {
                     Handler.get().dropItem(item, amount, playerX, playerY);
-                    if(amount != 1)
-                        giveItem(item, (amount-1));
+                    if (amount != 1)
+                        giveItem(item, (amount - 1));
                     else
                         Handler.get().sendMsg("The item(s) were dropped to the floor.");
                 }
-            } else{
-                if(amount >= 1) {
+            } else {
+                if (amount >= 1) {
                     getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
-                    giveItem(item, (amount-1));
+                    giveItem(item, (amount - 1));
                 }
             }
-        }else {
-            if(findFreeSlot(item) == -1) {
+        } else {
+            if (findFreeSlot(item) == -1) {
                 Handler.get().dropItem(item, amount, playerX, playerY);
                 Handler.get().sendMsg("The item(s) were dropped to the floor.");
-            } else{
+            } else {
                 getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
             }
         }

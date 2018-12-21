@@ -1,7 +1,7 @@
 package dev.ipsych0.itemmaker;
 
 import com.google.gson.Gson;
-import dev.ipsych0.myrinnia.items.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -29,12 +29,12 @@ class JSONWriter {
         // Create the JSON String
         String json = gson.toJson(item);
 
-        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/items/json/" + name.replaceAll(" ","_") + ".json"))) {
-            System.err.println("File '" + name.replaceAll(" ","_") + ".json' already exists.");
+        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/items/json/" + name.replaceAll(" ", "_") + ".json"))) {
+            System.err.println("File '" + name.replaceAll(" ", "_") + ".json' already exists.");
             return;
         }
         // Write the JSON file
-        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.replaceAll(" ","_") + ".json")) {
+        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.replaceAll(" ", "_") + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();

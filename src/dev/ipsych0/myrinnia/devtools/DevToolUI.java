@@ -5,9 +5,11 @@ import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class DevToolUI {
+public class DevToolUI implements Serializable {
 
+    private static final long serialVersionUID = 518181399399230861L;
     private static int x, y, width, height;
     public static boolean isOpen = false;
     private static TextBox textBox;
@@ -27,7 +29,7 @@ public class DevToolUI {
 
     public void tick() {
         if (isOpen) {
-            if(!initialized) {
+            if (!initialized) {
                 textBox.setKeyListeners();
                 initialized = true;
             }
@@ -60,15 +62,16 @@ public class DevToolUI {
 
     /**
      * Performs the mod command
+     *
      * @param command - the command written in the command line in-game
      */
-    public void performAction(String command){
+    public void performAction(String command) {
         String[] commands = command.split(" ");
         Commands firstCommand = null;
-        try{
+        try {
             firstCommand = Commands.valueOf(commands[0].toUpperCase());
-        }catch (Exception e){
-            Handler.get().sendMsg("'"+commands[0] + "' is not a command.");
+        } catch (Exception e) {
+            Handler.get().sendMsg("'" + commands[0] + "' is not a command.");
             return;
         }
         commandHandler.handle(commands, firstCommand);
