@@ -39,11 +39,11 @@ public class Island extends World {
 
         entityManager.addEntity(new Rock(5280, 5536));
 
-//		entityManager.addEntity(new Scorpion(handler, 4960, 5700));
+//		entityManager.addEntity(new Scorpion(4960, 5700));
         entityManager.addEntity(new Scorpion(4640, 5740));
-//		entityManager.addEntity(new Scorpion(handler, 4600, 5740));
-//		entityManager.addEntity(new Scorpion(handler, 4640, 5780));
-//		entityManager.addEntity(new Scorpion(handler, 4600, 5780));
+//		entityManager.addEntity(new Scorpion(4600, 5740));
+//		entityManager.addEntity(new Scorpion(4640, 5780));
+//		entityManager.addEntity(new Scorpion(4600, 5780));
 
         entityManager.addEntity(new TeleportShrine(5056, 5532));
         entityManager.addEntity(new AbilityMaster(5088, 5532));

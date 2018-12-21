@@ -19,6 +19,7 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -192,10 +193,12 @@ public class KeyManager implements KeyListener, Serializable {
 
             // Toggle dev tool window
             if (e.getKeyCode() == KeyEvent.VK_T) {
+                if(!DevToolUI.isOpen){
+                    TextBox.focus = true;
+                    typingFocus = true;
+                }
                 DevToolUI.isOpen = !DevToolUI.isOpen;
                 TextBox.isOpen = !TextBox.isOpen;
-                TextBox.focus = !TextBox.focus;
-                typingFocus = !typingFocus;
             }
         }
     }
