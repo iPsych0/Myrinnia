@@ -1,11 +1,7 @@
 package dev.ipsych0.myrinnia;
 
-import java.awt.Rectangle;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.Random;
-
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -19,8 +15,7 @@ import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.items.EquipSlot;
-import dev.ipsych0.myrinnia.items.EquipmentWindow;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -42,6 +37,11 @@ import dev.ipsych0.myrinnia.worlds.Island;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.Random;
 
 public class Handler implements Serializable {
 
@@ -67,6 +67,7 @@ public class Handler implements Serializable {
     private AbilityManager abilityManager;
     private RecapManager recapManager;
     private DevToolUI devToolUI;
+    private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
     public static String initialWorldPath = "res/worlds/island.tmx";
 
@@ -105,9 +106,10 @@ public class Handler implements Serializable {
         characterUI = new CharacterUI();
         hpOverlay = new HPOverlay();
         bankUI = new BankUI();
-        abilityManager = new AbilityManager();
         recapManager = new RecapManager();
         devToolUI = new DevToolUI();
+        abilityManager = new AbilityManager();
+        abilityOverviewUI = new AbilityOverviewUI();
 
 
         // Set the starting world
@@ -160,22 +162,30 @@ public class Handler implements Serializable {
      */
     public boolean hasQuestReqs(QuestList quest) {
         Quest q = getQuest(quest);
+        boolean hasAllRequirements = true;
+
         for (int i = 0; i < q.getRequirements().length; i++) {
             // Check skill requirements
             if (q.getRequirements()[i].getSkill() != null) {
                 if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
-                    return false;
+                    hasAllRequirements = false;
                 }
             }
             // Check quest requirements
             else if (q.getRequirements()[i].getQuest() != null) {
                 if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
-                    return false;
+                    hasAllRequirements = false;
                 }
+                // Check miscellaneous requirements
+            } else if (!q.getRequirements()[i].isTaskDone()) {
+                hasAllRequirements = false;
             }
         }
-        // TODO: ADD CHECK FOR MISCELLANEOUS REQUIREMENTS (DESCRIPTION)
-        return true;
+
+        if (!hasAllRequirements)
+            sendMsg("You do not meet the requirements to start " + q.getQuestName() + ".");
+
+        return hasAllRequirements;
     }
 
     public Rectangle getMouse() {
@@ -211,19 +221,14 @@ public class Handler implements Serializable {
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {
-        SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
-        return resource;
+        return skillsUI.getSkill(skill).getResourceByItem(item);
     }
 
 
     public boolean playerHasSkillLevel(SkillsList skill, Item item) {
         SkillResource resource = skillsUI.getSkill(skill).getResourceByItem(item);
         if (resource != null) {
-            if (skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement()) {
-                return true;
-            } else {
-                return false;
-            }
+            return skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement();
         }
         return false;
     }
@@ -238,14 +243,11 @@ public class Handler implements Serializable {
      * @param item - The resulting item of the recipe to be unlocked
      */
     public void discoverRecipe(Item item) {
-        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(this, true);
+        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(true);
     }
 
     public boolean questStarted(QuestList quest) {
-        if (questManager.getQuestMap().get(quest).getState() == QuestState.NOT_STARTED)
-            return false;
-
-        return true;
+        return questManager.getQuestMap().get(quest).getState() != QuestState.NOT_STARTED;
     }
 
     public Quest getQuest(QuestList quest) {
@@ -275,7 +277,7 @@ public class Handler implements Serializable {
      * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
-        getWorld().getItemManager().addItem((item.createItem(x, y, amount)));
+        dropItem(item, amount, x, y, true);
     }
 
     public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
@@ -493,4 +495,11 @@ public class Handler implements Serializable {
         this.devToolUI = devToolUI;
     }
 
+    public AbilityOverviewUI getAbilityOverviewUI() {
+        return abilityOverviewUI;
+    }
+
+    public void setAbilityOverviewUI(AbilityOverviewUI abilityOverviewUI) {
+        this.abilityOverviewUI = abilityOverviewUI;
+    }
 }

@@ -19,5 +19,5 @@
   "selected": false,
   "unlocked": false,
   "price": 2,
-  "className": "dev.ipsych0.myrinnia.abilities.Nimble FeetAbility"
+  "className": "dev.ipsych0.myrinnia.abilities.NimbleFeetAbility"
 }

@@ -1,13 +1,13 @@
 package dev.ipsych0.itemmaker;
 
-import dev.ipsych0.myrinnia.items.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.Serializable;
 
 class JSONItem implements Serializable {
 
@@ -33,6 +33,7 @@ class JSONItem implements Serializable {
     static boolean pickUpKeyPressed = false;
     int price;
     boolean stackable;
+    boolean equippable;
     int respawnTimer = 10800;
 
     public JSONItem(BufferedImage texture, String name, ItemRarity itemRarity,
@@ -40,7 +41,7 @@ class JSONItem implements Serializable {
                     int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
 
         this.texture = texture;
-        this.name = name.substring(0,1).toUpperCase() + name.substring(1);
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
         this.id = IDGenerator.getInstance().getNextId();
         this.itemRarity = itemRarity;
         this.price = price;
@@ -48,6 +49,7 @@ class JSONItem implements Serializable {
         this.itemTypes = itemTypes;
         this.requirements = requirements;
         this.equipSlot = equipSlot;
+        this.equippable = (equipSlot != EquipSlot.None);
         this.power = power;
         this.defence = defence;
         this.vitality = vitality;

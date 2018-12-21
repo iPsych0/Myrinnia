@@ -19,5 +19,5 @@
   "selected": false,
   "unlocked": false,
   "price": 4,
-  "className": "dev.ipsych0.myrinnia.abilities.Mend WoundsAbility"
+  "className": "dev.ipsych0.myrinnia.abilities.MendWoundsAbility"
 }

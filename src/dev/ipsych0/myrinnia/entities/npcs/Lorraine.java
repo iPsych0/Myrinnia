@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemStack;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class Lorraine extends ShopKeeper {
 
@@ -76,12 +76,11 @@ public class Lorraine extends ShopKeeper {
                     break;
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    ShopWindow.isOpen = true;
+                    ShopWindow.open();
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;
-                }
-                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;

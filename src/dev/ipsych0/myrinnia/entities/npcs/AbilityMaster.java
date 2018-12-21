@@ -2,10 +2,8 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
@@ -22,7 +20,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?","Leave."};
+    private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?", "Leave."};
     private String[] secondDialogue = {"I can reset your Skill Points for a fee of " + AbilityTrainer.resetCost + " gold."};
     private String[] thirdDialogue = {"Reset points (" + AbilityTrainer.resetCost + " gold).", "Never mind."};
 
@@ -31,13 +29,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
         abilities = new ArrayList<>();
 
-        for(AbilitySlot a : Handler.get().getAbilityManager().getPlayerHUD().getSlottedAbilities()){
-            if(a.getAbility() != null) {
-                abilities.add(a.getAbility());
-            }
-        }
-
-
+        abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
 
         abilityShopWindow = new AbilityShopWindow(abilities);
 
@@ -92,15 +84,12 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     break;
                 }
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    if(Handler.get().getQuest(QuestList.AMysteriousFinding).getState() != Quest.QuestState.COMPLETED){
-                        Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
-                    }
-                    AbilityShopWindow.isOpen = true;
+                    Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
+                    AbilityShopWindow.open();
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;
-                }
-                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     speakingTurn++;
                     chatDialogue = new ChatDialogue(secondDialogue);
                     break;
@@ -123,8 +112,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;
-                }
-                else if (chatDialogue.getChosenOption().getOptionID() == 1) {
+                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     chatDialogue = null;
                     speakingTurn = 1;
                     break;

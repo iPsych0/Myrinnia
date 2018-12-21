@@ -1,33 +1,32 @@
 package dev.ipsych0.myrinnia.worlds;
 
 public enum Zone {
-	
-	Island("Island","myrinnia.wav"), IslandUnderground("Island Underground","omniscient.wav"), SwampLand("Swamp Land","ancient.wav"), TestLand("Test Land","myrinnia.wav"), Myrinnia("Myrinnia","");
-	
-	private String musicFile;
-	private String name;
-	
-	Zone(String name, String musicFile){
-		this.name = name;
-		this.musicFile = musicFile;
-	}
 
-	public String getMusicFile() {
-		return musicFile;
-	}
+    Island("Island", "myrinnia.wav"), IslandUnderground("Island Underground", "omniscient.wav"), SwampLand("Swamp Land", "ancient.wav"), TestLand("Test Land", "myrinnia.wav"), Myrinnia("Myrinnia", "");
 
-	public void setMusicFile(String musicFile) {
-		this.musicFile = musicFile;
-	}
+    private String musicFile;
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    Zone(String name, String musicFile) {
+        this.name = name;
+        this.musicFile = musicFile;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
+    public String getMusicFile() {
+        return musicFile;
+    }
+
+    public void setMusicFile(String musicFile) {
+        this.musicFile = musicFile;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
 }

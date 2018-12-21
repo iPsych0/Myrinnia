@@ -1,14 +1,13 @@
 package dev.ipsych0.myrinnia.worlds;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.npcs.BankerNPC;
 import dev.ipsych0.myrinnia.entities.npcs.Lorraine;
 import dev.ipsych0.myrinnia.entities.statics.Campfire;
 import dev.ipsych0.myrinnia.entities.statics.Workbench;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+
+import java.awt.*;
 
 public class IslandUnderground extends World {
 
