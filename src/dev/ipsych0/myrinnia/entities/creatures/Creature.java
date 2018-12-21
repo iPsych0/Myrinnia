@@ -54,6 +54,9 @@ public abstract class Creature extends Entity {
     protected Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
+    private static final int TIMES_PER_SECOND = 4;
+    private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
+    private int pathTimer = 0;
 
     protected enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -371,8 +374,13 @@ public abstract class Creature extends Entity {
         }
 
         if(state == CombatState.PATHFINDING || state == CombatState.BACKTRACK){
-            findPath();
-            followAStar(nodes);
+            // Control the number of times we check for new path
+            pathTimer++;
+            if(pathTimer >= timePerPathCheck) {
+                findPath();
+                pathTimer = 0;
+            }
+            followAStar();
         }
     }
 
@@ -385,12 +393,8 @@ public abstract class Creature extends Entity {
 
     /**
      * Movement logic for following each node in the List nodes
-     *
-     * @param nodes - path of nodes to follow
      */
-    protected void followAStar(List<Node> nodes) {
-        this.nodes = nodes;
-
+    protected void followAStar() {
         if (nodes == null) {
             return;
         }
@@ -434,22 +438,18 @@ public abstract class Creature extends Entity {
 
         if (next.getX() != (int) ((x + 8) / 32)) {
             xMove = (next.getX() < (int) ((x + 8) / 32) ? -speed : speed);
-            move();
             if (x % 32 == 8) {
                 //x -= x % 32;
                 if (!((LinkedList<Node>) nodes).isEmpty())
                     ((LinkedList<Node>) nodes).removeFirst();
 
                 stuckTimerX = 0;
-                xMove = 0;
                 yMove = 0;
             }
-
         }
 
         if (next.getY() != (int) ((y + 8) / 32)) {
             yMove = (next.getY() < (int) ((y + 8) / 32) ? -speed : speed);
-            move();
             if (y % 32 == 8) {
                 //y -= y % 32;
                 if (!((LinkedList<Node>) nodes).isEmpty())
@@ -457,9 +457,11 @@ public abstract class Creature extends Entity {
 
                 stuckTimerY = 0;
                 xMove = 0;
-                yMove = 0;
             }
+        }
 
+        if(xMove != 0 || yMove != 0){
+            move();
         }
     }
 
