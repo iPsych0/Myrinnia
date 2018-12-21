@@ -19,6 +19,8 @@ public class Game implements Runnable, Serializable {
      *
      */
     private static final long serialVersionUID = 1320270378451615572L;
+
+    public static final String CURRENT_VERSION = "v0.8";
     private Display display;
     private int width, height;
     private String title;
@@ -54,7 +56,7 @@ public class Game implements Runnable, Serializable {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             double width = screenSize.getWidth();
             double height = screenSize.getHeight();
-            game = new Game("Elements of Myrinnia Pre-Alpha Development v0.8", (int) width, (int) height);
+            game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) width, (int) height);
         }
         return game;
     }

@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.states;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -153,7 +154,8 @@ public class MenuState extends State {
         }
 
         // Render the text in the main menu
-        Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 192, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 224, true, Color.YELLOW, Assets.font20);
         Text.drawString(g, "New Game", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Continue", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
