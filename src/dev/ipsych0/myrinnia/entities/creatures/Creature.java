@@ -58,7 +58,7 @@ public abstract class Creature extends Entity {
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
 
-    protected enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
@@ -581,4 +581,11 @@ public abstract class Creature extends Entity {
         this.map = map;
     }
 
+    public Direction getLastFaced() {
+        return lastFaced;
+    }
+
+    public void setLastFaced(Direction lastFaced) {
+        this.lastFaced = lastFaced;
+    }
 }
