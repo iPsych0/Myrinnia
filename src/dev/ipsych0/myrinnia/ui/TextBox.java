@@ -143,10 +143,10 @@ public class TextBox implements KeyListener, Serializable {
             if (focus) {
                 // If enter is pressed, handle the input
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    enterPressed = true;
                     if (charactersTyped.isEmpty()) {
                         return;
                     }
-                    enterPressed = true;
                     focus = false;
                     removeListeners();
                     charactersTyped = sb.toString();

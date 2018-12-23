@@ -1,5 +1,5 @@
 {
-  "cooldownTime": 5.0,
+  "cooldownTime": 3.0,
   "castingTime": 0.0,
   "overcastTime": 0.0,
   "name": "Supersonic Dash",

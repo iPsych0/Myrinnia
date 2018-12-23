@@ -121,23 +121,25 @@ public class AbilityHUD implements Serializable {
 
     private void handleDrag(AbilitySlot abilitySlot) {
         if (!locked) {
-            if (Handler.get().getMouseManager().isLeftPressed()) {
-                if (selectedAbility == null) {
-                    selectedAbility = abilitySlot.getAbility();
-                    abilitySlot.setAbility(null);
-                    oldSlot = abilitySlot;
-                    return;
-                }
-            } else if (!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null) {
-                for (AbilitySlot as : slottedAbilities) {
-                    if (as.getBounds().contains(Handler.get().getMouse())) {
-                        if (as.getAbility() == null) {
-                            as.setAbility(selectedAbility);
-                            selectedAbility = null;
-                        } else {
-                            oldSlot.setAbility(as.getAbility());
-                            as.setAbility(selectedAbility);
-                            selectedAbility = null;
+            if (Handler.get().getAbilityOverviewUI().getCurrentSelectedAbility() == null) {
+                if (Handler.get().getMouseManager().isLeftPressed()) {
+                    if (selectedAbility == null) {
+                        selectedAbility = abilitySlot.getAbility();
+                        abilitySlot.setAbility(null);
+                        oldSlot = abilitySlot;
+                        return;
+                    }
+                } else if (!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null) {
+                    for (AbilitySlot as : slottedAbilities) {
+                        if (as.getBounds().contains(Handler.get().getMouse())) {
+                            if (as.getAbility() == null) {
+                                as.setAbility(selectedAbility);
+                                selectedAbility = null;
+                            } else {
+                                oldSlot.setAbility(as.getAbility());
+                                as.setAbility(selectedAbility);
+                                selectedAbility = null;
+                            }
                         }
                     }
                 }
@@ -165,14 +167,14 @@ public class AbilityHUD implements Serializable {
 
         if (lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if(!locked){
-                Handler.get().sendMsg("Locked abilities.");
+                Handler.get().sendMsg("Ability bar locked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = true;
         }
         else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if(locked){
-                Handler.get().sendMsg("Unlocked abilities.");
+                Handler.get().sendMsg("Ability bar unlocked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = false;
@@ -212,6 +214,10 @@ public class AbilityHUD implements Serializable {
                 if (as.getAbility() != null) {
                     abilityTooltip.render(g, as.getAbility());
                 }
+            }
+            if(!locked) {
+                g.setColor(Color.YELLOW);
+                g.drawRect(as.getX(), as.getY(), 32, 32);
             }
         }
 

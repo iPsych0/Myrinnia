@@ -57,6 +57,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             double framesPerSecond = dashTime / 60.0; // Percentage of time traveled per tick (0.4)
             double animationSpeed = (1000 / Assets.airCloud1.length) * framesPerSecond; // 7 frames per second (1000)
             animation = new Animation((int)animationSpeed, Assets.airCloud1, true);
+            Handler.get().playEffect("supersonic_dash.wav");
         }
 
         animation.tick();

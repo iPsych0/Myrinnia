@@ -52,6 +52,7 @@ public class MendWoundsAbility extends Ability {
 
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
+            Handler.get().playEffect("mend_wounds.wav");
         }
 
         animation.tick();

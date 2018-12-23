@@ -214,4 +214,8 @@ public class AbilityOverviewUI implements Serializable {
     public Rectangle getClickableArea() {
         return clickableArea;
     }
+
+    public Ability getCurrentSelectedAbility() {
+        return currentSelectedAbility;
+    }
 }

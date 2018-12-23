@@ -86,7 +86,7 @@ public class Assets {
     // Player animation images
     public static BufferedImage[] player_down, player_up, player_left, player_right;
     public static BufferedImage[] magicProjectile;
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
 
     // Player attack images
     public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
@@ -194,6 +194,7 @@ public class Assets {
         SpriteSheet airCloud1_sheet = new SpriteSheet("/textures/animations/air_cloud1.png");
         SpriteSheet waterSplash1_sheet = new SpriteSheet("/textures/animations/water_splash1.png");
         SpriteSheet movementBoost1_sheet = new SpriteSheet("/textures/animations/movement_boost1.png");
+        SpriteSheet eruption1_sheet = new SpriteSheet("/textures/animations/eruption1.png");
 
         /*
          * All Tiled Sprites
@@ -411,6 +412,15 @@ public class Assets {
         movementBoost1[4] = movementBoost1_sheet.imageCrop(4,0);
         movementBoost1[5] = movementBoost1_sheet.imageCrop(5,0);
         movementBoost1[6] = movementBoost1_sheet.imageCrop(6,0);
+
+        eruption1 = new BufferedImage[7];
+        eruption1[0] = eruption1_sheet.imageCrop(0,0);
+        eruption1[1] = eruption1_sheet.imageCrop(1,0);
+        eruption1[2] = eruption1_sheet.imageCrop(2,0);
+        eruption1[3] = eruption1_sheet.imageCrop(3,0);
+        eruption1[4] = eruption1_sheet.imageCrop(4,0);
+        eruption1[5] = eruption1_sheet.imageCrop(5,0);
+        eruption1[6] = eruption1_sheet.imageCrop(6,0);
 
 
         /*

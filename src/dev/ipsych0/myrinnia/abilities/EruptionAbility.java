@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 
@@ -19,6 +20,7 @@ public class EruptionAbility extends Ability {
     private boolean initDone;
     private int renderTimer;
     private int displayTime;
+    private Animation animation;
 
     public EruptionAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                            double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
@@ -29,20 +31,25 @@ public class EruptionAbility extends Ability {
     @Override
     public void render(Graphics g, int x, int y) {
         g.drawImage(Assets.dirtHole, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        if (hitBox != null) {
-            g.setColor(ability);
-            g.fillRect(hitBox.x - (int) Handler.get().getGameCamera().getxOffset(), hitBox.y - (int) Handler.get().getGameCamera().getyOffset(), hitBox.width, hitBox.height);
+        if (animation != null) {
+            g.drawImage(animation.getCurrentFrame(),
+                    (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
+                    96, 96, null);
         }
     }
 
     @Override
     public void cast() {
         if (!initDone) {
-            ability = new Color(89, 58, 2, 224);
             displayTime = 1 * 60;
             hitBox = new Rectangle((int) caster.getX() - ItemSlot.SLOTSIZE, (int) caster.getY() - ItemSlot.SLOTSIZE,
                     caster.getWidth() + ItemSlot.SLOTSIZE * 2, caster.getHeight() + ItemSlot.SLOTSIZE * 2);
             initDone = true;
+
+            Handler.get().playEffect("eruption.wav");
+
+            animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (hitBox.contains(e.getCollisionBounds(0, 0))) {
@@ -54,10 +61,15 @@ public class EruptionAbility extends Ability {
                 }
             }
         }
+
         renderTimer++;
+
+        animation.tick();
+
         if (renderTimer == displayTime) {
             hitBox = null;
-            this.setCasting(false);
+            animation = null;
+            setCasting(false);
         }
     }
 

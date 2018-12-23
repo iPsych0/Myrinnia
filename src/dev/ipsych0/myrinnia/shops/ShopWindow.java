@@ -422,20 +422,22 @@ public class ShopWindow implements Serializable {
         }
 
         if (TextBox.enterPressed && makingChoice) {
-            // If enter is pressed while making choice, this means a positive response ("Yes")
-            dBox.setPressedButton(dBox.getButtons().get(0));
-            dBox.getPressedButton().getButtonParam()[0] = "Yes";
-            dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
+            if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+                // If enter is pressed while making choice, this means a positive response ("Yes")
+                dBox.setPressedButton(dBox.getButtons().get(0));
+                dBox.getPressedButton().getButtonParam()[0] = "Yes";
+                dBox.getPressedButton().getButtonParam()[1] = dBox.getParam();
 
-            // If the user has typed in an amount and confirmed the trade per button, buy the item
-            if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
-                    "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
-                buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-            }
-            // If the user has typed in an amount and confirmed the trade per button, sell the item
-            else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
-                    "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
-                sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                // If the user has typed in an amount and confirmed the trade per button, buy the item
+                if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+                        "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+                    buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                }
+                // If the user has typed in an amount and confirmed the trade per button, sell the item
+                else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
+                        "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
+                    sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                }
             }
 
             dBox.setPressedButton(null);

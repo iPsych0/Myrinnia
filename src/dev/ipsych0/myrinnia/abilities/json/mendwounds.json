@@ -1,5 +1,5 @@
 {
-  "cooldownTime": 20.0,
+  "cooldownTime": 15.0,
   "castingTime": 0.75,
   "overcastTime": 0.0,
   "name": "Mend Wounds",
