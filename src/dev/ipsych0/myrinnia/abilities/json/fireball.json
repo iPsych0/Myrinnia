@@ -3,7 +3,7 @@
   "castingTime": 0.25,
   "overcastTime": 0.0,
   "name": "Fireball",
-  "description": "Test thing",
+  "description": "Shoot a powerful fireball at your enemy.",
   "abilityType": "AutoAttack",
   "element": "Fire",
   "combatStyle": "Melee",

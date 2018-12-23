@@ -36,8 +36,6 @@ public class EruptionAbility extends Ability {
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
                     (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
                     hitBox.width, hitBox.height, null);
-            g.setColor(Color.YELLOW);
-            g.drawRect(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
         }
     }
 
