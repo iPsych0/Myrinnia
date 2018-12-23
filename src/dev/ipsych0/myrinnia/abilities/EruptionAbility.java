@@ -35,7 +35,9 @@ public class EruptionAbility extends Ability {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
                     (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
-                    96, 96, null);
+                    hitBox.width, hitBox.height, null);
+            g.setColor(Color.YELLOW);
+            g.drawRect(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
         }
     }
 
@@ -43,8 +45,8 @@ public class EruptionAbility extends Ability {
     public void cast() {
         if (!initDone) {
             displayTime = 1 * 60;
-            hitBox = new Rectangle((int) caster.getX() - ItemSlot.SLOTSIZE, (int) caster.getY() - ItemSlot.SLOTSIZE,
-                    caster.getWidth() + ItemSlot.SLOTSIZE * 2, caster.getHeight() + ItemSlot.SLOTSIZE * 2);
+            hitBox = new Rectangle((int) caster.getX() - 48, (int) caster.getY() - 48,
+                    caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
 
             Handler.get().playEffect("eruption.wav");
