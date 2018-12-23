@@ -56,7 +56,7 @@ public class EruptionAbility extends Ability {
                     if (!e.isAttackable())
                         continue;
                     if (!e.equals(caster)) {
-                        e.damage(caster, e);
+                        e.damage(caster, e, this);
                     }
                 }
             }

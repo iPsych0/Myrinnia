@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.npcs.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -149,6 +150,17 @@ public abstract class Entity implements Serializable {
     }
 
     /*
+     * Returns the damage an Entity should deal + ability damage (Combat formula)
+     * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
+     */
+    public int getDamage(Entity dealer, Entity receiver, Ability ability) {
+        // Default damage formula
+        Creature d = (Creature) dealer;
+        Creature r = (Creature) receiver;
+        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getPower()) + d.getBaseDamage() + ability.getBaseDamage();
+    }
+
+    /*
      * Deals the damage (subtracts the damage from HP)
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
@@ -162,6 +174,31 @@ public abstract class Entity implements Serializable {
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
         Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageDealer, receiver)));
+        if (damageDealer.equals(Handler.get().getPlayer())) {
+            damageDealer.setInCombat(true);
+            damageDealer.combatTimer = 0;
+        }
+
+        if (damageReceiver.health <= 0) {
+            damageReceiver.active = false;
+            damageReceiver.die();
+        }
+    }
+
+    /*
+     * Deals the damage (subtracts the damage from HP)
+     * @params: dealer = the Entity that deals the damage
+     * 			receiver = the Entity that receives the damage
+     */
+    public void damage(Entity dealer, Entity receiver, Ability ability) {
+        damageDealer = dealer;
+        damageReceiver = receiver;
+        damageReceiver.health -= damageDealer.getDamage(dealer, receiver, ability);
+        damageReceiver.damaged = true;
+        damageReceiver.lastHit = 0;
+        damageReceiver.combatTimer = 0;
+        damageReceiver.inCombat = true;
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageDealer, receiver, ability)));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;

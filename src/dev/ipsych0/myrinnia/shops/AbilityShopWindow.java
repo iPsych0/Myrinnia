@@ -87,11 +87,6 @@ public class AbilityShopWindow implements Serializable {
 
         // Instance of the DialogueBox
         dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "", false);
-
-        /**
-         * TODO: REMOVE THIS DUMMY DATA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         */
-        Handler.get().getPlayer().setAbilityPoints(10);
     }
 
     public void setLastOpenedWindow() {

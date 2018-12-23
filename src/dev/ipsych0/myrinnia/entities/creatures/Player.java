@@ -492,27 +492,14 @@ public class Player extends Creature {
     }
 
     public void levelUp() {
-
         isLevelUp = true;
-
-//		// Get the old base power
-//		int oldBasePower = basePower;
-//		int oldBaseVitality = baseVitality;
-//		int oldBaseDefence = baseDefence;
-//		
-//		// Every level, formula is: Exponent (1.1) * 0.9985
-//		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
-//		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
-//		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
 
         this.levelExponent *= 0.9985;
 
+        // Change base damage and restore to full health
         this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-//		this.power += (basePower - oldBasePower);
-//		this.vitality += (baseVitality - oldBaseVitality);
-//		this.defence += (baseDefence - oldBaseDefence);
-
         this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+
         this.health = maxHealth;
     }
 
@@ -1146,5 +1133,9 @@ public class Player extends Creature {
 
     public void setAbilityPoints(int abilityPoints) {
         this.abilityPoints = abilityPoints;
+    }
+
+    public void addAbilityPoints(){
+        this.abilityPoints++;
     }
 }
