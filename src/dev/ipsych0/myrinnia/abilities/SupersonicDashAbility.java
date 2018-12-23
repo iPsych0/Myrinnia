@@ -35,8 +35,8 @@ public class SupersonicDashAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialCast) {
-            maxDistance = 160;
-            speed = 8;
+            maxDistance = 200;
+            speed = 10;
             dashTime = maxDistance / speed;
             initialCast = true;
             angle = Math.atan2((Handler.get().getMouse().getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(),
@@ -44,16 +44,19 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             // The angle and speed of the dash
             xVelocity = speed * Math.cos(angle);
             yVelocity = speed * Math.sin(angle);
+            Handler.get().getPlayer().setMovementAllowed(false);
         }
+
         dashTimeTimer++;
 
         if (dashTimeTimer >= dashTime) {
             setCasting(false);
-            return;
+            Handler.get().getPlayer().setMovementAllowed(true);
         }
 
         caster.setxMove((float)xVelocity);
         caster.setyMove((float)yVelocity);
+
         caster.move();
 
     }
