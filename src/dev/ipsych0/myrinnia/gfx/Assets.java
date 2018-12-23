@@ -86,6 +86,7 @@ public class Assets {
     // Player animation images
     public static BufferedImage[] player_down, player_up, player_left, player_right;
     public static BufferedImage[] magicProjectile;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1;
 
     // Player attack images
     public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
@@ -187,6 +188,12 @@ public class Assets {
          */
         SpriteSheet animated_terrain = new SpriteSheet("/textures/animated_terrain.png");
 
+        /*
+         * Creature Animations
+         */
+        SpriteSheet airCloud1_sheet = new SpriteSheet("/textures/animations/air_cloud1.png");
+        SpriteSheet waterSplash1_sheet = new SpriteSheet("/textures/animations/water_splash1.png");
+        SpriteSheet movementBoost1_sheet = new SpriteSheet("/textures/animations/movement_boost1.png");
 
         /*
          * All Tiled Sprites
@@ -376,6 +383,35 @@ public class Assets {
         player_right[0] = player_sheet.imageCrop(0, 2);
         player_right[1] = player_sheet.imageCrop(1, 2);
         player_right[2] = player_sheet.imageCrop(2, 2);
+
+        /*
+         * Creature Animations
+         */
+        airCloud1 = new BufferedImage[7];
+        airCloud1[0] = airCloud1_sheet.imageCrop(0, 0);
+        airCloud1[1] = airCloud1_sheet.imageCrop(1, 0);
+        airCloud1[2] = airCloud1_sheet.imageCrop(2, 0);
+        airCloud1[3] = airCloud1_sheet.imageCrop(3, 0);
+        airCloud1[4] = airCloud1_sheet.imageCrop(4, 0);
+        airCloud1[5] = airCloud1_sheet.imageCrop(5, 0);
+        airCloud1[6] = airCloud1_sheet.imageCrop(6, 0);
+
+        waterSplash1 = new BufferedImage[5];
+        waterSplash1[0] = waterSplash1_sheet.imageCrop(0,0);
+        waterSplash1[1] = waterSplash1_sheet.imageCrop(1,0);
+        waterSplash1[2] = waterSplash1_sheet.imageCrop(2,0);
+        waterSplash1[3] = waterSplash1_sheet.imageCrop(3,0);
+        waterSplash1[4] = waterSplash1_sheet.imageCrop(4,0);
+
+        movementBoost1 = new BufferedImage[7];
+        movementBoost1[0] = movementBoost1_sheet.imageCrop(0,0);
+        movementBoost1[1] = movementBoost1_sheet.imageCrop(1,0);
+        movementBoost1[2] = movementBoost1_sheet.imageCrop(2,0);
+        movementBoost1[3] = movementBoost1_sheet.imageCrop(3,0);
+        movementBoost1[4] = movementBoost1_sheet.imageCrop(4,0);
+        movementBoost1[5] = movementBoost1_sheet.imageCrop(5,0);
+        movementBoost1[6] = movementBoost1_sheet.imageCrop(6,0);
+
 
         /*
          * Houses / Trees

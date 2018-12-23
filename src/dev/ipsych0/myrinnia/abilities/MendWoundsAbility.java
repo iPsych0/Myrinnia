@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.abilities;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 
@@ -17,6 +19,8 @@ public class MendWoundsAbility extends Ability {
     private int baseHeal;
     private int regenHeal;
     private boolean initialHealDone = false;
+    private Animation animation;
+
 
     public MendWoundsAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                              double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
@@ -27,6 +31,12 @@ public class MendWoundsAbility extends Ability {
     @Override
     public void render(Graphics g, int x, int y) {
         g.drawImage(Assets.waterFlow1, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
+        if(animation != null && !animation.isTickDone()){
+            g.drawImage(animation.getCurrentFrame(),
+                    (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
+                    (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
+                    32, 32, null);
+        }
     }
 
     @Override
@@ -39,8 +49,12 @@ public class MendWoundsAbility extends Ability {
             int heal = 0;
             this.caster.setHealth(heal = (this.caster.getHealth() + baseHeal >= this.caster.getMaxHealth()) ?
                     this.caster.getMaxHealth() : (this.caster.getHealth() + baseHeal));
+
+            animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
         }
+
+        animation.tick();
 
         // Regen
         regenTimer++;
@@ -48,6 +62,7 @@ public class MendWoundsAbility extends Ability {
             // When we've reached the regen timer limit, the spell is done, set casting to false.
             if (regenTimer == regenSeconds) {
                 this.setCasting(false);
+                animation = null;
             }
             int regen = 0;
             this.caster.setHealth(regen = (this.caster.getHealth() + regenHeal >= this.caster.getMaxHealth()) ?
