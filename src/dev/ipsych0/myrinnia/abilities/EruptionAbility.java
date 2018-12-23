@@ -30,7 +30,7 @@ public class EruptionAbility extends Ability {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.dirtHole, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        g.drawImage(Assets.eruptionI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),

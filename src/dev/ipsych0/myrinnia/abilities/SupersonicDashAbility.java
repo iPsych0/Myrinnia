@@ -28,7 +28,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.purpleFlower1, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        g.drawImage(Assets.supersonicDashI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),

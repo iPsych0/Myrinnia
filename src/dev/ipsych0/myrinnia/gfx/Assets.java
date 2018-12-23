@@ -83,10 +83,13 @@ public class Assets {
     // Map item images (trees, rocks, etc)
     public static BufferedImage tree, rock;
 
-    // Player animation images
+    /*
+     * Creature Animations
+     */
     public static BufferedImage[] player_down, player_up, player_left, player_right;
     public static BufferedImage[] magicProjectile;
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
+    public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
     // Player attack images
     public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
@@ -191,6 +194,7 @@ public class Assets {
         /*
          * Creature Animations
          */
+        SpriteSheet ability_sheet = new SpriteSheet("/textures/animations/abilitysheet.png");
         SpriteSheet airCloud1_sheet = new SpriteSheet("/textures/animations/air_cloud1.png");
         SpriteSheet waterSplash1_sheet = new SpriteSheet("/textures/animations/water_splash1.png");
         SpriteSheet movementBoost1_sheet = new SpriteSheet("/textures/animations/movement_boost1.png");
@@ -384,6 +388,16 @@ public class Assets {
         player_right[0] = player_sheet.imageCrop(0, 2);
         player_right[1] = player_sheet.imageCrop(1, 2);
         player_right[2] = player_sheet.imageCrop(2, 2);
+
+        /*
+         * Ability Icons
+         */
+        eruptionI = ability_sheet.imageCrop(0,0);
+        fireballI = ability_sheet.imageCrop(1,0);
+        mendWoundsI = ability_sheet.imageCrop(2,0);
+        nimbleFeetI = ability_sheet.imageCrop(3,0);
+        supersonicDashI = ability_sheet.imageCrop(4,0);
+
 
         /*
          * Creature Animations

@@ -30,7 +30,7 @@ public class MendWoundsAbility extends Ability {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.waterFlow1, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
+        g.drawImage(Assets.mendWoundsI, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
