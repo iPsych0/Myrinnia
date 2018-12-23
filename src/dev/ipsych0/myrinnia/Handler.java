@@ -143,7 +143,7 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.getLast().setVolume(0.2f);
+            AudioManager.soundfxFiles.getLast().setVolume(0.15f);
             AudioManager.soundfxFiles.getLast().setLooping(false);
             AudioManager.soundfxFiles.getLast().playEffect(buffer);
 
