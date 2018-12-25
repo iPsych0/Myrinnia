@@ -6,7 +6,7 @@
   "description": "Shoot a powerful fireball at your enemy.",
   "abilityType": "AutoAttack",
   "element": "Fire",
-  "combatStyle": "Melee",
+  "combatStyle": "Magic",
   "onCooldown": false,
   "casting": false,
   "inOvercast": false,
