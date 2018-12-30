@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -34,6 +35,7 @@ public class BankUI implements Serializable {
     private Color selectedColor = new Color(0, 255, 255, 62);
     private Rectangle exit;
     public static BankUI lastOpenedWindow;
+    private ItemTooltip itemTooltip;
 
     public BankUI() {
         width = 460;
@@ -64,7 +66,7 @@ public class BankUI implements Serializable {
         bounds = new Rectangle(x, y, width, height);
         exit = new Rectangle(x + width - 36, y + 12, 24, 24);
 
-        tabs.get(0).getBankSlots().get(0).addItem(Item.coins, 25);
+        itemTooltip = new ItemTooltip(x - 160, y);
 
         // Initially always open the first tab
         openedTab = tabs.get(0);
@@ -323,6 +325,10 @@ public class BankUI implements Serializable {
 
             for (ItemSlot is : invSlots) {
                 is.render(g);
+
+                if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
             }
 
             for (BankTab tab : tabs) {
@@ -330,6 +336,11 @@ public class BankUI implements Serializable {
                 if (tab.isOpen()) {
                     g.setColor(selectedColor);
                     g.fillRoundRect(tab.x, tab.y, tab.width, tab.height, 4, 4);
+                    for(ItemSlot is : tab.getBankSlots()){
+                        if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                            itemTooltip.render(is.getItemStack().getItem(), g);
+                        }
+                    }
                 }
             }
 

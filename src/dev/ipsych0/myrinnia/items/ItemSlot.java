@@ -16,11 +16,13 @@ public class ItemSlot implements Serializable {
 
     private int x, y;
     private ItemStack itemStack;
+    private Rectangle bounds;
 
     public ItemSlot(int x, int y, ItemStack itemStack) {
         this.x = x;
         this.y = y;
         this.itemStack = itemStack;
+        this.bounds = new Rectangle(x, y, SLOTSIZE, SLOTSIZE);
     }
 
     public void tick() {
@@ -109,4 +111,7 @@ public class ItemSlot implements Serializable {
         this.y = y;
     }
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }
