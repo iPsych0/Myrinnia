@@ -15,7 +15,7 @@ class Launcher {
         IDGenerator idGenerator = IDGenerator.getInstance();
 
         // Check if file already exists.
-        if (Files.exists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))) {
+        if (Files.exists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.ser"))) {
             Set<Integer> ids = IDSerializer.loadIDs();
 
             // Load all item ID prefixes from the file names
