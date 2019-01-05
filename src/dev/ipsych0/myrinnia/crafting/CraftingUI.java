@@ -5,10 +5,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
-import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ItemRarity;
-import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.*;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -55,6 +52,7 @@ public class CraftingUI implements Serializable {
     private String[] totalCraftAmount;
     private int[] filledCraftSlots;
     private CraftingRecipe craftRecipe;
+    private ItemTooltip itemTooltip;
 
     public CraftingUI() {
         this.width = 242;
@@ -85,6 +83,8 @@ public class CraftingUI implements Serializable {
             previewImg = new Rectangle(x + width + (width / 2) - 36, y + 32, 32, 32);
 
             isCreated = true;
+
+            itemTooltip = new ItemTooltip(x - 160, y);
 
         }
     }
@@ -251,7 +251,15 @@ public class CraftingUI implements Serializable {
             cb.render(g);
             Text.drawString(g, "Craft " + craftAmount, x + width / 2, y + height - 96, true, Color.YELLOW, Assets.font20);
 
+            Rectangle mouse = Handler.get().getMouse();
+
             for (CraftingSlot cs : craftingSlots) {
+
+                Rectangle craftSlot = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
+
+                if(cs.getItemStack() != null && craftSlot.contains(mouse)){
+                    itemTooltip.render(cs.getItemStack().getItem(), g);
+                }
 
                 cs.render(g);
 
@@ -269,9 +277,6 @@ public class CraftingUI implements Serializable {
 
                 g.drawImage(Assets.shopWindow, x + width, y, width - 40, height / 2, null);
 
-            } else {
-                g.dispose();
-                return;
             }
 
             if (possibleRecipe != null) {
@@ -287,18 +292,7 @@ public class CraftingUI implements Serializable {
                     }
 
                     if (hovering && craftRecipe.isDiscovered()) {
-                        g.drawImage(Assets.shopWindow, Handler.get().getMouseManager().getMouseX() + 8, Handler.get().getMouseManager().getMouseY(), 112, 128, null);
-
-                        Text.drawString(g, possibleRecipe.getItem().getName(), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
-                        Text.drawString(g, possibleRecipe.getItem().getItemRarity().toString(), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 32, false, ItemRarity.getColor(possibleRecipe.getItem()), Assets.font14);
-
-                        if (possibleRecipe.getItem().getEquipSlot() != 12) {
-                            Text.drawString(g, "Power: " + Integer.toString(possibleRecipe.getItem().getPower()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 48, false, Color.YELLOW, Assets.font14);
-                            Text.drawString(g, "Defence: " + Integer.toString(possibleRecipe.getItem().getDefence()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 64, false, Color.YELLOW, Assets.font14);
-                            Text.drawString(g, "Vitality: " + Integer.toString(possibleRecipe.getItem().getVitality()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 80, false, Color.YELLOW, Assets.font14);
-                            Text.drawString(g, "ATK Speed: " + Float.toString(possibleRecipe.getItem().getAttackSpeed()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 96, false, Color.YELLOW, Assets.font14);
-                            Text.drawString(g, "Mov. SPD: " + Float.toString(possibleRecipe.getItem().getMovementSpeed()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 112, false, Color.YELLOW, Assets.font14);
-                        }
+                        itemTooltip.render(possibleRecipe.getItem(), g);
                     }
                 }
                 Text.drawString(g, "You can craft: ", x + width + (width / 2) - 20, y + 16, true, Color.YELLOW, Assets.font14);

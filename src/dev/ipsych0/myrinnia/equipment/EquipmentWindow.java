@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,6 +31,7 @@ public class EquipmentWindow implements Serializable {
     private ItemStack currentSelectedSlot;
     public static boolean itemSelected;
     private Rectangle windowBounds;
+    private ItemTooltip itemTooltip;
 
     public EquipmentWindow() {
         this.width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
@@ -53,6 +55,8 @@ public class EquipmentWindow implements Serializable {
                 }
             }
         }
+
+        itemTooltip = new ItemTooltip(x - 160, y);
     }
 
     public void tick() {
@@ -155,28 +159,28 @@ public class EquipmentWindow implements Serializable {
 
                 // If hovering over an item in the inventory, draw the tooltip
                 if (slot.contains(mouse) && es.getEquipmentStack() != null) {
-                    g.drawImage(Assets.shopWindow, x - 147, y, 148, 122, null);
+                    g.drawImage(Assets.shopWindow, x - 160, y, 160, 122, null);
 
-                    Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 141, y + 16, false, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 153, y + 16, false, Color.YELLOW, Assets.font14);
 
                     /*
                      * Draw the colour of the item's rarity
                      */
                     g.setColor(ItemRarity.getColor(es.getEquipmentStack().getItem()));
-                    Text.drawString(g, es.getEquipmentStack().getItem().getItemRarity().toString(), x - 141, y + 32, false, g.getColor(), Assets.font14);
+                    Text.drawString(g, es.getEquipmentStack().getItem().getItemRarity().toString(), x - 153, y + 32, false, g.getColor(), Assets.font14);
 
                     if (es.getEquipmentStack().getItem().getEquipSlot() != 12) {
                         // Only compare stats if an item is actually equipped
-                        if (Handler.get().getEquipment().getEquipmentSlots().get(es.getEquipmentStack().getItem().getEquipSlot()).getEquipmentStack() != null) {
+                        if (es.getEquipmentStack() != null) {
                             /*
                              * Draw item stats
                              */
                             g.setColor(Color.YELLOW);
-                            Text.drawString(g, "Power: " + es.getEquipmentStack().getItem().getPower(), x - 141, y + 48, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Defence: " + es.getEquipmentStack().getItem().getDefence(), x - 141, y + 64, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Vitality: " + es.getEquipmentStack().getItem().getVitality(), x - 141, y + 80, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "ATK Speed: " + es.getEquipmentStack().getItem().getAttackSpeed(), x - 141, y + 96, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Mov. Speed: " + es.getEquipmentStack().getItem().getMovementSpeed(), x - 141, y + 112, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "Power: " + es.getEquipmentStack().getItem().getPower(), x - 153, y + 48, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "Defence: " + es.getEquipmentStack().getItem().getDefence(), x - 153, y + 64, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "Vitality: " + es.getEquipmentStack().getItem().getVitality(), x - 153, y + 80, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "ATK Speed: " + es.getEquipmentStack().getItem().getAttackSpeed(), x - 153, y + 96, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "Mov. Speed: " + es.getEquipmentStack().getItem().getMovementSpeed(), x - 153, y + 112, false, g.getColor(), Assets.font14);
                         }
                     }
                 }
