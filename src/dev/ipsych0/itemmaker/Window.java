@@ -24,7 +24,9 @@ class Window extends JFrame {
             pricePanel = new JPanel(),
             equippablePanel = new JPanel(),
             equipSlotPanel = new JPanel(),
-            powerPanel = new JPanel(),
+            strengthPanel = new JPanel(),
+            dexterityPanel = new JPanel(),
+            intelligencePanel = new JPanel(),
             defencePanel = new JPanel(),
             vitalityPanel = new JPanel(),
             attackSpeedPanel = new JPanel(),
@@ -33,9 +35,9 @@ class Window extends JFrame {
             itemRequirementsPanel = new JPanel();
 
     private JLabel nameLabel, rarityLabel, stackableLabel, priceLabel, equippableLabel, equipSlotLabel,
-            powerLabel, defenceLabel, vitalityLabel, attackSpeedLabel, movementSpeedLabel, itemTypeLabel, itemRequirementsLabel;
+            strengthLabel, dexterityLabel, intelligenceLabel, defenceLabel, vitalityLabel, attackSpeedLabel, movementSpeedLabel, itemTypeLabel, itemRequirementsLabel;
 
-    private JTextField nameInput, priceInput, powerInput, defenceInput, vitalityInput, attackSpeedInput, movementSpeedInput,
+    private JTextField nameInput, priceInput, strengthInput, dexterityInput, intelligenceInput, defenceInput, vitalityInput, attackSpeedInput, movementSpeedInput,
             itemTypeInput, itemRequirementsInput;
 
     private JComboBox<String> rarityDropDown;
@@ -98,24 +100,29 @@ class Window extends JFrame {
             boolean equippable = equippableDropDown.getSelectedIndex() == 0;
 
             EquipSlot equipSlot;
-            int power, defence, vitality;
+            int strength, dexterity, intelligence, defence, vitality;
             float attackSpeed, movementSpeed;
 
             if (equippable) {
-                if (equipSlotDropDown.getSelectedItem() == null || powerInput.getText().isEmpty() || defenceInput.getText().isEmpty() ||
-                        vitalityInput.getText().isEmpty() || attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
+                if (equipSlotDropDown.getSelectedItem() == null || strengthInput.getText().isEmpty() || strengthInput.getText().isEmpty()
+                        || dexterityInput.getText().isEmpty() || intelligenceInput.getText().isEmpty() || vitalityInput.getText().isEmpty() ||
+                        attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
                     System.err.println("Please fill in -all- equipment stats.");
                     return;
                 }
                 equipSlot = EquipSlot.valueOf((String) equipSlotDropDown.getSelectedItem());
-                power = Integer.parseInt(powerInput.getText());
+                strength = Integer.parseInt(strengthInput.getText());
+                dexterity = Integer.parseInt(dexterityInput.getText());
+                intelligence = Integer.parseInt(intelligenceInput.getText());
                 defence = Integer.parseInt(defenceInput.getText());
                 vitality = Integer.parseInt(vitalityInput.getText());
                 attackSpeed = Float.parseFloat(attackSpeedInput.getText());
                 movementSpeed = Float.parseFloat(movementSpeedInput.getText());
             } else {
                 equipSlot = EquipSlot.None;
-                power = 0;
+                strength = 0;
+                dexterity = 0;
+                intelligence = 0;
                 defence = 0;
                 vitality = 0;
                 attackSpeed = 0;
@@ -190,11 +197,11 @@ class Window extends JFrame {
                 return;
             }
 
-            boolean validated = JSONWriter.validate(name, rarity, price, stackable, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
+            boolean validated = JSONWriter.validate(name, rarity, price, equipSlot);
 
             if (validated) {
                 try {
-                    JSONWriter.write(name, rarity, price, stackable, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
+                    JSONWriter.write(name, rarity, price, stackable, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
                 } catch (Exception exc) {
                     exc.printStackTrace();
                     System.err.println("Failed to write to JSON file!");
@@ -216,9 +223,17 @@ class Window extends JFrame {
         remove(equipSlotLabel);
         remove(equipSlotDropDown);
 
-        remove(powerPanel);
-        remove(powerLabel);
-        remove(powerInput);
+        remove(strengthPanel);
+        remove(strengthLabel);
+        remove(strengthInput);
+
+        remove(dexterityPanel);
+        remove(dexterityLabel);
+        remove(dexterityInput);
+
+        remove(intelligencePanel);
+        remove(intelligenceLabel);
+        remove(intelligenceInput);
 
         remove(defencePanel);
         remove(defenceLabel);
@@ -247,9 +262,17 @@ class Window extends JFrame {
         add(equipSlotLabel);
         add(equipSlotDropDown);
 
-        add(powerPanel);
-        add(powerLabel);
-        add(powerInput);
+        add(strengthPanel);
+        add(strengthLabel);
+        add(strengthInput);
+
+        add(dexterityPanel);
+        add(dexterityLabel);
+        add(dexterityInput);
+
+        add(intelligencePanel);
+        add(intelligenceLabel);
+        add(intelligenceInput);
 
         add(defencePanel);
         add(defenceLabel);
@@ -299,9 +322,7 @@ class Window extends JFrame {
         add(equippableLabel);
         add(equippableDropDown);
 
-//        add(errorPanel);
-//        add(errorLabel);
-//
+
         add(Box.createRigidArea(new Dimension(0, 4)));
 
         add(createButton);
@@ -317,7 +338,9 @@ class Window extends JFrame {
         priceLabel = new JLabel("Buy price for shops:", JLabel.CENTER);
         equippableLabel = new JLabel("Is it equippable?:", JLabel.CENTER);
         equipSlotLabel = new JLabel("Which equipment slot does the item go in?", JLabel.CENTER);
-        powerLabel = new JLabel("Power bonus:", JLabel.CENTER);
+        strengthLabel = new JLabel("Strength bonus:", JLabel.CENTER);
+        dexterityLabel = new JLabel("Dexterity bonus:", JLabel.CENTER);
+        intelligenceLabel = new JLabel("Intelligence bonus:", JLabel.CENTER);
         defenceLabel = new JLabel("Defence bonus:", JLabel.CENTER);
         vitalityLabel = new JLabel("Vitality bonus:", JLabel.CENTER);
         attackSpeedLabel = new JLabel("Attack Speed bonus:", JLabel.CENTER);
@@ -337,8 +360,12 @@ class Window extends JFrame {
         equippableLabel.setHorizontalAlignment(SwingConstants.CENTER);
         equipSlotLabel.setMaximumSize(new Dimension(220, 0));
         equipSlotLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        powerLabel.setMaximumSize(new Dimension(220, 0));
-        powerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        strengthLabel.setMaximumSize(new Dimension(220, 0));
+        strengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        dexterityLabel.setMaximumSize(new Dimension(220, 0));
+        dexterityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        intelligenceLabel.setMaximumSize(new Dimension(220, 0));
+        intelligenceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         defenceLabel.setMaximumSize(new Dimension(220, 0));
         defenceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         vitalityLabel.setMaximumSize(new Dimension(220, 0));
@@ -355,8 +382,12 @@ class Window extends JFrame {
         // Input fields
         nameInput = new JTextField(64);
         nameInput.setMaximumSize(nameInput.getPreferredSize());
-        powerInput = new JTextField(64);
-        powerInput.setMaximumSize(powerInput.getPreferredSize());
+        strengthInput = new JTextField(64);
+        strengthInput.setMaximumSize(strengthInput.getPreferredSize());
+        dexterityInput = new JTextField(64);
+        dexterityInput.setMaximumSize(strengthInput.getPreferredSize());
+        intelligenceInput = new JTextField(64);
+        intelligenceInput.setMaximumSize(strengthInput.getPreferredSize());
         defenceInput = new JTextField(64);
         defenceInput.setMaximumSize(defenceInput.getPreferredSize());
         vitalityInput = new JTextField(64);

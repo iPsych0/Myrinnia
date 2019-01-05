@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.DmgType;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
@@ -56,7 +57,7 @@ public class EruptionAbility extends Ability {
                     if (!e.isAttackable())
                         continue;
                     if (!e.equals(caster)) {
-                        e.damage(caster, e, this);
+                        e.damage(DmgType.STR, caster, e, this);
                     }
                 }
             }

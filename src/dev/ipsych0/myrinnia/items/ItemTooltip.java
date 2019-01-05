@@ -25,9 +25,9 @@ public class ItemTooltip {
             g.drawImage(Assets.shopWindow, x, y, 160, 64, null);
         } else {
             if (item.getRequirements() == null || item.getRequirements().length == 0)
-                g.drawImage(Assets.shopWindow, x, y, 160, 122, null);
+                g.drawImage(Assets.shopWindow, x, y, 160, 154, null);
             else
-                g.drawImage(Assets.shopWindow, x, y, 160, 138 + (item.getRequirements().length * 16), null);
+                g.drawImage(Assets.shopWindow, x, y, 160, 170 + (item.getRequirements().length * 16), null);
         }
 
 
@@ -51,7 +51,7 @@ public class ItemTooltip {
                 }
                 Text.drawString(g, item.getRequirements()[i].getStat().toString() + ": " +
                                 item.getRequirements()[i].getLevel(),
-                        x + 7, y + 148 + (i * 16), false, g.getColor(), Assets.font14);
+                        x + 7, y + 180 + (i * 16), false, g.getColor(), Assets.font14);
             }
             if (numMatches == item.getRequirements().length)
                 hasStats = true;
@@ -60,25 +60,51 @@ public class ItemTooltip {
                 g.setColor(Color.GREEN);
             else
                 g.setColor(Color.RED);
-            Text.drawString(g, "Requirements:", x + 7, y + 132, false, g.getColor(), Assets.font14);
+            Text.drawString(g, "Requirements:", x + 7, y + 164, false, g.getColor(), Assets.font14);
         }
 
         if (item.getEquipSlot() != EquipSlot.None.getSlotId()) {
             // Only compare stats if an item is actually equipped
             if (Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack() != null) {
-                /*
-                 * Draw power colour red/green if stats are lower/higher
-                 */
 
-                if (item.getPower() > Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getPower()) {
+                /*
+                 * Draw strength colour red/green if stats are lower/higher
+                 */
+                if (item.getStrength() > Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getStrength()) {
                     g.setColor(Color.GREEN);
-                } else if (item.getPower() < Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getPower()) {
+                } else if (item.getStrength() < Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getStrength()) {
                     g.setColor(Color.RED);
                 } else {
                     g.setColor(Color.YELLOW);
                 }
-                Text.drawString(g, "Power: " + item.getPower(), x + 7, y + 48, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getPower() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getPower()) + ")", x + 116, y + 48, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "STR: " + item.getStrength(), x + 7, y + 48, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getStrength()) + ")", x + 116, y + 48, false, g.getColor(), Assets.font14);
+
+                /*
+                 * Draw dexterity colour red/green if stats are lower/higher
+                 */
+                if (item.getDexterity() > Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getDexterity()) {
+                    g.setColor(Color.GREEN);
+                } else if (item.getDexterity() < Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getDexterity()) {
+                    g.setColor(Color.RED);
+                } else {
+                    g.setColor(Color.YELLOW);
+                }
+                Text.drawString(g, "DEX: " + item.getDexterity(), x + 7, y + 64, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getDexterity()) + ")", x + 116, y + 64, false, g.getColor(), Assets.font14);
+
+                /*
+                 * Draw intelligence colour red/green if stats are lower/higher
+                 */
+                if (item.getIntelligence() > Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getIntelligence()) {
+                    g.setColor(Color.GREEN);
+                } else if (item.getIntelligence() < Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getIntelligence()) {
+                    g.setColor(Color.RED);
+                } else {
+                    g.setColor(Color.YELLOW);
+                }
+                Text.drawString(g, "INT: " + item.getIntelligence(), x + 7, y + 80, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getIntelligence()) + ")", x + 116, y + 80, false, g.getColor(), Assets.font14);
 
                 /*
                  * Draw defence colour red/green if stats are lower/higher
@@ -91,8 +117,8 @@ public class ItemTooltip {
                 } else {
                     g.setColor(Color.YELLOW);
                 }
-                Text.drawString(g, "Defence: " + item.getDefence(), x + 7, y + 64, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x + 116, y + 64, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "DEF: " + item.getDefence(), x + 7, y + 96, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getDefence()) + ")", x + 116, y + 96, false, g.getColor(), Assets.font14);
 
                 /*
                  * Draw vitality colour red/green if stats are lower/higher
@@ -104,8 +130,8 @@ public class ItemTooltip {
                 } else {
                     g.setColor(Color.YELLOW);
                 }
-                Text.drawString(g, "Vitality: " + item.getVitality(), x + 7, y + 80, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x + 116, y + 80, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "VIT: " + item.getVitality(), x + 7, y + 112, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getVitality()) + ")", x + 116, y + 112, false, g.getColor(), Assets.font14);
 
                 /*
                  * Draw atk speed colour red/green if stats are lower/higher
@@ -118,8 +144,8 @@ public class ItemTooltip {
                     g.setColor(Color.YELLOW);
                 }
 
-                Text.drawString(g, "ATK Speed: " + item.getAttackSpeed(), x + 7, y + 96, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x + 116, y + 96, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "ATK Spd.: " + item.getAttackSpeed(), x + 7, y + 128, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x + 116, y + 128, false, g.getColor(), Assets.font14);
 
                 /*
                  * Draw movement speed colour red/green if stats are lower/higher
@@ -131,16 +157,18 @@ public class ItemTooltip {
                 } else {
                     g.setColor(Color.YELLOW);
                 }
-                Text.drawString(g, "Mov. Speed: " + item.getMovementSpeed(), x + 7, y + 112, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x + 116, y + 112, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "MOV Spd.: " + item.getMovementSpeed(), x + 7, y + 144, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + (item.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x + 116, y + 144, false, g.getColor(), Assets.font14);
 
             } else {
                 g.setColor(Color.YELLOW);
-                Text.drawString(g, "Power: " + item.getPower(), x + 7, y + 48, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "Defence: " + item.getDefence(), x + 7, y + 64, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "Vitality: " + item.getVitality(), x + 7, y + 80, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "ATK Speed: " + item.getAttackSpeed(), x + 7, y + 96, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "Mov. Speed: " + item.getMovementSpeed(), x + 7, y + 112, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "STR: " + item.getStrength(), x + 7, y + 48, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "DEX: " + item.getStrength(), x + 7, y + 64, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "INT: " + item.getStrength(), x + 7, y + 80, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "DEF: " + item.getDefence(), x + 7, y + 96, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "VIT: " + item.getVitality(), x + 7, y + 112, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "ATK Spd.: " + item.getAttackSpeed(), x + 7, y + 128, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "MOV Spd.: " + item.getMovementSpeed(), x + 7, y + 144, false, g.getColor(), Assets.font14);
             }
         }
     }

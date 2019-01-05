@@ -66,7 +66,6 @@ public class Player extends Creature {
     // Regeneration timer
     private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
-    private int basePower, baseVitality, baseDefence;
     private double levelExponent = 1.1;
     public static boolean isLevelUp = false;
     private int levelUpTimer;
@@ -95,11 +94,6 @@ public class Player extends Creature {
 
         xSpawn = 5152.0f;
         ySpawn = 5600.0f;
-
-        basePower = 2;
-        baseVitality = 2;
-        baseDefence = 2;
-        baseDamage = 1;
 
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -176,7 +170,7 @@ public class Player extends Creature {
 //					Handler.get().getWorld().getEntityManager().getPlayer().getY());
 //			
 //			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
-//			power = 250;
+//			strength = 250;
 //			Handler.debugMode = (Handler.debugMode) ? false : true;
 
             State.setState(new UITransitionState(Handler.get().getGame().pauseState));
@@ -346,7 +340,7 @@ public class Player extends Creature {
                         p.active = false;
                     }
                     if (e.isAttackable()) {
-                        e.damage(this, e);
+                        e.damage(DmgType.DEX, this, e);
                         p.active = false;
                     }
                 }
@@ -517,7 +511,7 @@ public class Player extends Creature {
             // Sets the new stats
             attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
             vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
-            power += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+            strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
             defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
             speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
             attackCooldown = (long) (600 / attackSpeed);
@@ -551,10 +545,10 @@ public class Player extends Creature {
                 vitality -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
             }
 
-            if (getPower() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
-                setPower(0);
+            if (getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength() < 0) {
+                setStrength(0);
             } else {
-                power -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+                strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
             }
 
             if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
@@ -588,7 +582,7 @@ public class Player extends Creature {
 //	public int getDamage(Entity dealer) {
 //		// Default damage formula
 //		Creature c = (Creature) dealer;
-//		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
+//		return (int) Math.floor((c.getBaseDamage() + c.getStrength() / 2));
 //	}
 
     /*
@@ -772,7 +766,7 @@ public class Player extends Creature {
                     continue;
                 if (e.getCollisionBounds(0, 0).intersects(ar)) {
                     // TODO: Change damage calculation formula
-                    e.damage(this, e);
+                    e.damage(DmgType.STR, this, e);
                     return;
                 }
             }

@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -44,7 +43,7 @@ public class Item implements Serializable {
     protected String name;
     protected final int id;
     protected EquipSlot equipSlot;
-    protected int power, defence, vitality;
+    protected int strength, dexterity, intelligence, defence, vitality;
     protected float attackSpeed, movementSpeed;
     protected int x, y;
     protected Rectangle bounds;
@@ -67,7 +66,9 @@ public class Item implements Serializable {
         this.stackable = stackable;
         this.equipSlot = EquipSlot.None;
         this.equippable = false;
-        this.power = 0;
+        this.strength = 0;
+        this.dexterity = 0;
+        this.intelligence = 0;
         this.defence = 0;
         this.vitality = 0;
         this.attackSpeed = 0;
@@ -93,13 +94,15 @@ public class Item implements Serializable {
     }
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
-                EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
+                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,
                 int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
         this(texture, name, id, itemRarity, price, stackable, itemTypes);
         this.equipSlot = equipSlot;
         this.equippable = true;
         this.requirements = requirements;
-        this.power = power;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
         this.defence = defence;
         this.vitality = vitality;
         this.attackSpeed = attackSpeed;
@@ -125,7 +128,7 @@ public class Item implements Serializable {
     public Item createItem(int x, int y, int count) {
         Item i;
         if (this.isEquippable()) {
-            i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+            i = new Item(texture, name, id, itemRarity, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
         } else {
             i = new Item(texture, name, id, itemRarity, price, stackable, itemTypes);
         }
@@ -181,8 +184,16 @@ public class Item implements Serializable {
         return equipSlot.getSlotId();
     }
 
-    public int getPower() {
-        return power;
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
     }
 
     public int getDefence() {

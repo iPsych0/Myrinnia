@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.creatures.DmgType;
 import dev.ipsych0.myrinnia.entities.npcs.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
@@ -142,22 +143,54 @@ public abstract class Entity implements Serializable {
      * Returns the damage an Entity should deal (Combat formula)
      * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
      */
-    public int getDamage(Entity dealer, Entity receiver) {
+    public int getDamage(DmgType damageType, Entity dealer, Entity receiver) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getPower()) + d.getBaseDamage();
+        int power;
+        switch (damageType){
+            case STR:
+                power = d.getStrength();
+                break;
+            case DEX:
+                power = d.getDexterity();
+                break;
+            case INT:
+                power = d.getIntelligence();
+                break;
+            default:
+                power = 0;
+                break;
+
+        }
+        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage();
     }
 
     /*
      * Returns the damage an Entity should deal + ability damage (Combat formula)
      * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
      */
-    public int getDamage(Entity dealer, Entity receiver, Ability ability) {
+    public int getDamage(DmgType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getPower()) + d.getBaseDamage() + ability.getBaseDamage();
+        int power;
+        switch (damageType){
+            case STR:
+                power = d.getStrength();
+                break;
+            case DEX:
+                power = d.getDexterity();
+                break;
+            case INT:
+                power = d.getIntelligence();
+                break;
+            default:
+                power = 0;
+                break;
+
+        }
+        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getStrength()) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     /*
@@ -165,15 +198,15 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(Entity dealer, Entity receiver) {
+    public void damage(DmgType damageType, Entity dealer, Entity receiver) {
         damageDealer = dealer;
         damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(dealer, receiver);
+        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver);
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageDealer, receiver)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver)));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -190,15 +223,15 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(Entity dealer, Entity receiver, Ability ability) {
+    public void damage(DmgType damageType, Entity dealer, Entity receiver, Ability ability) {
         damageDealer = dealer;
         damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(dealer, receiver, ability);
+        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageDealer, receiver, ability)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability)));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;

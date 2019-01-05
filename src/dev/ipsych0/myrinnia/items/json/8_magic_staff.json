@@ -1,16 +1,16 @@
 {
   "itemTypes": [
-    "FOOD"
+    "MAGIC_WEAPON"
   ],
-  "itemRarity": "Common",
-  "name": "Fish",
-  "id": 5,
-  "equipSlot": "None",
+  "itemRarity": "Exquisite",
+  "name": "Magic staff",
+  "id": 8,
+  "equipSlot": "Mainhand",
   "strength": 0,
   "dexterity": 0,
-  "intelligence": 0,
-  "defence": 0,
-  "vitality": 0,
+  "intelligence": 50,
+  "defence": 5,
+  "vitality": 15,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -29,8 +29,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 5,
-  "stackable": true,
-  "equippable": false,
+  "price": 100,
+  "stackable": false,
+  "equippable": true,
   "respawnTimer": 10800
 }

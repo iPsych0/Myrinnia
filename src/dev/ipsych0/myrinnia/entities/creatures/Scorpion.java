@@ -26,7 +26,7 @@ public class Scorpion extends Creature {
         isNpc = false;
 
         // Creature stats
-        power = 5;
+        strength = 5;
         vitality = 5;
         defence = 10;
         speed = DEFAULT_SPEED + 0.5f;

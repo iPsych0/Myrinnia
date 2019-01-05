@@ -95,8 +95,8 @@ class CommandHandler implements Serializable {
                 } else {
                     try {
                         // Set combat attributes
-                        if (commands[1].equalsIgnoreCase("power")) {
-                            Handler.get().getPlayer().setPower(Integer.parseInt(commands[2]));
+                        if (commands[1].equalsIgnoreCase("strength")) {
+                            Handler.get().getPlayer().setStrength(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("vitality")) {
                             Handler.get().getPlayer().setVitality(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("defence")) {
