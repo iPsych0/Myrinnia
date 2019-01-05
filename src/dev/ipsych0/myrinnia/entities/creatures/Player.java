@@ -340,7 +340,7 @@ public class Player extends Creature {
                         p.active = false;
                     }
                     if (e.isAttackable()) {
-                        e.damage(DmgType.DEX, this, e);
+                        e.damage(DmgType.INT, this, e);
                         p.active = false;
                     }
                 }
@@ -502,7 +502,7 @@ public class Player extends Creature {
      * @param: the item's equipment slot
      */
     public void addEquipmentStats(int equipSlot) {
-        if (equipSlot == 12) {
+        if (equipSlot == EquipSlot.None.getSlotId()) {
             // If slotnumber = 12 (unequippable) return
             return;
         }
@@ -512,6 +512,8 @@ public class Player extends Creature {
             attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
             vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
             strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
+            dexterity += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
+            intelligence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
             defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
             speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
             attackCooldown = (long) (600 / attackSpeed);
@@ -528,7 +530,7 @@ public class Player extends Creature {
      * Removes the equipment stats
      */
     public void removeEquipmentStats(int equipSlot) {
-        if (equipSlot == 12) {
+        if (equipSlot == EquipSlot.None.getSlotId()) {
             return;
         }
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
@@ -551,14 +553,24 @@ public class Player extends Creature {
                 strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
             }
 
+            if (getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity() < 0) {
+                setDexterity(0);
+            } else {
+                dexterity -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
+            }
+
+            if (getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence() < 0) {
+                setIntelligence(0);
+            } else {
+                intelligence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
+            }
+
             if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
                 setDefence(0);
             } else {
                 defence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
             }
-            /*
-             * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
-             */
+
             if (speed - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
                 speed = 1.0f;
             } else {
@@ -574,16 +586,6 @@ public class Player extends Creature {
             }
         }
     }
-
-    /**
-     * Damage formula
-     */
-//	@Override
-//	public int getDamage(Entity dealer) {
-//		// Default damage formula
-//		Creature c = (Creature) dealer;
-//		return (int) Math.floor((c.getBaseDamage() + c.getStrength() / 2));
-//	}
 
     /*
      * Regenerates health
@@ -765,7 +767,6 @@ public class Player extends Creature {
                 if (!e.isAttackable())
                     continue;
                 if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    // TODO: Change damage calculation formula
                     e.damage(DmgType.STR, this, e);
                     return;
                 }

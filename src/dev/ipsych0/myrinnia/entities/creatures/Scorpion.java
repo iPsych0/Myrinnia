@@ -26,7 +26,9 @@ public class Scorpion extends Creature {
         isNpc = false;
 
         // Creature stats
-        strength = 5;
+        strength = 0;
+        dexterity = 0;
+        intelligence = 5;
         vitality = 5;
         defence = 10;
         speed = DEFAULT_SPEED + 0.5f;
@@ -131,16 +133,6 @@ public class Scorpion extends Creature {
         Handler.get().playEffect("fireball.wav");
         projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f));
 
-//		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
-//			if(!e.equals(Handler.get().getPlayer())){
-//				continue;
-//			}
-//			if(e.getCollisionBounds(0, 0).intersects(ar)){
-//				// TODO: Change damage calculation formula
-//				e.damage(this, e);
-//				return;
-//			}
-//		}
     }
 
     @Override

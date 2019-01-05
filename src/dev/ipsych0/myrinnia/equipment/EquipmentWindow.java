@@ -79,7 +79,6 @@ public class EquipmentWindow implements Serializable {
                             if (es.getEquipmentStack() != null) {
                                 currentSelectedSlot = es.getEquipmentStack();
                                 Handler.get().getPlayer().removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
-                                System.out.println("Currently holding: " + es.getEquipmentStack().getItem().getName());
                                 es.setItem(null);
                                 itemSelected = true;
                             } else {
@@ -142,10 +141,6 @@ public class EquipmentWindow implements Serializable {
         if (isOpen) {
 
             g.drawImage(Assets.equipScreen, x, y, 132, 348, null);
-//			g.setColor(interfaceColour);
-//			g.fillRect(x - 16, y - 16, width + 32, height);
-//			g.setColor(Color.BLACK);
-//			g.drawRect(x - 16, y - 16, width + 32, height);
             Text.drawString(g, "Equipment", x + 34, y + 24, false, Color.YELLOW, Assets.font14);
 
             for (int i = 0; i < equipmentSlots.size(); i++) {

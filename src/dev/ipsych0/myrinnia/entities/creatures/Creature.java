@@ -212,7 +212,7 @@ public abstract class Creature extends Entity {
             name[0] = hoveringEntity.getClass().getSimpleName();
             return name;
         }
-        String[] name = new String[3];
+        String[] name = new String[2];
         name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
         name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
         return name;

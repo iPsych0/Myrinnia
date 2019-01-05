@@ -163,8 +163,8 @@ public class ItemTooltip {
             } else {
                 g.setColor(Color.YELLOW);
                 Text.drawString(g, "STR: " + item.getStrength(), x + 7, y + 48, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "DEX: " + item.getStrength(), x + 7, y + 64, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "INT: " + item.getStrength(), x + 7, y + 80, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "DEX: " + item.getDexterity(), x + 7, y + 64, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "INT: " + item.getIntelligence(), x + 7, y + 80, false, g.getColor(), Assets.font14);
                 Text.drawString(g, "DEF: " + item.getDefence(), x + 7, y + 96, false, g.getColor(), Assets.font14);
                 Text.drawString(g, "VIT: " + item.getVitality(), x + 7, y + 112, false, g.getColor(), Assets.font14);
                 Text.drawString(g, "ATK Spd.: " + item.getAttackSpeed(), x + 7, y + 128, false, g.getColor(), Assets.font14);
