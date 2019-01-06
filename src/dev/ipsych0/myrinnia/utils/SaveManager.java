@@ -29,6 +29,7 @@ public class SaveManager {
             o.writeObject(Handler.get());
             o.close();
             f.close();
+            Handler.get().playEffect("ui/savegame.wav");
         } catch (IOException e) {
             e.printStackTrace();
             Handler.get().sendMsg("WARNING: Could not save your game, please try again!");

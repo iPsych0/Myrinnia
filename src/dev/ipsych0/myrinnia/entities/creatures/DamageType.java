@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
-public enum DmgType {
+public enum DamageType {
 
     STR, DEX, INT
 }

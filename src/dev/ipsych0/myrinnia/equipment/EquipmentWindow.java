@@ -98,6 +98,10 @@ public class EquipmentWindow implements Serializable {
                             hasBeenPressed = false;
                             return;
                         }
+
+                        // Play the UI sound effect
+                        Handler.get().playEffect("ui/unequip.wav");
+
                         Handler.get().getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
                         Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
                         es.setItem(null);

@@ -40,7 +40,7 @@ public class Scorpion extends Creature {
         double exponent = 1.1;
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
-            exponent *= 0.9985;
+            exponent *= LEVEL_EXPONENT;
         }
         attackRange = Tiles.TILEWIDTH * 6;
 

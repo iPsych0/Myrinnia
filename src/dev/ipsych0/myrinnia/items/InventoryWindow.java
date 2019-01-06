@@ -202,6 +202,9 @@ public class InventoryWindow implements Serializable {
                                 }
                             }
 
+                            // Play the UI equipment sound effect
+                            Handler.get().playEffect("ui/equip.wav");
+
                             // If we have no item equipped in that slot
                             if (Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())) {
                                 Handler.get().getPlayer().addEquipmentStats(is.getItemStack().getItem().getEquipSlot());

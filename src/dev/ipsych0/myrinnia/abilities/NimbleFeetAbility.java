@@ -46,7 +46,7 @@ public class NimbleFeetAbility extends Ability {
             getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
-            Handler.get().playEffect("nimble_feet.wav");
+            Handler.get().playEffect("abilities/nimble_feet.wav");
         }
 
         boostTimeTimer++;

@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.entities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.creatures.DmgType;
+import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.npcs.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
@@ -143,7 +143,7 @@ public abstract class Entity implements Serializable {
      * Returns the damage an Entity should deal (Combat formula)
      * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
      */
-    public int getDamage(DmgType damageType, Entity dealer, Entity receiver) {
+    public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
@@ -170,7 +170,7 @@ public abstract class Entity implements Serializable {
      * Returns the damage an Entity should deal + ability damage (Combat formula)
      * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
      */
-    public int getDamage(DmgType damageType, Entity dealer, Entity receiver, Ability ability) {
+    public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
@@ -198,7 +198,7 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DmgType damageType, Entity dealer, Entity receiver) {
+    public void damage(DamageType damageType, Entity dealer, Entity receiver) {
         damageDealer = dealer;
         damageReceiver = receiver;
         damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver);
@@ -223,7 +223,7 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DmgType damageType, Entity dealer, Entity receiver, Ability ability) {
+    public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         damageDealer = dealer;
         damageReceiver = receiver;
         damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);

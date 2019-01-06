@@ -340,7 +340,7 @@ public class Player extends Creature {
                         p.active = false;
                     }
                     if (e.isAttackable()) {
-                        e.damage(DmgType.INT, this, e);
+                        e.damage(DamageType.INT, this, e);
                         p.active = false;
                     }
                 }
@@ -475,8 +475,8 @@ public class Player extends Creature {
 
         if (isLevelUp) {
             levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 16 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font32);
+            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font20);
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
@@ -488,7 +488,7 @@ public class Player extends Creature {
     public void levelUp() {
         isLevelUp = true;
 
-        this.levelExponent *= 0.9985;
+        this.levelExponent *= LEVEL_EXPONENT;
 
         // Change base damage and restore to full health
         this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
@@ -732,7 +732,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("fireball.wav");
+        Handler.get().playEffect("abilities/fireball.wav");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -767,7 +767,7 @@ public class Player extends Creature {
                 if (!e.isAttackable())
                     continue;
                 if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DmgType.STR, this, e);
+                    e.damage(DamageType.STR, this, e);
                     return;
                 }
             }

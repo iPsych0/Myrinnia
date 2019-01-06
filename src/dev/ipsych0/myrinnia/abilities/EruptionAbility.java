@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.DmgType;
+import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
@@ -48,7 +48,7 @@ public class EruptionAbility extends Ability {
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
 
-            Handler.get().playEffect("eruption.wav");
+            Handler.get().playEffect("abilities/eruption.wav");
 
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
@@ -57,7 +57,7 @@ public class EruptionAbility extends Ability {
                     if (!e.isAttackable())
                         continue;
                     if (!e.equals(caster)) {
-                        e.damage(DmgType.STR, caster, e, this);
+                        e.damage(DamageType.STR, caster, e, this);
                     }
                 }
             }

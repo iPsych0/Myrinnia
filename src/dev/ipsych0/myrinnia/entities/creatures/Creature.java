@@ -37,6 +37,7 @@ public abstract class Creature extends Entity {
     protected int vitality;
     protected float attackSpeed;
     protected int combatLevel;
+    protected static final double LEVEL_EXPONENT = 0.998;
     protected int attackRange = Tiles.TILEWIDTH * 2;
     protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
@@ -99,7 +100,7 @@ public abstract class Creature extends Entity {
      * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
      */
     @Override
-    public int getDamage(DmgType damageType, Entity dealer, Entity receiver) {
+    public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
         return super.getDamage(damageType, dealer, receiver);
     }
 
@@ -246,7 +247,7 @@ public abstract class Creature extends Entity {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
                     if (e.equals(Handler.get().getPlayer())) {
-                        e.damage(DmgType.DEX, this, e);
+                        e.damage(DamageType.DEX, this, e);
                         p.active = false;
                     }
                     if (!e.isAttackable()) {

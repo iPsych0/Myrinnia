@@ -6,9 +6,12 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class ItemTooltip {
+public class ItemTooltip implements Serializable {
 
+
+    private static final long serialVersionUID = -5708178237486962575L;
     private int x, y;
 
     public ItemTooltip(int x, int y) {

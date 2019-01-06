@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.ui;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.states.State;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +15,7 @@ public class UIImageButton extends UIObject {
      */
     private static final long serialVersionUID = -1839735101824151769L;
     private transient BufferedImage[] images;
+    private boolean hasHovered;
 
     public UIImageButton(float x, float y, int width, int height, BufferedImage[] images) {
         super(x, y, width, height);
@@ -25,10 +29,20 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void render(Graphics g) {
-        if (hovering)
+        if (hovering) {
+            if(!hasHovered){
+                Handler.get().playEffect("ui/ui_button_hover.wav");
+                hasHovered = true;
+            }
+            if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && State.hasBeenPressed){
+                Handler.get().playEffect("ui/ui_button_click.wav");
+                State.hasBeenPressed = false;
+            }
             g.drawImage(images[0], (int) x + 1, (int) y + 1, width, height, null);
-        else
+        }else {
             g.drawImage(images[1], (int) x, (int) y, width, height, null);
+            hasHovered = false;
+        }
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

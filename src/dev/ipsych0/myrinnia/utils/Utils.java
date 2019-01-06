@@ -127,6 +127,7 @@ public class Utils {
 
     public static Item loadItem(String path, BufferedImage sprite) {
         Item i = loadObjectFromJsonFile(path, "items", Item.class);
+        Item.items[i.getId()] = i;
         i.setTexture(sprite);
         return i;
     }
