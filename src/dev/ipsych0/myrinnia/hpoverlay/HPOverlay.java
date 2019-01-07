@@ -11,6 +11,9 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -25,12 +28,16 @@ public class HPOverlay implements Serializable {
     private static final long serialVersionUID = 4442630766249828531L;
     private Rectangle bounds;
     private Rectangle combatBar, hpBar, xpBar;
-    private Rectangle skillsButton, characterButton, abilitiesButton, questsButton, mapButton;
+    private UIImageButton skillsButton, characterButton, abilitiesButton, questsButton, mapButton;
     public static Color hpColorRed, hpColorGreen, xpColor;
     public static Color hpColorRedOutline, hpColorGreenOutline, xpColorOutline;
     public static boolean hasBeenPressed = false;
+    private UIManager uiManager;
 
     public HPOverlay() {
+
+        uiManager = new UIManager();
+
 
         // Bars
         hpBar = new Rectangle(56, 38, 144, 24);
@@ -50,15 +57,29 @@ public class HPOverlay implements Serializable {
         xpColorOutline = new Color(248, 168, 5);
 
         // Buttons
-        questsButton = new Rectangle(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32);
-        skillsButton = new Rectangle(bounds.x + bounds.width / 2 - 48, bounds.y + bounds.height - 40, 32, 32);
-        characterButton = new Rectangle(bounds.x + bounds.width / 2 - 16, bounds.y + bounds.height - 40, 32, 32);
-        abilitiesButton = new Rectangle(bounds.x + bounds.width / 2 + 16, bounds.y + bounds.height - 40, 32, 32);
-        mapButton = new Rectangle(bounds.x + bounds.width / 2 + 48, bounds.y + bounds.height - 40, 32, 32);
+        questsButton = new UIImageButton(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
+        skillsButton = new UIImageButton(bounds.x + bounds.width / 2 - 48, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
+        characterButton = new UIImageButton(bounds.x + bounds.width / 2 - 16, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
+        abilitiesButton = new UIImageButton(bounds.x + bounds.width / 2 + 16, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
+        mapButton = new UIImageButton(bounds.x + bounds.width / 2 + 48, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
+
+        uiManager.addObject(questsButton);
+        uiManager.addObject(skillsButton);
+        uiManager.addObject(characterButton);
+        uiManager.addObject(abilitiesButton);
+        uiManager.addObject(mapButton);
+
+        Handler.get().getMouseManager().setUIManager(uiManager);
     }
 
     public void tick() {
-
+        for (UIObject o : uiManager.getObjects()) {
+            if (o.getBounds().contains(Handler.get().getMouse())) {
+                o.setHovering(true);
+            } else {
+                o.setHovering(false);
+            }
+        }
     }
 
     public void render(Graphics g) {
@@ -74,10 +95,12 @@ public class HPOverlay implements Serializable {
         g.drawImage(Assets.genericButton[1], hpBar.x - 32, hpBar.y, 32, 24, null);
         g.drawImage(Assets.genericButton[1], xpBar.x - 32, xpBar.y, 32, 24, null);
 
+        uiManager.render(g);
+
         // Quests UI button
         if (questsButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], questsButton.x, questsButton.y, questsButton.width, questsButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
                 SkillsUI.isOpen = false;
                 SkillsOverviewUI.isOpen = false;
@@ -88,13 +111,12 @@ public class HPOverlay implements Serializable {
                 if (QuestUI.renderingQuests)
                     QuestUI.renderingQuests = false;
             }
-        } else
-            g.drawImage(Assets.genericButton[1], questsButton.x, questsButton.y, questsButton.width, questsButton.height, null);
+        }
 
         // Skills UI button
         if (skillsButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], skillsButton.x, skillsButton.y, skillsButton.width, skillsButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
                 CharacterUI.isOpen = false;
                 QuestUI.isOpen = false;
@@ -102,13 +124,12 @@ public class HPOverlay implements Serializable {
                 QuestUI.renderingQuests = false;
                 SkillsUI.isOpen = !SkillsUI.isOpen;
             }
-        } else
-            g.drawImage(Assets.genericButton[1], skillsButton.x, skillsButton.y, skillsButton.width, skillsButton.height, null);
+        }
 
         // Character UI button
         if (characterButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], characterButton.x, characterButton.y, characterButton.width, characterButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
                 SkillsUI.isOpen = false;
                 SkillsOverviewUI.isOpen = false;
@@ -117,13 +138,12 @@ public class HPOverlay implements Serializable {
                 QuestUI.renderingQuests = false;
                 CharacterUI.isOpen = !CharacterUI.isOpen;
             }
-        } else
-            g.drawImage(Assets.genericButton[1], characterButton.x, characterButton.y, characterButton.width, characterButton.height, null);
+        }
 
         // Abilities UI button
         if (abilitiesButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], abilitiesButton.x, abilitiesButton.y, abilitiesButton.width, abilitiesButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
                 if (ShopWindow.lastOpenedWindow != null) {
                     ShopWindow.lastOpenedWindow.exit();
@@ -135,18 +155,16 @@ public class HPOverlay implements Serializable {
                 Handler.get().getCraftingUI().exit();
                 AbilityOverviewUI.isOpen = !AbilityOverviewUI.isOpen;
             }
-        } else
-            g.drawImage(Assets.genericButton[1], abilitiesButton.x, abilitiesButton.y, abilitiesButton.width, abilitiesButton.height, null);
+        }
 
         // Map UI button
         if (mapButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], mapButton.x, mapButton.y, mapButton.width, mapButton.height, null);
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 Handler.get().sendMsg("Map coming soon!");
             }
-        } else
-            g.drawImage(Assets.genericButton[1], mapButton.x, mapButton.y, mapButton.width, mapButton.height, null);
+        }
 
 
         // UI button icons
@@ -199,19 +217,19 @@ public class HPOverlay implements Serializable {
             g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
             Text.drawString(g, "Quests (Q)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
         }
-        if (skillsButton.contains(mouse)) {
+        else if (skillsButton.contains(mouse)) {
             g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
             Text.drawString(g, "Skills (L)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
         }
-        if (characterButton.contains(mouse)) {
+        else if (characterButton.contains(mouse)) {
             g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
             Text.drawString(g, "Character (K)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
         }
-        if (abilitiesButton.contains(mouse)) {
+        else if (abilitiesButton.contains(mouse)) {
             g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
             Text.drawString(g, "Abilities (B)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
         }
-        if (mapButton.contains(mouse)) {
+        else if (mapButton.contains(mouse)) {
             g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
             Text.drawString(g, "Map (M)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
         }

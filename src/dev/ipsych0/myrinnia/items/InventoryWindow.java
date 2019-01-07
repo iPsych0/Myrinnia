@@ -161,7 +161,7 @@ public class InventoryWindow implements Serializable {
                         }
                         if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                             // If the item's equipmentslot = 12, that means it's unequippable, so return
-                            Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName());
+                            Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName() + ".");
                             equipPressed = false;
                             hasBeenPressed = false;
                             return;
@@ -202,7 +202,7 @@ public class InventoryWindow implements Serializable {
                                 }
                             }
 
-                            // Play the UI equipment sound effect
+                            // Play the equip sound
                             Handler.get().playEffect("ui/equip.wav");
 
                             // If we have no item equipped in that slot
@@ -420,7 +420,7 @@ public class InventoryWindow implements Serializable {
     public boolean removeItem(Item item, int amount) {
         boolean hasItem = false;
         if (!playerHasItem(item, amount)) {
-            Handler.get().sendMsg("You don't have " + amount + "x " + item.getName().toLowerCase());
+            Handler.get().sendMsg("You don't have " + amount + "x " + item.getName().toLowerCase() + ".");
             return hasItem;
         }
         List<Integer> matchSlots = new ArrayList<>();

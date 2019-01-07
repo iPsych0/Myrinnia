@@ -517,6 +517,7 @@ public class ShopWindow implements Serializable {
 
             if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
                 if (is.getItemStack() != null) {
+                    Handler.get().playEffect("ui/ui_button_click.wav");
                     // If the price = -1, item cannot be sold
                     if (is.getItemStack().getItem().getPrice() <= -1) {
                         Handler.get().sendMsg("You cannot sell this item.");

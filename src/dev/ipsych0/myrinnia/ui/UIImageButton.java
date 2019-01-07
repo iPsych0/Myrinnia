@@ -16,8 +16,9 @@ public class UIImageButton extends UIObject {
     private static final long serialVersionUID = -1839735101824151769L;
     private transient BufferedImage[] images;
     private boolean hasHovered;
+    public static boolean hasBeenPressed = false;
 
-    public UIImageButton(float x, float y, int width, int height, BufferedImage[] images) {
+    public UIImageButton(int x, int y, int width, int height, BufferedImage[] images) {
         super(x, y, width, height);
         this.images = images;
     }
@@ -34,13 +35,13 @@ public class UIImageButton extends UIObject {
                 Handler.get().playEffect("ui/ui_button_hover.wav");
                 hasHovered = true;
             }
-            if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && State.hasBeenPressed){
+            if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed){
                 Handler.get().playEffect("ui/ui_button_click.wav");
-                State.hasBeenPressed = false;
+                hasBeenPressed = false;
             }
-            g.drawImage(images[0], (int) x + 1, (int) y + 1, width, height, null);
+            g.drawImage(images[0], x + 1, y + 1, width, height, null);
         }else {
-            g.drawImage(images[1], (int) x, (int) y, width, height, null);
+            g.drawImage(images[1], x, y, width, height, null);
             hasHovered = false;
         }
     }

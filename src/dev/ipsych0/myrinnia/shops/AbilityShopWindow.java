@@ -108,6 +108,7 @@ public class AbilityShopWindow implements Serializable {
             slot.tick();
             if (slot.getBounds().contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                    Handler.get().playEffect("ui/ui_button_click.wav");
                     if (selectedSlot == null)
                         selectedSlot = slot;
                     else if (selectedSlot == slot)
@@ -180,9 +181,11 @@ public class AbilityShopWindow implements Serializable {
             Handler.get().getPlayer().setAbilityPoints(abilityPoints - price);
             Handler.get().getAbilityManager().getAllAbilities().get(ability.getId()).setUnlocked(true);
             Handler.get().sendMsg("Unlocked '" + ability.getName() + "'!");
+            Handler.get().playEffect("ui/shop_trade.wav");
             selectedSlot = null;
         } else {
             Handler.get().sendMsg("You don't have enough Ability Points.");
+            Handler.get().playEffect("ui/ui_button_click.wav");
         }
     }
 
@@ -190,6 +193,9 @@ public class AbilityShopWindow implements Serializable {
         if (makingChoice && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 buyAbility(selectedSlot.getAbility());
+            }
+            else if("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])){
+                Handler.get().playEffect("ui/ui_button_click.wav");
             }
             dBox.setPressedButton(null);
             DialogueBox.isOpen = false;
@@ -207,6 +213,7 @@ public class AbilityShopWindow implements Serializable {
         // Buy button
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if (selectedSlot != null) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
                 makingChoice = true;
                 DialogueBox.isOpen = true;
                 TextBox.isOpen = false;
@@ -225,6 +232,7 @@ public class AbilityShopWindow implements Serializable {
 
         // All button
         if (allButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = allSlots;
@@ -233,6 +241,7 @@ public class AbilityShopWindow implements Serializable {
 
         // Melee button
         if (meleeButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = meleeSlots;
@@ -241,6 +250,7 @@ public class AbilityShopWindow implements Serializable {
 
         // Ranged button
         if (rangedButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = rangedSlots;
@@ -249,6 +259,7 @@ public class AbilityShopWindow implements Serializable {
 
         // Magic button
         if (magicButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = magicSlots;

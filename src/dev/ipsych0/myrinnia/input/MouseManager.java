@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 
 import java.awt.*;
@@ -92,6 +93,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
             ChatDialogue.hasBeenPressed = true;
             QuestUI.hasBeenPressed = true;
             State.hasBeenPressed = true;
+            UIImageButton.hasBeenPressed = true;
             CharacterUI.hasBeenPressed = true;
             SkillsUI.hasBeenPressed = true;
             SkillsOverviewUI.hasBeenPressed = true;
