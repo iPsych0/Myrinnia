@@ -24,18 +24,21 @@ public class WorldHandler implements Serializable {
 
     private void initWorlds() {
         // Add new worlds here
-//		addWorld(new TestLand("res/worlds/testmap2.tmx"));
+		addWorld(new TestLand("res/worlds/testmap2.tmx"));
+		addWorld(new Myrinnia("res/worlds/island.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
         addWorld(new SwampLand("res/worlds/testmap.tmx"));
         addWorld(new IslandUnderground("res/worlds/island_indoors.tmx"));
 
         try {
-            Collections.sort(worlds, Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));
+            worlds.sort(Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));
+
             List<Zone> zoneEnum = Arrays.asList(Zone.values());
-            Collections.sort(zoneEnum, Comparator.comparing(o -> o.toString().toLowerCase()));
+            zoneEnum.sort(Comparator.comparing(o -> o.toString().toLowerCase()));
 
             for (int i = 0; i < worlds.size(); i++) {
                 worldsMap.put(zoneEnum.get(i), worlds.get(i));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("ERROR: World enum / World class match not found!");

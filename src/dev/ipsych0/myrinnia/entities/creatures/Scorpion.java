@@ -130,7 +130,7 @@ public class Scorpion extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("fireball.wav");
+        Handler.get().playEffect("abilities/fireball.wav");
         projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f));
 
     }

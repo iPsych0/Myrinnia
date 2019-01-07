@@ -391,22 +391,26 @@ public class ShopWindow implements Serializable {
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                    Handler.get().playEffect("ui/shop_trade.wav");
                 }
                 // If the user has typed in an amount and confirmed the trade per button, sell the item
                 else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                    Handler.get().playEffect("ui/shop_trade.wav");
                 }
             }
             // If the user has typed in an amount and confirmed the trade per button, buy the item
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                     "BuyAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                 buyAllItem();
+                Handler.get().playEffect("ui/shop_trade.wav");
             }
             // If the user has typed in an amount and confirmed the trade per button, sell the item
             else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                     "SellAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                 sellAllItem();
+                Handler.get().playEffect("ui/shop_trade.wav");
             }
 
             dBox.setPressedButton(null);
@@ -432,11 +436,13 @@ public class ShopWindow implements Serializable {
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                    Handler.get().playEffect("ui/shop_trade.wav");
                 }
                 // If the user has typed in an amount and confirmed the trade per button, sell the item
                 else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
+                    Handler.get().playEffect("ui/shop_trade.wav");
                 }
             }
 
@@ -584,6 +590,7 @@ public class ShopWindow implements Serializable {
     private void buyItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
             if (Handler.get().playerHasItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()))) {
+                Handler.get().playEffect("ui/shop_trade.wav");
                 if (!Handler.get().invIsFull(tradeSlot.getItemStack().getItem()) && selectedSlot.getItemStack().getAmount() > 0) {
                     Handler.get().removeItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()));
                     Handler.get().giveItem(tradeSlot.getItemStack().getItem(), 1);
@@ -621,6 +628,7 @@ public class ShopWindow implements Serializable {
                 return;
             }
             if (Handler.get().playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
+                Handler.get().playEffect("ui/shop_trade.wav");
                 if (findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
                     Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
                     Handler.get().giveItem(Item.coins, (int) (Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
