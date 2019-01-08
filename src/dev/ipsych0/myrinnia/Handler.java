@@ -144,6 +144,9 @@ public class Handler implements Serializable {
      */
     public void playEffect(String effect, float volume) {
         if (!soundMuted) {
+            if(volume < -0.15f){
+                volume = -0.15f;
+            }
             int buffer = -1;
             try {
                 buffer = AudioManager.loadSound("res/music/sfx/" + effect);
