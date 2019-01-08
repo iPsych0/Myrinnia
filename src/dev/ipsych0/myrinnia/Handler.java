@@ -134,6 +134,15 @@ public class Handler implements Serializable {
     }
 
     public void playEffect(String effect) {
+        playEffect(effect, 0.0f);
+    }
+
+    /**
+     * Play a sound effect one time with custom volume setting
+     * @param effect Name of the audio file
+     * @param volume Additional volume. Default volume is 0.15.
+     */
+    public void playEffect(String effect, float volume) {
         if (!soundMuted) {
             int buffer = -1;
             try {
@@ -143,7 +152,7 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.getLast().setVolume(0.15f);
+            AudioManager.soundfxFiles.getLast().setVolume(0.15f + volume);
             AudioManager.soundfxFiles.getLast().setLooping(false);
             AudioManager.soundfxFiles.getLast().playEffect(buffer);
 

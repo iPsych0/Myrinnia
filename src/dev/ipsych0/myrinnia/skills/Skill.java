@@ -58,7 +58,7 @@ public abstract class Skill implements Serializable {
             nextLevelXp = (int) (nextLevelXp * 1.1);
             checkNextLevel();
             Player.isLevelUp = true;
-            Handler.get().playEffect("ui/level_up.wav");
+            Handler.get().playEffect("ui/level_up.wav", 0.1f);
         }
     }
 
