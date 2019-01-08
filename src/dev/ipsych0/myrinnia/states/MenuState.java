@@ -32,7 +32,6 @@ public class MenuState extends State {
     public MenuState() {
         super();
         uiManager = new UIManager();
-        Handler.get().getMouseManager().setUIManager(uiManager);
 
         /*
          * New Game Button
@@ -66,11 +65,6 @@ public class MenuState extends State {
 
     @Override
     public void tick() {
-        // If our UIManager was disabled, enable it if we get back to this Menu State
-        if (!loaded) {
-            Handler.get().getMouseManager().setUIManager(uiManager);
-            loaded = true;
-        }
 
         Rectangle mouse = Handler.get().getMouse();
 
@@ -84,7 +78,6 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().getMouseManager().setUIManager(null);
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
                 Handler.get().playMusic(Zone.Island);
                 hasBeenPressed = false;
@@ -101,7 +94,6 @@ public class MenuState extends State {
                     errorDisplayTimer = 0;
                     return;
                 } else {
-                    Handler.get().getMouseManager().setUIManager(null);
                     SaveManager.loadHandler();
                     State.setState(new UITransitionState(Handler.get().getGame().recapState));
                     hasBeenPressed = false;
@@ -116,7 +108,6 @@ public class MenuState extends State {
                 loaded = false;
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 SettingState.previousState = this;
-                Handler.get().getMouseManager().setUIManager(null);
                 hasBeenPressed = false;
                 displayError = false;
                 errorDisplayTimer = 0;

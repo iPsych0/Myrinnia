@@ -35,7 +35,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
     private static final long serialVersionUID = -98228253788414846L;
     private boolean leftPressed, rightPressed, isDragged;
     private int mouseX, mouseY;
-    private UIManager uiManager;
     private int mouseMovedTimer;
     private Rectangle mouseCoords;
 
@@ -53,10 +52,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
         if (mouseMovedTimer > 20)
             Player.mouseMoved = false;
 
-    }
-
-    public void setUIManager(UIManager uiManager) {
-        this.uiManager = uiManager;
     }
 
     // Getters & Setters

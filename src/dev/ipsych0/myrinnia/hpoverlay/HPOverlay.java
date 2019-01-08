@@ -69,7 +69,6 @@ public class HPOverlay implements Serializable {
         uiManager.addObject(abilitiesButton);
         uiManager.addObject(mapButton);
 
-        Handler.get().getMouseManager().setUIManager(uiManager);
     }
 
     public void tick() {
