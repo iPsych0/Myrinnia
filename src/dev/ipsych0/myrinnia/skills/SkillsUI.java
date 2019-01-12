@@ -3,6 +3,8 @@ package dev.ipsych0.myrinnia.skills;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -21,11 +23,12 @@ public class SkillsUI implements Serializable {
     public static boolean hasBeenPressed = false;
     private HashMap<SkillsList, Skill> skills;
     private ArrayList<Skill> skillsList;
-    private Rectangle crafting, fishing, mining, woodcutting, bountyHunter;
+    private UIImageButton crafting, fishing, mining, woodcutting, bountyHunter;
     private SkillsOverviewUI overviewUI;
     public static boolean escapePressed = false;
     private Rectangle bounds;
-    private Rectangle exit;
+    private UIImageButton exit;
+    private UIManager uiManager;
 
     public SkillsUI() {
         skillsList = new ArrayList<Skill>();
@@ -51,22 +54,32 @@ public class SkillsUI implements Serializable {
             skills.put(skillsEnum.get(i), skillsList.get(i));
         }
 
-        bountyHunter = new Rectangle(x + 16, y + 40, 174, 32);
-        crafting = new Rectangle(x + 16, y + 72, 174, 32);
-        fishing = new Rectangle(x + 16, y + 104, 174, 32);
-        mining = new Rectangle(x + 16, y + 136, 174, 32);
-        woodcutting = new Rectangle(x + 16, y + 168, 174, 32);
+        bountyHunter = new UIImageButton(x + 16, y + 40, 174, 32, Assets.genericButton);
+        crafting = new UIImageButton(x + 16, y + 72, 174, 32, Assets.genericButton);
+        fishing = new UIImageButton(x + 16, y + 104, 174, 32, Assets.genericButton);
+        mining = new UIImageButton(x + 16, y + 136, 174, 32, Assets.genericButton);
+        woodcutting = new UIImageButton(x + 16, y + 168, 174, 32, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
-        exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
+        exit = new UIImageButton(x + (width / 2) / 2, y + height - 24, width / 2, 16, Assets.genericButton);
 
+        uiManager = new UIManager();
         overviewUI = new SkillsOverviewUI();
+
+        uiManager.addObject(bountyHunter);
+        uiManager.addObject(crafting);
+        uiManager.addObject(fishing);
+        uiManager.addObject(mining);
+        uiManager.addObject(woodcutting);
+        uiManager.addObject(exit);
     }
 
     public void tick() {
         if (isOpen) {
             Rectangle mouse = Handler.get().getMouse();
+
+            uiManager.tick();
 
             if (bountyHunter.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -163,47 +176,20 @@ public class SkillsUI implements Serializable {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
+            uiManager.render(g);
+
             overviewUI.render(g);
 
             Rectangle mouse = Handler.get().getMouse();
 
             Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 
-            if (bountyHunter.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], bountyHunter.x, bountyHunter.y, bountyHunter.width, bountyHunter.height, null);
-                drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
-            } else {
-                g.drawImage(Assets.genericButton[1], bountyHunter.x, bountyHunter.y, bountyHunter.width, bountyHunter.height, null);
-                drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
-            }
-            if (crafting.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], crafting.x, crafting.y, crafting.width, crafting.height, null);
-                drawXpProgress(g, crafting, SkillsList.CRAFTING);
-            } else {
-                g.drawImage(Assets.genericButton[1], crafting.x, crafting.y, crafting.width, crafting.height, null);
-                drawXpProgress(g, crafting, SkillsList.CRAFTING);
-            }
-            if (fishing.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], fishing.x, fishing.y, fishing.width, fishing.height, null);
-                drawXpProgress(g, fishing, SkillsList.FISHING);
-            } else {
-                g.drawImage(Assets.genericButton[1], fishing.x, fishing.y, fishing.width, fishing.height, null);
-                drawXpProgress(g, fishing, SkillsList.FISHING);
-            }
-            if (mining.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], mining.x, mining.y, mining.width, mining.height, null);
-                drawXpProgress(g, mining, SkillsList.MINING);
-            } else {
-                g.drawImage(Assets.genericButton[1], mining.x, mining.y, mining.width, mining.height, null);
-                drawXpProgress(g, mining, SkillsList.MINING);
-            }
-            if (woodcutting.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
-                drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
-            } else {
-                g.drawImage(Assets.genericButton[1], woodcutting.x, woodcutting.y, woodcutting.width, woodcutting.height, null);
-                drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
-            }
+            drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
+            drawXpProgress(g, crafting, SkillsList.CRAFTING);
+            drawXpProgress(g, fishing, SkillsList.FISHING);
+            drawXpProgress(g, mining, SkillsList.MINING);
+            drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
+
             Text.drawString(g, "Bounty Hunter lvl: " + getSkill(SkillsList.BOUNTYHUNTER).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
@@ -232,14 +218,11 @@ public class SkillsUI implements Serializable {
             }
 
             if (exit.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                     hasBeenPressed = false;
                     SkillsOverviewUI.isOpen = false;
                     SkillsUI.isOpen = false;
                 }
-            } else {
-                g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
             }
             Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
         }

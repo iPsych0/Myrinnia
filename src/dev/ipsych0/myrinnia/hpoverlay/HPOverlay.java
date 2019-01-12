@@ -72,13 +72,7 @@ public class HPOverlay implements Serializable {
     }
 
     public void tick() {
-        for (UIObject o : uiManager.getObjects()) {
-            if (o.getBounds().contains(Handler.get().getMouse())) {
-                o.setHovering(true);
-            } else {
-                o.setHovering(false);
-            }
-        }
+        uiManager.tick();
     }
 
     public void render(Graphics g) {

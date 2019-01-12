@@ -50,14 +50,6 @@ public class PauseState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
-        for (UIObject o : uiManager.getObjects()) {
-            if (o.getBounds().contains(mouse)) {
-                o.setHovering(true);
-            } else {
-                o.setHovering(false);
-            }
-        }
-
         if (resumeButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));

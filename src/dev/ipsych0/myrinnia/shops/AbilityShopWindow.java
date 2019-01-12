@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
@@ -10,6 +11,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -30,9 +33,9 @@ public class AbilityShopWindow implements Serializable {
     public static boolean hasBeenPressed;
     private AbilityShopSlot selectedSlot;
     private Color selectedColor = new Color(0, 255, 255, 62);
-    private Rectangle buyButton;
-    private Rectangle exitButton;
-    private Rectangle allButton, meleeButton, rangedButton, magicButton;
+    private UIImageButton buyButton;
+    private UIImageButton exitButton;
+    private UIImageButton allButton, meleeButton, rangedButton, magicButton;
     private Rectangle bounds;
 
     private DialogueBox dBox;
@@ -41,6 +44,10 @@ public class AbilityShopWindow implements Serializable {
     private String[] answers = {"Yes", "No"};
     public static boolean makingChoice = false;
     public static AbilityShopWindow lastOpenedWindow;
+
+    private UIManager uiManager;
+
+    private UIManager allManager;
 
     private AbilityTooltip abilityTooltip;
 
@@ -56,28 +63,40 @@ public class AbilityShopWindow implements Serializable {
             System.exit(1);
         }
 
+        uiManager = new UIManager();
+        allManager = new UIManager();
+
         // Add the shops slots
         allSlots = new ArrayList<>(abilities.size());
         int xPos = 0;
         int yPos = 0;
+        int index = 0;
         for (Ability a : abilities) {
             if (xPos == MAX_HORIZONTAL_SLOTS) {
                 xPos = 0;
                 yPos++;
             }
             allSlots.add(new AbilityShopSlot(a, x + 16 + xPos++ * 32, y + 128 + yPos * 32));
+            allManager.addObject(allSlots.get(index++));
         }
         currentSlots = allSlots;
 
         abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
 
-        buyButton = new Rectangle(x + width / 2 - 32, y + height - 64, 64, 32);
-        exitButton = new Rectangle(x + width - 35, y + 10, 24, 24);
+        buyButton = new UIImageButton(x + width / 2 - 32, y + height - 64, 64, 32, Assets.genericButton);
+        exitButton = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);
 
-        allButton = new Rectangle(x + width / 2 - 138, y + 64, 64, 32);
-        meleeButton = new Rectangle(x + width / 2 - 70, y + 64, 64, 32);
-        rangedButton = new Rectangle(x + width / 2 + 2, y + 64, 64, 32);
-        magicButton = new Rectangle(x + width / 2 + 70, y + 64, 64, 32);
+        allButton = new UIImageButton(x + width / 2 - 138, y + 64, 64, 32, Assets.genericButton);
+        meleeButton = new UIImageButton(x + width / 2 - 70, y + 64, 64, 32, Assets.genericButton);
+        rangedButton = new UIImageButton(x + width / 2 + 2, y + 64, 64, 32, Assets.genericButton);
+        magicButton = new UIImageButton(x + width / 2 + 70, y + 64, 64, 32, Assets.genericButton);
+
+        uiManager.addObject(buyButton);
+        uiManager.addObject(exitButton);
+        uiManager.addObject(allButton);
+        uiManager.addObject(meleeButton);
+        uiManager.addObject(rangedButton);
+        uiManager.addObject(magicButton);
 
         meleeSlots = new ArrayList<>();
         rangedSlots = new ArrayList<>();
@@ -104,11 +123,13 @@ public class AbilityShopWindow implements Serializable {
     public void tick() {
         Rectangle mouse = Handler.get().getMouse();
 
+        uiManager.tick();
+        allManager.tick();
+
         for (AbilityShopSlot slot : currentSlots) {
             slot.tick();
             if (slot.getBounds().contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
                     if (selectedSlot == null)
                         selectedSlot = slot;
                     else if (selectedSlot == slot)
@@ -135,6 +156,9 @@ public class AbilityShopWindow implements Serializable {
 
         Rectangle mouse = Handler.get().getMouse();
 
+        uiManager.render(g);
+        allManager.render(g);
+
         for (AbilityShopSlot slot : currentSlots) {
             if (slot.getBounds().contains(mouse)) {
                 slot.setHovering(true);
@@ -145,7 +169,7 @@ public class AbilityShopWindow implements Serializable {
             slot.render(g);
 
             if (slot.getAbility().isUnlocked()) {
-                Text.drawString(g, "✓", slot.getX() + 24, slot.getY() + 28, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "✓", (int) slot.getX() + 24, (int) slot.getY() + 28, true, Color.GREEN, Assets.font14);
             }
         }
 
@@ -156,13 +180,13 @@ public class AbilityShopWindow implements Serializable {
         if (selectedSlot != null) {
             Ability a = selectedSlot.getAbility();
             g.setColor(selectedColor);
-            g.fillRoundRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+            g.fillRoundRect((int) selectedSlot.getX(), (int) selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
 
             Text.drawString(g, a.getName() + " costs: " + a.getPrice() + " ability points.", x + width / 2, buyButton.y + buyButton.height + 16, true, Color.YELLOW, Assets.font14);
         }
 
         // Draw the UI buttons
-        drawButtons(g, mouse);
+        drawButtons(g);
 
         // If player is making a choice, show the dialoguebox
         if (makingChoice)
@@ -193,8 +217,7 @@ public class AbilityShopWindow implements Serializable {
         if (makingChoice && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 buyAbility(selectedSlot.getAbility());
-            }
-            else if("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])){
+            } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
             dBox.setPressedButton(null);
@@ -213,7 +236,6 @@ public class AbilityShopWindow implements Serializable {
         // Buy button
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if (selectedSlot != null) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
                 makingChoice = true;
                 DialogueBox.isOpen = true;
                 TextBox.isOpen = false;
@@ -232,82 +254,54 @@ public class AbilityShopWindow implements Serializable {
 
         // All button
         if (allButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = allSlots;
+            resetUIManager();
             return;
         }
 
         // Melee button
         if (meleeButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = meleeSlots;
+            resetUIManager();
             return;
         }
 
         // Ranged button
         if (rangedButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = rangedSlots;
+            resetUIManager();
             return;
         }
 
         // Magic button
         if (magicButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            Handler.get().playEffect("ui/ui_button_click.wav");
             hasBeenPressed = false;
             selectedSlot = null;
             currentSlots = magicSlots;
+            resetUIManager();
             return;
         }
     }
 
-    private void drawButtons(Graphics g, Rectangle mouse) {
-        // Buy button
-        if (buyButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], buyButton.x, buyButton.y, buyButton.width, buyButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], buyButton.x, buyButton.y, buyButton.width, buyButton.height, null);
+    private void resetUIManager(){
+        allManager.getObjects().clear();
+        for(AbilityShopSlot as : currentSlots){
+            allManager.addObject(as);
+        }
+    }
+
+    private void drawButtons(Graphics g) {
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
-
-        // Exit button
-        if (exitButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], exitButton.x, exitButton.y, exitButton.width, exitButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], exitButton.x, exitButton.y, exitButton.width, exitButton.height, null);
         Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);
-
-        // All button
-        if (allButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], allButton.x, allButton.y, allButton.width, allButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], allButton.x, allButton.y, allButton.width, allButton.height, null);
         Text.drawString(g, "All", allButton.x + allButton.width / 2, allButton.y + allButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-
-        // Melee button
-        if (meleeButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], meleeButton.x, meleeButton.y, meleeButton.width, meleeButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], meleeButton.x, meleeButton.y, meleeButton.width, meleeButton.height, null);
         Text.drawString(g, "Melee", meleeButton.x + meleeButton.width / 2, meleeButton.y + meleeButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-
-        // Ranged button
-        if (rangedButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], rangedButton.x, rangedButton.y, rangedButton.width, rangedButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], rangedButton.x, rangedButton.y, rangedButton.width, rangedButton.height, null);
         Text.drawString(g, "Ranged", rangedButton.x + rangedButton.width / 2, rangedButton.y + rangedButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-
-        // Magic button
-        if (magicButton.contains(mouse))
-            g.drawImage(Assets.genericButton[0], magicButton.x, magicButton.y, magicButton.width, magicButton.height, null);
-        else
-            g.drawImage(Assets.genericButton[1], magicButton.x, magicButton.y, magicButton.width, magicButton.height, null);
         Text.drawString(g, "Magic", magicButton.x + magicButton.width / 2, magicButton.y + magicButton.height / 2, true, Color.YELLOW, GameState.chatFont);
     }
 
@@ -326,7 +320,6 @@ public class AbilityShopWindow implements Serializable {
                     meleeYPos++;
                 }
                 meleeSlots.add(new AbilityShopSlot(slot.getAbility(), x + 16 + meleeXPos++ * 32, y + 128 + meleeYPos * 32));
-
             } else if (slot.getAbility().getCombatStyle() == CharacterStats.Ranged) {
                 if (rangedXPos == MAX_HORIZONTAL_SLOTS) {
                     rangedXPos = 0;

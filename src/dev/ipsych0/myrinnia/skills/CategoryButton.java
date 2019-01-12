@@ -1,12 +1,13 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class CategoryButton implements Serializable {
+public class CategoryButton extends UIImageButton implements Serializable {
 
     /**
      *
@@ -15,9 +16,9 @@ public class CategoryButton implements Serializable {
     public int x, y, width, height;
     private SkillCategory category;
     private Rectangle bounds;
-    private boolean hovering = false;
 
     public CategoryButton(SkillCategory category, int x, int y, int width, int height) {
+        super(x,y, width,height, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -28,15 +29,11 @@ public class CategoryButton implements Serializable {
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-        if (!hovering) {
-            g.drawImage(Assets.genericButton[1], x, y, width, height, null);
-        } else {
-            g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        }
+        super.render(g);
         Text.drawString(g, category.getName(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }
 
@@ -46,14 +43,6 @@ public class CategoryButton implements Serializable {
 
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
-    }
-
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
     }
 
     public SkillCategory getCategory() {

@@ -3,38 +3,36 @@ package dev.ipsych0.myrinnia.shops;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class AbilityShopSlot implements Serializable {
+public class AbilityShopSlot extends UIImageButton implements Serializable {
 
     private Ability ability;
     private int x, y;
-    private boolean hovering;
     private Rectangle bounds;
     private Color unlockedColor = new Color(106, 105, 105, 96);
 
     public AbilityShopSlot(Ability ability, int x, int y) {
+        super(x, y, 32, 32, Assets.genericButton);
         this.ability = ability;
         this.x = x;
         this.y = y;
-        this.bounds = new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+        this.bounds = new Rectangle(x, y, width, height);
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-        if (hovering)
-            g.drawImage(Assets.genericButton[0], x, y, 32, 32, null);
-        else
-            g.drawImage(Assets.genericButton[1], x, y, 32, 32, null);
+        super.render(g);
         ability.render(g, x, y);
         if (ability.isUnlocked()) {
             g.setColor(unlockedColor);
-            g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+            g.fillRoundRect(x, y, width, height, 4, 4);
         }
     }
 
@@ -46,36 +44,12 @@ public class AbilityShopSlot implements Serializable {
         this.ability = ability;
     }
 
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
-    }
-
     public Rectangle getBounds() {
         return bounds;
     }
 
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 }
 

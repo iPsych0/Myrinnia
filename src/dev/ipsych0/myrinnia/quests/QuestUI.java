@@ -80,21 +80,9 @@ public class QuestUI implements Serializable {
 
             // Check hovers on UI buttons
             if(!renderingQuests) {
-                for (UIObject o : zoneManager.getObjects()) {
-                    if (o.getBounds().contains(Handler.get().getMouse())) {
-                        o.setHovering(true);
-                    } else {
-                        o.setHovering(false);
-                    }
-                }
+                zoneManager.tick();
             }else{
-                for (UIObject o : questsManager.getObjects()) {
-                    if (o.getBounds().contains(Handler.get().getMouse())) {
-                        o.setHovering(true);
-                    } else {
-                        o.setHovering(false);
-                    }
-                }
+                questsManager.tick();
             }
 
             if (QuestHelpUI.isOpen && Handler.get().getKeyManager().escape && escapePressed) {

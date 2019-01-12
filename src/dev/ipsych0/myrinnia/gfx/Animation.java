@@ -111,9 +111,6 @@ public class Animation implements Serializable {
         }
     }
 
-
-    // TODO: Add function for a single animation cycle.
-
     public BufferedImage getCurrentFrame() {
         return frames[index];
     }

@@ -3,6 +3,8 @@ package dev.ipsych0.myrinnia.skills;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -23,7 +25,9 @@ public class SkillsOverviewUI implements Serializable {
     private ScrollBar scrollBar;
     private int maxPerScreen = 8;
     private ArrayList<CategoryButton> categories;
-    private Rectangle exit, bounds;
+    private Rectangle bounds;
+    private UIImageButton exit;
+    private UIManager uiManager;
 
     public SkillsOverviewUI() {
 
@@ -32,11 +36,16 @@ public class SkillsOverviewUI implements Serializable {
         scrollBar = new ScrollBar(x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
 
         bounds = new Rectangle(x, y, width, height);
-        exit = new Rectangle(x + width - 34, y + 10, 24, 24);
+        exit = new UIImageButton(x + width - 34, y + 10, 24, 24, Assets.genericButton);
+
+        uiManager = new UIManager();
+        uiManager.addObject(exit);
     }
 
     public void tick() {
         if (isOpen) {
+            uiManager.tick();
+
             Rectangle mouse = Handler.get().getMouse();
 
             if (selectedSkill != null) {
@@ -103,6 +112,8 @@ public class SkillsOverviewUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
+            uiManager.render(g);
+
             if (selectedSkill != null) {
                 Text.drawString(g, selectedSkill.toString(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
                 int yPos = 0;
@@ -112,14 +123,11 @@ public class SkillsOverviewUI implements Serializable {
                 }
 
                 if (exit.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
                     if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                         isOpen = false;
                         hasBeenPressed = false;
                         return;
                     }
-                } else {
-                    g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
                 }
                 Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
 
