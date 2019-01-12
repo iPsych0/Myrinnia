@@ -93,6 +93,10 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     speakingTurn++;
                     chatDialogue = new ChatDialogue(secondDialogue);
                     break;
+                }else{
+                    chatDialogue = null;
+                    speakingTurn = 1;
+                    break;
                 }
             case 3:
                 if (chatDialogue == null) {
