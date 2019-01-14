@@ -3,12 +3,13 @@ package dev.ipsych0.myrinnia.crafting;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class CraftingSlot implements Serializable {
+public class CraftingSlot extends UIImageButton implements Serializable {
 
 
     /**
@@ -21,31 +22,20 @@ public class CraftingSlot implements Serializable {
     public static boolean stackable = true;
 
     public CraftingSlot(int x, int y, ItemStack itemStack) {
+        super(x, y, 32, 32, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.itemStack = itemStack;
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-
-//		g.setColor(Color.DARK_GRAY);
-//		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-//		g.setColor(Color.BLACK);
-//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
-
-        g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
-
-        /*
-         * If there is an item in a slot, render it
-         */
+        super.render(g);
         if (itemStack != null) {
-
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
-
             if (itemStack.getItem().isStackable()) {
                 Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
             }
@@ -84,22 +74,6 @@ public class CraftingSlot implements Serializable {
 
     public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
 }

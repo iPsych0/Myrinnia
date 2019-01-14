@@ -336,7 +336,7 @@ public class Assets {
         teleportShrinePillar1 = object_sheet.imageCrop(9, 10);
         teleportShrinePillar2 = object_sheet.imageCrop(9, 11);
 
-        workbench = city_sprites.imageCrop(5, 0, 2, 2);
+        workbench = city_sprites.imageCrop(5, 0, 64, 64);
 
         /*
          * Enemy Animations

@@ -5,12 +5,16 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.*;
+import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.ItemTooltip;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,18 +34,16 @@ public class CraftingUI implements Serializable {
     private static final long serialVersionUID = 6741379998525736950L;
     private int x, y, width, height;
     public static boolean isOpen = false;
-    private boolean isCreated = false;
-    private boolean hasBeenPressed = false;
-    private boolean itemSelected = false;
+    private static boolean isCreated = false;
+    private static boolean hasBeenPressed = false;
+    private static boolean itemSelected = false;
     private CopyOnWriteArrayList<CraftingSlot> craftingSlots;
     private CraftResultSlot crs;
     private CraftButton cb;
     private int craftAmount = 1;
     public static boolean craftButtonPressed = false;
     public static boolean craftResultPressed = false;
-    private Rectangle cbBounds;
     private ItemStack currentSelectedSlot;
-    private Rectangle crsBounds;
     private CraftingManager craftingManager;
     private ItemStack possibleRecipe = null;
     private String craftableRecipe;
@@ -53,6 +55,7 @@ public class CraftingUI implements Serializable {
     private int[] filledCraftSlots;
     private CraftingRecipe craftRecipe;
     private ItemTooltip itemTooltip;
+    private UIManager uiManager;
 
     public CraftingUI() {
         this.width = 242;
@@ -66,6 +69,8 @@ public class CraftingUI implements Serializable {
         if (!isCreated) {
 
             craftingSlots = new CopyOnWriteArrayList<CraftingSlot>();
+            craftingManager = new CraftingManager();
+            uiManager = new UIManager();
 
             craftingSlots.add(new CraftingSlot(x + 32, y + 50, null));
             craftingSlots.add(new CraftingSlot(x + 80, y + 100, null));
@@ -75,16 +80,17 @@ public class CraftingUI implements Serializable {
             crs = new CraftResultSlot(x + width / 2 - 16, y + height - 160, null);
             cb = new CraftButton(x + width / 2 - 48, y + height - 112, CraftingSlot.SLOTSIZE * 3, CraftingSlot.SLOTSIZE);
 
-            cbBounds = new Rectangle(cb.getBounds());
-            crsBounds = new Rectangle(crs.getBounds());
-
-            craftingManager = new CraftingManager();
+            for (CraftingSlot cs : craftingSlots) {
+                uiManager.addObject(cs);
+            }
+            uiManager.addObject(crs);
+            uiManager.addObject(cb);
 
             previewImg = new Rectangle(x + width + (width / 2) - 36, y + 32, 32, 32);
 
-            isCreated = true;
-
             itemTooltip = new ItemTooltip(x - 160, y);
+
+            isCreated = true;
 
         }
     }
@@ -96,8 +102,7 @@ public class CraftingUI implements Serializable {
         }
         if (isOpen) {
 
-            crs.tick();
-            cb.tick();
+            uiManager.tick();
 
             Rectangle mouse = Handler.get().getMouse();
 
@@ -107,6 +112,12 @@ public class CraftingUI implements Serializable {
                 hovering = false;
             }
 
+            if (crs.getBounds().contains(mouse)) {
+                crs.setHovering(true);
+            } else {
+                crs.setHovering(false);
+            }
+
             // If the window is closed or the player moves, re-add all items back to inventory or drop them if no space.
             if (Handler.get().getKeyManager().escape || Player.isMoving) {
                 exit();
@@ -114,7 +125,7 @@ public class CraftingUI implements Serializable {
 
             // If left-clicked on the "craft" button, craft the item
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged()) {
-                if (cbBounds.contains(mouse) && craftButtonPressed) {
+                if (cb.getBounds().contains(mouse) && craftButtonPressed) {
 
                     craftItem();
 
@@ -124,7 +135,7 @@ public class CraftingUI implements Serializable {
 
             // If right-clicked on the crafted item
             if (Handler.get().getMouseManager().isRightPressed() && !Handler.get().getMouseManager().isDragged()) {
-                if (crsBounds.contains(mouse) && craftResultPressed) {
+                if (crs.getBounds().contains(mouse) && craftResultPressed) {
                     // If there is no item in the slot, return
                     if (crs.getItemStack() == null) {
                         craftResultPressed = false;
@@ -152,13 +163,15 @@ public class CraftingUI implements Serializable {
 
             for (CraftingSlot cs : craftingSlots) {
 
-                cs.tick();
-
-                Rectangle craftSlot = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
+                if (cs.getBounds().contains(mouse)) {
+                    cs.setHovering(true);
+                } else {
+                    cs.setHovering(false);
+                }
 
                 // If the player drags an item from a crafting slot
                 if (Handler.get().getMouseManager().isDragged()) {
-                    if (craftSlot.contains(mouse) && !hasBeenPressed && !itemSelected) {
+                    if (cs.getBounds().contains(mouse) && !hasBeenPressed && !itemSelected) {
                         hasBeenPressed = true;
 
                         // If we don't have anything selected, pick the item up.
@@ -178,7 +191,7 @@ public class CraftingUI implements Serializable {
 
                 // If the item is released
                 if (itemSelected && !Handler.get().getMouseManager().isDragged()) {
-                    if (craftSlot.contains(mouse)) {
+                    if (cs.getBounds().contains(mouse)) {
                         // If the itemstack already holds an item
                         if (cs.getItemStack() != null) {
                             if (currentSelectedSlot.getItem().isStackable()) {
@@ -212,7 +225,7 @@ public class CraftingUI implements Serializable {
 
                 // If an item is right-clicked
                 if (InventoryWindow.isOpen) {
-                    if (craftSlot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
+                    if (cs.getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
                         hasBeenPressed = true;
                         if (cs.getItemStack() != null) {
                             // If the inventory is full, return
@@ -239,29 +252,23 @@ public class CraftingUI implements Serializable {
     }
 
     public void render(Graphics g) {
-
         if (isOpen) {
 
             g.drawImage(Assets.invScreen, x, y, width, height, null);
 
+            uiManager.render(g);
+
+
             Text.drawString(g, "Crafting", x + width / 2, y + 26, true, Color.YELLOW, Assets.font20);
-
-
-            crs.render(g);
-            cb.render(g);
             Text.drawString(g, "Craft " + craftAmount, x + width / 2, y + height - 96, true, Color.YELLOW, Assets.font20);
 
             Rectangle mouse = Handler.get().getMouse();
 
             for (CraftingSlot cs : craftingSlots) {
 
-                Rectangle craftSlot = new Rectangle(cs.getX(), cs.getY(), CraftingSlot.SLOTSIZE, CraftingSlot.SLOTSIZE);
-
-                if(cs.getItemStack() != null && craftSlot.contains(mouse)){
+                if (cs.getItemStack() != null && cs.getBounds().contains(mouse)) {
                     itemTooltip.render(cs.getItemStack().getItem(), g);
                 }
-
-                cs.render(g);
 
                 if (currentSelectedSlot != null) {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),
@@ -270,11 +277,10 @@ public class CraftingUI implements Serializable {
                     g.setColor(Color.YELLOW);
                     g.drawString(Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16);
                 }
-            }
+                }
 
             if (possibleRecipe != null) {
                 craftableRecipe = String.valueOf(possibleRecipe.getAmount());
-
                 g.drawImage(Assets.shopWindow, x + width, y, width - 40, height / 2, null);
 
             }
@@ -282,7 +288,7 @@ public class CraftingUI implements Serializable {
             if (possibleRecipe != null) {
                 if (craftImg != null) {
                     for (int i = 0; i < totalCraftAmount.length; i++) {
-                        Text.drawString(g, totalCraftAmount[i], craftingSlots.get(filledCraftSlots[i]).getX() + 16, craftingSlots.get(filledCraftSlots[i]).getY() - 8, true, Color.YELLOW, Assets.font14);
+                        Text.drawString(g, totalCraftAmount[i], (int) craftingSlots.get(filledCraftSlots[i]).getX() + 16, (int) craftingSlots.get(filledCraftSlots[i]).getY() - 8, true, Color.YELLOW, Assets.font14);
                     }
 
                     if (craftRecipe.isDiscovered()) {
