@@ -99,8 +99,6 @@ public class HPOverlay implements Serializable {
                 SkillsOverviewUI.isOpen = false;
                 CharacterUI.isOpen = false;
                 QuestUI.isOpen = !QuestUI.isOpen;
-                if (QuestHelpUI.isOpen)
-                    QuestHelpUI.isOpen = false;
                 if (QuestUI.renderingQuests)
                     QuestUI.renderingQuests = false;
             }

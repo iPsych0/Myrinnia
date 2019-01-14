@@ -72,11 +72,10 @@ public class QuestUI implements Serializable {
     }
 
     public void tick() {
-        if(!zonesInitialized){
-            initZones();
-        }
-
         if (isOpen) {
+            if(!zonesInitialized){
+                initZones();
+            }
 
             // Check hovers on UI buttons
             if(!renderingQuests) {
@@ -104,6 +103,9 @@ public class QuestUI implements Serializable {
 
     public void render(Graphics g) {
         if (isOpen) {
+            if(!zonesInitialized){
+                initZones();
+            }
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
             Rectangle mouse = Handler.get().getMouse();
