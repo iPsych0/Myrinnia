@@ -21,8 +21,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CraftingUI implements Serializable {
@@ -40,7 +38,6 @@ public class CraftingUI implements Serializable {
     private CopyOnWriteArrayList<CraftingSlot> craftingSlots;
     private CraftResultSlot crs;
     private CraftButton cb;
-    private int craftAmount = 1;
     public static boolean craftButtonPressed = false;
     public static boolean craftResultPressed = false;
     private ItemStack currentSelectedSlot;
@@ -68,7 +65,7 @@ public class CraftingUI implements Serializable {
         // First time it runs: set the window and dimensions/parameters
         if (!isCreated) {
 
-            craftingSlots = new CopyOnWriteArrayList<CraftingSlot>();
+            craftingSlots = new CopyOnWriteArrayList<>();
             craftingManager = new CraftingManager();
             uiManager = new UIManager();
 
@@ -106,11 +103,7 @@ public class CraftingUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            if (previewImg.contains(mouse)) {
-                hovering = true;
-            } else {
-                hovering = false;
-            }
+            hovering = previewImg.contains(mouse);
 
             if (crs.getBounds().contains(mouse)) {
                 crs.setHovering(true);
@@ -260,6 +253,7 @@ public class CraftingUI implements Serializable {
 
 
             Text.drawString(g, "Crafting", x + width / 2, y + 26, true, Color.YELLOW, Assets.font20);
+            int craftAmount = 1;
             Text.drawString(g, "Craft " + craftAmount, x + width / 2, y + height - 96, true, Color.YELLOW, Assets.font20);
 
             Rectangle mouse = Handler.get().getMouse();
@@ -277,7 +271,7 @@ public class CraftingUI implements Serializable {
                     g.setColor(Color.YELLOW);
                     g.drawString(Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16);
                 }
-                }
+            }
 
             if (possibleRecipe != null) {
                 craftableRecipe = String.valueOf(possibleRecipe.getAmount());
@@ -391,8 +385,6 @@ public class CraftingUI implements Serializable {
                     firstFreeSlotFound = true;
                     index = i;
                 }
-            } else if (craftingSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (craftingSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (craftingSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
@@ -404,60 +396,49 @@ public class CraftingUI implements Serializable {
         return -1;
     }
 
-    public void craftItem() {
+    private void craftItem() {
 
         //Create an ArrayList to store the ItemStacks from the Crafting Slots
-        ArrayList<ItemStack> tempCraftSlotList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> tempCraftSlotList = new ArrayList<>();
 
         int nullSlots = 0;
 
         //Fill the ArrayList with the slots (skip empty slots)
-        for (int i = 0; i < craftingSlots.size(); i++) {
-            if (craftingSlots.get(i).getItemStack() == null) {
+        for (CraftingSlot craftingSlot : craftingSlots) {
+            if (craftingSlot.getItemStack() == null) {
                 nullSlots++;
                 continue;
             } else {
-                tempCraftSlotList.add(craftingSlots.get(i).getItemStack());
+                tempCraftSlotList.add(craftingSlot.getItemStack());
 
             }
         }
 
         if (nullSlots == craftingSlots.size()) {
-            nullSlots = 0;
             tempCraftSlotList.clear();
             return;
         }
 
-        Collections.sort(tempCraftSlotList, new Comparator<ItemStack>() {
-
-            @Override
-            public int compare(ItemStack o1, ItemStack o2) {
-                Integer a = o1.getItem().getId();
-                Integer b = o2.getItem().getId();
-                return a.compareTo(b);
-            }
+        tempCraftSlotList.sort((o1, o2) -> {
+            Integer a = o1.getItem().getId();
+            Integer b = o2.getItem().getId();
+            return a.compareTo(b);
         });
 
         // Create an ArrayList to store Components from Recipes in
-        ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<>();
 
         int matches = 0;
 
         // Iterate over all recipes
         for (int i = 0; i < craftingManager.getRecipes().size(); i++) {
             // Temporarily set tempCraftRecipeList to the current iteration of the recipe
-            for (int j = 0; j < craftingManager.getRecipes().get(i).getComponents().size(); j++) {
-                tempCraftRecipeList.add(craftingManager.getRecipes().get(i).getComponents().get(j));
-            }
+            tempCraftRecipeList.addAll(craftingManager.getRecipes().get(i).getComponents());
 
-            Collections.sort(tempCraftRecipeList, new Comparator<ItemStack>() {
-
-                @Override
-                public int compare(ItemStack o1, ItemStack o2) {
-                    Integer a = o1.getItem().getId();
-                    Integer b = o2.getItem().getId();
-                    return a.compareTo(b);
-                }
+            tempCraftRecipeList.sort((o1, o2) -> {
+                Integer a = o1.getItem().getId();
+                Integer b = o2.getItem().getId();
+                return a.compareTo(b);
             });
 
             for (int k = 0; k < tempCraftRecipeList.size(); k++) {
@@ -536,7 +517,6 @@ public class CraftingUI implements Serializable {
                 findRecipe();
 
                 // Set matches back to 0 for next craft and stop iterating
-                matches = 0;
                 break;
             }
             // If there's no match, retry with the next recipe
@@ -548,7 +528,6 @@ public class CraftingUI implements Serializable {
         }
 
         // Clear all ArrayLists
-        matches = 0;
         tempCraftSlotList.clear();
         tempCraftRecipeList.clear();
     }
@@ -557,18 +536,8 @@ public class CraftingUI implements Serializable {
      * Create an item
      * @param: Recipe ID (int), adds the item to the inventory
      */
-    public void makeItem(int recipeID) {
-
-        // If the recipe hasn't been made before, make it discovered
-//		if(craftRecipe == craftingRecipeList.getRecipes().get(recipeID)) {
-//			if(!craftingRecipeList.getRecipes().get(recipeID).isDiscovered()) {
-//				craftingRecipeList.getRecipes().get(recipeID).setDiscovered(true);
-//				Handler.get().sendMsg("Discovered recipe for: " + possibleRecipe.getItem().getName() + ".");
-//			}
-//		}
-
+    private void makeItem(int recipeID) {
         crs.addItem(craftingManager.getRecipes().get(recipeID).getResult().getItem(), craftingManager.getRecipes().get(recipeID).getResult().getAmount());
-
     }
 
     /*
@@ -582,12 +551,12 @@ public class CraftingUI implements Serializable {
         int nullSlots = 0;
 
         //Fill the ArrayList with the slots (skip empty slots)
-        for (int i = 0; i < craftingSlots.size(); i++) {
-            if (craftingSlots.get(i).getItemStack() == null) {
+        for (CraftingSlot craftingSlot : craftingSlots) {
+            if (craftingSlot.getItemStack() == null) {
                 nullSlots++;
                 continue;
             } else {
-                tempCraftSlotList.add(craftingSlots.get(i).getItemStack());
+                tempCraftSlotList.add(craftingSlot.getItemStack());
 
             }
         }
@@ -599,36 +568,26 @@ public class CraftingUI implements Serializable {
             return;
         }
 
-        Collections.sort(tempCraftSlotList, new Comparator<ItemStack>() {
-
-            @Override
-            public int compare(ItemStack o1, ItemStack o2) {
-                Integer a = o1.getItem().getId();
-                Integer b = o2.getItem().getId();
-                return a.compareTo(b);
-            }
+        tempCraftSlotList.sort((o1, o2) -> {
+            Integer a = o1.getItem().getId();
+            Integer b = o2.getItem().getId();
+            return a.compareTo(b);
         });
 
         // Create an ArrayList to store Components from Recipes in
-        ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> tempCraftRecipeList = new ArrayList<>();
 
         int matches = 0;
 
         // Iterate over all recipes
         for (int i = 0; i < craftingManager.getRecipes().size(); i++) {
             // Temporarily set tempCraftRecipeList to the current iteration of the recipe
-            for (int j = 0; j < craftingManager.getRecipes().get(i).getComponents().size(); j++) {
-                tempCraftRecipeList.add(craftingManager.getRecipes().get(i).getComponents().get(j));
-            }
+            tempCraftRecipeList.addAll(craftingManager.getRecipes().get(i).getComponents());
 
-            Collections.sort(tempCraftRecipeList, new Comparator<ItemStack>() {
-
-                @Override
-                public int compare(ItemStack o1, ItemStack o2) {
-                    Integer a = o1.getItem().getId();
-                    Integer b = o2.getItem().getId();
-                    return a.compareTo(b);
-                }
+            tempCraftRecipeList.sort((o1, o2) -> {
+                Integer a = o1.getItem().getId();
+                Integer b = o2.getItem().getId();
+                return a.compareTo(b);
             });
 
             for (int k = 0; k < tempCraftRecipeList.size(); k++) {
@@ -681,7 +640,6 @@ public class CraftingUI implements Serializable {
                 }
 
                 // Set matches back to 0 for next craft and stop iterating
-                matches = 0;
                 break;
             }
             // If there's no match, retry with the next recipe
@@ -693,7 +651,6 @@ public class CraftingUI implements Serializable {
         }
 
         // Clear all ArrayLists
-        matches = 0;
         tempCraftSlotList.clear();
         tempCraftRecipeList.clear();
     }
@@ -708,10 +665,6 @@ public class CraftingUI implements Serializable {
 
     public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
         return craftingSlots;
-    }
-
-    public void setCraftingSlots(CopyOnWriteArrayList<CraftingSlot> craftingSlots) {
-        this.craftingSlots = craftingSlots;
     }
 
     public int getX() {
@@ -746,28 +699,12 @@ public class CraftingUI implements Serializable {
         this.height = height;
     }
 
-    public CraftResultSlot getCraftResultSlot() {
-        return crs;
-    }
-
-    public void setCraftResultSlot(CraftResultSlot crs) {
-        this.crs = crs;
-    }
-
-    public CraftingManager getCraftingRecipeList() {
+    public CraftingManager getCraftingManager() {
         return craftingManager;
-    }
-
-    public void setCraftingRecipeList(CraftingManager craftingManager) {
-        this.craftingManager = craftingManager;
     }
 
     public Rectangle getWindowBounds() {
         return windowBounds;
-    }
-
-    public void setWindowBounds(Rectangle windowBounds) {
-        this.windowBounds = windowBounds;
     }
 
 }

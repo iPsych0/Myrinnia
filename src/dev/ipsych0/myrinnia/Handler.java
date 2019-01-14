@@ -255,7 +255,7 @@ public class Handler implements Serializable {
      * @param item - The resulting item of the recipe to be unlocked
      */
     public void discoverRecipe(Item item) {
-        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(true);
+        craftingUI.getCraftingManager().getRecipeByItem(item).setDiscovered(true);
     }
 
     public boolean questStarted(QuestList quest) {
