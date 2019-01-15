@@ -3,6 +3,8 @@ package dev.ipsych0.myrinnia.character;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -18,25 +20,42 @@ public class CharacterUI implements Serializable {
     public static boolean isOpen = false;
     private int baseStatPoints = 5;
     private int elementalStatPoints = 5;
-    private Rectangle meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
+    private UIImageButton meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
     public static boolean hasBeenPressed = false;
     private Rectangle bounds;
     public static boolean escapePressed = false;
-    private Rectangle exit;
+    private UIImageButton exit;
+    private UIManager uiManager, baseStatManager, elementalStatManager;
 
     public CharacterUI() {
-        meleeUp = new Rectangle(x + 92, y + 136, 16, 16);
-        rangedUp = new Rectangle(x + 92, y + 152, 16, 16);
-        magicUp = new Rectangle(x + 92, y + 168, 16, 16);
+        meleeUp = new UIImageButton(x + 92, y + 136, 16, 16, Assets.genericButton);
+        rangedUp = new UIImageButton(x + 92, y + 152, 16, 16, Assets.genericButton);
+        magicUp = new UIImageButton(x + 92, y + 168, 16, 16, Assets.genericButton);
 
-        fireUp = new Rectangle(x + 92, y + 217, 16, 16);
-        airUp = new Rectangle(x + 92, y + 233, 16, 16);
-        waterUp = new Rectangle(x + 92, y + 249, 16, 16);
-        earthUp = new Rectangle(x + 92, y + 265, 16, 16);
+        fireUp = new UIImageButton(x + 92, y + 217, 16, 16, Assets.genericButton);
+        airUp = new UIImageButton(x + 92, y + 233, 16, 16, Assets.genericButton);
+        waterUp = new UIImageButton(x + 92, y + 249, 16, 16, Assets.genericButton);
+        earthUp = new UIImageButton(x + 92, y + 265, 16, 16, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
-        exit = new Rectangle(x + (width / 2) / 2, y + height - 24, width / 2, 16);
+        exit = new UIImageButton(x + (width / 2) / 2, y + height - 24, width / 2, 16, Assets.genericButton);
+
+        uiManager = new UIManager();
+        baseStatManager = new UIManager();
+        elementalStatManager = new UIManager();
+
+        baseStatManager.addObject(meleeUp);
+        baseStatManager.addObject(rangedUp);
+        baseStatManager.addObject(magicUp);
+
+        elementalStatManager.addObject(fireUp);
+        elementalStatManager.addObject(airUp);
+        elementalStatManager.addObject(waterUp);
+        elementalStatManager.addObject(earthUp);
+
+        uiManager.addObject(exit);
+
     }
 
     public void tick() {
@@ -49,8 +68,11 @@ public class CharacterUI implements Serializable {
                 return;
             }
 
+            uiManager.tick();
+
             // If Base stats are upped
             if (baseStatPoints >= 1) {
+                baseStatManager.tick();
                 if (meleeUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                     CharacterStats.Melee.addLevel();
                     baseStatPoints -= 1;
@@ -68,6 +90,7 @@ public class CharacterUI implements Serializable {
 
             // If Elemental stats are upped
             if (elementalStatPoints >= 1) {
+                elementalStatManager.tick();
                 if (fireUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                     CharacterStats.Fire.addLevel();
                     elementalStatPoints -= 1;
@@ -104,23 +127,7 @@ public class CharacterUI implements Serializable {
 
             // If we have points available, draw the
             if (baseStatPoints >= 1) {
-                if (meleeUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 136, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 136, 16, 16, null);
-                }
-
-                if (rangedUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 152, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 152, 16, 16, null);
-                }
-
-                if (magicUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 168, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 168, 16, 16, null);
-                }
+                baseStatManager.render(g);
                 Text.drawString(g, "+", x + 101, y + 144, true, Color.YELLOW, Assets.font14);
                 Text.drawString(g, "+", x + 101, y + 160, true, Color.YELLOW, Assets.font14);
                 Text.drawString(g, "+", x + 101, y + 176, true, Color.YELLOW, Assets.font14);
@@ -133,35 +140,13 @@ public class CharacterUI implements Serializable {
             Text.drawString(g, "Magic:   " + CharacterStats.Magic.getLevel(), x + 16, y + 180, false, Color.YELLOW, Assets.font14);
 
             if (elementalStatPoints >= 1) {
-                if (fireUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 217, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 217, 16, 16, null);
-                }
-
-                if (airUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 233, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 233, 16, 16, null);
-                }
-
-                if (waterUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 249, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 249, 16, 16, null);
-                }
-
-                if (earthUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], x + 92, y + 265, 16, 16, null);
-                } else {
-                    g.drawImage(Assets.genericButton[1], x + 92, y + 265, 16, 16, null);
-                }
-
+                elementalStatManager.render(g);
                 Text.drawString(g, "+", x + 101, y + 225, true, Color.YELLOW, Assets.font14);
                 Text.drawString(g, "+", x + 101, y + 241, true, Color.YELLOW, Assets.font14);
                 Text.drawString(g, "+", x + 101, y + 257, true, Color.YELLOW, Assets.font14);
                 Text.drawString(g, "+", x + 101, y + 273, true, Color.YELLOW, Assets.font14);
             }
+
             Text.drawString(g, "Elemental stats: ", x + 16, y + 208, false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "(" + elementalStatPoints + " points)", x + 128, y + 208, false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Fire:      " + CharacterStats.Fire.getLevel(), x + 16, y + 230, false, Color.YELLOW, Assets.font14);
@@ -169,15 +154,11 @@ public class CharacterUI implements Serializable {
             Text.drawString(g, "Water:   " + CharacterStats.Water.getLevel(), x + 16, y + 262, false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Earth:    " + CharacterStats.Earth.getLevel(), x + 16, y + 278, false, Color.YELLOW, Assets.font14);
 
-            if (exit.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
-                if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    isOpen = false;
-                }
-            } else {
-                g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
+            if (exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                hasBeenPressed = false;
+                isOpen = false;
             }
+            uiManager.render(g);
             Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
         }
     }
