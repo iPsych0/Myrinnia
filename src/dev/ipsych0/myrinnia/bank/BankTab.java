@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class BankTab implements Serializable {
+public class BankTab extends UIImageButton implements Serializable {
 
 
     /**
@@ -24,9 +25,9 @@ public class BankTab implements Serializable {
     public static final int ROWS = 6, COLS = 5;
     private CopyOnWriteArrayList<ItemSlot> bankSlots;
     private boolean isOpen = false;
-    private boolean hovering = false;
 
     public BankTab(int x, int y, int tabNumber) {
+        super(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = ItemSlot.SLOTSIZE;
@@ -42,15 +43,7 @@ public class BankTab implements Serializable {
         // Add the bank slots
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                if (j == (ROWS)) {
-                    x += 8;
-                }
-
                 bankSlots.add(new ItemSlot(BankUI.x + 17 + (i * ItemSlot.SLOTSIZE), BankUI.y + 80 + (j * ItemSlot.SLOTSIZE), null));
-
-                if (j == (ROWS)) {
-                    x -= 8;
-                }
             }
         }
 
@@ -59,16 +52,12 @@ public class BankTab implements Serializable {
 
     public void tick() {
         if (isOpen) {
-
+            super.tick();
         }
     }
 
     public void render(Graphics g) {
-        if (hovering)
-            g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        else
-            g.drawImage(Assets.genericButton[1], x, y, width, height, null);
-
+        super.render(g);
         if (bankSlots.get(0).getItemStack() != null)
             g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);
         else
@@ -139,14 +128,6 @@ public class BankTab implements Serializable {
 
     public void setOpen(boolean isOpen) {
         this.isOpen = isOpen;
-    }
-
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
     }
 
 
