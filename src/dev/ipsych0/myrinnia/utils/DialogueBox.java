@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.utils;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.ui.UIManager;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class DialogueBox implements Serializable {
     private TextBox tb;
     private String message;
     private boolean numbersOnly;
+    private UIManager uiManager;
 
     public DialogueBox(int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
         this.x = x;
@@ -34,9 +36,11 @@ public class DialogueBox implements Serializable {
         this.numbersOnly = numbersOnly;
 
         buttons = new ArrayList<DialogueButton>();
+        uiManager = new UIManager();
 
         for (int i = 0; i < answers.length; i++) {
             buttons.add(new DialogueButton(x + (width / answers.length) - 32 - (32 / answers.length) + (i * 64), y + height - 48, 32, 32, answers[i]));
+            uiManager.addObject(buttons.get(i));
         }
 
         tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, numbersOnly);
@@ -48,6 +52,7 @@ public class DialogueBox implements Serializable {
 
             Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
             tb.tick();
+            uiManager.tick();
             for (DialogueButton db : buttons) {
                 db.tick();
 
@@ -72,13 +77,16 @@ public class DialogueBox implements Serializable {
 
             Text.drawString(g, message, x + (width / 2), y + 32, true, Color.YELLOW, Assets.font14);
 
+            uiManager.render(g);
+
             Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+
             for (DialogueButton db : buttons) {
-                if (db.getButtonBounds().contains(mouse))
+                if (db.getButtonBounds().contains(mouse)) {
                     db.setHovering(true);
-                else
+                } else {
                     db.setHovering(false);
-                db.render(g);
+                }
             }
 
             tb.render(g);

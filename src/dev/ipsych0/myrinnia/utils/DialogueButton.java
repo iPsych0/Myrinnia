@@ -1,11 +1,12 @@
 package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class DialogueButton implements Serializable {
+public class DialogueButton extends UIImageButton implements Serializable {
 
     /**
      *
@@ -15,9 +16,9 @@ public class DialogueButton implements Serializable {
     private String text;
     private Rectangle buttonBounds;
     private String[] buttonParam = new String[2];
-    private boolean hovering = false;
 
     public DialogueButton(int x, int y, int width, int height, String text) {
+        super(x, y, width, height, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -28,14 +29,11 @@ public class DialogueButton implements Serializable {
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-        if (hovering)
-            g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        else
-            g.drawImage(Assets.genericButton[1], x, y, width, height, null);
+        super.render(g);
         Text.drawString(g, text, x + (width / 2), y + (height / 2), true, Color.YELLOW, Assets.font14);
     }
 
@@ -52,38 +50,6 @@ public class DialogueButton implements Serializable {
         this.buttonBounds = buttonBounds;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public String getText() {
         return text;
     }
@@ -98,14 +64,6 @@ public class DialogueButton implements Serializable {
 
     public void setButtonParam(String[] buttonParam) {
         this.buttonParam = buttonParam;
-    }
-
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
     }
 
 }

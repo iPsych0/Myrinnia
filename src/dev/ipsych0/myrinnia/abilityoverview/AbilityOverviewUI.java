@@ -67,7 +67,7 @@ public class AbilityOverviewUI implements Serializable {
         innerUI = new Rectangle(x + 32, y + 96, width - 64, height - 128);
         exit = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);
 
-        for(AbilityOverviewUIButton button : uiButtons){
+        for (AbilityOverviewUIButton button : uiButtons) {
             uiManager.addObject(button);
         }
         uiManager.addObject(exit);
@@ -115,16 +115,16 @@ public class AbilityOverviewUI implements Serializable {
                         }
                         updateSlots();
                     }
-                }else{
+                } else {
                     uiButton.setHovering(false);
                 }
             }
 
             for (AbilitySlot as : abilitySlots) {
                 // Check for dragging an ability
-                if(as.getBounds().contains(mouse)){
+                if (as.getBounds().contains(mouse)) {
                     as.setHovering(true);
-                }else{
+                } else {
                     as.setHovering(false);
                 }
 
@@ -159,8 +159,8 @@ public class AbilityOverviewUI implements Serializable {
     private void updateSlots() {
         abilitySlots = new ArrayList<>(displayedAbilities.size());
         int index = 0;
-        double verticalColumns = Math.ceil((double)displayedAbilities.size() / (double)MAX_SLOTS_VERTICAL);
-        if(abilitySlots.size() > verticalColumns * MAX_SLOTS_VERTICAL){
+        double verticalColumns = Math.ceil((double) displayedAbilities.size() / (double) MAX_SLOTS_VERTICAL);
+        if (abilitySlots.size() > verticalColumns * MAX_SLOTS_VERTICAL) {
             try {
                 throw new Exception();
             } catch (Exception e) {
@@ -171,26 +171,26 @@ public class AbilityOverviewUI implements Serializable {
         abilityUIManager.getObjects().clear();
         for (int i = 0; i < verticalColumns; i++) {
             // If we've reached the last column
-            if(i == verticalColumns - 1){
+            if (i == verticalColumns - 1) {
                 // If we have less than the max number of slots for that column, only fill the remaining ones
-                if(displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
+                if (displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
                     for (int j = 0; j < displayedAbilities.size() % MAX_SLOTS_VERTICAL; j++) {
                         abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                     }
                     // Otherwise, fill to the vertical max
-                }else{
+                } else {
                     for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
                         abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                     }
                 }
                 // For the other columns, fill them to the vertical max
-            }else {
+            } else {
                 for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
                     abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                 }
             }
         }
-        for(AbilitySlot as : abilitySlots){
+        for (AbilitySlot as : abilitySlots) {
             abilityUIManager.addObject(as);
         }
     }
