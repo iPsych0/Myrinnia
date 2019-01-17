@@ -4,12 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class AbilitySlot implements Serializable {
+public class AbilitySlot extends UIImageButton implements Serializable {
 
 
     /**
@@ -23,6 +24,7 @@ public class AbilitySlot implements Serializable {
     private Rectangle bounds;
 
     public AbilitySlot(Ability ability, int x, int y) {
+        super(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.ability = ability;
         this.x = x;
         this.y = y;
@@ -30,15 +32,11 @@ public class AbilitySlot implements Serializable {
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g, int slotNum) {
-        if(bounds.contains(Handler.get().getMouse())) {
-            g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        }else{
-            g.drawImage(Assets.genericButton[1], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        }
+        super.render(g);
         if (ability != null) {
             ability.render(g, x, y);
             if (ability.isSelectable() && ability.isSelected()) {
@@ -56,11 +54,7 @@ public class AbilitySlot implements Serializable {
     }
 
     public void render(Graphics g) {
-        if(bounds.contains(Handler.get().getMouse())) {
-            g.drawImage(Assets.genericButton[0], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        }else{
-            g.drawImage(Assets.genericButton[1], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        }
+        super.render(g);
         if (ability != null) {
             ability.render(g, x, y);
             if (!ability.isUnlocked()) {
@@ -76,22 +70,6 @@ public class AbilitySlot implements Serializable {
 
     public void setAbility(Ability ability) {
         this.ability = ability;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public Rectangle getBounds() {

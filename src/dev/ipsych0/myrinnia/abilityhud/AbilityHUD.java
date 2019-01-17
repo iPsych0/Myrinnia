@@ -229,7 +229,7 @@ public class AbilityHUD implements Serializable {
             }
             if(!locked) {
                 g.setColor(Color.YELLOW);
-                g.drawRect(as.getX(), as.getY(), 32, 32);
+                g.drawRect(as.getBounds().x, as.getBounds().y, as.getBounds().width, as.getBounds().height);
             }
         }
 

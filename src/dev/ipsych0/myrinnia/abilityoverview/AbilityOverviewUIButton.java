@@ -4,12 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class AbilityOverviewUIButton implements Serializable {
+public class AbilityOverviewUIButton extends UIImageButton implements Serializable {
 
     private static final long serialVersionUID = -4740203689067214388L;
     private int x, y, width, height;
@@ -17,6 +18,7 @@ public class AbilityOverviewUIButton implements Serializable {
     private Rectangle bounds;
 
     public AbilityOverviewUIButton(int x, int y, CharacterStats characterStats) {
+        super(x, y, ItemSlot.SLOTSIZE * 2, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = ItemSlot.SLOTSIZE * 2;
@@ -26,15 +28,11 @@ public class AbilityOverviewUIButton implements Serializable {
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-        if (bounds.contains(Handler.get().getMouse())) {
-            g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        } else {
-            g.drawImage(Assets.genericButton[1], x, y, width, height, null);
-        }
+        super.render(g);
         Text.drawString(g, stat.toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }
 
