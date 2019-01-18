@@ -1,27 +1,24 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class ContinueButton implements Serializable {
+public class ContinueButton extends UIImageButton implements Serializable {
 
 
     /**
      *
      */
     private static final long serialVersionUID = 7648763333442088047L;
-    private int x, y, width, height;
-    private boolean isHovering = false;
     private boolean isPressed = false;
+    private static final int WIDTH = 100, HEIGHT = 20;
 
     public ContinueButton(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.width = 100;
-        this.height = 20;
+        super(x, y, WIDTH, HEIGHT, Assets.genericButton);
     }
 
     public void tick() {
@@ -29,52 +26,8 @@ public class ContinueButton implements Serializable {
     }
 
     public void render(Graphics g) {
-        if (isHovering) {
-            g.drawImage(Assets.genericButton[0], x, y, width, height, null);
-        } else {
-            g.drawImage(Assets.genericButton[1], x, y, width, height, null);
-        }
+        super.render(g);
         Text.drawString(g, "Continue", x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public boolean isHovering() {
-        return isHovering;
-    }
-
-    public void setHovering(boolean isHovering) {
-        this.isHovering = isHovering;
     }
 
     public boolean isPressed() {

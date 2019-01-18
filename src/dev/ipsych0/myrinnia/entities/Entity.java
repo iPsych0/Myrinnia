@@ -40,7 +40,7 @@ public abstract class Entity implements Serializable {
     protected Entity damageDealer, damageReceiver;
     protected int speakingTurn = 1;
     protected int speakingCheckpoint = 0;
-    protected ChatDialogue chatDialogue;
+    protected transient ChatDialogue chatDialogue;
     protected boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;

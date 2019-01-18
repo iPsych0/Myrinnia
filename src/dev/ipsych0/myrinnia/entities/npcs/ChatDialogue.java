@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -21,10 +22,10 @@ public class ChatDialogue implements Serializable {
     private ContinueButton continueButton;
     public static boolean hasBeenPressed = false;
     private String[] menuOptions;
-    private Rectangle continueButtonBounds;
     private int optionID;
     private ChatOptions chosenOption;
     private Rectangle bounds;
+    private UIManager uiManager;
 
     public ChatDialogue(String[] menuOptions) {
         this.width = Handler.get().getChatWindow().getWidth();
@@ -34,15 +35,17 @@ public class ChatDialogue implements Serializable {
         this.menuOptions = menuOptions;
 
         chatOptions = new ArrayList<ChatOptions>();
+        uiManager = new UIManager();
 
         // Zie DialogueBox functie voor inladen!!!
         if (menuOptions.length > 1) {
             for (int i = 0; i < menuOptions.length; i++) {
                 chatOptions.add(new ChatOptions(x + 16, y + 11 + (20 * i), i, menuOptions[i]));
+                uiManager.addObject(chatOptions.get(i));
             }
         } else {
             continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
-            continueButtonBounds = new Rectangle(continueButton.getX(), continueButton.getY(), continueButton.getWidth(), continueButton.getHeight());
+            uiManager.addObject(continueButton);
         }
 
         bounds = new Rectangle(x, y, width, height);
@@ -51,12 +54,14 @@ public class ChatDialogue implements Serializable {
     public void tick() {
         Rectangle mouse = Handler.get().getMouse();
 
+        uiManager.tick();
+
         if (menuOptions.length > 1) {
             for (ChatOptions option : chatOptions) {
 
                 option.tick();
 
-                Rectangle optionSlot = new Rectangle(option.getX(), option.getY(), option.getWidth(), option.getHeight());
+                Rectangle optionSlot = option.getBounds();
 
                 if (optionSlot.contains(mouse)) {
                     option.setHovering(true);
@@ -71,7 +76,7 @@ public class ChatDialogue implements Serializable {
             }
         } else {
             continueButton.tick();
-            if (continueButtonBounds.contains(mouse)) {
+            if (continueButton.getBounds().contains(mouse)) {
                 continueButton.setHovering(true);
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
                     hasBeenPressed = false;
@@ -87,15 +92,12 @@ public class ChatDialogue implements Serializable {
     public void render(Graphics g) {
         g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 
-        if (menuOptions.length > 1) {
-            for (ChatOptions option : chatOptions) {
-                option.render(g);
-            }
-        } else if (menuOptions.length == 1) {
+        uiManager.render(g);
+
+        if (menuOptions.length == 1) {
             for (int i = 0; i < Text.splitIntoLine(menuOptions[0], 60).length; i++) {
                 Text.drawString(g, Text.splitIntoLine(menuOptions[0], 60)[i], x + (width / 2), y + 20 + (i * 12), true, Color.YELLOW, Assets.font14);
             }
-            continueButton.render(g);
         }
 
         g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);

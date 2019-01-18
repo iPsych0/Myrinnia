@@ -1,80 +1,36 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class ChatOptions implements Serializable {
+public class ChatOptions extends UIImageButton implements Serializable {
 
 
     /**
      *
      */
     private static final long serialVersionUID = -7933908780433920065L;
-    private int x, y, width, height;
     private String message;
-    private boolean isHovering = false;
     private int optionID;
-    private Rectangle bounds;
+    private static final int WIDTH = 400, HEIGHT = 20;
 
     public ChatOptions(int x, int y, int optionID, String message) {
-        this.x = x;
-        this.y = y;
+        super(x, y, WIDTH, HEIGHT, Assets.genericButton);
         this.optionID = optionID;
         this.message = message;
-
-        width = 400;
-        height = 20;
-
-        bounds = new Rectangle(x, y, width, height);
-
     }
 
     public void tick() {
-
+        super.tick();
     }
 
     public void render(Graphics g) {
-        if (isHovering) {
-            g.drawImage(Assets.genericButton[0], x + 2, y + 1, width, height, null);
-        } else {
-            g.drawImage(Assets.genericButton[1], x + 1, y, width, height, null);
-        }
+        super.render(g);
         Text.drawString(g, message, x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public String getMessage() {
@@ -85,28 +41,12 @@ public class ChatOptions implements Serializable {
         this.message = message;
     }
 
-    public boolean isHovering() {
-        return isHovering;
-    }
-
-    public void setHovering(boolean isHovering) {
-        this.isHovering = isHovering;
-    }
-
     public int getOptionID() {
         return optionID;
     }
 
     public void setOptionID(int optionID) {
         this.optionID = optionID;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }
