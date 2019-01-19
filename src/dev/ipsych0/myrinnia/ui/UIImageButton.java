@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.states.State;
 
 import javax.imageio.ImageIO;
@@ -46,37 +47,9 @@ public class UIImageButton extends UIObject {
         }
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeInt(images.length); // how many images are serialized?
-
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        for (BufferedImage eachImage : images) {
-            ImageIO.write(eachImage, "png", buffer);
-
-            out.writeInt(buffer.size()); // Prepend image with byte count
-            buffer.writeTo(out);         // Write image
-        }
-        buffer.close();
-    }
-
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-
-        int imageCount = in.readInt();
-        this.images = new BufferedImage[imageCount];
-
-        int size = in.readInt(); // Read byte count
-        byte[] buffer = new byte[size];
-        ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-
-        for (int i = 0; i < imageCount; i++) {
-            in.readFully(buffer); // Make sure you read all bytes of the image
-
-
-            this.images[i] = ImageIO.read(is);
-        }
-        is.close();
+        this.images = Assets.genericButton;
     }
 
 }
