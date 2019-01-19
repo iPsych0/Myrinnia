@@ -6,6 +6,9 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -27,7 +30,7 @@ public class AbilityOverviewUI implements Serializable {
     public static boolean hasBeenPressed;
 
     private Rectangle innerUI;
-    private Rectangle exit;
+    private UIImageButton exit;
     private List<AbilitySlot> abilitySlots;
     private List<Ability> displayedAbilities;
     private Ability currentSelectedAbility;
@@ -39,6 +42,9 @@ public class AbilityOverviewUI implements Serializable {
     private AbilityTooltip abilityTooltip;
     private static Color selectedColor = new Color(0, 255, 255, 62);
 
+    private UIManager uiManager;
+    private UIManager abilityUIManager;
+
     public AbilityOverviewUI() {
         this.width = 460;
         this.height = 460;
@@ -47,6 +53,8 @@ public class AbilityOverviewUI implements Serializable {
         this.bounds = new Rectangle(x, y, width, height);
         this.clickableArea = new Rectangle(bounds.x - 64, bounds.y - 64, width + 128, height + 128);
 
+        uiManager = new UIManager();
+        abilityUIManager = new UIManager();
 
         uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 32, CharacterStats.Melee));
         uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 32, y + 32, CharacterStats.Ranged));
@@ -58,7 +66,12 @@ public class AbilityOverviewUI implements Serializable {
         uiButtons.add(new AbilityOverviewUIButton(x + width, y + 128, CharacterStats.Earth));
 
         innerUI = new Rectangle(x + 32, y + 96, width - 64, height - 128);
-        exit = new Rectangle(x + width - 35, y + 10, 24, 24);
+        exit = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);
+
+        for (AbilityOverviewUIButton button : uiButtons) {
+            uiManager.addObject(button);
+        }
+        uiManager.addObject(exit);
 
         // Initially fill the list with Melee+Fire abilities by default
         displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(CharacterStats.Melee, CharacterStats.Fire);
@@ -76,6 +89,9 @@ public class AbilityOverviewUI implements Serializable {
         if (isOpen) {
             Rectangle mouse = Handler.get().getMouse();
 
+            uiManager.tick();
+            abilityUIManager.tick();
+
             // Close when escape pressed
             if (Handler.get().getKeyManager().escape && escapePressed || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 exit();
@@ -84,24 +100,35 @@ public class AbilityOverviewUI implements Serializable {
 
             for (AbilityOverviewUIButton uiButton : uiButtons) {
                 // Change list of abilities when clicking a new category
-                if (uiButton.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    displayedAbilities.clear();
-                    // Handle combat style buttons
-                    if (uiButton.getStat() == CharacterStats.Melee || uiButton.getStat() == CharacterStats.Ranged || uiButton.getStat() == CharacterStats.Magic) {
-                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(uiButton.getStat(), lastElementTab.getStat());
-                        lastCombatTab = uiButton;
-                    } else {
-                        // Handle element buttons
-                        displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(lastCombatTab.getStat(), uiButton.getStat());
-                        lastElementTab = uiButton;
+                if (uiButton.getBounds().contains(mouse)) {
+                    uiButton.setHovering(true);
+                    if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                        hasBeenPressed = false;
+                        displayedAbilities.clear();
+                        // Handle combat style buttons
+                        if (uiButton.getStat() == CharacterStats.Melee || uiButton.getStat() == CharacterStats.Ranged || uiButton.getStat() == CharacterStats.Magic) {
+                            displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(uiButton.getStat(), lastElementTab.getStat());
+                            lastCombatTab = uiButton;
+                        } else {
+                            // Handle element buttons
+                            displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(lastCombatTab.getStat(), uiButton.getStat());
+                            lastElementTab = uiButton;
+                        }
+                        updateSlots();
                     }
-                    updateSlots();
+                } else {
+                    uiButton.setHovering(false);
                 }
             }
 
             for (AbilitySlot as : abilitySlots) {
                 // Check for dragging an ability
+                if (as.getBounds().contains(mouse)) {
+                    as.setHovering(true);
+                } else {
+                    as.setHovering(false);
+                }
+
                 if (as.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && currentSelectedAbility == null) {
                     hasBeenPressed = false;
                     if (as.getAbility().isUnlocked()) {
@@ -133,8 +160,8 @@ public class AbilityOverviewUI implements Serializable {
     private void updateSlots() {
         abilitySlots = new ArrayList<>(displayedAbilities.size());
         int index = 0;
-        double verticalColumns = Math.ceil((double)displayedAbilities.size() / (double)MAX_SLOTS_VERTICAL);
-        if(abilitySlots.size() > verticalColumns * MAX_SLOTS_VERTICAL){
+        double verticalColumns = Math.ceil((double) displayedAbilities.size() / (double) MAX_SLOTS_VERTICAL);
+        if (abilitySlots.size() > verticalColumns * MAX_SLOTS_VERTICAL) {
             try {
                 throw new Exception();
             } catch (Exception e) {
@@ -142,26 +169,30 @@ public class AbilityOverviewUI implements Serializable {
                 System.exit(1);
             }
         }
+        abilityUIManager.getObjects().clear();
         for (int i = 0; i < verticalColumns; i++) {
             // If we've reached the last column
-            if(i == verticalColumns - 1){
+            if (i == verticalColumns - 1) {
                 // If we have less than the max number of slots for that column, only fill the remaining ones
-                if(displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
+                if (displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
                     for (int j = 0; j < displayedAbilities.size() % MAX_SLOTS_VERTICAL; j++) {
                         abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                     }
                     // Otherwise, fill to the vertical max
-                }else{
+                } else {
                     for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
                         abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                     }
                 }
                 // For the other columns, fill them to the vertical max
-            }else {
+            } else {
                 for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
                     abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
                 }
             }
+        }
+        for (AbilitySlot as : abilitySlots) {
+            abilityUIManager.addObject(as);
         }
     }
 
@@ -179,16 +210,10 @@ public class AbilityOverviewUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            // test stuff close button
-            if (exit.contains(mouse))
-                g.drawImage(Assets.genericButton[0], exit.x, exit.y, exit.width, exit.height, null);
-            else
-                g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
-            Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
+            uiManager.render(g);
+            abilityUIManager.render(g);
 
-            for (AbilityOverviewUIButton button : uiButtons) {
-                button.render(g);
-            }
+            Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
 
             for (AbilitySlot as : abilitySlots) {
                 as.render(g);
@@ -213,5 +238,9 @@ public class AbilityOverviewUI implements Serializable {
 
     public Rectangle getClickableArea() {
         return clickableArea;
+    }
+
+    public Ability getCurrentSelectedAbility() {
+        return currentSelectedAbility;
     }
 }

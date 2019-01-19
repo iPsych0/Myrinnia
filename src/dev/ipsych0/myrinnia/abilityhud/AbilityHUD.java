@@ -3,7 +3,9 @@ package dev.ipsych0.myrinnia.abilityhud;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -28,12 +30,13 @@ public class AbilityHUD implements Serializable {
     public static boolean locked = true;
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
-    private Rectangle lockButton, unlockButton;
+    private UIImageButton lockButton, unlockButton;
     private static Color lockedColor = new Color(192, 8, 0, 192),
             unlockedColor = new Color(8, 148, 0, 192),
             hoverLockedColor = new Color(250, 8, 0, 192),
             hoverUnlockedColor = new Color(8, 192, 0, 192);
     private Rectangle bounds;
+    private UIManager uiManager;
 
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -52,9 +55,14 @@ public class AbilityHUD implements Serializable {
 
         abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
 
-        lockButton = new Rectangle(x + width + 1, y, 16, 16);
-        unlockButton = new Rectangle(x + width + 1, y + 16, 16, 16);
+        lockButton = new UIImageButton(x + width + 1, y, 16, 16, Assets.genericButton);
+        unlockButton = new UIImageButton(x + width + 1, y + 16, 16, 16, Assets.genericButton);
         bounds = new Rectangle(x, y, width + 16, height);
+
+        uiManager = new UIManager();
+
+        uiManager.addObject(lockButton);
+        uiManager.addObject(unlockButton);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
     }
@@ -121,23 +129,25 @@ public class AbilityHUD implements Serializable {
 
     private void handleDrag(AbilitySlot abilitySlot) {
         if (!locked) {
-            if (Handler.get().getMouseManager().isLeftPressed()) {
-                if (selectedAbility == null) {
-                    selectedAbility = abilitySlot.getAbility();
-                    abilitySlot.setAbility(null);
-                    oldSlot = abilitySlot;
-                    return;
-                }
-            } else if (!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null) {
-                for (AbilitySlot as : slottedAbilities) {
-                    if (as.getBounds().contains(Handler.get().getMouse())) {
-                        if (as.getAbility() == null) {
-                            as.setAbility(selectedAbility);
-                            selectedAbility = null;
-                        } else {
-                            oldSlot.setAbility(as.getAbility());
-                            as.setAbility(selectedAbility);
-                            selectedAbility = null;
+            if (Handler.get().getAbilityOverviewUI().getCurrentSelectedAbility() == null) {
+                if (Handler.get().getMouseManager().isLeftPressed()) {
+                    if (selectedAbility == null) {
+                        selectedAbility = abilitySlot.getAbility();
+                        abilitySlot.setAbility(null);
+                        oldSlot = abilitySlot;
+                        return;
+                    }
+                } else if (!Handler.get().getMouseManager().isLeftPressed() && selectedAbility != null) {
+                    for (AbilitySlot as : slottedAbilities) {
+                        if (as.getBounds().contains(Handler.get().getMouse())) {
+                            if (as.getAbility() == null) {
+                                as.setAbility(selectedAbility);
+                                selectedAbility = null;
+                            } else {
+                                oldSlot.setAbility(as.getAbility());
+                                as.setAbility(selectedAbility);
+                                selectedAbility = null;
+                            }
                         }
                     }
                 }
@@ -157,6 +167,8 @@ public class AbilityHUD implements Serializable {
     public void tick() {
         Rectangle mouse = Handler.get().getMouse();
 
+        uiManager.tick();
+
         // Check for input
         if (hasBeenTyped) {
             handleKeyEvent();
@@ -165,14 +177,14 @@ public class AbilityHUD implements Serializable {
 
         if (lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if(!locked){
-                Handler.get().sendMsg("Locked abilities.");
+                Handler.get().sendMsg("Ability bar locked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = true;
         }
         else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if(locked){
-                Handler.get().sendMsg("Unlocked abilities.");
+                Handler.get().sendMsg("Ability bar unlocked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = false;
@@ -199,6 +211,8 @@ public class AbilityHUD implements Serializable {
     public void render(Graphics g) {
         Rectangle mouse = Handler.get().getMouse();
 
+        uiManager.render(g);
+
         int index = 0;
         for (AbilitySlot as : slottedAbilities) {
             // Render the slots from 1-9, with the final slot 0
@@ -213,22 +227,14 @@ public class AbilityHUD implements Serializable {
                     abilityTooltip.render(g, as.getAbility());
                 }
             }
+            if(!locked) {
+                g.setColor(Color.YELLOW);
+                g.drawRect(as.getBounds().x, as.getBounds().y, as.getBounds().width, as.getBounds().height);
+            }
         }
 
         if (selectedAbility != null) {
             selectedAbility.render(g, mouse.x, mouse.y);
-        }
-
-        if (lockButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
-        } else {
-            g.drawImage(Assets.genericButton[1], lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
-        }
-
-        if (unlockButton.contains(mouse)) {
-            g.drawImage(Assets.genericButton[0], unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
-        } else {
-            g.drawImage(Assets.genericButton[1], unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
         }
 
         if (lockButton.contains(mouse)) {

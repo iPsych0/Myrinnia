@@ -12,8 +12,12 @@ public class CombatSkill extends Skill {
     @Override
     public void addLevel() {
         this.level++;
+        // Add base
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();
+
+        // Increase ability points on level-up
+        Handler.get().getPlayer().addAbilityPoints();
     }
 
     @Override

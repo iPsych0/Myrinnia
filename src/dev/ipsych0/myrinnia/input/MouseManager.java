@@ -4,21 +4,21 @@ import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.entities.npcs.ChatDialogue;
+import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
-import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -34,7 +34,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
     private static final long serialVersionUID = -98228253788414846L;
     private boolean leftPressed, rightPressed, isDragged;
     private int mouseX, mouseY;
-    private UIManager uiManager;
     private int mouseMovedTimer;
     private Rectangle mouseCoords;
 
@@ -52,10 +51,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
         if (mouseMovedTimer > 20)
             Player.mouseMoved = false;
 
-    }
-
-    public void setUIManager(UIManager uiManager) {
-        this.uiManager = uiManager;
     }
 
     // Getters & Setters
@@ -92,6 +87,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
             ChatDialogue.hasBeenPressed = true;
             QuestUI.hasBeenPressed = true;
             State.hasBeenPressed = true;
+            UIImageButton.hasBeenPressed = true;
             CharacterUI.hasBeenPressed = true;
             SkillsUI.hasBeenPressed = true;
             SkillsOverviewUI.hasBeenPressed = true;

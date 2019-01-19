@@ -14,18 +14,16 @@ import java.nio.file.Paths;
 
 class JSONWriter {
 
-    static boolean validate(String name, ItemRarity itemRarity,
-                            int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality,
-                            float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement... requirements) {
+    static boolean validate(String name, ItemRarity itemRarity, int price, EquipSlot equipSlot) {
         return !name.isEmpty() && !name.trim().isEmpty() && itemRarity != null && price >= -1 && equipSlot != null;
     }
 
-    static void write(String name, ItemRarity rarity, int price, boolean stackable, EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement[] itemRequirements) {
+    static void write(String name, ItemRarity rarity, int price, boolean stackable, EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed, ItemType[] itemTypes, ItemRequirement[] itemRequirements) {
         // Create the JSON object
         Gson gson = Utils.getGson();
 
         name = name.toLowerCase().trim();
-        JSONItem item = new JSONItem(null, name, rarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, itemRequirements);
+        JSONItem item = new JSONItem(null, name, rarity, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, itemRequirements);
         // Create the JSON String
         String json = gson.toJson(item);
 

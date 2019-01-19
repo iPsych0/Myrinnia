@@ -54,6 +54,7 @@ public class ScrollBar implements Serializable {
                 return;
             } else {
                 index--;
+                Handler.get().playEffect("ui/ui_button_click.wav");
             }
         }
         clickTimer++;
@@ -69,6 +70,7 @@ public class ScrollBar implements Serializable {
                     return;
                 } else {
                     index--;
+                    Handler.get().playEffect("ui/ui_button_click.wav");
                 }
             }
         }
@@ -106,6 +108,7 @@ public class ScrollBar implements Serializable {
                 return;
             } else {
                 index++;
+                Handler.get().playEffect("ui/ui_button_click.wav");
             }
         }
         clickTimer++;
@@ -121,6 +124,7 @@ public class ScrollBar implements Serializable {
                     return;
                 } else {
                     index++;
+                    Handler.get().playEffect("ui/ui_button_click.wav");
                 }
             }
         }

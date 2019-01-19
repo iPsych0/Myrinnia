@@ -5,8 +5,11 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ItemSlot;
-import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -32,8 +35,10 @@ public class BankUI implements Serializable {
     private boolean itemSelected;
     private ItemStack currentSelectedSlot;
     private Color selectedColor = new Color(0, 255, 255, 62);
-    private Rectangle exit;
+    private UIImageButton exit;
     public static BankUI lastOpenedWindow;
+    private ItemTooltip itemTooltip;
+    private UIManager uiManager;
 
     public BankUI() {
         width = 460;
@@ -41,30 +46,27 @@ public class BankUI implements Serializable {
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
 
+        uiManager = new UIManager();
+
         // Add all the tabs
         for (int i = 0; i < MAX_TABS; i++) {
             tabs.add(new BankTab(x + (width / 2) - ((MAX_TABS * 32 / 2)) + (i * 32), y + 32, i));
+            uiManager.addObject(tabs.get(0));
         }
 
         // Add the inventory slots
         for (int i = 0; i < BankTab.ROWS; i++) {
             for (int j = 0; j < BankTab.COLS; j++) {
-                if (j == (BankTab.ROWS)) {
-                    x += 8;
-                }
-
                 invSlots.add(new ItemSlot(x + (width / 2) + 17 + (i * (ItemSlot.SLOTSIZE)), y + 80 + (j * ItemSlot.SLOTSIZE), null));
-
-                if (j == (BankTab.ROWS)) {
-                    x -= 8;
-                }
             }
         }
 
         bounds = new Rectangle(x, y, width, height);
-        exit = new Rectangle(x + width - 36, y + 12, 24, 24);
+        exit = new UIImageButton(x + width - 36, y + 12, 24, 24, Assets.genericButton);
 
-        tabs.get(0).getBankSlots().get(0).addItem(Item.coins, 25);
+        uiManager.addObject(exit);
+
+        itemTooltip = new ItemTooltip(x - 160, y);
 
         // Initially always open the first tab
         openedTab = tabs.get(0);
@@ -79,6 +81,8 @@ public class BankUI implements Serializable {
             }
 
             Rectangle mouse = Handler.get().getMouse();
+
+            uiManager.tick();
 
             if (Player.isMoving || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Handler.get().getKeyManager().escape) {
                 exit();
@@ -321,8 +325,14 @@ public class BankUI implements Serializable {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
+            uiManager.render(g);
+
             for (ItemSlot is : invSlots) {
                 is.render(g);
+
+                if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
             }
 
             for (BankTab tab : tabs) {
@@ -330,6 +340,11 @@ public class BankUI implements Serializable {
                 if (tab.isOpen()) {
                     g.setColor(selectedColor);
                     g.fillRoundRect(tab.x, tab.y, tab.width, tab.height, 4, 4);
+                    for(ItemSlot is : tab.getBankSlots()){
+                        if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                            itemTooltip.render(is.getItemStack().getItem(), g);
+                        }
+                    }
                 }
             }
 

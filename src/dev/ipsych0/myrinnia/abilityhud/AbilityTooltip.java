@@ -36,6 +36,7 @@ public class AbilityTooltip implements Serializable {
         int yOffset = 16;
         int index = 0;
         Text.drawString(g, "Type: " + ability.getAbilityType(), x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Combat Style: " + ability.getCombatStyle(), x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Element: " + ability.getElement(), x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Base dmg: " + ability.getBaseDamage(), x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Cooldown: " + ability.getCooldownTimer() + "s", x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);

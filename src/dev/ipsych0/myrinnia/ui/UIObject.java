@@ -4,62 +4,29 @@ import java.awt.*;
 import java.io.Serializable;
 
 
-public abstract class UIObject implements Serializable {
+public abstract class UIObject extends Rectangle implements Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 5668099551677326216L;
-    protected float x, y;
-    protected int width, height;
+    public int x, y;
+    public int width, height;
     protected Rectangle bounds;
     protected boolean hovering = false;
 
-    public UIObject(float x, float y, int width, int height) {
+    public UIObject(int x, int y, int width, int height) {
+        super(x,y,width,height);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        bounds = new Rectangle((int) x, (int) y, width, height);
+        bounds = new Rectangle(x, y, width, height);
     }
 
     public abstract void tick();
 
     public abstract void render(Graphics g);
-
-    // Getters & setters
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
 
     public boolean isHovering() {
         return hovering;

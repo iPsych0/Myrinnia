@@ -1,0 +1,42 @@
+{
+  "itemTypes": [
+    "MELEE_WEAPON"
+  ],
+  "itemRarity": "Unique",
+  "requirements": [
+    {
+      "stat": "Melee",
+      "level": 2
+    }
+  ],
+  "name": "Test sword",
+  "id": 3,
+  "equipSlot": "Mainhand",
+  "strength": 20,
+  "dexterity": 0,
+  "intelligence": 0,
+  "defence": 5,
+  "vitality": 5,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 10,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800
+}

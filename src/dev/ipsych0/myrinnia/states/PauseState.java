@@ -23,7 +23,6 @@ public class PauseState extends State {
     public PauseState() {
         super();
         uiManager = new UIManager();
-        Handler.get().getMouseManager().setUIManager(uiManager);
 
         /*
          * Resume Game Button
@@ -48,25 +47,11 @@ public class PauseState extends State {
 
     @Override
     public void tick() {
-        // If our UIManager was disabled, enable it if we get back to this Menu State
-        if (!loaded) {
-            Handler.get().getMouseManager().setUIManager(uiManager);
-            loaded = true;
-        }
 
         Rectangle mouse = Handler.get().getMouse();
 
-        for (UIObject o : uiManager.getObjects()) {
-            if (o.getBounds().contains(mouse)) {
-                o.setHovering(true);
-            } else {
-                o.setHovering(false);
-            }
-        }
-
         if (resumeButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().getMouseManager().setUIManager(null);
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
                 hasBeenPressed = false;
             }
@@ -78,7 +63,6 @@ public class PauseState extends State {
                 loaded = false;
                 SettingState.previousState = this;
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
-                Handler.get().getMouseManager().setUIManager(null);
                 hasBeenPressed = false;
             }
         }

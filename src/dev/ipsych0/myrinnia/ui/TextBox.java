@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.utils.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -13,7 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
-public class TextBox implements KeyListener, Serializable {
+public class
+TextBox implements KeyListener, Serializable {
 
     /**
      *
@@ -143,16 +143,18 @@ public class TextBox implements KeyListener, Serializable {
             if (focus) {
                 // If enter is pressed, handle the input
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    enterPressed = true;
                     if (charactersTyped.isEmpty()) {
                         return;
                     }
-                    enterPressed = true;
                     focus = false;
                     removeListeners();
                     charactersTyped = sb.toString();
                     sb.setLength(0);
                     index = 0;
                     return;
+                }else{
+                    Handler.get().playEffect("ui/textbox_type.wav");
                 }
 
                 // If backspace is pressed, remove the last index

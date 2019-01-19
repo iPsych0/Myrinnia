@@ -5,7 +5,7 @@ package dev.ipsych0.myrinnia.items;
  * Venomous = poison damage
  * Frostbitten = ice effect (stun)
  * Restorative = chance to heal % of outgoing damage
- * Mighty = power boost
+ * Mighty = strength boost
  * Sturdy = defence boost
  * Resilient = vitality boost
  * Dexterous = attack speed boost
