@@ -80,13 +80,19 @@ public class HPOverlay implements Serializable {
         Rectangle mouse = Handler.get().getMouse();
 
         // Draw the bars
-        g.drawImage(Assets.genericButton[0], bounds.x, bounds.y, bounds.width, bounds.height, null);
+        g.drawImage(Assets.waterMiddleMiddle, bounds.x, bounds.y, bounds.width, bounds.height, null);
         g.drawImage(Assets.genericButton[1], hpBar.x, hpBar.y, hpBar.width, hpBar.height, null);
         g.drawImage(Assets.genericButton[1], xpBar.x, xpBar.y, xpBar.width, xpBar.height, null);
 
         // Draw the HP/EXP pre-fix to bars
         g.drawImage(Assets.genericButton[1], hpBar.x - 32, hpBar.y, 32, 24, null);
         g.drawImage(Assets.genericButton[1], xpBar.x - 32, xpBar.y, 32, 24, null);
+
+        g.drawImage(Assets.genericButton[1], questsButton.x, questsButton.y, questsButton.width, questsButton.height, null);
+        g.drawImage(Assets.genericButton[1], skillsButton.x, skillsButton.y, skillsButton.width, skillsButton.height, null);
+        g.drawImage(Assets.genericButton[1], characterButton.x, characterButton.y, characterButton.width, characterButton.height, null);
+        g.drawImage(Assets.genericButton[1], abilitiesButton.x, abilitiesButton.y, abilitiesButton.width, abilitiesButton.height, null);
+        g.drawImage(Assets.genericButton[1], mapButton.x, mapButton.y, mapButton.width, mapButton.height, null);
 
         uiManager.render(g);
 
