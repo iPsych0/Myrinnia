@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -208,6 +209,10 @@ public class AbilityOverviewUI implements Serializable {
             Text.drawString(g, "Ability Overview", x + width / 2, y + 16, true, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();
+
+            for(AbilityOverviewUIButton uiButton : uiButtons){
+                g.drawImage(Assets.genericButton[1], uiButton.x, uiButton.y, uiButton.width, uiButton.height, null);
+            }
 
             uiManager.render(g);
             abilityUIManager.render(g);
