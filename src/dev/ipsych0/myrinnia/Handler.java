@@ -6,17 +6,17 @@ import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -29,7 +29,7 @@ import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -122,7 +122,7 @@ public class Handler implements Serializable {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound("res/music/" + songName);
+                buffer = AudioManager.loadSound("res/music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -134,16 +134,28 @@ public class Handler implements Serializable {
     }
 
     public void playEffect(String effect) {
+        playEffect(effect, 0.0f);
+    }
+
+    /**
+     * Play a sound effect one time with custom volume setting
+     * @param effect Name of the audio file
+     * @param volume Additional volume. Default volume is 0.15.
+     */
+    public void playEffect(String effect, float volume) {
         if (!soundMuted) {
+            if(volume < -0.15f){
+                volume = -0.15f;
+            }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("res/music/" + effect);
+                buffer = AudioManager.loadSound("res/music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.getLast().setVolume(0.2f);
+            AudioManager.soundfxFiles.getLast().setVolume(0.15f + volume);
             AudioManager.soundfxFiles.getLast().setLooping(false);
             AudioManager.soundfxFiles.getLast().playEffect(buffer);
 
@@ -243,7 +255,7 @@ public class Handler implements Serializable {
      * @param item - The resulting item of the recipe to be unlocked
      */
     public void discoverRecipe(Item item) {
-        craftingUI.getCraftingRecipeList().getRecipeByItem(item).setDiscovered(true);
+        craftingUI.getCraftingManager().getRecipeByItem(item).setDiscovered(true);
     }
 
     public boolean questStarted(QuestList quest) {

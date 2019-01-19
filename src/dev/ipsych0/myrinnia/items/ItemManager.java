@@ -17,6 +17,8 @@ public class ItemManager implements Serializable {
     private CopyOnWriteArrayList<Item> items;
     private Collection<Item> deleted;
     private Collection<Item> added;
+    private static boolean soundPlayed = false;
+    private static int lastPlayed = 0;
 
     public ItemManager() {
         items = new CopyOnWriteArrayList<Item>();
@@ -34,9 +36,22 @@ public class ItemManager implements Serializable {
                 if (!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
                     if (i.pickUpItem(i)) {
                         if (i.isPickedUp()) {
+                            if(!soundPlayed) {
+                                Handler.get().playEffect("ui/pickup.wav");
+                                soundPlayed = true;
+                            }
                             deleted.add(i);
                         }
                     }
+                }
+            }
+
+            // Adds small delay to sounds to prevent them from stacking when picking up multiple items at once
+            if(soundPlayed){
+                lastPlayed++;
+                if(lastPlayed >= 5){
+                    soundPlayed = false;
+                    lastPlayed = 0;
                 }
             }
             i.tick();

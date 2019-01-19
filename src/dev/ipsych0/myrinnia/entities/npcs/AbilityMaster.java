@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -92,6 +93,10 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                 } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     speakingTurn++;
                     chatDialogue = new ChatDialogue(secondDialogue);
+                    break;
+                }else{
+                    chatDialogue = null;
+                    speakingTurn = 1;
                     break;
                 }
             case 3:

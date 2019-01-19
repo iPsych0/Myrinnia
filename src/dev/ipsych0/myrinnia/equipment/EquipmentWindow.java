@@ -4,8 +4,9 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemRarity;
-import dev.ipsych0.myrinnia.items.ItemSlot;
-import dev.ipsych0.myrinnia.items.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,6 +31,7 @@ public class EquipmentWindow implements Serializable {
     private ItemStack currentSelectedSlot;
     public static boolean itemSelected;
     private Rectangle windowBounds;
+    private ItemTooltip itemTooltip;
 
     public EquipmentWindow() {
         this.width = numCols * (EquipmentSlot.SLOTSIZE + 11) + 3;
@@ -53,6 +55,8 @@ public class EquipmentWindow implements Serializable {
                 }
             }
         }
+
+        itemTooltip = new ItemTooltip(x - 160, y);
     }
 
     public void tick() {
@@ -75,7 +79,6 @@ public class EquipmentWindow implements Serializable {
                             if (es.getEquipmentStack() != null) {
                                 currentSelectedSlot = es.getEquipmentStack();
                                 Handler.get().getPlayer().removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
-                                System.out.println("Currently holding: " + es.getEquipmentStack().getItem().getName());
                                 es.setItem(null);
                                 itemSelected = true;
                             } else {
@@ -95,6 +98,10 @@ public class EquipmentWindow implements Serializable {
                             hasBeenPressed = false;
                             return;
                         }
+
+                        // Play the UI sound effect
+                        Handler.get().playEffect("ui/unequip.wav");
+
                         Handler.get().getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
                         Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
                         es.setItem(null);
@@ -138,10 +145,6 @@ public class EquipmentWindow implements Serializable {
         if (isOpen) {
 
             g.drawImage(Assets.equipScreen, x, y, 132, 348, null);
-//			g.setColor(interfaceColour);
-//			g.fillRect(x - 16, y - 16, width + 32, height);
-//			g.setColor(Color.BLACK);
-//			g.drawRect(x - 16, y - 16, width + 32, height);
             Text.drawString(g, "Equipment", x + 34, y + 24, false, Color.YELLOW, Assets.font14);
 
             for (int i = 0; i < equipmentSlots.size(); i++) {
@@ -155,28 +158,30 @@ public class EquipmentWindow implements Serializable {
 
                 // If hovering over an item in the inventory, draw the tooltip
                 if (slot.contains(mouse) && es.getEquipmentStack() != null) {
-                    g.drawImage(Assets.shopWindow, x - 147, y, 148, 122, null);
+                    g.drawImage(Assets.shopWindow, x - 160, y, 160, 154, null);
 
-                    Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 141, y + 16, false, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 153, y + 16, false, Color.YELLOW, Assets.font14);
 
                     /*
                      * Draw the colour of the item's rarity
                      */
                     g.setColor(ItemRarity.getColor(es.getEquipmentStack().getItem()));
-                    Text.drawString(g, es.getEquipmentStack().getItem().getItemRarity().toString(), x - 141, y + 32, false, g.getColor(), Assets.font14);
+                    Text.drawString(g, es.getEquipmentStack().getItem().getItemRarity().toString(), x - 153, y + 32, false, g.getColor(), Assets.font14);
 
                     if (es.getEquipmentStack().getItem().getEquipSlot() != 12) {
                         // Only compare stats if an item is actually equipped
-                        if (Handler.get().getEquipment().getEquipmentSlots().get(es.getEquipmentStack().getItem().getEquipSlot()).getEquipmentStack() != null) {
+                        if (es.getEquipmentStack() != null) {
                             /*
                              * Draw item stats
                              */
                             g.setColor(Color.YELLOW);
-                            Text.drawString(g, "Power: " + es.getEquipmentStack().getItem().getPower(), x - 141, y + 48, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Defence: " + es.getEquipmentStack().getItem().getDefence(), x - 141, y + 64, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Vitality: " + es.getEquipmentStack().getItem().getVitality(), x - 141, y + 80, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "ATK Speed: " + es.getEquipmentStack().getItem().getAttackSpeed(), x - 141, y + 96, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "Mov. Speed: " + es.getEquipmentStack().getItem().getMovementSpeed(), x - 141, y + 112, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "STR: " + es.getEquipmentStack().getItem().getStrength(), x - 153, y + 48, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "DEX: " + es.getEquipmentStack().getItem().getDexterity(), x - 153, y + 64, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "INT: " + es.getEquipmentStack().getItem().getIntelligence(), x - 153, y + 80, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "DEF: " + es.getEquipmentStack().getItem().getDefence(), x - 153, y + 96, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "VIT: " + es.getEquipmentStack().getItem().getVitality(), x - 153, y + 112, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "ATK Speed: " + es.getEquipmentStack().getItem().getAttackSpeed(), x - 153, y + 128, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "MOV Speed: " + es.getEquipmentStack().getItem().getMovementSpeed(), x - 153, y + 144, false, g.getColor(), Assets.font14);
                         }
                     }
                 }
@@ -186,11 +191,13 @@ public class EquipmentWindow implements Serializable {
 
             int index = 0;
             Text.drawString(g, "Stats ", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Power = " + Integer.toString(Handler.get().getPlayer().getPower()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "STR = " + Integer.toString(Handler.get().getPlayer().getStrength()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "DEX = " + Integer.toString(Handler.get().getPlayer().getDexterity()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "INT = " + Integer.toString(Handler.get().getPlayer().getIntelligence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Defence = " + Integer.toString(Handler.get().getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Vitality = " + Integer.toString(Handler.get().getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "ATK Spd. = " + Float.toString(Handler.get().getPlayer().getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Mov. Spd. = " + Float.toString(Handler.get().getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "MOV Spd. = " + Float.toString(Handler.get().getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index), false, Color.YELLOW, Assets.font14);
 
             if (currentSelectedSlot != null) {
                 g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),

@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.ui;
 
+import dev.ipsych0.myrinnia.Handler;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,13 +19,20 @@ public class UIManager implements Serializable {
     }
 
     public void tick() {
-        for (UIObject o : objects)
+        for (UIObject o : objects) {
             o.tick();
+            if (o.getBounds().contains(Handler.get().getMouse())) {
+                o.setHovering(true);
+            } else {
+                o.setHovering(false);
+            }
+        }
     }
 
     public void render(Graphics g) {
-        for (UIObject o : objects)
+        for (UIObject o : objects) {
             o.render(g);
+        }
     }
 
     public void addObject(UIObject o) {

@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
@@ -26,7 +27,9 @@ public class Scorpion extends Creature {
         isNpc = false;
 
         // Creature stats
-        power = 5;
+        strength = 0;
+        dexterity = 0;
+        intelligence = 5;
         vitality = 5;
         defence = 10;
         speed = DEFAULT_SPEED + 0.5f;
@@ -38,7 +41,7 @@ public class Scorpion extends Creature {
         double exponent = 1.1;
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
-            exponent *= 0.9985;
+            exponent *= LEVEL_EXPONENT;
         }
         attackRange = Tiles.TILEWIDTH * 6;
 
@@ -128,19 +131,9 @@ public class Scorpion extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("fireball.wav");
+        Handler.get().playEffect("abilities/fireball.wav");
         projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f));
 
-//		for(Entity e : Handler.get().getWorld().getEntityManager().getEntities()){
-//			if(!e.equals(Handler.get().getPlayer())){
-//				continue;
-//			}
-//			if(e.getCollisionBounds(0, 0).intersects(ar)){
-//				// TODO: Change damage calculation formula
-//				e.damage(this, e);
-//				return;
-//			}
-//		}
     }
 
     @Override

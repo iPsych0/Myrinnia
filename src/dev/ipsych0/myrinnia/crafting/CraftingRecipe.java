@@ -1,8 +1,8 @@
 package dev.ipsych0.myrinnia.crafting;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.skills.SkillCategory;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
 import java.io.Serializable;
 import java.util.ArrayList;

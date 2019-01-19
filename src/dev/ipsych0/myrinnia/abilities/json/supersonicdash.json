@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 3.0,
+  "castingTime": 0.0,
+  "overcastTime": 0.0,
+  "name": "Supersonic Dash",
+  "description": "Manipulate the winds to dash forward at supersonic speeds.",
+  "abilityType": "StandardAbility",
+  "element": "Air",
+  "combatStyle": "Ranged",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 0,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 2,
+  "className": "dev.ipsych0.myrinnia.abilities.SupersonicDashAbility"
+}

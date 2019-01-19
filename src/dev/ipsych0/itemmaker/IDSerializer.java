@@ -12,7 +12,7 @@ class IDSerializer {
         FileOutputStream f;
         ObjectOutputStream o;
         try {
-            f = new FileOutputStream(new File("src/dev/ipsych0/itemmaker/config/IDs.dat"));
+            f = new FileOutputStream(new File("src/dev/ipsych0/itemmaker/config/IDs.ser"));
 
             // Write the Handler object
             o = new ObjectOutputStream(f);
@@ -29,11 +29,11 @@ class IDSerializer {
         FileInputStream fin;
         ObjectInputStream oin;
         try {
-            if (Files.notExists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.dat"))) {
+            if (Files.notExists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.ser"))) {
                 saveIDs();
                 return new HashSet<>();
             }
-            fin = new FileInputStream("src/dev/ipsych0/itemmaker/config/IDs.dat");
+            fin = new FileInputStream("src/dev/ipsych0/itemmaker/config/IDs.ser");
             oin = new ObjectInputStream(fin);
 
             ids = (Set<Integer>) oin.readObject();

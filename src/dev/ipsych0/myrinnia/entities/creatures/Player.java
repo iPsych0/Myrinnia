@@ -5,24 +5,24 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
-import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -66,7 +66,6 @@ public class Player extends Creature {
     // Regeneration timer
     private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
-    private int basePower, baseVitality, baseDefence;
     private double levelExponent = 1.1;
     public static boolean isLevelUp = false;
     private int levelUpTimer;
@@ -95,11 +94,6 @@ public class Player extends Creature {
 
         xSpawn = 5152.0f;
         ySpawn = 5600.0f;
-
-        basePower = 2;
-        baseVitality = 2;
-        baseDefence = 2;
-        baseDamage = 1;
 
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -176,7 +170,7 @@ public class Player extends Creature {
 //					Handler.get().getWorld().getEntityManager().getPlayer().getY());
 //			
 //			speed = (speed == 7.0f) ? 2.5f : 7.0f; 
-//			power = 250;
+//			strength = 250;
 //			Handler.debugMode = (Handler.debugMode) ? false : true;
 
             State.setState(new UITransitionState(Handler.get().getGame().pauseState));
@@ -203,6 +197,7 @@ public class Player extends Creature {
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
+                        Handler.get().playEffect("ui/ui_button_click.wav");
 
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
@@ -218,6 +213,7 @@ public class Player extends Creature {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
                             closestEntity.interact();
                             hasInteracted = true;
+                            Handler.get().playEffect("ui/ui_button_click.wav");
                         }
                     }
                 }
@@ -248,6 +244,7 @@ public class Player extends Creature {
                             // Do the logic and set it to un-pressed and interact
                             closestEntity.getChatDialogue().getContinueButton().setPressed(false);
                             closestEntity.interact();
+                            Handler.get().playEffect("ui/ui_button_click.wav");
                             hasInteracted = true;
                         }
                     }
@@ -346,7 +343,7 @@ public class Player extends Creature {
                         p.active = false;
                     }
                     if (e.isAttackable()) {
-                        e.damage(this, e);
+                        e.damage(DamageType.INT, this, e);
                         p.active = false;
                     }
                 }
@@ -481,8 +478,8 @@ public class Player extends Creature {
 
         if (isLevelUp) {
             levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 16 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font32);
+            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font20);
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
@@ -492,27 +489,14 @@ public class Player extends Creature {
     }
 
     public void levelUp() {
-
         isLevelUp = true;
 
-//		// Get the old base power
-//		int oldBasePower = basePower;
-//		int oldBaseVitality = baseVitality;
-//		int oldBaseDefence = baseDefence;
-//		
-//		// Every level, formula is: Exponent (1.1) * 0.9985
-//		basePower = (int) Math.ceil(basePower * levelExponent) + 1;
-//		baseVitality = (int) Math.ceil(baseVitality * levelExponent) + 1;
-//		baseDefence = (int) Math.ceil(baseDefence * levelExponent) + 1;
+        this.levelExponent *= LEVEL_EXPONENT;
 
-        this.levelExponent *= 0.9985;
-
+        // Change base damage and restore to full health
         this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-//		this.power += (basePower - oldBasePower);
-//		this.vitality += (baseVitality - oldBaseVitality);
-//		this.defence += (baseDefence - oldBaseDefence);
-
         this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+
         this.health = maxHealth;
     }
 
@@ -521,7 +505,7 @@ public class Player extends Creature {
      * @param: the item's equipment slot
      */
     public void addEquipmentStats(int equipSlot) {
-        if (equipSlot == 12) {
+        if (equipSlot == EquipSlot.None.getSlotId()) {
             // If slotnumber = 12 (unequippable) return
             return;
         }
@@ -530,7 +514,9 @@ public class Player extends Creature {
             // Sets the new stats
             attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
             vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
-            power += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+            strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
+            dexterity += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
+            intelligence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
             defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
             speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
             attackCooldown = (long) (600 / attackSpeed);
@@ -547,7 +533,7 @@ public class Player extends Creature {
      * Removes the equipment stats
      */
     public void removeEquipmentStats(int equipSlot) {
-        if (equipSlot == 12) {
+        if (equipSlot == EquipSlot.None.getSlotId()) {
             return;
         }
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
@@ -564,10 +550,22 @@ public class Player extends Creature {
                 vitality -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
             }
 
-            if (getPower() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower() < 0) {
-                setPower(0);
+            if (getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength() < 0) {
+                setStrength(0);
             } else {
-                power -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getPower();
+                strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
+            }
+
+            if (getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity() < 0) {
+                setDexterity(0);
+            } else {
+                dexterity -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
+            }
+
+            if (getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence() < 0) {
+                setIntelligence(0);
+            } else {
+                intelligence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
             }
 
             if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
@@ -575,9 +573,7 @@ public class Player extends Creature {
             } else {
                 defence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
             }
-            /*
-             * TODO: Als ik ooit movement speed reduction conditions wil maken, moet ik deze aanpassen
-             */
+
             if (speed - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
                 speed = 1.0f;
             } else {
@@ -593,16 +589,6 @@ public class Player extends Creature {
             }
         }
     }
-
-    /**
-     * Damage formula
-     */
-//	@Override
-//	public int getDamage(Entity dealer) {
-//		// Default damage formula
-//		Creature c = (Creature) dealer;
-//		return (int) Math.floor((c.getBaseDamage() + c.getPower() / 2));
-//	}
 
     /*
      * Regenerates health
@@ -749,7 +735,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("fireball.wav");
+        Handler.get().playEffect("abilities/fireball.wav");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -784,8 +770,7 @@ public class Player extends Creature {
                 if (!e.isAttackable())
                     continue;
                 if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    // TODO: Change damage calculation formula
-                    e.damage(this, e);
+                    e.damage(DamageType.STR, this, e);
                     return;
                 }
             }
@@ -1146,5 +1131,9 @@ public class Player extends Creature {
 
     public void setAbilityPoints(int abilityPoints) {
         this.abilityPoints = abilityPoints;
+    }
+
+    public void addAbilityPoints(){
+        this.abilityPoints++;
     }
 }

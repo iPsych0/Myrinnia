@@ -1,7 +1,8 @@
 package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.AStarMap;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -94,8 +95,8 @@ class CommandHandler implements Serializable {
                 } else {
                     try {
                         // Set combat attributes
-                        if (commands[1].equalsIgnoreCase("power")) {
-                            Handler.get().getPlayer().setPower(Integer.parseInt(commands[2]));
+                        if (commands[1].equalsIgnoreCase("strength")) {
+                            Handler.get().getPlayer().setStrength(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("vitality")) {
                             Handler.get().getPlayer().setVitality(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("defence")) {
@@ -114,10 +115,40 @@ class CommandHandler implements Serializable {
                 break;
             // Runtime debug commands
             case DEBUG:
-                if (commands[1].equalsIgnoreCase("a*")) {
-                    AStarMap.debugMode = !AStarMap.debugMode;
-                } else {
-                    Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
+                if(commands.length == 2) {
+                    if (commands[1].equalsIgnoreCase("a*")) {
+                        AStarMap.debugMode = !AStarMap.debugMode;
+                    } else {
+                        Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
+                    }
+                }else{
+                    Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'debug {target}'.");
+                }
+                break;
+            // Unlock Abilities
+            case UNLOCK:
+                if (commands.length == 2) {
+                    if(commands[1].equalsIgnoreCase("all")) {
+                        for(Ability a : Handler.get().getAbilityManager().getAllAbilities()){
+                            a.setUnlocked(true);
+                        }
+                        Handler.get().sendMsg("Unlocked all abilities.");
+                        break;
+                    }
+                    if(!commands[1].isEmpty()){
+                        for(Ability a : Handler.get().getAbilityManager().getAllAbilities()){
+                            if(a.getName().equalsIgnoreCase(commands[1].replace("_"," "))){
+                                a.setUnlocked(true);
+                                Handler.get().sendMsg("Unlocked ability: " + commands[1]);
+                                break;
+                            }
+                        }
+                    }
+                    else{
+                        Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'unlock {ability_Name} or 'unlock all'.");
+                    }
+                }else{
+                    Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'unlock {ability_Name} or 'unlock all'.");
                 }
                 break;
             default:

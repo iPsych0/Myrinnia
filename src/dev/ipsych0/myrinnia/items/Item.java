@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -22,21 +21,18 @@ public class Item implements Serializable {
     public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
     public static Item[] items = new Item[1024];
 
+
     /*
-     * Unequippable Items
+     * Items
      */
     public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
     public static Item regularOre = Utils.loadItem("1_ore.json", Assets.ore);
-    public static Item coins = new Item(Assets.coins[0], "Coins", 10, ItemRarity.Rare, -1, true, ItemType.CURRENCY);
-    public static Item regularFish = new Item(Assets.fishingIcon, "Fish", 7, ItemRarity.Common, 5, true, ItemType.FOOD);
-
-    /*
-     * Equippable item
-     */
-    public static Item testSword = new Item(Assets.testSword, "Test Sword", 3, ItemRarity.Unique, EquipSlot.Mainhand, 5, 0, 2, 0, 0, 10, false, new ItemType[]{ItemType.MELEE_WEAPON}, new ItemRequirement(CharacterStats.Melee, 2));
     public static Item purpleSword = Utils.loadItem("2_magic_wand.json", Assets.purpleSword);
-    public static Item testAxe = new Item(Assets.testAxe, "Test Axe", 5, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[]{ItemType.MELEE_WEAPON, ItemType.AXE});
-    public static Item testPickaxe = new Item(Assets.testPickaxe, "Test Pickaxe", 6, ItemRarity.Common, EquipSlot.Mainhand, 5, 0, 0, 0, 0, 10, false, new ItemType[]{ItemType.MELEE_WEAPON, ItemType.PICKAXE});
+    public static Item testSword = Utils.loadItem("3_test_sword.json", Assets.testSword);
+    public static Item coins = Utils.loadItem("4_coins.json", Assets.coins[0]);
+    public static Item regularFish = Utils.loadItem("5_fish.json", Assets.fishingIcon);
+    public static Item testAxe =  Utils.loadItem("6_test_axe.json", Assets.testAxe);
+    public static Item testPickaxe = Utils.loadItem("7_test_pickaxe.json", Assets.testPickaxe);
 
     // Class
 
@@ -47,7 +43,7 @@ public class Item implements Serializable {
     protected String name;
     protected final int id;
     protected EquipSlot equipSlot;
-    protected int power, defence, vitality;
+    protected int strength, dexterity, intelligence, defence, vitality;
     protected float attackSpeed, movementSpeed;
     protected int x, y;
     protected Rectangle bounds;
@@ -70,7 +66,9 @@ public class Item implements Serializable {
         this.stackable = stackable;
         this.equipSlot = EquipSlot.None;
         this.equippable = false;
-        this.power = 0;
+        this.strength = 0;
+        this.dexterity = 0;
+        this.intelligence = 0;
         this.defence = 0;
         this.vitality = 0;
         this.attackSpeed = 0;
@@ -96,13 +94,15 @@ public class Item implements Serializable {
     }
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
-                EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
+                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,
                 int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
         this(texture, name, id, itemRarity, price, stackable, itemTypes);
         this.equipSlot = equipSlot;
         this.equippable = true;
         this.requirements = requirements;
-        this.power = power;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
         this.defence = defence;
         this.vitality = vitality;
         this.attackSpeed = attackSpeed;
@@ -128,7 +128,7 @@ public class Item implements Serializable {
     public Item createItem(int x, int y, int count) {
         Item i;
         if (this.isEquippable()) {
-            i = new Item(texture, name, id, itemRarity, equipSlot, power, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
+            i = new Item(texture, name, id, itemRarity, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
         } else {
             i = new Item(texture, name, id, itemRarity, price, stackable, itemTypes);
         }
@@ -166,7 +166,7 @@ public class Item implements Serializable {
             // If we have space
             if (id == item.getId()) {
                 if (Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName());
+                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".");
                     pickedUp = true;
                     return true;
                 }
@@ -184,8 +184,16 @@ public class Item implements Serializable {
         return equipSlot.getSlotId();
     }
 
-    public int getPower() {
-        return power;
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
     }
 
     public int getDefence() {

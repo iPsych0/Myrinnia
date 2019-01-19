@@ -36,8 +36,10 @@ public class DevToolUI implements Serializable {
             textBox.tick();
             if (TextBox.enterPressed) {
 
-                // Perform the typed command
-                performAction(textBox.getCharactersTyped());
+                if(!textBox.getCharactersTyped().isEmpty()){
+                    // Perform the typed command
+                    performAction(textBox.getCharactersTyped());
+                }
 
                 // Reset the text box
                 TextBox.enterPressed = false;

@@ -2,6 +2,9 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
+import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
@@ -24,15 +27,20 @@ public abstract class Creature extends Entity {
             DEFAULT_CREATURE_HEIGHT = 32;
 
     public static final int DEFAULT_DAMAGE = 1,
-            DEFAULT_POWER = 0,
+            DEFAULT_STRENGTH = 0,
+            DEFAULT_DEXTERITY = 0,
+            DEFAULT_INTELLIGENCE = 0,
             DEFAULT_DEFENCE = 0,
             DEFAULT_VITALITY = 0;
     protected int baseDamage;
-    protected int power;
+    protected int strength;
+    protected int dexterity;
+    protected int intelligence;
     protected int defence;
     protected int vitality;
     protected float attackSpeed;
     protected int combatLevel;
+    protected static final double LEVEL_EXPONENT = 0.998;
     protected int attackRange = Tiles.TILEWIDTH * 2;
     protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
@@ -58,7 +66,7 @@ public abstract class Creature extends Entity {
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
 
-    protected enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
@@ -73,7 +81,9 @@ public abstract class Creature extends Entity {
         super(x, y, width, height);
         state = CombatState.IDLE;
         baseDamage = (DEFAULT_DAMAGE);
-        power = (DEFAULT_POWER);
+        strength = (DEFAULT_STRENGTH);
+        dexterity = (DEFAULT_DEXTERITY);
+        intelligence = (DEFAULT_INTELLIGENCE);
         defence = (DEFAULT_DEFENCE);
         vitality = (DEFAULT_VITALITY);
         speed = (DEFAULT_SPEED);
@@ -93,8 +103,8 @@ public abstract class Creature extends Entity {
      * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
      */
     @Override
-    public int getDamage(Entity dealer, Entity receiver) {
-        return super.getDamage(dealer, receiver);
+    public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
+        return super.getDamage(damageType, dealer, receiver);
     }
 
     /*
@@ -175,7 +185,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles collision detection with Tiles
      */
-    protected boolean collisionWithTile(int x, int y) {
+    public boolean collisionWithTile(int x, int y) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -206,10 +216,9 @@ public abstract class Creature extends Entity {
             name[0] = hoveringEntity.getClass().getSimpleName();
             return name;
         }
-        String[] name = new String[3];
+        String[] name = new String[2];
         name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "Max hit: " + String.valueOf(this.getDamage(hoveringEntity, Handler.get().getPlayer()));
-        name[2] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
+        name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
         return name;
     }
 
@@ -241,7 +250,7 @@ public abstract class Creature extends Entity {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
                     if (e.equals(Handler.get().getPlayer())) {
-                        e.damage(this, e);
+                        e.damage(DamageType.DEX, this, e);
                         p.active = false;
                     }
                     if (!e.isAttackable()) {
@@ -384,8 +393,8 @@ public abstract class Creature extends Entity {
         }
     }
 
-    /*
-     * Override this method in the creature class
+    /**
+     * Override this method in the creature's class
      */
     protected void checkAttacks() {
 
@@ -501,12 +510,28 @@ public abstract class Creature extends Entity {
         this.speed = speed;
     }
 
-    public int getPower() {
-        return power;
+    public int getStrength() {
+        return strength;
     }
 
-    public void setPower(int power) {
-        this.power = power;
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
     }
 
     public int getDefence() {
@@ -581,4 +606,11 @@ public abstract class Creature extends Entity {
         this.map = map;
     }
 
+    public Direction getLastFaced() {
+        return lastFaced;
+    }
+
+    public void setLastFaced(Direction lastFaced) {
+        this.lastFaced = lastFaced;
+    }
 }

@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
 public class CraftingSkill extends Skill {
 
     /**

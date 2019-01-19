@@ -50,7 +50,7 @@ public class QuestHelpUI implements Serializable {
                 for (int j = 0; j < selectedQuest.getQuestSteps().size(); j++) {
                     for (int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length; i++) {
                         if (selectedQuest.getQuestSteps().get(j).isFinished()) {
-                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.YELLOW, Assets.font14);
+                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.GREEN, Assets.font14);
                         } else {
                             Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.YELLOW, Assets.font14);
                         }
@@ -101,7 +101,7 @@ public class QuestHelpUI implements Serializable {
                     }
                 }
             } else {
-                Text.drawString(g, "None", x + (width / 2) + 6, y + 72, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "None", x + (width / 2) + 6, y + 60, true, Color.GREEN, Assets.font14);
             }
 
         }

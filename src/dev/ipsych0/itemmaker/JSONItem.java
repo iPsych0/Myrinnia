@@ -12,32 +12,34 @@ import java.io.Serializable;
 class JSONItem implements Serializable {
 
     private static final long serialVersionUID = -758455032925771207L;
-    ItemType[] itemTypes;
-    ItemRarity itemRarity;
-    ItemRequirement[] requirements;
-    BufferedImage texture;
-    String name;
+    private ItemType[] itemTypes;
+    private ItemRarity itemRarity;
+    private ItemRequirement[] requirements;
+    private BufferedImage texture;
+    private String name;
     final int id;
-    EquipSlot equipSlot;
-    int power;
-    int defence;
-    int vitality;
-    float attackSpeed;
-    float movementSpeed;
-    int x;
-    int y;
-    Rectangle bounds;
-    Rectangle position;
-    protected int count;
-    boolean pickedUp = false;
-    static boolean pickUpKeyPressed = false;
-    int price;
-    boolean stackable;
-    boolean equippable;
-    int respawnTimer = 10800;
+    private EquipSlot equipSlot;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+    private int defence;
+    private int vitality;
+    private float attackSpeed;
+    private float movementSpeed;
+    private int x;
+    private int y;
+    private Rectangle bounds;
+    private Rectangle position;
+    private int count;
+    private boolean pickedUp = false;
+    private static boolean pickUpKeyPressed = false;
+    private int price;
+    private boolean stackable;
+    private boolean equippable;
+    private int respawnTimer = 10800;
 
     public JSONItem(BufferedImage texture, String name, ItemRarity itemRarity,
-                    EquipSlot equipSlot, int power, int defence, int vitality, float attackSpeed, float movementSpeed,
+                    EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,
                     int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
 
         this.texture = texture;
@@ -50,7 +52,9 @@ class JSONItem implements Serializable {
         this.requirements = requirements;
         this.equipSlot = equipSlot;
         this.equippable = (equipSlot != EquipSlot.None);
-        this.power = power;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
         this.defence = defence;
         this.vitality = vitality;
         this.attackSpeed = attackSpeed;

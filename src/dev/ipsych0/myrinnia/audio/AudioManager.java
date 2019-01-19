@@ -17,7 +17,7 @@ public class AudioManager {
     private static List<Integer> buffers = new ArrayList<Integer>();
     public static LinkedList<Source> musicFiles = new LinkedList<>();
     public static LinkedList<Source> soundfxFiles = new LinkedList<>();
-    public static Map<String, Integer> songMap = new HashMap<>();
+    public static Map<String, Integer> soundMap = new HashMap<>();
     public static Zone zone;
 
     public static void init() {
@@ -97,12 +97,12 @@ public class AudioManager {
 
     public static int loadSound(String file) throws FileNotFoundException {
         // If the sound has been loaded already, load the same buffer to prevent memory consumption
-        if (songMap.containsKey(file)) {
-            return songMap.get(file);
+        if (soundMap.containsKey(file)) {
+            return soundMap.get(file);
         }
         int buffer = AL10.alGenBuffers();
         buffers.add(buffer);
-        songMap.put(file, buffer);
+        soundMap.put(file, buffer);
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(new File(file)));
         WaveData waveFile = WaveData.create(is);
         AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);

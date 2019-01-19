@@ -4,7 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 
@@ -22,7 +22,7 @@ public class FireBallAbility extends Ability {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.magicProjectile[2], x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        g.drawImage(Assets.fireballI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 
     }
 
