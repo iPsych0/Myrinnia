@@ -1,10 +1,12 @@
-package dev.ipsych0.myrinnia.items;
+package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Text;
 

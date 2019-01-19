@@ -5,24 +5,24 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
-import dev.ipsych0.myrinnia.crafting.CraftingUI;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
-import dev.ipsych0.myrinnia.entities.npcs.ChatWindow;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -197,6 +197,7 @@ public class Player extends Creature {
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
+                        Handler.get().playEffect("ui/ui_button_click.wav");
 
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
@@ -212,6 +213,7 @@ public class Player extends Creature {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
                             closestEntity.interact();
                             hasInteracted = true;
+                            Handler.get().playEffect("ui/ui_button_click.wav");
                         }
                     }
                 }
@@ -242,6 +244,7 @@ public class Player extends Creature {
                             // Do the logic and set it to un-pressed and interact
                             closestEntity.getChatDialogue().getContinueButton().setPressed(false);
                             closestEntity.interact();
+                            Handler.get().playEffect("ui/ui_button_click.wav");
                             hasInteracted = true;
                         }
                     }

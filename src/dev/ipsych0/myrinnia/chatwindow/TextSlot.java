@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.entities.npcs;
+package dev.ipsych0.myrinnia.chatwindow;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.states.GameState;

@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 

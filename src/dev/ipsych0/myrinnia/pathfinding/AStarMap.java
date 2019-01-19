@@ -1,7 +1,8 @@
-package dev.ipsych0.myrinnia.entities.creatures;
+package dev.ipsych0.myrinnia.pathfinding;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 
 import java.awt.*;

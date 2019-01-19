@@ -6,8 +6,11 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.*;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.utils.DialogueBox;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

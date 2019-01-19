@@ -1,9 +1,8 @@
-package dev.ipsych0.myrinnia.utils;
+package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;

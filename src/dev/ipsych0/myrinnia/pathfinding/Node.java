@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.entities.creatures;
+package dev.ipsych0.myrinnia.pathfinding;
 
 import java.io.Serializable;
 

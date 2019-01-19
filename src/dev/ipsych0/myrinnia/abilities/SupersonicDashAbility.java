@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 
 public class SupersonicDashAbility extends Ability implements Serializable {

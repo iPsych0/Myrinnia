@@ -4,9 +4,9 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemRarity;
-import dev.ipsych0.myrinnia.items.ItemSlot;
-import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.items.ItemTooltip;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

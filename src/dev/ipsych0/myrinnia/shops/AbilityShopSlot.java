@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 
 import java.awt.*;

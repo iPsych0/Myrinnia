@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.skills;
+package dev.ipsych0.myrinnia.skills.ui;
 
 public enum SkillCategory {
 

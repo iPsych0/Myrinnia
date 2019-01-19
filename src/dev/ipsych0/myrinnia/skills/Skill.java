@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.skills;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
 import java.io.Serializable;
 import java.util.ArrayList;

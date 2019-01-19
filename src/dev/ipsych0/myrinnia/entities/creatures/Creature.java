@@ -2,6 +2,9 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
+import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
@@ -182,7 +185,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles collision detection with Tiles
      */
-    protected boolean collisionWithTile(int x, int y) {
+    public boolean collisionWithTile(int x, int y) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;

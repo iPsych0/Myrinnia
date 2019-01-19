@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.utils.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

@@ -9,11 +9,10 @@ import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

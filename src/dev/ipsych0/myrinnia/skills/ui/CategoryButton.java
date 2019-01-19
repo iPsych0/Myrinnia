@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.skills;
+package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;

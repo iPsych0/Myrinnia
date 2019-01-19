@@ -1,19 +1,21 @@
-package dev.ipsych0.myrinnia.crafting;
+package dev.ipsych0.myrinnia.crafting.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.crafting.CraftingManager;
+import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ItemStack;
-import dev.ipsych0.myrinnia.items.ItemTooltip;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.skills.SkillsOverviewUI;
-import dev.ipsych0.myrinnia.skills.SkillsUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
+import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 

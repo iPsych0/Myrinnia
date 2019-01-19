@@ -1,4 +1,6 @@
-package dev.ipsych0.myrinnia.items;
+package dev.ipsych0.myrinnia.items.ui;
+
+import dev.ipsych0.myrinnia.items.Item;
 
 import java.io.Serializable;
 
