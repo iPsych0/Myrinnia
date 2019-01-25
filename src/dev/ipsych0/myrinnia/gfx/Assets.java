@@ -139,7 +139,8 @@ public class Assets {
 
     public static BufferedImage[] whirlpool;
 
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon;
+    // Icons
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, rangedIcon, magicIcon;
 
     public static BufferedImage shopWindow;
 
@@ -267,6 +268,9 @@ public class Assets {
         fishingIcon = ui_sheet.imageCrop(2, 0);
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
+        meleeIcon = ui_sheet.imageCrop(2, 1);
+        rangedIcon = ui_sheet.imageCrop(3,1);
+        magicIcon = ui_sheet.imageCrop(4,1);
 
         // Inventory sprites
         invScreen = ui_sheet.imageCrop(0, 9, 132, 329);

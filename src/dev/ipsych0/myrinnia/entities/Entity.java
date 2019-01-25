@@ -190,7 +190,7 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getStrength()) + d.getBaseDamage() + ability.getBaseDamage();
+        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     /*
@@ -206,7 +206,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver), damageType));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -231,7 +231,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability), ability));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
