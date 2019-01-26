@@ -21,6 +21,9 @@ public class HitSplat implements Serializable {
     private transient BufferedImage dmgType;
     private transient Ability ability;
 
+    public HitSplat(){
+    }
+
     public HitSplat(Entity receiver, int damage, DamageType damageType) {
         this.receiver = receiver;
         this.damage = damage;

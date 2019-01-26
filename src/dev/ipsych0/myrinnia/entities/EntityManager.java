@@ -21,13 +21,13 @@ public class EntityManager implements Serializable {
     private Collection<Entity> deleted;
     private Entity selectedEntity;
     public static boolean isPressed = false;
-    private LinkedList<HitSplat> hitSplats;
+    private CopyOnWriteArrayList<HitSplat> hitSplats;
 
     public EntityManager(Player player) {
         this.player = player;
         entities = new CopyOnWriteArrayList<Entity>();
         deleted = new CopyOnWriteArrayList<Entity>();
-        hitSplats = new LinkedList<>();
+        hitSplats = new CopyOnWriteArrayList<>();
         addEntity(player);
     }
 
@@ -171,12 +171,7 @@ public class EntityManager implements Serializable {
         this.entities = entities;
     }
 
-    public LinkedList<HitSplat> getHitSplats() {
+    public CopyOnWriteArrayList<HitSplat> getHitSplats() {
         return hitSplats;
     }
-
-    public void setHitSplats(LinkedList<HitSplat> hitSplats) {
-        this.hitSplats = hitSplats;
-    }
-
 }

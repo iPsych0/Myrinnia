@@ -243,6 +243,34 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public void addCondition(Entity dealer, Entity receiver, Condition condition){
+        damageDealer = dealer;
+        damageReceiver = receiver;
+        damageReceiver.damaged = true;
+        damageReceiver.lastHit = 0;
+        damageReceiver.combatTimer = 0;
+        damageReceiver.inCombat = true;
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+        if (damageDealer.equals(Handler.get().getPlayer())) {
+            damageDealer.setInCombat(true);
+            damageDealer.combatTimer = 0;
+        }
+    }
+
+    public void tickCondition(Entity receiver, Condition condition){
+        damageReceiver = receiver;
+        damageReceiver.health -= condition.getConditionDamage();
+        damageReceiver.damaged = true;
+        damageReceiver.lastHit = 0;
+        damageReceiver.combatTimer = 0;
+        damageReceiver.inCombat = true;
+
+        if (damageReceiver.health <= 0) {
+            damageReceiver.active = false;
+            damageReceiver.die();
+        }
+    }
+
     /*
      * Drawing the hitsplat
      */

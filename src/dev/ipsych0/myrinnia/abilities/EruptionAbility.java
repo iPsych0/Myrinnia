@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.gfx.Animation;
@@ -58,6 +59,7 @@ public class EruptionAbility extends Ability {
                         continue;
                     if (!e.equals(caster)) {
                         e.damage(DamageType.STR, caster, e, this);
+                        e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 10));
                     }
                 }
             }
