@@ -2,11 +2,14 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MendWoundsAbility extends Ability {
 
@@ -53,6 +56,10 @@ public class MendWoundsAbility extends Ability {
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
             Handler.get().playEffect("abilities/mend_wounds.wav");
+
+            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
+            deleted.addAll(caster.getConditions());
+            caster.getConditions().removeAll(deleted);
         }
 
         animation.tick();

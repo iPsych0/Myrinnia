@@ -250,7 +250,31 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
+
+        Creature r = ((Creature)receiver);
+
         Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+
+        if(r.getConditions().isEmpty()){
+            r.getConditions().add(condition);
+        }else {
+            for (Condition c : r.getConditions()) {
+                // Check if the condition is already on the receiver
+                if (c.getType() == condition.getType()) {
+                    // If that's the case, increase the duration
+                    c.setDuration(c.getDuration() + condition.getDuration());
+
+                    // If the new ability has a higher condition damage than the current one, increase the damage
+                    if (condition.getConditionDamage() > c.getConditionDamage()) {
+                        c.setConditionDamage(condition.getConditionDamage());
+                    }
+                // If we don't already have a condition of this type, simply add it
+                } else {
+                    r.getConditions().add(condition);
+                }
+            }
+        }
+
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;

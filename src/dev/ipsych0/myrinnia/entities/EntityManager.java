@@ -40,6 +40,14 @@ public class EntityManager implements Serializable {
                 deleted.add(e);
             }
 
+            if(e instanceof Creature) {
+                for (Condition c : ((Creature) e).getConditions()) {
+                    if (c.isActive()) {
+                        c.tick();
+                    }
+                }
+            }
+
             e.tick();
             // Update combat timers
             if (e.isDamaged() && e.getDamageDealer() != null) {
@@ -85,6 +93,11 @@ public class EntityManager implements Serializable {
                 for (Projectile p : ((Creature) e).getProjectiles()) {
                     if (p.active) {
                         p.render(g);
+                    }
+                }
+                for(Condition c : ((Creature)e).getConditions()){
+                    if(c.isActive()){
+                        c.render(g);
                     }
                 }
             }

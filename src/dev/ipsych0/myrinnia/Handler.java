@@ -307,6 +307,16 @@ public class Handler implements Serializable {
     }
 
     /*
+     * Overloaded for printing numerical values to the chat
+     */
+    public void sendMsg(int message) {
+        String[] text = Text.splitIntoLine(String.valueOf(message), 66);
+        for (String s : text) {
+            getChatWindow().sendMessage(s);
+        }
+    }
+
+    /*
      * Checks if the inventory is full when picking up/receiving an item
      * @param: Provide the item that needs to be checked if it can be added to the inventory
      */

@@ -8,7 +8,7 @@ public class Assets {
     private static final int width = 32, height = 32;
 
     // Fonts
-    public static Font font14, font20, font32, font48, font64;
+    public static Font font14, font20, font24, font32, font48, font64;
 
     // Terrain images (paths, lava, water, etc)
     public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
@@ -155,6 +155,7 @@ public class Assets {
          */
         font14 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 14);
         font20 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 20);
+        font24 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 24);
         font32 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 32);
         font48 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 48);
         font64 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 64);

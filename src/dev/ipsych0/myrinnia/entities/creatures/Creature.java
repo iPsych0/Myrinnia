@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
@@ -65,6 +66,7 @@ public abstract class Creature extends Entity {
     private static final int TIMES_PER_SECOND = 4;
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
+    private List<Condition> conditions = new ArrayList<>();
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -251,6 +253,7 @@ public abstract class Creature extends Entity {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
                     if (e.equals(Handler.get().getPlayer())) {
                         e.damage(DamageType.DEX, this, e);
+                        e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 5));
                         p.active = false;
                     }
                     if (!e.isAttackable()) {
@@ -612,5 +615,13 @@ public abstract class Creature extends Entity {
 
     public void setLastFaced(Direction lastFaced) {
         this.lastFaced = lastFaced;
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
     }
 }

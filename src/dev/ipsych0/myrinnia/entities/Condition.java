@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.entities;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -13,8 +16,10 @@ public class Condition implements Serializable {
     protected boolean active;
     protected int conditionDamage;
     private transient BufferedImage img;
+    private Type type;
 
     public Condition(Type type, Entity receiver, int durationSeconds) {
+        this.type = type;
         this.img = type.getImg();
         this.receiver = receiver;
         this.duration = durationSeconds * 60;
@@ -22,11 +27,49 @@ public class Condition implements Serializable {
     }
 
     public Condition(Type type, Entity receiver, int durationSeconds, int conditionDamage) {
+        this.type = type;
         this.img = type.getImg();
         this.receiver = receiver;
         this.duration = durationSeconds * 60;
         this.conditionDamage = conditionDamage;
         this.active = true;
+    }
+
+    public void tick() {
+        // If the enemy died, stop ticking, but finish the render of the last condition
+        if (!receiver.isActive()) {
+            if (tickTimer == 60) {
+                this.setActive(false);
+            }
+            tickTimer++;
+            return;
+        }
+
+        // If the duration is greater than 0 at any given time
+        if (tickTimer < duration) {
+            // Tick the condition effect
+            if (tickTimer == 0) {
+                duration -= 60;
+                receiver.tickCondition(receiver, this);
+            } else if (tickTimer % 60 == 0) {
+                // After 1 second, recreate the damage splat
+                tickTimer = 0;
+                duration -= 60;
+                Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
+                receiver.tickCondition(receiver, this);
+            }
+            // If the condition duration is 0, don't tick anymore, but let the last hitsplat disappear
+        } else if (duration <= 0) {
+            if (tickTimer == 60) {
+                this.setActive(false);
+                ((Creature) receiver).getConditions().remove(this);
+            }
+        }
+        tickTimer++;
+    }
+
+    public void render(Graphics g) {
+
     }
 
     public int getDuration() {
@@ -51,6 +94,14 @@ public class Condition implements Serializable {
 
     public int getConditionDamage() {
         return conditionDamage;
+    }
+
+    public void setConditionDamage(int conditionDamage) {
+        this.conditionDamage = conditionDamage;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public enum Type {
