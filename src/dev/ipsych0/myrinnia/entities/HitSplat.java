@@ -8,9 +8,11 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class HitSplat {
+public class HitSplat implements Serializable {
 
+    private static final long serialVersionUID = 7859808120479358201L;
     private Entity receiver;
     private int damage;
     private boolean active = false;
@@ -23,8 +25,8 @@ public class HitSplat {
         this.receiver = receiver;
         this.damage = damage;
         active = true;
-        xOffset = Handler.get().getRandomNumber(-16, 16);
-        yOffset = Handler.get().getRandomNumber(-8, 8);
+        xOffset = Handler.get().getRandomNumber(-16, 24);
+        yOffset = Handler.get().getRandomNumber(-12, 12);
 
         switch (damageType){
             case STR:
@@ -44,8 +46,8 @@ public class HitSplat {
         this.damage = damage;
         this.ability = ability;
         active = true;
-        xOffset = Handler.get().getRandomNumber(-16, 16);
-        yOffset = Handler.get().getRandomNumber(-8, 8);
+        xOffset = Handler.get().getRandomNumber(-16, 24);
+        yOffset = Handler.get().getRandomNumber(-12, 12);
     }
 
     public void tick() {
@@ -65,10 +67,10 @@ public class HitSplat {
                         (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 6 - ty + yOffset));
             }
             Text.drawString(g, String.valueOf(damage),
-                    (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + 6 + xOffset),
-                    (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 32 - ty + yOffset), false, Color.RED, Assets.font32);
+                    (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 4 + xOffset),
+                    (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset), false, Color.RED, Assets.font32);
 
-            if (ty >= 45) {
+            if (ty >= 60) {
                 active = false;
             }
         }
