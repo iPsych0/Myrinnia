@@ -2,8 +2,8 @@ package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -20,6 +20,9 @@ class CommandHandler implements Serializable {
             // Command to give items to the player
             case GIVE:
                 try {
+                    if (commands.length != 3) {
+                        throw new Exception();
+                    }
                     if (Integer.parseInt(commands[2]) <= 0) {
                         Handler.get().sendMsg("Must request at least 1 item.");
                         break;
@@ -55,6 +58,8 @@ class CommandHandler implements Serializable {
                         Integer yPos = Integer.parseInt(commands[2]);
                         Handler.get().getPlayer().setX(xPos);
                         Handler.get().getPlayer().setY(yPos);
+                    } else {
+                        throw new Exception();
                     }
                 } catch (Exception e) {
                     Handler.get().sendMsg("Error. Syntax: 'tele (optional:Zone) {X-coords} {Y-coords}'.");
@@ -95,16 +100,23 @@ class CommandHandler implements Serializable {
                 } else {
                     try {
                         // Set combat attributes
-                        if (commands[1].equalsIgnoreCase("strength")) {
+                        if (commands[1].equalsIgnoreCase("str")) {
                             Handler.get().getPlayer().setStrength(Integer.parseInt(commands[2]));
-                        } else if (commands[1].equalsIgnoreCase("vitality")) {
+                        } else if (commands[1].equalsIgnoreCase("dex")) {
+                            Handler.get().getPlayer().setDexterity(Integer.parseInt(commands[2]));
+                        } else if (commands[1].equalsIgnoreCase("int")) {
+                            Handler.get().getPlayer().setIntelligence(Integer.parseInt(commands[2]));
+                        } else if (commands[1].equalsIgnoreCase("vit")) {
                             Handler.get().getPlayer().setVitality(Integer.parseInt(commands[2]));
-                        } else if (commands[1].equalsIgnoreCase("defence")) {
+                        } else if (commands[1].equalsIgnoreCase("def")) {
                             Handler.get().getPlayer().setDefence(Integer.parseInt(commands[2]));
-                        } else if (commands[1].equalsIgnoreCase("movspeed")) {
+                        } else if (commands[1].equalsIgnoreCase("movspd")) {
                             Handler.get().getPlayer().setSpeed(Integer.parseInt(commands[2]));
-                        } else if (commands[1].equalsIgnoreCase("atkspeed")) {
+                        } else if (commands[1].equalsIgnoreCase("atkspd")) {
                             Handler.get().getPlayer().setAttackSpeed(Integer.parseInt(commands[2]));
+                        } else if (commands[1].equalsIgnoreCase("maxhp")) {
+                            Handler.get().getPlayer().setMaxHealth(Integer.parseInt(commands[2]));
+                            Handler.get().getPlayer().setHealth(Handler.get().getPlayer().getMaxHealth());
                         } else {
                             Handler.get().sendMsg("Syntax error: '" + commands[1] + "' is not a skill or attribute.");
                         }
@@ -115,39 +127,38 @@ class CommandHandler implements Serializable {
                 break;
             // Runtime debug commands
             case DEBUG:
-                if(commands.length == 2) {
+                if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
                         AStarMap.debugMode = !AStarMap.debugMode;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
                     }
-                }else{
+                } else {
                     Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'debug {target}'.");
                 }
                 break;
             // Unlock Abilities
             case UNLOCK:
                 if (commands.length == 2) {
-                    if(commands[1].equalsIgnoreCase("all")) {
-                        for(Ability a : Handler.get().getAbilityManager().getAllAbilities()){
+                    if (commands[1].equalsIgnoreCase("all")) {
+                        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
                             a.setUnlocked(true);
                         }
                         Handler.get().sendMsg("Unlocked all abilities.");
                         break;
                     }
-                    if(!commands[1].isEmpty()){
-                        for(Ability a : Handler.get().getAbilityManager().getAllAbilities()){
-                            if(a.getName().equalsIgnoreCase(commands[1].replace("_"," "))){
+                    if (!commands[1].isEmpty()) {
+                        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
+                            if (a.getName().equalsIgnoreCase(commands[1].replace("_", " "))) {
                                 a.setUnlocked(true);
                                 Handler.get().sendMsg("Unlocked ability: " + commands[1]);
                                 break;
                             }
                         }
-                    }
-                    else{
+                    } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'unlock {ability_Name} or 'unlock all'.");
                     }
-                }else{
+                } else {
                     Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'unlock {ability_Name} or 'unlock all'.");
                 }
                 break;

@@ -479,7 +479,7 @@ public class Player extends Creature {
         if (isLevelUp) {
             levelUpTimer++;
             Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font20);
+                    true, Color.YELLOW, Assets.font32);
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
