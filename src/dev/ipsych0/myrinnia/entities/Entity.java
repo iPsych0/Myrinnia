@@ -253,10 +253,9 @@ public abstract class Entity implements Serializable {
 
         Creature r = ((Creature)receiver);
 
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
-
         if(r.getConditions().isEmpty()){
             r.getConditions().add(condition);
+            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
         }else {
             for (Condition c : r.getConditions()) {
                 // Check if the condition is already on the receiver
@@ -271,6 +270,7 @@ public abstract class Entity implements Serializable {
                 // If we don't already have a condition of this type, simply add it
                 } else {
                     r.getConditions().add(condition);
+                    Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
                 }
             }
         }

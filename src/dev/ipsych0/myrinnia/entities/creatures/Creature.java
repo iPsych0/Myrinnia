@@ -66,7 +66,7 @@ public abstract class Creature extends Entity {
     private static final int TIMES_PER_SECOND = 4;
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
-    private List<Condition> conditions = new ArrayList<>();
+    private List<Condition> conditions = new CopyOnWriteArrayList<>();
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT

@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
@@ -344,6 +345,7 @@ public class Player extends Creature {
                     }
                     if (e.isAttackable()) {
                         e.damage(DamageType.INT, this, e);
+                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 5));
                         p.active = false;
                     }
                 }
