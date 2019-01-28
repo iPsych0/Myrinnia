@@ -6,9 +6,12 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AStarMap implements Serializable {
@@ -30,7 +33,7 @@ public class AStarMap implements Serializable {
         this.x = x;
         this.y = y;
         this.width = width;
-        this.height = width;
+        this.height = height;
         this.xSpawn = xSpawn;
         this.ySpawn = ySpawn;
 
@@ -99,20 +102,20 @@ public class AStarMap implements Serializable {
         if (startX <= -1) {
             creature.setxMove(creature.getSpeed());
             creature.move();
-            return new LinkedList<Node>();
+            return new ArrayList<Node>();
         } else if (startX >= nodes.length) {
             creature.setxMove(-creature.getSpeed());
             creature.move();
-            return new LinkedList<Node>();
+            return new ArrayList<Node>();
         }
         if (startY <= -1) {
             creature.setyMove(creature.getSpeed());
             creature.move();
-            return new LinkedList<Node>();
+            return new ArrayList<Node>();
         } else if (startY >= nodes.length) {
             creature.setyMove(-creature.getSpeed());
             creature.move();
-            return new LinkedList<Node>();
+            return new ArrayList<Node>();
         }
 
         if (goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1 || goalY < 0) {
@@ -132,11 +135,11 @@ public class AStarMap implements Serializable {
         if (startX == goalX && startY == goalY) {
             creature.setState(CombatState.IDLE);
             // Return an empty path, because we don't need to move at all.
-            return new LinkedList<Node>();
+            return new ArrayList<Node>();
         }
 
         // The set of nodes already visited.
-        List<Node> openList = new LinkedList<Node>();
+        List<Node> openList = new ArrayList<Node>();
         // The set of currently discovered nodes still to be visited.
         HashSet<Node> closedList = new HashSet<Node>();
 
@@ -155,7 +158,7 @@ public class AStarMap implements Serializable {
 
             // If the current node position is equal to the goal position ...
             if ((current.getX() - (this.x / 32) == goalX) && (current.getY() - (this.y / 32) == goalY)) {
-                // Return a LinkedList containing all of the visited nodes.
+                // Return a ArrayList containing all of the visited nodes.
                 return calcPath(nodes[startX][startY], current);
             }
 
@@ -192,12 +195,12 @@ public class AStarMap implements Serializable {
     }
 
     private List<Node> calcPath(Node start, Node goal) {
-        LinkedList<Node> path = new LinkedList<Node>();
+        ArrayList<Node> path = new ArrayList<Node>();
 
         Node node = goal;
         boolean done = false;
         while (!done) {
-            path.addFirst(node);
+            path.add(0, node);
             node = node.getParent();
             if (node == null || start == null) {
                 return null;
@@ -206,6 +209,7 @@ public class AStarMap implements Serializable {
                 done = true;
             }
         }
+
         return path;
     }
 

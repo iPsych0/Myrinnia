@@ -414,7 +414,7 @@ public abstract class Creature extends Entity {
             return;
         }
 
-        Node next = ((LinkedList<Node>) nodes).getFirst();
+        Node next = nodes.get(0);
 
         // Store the current X & Y position to check if the entity is stuck
         int currentX = (int) x;
@@ -452,8 +452,8 @@ public abstract class Creature extends Entity {
             xMove = (next.getX() < (int) ((x + 8) / 32) ? -speed : speed);
             if (x % 32 == 8) {
                 //x -= x % 32;
-                if (!((LinkedList<Node>) nodes).isEmpty())
-                    ((LinkedList<Node>) nodes).removeFirst();
+                if (!nodes.isEmpty())
+                    nodes.remove(0);
 
                 stuckTimerX = 0;
                 yMove = 0;
@@ -464,8 +464,8 @@ public abstract class Creature extends Entity {
             yMove = (next.getY() < (int) ((y + 8) / 32) ? -speed : speed);
             if (y % 32 == 8) {
                 //y -= y % 32;
-                if (!((LinkedList<Node>) nodes).isEmpty())
-                    ((LinkedList<Node>) nodes).removeFirst();
+                if (!nodes.isEmpty())
+                    nodes.remove(0);
 
                 stuckTimerY = 0;
                 xMove = 0;
