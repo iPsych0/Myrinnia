@@ -3,10 +3,13 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.util.*;
@@ -60,6 +63,7 @@ public abstract class Creature extends Entity {
     protected List<Node> nodes;
     protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
     protected AStarMap map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+    protected boolean aStarInitialized;
     protected Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
@@ -201,11 +205,7 @@ public abstract class Creature extends Entity {
                     walkableOnTop = true;
             }
         }
-        if (walkableOnTop) {
-            return false;
-        } else {
-            return true;
-        }
+        return !walkableOnTop;
     }
 
     /**
@@ -222,6 +222,23 @@ public abstract class Creature extends Entity {
         name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
         name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
         return name;
+    }
+
+    /**
+     * Draws an Entity's information to an overlay at the top of the screen
+     *
+     * @param hoveringEntity
+     * @param g
+     */
+    public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
+        int yPos = 12;
+        g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
+        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
+            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
+        }
+        for(int i = 0; i < conditions.size(); i++){
+            conditions.get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), 50);
+        }
     }
 
     @Override
@@ -253,7 +270,12 @@ public abstract class Creature extends Entity {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
                     if (e.equals(Handler.get().getPlayer())) {
                         e.damage(DamageType.DEX, this, e);
-                        e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 5));
+
+                        int dice = Handler.get().getRandomNumber(0, 5);
+                        if(dice == 1) {
+                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
+                        }
+
                         p.active = false;
                     }
                     if (!e.isAttackable()) {
@@ -270,6 +292,16 @@ public abstract class Creature extends Entity {
         }
 
         projectiles.removeAll(deleted);
+    }
+
+    public void tick(){
+        if (!aStarInitialized) {
+            map.init();
+            aStarInitialized = true;
+        }
+        radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
+        tickProjectiles();
+        combatStateManager();
     }
 
     /*

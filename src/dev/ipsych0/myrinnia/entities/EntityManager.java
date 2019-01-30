@@ -7,7 +7,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Projectile;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EntityManager implements Serializable {
@@ -40,12 +41,16 @@ public class EntityManager implements Serializable {
                 deleted.add(e);
             }
 
+            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
             if(e instanceof Creature) {
                 for (Condition c : ((Creature) e).getConditions()) {
                     if (c.isActive()) {
                         c.tick();
+                    }else{
+                        deleted.add(c);
                     }
                 }
+                ((Creature) e).getConditions().removeAll(deleted);
             }
 
             e.tick();
@@ -68,13 +73,10 @@ public class EntityManager implements Serializable {
         }
 
         // Sort the list for rendering
-        Collections.sort(entities, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                Float a = o1.getY() + o1.getHeight();
-                Float b = o2.getY() + o2.getHeight();
-                return a.compareTo(b);
-            }
+        entities.sort((o1, o2) -> {
+            Float a = o1.getY() + o1.getHeight();
+            Float b = o2.getY() + o2.getHeight();
+            return a.compareTo(b);
         });
     }
 
@@ -93,11 +95,6 @@ public class EntityManager implements Serializable {
                 for (Projectile p : ((Creature) e).getProjectiles()) {
                     if (p.active) {
                         p.render(g);
-                    }
-                }
-                for(Condition c : ((Creature)e).getConditions()){
-                    if(c.isActive()){
-                        c.render(g);
                     }
                 }
             }
@@ -136,16 +133,14 @@ public class EntityManager implements Serializable {
         }
 
         Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();
-        if (hitSplats.size() != 0) {
-            for (HitSplat hs : hitSplats) {
-                if (hs.isActive()) {
-                    hs.render(g);
-                } else {
-                    deleted.add(hs);
-                }
+        for (HitSplat hs : hitSplats) {
+            if (hs.isActive()) {
+                hs.render(g);
+            } else {
+                deleted.add(hs);
             }
-            hitSplats.removeAll(deleted);
         }
+        hitSplats.removeAll(deleted);
 
     }
 

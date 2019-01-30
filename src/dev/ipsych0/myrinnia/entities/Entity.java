@@ -2,9 +2,9 @@ package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tiles;
@@ -148,7 +148,7 @@ public abstract class Entity implements Serializable {
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
         int power;
-        switch (damageType){
+        switch (damageType) {
             case STR:
                 power = d.getStrength();
                 break;
@@ -175,7 +175,7 @@ public abstract class Entity implements Serializable {
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
         int power;
-        switch (damageType){
+        switch (damageType) {
             case STR:
                 power = d.getStrength();
                 break;
@@ -243,7 +243,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void addCondition(Entity dealer, Entity receiver, Condition condition){
+    public void addCondition(Entity dealer, Entity receiver, Condition condition) {
         damageDealer = dealer;
         damageReceiver = receiver;
         damageReceiver.damaged = true;
@@ -251,29 +251,28 @@ public abstract class Entity implements Serializable {
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
 
-        Creature r = ((Creature)receiver);
+        Creature r = ((Creature) receiver);
 
-        if(r.getConditions().isEmpty()){
-            r.getConditions().add(condition);
-            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
-        }else {
-            for (Condition c : r.getConditions()) {
-                // Check if the condition is already on the receiver
-                if (c.getType() == condition.getType()) {
-                    // If that's the case, increase the duration
-                    c.setDuration(c.getDuration() + condition.getDuration());
+        boolean hasCondition = false;
+        for (Condition c : r.getConditions()) {
+            // Check if the condition is already on the receiver
+            if (c.getType() == condition.getType()) {
+                hasCondition = true;
+                // If that's the case, increase the duration
+                c.setDuration(c.getDuration() + condition.getDuration());
 
-                    // If the new ability has a higher condition damage than the current one, increase the damage
-                    if (condition.getConditionDamage() > c.getConditionDamage()) {
-                        c.setConditionDamage(condition.getConditionDamage());
-                    }
-                // If we don't already have a condition of this type, simply add it
-                } else {
-                    r.getConditions().add(condition);
-                    Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+                // If the new ability has a higher condition damage than the current one, increase the damage
+                if (condition.getConditionDamage() > c.getConditionDamage()) {
+                    c.setConditionDamage(condition.getConditionDamage());
                 }
+                // If we don't already have a condition of this type, simply add it
             }
         }
+        if (!hasCondition) {
+            r.getConditions().add(condition);
+            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+        }
+
 
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
@@ -281,7 +280,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void tickCondition(Entity receiver, Condition condition){
+    public void tickCondition(Entity receiver, Condition condition) {
         damageReceiver = receiver;
         damageReceiver.health -= condition.getConditionDamage();
         damageReceiver.damaged = true;
@@ -346,8 +345,7 @@ public abstract class Entity implements Serializable {
         int yPos = 12;
         g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos, true, Color.YELLOW, Assets.font14);
-            yPos += 14;
+            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
     }
 

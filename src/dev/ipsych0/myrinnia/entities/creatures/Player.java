@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -124,6 +125,7 @@ public class Player extends Creature {
         respawnTimer = 1;
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
+
     }
 
     @Override
@@ -345,7 +347,7 @@ public class Player extends Creature {
                     }
                     if (e.isAttackable()) {
                         e.damage(DamageType.INT, this, e);
-                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 5));
+                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
                         p.active = false;
                     }
                 }
@@ -476,6 +478,10 @@ public class Player extends Creature {
                 if (active)
                     p.render(g);
             }
+        }
+
+        for(int i = 0; i < getConditions().size(); i++){
+            getConditions().get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8);
         }
 
         if (isLevelUp) {

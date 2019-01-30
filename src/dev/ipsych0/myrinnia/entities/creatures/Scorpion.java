@@ -60,16 +60,7 @@ public class Scorpion extends Creature {
 
     @Override
     public void tick() {
-        if (!initialized) {
-            map.init();
-            initialized = true;
-        }
-        radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
-
-        combatStateManager();
-
-        tickProjectiles();
-
+        super.tick();
     }
 
     @Override
