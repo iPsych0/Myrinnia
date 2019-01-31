@@ -5,6 +5,7 @@ import org.lwjgl.openal.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class AudioManager {
 
@@ -15,8 +16,8 @@ public class AudioManager {
     private static ALCCapabilities alcCapabilities;
     private static ALCapabilities alCapabilities;
     private static List<Integer> buffers = new ArrayList<Integer>();
-    public static List<Source> musicFiles = new ArrayList<>();
-    public static List<Source> soundfxFiles = new ArrayList<>();
+    public static List<Source> musicFiles = new CopyOnWriteArrayList<>();
+    public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
     public static Map<String, Integer> soundMap = new HashMap<>();
     public static Zone zone;
 

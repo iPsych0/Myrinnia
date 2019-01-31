@@ -1,71 +1,55 @@
 package dev.ipsych0.myrinnia.entities;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 
-public class Condition implements Serializable {
+public class Buff {
 
-    private static final long serialVersionUID = -6491027693312163146L;
     protected Entity receiver;
     protected int duration, tickTimer;
     protected boolean active;
-    protected int conditionDamage;
     private transient BufferedImage img;
     private Type type;
 
-    public Condition(Type type, Entity receiver, int durationSeconds) {
-        this.type = type;
-        this.img = type.getImg();
+    public Buff(Type type, Entity receiver, int durationSeconds) {
         this.receiver = receiver;
         this.duration = durationSeconds * 60;
-        this.active = true;
-    }
-
-    public Condition(Type type, Entity receiver, int durationSeconds, int conditionDamage) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
-        this.duration = durationSeconds * 60;
-        this.conditionDamage = conditionDamage;
         this.active = true;
     }
 
     public void tick() {
         if (this.isActive()) {
-            // If the enemy died, stop ticking, but finish the render of the last condition
+            // If the enemy died, stop ticking
             if (!receiver.isActive()) {
-                if (tickTimer % 60 == 0) {
-                    this.setActive(false);
-                }
-                tickTimer++;
+
+                this.setActive(false);
                 return;
             }
 
             // If the duration is greater than 0 at any given time
             if (tickTimer <= duration) {
-                // Tick the condition effect
+                // Tick the buff effect
                 if (tickTimer == 0) {
                     duration -= 60;
-                    receiver.tickCondition(receiver, this);
+                    receiver.tickBuff(receiver, this);
                 } else if (tickTimer % 60 == 0) {
-                    // After 1 second, recreate the damage splat
+                    // After 1 second, tick the buff effect
                     tickTimer = 0;
                     duration -= 60;
-                    Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
-                    receiver.tickCondition(receiver, this);
+                    ((Creature) receiver).setStrength(((Creature) receiver).getStrength() - 10);
+                    receiver.tickBuff(receiver, this);
                 }
-                // If the condition duration is 0, don't tick anymore, but let the last hitsplat disappear
+                // If the duration expired, don't tick anymore
             } else if (duration <= 0) {
-                if (tickTimer % 60 == 0) {
-                    tickTimer = 0;
-                    this.setActive(false);
-                }
+                ((Creature) receiver).setStrength(((Creature) receiver).getStrength() - 10);
+                this.setActive(false);
             }
             tickTimer++;
         }
@@ -98,20 +82,21 @@ public class Condition implements Serializable {
         return img;
     }
 
-    public int getConditionDamage() {
-        return conditionDamage;
-    }
-
-    public void setConditionDamage(int conditionDamage) {
-        this.conditionDamage = conditionDamage;
+    public void setImg(BufferedImage img) {
+        this.img = img;
     }
 
     public Type getType() {
         return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public enum Type {
-        BURNING(Assets.fireballI), CHILL(Assets.mendWoundsI), BLEEDING(Assets.testSword), POISON(Assets.greenMushroom), STUN(Assets.undiscovered);
+        STR(Assets.testSword), DEX(Assets.emptyCrate), INT(Assets.fireballI), VIT(Assets.ore),
+        DEF(Assets.fishingIcon), ATKSPD(Assets.dirtHole), MOVSPD(Assets.bootsSlot);
 
         Type(BufferedImage img) {
             this.img = img;
@@ -120,7 +105,7 @@ public class Condition implements Serializable {
         BufferedImage img;
 
         public BufferedImage getImg() {
-            return img;
+            return this.img;
         }
     }
 }

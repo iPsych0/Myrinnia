@@ -41,16 +41,25 @@ public class EntityManager implements Serializable {
                 deleted.add(e);
             }
 
-            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
+            Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
+            Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
             if(e instanceof Creature) {
                 for (Condition c : ((Creature) e).getConditions()) {
                     if (c.isActive()) {
                         c.tick();
                     }else{
-                        deleted.add(c);
+                        deletedCondis.add(c);
                     }
                 }
-                ((Creature) e).getConditions().removeAll(deleted);
+                ((Creature) e).getConditions().removeAll(deletedCondis);
+                for(Buff b : ((Creature) e).getBuffs()){
+                    if(b.isActive()){
+                        b.tick();
+                    }else{
+                        deletedBuffs.add(b);
+                    }
+                }
+                ((Creature)e).getBuffs().removeAll(deletedBuffs);
             }
 
             e.tick();

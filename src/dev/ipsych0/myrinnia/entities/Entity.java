@@ -243,6 +243,26 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public void addBuff(Entity dealer, Entity receiver, Buff buff){
+        damageDealer = dealer;
+        damageReceiver = receiver;
+
+        Creature r = ((Creature) receiver);
+
+        boolean hasBuff = false;
+        for (Buff b : r.getBuffs()){
+            // Check if the buff is already on the receiver
+            if (b.getType() == buff.getType()) {
+                hasBuff = true;
+                // If that's the case, increase the duration
+                b.setDuration(b.getDuration() + buff.getDuration());
+            }
+        }
+        if(!hasBuff){
+            r.getBuffs().add(buff);
+        }
+    }
+
     public void addCondition(Entity dealer, Entity receiver, Condition condition) {
         damageDealer = dealer;
         damageReceiver = receiver;
@@ -292,6 +312,13 @@ public abstract class Entity implements Serializable {
             damageReceiver.active = false;
             damageReceiver.die();
         }
+    }
+
+    public void tickBuff(Entity receiver, Buff buff){
+        damageReceiver = receiver;
+        Creature r = ((Creature) receiver);
+
+        r.setStrength(r.getStrength() + 10);
     }
 
     /*

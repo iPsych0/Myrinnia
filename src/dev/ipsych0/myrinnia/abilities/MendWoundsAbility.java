@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -33,8 +34,8 @@ public class MendWoundsAbility extends Ability {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.mendWoundsI, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-        if(animation != null && !animation.isTickDone()){
+        g.drawImage(Assets.mendWoundsI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
@@ -60,6 +61,9 @@ public class MendWoundsAbility extends Ability {
             Collection<Condition> deleted = new CopyOnWriteArrayList<>();
             deleted.addAll(caster.getConditions());
             caster.getConditions().removeAll(deleted);
+
+            Buff b = new Buff(Buff.Type.STR, caster, 5);
+            caster.addBuff(caster, caster, b);
         }
 
         animation.tick();

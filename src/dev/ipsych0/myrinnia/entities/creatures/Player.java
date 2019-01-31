@@ -484,6 +484,12 @@ public class Player extends Creature {
             getConditions().get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8);
         }
 
+        int yOffset = 0;
+        if(!getConditions().isEmpty()) yOffset = 1;
+        for(int i = 0; i < getBuffs().size(); i++){
+            getBuffs().get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8);
+        }
+
         if (isLevelUp) {
             levelUpTimer++;
             Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),

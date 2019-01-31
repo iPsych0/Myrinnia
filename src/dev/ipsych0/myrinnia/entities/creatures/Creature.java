@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -71,6 +72,7 @@ public abstract class Creature extends Entity {
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
     private List<Condition> conditions = new CopyOnWriteArrayList<>();
+    private List<Buff> buffs = new CopyOnWriteArrayList<>();
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -238,6 +240,12 @@ public abstract class Creature extends Entity {
         }
         for(int i = 0; i < conditions.size(); i++){
             conditions.get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), 50);
+        }
+
+        int yOffset = 0;
+        if(!conditions.isEmpty()) yOffset = 1;
+        for(int i = 0; i < buffs.size(); i++){
+            buffs.get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
         }
     }
 
@@ -655,5 +663,13 @@ public abstract class Creature extends Entity {
 
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
+    }
+
+    public List<Buff> getBuffs() {
+        return buffs;
+    }
+
+    public void setBuffs(List<Buff> buffs) {
+        this.buffs = buffs;
     }
 }
