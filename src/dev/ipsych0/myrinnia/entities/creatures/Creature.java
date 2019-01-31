@@ -239,13 +239,13 @@ public abstract class Creature extends Entity {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
         for(int i = 0; i < conditions.size(); i++){
-            conditions.get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), 50);
+            conditions.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50);
         }
 
         int yOffset = 0;
         if(!conditions.isEmpty()) yOffset = 1;
         for(int i = 0; i < buffs.size(); i++){
-            buffs.get(i).render(g, 608 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
+            buffs.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
         }
     }
 
