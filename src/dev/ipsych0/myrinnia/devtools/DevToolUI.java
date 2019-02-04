@@ -14,7 +14,7 @@ public class DevToolUI implements Serializable {
     public static boolean isOpen = false;
     private static TextBox textBox;
     private CommandHandler commandHandler;
-    private boolean initialized = false;
+    public static boolean initialized = false;
 
     public DevToolUI() {
         x = Handler.get().getChatWindow().getX();
