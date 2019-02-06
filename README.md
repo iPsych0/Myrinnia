@@ -12,15 +12,15 @@
 
 **[1.2: Theme](#12-theme)**
 
-**[1.3: Setting](13-setting)**
+**[1.3: Setting](#13-setting)**
 
-**[1.4: Genre](14-genre)**
+**[1.4: Genre](#14-genre)**
 
-**[1.5: Gameplay (controls)](15-gameplay-controls)**
+**[1.5: Gameplay (controls)](#15-gameplay-controls)**
 
-**[2: Game overview](2-game-overview)**
+**[2: Game overview](#2-game-overview)**
 
-**[2.1: Story summary](21-story-summary)**
+**[2.1: Story summary](#21-story-summary)**
 
 **[2.2: Character](#22-character)**
 
