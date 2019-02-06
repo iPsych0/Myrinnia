@@ -1,44 +1,45 @@
 
 # **Game Design Document Elements of Myrinnia**
 
-##### Version: 0.1
+###### Version: 0.1
+###### Last updated: 06-Feb-2019 by iPsych0
 
 # Table of Contents
 
 
-**[1: Game Information](#1-game-information)**
+- **[1: Game Information](#1-game-information)**
 
-**[1.1: Introduction](#11-introduction)**
+  - **[1.1: Introduction](#11-introduction)**
 
-**[1.2: Theme](#12-theme)**
+  - **[1.2: Theme](#12-theme)**
 
-**[1.3: Setting](#13-setting)**
+  - **[1.3: Setting](#13-setting)**
 
-**[1.4: Genre](#14-genre)**
+  - **[1.4: Genre](#14-genre)**
 
-**[1.5: Gameplay (controls)](#15-gameplay-controls)**
+  - **[1.5: Gameplay (controls)](#15-gameplay-controls)**
 
-**[2: Game overview](#2-game-overview)**
+- **[2: Game overview](#2-game-overview)**
 
-**[2.1: Story summary](#21-story-summary)**
+  - **[2.1: Story summary](#21-story-summary)**
 
-**[2.2: Character](#22-character)**
+  - **[2.2: Character](#22-character)**
 
-**[2.3: Story detailed](#23-story-detailed)**
+  - **[2.3: Story detailed](#23-story-detailed)**
 
-**[2.4: Combat](#24-combat)**
+  - **[2.4: Combat](#24-combat)**
 
-**[2.5: Skills](#25-skills)**
+  - **[2.5: Skills](#25-skills)**
 
-**[2.6: Zone overview](#26-zone-overview)**
+  - **[2.6: Zone overview](#26-zone-overview)**
 
-**[3: Technical overview](#3-technical-overview)**
+- **[3: Technical overview](#3-technical-overview)**
 
-**[3.1: Engine](#31-engine)**
+  - **[3.1: Engine](#31-engine)**
 
-**[3.2: Graphics](#32-graphics)**
+  - **[3.2: Graphics](#32-graphics)**
 
-**[3.3: Sound](#33-sound)**
+  - **[3.3: Sound](#33-sound)**
 
   
 
@@ -76,21 +77,23 @@
 
 **Spacebar is used to interact with objects or NPCs in Myrinnia. While interacting, the player may be presented with some dialogue and/or choices to advance a dialogue.**
 
-**By default, the interfaces that are open are the ‘Chat Window’, ‘Inventory & Equipment’ and ‘HP Overlay’. All interfaces but the HP overlay can be toggled off to give the player a better view. The following shortcuts can be used:**
+**By default, the interfaces that are open are the ‘Chat Window’, ‘Inventory & Equipment’, ‘HP Overlay’ and the 'Ability HUD'. All interfaces but the HP overlay and ability HUD can be toggled off to give the player a better view. The following shortcuts can be used:**
 
-**C: Chat**
+> **C: Chat**
+> 
+> **I: Inventory & Equipment**
+> 
+> **M: World map**
+>  
+> **K: Character screen**
+> 
+> **L: Skills interface**
+> 
+> **Q: Quests interface**
+>
+> **B: Abilities interface**
 
-**I: Inventory & Equipment**
-
-**M: World map**
-
-**K: Character screen**
-
-**L: Skills interface**
-
-**Q: Quests interface**
-
-**Finally, the game is rendered through an orthographic camera, which centers around the player.**
+**Finally, the game is rendered through an orthographic camera.**
 
 # **2: Game overview**
 
