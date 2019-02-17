@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.chatwindow;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -69,6 +70,7 @@ public class ChatDialogue implements Serializable {
                         hasBeenPressed = false;
                         chosenOption = option;
                         Player.hasInteracted = false;
+                        MouseManager.justClosedUI = true;
                     }
                 } else {
                     option.setHovering(false);
@@ -82,6 +84,7 @@ public class ChatDialogue implements Serializable {
                     hasBeenPressed = false;
                     Player.hasInteracted = false;
                     continueButton.setPressed(true);
+                    MouseManager.justClosedUI = true;
                 }
             } else {
                 continueButton.setHovering(false);

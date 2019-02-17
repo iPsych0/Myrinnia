@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.*;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -251,6 +252,9 @@ public class ShopWindow implements Serializable {
     }
 
     public void exit() {
+        if(Handler.get().getMouseManager().isLeftPressed()){
+            MouseManager.justClosedUI = true;
+        }
         isOpen = false;
         inventoryLoaded = false;
         DialogueBox.isOpen = false;

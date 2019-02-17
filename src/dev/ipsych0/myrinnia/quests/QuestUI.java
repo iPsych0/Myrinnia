@@ -2,10 +2,10 @@ package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -44,7 +44,7 @@ public class QuestUI implements Serializable {
 
     }
 
-    private void initZones(){
+    private void initZones() {
         for (int i = 0; i < Handler.get().getQuestManager().getAllQuestLists().size(); i++) {
             UIImageButton slot = new UIImageButton(x + 4, y + 32 + (i * 16), width - 8, 16, Assets.genericButton);
             zoneManager.addObject(slot);
@@ -56,9 +56,9 @@ public class QuestUI implements Serializable {
         zonesInitialized = true;
     }
 
-    private void initQuests(){
+    private void initQuests() {
         questsManager.getObjects().clear();
-        if(selectedZone != null) {
+        if (selectedZone != null) {
             for (int i = 0; i < Handler.get().getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
                 UIImageButton slot = new UIImageButton(x + 4, y + 32 + (i * 16), width - 8, 16, Assets.genericButton);
                 questsManager.addObject(slot);
@@ -73,14 +73,14 @@ public class QuestUI implements Serializable {
 
     public void tick() {
         if (isOpen) {
-            if(!zonesInitialized){
+            if (!zonesInitialized) {
                 initZones();
             }
 
             // Check hovers on UI buttons
-            if(!renderingQuests) {
+            if (!renderingQuests) {
                 zoneManager.tick();
-            }else{
+            } else {
                 questsManager.tick();
             }
 
@@ -103,16 +103,16 @@ public class QuestUI implements Serializable {
 
     public void render(Graphics g) {
         if (isOpen) {
-            if(!zonesInitialized){
+            if (!zonesInitialized) {
                 initZones();
             }
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
             Rectangle mouse = Handler.get().getMouse();
 
-            if(!renderingQuests) {
+            if (!renderingQuests) {
                 zoneManager.render(g);
-            }else{
+            } else {
                 questsManager.render(g);
             }
 
@@ -133,7 +133,7 @@ public class QuestUI implements Serializable {
                                     renderingQuests = false;
                                 }
                                 selectedZone = Handler.get().getQuestManager().getAllQuestLists().get(i).get(j).getZone();
-                                if(!questsInitialized) {
+                                if (!questsInitialized) {
                                     initQuests();
                                 }
                             }
@@ -144,6 +144,7 @@ public class QuestUI implements Serializable {
 
                 if (exitButton.contains(mouse)) {
                     if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                        MouseManager.justClosedUI = true;
                         renderingQuests = false;
                         QuestUI.isOpen = false;
                         hasBeenPressed = false;
