@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.entities.buffs.IntBuff;
 import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;

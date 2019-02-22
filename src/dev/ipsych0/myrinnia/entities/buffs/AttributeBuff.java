@@ -20,17 +20,23 @@ public class AttributeBuff extends Buff {
     private transient BufferedImage img;
 
     public enum Attribute {
-        STR(Assets.meleeIcon), DEX(Assets.rangedIcon), INT(Assets.magicIcon), VIT(Assets.ore),
-        DEF(Assets.offhandSlot), ATKSPD(Assets.mainhandSlot), MOVSPD(Assets.bootsSlot);
+        STR(Assets.meleeIcon, 0), DEX(Assets.rangedIcon, 1), INT(Assets.magicIcon, 2), VIT(Assets.ore, 3),
+        DEF(Assets.offhandSlot, 4), ATKSPD(Assets.mainhandSlot, 5), MOVSPD(Assets.bootsSlot, 6);
 
         BufferedImage img;
+        int buffId;
 
-        Attribute(BufferedImage img) {
+        Attribute(BufferedImage img, int buffId) {
             this.img = img;
+            this.buffId = buffId;
         }
 
         public BufferedImage getImg() {
             return img;
+        }
+
+        public int getBuffId() {
+            return buffId;
         }
     }
 
@@ -44,6 +50,11 @@ public class AttributeBuff extends Buff {
         this.percentageIncrease = percentageIncrease;
         this.statBuff = statBuff;
         this.img = attribute.getImg();
+        getNextAvailableId();
+    }
+
+    public void getNextAvailableId(){
+        setBuffId(attribute.getBuffId());
     }
 
     @Override

@@ -11,13 +11,15 @@ public abstract class Buff {
     protected boolean active;
     private boolean effectApplied;
     private int buffId;
-    private static int counter;
+    private static int counter = 7;
 
     public Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
         this.EFFECT_DURATION = durationSeconds * 60;
         this.active = true;
         buffId = counter++;
+        System.out.println(counter);
+
     }
 
     public void tick() {
@@ -83,5 +85,9 @@ public abstract class Buff {
 
     public int getBuffId() {
         return buffId;
+    }
+
+    public void setBuffId(int buffId) {
+        this.buffId = buffId;
     }
 }
