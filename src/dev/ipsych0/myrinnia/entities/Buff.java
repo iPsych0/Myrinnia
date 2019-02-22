@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities;
 
 import java.awt.*;
+import java.util.List;
 
 public abstract class Buff {
 
@@ -9,20 +10,14 @@ public abstract class Buff {
     private final int EFFECT_DURATION;
     protected boolean active;
     private boolean effectApplied;
-    protected int buffId;
-    private static int lastId;
+    private int buffId;
+    private static int counter;
 
     public Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
         this.EFFECT_DURATION = durationSeconds * 60;
         this.active = true;
-        getNextAvailableId();
-    }
-
-    protected void getNextAvailableId(){
-        if(lastId > 0){
-            buffId = lastId++;
-        }
+        buffId = counter++;
     }
 
     public void tick() {

@@ -4,7 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.entities.buffs.StrBuff;
+import dev.ipsych0.myrinnia.entities.buffs.IntBuff;
+import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -63,8 +64,10 @@ public class MendWoundsAbility extends Ability {
             deleted.addAll(caster.getConditions());
             caster.getConditions().removeAll(deleted);
 
-            Buff b = new StrBuff( caster, 5, 10, true);
+            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
+            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
             caster.addBuff(caster, caster, b);
+            caster.addBuff(caster, caster, b2);
         }
 
         animation.tick();
