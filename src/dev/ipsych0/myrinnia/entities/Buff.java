@@ -1,73 +1,81 @@
 package dev.ipsych0.myrinnia.entities;
 
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.utils.Text;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class Buff {
+public abstract class Buff {
 
     protected Entity receiver;
-    protected int duration, tickTimer;
+    protected int timeLeft;
+    private final int EFFECT_DURATION;
     protected boolean active;
-    private transient BufferedImage img;
-    private Type type;
+    private boolean effectApplied;
+    protected int buffId;
+    private static int lastId;
 
-    public Buff(Type type, Entity receiver, int durationSeconds) {
+    public Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
-        this.duration = durationSeconds * 60;
-        this.type = type;
-        this.img = type.getImg();
+        this.EFFECT_DURATION = durationSeconds * 60;
         this.active = true;
+        getNextAvailableId();
+    }
+
+    protected void getNextAvailableId(){
+        if(lastId > 0){
+            buffId = lastId++;
+        }
     }
 
     public void tick() {
         if (this.isActive()) {
-            // If the enemy died, stop ticking
+            // If the receiver died, stop ticking
             if (!receiver.isActive()) {
-
                 this.setActive(false);
                 return;
             }
 
-            // If the duration is greater than 0 at any given time
-            if (tickTimer <= duration) {
+            if (!effectApplied) {
+                timeLeft = timeLeft + EFFECT_DURATION;
+                apply();
+                effectApplied = true;
+                timeLeft--;
+                return;
+            }
+
+            // If the timeLeft is greater than 0 at any given time
+            if (timeLeft > 0) {
                 // Tick the buff effect
-                if (tickTimer == 0) {
-                    duration -= 60;
-                    receiver.tickBuff(receiver, this);
-                } else if (tickTimer % 60 == 0) {
-                    // After 1 second, tick the buff effect
-                    tickTimer = 0;
-                    duration -= 60;
-                    ((Creature) receiver).setStrength(((Creature) receiver).getStrength() - 10);
-                    receiver.tickBuff(receiver, this);
-                }
-                // If the duration expired, don't tick anymore
-            } else if (duration <= 0) {
-                ((Creature) receiver).setStrength(((Creature) receiver).getStrength() - 10);
+                timeLeft--;
+                update();
+                // If the timeLeft expired, don't tick anymore
+            } else {
+                clear();
                 this.setActive(false);
             }
-            tickTimer++;
         }
     }
 
-    public void render(Graphics g, int x, int y) {
-        if (this.isActive()) {
-            g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf((int) (duration / 60) + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
-        }
+    public abstract void apply();
+
+    public abstract void update();
+
+    public abstract void clear();
+
+    public abstract void render(Graphics g, int x, int y);
+
+    public boolean isEffectApplied() {
+        return effectApplied;
     }
 
-    public int getDuration() {
-        return duration;
+    public void setEffectApplied(boolean effectApplied) {
+        this.effectApplied = effectApplied;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public int getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
     public boolean isActive() {
@@ -78,34 +86,7 @@ public class Buff {
         this.active = active;
     }
 
-    public BufferedImage getImg() {
-        return img;
-    }
-
-    public void setImg(BufferedImage img) {
-        this.img = img;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public enum Type {
-        STR(Assets.testSword), DEX(Assets.emptyCrate), INT(Assets.fireballI), VIT(Assets.ore),
-        DEF(Assets.fishingIcon), ATKSPD(Assets.dirtHole), MOVSPD(Assets.bootsSlot);
-
-        Type(BufferedImage img) {
-            this.img = img;
-        }
-
-        BufferedImage img;
-
-        public BufferedImage getImg() {
-            return this.img;
-        }
+    public int getBuffId() {
+        return buffId;
     }
 }

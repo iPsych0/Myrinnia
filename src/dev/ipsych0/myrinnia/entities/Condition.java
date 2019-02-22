@@ -47,7 +47,7 @@ public class Condition implements Serializable {
                 return;
             }
 
-            // If the duration is greater than 0 at any given time
+            // If the timeLeft is greater than 0 at any given time
             if (tickTimer <= duration) {
                 // Tick the condition effect
                 if (tickTimer == 0) {
@@ -60,7 +60,7 @@ public class Condition implements Serializable {
                     Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
                     receiver.tickCondition(receiver, this);
                 }
-                // If the condition duration is 0, don't tick anymore, but let the last hitsplat disappear
+                // If the condition timeLeft is 0, don't tick anymore, but let the last hitsplat disappear
             } else if (duration <= 0) {
                 if (tickTimer % 60 == 0) {
                     tickTimer = 0;

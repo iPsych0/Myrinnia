@@ -13,7 +13,9 @@ import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -238,13 +240,13 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
-        for(int i = 0; i < conditions.size(); i++){
+        for (int i = 0; i < conditions.size(); i++) {
             conditions.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50);
         }
 
         int yOffset = 0;
-        if(!conditions.isEmpty()) yOffset = 1;
-        for(int i = 0; i < buffs.size(); i++){
+        if (!conditions.isEmpty()) yOffset = 1;
+        for (int i = 0; i < buffs.size(); i++) {
             buffs.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
         }
     }
@@ -280,7 +282,7 @@ public abstract class Creature extends Entity {
                         e.damage(DamageType.DEX, this, e);
 
                         int dice = Handler.get().getRandomNumber(0, 5);
-                        if(dice == 1) {
+                        if (dice == 1) {
                             e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
                         }
 
@@ -302,7 +304,7 @@ public abstract class Creature extends Entity {
         projectiles.removeAll(deleted);
     }
 
-    public void tick(){
+    public void tick() {
         if (!aStarInitialized) {
             map.init();
             aStarInitialized = true;
@@ -355,12 +357,11 @@ public abstract class Creature extends Entity {
 
     }
 
-    protected void findPath(){
-        if(state == CombatState.BACKTRACK){
+    protected void findPath() {
+        if (state == CombatState.BACKTRACK) {
             nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
                     (int) Math.round(((xSpawn + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
-        }
-        else {
+        } else {
             int playerX = (int) Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32;
             int playerY = (int) Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
 
@@ -425,10 +426,10 @@ public abstract class Creature extends Entity {
             state = CombatState.BACKTRACK;
         }
 
-        if(state == CombatState.PATHFINDING || state == CombatState.BACKTRACK){
+        if (state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
             // Control the number of times we check for new path
             pathTimer++;
-            if(pathTimer >= timePerPathCheck) {
+            if (pathTimer >= timePerPathCheck) {
                 findPath();
                 pathTimer = 0;
             }
@@ -512,7 +513,7 @@ public abstract class Creature extends Entity {
             }
         }
 
-        if(xMove != 0 || yMove != 0){
+        if (xMove != 0 || yMove != 0) {
             move();
         }
     }

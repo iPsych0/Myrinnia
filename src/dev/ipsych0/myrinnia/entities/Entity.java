@@ -243,22 +243,24 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void addBuff(Entity dealer, Entity receiver, Buff buff){
+    public void addBuff(Entity dealer, Entity receiver, Buff buff) {
         damageDealer = dealer;
         damageReceiver = receiver;
 
         Creature r = ((Creature) receiver);
 
         boolean hasBuff = false;
-        for (Buff b : r.getBuffs()){
+        for (Buff b : r.getBuffs()) {
             // Check if the buff is already on the receiver
-            if (b.getType() == buff.getType()) {
+            if (b.getBuffId() == buff.getBuffId()) {
                 hasBuff = true;
-                // If that's the case, increase the duration
-                b.setDuration(b.getDuration() + buff.getDuration());
+
+                // If that's the case, reapply the effect
+                b.setEffectApplied(false);
+                break;
             }
         }
-        if(!hasBuff){
+        if (!hasBuff) {
             r.getBuffs().add(buff);
         }
     }
@@ -278,7 +280,7 @@ public abstract class Entity implements Serializable {
             // Check if the condition is already on the receiver
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
-                // If that's the case, increase the duration
+                // If that's the case, increase the timeLeft
                 c.setDuration(c.getDuration() + condition.getDuration());
 
                 // If the new ability has a higher condition damage than the current one, increase the damage
@@ -314,20 +316,12 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void tickBuff(Entity receiver, Buff buff){
-        damageReceiver = receiver;
-        Creature r = ((Creature) receiver);
-
-        r.setStrength(r.getStrength() + 10);
-    }
-
     /*
      * Drawing the hitsplat
      */
     public void updateCombatTimer() {
         if (damaged) {
             damageReceiver.lastHit++;
-
 
             if (damageReceiver.lastHit == 45) {
                 damageReceiver.damaged = false;
