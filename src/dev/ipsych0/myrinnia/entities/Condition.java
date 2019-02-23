@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -17,6 +18,8 @@ public class Condition implements Serializable {
     protected boolean active;
     protected int conditionDamage;
     private transient BufferedImage img;
+    private float initialSpeedDecrease;
+    private static final double CHILL_MOVSPD = 0.66;
     private Type type;
 
     public Condition(Type type, Entity receiver, int durationSeconds) {
@@ -41,7 +44,7 @@ public class Condition implements Serializable {
             // If the enemy died, stop ticking, but finish the render of the last condition
             if (!receiver.isActive()) {
                 if (tickTimer % 60 == 0) {
-                    this.setActive(false);
+                    clear();
                 }
                 tickTimer++;
                 return;
@@ -52,19 +55,14 @@ public class Condition implements Serializable {
                 // Tick the condition effect
                 if (tickTimer == 0) {
                     duration -= 60;
-                    receiver.tickCondition(receiver, this);
+                    apply();
                 } else if (tickTimer % 60 == 0) {
-                    // After 1 second, recreate the damage splat
-                    tickTimer = 0;
-                    duration -= 60;
-                    Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
-                    receiver.tickCondition(receiver, this);
+                    update();
                 }
                 // If the condition timeLeft is 0, don't tick anymore, but let the last hitsplat disappear
             } else if (duration <= 0) {
                 if (tickTimer % 60 == 0) {
-                    tickTimer = 0;
-                    this.setActive(false);
+                    clear();
                 }
             }
             tickTimer++;
@@ -75,6 +73,35 @@ public class Condition implements Serializable {
         if (this.isActive()) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             Text.drawString(g, String.valueOf((int) (duration / 60) + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+        }
+    }
+
+    public void apply() {
+        receiver.tickCondition(receiver, this);
+        if(type == Type.CHILL){
+            Creature r = ((Creature)receiver);
+            float currMovSpd = r.getSpeed();
+            float newMovSpd = (float)(r.getSpeed() * CHILL_MOVSPD);
+            initialSpeedDecrease = currMovSpd - newMovSpd;
+            r.setSpeed(newMovSpd);
+        }
+    }
+
+    public void update() {
+        // After 1 second, recreate the damage splat
+        tickTimer = 0;
+        duration -= 60;
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
+        receiver.tickCondition(receiver, this);
+    }
+
+    public void clear() {
+        tickTimer = 0;
+        this.setActive(false);
+
+        if(type == Type.CHILL){
+            Creature r = ((Creature)receiver);
+            r.setSpeed(r.getSpeed() + initialSpeedDecrease);
         }
     }
 

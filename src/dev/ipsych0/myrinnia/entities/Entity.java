@@ -252,7 +252,7 @@ public abstract class Entity implements Serializable {
         boolean hasBuff = false;
         for (Buff b : r.getBuffs()) {
             // Check if the buff is already on the receiver
-            if (b.getBuffId() == buff.getBuffId()) {
+            if (b.equals(buff)) {
                 hasBuff = true;
 
                 // If that's the case, reapply the effect

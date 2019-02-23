@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Buff {
 
@@ -89,5 +90,18 @@ public abstract class Buff {
 
     public void setBuffId(int buffId) {
         this.buffId = buffId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(buffId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)return true;
+        if(!(obj instanceof Buff)) return false;
+        Buff b = (Buff)obj;
+        return buffId == b.getBuffId();
     }
 }
