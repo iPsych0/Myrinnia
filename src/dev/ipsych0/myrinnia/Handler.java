@@ -155,9 +155,9 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.getLast().setVolume(0.15f + volume);
-            AudioManager.soundfxFiles.getLast().setLooping(false);
-            AudioManager.soundfxFiles.getLast().playEffect(buffer);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setVolume(0.15f + volume);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setLooping(false);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).playEffect(buffer);
 
         }
     }
@@ -301,6 +301,16 @@ public class Handler implements Serializable {
      */
     public void sendMsg(String message) {
         String[] text = Text.splitIntoLine(message, 66);
+        for (String s : text) {
+            getChatWindow().sendMessage(s);
+        }
+    }
+
+    /*
+     * Overloaded for printing numerical values to the chat
+     */
+    public void sendMsg(int message) {
+        String[] text = Text.splitIntoLine(String.valueOf(message), 66);
         for (String s : text) {
             getChatWindow().sendMessage(s);
         }

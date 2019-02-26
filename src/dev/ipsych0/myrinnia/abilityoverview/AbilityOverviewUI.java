@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.ui.UIObject;
@@ -197,6 +198,9 @@ public class AbilityOverviewUI implements Serializable {
     }
 
     public static void exit() {
+        if(Handler.get().getMouseManager().isLeftPressed()){
+            MouseManager.justClosedUI = true;
+        }
         escapePressed = false;
         isOpen = false;
         hasBeenPressed = false;

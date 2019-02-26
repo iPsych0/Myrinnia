@@ -8,7 +8,7 @@ public class Assets {
     private static final int width = 32, height = 32;
 
     // Fonts
-    public static Font font14, font20, font32, font48, font64;
+    public static Font font14, font20, font24, font32, font48, font64;
 
     // Terrain images (paths, lava, water, etc)
     public static BufferedImage invisible, waterSmallTopLeft, waterSmallTopRight, waterSmallBottomLeft, waterSmallBottomRight, waterTopLeft, waterTopMiddle, waterTopRight,
@@ -139,7 +139,8 @@ public class Assets {
 
     public static BufferedImage[] whirlpool;
 
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon;
+    // Icons
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, rangedIcon, magicIcon;
 
     public static BufferedImage shopWindow;
 
@@ -154,6 +155,7 @@ public class Assets {
          */
         font14 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 14);
         font20 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 20);
+        font24 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 24);
         font32 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 32);
         font48 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 48);
         font64 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 64);
@@ -267,6 +269,9 @@ public class Assets {
         fishingIcon = ui_sheet.imageCrop(2, 0);
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
+        meleeIcon = ui_sheet.imageCrop(2, 1);
+        rangedIcon = ui_sheet.imageCrop(3,1);
+        magicIcon = ui_sheet.imageCrop(4,1);
 
         // Inventory sprites
         invScreen = ui_sheet.imageCrop(0, 9, 132, 329);

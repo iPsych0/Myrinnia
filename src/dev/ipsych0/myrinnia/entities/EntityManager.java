@@ -7,7 +7,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Projectile;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EntityManager implements Serializable {
@@ -21,13 +22,13 @@ public class EntityManager implements Serializable {
     private Collection<Entity> deleted;
     private Entity selectedEntity;
     public static boolean isPressed = false;
-    private LinkedList<HitSplat> hitSplats;
+    private CopyOnWriteArrayList<HitSplat> hitSplats;
 
     public EntityManager(Player player) {
         this.player = player;
         entities = new CopyOnWriteArrayList<Entity>();
         deleted = new CopyOnWriteArrayList<Entity>();
-        hitSplats = new LinkedList<>();
+        hitSplats = new CopyOnWriteArrayList<>();
         addEntity(player);
     }
 
@@ -38,6 +39,27 @@ public class EntityManager implements Serializable {
             Entity e = it.next();
             if (!e.isActive()) {
                 deleted.add(e);
+            }
+
+            Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
+            Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
+            if(e instanceof Creature) {
+                for (Condition c : ((Creature) e).getConditions()) {
+                    if (c.isActive()) {
+                        c.tick();
+                    }else{
+                        deletedCondis.add(c);
+                    }
+                }
+                ((Creature) e).getConditions().removeAll(deletedCondis);
+                for(Buff b : ((Creature) e).getBuffs()){
+                    if(b.isActive()){
+                        b.tick();
+                    }else{
+                        deletedBuffs.add(b);
+                    }
+                }
+                ((Creature)e).getBuffs().removeAll(deletedBuffs);
             }
 
             e.tick();
@@ -60,13 +82,10 @@ public class EntityManager implements Serializable {
         }
 
         // Sort the list for rendering
-        Collections.sort(entities, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                Float a = o1.getY() + o1.getHeight();
-                Float b = o2.getY() + o2.getHeight();
-                return a.compareTo(b);
-            }
+        entities.sort((o1, o2) -> {
+            Float a = o1.getY() + o1.getHeight();
+            Float b = o2.getY() + o2.getHeight();
+            return a.compareTo(b);
         });
     }
 
@@ -123,16 +142,14 @@ public class EntityManager implements Serializable {
         }
 
         Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();
-        if (hitSplats.size() != 0) {
-            for (HitSplat hs : hitSplats) {
-                if (hs.isActive()) {
-                    hs.render(g);
-                } else {
-                    deleted.add(hs);
-                }
+        for (HitSplat hs : hitSplats) {
+            if (hs.isActive()) {
+                hs.render(g);
+            } else {
+                deleted.add(hs);
             }
-            hitSplats.removeAll(deleted);
         }
+        hitSplats.removeAll(deleted);
 
     }
 
@@ -171,12 +188,7 @@ public class EntityManager implements Serializable {
         this.entities = entities;
     }
 
-    public LinkedList<HitSplat> getHitSplats() {
+    public CopyOnWriteArrayList<HitSplat> getHitSplats() {
         return hitSplats;
     }
-
-    public void setHitSplats(LinkedList<HitSplat> hitSplats) {
-        this.hitSplats = hitSplats;
-    }
-
 }

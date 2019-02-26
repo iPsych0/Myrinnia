@@ -50,8 +50,7 @@ TextBox implements KeyListener, Serializable {
             // Sets focus when the textfield is clicked
             if (bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                 if (!focus) {
-                    Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
-                    Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
+                    setKeyListeners();
                 }
                 KeyManager.typingFocus = true;
                 focus = true;
@@ -60,7 +59,7 @@ TextBox implements KeyListener, Serializable {
             // Removes focus when clicked outside the textfield
             if (!bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                 if (focus) {
-                    Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
+                    removeListeners();
                 }
                 KeyManager.typingFocus = false;
                 focus = false;
@@ -137,6 +136,7 @@ TextBox implements KeyListener, Serializable {
                 ShopWindow.makingChoice = false;
                 KeyManager.typingFocus = false;
                 DevToolUI.isOpen = false;
+                DevToolUI.initialized = false;
                 removeListeners();
                 return;
             }

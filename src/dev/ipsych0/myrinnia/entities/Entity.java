@@ -2,9 +2,9 @@ package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tiles;
@@ -148,7 +148,7 @@ public abstract class Entity implements Serializable {
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
         int power;
-        switch (damageType){
+        switch (damageType) {
             case STR:
                 power = d.getStrength();
                 break;
@@ -175,7 +175,7 @@ public abstract class Entity implements Serializable {
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
         int power;
-        switch (damageType){
+        switch (damageType) {
             case STR:
                 power = d.getStrength();
                 break;
@@ -190,7 +190,7 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * d.getStrength()) + d.getBaseDamage() + ability.getBaseDamage();
+        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     /*
@@ -206,7 +206,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver), damageType));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -231,11 +231,84 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability)));
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability), ability));
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
         }
+
+        if (damageReceiver.health <= 0) {
+            damageReceiver.active = false;
+            damageReceiver.die();
+        }
+    }
+
+    public void addBuff(Entity dealer, Entity receiver, Buff buff) {
+        damageDealer = dealer;
+        damageReceiver = receiver;
+
+        Creature r = ((Creature) receiver);
+
+        boolean hasBuff = false;
+        for (Buff b : r.getBuffs()) {
+            // Check if the buff is already on the receiver
+            if (b.equals(buff)) {
+                hasBuff = true;
+
+                // If that's the case, reapply the effect
+                b.setEffectApplied(false);
+                break;
+            }
+        }
+        if (!hasBuff) {
+            r.getBuffs().add(buff);
+        }
+    }
+
+    public void addCondition(Entity dealer, Entity receiver, Condition condition) {
+        damageDealer = dealer;
+        damageReceiver = receiver;
+        damageReceiver.damaged = true;
+        damageReceiver.lastHit = 0;
+        damageReceiver.combatTimer = 0;
+        damageReceiver.inCombat = true;
+
+        Creature r = ((Creature) receiver);
+
+        boolean hasCondition = false;
+        for (Condition c : r.getConditions()) {
+            // Check if the condition is already on the receiver
+            if (c.getType() == condition.getType()) {
+                hasCondition = true;
+                // If that's the case, increase the timeLeft
+                c.setDuration(c.getDuration() + condition.getDuration());
+
+                // If the new ability has a higher condition damage than the current one, increase the damage
+                if (condition.getConditionDamage() > c.getConditionDamage()) {
+                    c.setConditionDamage(condition.getConditionDamage());
+                }
+                // If we don't already have a condition of this type, simply add it
+            }
+        }
+        if (!hasCondition) {
+            r.getConditions().add(condition);
+            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+        }
+
+
+        if (damageDealer.equals(Handler.get().getPlayer())) {
+            damageDealer.setInCombat(true);
+            damageDealer.combatTimer = 0;
+        }
+    }
+
+    public void tickCondition(Entity receiver, Condition condition) {
+        damageReceiver = receiver;
+        damageReceiver.health -= condition.getConditionDamage();
+        damageReceiver.damaged = true;
+        damageReceiver.lastHit = 0;
+        damageReceiver.combatTimer = 0;
+        damageReceiver.inCombat = true;
 
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
@@ -249,7 +322,6 @@ public abstract class Entity implements Serializable {
     public void updateCombatTimer() {
         if (damaged) {
             damageReceiver.lastHit++;
-
 
             if (damageReceiver.lastHit == 45) {
                 damageReceiver.damaged = false;
@@ -294,8 +366,7 @@ public abstract class Entity implements Serializable {
         int yPos = 12;
         g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos, true, Color.YELLOW, Assets.font14);
-            yPos += 14;
+            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
     }
 

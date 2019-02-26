@@ -176,6 +176,7 @@ public class KeyManager implements KeyListener, Serializable {
                 if (!DevToolUI.isOpen) {
                     TextBox.focus = true;
                     typingFocus = true;
+                    DevToolUI.initialized = false;
                 }
                 DevToolUI.isOpen = !DevToolUI.isOpen;
                 TextBox.isOpen = !TextBox.isOpen;
