@@ -1,8 +1,10 @@
 package dev.ipsych0.myrinnia.entities;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Buff {
 
@@ -11,16 +13,13 @@ public abstract class Buff {
     private final int EFFECT_DURATION;
     protected boolean active;
     private boolean effectApplied;
-    private int buffId;
-    private static int counter = 7;
+    private int buffId = -1;
+    private static Set<Integer> ids = new HashSet<>();
 
     public Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
         this.EFFECT_DURATION = durationSeconds * 60;
         this.active = true;
-        buffId = counter++;
-        System.out.println(counter);
-
     }
 
     public void tick() {
@@ -85,11 +84,15 @@ public abstract class Buff {
     }
 
     public int getBuffId() {
+        if(buffId == -1){
+            System.err.println("Forgot to set buffId for: " + this.getClass().getSimpleName());
+        }
         return buffId;
     }
 
     public void setBuffId(int buffId) {
         this.buffId = buffId;
+        ids.add(buffId);
     }
 
     @Override

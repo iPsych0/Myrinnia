@@ -50,11 +50,7 @@ public class AttributeBuff extends Buff {
         this.percentageIncrease = percentageIncrease;
         this.statBuff = statBuff;
         this.img = attribute.getImg();
-        getNextAvailableId();
-    }
-
-    public void getNextAvailableId(){
-        setBuffId(attribute.getBuffId());
+        this.setBuffId(attribute.getBuffId());
     }
 
     @Override
