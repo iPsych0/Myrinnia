@@ -2,11 +2,16 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Buff;
+import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MendWoundsAbility extends Ability {
 
@@ -30,8 +35,8 @@ public class MendWoundsAbility extends Ability {
 
     @Override
     public void render(Graphics g, int x, int y) {
-        g.drawImage(Assets.mendWoundsI, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-        if(animation != null && !animation.isTickDone()){
+        g.drawImage(Assets.mendWoundsI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
@@ -53,6 +58,15 @@ public class MendWoundsAbility extends Ability {
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
             Handler.get().playEffect("abilities/mend_wounds.wav");
+
+            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
+            deleted.addAll(caster.getConditions());
+            caster.getConditions().removeAll(deleted);
+
+            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
+            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
+            caster.addBuff(caster, caster, b);
+            caster.addBuff(caster, caster, b2);
         }
 
         animation.tick();

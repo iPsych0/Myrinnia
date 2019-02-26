@@ -5,6 +5,7 @@ import org.lwjgl.openal.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class AudioManager {
 
@@ -15,8 +16,8 @@ public class AudioManager {
     private static ALCCapabilities alcCapabilities;
     private static ALCapabilities alCapabilities;
     private static List<Integer> buffers = new ArrayList<Integer>();
-    public static LinkedList<Source> musicFiles = new LinkedList<>();
-    public static LinkedList<Source> soundfxFiles = new LinkedList<>();
+    public static List<Source> musicFiles = new CopyOnWriteArrayList<>();
+    public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
     public static Map<String, Integer> soundMap = new HashMap<>();
     public static Zone zone;
 
@@ -126,12 +127,12 @@ public class AudioManager {
                             musicFiles.get(i).delete();
                         }
                     } else {
-                        musicFiles.getFirst().setFadingOut(true);
+                        musicFiles.get(0).setFadingOut(true);
                     }
-                    musicFiles.getLast().setVolume(0.0f);
-                    musicFiles.getLast().setFadingIn(true);
-                    musicFiles.getLast().setLooping(true);
-                    musicFiles.getLast().playMusic(buffer);
+                    musicFiles.get(musicFiles.size()-1).setVolume(0.0f);
+                    musicFiles.get(musicFiles.size()-1).setFadingIn(true);
+                    musicFiles.get(musicFiles.size()-1).setLooping(true);
+                    musicFiles.get(musicFiles.size()-1).playMusic(buffer);
                 } else {
                     AudioManager.zone = zone;
                     for (int i = 0; i < musicFiles.size() - 1; i++) {
@@ -142,9 +143,9 @@ public class AudioManager {
         } else {
             AudioManager.zone = zone;
             musicFiles.add(new Source());
-            musicFiles.getLast().setVolume(0.4f);
-            musicFiles.getLast().setLooping(true);
-            musicFiles.getLast().playMusic(buffer);
+            musicFiles.get(musicFiles.size()-1).setVolume(0.4f);
+            musicFiles.get(musicFiles.size()-1).setLooping(true);
+            musicFiles.get(musicFiles.size()-1).playMusic(buffer);
         }
     }
 

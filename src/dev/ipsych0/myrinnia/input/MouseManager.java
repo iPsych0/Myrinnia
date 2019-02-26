@@ -36,6 +36,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
     private int mouseX, mouseY;
     private int mouseMovedTimer;
     private Rectangle mouseCoords;
+    public static boolean justClosedUI;
 
     public MouseManager() {
 
@@ -114,6 +115,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
         if (e.getButton() == MouseEvent.BUTTON1) {
             leftPressed = false;
             isDragged = false;
+            justClosedUI = false;
             ScrollBar.clickTimer = 0;
             ScrollBar.scrollTimer = 0;
         } else if (e.getButton() == MouseEvent.BUTTON3) {

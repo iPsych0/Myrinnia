@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.ui.TextBox;
@@ -112,6 +113,9 @@ public class AbilityShopWindow implements Serializable {
     }
 
     public void exit() {
+        if(Handler.get().getMouseManager().isLeftPressed()){
+            MouseManager.justClosedUI = true;
+        }
         isOpen = false;
         hasBeenPressed = false;
         dBox.setPressedButton(null);

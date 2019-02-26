@@ -5,18 +5,21 @@ import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
-import dev.ipsych0.myrinnia.gfx.Animation;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.gfx.Animation;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -123,6 +126,7 @@ public class Player extends Creature {
         respawnTimer = 1;
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
+
     }
 
     @Override
@@ -295,6 +299,9 @@ public class Player extends Creature {
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
                 if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
+                    if(MouseManager.justClosedUI){
+                        return;
+                    }
                     for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
                         if (as.getAbility() != null) {
                             if (as.getAbility().isChanneling() || as.getAbility().isSelected())
@@ -344,6 +351,7 @@ public class Player extends Creature {
                     }
                     if (e.isAttackable()) {
                         e.damage(DamageType.INT, this, e);
+                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
                         p.active = false;
                     }
                 }
@@ -476,10 +484,23 @@ public class Player extends Creature {
             }
         }
 
+        for (int i = 0; i < getConditions().size(); i++) {
+            getConditions().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8);
+        }
+
+        int yOffset = 0;
+        if (!getConditions().isEmpty()) yOffset = 1;
+        for (int i = 0; i < getBuffs().size(); i++) {
+            getBuffs().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8);
+        }
+
         if (isLevelUp) {
             levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16), (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font32);
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
@@ -1133,7 +1154,7 @@ public class Player extends Creature {
         this.abilityPoints = abilityPoints;
     }
 
-    public void addAbilityPoints(){
+    public void addAbilityPoints() {
         this.abilityPoints++;
     }
 }

@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.character;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -65,6 +66,13 @@ public class CharacterUI implements Serializable {
             if (Handler.get().getKeyManager().escape && escapePressed) {
                 isOpen = false;
                 hasBeenPressed = false;
+                return;
+            }
+
+            if (exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                MouseManager.justClosedUI = true;
+                hasBeenPressed = false;
+                isOpen = false;
                 return;
             }
 
@@ -154,10 +162,6 @@ public class CharacterUI implements Serializable {
             Text.drawString(g, "Water:   " + CharacterStats.Water.getLevel(), x + 16, y + 262, false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Earth:    " + CharacterStats.Earth.getLevel(), x + 16, y + 278, false, Color.YELLOW, Assets.font14);
 
-            if (exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                hasBeenPressed = false;
-                isOpen = false;
-            }
             uiManager.render(g);
             Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
         }
