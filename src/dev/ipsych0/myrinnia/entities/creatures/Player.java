@@ -242,11 +242,11 @@ public class Player extends Creature {
                         }
                     }
                     // If the Entity only has a continue button (text only) and it's pressed
-                } else if (closestEntity.getChatDialogue().getContinueButton() != null && closestEntity.getChatDialogue().getContinueButton().isPressed()) {
+                } else if (closestEntity.getChatDialogue().getChatOptions().size() == 1 && closestEntity.getChatDialogue().getChatOptions().get(0).isPressed()) {
                     if (!hasInteracted) {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
-                            closestEntity.getChatDialogue().getContinueButton().setPressed(false);
+                            closestEntity.getChatDialogue().getChatOptions().get(0).setPressed(false);
                             closestEntity.interact();
                             Handler.get().playEffect("ui/ui_button_click.wav");
                             hasInteracted = true;
