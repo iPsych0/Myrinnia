@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": "1",
+      "text": "Would you like to hear a story?",
+      "nextId": "2"
+    },
+    {
+      "id": "2",
+      "options": [
+        {
+          "text": "Yes",
+          "nextId": "3"
+        },
+        {
+          "text": "No",
+          "nextId": "0"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "text": "Well, I don't have a story. Sorry, kid.",
+      "nextId": "0"
+    }
+  ]
+}

@@ -17,7 +17,6 @@ public class AbilityOverviewUIButton extends UIImageButton implements Serializab
     public AbilityOverviewUIButton(int x, int y, CharacterStats characterStats) {
         super(x, y, ItemSlot.SLOTSIZE * 2, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.stat = characterStats;
-        this.bounds = new Rectangle(x, y, width, height);
     }
 
     public void tick() {
