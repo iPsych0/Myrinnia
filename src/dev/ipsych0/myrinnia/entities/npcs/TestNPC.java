@@ -45,9 +45,7 @@ public class TestNPC extends StaticEntity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.teleportShrine2, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
-                , width, height, null);
-        g.drawImage(Assets.teleportShrine1, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 32 - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.barrel1, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
@@ -73,19 +71,17 @@ public class TestNPC extends StaticEntity {
                 if (choice.getChoiceCondition() != null) {
                     if (choiceConditionMet(choice)) {
                         // If we meet the condition, proceed
-                        updateDialogue();
                         setSpeakingTurn(choice.getNextId());
                     } else {
                         // If we don't meet the condition, return to whatever menu falseId points to
-                        updateDialogue();
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
                     chatDialogue.setChosenOption(null);
                     interact();
                     return;
-                }else{
+                } else {
                     // If there is no condition, we can always proceed
-                    if(chatDialogue.getMenuOptions().length > 1) {
+                    if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
                     chatDialogue.setChosenOption(null);
@@ -121,10 +117,10 @@ public class TestNPC extends StaticEntity {
     }
 
     @Override
-    protected void updateDialogue(){
-        switch (speakingTurn){
+    protected void updateDialogue() {
+        switch (speakingTurn) {
             case 0:
-                if(Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED){
+                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED) {
                     Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.IN_PROGRESS);
                     Handler.get().getQuest(QuestList.TheThirdQuest).getQuestSteps().add(new QuestStep("Listen to the TestNPC's story."));
                 }
@@ -136,10 +132,14 @@ public class TestNPC extends StaticEntity {
                 Handler.get().removeItem(Item.testPickaxe, 1);
                 break;
             case 3:
-                if(Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.IN_PROGRESS){
+                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.IN_PROGRESS) {
                     Handler.get().getQuest(QuestList.TheThirdQuest).nextStep();
                     Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.COMPLETED);
                 }
+                Handler.get().giveItem(Item.coins, 100);
+                break;
+            case 4:
+                Handler.get().removeItem(Item.coins, 100);
                 break;
         }
     }
