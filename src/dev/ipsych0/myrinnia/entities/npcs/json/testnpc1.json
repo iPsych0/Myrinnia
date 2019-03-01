@@ -1,27 +1,40 @@
 {
   "dialogues": [
     {
-      "id": "1",
+      "id": "0",
       "text": "Would you like to hear a story?",
-      "nextId": "2"
+      "nextId": "1"
+    },
+    {
+      "id": "1",
+      "options": [
+        {
+          "text": "Yes",
+          "nextId": "2"
+        },
+        {
+          "text": "No",
+          "nextId": "-1"
+        }
+      ]
     },
     {
       "id": "2",
       "options": [
         {
-          "text": "Yes",
+          "text": "Tell me about yourself",
           "nextId": "3"
         },
         {
-          "text": "No",
-          "nextId": "0"
+          "text": "Never mind",
+          "nextId": "-1"
         }
       ]
     },
     {
       "id": "3",
       "text": "Well, I don't have a story. Sorry, kid.",
-      "nextId": "0"
+      "nextId": "-1"
     }
   ]
 }

@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.util.List;
 
 public class TestNPC extends StaticEntity {
 
@@ -49,44 +50,32 @@ public class TestNPC extends StaticEntity {
 
     @Override
     public void interact() {
-        if (this.getSpeakingTurn() == 0) {
-            speakingTurn++;
+        // If the conversation was reset, reinitialize the first time we interact again
+        if(speakingTurn == -1){
+            chatDialogue = null;
+            speakingTurn = 0;
             return;
-        } else if (this.getSpeakingTurn() == 1) {
-            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(0).getText()});
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 2) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(1).getText()});
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 3) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                speakingTurn = 1;
-                chatDialogue = null;
-
-                // Save the game
-                SaveManager.savehandler();
-                Handler.get().sendMsg("Game Saved!");
-            } else {
-                speakingTurn = 1;
-                chatDialogue = null;
-            }
         }
-    }
-
-    public int getSpeakingTurn() {
-        return speakingTurn;
-    }
-
-    public void setSpeakingTurn(int speakingTurn) {
-        this.speakingTurn = speakingTurn;
+        if(script.getDialogues().get(speakingTurn).getText() != null) {
+            if(chatDialogue != null && chatDialogue.getChosenOption() != null){
+                chatDialogue.setChosenOption(null);
+            }
+            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+        }else{
+            if(chatDialogue != null && chatDialogue.getChosenOption() != null){
+                setSpeakingTurn(script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID()).getNextId());
+                chatDialogue.setChosenOption(null);
+                interact();
+                return;
+            }
+            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
+            String[] choices = new String[choiceList.size()];
+            for(int i = 0; i < choiceList.size(); i++){
+                choices[i] = choiceList.get(i).getText();
+            }
+            chatDialogue = new ChatDialogue(choices);
+        }
     }
 
     @Override

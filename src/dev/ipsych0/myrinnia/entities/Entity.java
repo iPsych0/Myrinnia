@@ -38,7 +38,7 @@ public abstract class Entity implements Serializable {
     protected boolean staticNpc = false;
     protected boolean solid = true;
     protected Entity damageDealer, damageReceiver;
-    protected int speakingTurn = 1;
+    protected int speakingTurn = 0;
     protected int speakingCheckpoint = 0;
     protected transient ChatDialogue chatDialogue;
     protected boolean overlayDrawn = true;
