@@ -246,7 +246,6 @@ public class Player extends Creature {
                     if (!hasInteracted) {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
-                            closestEntity.getChatDialogue().getChosenOption().setPressed(false);
                             closestEntity.interact();
                             Handler.get().playEffect("ui/ui_button_click.wav");
                             hasInteracted = true;

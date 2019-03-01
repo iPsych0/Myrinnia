@@ -61,11 +61,9 @@ public class TestNPC extends StaticEntity {
         }
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
-            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
-                chatDialogue.setChosenOption(null);
-            }
             updateDialogue();
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue.setChosenOption(null);
             setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
         } else {
             // If there is a choice menu and we selected a choice, handle the choice logic
@@ -75,14 +73,14 @@ public class TestNPC extends StaticEntity {
                 if (choice.getChoiceCondition() != null) {
                     if (choiceConditionMet(choice)) {
                         // If we meet the condition, proceed
+                        updateDialogue();
                         setSpeakingTurn(choice.getNextId());
-                        chatDialogue.setChosenOption(null);
                     } else {
                         // If we don't meet the condition, return to whatever menu falseId points to
+                        updateDialogue();
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
-                        chatDialogue.setChosenOption(null);
                     }
-                    updateDialogue();
+                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 }else{
@@ -91,7 +89,6 @@ public class TestNPC extends StaticEntity {
                         setSpeakingTurn(choice.getNextId());
                     }
                     chatDialogue.setChosenOption(null);
-                    updateDialogue();
                     interact();
                     return;
                 }
