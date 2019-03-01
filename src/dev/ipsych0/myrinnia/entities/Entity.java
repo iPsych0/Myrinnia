@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
+import dev.ipsych0.myrinnia.entities.npcs.Choice;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tiles;
@@ -386,6 +387,23 @@ public abstract class Entity implements Serializable {
     public Rectangle getCollisionBounds(float xOffset, float yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
+    }
+
+    /**
+     * MUST be overriden in the sub-class for specific behaviour!
+     * @param choice - The choice to check condition for
+     * @return true if condition is met, false if condition is not met
+     */
+    protected boolean choiceConditionMet(Choice choice){
+        System.err.println("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
+        return false;
+    }
+
+    /**
+     * MUST be overriden in the sub-class for specific behaviour!
+     */
+    protected void updateDialogue(){
+
     }
 
     // Getters & Setters
