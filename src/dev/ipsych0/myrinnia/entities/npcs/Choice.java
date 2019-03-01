@@ -4,10 +4,12 @@ public class Choice {
 
     private String text;
     private int nextId;
+    private ChoiceCondition choiceCondition;
 
-    public Choice(String text, int nextId) {
+    public Choice(String text, int nextId, ChoiceCondition choiceCondition) {
         this.text = text;
         this.nextId = nextId;
+        this.choiceCondition = choiceCondition;
     }
 
     public String getText() {
@@ -24,5 +26,13 @@ public class Choice {
 
     public void setNextId(int nextId) {
         this.nextId = nextId;
+    }
+
+    public ChoiceCondition getChoiceCondition() {
+        return choiceCondition;
+    }
+
+    public void setChoiceCondition(ChoiceCondition choiceCondition) {
+        this.choiceCondition = choiceCondition;
     }
 }

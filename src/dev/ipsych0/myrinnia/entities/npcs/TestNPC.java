@@ -4,8 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tiles;
-import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -51,31 +51,58 @@ public class TestNPC extends StaticEntity {
     @Override
     public void interact() {
         // If the conversation was reset, reinitialize the first time we interact again
-        if(speakingTurn == -1){
+        if (speakingTurn == -1) {
             chatDialogue = null;
             speakingTurn = 0;
             return;
         }
-        if(script.getDialogues().get(speakingTurn).getText() != null) {
-            if(chatDialogue != null && chatDialogue.getChosenOption() != null){
+        if (script.getDialogues().get(speakingTurn).getText() != null) {
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
                 chatDialogue.setChosenOption(null);
             }
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-        }else{
-            if(chatDialogue != null && chatDialogue.getChosenOption() != null){
-                setSpeakingTurn(script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID()).getNextId());
-                chatDialogue.setChosenOption(null);
-                interact();
-                return;
+        } else {
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
+                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
+                if (choice.getChoiceCondition() != null) {
+                    if (isConditionMet(choice)) {
+                        setSpeakingTurn(choice.getNextId());
+                        chatDialogue.setChosenOption(null);
+                    } else {
+                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
+                        chatDialogue.setChosenOption(null);
+                    }
+                    interact();
+                    return;
+                }else{
+                    setSpeakingTurn(choice.getNextId());
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                }
             }
             List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
             String[] choices = new String[choiceList.size()];
-            for(int i = 0; i < choiceList.size(); i++){
+            for (int i = 0; i < choiceList.size(); i++) {
                 choices[i] = choiceList.get(i).getText();
             }
             chatDialogue = new ChatDialogue(choices);
         }
+    }
+
+    private boolean isConditionMet(Choice choice) {
+        switch (choice.getChoiceCondition().getCondition()) {
+            case "has100gold":
+                if (!Handler.get().playerHasItem(Item.coins, 10000)) {
+                    return false;
+                }
+                break;
+            default:
+                System.err.println("CHOICE CONDITION NOT PROGRAMMED!");
+                break;
+        }
+        return true;
     }
 
     @Override

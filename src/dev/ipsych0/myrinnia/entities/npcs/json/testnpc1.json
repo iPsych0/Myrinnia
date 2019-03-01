@@ -1,40 +1,44 @@
 {
   "dialogues": [
     {
-      "id": "0",
+      "id": 0,
       "text": "Would you like to hear a story?",
-      "nextId": "1"
+      "nextId": 1
     },
     {
-      "id": "1",
+      "id": 1,
       "options": [
         {
           "text": "Yes",
-          "nextId": "2"
+          "nextId": 2
         },
         {
           "text": "No",
-          "nextId": "-1"
+          "nextId": -1
         }
       ]
     },
     {
-      "id": "2",
+      "id": 2,
       "options": [
         {
           "text": "Tell me about yourself",
-          "nextId": "3"
+          "nextId": 3,
+          "choiceCondition": {
+            "condition": "has100gold",
+            "falseId":-1
+          }
         },
         {
           "text": "Never mind",
-          "nextId": "-1"
+          "nextId": -1
         }
       ]
     },
     {
-      "id": "3",
+      "id": 3,
       "text": "Well, I don't have a story. Sorry, kid.",
-      "nextId": "-1"
+      "nextId": -1
     }
   ]
 }
