@@ -850,6 +850,11 @@ public class Player extends Creature {
 
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
     /*
      * Handles movement, based on keyboard input (WASD)
      */

@@ -80,4 +80,9 @@ public class BankerNPC extends Banker implements Serializable {
         Handler.get().getWorld().getEntityManager().addEntity(new BankerNPC(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

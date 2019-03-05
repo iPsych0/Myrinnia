@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
+import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tiles;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Entity implements Serializable {
 
@@ -48,6 +50,8 @@ public abstract class Entity implements Serializable {
     protected int combatTimer = 0;
     protected int respawnTimer = 600;
     protected Rectangle collision;
+    protected Script script;
+    private boolean optionScreen = false;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -72,9 +76,9 @@ public abstract class Entity implements Serializable {
 
     public abstract void respawn();
 
-    public abstract void interact();
-
     public abstract String[] getEntityInfo(Entity hoveringEntity);
+
+    protected abstract void updateDialogue();
 
     /*
      * Checks the collision for Entities
@@ -389,6 +393,60 @@ public abstract class Entity implements Serializable {
         return collision;
     }
 
+    public void interact() {
+        // If the conversation was reset, reinitialize the first time we interact again
+        if (speakingTurn == -1) {
+            chatDialogue = null;
+            speakingTurn = 0;
+            return;
+        }
+        // If there is only text to be displayed, advance to the next conversation
+        if (script.getDialogues().get(speakingTurn).getText() != null) {
+            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue.setChosenOption(null);
+            updateDialogue();
+            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+        } else {
+            // If there is a choice menu and we selected a choice, handle the choice logic
+            if(chatDialogue != null && chatDialogue.getMenuOptions().length == 1){
+                chatDialogue.setChosenOption(null);
+            }
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
+                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
+                // If there is a condition to proceed with the conversation, check it
+                if (choice.getChoiceCondition() != null) {
+                    if (choiceConditionMet(choice)) {
+                        // If we meet the condition, proceed
+                        setSpeakingTurn(choice.getNextId());
+                    } else {
+                        // If we don't meet the condition, return to whatever menu falseId points to
+                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                } else {
+                    // If there is no condition, we can always proceed
+                    if (chatDialogue.getMenuOptions().length > 1) {
+                        setSpeakingTurn(choice.getNextId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                }
+            }
+
+            // Update the list of dialogue choices
+            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
+            String[] choices = new String[choiceList.size()];
+            for (int i = 0; i < choiceList.size(); i++) {
+                choices[i] = choiceList.get(i).getText();
+            }
+            chatDialogue = new ChatDialogue(choices);
+            updateDialogue();
+        }
+    }
+
     /**
      * MUST be overriden in the sub-class for specific behaviour!
      * @param choice - The choice to check condition for
@@ -399,12 +457,6 @@ public abstract class Entity implements Serializable {
         return false;
     }
 
-    /**
-     * MUST be overriden in the sub-class for specific behaviour!
-     */
-    protected void updateDialogue(){
-
-    }
 
     // Getters & Setters
     public float getX() {

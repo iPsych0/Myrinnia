@@ -128,4 +128,9 @@ public class WaterToBridgePart extends StaticEntity {
 
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

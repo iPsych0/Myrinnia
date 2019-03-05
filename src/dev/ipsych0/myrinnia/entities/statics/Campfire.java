@@ -143,4 +143,9 @@ public class Campfire extends StaticEntity {
         Handler.get().getWorld().getEntityManager().addEntity(new Campfire(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

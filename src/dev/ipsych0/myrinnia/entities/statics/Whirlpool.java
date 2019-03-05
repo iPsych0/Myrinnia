@@ -120,4 +120,9 @@ public class Whirlpool extends StaticEntity {
         Handler.get().getWorld().getEntityManager().addEntity(new Whirlpool(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

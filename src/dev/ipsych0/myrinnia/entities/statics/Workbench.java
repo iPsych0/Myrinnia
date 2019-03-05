@@ -91,4 +91,9 @@ public class Workbench extends StaticEntity {
     public void respawn() {
 
     }
+
+    @Override
+    protected void updateDialogue() {
+
+    }
 }

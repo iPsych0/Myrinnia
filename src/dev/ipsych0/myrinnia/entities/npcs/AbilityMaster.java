@@ -23,17 +23,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
-    private Script script;
 
     public AbilityMaster(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         abilities = new ArrayList<>();
-
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
-
         script = Utils.loadScript("ability_master.json");
-
         abilityShopWindow = new AbilityShopWindow(abilities);
 
     }
@@ -62,58 +58,6 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     @Override
     public void respawn() {
         Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn));
-    }
-
-    @Override
-    public void interact() {
-        // If the conversation was reset, reinitialize the first time we interact again
-        if (speakingTurn == -1) {
-            chatDialogue = null;
-            speakingTurn = 0;
-            return;
-        }
-        // If there is only text to be displayed, advance to the next conversation
-        if (script.getDialogues().get(speakingTurn).getText() != null) {
-            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
-            chatDialogue.setChosenOption(null);
-            updateDialogue();
-            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-        } else {
-            // If there is a choice menu and we selected a choice, handle the choice logic
-            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
-                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
-                // If there is a condition to proceed with the conversation, check it
-                if (choice.getChoiceCondition() != null) {
-                    if (choiceConditionMet(choice)) {
-                        // If we meet the condition, proceed
-                        setSpeakingTurn(choice.getNextId());
-                    } else {
-                        // If we don't meet the condition, return to whatever menu falseId points to
-                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
-                    }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
-                } else {
-                    // If there is no condition, we can always proceed
-                    if (chatDialogue.getMenuOptions().length > 1) {
-                        setSpeakingTurn(choice.getNextId());
-                    }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
-                }
-            }
-
-            // Update the list of dialogue choices
-            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
-            String[] choices = new String[choiceList.size()];
-            for (int i = 0; i < choiceList.size(); i++) {
-                choices[i] = choiceList.get(i).getText();
-            }
-            chatDialogue = new ChatDialogue(choices);
-            updateDialogue();
-        }
     }
 
     @Override

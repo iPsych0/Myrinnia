@@ -99,4 +99,9 @@ public class Lorraine extends ShopKeeper {
         Handler.get().getWorld().getEntityManager().addEntity(new Lorraine(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

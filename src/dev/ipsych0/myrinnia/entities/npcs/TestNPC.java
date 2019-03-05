@@ -21,13 +21,11 @@ public class TestNPC extends StaticEntity {
      *
      */
     private static final long serialVersionUID = -8566165980826138340L;
-    private Script script;
 
     public TestNPC(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
         script = Utils.loadScript("testnpc1.json");
-
         solid = true;
         attackable = false;
         isNpc = true;
@@ -50,62 +48,15 @@ public class TestNPC extends StaticEntity {
     }
 
     @Override
-    public void interact() {
-        // If the conversation was reset, reinitialize the first time we interact again
-        if (speakingTurn == -1) {
-            chatDialogue = null;
-            speakingTurn = 0;
-            return;
-        }
-        // If there is only text to be displayed, advance to the next conversation
-        if (script.getDialogues().get(speakingTurn).getText() != null) {
-            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
-            chatDialogue.setChosenOption(null);
-            updateDialogue();
-            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-        } else {
-            // If there is a choice menu and we selected a choice, handle the choice logic
-            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
-                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
-                // If there is a condition to proceed with the conversation, check it
-                if (choice.getChoiceCondition() != null) {
-                    if (choiceConditionMet(choice)) {
-                        // If we meet the condition, proceed
-                        setSpeakingTurn(choice.getNextId());
-                    } else {
-                        // If we don't meet the condition, return to whatever menu falseId points to
-                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
-                    }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
-                } else {
-                    // If there is no condition, we can always proceed
-                    if (chatDialogue.getMenuOptions().length > 1) {
-                        setSpeakingTurn(choice.getNextId());
-                    }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
-                }
-            }
-
-            // Update the list of dialogue choices
-            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
-            String[] choices = new String[choiceList.size()];
-            for (int i = 0; i < choiceList.size(); i++) {
-                choices[i] = choiceList.get(i).getText();
-            }
-            chatDialogue = new ChatDialogue(choices);
-            updateDialogue();
-        }
-    }
-
-    @Override
     protected boolean choiceConditionMet(Choice choice) {
         switch (choice.getChoiceCondition().getCondition()) {
             case "has100gold":
                 if (!Handler.get().playerHasItem(Item.coins, 100)) {
+                    return false;
+                }
+                break;
+            case "has1000gold":
+                if (!Handler.get().playerHasItem(Item.coins, 1000)) {
                     return false;
                 }
                 break;
@@ -148,6 +99,8 @@ public class TestNPC extends StaticEntity {
             case 6:
                 Handler.get().removeItem(Item.testSword, 1);
                 break;
+            case 7:
+                Handler.get().removeItem(Item.coins, 1000);
         }
     }
 

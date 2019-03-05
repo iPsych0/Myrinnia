@@ -96,4 +96,9 @@ public class TeleportShrine extends StaticEntity {
 
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

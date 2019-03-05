@@ -50,11 +50,7 @@
       "options": [
         {
           "text": "Tell me More",
-          "nextId": 6,
-          "choiceCondition": {
-            "condition": "has100gold",
-            "falseId":-1
-          }
+          "nextId": 6
         },
         {
           "text": "Never mind",
@@ -64,7 +60,21 @@
     },
     {
       "id": 6,
-      "text": "Why are you still here? Leave, kiddo!",
+      "text": "I'm stealing your 1,000 gold.",
+      "nextId": 7,
+      "choiceCondition": {
+        "condition": "has1000gold",
+        "falseId":8
+      }
+    },
+    {
+      "id": 7,
+      "text": "Thanks for the gold!",
+      "nextId": -1
+    },
+    {
+      "id": 8,
+      "text": "Oh, you don't have 1,000 gold...",
       "nextId": -1
     }
   ]

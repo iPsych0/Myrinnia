@@ -136,4 +136,9 @@ public class Scorpion extends Creature {
     public void respawn() {
         Handler.get().getWorld().getEntityManager().addEntity(new Scorpion(xSpawn, ySpawn));
     }
+
+    @Override
+    protected void updateDialogue() {
+
+    }
 }
