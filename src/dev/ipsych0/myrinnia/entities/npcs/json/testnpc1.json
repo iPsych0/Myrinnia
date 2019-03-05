@@ -20,10 +20,20 @@
     },
     {
       "id": 2,
+      "text": "Well, I don't have a story. Sorry, kid.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Next dialogue.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
       "options": [
         {
           "text": "Tell me about yourself",
-          "nextId": 3,
+          "nextId": 5,
           "choiceCondition": {
             "condition": "has100gold",
             "falseId":-1
@@ -36,12 +46,24 @@
       ]
     },
     {
-      "id": 3,
-      "text": "Well, I don't have a story. Sorry, kid.",
-      "nextId": 4
+      "id": 5,
+      "options": [
+        {
+          "text": "Tell me More",
+          "nextId": 6,
+          "choiceCondition": {
+            "condition": "has100gold",
+            "falseId":-1
+          }
+        },
+        {
+          "text": "Never mind",
+          "nextId": -1
+        }
+      ]
     },
     {
-      "id": 4,
+      "id": 6,
       "text": "Why are you still here? Leave, kiddo!",
       "nextId": -1
     }

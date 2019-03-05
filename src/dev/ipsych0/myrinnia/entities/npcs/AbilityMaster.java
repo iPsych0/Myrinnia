@@ -5,12 +5,15 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
@@ -20,10 +23,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
-
-    private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?", "Leave."};
-    private String[] secondDialogue = {"I can reset your Skill Points for a fee of " + AbilityTrainer.resetCost + " gold."};
-    private String[] thirdDialogue = {"Reset points (" + AbilityTrainer.resetCost + " gold).", "Never mind."};
+    private Script script;
 
     public AbilityMaster(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -31,6 +31,8 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
         abilities = new ArrayList<>();
 
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
+
+        script = Utils.loadScript("ability_master.json");
 
         abilityShopWindow = new AbilityShopWindow(abilities);
 
@@ -64,65 +66,79 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void interact() {
-        switch (speakingTurn) {
-
-            case 0:
-                speakingTurn++;
-                return;
-
-            case 1:
-                if (!AbilityShopWindow.isOpen) {
-                    chatDialogue = new ChatDialogue(firstDialogue);
-                    speakingTurn++;
-                    break;
+        // If the conversation was reset, reinitialize the first time we interact again
+        if (speakingTurn == -1) {
+            chatDialogue = null;
+            speakingTurn = 0;
+            return;
+        }
+        // If there is only text to be displayed, advance to the next conversation
+        if (script.getDialogues().get(speakingTurn).getText() != null) {
+            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue.setChosenOption(null);
+            updateDialogue();
+            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+        } else {
+            // If there is a choice menu and we selected a choice, handle the choice logic
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
+                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
+                // If there is a condition to proceed with the conversation, check it
+                if (choice.getChoiceCondition() != null) {
+                    if (choiceConditionMet(choice)) {
+                        // If we meet the condition, proceed
+                        setSpeakingTurn(choice.getNextId());
+                    } else {
+                        // If we don't meet the condition, return to whatever menu falseId points to
+                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
                 } else {
-                    speakingTurn = 1;
-                    break;
+                    // If there is no condition, we can always proceed
+                    if (chatDialogue.getMenuOptions().length > 1) {
+                        setSpeakingTurn(choice.getNextId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
                 }
-            case 2:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
+            }
+
+            // Update the list of dialogue choices
+            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
+            String[] choices = new String[choiceList.size()];
+            for (int i = 0; i < choiceList.size(); i++) {
+                choices[i] = choiceList.get(i).getText();
+            }
+            chatDialogue = new ChatDialogue(choices);
+            updateDialogue();
+        }
+    }
+
+    @Override
+    protected boolean choiceConditionMet(Choice choice) {
+        switch (choice.getChoiceCondition().getCondition()) {
+            case "has1000gold":
+                if(Handler.get().playerHasItem(Item.coins, 1000)) {
+                    resetSkillPoints();
+                    return true;
                 }
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
+                return false;
+            case "openShop":
+                if (!AbilityShopWindow.isOpen) {
                     Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
                     AbilityShopWindow.open();
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    speakingTurn++;
-                    chatDialogue = new ChatDialogue(secondDialogue);
-                    break;
-                }else{
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
                 }
-            case 3:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                chatDialogue = new ChatDialogue(thirdDialogue);
-                speakingTurn++;
-                break;
-            case 4:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    resetSkillPoints();
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                }
-
+                return true;
+            default:
+                System.err.println("CHOICE CONDITION '" + choice.getChoiceCondition().getCondition() + "' NOT PROGRAMMED!");
+                return false;
         }
+    }
+
+    @Override
+    protected void updateDialogue() {
+
     }
 }

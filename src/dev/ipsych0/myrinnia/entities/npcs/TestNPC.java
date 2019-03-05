@@ -59,9 +59,9 @@ public class TestNPC extends StaticEntity {
         }
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
-            updateDialogue();
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
+            updateDialogue();
             setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
         } else {
             // If there is a choice menu and we selected a choice, handle the choice logic
@@ -118,6 +118,7 @@ public class TestNPC extends StaticEntity {
 
     @Override
     protected void updateDialogue() {
+        Handler.get().sendMsg(speakingTurn);
         switch (speakingTurn) {
             case 0:
                 if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED) {
@@ -140,6 +141,12 @@ public class TestNPC extends StaticEntity {
                 break;
             case 4:
                 Handler.get().removeItem(Item.coins, 100);
+                break;
+            case 5:
+                Handler.get().giveItem(Item.testSword, 1);
+                break;
+            case 6:
+                Handler.get().removeItem(Item.testSword, 1);
                 break;
         }
     }
