@@ -2,9 +2,9 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.npcs.BankerNPC;
-import dev.ipsych0.myrinnia.entities.npcs.Lorraine;
+import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.statics.Campfire;
-import dev.ipsych0.myrinnia.entities.statics.Workbench;
+import dev.ipsych0.myrinnia.entities.statics.CraftingStation;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
@@ -34,11 +34,11 @@ public class IslandUnderground extends World {
 
         loadWorld(path);
 
-        entityManager.addEntity(new Lorraine(3904, 6080));
+        entityManager.addEntity(new ShopKeeperNPC("General Store", 3904, 6080));
         entityManager.addEntity(new Campfire(4960, 5438));
         entityManager.addEntity(new Campfire(6016, 5828));
         entityManager.addEntity(new Campfire(6016, 4900));
-        entityManager.addEntity(new Workbench(6176, 5216));
+        entityManager.addEntity(new CraftingStation(6176, 5216));
         entityManager.addEntity(new BankerNPC(6016, 5056));
 
         house1Exit = new Rectangle(6016, 6192, 32, 32);

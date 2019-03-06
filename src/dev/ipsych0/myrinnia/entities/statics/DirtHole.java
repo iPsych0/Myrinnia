@@ -92,4 +92,9 @@ public class DirtHole extends StaticEntity {
         Handler.get().getWorld().getEntityManager().addEntity(new DirtHole(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

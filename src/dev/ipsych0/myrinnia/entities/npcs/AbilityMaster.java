@@ -5,12 +5,15 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
@@ -21,17 +24,12 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    private String[] firstDialogue = {"I would like to learn new abilities.", "Could you reset my skill points for me?", "Leave."};
-    private String[] secondDialogue = {"I can reset your Skill Points for a fee of " + AbilityTrainer.resetCost + " gold."};
-    private String[] thirdDialogue = {"Reset points (" + AbilityTrainer.resetCost + " gold).", "Never mind."};
-
     public AbilityMaster(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         abilities = new ArrayList<>();
-
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
-
+        script = Utils.loadScript("ability_master.json");
         abilityShopWindow = new AbilityShopWindow(abilities);
 
     }
@@ -63,66 +61,30 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     }
 
     @Override
-    public void interact() {
-        switch (speakingTurn) {
-
-            case 0:
-                speakingTurn++;
-                return;
-
-            case 1:
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
+            case "has1000gold":
+                if(Handler.get().playerHasItem(Item.coins, 1000)) {
+                    resetSkillPoints();
+                    return true;
+                }
+                break;
+            case "openShop":
                 if (!AbilityShopWindow.isOpen) {
-                    chatDialogue = new ChatDialogue(firstDialogue);
-                    speakingTurn++;
-                    break;
-                } else {
-                    speakingTurn = 1;
-                    break;
-                }
-            case 2:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
                     AbilityShopWindow.open();
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    speakingTurn++;
-                    chatDialogue = new ChatDialogue(secondDialogue);
-                    break;
-                }else{
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
                 }
-            case 3:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                chatDialogue = new ChatDialogue(thirdDialogue);
-                speakingTurn++;
-                break;
-            case 4:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    resetSkillPoints();
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                }
-
+                return true;
+            default:
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
+                return false;
         }
+
+        return false;
+    }
+
+    @Override
+    protected void updateDialogue() {
+
     }
 }

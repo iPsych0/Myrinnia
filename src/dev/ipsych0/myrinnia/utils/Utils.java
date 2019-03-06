@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 
 import java.awt.image.BufferedImage;
@@ -130,6 +131,11 @@ public class Utils {
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         return i;
+    }
+
+    public static Script loadScript(String path) {
+        Script s = loadObjectFromJsonFile(path, "entities/npcs", Script.class);
+        return s;
     }
 
 }

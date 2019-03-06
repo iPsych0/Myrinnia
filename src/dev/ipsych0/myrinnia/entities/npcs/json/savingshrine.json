@@ -1,0 +1,44 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello. Would you like to save your game?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Yes, please. (Overwrites current save game)",
+          "nextId": 2
+        },
+        {
+          "text": "Don't save.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Saving will overwrite your current save game. Are you sure you want to overwrite your current save game?",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "options": [
+        {
+          "text": "Yes, I want to overwrite my current save game.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "saveGame",
+            "falseId":-1
+          }
+        },
+        {
+          "text": "Don't save.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

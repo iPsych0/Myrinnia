@@ -128,4 +128,9 @@ public class Tree extends StaticEntity {
         Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

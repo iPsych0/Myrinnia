@@ -5,6 +5,9 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
+import dev.ipsych0.myrinnia.entities.npcs.Choice;
+import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
+import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tiles;
@@ -15,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Entity implements Serializable {
 
@@ -38,8 +42,8 @@ public abstract class Entity implements Serializable {
     protected boolean staticNpc = false;
     protected boolean solid = true;
     protected Entity damageDealer, damageReceiver;
-    protected int speakingTurn = 1;
-    protected int speakingCheckpoint = 0;
+    protected int speakingTurn = 0;
+    protected int speakingCheckpoint = -1;
     protected transient ChatDialogue chatDialogue;
     protected boolean overlayDrawn = true;
     private int lastHit = 0;
@@ -47,6 +51,8 @@ public abstract class Entity implements Serializable {
     protected int combatTimer = 0;
     protected int respawnTimer = 600;
     protected Rectangle collision;
+    protected Script script;
+    protected String name;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -71,9 +77,9 @@ public abstract class Entity implements Serializable {
 
     public abstract void respawn();
 
-    public abstract void interact();
-
     public abstract String[] getEntityInfo(Entity hoveringEntity);
+
+    protected abstract void updateDialogue();
 
     /*
      * Checks the collision for Entities
@@ -388,6 +394,91 @@ public abstract class Entity implements Serializable {
         return collision;
     }
 
+    public void interact() {
+        if (script == null) {
+            return;
+        }
+
+        // If the conversation was reset, reinitialize the first time we interact again
+        if (speakingTurn == -1) {
+            chatDialogue = null;
+            speakingTurn = 0;
+            return;
+        }
+        // If there is only text to be displayed, advance to the next conversation
+        if (script.getDialogues().get(speakingTurn).getText() != null) {
+            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue.setChosenOption(null);
+            updateDialogue();
+            // If there is a condition to proceed, check the condition
+            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+                ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
+                String condition = choiceCondition.getCondition();
+                // Check if the condition is met
+                if(choiceConditionMet(condition)){
+                    setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+                }else{
+                    setSpeakingTurn(choiceCondition.getFalseId());
+                }
+            }else{
+                setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+            }
+
+        } else {
+            // If we only have a continue button, don't set a chosen 'option'
+            if (chatDialogue != null && chatDialogue.getMenuOptions().length == 1) {
+                chatDialogue.setChosenOption(null);
+            }
+            // If there is a choice menu and we selected a choice, handle the choice logic
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
+                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
+                // If there is a condition to proceed with the conversation, check it
+                if (choice.getChoiceCondition() != null) {
+                    String condition = choice.getChoiceCondition().getCondition();
+                    if (choiceConditionMet(condition)) {
+                        // If we meet the condition, proceed
+                        setSpeakingTurn(choice.getNextId());
+                    } else {
+                        // If we don't meet the condition, return to whatever menu falseId points to
+                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                } else {
+                    // If there is no condition, we can always proceed
+                    if (chatDialogue.getMenuOptions().length > 1) {
+                        setSpeakingTurn(choice.getNextId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                }
+            }
+
+            // Update the list of dialogue choices
+            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
+            String[] choices = new String[choiceList.size()];
+            for (int i = 0; i < choiceList.size(); i++) {
+                choices[i] = choiceList.get(i).getText();
+            }
+            chatDialogue = new ChatDialogue(choices);
+            updateDialogue();
+        }
+    }
+
+    /**
+     * MUST be overriden in the sub-class for specific behaviour!
+     *
+     * @param condition - The choice to check condition for
+     * @return true if condition is met, false if condition is not met
+     */
+    protected boolean choiceConditionMet(String condition) {
+        System.err.println("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
+        return false;
+    }
+
+
     // Getters & Setters
     public float getX() {
         return x;
@@ -553,4 +644,11 @@ public abstract class Entity implements Serializable {
         return respawnTimer;
     }
 
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -1,25 +1,27 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.SaveManager;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
-public class TeleportShrine extends StaticEntity {
+public class SavingShrine extends StaticEntity {
 
 
     /**
      *
      */
     private static final long serialVersionUID = -8566165980826138340L;
-    private String[] firstDialogue = {"Would you like to save your game?"};
-    private String[] secondDialogue = {"Save my game. (Overwrites current savegame)", "Don't save."};
 
-    public TeleportShrine(float x, float y) {
+    public SavingShrine(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+
+        script = Utils.loadScript("savingshrine.json");
 
         solid = true;
         attackable = false;
@@ -45,36 +47,14 @@ public class TeleportShrine extends StaticEntity {
     }
 
     @Override
-    public void interact() {
-        if (this.getSpeakingTurn() == 0) {
-            speakingTurn++;
-            return;
-        } else if (this.getSpeakingTurn() == 1) {
-            chatDialogue = new ChatDialogue(firstDialogue);
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 2) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            chatDialogue = new ChatDialogue(secondDialogue);
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 3) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                speakingTurn = 1;
-                chatDialogue = null;
-
-                // Save the game
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
+            case "saveGame":
                 SaveManager.savehandler();
-                Handler.get().sendMsg("Game Saved!");
-            } else {
-                speakingTurn = 1;
-                chatDialogue = null;
-            }
+                return true;
+            default:
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
+                return false;
         }
     }
 
@@ -93,6 +73,11 @@ public class TeleportShrine extends StaticEntity {
 
     @Override
     public void respawn() {
+
+    }
+
+    @Override
+    protected void updateDialogue() {
 
     }
 

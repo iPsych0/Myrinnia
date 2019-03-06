@@ -18,6 +18,7 @@ public class SaveManager {
     public static void savehandler() {
         FileOutputStream f;
         ObjectOutputStream o;
+        boolean success = false;
         try {
             f = new FileOutputStream(new File("res/savegames/save.dat"));
 
@@ -30,9 +31,14 @@ public class SaveManager {
             o.close();
             f.close();
             Handler.get().playEffect("ui/save_game.wav");
+            success = true;
         } catch (IOException e) {
             e.printStackTrace();
-            Handler.get().sendMsg("WARNING: Could not save your game, please try again!");
+            Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
+        }
+
+        if(success){
+            Handler.get().sendMsg("Game successfully saved!");
         }
     }
 

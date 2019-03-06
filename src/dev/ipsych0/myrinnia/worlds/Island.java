@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.worlds;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
+import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.utils.MapLoader;
@@ -45,7 +46,8 @@ public class Island extends World {
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));
 
-        entityManager.addEntity(new TeleportShrine(5056, 5532));
+        entityManager.addEntity(new SavingShrine(5056, 5532));
+        entityManager.addEntity(new TestNPC(5056, 5564));
         entityManager.addEntity(new AbilityMaster(5088, 5532));
 
         // Southern cliffs

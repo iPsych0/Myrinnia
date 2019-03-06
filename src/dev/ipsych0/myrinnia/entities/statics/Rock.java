@@ -127,4 +127,9 @@ public class Rock extends StaticEntity {
         Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn));
     }
 
+    @Override
+    protected void updateDialogue() {
+
+    }
+
 }

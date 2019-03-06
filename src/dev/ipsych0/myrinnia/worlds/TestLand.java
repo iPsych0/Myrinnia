@@ -1,9 +1,9 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.npcs.Lorraine;
+import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.statics.Rock;
-import dev.ipsych0.myrinnia.entities.statics.TeleportShrine;
+import dev.ipsych0.myrinnia.entities.statics.SavingShrine;
 import dev.ipsych0.myrinnia.entities.statics.Tree;
 import dev.ipsych0.myrinnia.entities.statics.Whirlpool;
 import dev.ipsych0.myrinnia.utils.MapLoader;
@@ -29,7 +29,7 @@ public class TestLand extends World {
 
         loadWorld(path);
 
-        entityManager.addEntity(new Lorraine(732, 440));
+        entityManager.addEntity(new ShopKeeperNPC("General Store", 732, 440));
 
         entityManager.addEntity(new Tree(360, 128));
         entityManager.addEntity(new Tree(328, 128));
@@ -38,7 +38,7 @@ public class TestLand extends World {
 
         entityManager.addEntity(new Rock(448, 576));
 
-        entityManager.addEntity(new TeleportShrine(200, 200));
+        entityManager.addEntity(new SavingShrine(200, 200));
 
         entityManager.addEntity(new Whirlpool(112, 928));
 
