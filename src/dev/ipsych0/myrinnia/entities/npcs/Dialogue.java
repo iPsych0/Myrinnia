@@ -7,18 +7,14 @@ public class Dialogue {
     private int nextId;
     private String text;
     private List<Choice> options;
+    private ChoiceCondition choiceCondition;
 
-    public Dialogue(int id, int nextId, String text) {
-        this.id = id;
-        this.nextId = nextId;
-        this.text = text;
-    }
-
-    public Dialogue(int id, int nextId, String text, List<Choice> options) {
+    public Dialogue(int id, int nextId, String text, List<Choice> options, ChoiceCondition choiceCondition) {
         this.id = id;
         this.nextId = nextId;
         this.text = text;
         this.options = options;
+        this.choiceCondition = choiceCondition;
     }
 
     public int getId() {
@@ -51,5 +47,13 @@ public class Dialogue {
 
     public void setOptions(List<Choice> options) {
         this.options = options;
+    }
+
+    public ChoiceCondition getChoiceCondition() {
+        return choiceCondition;
+    }
+
+    public void setChoiceCondition(ChoiceCondition choiceCondition) {
+        this.choiceCondition = choiceCondition;
     }
 }

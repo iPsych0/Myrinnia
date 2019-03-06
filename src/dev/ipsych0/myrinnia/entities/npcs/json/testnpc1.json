@@ -21,7 +21,11 @@
     {
       "id": 2,
       "text": "Well, I don't have a story. Sorry, kid.",
-      "nextId": 3
+      "nextId": 3,
+      "choiceCondition": {
+        "condition": "has1testsword",
+        "falseId":9
+      }
     },
     {
       "id": 3,
@@ -49,7 +53,7 @@
       "id": 5,
       "options": [
         {
-          "text": "Tell me More",
+          "text": "Tell me more",
           "nextId": 6
         },
         {
@@ -75,6 +79,11 @@
     {
       "id": 8,
       "text": "Oh, you don't have 1,000 gold...",
+      "nextId": -1
+    },
+    {
+      "id": 9,
+      "text": "You don't have a test sword.",
       "nextId": -1
     }
   ]

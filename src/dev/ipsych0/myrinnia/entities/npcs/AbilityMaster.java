@@ -61,14 +61,14 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     }
 
     @Override
-    protected boolean choiceConditionMet(Choice choice) {
-        switch (choice.getChoiceCondition().getCondition()) {
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
             case "has1000gold":
                 if(Handler.get().playerHasItem(Item.coins, 1000)) {
                     resetSkillPoints();
                     return true;
                 }
-                return false;
+                break;
             case "openShop":
                 if (!AbilityShopWindow.isOpen) {
                     Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
@@ -76,9 +76,11 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                 }
                 return true;
             default:
-                System.err.println("CHOICE CONDITION '" + choice.getChoiceCondition().getCondition() + "' NOT PROGRAMMED!");
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 return false;
         }
+
+        return false;
     }
 
     @Override

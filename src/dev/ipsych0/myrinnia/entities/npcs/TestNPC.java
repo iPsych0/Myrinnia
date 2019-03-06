@@ -48,23 +48,28 @@ public class TestNPC extends StaticEntity {
     }
 
     @Override
-    protected boolean choiceConditionMet(Choice choice) {
-        switch (choice.getChoiceCondition().getCondition()) {
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
             case "has100gold":
-                if (!Handler.get().playerHasItem(Item.coins, 100)) {
-                    return false;
+                if (Handler.get().playerHasItem(Item.coins, 100)) {
+                    return true;
                 }
                 break;
             case "has1000gold":
-                if (!Handler.get().playerHasItem(Item.coins, 1000)) {
-                    return false;
+                if (Handler.get().playerHasItem(Item.coins, 1000)) {
+                    return true;
+                }
+                break;
+            case "has1testsword":
+                if (Handler.get().playerHasItem(Item.testSword, 1)) {
+                    return true;
                 }
                 break;
             default:
-                System.err.println("CHOICE CONDITION '" + choice.getChoiceCondition().getCondition() + "' NOT PROGRAMMED!");
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 return false;
         }
-        return true;
+        return false;
     }
 
     @Override

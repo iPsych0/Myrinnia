@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
+import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
@@ -394,6 +395,10 @@ public abstract class Entity implements Serializable {
     }
 
     public void interact() {
+        if (script == null) {
+            return;
+        }
+
         // If the conversation was reset, reinitialize the first time we interact again
         if (speakingTurn == -1) {
             chatDialogue = null;
@@ -405,17 +410,32 @@ public abstract class Entity implements Serializable {
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
             updateDialogue();
-            setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+            // If there is a condition to proceed, check the condition
+            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+                ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
+                String condition = choiceCondition.getCondition();
+                // Check if the condition is met
+                if(choiceConditionMet(condition)){
+                    setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+                }else{
+                    setSpeakingTurn(choiceCondition.getFalseId());
+                }
+            }else{
+                setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+            }
+
         } else {
-            // If there is a choice menu and we selected a choice, handle the choice logic
-            if(chatDialogue != null && chatDialogue.getMenuOptions().length == 1){
+            // If we only have a continue button, don't set a chosen 'option'
+            if (chatDialogue != null && chatDialogue.getMenuOptions().length == 1) {
                 chatDialogue.setChosenOption(null);
             }
+            // If there is a choice menu and we selected a choice, handle the choice logic
             if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
                 Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
                 // If there is a condition to proceed with the conversation, check it
                 if (choice.getChoiceCondition() != null) {
-                    if (choiceConditionMet(choice)) {
+                    String condition = choice.getChoiceCondition().getCondition();
+                    if (choiceConditionMet(condition)) {
                         // If we meet the condition, proceed
                         setSpeakingTurn(choice.getNextId());
                     } else {
@@ -449,10 +469,11 @@ public abstract class Entity implements Serializable {
 
     /**
      * MUST be overriden in the sub-class for specific behaviour!
-     * @param choice - The choice to check condition for
+     *
+     * @param condition - The choice to check condition for
      * @return true if condition is met, false if condition is not met
      */
-    protected boolean choiceConditionMet(Choice choice){
+    protected boolean choiceConditionMet(String condition) {
         System.err.println("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
         return false;
     }

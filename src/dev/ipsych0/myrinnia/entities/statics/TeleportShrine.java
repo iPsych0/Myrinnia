@@ -44,39 +44,39 @@ public class TeleportShrine extends StaticEntity {
                 , width, height, null);
     }
 
-    @Override
-    public void interact() {
-        if (this.getSpeakingTurn() == 0) {
-            speakingTurn++;
-            return;
-        } else if (this.getSpeakingTurn() == 1) {
-            chatDialogue = new ChatDialogue(firstDialogue);
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 2) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            chatDialogue = new ChatDialogue(secondDialogue);
-            speakingTurn++;
-        } else if (this.getSpeakingTurn() == 3) {
-            if (chatDialogue == null) {
-                speakingTurn = 1;
-                return;
-            }
-            if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                speakingTurn = 1;
-                chatDialogue = null;
-
-                // Save the game
-                SaveManager.savehandler();
-                Handler.get().sendMsg("Game Saved!");
-            } else {
-                speakingTurn = 1;
-                chatDialogue = null;
-            }
-        }
-    }
+//    @Override
+//    public void interact() {
+//        if (this.getSpeakingTurn() == 0) {
+//            speakingTurn++;
+//            return;
+//        } else if (this.getSpeakingTurn() == 1) {
+//            chatDialogue = new ChatDialogue(firstDialogue);
+//            speakingTurn++;
+//        } else if (this.getSpeakingTurn() == 2) {
+//            if (chatDialogue == null) {
+//                speakingTurn = 1;
+//                return;
+//            }
+//            chatDialogue = new ChatDialogue(secondDialogue);
+//            speakingTurn++;
+//        } else if (this.getSpeakingTurn() == 3) {
+//            if (chatDialogue == null) {
+//                speakingTurn = 1;
+//                return;
+//            }
+//            if (chatDialogue.getChosenOption().getOptionID() == 0) {
+//                speakingTurn = 1;
+//                chatDialogue = null;
+//
+//                // Save the game
+//                SaveManager.savehandler();
+//                Handler.get().sendMsg("Game Saved!");
+//            } else {
+//                speakingTurn = 1;
+//                chatDialogue = null;
+//            }
+//        }
+//    }
 
     public int getSpeakingTurn() {
         return speakingTurn;
