@@ -52,7 +52,7 @@ public abstract class Entity implements Serializable {
     protected int respawnTimer = 600;
     protected Rectangle collision;
     protected Script script;
-    private boolean optionScreen = false;
+    protected String name;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -644,4 +644,11 @@ public abstract class Entity implements Serializable {
         return respawnTimer;
     }
 
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

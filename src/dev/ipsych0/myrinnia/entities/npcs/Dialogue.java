@@ -1,8 +1,11 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Dialogue {
+public class Dialogue implements Serializable {
+
+    private static final long serialVersionUID = 3938148491483864567L;
     private int id;
     private int nextId;
     private String text;

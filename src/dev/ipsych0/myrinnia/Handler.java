@@ -262,6 +262,14 @@ public class Handler implements Serializable {
         return questManager.getQuestMap().get(quest).getState() != QuestState.NOT_STARTED;
     }
 
+    public boolean questInProgress(QuestList quest) {
+        return questManager.getQuestMap().get(quest).getState() == QuestState.IN_PROGRESS;
+    }
+
+    public boolean questCompleted(QuestList quest) {
+        return questManager.getQuestMap().get(quest).getState() == QuestState.COMPLETED;
+    }
+
     public Quest getQuest(QuestList quest) {
         return questManager.getQuestMap().get(quest);
     }

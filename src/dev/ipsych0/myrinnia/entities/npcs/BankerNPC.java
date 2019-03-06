@@ -4,6 +4,10 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -13,10 +17,11 @@ public class BankerNPC extends Banker implements Serializable {
     private static final long serialVersionUID = -4843560960961688987L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
-    private String[] firstDialogue = {"Please show me my bank.", "Never mind."};
 
     public BankerNPC(float x, float y) {
         super(x, y);
+
+        script = Utils.loadScript("banker.json");
     }
 
     @Override
@@ -36,37 +41,16 @@ public class BankerNPC extends Banker implements Serializable {
     }
 
     @Override
-    public void interact() {
-        switch (speakingTurn) {
-
-            case 0:
-                speakingTurn++;
-                return;
-
-            case 1:
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
+            case "openBank":
                 if (!BankUI.isOpen) {
-                    chatDialogue = new ChatDialogue(firstDialogue);
-                    speakingTurn++;
-                    break;
-                } else {
-                    speakingTurn = 1;
-                    break;
-                }
-            case 2:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     BankUI.open();
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
                 }
+                return true;
+            default:
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
+                return false;
         }
     }
 
@@ -83,6 +67,10 @@ public class BankerNPC extends Banker implements Serializable {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    public String getName() {
+        return "Banker";
     }
 
 }

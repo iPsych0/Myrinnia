@@ -1,7 +1,11 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
-public class Choice {
+import java.io.Serializable;
 
+public class Choice implements Serializable {
+
+
+    private static final long serialVersionUID = -4854392724760684905L;
     private String text;
     private int nextId;
     private ChoiceCondition choiceCondition;

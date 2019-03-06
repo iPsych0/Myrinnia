@@ -46,7 +46,7 @@ public class Island extends World {
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));
 
-        entityManager.addEntity(new TeleportShrine(5056, 5532));
+        entityManager.addEntity(new SavingShrine(5056, 5532));
         entityManager.addEntity(new TestNPC(5056, 5564));
         entityManager.addEntity(new AbilityMaster(5088, 5532));
 

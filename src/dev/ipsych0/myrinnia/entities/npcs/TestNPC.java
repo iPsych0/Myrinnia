@@ -17,10 +17,7 @@ import java.util.List;
 public class TestNPC extends StaticEntity {
 
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8566165980826138340L;
+    private static final long serialVersionUID = 101550362959052644L;
 
     public TestNPC(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);

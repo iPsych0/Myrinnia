@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
-public class ChoiceCondition {
+import java.io.Serializable;
+
+public class ChoiceCondition implements Serializable {
+
+    private static final long serialVersionUID = -3575379862319618444L;
     private String condition;
     private int falseId;
 

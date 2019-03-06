@@ -184,7 +184,7 @@ public class Assets {
 
         SpriteSheet enemy_sheet = new SpriteSheet("/textures/enemysprites.png");
         /*
-         * Crop Lorraine out
+         * Crop ShopKeeperNPC out
          */
         SpriteSheet lorraine_sprites = new SpriteSheet("/textures/lorrainesprites.png");
         SpriteSheet object_sheet = new SpriteSheet("/textures/object_sprites11.png");

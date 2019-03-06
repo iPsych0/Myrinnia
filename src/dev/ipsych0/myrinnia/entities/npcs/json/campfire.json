@@ -1,0 +1,57 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "This fireplace looks interesting.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "startFirstQuest",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Feel the fire.",
+          "nextId": 3,
+          "choiceCondition": {
+            "condition": "progressFirstQuest",
+            "falseId": 2
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "There is nothing in the fireplace.",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "You almost burned your fingers trying to examine the fire. However, a sword is revealed.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Take the sword.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "takeSword",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave it.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

@@ -88,7 +88,7 @@ public class ChatDialogue implements Serializable {
         }
 
         g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
-        Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
     }
 
     public ArrayList<ChatOption> getChatOptions() {
