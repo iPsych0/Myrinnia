@@ -71,7 +71,7 @@ public class MenuState extends State {
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
-                Handler.get().playMusic(Zone.Island);
+                Handler.get().playMusic(Zone.AzurealIsland);
                 hasBeenPressed = false;
             }
         }

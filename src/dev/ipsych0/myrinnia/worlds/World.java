@@ -118,7 +118,7 @@ public abstract class World implements Serializable {
             for (int y = yStart; y < yEnd; y++) {
                 for (int x = xStart; x < xEnd; x++) {
                     Tiles t = getTile(i, x, y);
-                    if (t != Tiles.tiles[736]) {
+                    if (t != Tiles.tiles[0]) {
                         t.render(g, (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
                                 (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
                     }
@@ -176,11 +176,11 @@ public abstract class World implements Serializable {
 
     public Tiles getTile(int layer, int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height)
-            return Tiles.tiles[28];
+            return Tiles.tiles[0];
 
         Tiles t = Tiles.tiles[tiles[layer][x][y]];
         if (t == null)
-            return Tiles.tiles[736];
+            return Tiles.tiles[0];
         return t;
     }
 

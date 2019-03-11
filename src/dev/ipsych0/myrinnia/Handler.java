@@ -33,10 +33,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.Island;
-import dev.ipsych0.myrinnia.worlds.World;
-import dev.ipsych0.myrinnia.worlds.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.*;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -52,7 +49,7 @@ public class Handler implements Serializable {
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
     private World world;
-    private Island island;
+    private AzurealIsland azurealIsland;
     private WorldHandler worldHandler;
     private Player player;
     private ChatWindow chatWindow;
@@ -69,7 +66,7 @@ public class Handler implements Serializable {
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
-    public static String initialWorldPath = "res/worlds/island.tmx";
+    public static String initialWorldPath = "res/worlds/azureal_island.tmx";
 
     private static Handler handler;
 
@@ -94,7 +91,7 @@ public class Handler implements Serializable {
         handler.setGame(Game.get());
 
         // Instantiate the player
-        player = new Player(5120, 5600);
+        player = new Player(32, 32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -111,10 +108,9 @@ public class Handler implements Serializable {
         abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
 
-
         // Set the starting world
-        island = new Island("res/worlds/island.tmx");
-        worldHandler = new WorldHandler(island);
+        azurealIsland = new AzurealIsland(initialWorldPath);
+        worldHandler = new WorldHandler(azurealIsland);
     }
 
     public void playMusic(Zone zone) {
@@ -130,6 +126,21 @@ public class Handler implements Serializable {
 
             // Fade from first song to the next
             AudioManager.fadeSongs(zone, buffer);
+        }
+    }
+
+    public void playMusic(String song) {
+        if (!soundMuted) {
+            int buffer = -1;
+            try {
+                buffer = AudioManager.loadSound("res/music/songs/" + song);
+            } catch (FileNotFoundException e) {
+                System.err.println("Couldn't find file: " + song);
+                e.printStackTrace();
+            }
+
+            // Fade from first song to the next
+            AudioManager.fadeSongs(song, buffer);
         }
     }
 

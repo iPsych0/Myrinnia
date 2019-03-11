@@ -14,10 +14,10 @@ public class WorldHandler implements Serializable {
     private ArrayList<World> worlds;
     private HashMap<Zone, World> worldsMap;
 
-    public WorldHandler(Island island) {
+    public WorldHandler(AzurealIsland azurealIsland) {
         worlds = new ArrayList<World>();
         worldsMap = new HashMap<Zone, World>();
-        addWorld(island); // Starting world
+        addWorld(azurealIsland); // Starting world
 
         initWorlds();
     }
@@ -28,6 +28,7 @@ public class WorldHandler implements Serializable {
 		addWorld(new Myrinnia("res/worlds/island.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
         addWorld(new SwampLand("res/worlds/testmap.tmx"));
         addWorld(new IslandUnderground("res/worlds/island_indoors.tmx"));
+        addWorld(new Island("res/worlds/island.tmx"));
 
         try {
             worlds.sort(Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));

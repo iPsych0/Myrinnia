@@ -39,7 +39,7 @@ public class DirtHole extends StaticEntity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.dirtHole, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.eruptionI, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

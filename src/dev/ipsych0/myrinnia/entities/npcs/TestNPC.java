@@ -40,7 +40,7 @@ public class TestNPC extends StaticEntity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.barrel1, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.player_down[0], (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

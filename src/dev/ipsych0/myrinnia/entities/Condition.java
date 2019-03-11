@@ -138,7 +138,7 @@ public class Condition implements Serializable {
     }
 
     public enum Type {
-        BURNING(Assets.fireballI), CHILL(Assets.mendWoundsI), BLEEDING(Assets.testSword), POISON(Assets.greenMushroom), STUN(Assets.undiscovered);
+        BURNING(Assets.fireballI), CHILL(Assets.mendWoundsI), BLEEDING(Assets.testSword), POISON(Assets.rock), STUN(Assets.undiscovered);
 
         Type(BufferedImage img) {
             this.img = img;

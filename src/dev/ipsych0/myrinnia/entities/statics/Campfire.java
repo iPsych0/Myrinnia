@@ -63,8 +63,9 @@ public class Campfire extends StaticEntity {
                 if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
                     Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
                     Handler.get().addQuestStep(QuestList.TheFirstQuest, "Solve the mystery of the campfire.");
+                    return true;
                 }
-                return true;
+                return false;
             case "takeSword":
                 if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
                     if (!Handler.get().invIsFull(Item.testSword)) {

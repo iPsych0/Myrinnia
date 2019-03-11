@@ -149,4 +149,34 @@ public class AudioManager {
         }
     }
 
+    public static void fadeSongs(String newSong, int buffer) {
+        if (musicFiles.size() > 0) {
+            if (AudioManager.zone != null) {
+                if (!AudioManager.zone.getMusicFile().equals(newSong)) {
+                    musicFiles.add(new Source());
+                    if (musicFiles.size() > 2) {
+                        for (int i = 1; i < musicFiles.size() - 1; i++) {
+                            musicFiles.get(i).delete();
+                        }
+                    } else {
+                        musicFiles.get(0).setFadingOut(true);
+                    }
+                    musicFiles.get(musicFiles.size()-1).setVolume(0.0f);
+                    musicFiles.get(musicFiles.size()-1).setFadingIn(true);
+                    musicFiles.get(musicFiles.size()-1).setLooping(true);
+                    musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+                } else {
+                    for (int i = 0; i < musicFiles.size() - 1; i++) {
+                        musicFiles.get(i).setFadingOut(true);
+                    }
+                }
+            }
+        } else {
+            musicFiles.add(new Source());
+            musicFiles.get(musicFiles.size()-1).setVolume(0.4f);
+            musicFiles.get(musicFiles.size()-1).setLooping(true);
+            musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+        }
+    }
+
 }

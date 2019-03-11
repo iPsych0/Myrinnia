@@ -1075,7 +1075,7 @@ public class Player extends Creature {
         }
 
         // If lastFaced is null, return black tile
-        return Assets.black;
+        return Assets.player_down[1];
     }
 
     /*

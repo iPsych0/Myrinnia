@@ -35,7 +35,7 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.workbench, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+        g.drawImage(Assets.mainhandSlot, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 
     }
 
