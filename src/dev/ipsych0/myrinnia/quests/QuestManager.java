@@ -56,12 +56,12 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        islandQuests.add(new Quest("The First Quest", Zone.Island));
-        islandQuests.add(new Quest("The Second Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
-        islandQuests.add(new Quest("The Third Quest", Zone.Island));
+        islandQuests.add(new Quest("The First Quest", Zone.AzurealIsland));
+        islandQuests.add(new Quest("The Second Quest", Zone.AzurealIsland, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
+        islandQuests.add(new Quest("The Third Quest", Zone.AzurealIsland));
 
         // Test Quests
-        testQuests.add(new Quest("The Test Quest", Zone.IslandUnderground));
+        testQuests.add(new Quest("The Test Quest", Zone.SwampLand));
 
         //Main Quests
         mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
@@ -103,7 +103,13 @@ public class QuestManager implements Serializable {
 
         // Mapping the Zones together with the correct list of quests
         for (int i = 0; i < allQuestLists.size(); i++) {
-            zoneMap.put(zoneEnums.get(i), allQuestLists.get(i));
+            for (int j = 0; j < zoneEnums.size(); j++) {
+                // Only put in the map Zones that we actually have in our 'all' quests list
+                if (allQuestLists.get(i).get(0).getZone().toString().equalsIgnoreCase(zoneEnums.get(j).toString())) {
+                    zoneMap.put(zoneEnums.get(j), allQuestLists.get(i));
+
+                }
+            }
         }
     }
 
