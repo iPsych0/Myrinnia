@@ -16,8 +16,10 @@ public class Assets {
     public static BufferedImage invisible, blackTile;
 
     public static BufferedImage grassTopLeft, grassTopMiddle, grassTopRight, grassMiddleLeft, grassMiddleMiddle,
-    grassMiddleRight, grassBottomLeft, grassBottomMiddle, grassBottomRight, grassSmallTopLeft, grassSmallTopRight,
-    grassSmallBottomLeft, grassSmallBottomRight;
+            grassMiddleRight, grassBottomLeft, grassBottomMiddle, grassBottomRight, grassSmallTopLeft, grassSmallTopRight,
+            grassSmallBottomLeft, grassSmallBottomRight, dirtTopLeft, dirtTopMiddle, dirtTopRight, dirtMiddleLeft,
+            dirtMiddleMiddle, dirtMiddleRight, dirtBottomLeft, dirtBottomMiddle, dirtBottomRight, dirtSmallTopLeft,
+            dirtSmallTopRight, dirtSmallBottomLeft, dirtSmallBottomRight;
 
     // Object images
 
@@ -62,7 +64,7 @@ public class Assets {
 
     // Equipment UI
     public static BufferedImage equipSlot, equipScreen, equipStats;
-    public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
+    public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot,amuletSlot, offhandSlot, capeSlot, ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
     // Chatwindow UI
@@ -149,8 +151,8 @@ public class Assets {
         SpriteSheet myrinnia_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
 
         // Invisible Tile
-        invisible = myrinnia_tiles.imageCrop(19, 29);
-        Tiles.tiles[0] = new Tiles(invisible, 0, false);
+//        invisible = myrinnia_tiles.imageCrop(19, 29);
+//        Tiles.tiles[0] = new Tiles(invisible, 0, false);
         blackTile = texture_sheet.imageCrop(3, 6);
 
         grassTopLeft = myrinnia_tiles.tileCrop(0, 0);
@@ -166,6 +168,20 @@ public class Assets {
         grassSmallTopRight = myrinnia_tiles.tileCrop(4, 0);
         grassSmallBottomLeft = myrinnia_tiles.tileCrop(3, 1);
         grassSmallBottomRight = myrinnia_tiles.tileCrop(4, 1);
+
+        dirtTopLeft = myrinnia_tiles.tileCrop(5, 0);
+        dirtTopMiddle = myrinnia_tiles.tileCrop(6, 0);
+        dirtTopRight = myrinnia_tiles.tileCrop(7, 0);
+        dirtMiddleLeft = myrinnia_tiles.tileCrop(5, 1);
+        dirtMiddleMiddle = myrinnia_tiles.tileCrop(6, 1);
+        dirtMiddleRight = myrinnia_tiles.tileCrop(7, 1);
+        dirtBottomLeft = myrinnia_tiles.tileCrop(5, 2);
+        dirtBottomMiddle = myrinnia_tiles.tileCrop(6, 2);
+        dirtBottomRight = myrinnia_tiles.tileCrop(7, 2);
+        dirtSmallTopLeft = myrinnia_tiles.tileCrop(8, 0);
+        dirtSmallTopRight = myrinnia_tiles.tileCrop(9, 0);
+        dirtSmallBottomLeft = myrinnia_tiles.tileCrop(8, 1);
+        dirtSmallBottomRight = myrinnia_tiles.tileCrop(9, 1);
 
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];

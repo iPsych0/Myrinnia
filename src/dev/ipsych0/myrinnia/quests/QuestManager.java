@@ -66,8 +66,6 @@ public class QuestManager implements Serializable {
         //Main Quests
         mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
 
-        Collections.sort(islandQuests, (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
-
         // Sorts every list's quests by name, alphabetically
         for (int i = 0; i < allQuestLists.size(); i++) {
             Collections.sort(allQuestLists.get(i), (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
@@ -75,15 +73,18 @@ public class QuestManager implements Serializable {
 
         // Sort the enum list of quests alphabetically as well
         List<QuestList> questEnums = Arrays.asList(QuestList.values());
-        Collections.sort(questEnums, (o1, o2) -> o1.getZone().toString().compareTo(o2.getZone().toString()));
+        Collections.sort(questEnums, (o1, o2) -> o1.toString().compareTo(o2.toString()));
 
-        int index = 0;
         // Maps the QuestList enums to the Quest objects
         for (int i = 0; i < allQuestLists.size(); i++) {
             for (int j = 0; j < allQuestLists.get(i).size(); j++) {
                 try {
-                    questMap.put(questEnums.get(index), allQuestLists.get(i).get(j));
-                    index++;
+                    for(int k = 0; k < questEnums.size(); k++){
+                        if(questEnums.get(k).getName().equalsIgnoreCase(allQuestLists.get(i).get(j).getQuestName())){
+                            questMap.put(questEnums.get(k), allQuestLists.get(i).get(j));
+                            break;
+                        }
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println("Error mapping quests to enums. Please check if you have added the quest to 'QuestList.java'.");
                     System.exit(1);
@@ -107,7 +108,7 @@ public class QuestManager implements Serializable {
                 // Only put in the map Zones that we actually have in our 'all' quests list
                 if (allQuestLists.get(i).get(0).getZone().toString().equalsIgnoreCase(zoneEnums.get(j).toString())) {
                     zoneMap.put(zoneEnums.get(j), allQuestLists.get(i));
-
+                    break;
                 }
             }
         }

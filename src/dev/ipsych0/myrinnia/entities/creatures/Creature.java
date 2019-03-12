@@ -202,10 +202,11 @@ public abstract class Creature extends Entity {
 
         boolean walkableOnTop = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-            if (Handler.get().getWorld().getTile(i, x, y).isSolid()) {
+            Tiles t = Handler.get().getWorld().getTile(i, x, y);
+            if (t != null && t.isSolid()) {
                 walkableOnTop = false;
             } else {
-                if (Handler.get().getWorld().getTile(i, x, y) != Tiles.tiles[0])
+                if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;
             }
         }

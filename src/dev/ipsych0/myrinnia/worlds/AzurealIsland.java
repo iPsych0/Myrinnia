@@ -36,7 +36,7 @@ public class AzurealIsland extends World {
 
         entityManager.addEntity(new SavingShrine(5056, 5532));
         entityManager.addEntity(new TestNPC(5056, 5564));
-        entityManager.addEntity(new AbilityMaster(5088, 5532));
+        entityManager.addEntity(new AbilityMaster(150, 150));
 
         // Southern cliffs
         entityManager.addEntity(new Whirlpool(1280, 6320));

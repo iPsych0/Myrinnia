@@ -5,15 +5,15 @@ import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ItemManager;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -25,6 +25,8 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 
 public abstract class World implements Serializable {
 
@@ -38,6 +40,8 @@ public abstract class World implements Serializable {
     protected String[] layers;
     private Color night = new Color(0, 13, 35);
     protected String worldPath;
+    private boolean nightTime = false;
+    private int timeChecker = 60 * 60;
 
     // Entities
 
@@ -103,6 +107,18 @@ public abstract class World implements Serializable {
             player.getAbilityTrainer().getAbilityShopWindow().tick();
         }
 
+        // Check for night-time every minute
+        if(timeChecker++ >= 60 * 60){
+            timeChecker = 0;
+
+            // Get the current hour of day
+            Calendar c = Calendar.getInstance();
+            int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+            // Set to night time if between 8 PM and 8 AM
+            nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
+        }
+
     }
 
     public void render(Graphics g) {
@@ -130,16 +146,17 @@ public abstract class World implements Serializable {
 
         itemManager.render(g);
 
-        // Entities & chat
+        // Entities
         entityManager.render(g);
-        chatWindow.render(g);
         entityManager.postRender(g);
-		
-		/* Uncomment to 
-		if(nightTime) {
-			renderNight(g);
-		}
-		*/
+
+        if(nightTime) {
+            renderNight(g);
+        }
+
+        // Chat
+        chatWindow.render(g);
+
 
         hpOverlay.render(g);
 
@@ -176,12 +193,8 @@ public abstract class World implements Serializable {
 
     public Tiles getTile(int layer, int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height)
-            return Tiles.tiles[0];
-
-        Tiles t = Tiles.tiles[tiles[layer][x][y]];
-        if (t == null)
-            return Tiles.tiles[0];
-        return t;
+            return null;
+        return Tiles.tiles[tiles[layer][x][y]];
     }
 
     protected boolean standingOnTile(Rectangle box) {
