@@ -122,6 +122,8 @@ public abstract class World implements Serializable {
     }
 
     public void render(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         // Set variables for rendering only the tiles that show on screen
         int xStart = (int) Math.max(0, Handler.get().getGameCamera().getxOffset() / Tiles.TILEWIDTH);
         int xEnd = (int) Math.min(width, (Handler.get().getGameCamera().getxOffset() + Handler.get().getWidth()) / Tiles.TILEWIDTH + 1);
@@ -150,9 +152,9 @@ public abstract class World implements Serializable {
         entityManager.render(g);
         entityManager.postRender(g);
 
-        if(nightTime) {
-            renderNight(g);
-        }
+//        if(nightTime) {
+//            renderNight(g);
+//        }
 
         // Chat
         chatWindow.render(g);

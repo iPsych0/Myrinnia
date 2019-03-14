@@ -13,13 +13,6 @@ public class Assets {
     public static Font font14, font20, font24, font32, font48, font64;
 
     // Terrain images (paths, lava, water, etc)
-    public static BufferedImage invisible, blackTile;
-
-    public static BufferedImage grassTopLeft, grassTopMiddle, grassTopRight, grassMiddleLeft, grassMiddleMiddle,
-            grassMiddleRight, grassBottomLeft, grassBottomMiddle, grassBottomRight, grassSmallTopLeft, grassSmallTopRight,
-            grassSmallBottomLeft, grassSmallBottomRight, dirtTopLeft, dirtTopMiddle, dirtTopRight, dirtMiddleLeft,
-            dirtMiddleMiddle, dirtMiddleRight, dirtBottomLeft, dirtBottomMiddle, dirtBottomRight, dirtSmallTopLeft,
-            dirtSmallTopRight, dirtSmallBottomLeft, dirtSmallBottomRight;
 
     // Object images
 
@@ -150,38 +143,85 @@ public class Assets {
          */
         SpriteSheet myrinnia_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
 
-        // Invisible Tile
-//        invisible = myrinnia_tiles.imageCrop(19, 29);
-//        Tiles.tiles[0] = new Tiles(invisible, 0, false);
-        blackTile = texture_sheet.imageCrop(3, 6);
+        // Grass
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 3; j++){
+                if(j == 2 && i > 3){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
 
-        grassTopLeft = myrinnia_tiles.tileCrop(0, 0);
-        grassTopMiddle = myrinnia_tiles.tileCrop(1, 0);
-        grassTopRight = myrinnia_tiles.tileCrop(2, 0);
-        grassMiddleLeft = myrinnia_tiles.tileCrop(0, 1);
-        grassMiddleMiddle = myrinnia_tiles.tileCrop(1, 1);
-        grassMiddleRight = myrinnia_tiles.tileCrop(2, 1);
-        grassBottomLeft = myrinnia_tiles.tileCrop(0, 2);
-        grassBottomMiddle = myrinnia_tiles.tileCrop(1, 2);
-        grassBottomRight = myrinnia_tiles.tileCrop(2, 2);
-        grassSmallTopLeft = myrinnia_tiles.tileCrop(3, 0);
-        grassSmallTopRight = myrinnia_tiles.tileCrop(4, 0);
-        grassSmallBottomLeft = myrinnia_tiles.tileCrop(3, 1);
-        grassSmallBottomRight = myrinnia_tiles.tileCrop(4, 1);
+        // Dirt
+        for(int i = 5; i < 10; i++){
+            for(int j = 0; j < 3; j++){
+                if(j == 2 && i > 8){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
 
-        dirtTopLeft = myrinnia_tiles.tileCrop(5, 0);
-        dirtTopMiddle = myrinnia_tiles.tileCrop(6, 0);
-        dirtTopRight = myrinnia_tiles.tileCrop(7, 0);
-        dirtMiddleLeft = myrinnia_tiles.tileCrop(5, 1);
-        dirtMiddleMiddle = myrinnia_tiles.tileCrop(6, 1);
-        dirtMiddleRight = myrinnia_tiles.tileCrop(7, 1);
-        dirtBottomLeft = myrinnia_tiles.tileCrop(5, 2);
-        dirtBottomMiddle = myrinnia_tiles.tileCrop(6, 2);
-        dirtBottomRight = myrinnia_tiles.tileCrop(7, 2);
-        dirtSmallTopLeft = myrinnia_tiles.tileCrop(8, 0);
-        dirtSmallTopRight = myrinnia_tiles.tileCrop(9, 0);
-        dirtSmallBottomLeft = myrinnia_tiles.tileCrop(8, 1);
-        dirtSmallBottomRight = myrinnia_tiles.tileCrop(9, 1);
+        // Water
+        for(int i = 10; i < 15; i++){
+            for(int j = 0; j < 3; j++){
+                if(j == 2 && i > 12){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j, true);
+            }
+        }
+
+        // Ocean
+        for(int i = 15; i < 20; i++){
+            for(int j = 0; j < 3; j++){
+                if(j == 2 && i > 17){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j, true);
+            }
+        }
+
+        // Sand
+        for(int i = 0; i < 5; i++){
+            for(int j = 3; j < 6; j++){
+                if(j == 5 && i > 3){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
+
+        // Snow
+        for(int i = 5; i < 10; i++){
+            for(int j = 3; j < 6; j++){
+                if(j == 5 && i > 8){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
+
+        // Ice
+        for(int i = 10; i < 15; i++){
+            for(int j = 3; j < 6; j++){
+                if(j == 5 && i > 12){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
+
+        // Dark Grass
+        for(int i = 15; i < 20; i++){
+            for(int j = 3; j < 6; j++){
+                if(j == 5 && i > 17){
+                    break;
+                }
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
 
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
