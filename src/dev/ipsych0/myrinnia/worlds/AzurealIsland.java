@@ -24,9 +24,9 @@ public class AzurealIsland extends World {
 
         loadWorld(path);
 
-        entityManager.addEntity(new Tree(5216, 5536));
+        entityManager.addEntity(new Tree(240, 240));
 
-        entityManager.addEntity(new Rock(5280, 5536));
+        entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
         entityManager.addEntity(new Scorpion(4640, 5740));
@@ -39,7 +39,7 @@ public class AzurealIsland extends World {
         entityManager.addEntity(new AbilityMaster(150, 150));
 
         // Southern cliffs
-        entityManager.addEntity(new Whirlpool(1280, 6320));
+        entityManager.addEntity(new Whirlpool(100, 180));
         entityManager.addEntity(new Whirlpool(4832, 6320));
         entityManager.addEntity(new Whirlpool(5264, 6240));
 

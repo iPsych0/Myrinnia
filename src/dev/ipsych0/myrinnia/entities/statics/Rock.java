@@ -35,10 +35,16 @@ public class Rock extends StaticEntity {
     @Override
     public void tick() {
         if (isMining) {
+            if (Handler.get().invIsFull(Item.regularOre)) {
+                miningTimer = 0;
+                speakingTurn = -1;
+                interact();
+                isMining = false;
+            }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
                     !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
                 miningTimer = 0;
-                speakingTurn = 1;
+                speakingTurn = 0;
                 isMining = false;
                 return;
             }
@@ -57,16 +63,17 @@ public class Rock extends StaticEntity {
                 System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 60) {
-                    Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(Item.regularOre)).addItem(Item.regularOre,
-                            Handler.get().getRandomNumber(1, 3));
+                    Handler.get().giveItem(Item.regularOre, Handler.get().getRandomNumber(1, 3));
                     Handler.get().sendMsg("You succesfully mined some ore!");
                     Handler.get().getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
                     attempts++;
+
                 } else {
                     Handler.get().sendMsg("You missed the swing...");
                     attempts++;
+
                 }
-                speakingTurn = 1;
+                speakingTurn = 0;
                 miningTimer = 0;
 
                 if (attempts == minAttempts - 1) {
@@ -91,15 +98,15 @@ public class Rock extends StaticEntity {
 
     @Override
     public void interact() {
-        if (this.speakingTurn == 0) {
+        if (this.speakingTurn == -1) {
             speakingTurn++;
             return;
         }
-        if (this.speakingTurn == 1) {
+        if (this.speakingTurn == 0) {
             if (Handler.get().playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
                 if (Handler.get().playerHasItemType(ItemType.PICKAXE)) {
                     Handler.get().sendMsg("Mining...");
-                    speakingTurn = 2;
+                    speakingTurn = 1;
                     isMining = true;
                 } else {
                     Handler.get().sendMsg("You need a pickaxe to mine this rock.");
@@ -107,9 +114,6 @@ public class Rock extends StaticEntity {
             } else {
                 Handler.get().sendMsg("You need a mining level of " + Handler.get().getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
             }
-        }
-        if (this.speakingTurn == 2) {
-            return;
         }
     }
 

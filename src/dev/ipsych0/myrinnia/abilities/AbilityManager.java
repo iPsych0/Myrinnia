@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class AbilityManager implements Serializable {
 
@@ -107,8 +108,9 @@ public class AbilityManager implements Serializable {
     }
 
     public List<Ability> getAbilityByStyleAndElement(CharacterStats combatStyle, CharacterStats element) {
-        List<Ability> filtered = new ArrayList<>(allAbilities);
-        filtered.removeIf((a) -> a.getElement() != element || a.getCombatStyle() != combatStyle);
-        return filtered;
+        return allAbilities
+                .stream()
+                .filter(a -> a.getElement() == element && a.getCombatStyle() == combatStyle)
+                .collect(Collectors.toList());
     }
 }

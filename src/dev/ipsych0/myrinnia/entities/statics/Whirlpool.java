@@ -38,10 +38,16 @@ public class Whirlpool extends StaticEntity {
     public void tick() {
         spinning.tick();
         if (isFishing) {
+            if (Handler.get().invIsFull(Item.regularFish)) {
+                fishingTimer = 0;
+                speakingTurn = -1;
+                interact();
+                isFishing = false;
+            }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
                     !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
                 fishingTimer = 0;
-                speakingTurn = 1;
+                speakingTurn = 0;
                 isFishing = false;
                 return;
             }
@@ -93,17 +99,18 @@ public class Whirlpool extends StaticEntity {
 
     @Override
     public void interact() {
-        if (this.speakingTurn == 0) {
+        if (this.speakingTurn == -1) {
             speakingTurn++;
             return;
         }
-        if (this.speakingTurn == 1) {
-            Handler.get().sendMsg("Fishing...");
-            speakingTurn = 2;
-            isFishing = true;
-        }
-        if (this.speakingTurn == 2) {
-            return;
+        if (this.speakingTurn == 0) {
+            if (Handler.get().playerHasSkillLevel(SkillsList.FISHING, Item.regularFish)) {
+                Handler.get().sendMsg("Fishing...");
+                speakingTurn = 1;
+                isFishing = true;
+            }else{
+                Handler.get().sendMsg("You need a fishing level of " + Handler.get().getSkillResource(SkillsList.FISHING, Item.regularLogs).getLevelRequirement() + " to catch this type of fish.");
+            }
         }
     }
 

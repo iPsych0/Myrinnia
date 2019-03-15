@@ -36,10 +36,16 @@ public class Tree extends StaticEntity {
     @Override
     public void tick() {
         if (isWoodcutting) {
+            if (Handler.get().invIsFull(Item.regularLogs)) {
+                woodcuttingTimer = 0;
+                speakingTurn = -1;
+                interact();
+                isWoodcutting = false;
+            }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
                     !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
                 woodcuttingTimer = 0;
-                speakingTurn = 1;
+                speakingTurn = 0;
                 isWoodcutting = false;
                 return;
             }
@@ -58,17 +64,16 @@ public class Tree extends StaticEntity {
                 System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 70) {
-                    Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs,
-                            Handler.get().getRandomNumber(1, 3));
+                    Handler.get().giveItem(Item.regularLogs, Handler.get().getRandomNumber(1, 3));
                     Handler.get().sendMsg("You succesfully chopped some logs.");
                     Handler.get().getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
-                    Handler.get().addRecapEvent("Woodcutting");
                     attempts++;
+
                 } else {
                     Handler.get().sendMsg("Your hatchet bounced off the tree...");
                     attempts++;
                 }
-                speakingTurn = 1;
+                speakingTurn = 0;
                 woodcuttingTimer = 0;
 
                 if (attempts == minAttempts - 1) {
@@ -93,15 +98,15 @@ public class Tree extends StaticEntity {
 
     @Override
     public void interact() {
-        if (this.speakingTurn == 0) {
+        if (this.speakingTurn == -1) {
             speakingTurn++;
             return;
         }
-        if (this.speakingTurn == 1) {
+        if (this.speakingTurn == 0) {
             if (Handler.get().playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
                 if (Handler.get().playerHasItemType(ItemType.AXE)) {
                     Handler.get().sendMsg("Chop chop...");
-                    speakingTurn = 2;
+                    speakingTurn = 1;
                     isWoodcutting = true;
                 } else {
                     Handler.get().sendMsg("You need an axe to chop this tree.");
@@ -109,9 +114,6 @@ public class Tree extends StaticEntity {
             } else {
                 Handler.get().sendMsg("You need a woodcutting level of " + Handler.get().getSkillResource(SkillsList.WOODCUTTING, Item.regularLogs).getLevelRequirement() + " to chop this tree.");
             }
-        }
-        if (this.speakingTurn == 2) {
-            return;
         }
     }
 
