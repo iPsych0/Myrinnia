@@ -33,6 +33,7 @@ public class CombatSkill extends Skill {
             nextLevelXp = (int) (nextLevelXp * 1.1);
             Handler.get().getPlayer().levelUp();
             checkNextLevel();
+            Handler.get().playEffect("ui/level_up.wav", 0.1f);
         }
     }
 

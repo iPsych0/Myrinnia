@@ -68,16 +68,18 @@ public class SettingState extends State {
                 displaySoundTimer = 0;
                 displaySoundPressed = true;
                 if (!Handler.get().isSoundMuted()) {
-                    System.out.println("Muted sound!");
                     Handler.get().setSoundMuted(true);
+                    Handler.get().saveProperty("muted","true");
                     for (Source s : AudioManager.soundfxFiles)
                         s.delete();
                     for (Source s : AudioManager.musicFiles)
                         s.delete();
                 } else {
-                    System.out.println("Unmuted sound!");
+                    Handler.get().saveProperty("muted","false");
                     Handler.get().setSoundMuted(false);
-                    Handler.get().playMusic(Handler.get().getPlayer().getZone());
+                    if(previousState == Handler.get().getGame().pauseState) {
+                        Handler.get().playMusic(Handler.get().getPlayer().getZone());
+                    }
                 }
                 hasBeenPressed = false;
             }

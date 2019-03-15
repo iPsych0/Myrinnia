@@ -79,6 +79,8 @@ public class Game implements Runnable, Serializable {
         Assets.init();
 
         handler = Handler.get();
+        loadSettings();
+
         // Create instance of Handler & gamecamera
         gameCamera = new GameCamera(0, 0);
 
@@ -97,6 +99,11 @@ public class Game implements Runnable, Serializable {
         // Set the initial state to the menu state
         State.setState(menuState);
 
+    }
+
+    private void loadSettings(){
+        String muted = Handler.get().loadProperty("muted");
+        Handler.get().setSoundMuted(Boolean.parseBoolean(muted));
     }
 
     private void tick() {

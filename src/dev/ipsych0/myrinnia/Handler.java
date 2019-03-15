@@ -6,19 +6,19 @@ import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -33,11 +33,14 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.*;
+import dev.ipsych0.myrinnia.worlds.AzurealIsland;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
+import java.io.*;
+import java.util.Properties;
 import java.util.Random;
 
 public class Handler implements Serializable {
@@ -150,12 +153,13 @@ public class Handler implements Serializable {
 
     /**
      * Play a sound effect one time with custom volume setting
+     *
      * @param effect Name of the audio file
      * @param volume Additional volume. Default volume is 0.15.
      */
     public void playEffect(String effect, float volume) {
         if (!soundMuted) {
-            if(volume < -0.15f){
+            if (volume < -0.15f) {
                 volume = -0.15f;
             }
             int buffer = -1;
@@ -166,9 +170,9 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setVolume(0.15f + volume);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setLooping(false);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).playEffect(buffer);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(0.15f + volume);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setLooping(false);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
 
         }
     }
@@ -370,6 +374,49 @@ public class Handler implements Serializable {
      */
     public boolean playerHasItem(Item item, int amount) {
         return getInventory().playerHasItem(item, amount);
+    }
+
+    public void saveProperty(String propertyKey, String propertyValue) {
+        Properties prop = new Properties();
+        OutputStream output = null;
+
+        try {
+            output = new FileOutputStream("res/settings/config.properties");
+            prop.setProperty(propertyKey, propertyValue);
+            prop.store(output, null);
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public String loadProperty(String propertyKey) {
+        Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+            input = new FileInputStream("res/settings/config.properties");
+            prop.load(input);
+            return prop.getProperty(propertyKey);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
     /*
