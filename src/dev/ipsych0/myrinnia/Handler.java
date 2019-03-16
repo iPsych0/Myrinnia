@@ -229,8 +229,8 @@ public class Handler implements Serializable {
      * Go from your current world to the next
      *
      * @param zone - The new zone to enter
-     * @param x    - The X position in the new zone
-     * @param y    - The Y position in the new zone
+     * @param x    - The X pause in the new zone
+     * @param y    - The Y pause in the new zone
      */
     public void goToWorld(Zone zone, int x, int y) {
         player.setX(x);
@@ -309,7 +309,7 @@ public class Handler implements Serializable {
 
     /*
      * Drop an item to the world
-     * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
+     * @params: An item, an amount, x + y pause in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
         dropItem(item, amount, x, y, true);
@@ -379,16 +379,22 @@ public class Handler implements Serializable {
     public void saveProperty(String propertyKey, String propertyValue) {
         Properties prop = new Properties();
         OutputStream output = null;
+        InputStream input = null;
 
         try {
-            output = new FileOutputStream("res/settings/config.properties");
+            input = new FileInputStream("res/settings/config.properties");
+            prop.load(input);
+
             prop.setProperty(propertyKey, propertyValue);
+
+            output = new FileOutputStream("res/settings/config.properties");
             prop.store(output, null);
         } catch (IOException io) {
             io.printStackTrace();
         } finally {
-            if (output != null) {
+            if (input != null && output != null) {
                 try {
+                    input.close();
                     output.close();
                 } catch (IOException e) {
                     e.printStackTrace();

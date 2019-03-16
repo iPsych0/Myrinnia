@@ -1,10 +1,10 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.ui.UIImageButton;
-import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
+import dev.ipsych0.myrinnia.input.KeyManager;
+import dev.ipsych0.myrinnia.ui.*;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -16,54 +16,58 @@ public class ControlsState extends State {
      */
     private static final long serialVersionUID = 8517192489288492030L;
     private UIManager uiManager;
-    private boolean loaded = false;
-    private Rectangle returnButton;
+    private boolean selectingNewKey = false;
+    private UIImageButton returnButton;
     private Rectangle overlay;
-    private Rectangle w, a, s, d, i, c, q, m, k, l, space;
+    private UIImageButton w, a, s, d, i, c, q, m, k, l, space;
+    private static TextBox tb;
+    private static UIObject selectedButton;
+    public static boolean initialized;
 
     public ControlsState() {
-        super();
         this.uiManager = new UIManager();
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 260, 232, 520, 313);
 
-        // Interface buttons
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 120, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 168, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 216, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 24, overlay.y + 264, 32, 32, Assets.genericButton));
-
         // Interface rectangles
-        i = new Rectangle(overlay.x + 24, overlay.y + 24, 32, 32);
-        q = new Rectangle(overlay.x + 24, overlay.y + 72, 32, 32);
-        l = new Rectangle(overlay.x + 24, overlay.y + 120, 32, 32);
-        m = new Rectangle(overlay.x + 24, overlay.y + 168, 32, 32);
-        k = new Rectangle(overlay.x + 24, overlay.y + 216, 32, 32);
-        c = new Rectangle(overlay.x + 24, overlay.y + 264, 32, 32);
+        i = new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton);
+        q = new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton);
+        l = new UIImageButton(overlay.x + 24, overlay.y + 120, 32, 32, Assets.genericButton);
+        m = new UIImageButton(overlay.x + 24, overlay.y + 168, 32, 32, Assets.genericButton);
+        k = new UIImageButton(overlay.x + 24, overlay.y + 216, 32, 32, Assets.genericButton);
+        c = new UIImageButton(overlay.x + 24, overlay.y + 264, 32, 32, Assets.genericButton);
 
-        // WASD buttons
-        uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 48, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 224, overlay.y + 96, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 176, overlay.y + 96, 32, 32, Assets.genericButton));
-        uiManager.addObject(new UIImageButton(overlay.x + 272, overlay.y + 96, 32, 32, Assets.genericButton));
+        // Interface buttons
+        uiManager.addObject(i);
+        uiManager.addObject(q);
+        uiManager.addObject(l);
+        uiManager.addObject(m);
+        uiManager.addObject(k);
+        uiManager.addObject(c);
 
         // WASD rectangles
-        w = new Rectangle(overlay.x + 224, overlay.y + 48, 32, 32);
-        a = new Rectangle(overlay.x + 176, overlay.y + 96, 32, 32);
-        s = new Rectangle(overlay.x + 224, overlay.y + 96, 32, 32);
-        d = new Rectangle(overlay.x + 272, overlay.y + 96, 32, 32);
+        w = new UIImageButton(overlay.x + 224, overlay.y + 48, 32, 32, Assets.genericButton);
+        a = new UIImageButton(overlay.x + 176, overlay.y + 96, 32, 32, Assets.genericButton);
+        s = new UIImageButton(overlay.x + 224, overlay.y + 96, 32, 32, Assets.genericButton);
+        d = new UIImageButton(overlay.x + 272, overlay.y + 96, 32, 32, Assets.genericButton);
+
+        // WASD buttons
+        uiManager.addObject(w);
+        uiManager.addObject(a);
+        uiManager.addObject(s);
+        uiManager.addObject(d);
 
         // Spacebar
-        uiManager.addObject(new UIImageButton(overlay.x + 192, overlay.y + 192, 96, 32, Assets.genericButton));
-        space = new Rectangle(overlay.x + 192, overlay.y + 192, 96, 32);
+        space = new UIImageButton(overlay.x + 192, overlay.y + 192, 96, 32, Assets.genericButton);
+        uiManager.addObject(space);
 
         /*
          * The return button to the main menu
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-        returnButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
+        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton);
+        uiManager.addObject(returnButton);
+
+        tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
 
     }
 
@@ -72,16 +76,81 @@ public class ControlsState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
+        for(UIObject btn : uiManager.getObjects()){
+            if(btn.isHovering() && !btn.equals(returnButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey){
+                hasBeenPressed = false;
+                selectingNewKey = true;
+                TextBox.isOpen = true;
+                selectedButton = btn;
+            }
+        }
+
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
-                loaded = false;
                 hasBeenPressed = false;
+                selectingNewKey = false;
+                selectedButton = null;
+                closeTextBox();
             }
         }
 
         this.uiManager.tick();
 
+        if(selectingNewKey) {
+            tb.tick();
+            if (!initialized) {
+                tb.setKeyListeners();
+                initialized = true;
+            }
+            if (TextBox.enterPressed) {
+
+                if(!tb.getCharactersTyped().isEmpty()){
+                    if(selectedButton == i){
+                        Handler.get().saveProperty("inventoryKey", tb.getCharactersTyped());
+                    }else if(selectedButton == c){
+                        Handler.get().saveProperty("chatWindowKey", tb.getCharactersTyped());
+                    }else if(selectedButton == q){
+                        Handler.get().saveProperty("questWindowKey", tb.getCharactersTyped());
+                    }else if(selectedButton == m){
+                        Handler.get().saveProperty("mapWindowKey", tb.getCharactersTyped());
+                    }else if(selectedButton == k){
+                        Handler.get().saveProperty("statsWindowKey", tb.getCharactersTyped());
+                    }else if(selectedButton == l){
+                        Handler.get().saveProperty("skillsWindowKey", tb.getCharactersTyped());
+                    }else if(selectedButton == space){
+                        Handler.get().saveProperty("interactKey", tb.getCharactersTyped());
+                    }else if(selectedButton == w){
+                        Handler.get().saveProperty("upKey", tb.getCharactersTyped());
+                    }else if(selectedButton == a){
+                        Handler.get().saveProperty("leftKey", tb.getCharactersTyped());
+                    }else if(selectedButton == s){
+                        Handler.get().saveProperty("rightKey", tb.getCharactersTyped());
+                    }else if(selectedButton == d){
+                        Handler.get().saveProperty("downKey", tb.getCharactersTyped());
+                    }
+
+                    Handler.get().getKeyManager().loadKeybinds();
+                }
+
+                closeTextBox();
+            }
+        }
+
+    }
+
+    private void closeTextBox() {
+        TextBox.enterPressed = false;
+        Handler.get().getKeyManager().setTextBoxTyping(false);
+        KeyManager.typingFocus = false;
+        tb.getSb().setLength(0);
+        tb.setIndex(0);
+        tb.setCharactersTyped(tb.getSb().toString());
+        TextBox.isOpen = false;
+        initialized = false;
+        selectingNewKey = false;
+        selectedButton = null;
+        tb.removeListeners();
     }
 
     @Override
@@ -130,6 +199,11 @@ public class ControlsState extends State {
 
 
         Text.drawString(g, "Return", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+
+        if(selectingNewKey) {
+            g.drawImage(Assets.genericButton[1], tb.x - 32, tb.y - 32, tb.width + 64, tb.height + 64, null);
+            tb.render(g);
+        }
     }
 
 

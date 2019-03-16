@@ -123,7 +123,7 @@ public class Item implements Serializable {
 
     /*
      * Adds a new item equippable item to the world
-     * @params: x,y position and amount
+     * @params: x,y pause and amount
      */
     public Item createItem(int x, int y, int count) {
         Item i;
@@ -150,7 +150,7 @@ public class Item implements Serializable {
     }
 
     /*
-     * Returns the position of the item
+     * Returns the pause of the item
      */
     public Rectangle itemPosition(float xOffset, float yOffset) {
         position.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), 32, 32);

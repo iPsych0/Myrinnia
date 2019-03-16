@@ -458,17 +458,17 @@ public abstract class Creature extends Entity {
 
         Node next = nodes.get(0);
 
-        // Store the current X & Y position to check if the entity is stuck
+        // Store the current X & Y pause to check if the entity is stuck
         int currentX = (int) x;
         int currentY = (int) y;
 
-        // If the X position is the same as last tick, increment stuckTimer
+        // If the X pause is the same as last tick, increment stuckTimer
         if (lastX == currentX) {
             stuckTimerX++;
         }
         lastX = (int) this.x;
 
-        // If the Y position is the same as last tick, increment stuckTimer
+        // If the Y pause is the same as last tick, increment stuckTimer
         if (lastY == currentY) {
             stuckTimerY++;
         }

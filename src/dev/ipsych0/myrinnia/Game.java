@@ -104,6 +104,7 @@ public class Game implements Runnable, Serializable {
     private void loadSettings(){
         String muted = Handler.get().loadProperty("muted");
         Handler.get().setSoundMuted(Boolean.parseBoolean(muted));
+        keyManager.loadKeybinds();
     }
 
     private void tick() {

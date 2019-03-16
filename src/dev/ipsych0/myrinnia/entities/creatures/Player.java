@@ -164,7 +164,7 @@ public class Player extends Creature {
         }
 
         // Debug button for in-game testing
-        if (Handler.get().getKeyManager().position && debugButtonPressed) {
+        if (Handler.get().getKeyManager().pause && debugButtonPressed) {
 
 //			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 //			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));

@@ -31,7 +31,7 @@ public class ItemManager implements Serializable {
         while (it.hasNext()) {
             Item i = it.next();
 
-            // Checks player's position for any items nearby to pick up
+            // Checks player's pause for any items nearby to pick up
             if (Handler.get().getMouseManager().isRightPressed() && Handler.get().getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
                 if (!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
                     if (i.pickUpItem(i)) {

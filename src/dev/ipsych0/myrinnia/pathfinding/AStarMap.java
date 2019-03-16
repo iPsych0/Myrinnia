@@ -131,7 +131,7 @@ public class AStarMap implements Serializable {
         }
 
 
-        // If our start position is the same as our goal position ...
+        // If our start pause is the same as our goal pause ...
         if (startX == goalX && startY == goalY) {
             creature.setState(CombatState.IDLE);
             // Return an empty path, because we don't need to move at all.
@@ -146,8 +146,8 @@ public class AStarMap implements Serializable {
         // Add starting node to open list.
         openList.add(nodes[startX][startY]);
 
-        // This loop will be broken as soon as the current node position is
-        // equal to the goal position.
+        // This loop will be broken as soon as the current node pause is
+        // equal to the goal pause.
         while (true) {
             // Gets node with the lowest F score from open list.
             Node current = lowestFInList(openList);
@@ -156,7 +156,7 @@ public class AStarMap implements Serializable {
             // Add current node to closed list.
             closedList.add(current);
 
-            // If the current node position is equal to the goal position ...
+            // If the current node pause is equal to the goal pause ...
             if ((current.getX() - (this.x / 32) == goalX) && (current.getY() - (this.y / 32) == goalY)) {
                 // Return a ArrayList containing all of the visited nodes.
                 return calcPath(nodes[startX][startY], current);
