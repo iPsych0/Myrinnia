@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.*;
@@ -19,7 +18,8 @@ public class ControlsState extends State {
     private boolean selectingNewKey = false;
     private UIImageButton returnButton;
     private Rectangle overlay;
-    private UIImageButton w, a, s, d, i, c, q, m, k, l, space;
+    private UIImageButton upKey, leftKey, downKey, rightKey, invKey, chatKey, questKey,
+            mapKey, statsKey, skillsKey, interactKey, abilityKey, pauseKey;
     private static TextBox tb;
     private static UIObject selectedButton;
     public static boolean initialized;
@@ -27,44 +27,44 @@ public class ControlsState extends State {
     public ControlsState() {
         this.uiManager = new UIManager();
 
-        overlay = new Rectangle(Handler.get().getWidth() / 2 - 260, 232, 520, 313);
+        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 232, 640, 417);
 
-        // Interface rectangles
-        i = new UIImageButton(overlay.x + 24, overlay.y + 24, 32, 32, Assets.genericButton);
-        q = new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton);
-        l = new UIImageButton(overlay.x + 24, overlay.y + 120, 32, 32, Assets.genericButton);
-        m = new UIImageButton(overlay.x + 24, overlay.y + 168, 32, 32, Assets.genericButton);
-        k = new UIImageButton(overlay.x + 24, overlay.y + 216, 32, 32, Assets.genericButton);
-        c = new UIImageButton(overlay.x + 24, overlay.y + 264, 32, 32, Assets.genericButton);
+        invKey = new UIImageButton(overlay.x + 24, overlay.y + 32, 32, 32, Assets.genericButton);
+        questKey = new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton);
+        skillsKey = new UIImageButton(overlay.x + 24, overlay.y + 112, 32, 32, Assets.genericButton);
+        mapKey = new UIImageButton(overlay.x + 24, overlay.y + 152, 32, 32, Assets.genericButton);
+        statsKey = new UIImageButton(overlay.x + 24, overlay.y + 192, 32, 32, Assets.genericButton);
+        chatKey = new UIImageButton(overlay.x + 24, overlay.y + 232, 32, 32, Assets.genericButton);
+        abilityKey = new UIImageButton(overlay.x + 24, overlay.y + 272, 32, 32, Assets.genericButton);
+        pauseKey = new UIImageButton(overlay.x + 24, overlay.y + 312, 32, 32, Assets.genericButton);
 
-        // Interface buttons
-        uiManager.addObject(i);
-        uiManager.addObject(q);
-        uiManager.addObject(l);
-        uiManager.addObject(m);
-        uiManager.addObject(k);
-        uiManager.addObject(c);
+        // UI buttons
+        uiManager.addObject(invKey);
+        uiManager.addObject(questKey);
+        uiManager.addObject(skillsKey);
+        uiManager.addObject(mapKey);
+        uiManager.addObject(statsKey);
+        uiManager.addObject(chatKey);
+        uiManager.addObject(abilityKey);
+        uiManager.addObject(pauseKey);
 
-        // WASD rectangles
-        w = new UIImageButton(overlay.x + 224, overlay.y + 48, 32, 32, Assets.genericButton);
-        a = new UIImageButton(overlay.x + 176, overlay.y + 96, 32, 32, Assets.genericButton);
-        s = new UIImageButton(overlay.x + 224, overlay.y + 96, 32, 32, Assets.genericButton);
-        d = new UIImageButton(overlay.x + 272, overlay.y + 96, 32, 32, Assets.genericButton);
+        upKey = new UIImageButton(overlay.x + 224, overlay.y + 32, 32, 32, Assets.genericButton);
+        leftKey = new UIImageButton(overlay.x + 224, overlay.y + 72, 32, 32, Assets.genericButton);
+        downKey = new UIImageButton(overlay.x + 224, overlay.y + 112, 32, 32, Assets.genericButton);
+        rightKey = new UIImageButton(overlay.x + 224, overlay.y + 152, 32, 32, Assets.genericButton);
+        interactKey = new UIImageButton(overlay.x + 224, overlay.y + 192, 64, 32, Assets.genericButton);
 
-        // WASD buttons
-        uiManager.addObject(w);
-        uiManager.addObject(a);
-        uiManager.addObject(s);
-        uiManager.addObject(d);
-
-        // Spacebar
-        space = new UIImageButton(overlay.x + 192, overlay.y + 192, 96, 32, Assets.genericButton);
-        uiManager.addObject(space);
+        // Player buttons
+        uiManager.addObject(upKey);
+        uiManager.addObject(leftKey);
+        uiManager.addObject(downKey);
+        uiManager.addObject(rightKey);
+        uiManager.addObject(interactKey);
 
         /*
          * The return button to the main menu
          */
-        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton);
+        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton);
         uiManager.addObject(returnButton);
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
@@ -106,27 +106,31 @@ public class ControlsState extends State {
             if (TextBox.enterPressed) {
 
                 if(!tb.getCharactersTyped().isEmpty()){
-                    if(selectedButton == i){
+                    if(selectedButton == invKey){
                         Handler.get().saveProperty("inventoryKey", tb.getCharactersTyped());
-                    }else if(selectedButton == c){
+                    }else if(selectedButton == chatKey){
                         Handler.get().saveProperty("chatWindowKey", tb.getCharactersTyped());
-                    }else if(selectedButton == q){
+                    }else if(selectedButton == questKey){
                         Handler.get().saveProperty("questWindowKey", tb.getCharactersTyped());
-                    }else if(selectedButton == m){
+                    }else if(selectedButton == mapKey){
                         Handler.get().saveProperty("mapWindowKey", tb.getCharactersTyped());
-                    }else if(selectedButton == k){
+                    }else if(selectedButton == statsKey){
                         Handler.get().saveProperty("statsWindowKey", tb.getCharactersTyped());
-                    }else if(selectedButton == l){
+                    }else if(selectedButton == skillsKey){
                         Handler.get().saveProperty("skillsWindowKey", tb.getCharactersTyped());
-                    }else if(selectedButton == space){
+                    }else if(selectedButton == interactKey){
                         Handler.get().saveProperty("interactKey", tb.getCharactersTyped());
-                    }else if(selectedButton == w){
+                    }else if(selectedButton == abilityKey){
+                        Handler.get().saveProperty("abilityKey", tb.getCharactersTyped());
+                    }else if(selectedButton == pauseKey){
+                        Handler.get().saveProperty("pauseKey", tb.getCharactersTyped());
+                    }else if(selectedButton == upKey){
                         Handler.get().saveProperty("upKey", tb.getCharactersTyped());
-                    }else if(selectedButton == a){
+                    }else if(selectedButton == leftKey){
                         Handler.get().saveProperty("leftKey", tb.getCharactersTyped());
-                    }else if(selectedButton == s){
+                    }else if(selectedButton == downKey){
                         Handler.get().saveProperty("rightKey", tb.getCharactersTyped());
-                    }else if(selectedButton == d){
+                    }else if(selectedButton == rightKey){
                         Handler.get().saveProperty("downKey", tb.getCharactersTyped());
                     }
 
@@ -157,48 +161,72 @@ public class ControlsState extends State {
     public void render(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
         g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
 
-//			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
 
-        Text.drawString(g, "Movement keys:", i.x + 216, i.y, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "W", w.x + 16, w.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "A", a.x + 16, a.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "S", s.x + 16, s.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "D", d.x + 16, d.y + 16, true, Color.YELLOW, Assets.font14);
+        // Player keys
 
-        Text.drawString(g, "I", i.x + 16, i.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Inventory", i.x + 48, i.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Player keys:", upKey.x, upKey.y - 8, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "C", c.x + 16, c.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Chatwindow", c.x + 48, c.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "W", upKey.x + 16, upKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Move up", upKey.x + 48, upKey.y + 20, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "Q", q.x + 16, q.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Quests", q.x + 48, q.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "A", leftKey.x + 16, leftKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Move left", leftKey.x + 48, leftKey.y + 20, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "M", m.x + 16, m.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Map", m.x + 48, m.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "S", downKey.x + 16, downKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Move down", downKey.x + 48, downKey.y + 20, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "K", k.x + 16, k.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Character", k.x + 48, k.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "D", rightKey.x + 16, rightKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Move right", rightKey.x + 48, rightKey.y + 20, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "L", l.x + 16, l.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Skills", l.x + 48, l.y + 20, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Space", interactKey.x + 32, interactKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Interact", interactKey.x + interactKey.width + 16, interactKey.y + 20, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "Spacebar", space.x + 48, space.y + 16, true, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "Interact with NPCs/Objects:", space.x + 48, space.y - 24, true, Color.YELLOW, Assets.font14);
+        // UI Keys
 
-        Text.drawString(g, "Left click:", overlay.x + overlay.width - 160, 396, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Attack", overlay.x + overlay.width - 160, 416, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "UI keys:", invKey.x, invKey.y - 8, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "Right click:", overlay.x + overlay.width - 160, 448, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Pick up item", overlay.x + overlay.width - 160, 468, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Equip item", overlay.x + overlay.width - 160, 488, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "I", invKey.x + 16, invKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Inventory", invKey.x + 48, invKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "C", chatKey.x + 16, chatKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Chat", chatKey.x + 48, chatKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "Q", questKey.x + 16, questKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Quests", questKey.x + 48, questKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "M", mapKey.x + 16, mapKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Map", mapKey.x + 48, mapKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "K", statsKey.x + 16, statsKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Character", statsKey.x + 48, statsKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "L", skillsKey.x + 16, skillsKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Skills", skillsKey.x + 48, skillsKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "B", abilityKey.x + 16, abilityKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Abilities", abilityKey.x + 48, abilityKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "P", pauseKey.x + 16, pauseKey.y + 16, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Pause Game", pauseKey.x + 48, pauseKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        // Mouse controls
+
+        Text.drawString(g, "Mouse controls:", overlay.x + 424, overlay.y + 24, false, Color.YELLOW, Assets.font14);
+
+        g.drawImage(Assets.genericButton[1], overlay.x + 420, overlay.y + 28, 120, 132, null);
+        Text.drawString(g, "Left click:", overlay.x + 424, overlay.y + 48, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Attack", overlay.x + 432, overlay.y + 68, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "Right click:", overlay.x + 424, overlay.y + 112, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Pick up item", overlay.x + 432, overlay.y + 132, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Equip item", overlay.x + 432, overlay.y + 152, false, Color.YELLOW, Assets.font14);
 
 
-        Text.drawString(g, "Return", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         if(selectingNewKey) {
             g.drawImage(Assets.genericButton[1], tb.x - 32, tb.y - 32, tb.width + 64, tb.height + 64, null);

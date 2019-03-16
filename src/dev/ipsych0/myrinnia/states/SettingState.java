@@ -121,7 +121,7 @@ public class SettingState extends State {
         }
 
         if (previousState == Handler.get().getGame().menuState)
-            Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+            Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
         else
             Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
 
