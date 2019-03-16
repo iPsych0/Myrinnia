@@ -133,6 +133,7 @@ public class Assets {
          * Creature Animations
          */
         SpriteSheet ability_sheet = new SpriteSheet("/textures/animations/abilitysheet.png");
+
         SpriteSheet airCloud1_sheet = new SpriteSheet("/textures/animations/air_cloud1.png");
         SpriteSheet waterSplash1_sheet = new SpriteSheet("/textures/animations/water_splash1.png");
         SpriteSheet movementBoost1_sheet = new SpriteSheet("/textures/animations/movement_boost1.png");
@@ -305,9 +306,10 @@ public class Assets {
         /*
          * Generic Button Sprites
          */
-        genericButton = new BufferedImage[2];
+        genericButton = new BufferedImage[3];
         genericButton[0] = ui_sheet.imageCrop(9, 0, width * 7, height * 3);
-        genericButton[1] = ui_sheet.imageCrop(17, 0, width * 7, height * 3);
+        genericButton[1] = ui_sheet.imageCrop(16, 0, width * 7, height * 3);
+        genericButton[2] = ui_sheet.imageCrop(16, 3, width * 7, height * 3);
 
         locked = ui_sheet.imageCrop(0, 1, 16, 16);
         unlocked = ui_sheet.imageCrop(1, 1, 16, 16);

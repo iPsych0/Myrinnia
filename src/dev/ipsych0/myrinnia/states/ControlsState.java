@@ -158,7 +158,7 @@ public class ControlsState extends State {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
-        g.drawImage(Assets.controlsScreen, overlay.x, overlay.y, overlay.width, overlay.height, null);
+        g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
 
 //			Text.drawString(g, "Welcome to Myrinnia", 480, 180, true, Color.YELLOW, Assets.font32);
