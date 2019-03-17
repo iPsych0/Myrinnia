@@ -59,6 +59,9 @@ public class KeyManager implements KeyListener, Serializable {
         statsWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("statsWindowKey").charAt(0));
         mapWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("mapWindowKey").charAt(0));
         inventoryWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("inventoryKey").charAt(0));
+        interactKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("interactKey").charAt(0));
+        pauseKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("pauseKey").charAt(0));
+        abilityWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("abilitiesKey").charAt(0));
     }
 
     public void tick() {
@@ -82,7 +85,7 @@ public class KeyManager implements KeyListener, Serializable {
             // Interaction keys
             chat = keys[chatWindowKey];
             pause = keys[KeyEvent.VK_P];
-            talk = keys[KeyEvent.VK_SPACE];
+            talk = keys[interactKey];
 
             // UI keys
             escape = keys[KeyEvent.VK_ESCAPE];
@@ -98,7 +101,7 @@ public class KeyManager implements KeyListener, Serializable {
 
             keys[e.getKeyCode()] = true;
 
-            if (e.getKeyCode() == KeyEvent.VK_P) {
+            if (e.getKeyCode() == pauseKey) {
                 Player.debugButtonPressed = true;
             }
 
@@ -170,7 +173,7 @@ public class KeyManager implements KeyListener, Serializable {
                 }
             }
 
-            if (e.getKeyCode() == KeyEvent.VK_B) {
+            if (e.getKeyCode() == abilityWindowKey) {
                 if (ShopWindow.lastOpenedWindow != null) {
                     ShopWindow.lastOpenedWindow.exit();
                 }
@@ -222,7 +225,7 @@ public class KeyManager implements KeyListener, Serializable {
                 AbilityHUD.hasBeenTyped = true;
                 AbilityHUD.pressedKey = e.getKeyChar();
             }
-            if (e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC) {
+            if (e.getKeyChar() == interactKey && Entity.isCloseToNPC) {
                 Player.hasInteracted = false;
             }
         }
