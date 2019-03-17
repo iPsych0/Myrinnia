@@ -22,8 +22,8 @@ public class DialogueBox implements Serializable {
     private DialogueButton pressedButton = null;
     private TextBox tb;
     private String message;
-    private boolean numbersOnly;
     private UIManager uiManager;
+    public static boolean hasBeenPressed;
 
     public DialogueBox(int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
         this.x = x;
@@ -32,9 +32,8 @@ public class DialogueBox implements Serializable {
         this.height = height;
         this.answers = answers;
         this.message = message;
-        this.numbersOnly = numbersOnly;
 
-        buttons = new ArrayList<DialogueButton>();
+        buttons = new ArrayList<>();
         uiManager = new UIManager();
 
         for (int i = 0; i < answers.length; i++) {
@@ -43,6 +42,25 @@ public class DialogueBox implements Serializable {
         }
 
         tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, numbersOnly);
+    }
+
+    public DialogueBox(int x, int y, int width, int height, String[] answers, String message, TextBox textBox) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.answers = answers;
+        this.message = message;
+
+        buttons = new ArrayList<>();
+        uiManager = new UIManager();
+
+        for (int i = 0; i < answers.length; i++) {
+            buttons.add(new DialogueButton(x + (width / answers.length) - 32 - (32 / answers.length) + (i * 64), y + height - 48, 32, 32, answers[i]));
+            uiManager.addObject(buttons.get(i));
+        }
+
+        this.tb = textBox;
     }
 
     public void tick() {
@@ -55,12 +73,13 @@ public class DialogueBox implements Serializable {
             for (DialogueButton db : buttons) {
                 db.tick();
 
-                if (db.getButtonBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged()) {
+                if (db.getButtonBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                     for (int i = 0; i < buttons.size(); i++) {
                         if (db.getText().equals(answers[i]) && pressedButton == null) {
                             pressedButton = db;
                             pressedButton.pressedButton(answers[i], param);
                             isOpen = false;
+                            hasBeenPressed = false;
                         }
                     }
                 }
@@ -71,10 +90,19 @@ public class DialogueBox implements Serializable {
 
     public void render(Graphics g) {
         if (isOpen) {
+            render(g, Color.YELLOW);
+        }
+    }
+
+    public void render(Graphics g, Color color) {
+        if (isOpen) {
 
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
-            Text.drawString(g, message, x + (width / 2), y + 32, true, Color.YELLOW, Assets.font14);
+            String[] text = Text.splitIntoLine(String.valueOf(message), 32);
+            for (int i = 0; i < text.length; i++) {
+                Text.drawString(g, text[i], x + (width / 2), y + 32 + (i * 16), true, color, Assets.font14);
+            }
 
             uiManager.render(g);
 

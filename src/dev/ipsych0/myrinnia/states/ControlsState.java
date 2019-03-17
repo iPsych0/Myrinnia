@@ -3,10 +3,7 @@ package dev.ipsych0.myrinnia.states;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
-import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.ui.UIImageButton;
-import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
+import dev.ipsych0.myrinnia.ui.*;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,6 +27,10 @@ public class ControlsState extends State {
     public static boolean initialized;
     private static boolean errorShown;
     private static int errorTimer;
+
+    private DialogueBox dBox;
+    private static String[] answers = {"Set", "Cancel"};
+    private static String message = "Please enter the new key.";
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -77,6 +78,7 @@ public class ControlsState extends State {
         uiManager.addObject(returnButton);
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
+        dBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, answers, message, tb);
 
     }
 
@@ -105,6 +107,7 @@ public class ControlsState extends State {
             if (btn.isHovering() && !btn.equals(returnButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey) {
                 hasBeenPressed = false;
                 selectingNewKey = true;
+                DialogueBox.isOpen = true;
                 TextBox.isOpen = true;
                 selectedButton = btn;
             }
@@ -123,77 +126,96 @@ public class ControlsState extends State {
         this.uiManager.tick();
 
         if (selectingNewKey) {
-            tb.tick();
+            dBox.tick();
             if (!initialized) {
                 tb.setKeyListeners();
                 initialized = true;
             }
+
+            checkSubmit();
+
             if (TextBox.enterPressed) {
-
-                if (!tb.getCharactersTyped().isEmpty() && selectedButton != null) {
-                    if (keys.containsValue(tb.getCharactersTyped().toLowerCase())) {
-                        errorShown = true;
-                        errorTimer = 0;
-                        closeTextBox();
-                        return;
-                    }
-
-                    if (" ".equalsIgnoreCase(tb.getCharactersTyped().toLowerCase())) {
-                        keys.clear();
-                        for (UIObject o : uiManager.getObjects()) {
-                            if (!o.equals(returnButton)) {
-                                o.width = 32;
-                            }
-                        }
-                        selectedButton.width = 64;
-                        setKeys();
-                    }else{
-                        keys.clear();
-                        for (UIObject o : uiManager.getObjects()) {
-                            if (!o.equals(returnButton)) {
-                                o.width = 32;
-                            }
-                        }
-                        setKeys();
-                    }
-
-                    if (selectedButton == invKey) {
-                        Handler.get().saveProperty("inventoryKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == chatKey) {
-                        Handler.get().saveProperty("chatWindowKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == questKey) {
-                        Handler.get().saveProperty("questWindowKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == mapKey) {
-                        Handler.get().saveProperty("mapWindowKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == statsKey) {
-                        Handler.get().saveProperty("statsWindowKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == skillsKey) {
-                        Handler.get().saveProperty("skillsWindowKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == interactKey) {
-                        Handler.get().saveProperty("interactKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == abilityKey) {
-                        Handler.get().saveProperty("abilityKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == pauseKey) {
-                        Handler.get().saveProperty("pauseKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == upKey) {
-                        Handler.get().saveProperty("upKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == leftKey) {
-                        Handler.get().saveProperty("leftKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == downKey) {
-                        Handler.get().saveProperty("downKey", tb.getCharactersTyped().toLowerCase());
-                    } else if (selectedButton == rightKey) {
-                        Handler.get().saveProperty("rightKey", tb.getCharactersTyped().toLowerCase());
-                    }
-
-                    keys.replace(selectedButton, tb.getCharactersTyped().toLowerCase());
-
-                    Handler.get().getKeyManager().loadKeybinds();
-                }
-
-                closeTextBox();
+                dBox.setPressedButton(dBox.getButtons().get(0));
+                dBox.getPressedButton().getButtonParam()[0] = "Set";
+                checkKeys();
             }
         }
 
+    }
+
+    private void checkKeys() {
+        if (!tb.getCharactersTyped().isEmpty() && selectedButton != null) {
+            if (keys.containsValue(tb.getCharactersTyped().toLowerCase())) {
+                errorShown = true;
+                errorTimer = 0;
+                closeTextBox();
+                return;
+            }
+
+            if (" ".equalsIgnoreCase(tb.getCharactersTyped().toLowerCase())) {
+                keys.clear();
+                for (UIObject o : uiManager.getObjects()) {
+                    if (!o.equals(returnButton)) {
+                        o.width = 32;
+                    }
+                }
+                selectedButton.width = 64;
+                setKeys();
+            }else{
+                keys.clear();
+                for (UIObject o : uiManager.getObjects()) {
+                    if (!o.equals(returnButton)) {
+                        o.width = 32;
+                    }
+                }
+                setKeys();
+            }
+
+            if (selectedButton == invKey) {
+                Handler.get().saveProperty("inventoryKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == chatKey) {
+                Handler.get().saveProperty("chatWindowKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == questKey) {
+                Handler.get().saveProperty("questWindowKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == mapKey) {
+                Handler.get().saveProperty("mapWindowKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == statsKey) {
+                Handler.get().saveProperty("statsWindowKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == skillsKey) {
+                Handler.get().saveProperty("skillsWindowKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == interactKey) {
+                Handler.get().saveProperty("interactKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == abilityKey) {
+                Handler.get().saveProperty("abilityKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == pauseKey) {
+                Handler.get().saveProperty("pauseKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == upKey) {
+                Handler.get().saveProperty("upKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == leftKey) {
+                Handler.get().saveProperty("leftKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == downKey) {
+                Handler.get().saveProperty("downKey", tb.getCharactersTyped().toLowerCase());
+            } else if (selectedButton == rightKey) {
+                Handler.get().saveProperty("rightKey", tb.getCharactersTyped().toLowerCase());
+            }
+
+            keys.replace(selectedButton, tb.getCharactersTyped().toLowerCase());
+
+            Handler.get().getKeyManager().loadKeybinds();
+        }
+
+        closeTextBox();
+    }
+
+    private void checkSubmit(){
+        if (selectingNewKey && dBox.getPressedButton() != null) {
+            if ("Set".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
+                checkKeys();
+            } else if ("Cancel".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
+                closeTextBox();
+            }
+            Handler.get().playEffect("ui/ui_button_click.wav");
+        }
     }
 
     private void closeTextBox() {
@@ -204,6 +226,8 @@ public class ControlsState extends State {
         tb.setIndex(0);
         tb.setCharactersTyped(tb.getSb().toString());
         TextBox.isOpen = false;
+        dBox.setPressedButton(null);
+        DialogueBox.isOpen = false;
         initialized = false;
         selectingNewKey = false;
         selectedButton = null;
@@ -280,15 +304,14 @@ public class ControlsState extends State {
         Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         if (selectingNewKey) {
-            g.drawImage(Assets.genericButton[1], tb.x - 32, tb.y - 32, tb.width + 64, tb.height + 64, null);
-            tb.render(g);
+            dBox.render(g);
         }
 
         if (errorShown) {
-            g.drawImage(Assets.genericButton[1], overlay.x, overlay.y - 32, overlay.width, 32, null);
-            Text.drawString(g, "That key is already mapped to another key bind", overlay.x + overlay.width / 2, overlay.y - 16, true, Color.YELLOW, Assets.font24);
+//            g.drawImage(Assets.genericButton[0], overlay.x, overlay.y - 32, overlay.width, 32, null);
+            Text.drawString(g, "That key is already in use", overlay.x + overlay.width / 2, overlay.y - 16, true, Color.RED, Assets.font24);
             errorTimer++;
-            if (errorTimer >= 60) {
+            if (errorTimer >= 120) {
                 errorShown = false;
                 errorTimer = 0;
             }

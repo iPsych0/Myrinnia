@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.worlds;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
+import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
 import dev.ipsych0.myrinnia.items.Item;
@@ -37,6 +38,7 @@ public class AzurealIsland extends World {
         entityManager.addEntity(new SavingShrine(5056, 5532));
         entityManager.addEntity(new TestNPC(5056, 5564));
         entityManager.addEntity(new AbilityMaster(150, 150));
+        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",150, 182));
 
         // Southern cliffs
         entityManager.addEntity(new Whirlpool(100, 180));

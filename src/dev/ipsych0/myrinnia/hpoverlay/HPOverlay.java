@@ -151,6 +151,15 @@ public class HPOverlay implements Serializable {
         if (mapButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
+                if (ShopWindow.lastOpenedWindow != null) {
+                    ShopWindow.lastOpenedWindow.exit();
+                }
+                if (AbilityShopWindow.lastOpenedWindow != null) {
+                    AbilityShopWindow.lastOpenedWindow.exit();
+                }
+                Handler.get().getBankUI().exit();
+                Handler.get().getCraftingUI().exit();
+                // TODO: OPEN THE MAP HERE ONCE IT'S CREATED
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 Handler.get().sendMsg("Map coming soon!");
             }

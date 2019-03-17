@@ -93,7 +93,7 @@ TextBox implements KeyListener, Serializable {
 
                 blinkTimer++;
 
-                g.drawImage(Assets.chatwindow, x, y, width, height, null);
+                g.drawImage(Assets.genericButton[0], x, y, width, height, null);
 
                 if (blinkTimer >= 0 && blinkTimer < 60) {
                     cursor = "|";
@@ -110,7 +110,7 @@ TextBox implements KeyListener, Serializable {
                     blinkTimer = 0;
                 }
             } else {
-                g.drawImage(Assets.genericButton[0], x, y, width, height, null);
+                g.drawImage(Assets.genericButton[2], x, y, width, height, null);
             }
 
             if (!charactersTyped.isEmpty())

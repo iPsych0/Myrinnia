@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 
@@ -98,6 +99,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
             AbilityHUD.hasBeenPressed = true;
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
+            DialogueBox.hasBeenPressed = true;
         }
 
         // Right Click
