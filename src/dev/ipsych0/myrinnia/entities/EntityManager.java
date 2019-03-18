@@ -43,23 +43,23 @@ public class EntityManager implements Serializable {
 
             Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
             Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
-            if(e instanceof Creature) {
+            if (e instanceof Creature) {
                 for (Condition c : ((Creature) e).getConditions()) {
                     if (c.isActive()) {
                         c.tick();
-                    }else{
+                    } else {
                         deletedCondis.add(c);
                     }
                 }
                 ((Creature) e).getConditions().removeAll(deletedCondis);
-                for(Buff b : ((Creature) e).getBuffs()){
-                    if(b.isActive()){
+                for (Buff b : ((Creature) e).getBuffs()) {
+                    if (b.isActive()) {
                         b.tick();
-                    }else{
+                    } else {
                         deletedBuffs.add(b);
                     }
                 }
-                ((Creature)e).getBuffs().removeAll(deletedBuffs);
+                ((Creature) e).getBuffs().removeAll(deletedBuffs);
             }
 
             e.tick();
@@ -117,10 +117,12 @@ public class EntityManager implements Serializable {
 
             // Keep rendering the selected Entity
             if (selectedEntity != null) {
-                if (selectedEntity.active)
+                if (selectedEntity.active) {
                     selectedEntity.drawEntityOverlay(selectedEntity, g);
-                else
+                    drawHoverCorners(g, selectedEntity);
+                } else {
                     selectedEntity = null;
+                }
             }
 
             // If we clicked away, remove the locked UI component
@@ -133,8 +135,14 @@ public class EntityManager implements Serializable {
 
             // If the mouse is hovered over an Entity, draw the overlay
             if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer())) {
-                if (e.isOverlayDrawn())
+                if (e.isOverlayDrawn()) {
                     e.drawEntityOverlay(e, g);
+                }
+
+                // If Entity can be interacted with, show corner pieces on hovering
+                if (e.isNpc() || e.isAttackable()) {
+                    drawHoverCorners(g, e);
+                }
             }
 
             e.postRender(g);
@@ -151,6 +159,28 @@ public class EntityManager implements Serializable {
         }
         hitSplats.removeAll(deleted);
 
+    }
+
+    private void drawHoverCorners(Graphics g, Entity e) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.YELLOW);
+        g2.setStroke(new BasicStroke(2));
+
+        // Top left corner
+        g2.drawLine((int) e.getX(), (int) e.getY(), (int) e.getX() + (6 * (e.getWidth() / 32)), (int) e.getY());
+        g2.drawLine((int) e.getX(), (int) e.getY(), (int) e.getX(), (int) e.getY() + (6 * (e.getHeight() / 32)));
+
+        // Top right corner
+        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY(), (int) e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)), (int) e.getY());
+        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY(), (int) e.getX() + e.getWidth(), (int) e.getY() + (6 * (e.getHeight() / 32)));
+
+        // Bottom left corner
+        g2.drawLine((int) e.getX(), (int) e.getY() + e.getHeight(), (int) e.getX() + (6 * (e.getWidth() / 32)), (int) e.getY() + e.getHeight());
+        g2.drawLine((int) e.getX(), (int) e.getY() + e.getHeight(), (int) e.getX(), (int) e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)));
+
+        // Bottom right corner
+        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight(), (int) e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)), (int) e.getY() + e.getHeight());
+        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight(), (int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)));
     }
 
     public Entity getSelectedEntity() {
