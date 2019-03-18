@@ -109,7 +109,7 @@ public class EntityManager implements Serializable {
             }
 
             // If we rightclick an Entity, lock it to the top of the screen.
-            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
+            if (!isPressed && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
                 isPressed = true;
                 if (e.isOverlayDrawn())
                     selectedEntity = e;
@@ -131,16 +131,25 @@ public class EntityManager implements Serializable {
                     !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
                 isPressed = true;
                 selectedEntity = null;
+
+                // Check if we're clicking on another Entity
+                for(Entity e2 : entities){
+                    if(e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)){
+                        selectedEntity = e2;
+                        break;
+                    }
+                }
             }
 
             // If the mouse is hovered over an Entity, draw the overlay
-            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer())) {
+            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                 if (e.isOverlayDrawn()) {
                     e.drawEntityOverlay(e, g);
                 }
 
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc() || e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e);
                 }
             }
@@ -161,26 +170,30 @@ public class EntityManager implements Serializable {
 
     }
 
-    private void drawHoverCorners(Graphics g, Entity e) {
+    private void drawHoverCorners(Graphics g, Entity e, int xOffset, int yOffset, Color color){
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.YELLOW);
+        g2.setColor(color);
         g2.setStroke(new BasicStroke(2));
 
         // Top left corner
-        g2.drawLine((int) e.getX(), (int) e.getY(), (int) e.getX() + (6 * (e.getWidth() / 32)), (int) e.getY());
-        g2.drawLine((int) e.getX(), (int) e.getY(), (int) e.getX(), (int) e.getY() + (6 * (e.getHeight() / 32)));
+        g2.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
 
         // Top right corner
-        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY(), (int) e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)), (int) e.getY());
-        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY(), (int) e.getX() + e.getWidth(), (int) e.getY() + (6 * (e.getHeight() / 32)));
+        g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
 
         // Bottom left corner
-        g2.drawLine((int) e.getX(), (int) e.getY() + e.getHeight(), (int) e.getX() + (6 * (e.getWidth() / 32)), (int) e.getY() + e.getHeight());
-        g2.drawLine((int) e.getX(), (int) e.getY() + e.getHeight(), (int) e.getX(), (int) e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)));
+        g2.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
 
         // Bottom right corner
-        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight(), (int) e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)), (int) e.getY() + e.getHeight());
-        g2.drawLine((int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight(), (int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)));
+        g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+    }
+
+    private void drawHoverCorners(Graphics g, Entity e) {
+        drawHoverCorners(g, e, 0, 0, Color.YELLOW);
     }
 
     public Entity getSelectedEntity() {
