@@ -147,9 +147,6 @@ public class Assets {
         // Grass
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 3; j++){
-                if(j == 2 && i > 3){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -157,9 +154,6 @@ public class Assets {
         // Dirt
         for(int i = 5; i < 10; i++){
             for(int j = 0; j < 3; j++){
-                if(j == 2 && i > 8){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -167,9 +161,6 @@ public class Assets {
         // Water
         for(int i = 10; i < 15; i++){
             for(int j = 0; j < 3; j++){
-                if(j == 2 && i > 12){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
@@ -177,9 +168,6 @@ public class Assets {
         // Ocean
         for(int i = 15; i < 20; i++){
             for(int j = 0; j < 3; j++){
-                if(j == 2 && i > 17){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
@@ -187,9 +175,6 @@ public class Assets {
         // Sand
         for(int i = 0; i < 5; i++){
             for(int j = 3; j < 6; j++){
-                if(j == 5 && i > 3){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -197,9 +182,6 @@ public class Assets {
         // Snow
         for(int i = 5; i < 10; i++){
             for(int j = 3; j < 6; j++){
-                if(j == 5 && i > 8){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -207,9 +189,6 @@ public class Assets {
         // Ice
         for(int i = 10; i < 15; i++){
             for(int j = 3; j < 6; j++){
-                if(j == 5 && i > 12){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -217,14 +196,19 @@ public class Assets {
         // Dark Grass
         for(int i = 15; i < 20; i++){
             for(int j = 3; j < 6; j++){
-                if(j == 5 && i > 17){
-                    break;
-                }
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
+        // Rocks terrain
         myrinnia_tiles.tileCrop(0, 6, true);
+        myrinnia_tiles.tileCrop(1, 6, false);
+        myrinnia_tiles.tileCrop(2, 6, false);
+
+        // Sea Rocks terrain
+        myrinnia_tiles.tileCrop(0, 7, true);
+        myrinnia_tiles.tileCrop(1, 7, false);
+        myrinnia_tiles.tileCrop(2, 7, false);
 
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
