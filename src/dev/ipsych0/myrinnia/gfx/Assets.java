@@ -224,6 +224,8 @@ public class Assets {
             }
         }
 
+        myrinnia_tiles.tileCrop(0, 6, true);
+
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
         for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {

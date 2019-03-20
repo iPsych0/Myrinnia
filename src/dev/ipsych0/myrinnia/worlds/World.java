@@ -25,7 +25,6 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public abstract class World implements Serializable {
@@ -108,7 +107,7 @@ public abstract class World implements Serializable {
         }
 
         // Check for night-time every minute
-        if(timeChecker++ >= 60 * 60){
+        if (timeChecker++ >= 60 * 60) {
             timeChecker = 0;
 
             // Get the current hour of day
@@ -200,11 +199,7 @@ public abstract class World implements Serializable {
     }
 
     protected boolean standingOnTile(Rectangle box) {
-        if (box.intersects(player.getCollisionBounds(0, 0))) {
-            return true;
-        } else {
-            return false;
-        }
+        return box.intersects(player.getCollisionBounds(0, 0));
     }
 
     protected void renderNight(Graphics g) {

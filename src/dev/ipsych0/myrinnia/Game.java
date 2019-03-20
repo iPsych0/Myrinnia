@@ -76,6 +76,7 @@ public class Game implements Runnable, Serializable {
         display.getFrame().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseWheelListener(mouseManager);
         Assets.init();
 
         handler = Handler.get();

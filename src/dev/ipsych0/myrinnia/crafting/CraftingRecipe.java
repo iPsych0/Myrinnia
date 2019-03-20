@@ -36,11 +36,18 @@ public class CraftingRecipe implements Serializable {
 
         components = new ArrayList<ItemStack>();
 
-        components.add(item1);
-        components.add(item2);
-        components.add(item3);
-        components.add(item4);
-
+        if(item1 != null){
+            components.add(item1);
+        }
+        if(item2 != null){
+            components.add(item2);
+        }
+        if(item3 != null){
+            components.add(item3);
+        }
+        if(item4 != null){
+            components.add(item4);
+        }
 
         this.craftingXP = craftingXP;
         this.discovered = discovered;
@@ -50,57 +57,21 @@ public class CraftingRecipe implements Serializable {
      * Use this constructor for a recipe with 3 components
      */
     public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack result) {
-        this.item1 = item1;
-        this.item2 = item2;
-        this.item3 = item3;
-        this.result = result;
-        this.requiredLevel = requiredLevel;
-        this.category = category;
-
-        components = new ArrayList<ItemStack>();
-
-        components.add(item1);
-        components.add(item2);
-        components.add(item3);
-
-        this.craftingXP = craftingXP;
-        this.discovered = discovered;
+        this(requiredLevel, craftingXP, discovered, category, item1, item2, item3, null, result);
     }
 
     /*
      * Use this constructor for a recipe with 2 components
      */
     public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack item2, ItemStack result) {
-        this.item1 = item1;
-        this.item2 = item2;
-        this.result = result;
-        this.requiredLevel = requiredLevel;
-        this.category = category;
-
-        components = new ArrayList<ItemStack>();
-
-        components.add(item1);
-        components.add(item2);
-
-        this.craftingXP = craftingXP;
-        this.discovered = discovered;
+        this(requiredLevel, craftingXP, discovered, category, item1, item2, null, null, result);
     }
 
     /*
      * Use this constructor for a recipe with 1 components
      */
     public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack result) {
-        this.item1 = item1;
-        this.result = result;
-        this.requiredLevel = requiredLevel;
-        this.category = category;
-
-        components = new ArrayList<ItemStack>();
-
-        components.add(item1);
-
-        this.craftingXP = craftingXP;
-        this.discovered = discovered;
+        this(requiredLevel, craftingXP, discovered, category, item1, null, null, null, result);
     }
 
     public ArrayList<ItemStack> getComponents() {

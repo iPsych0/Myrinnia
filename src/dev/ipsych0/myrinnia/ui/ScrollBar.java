@@ -14,13 +14,14 @@ public class ScrollBar implements Serializable {
      */
     private static final long serialVersionUID = 8698572954217286128L;
     public int x, y, width, height;
-    private Rectangle scrollUp, scrollDown;
+    private Rectangle arrowUp, arrowDown;
     private int scrollMinimum = 0, scrollMaximum;
     private int index = 0;
     private int itemsPerWindow;
     private int listSize;
     public static int clickTimer = 0;
     public static int scrollTimer = 0;
+    public static boolean scrolledUp, scrolledDown;
 
     public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow) {
         this.x = x;
@@ -30,21 +31,44 @@ public class ScrollBar implements Serializable {
         this.listSize = listSize;
         this.itemsPerWindow = itemsPerWindow;
 
-        scrollUp = new Rectangle(x, y, 32, 32);
-        scrollDown = new Rectangle(x, y + height - 32, 32, 32);
+        arrowUp = new Rectangle(x, y, 32, 32);
+        arrowDown = new Rectangle(x, y + height - 32, 32, 32);
     }
 
     public void tick() {
         Rectangle mouse = Handler.get().getMouse();
 
-        if (scrollUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+        if (arrowUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+            scrollClickUp();
+        } else if (arrowDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+            scrollClickDown();
+        }
+
+        if (scrolledUp) {
             scrollUp();
-        } else if (scrollDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+            scrolledUp = false;
+        } else if (scrolledDown) {
             scrollDown();
+            scrolledDown = false;
         }
     }
 
     private void scrollUp() {
+        // Move up once per scroll
+        if (index > scrollMinimum && listSize > itemsPerWindow) {
+            index--;
+        }
+    }
+
+    private void scrollDown() {
+        // Move down once per scroll
+        if (index < (scrollMaximum - itemsPerWindow) && listSize > itemsPerWindow) {
+            index++;
+        }
+
+    }
+
+    private void scrollClickUp() {
         // The first click, move it up once
         if (clickTimer == 0) {
             if (listSize < itemsPerWindow) {
@@ -80,25 +104,25 @@ public class ScrollBar implements Serializable {
         Rectangle mouse = Handler.get().getMouse();
 
         if (listSize > itemsPerWindow) {
-            if (scrollUp.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
-                Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
+            if (arrowUp.contains(mouse)) {
+                g.drawImage(Assets.genericButton[0], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                Text.drawString(g, "^", arrowUp.x + 16, arrowUp.y + 24, true, Color.YELLOW, Assets.font32);
             } else {
-                g.drawImage(Assets.genericButton[1], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
-                Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
+                g.drawImage(Assets.genericButton[1], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                Text.drawString(g, "^", arrowUp.x + 16, arrowUp.y + 24, true, Color.YELLOW, Assets.font32);
             }
 
-            if (scrollDown.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-                Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
+            if (arrowDown.contains(mouse)) {
+                g.drawImage(Assets.genericButton[0], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                Text.drawString(g, "v", arrowDown.x + 16, arrowDown.y + 16, true, Color.YELLOW, Assets.font32);
             } else {
-                g.drawImage(Assets.genericButton[1], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-                Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
+                g.drawImage(Assets.genericButton[1], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                Text.drawString(g, "v", arrowDown.x + 16, arrowDown.y + 16, true, Color.YELLOW, Assets.font32);
             }
         }
     }
 
-    private void scrollDown() {
+    private void scrollClickDown() {
         // The first click, move it down once
         if (clickTimer == 0) {
             if (listSize < itemsPerWindow) {

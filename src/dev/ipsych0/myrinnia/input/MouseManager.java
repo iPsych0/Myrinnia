@@ -22,12 +22,10 @@ import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.io.Serializable;
 
-public class MouseManager implements MouseListener, MouseMotionListener, Serializable {
+public class MouseManager implements MouseListener, MouseMotionListener, MouseWheelListener, Serializable {
 
     /**
      *
@@ -178,4 +176,11 @@ public class MouseManager implements MouseListener, MouseMotionListener, Seriali
         this.mouseCoords = mouseCoords;
     }
 
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if(SkillsOverviewUI.isOpen) {
+            ScrollBar.scrolledUp = e.getWheelRotation() <= -1;
+            ScrollBar.scrolledDown = e.getWheelRotation() >= 1;
+        }
+    }
 }
