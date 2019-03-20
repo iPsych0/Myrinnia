@@ -24,12 +24,25 @@ public class Tiles {
     protected BufferedImage texture;
     protected final int id;
     protected int x, y;
-    protected boolean solid;
+    protected boolean solid, postRendered;
 
     public Tiles(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
         this.id = id;
         this.solid = solid;
+    }
+
+    public Tiles(BufferedImage texture, int id, boolean solid, boolean postRendered) {
+        this.texture = texture;
+        this.id = id;
+        // Always false, because there is no point in post-render if an Entity can't walk behind this Tile
+        if(postRendered && solid) {
+            this.solid = true;
+            this.postRendered = false;
+        }else{
+            this.solid = solid;
+            this.postRendered = postRendered;
+        }
     }
 
     public int getX() {
@@ -75,5 +88,13 @@ public class Tiles {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isPostRendered() {
+        return postRendered;
+    }
+
+    public void setPostRendered(boolean postRendered) {
+        this.postRendered = postRendered;
     }
 }

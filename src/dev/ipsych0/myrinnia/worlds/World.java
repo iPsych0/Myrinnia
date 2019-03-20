@@ -25,7 +25,9 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public abstract class World implements Serializable {
 
@@ -131,11 +133,20 @@ public abstract class World implements Serializable {
 
         // Render the tiles
 
+        List<Tiles> renderOverTiles = new ArrayList<>();
+        List<Integer> xCoords = new ArrayList<>();
+        List<Integer> yCoords = new ArrayList<>();
         for (int i = 0; i < layers.length; i++) {
             for (int y = yStart; y < yEnd; y++) {
                 for (int x = xStart; x < xEnd; x++) {
                     Tiles t = getTile(i, x, y);
                     if (t != Tiles.tiles[0]) {
+                        if(t.isPostRendered()){
+                            renderOverTiles.add(t);
+                            xCoords.add((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()));
+                            yCoords.add((int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
+                            continue;
+                        }
                         t.render(g, (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
                                 (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
                     }
@@ -149,6 +160,9 @@ public abstract class World implements Serializable {
 
         // Entities
         entityManager.render(g);
+        for(int i = 0; i < renderOverTiles.size(); i++){
+            renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+        }
         entityManager.postRender(g);
 
 //        if(nightTime) {

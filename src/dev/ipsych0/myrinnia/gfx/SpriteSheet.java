@@ -41,7 +41,7 @@ public class SpriteSheet {
      * @param isSolid
      * @return
      */
-    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid) {
+    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered) {
 
         // Multiply by 32 pixel Tiles
         x *= 32;
@@ -60,7 +60,7 @@ public class SpriteSheet {
             tileId = (y / 32) * columns + (x / 32);
 
         // Set the tile image
-        Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid);
+        Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, postRendered);
 
         return sheet.getSubimage(x, y, width, height);
     }
@@ -73,7 +73,18 @@ public class SpriteSheet {
      * @return
      */
     public BufferedImage tileCrop(int x, int y, boolean isSolid) {
-        return tileCrop(x, y, 32, 32, isSolid);
+        return tileCrop(x, y, 32, 32, isSolid, false);
+    }
+
+    /**
+     * Default crop function with custom width and height and not-solid Tile
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public BufferedImage tileCrop(int x, int y, boolean isSolid, boolean postRendered) {
+        return tileCrop(x, y, 32, 32, isSolid, postRendered);
     }
 
     /**
@@ -86,7 +97,7 @@ public class SpriteSheet {
      * @return
      */
     public BufferedImage tileCrop(int x, int y, int width, int height) {
-        return tileCrop(x, y, width, height, false);
+        return tileCrop(x, y, width, height, false, false);
     }
 
     /**
@@ -97,7 +108,7 @@ public class SpriteSheet {
      * @return
      */
     public BufferedImage tileCrop(int x, int y) {
-        return tileCrop(x, y, 32, 32, false);
+        return tileCrop(x, y, 32, 32, false, false);
     }
 
     /**

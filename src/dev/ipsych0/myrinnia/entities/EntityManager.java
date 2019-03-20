@@ -119,6 +119,7 @@ public class EntityManager implements Serializable {
             if (selectedEntity != null) {
                 if (selectedEntity.active) {
                     selectedEntity.drawEntityOverlay(selectedEntity, g);
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity);
                 } else {
                     selectedEntity = null;
@@ -142,7 +143,7 @@ public class EntityManager implements Serializable {
             }
 
             // If the mouse is hovered over an Entity, draw the overlay
-            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
+            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                 if (e.isOverlayDrawn()) {
                     e.drawEntityOverlay(e, g);
                 }
