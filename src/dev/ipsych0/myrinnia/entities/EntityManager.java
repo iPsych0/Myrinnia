@@ -119,7 +119,7 @@ public class EntityManager implements Serializable {
             if (selectedEntity != null) {
                 if (selectedEntity.active) {
                     selectedEntity.drawEntityOverlay(selectedEntity, g);
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity);
                 } else {
                     selectedEntity = null;
