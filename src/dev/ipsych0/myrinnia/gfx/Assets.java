@@ -216,7 +216,7 @@ public class Assets {
 
         // Mountain
         for(int i = 6; i < 9; i++){
-            for(int j = 6; j < 10; j++){
+            for(int j = 6; j < 11; j++){
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
