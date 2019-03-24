@@ -82,7 +82,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     }
 
     public String getName() {
-        return "Shop owner";
+        return "Shopkeeper";
     }
 
 }

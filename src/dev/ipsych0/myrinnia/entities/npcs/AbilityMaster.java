@@ -87,4 +87,9 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Ability Master";
+    }
 }

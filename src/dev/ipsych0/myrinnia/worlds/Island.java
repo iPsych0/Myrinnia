@@ -51,9 +51,9 @@ public class Island extends World {
         entityManager.addEntity(new AbilityMaster(5088, 5532));
 
         // Southern cliffs
-        entityManager.addEntity(new Whirlpool(1280, 6320));
-        entityManager.addEntity(new Whirlpool(4832, 6320));
-        entityManager.addEntity(new Whirlpool(5264, 6240));
+        entityManager.addEntity(new FishingSpot(1280, 6320));
+        entityManager.addEntity(new FishingSpot(4832, 6320));
+        entityManager.addEntity(new FishingSpot(5264, 6240));
 
         entityManager.addEntity(new WaterToBridgePart(3584, 4320));
         entityManager.addEntity(new WaterToBridgePart(3584, 4352));

@@ -97,4 +97,9 @@ public class DirtHole extends StaticEntity {
 
     }
 
+    public String getName() {
+        return "Dirt hole";
+    }
+
+
 }

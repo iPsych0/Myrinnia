@@ -204,7 +204,7 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tiles t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
-                walkableOnTop = false;
+                walkableOnTop = t.getBounds() != null && t.getBounds().intersects(getCollisionBounds(0,0));
             } else {
                 if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;
@@ -220,11 +220,11 @@ public abstract class Creature extends Entity {
     public String[] getEntityInfo(Entity hoveringEntity) {
         if (this.isNpc) {
             String[] name = new String[1];
-            name[0] = hoveringEntity.getClass().getSimpleName();
+            name[0] = hoveringEntity.getName();
             return name;
         }
         String[] name = new String[2];
-        name[0] = hoveringEntity.getClass().getSimpleName() + " (level-" + getCombatLevel() + ")";
+        name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
         name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
         return name;
     }
@@ -295,7 +295,7 @@ public abstract class Creature extends Entity {
                 }
             }
             for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-                if (Handler.get().getWorld().getTile(i, (int) ((p.getX() + 16) / 32), (int) ((p.getY() + 16) / 32)).isSolid() && p.active) {
+                if (collisionWithTile((int) ((p.getX() + 16) / 32), (int) ((p.getY() + 16) / 32)) && p.active) {
                     p.active = false;
                 }
             }

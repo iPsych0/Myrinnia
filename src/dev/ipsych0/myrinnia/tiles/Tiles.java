@@ -25,11 +25,19 @@ public class Tiles {
     protected final int id;
     protected int x, y;
     protected boolean solid, postRendered;
+    private Polygon bounds;
 
     public Tiles(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
         this.id = id;
         this.solid = solid;
+    }
+
+    public Tiles(BufferedImage texture, int id, boolean solid, int[] x, int[] y, int n) {
+        this.texture = texture;
+        this.id = id;
+        this.solid = solid;
+        this.bounds = new Polygon(x, y, n);
     }
 
     public Tiles(BufferedImage texture, int id, boolean solid, boolean postRendered) {
@@ -64,6 +72,10 @@ public class Tiles {
 
     public void render(Graphics g, int x, int y) {
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
+        if(bounds != null){
+            g.setColor(Color.BLUE);
+            g.drawPolygon(bounds);
+        }
     }
 
     public void renderMiniMap(Graphics g, int x, int y) {
@@ -96,5 +108,13 @@ public class Tiles {
 
     public void setPostRendered(boolean postRendered) {
         this.postRendered = postRendered;
+    }
+
+    public Polygon getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(Polygon bounds) {
+        this.bounds = bounds;
     }
 }

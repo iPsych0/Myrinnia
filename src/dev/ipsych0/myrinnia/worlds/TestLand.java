@@ -5,7 +5,7 @@ import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.statics.Rock;
 import dev.ipsych0.myrinnia.entities.statics.SavingShrine;
 import dev.ipsych0.myrinnia.entities.statics.Tree;
-import dev.ipsych0.myrinnia.entities.statics.Whirlpool;
+import dev.ipsych0.myrinnia.entities.statics.FishingSpot;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
@@ -40,7 +40,7 @@ public class TestLand extends World {
 
         entityManager.addEntity(new SavingShrine(200, 200));
 
-        entityManager.addEntity(new Whirlpool(112, 928));
+        entityManager.addEntity(new FishingSpot(112, 928));
 
         swampLandTile = new Rectangle(0, 70, 32, 350);
         islandTile = new Rectangle(1568, 70, 32, 350);

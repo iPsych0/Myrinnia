@@ -81,4 +81,9 @@ public class SavingShrine extends StaticEntity {
 
     }
 
+    public String getName() {
+        return "Saving Shrine";
+    }
+
+
 }

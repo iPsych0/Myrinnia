@@ -133,4 +133,9 @@ public class WaterToBridgePart extends StaticEntity {
 
     }
 
+    public String getName() {
+        return "Fixable bridge";
+    }
+
+
 }

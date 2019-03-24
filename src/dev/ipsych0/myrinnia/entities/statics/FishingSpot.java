@@ -10,7 +10,7 @@ import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
 
-public class Whirlpool extends StaticEntity {
+public class FishingSpot extends StaticEntity {
 
 
     /**
@@ -26,7 +26,7 @@ public class Whirlpool extends StaticEntity {
     private int random = 0;
     private int attempts = 0;
 
-    public Whirlpool(float x, float y) {
+    public FishingSpot(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
         isNpc = true;
@@ -124,12 +124,17 @@ public class Whirlpool extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Whirlpool(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new FishingSpot(xSpawn, ySpawn));
     }
 
     @Override
     protected void updateDialogue() {
 
     }
+
+    public String getName() {
+        return "Fishing Spot";
+    }
+
 
 }

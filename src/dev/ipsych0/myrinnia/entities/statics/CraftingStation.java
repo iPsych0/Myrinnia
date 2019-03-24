@@ -72,4 +72,9 @@ public class CraftingStation extends StaticEntity {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Crafting Station";
+    }
 }

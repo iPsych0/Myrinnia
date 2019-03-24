@@ -116,4 +116,9 @@ public class TestNPC extends StaticEntity {
 
     }
 
+    public String getName() {
+        return "Test NPC";
+    }
+
+
 }

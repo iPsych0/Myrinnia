@@ -18,7 +18,7 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 5417348314768685085L;
     // ItemList
 
-    public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
+    public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
     public static Item[] items = new Item[1024];
 
 
@@ -55,6 +55,7 @@ public class Item implements Serializable {
     protected boolean stackable;
     private int respawnTimer = 10800;
     protected boolean equippable;
+    private boolean hovering;
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes) {
         this.texture = texture;
@@ -118,14 +119,14 @@ public class Item implements Serializable {
     }
 
     public void render(Graphics g, int x, int y) {
-        g.drawImage(texture, x + 4, y + 4, ITEMWIDTH, ITEMHEIGHT, null);
+        g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
     }
 
     /*
      * Adds a new item equippable item to the world
      * @params: x,y pause and amount
      */
-    public Item createItem(int x, int y, int count) {
+    public Item createItem(int x, int y, int amount) {
         Item i;
         if (this.isEquippable()) {
             i = new Item(texture, name, id, itemRarity, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
@@ -137,10 +138,10 @@ public class Item implements Serializable {
 
         // If the item is stackable, set the amount
         if (i.stackable)
-            i.setCount(count);
+            i.setAmount(amount);
             // If the item is unstackable, the count is always 1.
         else
-            i.setCount(1);
+            i.setAmount(1);
         return i;
     }
 
@@ -248,7 +249,7 @@ public class Item implements Serializable {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setAmount(int count) {
         this.count = count;
     }
 
@@ -342,6 +343,14 @@ public class Item implements Serializable {
 
     public void setEquippable(boolean equippable) {
         this.equippable = equippable;
+    }
+
+    public boolean isHovering() {
+        return hovering;
+    }
+
+    public void setHovering(boolean hovering) {
+        this.hovering = hovering;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

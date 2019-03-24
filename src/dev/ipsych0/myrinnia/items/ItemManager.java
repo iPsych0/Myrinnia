@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -31,8 +32,11 @@ public class ItemManager implements Serializable {
         while (it.hasNext()) {
             Item i = it.next();
 
+            // Check if we're hovering over the item
+            i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(),-Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
+
             // Checks player's pause for any items nearby to pick up
-            if (Handler.get().getMouseManager().isRightPressed() && Handler.get().getWorld().getEntityManager().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
+            if (Handler.get().getMouseManager().isRightPressed() && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
                 if (!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
                     if (i.pickUpItem(i)) {
                         if (i.isPickedUp()) {
@@ -85,6 +89,10 @@ public class ItemManager implements Serializable {
     public void render(Graphics g) {
         for (Item i : items) {
             i.render(g);
+            if(i.isHovering()){
+                drawHoverCorners(g, i, 1, 1, Color.BLACK);
+                drawHoverCorners(g, i);
+            }
 
             // Draw item bounds for picking up
 //			g.drawRect((int)(i.itemPosition(0, 0).x - Handler.get().getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - Handler.get().getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
@@ -92,12 +100,40 @@ public class ItemManager implements Serializable {
     }
 
     public void addItem(Item i) {
-        items.add(i);
-        added.add(i);
+        addItem(i, false);
     }
 
     public void addItem(Item i, boolean isWorldSpawn) {
         items.add(i);
+        if(!isWorldSpawn){
+            added.add(i);
+        }
+    }
+
+    private void drawHoverCorners(Graphics g, Item i, int xOffset, int yOffset, Color color){
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(2));
+
+        // Top left corner
+        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
+
+        // Top right corner
+        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
+
+        // Bottom left corner
+        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
+
+        // Bottom right corner
+        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
+        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
+    }
+
+    private void drawHoverCorners(Graphics g, Item i) {
+        drawHoverCorners(g, i, 0, 0, Color.GREEN);
     }
 
     // Getters & Setters
