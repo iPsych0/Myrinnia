@@ -4,9 +4,9 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 public enum QuestList {
 
-    TheFirstQuest("The First Quest", Zone.AzurealIsland),
-    TheSecondQuest("The Second Quest", Zone.AzurealIsland),
-    TheThirdQuest("The Third Quest", Zone.AzurealIsland),
+    TheFirstQuest("The First Quest", Zone.PortAzure),
+    TheSecondQuest("The Second Quest", Zone.PortAzure),
+    TheThirdQuest("The Third Quest", Zone.PortAzure),
     TheTestQuest("The Test Quest", Zone.SwampLand),
     AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
 

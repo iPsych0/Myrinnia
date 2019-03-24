@@ -1,7 +1,5 @@
 package dev.ipsych0.myrinnia.gfx;
 
-import dev.ipsych0.myrinnia.tiles.Tiles;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -57,7 +55,7 @@ public class Assets {
 
     // Equipment UI
     public static BufferedImage equipSlot, equipScreen, equipStats;
-    public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot,amuletSlot, offhandSlot, capeSlot, ringSlot2;
+    public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
     // Chatwindow UI
@@ -145,57 +143,57 @@ public class Assets {
         SpriteSheet myrinnia_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
 
         // Grass
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 3; j++){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
         // Dirt
-        for(int i = 5; i < 10; i++){
-            for(int j = 0; j < 3; j++){
+        for (int i = 5; i < 10; i++) {
+            for (int j = 0; j < 3; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
         // Water
-        for(int i = 10; i < 15; i++){
-            for(int j = 0; j < 3; j++){
+        for (int i = 10; i < 15; i++) {
+            for (int j = 0; j < 3; j++) {
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
 
         // Ocean
-        for(int i = 15; i < 20; i++){
-            for(int j = 0; j < 3; j++){
+        for (int i = 15; i < 20; i++) {
+            for (int j = 0; j < 3; j++) {
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
 
         // Sand
-        for(int i = 0; i < 5; i++){
-            for(int j = 3; j < 6; j++){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 3; j < 6; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
         // Snow
-        for(int i = 5; i < 10; i++){
-            for(int j = 3; j < 6; j++){
+        for (int i = 5; i < 10; i++) {
+            for (int j = 3; j < 6; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
         // Ice
-        for(int i = 10; i < 15; i++){
-            for(int j = 3; j < 6; j++){
+        for (int i = 10; i < 15; i++) {
+            for (int j = 3; j < 6; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
 
         // Dark Grass
-        for(int i = 15; i < 20; i++){
-            for(int j = 3; j < 6; j++){
+        for (int i = 15; i < 20; i++) {
+            for (int j = 3; j < 6; j++) {
                 myrinnia_tiles.tileCrop(i, j);
             }
         }
@@ -216,14 +214,57 @@ public class Assets {
 
         // Mountain
 //        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,4,4,0,0}, new int[]{0,0,4,4,32,32,0}, 14);
-        for(int i = 6; i < 11; i++){
-            for(int j = 6; j < 11; j++){
+        for (int i = 6; i < 11; i++) {
+            for (int j = 6; j < 11; j++) {
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
 
-        // Single Hill
-        myrinnia_tiles.tileCrop(9, 7, true);
+        // Sea docks top-down
+        for (int i = 3; i < 6; i++) {
+            for (int j = 8; j < 12; j++) {
+                if (j == 11 && i == 4) {
+                    myrinnia_tiles.tileCrop(i, j, true);
+                } else if (i == 4) {
+                    myrinnia_tiles.tileCrop(i, j);
+                } else {
+                    myrinnia_tiles.tileCrop(i, j, true);
+                }
+            }
+        }
+
+        // Sea docks left-right
+        for (int i = 0; i < 4; i++) {
+            for (int j = 12; j < 15; j++) {
+                if (i == 3 && j == 13) {
+                    myrinnia_tiles.tileCrop(i, j, true);
+                } else if (j == 12 || j == 14) {
+                    myrinnia_tiles.tileCrop(i, j, true);
+                } else {
+                    myrinnia_tiles.tileCrop(i, j);
+                }
+            }
+        }
+
+        // Walkable beach docks
+        for (int i = 0; i < 3; i++) {
+            for (int j = 8; j < 12; j++) {
+                myrinnia_tiles.tileCrop(i, j);
+            }
+        }
+
+        // Wooden house
+        for (int i = 11; i < myrinnia_tiles.getSheet().getWidth() / 32 - 1; i++) {
+            for (int j = 11; j < 18; j++) {
+                if (i == 15 && j == 12) {
+                    myrinnia_tiles.tileCrop(i, j);
+                } else if (j == 13 || j == 14) {
+                    myrinnia_tiles.tileCrop(i, j, false, true);
+                } else {
+                    myrinnia_tiles.tileCrop(i, j, true);
+                }
+            }
+        }
 
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
@@ -277,8 +318,8 @@ public class Assets {
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
-        rangedIcon = ui_sheet.imageCrop(3,1);
-        magicIcon = ui_sheet.imageCrop(4,1);
+        rangedIcon = ui_sheet.imageCrop(3, 1);
+        magicIcon = ui_sheet.imageCrop(4, 1);
 
         // Inventory sprites
         invScreen = ui_sheet.imageCrop(0, 9, 132, 329);
@@ -395,11 +436,11 @@ public class Assets {
         /*
          * Ability Icons
          */
-        eruptionI = ability_sheet.imageCrop(0,0);
-        fireballI = ability_sheet.imageCrop(1,0);
-        mendWoundsI = ability_sheet.imageCrop(2,0);
-        nimbleFeetI = ability_sheet.imageCrop(3,0);
-        supersonicDashI = ability_sheet.imageCrop(4,0);
+        eruptionI = ability_sheet.imageCrop(0, 0);
+        fireballI = ability_sheet.imageCrop(1, 0);
+        mendWoundsI = ability_sheet.imageCrop(2, 0);
+        nimbleFeetI = ability_sheet.imageCrop(3, 0);
+        supersonicDashI = ability_sheet.imageCrop(4, 0);
 
 
         /*
@@ -415,29 +456,29 @@ public class Assets {
         airCloud1[6] = airCloud1_sheet.imageCrop(6, 0);
 
         waterSplash1 = new BufferedImage[5];
-        waterSplash1[0] = waterSplash1_sheet.imageCrop(0,0);
-        waterSplash1[1] = waterSplash1_sheet.imageCrop(1,0);
-        waterSplash1[2] = waterSplash1_sheet.imageCrop(2,0);
-        waterSplash1[3] = waterSplash1_sheet.imageCrop(3,0);
-        waterSplash1[4] = waterSplash1_sheet.imageCrop(4,0);
+        waterSplash1[0] = waterSplash1_sheet.imageCrop(0, 0);
+        waterSplash1[1] = waterSplash1_sheet.imageCrop(1, 0);
+        waterSplash1[2] = waterSplash1_sheet.imageCrop(2, 0);
+        waterSplash1[3] = waterSplash1_sheet.imageCrop(3, 0);
+        waterSplash1[4] = waterSplash1_sheet.imageCrop(4, 0);
 
         movementBoost1 = new BufferedImage[7];
-        movementBoost1[0] = movementBoost1_sheet.imageCrop(0,0);
-        movementBoost1[1] = movementBoost1_sheet.imageCrop(1,0);
-        movementBoost1[2] = movementBoost1_sheet.imageCrop(2,0);
-        movementBoost1[3] = movementBoost1_sheet.imageCrop(3,0);
-        movementBoost1[4] = movementBoost1_sheet.imageCrop(4,0);
-        movementBoost1[5] = movementBoost1_sheet.imageCrop(5,0);
-        movementBoost1[6] = movementBoost1_sheet.imageCrop(6,0);
+        movementBoost1[0] = movementBoost1_sheet.imageCrop(0, 0);
+        movementBoost1[1] = movementBoost1_sheet.imageCrop(1, 0);
+        movementBoost1[2] = movementBoost1_sheet.imageCrop(2, 0);
+        movementBoost1[3] = movementBoost1_sheet.imageCrop(3, 0);
+        movementBoost1[4] = movementBoost1_sheet.imageCrop(4, 0);
+        movementBoost1[5] = movementBoost1_sheet.imageCrop(5, 0);
+        movementBoost1[6] = movementBoost1_sheet.imageCrop(6, 0);
 
         eruption1 = new BufferedImage[7];
-        eruption1[0] = eruption1_sheet.imageCrop(0,0);
-        eruption1[1] = eruption1_sheet.imageCrop(1,0);
-        eruption1[2] = eruption1_sheet.imageCrop(2,0);
-        eruption1[3] = eruption1_sheet.imageCrop(3,0);
-        eruption1[4] = eruption1_sheet.imageCrop(4,0);
-        eruption1[5] = eruption1_sheet.imageCrop(5,0);
-        eruption1[6] = eruption1_sheet.imageCrop(6,0);
+        eruption1[0] = eruption1_sheet.imageCrop(0, 0);
+        eruption1[1] = eruption1_sheet.imageCrop(1, 0);
+        eruption1[2] = eruption1_sheet.imageCrop(2, 0);
+        eruption1[3] = eruption1_sheet.imageCrop(3, 0);
+        eruption1[4] = eruption1_sheet.imageCrop(4, 0);
+        eruption1[5] = eruption1_sheet.imageCrop(5, 0);
+        eruption1[6] = eruption1_sheet.imageCrop(6, 0);
 
         // Animated ambiance details
         sparkles = new BufferedImage[3];

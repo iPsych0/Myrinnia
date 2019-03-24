@@ -33,7 +33,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.AzurealIsland;
+import dev.ipsych0.myrinnia.worlds.PortAzure;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -52,7 +52,7 @@ public class Handler implements Serializable {
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
     private World world;
-    private AzurealIsland azurealIsland;
+    private PortAzure portAzure;
     private WorldHandler worldHandler;
     private Player player;
     private ChatWindow chatWindow;
@@ -112,8 +112,8 @@ public class Handler implements Serializable {
         abilityOverviewUI = new AbilityOverviewUI();
 
         // Set the starting world
-        azurealIsland = new AzurealIsland(initialWorldPath);
-        worldHandler = new WorldHandler(azurealIsland);
+        portAzure = new PortAzure(initialWorldPath);
+        worldHandler = new WorldHandler(portAzure);
     }
 
     public void playMusic(Zone zone) {

@@ -36,7 +36,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
         Handler.get().getGame().gameState.render(g);
 
         // Get the textWidth of the Zone name
-        int textWidth = Text.getStringWidth(g, zone.toString(), Assets.font20);
+        int textWidth = Text.getStringWidth(g, zone.getName(), Assets.font20);
 
         // Fade in UI element
         if (yOffset < 0) {

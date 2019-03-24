@@ -17,7 +17,7 @@ public class GameState extends State {
     public GameState() {
         super();
         // Setup new game world
-        Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.AzurealIsland));
+        Handler.get().setWorld(Handler.get().getWorldHandler().getWorldsMap().get(Zone.PortAzure));
 
     }
 

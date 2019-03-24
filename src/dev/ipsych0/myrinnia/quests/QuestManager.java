@@ -56,9 +56,9 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        islandQuests.add(new Quest("The First Quest", Zone.AzurealIsland));
-        islandQuests.add(new Quest("The Second Quest", Zone.AzurealIsland, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
-        islandQuests.add(new Quest("The Third Quest", Zone.AzurealIsland));
+        islandQuests.add(new Quest("The First Quest", Zone.PortAzure));
+        islandQuests.add(new Quest("The Second Quest", Zone.PortAzure, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
+        islandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
 
         // Test Quests
         testQuests.add(new Quest("The Test Quest", Zone.SwampLand));

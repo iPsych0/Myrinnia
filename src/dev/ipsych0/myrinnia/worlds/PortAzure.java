@@ -11,11 +11,11 @@ import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
 
-public class AzurealIsland extends World {
+public class PortAzure extends World {
 
     private static final long serialVersionUID = -3850769561562549459L;
 
-    public AzurealIsland(String path) {
+    public PortAzure(String path) {
         super();
 
         this.worldPath = path;
@@ -30,7 +30,7 @@ public class AzurealIsland extends World {
         entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
-        entityManager.addEntity(new Scorpion(1136, 2340));
+        entityManager.addEntity(new Scorpion(976, 2340));
 //		entityManager.addEntity(new Scorpion(4600, 5740));
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));
@@ -42,7 +42,7 @@ public class AzurealIsland extends World {
         entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
-        entityManager.addEntity(new FishingSpot(2080, 2976));
+        entityManager.addEntity(new FishingSpot(832, 2868));
         entityManager.addEntity(new Campfire(2080, 2600));
 
         // World Item Spawns

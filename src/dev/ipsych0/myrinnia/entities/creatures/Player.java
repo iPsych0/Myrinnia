@@ -85,7 +85,7 @@ public class Player extends Creature {
     private AbilityTrainer abilityTrainer;
     private Banker bankEntity;
 
-    private Zone zone = Zone.Island;
+    private Zone zone = Zone.PortAzure;
     private Rectangle itemPickupRadius;
 
     private int abilityPoints;
