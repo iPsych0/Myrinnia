@@ -41,6 +41,8 @@ public class EntityManager implements Serializable {
                 deleted.add(e);
             }
 
+            Rectangle mouse = Handler.get().getMouse();
+
             Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
             Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
             if (e instanceof Creature) {
@@ -66,6 +68,29 @@ public class EntityManager implements Serializable {
             // Update combat timers
             if (e.isDamaged() && e.getDamageDealer() != null) {
                 e.updateCombatTimer();
+            }
+
+            // If we rightclick an Entity, lock it to the top of the screen.
+            if (!isPressed && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
+                isPressed = true;
+                if (e.isOverlayDrawn())
+                    selectedEntity = e;
+            }
+
+            // If we clicked away, remove the locked UI component
+            if (selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
+                    !Handler.get().getPlayer().hasRightClickedUI(mouse) &&
+                    !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
+                isPressed = true;
+                selectedEntity = null;
+
+                // Check if we're clicking on another Entity
+                for(Entity e2 : entities){
+                    if(e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)){
+                        selectedEntity = e2;
+                        break;
+                    }
+                }
             }
         }
 
@@ -105,53 +130,6 @@ public class EntityManager implements Serializable {
                     if (p.active) {
                         p.render(g);
                     }
-                }
-            }
-
-            // If we rightclick an Entity, lock it to the top of the screen.
-            if (!isPressed && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
-                isPressed = true;
-                if (e.isOverlayDrawn())
-                    selectedEntity = e;
-            }
-
-            // Keep rendering the selected Entity
-            if (selectedEntity != null) {
-                if (selectedEntity.active) {
-                    selectedEntity.drawEntityOverlay(selectedEntity, g);
-                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, selectedEntity);
-                } else {
-                    selectedEntity = null;
-                }
-            }
-
-            // If we clicked away, remove the locked UI component
-            if (selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
-                    !Handler.get().getPlayer().hasRightClickedUI(mouse) &&
-                    !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
-                isPressed = true;
-                selectedEntity = null;
-
-                // Check if we're clicking on another Entity
-                for(Entity e2 : entities){
-                    if(e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)){
-                        selectedEntity = e2;
-                        break;
-                    }
-                }
-            }
-
-            // If the mouse is hovered over an Entity, draw the overlay
-            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
-                if (e.isOverlayDrawn()) {
-                    e.drawEntityOverlay(e, g);
-                }
-
-                // If Entity can be interacted with, show corner pieces on hovering
-                if (e.isNpc() || e.isAttackable()) {
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e);
                 }
             }
 
@@ -208,6 +186,34 @@ public class EntityManager implements Serializable {
     public void postRender(Graphics g) {
         // Post renders for entities for additional
         player.postRender(g);
+
+        // Keep rendering the selected Entity
+        if (selectedEntity != null) {
+            if (selectedEntity.active) {
+                selectedEntity.drawEntityOverlay(selectedEntity, g);
+                drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
+                drawHoverCorners(g, selectedEntity);
+            } else {
+                selectedEntity = null;
+            }
+        }
+
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity e = it.next();
+            // If the mouse is hovered over an Entity, draw the overlay
+            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
+                if (e.isOverlayDrawn()) {
+                    e.drawEntityOverlay(e, g);
+                }
+
+                // If Entity can be interacted with, show corner pieces on hovering
+                if (e.isNpc() || e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e);
+                }
+            }
+        }
     }
 
     public void addEntity(Entity e) {

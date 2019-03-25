@@ -17,8 +17,6 @@ public class Scorpion extends Creature {
      */
     private static final long serialVersionUID = 917078714756242679L;
 
-    private boolean initialized = false;
-
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 

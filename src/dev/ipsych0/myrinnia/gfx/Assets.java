@@ -205,8 +205,8 @@ public class Assets {
 
         // Sea Rocks terrain
         myrinnia_tiles.tileCrop(0, 7, true);
-        myrinnia_tiles.tileCrop(1, 7, false);
-        myrinnia_tiles.tileCrop(2, 7, false);
+        myrinnia_tiles.tileCrop(1, 7, true);
+        myrinnia_tiles.tileCrop(2, 7, true);
 
         // Tree
         myrinnia_tiles.tileCrop(3, 6, false, true);
