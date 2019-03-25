@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -61,7 +61,7 @@ public class QuestManager implements Serializable {
         islandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
 
         // Test Quests
-        testQuests.add(new Quest("The Test Quest", Zone.SwampLand));
+        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
 
         //Main Quests
         mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
@@ -79,8 +79,8 @@ public class QuestManager implements Serializable {
         for (int i = 0; i < allQuestLists.size(); i++) {
             for (int j = 0; j < allQuestLists.get(i).size(); j++) {
                 try {
-                    for(int k = 0; k < questEnums.size(); k++){
-                        if(questEnums.get(k).getName().equalsIgnoreCase(allQuestLists.get(i).get(j).getQuestName())){
+                    for (int k = 0; k < questEnums.size(); k++) {
+                        if (questEnums.get(k).getName().equalsIgnoreCase(allQuestLists.get(i).get(j).getQuestName())) {
                             questMap.put(questEnums.get(k), allQuestLists.get(i).get(j));
                             break;
                         }

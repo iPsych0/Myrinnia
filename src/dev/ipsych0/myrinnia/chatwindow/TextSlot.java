@@ -31,9 +31,6 @@ public class TextSlot implements Serializable {
     }
 
     public void render(Graphics g) {
-        g.setFont(GameState.myFont);
-        g.setColor(Color.YELLOW);
-
         if (message != null) {
             Text.drawString(g, message, x + 6, y + 24, false, Color.YELLOW, Assets.font14);
         }

@@ -77,8 +77,6 @@ public class Assets {
 
     public static BufferedImage shopWindow;
 
-    public static BufferedImage controlsScreen;
-
     public static BufferedImage[][] puzzlePieces;
 
     public static void init() {
@@ -101,7 +99,6 @@ public class Assets {
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
-        SpriteSheet controls_sheet = new SpriteSheet("/textures/ControlsScreen.png");
         SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow-new.png");
         SpriteSheet texture_sheet = new SpriteSheet("/textures/textures.png");
         SpriteSheet objects17 = new SpriteSheet("/textures/object_sprites17.png");
@@ -122,10 +119,6 @@ public class Assets {
          * Crop ShopKeeperNPC out
          */
         SpriteSheet lorraine_sprites = new SpriteSheet("/textures/lorrainesprites.png");
-        /*
-         * Add animated tiles
-         */
-        SpriteSheet animated_terrain = new SpriteSheet("/textures/animated_terrain.png");
 
         /*
          * Creature Animations
@@ -307,8 +300,6 @@ public class Assets {
 
         shopWindow = shop_window.imageCrop(0, 0, 460, 313);
 
-        controlsScreen = controls_sheet.imageCrop(0, 0, 460, 313);
-
         magicProjectile = new BufferedImage[3];
         magicProjectile[0] = projectiles.imageCrop(3, 4);
         magicProjectile[1] = projectiles.imageCrop(4, 4);
@@ -479,12 +470,6 @@ public class Assets {
         eruption1[4] = eruption1_sheet.imageCrop(4, 0);
         eruption1[5] = eruption1_sheet.imageCrop(5, 0);
         eruption1[6] = eruption1_sheet.imageCrop(6, 0);
-
-        // Animated ambiance details
-        sparkles = new BufferedImage[3];
-        sparkles[0] = animated_terrain.imageCrop(0, 0);
-        sparkles[1] = animated_terrain.imageCrop(1, 0);
-        sparkles[2] = animated_terrain.imageCrop(2, 0);
 
         // Skilling objects
         tree = texture_sheet.imageCrop(1, 2);

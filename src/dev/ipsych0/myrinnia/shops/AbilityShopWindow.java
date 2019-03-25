@@ -302,10 +302,10 @@ public class AbilityShopWindow implements Serializable {
     private void drawButtons(Graphics g) {
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);
-        Text.drawString(g, "All", allButton.x + allButton.width / 2, allButton.y + allButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-        Text.drawString(g, "Melee", meleeButton.x + meleeButton.width / 2, meleeButton.y + meleeButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-        Text.drawString(g, "Ranged", rangedButton.x + rangedButton.width / 2, rangedButton.y + rangedButton.height / 2, true, Color.YELLOW, GameState.chatFont);
-        Text.drawString(g, "Magic", magicButton.x + magicButton.width / 2, magicButton.y + magicButton.height / 2, true, Color.YELLOW, GameState.chatFont);
+        Text.drawString(g, "All", allButton.x + allButton.width / 2, allButton.y + allButton.height / 2, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Melee", meleeButton.x + meleeButton.width / 2, meleeButton.y + meleeButton.height / 2, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Ranged", rangedButton.x + rangedButton.width / 2, rangedButton.y + rangedButton.height / 2, true, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Magic", magicButton.x + magicButton.width / 2, magicButton.y + magicButton.height / 2, true, Color.YELLOW, Assets.font14);
     }
 
     private void setSubSlots(ArrayList<AbilityShopSlot> slots) {

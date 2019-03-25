@@ -5,12 +5,9 @@ import dev.ipsych0.myrinnia.worlds.data.World;
 
 import java.awt.*;
 
-/**
- * DUMMY MODEL CLASS FOR QUEST OVERVIEW CATEGORY, NO FUNCTIONALITY
- */
-public class Myrinnia extends World {
+public class SunriseSands extends World {
 
-    public Myrinnia(String path){
+    public SunriseSands(String path){
         super(path);
     }
 

@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.audio;
 
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 import org.lwjgl.openal.*;
 
 import java.io.*;

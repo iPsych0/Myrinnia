@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.worlds.data.World;
 
 import java.awt.*;
 
@@ -18,28 +18,27 @@ public class PortAzure extends World {
     public PortAzure(String path) {
         super(path);
 
-        entityManager.addEntity(new Tree(240, 240));
-
-        entityManager.addEntity(new Rock(182, 182));
+//        entityManager.addEntity(new Tree(240, 240));
+//        entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
-        entityManager.addEntity(new Scorpion(928, 2336));
+//        entityManager.addEntity(new Scorpion(928, 2336));
 //		entityManager.addEntity(new Scorpion(4600, 5740));
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));
 
-        entityManager.addEntity(new SavingShrine(1536, 2560));
-        entityManager.addEntity(new TestNPC(1440, 2560));
-        entityManager.addEntity(new AbilityMaster(1504, 2336));
-        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
-        entityManager.addEntity(new CraftingStation(1504, 2400));
+//        entityManager.addEntity(new SavingShrine(1536, 2560));
+//        entityManager.addEntity(new TestNPC(1440, 2560));
+//        entityManager.addEntity(new AbilityMaster(1504, 2336));
+//        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
+//        entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
         entityManager.addEntity(new FishingSpot(832, 2868));
-        entityManager.addEntity(new Campfire(2080, 2600));
+//        entityManager.addEntity(new Campfire(2080, 2600));
 
         // World Item Spawns
-        itemManager.addItem(Item.regularLogs.createItem(1536, 2592, 5), true);
+//        itemManager.addItem(Item.regularLogs.createItem(1536, 2592, 5), true);
 
     }
 

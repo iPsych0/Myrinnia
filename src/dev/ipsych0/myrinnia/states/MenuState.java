@@ -8,7 +8,7 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.nio.file.Files;

@@ -34,9 +34,9 @@ import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.PortAzure;
-import dev.ipsych0.myrinnia.worlds.World;
-import dev.ipsych0.myrinnia.worlds.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.World;
+import dev.ipsych0.myrinnia.worlds.data.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.*;
@@ -69,7 +69,7 @@ public class Handler implements Serializable {
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
-    public static String initialWorldPath = "res/worlds/azureal_island.tmx";
+    public static String initialWorldPath = "res/worlds/port_azure.tmx";
 
     private static Handler handler;
 

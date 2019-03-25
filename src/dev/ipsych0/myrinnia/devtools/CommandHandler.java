@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.io.Serializable;
 

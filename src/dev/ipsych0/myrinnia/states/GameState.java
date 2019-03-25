@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 
@@ -11,8 +11,6 @@ public class GameState extends State {
      *
      */
     private static final long serialVersionUID = 1598032694820560072L;
-    public static Font myFont;
-    public static Font chatFont = new Font("SansSerif", Font.BOLD, 16);
 
     public GameState() {
         super();
