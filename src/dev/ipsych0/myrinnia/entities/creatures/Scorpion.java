@@ -48,9 +48,6 @@ public class Scorpion extends Creature {
         bounds.width = 28;
         bounds.height = 28;
 
-        pathFindRadiusX = 512 * 2;
-        pathFindRadiusY = 512 * 2;
-
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);

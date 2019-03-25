@@ -61,6 +61,10 @@ public abstract class Entity implements Serializable {
         this.height = height;
         health = DEFAULT_HEALTH;
 
+        if(x % 32 != 0 || y % 32 != 0){
+            System.err.println(this.getName()  + " must be placed on a coordinate dividable by 32.");
+        }
+
         bounds = new Rectangle(0, 0, width, height);
         collision = new Rectangle((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
     }

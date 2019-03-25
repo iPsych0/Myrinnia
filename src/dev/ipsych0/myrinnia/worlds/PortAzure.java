@@ -16,21 +16,14 @@ public class PortAzure extends World {
     private static final long serialVersionUID = -3850769561562549459L;
 
     public PortAzure(String path) {
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
 
         entityManager.addEntity(new Tree(240, 240));
 
         entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
-        entityManager.addEntity(new Scorpion(920, 2340));
+        entityManager.addEntity(new Scorpion(928, 2336));
 //		entityManager.addEntity(new Scorpion(4600, 5740));
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));

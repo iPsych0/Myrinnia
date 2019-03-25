@@ -66,7 +66,14 @@ public abstract class World implements Serializable {
 
     // Actual code ---v
 
-    public World() {
+    public World(String path) {
+
+        this.worldPath = path;
+
+        width = MapLoader.getMapWidth(path);
+        height = MapLoader.getMapHeight(path);
+
+        loadWorld(path);
 
         // World-specific classes
         this.player = Handler.get().getPlayer();

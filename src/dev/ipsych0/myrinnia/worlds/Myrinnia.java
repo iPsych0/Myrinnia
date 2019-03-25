@@ -11,14 +11,7 @@ import java.awt.*;
 public class Myrinnia extends World {
 
     public Myrinnia(String path){
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
     }
 
     @Override

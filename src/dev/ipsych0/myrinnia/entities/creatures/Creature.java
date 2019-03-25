@@ -64,7 +64,7 @@ public abstract class Creature extends Entity {
     // A* stuff
     protected CombatState state;
     protected List<Node> nodes;
-    protected int pathFindRadiusX = 576, pathFindRadiusY = 576;
+    protected int pathFindRadiusX = 1024, pathFindRadiusY = 1024;
     protected AStarMap map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
     protected boolean aStarInitialized;
     protected Color pathColour = new Color(44, 255, 12, 127);
@@ -673,5 +673,21 @@ public abstract class Creature extends Entity {
 
     public void setBuffs(List<Buff> buffs) {
         this.buffs = buffs;
+    }
+
+    public int getPathFindRadiusX() {
+        return pathFindRadiusX;
+    }
+
+    public void setPathFindRadiusX(int pathFindRadiusX) {
+        this.pathFindRadiusX = pathFindRadiusX;
+    }
+
+    public int getPathFindRadiusY() {
+        return pathFindRadiusY;
+    }
+
+    public void setPathFindRadiusY(int pathFindRadiusY) {
+        this.pathFindRadiusY = pathFindRadiusY;
     }
 }

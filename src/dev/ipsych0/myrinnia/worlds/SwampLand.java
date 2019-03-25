@@ -19,14 +19,7 @@ public class SwampLand extends World {
     private Rectangle testLandTile;
 
     public SwampLand(String path) {
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
 
         entityManager.addEntity(new ShopKeeperNPC("General Store", 732, 640));
 

@@ -25,14 +25,7 @@ public class IslandUnderground extends World {
     private Rectangle northwestVillageHouseExit;
 
     public IslandUnderground(String path) {
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
 
         entityManager.addEntity(new ShopKeeperNPC("General Store", 3904, 6080));
         entityManager.addEntity(new Campfire(4960, 5438));

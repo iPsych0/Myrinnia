@@ -20,14 +20,7 @@ public class TestLand extends World {
     private Rectangle islandTile;
 
     public TestLand(String path) {
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
 
         entityManager.addEntity(new ShopKeeperNPC("General Store", 732, 440));
 
