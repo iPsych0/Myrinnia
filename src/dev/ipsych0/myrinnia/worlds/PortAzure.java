@@ -8,12 +8,15 @@ import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.worlds.data.World;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 
 public class PortAzure extends World {
 
     private static final long serialVersionUID = -3850769561562549459L;
+
+    private Rectangle sunsetCoveTile;
 
     public PortAzure(String path) {
         super(path);
@@ -40,12 +43,17 @@ public class PortAzure extends World {
         // World Item Spawns
 //        itemManager.addItem(Item.regularLogs.createItem(1536, 2592, 5), true);
 
+        sunsetCoveTile = new Rectangle(0, 160, 16, 400);
+
     }
 
     @Override
     public void tick() {
         if (Handler.get().getWorld().equals(this)) {
             super.tick();
+            if(standingOnTile(sunsetCoveTile)){
+                Handler.get().goToWorld(Zone.SunsetCove, 1856, 4672);
+            }
         }
     }
 

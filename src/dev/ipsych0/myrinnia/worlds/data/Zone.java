@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.worlds.data;
 
 public enum Zone {
 
-    PortAzure("Port Azure", "myrinnia.wav"), Myrinnia("Myrinnia", "myrinnia.wav"), SunsetCove("Sunset Cove", "myrinnia.wav"),
+    PortAzure("Port Azure", "myrinnia.wav"), Myrinnia("Myrinnia", "myrinnia.wav"), SunsetCove("Sunset Cove", "ancient.wav"),
     SunriseSands("Sunrise Sands", "myrinnia.wav"), LakeAzure("Lake Azure","myrinnia.wav"), MtAzure("Mt. Azure", "myrinnia.wav"),
     SunshineCoast("Sunshine Coast", "myrinnia.wav");
 
