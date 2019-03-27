@@ -14,9 +14,10 @@ public class ZoneTransitionState extends AbstractTransitionState {
      */
     private static final long serialVersionUID = 353118389669820751L;
     private Zone zone;
-    private int yOffset = -32;
     private int secondYOffset = 0;
     private int idleTimer = 0;
+    private static final int POPUP_HEIGHT = 80;
+    private int yOffset = -POPUP_HEIGHT;
 
     public ZoneTransitionState(Zone zone) {
         super();
@@ -26,7 +27,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
     @Override
     public void tick() {
         Handler.get().getGame().gameState.tick();
-        if (alpha == 0 && secondYOffset == -32) {
+        if (alpha == 0 && secondYOffset == -POPUP_HEIGHT) {
             State.setState(Handler.get().getGame().gameState);
         }
     }
@@ -36,20 +37,22 @@ public class ZoneTransitionState extends AbstractTransitionState {
         Handler.get().getGame().gameState.render(g);
 
         // Get the textWidth of the Zone name
-        int textWidth = Text.getStringWidth(g, zone.getName(), Assets.font20);
+        int textWidth = Text.getStringWidth(g, zone.getName(), Assets.font32);
 
         // Fade in UI element
         if (yOffset < 0) {
-            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, 32, null);
-            Text.drawString(g, zone.toString(), Handler.get().getWidth() / 2, yOffset + 16, true, Color.YELLOW, Assets.font20);
+            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, POPUP_HEIGHT, null);
+            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 4,
+                    true, Color.YELLOW, Assets.font32);
             yOffset++;
         }
         // Wait 3 seconds, then fade out UI element
         if (yOffset == 0) {
             idleTimer++;
-            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, 32, null);
-            Text.drawString(g, zone.toString(), Handler.get().getWidth() / 2, secondYOffset + 16, true, Color.YELLOW, Assets.font20);
-            if (idleTimer > 180 && secondYOffset > -32) {
+            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, POPUP_HEIGHT, null);
+            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 4,
+                    true, Color.YELLOW, Assets.font32);
+            if (idleTimer > 180 && secondYOffset > -POPUP_HEIGHT) {
                 secondYOffset--;
             }
         }
