@@ -148,7 +148,7 @@ public abstract class World implements Serializable {
                 for (int x = xStart; x < xEnd; x++) {
                     Tiles t = getTile(i, x, y);
                     if (t != Tiles.tiles[0]) {
-                        if(t.isPostRendered()){
+                        if (t.isPostRendered()) {
                             renderOverTiles.add(t);
                             xCoords.add((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()));
                             yCoords.add((int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
@@ -167,7 +167,7 @@ public abstract class World implements Serializable {
 
         // Entities
         entityManager.render(g);
-        for(int i = 0; i < renderOverTiles.size(); i++){
+        for (int i = 0; i < renderOverTiles.size(); i++) {
             renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
         }
         entityManager.postRender(g);

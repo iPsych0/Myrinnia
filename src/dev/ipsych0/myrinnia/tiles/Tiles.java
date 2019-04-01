@@ -9,23 +9,20 @@ import java.awt.image.BufferedImage;
 
 public class Tiles {
 
-    // Get all Tiled firstGids
-
     // Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
     public static Tiles[] tiles = new Tiles[(SpriteSheet.firstGids[SpriteSheet.firstGids.length - 1]
             + MapLoader.getTileCount(Handler.initialWorldPath, SpriteSheet.firstGids.length - 1))];
 
-    /*
-     * Class data
-     */
 
     public static final int TILEWIDTH = 32, TILEHEIGHT = 32;
 
-    protected BufferedImage texture;
-    protected final int id;
-    protected int x, y;
-    protected boolean solid, postRendered;
+    private BufferedImage texture;
+    private final int id;
+    private int x, y;
+    private boolean solid, postRendered;
+    private int[] xPoints, yPoints;
     private Polygon bounds;
+    private boolean initialized;
 
     public Tiles(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
@@ -33,21 +30,23 @@ public class Tiles {
         this.solid = solid;
     }
 
-    public Tiles(BufferedImage texture, int id, boolean solid, int[] x, int[] y, int n) {
+    public Tiles(BufferedImage texture, int id, boolean solid, int[] x, int[] y) {
         this.texture = texture;
         this.id = id;
         this.solid = solid;
-        this.bounds = new Polygon(x, y, n);
+        this.xPoints = x;
+        this.yPoints = y;
+        this.bounds = new Polygon(x, y, (x.length + y.length) / 2);
     }
 
     public Tiles(BufferedImage texture, int id, boolean solid, boolean postRendered) {
         this.texture = texture;
         this.id = id;
         // Always false, because there is no point in post-render if an Entity can't walk behind this Tile
-        if(postRendered && solid) {
+        if (postRendered && solid) {
             this.solid = true;
             this.postRendered = false;
-        }else{
+        } else {
             this.solid = solid;
             this.postRendered = postRendered;
         }
@@ -72,14 +71,6 @@ public class Tiles {
 
     public void render(Graphics g, int x, int y) {
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
-        if(bounds != null){
-            g.setColor(Color.BLUE);
-            g.drawPolygon(bounds);
-        }
-    }
-
-    public void renderMiniMap(Graphics g, int x, int y) {
-        g.drawImage(texture, x, y, (int) TILEWIDTH * 25 / 100, (int) TILEHEIGHT * 25 / 100, null);
     }
 
     public BufferedImage getTexture() {
@@ -94,10 +85,6 @@ public class Tiles {
         return solid;
     }
 
-    public static Tiles getTileByID(int id) {
-        return tiles[id];
-    }
-
     public int getId() {
         return id;
     }
@@ -110,7 +97,17 @@ public class Tiles {
         this.postRendered = postRendered;
     }
 
-    public Polygon getBounds() {
+    public Polygon getBounds(int xPos, int yPos) {
+        if (!initialized && bounds != null) {
+            for (int i = 0; i < xPoints.length; i++) {
+                xPoints[i] = xPoints[i] + (xPos * TILEWIDTH);
+            }
+            for (int i = 0; i < yPoints.length; i++) {
+                yPoints[i] = yPoints[i] + (yPos * TILEHEIGHT);
+            }
+            bounds = new Polygon(xPoints, yPoints, (xPoints.length + yPoints.length) / 2);
+            initialized = true;
+        }
         return bounds;
     }
 

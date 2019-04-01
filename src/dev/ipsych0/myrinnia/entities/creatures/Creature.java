@@ -204,7 +204,7 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tiles t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
-                walkableOnTop = t.getBounds() != null && t.getBounds().intersects(getCollisionBounds(0,0));
+                walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(0,0));
             } else {
                 if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;

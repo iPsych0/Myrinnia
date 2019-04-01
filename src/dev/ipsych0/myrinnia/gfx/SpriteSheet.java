@@ -41,7 +41,7 @@ public class SpriteSheet {
      * @param isSolid
      * @return
      */
-    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered) {
+    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered, int[] xPoints, int[] yPoints, int nPoints) {
 
         // Multiply by 32 pixel Tiles
         x *= 32;
@@ -59,10 +59,42 @@ public class SpriteSheet {
         else
             tileId = (y / 32) * columns + (x / 32);
 
-        // Set the tile image
-        Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, postRendered);
+        // Set the tile image with polygon bounds
+        if (xPoints != null && yPoints != null && nPoints > 0) {
+            Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, xPoints, yPoints);
+        } else {
+            Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, postRendered);
+        }
 
         return sheet.getSubimage(x, y, width, height);
+    }
+
+    /**
+     * Crop function which creates the Tile and returns the image of the tile.
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param isSolid
+     * @return
+     */
+    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered) {
+        return tileCrop(x, y, width, height, isSolid, postRendered, null, null, 0);
+    }
+
+    /**
+     * Default crop function with custom width and height and not-solid Tile
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public BufferedImage tileCrop(int x, int y, boolean isSolid, int[] xPoints, int[] yPoints) {
+        if (xPoints == null || yPoints == null || xPoints.length == 0 || yPoints.length == 0) {
+            return tileCrop(x, y, 32, 32, isSolid, false, null, null, 0);
+        }
+        return tileCrop(x, y, 32, 32, isSolid, false, xPoints, yPoints, ((xPoints.length + yPoints.length) / 2));
     }
 
     /**

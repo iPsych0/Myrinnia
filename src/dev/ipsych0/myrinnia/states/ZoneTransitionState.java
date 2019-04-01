@@ -14,9 +14,9 @@ public class ZoneTransitionState extends AbstractTransitionState {
      */
     private static final long serialVersionUID = 353118389669820751L;
     private Zone zone;
-    private int secondYOffset = 0;
+    private int secondYOffset = 4;
     private int idleTimer = 0;
-    private static final int POPUP_HEIGHT = 80;
+    private static final int POPUP_HEIGHT = 48;
     private int yOffset = -POPUP_HEIGHT;
 
     public ZoneTransitionState(Zone zone) {
@@ -40,17 +40,17 @@ public class ZoneTransitionState extends AbstractTransitionState {
         int textWidth = Text.getStringWidth(g, zone.getName(), Assets.font32);
 
         // Fade in UI element
-        if (yOffset < 0) {
+        if (yOffset < 4) {
             g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 4,
+            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 2,
                     true, Color.YELLOW, Assets.font32);
             yOffset++;
         }
         // Wait 3 seconds, then fade out UI element
-        if (yOffset == 0) {
+        if (yOffset == 4) {
             idleTimer++;
             g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 4,
+            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 2,
                     true, Color.YELLOW, Assets.font32);
             if (idleTimer > 180 && secondYOffset > -POPUP_HEIGHT) {
                 secondYOffset--;

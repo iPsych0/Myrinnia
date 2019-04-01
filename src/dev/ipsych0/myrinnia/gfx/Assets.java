@@ -207,12 +207,12 @@ public class Assets {
         myrinnia_tiles.tileCrop(3, 7, true);
 
         // Mountain
-//        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,4,4,0,0}, new int[]{0,0,4,4,32,32,0}, 14);
         for (int i = 6; i < 11; i++) {
             for (int j = 6; j < 11; j++) {
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
+        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,4,4,0,0}, new int[]{0,0,4,4,32,32,0});
 
         // Sea docks top-down
         for (int i = 3; i < 6; i++) {
