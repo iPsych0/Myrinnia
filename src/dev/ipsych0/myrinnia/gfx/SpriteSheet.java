@@ -41,7 +41,7 @@ public class SpriteSheet {
      * @param isSolid
      * @return
      */
-    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered, int[] xPoints, int[] yPoints, int nPoints) {
+    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered, int[] xPoints, int[] yPoints) {
 
         // Multiply by 32 pixel Tiles
         x *= 32;
@@ -60,7 +60,7 @@ public class SpriteSheet {
             tileId = (y / 32) * columns + (x / 32);
 
         // Set the tile image with polygon bounds
-        if (xPoints != null && yPoints != null && nPoints > 0) {
+        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
             Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, xPoints, yPoints);
         } else {
             Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, postRendered);
@@ -80,7 +80,7 @@ public class SpriteSheet {
      * @return
      */
     public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered) {
-        return tileCrop(x, y, width, height, isSolid, postRendered, null, null, 0);
+        return tileCrop(x, y, width, height, isSolid, postRendered, null, null);
     }
 
     /**
@@ -92,9 +92,9 @@ public class SpriteSheet {
      */
     public BufferedImage tileCrop(int x, int y, boolean isSolid, int[] xPoints, int[] yPoints) {
         if (xPoints == null || yPoints == null || xPoints.length == 0 || yPoints.length == 0) {
-            return tileCrop(x, y, 32, 32, isSolid, false, null, null, 0);
+            return tileCrop(x, y, 32, 32, isSolid, false, null, null);
         }
-        return tileCrop(x, y, 32, 32, isSolid, false, xPoints, yPoints, ((xPoints.length + yPoints.length) / 2));
+        return tileCrop(x, y, 32, 32, isSolid, false, xPoints, yPoints);
     }
 
     /**

@@ -134,26 +134,26 @@ public abstract class Creature extends Entity {
         if (xMove > 0) { // Moving right
             direction = Direction.RIGHT;
             lastFaced = Direction.RIGHT;
-            int tx = (int) (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
+            float tx = (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 
-            if (!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-                    !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
+            if (!collisionWithTile((int)tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
+                    !collisionWithTile((int)tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
                 x += xMove;
             } else {
-                x = tx * Tiles.TILEWIDTH - bounds.x - bounds.width - 1;
+                x = tx * Tiles.TILEWIDTH - bounds.x - bounds.width - xMove;
             }
 
         } else if (xMove < 0) { // Moving left
             direction = Direction.LEFT;
             lastFaced = Direction.LEFT;
-            int tx = (int) (x + xMove + bounds.x) / Tiles.TILEWIDTH;
+            float tx = (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 
-            if (!collisionWithTile(tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-                    !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
+            if (!collisionWithTile((int)tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
+                    !collisionWithTile((int)tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
 
                 x += xMove;
             } else {
-                x = tx * Tiles.TILEWIDTH + Tiles.TILEWIDTH - bounds.x;
+                x = tx * Tiles.TILEWIDTH - bounds.x - xMove;
             }
         } else if (xMove == 0) {
             direction = lastFaced;
@@ -167,25 +167,25 @@ public abstract class Creature extends Entity {
         if (yMove < 0) { // Up
             direction = Direction.UP;
             lastFaced = Direction.UP;
-            int ty = (int) (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
+            float ty = (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int)ty) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int)ty)) {
                 y += yMove;
             } else {
-                y = ty * Tiles.TILEHEIGHT + Tiles.TILEHEIGHT - bounds.y;
+                y = ty * Tiles.TILEHEIGHT - bounds.y - yMove;
             }
 
         } else if (yMove > 0) { // Down
             direction = Direction.DOWN;
             lastFaced = Direction.DOWN;
-            int ty = (int) (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
+            float ty = (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, ty) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, ty)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int)ty) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int)ty)) {
                 y += yMove;
             } else {
-                y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - 1;
+                y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - yMove;
             }
         } else if (yMove == 0) {
             direction = lastFaced;
@@ -204,7 +204,7 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tiles t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
-                walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(0,0));
+                walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove,yMove));
             } else {
                 if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;
