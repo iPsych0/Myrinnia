@@ -6,9 +6,6 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,7 +48,7 @@ public class AStarMap implements Serializable {
         }
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
-                if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
+                if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32, false)) {
                     nodes[i][j].setWalkable(false);
                 }
             }
@@ -60,7 +57,7 @@ public class AStarMap implements Serializable {
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (e instanceof StaticEntity) {
                 if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
-                    nodes[(int) Math.round(((e.getX()) / 32)) - (int) (x) / 32][(int) Math.round(((e.getY()) / 32)) - (int) (y) / 32].setWalkable(false);
+                    nodes[Math.round(((e.getX()) / 32)) - x / 32][Math.round(((e.getY()) / 32)) - y / 32].setWalkable(false);
                 }
             }
         }
@@ -102,32 +99,32 @@ public class AStarMap implements Serializable {
         if (startX <= -1) {
             creature.setxMove(creature.getSpeed());
             creature.move();
-            return new ArrayList<Node>();
+            return new ArrayList<>();
         } else if (startX >= nodes.length) {
             creature.setxMove(-creature.getSpeed());
             creature.move();
-            return new ArrayList<Node>();
+            return new ArrayList<>();
         }
         if (startY <= -1) {
             creature.setyMove(creature.getSpeed());
             creature.move();
-            return new ArrayList<Node>();
+            return new ArrayList<>();
         } else if (startY >= nodes.length) {
             creature.setyMove(-creature.getSpeed());
             creature.move();
-            return new ArrayList<Node>();
+            return new ArrayList<>();
         }
 
         if (goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1 || goalY < 0) {
-            goalX = (int) (xSpawn / 32 - x / 32);
-            goalY = (int) (ySpawn / 32 - y / 32);
+            goalX = (xSpawn / 32 - x / 32);
+            goalY = (ySpawn / 32 - y / 32);
         }
 
         // If the goal node is standing on a non-walkable tile
         if (!nodes[goalX][goalY].isWalkable()) {
             creature.setState(CombatState.BACKTRACK);
-            goalX = (int) (xSpawn / 32 - x / 32);
-            goalY = (int) (ySpawn / 32 - y / 32);
+            goalX = (xSpawn / 32 - x / 32);
+            goalY = (ySpawn / 32 - y / 32);
         }
 
 
@@ -135,13 +132,13 @@ public class AStarMap implements Serializable {
         if (startX == goalX && startY == goalY) {
             creature.setState(CombatState.IDLE);
             // Return an empty path, because we don't need to move at all.
-            return new ArrayList<Node>();
+            return new ArrayList<>();
         }
 
         // The set of nodes already visited.
-        List<Node> openList = new ArrayList<Node>();
+        List<Node> openList = new ArrayList<>();
         // The set of currently discovered nodes still to be visited.
-        HashSet<Node> closedList = new HashSet<Node>();
+        HashSet<Node> closedList = new HashSet<>();
 
         // Add starting node to open list.
         openList.add(nodes[startX][startY]);
@@ -195,7 +192,7 @@ public class AStarMap implements Serializable {
     }
 
     private List<Node> calcPath(Node start, Node goal) {
-        ArrayList<Node> path = new ArrayList<Node>();
+        ArrayList<Node> path = new ArrayList<>();
 
         Node node = goal;
         boolean done = false;
@@ -215,16 +212,16 @@ public class AStarMap implements Serializable {
 
     private Node lowestFInList(List<Node> list) {
         Node cheapest = list.get(0);
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getF() < cheapest.getF()) {
-                cheapest = list.get(i);
+        for (Node aList : list) {
+            if (aList.getF() < cheapest.getF()) {
+                cheapest = aList;
             }
         }
         return cheapest;
     }
 
     private HashSet<Node> getAdjacent(Node node, HashSet<Node> closedList) {
-        HashSet<Node> adjacentNodes = new HashSet<Node>();
+        HashSet<Node> adjacentNodes = new HashSet<>();
         int x = node.getX() - (this.x / 32);
         int y = node.getY() - (this.y / 32);
 
@@ -268,7 +265,7 @@ public class AStarMap implements Serializable {
         return adjacentNodes;
     }
 
-    public Node getNode(int x, int y) {
+    private Node getNode(int x, int y) {
         if (x >= 0 && x < nodes.length - 1 && y >= 0 && y < nodes.length - 1) {
             return nodes[x][y];
         } else {
@@ -314,14 +311,6 @@ public class AStarMap implements Serializable {
 
     public Node[][] getNodes() {
         return nodes;
-    }
-
-    public void setNodes(Node[][] nodes) {
-        this.nodes = nodes;
-    }
-
-    public void setMapBounds(Rectangle mapBounds) {
-        this.mapBounds = mapBounds;
     }
 
 }

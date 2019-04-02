@@ -3,34 +3,31 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class Projectile implements Serializable {
+public class Projectile extends Creature implements Serializable {
 
 
     /**
      *
      */
     private static final long serialVersionUID = 2796906732989163136L;
-    private float x, y;
-    private int width, height;
     private double xVelocity, yVelocity;
     private int maxX, maxY, minX, minY;
     private double angle;
     private static final int MAX_RADIUS = 320;
     private Animation projectile;
-    private Rectangle bounds;
-    private Rectangle collision;
-    public boolean active;
 
     public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+
         this.x = x;
         this.y = y;
-
-        width = Creature.DEFAULT_CREATURE_WIDTH;
-        height = Creature.DEFAULT_CREATURE_HEIGHT;
+        this.width = Creature.DEFAULT_CREATURE_WIDTH;
+        this.height = Creature.DEFAULT_CREATURE_HEIGHT;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -60,13 +57,22 @@ public class Projectile implements Serializable {
         if (active) {
             projectile.tick();
 
+            float ty = (y + (float)yVelocity + bounds.y + (bounds.height / 2)) / Tiles.TILEHEIGHT;
+            float tx = (x + (float)xVelocity + bounds.x + (bounds.width / 2)) / Tiles.TILEWIDTH;
+            if (collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, true) ||
+                    collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, true) ||
+                    collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, false) ||
+                            collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, false)) {
+                active = false;
+                return;
+            }
+
             x += xVelocity;
             y += yVelocity;
 
             // If out of range, remove this projectile
             if (x > maxX || x < minX || y > maxY || y < minY) {
                 active = false;
-                return;
             }
         }
     }
@@ -75,6 +81,21 @@ public class Projectile implements Serializable {
         if (active) {
             g.drawImage(projectile.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         }
+    }
+
+    @Override
+    public void die() {
+
+    }
+
+    @Override
+    public void respawn() {
+
+    }
+
+    @Override
+    protected void updateDialogue() {
+
     }
 
 

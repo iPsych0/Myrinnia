@@ -298,7 +298,7 @@ public class Player extends Creature {
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
                 if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
-                    if(MouseManager.justClosedUI){
+                    if (MouseManager.justClosedUI) {
                         return;
                     }
                     for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
@@ -337,31 +337,28 @@ public class Player extends Creature {
         Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
         while (it.hasNext()) {
             Projectile p = it.next();
-            if (!p.active) {
+
+            p.tick();
+
+            if (!p.isActive()) {
                 deleted.add(p);
             }
+
             for (Entity e : getCurrentMap().getEntityManager().getEntities()) {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
+                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
-                        p.active = false;
+                        p.setActive(false);
                     }
                     if (e.isAttackable()) {
                         e.damage(DamageType.INT, this, e);
                         e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
-                        p.active = false;
+                        p.setActive(false);
                     }
                 }
             }
-            for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-                if (collisionWithTile((int) ((p.getX() + 16) / 32), (int) ((p.getY() + 16) / 32)) && p.active) {
-                    p.active = false;
-
-                }
-            }
-            p.tick();
         }
 
         projectiles.removeAll(deleted);
@@ -447,9 +444,9 @@ public class Player extends Creature {
 
         // UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 
-//		g.setColor(Color.RED);
-//		g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
-//				(int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
+        g.setColor(Color.RED);
+        g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
+                (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
 
 
         // Player box
@@ -468,13 +465,12 @@ public class Player extends Creature {
 //		
 //		g.setColor(playerBoxColour);
 //		g.fillRect((int) ((x) - Handler.get().getGameCamera().getxOffset()), (int) ((y) - Handler.get().getGameCamera().getyOffset()), 32, 32);
-		
-		/* UNCOMMENT THIS TO SEE MELEE HITBOX
-		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
-		g.setColor(Color.MAGENTA);
-		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
-		 */
+
+//		UNCOMMENT THIS TO SEE MELEE HITBOX
+//		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+//		g.setColor(Color.MAGENTA);
+//		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
         if (projectiles.size() > 0) {
             for (Projectile p : projectiles) {

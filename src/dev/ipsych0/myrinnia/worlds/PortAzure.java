@@ -25,7 +25,7 @@ public class PortAzure extends World {
 //        entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
-//        entityManager.addEntity(new Scorpion(928, 2336));
+        entityManager.addEntity(new Scorpion(928, 2336));
 //		entityManager.addEntity(new Scorpion(4600, 5740));
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));

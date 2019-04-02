@@ -136,8 +136,8 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.RIGHT;
             float tx = (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
 
-            if (!collisionWithTile((int)tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-                    !collisionWithTile((int)tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
+            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, true) &&
+                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, true)) {
                 x += xMove;
             } else {
                 x = tx * Tiles.TILEWIDTH - bounds.x - bounds.width - xMove;
@@ -148,8 +148,8 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.LEFT;
             float tx = (x + xMove + bounds.x) / Tiles.TILEWIDTH;
 
-            if (!collisionWithTile((int)tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT) &&
-                    !collisionWithTile((int)tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT)) {
+            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, true) &&
+                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, true)) {
 
                 x += xMove;
             } else {
@@ -169,8 +169,8 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.UP;
             float ty = (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int)ty) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int)ty)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, false) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
                 y = ty * Tiles.TILEHEIGHT - bounds.y - yMove;
@@ -181,8 +181,8 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.DOWN;
             float ty = (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int)ty) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int)ty)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, false) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
                 y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - yMove;
@@ -195,7 +195,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles collision detection with Tiles
      */
-    public boolean collisionWithTile(int x, int y) {
+    public boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -204,7 +204,11 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tiles t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
-                walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove,yMove));
+                if (horizontalDirection) {
+                    walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
+                } else {
+                    walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
+                }
             } else {
                 if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;
@@ -274,11 +278,12 @@ public abstract class Creature extends Entity {
         Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
         while (it.hasNext()) {
             Projectile p = it.next();
-            if (!p.active) {
+            p.tick();
+            if (!p.isActive()) {
                 deleted.add(p);
             }
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
+                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (e.equals(Handler.get().getPlayer())) {
                         e.damage(DamageType.DEX, this, e);
 
@@ -287,19 +292,13 @@ public abstract class Creature extends Entity {
                             e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
                         }
 
-                        p.active = false;
+                        p.setActive(false);
                     }
                     if (!e.isAttackable()) {
-                        p.active = false;
+                        p.setActive(false);
                     }
                 }
             }
-            for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-                if (collisionWithTile((int) ((p.getX() + 16) / 32), (int) ((p.getY() + 16) / 32)) && p.active) {
-                    p.active = false;
-                }
-            }
-            p.tick();
         }
 
         projectiles.removeAll(deleted);

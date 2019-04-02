@@ -26,8 +26,8 @@ public class EntityManager implements Serializable {
 
     public EntityManager(Player player) {
         this.player = player;
-        entities = new CopyOnWriteArrayList<Entity>();
-        deleted = new CopyOnWriteArrayList<Entity>();
+        entities = new CopyOnWriteArrayList<>();
+        deleted = new CopyOnWriteArrayList<>();
         hitSplats = new CopyOnWriteArrayList<>();
         addEntity(player);
     }
@@ -115,7 +115,6 @@ public class EntityManager implements Serializable {
     }
 
     public void render(Graphics g) {
-        Rectangle mouse = Handler.get().getMouse();
         for (Entity e : entities) {
 
             if (e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
@@ -137,7 +136,7 @@ public class EntityManager implements Serializable {
 
         }
 
-        Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();
+        Collection<HitSplat> deleted = new CopyOnWriteArrayList<>();
         for (HitSplat hs : hitSplats) {
             if (hs.isActive()) {
                 hs.render(g);
@@ -171,10 +170,6 @@ public class EntityManager implements Serializable {
         g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
     }
 
-    private void drawHoverCorners(Graphics g, Entity e) {
-        drawHoverCorners(g, e, 0, 0, Color.YELLOW);
-    }
-
     public Entity getSelectedEntity() {
         return selectedEntity;
     }
@@ -191,8 +186,13 @@ public class EntityManager implements Serializable {
         if (selectedEntity != null) {
             if (selectedEntity.active) {
                 selectedEntity.drawEntityOverlay(selectedEntity, g);
-                drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
-                drawHoverCorners(g, selectedEntity);
+                if (selectedEntity.isNpc()) {
+                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, selectedEntity, 0, 0, Color.YELLOW);
+                } else if(selectedEntity.isAttackable()){
+                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, selectedEntity, 0, 0, Color.RED);
+                }
             } else {
                 selectedEntity = null;
             }
@@ -208,9 +208,12 @@ public class EntityManager implements Serializable {
                 }
 
                 // If Entity can be interacted with, show corner pieces on hovering
-                if (e.isNpc() || e.isAttackable()) {
+                if (e.isNpc()) {
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e);
+                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                } else if(e.isAttackable()){
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.RED);
                 }
             }
         }

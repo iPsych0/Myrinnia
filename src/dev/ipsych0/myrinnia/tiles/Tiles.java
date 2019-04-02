@@ -71,6 +71,19 @@ public class Tiles {
 
     public void render(Graphics g, int x, int y) {
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
+        if(initialized && bounds != null){
+            int[] xArr, yArr;
+            xArr = xPoints.clone();
+            yArr = yPoints.clone();
+            for (int i = 0; i < xArr.length; i++) {
+                xArr[i] = xArr[i] - (int)Handler.get().getGameCamera().getxOffset();
+            }
+            for (int i = 0; i < yArr.length; i++) {
+                yArr[i] = yArr[i] - (int)Handler.get().getGameCamera().getyOffset();
+            }
+            g.setColor(Color.BLUE);
+            g.fillPolygon(xArr, yArr, (xArr.length + yArr.length) / 2);
+        }
     }
 
     public BufferedImage getTexture() {

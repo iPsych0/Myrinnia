@@ -212,7 +212,7 @@ public class Assets {
                 myrinnia_tiles.tileCrop(i, j, true);
             }
         }
-        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,4,4,0,0}, new int[]{0,0,4,4,32,32,0});
+        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,8,4,0,0}, new int[]{0,0,4,8,32,32,0});
 
         // Sea docks top-down
         for (int i = 3; i < 6; i++) {
