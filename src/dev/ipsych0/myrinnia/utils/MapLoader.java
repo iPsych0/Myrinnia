@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class MapLoader implements Serializable {
 
@@ -19,6 +20,9 @@ public class MapLoader implements Serializable {
     private static final long serialVersionUID = 5948158902228537298L;
     private static DocumentBuilderFactory factory;
     private static DocumentBuilder builder;
+    public static HashMap<Integer, Boolean> solidTiles = new HashMap<>();
+    public static HashMap<Integer, Boolean> postRenderTiles = new HashMap<>();
+    public static HashMap<Integer, String> polygonTiles = new HashMap<>();
 
     static {
         factory = DocumentBuilderFactory.newInstance();
@@ -30,6 +34,87 @@ public class MapLoader implements Serializable {
     }
 
     public MapLoader() {
+
+    }
+
+    /*
+     * Returns the width of the map from Tiled
+     * @params: String path in OS
+     */
+    public static void setSolidTiles(String path) {
+        try {
+            // Creates new DocumentBuilder on the file
+            Document doc = builder.parse(path);
+            doc.normalize();
+
+            // Gets the tag 'tileset' and then the list of tiles
+            NodeList tilesets = doc.getElementsByTagName("tileset");
+
+            // Go over all TileSets
+            for (int i = 0; i < tilesets.getLength(); i++) {
+                Node tileset = tilesets.item(i);
+                NodeList inner = tileset.getChildNodes();
+                for (int j = 0; j < inner.getLength(); j++) {
+                    Node tile = inner.item(j);
+                    // Find every element called 'tile'
+                    if (tile.getNodeName().equalsIgnoreCase("tile")) {
+                        // Save the ID for later
+                        int id = Integer.parseInt(tile.getAttributes().getNamedItem("id").getTextContent());
+                        NodeList properties = tile.getChildNodes();
+                        if (properties.getLength() == 0) {
+                            solidTiles.put(id, false);
+                            postRenderTiles.put(id, false);
+                        }
+                        for (int k = 0; k < properties.getLength(); k++) {
+                            Node property = properties.item(k);
+                            // Check if the tile has properties
+                            if (property.getNodeName().equalsIgnoreCase("properties")) {
+                                NodeList innerProps = property.getChildNodes();
+                                for (int l = 1; l < innerProps.getLength() - 1; l++) {
+                                    Node propItem = innerProps.item(l);
+                                    boolean hasSolidProp = false, hasPostRenderProp = false;
+                                    if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("solid")) {
+                                        // Mark that tile as solid
+                                        solidTiles.put(id, true);
+                                        hasSolidProp = true;
+                                    } else if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("postRendered")) {
+                                        postRenderTiles.put(id, true);
+                                        hasPostRenderProp = true;
+                                    }
+                                    if (!hasSolidProp) {
+                                        solidTiles.put(id, false);
+                                    }
+                                    if(!hasPostRenderProp){
+                                        postRenderTiles.put(id, false);
+                                    }
+                                }
+                            }
+                            // Check if the tile has polygon collision
+                            else if (property.getNodeName().equalsIgnoreCase("objectgroup")) {
+                                NodeList objects = property.getChildNodes();
+                                for (int l = 0; l < objects.getLength(); l++) {
+                                    Node object = objects.item(l);
+                                    NodeList polyPoints = object.getChildNodes();
+                                    for (int m = 0; m < polyPoints.getLength(); m++) {
+                                        Node polyPointValues = polyPoints.item(m);
+                                        // Find the nested element 'polyline'
+                                        if (polyPointValues.getNodeName().equalsIgnoreCase("polyline")) {
+                                            // Store the polygon points as is
+                                            polygonTiles.put(id, polyPointValues.getAttributes().getNamedItem("points").getTextContent());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println(solidTiles);
+            System.out.println(postRenderTiles);
+
+        } catch (SAXException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*

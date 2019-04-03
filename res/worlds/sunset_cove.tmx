@@ -118,6 +118,11 @@
   <tile id="115" terrain=",7,,"/>
   <tile id="116" terrain="7,7,,"/>
   <tile id="117" terrain="7,,,"/>
+  <tile id="126">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Ocean" width="60" height="150">
   <data encoding="csv">

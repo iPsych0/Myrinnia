@@ -14,16 +14,12 @@ public class SpriteSheet {
     private int imageIndex;
     private int columns;
 
-    public SpriteSheet(String path, boolean tile) {
+    public SpriteSheet(String path, boolean isTileSet) {
         this.sheet = ImageLoader.loadImage(path);
 
-        if (tile) {
+        if (isTileSet) {
             imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
             columns = MapLoader.getTileColumns(Handler.initialWorldPath, imageIndex);
-
-            // Calculate the image width & height
-//			imageWidth = columns * 32;
-//			imageHeight = tileCount / columns * 32;
         }
     }
 
@@ -38,10 +34,9 @@ public class SpriteSheet {
      * @param y
      * @param width
      * @param height
-     * @param isSolid
      * @return
      */
-    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered, int[] xPoints, int[] yPoints) {
+    public BufferedImage tileCrop(int x, int y, int width, int height, boolean postRendered) {
 
         // Multiply by 32 pixel Tiles
         x *= 32;
@@ -59,11 +54,24 @@ public class SpriteSheet {
         else
             tileId = (y / 32) * columns + (x / 32);
 
-        // Set the tile image with polygon bounds
-        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
-            Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, xPoints, yPoints);
-        } else {
-            Tiles.tiles[(tileId + firstGids[imageIndex])] = new Tiles(sheet.getSubimage(x, y, width, height), (tileId + firstGids[imageIndex]), isSolid, postRendered);
+        tileId = tileId + firstGids[imageIndex];
+
+        // TODO: Set the tile image with polygon bounds
+        if (MapLoader.solidTiles.get(tileId) == null && MapLoader.postRenderTiles.get(tileId) != null) {
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, MapLoader.postRenderTiles.get(tileId));
+        } else if (MapLoader.solidTiles.get(tileId) != null && MapLoader.postRenderTiles.get(tileId) == null) {
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), false);
+        } else if (MapLoader.solidTiles.get(tileId) == null && MapLoader.postRenderTiles.get(tileId) == null) {
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, false);
+        } else{
+            if (MapLoader.solidTiles.get(tileId) != null && MapLoader.postRenderTiles.get(tileId) != null) {
+//        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
+//            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), xPoints, yPoints);
+//        }
+//        else {
+                Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+//        }
+            }
         }
 
         return sheet.getSubimage(x, y, width, height);
@@ -76,71 +84,32 @@ public class SpriteSheet {
      * @param y
      * @param width
      * @param height
-     * @param isSolid
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, int width, int height, boolean isSolid, boolean postRendered) {
-        return tileCrop(x, y, width, height, isSolid, postRendered, null, null);
-    }
-
-    /**
-     * Default crop function with custom width and height and not-solid Tile
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, boolean isSolid, int[] xPoints, int[] yPoints) {
-        if (xPoints == null || yPoints == null || xPoints.length == 0 || yPoints.length == 0) {
-            return tileCrop(x, y, 32, 32, isSolid, false, null, null);
-        }
-        return tileCrop(x, y, 32, 32, isSolid, false, xPoints, yPoints);
-    }
-
-    /**
-     * Default crop function with custom width and height and not-solid Tile
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, boolean isSolid) {
-        return tileCrop(x, y, 32, 32, isSolid, false);
-    }
-
-    /**
-     * Default crop function with custom width and height and not-solid Tile
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, boolean isSolid, boolean postRendered) {
-        return tileCrop(x, y, 32, 32, isSolid, postRendered);
-    }
-
-    /**
-     * Default crop function with custom width and height and not-solid Tile
-     *
-     * @param x
-     * @param y
-     * @param width
-     * @param height
      * @return
      */
     public BufferedImage tileCrop(int x, int y, int width, int height) {
-        return tileCrop(x, y, width, height, false, false);
+        return tileCrop(x, y, width, height, false);
     }
 
     /**
-     * Default crop function with default width and height and not-solid Tile
+     * Default crop function with custom width and height and not-solid Tile
      *
      * @param x
      * @param y
      * @return
      */
     public BufferedImage tileCrop(int x, int y) {
-        return tileCrop(x, y, 32, 32, false, false);
+        return tileCrop(x, y, 32, 32, false);
+    }
+
+    /**
+     * Default crop function with custom width and height and not-solid Tile
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public BufferedImage tileCrop(int x, int y, boolean postRendered) {
+        return tileCrop(x, y, 32, 32, postRendered);
     }
 
     /**

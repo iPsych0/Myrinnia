@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.gfx;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.utils.MapLoader;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -81,6 +84,8 @@ public class Assets {
 
     public static void init() {
 
+        MapLoader.setSolidTiles(Handler.initialWorldPath);
+
         /*
          * Fonts
          */
@@ -136,127 +141,11 @@ public class Assets {
          */
         SpriteSheet myrinnia_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
 
-        // Grass
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 3; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
 
-        // Dirt
-        for (int i = 5; i < 10; i++) {
-            for (int j = 0; j < 3; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Water
-        for (int i = 10; i < 15; i++) {
-            for (int j = 0; j < 3; j++) {
-                myrinnia_tiles.tileCrop(i, j, true);
-            }
-        }
-
-        // Ocean
-        for (int i = 15; i < 20; i++) {
-            for (int j = 0; j < 3; j++) {
-                myrinnia_tiles.tileCrop(i, j, true);
-            }
-        }
-
-        // Sand
-        for (int i = 0; i < 5; i++) {
-            for (int j = 3; j < 6; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Snow
-        for (int i = 5; i < 10; i++) {
-            for (int j = 3; j < 6; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Ice
-        for (int i = 10; i < 15; i++) {
-            for (int j = 3; j < 6; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Dark Grass
-        for (int i = 15; i < 20; i++) {
-            for (int j = 3; j < 6; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Rocks terrain
-        myrinnia_tiles.tileCrop(0, 6, true);
-        myrinnia_tiles.tileCrop(1, 6, false);
-        myrinnia_tiles.tileCrop(2, 6, false);
-
-        // Sea Rocks terrain
-        myrinnia_tiles.tileCrop(0, 7, true);
-        myrinnia_tiles.tileCrop(1, 7, true);
-        myrinnia_tiles.tileCrop(2, 7, true);
-
-        // Tree
-        myrinnia_tiles.tileCrop(3, 6, false, true);
-        myrinnia_tiles.tileCrop(3, 7, true);
-
-        // Mountain
-        for (int i = 6; i < 11; i++) {
-            for (int j = 6; j < 11; j++) {
-                myrinnia_tiles.tileCrop(i, j, true);
-            }
-        }
-        myrinnia_tiles.tileCrop(6, 6, true, new int[]{0,32,32,8,4,0,0}, new int[]{0,0,4,8,32,32,0});
-
-        // Sea docks top-down
-        for (int i = 3; i < 6; i++) {
-            for (int j = 8; j < 12; j++) {
-                if (j == 11 && i == 4) {
-                    myrinnia_tiles.tileCrop(i, j, true);
-                } else if (i == 4) {
-                    myrinnia_tiles.tileCrop(i, j);
-                } else {
-                    myrinnia_tiles.tileCrop(i, j, true);
-                }
-            }
-        }
-
-        // Sea docks left-right
-        for (int i = 0; i < 4; i++) {
-            for (int j = 12; j < 15; j++) {
-                if (i == 3 && j == 13) {
-                    myrinnia_tiles.tileCrop(i, j, true);
-                } else if (j == 12 || j == 14) {
-                    myrinnia_tiles.tileCrop(i, j, true);
-                } else {
-                    myrinnia_tiles.tileCrop(i, j);
-                }
-            }
-        }
-
-        // Walkable beach docks
-        for (int i = 0; i < 3; i++) {
-            for (int j = 8; j < 12; j++) {
-                myrinnia_tiles.tileCrop(i, j);
-            }
-        }
-
-        // Wooden house
-        for (int i = 11; i < myrinnia_tiles.getSheet().getWidth() / 32 - 1; i++) {
-            for (int j = 11; j < 18; j++) {
-                if (i == 15 && j == 12) {
-                    myrinnia_tiles.tileCrop(i, j);
-                } else if (j == 13 || j == 14) {
-                    myrinnia_tiles.tileCrop(i, j, false, true);
-                } else {
-                    myrinnia_tiles.tileCrop(i, j, true);
-                }
+        // Terrain Tiles
+        for (int y = 0; y < myrinnia_tiles.getSheet().getHeight() / 32; y++) {
+            for (int x = 0; x < myrinnia_tiles.getSheet().getWidth() / 32; x++) {
+                myrinnia_tiles.tileCrop(x, y);
             }
         }
 
