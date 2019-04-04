@@ -59,7 +59,7 @@ public class MapLoader implements Serializable {
                     // Find every element called 'tile'
                     if (tile.getNodeName().equalsIgnoreCase("tile")) {
                         // Save the ID for later
-                        int id = Integer.parseInt(tile.getAttributes().getNamedItem("id").getTextContent());
+                        int id = 1 + Integer.parseInt(tile.getAttributes().getNamedItem("id").getTextContent());
                         NodeList properties = tile.getChildNodes();
                         if (properties.getLength() == 0) {
                             solidTiles.put(id, false);
@@ -70,22 +70,16 @@ public class MapLoader implements Serializable {
                             // Check if the tile has properties
                             if (property.getNodeName().equalsIgnoreCase("properties")) {
                                 NodeList innerProps = property.getChildNodes();
-                                for (int l = 1; l < innerProps.getLength() - 1; l++) {
+                                for (int l = 0; l < innerProps.getLength(); l++) {
                                     Node propItem = innerProps.item(l);
-                                    boolean hasSolidProp = false, hasPostRenderProp = false;
+                                    if(!propItem.hasAttributes()){
+                                        continue;
+                                    }
                                     if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("solid")) {
                                         // Mark that tile as solid
-                                        solidTiles.put(id, true);
-                                        hasSolidProp = true;
+                                        solidTiles.put(id, Boolean.parseBoolean(propItem.getAttributes().getNamedItem("value").getTextContent()));
                                     } else if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("postRendered")) {
-                                        postRenderTiles.put(id, true);
-                                        hasPostRenderProp = true;
-                                    }
-                                    if (!hasSolidProp) {
-                                        solidTiles.put(id, false);
-                                    }
-                                    if(!hasPostRenderProp){
-                                        postRenderTiles.put(id, false);
+                                        postRenderTiles.put(id, Boolean.parseBoolean(propItem.getAttributes().getNamedItem("value").getTextContent()));
                                     }
                                 }
                             }
@@ -109,8 +103,8 @@ public class MapLoader implements Serializable {
                     }
                 }
             }
-            System.out.println(solidTiles);
-            System.out.println(postRenderTiles);
+            solidTiles.put(0, false);
+            postRenderTiles.put(0, false);
 
         } catch (SAXException | IOException e) {
             e.printStackTrace();

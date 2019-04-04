@@ -56,23 +56,15 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
-        // TODO: Set the tile image with polygon bounds
-        if (MapLoader.solidTiles.get(tileId) == null && MapLoader.postRenderTiles.get(tileId) != null) {
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, MapLoader.postRenderTiles.get(tileId));
-        } else if (MapLoader.solidTiles.get(tileId) != null && MapLoader.postRenderTiles.get(tileId) == null) {
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), false);
-        } else if (MapLoader.solidTiles.get(tileId) == null && MapLoader.postRenderTiles.get(tileId) == null) {
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, false);
-        } else{
-            if (MapLoader.solidTiles.get(tileId) != null && MapLoader.postRenderTiles.get(tileId) != null) {
+
 //        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
 //            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), xPoints, yPoints);
 //        }
 //        else {
                 Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
 //        }
-            }
-        }
+
+
 
         return sheet.getSubimage(x, y, width, height);
     }

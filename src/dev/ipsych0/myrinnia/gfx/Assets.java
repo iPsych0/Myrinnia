@@ -1,10 +1,12 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class Assets {
 
@@ -148,7 +150,6 @@ public class Assets {
                 myrinnia_tiles.tileCrop(x, y);
             }
         }
-
 
         puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
         for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
