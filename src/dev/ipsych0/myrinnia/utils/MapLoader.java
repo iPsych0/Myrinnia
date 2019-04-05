@@ -8,8 +8,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class MapLoader implements Serializable {
@@ -22,7 +25,7 @@ public class MapLoader implements Serializable {
     private static DocumentBuilder builder;
     public static HashMap<Integer, Boolean> solidTiles = new HashMap<>();
     public static HashMap<Integer, Boolean> postRenderTiles = new HashMap<>();
-    public static HashMap<Integer, String> polygonTiles = new HashMap<>();
+    public static HashMap<Integer, List<Point>> polygonTiles = new HashMap<>();
 
     static {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -35,7 +38,8 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private MapLoader() {}
+    private MapLoader() {
+    }
 
     /*
      * Returns the width of the map from Tiled
@@ -115,37 +119,51 @@ public class MapLoader implements Serializable {
 
             DefaultHandler handler = new DefaultHandler() {
 
-                boolean solidPropertyFound = false;
-                boolean postRenderedPropertyFound = false;
-                boolean solid;
-                boolean postRender;
+                private boolean solidPropertyFound = false;
+                private boolean postRenderedPropertyFound = false;
+                private boolean solid;
+                private boolean postRender;
                 private int currentId;
+                private int startX, startY;
 
-                public void startElement(String uri, String localName,String qName,
+                public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) throws SAXException {
 
-                    if(qName.equalsIgnoreCase("tile")){
+                    if (qName.equalsIgnoreCase("tile")) {
                         currentId = 1 + Integer.parseInt(attributes.getValue("id"));
-                    }
-                    else if (qName.equalsIgnoreCase("property")) {
-                        if(attributes.getValue("name").equalsIgnoreCase("solid")) {
+                    } else if (qName.equalsIgnoreCase("property")) {
+                        if (attributes.getValue("name").equalsIgnoreCase("solid")) {
                             solidPropertyFound = true;
                             solid = Boolean.parseBoolean(attributes.getValue("value"));
-                        } else if(attributes.getValue("name").equalsIgnoreCase("postRendered")) {
+                        } else if (attributes.getValue("name").equalsIgnoreCase("postRendered")) {
                             postRenderedPropertyFound = true;
                             postRender = Boolean.parseBoolean(attributes.getValue("value"));
+                        }
+                    }else if(qName.equalsIgnoreCase("object")){
+                        startX = (int)Double.parseDouble(attributes.getValue("x"));
+                        startY = (int)Double.parseDouble(attributes.getValue("y"));
+                    } else if(qName.equalsIgnoreCase("polyline")){
+                        if(attributes.getQName(0).equalsIgnoreCase("points")){
+                            List<Point> polylines = new ArrayList<>();
+                            // Split spaces to get the points
+                            String[] splitBySpace = attributes.getValue("points").split(" ");
+                            for(String split : splitBySpace){
+                                // Split the commas to get X and Y
+                                String[] coords = split.split(",");
+                                // Coords go right-left, so subtract from 32 (x = -12, y = -12)
+                                polylines.add(new Point((int)(startX + Double.parseDouble(coords[0])),(int)(startY + Double.parseDouble(coords[1]))));
+                            }
+                            polygonTiles.put(currentId, polylines);
                         }
                     }
 
                 }
 
                 public void characters(char ch[], int start, int length) throws SAXException {
-
                     if (solidPropertyFound) {
                         solidTiles.put(currentId, solid);
                         solidPropertyFound = false;
                     }
-
                     if (postRenderedPropertyFound) {
                         postRenderTiles.put(currentId, postRender);
                         postRenderedPropertyFound = false;
@@ -160,8 +178,8 @@ public class MapLoader implements Serializable {
             solidTiles.put(0, false);
             postRenderTiles.put(0, false);
 
-            System.out.println(solidTiles);
-            System.out.println(postRenderTiles);
+//            System.out.println(solidTiles);
+//            System.out.println(postRenderTiles);
 
         } catch (Exception e) {
             e.printStackTrace();

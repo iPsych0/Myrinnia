@@ -30,10 +30,10 @@ public class Tiles {
         this.solid = solid;
     }
 
-    public Tiles(BufferedImage texture, int id, boolean solid, int[] x, int[] y) {
+    public Tiles(BufferedImage texture, int id, int[] x, int[] y) {
         this.texture = texture;
         this.id = id;
-        this.solid = solid;
+        this.solid = true;
         this.xPoints = x;
         this.yPoints = y;
         this.bounds = new Polygon(x, y, (x.length + y.length) / 2);

@@ -4,7 +4,9 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class SpriteSheet {
 
@@ -57,14 +59,24 @@ public class SpriteSheet {
         tileId = tileId + firstGids[imageIndex];
 
 
+        if (MapLoader.polygonTiles.get(tileId) != null) {
+            int size = MapLoader.polygonTiles.get(tileId).size();
+            List<Point> points = MapLoader.polygonTiles.get(tileId);
+            int[] xCoords = new int[size];
+            int[] yCoords = new int[size];
+            for (int i = 0; i < size; i++) {
+                xCoords[i] = (int)points.get(i).getX();
+                yCoords[i] = (int)points.get(i).getY();
+            }
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
+        }else {
 //        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
 //            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), xPoints, yPoints);
 //        }
 //        else {
-                Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
 //        }
-
-
+        }
 
         return sheet.getSubimage(x, y, width, height);
     }
