@@ -205,10 +205,27 @@ public abstract class Creature extends Entity {
             Tiles t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
-                    walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
+                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
                 } else {
-                    walkableOnTop = t.getBounds(x, y) != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
+                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
+            } else {
+                if (t != null && t != Tiles.tiles[0])
+                    walkableOnTop = true;
+            }
+        }
+        return !walkableOnTop;
+    }
+
+    /*
+     * Handles collision detection for A*
+     */
+    public boolean collisionWithTile(int x, int y) {
+        boolean walkableOnTop = false;
+        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+            Tiles t = Handler.get().getWorld().getTile(i, x, y);
+            if (t != null && t.isSolid()) {
+                walkableOnTop = false;
             } else {
                 if (t != null && t != Tiles.tiles[0])
                     walkableOnTop = true;

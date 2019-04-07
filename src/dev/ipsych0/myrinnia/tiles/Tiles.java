@@ -22,7 +22,8 @@ public class Tiles {
     private boolean solid, postRendered;
     private int[] xPoints, yPoints;
     private Polygon bounds;
-    private boolean initialized;
+    private boolean initialized, reset;
+    private int lastX = -1, lastY = -1;
 
     public Tiles(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
@@ -115,15 +116,33 @@ public class Tiles {
     }
 
     public Polygon getBounds(int xPos, int yPos) {
+        if(xPos != lastX || yPos != lastY) {
+            if(initialized){
+                reset = true;
+            }
+            initialized = false;
+        }
         if (!initialized && bounds != null) {
             for (int i = 0; i < xPoints.length; i++) {
+                if(reset){
+                    xPoints[i] = xPoints[i] - (lastX * TILEWIDTH);
+                }
                 xPoints[i] = xPoints[i] + (xPos * TILEWIDTH);
             }
             for (int i = 0; i < yPoints.length; i++) {
+                if(reset){
+                    yPoints[i] = yPoints[i] - (lastY * TILEHEIGHT);
+                }
                 yPoints[i] = yPoints[i] + (yPos * TILEHEIGHT);
             }
+//            bounds.invalidate();
+//            bounds.reset();
+//
             bounds = new Polygon(xPoints, yPoints, (xPoints.length + yPoints.length) / 2);
             initialized = true;
+            reset = false;
+            lastX = xPos;
+            lastY = yPos;
         }
         return bounds;
     }

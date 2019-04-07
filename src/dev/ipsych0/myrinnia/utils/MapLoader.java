@@ -110,9 +110,6 @@ public class MapLoader implements Serializable {
             solidTiles.put(0, false);
             postRenderTiles.put(0, false);
 
-//            System.out.println(solidTiles);
-//            System.out.println(postRenderTiles);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

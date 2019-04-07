@@ -149,23 +149,20 @@ public abstract class World implements Serializable {
                 for (int x = xStart; x < xEnd; x++) {
                     Tiles t = getTile(i, x, y);
                     if (t != Tiles.tiles[0]) {
+                        int xPos = (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset());
+                        int yPos = (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset());
                         if (t.isPostRendered()) {
                             renderOverTiles.add(t);
-                            xCoords.add((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()));
-                            yCoords.add((int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
+                            xCoords.add(xPos);
+                            yCoords.add(yPos);
                             continue;
                         }
-                        t.render(g, (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
-                                (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
-                        if(Handler.debugCollision){
+                        t.render(g, xPos, yPos);
+                        if (Handler.debugCollision) {
                             g.setColor(AStarMap.unwalkableColour);
-                            g.drawRect((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
-                                    (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()),
-                                    Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
-                            if(t.isSolid() && t.getBounds() == null){
-                                g.fillRect((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
-                                        (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()),
-                                        Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                            g.drawRect(xPos, yPos, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                            if (t.isSolid()) {
+                                g.fillRect(xPos, yPos, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
                             }
                         }
                     }
