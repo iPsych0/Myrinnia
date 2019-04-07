@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -156,6 +157,17 @@ public abstract class World implements Serializable {
                         }
                         t.render(g, (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
                                 (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()));
+                        if(Handler.debugCollision){
+                            g.setColor(AStarMap.unwalkableColour);
+                            g.drawRect((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
+                                    (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()),
+                                    Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                            if(t.isSolid() && t.getBounds() == null){
+                                g.fillRect((int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset()),
+                                        (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset()),
+                                        Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                            }
+                        }
                     }
                 }
             }

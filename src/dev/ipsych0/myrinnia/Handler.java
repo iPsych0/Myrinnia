@@ -70,6 +70,7 @@ public class Handler implements Serializable {
     private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
     public static String initialWorldPath = "res/worlds/port_azure.tmx";
+    public static boolean debugCollision = false;
 
     private static Handler handler;
 

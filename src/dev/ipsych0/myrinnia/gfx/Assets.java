@@ -141,13 +141,21 @@ public class Assets {
         /*
          * All Tiled Sprites
          */
-        SpriteSheet myrinnia_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
+        SpriteSheet biome_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
+        SpriteSheet trees_sheet = new SpriteSheet("/textures/trees.png", true);
 
 
-        // Terrain Tiles
-        for (int y = 0; y < myrinnia_tiles.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < myrinnia_tiles.getSheet().getWidth() / 32; x++) {
-                myrinnia_tiles.tileCrop(x, y);
+        // Biome Tiles
+        for (int y = 0; y < biome_tiles.getSheet().getHeight() / 32; y++) {
+            for (int x = 0; x < biome_tiles.getSheet().getWidth() / 32; x++) {
+                biome_tiles.tileCrop(x, y);
+            }
+        }
+
+        // Tree Tiles
+        for (int y = 0; y < trees_sheet.getSheet().getHeight() / 32; y++) {
+            for (int x = 0; x < trees_sheet.getSheet().getWidth() / 32; x++) {
+                trees_sheet.tileCrop(x, y);
             }
         }
 

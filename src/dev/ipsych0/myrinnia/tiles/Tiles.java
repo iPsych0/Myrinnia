@@ -71,7 +71,7 @@ public class Tiles {
 
     public void render(Graphics g, int x, int y) {
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
-        if(initialized && bounds != null){
+        if(Handler.debugCollision && bounds != null){
             int[] xArr, yArr;
             xArr = xPoints.clone();
             yArr = yPoints.clone();
@@ -108,6 +108,10 @@ public class Tiles {
 
     public void setPostRendered(boolean postRendered) {
         this.postRendered = postRendered;
+    }
+
+    public Polygon getBounds(){
+        return bounds;
     }
 
     public Polygon getBounds(int xPos, int yPos) {

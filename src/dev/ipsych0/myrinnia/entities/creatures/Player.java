@@ -444,9 +444,11 @@ public class Player extends Creature {
 
         // UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 
-        g.setColor(Color.RED);
-        g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
+        if(Handler.debugCollision) {
+            g.setColor(Color.RED);
+            g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
+        }
 
 
         // Player box

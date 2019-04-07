@@ -20,7 +20,7 @@ public class AStarMap implements Serializable {
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
-    private Color unwalkableColour = new Color(255, 0, 0, 127);
+    public static Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
     public static boolean debugMode = false;

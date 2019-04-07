@@ -46,75 +46,6 @@ public class MapLoader implements Serializable {
      * @params: String path in OS
      */
     public static void setSolidTiles(String path) {
-//        try {
-//            // Creates new DocumentBuilder on the file
-//            Document doc = builder.parse(path);
-//            doc.normalize();
-//
-//            // Gets the tag 'tileset' and then the list of tiles
-//            NodeList tilesets = doc.getElementsByTagName("tileset");
-//
-//            // Go over all TileSets
-//            for (int i = 0; i < tilesets.getLength(); i++) {
-//                Node tileset = tilesets.item(i);
-//                NodeList inner = tileset.getChildNodes();
-//                for (int j = 0; j < inner.getLength(); j++) {
-//                    Node tile = inner.item(j);
-//                    // Find every element called 'tile'
-//                    if (tile.getNodeName().equalsIgnoreCase("tile")) {
-//                        // Save the ID for later
-//                        int id = 1 + Integer.parseInt(tile.getAttributes().getNamedItem("id").getTextContent());
-//                        NodeList properties = tile.getChildNodes();
-//                        if (properties.getLength() == 0) {
-//                            solidTiles.put(id, false);
-//                            postRenderTiles.put(id, false);
-//                        }
-//                        for (int k = 0; k < properties.getLength(); k++) {
-//                            Node property = properties.item(k);
-//                            // Check if the tile has properties
-//                            if (property.getNodeName().equalsIgnoreCase("properties")) {
-//                                NodeList innerProps = property.getChildNodes();
-//                                for (int l = 0; l < innerProps.getLength(); l++) {
-//                                    Node propItem = innerProps.item(l);
-//                                    if(!propItem.hasAttributes()){
-//                                        continue;
-//                                    }
-//                                    if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("solid")) {
-//                                        // Mark that tile as solid
-//                                        solidTiles.put(id, Boolean.parseBoolean(propItem.getAttributes().getNamedItem("value").getTextContent()));
-//                                    } else if (propItem.getAttributes().getNamedItem("name").getTextContent().equalsIgnoreCase("postRendered")) {
-//                                        postRenderTiles.put(id, Boolean.parseBoolean(propItem.getAttributes().getNamedItem("value").getTextContent()));
-//                                    }
-//                                }
-//                            }
-//                            // Check if the tile has polygon collision
-//                            else if (property.getNodeName().equalsIgnoreCase("objectgroup")) {
-//                                NodeList objects = property.getChildNodes();
-//                                for (int l = 0; l < objects.getLength(); l++) {
-//                                    Node object = objects.item(l);
-//                                    NodeList polyPoints = object.getChildNodes();
-//                                    for (int m = 0; m < polyPoints.getLength(); m++) {
-//                                        Node polyPointValues = polyPoints.item(m);
-//                                        // Find the nested element 'polyline'
-//                                        if (polyPointValues.getNodeName().equalsIgnoreCase("polyline")) {
-//                                            // Store the polygon points as is
-//                                            polygonTiles.put(id, polyPointValues.getAttributes().getNamedItem("points").getTextContent());
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            // The invisible tile always has false properties
-//            solidTiles.put(0, false);
-//            postRenderTiles.put(0, false);
-//
-//        } catch (SAXException | IOException e) {
-//            e.printStackTrace();
-//        }
         try {
 
             DefaultHandler handler = new DefaultHandler() {
@@ -123,14 +54,15 @@ public class MapLoader implements Serializable {
                 private boolean postRenderedPropertyFound = false;
                 private boolean solid;
                 private boolean postRender;
-                private int currentId;
+                private int currentId, lastId;
                 private int startX, startY;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) throws SAXException {
 
                     if (qName.equalsIgnoreCase("tile")) {
-                        currentId = 1 + Integer.parseInt(attributes.getValue("id"));
+                        // Always increment tile ID by 1, as every next TileSet starts at ID 0 again
+                        currentId = 1 + lastId++;
                     } else if (qName.equalsIgnoreCase("property")) {
                         if (attributes.getValue("name").equalsIgnoreCase("solid")) {
                             solidPropertyFound = true;
