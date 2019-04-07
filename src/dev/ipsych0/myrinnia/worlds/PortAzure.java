@@ -30,7 +30,7 @@ public class PortAzure extends World {
 //		entityManager.addEntity(new Scorpion(4640, 5780));
 //		entityManager.addEntity(new Scorpion(4600, 5780));
 
-//        entityManager.addEntity(new SavingShrine(1536, 2560));
+        entityManager.addEntity(new SavingShrine(1536, 2560));
 //        entityManager.addEntity(new TestNPC(1440, 2560));
 //        entityManager.addEntity(new AbilityMaster(1504, 2336));
 //        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
