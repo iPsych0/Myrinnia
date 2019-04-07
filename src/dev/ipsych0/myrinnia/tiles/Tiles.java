@@ -116,7 +116,9 @@ public class Tiles {
     }
 
     public Polygon getBounds(int xPos, int yPos) {
+        // Reset the polygon to other occurences of this Tile
         if(xPos != lastX || yPos != lastY) {
+            // Don't reset the first time
             if(initialized){
                 reset = true;
             }
@@ -124,21 +126,25 @@ public class Tiles {
         }
         if (!initialized && bounds != null) {
             for (int i = 0; i < xPoints.length; i++) {
+                // Subtract the old coordinates
                 if(reset){
                     xPoints[i] = xPoints[i] - (lastX * TILEWIDTH);
                 }
+                // Set the new coordinates
                 xPoints[i] = xPoints[i] + (xPos * TILEWIDTH);
             }
             for (int i = 0; i < yPoints.length; i++) {
+                // Subtract the old coordinates
                 if(reset){
                     yPoints[i] = yPoints[i] - (lastY * TILEHEIGHT);
                 }
+                // Set the new coordinates
                 yPoints[i] = yPoints[i] + (yPos * TILEHEIGHT);
             }
-//            bounds.invalidate();
-//            bounds.reset();
-//
+
+            // Create the new bounds
             bounds = new Polygon(xPoints, yPoints, (xPoints.length + yPoints.length) / 2);
+
             initialized = true;
             reset = false;
             lastX = xPos;

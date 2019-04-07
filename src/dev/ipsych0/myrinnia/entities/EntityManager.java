@@ -85,8 +85,8 @@ public class EntityManager implements Serializable {
                 selectedEntity = null;
 
                 // Check if we're clicking on another Entity
-                for(Entity e2 : entities){
-                    if(e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)){
+                for (Entity e2 : entities) {
+                    if (e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                         selectedEntity = e2;
                         break;
                     }
@@ -132,8 +132,9 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            e.postRender(g);
-
+            if (!e.equals(Handler.get().getPlayer())) {
+                e.postRender(g);
+            }
         }
 
         Collection<HitSplat> deleted = new CopyOnWriteArrayList<>();
@@ -148,7 +149,7 @@ public class EntityManager implements Serializable {
 
     }
 
-    private void drawHoverCorners(Graphics g, Entity e, int xOffset, int yOffset, Color color){
+    private void drawHoverCorners(Graphics g, Entity e, int xOffset, int yOffset, Color color) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(color);
         g2.setStroke(new BasicStroke(2));
@@ -189,7 +190,7 @@ public class EntityManager implements Serializable {
                 if (selectedEntity.isNpc()) {
                     drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity, 0, 0, Color.YELLOW);
-                } else if(selectedEntity.isAttackable()){
+                } else if (selectedEntity.isAttackable()) {
                     drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity, 0, 0, Color.RED);
                 }
@@ -211,7 +212,7 @@ public class EntityManager implements Serializable {
                 if (e.isNpc()) {
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.YELLOW);
-                } else if(e.isAttackable()){
+                } else if (e.isAttackable()) {
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.RED);
                 }

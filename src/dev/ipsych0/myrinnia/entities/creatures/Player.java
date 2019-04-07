@@ -70,13 +70,15 @@ public class Player extends Creature {
     private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
     private double levelExponent = 1.1;
-    public static boolean isLevelUp = false;
-    private int levelUpTimer;
+    public static boolean isLevelUp;
+    public static boolean isXpGained;
+    public static int xpGained;
+    private int levelUpTimer, xpGainedTimer;
 
     private boolean movementAllowed = true;
-    public static boolean isMoving = false;
+    public static boolean isMoving;
 
-    public static boolean mouseMoved = false;
+    public static boolean mouseMoved;
     private float xSpawn, ySpawn;
 
     // Entities we can interact with, with different functions
@@ -440,11 +442,9 @@ public class Player extends Creature {
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         }
 
-        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
-
         // UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 
-        if(Handler.debugCollision) {
+        if (Handler.debugCollision) {
             g.setColor(Color.RED);
             g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
@@ -491,17 +491,6 @@ public class Player extends Creature {
         for (int i = 0; i < getBuffs().size(); i++) {
             getBuffs().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
                     Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8);
-        }
-
-        if (isLevelUp) {
-            levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font32);
-            if (levelUpTimer >= 60) {
-                levelUpTimer = 0;
-                isLevelUp = false;
-            }
         }
 
     }
@@ -893,6 +882,31 @@ public class Player extends Creature {
     public void postRender(Graphics g) {
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             closestEntity.getChatDialogue().render(g);
+        }
+
+        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
+
+        if (isLevelUp) {
+            levelUpTimer++;
+            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font32);
+            if (levelUpTimer >= 60) {
+                levelUpTimer = 0;
+                isLevelUp = false;
+            }
+        }
+
+        if (isXpGained) {
+            xpGainedTimer++;
+            Text.drawString(g, "+" + xpGained + " XP",
+                    (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer),
+                    true, Color.GREEN, Assets.font14);
+            if (xpGainedTimer >= 60) {
+                xpGainedTimer = 0;
+                isXpGained = false;
+            }
         }
     }
 

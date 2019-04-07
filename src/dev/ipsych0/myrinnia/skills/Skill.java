@@ -7,7 +7,6 @@ import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +33,8 @@ public abstract class Skill implements Serializable {
     }
 
     public void addExperience(int experience) {
+        Player.isXpGained = true;
+        Player.xpGained = experience;
         this.experience += experience;
         checkNextLevel();
     }
