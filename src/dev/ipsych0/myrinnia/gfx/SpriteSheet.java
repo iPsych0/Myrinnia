@@ -65,17 +65,12 @@ public class SpriteSheet {
             int[] xCoords = new int[size];
             int[] yCoords = new int[size];
             for (int i = 0; i < size; i++) {
-                xCoords[i] = (int)points.get(i).getX();
-                yCoords[i] = (int)points.get(i).getY();
+                xCoords[i] = (int) points.get(i).getX();
+                yCoords[i] = (int) points.get(i).getY();
             }
             Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
-        }else {
-//        if (xPoints != null && yPoints != null && xPoints.length > 0 && yPoints.length > 0) {
-//            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), xPoints, yPoints);
-//        }
-//        else {
+        } else {
             Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
-//        }
         }
 
         return sheet.getSubimage(x, y, width, height);

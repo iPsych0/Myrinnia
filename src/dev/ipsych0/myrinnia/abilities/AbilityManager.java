@@ -7,12 +7,15 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 public class AbilityManager implements Serializable {
@@ -27,19 +30,46 @@ public class AbilityManager implements Serializable {
     private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
     private Color castBarColor = new Color(240, 160, 5, 224);
     private AbilityHUD abilityHUD;
+    private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
 
     /*
      * Abilities (maybe via file inladen)
      */
     public AbilityManager() {
         this.abilityHUD = new AbilityHUD();
+
         try {
-            for (File f : Utils.abilityJsonDirectory.listFiles()) {
-                allAbilities.add(Utils.loadAbility(f.getName()));
-            }
+            init();
         } catch (Exception e) {
             System.err.println("Failed to load abilities!");
             System.exit(1);
+        }
+    }
+
+    private void init() throws IOException {
+        final String path = "dev/ipsych0/myrinnia/abilities/json/";
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+
+        // Run with JAR file
+        if(jarFile.isFile()) {
+            final JarFile jar = new JarFile(jarFile);
+            // Get all files and folders in the jar
+            final Enumeration<JarEntry> entries = jar.entries();
+            while(entries.hasMoreElements()) {
+                final String entry = entries.nextElement().getName();
+                // Look for the abilities/json folder for files that end with .json
+                if (entry.startsWith(path) && entry.endsWith(".json")) {
+                    // Get the json filename and load it
+                    String jsonFile = entry.substring(entry.lastIndexOf("/")+1, entry.length());
+                    allAbilities.add(Utils.loadAbility(jsonFile));
+                }
+            }
+            jar.close();
+        // Run with IDE
+        } else {
+            for (File f : abilitiesJsonDirectory.listFiles()) {
+                allAbilities.add(Utils.loadAbility(f.getName()));
+            }
         }
     }
 

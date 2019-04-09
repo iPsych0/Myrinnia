@@ -13,30 +13,7 @@ import java.lang.reflect.Type;
 public class Utils {
 
     private static Gson gson;
-    public static File abilityJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
-    public static File itemJsonDirectory = new File("src/dev/ipsych0/myrinnia/items/json/");
     private static int abilityCounter = 0;
-
-    /**
-     * Loads the contents of a file as a String
-     *
-     * @param path - location of the file
-     * @return - Full length String of the file's contents
-     */
-    public static String loadFileAsString(String path) {
-        StringBuilder builder = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            String line;
-            while ((line = br.readLine()) != null)
-                builder.append(line + "\n");
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
-    }
 
     /**
      * Parses Strings to Integers for reading Tiles
@@ -50,7 +27,7 @@ public class Utils {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             System.out.println("Couldn't load tile with ID: " + number);
-            return 28;
+            return 0;
         }
     }
 
@@ -62,18 +39,15 @@ public class Utils {
     }
 
     private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
-        FileInputStream inputStream = null;
-        try {
-            jsonFile = "src/dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
-            inputStream = new FileInputStream(new File(jsonFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("File '" + jsonFile.toLowerCase() + "' not found.");
-            System.exit(1);
-        }
+        InputStream inputStream = null;
+        jsonFile = "dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
+        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
         try {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            return getGson().fromJson(reader, (Type) clazz);
+            T t = getGson().fromJson(reader, (Type) clazz);
+            reader.close();
+            inputStream.close();
+            return t;
         } catch (final Exception e) {
             e.printStackTrace();
             System.err.println("Json file could not be loaded.");
@@ -83,18 +57,13 @@ public class Utils {
     }
 
     private static Class<?> getClassFromString(String jsonFile, String packageName) {
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
+        BufferedReader reader = null;
         String name = null;
+        jsonFile = "dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
+        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
         try {
-            jsonFile = "src/dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
-            inputStream = new FileInputStream(new File(jsonFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("File '" + jsonFile.toLowerCase() + "' not found.");
-            System.exit(1);
-        }
-        try {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains("className")) {
@@ -102,7 +71,9 @@ public class Utils {
                     break;
                 }
             }
-        } catch (final Exception e) {
+            reader.close();
+            inputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Json file could not be loaded.");
             System.exit(1);

@@ -71,16 +71,16 @@ public class Tiles {
     }
 
     public void render(Graphics g, int x, int y) {
-        g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
-        if(Handler.debugCollision && bounds != null){
+        g.drawImage(texture, x, y, null);
+        if (Handler.debugCollision && bounds != null) {
             int[] xArr, yArr;
             xArr = xPoints.clone();
             yArr = yPoints.clone();
             for (int i = 0; i < xArr.length; i++) {
-                xArr[i] = xArr[i] - (int)Handler.get().getGameCamera().getxOffset();
+                xArr[i] = xArr[i] - (int) Handler.get().getGameCamera().getxOffset();
             }
             for (int i = 0; i < yArr.length; i++) {
-                yArr[i] = yArr[i] - (int)Handler.get().getGameCamera().getyOffset();
+                yArr[i] = yArr[i] - (int) Handler.get().getGameCamera().getyOffset();
             }
             g.setColor(Color.BLUE);
             g.fillPolygon(xArr, yArr, (xArr.length + yArr.length) / 2);
@@ -111,15 +111,15 @@ public class Tiles {
         this.postRendered = postRendered;
     }
 
-    public Polygon getBounds(){
+    public Polygon getBounds() {
         return bounds;
     }
 
     public Polygon getBounds(int xPos, int yPos) {
         // Reset the polygon to other occurences of this Tile
-        if(xPos != lastX || yPos != lastY) {
+        if (xPos != lastX || yPos != lastY) {
             // Don't reset the first time
-            if(initialized){
+            if (initialized) {
                 reset = true;
             }
             initialized = false;
@@ -127,7 +127,7 @@ public class Tiles {
         if (!initialized && bounds != null) {
             for (int i = 0; i < xPoints.length; i++) {
                 // Subtract the old coordinates
-                if(reset){
+                if (reset) {
                     xPoints[i] = xPoints[i] - (lastX * TILEWIDTH);
                 }
                 // Set the new coordinates
@@ -135,7 +135,7 @@ public class Tiles {
             }
             for (int i = 0; i < yPoints.length; i++) {
                 // Subtract the old coordinates
-                if(reset){
+                if (reset) {
                     yPoints[i] = yPoints[i] - (lastY * TILEHEIGHT);
                 }
                 // Set the new coordinates

@@ -27,8 +27,6 @@ public class Text {
             y = (yPos - fm.getHeight() / 2) + fm.getAscent();
         }
 
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(Color.BLACK);
         g.drawString(text, x + 1, y + 1);
@@ -54,8 +52,6 @@ public class Text {
         as.addAttribute(TextAttribute.FONT, font);
         as.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(Color.BLACK);
         g.drawString(as.getIterator(), x + 1, y + 1);
