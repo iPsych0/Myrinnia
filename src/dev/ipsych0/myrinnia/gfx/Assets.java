@@ -89,13 +89,13 @@ public class Assets {
         /*
          * Fonts
          */
-        font14 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 14);
-        font20 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 20);
-        font24 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 24);
-        font32 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 32);
-        font40 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 40);
-        font48 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 48);
-        font64 = FontLoader.loadFont("res/fonts/IBMPlexSans-Regular.otf", 64);
+        font14 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 14);
+        font20 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 20);
+        font24 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 24);
+        font32 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 32);
+        font40 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 40);
+        font48 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 48);
+        font64 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 64);
 
 
         /*

@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.worlds.data;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.*;
 
 import java.awt.*;
@@ -26,12 +27,12 @@ public class WorldHandler implements Serializable {
 
     private void initWorlds() {
         // Add new worlds here
-		addWorld(new Myrinnia("res/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
-        addWorld(new LakeAzure("res/worlds/myrinnia_DUMMY_MAP.tmx"));
-        addWorld(new MtAzure("res/worlds/myrinnia_DUMMY_MAP.tmx"));
-        addWorld(new SunriseSands("res/worlds/myrinnia_DUMMY_MAP.tmx"));
-        addWorld(new SunsetCove("res/worlds/sunset_cove.tmx"));
-        addWorld(new SunshineCoast("res/worlds/myrinnia_DUMMY_MAP.tmx"));
+		addWorld(new Myrinnia("/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
+        addWorld(new LakeAzure("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new MtAzure("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new SunriseSands("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new SunsetCove("/worlds/sunset_cove.tmx"));
+        addWorld(new SunshineCoast("/worlds/myrinnia_DUMMY_MAP.tmx"));
 
         try {
             worlds.sort(Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));

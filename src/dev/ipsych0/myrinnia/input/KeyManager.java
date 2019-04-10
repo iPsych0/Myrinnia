@@ -84,7 +84,7 @@ public class KeyManager implements KeyListener, Serializable {
 
             // Interaction keys
             chat = keys[chatWindowKey];
-            pause = keys[KeyEvent.VK_P];
+            pause = keys[pauseKey];
             talk = keys[interactKey];
 
             // UI keys

@@ -45,6 +45,23 @@ import java.util.Random;
 
 public class Handler implements Serializable {
 
+    public static final String resourcePath;
+    public static final File jarFile;
+    private Properties prop = new Properties();
+
+
+    static {
+        jarFile = new File(Handler.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        // Run with JAR file
+        if (jarFile.isFile()) {
+            System.out.println(jarFile.getAbsolutePath());
+            resourcePath = "";
+            isJar = true;
+        }else{
+            resourcePath = "res/";
+        }
+    }
+
 
     /**
      *
@@ -69,8 +86,9 @@ public class Handler implements Serializable {
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
     private boolean soundMuted = false;
-    public static String initialWorldPath = "res/worlds/port_azure.tmx";
+    public static String initialWorldPath = "/worlds/port_azure.tmx";
     public static boolean debugCollision = false;
+    public static boolean isJar;
 
     private static Handler handler;
 
@@ -78,6 +96,7 @@ public class Handler implements Serializable {
      * Flag: Set to true for debug mode
      */
     public static boolean noclipMode = false;
+    private static boolean propsLoaded;
 
     public static Handler get() {
         if (handler == null) {
@@ -122,7 +141,7 @@ public class Handler implements Serializable {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound("res/music/songs/" + songName);
+                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -137,7 +156,7 @@ public class Handler implements Serializable {
         if (!soundMuted) {
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("res/music/songs/" + song);
+                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + song);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + song);
                 e.printStackTrace();
@@ -165,7 +184,7 @@ public class Handler implements Serializable {
             }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("res/music/sfx/" + effect);
+                buffer = AudioManager.loadSound(resourcePath + "music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
@@ -378,24 +397,21 @@ public class Handler implements Serializable {
     }
 
     public void saveProperty(String propertyKey, String propertyValue) {
-        Properties prop = new Properties();
         OutputStream output = null;
-        InputStream input = null;
 
         try {
-            input = new FileInputStream("res/settings/config.properties");
-            prop.load(input);
-
             prop.setProperty(propertyKey, propertyValue);
-
-            output = new FileOutputStream("res/settings/config.properties");
+            if(isJar){
+                output = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
+            }else {
+                output = new FileOutputStream(Handler.resourcePath + "settings/config.properties");
+            }
             prop.store(output, null);
         } catch (IOException io) {
             io.printStackTrace();
         } finally {
-            if (input != null && output != null) {
+            if (output != null) {
                 try {
-                    input.close();
                     output.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -405,12 +421,14 @@ public class Handler implements Serializable {
     }
 
     public String loadProperty(String propertyKey) {
-        Properties prop = new Properties();
         InputStream input = null;
 
         try {
-            input = new FileInputStream("res/settings/config.properties");
-            prop.load(input);
+            if (!propsLoaded) {
+                input = Handler.class.getResourceAsStream("/settings/config.properties");
+                prop.load(input);
+                propsLoaded = true;
+            }
             return prop.getProperty(propertyKey);
         } catch (IOException ex) {
             ex.printStackTrace();

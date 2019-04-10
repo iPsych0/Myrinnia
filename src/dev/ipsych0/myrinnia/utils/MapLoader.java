@@ -10,10 +10,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.*;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public class MapLoader implements Serializable {
 
@@ -46,6 +47,7 @@ public class MapLoader implements Serializable {
      * @params: String path in OS
      */
     public static void setSolidTiles(String path) {
+        InputStream is = MapLoader.class.getResourceAsStream(path);
         try {
 
             DefaultHandler handler = new DefaultHandler() {
@@ -105,7 +107,7 @@ public class MapLoader implements Serializable {
 
             };
 
-            saxParser.parse(path, handler);
+            saxParser.parse(is, handler);
 
             solidTiles.put(0, false);
             postRenderTiles.put(0, false);
@@ -123,7 +125,8 @@ public class MapLoader implements Serializable {
         int mapWidth = 0;
         try {
             // Creates new DocumentBuilder on the file
-            Document doc = builder.parse(path);
+            InputStream is = MapLoader.class.getResourceAsStream(path);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Gets the tag 'layer'
@@ -146,7 +149,8 @@ public class MapLoader implements Serializable {
     public static int getMapHeight(String path) {
         int mapHeight = 0;
         try {
-            Document doc = builder.parse(path);
+            InputStream is = MapLoader.class.getResourceAsStream(path);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Gets the tag 'layer'
@@ -170,7 +174,8 @@ public class MapLoader implements Serializable {
      */
     public static String[] getMapTiles(String path) {
         try {
-            Document doc = builder.parse(path);
+            InputStream is = MapLoader.class.getResourceAsStream(path);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Get all tags
@@ -201,7 +206,8 @@ public class MapLoader implements Serializable {
 
     public static int[] getTiledFirstGid(String path) {
         try {
-            Document doc = builder.parse(path);
+            InputStream is = MapLoader.class.getResourceAsStream(path);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Get all tileset objects
@@ -229,7 +235,8 @@ public class MapLoader implements Serializable {
         String imageSource = null;
 
         try {
-            Document doc = builder.parse(worldPath);
+            InputStream is = MapLoader.class.getResourceAsStream(worldPath);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Get all tileset objects
@@ -261,7 +268,7 @@ public class MapLoader implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Couldn't find the index of the image path for world: " + worldPath + " - in: MapLoader::getImageIndex");
+        System.out.println("Couldn't find the index of the image resourcePath for world: " + worldPath + " - in: MapLoader::getImageIndex");
         System.out.println(imagePath + " - is not a tileset used in Tiled Map Editor.");
         return -1;
     }
@@ -270,7 +277,8 @@ public class MapLoader implements Serializable {
         int tileCount = -1;
 
         try {
-            Document doc = builder.parse(worldPath);
+            InputStream is = MapLoader.class.getResourceAsStream(worldPath);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Get all tileset objects
@@ -286,7 +294,7 @@ public class MapLoader implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Artifact 'tileCount' not found for path: " + worldPath + " in: MapLoader::getTileCount");
+        System.out.println("Artifact 'tileCount' not found for resourcePath: " + worldPath + " in: MapLoader::getTileCount");
         return -1;
     }
 
@@ -295,7 +303,8 @@ public class MapLoader implements Serializable {
         int columns = -1;
 
         try {
-            Document doc = builder.parse(worldPath);
+            InputStream is = MapLoader.class.getResourceAsStream(worldPath);
+            Document doc = builder.parse(is);
             doc.normalize();
 
             // Get all tileset objects
@@ -311,7 +320,7 @@ public class MapLoader implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Artifact 'columns' not found for path: " + worldPath + " in: MapLoader::getTileColumns");
+        System.out.println("Artifact 'columns' not found for resourcePath: " + worldPath + " in: MapLoader::getTileColumns");
         return columns;
     }
 }

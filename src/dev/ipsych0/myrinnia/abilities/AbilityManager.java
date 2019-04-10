@@ -9,8 +9,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,11 +46,10 @@ public class AbilityManager implements Serializable {
 
     private void init() throws IOException {
         final String path = "dev/ipsych0/myrinnia/abilities/json/";
-        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 
         // Run with JAR file
-        if(jarFile.isFile()) {
-            final JarFile jar = new JarFile(jarFile);
+        if(Handler.jarFile.isFile()) {
+            final JarFile jar = new JarFile(Handler.jarFile);
             // Get all files and folders in the jar
             final Enumeration<JarEntry> entries = jar.entries();
             while(entries.hasMoreElements()) {
