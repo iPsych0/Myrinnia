@@ -12,7 +12,7 @@ public class SpriteSheet {
 
 
     private BufferedImage sheet;
-    public static int[] firstGids = MapLoader.getTiledFirstGid(Handler.initialWorldPath);
+    public static int[] firstGids = MapLoader.getTiledFirstGid();
     private int imageIndex;
     private int columns;
 

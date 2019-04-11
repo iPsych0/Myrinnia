@@ -32,6 +32,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
+import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.PortAzure;
 import dev.ipsych0.myrinnia.worlds.data.World;
@@ -257,7 +258,10 @@ public class Handler implements Serializable {
         player.setY(y);
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
-        setWorld(worldHandler.getWorldsMap().get(zone));
+
+        World w = worldHandler.getWorldsMap().get(zone);
+        w.init();
+        setWorld(w);
 
         ZoneTransitionState transitionState = new ZoneTransitionState(zone);
         State.setState(transitionState);

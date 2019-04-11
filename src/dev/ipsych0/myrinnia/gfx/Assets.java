@@ -84,6 +84,7 @@ public class Assets {
 
     public static void init() {
 
+        MapLoader.setWorldDoc(Handler.initialWorldPath);
         MapLoader.setSolidTiles(Handler.initialWorldPath);
 
         /*

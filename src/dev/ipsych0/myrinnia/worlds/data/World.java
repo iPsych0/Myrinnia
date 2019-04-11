@@ -71,10 +71,12 @@ public abstract class World implements Serializable {
 
         this.worldPath = path;
 
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
+        if(path.equalsIgnoreCase(Handler.initialWorldPath)) {
+            width = MapLoader.getMapWidth();
+            height = MapLoader.getMapHeight();
 
-        loadWorld(path);
+            loadWorld(path);
+        }
 
         // World-specific classes
         this.player = Handler.get().getPlayer();
@@ -93,6 +95,15 @@ public abstract class World implements Serializable {
         entityManager = new EntityManager(player);
         itemManager = new ItemManager();
 
+    }
+
+    public void init(){
+        MapLoader.setWorldDoc(worldPath);
+
+        width = MapLoader.getMapWidth();
+        height = MapLoader.getMapHeight();
+
+        loadWorld(worldPath);
     }
 
     public void tick() {
@@ -131,16 +142,21 @@ public abstract class World implements Serializable {
     }
 
     public void render(Graphics g) {
+        // Get the dimension once at the start
+        int screenWidth = Handler.get().getWidth();
+        int screenheight = Handler.get().getHeight();
+        float xOffset = Handler.get().getGameCamera().getxOffset();
+        float yOffset = Handler.get().getGameCamera().getyOffset();
+
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
+        g.fillRect(0, 0, screenWidth, screenheight);
         // Set variables for rendering only the tiles that show on screen
-        int xStart = (int) Math.max(0, Handler.get().getGameCamera().getxOffset() / Tiles.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (Handler.get().getGameCamera().getxOffset() + Handler.get().getWidth()) / Tiles.TILEWIDTH + 1);
-        int yStart = (int) Math.max(0, Handler.get().getGameCamera().getyOffset() / Tiles.TILEHEIGHT);
-        int yEnd = (int) Math.min(height, (Handler.get().getGameCamera().getyOffset() + Handler.get().getHeight()) / Tiles.TILEHEIGHT + 1);
+        int xStart = (int) Math.max(0, xOffset / Tiles.TILEWIDTH);
+        int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tiles.TILEWIDTH + 1);
+        int yStart = (int) Math.max(0, yOffset / Tiles.TILEHEIGHT);
+        int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tiles.TILEHEIGHT + 1);
 
         // Render the tiles
-
         List<Tiles> renderOverTiles = new ArrayList<>();
         List<Integer> xCoords = new ArrayList<>();
         List<Integer> yCoords = new ArrayList<>();
@@ -149,8 +165,8 @@ public abstract class World implements Serializable {
                 for (int x = xStart; x < xEnd; x++) {
                     Tiles t = getTile(i, x, y);
                     if (t != Tiles.tiles[0]) {
-                        int xPos = (int) (x * Tiles.TILEWIDTH - Handler.get().getGameCamera().getxOffset());
-                        int yPos = (int) (y * Tiles.TILEHEIGHT - Handler.get().getGameCamera().getyOffset());
+                        int xPos = (int) (x * Tiles.TILEWIDTH - xOffset);
+                        int yPos = (int) (y * Tiles.TILEHEIGHT - yOffset);
                         if (t.isPostRendered()) {
                             renderOverTiles.add(t);
                             xCoords.add(xPos);
