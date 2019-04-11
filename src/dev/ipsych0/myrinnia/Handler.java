@@ -41,6 +41,7 @@ import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -52,9 +53,15 @@ public class Handler implements Serializable {
 
 
     static {
-        jarFile = new File(Handler.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File jarFile1;
+        try {
+            jarFile1 = new File(Handler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        } catch (Exception e) {
+            jarFile1 = null;
+        }
         // Run with JAR file
-        if (jarFile.isFile()) {
+        jarFile = jarFile1;
+        if (jarFile != null && jarFile.isFile()) {
             System.out.println(jarFile.getAbsolutePath());
             resourcePath = "";
             isJar = true;

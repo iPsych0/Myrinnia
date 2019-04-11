@@ -48,7 +48,7 @@ public class AbilityManager implements Serializable {
         final String path = "dev/ipsych0/myrinnia/abilities/json/";
 
         // Run with JAR file
-        if(Handler.jarFile.isFile()) {
+        if(Handler.isJar) {
             final JarFile jar = new JarFile(Handler.jarFile);
             // Get all files and folders in the jar
             final Enumeration<JarEntry> entries = jar.entries();
