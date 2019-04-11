@@ -20,11 +20,13 @@ public class EquipmentSlot implements Serializable {
     private int x, y;
     private ItemStack itemStack;
     public static boolean hasSwapped = false;
+    private Rectangle bounds;
 
     public EquipmentSlot(int x, int y, ItemStack itemStack) {
         this.x = x;
         this.y = y;
         this.itemStack = itemStack;
+        this.bounds = new Rectangle(x, y, SLOTSIZE, SLOTSIZE);
     }
 
     public void tick() {
@@ -87,6 +89,8 @@ public class EquipmentSlot implements Serializable {
         this.y = y;
     }
 
-
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }
 

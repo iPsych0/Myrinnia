@@ -146,7 +146,7 @@ public class BankUI implements Serializable {
                  * Bankslot mouse interaction
                  */
                 for (ItemSlot is : openedTab.getBankSlots()) {
-                    Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                    Rectangle slot = is.getBounds();
                     if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && hasBeenPressed) {
                         if (is.getItemStack() != null && !Handler.get().invIsFull(is.getItemStack().getItem())) {
                             Handler.get().giveItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
@@ -217,7 +217,7 @@ public class BankUI implements Serializable {
                  */
                 int slotIndex = 0;
                 for (ItemSlot is : invSlots) {
-                    Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                    Rectangle slot = is.getBounds();
                     if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && hasBeenPressed) {
                         if (is.getItemStack() != null) {
                             if (openedTab.findFreeSlot(is.getItemStack().getItem()) != -1) {

@@ -67,7 +67,7 @@ public class EquipmentWindow implements Serializable {
 
                 es.tick();
 
-                Rectangle temp2 = new Rectangle(es.getX(), es.getY(), EquipmentSlot.SLOTSIZE, EquipmentSlot.SLOTSIZE);
+                Rectangle temp2 = es.getBounds();
 
                 // If mouse is dragged
                 if (Handler.get().getMouseManager().isDragged()) {
@@ -154,7 +154,7 @@ public class EquipmentWindow implements Serializable {
             Rectangle mouse = Handler.get().getMouse();
 
             for (EquipmentSlot es : equipmentSlots) {
-                Rectangle slot = new Rectangle(es.getX(), es.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                Rectangle slot = es.getBounds();
 
                 // If hovering over an item in the inventory, draw the tooltip
                 if (slot.contains(mouse) && es.getEquipmentStack() != null) {

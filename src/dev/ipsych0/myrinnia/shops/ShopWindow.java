@@ -471,7 +471,7 @@ public class ShopWindow implements Serializable {
             is.tick();
 
 
-            Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+            Rectangle slot = is.getBounds();
 
             // If left-clicked, select an item
             if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
@@ -520,7 +520,7 @@ public class ShopWindow implements Serializable {
         for (ItemSlot is : invSlots) {
             is.tick();
 
-            Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+            Rectangle slot = is.getBounds();
 
             if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
                 if (is.getItemStack() != null) {

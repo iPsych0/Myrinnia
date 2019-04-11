@@ -82,7 +82,7 @@ public class InventoryWindow implements Serializable {
 
                 is.tick();
 
-                Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                Rectangle slot = is.getBounds();
 
                 // If an item is dragged
                 if (Handler.get().getMouseManager().isDragged()) {
@@ -316,7 +316,7 @@ public class InventoryWindow implements Serializable {
                         Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
                 }
 
-                Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                Rectangle temp2 = is.getBounds();
 
 
                 // If hovering over an item in the inventory, draw the tooltip

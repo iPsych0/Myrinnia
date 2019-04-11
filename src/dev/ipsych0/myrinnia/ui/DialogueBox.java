@@ -67,7 +67,7 @@ public class DialogueBox implements Serializable {
 
         if (isOpen) {
 
-            Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+            Rectangle mouse = Handler.get().getMouse();
             tb.tick();
             uiManager.tick();
             for (DialogueButton db : buttons) {
@@ -106,7 +106,7 @@ public class DialogueBox implements Serializable {
 
             uiManager.render(g);
 
-            Rectangle mouse = new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1);
+            Rectangle mouse = Handler.get().getMouse();
 
             for (DialogueButton db : buttons) {
                 if (db.getButtonBounds().contains(mouse)) {
