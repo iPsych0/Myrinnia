@@ -130,12 +130,8 @@ public class Assets {
         /*
          * Creature Animations
          */
-        SpriteSheet ability_sheet = new SpriteSheet("/textures/animations/abilitysheet.png");
-
-        SpriteSheet airCloud1_sheet = new SpriteSheet("/textures/animations/air_cloud1.png");
-        SpriteSheet waterSplash1_sheet = new SpriteSheet("/textures/animations/water_splash1.png");
-        SpriteSheet movementBoost1_sheet = new SpriteSheet("/textures/animations/movement_boost1.png");
-        SpriteSheet eruption1_sheet = new SpriteSheet("/textures/animations/eruption1.png");
+        SpriteSheet ability_icons = new SpriteSheet("/textures/animations/abilitysheet.png");
+        SpriteSheet ability_animations = new SpriteSheet("/textures/animations/ability_animations.png");
 
         /*
          * All Tiled Sprites
@@ -325,49 +321,49 @@ public class Assets {
         /*
          * Ability Icons
          */
-        eruptionI = ability_sheet.imageCrop(0, 0);
-        fireballI = ability_sheet.imageCrop(1, 0);
-        mendWoundsI = ability_sheet.imageCrop(2, 0);
-        nimbleFeetI = ability_sheet.imageCrop(3, 0);
-        supersonicDashI = ability_sheet.imageCrop(4, 0);
+        eruptionI = ability_icons.imageCrop(0, 0);
+        fireballI = ability_icons.imageCrop(1, 0);
+        mendWoundsI = ability_icons.imageCrop(2, 0);
+        nimbleFeetI = ability_icons.imageCrop(3, 0);
+        supersonicDashI = ability_icons.imageCrop(4, 0);
 
 
         /*
          * Creature Animations
          */
         airCloud1 = new BufferedImage[7];
-        airCloud1[0] = airCloud1_sheet.imageCrop(0, 0);
-        airCloud1[1] = airCloud1_sheet.imageCrop(1, 0);
-        airCloud1[2] = airCloud1_sheet.imageCrop(2, 0);
-        airCloud1[3] = airCloud1_sheet.imageCrop(3, 0);
-        airCloud1[4] = airCloud1_sheet.imageCrop(4, 0);
-        airCloud1[5] = airCloud1_sheet.imageCrop(5, 0);
-        airCloud1[6] = airCloud1_sheet.imageCrop(6, 0);
+        airCloud1[0] = ability_animations.imageCrop(0, 0);
+        airCloud1[1] = ability_animations.imageCrop(1, 0);
+        airCloud1[2] = ability_animations.imageCrop(2, 0);
+        airCloud1[3] = ability_animations.imageCrop(3, 0);
+        airCloud1[4] = ability_animations.imageCrop(4, 0);
+        airCloud1[5] = ability_animations.imageCrop(5, 0);
+        airCloud1[6] = ability_animations.imageCrop(6, 0);
 
         waterSplash1 = new BufferedImage[5];
-        waterSplash1[0] = waterSplash1_sheet.imageCrop(0, 0);
-        waterSplash1[1] = waterSplash1_sheet.imageCrop(1, 0);
-        waterSplash1[2] = waterSplash1_sheet.imageCrop(2, 0);
-        waterSplash1[3] = waterSplash1_sheet.imageCrop(3, 0);
-        waterSplash1[4] = waterSplash1_sheet.imageCrop(4, 0);
+        waterSplash1[0] = ability_animations.imageCrop(0, 6);
+        waterSplash1[1] = ability_animations.imageCrop(1, 6);
+        waterSplash1[2] = ability_animations.imageCrop(2, 6);
+        waterSplash1[3] = ability_animations.imageCrop(3, 6);
+        waterSplash1[4] = ability_animations.imageCrop(4, 6);
 
         movementBoost1 = new BufferedImage[7];
-        movementBoost1[0] = movementBoost1_sheet.imageCrop(0, 0);
-        movementBoost1[1] = movementBoost1_sheet.imageCrop(1, 0);
-        movementBoost1[2] = movementBoost1_sheet.imageCrop(2, 0);
-        movementBoost1[3] = movementBoost1_sheet.imageCrop(3, 0);
-        movementBoost1[4] = movementBoost1_sheet.imageCrop(4, 0);
-        movementBoost1[5] = movementBoost1_sheet.imageCrop(5, 0);
-        movementBoost1[6] = movementBoost1_sheet.imageCrop(6, 0);
+        movementBoost1[0] = ability_animations.imageCrop(0, 3);
+        movementBoost1[1] = ability_animations.imageCrop(1, 3);
+        movementBoost1[2] = ability_animations.imageCrop(2, 3);
+        movementBoost1[3] = ability_animations.imageCrop(3, 3);
+        movementBoost1[4] = ability_animations.imageCrop(4, 3);
+        movementBoost1[5] = ability_animations.imageCrop(5, 3);
+        movementBoost1[6] = ability_animations.imageCrop(6, 3);
 
         eruption1 = new BufferedImage[7];
-        eruption1[0] = eruption1_sheet.imageCrop(0, 0);
-        eruption1[1] = eruption1_sheet.imageCrop(1, 0);
-        eruption1[2] = eruption1_sheet.imageCrop(2, 0);
-        eruption1[3] = eruption1_sheet.imageCrop(3, 0);
-        eruption1[4] = eruption1_sheet.imageCrop(4, 0);
-        eruption1[5] = eruption1_sheet.imageCrop(5, 0);
-        eruption1[6] = eruption1_sheet.imageCrop(6, 0);
+        eruption1[0] = ability_animations.imageCrop(0, 1);
+        eruption1[1] = ability_animations.imageCrop(1, 1);
+        eruption1[2] = ability_animations.imageCrop(2, 1);
+        eruption1[3] = ability_animations.imageCrop(3, 1);
+        eruption1[4] = ability_animations.imageCrop(4, 1);
+        eruption1[5] = ability_animations.imageCrop(5, 1);
+        eruption1[6] = ability_animations.imageCrop(6, 1);
 
         // Skilling objects
         tree = texture_sheet.imageCrop(1, 2);
