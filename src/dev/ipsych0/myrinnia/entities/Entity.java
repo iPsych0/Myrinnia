@@ -199,6 +199,15 @@ public abstract class Entity implements Serializable {
         return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
+    public void heal(int heal){
+        if(health + heal >= maxHealth){
+            health = maxHealth;
+        }else{
+            health += heal;
+            Handler.get().addHealSplat(this, heal);
+        }
+    }
+
     /*
      * Deals the damage (subtracts the damage from HP)
      * @params: dealer = the Entity that deals the damage
@@ -212,7 +221,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver), damageType));
+        Handler.get().addHitSplat(receiver, damageDealer, damageType);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -237,7 +246,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability), ability));
+        Handler.get().addHitSplat(receiver, damageDealer, damageType, ability);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;

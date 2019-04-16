@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia;
 
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
@@ -9,6 +10,9 @@ import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
+import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.HitSplat;
+import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
@@ -295,11 +299,6 @@ public class Handler implements Serializable {
         return skillsUI.getSkill(skill);
     }
 
-    /**
-     * Unlock the specified recipe result item
-     *
-     * @param item - The resulting item of the recipe to be unlocked
-     */
     public void discoverRecipe(Item item) {
         craftingUI.getCraftingManager().getRecipeByItem(item).setDiscovered(true);
     }
@@ -336,6 +335,18 @@ public class Handler implements Serializable {
      */
     public double roundOff(double value) {
         return (double) Math.ceil(value * 10d) / 10d;
+    }
+
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), damageType));
+    }
+
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), ability));
+    }
+
+    public void addHealSplat(Entity receiver, int healing){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, healing));
     }
 
     /*
