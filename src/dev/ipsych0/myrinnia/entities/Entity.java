@@ -354,7 +354,7 @@ public abstract class Entity implements Serializable {
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
 
         g.setColor(HPOverlay.hpColorGreen);
-        if (this.getHealth() >= this.getMaxHealth()) {
+        if (health >= maxHealth) {
             g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
             g.setColor(HPOverlay.hpColorGreenOutline);

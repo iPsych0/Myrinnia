@@ -151,6 +151,8 @@ public class EntityManager implements Serializable {
 
     private void drawHoverCorners(Graphics g, Entity e, int xOffset, int yOffset, Color color) {
         Graphics2D g2 = (Graphics2D) g;
+        Stroke defaultStroke = g2.getStroke();
+
         g2.setColor(color);
         g2.setStroke(new BasicStroke(2));
 
@@ -169,6 +171,8 @@ public class EntityManager implements Serializable {
         // Bottom right corner
         g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()));
         g2.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+
+        g2.setStroke(defaultStroke);
     }
 
     public Entity getSelectedEntity() {

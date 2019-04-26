@@ -29,7 +29,7 @@ public class HitSplat implements Serializable {
         this.damage = damage;
 
         active = true;
-        xOffset = Handler.get().getRandomNumber(-24, 16);
+        xOffset = Handler.get().getRandomNumber(-24, -12);
         yOffset = Handler.get().getRandomNumber(-12, 12);
 
         switch (damageType) {
@@ -51,7 +51,7 @@ public class HitSplat implements Serializable {
         this.ability = ability;
 
         active = true;
-        xOffset = Handler.get().getRandomNumber(-24, 16);
+        xOffset = Handler.get().getRandomNumber(-32, -16);
         yOffset = Handler.get().getRandomNumber(-12, 12);
     }
 
@@ -61,7 +61,7 @@ public class HitSplat implements Serializable {
         this.healing = true;
 
         active = true;
-        xOffset = Handler.get().getRandomNumber(-8, 32);
+        xOffset = Handler.get().getRandomNumber(0, 16);
         yOffset = Handler.get().getRandomNumber(-12, 12);
     }
 
@@ -71,23 +71,23 @@ public class HitSplat implements Serializable {
 
     public void render(Graphics g) {
         if (active) {
-            ty++;
             if (!healing) {
                 if (ability == null) {
-                    g.drawImage(dmgType, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() - 18 + xOffset),
-                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 8 - ty + yOffset), 16, 16, null);
+                    g.drawImage(dmgType, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
+                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset), 16, 16, null);
                 } else {
-                    ability.render(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() - 30 + xOffset),
-                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 6 - ty + yOffset));
+                    ability.render(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
+                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset));
                 }
                 Text.drawString(g, String.valueOf(damage),
-                        (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 4 + xOffset),
-                        (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset), false, Color.RED, Assets.font32);
+                        (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + xOffset),
+                        (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 16 + receiver.height - ty + yOffset), false, Color.RED, Assets.font24);
             }else{
                 Text.drawString(g, String.valueOf(health),
-                        (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 4 + xOffset),
-                        (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset), false, Color.GREEN, Assets.font32);
+                        (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + xOffset),
+                        (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 16 + receiver.height - ty + yOffset), false, Color.GREEN, Assets.font24);
             }
+            ty++;
 
             if (ty >= 60) {
                 active = false;
