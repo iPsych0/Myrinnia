@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +29,10 @@ public abstract class Skill implements Serializable {
         level = 1;
     }
 
-    public int getExperience() {
-        return experience;
-    }
+    // Abstract methods
+    public abstract BufferedImage getImg();
 
-    public void addExperience(int experience) {
-        Player.isXpGained = true;
-        Player.xpGained = experience;
-        this.experience += experience;
-        checkNextLevel();
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
+    // Getter + setter logic
 
     public int getLevel() {
         return level;
@@ -64,6 +55,22 @@ public abstract class Skill implements Serializable {
             Player.isLevelUp = true;
             Handler.get().playEffect("ui/level_up.wav", 0.1f);
         }
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void addExperience(int experience) {
+        Player.isXpGained = true;
+        Player.xpGained = experience;
+        this.experience += experience;
+        Player.leveledSkill = this;
+        checkNextLevel();
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public int getNextLevelXp() {
@@ -96,5 +103,4 @@ public abstract class Skill implements Serializable {
                 .filter(x -> x.getCategory() == category)
                 .collect(Collectors.toList());
     }
-
 }

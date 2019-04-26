@@ -19,7 +19,7 @@ public class SkillsUI implements Serializable {
      *
      */
     private static final long serialVersionUID = -7078989753242847318L;
-    public int x = 8, y = 180, width = 208, height = 320;
+    public int x = 8, y = 180, width = 272, height = 320;
     public static boolean isOpen = false;
     public static boolean hasBeenPressed = false;
     private HashMap<SkillsList, Skill> skills;
@@ -55,11 +55,11 @@ public class SkillsUI implements Serializable {
             skills.put(skillsEnum.get(i), skillsList.get(i));
         }
 
-        bountyHunter = new UIImageButton(x + 16, y + 40, 174, 32, Assets.genericButton);
-        crafting = new UIImageButton(x + 16, y + 72, 174, 32, Assets.genericButton);
-        fishing = new UIImageButton(x + 16, y + 104, 174, 32, Assets.genericButton);
-        mining = new UIImageButton(x + 16, y + 136, 174, 32, Assets.genericButton);
-        woodcutting = new UIImageButton(x + 16, y + 168, 174, 32, Assets.genericButton);
+        bountyHunter = new UIImageButton(x + 16, y + 40, width - 16, 32, Assets.genericButton);
+        crafting = new UIImageButton(x + 16, y + 72, width - 16, 32, Assets.genericButton);
+        fishing = new UIImageButton(x + 16, y + 104, width - 16, 32, Assets.genericButton);
+        mining = new UIImageButton(x + 16, y + 136, width - 16, 32, Assets.genericButton);
+        woodcutting = new UIImageButton(x + 16, y + 168, width - 16, 32, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -234,6 +234,9 @@ public class SkillsUI implements Serializable {
         g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, (int) (skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
         g.setColor(HPOverlay.xpColorOutline);
         g.drawRoundRect(skillRect.x + 2, skillRect.y + 1, (int) (skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp()) - 2, skillRect.height - 4, 2, 4);
+
+        // Icon
+        g.drawImage(Handler.get().getSkill(skill).getImg(), skillRect.x + 4, skillRect.y, null);
     }
 
     public Skill getSkill(SkillsList skill) {

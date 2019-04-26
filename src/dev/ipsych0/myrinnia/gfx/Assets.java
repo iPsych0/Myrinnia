@@ -70,13 +70,13 @@ public class Assets {
 
     // HP Overlay UI
     public static BufferedImage hpOverlay;
-    public static BufferedImage hpOverlaySkillsIcon, hpOverlayCharacterIcon, hpOverlayAbilitiesIcon, hpOverlayQuestsIcon, hpOverlayMapIcon;
+    public static BufferedImage craftingIcon, characterIcon, abilitiesIcon, questsIcon, mapIcon;
     public static BufferedImage locked, unlocked;
 
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, rangedIcon, magicIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, rangedIcon, magicIcon, bountyHunterIcon;
 
     public static BufferedImage shopWindow;
 
@@ -203,8 +203,7 @@ public class Assets {
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
-        rangedIcon = ui_sheet.imageCrop(3, 1);
-        magicIcon = ui_sheet.imageCrop(4, 1);
+        bountyHunterIcon = ui_sheet.imageCrop(5, 1);
 
         // Inventory sprites
         invScreen = ui_sheet.imageCrop(0, 9, 132, 329);
@@ -220,11 +219,11 @@ public class Assets {
 
         // HP Overlay sprites
         hpOverlay = ui_sheet.imageCrop(3, 0, 160, 32);
-        hpOverlayAbilitiesIcon = ui_sheet.imageCrop(4, 0);
-        hpOverlayCharacterIcon = ui_sheet.imageCrop(5, 0);
-        hpOverlaySkillsIcon = ui_sheet.imageCrop(6, 0);
-        hpOverlayQuestsIcon = ui_sheet.imageCrop(7, 0);
-        hpOverlayMapIcon = ui_sheet.imageCrop(8, 0);
+        abilitiesIcon = ui_sheet.imageCrop(4, 0);
+        characterIcon = ui_sheet.imageCrop(5, 0);
+        craftingIcon = ui_sheet.imageCrop(6, 0);
+        questsIcon = ui_sheet.imageCrop(7, 0);
+        mapIcon = ui_sheet.imageCrop(8, 0);
 
         // Crafting UI sprites
         craftWindow = ui_sheet.imageCrop(5, 9, 242, 320);

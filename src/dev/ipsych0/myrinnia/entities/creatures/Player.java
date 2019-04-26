@@ -24,6 +24,7 @@ import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -72,6 +73,7 @@ public class Player extends Creature {
     private double levelExponent = 1.1;
     public static boolean isLevelUp;
     public static boolean isXpGained;
+    public static Skill leveledSkill;
     public static int xpGained;
     private int levelUpTimer, xpGainedTimer;
 
@@ -886,26 +888,28 @@ public class Player extends Creature {
 
         Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
 
-        if (isLevelUp) {
-            levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font32);
-            if (levelUpTimer >= 60) {
-                levelUpTimer = 0;
-                isLevelUp = false;
-            }
-        }
-
         if (isXpGained) {
             xpGainedTimer++;
+            g.drawImage(leveledSkill.getImg(), (int) (x - Handler.get().getGameCamera().getxOffset() - 66),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), null);
             Text.drawString(g, "+" + xpGained + " XP",
                     (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer),
-                    true, Color.GREEN, Assets.font14);
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 48 - xpGainedTimer),
+                    false, Color.GREEN, Assets.font14);
             if (xpGainedTimer >= 60) {
                 xpGainedTimer = 0;
                 isXpGained = false;
+            }
+        }
+
+        if (isLevelUp) {
+            levelUpTimer++;
+            Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font24);
+            if (levelUpTimer >= 60) {
+                levelUpTimer = 0;
+                isLevelUp = false;
             }
         }
     }

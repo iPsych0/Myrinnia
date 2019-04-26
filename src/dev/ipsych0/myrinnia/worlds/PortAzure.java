@@ -21,8 +21,8 @@ public class PortAzure extends World {
     public PortAzure(String path) {
         super(path);
 
-//        entityManager.addEntity(new Tree(240, 240));
-//        entityManager.addEntity(new Rock(182, 182));
+        entityManager.addEntity(new Tree(240, 240));
+        entityManager.addEntity(new Rock(182, 182));
 
 //		entityManager.addEntity(new Scorpion(4960, 5700));
         entityManager.addEntity(new Scorpion(928, 2336));

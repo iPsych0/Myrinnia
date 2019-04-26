@@ -168,11 +168,11 @@ public class HPOverlay implements Serializable {
 
 
         // UI button icons
-        g.drawImage(Assets.hpOverlayQuestsIcon, questsButton.x, questsButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlaySkillsIcon, skillsButton.x, skillsButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayCharacterIcon, characterButton.x, characterButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayAbilitiesIcon, abilitiesButton.x, abilitiesButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayMapIcon, mapButton.x, mapButton.y, 32, 32, null);
+        g.drawImage(Assets.questsIcon, questsButton.x, questsButton.y, 32, 32, null);
+        g.drawImage(Assets.craftingIcon, skillsButton.x, skillsButton.y, 32, 32, null);
+        g.drawImage(Assets.characterIcon, characterButton.x, characterButton.y, 32, 32, null);
+        g.drawImage(Assets.abilitiesIcon, abilitiesButton.x, abilitiesButton.y, 32, 32, null);
+        g.drawImage(Assets.mapIcon, mapButton.x, mapButton.y, 32, 32, null);
 
         Text.drawString(g, "HP", hpBar.x - 16, hpBar.y + hpBar.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "XP", xpBar.x - 16, xpBar.y + xpBar.height / 2, true, Color.YELLOW, Assets.font14);

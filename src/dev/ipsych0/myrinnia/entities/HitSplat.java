@@ -18,7 +18,6 @@ public class HitSplat implements Serializable {
     private boolean active, healing;
     private int ty = 0;
     private int xOffset, yOffset;
-    private transient BufferedImage dmgType;
     private transient Ability ability;
 
     public HitSplat() {
@@ -32,17 +31,6 @@ public class HitSplat implements Serializable {
         xOffset = Handler.get().getRandomNumber(-24, -12);
         yOffset = Handler.get().getRandomNumber(-12, 12);
 
-        switch (damageType) {
-            case STR:
-                this.dmgType = Assets.meleeIcon;
-                break;
-            case DEX:
-                this.dmgType = Assets.rangedIcon;
-                break;
-            case INT:
-                this.dmgType = Assets.magicIcon;
-                break;
-        }
     }
 
     public HitSplat(Entity receiver, int damage, Ability ability) {
@@ -72,10 +60,7 @@ public class HitSplat implements Serializable {
     public void render(Graphics g) {
         if (active) {
             if (!healing) {
-                if (ability == null) {
-                    g.drawImage(dmgType, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
-                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset), 16, 16, null);
-                } else {
+                if (ability != null) {
                     ability.render(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
                             (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset));
                 }
