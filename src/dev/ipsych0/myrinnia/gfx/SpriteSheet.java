@@ -77,19 +77,6 @@ public class SpriteSheet {
     }
 
     /**
-     * Crop function which creates the Tile and returns the image of the tile.
-     *
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, int width, int height) {
-        return tileCrop(x, y, width, height, false);
-    }
-
-    /**
      * Default crop function with custom width and height and not-solid Tile
      *
      * @param x
@@ -98,17 +85,6 @@ public class SpriteSheet {
      */
     public BufferedImage tileCrop(int x, int y) {
         return tileCrop(x, y, 32, 32, false);
-    }
-
-    /**
-     * Default crop function with custom width and height and not-solid Tile
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public BufferedImage tileCrop(int x, int y, boolean postRendered) {
-        return tileCrop(x, y, 32, 32, postRendered);
     }
 
     /**
@@ -121,10 +97,16 @@ public class SpriteSheet {
      * @return cropped non-tile image
      */
     public BufferedImage imageCrop(int x, int y, int width, int height) {
+        return imageCrop(x, y, width, height, false);
+    }
+
+    public BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
 
         // Multiply by 32 pixel Tiles
-        x *= 32;
-        y *= 32;
+        if(!customXandY) {
+            x *= 32;
+            y *= 32;
+        }
 
         return sheet.getSubimage(x, y, width, height);
     }

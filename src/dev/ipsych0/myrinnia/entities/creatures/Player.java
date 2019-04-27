@@ -51,15 +51,9 @@ public class Player extends Creature {
     public static boolean hasInteracted = false;
     public static boolean debugButtonPressed = false;
 
-    // Walking Animations
-    private Animation aDown, aUp, aLeft, aRight, aDefault;
-
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
     private ArrayList<Projectile> projectiles;
-
-    // Last faced direction
-    private Direction lastFaced = direction;
 
     // Attack timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
@@ -392,46 +386,6 @@ public class Player extends Creature {
 
     }
 
-    /*
-     * Sets the last faced direction, based on last movement
-     */
-    public void setLastFaced() {
-        if (lastFaced == null) {
-            aDefault = aDown;
-        }
-        if (lastFaced == Direction.LEFT) {
-            aDefault = aLeft;
-        } else if (lastFaced == Direction.RIGHT) {
-            aDefault = aRight;
-        } else if (lastFaced == Direction.DOWN) {
-            aDefault = aDown;
-        } else if (lastFaced == Direction.UP) {
-            aDefault = aUp;
-        }
-    }
-
-    /*
-     * Returns the sprite of the last faced direction
-     */
-    public BufferedImage getLastFacedImg() {
-        if (lastFaced == null) {
-            return Assets.player_down[1];
-        }
-        if (lastFaced == Direction.LEFT) {
-            return Assets.player_left[1];
-        }
-        if (lastFaced == Direction.RIGHT) {
-            return Assets.player_right[1];
-        }
-        if (lastFaced == Direction.DOWN) {
-            return Assets.player_down[1];
-        }
-        if (lastFaced == Direction.UP) {
-            return Assets.player_up[1];
-        }
-        return Assets.player_down[1];
-    }
-
     @Override
     public void render(Graphics g) {
         Rectangle mouse = Handler.get().getMouse();
@@ -749,7 +703,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f));
+                    9.0f, Assets.fireProjectile));
         }
 
     }
@@ -915,24 +869,6 @@ public class Player extends Creature {
     }
 
     /*
-     * Gets the animation based on last faced direction
-     * @returns the animation image
-     */
-    private BufferedImage getAnimationByLastFaced(Direction lastFaced) {
-        if (lastFaced == Direction.LEFT)
-            return aLeft.getCurrentFrame();
-        if (lastFaced == Direction.RIGHT)
-            return aRight.getCurrentFrame();
-        if (lastFaced == Direction.UP)
-            return aUp.getCurrentFrame();
-        if (lastFaced == Direction.DOWN)
-            return aDown.getCurrentFrame();
-
-        System.out.println("Can't get the last faced animation frame");
-        return aDefault.getCurrentFrame();
-    }
-
-    /*
      * All movement/attacking animations based on directions
      * @returns: the respective image
      */
@@ -944,9 +880,9 @@ public class Player extends Creature {
 
         if (xMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -957,9 +893,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (xMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -970,9 +906,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (yMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -983,9 +919,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (yMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -1043,33 +979,25 @@ public class Player extends Creature {
          */
 
         if (lastFaced == Direction.LEFT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aLeft.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aLeft.getDefaultFrame();
-            else
-                return attLeft.getCurrentFrame();
+            }
+            return attLeft.getCurrentFrame();
         } else if (lastFaced == Direction.RIGHT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aRight.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aRight.getDefaultFrame();
-            else
-                return attRight.getCurrentFrame();
+            }
+            return attRight.getCurrentFrame();
         } else if (lastFaced == Direction.UP && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aUp.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aUp.getDefaultFrame();
-            else
-                return attUp.getCurrentFrame();
+            }
+            return attUp.getCurrentFrame();
         } else if (lastFaced == Direction.DOWN && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aDown.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aDown.getDefaultFrame();
-            else
-                return attDown.getCurrentFrame();
+            }
+            return attDown.getCurrentFrame();
         }
 
         /*
@@ -1090,7 +1018,6 @@ public class Player extends Creature {
             return aDefault.getDefaultFrame();
         }
 
-        // If lastFaced is null, return black tile
         return Assets.player_down[1];
     }
 

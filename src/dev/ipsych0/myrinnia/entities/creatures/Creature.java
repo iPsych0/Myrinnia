@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -13,6 +14,7 @@ import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -75,6 +77,7 @@ public abstract class Creature extends Entity {
     private int pathTimer = 0;
     private List<Condition> conditions = new CopyOnWriteArrayList<>();
     private List<Buff> buffs = new CopyOnWriteArrayList<>();
+    protected Animation aLeft, aRight, aUp, aDown, aDefault;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -82,7 +85,7 @@ public abstract class Creature extends Entity {
 
     protected Direction direction;
     // Last faced direction
-    private Direction lastFaced;
+    protected Direction lastFaced;
 
     protected float speed;
     protected float xMove, yMove;
@@ -190,6 +193,77 @@ public abstract class Creature extends Entity {
         } else if (yMove == 0) {
             direction = lastFaced;
         }
+    }
+
+    /*
+     * Gets the animation based on last faced direction
+     * @returns the animation image
+     */
+    protected BufferedImage getAnimationByLastFaced() {
+        // Idle animations
+        if(xMove == 0 && yMove == 0){
+            if (lastFaced == Direction.LEFT) {
+                aDefault = aLeft;
+            } else if (lastFaced == Direction.RIGHT) {
+                aDefault = aRight;
+            } else if (lastFaced == Direction.UP) {
+                aDefault = aUp;
+            } else if (lastFaced == Direction.DOWN) {
+                aDefault = aDown;
+            }
+            return aDefault.getDefaultFrame();
+        }
+
+        if (lastFaced == Direction.LEFT)
+            return aLeft.getCurrentFrame();
+        if (lastFaced == Direction.RIGHT)
+            return aRight.getCurrentFrame();
+        if (lastFaced == Direction.UP)
+            return aUp.getCurrentFrame();
+        if (lastFaced == Direction.DOWN)
+            return aDown.getCurrentFrame();
+
+        return aDefault.getCurrentFrame();
+    }
+
+    /*
+     * Sets the last faced direction, based on last movement
+     */
+    protected void setLastFaced() {
+        if (lastFaced == null) {
+            aDefault = aDown;
+        }
+        if (lastFaced == Direction.LEFT) {
+            aDefault = aLeft;
+        } else if (lastFaced == Direction.RIGHT) {
+            aDefault = aRight;
+        } else if (lastFaced == Direction.DOWN) {
+            aDefault = aDown;
+        } else if (lastFaced == Direction.UP) {
+            aDefault = aUp;
+        }
+    }
+
+    /*
+     * Returns the sprite of the last faced direction
+     */
+    protected BufferedImage getLastFacedImg() {
+        if (lastFaced == null) {
+            return Assets.player_down[1];
+        }
+        if (lastFaced == Direction.LEFT) {
+            return Assets.player_left[1];
+        }
+        if (lastFaced == Direction.RIGHT) {
+            return Assets.player_right[1];
+        }
+        if (lastFaced == Direction.DOWN) {
+            return Assets.player_down[1];
+        }
+        if (lastFaced == Direction.UP) {
+            return Assets.player_up[1];
+        }
+        return Assets.player_down[1];
     }
 
     /*
@@ -322,6 +396,14 @@ public abstract class Creature extends Entity {
     }
 
     public void tick() {
+        if(aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null){
+            aDefault.tick();
+            aDown.tick();
+            aUp.tick();
+            aLeft.tick();
+            aRight.tick();
+        }
+
         if (!aStarInitialized) {
             map.init();
             aStarInitialized = true;

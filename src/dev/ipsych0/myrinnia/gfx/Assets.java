@@ -32,7 +32,8 @@ public class Assets {
      * Creature Animations
      */
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] magicProjectile;
+    public static BufferedImage[] aquatic_cultist_down, aquatic_cultist_up, aquatic_cultist_left, aquatic_cultist_right;
+    public static BufferedImage[] fireProjectile, waterProjectile, earthProjectile, airProjectile;
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
@@ -76,7 +77,7 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, rangedIcon, magicIcon, bountyHunterIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon;
 
     public static BufferedImage shopWindow;
 
@@ -115,7 +116,12 @@ public class Assets {
          */
         SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
 
+        /*
+         * Player/NPCs
+         */
         SpriteSheet player_sheet = new SpriteSheet("/textures/herosprites.png");
+        SpriteSheet npc_sheet1 = new SpriteSheet("/textures/npc_sheet1.png");
+
         /*
          * Add items to this
          */
@@ -194,10 +200,25 @@ public class Assets {
 
         shopWindow = shop_window.imageCrop(0, 0, 460, 313);
 
-        magicProjectile = new BufferedImage[3];
-        magicProjectile[0] = projectiles.imageCrop(3, 4);
-        magicProjectile[1] = projectiles.imageCrop(4, 4);
-        magicProjectile[2] = projectiles.imageCrop(5, 4);
+        fireProjectile = new BufferedImage[3];
+        fireProjectile[0] = projectiles.imageCrop(3, 4);
+        fireProjectile[1] = projectiles.imageCrop(4, 4);
+        fireProjectile[2] = projectiles.imageCrop(5, 4);
+
+        airProjectile = new BufferedImage[3];
+        airProjectile[0] = projectiles.imageCrop(9, 4);
+        airProjectile[1] = projectiles.imageCrop(10, 4);
+        airProjectile[2] = projectiles.imageCrop(1, 4);
+
+        earthProjectile = new BufferedImage[3];
+        earthProjectile[0] = projectiles.imageCrop(3, 0);
+        earthProjectile[1] = projectiles.imageCrop(4, 0);
+        earthProjectile[2] = projectiles.imageCrop(5, 0);
+
+        waterProjectile = new BufferedImage[3];
+        waterProjectile[0] = projectiles.imageCrop(9, 0);
+        waterProjectile[1] = projectiles.imageCrop(10, 0);
+        waterProjectile[2] = projectiles.imageCrop(11, 0);
 
         fishingIcon = ui_sheet.imageCrop(2, 0);
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
@@ -329,7 +350,29 @@ public class Assets {
 
         /*
          * Creature Animations
-         */
+        */
+
+        aquatic_cultist_down = new BufferedImage[3];
+        aquatic_cultist_up = new BufferedImage[3];
+        aquatic_cultist_left = new BufferedImage[3];
+        aquatic_cultist_right = new BufferedImage[3];
+
+        aquatic_cultist_down[0] = npc_sheet1.imageCrop(3, 0);
+        aquatic_cultist_down[1] = npc_sheet1.imageCrop(4, 0);
+        aquatic_cultist_down[2] = npc_sheet1.imageCrop(5, 0);
+
+        aquatic_cultist_up[0] = npc_sheet1.imageCrop(3, 3);
+        aquatic_cultist_up[1] = npc_sheet1.imageCrop(4, 3);
+        aquatic_cultist_up[2] = npc_sheet1.imageCrop(5, 3);
+
+        aquatic_cultist_left[0] = npc_sheet1.imageCrop(3, 1);
+        aquatic_cultist_left[1] = npc_sheet1.imageCrop(4, 1);
+        aquatic_cultist_left[2] = npc_sheet1.imageCrop(5, 1);
+
+        aquatic_cultist_right[0] = npc_sheet1.imageCrop(3, 2);
+        aquatic_cultist_right[1] = npc_sheet1.imageCrop(4, 2);
+        aquatic_cultist_right[2] = npc_sheet1.imageCrop(5, 2);
+
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);
         airCloud1[1] = ability_animations.imageCrop(1, 0);

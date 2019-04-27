@@ -20,7 +20,7 @@ public class AttributeBuff extends Buff {
     private transient BufferedImage img;
 
     public enum Attribute {
-        STR(Assets.meleeIcon, 0), DEX(Assets.rangedIcon, 1), INT(Assets.magicIcon, 2), VIT(Assets.ore, 3),
+        STR(Assets.meleeIcon, 0), DEX(Assets.miningIcon, 1), INT(Assets.fireballI, 2), VIT(Assets.ore, 3),
         DEF(Assets.offhandSlot, 4), ATKSPD(Assets.mainhandSlot, 5), MOVSPD(Assets.bootsSlot, 6);
 
         BufferedImage img;

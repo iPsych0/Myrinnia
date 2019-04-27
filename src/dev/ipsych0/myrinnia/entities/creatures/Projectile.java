@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Projectile extends Creature implements Serializable {
@@ -21,7 +22,7 @@ public class Projectile extends Creature implements Serializable {
     private static final int MAX_RADIUS = 320;
     private Animation projectile;
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity) {
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, BufferedImage[] animation) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         this.x = x;
@@ -48,7 +49,7 @@ public class Projectile extends Creature implements Serializable {
         xVelocity = velocity * Math.cos(angle);
         yVelocity = velocity * Math.sin(angle);
 
-        projectile = new Animation(83, Assets.magicProjectile);
+        projectile = new Animation(83, animation);
 
         active = true;
     }

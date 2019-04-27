@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.AquaticCultist;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
@@ -31,6 +32,7 @@ public class PortAzure extends World {
 //		entityManager.addEntity(new Scorpion(4600, 5780));
 
         entityManager.addEntity(new SavingShrine(1536, 2560));
+        entityManager.addEntity(new AquaticCultist(1832, 2560));
 //        entityManager.addEntity(new TestNPC(1440, 2560));
 //        entityManager.addEntity(new AbilityMaster(1504, 2336));
 //        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -9,32 +10,34 @@ import dev.ipsych0.myrinnia.tiles.Tiles;
 
 import java.awt.*;
 
-public class Scorpion extends Creature {
-
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 917078714756242679L;
+public class AquaticCultist extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public Scorpion(float x, float y) {
+    public AquaticCultist(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+
         isNpc = false;
+
+        // Animations
+        aDown = new Animation(250, Assets.aquatic_cultist_down);
+        aUp = new Animation(250, Assets.aquatic_cultist_up);
+        aLeft = new Animation(250, Assets.aquatic_cultist_left);
+        aRight = new Animation(250, Assets.aquatic_cultist_right);
+        aDefault = aDown;
 
         // Creature stats
         strength = 0;
         dexterity = 0;
-        intelligence = 5;
-        vitality = 5;
+        intelligence = 15;
+        vitality = 10;
         defence = 10;
         speed = DEFAULT_SPEED + 0.5f;
         attackSpeed = DEFAULT_ATTACKSPEED;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = (int) (180 + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 2;
+        combatLevel = 5;
 
         double exponent = 1.1;
         for (int i = 1; i < combatLevel; i++) {
@@ -43,10 +46,10 @@ public class Scorpion extends Creature {
         }
         attackRange = Tiles.TILEWIDTH * 6;
 
-        bounds.x = 2;
-        bounds.y = 2;
-        bounds.width = 28;
-        bounds.height = 28;
+        bounds.x = 0;
+        bounds.y = 0;
+        bounds.width = 32;
+        bounds.height = 32;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
@@ -60,14 +63,8 @@ public class Scorpion extends Creature {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.scorpion, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
-                , width, height, null);
-
-        // Draw HP above head
-//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-//				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
-
-
+        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()),
+                (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
 
     @Override
@@ -91,14 +88,6 @@ public class Scorpion extends Creature {
     }
 
     /*
-     * Damage formula
-     */
-//	@Override
-//	public int getDamage(Entity dealer) {
-//		return super.getDamage(dealer) - 7;
-//	}
-
-    /*
      * Checks the attack timers before the next attack
      */
     protected void checkAttacks() {
@@ -118,18 +107,13 @@ public class Scorpion extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, Assets.earthProjectile));
-
-    }
-
-    @Override
-    public void interact() {
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, Assets.waterProjectile));
 
     }
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Scorpion(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn));
     }
 
     @Override

@@ -54,7 +54,7 @@ public class EruptionAbility extends Ability {
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (hitBox.contains(e.getCollisionBounds(0, 0))) {
+                if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
                     if (!e.isAttackable())
                         continue;
                     if (!e.equals(caster)) {

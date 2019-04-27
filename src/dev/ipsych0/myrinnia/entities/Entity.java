@@ -348,25 +348,25 @@ public abstract class Entity implements Serializable {
     public void drawHP(Graphics g) {
         g.setColor(HPOverlay.hpColorRed);
         g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
         g.setColor(HPOverlay.hpColorRedOutline);
         g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
 
         g.setColor(HPOverlay.hpColorGreen);
         if (health >= maxHealth) {
             g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
             g.setColor(HPOverlay.hpColorGreenOutline);
             g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
         } else {
             g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) (44 * (double) this.getHealth() /
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6, 0, 4);
             g.setColor(HPOverlay.hpColorGreenOutline);
             g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) (44 * (double) this.getHealth() /
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6, 0, 4);
         }
     }
