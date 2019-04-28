@@ -1,8 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
-import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -24,7 +22,7 @@ public class Campfire extends StaticEntity {
     private int ySpawn = (int) getY();
     private Animation campfire;
 
-    public Campfire(float x, float y) {
+    private Campfire(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
         script = Utils.loadScript("campfire.json");

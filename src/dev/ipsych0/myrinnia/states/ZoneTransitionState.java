@@ -67,7 +67,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
         else
             alpha -= (0.5 / 60);
 
-        ((Graphics2D) g).dispose();
+        g.dispose();
     }
 
 }

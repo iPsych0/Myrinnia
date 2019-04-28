@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.items;
 
-public class DuplicateIDException extends Exception {
+class DuplicateIDException extends Exception {
 
     /**
      *

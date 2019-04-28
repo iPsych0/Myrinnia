@@ -2,13 +2,11 @@ package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
-import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -25,7 +23,7 @@ public class PauseState extends State {
     private DialogueBox dBox;
     private static String[] answers = {"Yes", "No"};
     private static String message = "If you exit without saving, you will lose your progress! Are you sure you wish to quit?";
-    public static boolean makingChoice = false;
+    private static boolean makingChoice = false;
 
     public PauseState() {
         super();

@@ -84,7 +84,6 @@ public class BankTab extends UIImageButton implements Serializable {
                     index = i;
                 }
             } else if (bankSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (bankSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (bankSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;

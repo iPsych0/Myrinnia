@@ -34,7 +34,6 @@ public class RecapState extends State {
         if (Handler.get().getRecapManager().getEvents().size() == 0) {
             State.setState(new UITransitionState(Handler.get().getGame().gameState));
             Handler.get().playMusic(Handler.get().getPlayer().getZone());
-            return;
         } else {
             Rectangle mouse = Handler.get().getMouse();
             if (continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -42,7 +41,6 @@ public class RecapState extends State {
                     State.setState(new UITransitionState(Handler.get().getGame().gameState));
                     Handler.get().playMusic(Handler.get().getPlayer().getZone());
                     hasBeenPressed = false;
-                    return;
                 } else {
                     State.setState(new UITransitionState(this));
                     index++;

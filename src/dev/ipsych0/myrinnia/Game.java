@@ -179,7 +179,7 @@ public class Game implements Runnable, Serializable {
         // This value would probably be stored elsewhere.
         final double GAME_HERTZ = 60.0;
         // Calculate how many ms each frame should take for our target game hertz.
-        final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+        final double TIME_BETWEEN_UPDATES = 1000000000d / GAME_HERTZ;
         // At the very most we will update the game this many times before a new render.
         // If you're worried about visual hitches more than perfect timing, set this to
         // 1.
@@ -187,14 +187,14 @@ public class Game implements Runnable, Serializable {
         // We will need the last update time.
         double lastUpdateTime = System.nanoTime();
         // Store the last time we rendered.
-        double lastRenderTime = System.nanoTime();
+        double lastRenderTime;
 
         // If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 60;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+        final double TARGET_FPS = 60.0;
+        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000d / TARGET_FPS;
 
         // Simple way of finding FPS.
-        int lastSecondTime = (int) (lastUpdateTime / 1000000000);
+        int lastSecondTime = (int) (lastUpdateTime / 1000000000d);
 
         while (running) {
             double now = System.nanoTime();
@@ -222,7 +222,7 @@ public class Game implements Runnable, Serializable {
 
             // Update the frames we got.
 
-            int thisSecond = (int) (lastUpdateTime / 1000000000);
+            int thisSecond = (int) (lastUpdateTime / 1000000000d);
 
             if (thisSecond > lastSecondTime) {
                 framesPerSecond = ticks;
@@ -241,7 +241,7 @@ public class Game implements Runnable, Serializable {
                 // climbs on certain OSes.
                 try {
                     Thread.sleep(1);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
 
                 now = System.nanoTime();
@@ -281,7 +281,7 @@ public class Game implements Runnable, Serializable {
         thread.start();
     }
 
-    public synchronized void stop() {
+    private synchronized void stop() {
         if (!running)
             return;
         running = false;

@@ -62,7 +62,7 @@ public class SliderPuzzle extends Puzzle {
         }
     }
 
-    public int[] getPuzzleIds() {
+    private int[] getPuzzleIds() {
         int[] ids = new int[maxSize * maxSize];
         int index = 0;
         for (int y = 0; y < maxSize; y++) {

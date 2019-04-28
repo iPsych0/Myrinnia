@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.worlds.data;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.*;
 
 import java.awt.*;
@@ -18,7 +17,7 @@ public class WorldHandler implements Serializable {
     private EnumMap<Zone, World> worldsMap;
 
     public WorldHandler(PortAzure portAzure) {
-        worlds = new ArrayList<World>();
+        worlds = new ArrayList<>();
         worldsMap = new EnumMap<>(Zone.class);
         addWorld(portAzure); // Starting world
 
@@ -72,7 +71,7 @@ public class WorldHandler implements Serializable {
         }
     }
 
-    public void addWorld(World w) {
+    private void addWorld(World w) {
         worlds.add(w);
     }
 

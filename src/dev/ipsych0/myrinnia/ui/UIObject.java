@@ -10,9 +10,9 @@ public abstract class UIObject extends Rectangle implements Serializable {
      *
      */
     private static final long serialVersionUID = 5668099551677326216L;
-    protected boolean hovering = false;
+    boolean hovering = false;
 
-    public UIObject(int x, int y, int width, int height) {
+    UIObject(int x, int y, int width, int height) {
         super(x,y,width,height);
         this.x = x;
         this.y = y;

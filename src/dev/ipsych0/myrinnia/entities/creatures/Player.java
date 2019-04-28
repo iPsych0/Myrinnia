@@ -119,7 +119,7 @@ public class Player extends Creature {
 
         aDefault = aDown;
 
-        projectiles = new ArrayList<Projectile>();
+        projectiles = new ArrayList<>();
 
         respawnTimer = 1;
 
@@ -332,7 +332,7 @@ public class Player extends Creature {
     @Override
     protected void tickProjectiles() {
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
 
@@ -365,7 +365,7 @@ public class Player extends Creature {
     /*
      * Sets the angle of the mouse
      */
-    public void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
+    private void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
 
         double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
 
@@ -623,9 +623,7 @@ public class Player extends Creature {
             }
         }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
-            if (Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
-                return true;
-            }
+            return Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
 
         // If the mouse is not clicked in one of the UI windows, return false
@@ -673,9 +671,7 @@ public class Player extends Creature {
             }
         }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
-            if (Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
-                return true;
-            }
+            return Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
 
 
@@ -711,7 +707,7 @@ public class Player extends Creature {
     /*
      * Checks melee attacks
      */
-    public void checkMelee(Rectangle mouse) {
+    private void checkMelee(Rectangle mouse) {
         // Attack timers
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
@@ -1040,7 +1036,7 @@ public class Player extends Creature {
 
     // Getters & Setters
 
-    public World getCurrentMap() {
+    private World getCurrentMap() {
         return Handler.get().getWorld();
     }
 

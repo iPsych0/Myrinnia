@@ -28,7 +28,7 @@ public class Quest implements Serializable {
     public Quest(String questName, Zone zone) {
         this.questName = questName;
         this.zone = zone;
-        questSteps = new ArrayList<QuestStep>();
+        questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
 
@@ -36,7 +36,7 @@ public class Quest implements Serializable {
         this.questName = questName;
         this.zone = zone;
         this.requirements = questRequirements;
-        questSteps = new ArrayList<QuestStep>();
+        questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
 

@@ -32,7 +32,7 @@ public abstract class Entity implements Serializable {
     protected Rectangle bounds;
     public static boolean isCloseToNPC = false;
     protected int health;
-    public static final int DEFAULT_HEALTH = 100;
+    protected static final int DEFAULT_HEALTH = 100;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
     protected boolean attackable = true;
@@ -41,20 +41,21 @@ public abstract class Entity implements Serializable {
     protected boolean damaged = false;
     protected boolean staticNpc = false;
     protected boolean solid = true;
-    protected Entity damageDealer, damageReceiver;
+    private Entity damageDealer;
+    private Entity damageReceiver;
     protected int speakingTurn = 0;
-    protected int speakingCheckpoint = -1;
+    private int speakingCheckpoint = -1;
     protected transient ChatDialogue chatDialogue;
-    protected boolean overlayDrawn = true;
+    private boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
     protected int respawnTimer = 600;
     protected Rectangle collision;
     protected Script script;
-    protected String name;
+    private String name;
 
-    public Entity(float x, float y, int width, int height) {
+    protected Entity(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -73,11 +74,11 @@ public abstract class Entity implements Serializable {
 
     public abstract void postRender(Graphics g);
 
-    public abstract void die();
+    protected abstract void die();
 
     public abstract void respawn();
 
-    public abstract String[] getEntityInfo(Entity hoveringEntity);
+    protected abstract String[] getEntityInfo(Entity hoveringEntity);
 
     protected abstract void updateDialogue();
 
@@ -85,7 +86,7 @@ public abstract class Entity implements Serializable {
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
      */
-    public boolean checkEntityCollisions(float xOffset, float yOffset) {
+    protected boolean checkEntityCollisions(float xOffset, float yOffset) {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -103,7 +104,7 @@ public abstract class Entity implements Serializable {
     /*
      * Checks if the distance between the player and the closest Entity is <= 64px
      */
-    public boolean playerIsNearNpc() {
+    protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
         if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
                 ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2) {
@@ -124,8 +125,8 @@ public abstract class Entity implements Serializable {
     public Entity getClosestEntity() {
         double closestDistance;
         Entity closestEntity;
-        HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
-        ArrayList<Double> pythagoras = new ArrayList<Double>();
+        HashMap<Double, Entity> hashMap = new HashMap<>();
+        ArrayList<Double> pythagoras = new ArrayList<>();
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (!e.isNpc()) {
                 continue;
@@ -176,7 +177,7 @@ public abstract class Entity implements Serializable {
      * Returns the damage an Entity should deal + ability damage (Combat formula)
      * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
      */
-    public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
+    private int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
@@ -389,7 +390,7 @@ public abstract class Entity implements Serializable {
     /*
      * Check the distance to another entity
      */
-    public double distanceToEntity(int x1, int y1, int x2, int y2) {
+    protected double distanceToEntity(int x1, int y1, int x2, int y2) {
         int dx = x2 - x1;
         int dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
@@ -521,7 +522,7 @@ public abstract class Entity implements Serializable {
         this.height = height;
     }
 
-    public int getHealth() {
+    protected int getHealth() {
         return health;
     }
 
@@ -625,7 +626,7 @@ public abstract class Entity implements Serializable {
         return inCombat;
     }
 
-    public void setInCombat(boolean inCombat) {
+    private void setInCombat(boolean inCombat) {
         this.inCombat = inCombat;
     }
 

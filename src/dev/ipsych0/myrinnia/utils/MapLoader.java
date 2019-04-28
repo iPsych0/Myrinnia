@@ -73,7 +73,7 @@ public class MapLoader implements Serializable {
                 private int startX, startY;
 
                 public void startElement(String uri, String localName, String qName,
-                                         Attributes attributes) throws SAXException {
+                                         Attributes attributes) {
 
                     if (qName.equalsIgnoreCase("tile")) {
                         // Always increment tile ID by 1, as every next TileSet starts at ID 0 again
@@ -106,7 +106,7 @@ public class MapLoader implements Serializable {
 
                 }
 
-                public void characters(char ch[], int start, int length) throws SAXException {
+                public void characters(char ch[], int start, int length) {
                     if (solidPropertyFound) {
                         solidTiles.put(currentId, solid);
                         solidPropertyFound = false;

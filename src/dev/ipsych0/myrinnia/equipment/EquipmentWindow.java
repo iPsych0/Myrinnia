@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ItemRarity;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -40,7 +39,7 @@ public class EquipmentWindow implements Serializable {
         this.y = Handler.get().getInventory().getHeight() + 16;
         windowBounds = new Rectangle(x, y, width, height);
 
-        equipmentSlots = new CopyOnWriteArrayList<EquipmentSlot>();
+        equipmentSlots = new CopyOnWriteArrayList<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {

@@ -46,7 +46,7 @@ public class InventoryWindow implements Serializable {
         this.x = Handler.get().getWidth() - width - 8;
         this.y = 8;
         windowBounds = new Rectangle(x, y, width, height);
-        itemSlots = new CopyOnWriteArrayList<ItemSlot>();
+        itemSlots = new CopyOnWriteArrayList<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -183,17 +183,15 @@ public class InventoryWindow implements Serializable {
 
                             // If we don't have the required level to equip that item, return
                             if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
-                                String missingReqs = "";
+                                StringBuilder missingReqs = new StringBuilder();
                                 boolean missing = false;
                                 for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
                                     if (is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
                                         missing = true;
                                         if (i < is.getItemStack().getItem().getRequirements().length - 1)
-                                            missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
-                                                    is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " and ";
+                                            missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" and ");
                                         else
-                                            missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
-                                                    is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " points";
+                                            missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" points");
                                     }
                                 }
                                 if (missing) {
@@ -341,7 +339,6 @@ public class InventoryWindow implements Serializable {
                     index = i;
                 }
             } else if (itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (itemSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
@@ -409,7 +406,6 @@ public class InventoryWindow implements Serializable {
                     break;
                 }
             } else {
-                continue;
             }
         }
         return found;

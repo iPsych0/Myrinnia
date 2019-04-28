@@ -27,7 +27,7 @@ public class AbilityHUD implements Serializable {
     public static boolean hasBeenPressed;
     public static boolean hasBeenTyped;
     public static char pressedKey;
-    public static boolean locked = true;
+    private static boolean locked = true;
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
     private UIImageButton lockButton, unlockButton;
@@ -87,7 +87,6 @@ public class AbilityHUD implements Serializable {
             }
             if (selectedAbility.isOnCooldown()) {
                 Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
-                return;
             } else {
                 if (selectedAbility.isSelectable()) {
                     selectedAbility.setSelected(true);
@@ -113,7 +112,6 @@ public class AbilityHUD implements Serializable {
                 }
                 if (selectedAbility.isOnCooldown()) {
                     Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
-                    return;
                 } else {
                     if (selectedAbility.isSelectable()) {
                         selectedAbility.setSelected(true);

@@ -13,17 +13,17 @@ public abstract class ShopKeeper extends Creature {
      *
      */
     private static final long serialVersionUID = 3802705595380640443L;
-    protected ShopWindow shopWindow;
-    protected String shopName;
+    ShopWindow shopWindow;
+    String shopName;
 
-    public ShopKeeper(String shopName, float x, float y, int width, int height) {
+    ShopKeeper(String shopName, float x, float y, int width, int height) {
         super(x, y, width, height);
 
         attackable = false;
         isNpc = true;
 
         this.shopName = shopName;
-        shopWindow = new ShopWindow(new ArrayList<ItemStack>());
+        shopWindow = new ShopWindow(new ArrayList<>());
 
     }
 

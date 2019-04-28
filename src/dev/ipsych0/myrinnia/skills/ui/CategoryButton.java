@@ -13,7 +13,10 @@ public class CategoryButton extends UIImageButton implements Serializable {
      *
      */
     private static final long serialVersionUID = -5801506235295805009L;
-    public int x, y, width, height;
+    public int x;
+    private int y;
+    public int width;
+    private int height;
     private SkillCategory category;
     private Rectangle bounds;
 

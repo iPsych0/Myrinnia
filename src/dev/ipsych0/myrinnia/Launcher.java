@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia;
 
-public class Launcher {
+class Launcher {
 
     /*
      * Starts the game loop

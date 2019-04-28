@@ -18,18 +18,18 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> islandQuests = new ArrayList<Quest>();
-    private ArrayList<Quest> testQuests = new ArrayList<Quest>();
+    private ArrayList<Quest> islandQuests = new ArrayList<>();
+    private ArrayList<Quest> testQuests = new ArrayList<>();
     private ArrayList<Quest> mainQuests = new ArrayList<>();
 
     // Get Quests by Enum value
-    private EnumMap<QuestList, Quest> questMap = new EnumMap<QuestList, Quest>(QuestList.class);
+    private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
 
     // Put all Quest Lists per zone into a List of all Quest Lists
     private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
 
     // Map Zones to Quest Lists
-    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<Zone, ArrayList<Quest>>(Zone.class);
+    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<>(Zone.class);
 
     public QuestManager() {
         questUI = new QuestUI();
@@ -68,12 +68,12 @@ public class QuestManager implements Serializable {
 
         // Sorts every list's quests by name, alphabetically
         for (int i = 0; i < allQuestLists.size(); i++) {
-            Collections.sort(allQuestLists.get(i), (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
+            allQuestLists.get(i).sort(Comparator.comparing(Quest::getQuestName));
         }
 
         // Sort the enum list of quests alphabetically as well
         List<QuestList> questEnums = Arrays.asList(QuestList.values());
-        Collections.sort(questEnums, (o1, o2) -> o1.toString().compareTo(o2.toString()));
+        questEnums.sort(Comparator.comparing(Enum::toString));
 
         // Maps the QuestList enums to the Quest objects
         for (int i = 0; i < allQuestLists.size(); i++) {
@@ -96,11 +96,11 @@ public class QuestManager implements Serializable {
     private void mapLists() {
         // Sort the Zone list by Zone Name
         List<Zone> zoneEnums = Arrays.asList(Zone.values());
-        Collections.sort(zoneEnums, (o1, o2) -> o1.toString().compareTo(o2.toString()));
+        zoneEnums.sort(Comparator.comparing(Enum::toString));
 
 
         // Sort the allQuestLists by zone as well
-        Collections.sort(allQuestLists, (o1, o2) -> o1.get(0).getZone().toString().compareTo(o2.get(0).getZone().toString()));
+        allQuestLists.sort(Comparator.comparing(o -> o.get(0).getZone().toString()));
 
         // Mapping the Zones together with the correct list of quests
         for (int i = 0; i < allQuestLists.size(); i++) {

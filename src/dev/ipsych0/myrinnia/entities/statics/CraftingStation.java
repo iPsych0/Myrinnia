@@ -2,9 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;

@@ -2,11 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -18,7 +14,7 @@ public class BankerNPC extends Banker implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
 
-    public BankerNPC(float x, float y) {
+    private BankerNPC(float x, float y) {
         super(x, y);
 
         script = Utils.loadScript("banker.json");

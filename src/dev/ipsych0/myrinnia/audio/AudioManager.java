@@ -15,11 +15,11 @@ public class AudioManager {
     private static long context;
     private static ALCCapabilities alcCapabilities;
     private static ALCapabilities alCapabilities;
-    private static List<Integer> buffers = new ArrayList<Integer>();
+    private static List<Integer> buffers = new ArrayList<>();
     public static List<Source> musicFiles = new CopyOnWriteArrayList<>();
     public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
-    public static Map<String, Integer> soundMap = new HashMap<>();
-    public static Zone zone;
+    private static Map<String, Integer> soundMap = new HashMap<>();
+    private static Zone zone;
 
     public static void init() {
         deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -36,7 +36,7 @@ public class AudioManager {
     public static void tick() {
         // Check for music that has ended to clean up
         if (!musicFiles.isEmpty()) {
-            Collection<Source> deleted = new ArrayList<Source>();
+            Collection<Source> deleted = new ArrayList<>();
             for (Source s : musicFiles) {
                 if (s.isFadingIn())
                     fadeIn(s);
@@ -52,7 +52,7 @@ public class AudioManager {
 
         // Check for sound effects that have ended to clean up
         if (!soundfxFiles.isEmpty()) {
-            Collection<Source> deleted = new ArrayList<Source>();
+            Collection<Source> deleted = new ArrayList<>();
             for (Source s : soundfxFiles) {
                 if (!s.isPlaying()) {
                     deleted.add(s);

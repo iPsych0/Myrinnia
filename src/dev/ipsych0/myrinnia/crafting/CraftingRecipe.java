@@ -34,7 +34,7 @@ public class CraftingRecipe implements Serializable {
         this.requiredLevel = requiredLevel;
         this.category = category;
 
-        components = new ArrayList<ItemStack>();
+        components = new ArrayList<>();
 
         if(item1 != null){
             components.add(item1);
@@ -117,16 +117,16 @@ public class CraftingRecipe implements Serializable {
 
     @Override
     public String toString() {
-        String s = "You need: ";
+        StringBuilder s = new StringBuilder("You need: ");
         for (int i = 0; i < this.components.size(); i++) {
-            s += components.get(i).getAmount() + "x ";
+            s.append(components.get(i).getAmount()).append("x ");
             if (i == components.size() - 1) {
-                s += components.get(i).getItem().getName();
+                s.append(components.get(i).getItem().getName());
             } else {
-                s += components.get(i).getItem().getName() + ", ";
+                s.append(components.get(i).getItem().getName()).append(", ");
             }
         }
-        return s;
+        return s.toString();
     }
 
     public SkillCategory getCategory() {

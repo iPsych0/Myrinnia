@@ -1,7 +1,5 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -35,7 +33,7 @@ public class ChatDialogue implements Serializable {
         this.y = Handler.get().getHeight() - height - 16;
         this.menuOptions = menuOptions;
 
-        chatOptions = new ArrayList<ChatOption>();
+        chatOptions = new ArrayList<>();
         uiManager = new UIManager();
 
         for (int i = 0; i < menuOptions.length; i++) {

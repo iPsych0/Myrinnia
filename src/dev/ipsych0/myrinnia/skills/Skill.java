@@ -17,14 +17,15 @@ public abstract class Skill implements Serializable {
      *
      */
     private static final long serialVersionUID = 2650558782741069411L;
-    protected int experience, level;
-    protected int nextLevelXp = 100;
-    protected ArrayList<SkillResource> resources;
-    protected ArrayList<SkillCategory> categories;
+    int experience;
+    int level;
+    int nextLevelXp = 100;
+    ArrayList<SkillResource> resources;
+    ArrayList<SkillCategory> categories;
 
-    public Skill() {
-        resources = new ArrayList<SkillResource>();
-        categories = new ArrayList<SkillCategory>();
+    Skill() {
+        resources = new ArrayList<>();
+        categories = new ArrayList<>();
         experience = 0;
         level = 1;
     }
@@ -42,11 +43,11 @@ public abstract class Skill implements Serializable {
         this.level = level;
     }
 
-    public void addLevel() {
+    void addLevel() {
         this.level++;
     }
 
-    protected void checkNextLevel() {
+    void checkNextLevel() {
         if (experience >= nextLevelXp) {
             experience -= nextLevelXp;
             addLevel();

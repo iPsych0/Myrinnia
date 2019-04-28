@@ -44,7 +44,7 @@ public class EruptionAbility extends Ability {
     @Override
     public void cast() {
         if (!initDone) {
-            displayTime = 1 * 60;
+            displayTime = 60;
             hitBox = new Rectangle((int) caster.getX() - 48, (int) caster.getY() - 48,
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;

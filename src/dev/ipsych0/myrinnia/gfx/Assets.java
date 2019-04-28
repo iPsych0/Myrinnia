@@ -11,7 +11,13 @@ public class Assets {
     private static final int width = 32, height = 32;
 
     // Fonts
-    public static Font font14, font20, font24, font32, font40, font48, font64;
+    public static Font font14;
+    public static Font font20;
+    public static Font font24;
+    public static Font font32;
+    private static Font font40;
+    private static Font font48;
+    private static Font font64;
 
     // Terrain images (paths, lava, water, etc)
 
@@ -33,7 +39,10 @@ public class Assets {
      */
     public static BufferedImage[] player_down, player_up, player_left, player_right;
     public static BufferedImage[] aquatic_cultist_down, aquatic_cultist_up, aquatic_cultist_left, aquatic_cultist_right;
-    public static BufferedImage[] fireProjectile, waterProjectile, earthProjectile, airProjectile;
+    public static BufferedImage[] fireProjectile;
+    public static BufferedImage[] waterProjectile;
+    public static BufferedImage[] earthProjectile;
+    private static BufferedImage[] airProjectile;
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
@@ -58,19 +67,32 @@ public class Assets {
     public static BufferedImage invScreen;
 
     // Equipment UI
-    public static BufferedImage equipSlot, equipScreen, equipStats;
-    public static BufferedImage earringSlot, mainhandSlot, glovesSlot, ringSlot1, helmSlot, bodySlot, legsSlot, bootsSlot, amuletSlot, offhandSlot, capeSlot, ringSlot2;
+    private static BufferedImage equipSlot;
+    public static BufferedImage equipScreen;
+    private static BufferedImage equipStats;
+    private static BufferedImage earringSlot;
+    public static BufferedImage mainhandSlot;
+    private static BufferedImage glovesSlot;
+    private static BufferedImage ringSlot1;
+    private static BufferedImage helmSlot;
+    private static BufferedImage bodySlot;
+    private static BufferedImage legsSlot;
+    public static BufferedImage bootsSlot;
+    private static BufferedImage amuletSlot;
+    public static BufferedImage offhandSlot;
+    private static BufferedImage capeSlot;
+    private static BufferedImage ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
     // Chatwindow UI
     public static BufferedImage chatwindow, chatwindowTop;
 
     // Crafting UI
-    public static BufferedImage craftWindow;
+    private static BufferedImage craftWindow;
     public static BufferedImage undiscovered;
 
     // HP Overlay UI
-    public static BufferedImage hpOverlay;
+    private static BufferedImage hpOverlay;
     public static BufferedImage craftingIcon, characterIcon, abilitiesIcon, questsIcon, mapIcon;
     public static BufferedImage locked, unlocked;
 

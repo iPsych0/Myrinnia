@@ -22,7 +22,7 @@ public abstract class State implements Serializable {
 
     //CLASS
 
-    public State() {
+    State() {
 
     }
 

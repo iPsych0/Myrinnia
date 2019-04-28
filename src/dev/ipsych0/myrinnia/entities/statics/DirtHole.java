@@ -16,7 +16,7 @@ public class DirtHole extends StaticEntity {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
 
-    public DirtHole(float x, float y) {
+    private DirtHole(float x, float y) {
         super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
 
         isNpc = true;

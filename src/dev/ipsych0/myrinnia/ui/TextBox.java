@@ -22,7 +22,7 @@ TextBox implements KeyListener, Serializable {
     private static final long serialVersionUID = -2516956275598468379L;
     public int x, y, width, height;
     private String charactersTyped = "";
-    public boolean numbersOnly = false;
+    private boolean numbersOnly = false;
     private Rectangle bounds;
     public static boolean focus = false;
     private int index = 0;
@@ -178,7 +178,6 @@ TextBox implements KeyListener, Serializable {
                 // If numbersOnly is true, only digits allowed
                 if (numbersOnly) {
                     if (!Character.isDigit(e.getKeyChar())) {
-                        return;
                     } else {
                         if (index < 10) {
                             sb.append(e.getKeyChar());

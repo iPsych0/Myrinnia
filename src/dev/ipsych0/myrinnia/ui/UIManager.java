@@ -15,7 +15,7 @@ public class UIManager implements Serializable {
     private CopyOnWriteArrayList<UIObject> objects;
 
     public UIManager() {
-        objects = new CopyOnWriteArrayList<UIObject>();
+        objects = new CopyOnWriteArrayList<>();
     }
 
     public void tick() {

@@ -80,7 +80,7 @@ public class Text {
             String word = tok.nextToken();
 
             while (word.length() > maxCharInLine) {
-                output.append(word.substring(0, maxCharInLine - lineLen) + "\n");
+                output.append(word, 0, maxCharInLine - lineLen).append("\n");
                 word = word.substring(maxCharInLine - lineLen);
                 lineLen = 0;
             }

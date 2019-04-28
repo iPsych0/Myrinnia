@@ -31,45 +31,47 @@ public abstract class Creature extends Entity {
     /*
      * Default Creature variables
      */
-    public static final float DEFAULT_SPEED = 1.0f, DEFAULT_ATTACKSPEED = 1.0f;
+    public static final float DEFAULT_SPEED = 1.0f;
+    static final float DEFAULT_ATTACKSPEED = 1.0f;
     public static final int DEFAULT_CREATURE_WIDTH = 32,
             DEFAULT_CREATURE_HEIGHT = 32;
 
-    public static final int DEFAULT_DAMAGE = 1,
-            DEFAULT_STRENGTH = 0,
-            DEFAULT_DEXTERITY = 0,
-            DEFAULT_INTELLIGENCE = 0,
-            DEFAULT_DEFENCE = 0,
-            DEFAULT_VITALITY = 0;
-    protected int baseDamage;
-    protected int strength;
-    protected int dexterity;
-    protected int intelligence;
-    protected int defence;
-    protected int vitality;
-    protected float attackSpeed;
-    protected int combatLevel;
-    protected static final double LEVEL_EXPONENT = 0.998;
-    protected int attackRange = Tiles.TILEWIDTH * 2;
-    protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    private static final int DEFAULT_DAMAGE = 1;
+    private static final int DEFAULT_STRENGTH = 0;
+    private static final int DEFAULT_DEXTERITY = 0;
+    private static final int DEFAULT_INTELLIGENCE = 0;
+    private static final int DEFAULT_DEFENCE = 0;
+    private static final int DEFAULT_VITALITY = 0;
+    int baseDamage;
+    int strength;
+    int dexterity;
+    int intelligence;
+    int defence;
+    int vitality;
+    float attackSpeed;
+    int combatLevel;
+    static final double LEVEL_EXPONENT = 0.998;
+    int attackRange = Tiles.TILEWIDTH * 2;
+    ArrayList<Projectile> projectiles = new ArrayList<>();
 
     // Walking timer
     private int time = 0;
 
     // Radius variables:
-    protected int xSpawn = (int) getX();
-    protected int ySpawn = (int) getY();
-    protected int xRadius = 192;
-    protected int yRadius = 192;
-    protected Rectangle radius;
+    int xSpawn = (int) getX();
+    int ySpawn = (int) getY();
+    int xRadius = 192;
+    int yRadius = 192;
+    Rectangle radius;
 
     // A* stuff
-    protected CombatState state;
-    protected List<Node> nodes;
-    protected int pathFindRadiusX = 1024, pathFindRadiusY = 1024;
-    protected AStarMap map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
-    protected boolean aStarInitialized;
-    protected Color pathColour = new Color(44, 255, 12, 127);
+    private CombatState state;
+    private List<Node> nodes;
+    int pathFindRadiusX = 1024;
+    int pathFindRadiusY = 1024;
+    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+    private boolean aStarInitialized;
+    private Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     private static final int TIMES_PER_SECOND = 4;
@@ -77,20 +79,25 @@ public abstract class Creature extends Entity {
     private int pathTimer = 0;
     private List<Condition> conditions = new CopyOnWriteArrayList<>();
     private List<Buff> buffs = new CopyOnWriteArrayList<>();
-    protected Animation aLeft, aRight, aUp, aDown, aDefault;
+    Animation aLeft;
+    Animation aRight;
+    Animation aUp;
+    Animation aDown;
+    Animation aDefault;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
-    protected Direction direction;
+    Direction direction;
     // Last faced direction
-    protected Direction lastFaced;
+    Direction lastFaced;
 
-    protected float speed;
-    protected float xMove, yMove;
+    float speed;
+    float xMove;
+    float yMove;
 
-    public Creature(float x, float y, int width, int height) {
+    protected Creature(float x, float y, int width, int height) {
         super(x, y, width, height);
         state = CombatState.IDLE;
         baseDamage = (DEFAULT_DAMAGE);
@@ -133,7 +140,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles movement on the X-axis
      */
-    public void moveX() {
+    private void moveX() {
         if (xMove > 0) { // Moving right
             direction = Direction.RIGHT;
             lastFaced = Direction.RIGHT;
@@ -166,7 +173,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles movement on the Y-axis
      */
-    public void moveY() {
+    private void moveY() {
         if (yMove < 0) { // Up
             direction = Direction.UP;
             lastFaced = Direction.UP;
@@ -199,9 +206,9 @@ public abstract class Creature extends Entity {
      * Gets the animation based on last faced direction
      * @returns the animation image
      */
-    protected BufferedImage getAnimationByLastFaced() {
+    BufferedImage getAnimationByLastFaced() {
         // Idle animations
-        if(xMove == 0 && yMove == 0){
+        if (xMove == 0 && yMove == 0) {
             if (lastFaced == Direction.LEFT) {
                 aDefault = aLeft;
             } else if (lastFaced == Direction.RIGHT) {
@@ -229,7 +236,7 @@ public abstract class Creature extends Entity {
     /*
      * Sets the last faced direction, based on last movement
      */
-    protected void setLastFaced() {
+    void setLastFaced() {
         if (lastFaced == null) {
             aDefault = aDown;
         }
@@ -247,7 +254,7 @@ public abstract class Creature extends Entity {
     /*
      * Returns the sprite of the last faced direction
      */
-    protected BufferedImage getLastFacedImg() {
+    BufferedImage getLastFacedImg() {
         if (lastFaced == null) {
             return Assets.player_down[1];
         }
@@ -269,7 +276,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles collision detection with Tiles
      */
-    public boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
+    boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -351,7 +358,7 @@ public abstract class Creature extends Entity {
     public void postRender(Graphics g) {
         if (AStarMap.debugMode) {
             g.setColor(Color.BLACK);
-            g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), (int) (radius.width), (int) (radius.height));
+            g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), radius.width, radius.height);
 
             map.render(g);
 
@@ -364,9 +371,9 @@ public abstract class Creature extends Entity {
         }
     }
 
-    protected void tickProjectiles() {
+    void tickProjectiles() {
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
             p.tick();
@@ -396,7 +403,7 @@ public abstract class Creature extends Entity {
     }
 
     public void tick() {
-        if(aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null){
+        if (aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();
             aUp.tick();
@@ -416,10 +423,12 @@ public abstract class Creature extends Entity {
     /*
      * Walks into random directions at given intervals
      */
-    protected void randomWalk() {
+    private void randomWalk() {
         time++;
         int i = (Handler.get().getRandomNumber(60, 90));
         if (time % i == 0) {
+            xMove = 0;
+            yMove = 0;
 
             int direction = Handler.get().getRandomNumber(0, 4);
 
@@ -456,19 +465,19 @@ public abstract class Creature extends Entity {
 
     }
 
-    protected void findPath() {
+    private void findPath() {
         if (state == CombatState.BACKTRACK) {
-            nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                    (int) Math.round(((xSpawn + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((ySpawn + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+            nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                    Math.round(((xSpawn + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((ySpawn + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
         } else {
-            int playerX = (int) Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32;
-            int playerY = (int) Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32;
+            int playerX = Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (xSpawn - pathFindRadiusX) / 32;
+            int playerY = Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
 
             if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
-                        (int) Math.round(((playerX + 8) / 32)) - (int) (xSpawn - pathFindRadiusX) / 32, (int) Math.round(((playerY + 8) / 32)) - (int) (ySpawn - pathFindRadiusY) / 32);
+                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                        Math.round(((playerX + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((playerY + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
             } else {
-                nodes = map.findPath((int) ((x + 8) / 32) - (int) (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (int) (ySpawn - pathFindRadiusY) / 32,
+                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
                         playerX, playerY);
             }
         }
@@ -477,7 +486,7 @@ public abstract class Creature extends Entity {
     /**
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
-    protected void combatStateManager() {
+    private void combatStateManager() {
 
         if (damaged) {
             state = CombatState.PATHFINDING;
@@ -539,14 +548,14 @@ public abstract class Creature extends Entity {
     /**
      * Override this method in the creature's class
      */
-    protected void checkAttacks() {
+    void checkAttacks() {
 
     }
 
     /**
      * Movement logic for following each node in the List nodes
      */
-    protected void followAStar() {
+    private void followAStar() {
         if (nodes == null) {
             return;
         }
@@ -709,7 +718,7 @@ public abstract class Creature extends Entity {
         this.baseDamage = baseDamage;
     }
 
-    public int getCombatLevel() {
+    private int getCombatLevel() {
         return combatLevel;
     }
 
@@ -725,7 +734,7 @@ public abstract class Creature extends Entity {
         this.state = state;
     }
 
-    public Rectangle getRadius() {
+    private Rectangle getRadius() {
         return radius;
     }
 

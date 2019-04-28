@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -13,7 +12,6 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
@@ -24,7 +22,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    public AbilityMaster(float x, float y) {
+    private AbilityMaster(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         abilities = new ArrayList<>();

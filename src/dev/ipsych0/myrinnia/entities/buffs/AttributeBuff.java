@@ -31,11 +31,11 @@ public class AttributeBuff extends Buff {
             this.buffId = buffId;
         }
 
-        public BufferedImage getImg() {
+        BufferedImage getImg() {
             return img;
         }
 
-        public int getBuffId() {
+        int getBuffId() {
             return buffId;
         }
     }

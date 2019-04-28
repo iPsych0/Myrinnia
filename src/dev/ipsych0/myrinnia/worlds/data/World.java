@@ -37,11 +37,12 @@ public abstract class World implements Serializable {
      */
     private static final long serialVersionUID = 2377316128534163815L;
 
-    protected int width, height;
-    protected int[][][] tiles;
-    protected String[] layers;
+    private int width;
+    private int height;
+    private int[][][] tiles;
+    private String[] layers;
     private Color night = new Color(0, 13, 35);
-    protected String worldPath;
+    private String worldPath;
     private boolean nightTime = false;
     private int timeChecker = 60 * 60;
 
@@ -51,23 +52,23 @@ public abstract class World implements Serializable {
 
     // Items
 
-    protected ItemManager itemManager;
+    private ItemManager itemManager;
 
-    protected InventoryWindow inventory;
-    protected EquipmentWindow equipment;
-    protected CraftingUI craftingUI;
-    protected Player player;
-    protected ChatWindow chatWindow;
-    protected QuestManager questManager;
-    protected CharacterUI characterUI;
-    protected SkillsUI skillsUI;
-    protected HPOverlay hpOverlay;
-    protected AbilityManager abilityManager;
-    protected AbilityOverviewUI abilityOverviewUI;
+    private InventoryWindow inventory;
+    private EquipmentWindow equipment;
+    private CraftingUI craftingUI;
+    private Player player;
+    private ChatWindow chatWindow;
+    private QuestManager questManager;
+    private CharacterUI characterUI;
+    private SkillsUI skillsUI;
+    private HPOverlay hpOverlay;
+    private AbilityManager abilityManager;
+    private AbilityOverviewUI abilityOverviewUI;
 
     // Actual code ---v
 
-    public World(String path) {
+    protected World(String path) {
 
         this.worldPath = path;
 
@@ -259,7 +260,7 @@ public abstract class World implements Serializable {
         ((Graphics2D) g).setComposite(ac);
     }
 
-    protected void loadWorld(String path) {
+    private void loadWorld(String path) {
         layers = MapLoader.getMapTiles(path);
         tiles = new int[layers.length][width][height];
 

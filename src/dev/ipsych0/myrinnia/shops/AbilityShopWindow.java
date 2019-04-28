@@ -9,7 +9,6 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -42,7 +41,7 @@ public class AbilityShopWindow implements Serializable {
     private static final int DIALOGUE_WIDTH = 300;
     private static final int DIALOGUE_HEIGHT = 150;
     private String[] answers = {"Yes", "No"};
-    public static boolean makingChoice = false;
+    private static boolean makingChoice = false;
     public static AbilityShopWindow lastOpenedWindow;
 
     private UIManager uiManager;
@@ -288,7 +287,6 @@ public class AbilityShopWindow implements Serializable {
             selectedSlot = null;
             currentSlots = magicSlots;
             resetUIManager();
-            return;
         }
     }
 

@@ -1,13 +1,12 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class TextSlot implements Serializable {
+class TextSlot implements Serializable {
 
 
     /**

@@ -53,11 +53,7 @@ public class EquipmentSlot implements Serializable {
 
     public boolean equipItem(Item item) {
         if (this.itemStack != null) {
-            if (item.getEquipSlot() == itemStack.getItem().getEquipSlot()) {
-                return false;
-            } else {
-                return true;
-            }
+            return item.getEquipSlot() != itemStack.getItem().getEquipSlot();
         } else {
             this.itemStack = new ItemStack(item);
             return true;

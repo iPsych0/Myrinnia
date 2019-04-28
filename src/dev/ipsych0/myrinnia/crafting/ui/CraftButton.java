@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.crafting.ui;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class SliderPiece implements Serializable {
+class SliderPiece implements Serializable {
 
     /**
      *

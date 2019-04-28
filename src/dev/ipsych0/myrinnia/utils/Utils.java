@@ -31,7 +31,7 @@ public class Utils {
         }
     }
 
-    public static Gson getGson() {
+    private static Gson getGson() {
         if (gson == null) {
             gson = new GsonBuilder().setPrettyPrinting().create();
         }

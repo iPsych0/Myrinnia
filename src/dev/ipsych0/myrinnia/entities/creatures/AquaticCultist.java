@@ -53,7 +53,7 @@ public class AquaticCultist extends Creature {
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
-        map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+        map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
     }
 
     @Override
@@ -119,5 +119,10 @@ public class AquaticCultist extends Creature {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    @Override
+    public String getName() {
+        return "Aquatic Cultist";
     }
 }

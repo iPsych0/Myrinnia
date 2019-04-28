@@ -36,7 +36,6 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
-import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.PortAzure;
 import dev.ipsych0.myrinnia.worlds.data.World;
@@ -45,7 +44,6 @@ import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -334,7 +332,7 @@ public class Handler implements Serializable {
      * Rounds off a number to two digits.
      */
     public double roundOff(double value) {
-        return (double) Math.ceil(value * 10d) / 10d;
+        return Math.ceil(value * 10d) / 10d;
     }
 
     public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType){
@@ -357,7 +355,7 @@ public class Handler implements Serializable {
         dropItem(item, amount, x, y, true);
     }
 
-    public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
+    private void dropItem(Item item, int amount, int x, int y, boolean despawn) {
         getWorld().getItemManager().addItem((item.createItem(x, y, amount)), despawn);
     }
 
@@ -494,7 +492,7 @@ public class Handler implements Serializable {
         return game;
     }
 
-    public void setGame(Game game) {
+    private void setGame(Game game) {
         Handler.game = game;
     }
 

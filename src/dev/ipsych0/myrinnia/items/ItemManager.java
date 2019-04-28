@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -22,9 +21,9 @@ public class ItemManager implements Serializable {
     private static int lastPlayed = 0;
 
     public ItemManager() {
-        items = new CopyOnWriteArrayList<Item>();
-        deleted = new CopyOnWriteArrayList<Item>();
-        added = new CopyOnWriteArrayList<Item>();
+        items = new CopyOnWriteArrayList<>();
+        deleted = new CopyOnWriteArrayList<>();
+        added = new CopyOnWriteArrayList<>();
     }
 
     public void tick() {

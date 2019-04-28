@@ -22,12 +22,12 @@ public class ShopKeeperNPC extends ShopKeeper {
     private int ySpawn = (int) getY();
     private ArrayList<ItemStack> shopItems;
 
-    public ShopKeeperNPC(String shopName, float x, float y) {
+    private ShopKeeperNPC(String shopName, float x, float y) {
         super(shopName, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         script = Utils.loadScript("shopkeeper.json");
 
-        shopItems = new ArrayList<ItemStack>();
+        shopItems = new ArrayList<>();
 
         shopItems.add(new ItemStack(Item.regularLogs, 5));
         shopItems.add(new ItemStack(Item.regularOre, 10));

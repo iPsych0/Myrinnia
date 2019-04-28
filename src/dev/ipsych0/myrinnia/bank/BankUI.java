@@ -24,7 +24,10 @@ public class BankUI implements Serializable {
      *
      */
     private static final long serialVersionUID = 1728128423147794469L;
-    public static int x, y, width, height;
+    public static int x;
+    public static int y;
+    public static int width;
+    private static int height;
     public static boolean isOpen = false;
     private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
     private ArrayList<BankTab> tabs = new ArrayList<>();
@@ -382,7 +385,6 @@ public class BankUI implements Serializable {
                     index = i;
                 }
             } else if (invSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (invSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (invSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;

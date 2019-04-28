@@ -29,7 +29,7 @@ public class ChatWindow implements Serializable {
     private CopyOnWriteArrayList<TextSlot> textSlots;
 
     public ChatWindow() {
-        textSlots = new CopyOnWriteArrayList<TextSlot>();
+        textSlots = new CopyOnWriteArrayList<>();
         width = numCols * (TextSlot.textWidth);
         height = numRows * (TextSlot.textHeight + 1);
         this.x = 8;
@@ -106,7 +106,7 @@ public class ChatWindow implements Serializable {
     /*
      * Makes the chat shift and pushes messages off the stack to make room for new messages
      */
-    public int freeTextSlot() {
+    private int freeTextSlot() {
         // Als de chat leeg is, vul altijd de 1e slot
         if (textSlots.get(textSlots.size() - 1).getMessage() == null) {
             return (textSlots.size() - 1);
@@ -128,7 +128,7 @@ public class ChatWindow implements Serializable {
         return (textSlots.size() - 1);
     }
 
-    public CopyOnWriteArrayList<TextSlot> getTextSlots() {
+    private CopyOnWriteArrayList<TextSlot> getTextSlots() {
         return textSlots;
     }
 

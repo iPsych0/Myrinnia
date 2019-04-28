@@ -13,7 +13,10 @@ public class ScrollBar implements Serializable {
      *
      */
     private static final long serialVersionUID = 8698572954217286128L;
-    public int x, y, width, height;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
     private Rectangle arrowUp, arrowDown;
     private int scrollMinimum = 0, scrollMaximum;
     private int index = 0;
@@ -91,7 +94,6 @@ public class ScrollBar implements Serializable {
                     return;
                 }
                 if (index == scrollMinimum) {
-                    return;
                 } else {
                     index--;
                     Handler.get().playEffect("ui/ui_button_click.wav");
@@ -145,7 +147,6 @@ public class ScrollBar implements Serializable {
                     return;
                 }
                 if (index == scrollMaximum - itemsPerWindow) {
-                    return;
                 } else {
                     index++;
                     Handler.get().playEffect("ui/ui_button_click.wav");

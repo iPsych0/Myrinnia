@@ -7,7 +7,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class HitSplat implements Serializable {
@@ -20,7 +19,7 @@ public class HitSplat implements Serializable {
     private int xOffset, yOffset;
     private transient Ability ability;
 
-    public HitSplat() {
+    HitSplat() {
     }
 
     public HitSplat(Entity receiver, int damage, DamageType damageType) {
@@ -84,7 +83,7 @@ public class HitSplat implements Serializable {
         return active;
     }
 
-    public void setActive(boolean active) {
+    void setActive(boolean active) {
         this.active = active;
     }
 

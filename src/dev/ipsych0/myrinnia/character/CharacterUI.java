@@ -17,7 +17,10 @@ public class CharacterUI implements Serializable {
      *
      */
     private static final long serialVersionUID = 2534979108806910921L;
-    public int x = 8, y = 180, width = 272, height = 320;
+    private int x = 8;
+    private int y = 180;
+    private int width = 272;
+    private int height = 320;
     public static boolean isOpen = false;
     private int baseStatPoints = 5;
     private int elementalStatPoints = 5;

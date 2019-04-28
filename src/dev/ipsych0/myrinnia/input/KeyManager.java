@@ -33,7 +33,7 @@ public class KeyManager implements KeyListener, Serializable {
     private static final long serialVersionUID = -1536796173877883719L;
     private boolean[] keys, justPressed, cantPress;
     public boolean up, down, left, right;
-    public boolean chat;
+    private boolean chat;
     public boolean pause;
     public boolean talk;
     public boolean escape;

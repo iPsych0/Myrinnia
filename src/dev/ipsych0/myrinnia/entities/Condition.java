@@ -13,10 +13,11 @@ import java.io.Serializable;
 public class Condition implements Serializable {
 
     private static final long serialVersionUID = -6491027693312163146L;
-    protected Entity receiver;
-    protected int duration, tickTimer;
-    protected boolean active;
-    protected int conditionDamage;
+    private Entity receiver;
+    private int duration;
+    private int tickTimer;
+    private boolean active;
+    private int conditionDamage;
     private transient BufferedImage img;
     private float initialSpeedDecrease;
     private static final double CHILL_MOVSPD = 0.66;
@@ -72,11 +73,11 @@ public class Condition implements Serializable {
     public void render(Graphics g, int x, int y) {
         if (this.isActive()) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf((int) (duration / 60) + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, String.valueOf(duration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 
-    public void apply() {
+    private void apply() {
         receiver.tickCondition(receiver, this);
         if(type == Type.CHILL){
             Creature r = ((Creature)receiver);
@@ -87,7 +88,7 @@ public class Condition implements Serializable {
         }
     }
 
-    public void update() {
+    private void update() {
         // After 1 second, recreate the damage splat
         tickTimer = 0;
         duration -= 60;
@@ -95,7 +96,7 @@ public class Condition implements Serializable {
         receiver.tickCondition(receiver, this);
     }
 
-    public void clear() {
+    private void clear() {
         tickTimer = 0;
         this.setActive(false);
 
@@ -117,7 +118,7 @@ public class Condition implements Serializable {
         return active;
     }
 
-    public void setActive(boolean active) {
+    private void setActive(boolean active) {
         this.active = active;
     }
 
@@ -146,7 +147,7 @@ public class Condition implements Serializable {
 
         BufferedImage img;
 
-        public BufferedImage getImg() {
+        BufferedImage getImg() {
             return img;
         }
     }

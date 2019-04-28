@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -12,7 +11,6 @@ import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
-import java.util.List;
 
 public class TestNPC extends StaticEntity {
 

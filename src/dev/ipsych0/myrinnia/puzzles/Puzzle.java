@@ -3,13 +3,13 @@ package dev.ipsych0.myrinnia.puzzles;
 import java.awt.*;
 import java.io.Serializable;
 
-public abstract class Puzzle implements Serializable {
+abstract class Puzzle implements Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1393761869484926871L;
-    protected boolean completed;
+    boolean completed;
 
     public abstract void tick();
 
@@ -19,7 +19,7 @@ public abstract class Puzzle implements Serializable {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    void setCompleted(boolean completed) {
         this.completed = completed;
     }
 

@@ -36,25 +36,31 @@ public class Item implements Serializable {
 
     // Class
 
-    protected ItemType[] itemTypes;
-    protected ItemRarity itemRarity;
-    protected ItemRequirement[] requirements;
-    protected transient BufferedImage texture;
-    protected String name;
-    protected final int id;
-    protected EquipSlot equipSlot;
-    protected int strength, dexterity, intelligence, defence, vitality;
-    protected float attackSpeed, movementSpeed;
-    protected int x, y;
-    protected Rectangle bounds;
-    protected Rectangle position;
-    protected int count;
-    protected boolean pickedUp = false;
+    private ItemType[] itemTypes;
+    private ItemRarity itemRarity;
+    private ItemRequirement[] requirements;
+    private transient BufferedImage texture;
+    private String name;
+    private final int id;
+    private EquipSlot equipSlot;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+    private int defence;
+    private int vitality;
+    private float attackSpeed;
+    private float movementSpeed;
+    private int x;
+    private int y;
+    private Rectangle bounds;
+    private Rectangle position;
+    private int count;
+    private boolean pickedUp = false;
     public static boolean pickUpKeyPressed = false;
-    protected int price;
-    protected boolean stackable;
+    private int price;
+    private boolean stackable;
     private int respawnTimer = 10800;
-    protected boolean equippable;
+    private boolean equippable;
     private boolean hovering;
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes) {
@@ -118,7 +124,7 @@ public class Item implements Serializable {
         render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
     }
 
-    public void render(Graphics g, int x, int y) {
+    private void render(Graphics g, int x, int y) {
         g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
     }
 
@@ -145,7 +151,7 @@ public class Item implements Serializable {
         return i;
     }
 
-    public void setPosition(int x, int y) {
+    private void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -245,11 +251,11 @@ public class Item implements Serializable {
         this.y = y;
     }
 
-    public int getCount() {
+    private int getCount() {
         return count;
     }
 
-    public void setAmount(int count) {
+    private void setAmount(int count) {
         this.count = count;
     }
 
@@ -337,7 +343,7 @@ public class Item implements Serializable {
         this.position = position;
     }
 
-    public boolean isEquippable() {
+    private boolean isEquippable() {
         return equippable;
     }
 

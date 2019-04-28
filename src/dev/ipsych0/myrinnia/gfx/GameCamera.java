@@ -20,7 +20,7 @@ public class GameCamera implements Serializable {
         this.yOffset = yOffset;
     }
 
-    public void checkBlankSpace() {
+    private void checkBlankSpace() {
         if (xOffset < 0) {
             xOffset = 0;
         } else if (xOffset > Handler.get().getWorld().getWidth() * Tiles.TILEWIDTH - Handler.get().getWidth()) {
