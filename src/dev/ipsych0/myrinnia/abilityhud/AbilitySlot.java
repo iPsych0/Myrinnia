@@ -50,7 +50,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
 
             }
         }
-        Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, Integer.toString(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
     }
 
     public void render(Graphics2D g) {

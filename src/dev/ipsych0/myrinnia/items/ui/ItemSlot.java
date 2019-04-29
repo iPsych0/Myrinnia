@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -50,11 +51,7 @@ public class ItemSlot implements Serializable {
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 
             if (itemStack.getItem().isStackable()) {
-                g.setFont(Assets.font14);
-                g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(itemStack.getAmount()), x + 1, y + SLOTSIZE - 20);
-                g.setColor(Color.YELLOW);
-                g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+                Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
             } else if (!itemStack.getItem().isStackable() && itemStack.getAmount() <= 0) {
                 g.setFont(Assets.font14);
                 g.setColor(Color.YELLOW);

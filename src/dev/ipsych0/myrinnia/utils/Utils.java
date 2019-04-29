@@ -7,7 +7,9 @@ import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
 public class Utils {

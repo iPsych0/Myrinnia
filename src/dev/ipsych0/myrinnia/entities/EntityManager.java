@@ -35,6 +35,8 @@ public class EntityManager implements Serializable {
     public void tick() {
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
+        Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
+        Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Entity e = it.next();
             if (!e.isActive()) {
@@ -43,8 +45,6 @@ public class EntityManager implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
-            Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
             if (e instanceof Creature) {
                 for (Condition c : ((Creature) e).getConditions()) {
                     if (c.isActive()) {
@@ -54,6 +54,7 @@ public class EntityManager implements Serializable {
                     }
                 }
                 ((Creature) e).getConditions().removeAll(deletedCondis);
+                deletedCondis.clear();
                 for (Buff b : ((Creature) e).getBuffs()) {
                     if (b.isActive()) {
                         b.tick();
@@ -62,6 +63,7 @@ public class EntityManager implements Serializable {
                     }
                 }
                 ((Creature) e).getBuffs().removeAll(deletedBuffs);
+                deletedBuffs.clear();
             }
 
             e.tick();

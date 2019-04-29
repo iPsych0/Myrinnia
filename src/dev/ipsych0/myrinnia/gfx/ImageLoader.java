@@ -11,6 +11,7 @@ class ImageLoader {
         try {
             InputStream is = ImageLoader.class.getResourceAsStream(path);
             BufferedImage img = ImageIO.read(is);
+            img.setAccelerationPriority(1);
             is.close();
             return img;
         } catch (IOException e) {
