@@ -30,7 +30,7 @@ public class ConditionSplat extends HitSplat {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isActive()) {
             if (condition != null) {
 

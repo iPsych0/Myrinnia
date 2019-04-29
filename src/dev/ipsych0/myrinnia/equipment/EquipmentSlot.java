@@ -33,7 +33,7 @@ public class EquipmentSlot implements Serializable {
 
     }
 
-    public void render(Graphics g, BufferedImage image) {
+    public void render(Graphics2D g, BufferedImage image) {
 
 //		g.setColor(interfaceColour);
 //		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);

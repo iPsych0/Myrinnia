@@ -101,7 +101,7 @@ public class QuestUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             if (!zonesInitialized) {
                 initZones();

@@ -99,7 +99,7 @@ public class SettingState extends State {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 //			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);

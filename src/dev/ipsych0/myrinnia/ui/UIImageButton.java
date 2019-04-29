@@ -28,7 +28,7 @@ public class UIImageButton extends UIObject {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (hovering) {
             if(!hasHovered){
                 Handler.get().playEffect("ui/ui_button_hover.wav");

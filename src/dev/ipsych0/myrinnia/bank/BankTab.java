@@ -56,7 +56,7 @@ public class BankTab extends UIImageButton implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         if (bankSlots.get(0).getItemStack() != null)
             g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);

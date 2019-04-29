@@ -28,7 +28,7 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),

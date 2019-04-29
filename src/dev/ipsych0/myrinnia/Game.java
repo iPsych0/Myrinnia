@@ -124,21 +124,23 @@ public class Game implements Runnable, Serializable {
             return;
         }
         g = bs.getDrawGraphics();
+        Graphics2D g2d = (Graphics2D)g;
 
         // Clear screen
-        g.clearRect(0, 0, width, height);
+        g2d.clearRect(0, 0, width, height);
 
         // Set anti-aliasing text
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         if (State.getState() != null) {
-            State.getState().render(g);
+            State.getState().render(g2d);
         }
 
         // End draw
         bs.show();
         g.dispose();
+        g2d.dispose();
     }
 
     @Override

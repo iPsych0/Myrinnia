@@ -34,7 +34,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g, int slotNum) {
+    public void render(Graphics2D g, int slotNum) {
         super.render(g);
         g.drawImage(Assets.genericButton[1], x, y, width, height, null);
         if (ability != null) {
@@ -53,7 +53,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         if (ability != null) {
             ability.render(g, x, y);

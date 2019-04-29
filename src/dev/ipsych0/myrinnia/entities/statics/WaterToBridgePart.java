@@ -40,7 +40,7 @@ public class WaterToBridgePart extends StaticEntity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.mendWoundsI, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
@@ -119,7 +119,7 @@ public class WaterToBridgePart extends StaticEntity {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 

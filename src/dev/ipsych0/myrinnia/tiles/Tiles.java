@@ -70,8 +70,8 @@ public class Tiles {
 
     }
 
-    public void render(Graphics g, int x, int y) {
-        g.drawImage(texture, x, y, null);
+    public void render(Graphics2D g, int x, int y) {
+        g.drawImage(texture, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT, null);
         if (Handler.debugCollision && bounds != null) {
             int[] xArr, yArr;
             xArr = xPoints.clone();

@@ -37,7 +37,7 @@ public class SavingShrine extends StaticEntity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.equipScreen, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
         g.drawImage(Assets.equipScreen, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 32 - Handler.get().getGameCamera().getyOffset())
@@ -65,7 +65,7 @@ public class SavingShrine extends StaticEntity {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 

@@ -124,7 +124,7 @@ public class CharacterUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 

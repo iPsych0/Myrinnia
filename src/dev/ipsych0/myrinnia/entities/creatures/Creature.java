@@ -337,7 +337,7 @@ public abstract class Creature extends Entity {
      * @param hoveringEntity
      * @param g
      */
-    public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
+    public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
         g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
@@ -355,7 +355,7 @@ public abstract class Creature extends Entity {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
         if (AStarMap.debugMode) {
             g.setColor(Color.BLACK);
             g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), radius.width, radius.height);

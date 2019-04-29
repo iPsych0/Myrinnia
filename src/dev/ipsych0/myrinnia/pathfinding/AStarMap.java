@@ -68,7 +68,7 @@ public class AStarMap implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         for (int i = 0; i < nodes.length - 1; i++) {
             for (int j = 0; j < nodes.length - 1; j++) {
                 if (nodes[i][j] == null) {

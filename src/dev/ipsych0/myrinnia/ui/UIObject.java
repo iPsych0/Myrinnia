@@ -22,7 +22,7 @@ public abstract class UIObject extends Rectangle implements Serializable {
 
     public abstract void tick();
 
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 
     public boolean isHovering() {
         return hovering;

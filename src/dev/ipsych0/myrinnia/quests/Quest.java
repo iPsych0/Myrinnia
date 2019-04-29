@@ -44,7 +44,7 @@ public class Quest implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
     }
 

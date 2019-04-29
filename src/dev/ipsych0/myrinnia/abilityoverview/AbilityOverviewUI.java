@@ -205,7 +205,7 @@ public class AbilityOverviewUI implements Serializable {
         hasBeenPressed = false;
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
             g.drawImage(Assets.shopWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);

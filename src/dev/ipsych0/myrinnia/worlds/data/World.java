@@ -142,7 +142,7 @@ public abstract class World implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         // Get the dimension once at the start
         int screenWidth = Handler.get().getWidth();
         int screenheight = Handler.get().getHeight();
@@ -249,15 +249,15 @@ public abstract class World implements Serializable {
         return box.intersects(player.getCollisionBounds(0, 0));
     }
 
-    protected void renderNight(Graphics g) {
+    protected void renderNight(Graphics2D g) {
         float alpha = 0.6f;
         AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-        ((Graphics2D) g).setComposite(ac);
+        g.setComposite(ac);
         g.setColor(night);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         alpha = 1.0f;
         ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-        ((Graphics2D) g).setComposite(ac);
+        g.setComposite(ac);
     }
 
     private void loadWorld(String path) {

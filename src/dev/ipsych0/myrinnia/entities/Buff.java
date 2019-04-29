@@ -56,7 +56,7 @@ public abstract class Buff {
 
     protected abstract void clear();
 
-    public abstract void render(Graphics g, int x, int y);
+    public abstract void render(Graphics2D g, int x, int y);
 
     public boolean isEffectApplied() {
         return effectApplied;

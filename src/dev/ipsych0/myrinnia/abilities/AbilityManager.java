@@ -89,7 +89,7 @@ public class AbilityManager implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         abilityHUD.render(g);
         Iterator<Ability> it = activeAbilities.iterator();
         while (it.hasNext()) {

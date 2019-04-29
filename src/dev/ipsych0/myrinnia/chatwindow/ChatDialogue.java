@@ -74,7 +74,7 @@ public class ChatDialogue implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
 
         uiManager.render(g);

@@ -35,7 +35,7 @@ public class CategoryButton extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         Text.drawString(g, category.getName(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }

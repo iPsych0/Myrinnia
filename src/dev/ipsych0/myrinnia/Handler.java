@@ -504,6 +504,10 @@ public class Handler implements Serializable {
         this.world = world;
     }
 
+    public void setWorld(Zone zone) {
+        this.world = worldHandler.getWorldsMap().get(zone);
+    }
+
     public WorldHandler getWorldHandler() {
         return worldHandler;
     }

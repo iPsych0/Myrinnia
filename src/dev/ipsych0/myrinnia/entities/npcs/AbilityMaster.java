@@ -38,13 +38,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.lorraine, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 

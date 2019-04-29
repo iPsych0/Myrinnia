@@ -246,7 +246,7 @@ public class CraftingUI implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
 
             g.drawImage(Assets.invScreen, x, y, width, height, null);

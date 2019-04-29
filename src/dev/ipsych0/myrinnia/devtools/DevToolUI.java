@@ -56,7 +56,7 @@ public class DevToolUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             textBox.render(g);
         }

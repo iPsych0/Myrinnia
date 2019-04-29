@@ -206,7 +206,7 @@ public class AbilityHUD implements Serializable {
 //		xpBar.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
         uiManager.render(g);

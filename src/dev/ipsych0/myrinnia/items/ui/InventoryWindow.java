@@ -296,7 +296,7 @@ public class InventoryWindow implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.invScreen, x, y, width, height, null);
             Text.drawString(g, "Inventory", x + 37, y + 24, false, Color.YELLOW, Assets.font14);

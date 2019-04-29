@@ -85,7 +85,7 @@ public class ItemManager implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         for (Item i : items) {
             i.render(g);
             if(i.isHovering()){
@@ -109,29 +109,28 @@ public class ItemManager implements Serializable {
         }
     }
 
-    private void drawHoverCorners(Graphics g, Item i, int xOffset, int yOffset, Color color){
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(color);
-        g2.setStroke(new BasicStroke(2));
+    private void drawHoverCorners(Graphics2D g, Item i, int xOffset, int yOffset, Color color){
+        g.setColor(color);
+        g.setStroke(new BasicStroke(2));
 
         // Top left corner
-        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
-        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
 
         // Top right corner
-        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
-        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + 6 - Handler.get().getGameCamera().getyOffset()));
 
         // Bottom left corner
-        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
-        g2.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
 
         // Bottom right corner
-        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
-        g2.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
     }
 
-    private void drawHoverCorners(Graphics g, Item i) {
+    private void drawHoverCorners(Graphics2D g, Item i) {
         drawHoverCorners(g, i, 0, 0, Color.GREEN);
     }
 

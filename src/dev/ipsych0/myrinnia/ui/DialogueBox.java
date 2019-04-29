@@ -91,13 +91,13 @@ public class DialogueBox implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             render(g, Color.YELLOW);
         }
     }
 
-    public void render(Graphics g, Color color) {
+    public void render(Graphics2D g, Color color) {
         if (isOpen) {
 
             g.drawImage(Assets.shopWindow, x, y, width, height, null);

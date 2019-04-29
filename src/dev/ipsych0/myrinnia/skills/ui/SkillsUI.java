@@ -176,7 +176,7 @@ public class SkillsUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
@@ -232,7 +232,7 @@ public class SkillsUI implements Serializable {
         }
     }
 
-    private void drawXpProgress(Graphics g, Rectangle skillRect, SkillsList skill) {
+    private void drawXpProgress(Graphics2D g, Rectangle skillRect, SkillsList skill) {
         g.setColor(HPOverlay.xpColor);
         g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4, 2, 4);
         g.setColor(HPOverlay.xpColorOutline);

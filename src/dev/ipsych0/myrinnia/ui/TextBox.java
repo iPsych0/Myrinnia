@@ -83,7 +83,7 @@ TextBox implements KeyListener, Serializable {
         Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
 
             g.drawImage(Assets.chatwindow, x, y, width, height, null);

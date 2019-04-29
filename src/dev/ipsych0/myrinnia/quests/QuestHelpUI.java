@@ -32,7 +32,7 @@ public class QuestHelpUI implements Serializable {
         }
     }
 
-    public void render(Graphics g, Quest selectedQuest) {
+    public void render(Graphics2D g, Quest selectedQuest) {
         if (isOpen) {
             g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
@@ -61,7 +61,7 @@ public class QuestHelpUI implements Serializable {
         }
     }
 
-    private void renderRequirements(Graphics g, Quest selectedQuest) {
+    private void renderRequirements(Graphics2D g, Quest selectedQuest) {
         if (selectedQuest.getState() == QuestState.NOT_STARTED) {
             Text.drawString(g, "Requirements: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
             if (selectedQuest.getRequirements() != null) {

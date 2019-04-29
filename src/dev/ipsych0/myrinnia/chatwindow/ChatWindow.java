@@ -67,7 +67,7 @@ public class ChatWindow implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (chatIsOpen) {
 
             // Render dev tool

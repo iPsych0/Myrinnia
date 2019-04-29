@@ -33,7 +33,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Handler.get().getGame().gameState.render(g);
 
         // Get the textWidth of the Zone name
@@ -59,7 +59,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
 
         // Fade from black
         AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-        ((Graphics2D) g).setComposite(ac);
+        g.setComposite(ac);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         if (alpha - (0.5 / 60) < 0)

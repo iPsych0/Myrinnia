@@ -102,7 +102,7 @@ public class ScrollBar implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
         if (listSize > itemsPerWindow) {

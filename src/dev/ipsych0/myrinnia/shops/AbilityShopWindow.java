@@ -153,7 +153,7 @@ public class AbilityShopWindow implements Serializable {
         handleButtonClicks(mouse);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.shopWindow, x, y, width, height, null);
 
         Rectangle mouse = Handler.get().getMouse();
@@ -297,7 +297,7 @@ public class AbilityShopWindow implements Serializable {
         }
     }
 
-    private void drawButtons(Graphics g) {
+    private void drawButtons(Graphics2D g) {
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);
         Text.drawString(g, "All", allButton.x + allButton.width / 2, allButton.y + allButton.height / 2, true, Color.YELLOW, Assets.font14);

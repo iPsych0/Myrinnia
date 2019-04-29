@@ -140,7 +140,7 @@ public class EquipmentWindow implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
 
             g.drawImage(Assets.equipScreen, x, y, 132, 348, null);

@@ -70,7 +70,7 @@ public class Condition implements Serializable {
         }
     }
 
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         if (this.isActive()) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             Text.drawString(g, String.valueOf(duration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);

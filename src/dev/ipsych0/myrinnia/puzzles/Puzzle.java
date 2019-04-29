@@ -13,7 +13,7 @@ abstract class Puzzle implements Serializable {
 
     public abstract void tick();
 
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 
     public boolean isCompleted() {
         return completed;

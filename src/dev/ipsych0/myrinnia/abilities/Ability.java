@@ -52,7 +52,7 @@ public abstract class Ability implements Serializable {
         this.description = description;
     }
 
-    public abstract void render(Graphics g, int x, int y);
+    public abstract void render(Graphics2D g, int x, int y);
 
     protected abstract void cast();
 

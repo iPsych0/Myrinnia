@@ -25,7 +25,7 @@ public class ItemTooltip implements Serializable {
 
     }
 
-    public void render(Item item, Graphics g) {
+    public void render(Item item, Graphics2D g) {
         if (item.getEquipSlot() == EquipSlot.None.getSlotId()) {
             g.drawImage(Assets.shopWindow, x, y, 160, 64, null);
         } else {

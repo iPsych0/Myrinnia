@@ -30,7 +30,7 @@ public class CraftButton extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
     }
 

@@ -70,9 +70,9 @@ public abstract class Entity implements Serializable {
 
     public abstract void tick();
 
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 
-    public abstract void postRender(Graphics g);
+    public abstract void postRender(Graphics2D g);
 
     protected abstract void die();
 
@@ -346,7 +346,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void drawHP(Graphics g) {
+    public void drawHP(Graphics2D g) {
         g.setColor(HPOverlay.hpColorRed);
         g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
@@ -378,7 +378,7 @@ public abstract class Entity implements Serializable {
      * @param hoveringEntity
      * @param g
      */
-    public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
+    public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
         g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {

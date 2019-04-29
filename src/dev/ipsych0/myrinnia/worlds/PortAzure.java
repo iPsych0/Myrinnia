@@ -56,7 +56,7 @@ public class PortAzure extends World {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (Handler.get().getWorld().equals(this)) {
             super.render(g);
         }

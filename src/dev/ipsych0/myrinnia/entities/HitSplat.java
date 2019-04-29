@@ -56,7 +56,7 @@ public class HitSplat implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (active) {
             if (!healing) {
                 if (ability != null) {

@@ -17,7 +17,7 @@ public class Text {
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
-    public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
+    public static void drawString(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
         int x = xPos;
         int y = yPos;
 
@@ -37,7 +37,7 @@ public class Text {
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
-    public static void drawStringStrikeThru(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
+    public static void drawStringStrikeThru(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
         int x = xPos;
         int y = yPos;
 
@@ -59,7 +59,7 @@ public class Text {
         g.drawString(as.getIterator(), x, y);
     }
 
-    public static int getStringWidth(Graphics g, String text, Font font) {
+    public static int getStringWidth(Graphics2D g, String text, Font font) {
         FontMetrics fm = g.getFontMetrics(font);
         return fm.stringWidth(text);
     }

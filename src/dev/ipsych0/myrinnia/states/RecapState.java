@@ -54,7 +54,7 @@ public class RecapState extends State {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (Handler.get().getRecapManager().getEvents().size() > 0) {
             Rectangle mouse = Handler.get().getMouse();
 

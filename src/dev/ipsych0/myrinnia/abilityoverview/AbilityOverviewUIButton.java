@@ -23,7 +23,7 @@ public class AbilityOverviewUIButton extends UIImageButton implements Serializab
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         Text.drawString(g, stat.toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }

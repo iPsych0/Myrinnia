@@ -29,7 +29,7 @@ class TextSlot implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (message != null) {
             Text.drawString(g, message, x + 6, y + 24, false, Color.YELLOW, Assets.font14);
         }

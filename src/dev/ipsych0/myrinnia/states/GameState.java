@@ -25,7 +25,7 @@ public class GameState extends State {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Handler.get().getWorldHandler().render(g);
     }
 }

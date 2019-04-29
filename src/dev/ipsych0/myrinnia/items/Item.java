@@ -120,11 +120,11 @@ public class Item implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
     }
 
-    private void render(Graphics g, int x, int y) {
+    private void render(Graphics2D g, int x, int y) {
         g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
     }
 

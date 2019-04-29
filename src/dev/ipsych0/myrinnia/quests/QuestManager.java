@@ -119,7 +119,7 @@ public class QuestManager implements Serializable {
             questUI.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (QuestUI.isOpen)
             questUI.render(g);
     }

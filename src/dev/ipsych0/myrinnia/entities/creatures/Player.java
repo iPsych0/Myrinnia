@@ -91,10 +91,10 @@ public class Player extends Creature {
     public Player(float x, float y) {
         super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 
-        // Player combat/movement settings:
+        xSpawn = x;
+        ySpawn = y;
 
-        xSpawn = 5152.0f;
-        ySpawn = 5600.0f;
+        // Player combat/movement settings:
 
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -387,7 +387,7 @@ public class Player extends Creature {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
         if (movementAllowed) {
@@ -778,7 +778,7 @@ public class Player extends Creature {
             this.setActive(true);
             this.setHealth(maxHealth);
 
-            Handler.get().setWorld(Handler.get().getWorldHandler().getWorlds().get(0));
+            Handler.get().setWorld(Zone.PortAzure);
             this.setX(xSpawn);
             this.setY(ySpawn);
         }
@@ -831,7 +831,7 @@ public class Player extends Creature {
      * Post render for things that should be drawn over other Entities
      */
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             closestEntity.getChatDialogue().render(g);
         }
