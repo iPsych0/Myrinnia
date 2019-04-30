@@ -327,7 +327,7 @@ public abstract class Creature extends Entity {
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
+        name[1] = "HP: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
         return name;
     }
 
@@ -344,13 +344,21 @@ public abstract class Creature extends Entity {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
         for (int i = 0; i < conditions.size(); i++) {
-            conditions.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50);
+            if (this == Handler.get().getPlayer()) {
+                conditions.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50);
+            } else {
+                conditions.get(i).render(g, Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50);
+            }
         }
 
         int yOffset = 0;
         if (!conditions.isEmpty()) yOffset = 1;
         for (int i = 0; i < buffs.size(); i++) {
-            buffs.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
+            if (this == Handler.get().getPlayer()) {
+                buffs.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
+            } else {
+                buffs.get(i).render(g, Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
+            }
         }
     }
 
@@ -372,6 +380,9 @@ public abstract class Creature extends Entity {
     }
 
     void tickProjectiles() {
+        if(projectiles.size() < 1)
+            return;
+
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
@@ -517,7 +528,8 @@ public abstract class Creature extends Entity {
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + +this.getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
+                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2),
+                ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
                 Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
                 Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.ATTACK;
@@ -644,12 +656,10 @@ public abstract class Creature extends Entity {
         this.yMove = yMove;
     }
 
-    @Override
     public int getHealth() {
         return health;
     }
 
-    @Override
     public void setHealth(int health) {
         this.health = health;
     }

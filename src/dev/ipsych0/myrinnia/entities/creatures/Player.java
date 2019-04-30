@@ -331,6 +331,9 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
+        if(projectiles.size() < 1)
+            return;
+
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {

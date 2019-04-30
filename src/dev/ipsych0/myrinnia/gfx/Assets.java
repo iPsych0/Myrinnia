@@ -8,16 +8,16 @@ import java.awt.image.BufferedImage;
 
 public class Assets {
 
-    private static final int width = 32, height = 32;
+    public static final int width = 32, height = 32;
 
     // Fonts
     public static Font font14;
     public static Font font20;
     public static Font font24;
     public static Font font32;
-    private static Font font40;
-    private static Font font48;
-    private static Font font64;
+    public static Font font40;
+    public static Font font48;
+    public static Font font64;
 
     // Terrain images (paths, lava, water, etc)
 
@@ -42,7 +42,7 @@ public class Assets {
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
-    private static BufferedImage[] airProjectile;
+    public static BufferedImage[] airProjectile;
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
@@ -67,32 +67,32 @@ public class Assets {
     public static BufferedImage invScreen;
 
     // Equipment UI
-    private static BufferedImage equipSlot;
+    public static BufferedImage equipSlot;
     public static BufferedImage equipScreen;
-    private static BufferedImage equipStats;
-    private static BufferedImage earringSlot;
+    public static BufferedImage equipStats;
+    public static BufferedImage earringSlot;
     public static BufferedImage mainhandSlot;
-    private static BufferedImage glovesSlot;
-    private static BufferedImage ringSlot1;
-    private static BufferedImage helmSlot;
-    private static BufferedImage bodySlot;
-    private static BufferedImage legsSlot;
+    public static BufferedImage glovesSlot;
+    public static BufferedImage ringSlot1;
+    public static BufferedImage helmSlot;
+    public static BufferedImage bodySlot;
+    public static BufferedImage legsSlot;
     public static BufferedImage bootsSlot;
-    private static BufferedImage amuletSlot;
+    public static BufferedImage amuletSlot;
     public static BufferedImage offhandSlot;
-    private static BufferedImage capeSlot;
-    private static BufferedImage ringSlot2;
+    public static BufferedImage capeSlot;
+    public static BufferedImage ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
     // Chatwindow UI
     public static BufferedImage chatwindow, chatwindowTop;
 
     // Crafting UI
-    private static BufferedImage craftWindow;
+    public static BufferedImage craftWindow;
     public static BufferedImage undiscovered;
 
     // HP Overlay UI
-    private static BufferedImage hpOverlay;
+    public static BufferedImage hpOverlay;
     public static BufferedImage craftingIcon, characterIcon, abilitiesIcon, questsIcon, mapIcon;
     public static BufferedImage locked, unlocked;
 
@@ -100,6 +100,9 @@ public class Assets {
 
     // Icons
     public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon;
+    public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
+    public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
+            movSpdBuffIcon;
 
     public static BufferedImage shopWindow;
 
@@ -242,11 +245,28 @@ public class Assets {
         waterProjectile[1] = projectiles.imageCrop(10, 0);
         waterProjectile[2] = projectiles.imageCrop(11, 0);
 
+        // Skill icons
         fishingIcon = ui_sheet.imageCrop(2, 0);
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
         bountyHunterIcon = ui_sheet.imageCrop(5, 1);
+
+        // Condition icons
+        chillIcon = ui_sheet.imageCrop(0, 2);
+        poisonIcon = ui_sheet.imageCrop(1, 2);
+        burnIcon = ui_sheet.imageCrop(2, 2);
+        bleedIcon = ui_sheet.imageCrop(3, 2);
+        stunIcon = ui_sheet.imageCrop(4, 2);
+
+        // Buff icons
+        strBuffIcon = ui_sheet.imageCrop(0, 3);
+        dexBuffIcon = ui_sheet.imageCrop(1, 3);
+        intBuffIcon = ui_sheet.imageCrop(2, 3);
+        defBuffIcon = ui_sheet.imageCrop(3, 3);
+        vitBuffIcon = ui_sheet.imageCrop(4, 3);
+        atkSpdBuffIcon = ui_sheet.imageCrop(5, 3);
+        movSpdBuffIcon = ui_sheet.imageCrop(6, 3);
 
         // Inventory sprites
         invScreen = ui_sheet.imageCrop(0, 9, 132, 329);
