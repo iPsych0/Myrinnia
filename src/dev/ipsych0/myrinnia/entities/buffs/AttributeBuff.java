@@ -18,6 +18,13 @@ public class AttributeBuff extends Buff {
     private double totalIncreaseDecimal;
     private Attribute attribute;
     private transient BufferedImage img;
+    private static final String STR_NAME = "Strength";
+    private static final String DEX_NAME = "Dexterity";
+    private static final String INT_NAME = "Intelligence";
+    private static final String VIT_NAME = "Vitality";
+    private static final String DEF_NAME = "Defence";
+    private static final String ATKSPD_NAME = "Attack Speed";
+    private static final String MOVSPD_NAME = "Movement Speed";
 
     public enum Attribute {
         STR(Assets.strBuffIcon, 0),
@@ -241,6 +248,36 @@ public class AttributeBuff extends Buff {
                 break;
             case MOVSPD:
                 text = "Increases Movement Speed by " + totalIncreaseDecimal + " for " + getEffectDuration() + " seconds.";
+                break;
+        }
+
+        return text;
+    }
+
+    @Override
+    public String toString() {
+        String text = null;
+        switch (attribute) {
+            case STR:
+                text = STR_NAME;
+                break;
+            case INT:
+                text = INT_NAME;
+                break;
+            case DEF:
+                text = DEF_NAME;
+                break;
+            case DEX:
+                text = DEX_NAME;
+                break;
+            case VIT:
+                text = VIT_NAME;
+                break;
+            case ATKSPD:
+                text = ATKSPD_NAME;
+                break;
+            case MOVSPD:
+                text = MOVSPD_NAME;
                 break;
         }
 

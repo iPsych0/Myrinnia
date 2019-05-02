@@ -60,6 +60,8 @@ public abstract class Buff {
 
     public abstract String getDescription();
 
+    public abstract String toString();
+
     public boolean isEffectApplied() {
         return effectApplied;
     }

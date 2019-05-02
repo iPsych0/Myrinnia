@@ -23,19 +23,24 @@ public class StatusTooltip implements Serializable {
 
     public void render(Buff b, Graphics2D g) {
         String[] text = Text.splitIntoLine(b.getDescription(), 20);
-        g.drawImage(Assets.shopWindow, x, y, 160, 16 + (text.length * 16), null);
+        g.drawImage(Assets.invScreen, x, y, 160, 48 + (text.length * 16), null);
+        b.render(g, x + 4, y + 4);
+        Text.drawString(g, b.toString(), x + 36, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for(String s : text){
-            Text.drawString(g, s, x + 4, y + 16 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
         }
     }
 
     public void render(Condition c, Graphics2D g) {
         String[] text = Text.splitIntoLine(c.getType().getDescription(), 20);
-        g.drawImage(Assets.shopWindow, x, y, 160, 16 + (text.length * 16), null);
+        g.drawImage(Assets.chatwindow, x, y, 160, 48 + (text.length * 16), null);
+        c.render(g, x + 4, y + 4);
+        String condition = c.getType().toString();
+        Text.drawString(g, condition.substring(0,1).toUpperCase() + condition.substring(1).toLowerCase(),x + 36, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for(String s : text){
-            Text.drawString(g, s, x + 4, y + 16 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
         }
     }
 }

@@ -67,7 +67,7 @@ public class AbilityHUD implements Serializable {
         uiManager.addObject(unlockButton);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
-        statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2);
+        statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2 - 32);
     }
 
     /**
