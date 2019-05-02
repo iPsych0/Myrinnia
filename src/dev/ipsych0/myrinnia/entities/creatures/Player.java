@@ -440,18 +440,6 @@ public class Player extends Creature {
             }
         }
 
-        for (int i = 0; i < getConditions().size(); i++) {
-            getConditions().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
-                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8);
-        }
-
-        int yOffset = 0;
-        if (!getConditions().isEmpty()) yOffset = 1;
-        for (int i = 0; i < getBuffs().size(); i++) {
-            getBuffs().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
-                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8);
-        }
-
     }
 
     public void levelUp() {
@@ -863,6 +851,30 @@ public class Player extends Creature {
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
+            }
+        }
+
+        for (int i = 0; i < getConditions().size(); i++) {
+            Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8,
+                    32,
+                    32);
+            getConditions().get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getConditions().get(i), g);
+            }
+        }
+
+        int yOffset = 0;
+        if (!getConditions().isEmpty()) yOffset = 1;
+        for (int i = 0; i < getBuffs().size(); i++) {
+            Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
+                    32,
+                    32);
+            getBuffs().get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getBuffs().get(i), g);
             }
         }
     }

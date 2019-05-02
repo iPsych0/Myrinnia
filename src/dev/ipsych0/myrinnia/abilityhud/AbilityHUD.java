@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.entities.StatusTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -37,6 +38,7 @@ public class AbilityHUD implements Serializable {
             hoverUnlockedColor = new Color(8, 192, 0, 192);
     private Rectangle bounds;
     private UIManager uiManager;
+    private StatusTooltip statusTooltip;
 
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -65,6 +67,7 @@ public class AbilityHUD implements Serializable {
         uiManager.addObject(unlockButton);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
+        statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2);
     }
 
     /**
@@ -174,14 +177,13 @@ public class AbilityHUD implements Serializable {
         }
 
         if (lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            if(!locked){
+            if (!locked) {
                 Handler.get().sendMsg("Ability bar locked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = true;
-        }
-        else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            if(locked){
+        } else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            if (locked) {
                 Handler.get().sendMsg("Ability bar unlocked.");
             }
             hasBeenPressed = false;
@@ -202,6 +204,7 @@ public class AbilityHUD implements Serializable {
                 handleDrag(as);
             }
         }
+
 //		hpBar.tick();
 //		xpBar.tick();
     }
@@ -225,7 +228,7 @@ public class AbilityHUD implements Serializable {
                     abilityTooltip.render(g, as.getAbility());
                 }
             }
-            if(!locked) {
+            if (!locked) {
                 g.setColor(Color.YELLOW);
                 g.drawRect(as.getBounds().x, as.getBounds().y, as.getBounds().width, as.getBounds().height);
             }
@@ -251,7 +254,7 @@ public class AbilityHUD implements Serializable {
         g.fillRoundRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, 2, 2);
         g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
 
-//		hpBar.render(g);
+//      hpBar.render(g);
 //		xpBar.render(g);
     }
 
@@ -283,4 +286,7 @@ public class AbilityHUD implements Serializable {
         return bounds;
     }
 
+    public StatusTooltip getStatusTooltip() {
+        return statusTooltip;
+    }
 }

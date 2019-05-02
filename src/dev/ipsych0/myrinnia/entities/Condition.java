@@ -14,7 +14,8 @@ public class Condition implements Serializable {
 
     private static final long serialVersionUID = -6491027693312163146L;
     private Entity receiver;
-    private int duration;
+    private int currentDuration;
+    private int initialDuration;
     private int tickTimer;
     private boolean active;
     private int conditionDamage;
@@ -27,7 +28,8 @@ public class Condition implements Serializable {
         this.type = type;
         this.img = type.getImg();
         this.receiver = receiver;
-        this.duration = durationSeconds * 60;
+        this.currentDuration = durationSeconds * 60;
+        this.initialDuration = currentDuration;
         this.active = true;
     }
 
@@ -35,7 +37,8 @@ public class Condition implements Serializable {
         this.type = type;
         this.img = type.getImg();
         this.receiver = receiver;
-        this.duration = durationSeconds * 60;
+        this.currentDuration = durationSeconds * 60;
+        this.initialDuration = currentDuration;
         this.conditionDamage = conditionDamage;
         this.active = true;
     }
@@ -52,16 +55,16 @@ public class Condition implements Serializable {
             }
 
             // If the timeLeft is greater than 0 at any given time
-            if (tickTimer <= duration) {
+            if (tickTimer <= currentDuration) {
                 // Tick the condition effect
                 if (tickTimer == 0) {
-                    duration -= 60;
+                    currentDuration -= 60;
                     apply();
                 } else if (tickTimer % 60 == 0) {
                     update();
                 }
                 // If the condition timeLeft is 0, don't tick anymore, but let the last hitsplat disappear
-            } else if (duration <= 0) {
+            } else if (currentDuration <= 0) {
                 if (tickTimer % 60 == 0) {
                     clear();
                 }
@@ -73,7 +76,7 @@ public class Condition implements Serializable {
     public void render(Graphics2D g, int x, int y) {
         if (this.isActive()) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf(duration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, String.valueOf(currentDuration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 
@@ -91,7 +94,7 @@ public class Condition implements Serializable {
     private void update() {
         // After 1 second, recreate the damage splat
         tickTimer = 0;
-        duration -= 60;
+        currentDuration -= 60;
         Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
         receiver.tickCondition(receiver, this);
     }
@@ -106,12 +109,12 @@ public class Condition implements Serializable {
         }
     }
 
-    public int getDuration() {
-        return duration;
+    public int getCurrentDuration() {
+        return currentDuration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setCurrentDuration(int currentDuration) {
+        this.currentDuration = currentDuration;
     }
 
     public boolean isActive() {
@@ -139,16 +142,26 @@ public class Condition implements Serializable {
     }
 
     public enum Type {
-        BURNING(Assets.burnIcon), CHILL(Assets.chillIcon), BLEEDING(Assets.bleedIcon), POISON(Assets.poisonIcon), STUN(Assets.stunIcon);
+        BURNING(Assets.burnIcon,"'Burning' inflicts damage over time."),
+        CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 33%."),
+        BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
+        POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),
+        STUN(Assets.stunIcon, "'Stun' stops movement and stops the receiver from attacking.");
 
-        Type(BufferedImage img) {
+        Type(BufferedImage img, String description) {
             this.img = img;
+            this.description = description;
         }
 
-        BufferedImage img;
+        private BufferedImage img;
+        private String description;
 
-        BufferedImage getImg() {
+        public BufferedImage getImg() {
             return img;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

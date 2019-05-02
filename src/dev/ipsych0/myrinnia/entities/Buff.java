@@ -9,7 +9,7 @@ public abstract class Buff {
 
     protected Entity receiver;
     protected int timeLeft;
-    private final int EFFECT_DURATION;
+    private final int effectDuration;
     private boolean active;
     private boolean effectApplied;
     private int buffId = -1;
@@ -17,7 +17,7 @@ public abstract class Buff {
 
     protected Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
-        this.EFFECT_DURATION = durationSeconds * 60;
+        this.effectDuration = durationSeconds * 60;
         this.active = true;
     }
 
@@ -30,7 +30,7 @@ public abstract class Buff {
             }
 
             if (!effectApplied) {
-                timeLeft = timeLeft + EFFECT_DURATION;
+                timeLeft = timeLeft + effectDuration;
                 apply();
                 effectApplied = true;
                 timeLeft--;
@@ -57,6 +57,8 @@ public abstract class Buff {
     protected abstract void clear();
 
     public abstract void render(Graphics2D g, int x, int y);
+
+    public abstract String getDescription();
 
     public boolean isEffectApplied() {
         return effectApplied;
@@ -87,6 +89,10 @@ public abstract class Buff {
             System.err.println("Forgot to set buffId for: " + this.getClass().getSimpleName());
         }
         return buffId;
+    }
+
+    public int getEffectDuration() {
+        return effectDuration;
     }
 
     public void setBuffId(int buffId) {

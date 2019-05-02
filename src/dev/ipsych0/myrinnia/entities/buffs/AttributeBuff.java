@@ -20,8 +20,13 @@ public class AttributeBuff extends Buff {
     private transient BufferedImage img;
 
     public enum Attribute {
-        STR(Assets.strBuffIcon, 0), DEX(Assets.dexBuffIcon, 1), INT(Assets.intBuffIcon, 2), VIT(Assets.vitBuffIcon, 3),
-        DEF(Assets.defBuffIcon, 4), ATKSPD(Assets.atkSpdBuffIcon, 5), MOVSPD(Assets.movSpdBuffIcon, 6);
+        STR(Assets.strBuffIcon, 0),
+        DEX(Assets.dexBuffIcon, 1),
+        INT(Assets.intBuffIcon, 2),
+        VIT(Assets.vitBuffIcon, 3),
+        DEF(Assets.defBuffIcon, 4),
+        ATKSPD(Assets.atkSpdBuffIcon, 5),
+        MOVSPD(Assets.movSpdBuffIcon, 6);
 
         BufferedImage img;
         int buffId;
@@ -210,5 +215,35 @@ public class AttributeBuff extends Buff {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             Text.drawString(g, String.valueOf((timeLeft / 60) + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
+    }
+
+    @Override
+    public String getDescription() {
+        String text = null;
+        switch (attribute) {
+            case STR:
+                text = "Increases Strength by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                break;
+            case INT:
+                text = "Increases Intelligence by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                break;
+            case DEF:
+                text = "Increases Defence by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                break;
+            case DEX:
+                text = "Increases Dexterity by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                break;
+            case VIT:
+                text = "Increases Vitality by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                break;
+            case ATKSPD:
+                text = "Increases Attack Speed by " + totalIncreaseDecimal + " for " + getEffectDuration() + " seconds.";
+                break;
+            case MOVSPD:
+                text = "Increases Movement Speed by " + totalIncreaseDecimal + " for " + getEffectDuration() + " seconds.";
+                break;
+        }
+
+        return text;
     }
 }

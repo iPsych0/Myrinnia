@@ -343,21 +343,22 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
+
         for (int i = 0; i < conditions.size(); i++) {
-            if (this == Handler.get().getPlayer()) {
-                conditions.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50);
-            } else {
-                conditions.get(i).render(g, Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50);
+            Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50, 32, 32);
+            conditions.get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(conditions.get(i), g);
             }
         }
 
         int yOffset = 0;
         if (!conditions.isEmpty()) yOffset = 1;
         for (int i = 0; i < buffs.size(); i++) {
-            if (this == Handler.get().getPlayer()) {
-                buffs.get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
-            } else {
-                buffs.get(i).render(g, Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset));
+            Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
+            buffs.get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(buffs.get(i), g);
             }
         }
     }

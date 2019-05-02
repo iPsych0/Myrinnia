@@ -297,7 +297,7 @@ public abstract class Entity implements Serializable {
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
                 // If that's the case, increase the timeLeft
-                c.setDuration(c.getDuration() + condition.getDuration());
+                c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
 
                 // If the new ability has a higher condition damage than the current one, increase the damage
                 if (condition.getConditionDamage() > c.getConditionDamage()) {
