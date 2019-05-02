@@ -147,6 +147,11 @@ class CommandHandler implements Serializable {
                             a.setUnlocked(true);
                         }
                         Handler.get().sendMsg("Unlocked all abilities.");
+                        for(int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
+                            if(i == 10)
+                                break;
+                            Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities().get(i).setAbility(Handler.get().getAbilityManager().getAllAbilities().get(i));
+                        }
                         break;
                     }
                     if (!commands[1].isEmpty()) {
