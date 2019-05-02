@@ -168,49 +168,49 @@ public class AttributeBuff extends Buff {
                 if (percentageIncrease) {
                     r.setSpeed((float) (r.getSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setSpeed(r.getSpeed() - (int) statBuff);
+                    r.setSpeed(r.getSpeed() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
                     r.setAttackSpeed((float) (r.getAttackSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff);
+                    r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case VIT:
                 if (percentageIncrease) {
                     r.setVitality(r.getVitality() - totalIncrease);
                 } else {
-                    r.setVitality(r.getVitality() - (int) statBuff);
+                    r.setVitality(r.getVitality() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case INT:
                 if (percentageIncrease) {
                     r.setIntelligence(r.getIntelligence() - totalIncrease);
                 } else {
-                    r.setIntelligence(r.getIntelligence() - (int) statBuff);
+                    r.setIntelligence(r.getIntelligence() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case DEX:
                 if (percentageIncrease) {
                     r.setDexterity(r.getDexterity() - totalIncrease);
                 } else {
-                    r.setDexterity(r.getDexterity() - (int) statBuff);
+                    r.setDexterity(r.getDexterity() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case DEF:
                 if (percentageIncrease) {
                     r.setDefence(r.getDefence() - totalIncrease);
                 } else {
-                    r.setDefence(r.getDefence() - (int) statBuff);
+                    r.setDefence(r.getDefence() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case STR:
                 if (percentageIncrease) {
                     r.setStrength(r.getStrength() - totalIncrease);
                 } else {
-                    r.setStrength(r.getStrength() - (int) statBuff);
+                    r.setStrength(r.getStrength() - (int) statBuff * getTimesStacked());
                 }
                 break;
         }
@@ -229,25 +229,53 @@ public class AttributeBuff extends Buff {
         String text = null;
         switch (attribute) {
             case STR:
-                text = "Increases Strength by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Strength by " + totalIncrease + ".";
+                } else {
+                    text = "Increases Strength by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case INT:
-                text = "Increases Intelligence by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Intelligence by " + totalIncrease + ".";
+                } else {
+                    text = "Increases Intelligence by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case DEF:
-                text = "Increases Defence by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Defence by " + totalIncrease + ".";
+                } else {
+                    text = "Increases Defence by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case DEX:
-                text = "Increases Dexterity by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Dexterity by " + totalIncrease + ".";
+                } else {
+                    text = "Increases Dexterity by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case VIT:
-                text = "Increases Vitality by " + totalIncrease + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Vitality by " + totalIncrease + ".";
+                } else {
+                    text = "Increases Vitality by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case ATKSPD:
-                text = "Increases Attack Speed by " + totalIncreaseDecimal + " for " + getEffectDuration() + " seconds.";
+                if (percentageIncrease) {
+                    text = "Increases Attack Speed by " + totalIncreaseDecimal + ".";
+                } else {
+                    text = "Increases Attack Speed by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
             case MOVSPD:
-                text = "Increases Movement Speed by " + totalIncreaseDecimal + " for " + getEffectDuration() + " seconds.";
+                if(percentageIncrease) {
+                    text = "Increases Movement Speed by " + totalIncreaseDecimal + ".";
+                } else {
+                    text = "Increases Movement Speed by " + statBuff * getTimesStacked() + ".";
+                }
                 break;
         }
 

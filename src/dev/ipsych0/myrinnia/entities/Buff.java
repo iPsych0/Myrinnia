@@ -14,6 +14,7 @@ public abstract class Buff {
     private boolean effectApplied;
     private int buffId = -1;
     private static Set<Integer> ids = new HashSet<>();
+    private int timesStacked = 0;
 
     protected Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
@@ -34,6 +35,7 @@ public abstract class Buff {
                 apply();
                 effectApplied = true;
                 timeLeft--;
+                timesStacked++;
                 return;
             }
 
@@ -61,6 +63,10 @@ public abstract class Buff {
     public abstract String getDescription();
 
     public abstract String toString();
+
+    public int getTimesStacked() {
+        return timesStacked;
+    }
 
     public boolean isEffectApplied() {
         return effectApplied;
