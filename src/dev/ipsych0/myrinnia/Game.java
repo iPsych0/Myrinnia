@@ -328,4 +328,12 @@ public class Game implements Runnable, Serializable {
     public static void setHandler(Handler handler) {
         Game.handler = handler;
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

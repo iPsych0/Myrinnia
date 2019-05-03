@@ -149,8 +149,8 @@ public abstract class World implements Serializable {
         float xOffset = Handler.get().getGameCamera().getxOffset();
         float yOffset = Handler.get().getGameCamera().getyOffset();
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, screenWidth, screenheight);
+//        g.setColor(Color.BLACK);
+//        g.fillRect(0, 0, screenWidth, screenheight);
         // Set variables for rendering only the tiles that show on screen
         int xStart = (int) Math.max(0, xOffset / Tiles.TILEWIDTH);
         int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tiles.TILEWIDTH + 1);

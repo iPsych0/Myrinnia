@@ -17,8 +17,7 @@ public class SettingState extends State {
      */
     private static final long serialVersionUID = -5598711872871726397L;
     private UIManager uiManager;
-    private boolean loaded = false;
-    private Rectangle controlsButton, muteSoundButton, returnButton;
+    private Rectangle fullScreenButton, controlsButton, muteSoundButton, returnButton;
     private Rectangle soundPopup;
     private boolean displaySoundPressed = false;
     private int displaySoundTimer = 0;
@@ -27,6 +26,12 @@ public class SettingState extends State {
     public SettingState() {
         super();
         this.uiManager = new UIManager();
+
+        /*
+         * Fullscreen Button
+         */
+        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 272, 226, 96, Assets.genericButton));
+        fullScreenButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 272, 226, 96);
 
         /*
          * Controls Button
@@ -54,10 +59,16 @@ public class SettingState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
+        if(fullScreenButton.contains(mouse)){
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                hasBeenPressed = false;
+                Handler.get().getGame().getDisplay().toggleFullScreen();
+            }
+        }
+
         if (controlsButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(Handler.get().getGame().controlsState));
-                loaded = false;
                 hasBeenPressed = false;
             }
         }
@@ -87,7 +98,6 @@ public class SettingState extends State {
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(previousState));
-                loaded = false;
                 hasBeenPressed = false;
                 displaySoundPressed = false;
                 displaySoundTimer = 0;
@@ -124,6 +134,8 @@ public class SettingState extends State {
         else
             Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
 
+        String screenSize = Handler.get().getGame().getDisplay().isFullScreen() ? "Windowed Mode" : "Fullscreen Mode";
+        Text.drawString(g, screenSize, Handler.get().getWidth() / 2, 320, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Mute Sounds", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Return", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);

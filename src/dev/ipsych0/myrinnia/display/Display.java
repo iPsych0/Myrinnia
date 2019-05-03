@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.display;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 
 
@@ -23,6 +25,8 @@ public class Display implements Serializable {
     private static int windowedX, windowedY, windowedWidth, windowedHeight;
     private boolean fullScreen;
     private boolean fullScreenSupported;
+    private GraphicsDevice defaultScreen;
+    private Rectangle effectiveScreenArea;
 
     private String title;
     private int width, height;
@@ -40,14 +44,15 @@ public class Display implements Serializable {
         frame = new JFrame(title);
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice defaultScreen = env.getDefaultScreenDevice();
+        GraphicsConfiguration gc = env.getDefaultScreenDevice().getDefaultConfiguration();
+        Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        defaultScreen = env.getDefaultScreenDevice();
         fullScreenSupported = defaultScreen.isFullScreenSupported();
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         windowedX = 0;
         windowedY = 0;
-        windowedWidth = (int)screenSize.getWidth();
-        windowedHeight = (int)screenSize.getHeight();
+        windowedWidth = (int)preferredWindowedBounds.getWidth();
+        windowedHeight = (int)preferredWindowedBounds.getHeight();
 
         if(fullScreenSupported){
             frame.setResizable(false);
@@ -90,24 +95,70 @@ public class Display implements Serializable {
                 if (!fullScreen) {
                     windowedWidth = frame.getWidth();
                     windowedHeight = frame.getHeight();
+                    Handler.get().getGame().setWidth(windowedWidth);
+                    Handler.get().getGame().setHeight(windowedHeight);
+                    canvas.setSize(new Dimension(windowedWidth, windowedHeight));
                 }
             }
         });
 
-        // Window will appear in the center of the user's screen --- Uncomment for windowed-mode
-//		frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(width, height));
-        canvas.setMaximumSize(new Dimension(width, height));
-        canvas.setMinimumSize(new Dimension(width, height));
+        canvas.setSize(new Dimension(width, height));
         canvas.setFocusable(false);
+        canvas.setBackground(Color.BLACK);
 
         frame.add(canvas);
 
         frame.pack();
-        frame.setResizable(false);
+    }
+
+    public void toggleFullScreen() {
+        if (fullScreenSupported) {
+            if (!fullScreen) {
+                // Switch to fullscreen mode
+                frame.setVisible(false);
+                frame.setResizable(false);
+                frame.dispose();
+                frame.setUndecorated(true);
+                defaultScreen.setFullScreenWindow(frame);
+                frame.setVisible(true);
+            } else {
+                // Switch to windowed mode
+                frame.setVisible(false);
+                frame.setResizable(true);
+                frame.dispose();
+                frame.setUndecorated(false);
+                defaultScreen.setFullScreenWindow(null);
+
+                if(effectiveScreenArea == null){
+                    initScreenArea();
+                }
+
+                frame.setBounds(effectiveScreenArea);
+                frame.setVisible(true);
+
+                canvas.setSize(new Dimension(effectiveScreenArea.width, effectiveScreenArea.height));
+
+            }
+            fullScreen = !fullScreen;
+        }
+    }
+
+    private void initScreenArea() {
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsConfiguration gc = env.getDefaultScreenDevice().getDefaultConfiguration();
+        Rectangle bounds = gc.getBounds();
+
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+
+        effectiveScreenArea = new Rectangle();
+
+        effectiveScreenArea.x = bounds.x + screenInsets.left;
+        effectiveScreenArea.y = bounds.y + screenInsets.top;
+        effectiveScreenArea.height = bounds.height - screenInsets.top - screenInsets.bottom;
+        effectiveScreenArea.width = bounds.width - screenInsets.left - screenInsets.right;
     }
 
     public Canvas getCanvas() {
@@ -116,5 +167,13 @@ public class Display implements Serializable {
 
     public JFrame getFrame() {
         return frame;
+    }
+
+    public boolean isFullScreen() {
+        return fullScreen;
+    }
+
+    public GraphicsDevice getDefaultScreen() {
+        return defaultScreen;
     }
 }
