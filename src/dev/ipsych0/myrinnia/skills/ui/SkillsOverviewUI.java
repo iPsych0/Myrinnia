@@ -19,7 +19,7 @@ public class SkillsOverviewUI implements Serializable {
      *
      */
     private static final long serialVersionUID = -5483332963034314338L;
-    public int x = 216;
+    public int x = 280;
     public int y = 180;
     private int width = 384;
     private int height = 320;

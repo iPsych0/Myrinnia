@@ -50,13 +50,15 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
+    private static final int MIN_RES_WIDTH = 1280;
+    private static final int MIN_RES_HEIGHT = 768;
 
     public static Game get() {
         if (game == null) {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             double width = screenSize.getWidth();
             double height = screenSize.getHeight();
-            game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) width, (int) height);
+            game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) MIN_RES_WIDTH, (int) MIN_RES_HEIGHT);
         }
         return game;
     }

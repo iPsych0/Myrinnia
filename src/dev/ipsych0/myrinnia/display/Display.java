@@ -38,7 +38,7 @@ public class Display implements Serializable {
 
     private void createDisplay() {
         frame = new JFrame(title);
-//        frame.setSize(width, height);
+        frame.setSize(width, height);
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
@@ -47,26 +47,26 @@ public class Display implements Serializable {
 
         windowedX = 0;
         windowedY = 0;
-        windowedWidth = (int) preferredWindowedBounds.getWidth();
-        windowedHeight = (int) preferredWindowedBounds.getHeight();
+        windowedWidth = width;
+        windowedHeight = height;
 
-        if (fullScreenSupported) {
-            frame.setResizable(false);
-            frame.setUndecorated(true);
-            defaultScreen.setFullScreenWindow(frame);
-            fullScreen = true;
+//        if (fullScreenSupported) {
+//            frame.setResizable(false);
+//            frame.setUndecorated(true);
+//            defaultScreen.setFullScreenWindow(frame);
+//            fullScreen = true;
             scaleX = 1.0;
             scaleY = 1.0;
-        } else {
-            frame.setUndecorated(false);
-            frame.setResizable(false);
-            defaultScreen.setFullScreenWindow(null); // windowed mode
-            frame.setSize(new Dimension(windowedWidth, windowedHeight));
-            fullScreen = false;
-            scaleX = 1.0;
-            scaleY = 1.0;
-        }
-
+//        } else {
+//            frame.setUndecorated(false);
+//            frame.setResizable(false);
+//            defaultScreen.setFullScreenWindow(null); // windowed mode
+//            frame.setSize(new Dimension(windowedWidth, windowedHeight));
+//            fullScreen = false;
+//            scaleX = 1.0;
+//            scaleY = 1.0;
+//        }
+        fullScreen = false;
         // For the X (close) button
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -109,28 +109,46 @@ public class Display implements Serializable {
                 }
                 // maximized
                 else if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
-                    System.out.println("max");
+                    toggleFullScreen();
                 }
             }
         });
 
+        // Window will appear in the center of the user's screen
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         canvas = new Canvas();
-        canvas.setMaximumSize(new Dimension(width, height));
         canvas.setPreferredSize(new Dimension(width, height));
-        canvas.setSize(new Dimension(width, height));
+        canvas.setMaximumSize(new Dimension(width, height));
+        canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
-        canvas.setBackground(Color.BLACK);
-
-        System.out.println("---_- Original Size -_---");
-        System.out.println(frame.getWidth());
-        System.out.println(frame.getHeight());
-        System.out.println(canvas.getWidth());
-        System.out.println(canvas.getHeight());
-        System.out.println("_--- Resized Size ---_");
 
         frame.add(canvas);
+
+        frame.pack();
+        frame.setResizable(true);
+
+        //
+
+//        frame.setVisible(true);
+//
+//        canvas = new Canvas();
+//        canvas.setMaximumSize(new Dimension(width, height));
+//        canvas.setPreferredSize(new Dimension(width, height));
+//        canvas.setSize(new Dimension(width, height));
+//        canvas.setFocusable(false);
+//        canvas.setBackground(Color.BLACK);
+//
+//        System.out.println("---_- Original Size -_---");
+//        System.out.println(frame.getWidth());
+//        System.out.println(frame.getHeight());
+//        System.out.println(canvas.getWidth());
+//        System.out.println(canvas.getHeight());
+//        System.out.println("_--- Resized Size ---_");
+//
+        initScreenArea();
+//        frame.add(canvas);
 
     }
 
@@ -141,12 +159,15 @@ public class Display implements Serializable {
                 Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
                 frame.setVisible(false);
                 frame.dispose();
+//                frame.setSize(preferredWindowedBounds.width, preferredWindowedBounds.height);
                 frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
                 frame.setUndecorated(true);
                 defaultScreen.setFullScreenWindow(frame);
                 frame.setVisible(true);
-                scaleX = 1.0;
-                scaleY = 1.0;
+                windowedWidth = frame.getWidth();
+                windowedHeight = frame.getHeight();
+                scaleX = (double)frame.getWidth() / (double)width;
+                scaleY = (double)frame.getHeight() / (double)height;
             } else {
                 // Switch to windowed mode
                 frame.dispose();
@@ -154,7 +175,7 @@ public class Display implements Serializable {
                 defaultScreen.setFullScreenWindow(null);
                 frame.setUndecorated(false);
                 frame.setVisible(true);
-                frame.setSize(windowedWidth, windowedHeight);
+                frame.setSize(effectiveScreenArea.width, effectiveScreenArea.height);
                 frame.setLocationRelativeTo(null);
                 frame.setResizable(true);
                 scaleX = (double)frame.getWidth() / (double)width;

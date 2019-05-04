@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
@@ -130,8 +131,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
     public void mouseMoved(MouseEvent e) {
         mouseMovedTimer = 0;
         Player.mouseMoved = true;
-        mouseX = e.getX();
-        mouseY = e.getY();
+        mouseX = (int)(e.getX() * (1.0/Display.scaleX));
+        mouseY = (int)(e.getY() * (1.0/Display.scaleY));
 
     }
 
@@ -145,8 +146,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
         }
 
         // Fix hier shit
-        mouseX = e.getX();
-        mouseY = e.getY();
+        mouseX = (int)(e.getX() * (1.0/Display.scaleX));
+        mouseY = (int)(e.getY() * (1.0/Display.scaleY));
     }
 
     @Override
