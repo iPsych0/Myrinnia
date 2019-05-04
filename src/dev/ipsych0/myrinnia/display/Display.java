@@ -61,7 +61,7 @@ public class Display implements Serializable {
             fullScreen = true;
         } else{
             frame.setUndecorated(false);
-            frame.setResizable(true);
+            frame.setResizable(false);
             defaultScreen.setFullScreenWindow(null); // windowed mode
             frame.setBounds(windowedX, windowedY, windowedWidth, windowedHeight);
             fullScreen = false;
@@ -97,7 +97,6 @@ public class Display implements Serializable {
                     windowedHeight = frame.getHeight();
                     Handler.get().getGame().setWidth(windowedWidth);
                     Handler.get().getGame().setHeight(windowedHeight);
-                    canvas.setSize(new Dimension(windowedWidth, windowedHeight));
                 }
             }
         });
@@ -105,48 +104,54 @@ public class Display implements Serializable {
         frame.setVisible(true);
 
         canvas = new Canvas();
+        canvas.setPreferredSize(new Dimension(width, height));
+        canvas.setMaximumSize(new Dimension(width, height));
+        canvas.setMinimumSize(new Dimension(width, height));
         canvas.setSize(new Dimension(width, height));
         canvas.setFocusable(false);
         canvas.setBackground(Color.BLACK);
 
         frame.add(canvas);
 
-        frame.pack();
     }
 
     public void toggleFullScreen() {
         if (fullScreenSupported) {
             if (!fullScreen) {
                 // Switch to fullscreen mode
+                Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
                 frame.setVisible(false);
-                frame.setResizable(false);
                 frame.dispose();
+                frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
                 frame.setUndecorated(true);
                 defaultScreen.setFullScreenWindow(frame);
                 frame.setVisible(true);
             } else {
                 // Switch to windowed mode
-                frame.setVisible(false);
-                frame.setResizable(true);
                 frame.dispose();
-                frame.setUndecorated(false);
+                frame.setVisible(false);
                 defaultScreen.setFullScreenWindow(null);
-
-                if(effectiveScreenArea == null){
-                    initScreenArea();
-                }
-
-                frame.setBounds(effectiveScreenArea);
+                frame.setUndecorated(false);
                 frame.setVisible(true);
 
-                canvas.setSize(new Dimension(effectiveScreenArea.width, effectiveScreenArea.height));
+                if(effectiveScreenArea == null){
+                    effectiveScreenArea = initScreenArea();
+                }
+
+//                canvas.setBounds(effectiveScreenArea);
+//                canvas.setLocation(effectiveScreenArea.x, effectiveScreenArea.y);
+//                Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+                frame.setBounds(0, 0, effectiveScreenArea.width, effectiveScreenArea.height);
+                canvas.setBounds(0, 0, effectiveScreenArea.width, effectiveScreenArea.height);
+//                frame.pack();
 
             }
             fullScreen = !fullScreen;
         }
     }
 
-    private void initScreenArea() {
+    private Rectangle initScreenArea() {
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsConfiguration gc = env.getDefaultScreenDevice().getDefaultConfiguration();
         Rectangle bounds = gc.getBounds();
@@ -159,6 +164,8 @@ public class Display implements Serializable {
         effectiveScreenArea.y = bounds.y + screenInsets.top;
         effectiveScreenArea.height = bounds.height - screenInsets.top - screenInsets.bottom;
         effectiveScreenArea.width = bounds.width - screenInsets.left - screenInsets.right;
+
+        return effectiveScreenArea;
     }
 
     public Canvas getCanvas() {
