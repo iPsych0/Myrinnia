@@ -126,6 +126,8 @@ public class Game implements Runnable, Serializable {
         g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D)g;
 
+        g2d.scale(Display.scaleX, Display.scaleY);
+
         // Clear screen
         g2d.clearRect(0, 0, width, height);
 

@@ -5,11 +5,7 @@ import dev.ipsych0.myrinnia.audio.AudioManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.geom.AffineTransform;
+import java.awt.event.*;
 import java.io.Serializable;
 
 
@@ -22,7 +18,7 @@ public class Display implements Serializable {
     private static final long serialVersionUID = 5463768214564927571L;
     private JFrame frame;
     private Canvas canvas;
-    private static int windowedX, windowedY, windowedWidth, windowedHeight;
+    private int windowedX, windowedY, windowedWidth, windowedHeight;
     private boolean fullScreen;
     private boolean fullScreenSupported;
     private GraphicsDevice defaultScreen;
@@ -30,41 +26,45 @@ public class Display implements Serializable {
 
     private String title;
     private int width, height;
+    public static double scaleX, scaleY;
 
     public Display(String title, int width, int height) {
         this.title = title;
         this.width = width;
         this.height = height;
-
         createDisplay();
 
     }
 
     private void createDisplay() {
         frame = new JFrame(title);
+//        frame.setSize(width, height);
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsConfiguration gc = env.getDefaultScreenDevice().getDefaultConfiguration();
         Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         defaultScreen = env.getDefaultScreenDevice();
         fullScreenSupported = defaultScreen.isFullScreenSupported();
 
         windowedX = 0;
         windowedY = 0;
-        windowedWidth = (int)preferredWindowedBounds.getWidth();
-        windowedHeight = (int)preferredWindowedBounds.getHeight();
+        windowedWidth = (int) preferredWindowedBounds.getWidth();
+        windowedHeight = (int) preferredWindowedBounds.getHeight();
 
-        if(fullScreenSupported){
+        if (fullScreenSupported) {
             frame.setResizable(false);
             frame.setUndecorated(true);
             defaultScreen.setFullScreenWindow(frame);
             fullScreen = true;
-        } else{
+            scaleX = 1.0;
+            scaleY = 1.0;
+        } else {
             frame.setUndecorated(false);
             frame.setResizable(false);
             defaultScreen.setFullScreenWindow(null); // windowed mode
-            frame.setBounds(windowedX, windowedY, windowedWidth, windowedHeight);
+            frame.setSize(new Dimension(windowedWidth, windowedHeight));
             fullScreen = false;
+            scaleX = 1.0;
+            scaleY = 1.0;
         }
 
         // For the X (close) button
@@ -95,8 +95,21 @@ public class Display implements Serializable {
                 if (!fullScreen) {
                     windowedWidth = frame.getWidth();
                     windowedHeight = frame.getHeight();
-                    Handler.get().getGame().setWidth(windowedWidth);
-                    Handler.get().getGame().setHeight(windowedHeight);
+                    scaleX = (double)frame.getWidth() / (double)width;
+                    scaleY = (double)frame.getHeight() / (double)height;
+                }
+            }
+        });
+
+        frame.addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(WindowEvent e) {
+                // minimized
+                if ((e.getNewState() & Frame.ICONIFIED) == Frame.ICONIFIED) {
+                    System.out.println("min");
+                }
+                // maximized
+                else if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
+                    System.out.println("max");
                 }
             }
         });
@@ -104,12 +117,18 @@ public class Display implements Serializable {
         frame.setVisible(true);
 
         canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(width, height));
         canvas.setMaximumSize(new Dimension(width, height));
-        canvas.setMinimumSize(new Dimension(width, height));
+        canvas.setPreferredSize(new Dimension(width, height));
         canvas.setSize(new Dimension(width, height));
         canvas.setFocusable(false);
         canvas.setBackground(Color.BLACK);
+
+        System.out.println("---_- Original Size -_---");
+        System.out.println(frame.getWidth());
+        System.out.println(frame.getHeight());
+        System.out.println(canvas.getWidth());
+        System.out.println(canvas.getHeight());
+        System.out.println("_--- Resized Size ---_");
 
         frame.add(canvas);
 
@@ -126,6 +145,8 @@ public class Display implements Serializable {
                 frame.setUndecorated(true);
                 defaultScreen.setFullScreenWindow(frame);
                 frame.setVisible(true);
+                scaleX = 1.0;
+                scaleY = 1.0;
             } else {
                 // Switch to windowed mode
                 frame.dispose();
@@ -133,19 +154,21 @@ public class Display implements Serializable {
                 defaultScreen.setFullScreenWindow(null);
                 frame.setUndecorated(false);
                 frame.setVisible(true);
-
-                if(effectiveScreenArea == null){
-                    effectiveScreenArea = initScreenArea();
-                }
-
-//                canvas.setBounds(effectiveScreenArea);
-//                canvas.setLocation(effectiveScreenArea.x, effectiveScreenArea.y);
-//                Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-
-                frame.setBounds(0, 0, effectiveScreenArea.width, effectiveScreenArea.height);
-                canvas.setBounds(0, 0, effectiveScreenArea.width, effectiveScreenArea.height);
-//                frame.pack();
-
+                frame.setSize(windowedWidth, windowedHeight);
+                frame.setLocationRelativeTo(null);
+                frame.setResizable(true);
+                scaleX = (double)frame.getWidth() / (double)width;
+                scaleY = (double)frame.getHeight() / (double)height;
+                System.out.println(frame.getWidth());
+                System.out.println(frame.getHeight());
+                System.out.println(canvas.getWidth());
+                System.out.println(canvas.getHeight());
+                canvas.setSize(new Dimension(frame.getWidth(), frame.getHeight()));
+                System.out.println("--- New Canvas Size ---");
+                System.out.println(canvas.getWidth());
+                System.out.println(canvas.getHeight());
+                Handler.get().getGame().setWidth(frame.getWidth());
+                Handler.get().getGame().setHeight(frame.getHeight());
             }
             fullScreen = !fullScreen;
         }
