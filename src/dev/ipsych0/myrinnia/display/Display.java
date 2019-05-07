@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.display;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 
 import javax.swing.*;
@@ -45,28 +44,19 @@ public class Display implements Serializable {
         gfxCard = env.getDefaultScreenDevice();
         fullScreenSupported = gfxCard.isFullScreenSupported();
 
-
         lastWindowX = 0;
         lastWindowY = 0;
         lastWindowWidth = width;
         lastWindowHeight = height;
 
-//        if (fullScreenSupported) {
-//            frame.setResizable(false);
-//            frame.setUndecorated(true);
-//            gfxCard.setFullScreenWindow(frame);
-//            fullScreen = true;
-//            scaleX = 1.0;
-//            scaleY = 1.0;
-//        } else {
-            frame.setUndecorated(false);
-            frame.setResizable(true);
-            frame.setLocationRelativeTo(null);
-            gfxCard.setFullScreenWindow(null); // windowed mode
-            fullScreen = false;
-            scaleX = 1.0;
-            scaleY = 1.0;
-//        }
+        // Basic windowed mode settings
+        frame.setUndecorated(false);
+        frame.setResizable(true);
+        frame.setLocationRelativeTo(null);
+        gfxCard.setFullScreenWindow(null);
+        fullScreen = false;
+        scaleX = 1.0;
+        scaleY = 1.0;
 
         // For the X (close) button
         frame.addWindowListener(new WindowAdapter() {
@@ -86,7 +76,6 @@ public class Display implements Serializable {
             @Override
             public void componentMoved(ComponentEvent e) {
                 if (!fullScreen && initialized) {
-                    System.out.println("moved");
                     windowedX = frame.getX();
                     windowedY = frame.getY();
                 }
@@ -95,7 +84,6 @@ public class Display implements Serializable {
             @Override
             public void componentResized(ComponentEvent e) {
                 if (!fullScreen && initialized) {
-                    System.out.println("resized");
                     windowedWidth = canvas.getWidth();
                     windowedHeight = canvas.getHeight();
                     scaleX = (double) windowedWidth / (double) width;
@@ -118,14 +106,19 @@ public class Display implements Serializable {
 
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
-//        canvas.setMaximumSize(new Dimension(width, height));
-//        canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
         frame.setIgnoreRepaint(true);
 
         frame.add(canvas);
 
         frame.pack();
+
+        // If supported, start game in fullscreen, otherwise center the windowed application
+        if (fullScreenSupported) {
+            toggleFullScreen();
+        } else {
+            frame.setLocationRelativeTo(null);
+        }
     }
 
     public void toggleFullScreen() {
@@ -140,7 +133,6 @@ public class Display implements Serializable {
                 Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
                 frame.setVisible(false);
                 frame.dispose();
-//                frame.setSize(preferredWindowedBounds.width, preferredWindowedBounds.height);
                 frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
                 frame.setUndecorated(true);
                 gfxCard.setFullScreenWindow(frame);
