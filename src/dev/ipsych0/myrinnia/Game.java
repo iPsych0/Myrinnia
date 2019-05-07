@@ -50,14 +50,11 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
-    private static final int MIN_RES_WIDTH = 1280;
+    private static final int MIN_RES_WIDTH = 1366;
     private static final int MIN_RES_HEIGHT = 768;
 
     public static Game get() {
         if (game == null) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            double width = screenSize.getWidth();
-            double height = screenSize.getHeight();
             game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) MIN_RES_WIDTH, (int) MIN_RES_HEIGHT);
         }
         return game;
@@ -103,6 +100,7 @@ public class Game implements Runnable, Serializable {
         // Set the initial state to the menu state
         State.setState(menuState);
 
+        display.setInitialized(true);
     }
 
     private void loadSettings(){
@@ -136,7 +134,7 @@ public class Game implements Runnable, Serializable {
 
         // Set anti-aliasing text
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
@@ -155,7 +153,6 @@ public class Game implements Runnable, Serializable {
     public void run() {
 
         init();
-        display.setInitialized(true);
         //
         // int fps = 60;
         // double timePerTick = 1000000000 / fps;

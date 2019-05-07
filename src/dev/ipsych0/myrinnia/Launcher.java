@@ -8,7 +8,7 @@ class Launcher {
     public static void main(String[] args) {
 
         // Runtime JVM arguments
-        System.setProperty("sun.java2d.opengl", "True");
+        System.setProperty("sun.java2d.opengl", "true");
 
         // Starts the game
         Game game = Game.get();

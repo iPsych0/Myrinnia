@@ -18,11 +18,10 @@ public class Display implements Serializable {
     private JFrame frame;
     private Canvas canvas;
     private int windowedX, windowedY, windowedWidth, windowedHeight;
-    private int lastWindowX, lastWindowY, lastWindowWidth, lastWindowHeight;
+    private int lastWindowWidth, lastWindowHeight;
     private boolean fullScreen;
     private boolean fullScreenSupported;
     private GraphicsDevice gfxCard;
-    private Rectangle effectiveScreenArea;
 
     private String title;
     private int width, height;
@@ -34,7 +33,6 @@ public class Display implements Serializable {
         this.width = width;
         this.height = height;
         createDisplay();
-
     }
 
     private void createDisplay() {
@@ -44,8 +42,6 @@ public class Display implements Serializable {
         gfxCard = env.getDefaultScreenDevice();
         fullScreenSupported = gfxCard.isFullScreenSupported();
 
-        lastWindowX = 0;
-        lastWindowY = 0;
         lastWindowWidth = width;
         lastWindowHeight = height;
 
@@ -62,6 +58,11 @@ public class Display implements Serializable {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 try {
+                    // Close window without visual delay
+                    frame.setVisible(false);
+                    frame.dispose();
+
+                    // Clean up all the audio references
                     AudioManager.cleanUp();
                 } catch (Exception e) {
                     System.err.println("Unexpected crash. Unable to close OpenAL audio context.");
@@ -71,35 +72,7 @@ public class Display implements Serializable {
             }
         });
 
-        // To save the window width and height if the window has been resized.
-        frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentMoved(ComponentEvent e) {
-                if (!fullScreen && initialized) {
-                    windowedX = frame.getX();
-                    windowedY = frame.getY();
-                }
-            }
-
-            @Override
-            public void componentResized(ComponentEvent e) {
-                if (!fullScreen && initialized) {
-                    windowedWidth = canvas.getWidth();
-                    windowedHeight = canvas.getHeight();
-                    scaleX = (double) windowedWidth / (double) width;
-                    scaleY = (double) windowedHeight / (double) height;
-                }
-            }
-        });
-
-        frame.addWindowStateListener(new WindowStateListener() {
-            public void windowStateChanged(WindowEvent e) {
-                // Maximize window
-                if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
-                    toggleFullScreen();
-                }
-            }
-        });
+        addFrameListeners();
 
         // Window will appear in the center of the user's screen
         frame.setVisible(true);
@@ -124,40 +97,87 @@ public class Display implements Serializable {
     public void toggleFullScreen() {
         if (fullScreenSupported) {
             if (!fullScreen) {
-                lastWindowX = frame.getX();
-                lastWindowY = frame.getY();
-                lastWindowWidth = frame.getWidth();
-                lastWindowHeight = frame.getHeight();
-
-                // Switch to fullscreen mode
-                Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-                frame.setVisible(false);
-                frame.dispose();
-                frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
-                frame.setUndecorated(true);
-                gfxCard.setFullScreenWindow(frame);
-                frame.setVisible(true);
-                windowedWidth = frame.getWidth();
-                windowedHeight = frame.getHeight();
-                scaleX = (double)frame.getWidth() / (double)width;
-                scaleY = (double)frame.getHeight() / (double)height;
+                setFullScreen();
             } else {
-                // Switch to windowed mode
-                frame.dispose();
-                frame.setVisible(false);
-                gfxCard.setFullScreenWindow(null);
-                frame.setUndecorated(false);
-                frame.setVisible(true);
-                frame.setSize(lastWindowWidth, lastWindowHeight);
-                frame.setLocationRelativeTo(null);
-                frame.setResizable(true);
-                windowedWidth = frame.getWidth();
-                windowedHeight = frame.getHeight();
-                scaleX = (double)frame.getWidth() / (double)width;
-                scaleY = (double)frame.getHeight() / (double)height;
+                setWindowedScreen();
             }
             fullScreen = !fullScreen;
         }
+    }
+
+    private void setFullScreen() {
+        // Save the window's last position before going fullscreen
+        lastWindowWidth = frame.getWidth();
+        lastWindowHeight = frame.getHeight();
+
+        // Switch to fullscreen mode
+        Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        frame.setVisible(false);
+        frame.dispose();
+        frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
+        frame.setUndecorated(true);
+        gfxCard.setFullScreenWindow(frame);
+        frame.setVisible(true);
+
+        // Scale the window to fullscreen size
+        windowedWidth = frame.getWidth();
+        windowedHeight = frame.getHeight();
+        scaleX = (double) frame.getWidth() / (double) width;
+        scaleY = (double) frame.getHeight() / (double) height;
+    }
+
+    private void setWindowedScreen(){
+        // Switch to windowed mode
+        frame.dispose();
+        frame.setVisible(false);
+        gfxCard.setFullScreenWindow(null);
+        frame.setUndecorated(false);
+        frame.setVisible(true);
+
+        // Set the window back to the last size
+        frame.setSize(lastWindowWidth, lastWindowHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(true);
+
+        // Scale the window accordingly
+        windowedWidth = frame.getWidth();
+        windowedHeight = frame.getHeight();
+        scaleX = (double)frame.getWidth() / (double)width;
+        scaleY = (double)frame.getHeight() / (double)height;
+    }
+
+    private void addFrameListeners(){
+        // To save the window dimensions if the window has been moved or resized
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                if (!fullScreen && initialized) {
+                    windowedX = frame.getX();
+                    windowedY = frame.getY();
+                }
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if (!fullScreen && initialized) {
+                    windowedWidth = canvas.getWidth();
+                    windowedHeight = canvas.getHeight();
+
+                    // Rescale dimension relative to original width/height
+                    scaleX = (double) windowedWidth / (double) width;
+                    scaleY = (double) windowedHeight / (double) height;
+                }
+            }
+        });
+
+        frame.addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(WindowEvent e) {
+                // Maximize window
+                if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
+                    toggleFullScreen();
+                }
+            }
+        });
     }
 
     public void setInitialized(boolean initialized) {
