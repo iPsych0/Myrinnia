@@ -79,6 +79,7 @@ public class Game implements Runnable, Serializable {
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseWheelListener(mouseManager);
+
         Assets.init();
 
         handler = Handler.get();
@@ -154,6 +155,7 @@ public class Game implements Runnable, Serializable {
     public void run() {
 
         init();
+        display.setInitialized(true);
         //
         // int fps = 60;
         // double timePerTick = 1000000000 / fps;
