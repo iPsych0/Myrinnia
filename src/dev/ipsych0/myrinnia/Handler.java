@@ -340,7 +340,7 @@ public class Handler implements Serializable {
     }
 
     public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability){
-        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), ability));
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver, ability), ability));
     }
 
     public void addHealSplat(Entity receiver, int healing){

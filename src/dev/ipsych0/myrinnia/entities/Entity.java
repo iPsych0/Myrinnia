@@ -55,6 +55,7 @@ public abstract class Entity implements Serializable {
     protected Script script;
     private String name;
     private static final double DIVISION_QUOTIENT = 200.0;
+    private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 
     protected Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -176,27 +177,20 @@ public abstract class Entity implements Serializable {
     /*
      * Damage formula for abilities
      */
-    private int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
+    public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
-        int power;
-        switch (damageType) {
-            case STR:
-                power = d.getStrength();
-                break;
-            case DEX:
-                power = d.getDexterity();
-                break;
-            case INT:
-                power = d.getIntelligence();
-                break;
-            default:
-                power = 0;
-                break;
 
-        }
-        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
+        // Calculations
+        double defenceRatio = (DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence()));
+        double defaultDamage = (double) getDamage(damageType, dealer, receiver);
+        double abilityDamage = ability.getBaseDamage() * Math.pow(ABILITY_DMG_COEFFICIENT, (double) ability.getElement().getLevel());
+        double baseDamage = (double) d.getBaseDamage();
+
+        // Formula
+        return (int) Math.round((defaultDamage + abilityDamage) * defenceRatio + baseDamage);
+//        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     public void heal(int heal){
