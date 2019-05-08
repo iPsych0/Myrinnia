@@ -54,6 +54,7 @@ public abstract class Entity implements Serializable {
     protected Rectangle collision;
     protected Script script;
     private String name;
+    private static final double DIVISION_QUOTIENT = 200.0;
 
     protected Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -147,8 +148,7 @@ public abstract class Entity implements Serializable {
     }
 
     /*
-     * Returns the damage an Entity should deal (Combat formula)
-     * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
+     * Damage formula for auto attacks
      */
     public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
         // Default damage formula
@@ -170,12 +170,11 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage();
+        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage();
     }
 
     /*
-     * Returns the damage an Entity should deal + ability damage (Combat formula)
-     * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
+     * Damage formula for abilities
      */
     private int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
@@ -197,7 +196,7 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
+        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     public void heal(int heal){

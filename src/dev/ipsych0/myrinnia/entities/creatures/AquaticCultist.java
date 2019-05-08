@@ -30,7 +30,7 @@ public class AquaticCultist extends Creature {
         // Creature stats
         strength = 0;
         dexterity = 0;
-        intelligence = 15;
+        intelligence = 10;
         vitality = 10;
         defence = 10;
         speed = DEFAULT_SPEED + 0.5f;

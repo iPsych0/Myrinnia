@@ -29,7 +29,7 @@ public class Scorpion extends Creature {
         dexterity = 0;
         intelligence = 5;
         vitality = 5;
-        defence = 10;
+        defence = 5;
         speed = DEFAULT_SPEED + 0.5f;
         attackSpeed = DEFAULT_ATTACKSPEED;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
