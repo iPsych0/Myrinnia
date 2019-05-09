@@ -111,7 +111,6 @@ public class Assets {
     public static void init() {
 
         MapLoader.setWorldDoc(Handler.initialWorldPath);
-        MapLoader.setSolidTiles(Handler.initialWorldPath);
 
         /*
          * Fonts
@@ -169,6 +168,8 @@ public class Assets {
          */
         SpriteSheet biome_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
         SpriteSheet trees_sheet = new SpriteSheet("/textures/trees.png", true);
+        SpriteSheet beach_tiles = new SpriteSheet("/textures/tf_beach_tileB.png", true);
+        SpriteSheet outside_tiles = new SpriteSheet("/textures/tileA5_outside.png", true);
 
 
         // Biome Tiles
@@ -182,6 +183,20 @@ public class Assets {
         for (int y = 0; y < trees_sheet.getSheet().getHeight() / 32; y++) {
             for (int x = 0; x < trees_sheet.getSheet().getWidth() / 32; x++) {
                 trees_sheet.tileCrop(x, y);
+            }
+        }
+
+        // Biome Tiles
+        for (int y = 0; y < beach_tiles.getSheet().getHeight() / 32; y++) {
+            for (int x = 0; x < beach_tiles.getSheet().getWidth() / 32; x++) {
+                beach_tiles.tileCrop(x, y);
+            }
+        }
+
+        // Biome Tiles
+        for (int y = 0; y < outside_tiles.getSheet().getHeight() / 32; y++) {
+            for (int x = 0; x < outside_tiles.getSheet().getWidth() / 32; x++) {
+                outside_tiles.tileCrop(x, y);
             }
         }
 

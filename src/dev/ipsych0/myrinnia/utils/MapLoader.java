@@ -28,7 +28,8 @@ public class MapLoader implements Serializable {
     public static HashMap<Integer, Boolean> solidTiles = new HashMap<>();
     public static HashMap<Integer, Boolean> postRenderTiles = new HashMap<>();
     public static HashMap<Integer, List<Point>> polygonTiles = new HashMap<>();
-    private static Document doc;
+    private static Document doc, tsxDoc;
+    private static int tileCount, lastId;
 
     static {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -56,6 +57,18 @@ public class MapLoader implements Serializable {
         }
     }
 
+    public static void setTsxDoc(String path) {
+        // Creates new DocumentBuilder on the file
+        InputStream is = Handler.class.getResourceAsStream(path);
+        try {
+            tsxDoc = builder.parse(is);
+            tsxDoc.normalize();
+            is.close();
+        } catch (SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
      * Returns the width of the map from Tiled
      * @params: String path in OS
@@ -69,7 +82,7 @@ public class MapLoader implements Serializable {
                 private boolean postRenderedPropertyFound = false;
                 private boolean solid;
                 private boolean postRender;
-                private int currentId, lastId;
+                private int currentId;
                 private int startX, startY;
 
                 public void startElement(String uri, String localName, String qName,
@@ -86,19 +99,19 @@ public class MapLoader implements Serializable {
                             postRenderedPropertyFound = true;
                             postRender = Boolean.parseBoolean(attributes.getValue("value"));
                         }
-                    }else if(qName.equalsIgnoreCase("object")){
-                        startX = (int)Double.parseDouble(attributes.getValue("x"));
-                        startY = (int)Double.parseDouble(attributes.getValue("y"));
-                    } else if(qName.equalsIgnoreCase("polyline")){
-                        if(attributes.getQName(0).equalsIgnoreCase("points")){
+                    } else if (qName.equalsIgnoreCase("object")) {
+                        startX = (int) Double.parseDouble(attributes.getValue("x"));
+                        startY = (int) Double.parseDouble(attributes.getValue("y"));
+                    } else if (qName.equalsIgnoreCase("polyline")) {
+                        if (attributes.getQName(0).equalsIgnoreCase("points")) {
                             List<Point> polylines = new ArrayList<>();
                             // Split spaces to get the points
                             String[] splitBySpace = attributes.getValue("points").split(" ");
-                            for(String split : splitBySpace){
+                            for (String split : splitBySpace) {
                                 // Split the commas to get X and Y
                                 String[] coords = split.split(",");
                                 // Coords go right-left, so subtract from 32 (x = -12, y = -12)
-                                polylines.add(new Point((int)(startX + Double.parseDouble(coords[0])),(int)(startY + Double.parseDouble(coords[1]))));
+                                polylines.add(new Point((int) (startX + Double.parseDouble(coords[0])), (int) (startY + Double.parseDouble(coords[1]))));
                             }
                             polygonTiles.put(currentId, polylines);
                         }
@@ -231,18 +244,23 @@ public class MapLoader implements Serializable {
                 Node tilesetObject = tilesets.item(i);
 
                 // Get the contents of a tileset
-                NodeList tilesetContents = tilesetObject.getChildNodes();
-
-                // Get index 1 (always the image property)
-                Node imageObject = tilesetContents.item(1);
-
-                // Get the source attribute
-                Node sourceObject = imageObject.getAttributes().getNamedItem("source");
+                String tsxFile = tilesetObject.getAttributes().item(1).getNodeValue();
 
                 // Get the source path and remove the first two dots
-                imageSource = sourceObject.getNodeValue().substring(2);
+                tsxFile = "/worlds/" + tsxFile;
 
-                if (imageSource.equals(imagePath)) {
+                setTsxDoc(tsxFile);
+
+                NodeList tileset = tsxDoc.getElementsByTagName("tileset");
+
+                // Get the image name
+                imageSource = tileset.item(0).getAttributes().item(1).getNodeValue();
+
+                // Get the source path and remove the first two dots
+                imageSource = "/textures/" + imageSource + ".png";
+
+                if(imageSource.equalsIgnoreCase(imagePath)) {
+                    setSolidTiles(tsxFile);
                     return i;
                 }
             }
@@ -254,34 +272,22 @@ public class MapLoader implements Serializable {
     }
 
     public static int getTileCount(String worldPath, int imageIndex) {
-        int tileCount = -1;
-
-        if (doc != null) {
-
-            // Get all tileset objects
-            NodeList tilesets = doc.getElementsByTagName("tileset");
-
-            Node n = tilesets.item(imageIndex);
-            Node inner = n.getAttributes().getNamedItem("tilecount");
-            tileCount = Integer.parseInt(inner.getNodeValue());
-            return tileCount;
-        }
-
-        System.out.println("Artifact 'tileCount' not found for resourcePath: " + worldPath + " in: MapLoader::getTileCount");
-        return -1;
+        return tileCount;
     }
 
     public static int getTileColumns(String worldPath, int imageIndex) {
 
         int columns = -1;
 
-        if (doc != null) {
+        if (tsxDoc != null) {
             // Get all tileset objects
-            NodeList tilesets = doc.getElementsByTagName("tileset");
+            NodeList tilesets = tsxDoc.getElementsByTagName("tileset");
 
-            Node n = tilesets.item(imageIndex);
+            Node n = tilesets.item(0);
             Node inner = n.getAttributes().getNamedItem("columns");
+            Node innerCount = n.getAttributes().getNamedItem("tilecount");
             columns = Integer.parseInt(inner.getNodeValue());
+            tileCount += Integer.parseInt(innerCount.getNodeValue());
             return columns;
         }
 

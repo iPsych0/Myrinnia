@@ -87,7 +87,7 @@ public class Display implements Serializable {
         frame.pack();
 
         // If supported, start game in fullscreen, otherwise center the windowed application
-        if (fullScreenSupported) {
+        if (!fullScreenSupported) {
             toggleFullScreen();
         } else {
             frame.setLocationRelativeTo(null);
