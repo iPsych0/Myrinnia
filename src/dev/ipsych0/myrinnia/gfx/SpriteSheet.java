@@ -21,7 +21,7 @@ public class SpriteSheet {
 
         if (isTileSet) {
             imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
-            columns = MapLoader.getTileColumns(Handler.initialWorldPath, imageIndex);
+            columns = MapLoader.getTileColumns(Handler.initialWorldPath);
         }
     }
 
@@ -58,6 +58,10 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
+        if(this.getImageIndex() == 9){
+            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, false);
+            return sheet.getSubimage(x, y, width, height);
+        }
 
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
@@ -128,5 +132,9 @@ public class SpriteSheet {
 
     public void setSheet(BufferedImage sheet) {
         this.sheet = sheet;
+    }
+
+    public int getImageIndex() {
+        return imageIndex;
     }
 }

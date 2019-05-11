@@ -1,10 +1,13 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.tiles.Tiles;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Assets {
 
@@ -166,37 +169,25 @@ public class Assets {
         /*
          * All Tiled Sprites
          */
-        SpriteSheet biome_tiles = new SpriteSheet("/textures/myrinnia_tileset.png", true);
-        SpriteSheet trees_sheet = new SpriteSheet("/textures/trees.png", true);
-        SpriteSheet beach_tiles = new SpriteSheet("/textures/tf_beach_tileB.png", true);
-        SpriteSheet outside_tiles = new SpriteSheet("/textures/tileA5_outside.png", true);
+        List<SpriteSheet> tileSheets = new ArrayList<>();
+        tileSheets.add(new SpriteSheet("/textures/tf_beach_tileB.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tf_beach_tileA1.png", true));
+        tileSheets.add(new SpriteSheet("/textures/castle.png", true));
+        tileSheets.add(new SpriteSheet("/textures/desert.png", true));
+        tileSheets.add(new SpriteSheet("/textures/dungeon.png", true));
+        tileSheets.add(new SpriteSheet("/textures/house.png", true));
+        tileSheets.add(new SpriteSheet("/textures/inside.png", true));
+        tileSheets.add(new SpriteSheet("/textures/outside.png", true));
+        tileSheets.add(new SpriteSheet("/textures/terrain.png", true));
+        tileSheets.add(new SpriteSheet("/textures/water.png", true));
 
+        Tiles.tiles = new Tiles[MapLoader.getTileCount()];
 
-        // Biome Tiles
-        for (int y = 0; y < biome_tiles.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < biome_tiles.getSheet().getWidth() / 32; x++) {
-                biome_tiles.tileCrop(x, y);
-            }
-        }
-
-        // Tree Tiles
-        for (int y = 0; y < trees_sheet.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < trees_sheet.getSheet().getWidth() / 32; x++) {
-                trees_sheet.tileCrop(x, y);
-            }
-        }
-
-        // Biome Tiles
-        for (int y = 0; y < beach_tiles.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < beach_tiles.getSheet().getWidth() / 32; x++) {
-                beach_tiles.tileCrop(x, y);
-            }
-        }
-
-        // Biome Tiles
-        for (int y = 0; y < outside_tiles.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < outside_tiles.getSheet().getWidth() / 32; x++) {
-                outside_tiles.tileCrop(x, y);
+        for(SpriteSheet tileSheet : tileSheets) {
+            for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
+                for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
+                    tileSheet.tileCrop(x, y);
+                }
             }
         }
 

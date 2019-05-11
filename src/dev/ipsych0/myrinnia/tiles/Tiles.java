@@ -9,10 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class Tiles {
 
-    // Set the Tiles-size to the maximum firstGID + the tilecount of the last tileset (aka the very last ID)
-    public static Tiles[] tiles = new Tiles[(SpriteSheet.firstGids[SpriteSheet.firstGids.length - 1]
-            + MapLoader.getTileCount(Handler.initialWorldPath, SpriteSheet.firstGids.length - 1))];
-
+    // In-game Tiles
+    public static Tiles[] tiles;
 
     public static final int TILEWIDTH = 32, TILEHEIGHT = 32;
 

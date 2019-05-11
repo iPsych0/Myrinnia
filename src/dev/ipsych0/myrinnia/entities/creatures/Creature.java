@@ -256,21 +256,21 @@ public abstract class Creature extends Entity {
      */
     BufferedImage getLastFacedImg() {
         if (lastFaced == null) {
-            return Assets.player_down[1];
+            return aDown.getDefaultFrame();
         }
         if (lastFaced == Direction.LEFT) {
-            return Assets.player_left[1];
+            return aLeft.getDefaultFrame();
         }
         if (lastFaced == Direction.RIGHT) {
-            return Assets.player_right[1];
+            return aRight.getDefaultFrame();
         }
         if (lastFaced == Direction.DOWN) {
-            return Assets.player_down[1];
+            return aDown.getDefaultFrame();
         }
         if (lastFaced == Direction.UP) {
-            return Assets.player_up[1];
+            return aUp.getDefaultFrame();
         }
-        return Assets.player_down[1];
+        return aDown.getDefaultFrame();
     }
 
     /*

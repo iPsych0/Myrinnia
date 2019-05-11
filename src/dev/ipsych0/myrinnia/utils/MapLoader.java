@@ -271,11 +271,11 @@ public class MapLoader implements Serializable {
         return -1;
     }
 
-    public static int getTileCount(String worldPath, int imageIndex) {
-        return tileCount;
+    public static int getTileCount() {
+        return 1 + tileCount;
     }
 
-    public static int getTileColumns(String worldPath, int imageIndex) {
+    public static int getTileColumns(String worldPath) {
 
         int columns = -1;
 
