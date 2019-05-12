@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="water" tilewidth="32" tileheight="32" tilecount="2805" columns="51">
  <image source="../textures/water.png" trans="000000" width="1632" height="1760"/>
+ <terraintypes>
+  <terrain name="SandWater" tile="1990"/>
+ </terraintypes>
  <tile id="0">
   <properties>
    <property name="postRendered" value="false"/>
@@ -11335,13 +11338,13 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1889">
+ <tile id="1889" terrain="0,0,0,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1890">
+ <tile id="1890" terrain="0,0,,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -11641,13 +11644,13 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1940">
+ <tile id="1940" terrain="0,,0,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1941">
+ <tile id="1941" terrain=",0,0,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -11941,19 +11944,19 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1990">
+ <tile id="1990" terrain=",,,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1991">
+ <tile id="1991" terrain=",,0,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1992">
+ <tile id="1992" terrain=",,0,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -12247,19 +12250,19 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2041">
+ <tile id="2041" terrain=",0,,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2042">
+ <tile id="2042" terrain="0,0,0,0">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2043">
+ <tile id="2043" terrain="0,,0,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -12553,19 +12556,19 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2092">
+ <tile id="2092" terrain=",0,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2093">
+ <tile id="2093" terrain="0,0,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="2094">
+ <tile id="2094" terrain="0,,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>

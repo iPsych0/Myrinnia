@@ -170,8 +170,7 @@ public class Assets {
          * All Tiled Sprites
          */
         List<SpriteSheet> tileSheets = new ArrayList<>();
-        tileSheets.add(new SpriteSheet("/textures/tf_beach_tileB.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tf_beach_tileA1.png", true));
+        tileSheets.add(new SpriteSheet("/textures/beach.png", true));
         tileSheets.add(new SpriteSheet("/textures/castle.png", true));
         tileSheets.add(new SpriteSheet("/textures/desert.png", true));
         tileSheets.add(new SpriteSheet("/textures/dungeon.png", true));
