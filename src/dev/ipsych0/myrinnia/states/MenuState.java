@@ -22,43 +22,41 @@ public class MenuState extends State {
      */
     private static final long serialVersionUID = 408918728311321161L;
     private UIManager uiManager;
-    private boolean loaded = false;
     private Rectangle newGameButton, continueButton, settingsButton, quitButton;
-    private boolean displayError = false;
-    private int errorDisplayTimer = 0;
-    private Rectangle errorPopup;
 
     public MenuState() {
         super();
         uiManager = new UIManager();
 
+        int yOffset = 0;
+        // Hide continue button if file not found
+        Path path = Paths.get(Handler.resourcePath + "savegames/save.dat");
+        if (Files.exists(path)) {
+            /*
+             * Continue Button
+             */
+            yOffset = 112;
+            continueButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 224, 224, 96);
+            uiManager.addObject(new UIImageButton(continueButton, Assets.genericButton));
+        }
+
         /*
          * New Game Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
-        newGameButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 376, 226, 96);
-
-
-        /*
-         * Continue Button
-         */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
-        continueButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 480, 226, 96);
+        newGameButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 224 + yOffset, 224, 96);
+        uiManager.addObject(new UIImageButton(newGameButton, Assets.genericButton));
 
         /*
          * Settings Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-        settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
+        settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 336 + yOffset, 224, 96);
+        uiManager.addObject(new UIImageButton(settingsButton, Assets.genericButton));
 
         /*
          * Quit Game Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton));
-        quitButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 688, 226, 96);
-
-        errorPopup = new Rectangle(Handler.get().getWidth() / 2 - 153, 224, 306, 58);
-
+        quitButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 448 + yOffset, 224, 96);
+        uiManager.addObject(new UIImageButton(quitButton, Assets.genericButton));
 
     }
 
@@ -75,33 +73,20 @@ public class MenuState extends State {
             }
         }
 
-        if (continueButton.contains(mouse)) {
+        if (continueButton != null && continueButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Path path = Paths.get(Handler.resourcePath + "savegames/save.dat");
-                if (Files.notExists(path)) {
-                    System.out.println(path.toString() + " does not exist.");
-                    hasBeenPressed = false;
-                    displayError = true;
-                    errorDisplayTimer = 0;
-                    return;
-                } else {
-                    SaveManager.loadHandler();
-                    State.setState(new UITransitionState(Handler.get().getGame().recapState));
-                    hasBeenPressed = false;
-                    return;
-                }
+                SaveManager.loadHandler();
+                State.setState(new UITransitionState(Handler.get().getGame().recapState));
+                hasBeenPressed = false;
             }
         }
 
         if (settingsButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 // Stop loading this UIManager and go to the settings screen
-                loaded = false;
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 SettingState.previousState = this;
                 hasBeenPressed = false;
-                displayError = false;
-                errorDisplayTimer = 0;
             }
         }
 
@@ -119,29 +104,18 @@ public class MenuState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
         uiManager.render(g);
 
-        if (displayError) {
-            errorDisplayTimer++;
-            if (errorDisplayTimer <= 120) {
-                g.drawImage(Assets.chatwindow, errorPopup.x, errorPopup.y, errorPopup.width, errorPopup.height, null);
-                Text.drawString(g, "You do not have a save file yet!", errorPopup.x + errorPopup.width / 2, errorPopup.y + errorPopup.height / 2, true, Color.YELLOW, Assets.font20);
-            } else {
-                errorDisplayTimer = 0;
-                displayError = false;
-            }
-        }
-
         // Render the text in the main menu
-        Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 192, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 224, true, Color.YELLOW, Assets.font20);
-        Text.drawString(g, "New Game", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Continue", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Quit Game", Handler.get().getWidth() / 2, 736, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 80, true, Color.YELLOW, Assets.font20);
+
+        if (continueButton != null) {
+            Text.drawString(g, "Continue", continueButton.x + continueButton.width / 2, continueButton.y + continueButton.height / 2, true, Color.YELLOW, Assets.font32);
+        }
+        Text.drawString(g, "New Game", newGameButton.x + newGameButton.width / 2, newGameButton.y + newGameButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Settings", settingsButton.x + settingsButton.width / 2, settingsButton.y + settingsButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Quit Game", quitButton.x + quitButton.width / 2, quitButton.y + quitButton.height / 2, true, Color.YELLOW, Assets.font32);
     }
 
 }

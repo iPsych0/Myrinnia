@@ -22,6 +22,11 @@ public class UIImageButton extends UIObject {
         this.images = images;
     }
 
+    public UIImageButton(Rectangle bounds, BufferedImage[] images) {
+        super(bounds.x, bounds.y, bounds.width, bounds.height);
+        this.images = images;
+    }
+
     @Override
     public void tick() {
 
