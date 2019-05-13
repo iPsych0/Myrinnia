@@ -22,7 +22,7 @@ public class MenuState extends State {
      */
     private static final long serialVersionUID = 408918728311321161L;
     private UIManager uiManager;
-    private Rectangle newGameButton, continueButton, settingsButton, quitButton;
+    private UIImageButton newGameButton, continueButton, settingsButton, quitButton;
 
     public MenuState() {
         super();
@@ -36,27 +36,27 @@ public class MenuState extends State {
              * Continue Button
              */
             yOffset = 112;
-            continueButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 224, 224, 96);
+            continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 224, 224, 96, Assets.genericButton);
             uiManager.addObject(new UIImageButton(continueButton, Assets.genericButton));
         }
 
         /*
          * New Game Button
          */
-        newGameButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 224 + yOffset, 224, 96);
-        uiManager.addObject(new UIImageButton(newGameButton, Assets.genericButton));
+        newGameButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 224 + yOffset, 224, 96, Assets.genericButton);
+        uiManager.addObject(newGameButton);
 
         /*
          * Settings Button
          */
-        settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 336 + yOffset, 224, 96);
-        uiManager.addObject(new UIImageButton(settingsButton, Assets.genericButton));
+        settingsButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 336 + yOffset, 224, 96, Assets.genericButton);
+        uiManager.addObject(settingsButton);
 
         /*
          * Quit Game Button
          */
-        quitButton = new Rectangle(Handler.get().getWidth() / 2 - 112, 448 + yOffset, 224, 96);
-        uiManager.addObject(new UIImageButton(quitButton, Assets.genericButton));
+        quitButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
+        uiManager.addObject(quitButton);
 
     }
 
@@ -107,7 +107,7 @@ public class MenuState extends State {
         uiManager.render(g);
 
         // Render the text in the main menu
-        Text.drawString(g, "Welcome to Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 80, true, Color.YELLOW, Assets.font20);
 
         if (continueButton != null) {

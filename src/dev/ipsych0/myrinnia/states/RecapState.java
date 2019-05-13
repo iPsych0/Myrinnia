@@ -20,8 +20,6 @@ public class RecapState extends State {
     private int index = 0;
 
     public RecapState() {
-        super();
-
         this.continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() / 2, 320, 96, Assets.genericButton);
         uiManager = new UIManager();
         uiManager.addObject(continueButton);

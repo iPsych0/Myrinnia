@@ -32,20 +32,20 @@ public class PauseState extends State {
         /*
          * Resume Game Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
-        resumeButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 376, 226, 96);
+        resumeButton = new Rectangle(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() / 2 - 160, 224, 96);
+        uiManager.addObject(new UIImageButton(resumeButton, Assets.genericButton));
 
         /*
          * Settings Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
-        settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 480, 226, 96);
+        settingsButton = new Rectangle(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() / 2 - 48, 224, 96);
+        uiManager.addObject(new UIImageButton(settingsButton, Assets.genericButton));
 
         /*
          * Quit Game Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-        quitButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
+        quitButton = new Rectangle(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96);
+        uiManager.addObject(new UIImageButton(quitButton, Assets.genericButton));
 
         dBox = new DialogueBox(Handler.get().getWidth() / 2 - 144, Handler.get().getHeight() / 2 - 80, 288, 160, answers, message, false);
 
@@ -102,6 +102,12 @@ public class PauseState extends State {
     private void confirmExit() {
         if (makingChoice && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
+                // Close window without visual delay
+                Frame frame = Handler.get().getGame().getDisplay().getFrame();
+                frame.setVisible(false);
+                frame.dispose();
+
+                // Clean up audio files
                 AudioManager.cleanUp();
                 System.exit(0);
             } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
@@ -115,15 +121,13 @@ public class PauseState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         uiManager.render(g);
 
         // Render the text in the main menu
-        Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Resume Game", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Quit Game", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Resume Game", Handler.get().getWidth() / 2, resumeButton.y + resumeButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Settings", Handler.get().getWidth() / 2, settingsButton.y + settingsButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Quit Game", Handler.get().getWidth() / 2, quitButton.y + quitButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         // If player is making a choice, show the dialoguebox
         if (makingChoice)

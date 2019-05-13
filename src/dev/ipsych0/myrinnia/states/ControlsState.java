@@ -35,7 +35,7 @@ public class ControlsState extends State {
     public ControlsState() {
         this.uiManager = new UIManager();
 
-        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 232, 640, 417);
+        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 112, 640, 417);
 
         invKey = new UIImageButton(overlay.x + 24, overlay.y + 32, 32, 32, Assets.genericButton);
         questKey = new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton);
@@ -74,7 +74,7 @@ public class ControlsState extends State {
         /*
          * The return button to the main menu
          */
-        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 113, 688, 226, 96, Assets.genericButton);
+        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
         uiManager.addObject(returnButton);
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
@@ -236,12 +236,10 @@ public class ControlsState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
 
-        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
 
         for (UIObject o : uiManager.getObjects()) {
             if (!o.equals(returnButton)) {

@@ -17,7 +17,7 @@ public class SettingState extends State {
      */
     private static final long serialVersionUID = -5598711872871726397L;
     private UIManager uiManager;
-    private Rectangle fullScreenButton, controlsButton, muteSoundButton, returnButton;
+    private UIImageButton fullScreenButton, controlsButton, muteSoundButton, returnButton;
     private Rectangle soundPopup;
     private boolean displaySoundPressed = false;
     private int displaySoundTimer = 0;
@@ -30,28 +30,28 @@ public class SettingState extends State {
         /*
          * Fullscreen Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 272, 226, 96, Assets.genericButton));
-        fullScreenButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 272, 226, 96);
+        fullScreenButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 224, 224, 96, Assets.genericButton);
+        uiManager.addObject(fullScreenButton);
 
         /*
          * Controls Button
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 376, 226, 96, Assets.genericButton));
-        controlsButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 376, 226, 96);
+        controlsButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 336, 224, 96, Assets.genericButton);
+        uiManager.addObject(controlsButton);
 
         /*
          * Mute Sound
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 480, 226, 96, Assets.genericButton));
-        muteSoundButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 480, 226, 96);
+        muteSoundButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, 448, 224, 96, Assets.genericButton);
+        uiManager.addObject(muteSoundButton);
 
         /*
          * The return button to the main menu
          */
-        uiManager.addObject(new UIImageButton(Handler.get().getWidth() / 2 - 113, 584, 226, 96, Assets.genericButton));
-        returnButton = new Rectangle(Handler.get().getWidth() / 2 - 113, 584, 226, 96);
+        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
+        uiManager.addObject(returnButton);
 
-        soundPopup = new Rectangle(Handler.get().getWidth() / 2 - 153, 224, 306, 58);
+        soundPopup = new Rectangle(Handler.get().getWidth() / 2 - 153, 80, 306, 64);
     }
 
     @Override
@@ -110,9 +110,6 @@ public class SettingState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-//			g.drawImage(Assets.craftWindow, -40, -40, 1040, 800, null);
         this.uiManager.render(g);
 
         if (displaySoundPressed) {
@@ -130,15 +127,15 @@ public class SettingState extends State {
         }
 
         if (previousState == Handler.get().getGame().menuState)
-            Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+            Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
         else
-            Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 180, true, Color.YELLOW, Assets.font32);
+            Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
 
         String screenSize = Handler.get().getGame().getDisplay().isFullScreen() ? "Windowed Mode" : "Fullscreen Mode";
-        Text.drawString(g, screenSize, Handler.get().getWidth() / 2, 320, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 424, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Mute Sounds", Handler.get().getWidth() / 2, 528, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Return", Handler.get().getWidth() / 2, 632, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, screenSize, Handler.get().getWidth() / 2, fullScreenButton.y + fullScreenButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, controlsButton.y + controlsButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Mute Sounds", Handler.get().getWidth() / 2, muteSoundButton.y + muteSoundButton.height / 2, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Return", Handler.get().getWidth() / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
     }
 
 
