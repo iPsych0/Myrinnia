@@ -170,7 +170,6 @@ public class Assets {
          * All Tiled Sprites
          */
         List<SpriteSheet> tileSheets = new ArrayList<>();
-        tileSheets.add(new SpriteSheet("/textures/beach.png", true));
         tileSheets.add(new SpriteSheet("/textures/castle.png", true));
         tileSheets.add(new SpriteSheet("/textures/desert.png", true));
         tileSheets.add(new SpriteSheet("/textures/dungeon.png", true));
@@ -179,6 +178,7 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/outside.png", true));
         tileSheets.add(new SpriteSheet("/textures/terrain.png", true));
         tileSheets.add(new SpriteSheet("/textures/water.png", true));
+        tileSheets.add(new SpriteSheet("/textures/beach.png", true));
 
         Tiles.tiles = new Tiles[MapLoader.getTileCount()];
 

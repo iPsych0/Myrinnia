@@ -58,11 +58,6 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
-        if(this.getImageIndex() == 9){
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, false, false);
-            return sheet.getSubimage(x, y, width, height);
-        }
-
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
             List<Point> points = MapLoader.polygonTiles.get(tileId);

@@ -308,8 +308,9 @@ public abstract class Creature extends Entity {
             if (t != null && t.isSolid()) {
                 walkableOnTop = false;
             } else {
-                if (t != null && t != Tiles.tiles[0])
+                if (t != null && t != Tiles.tiles[0]) {
                     walkableOnTop = true;
+                }
             }
         }
         return !walkableOnTop;
