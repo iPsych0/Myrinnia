@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -17,7 +17,7 @@ public class DirtHole extends StaticEntity {
     private int ySpawn = (int) getY();
 
     private DirtHole(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         isNpc = true;
         attackable = false;

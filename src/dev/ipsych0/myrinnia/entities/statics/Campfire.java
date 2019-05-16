@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -23,7 +23,7 @@ public class Campfire extends StaticEntity {
     private Animation campfire;
 
     private Campfire(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         script = Utils.loadScript("campfire.json");
 

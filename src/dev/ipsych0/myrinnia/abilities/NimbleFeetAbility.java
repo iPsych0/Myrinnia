@@ -40,7 +40,7 @@ public class NimbleFeetAbility extends Ability {
     @Override
     public void cast() {
         if (!initialBoostDone) {
-            baseMovementBoost = 1.0f;
+            baseMovementBoost = 1.0;
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
             Handler.get().playEffect("abilities/nimble_feet.wav");

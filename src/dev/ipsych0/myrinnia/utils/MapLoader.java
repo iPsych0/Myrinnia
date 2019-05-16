@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapLoader implements Serializable {
 
@@ -25,9 +26,10 @@ public class MapLoader implements Serializable {
     private static final long serialVersionUID = 5948158902228537298L;
     private static SAXParser saxParser;
     private static DocumentBuilder builder;
-    public static HashMap<Integer, Boolean> solidTiles = new HashMap<>();
-    public static HashMap<Integer, Boolean> postRenderTiles = new HashMap<>();
-    public static HashMap<Integer, List<Point>> polygonTiles = new HashMap<>();
+    public static Map<Integer, Boolean> solidTiles = new HashMap<>();
+    public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
+    public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
+    public static Map<Integer, List<Integer>> animationMap = new HashMap<>();
     private static Document doc, tsxDoc;
     private static int tileCount, lastId;
 
@@ -80,17 +82,32 @@ public class MapLoader implements Serializable {
 
                 private boolean solidPropertyFound = false;
                 private boolean postRenderedPropertyFound = false;
+                private boolean animationPropertyFound = false;
                 private boolean solid;
                 private boolean postRender;
-                private int currentId;
+                private boolean init;
+                private List<Integer> animationIds = new ArrayList<>();
+                private int currentId, firstGid;
                 private int startX, startY;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
 
+                    if(!init){
+                        firstGid = 1 + lastId;
+                        init = true;
+                    }
+
                     if (qName.equalsIgnoreCase("tile")) {
                         // Always increment tile ID by 1, as every next TileSet starts at ID 0 again
-                        currentId = 1 + lastId++;
+                        currentId = 1 + lastId;
+
+                        // If new tile checked, clear old data
+                        if(currentId != lastId){
+                            animationIds = new ArrayList<>();
+                        }
+
+                        lastId++;
                     } else if (qName.equalsIgnoreCase("property")) {
                         if (attributes.getValue("name").equalsIgnoreCase("solid")) {
                             solidPropertyFound = true;
@@ -99,6 +116,13 @@ public class MapLoader implements Serializable {
                             postRenderedPropertyFound = true;
                             postRender = Boolean.parseBoolean(attributes.getValue("value"));
                         }
+                    } else if (qName.equalsIgnoreCase("frame")) {
+                        // If new tile checked, clear old data
+                        if(currentId != lastId){
+                            animationIds.clear();
+                        }
+                        animationPropertyFound = true;
+                        animationIds.add(firstGid + Integer.parseInt(attributes.getValue("tileid")));
                     } else if (qName.equalsIgnoreCase("object")) {
                         startX = (int) Double.parseDouble(attributes.getValue("x"));
                         startY = (int) Double.parseDouble(attributes.getValue("y"));
@@ -127,6 +151,10 @@ public class MapLoader implements Serializable {
                     if (postRenderedPropertyFound) {
                         postRenderTiles.put(currentId, postRender);
                         postRenderedPropertyFound = false;
+                    }
+                    if(animationPropertyFound){
+                        animationMap.put(currentId, animationIds);
+                        animationPropertyFound = false;
                     }
 
                 }

@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
@@ -180,7 +180,7 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/water.png", true));
         tileSheets.add(new SpriteSheet("/textures/beach.png", true));
 
-        Tiles.tiles = new Tiles[MapLoader.getTileCount()];
+        Tile.tiles = new Tile[MapLoader.getTileCount()];
 
         for(SpriteSheet tileSheet : tileSheets) {
             for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {

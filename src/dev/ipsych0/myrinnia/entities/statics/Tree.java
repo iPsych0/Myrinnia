@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -26,7 +26,7 @@ public class Tree extends StaticEntity {
     private int attempts = 0;
 
     public Tree(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         isNpc = true;
         attackable = false;

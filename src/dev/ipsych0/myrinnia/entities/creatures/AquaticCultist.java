@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -44,7 +44,7 @@ public class AquaticCultist extends Creature {
             baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
             exponent *= LEVEL_EXPONENT;
         }
-        attackRange = Tiles.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 6;
 
         bounds.x = 0;
         bounds.y = 0;

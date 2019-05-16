@@ -1,7 +1,8 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.AnimatedTile;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
@@ -58,6 +59,7 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
+
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
             List<Point> points = MapLoader.polygonTiles.get(tileId);
@@ -67,9 +69,17 @@ public class SpriteSheet {
                 xCoords[i] = (int) points.get(i).getX();
                 yCoords[i] = (int) points.get(i).getY();
             }
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
+            if (MapLoader.animationMap.get(tileId) != null) {
+                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
+            } else {
+                Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
+            }
         } else {
-            Tiles.tiles[tileId] = new Tiles(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+            if (MapLoader.animationMap.get(tileId) != null) {
+                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
+            } else {
+                Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+            }
         }
 
         return sheet.getSubimage(x, y, width, height);
@@ -102,7 +112,7 @@ public class SpriteSheet {
     private BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
 
         // Multiply by 32 pixel Tiles
-        if(!customXandY) {
+        if (!customXandY) {
             x *= 32;
             y *= 32;
         }

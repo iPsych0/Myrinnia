@@ -10,7 +10,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -51,7 +51,7 @@ public abstract class Creature extends Entity {
     float attackSpeed;
     int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
-    int attackRange = Tiles.TILEWIDTH * 2;
+    int attackRange = Tile.TILEWIDTH * 2;
     ArrayList<Projectile> projectiles = new ArrayList<>();
 
     // Walking timer
@@ -144,26 +144,26 @@ public abstract class Creature extends Entity {
         if (xMove > 0) { // Moving right
             direction = Direction.RIGHT;
             lastFaced = Direction.RIGHT;
-            float tx = (x + xMove + bounds.x + bounds.width) / Tiles.TILEWIDTH;
+            float tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
 
-            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, true) &&
-                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, true)) {
+            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
+                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
                 x += xMove;
             } else {
-                x = tx * Tiles.TILEWIDTH - bounds.x - bounds.width - xMove;
+                x = tx * Tile.TILEWIDTH - bounds.x - bounds.width - xMove;
             }
 
         } else if (xMove < 0) { // Moving left
             direction = Direction.LEFT;
             lastFaced = Direction.LEFT;
-            float tx = (x + xMove + bounds.x) / Tiles.TILEWIDTH;
+            float tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
 
-            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, true) &&
-                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, true)) {
+            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
+                    !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
 
                 x += xMove;
             } else {
-                x = tx * Tiles.TILEWIDTH - bounds.x - xMove;
+                x = tx * Tile.TILEWIDTH - bounds.x - xMove;
             }
         } else if (xMove == 0) {
             direction = lastFaced;
@@ -177,25 +177,25 @@ public abstract class Creature extends Entity {
         if (yMove < 0) { // Up
             direction = Direction.UP;
             lastFaced = Direction.UP;
-            float ty = (y + yMove + bounds.y) / Tiles.TILEHEIGHT;
+            float ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, false) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, false)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
-                y = ty * Tiles.TILEHEIGHT - bounds.y - yMove;
+                y = ty * Tile.TILEHEIGHT - bounds.y - yMove;
             }
 
         } else if (yMove > 0) { // Down
             direction = Direction.DOWN;
             lastFaced = Direction.DOWN;
-            float ty = (y + yMove + bounds.y + bounds.height) / Tiles.TILEHEIGHT;
+            float ty = (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, false) &&
-                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, false)) {
+            if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
+                    !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
-                y = ty * Tiles.TILEHEIGHT - bounds.y - bounds.height - yMove;
+                y = ty * Tile.TILEHEIGHT - bounds.y - bounds.height - yMove;
             }
         } else if (yMove == 0) {
             direction = lastFaced;
@@ -283,7 +283,7 @@ public abstract class Creature extends Entity {
 
         boolean walkableOnTop = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-            Tiles t = Handler.get().getWorld().getTile(i, x, y);
+            Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
                     walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
@@ -291,7 +291,7 @@ public abstract class Creature extends Entity {
                     walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
             } else {
-                if (t != null && t != Tiles.tiles[0])
+                if (t != null && t != Tile.tiles[0])
                     walkableOnTop = true;
             }
         }
@@ -304,11 +304,11 @@ public abstract class Creature extends Entity {
     public boolean collisionWithTile(int x, int y) {
         boolean walkableOnTop = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-            Tiles t = Handler.get().getWorld().getTile(i, x, y);
+            Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 walkableOnTop = false;
             } else {
-                if (t != null && t != Tiles.tiles[0]) {
+                if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
                 }
             }

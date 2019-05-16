@@ -19,7 +19,7 @@ import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -152,34 +152,35 @@ public abstract class World implements Serializable {
 //        g.setColor(Color.BLACK);
 //        g.fillRect(0, 0, screenWidth, screenheight);
         // Set variables for rendering only the tiles that show on screen
-        int xStart = (int) Math.max(0, xOffset / Tiles.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tiles.TILEWIDTH + 1);
-        int yStart = (int) Math.max(0, yOffset / Tiles.TILEHEIGHT);
-        int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tiles.TILEHEIGHT + 1);
+        int xStart = (int) Math.max(0, xOffset / Tile.TILEWIDTH);
+        int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tile.TILEWIDTH + 1);
+        int yStart = (int) Math.max(0, yOffset / Tile.TILEHEIGHT);
+        int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tile.TILEHEIGHT + 1);
 
         // Render the tiles
-        List<Tiles> renderOverTiles = new ArrayList<>();
+        List<Tile> renderOverTiles = new ArrayList<>();
         List<Integer> xCoords = new ArrayList<>();
         List<Integer> yCoords = new ArrayList<>();
         for (int i = 0; i < layers.length; i++) {
             for (int y = yStart; y < yEnd; y++) {
                 for (int x = xStart; x < xEnd; x++) {
-                    Tiles t = getTile(i, x, y);
-                    if (t != Tiles.tiles[0]) {
-                        int xPos = (int) (x * Tiles.TILEWIDTH - xOffset);
-                        int yPos = (int) (y * Tiles.TILEHEIGHT - yOffset);
+                    Tile t = getTile(i, x, y);
+                    if (t != Tile.tiles[0]) {
+                        int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                        int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
                         if (t.isPostRendered()) {
                             renderOverTiles.add(t);
                             xCoords.add(xPos);
                             yCoords.add(yPos);
                             continue;
                         }
+                        t.tick();
                         t.render(g, xPos, yPos);
                         if (Handler.debugCollision) {
                             g.setColor(AStarMap.unwalkableColour);
-                            g.drawRect(xPos, yPos, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                            g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
                             if (t.isSolid()) {
-                                g.fillRect(xPos, yPos, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+                                g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
                             }
                         }
                     }
@@ -194,6 +195,7 @@ public abstract class World implements Serializable {
         // Entities
         entityManager.render(g);
         for (int i = 0; i < renderOverTiles.size(); i++) {
+            renderOverTiles.get(i).tick();
             renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
         }
         entityManager.postRender(g);
@@ -239,10 +241,10 @@ public abstract class World implements Serializable {
 
     }
 
-    public Tiles getTile(int layer, int x, int y) {
+    public Tile getTile(int layer, int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height)
             return null;
-        return Tiles.tiles[tiles[layer][x][y]];
+        return Tile.tiles[tiles[layer][x][y]];
     }
 
     protected boolean standingOnTile(Rectangle box) {

@@ -1,16 +1,14 @@
 package dev.ipsych0.myrinnia.tiles;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.SpriteSheet;
-import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Tiles {
+public class Tile {
 
     // In-game Tiles
-    public static Tiles[] tiles;
+    public static Tile[] tiles;
 
     public static final int TILEWIDTH = 32, TILEHEIGHT = 32;
 
@@ -23,13 +21,13 @@ public class Tiles {
     private boolean initialized, reset;
     private int lastX = -1, lastY = -1;
 
-    public Tiles(BufferedImage texture, int id, boolean solid) {
+    public Tile(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
         this.id = id;
         this.solid = solid;
     }
 
-    public Tiles(BufferedImage texture, int id, int[] x, int[] y) {
+    public Tile(BufferedImage texture, int id, int[] x, int[] y) {
         this.texture = texture;
         this.id = id;
         this.solid = true;
@@ -38,7 +36,7 @@ public class Tiles {
         this.bounds = new Polygon(x, y, (x.length + y.length) / 2);
     }
 
-    public Tiles(BufferedImage texture, int id, boolean solid, boolean postRendered) {
+    public Tile(BufferedImage texture, int id, boolean solid, boolean postRendered) {
         this.texture = texture;
         this.id = id;
         // Always false, because there is no point in post-render if an Entity can't walk behind this Tile
@@ -69,7 +67,7 @@ public class Tiles {
     }
 
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(texture, x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT, null);
+        g.drawImage(texture, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
         if (Handler.debugCollision && bounds != null) {
             int[] xArr, yArr;
             xArr = xPoints.clone();

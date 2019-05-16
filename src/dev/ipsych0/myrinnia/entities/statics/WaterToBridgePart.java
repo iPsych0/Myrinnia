@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -21,7 +21,7 @@ public class WaterToBridgePart extends StaticEntity {
     private String[] secondDialogue = {"Fix the bridge. (Use 5 logs)", "Leave the bridge."};
 
     public WaterToBridgePart(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         isNpc = true;
         attackable = false;

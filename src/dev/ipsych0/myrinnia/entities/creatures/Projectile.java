@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -57,12 +57,12 @@ public class Projectile extends Creature implements Serializable {
         if (active) {
             projectile.tick();
 
-            float ty = (y + (float)yVelocity + bounds.y + (bounds.height / 2)) / Tiles.TILEHEIGHT;
-            float tx = (x + (float)xVelocity + bounds.x + (bounds.width / 2)) / Tiles.TILEWIDTH;
-            if (collisionWithTile((int) (x + bounds.x) / Tiles.TILEWIDTH, (int) ty, true) ||
-                    collisionWithTile((int) (x + bounds.x + bounds.width) / Tiles.TILEWIDTH, (int) ty, true) ||
-                    collisionWithTile((int) tx, (int) (y + bounds.y) / Tiles.TILEHEIGHT, false) ||
-                            collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tiles.TILEHEIGHT, false)) {
+            float ty = (y + (float)yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
+            float tx = (x + (float)xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
+            if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
+                    collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
+                    collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||
+                            collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, false)) {
                 active = false;
                 return;
             }

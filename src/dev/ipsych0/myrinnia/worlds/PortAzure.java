@@ -35,7 +35,8 @@ public class PortAzure extends World {
 //        entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
-        entityManager.addEntity(new FishingSpot(832, 2868));
+        entityManager.addEntity(new FishingSpot(928, 2520));
+        entityManager.addEntity(new FishingSpot(1312, 2584));
 //        entityManager.addEntity(new Campfire(2080, 2600));
 
         // World Item Spawns

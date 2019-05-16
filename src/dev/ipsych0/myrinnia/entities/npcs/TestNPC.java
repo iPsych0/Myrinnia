@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestStep;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ public class TestNPC extends StaticEntity {
     private static final long serialVersionUID = 101550362959052644L;
 
     public TestNPC(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         script = Utils.loadScript("testnpc1.json");
         solid = true;
