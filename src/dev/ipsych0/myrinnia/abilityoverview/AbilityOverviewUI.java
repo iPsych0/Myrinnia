@@ -230,8 +230,8 @@ public class AbilityOverviewUI implements Serializable {
             }
 
             g.setColor(selectedColor);
-            g.fillRoundRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height, 4, 4);
-            g.fillRoundRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height, 4, 4);
+            g.fillRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height);
+            g.fillRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height);
         }
     }
 

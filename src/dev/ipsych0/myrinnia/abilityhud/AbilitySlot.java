@@ -41,11 +41,11 @@ public class AbilitySlot extends UIImageButton implements Serializable {
             ability.render(g, x, y);
             if (ability.isSelectable() && ability.isSelected()) {
                 g.setColor(selectedColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
             if (ability.isOnCooldown()) {
                 g.setColor(cooldownColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
 
             }
@@ -59,7 +59,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
             ability.render(g, x, y);
             if (!ability.isUnlocked()) {
                 g.setColor(cooldownColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
         }
     }

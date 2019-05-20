@@ -234,9 +234,9 @@ public class SkillsUI implements Serializable {
 
     private void drawXpProgress(Graphics2D g, Rectangle skillRect, SkillsList skill) {
         g.setColor(HPOverlay.xpColor);
-        g.fillRoundRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4, 2, 4);
+        g.fillRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
         g.setColor(HPOverlay.xpColorOutline);
-        g.drawRoundRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4, 2, 4);
+        g.drawRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
 
         // Icon
         g.drawImage(Handler.get().getSkill(skill).getImg(), skillRect.x + 4, skillRect.y, null);

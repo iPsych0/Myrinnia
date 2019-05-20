@@ -243,7 +243,7 @@ public class AbilityHUD implements Serializable {
         } else {
             g.setColor(lockedColor);
         }
-        g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
+        g.fillRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height);
         g.drawImage(Assets.locked, lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
 
         if (unlockButton.contains(mouse)) {
@@ -251,7 +251,7 @@ public class AbilityHUD implements Serializable {
         } else {
             g.setColor(unlockedColor);
         }
-        g.fillRoundRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, 2, 2);
+        g.fillRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
         g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
 
 //      hpBar.render(g);

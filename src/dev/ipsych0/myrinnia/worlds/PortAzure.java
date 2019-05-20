@@ -3,6 +3,9 @@ package dev.ipsych0.myrinnia.worlds;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.AquaticCultist;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
+import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
+import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
+import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
 import dev.ipsych0.myrinnia.worlds.data.World;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
@@ -29,10 +32,10 @@ public class PortAzure extends World {
 
         entityManager.addEntity(new SavingShrine(2304, 1888));
         entityManager.addEntity(new AquaticCultist(2304, 1632));
-//        entityManager.addEntity(new TestNPC(1440, 2560));
-//        entityManager.addEntity(new AbilityMaster(1504, 2336));
-//        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
-//        entityManager.addEntity(new CraftingStation(1504, 2400));
+        entityManager.addEntity(new TestNPC(1440, 2560));
+        entityManager.addEntity(new AbilityMaster(1504, 2336));
+        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
+        entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
         entityManager.addEntity(new FishingSpot(928, 2520));

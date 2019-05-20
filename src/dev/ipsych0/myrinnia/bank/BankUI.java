@@ -346,7 +346,7 @@ public class BankUI implements Serializable {
                 tab.render(g);
                 if (tab.isOpen()) {
                     g.setColor(selectedColor);
-                    g.fillRoundRect(tab.x, tab.y, tab.width, tab.height, 4, 4);
+                    g.fillRect(tab.x, tab.y, tab.width, tab.height);
                     for(ItemSlot is : tab.getBankSlots()){
                         if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
                             itemTooltip.render(is.getItemStack().getItem(), g);

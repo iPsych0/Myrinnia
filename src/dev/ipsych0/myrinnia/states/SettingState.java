@@ -16,9 +16,11 @@ public class SettingState extends State {
     private static final long serialVersionUID = -5598711872871726397L;
     private UIManager uiManager;
     private UIImageButton graphicsButton, controlsButton, audioButton, returnButton;
+    private UIImageButton selectedButton;
     public static State previousState;
     public static State selectedState;
     private Rectangle overlay;
+    private Color selectedColor = new Color(0, 255, 255, 62);
 
     public SettingState() {
         this.uiManager = new UIManager();
@@ -50,6 +52,8 @@ public class SettingState extends State {
         returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
         uiManager.addObject(returnButton);
 
+        selectedButton = graphicsButton;
+
     }
 
     @Override
@@ -60,6 +64,7 @@ public class SettingState extends State {
         if (graphicsButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 selectedState = Handler.get().getGame().graphicsState;
+                selectedButton = graphicsButton;
                 hasBeenPressed = false;
             }
         }
@@ -67,6 +72,7 @@ public class SettingState extends State {
         if (audioButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 selectedState = Handler.get().getGame().audioState;
+                selectedButton = audioButton;
                 hasBeenPressed = false;
             }
         }
@@ -74,6 +80,7 @@ public class SettingState extends State {
         if (controlsButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 selectedState = Handler.get().getGame().controlsState;
+                selectedButton = controlsButton;
                 hasBeenPressed = false;
             }
         }
@@ -98,6 +105,9 @@ public class SettingState extends State {
     public void render(Graphics2D g) {
         g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
+
+        g.setColor(selectedColor);
+        g.fillRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height);
 
         Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
 

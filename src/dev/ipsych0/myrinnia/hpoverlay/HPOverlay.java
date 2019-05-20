@@ -179,30 +179,30 @@ public class HPOverlay implements Serializable {
 
         // HP Bar
         g.setColor(hpColorRed);
-        g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+        g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
         g.setColor(hpColorRedOutline);
-        g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+        g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
         g.setColor(hpColorGreen);
         if (Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
-            g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+            g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
             g.setColor(hpColorGreenOutline);
-            g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+            g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
         } else {
-            g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
-                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+            g.fillRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
+                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
 
             g.setColor(hpColorGreenOutline);
-            g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
-                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+            g.drawRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
+                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
         }
 
         // XP bar
         g.setColor(xpColor);
-        g.fillRoundRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4, 2, 4);
+        g.fillRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
         g.setColor(xpColorOutline);
-        g.drawRoundRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4, 2, 4);
+        g.drawRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
 
         Text.drawString(g, "Combat level: " + Integer.toString(Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()),
                 combatBar.x + combatBar.width / 2, combatBar.y + combatBar.height / 2, true, Color.YELLOW, Assets.font14);

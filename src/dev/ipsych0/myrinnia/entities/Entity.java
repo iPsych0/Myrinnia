@@ -341,27 +341,27 @@ public abstract class Entity implements Serializable {
 
     public void drawHP(Graphics2D g) {
         g.setColor(HPOverlay.hpColorRed);
-        g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
+        g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         g.setColor(HPOverlay.hpColorRedOutline);
-        g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
+        g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
 
         g.setColor(HPOverlay.hpColorGreen);
         if (health >= maxHealth) {
-            g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
+            g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6, 0, 4);
+            g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         } else {
-            g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+            g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
-                            (double) this.getMaxHealth()), 6, 0, 4);
+                            (double) this.getMaxHealth()), 6);
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+            g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
-                            (double) this.getMaxHealth()), 6, 0, 4);
+                            (double) this.getMaxHealth()), 6);
         }
     }
 
