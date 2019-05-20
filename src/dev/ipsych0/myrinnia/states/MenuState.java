@@ -86,6 +86,7 @@ public class MenuState extends State {
                 // Stop loading this UIManager and go to the settings screen
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 SettingState.previousState = this;
+                SettingState.selectedState = Handler.get().getGame().graphicsState;
                 hasBeenPressed = false;
             }
         }

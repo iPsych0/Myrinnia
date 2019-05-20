@@ -11,6 +11,8 @@ import dev.ipsych0.myrinnia.states.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game implements Runnable, Serializable {
 
@@ -40,6 +42,8 @@ public class Game implements Runnable, Serializable {
     public State controlsState;
     public State pauseState;
     public State recapState;
+    public State graphicsState;
+    public State audioState;
 
     // Input
     private KeyManager keyManager;
@@ -52,6 +56,9 @@ public class Game implements Runnable, Serializable {
     private static Handler handler;
     private static final int MIN_RES_WIDTH = 1366;
     private static final int MIN_RES_HEIGHT = 768;
+
+    private Map<RenderingHints.Key, Object> renderHintMap;
+    private RenderingHints renderingHints;
 
     public static Game get() {
         if (game == null) {
@@ -66,6 +73,22 @@ public class Game implements Runnable, Serializable {
         this.title = title;
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        renderHintMap = new HashMap<>();
+
+        // Default rendering settings
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_DEFAULT);
+
+        updateRenderingHints();
     }
 
     private void init() {
@@ -92,6 +115,8 @@ public class Game implements Runnable, Serializable {
         controlsState = new ControlsState();
         pauseState = new PauseState();
         recapState = new RecapState();
+        graphicsState = new GraphicsState();
+        audioState = new AudioState();
 
 
         AudioManager.init();
@@ -107,6 +132,49 @@ public class Game implements Runnable, Serializable {
         String muted = Handler.get().loadProperty("muted");
         Handler.get().setSoundMuted(Boolean.parseBoolean(muted));
         keyManager.loadKeybinds();
+    }
+
+    public void setRenderingHint(RenderingHints.Key key, Object value) {
+        renderHintMap.put(key, value);
+        updateRenderingHints();
+    }
+
+    public void setPerformanceRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_OFF);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_SPEED);
+        updateRenderingHints();
+    }
+
+    public void setQualityRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        updateRenderingHints();
+    }
+
+    public void setDefaultRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_DEFAULT);
+        updateRenderingHints();
+    }
+
+    private void updateRenderingHints() {
+        renderingHints = new RenderingHints(renderHintMap);
+    }
+
+    private RenderingHints getRenderingHints() {
+        return renderingHints;
     }
 
     private void tick() {
@@ -127,20 +195,14 @@ public class Game implements Runnable, Serializable {
         g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D)g;
 
+        // Set the chosen rendering hints
+        g2d.setRenderingHints(renderingHints);
+
+        // Scale the screen based on original size
         g2d.scale(Display.scaleX, Display.scaleY);
 
         // Clear screen
         g2d.clearRect(0, 0, width, height);
-
-        // Set anti-aliasing text
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//                RenderingHints.VALUE_ANTIALIAS_ON);
-//
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
 
         if (State.getState() != null) {
             State.getState().render(g2d);

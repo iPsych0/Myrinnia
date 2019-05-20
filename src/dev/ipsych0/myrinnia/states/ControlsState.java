@@ -35,7 +35,7 @@ public class ControlsState extends State {
     public ControlsState() {
         this.uiManager = new UIManager();
 
-        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 112, 640, 417);
+        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
         invKey = new UIImageButton(overlay.x + 24, overlay.y + 32, 32, 32, Assets.genericButton);
         questKey = new UIImageButton(overlay.x + 24, overlay.y + 72, 32, 32, Assets.genericButton);
@@ -238,8 +238,6 @@ public class ControlsState extends State {
     public void render(Graphics2D g) {
         g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
-
-        Text.drawString(g, "Controls", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
 
         for (UIObject o : uiManager.getObjects()) {
             if (!o.equals(returnButton)) {
