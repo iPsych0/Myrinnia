@@ -48,12 +48,10 @@ public class DropDownBox extends UIImageButton {
     }
 
     public void tick() {
+        uiManager.tick();
+
         Rectangle mouse = Handler.get().getMouse();
-        if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            open = true;
-            this.height = 16 * itemsPerView;
-            hasBeenPressed = false;
-        } else if (!this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+        if (!this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             open = false;
             hasBeenPressed = false;
             this.height = 16;
@@ -61,12 +59,12 @@ public class DropDownBox extends UIImageButton {
 
         if (open) {
 
-            // TODO: CHANGE SELECTED INDEX BASED ON WHICH ELEMENT IS SELECTED
             for (int i = currentIndex; i < scrollMax; i++) {
                 Rectangle bounds = uiManager.getObjects().get(i);
                 if (bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                     selectedIndex = i;
                     hasBeenPressed = false;
+                    open = false;
                     break;
                 }
             }
@@ -78,8 +76,13 @@ public class DropDownBox extends UIImageButton {
                 scrollDown();
                 scrolledDown = false;
             }
+        } else {
+            if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                open = true;
+                this.height = 16 * itemsPerView;
+                hasBeenPressed = false;
+            }
         }
-        uiManager.tick();
     }
 
     private void scrollUp() {

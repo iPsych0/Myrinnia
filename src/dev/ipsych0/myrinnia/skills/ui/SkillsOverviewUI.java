@@ -28,7 +28,7 @@ public class SkillsOverviewUI implements Serializable {
     private SkillCategory selectedCategory;
     public static boolean hasBeenPressed = false;
     private ScrollBar scrollBar;
-    private int maxPerScreen = 8;
+    private static final int maxPerScreen = 8;
     private ArrayList<CategoryButton> categories;
     private Rectangle bounds;
     private UIImageButton exit;
