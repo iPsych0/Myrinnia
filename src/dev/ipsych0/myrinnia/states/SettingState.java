@@ -89,6 +89,8 @@ public class SettingState extends State {
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(previousState));
+                selectedState = Handler.get().getGame().graphicsState;
+                selectedButton = graphicsButton;
                 hasBeenPressed = false;
                 AudioState.displaySoundPressed = false;
                 AudioState.displaySoundTimer = 0;

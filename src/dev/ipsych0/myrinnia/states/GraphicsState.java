@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 
@@ -41,5 +42,18 @@ public class GraphicsState extends State {
     @Override
     public void render(Graphics2D g) {
         uiManager.render(g);
+
+        g.drawImage(Assets.genericButton[1], overlay.x + overlay.width / 4, overlay.y + 64, overlay.width - overlay.width / 4 - 32, overlay.height - 168, null);
+
+        Text.drawString(g, "Display:", overlay.x + 8, overlay.y + 32, false, Color.YELLOW, Assets.font24);
+        Text.drawString(g, "Display mode:", overlay.x + 8, overlay.y + 80, false, Color.YELLOW, Assets.font20);
+        Text.drawString(g, "Resolution:", overlay.x + 8, overlay.y + 112, false, Color.YELLOW, Assets.font20);
+
+        Text.drawString(g, "Graphics:", overlay.x + 8, overlay.y + 192, false, Color.YELLOW, Assets.font24);
+
+        Text.drawString(g, "Anti-aliasing:", overlay.x + 8, overlay.y + 240, false, Color.YELLOW, Assets.font20);
+        Text.drawString(g, "Render quality:", overlay.x + 8, overlay.y + 272, false, Color.YELLOW, Assets.font20);
+        Text.drawString(g, "Text quality:", overlay.x + 8, overlay.y + 304, false, Color.YELLOW, Assets.font20);
+
     }
 }
