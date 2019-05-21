@@ -70,6 +70,15 @@ public class AudioState extends State {
     public void render(Graphics2D g) {
         uiManager.render(g);
 
+        Text.drawString(g, "Music:", overlay.x + 8, overlay.y + 32, false, Color.YELLOW, Assets.font24);
+        Text.drawString(g, "Volume:", overlay.x + 8, overlay.y + 80, false, Color.YELLOW, Assets.font20);
+
+        Text.drawString(g, "Sound Effects:", overlay.x + 8, overlay.y + 160, false, Color.YELLOW, Assets.font24);
+        Text.drawString(g, "Volume:", overlay.x + 8, overlay.y + 208, false, Color.YELLOW, Assets.font20);
+
+        Text.drawString(g, "Mute Music:", overlay.x + 8, overlay.y + 288, false, Color.YELLOW, Assets.font20);
+        Text.drawString(g, "Mute Sound Effects:", overlay.x + 8, overlay.y + 320, false, Color.YELLOW, Assets.font20);
+
         if (displaySoundPressed) {
             displaySoundTimer++;
             if (displaySoundTimer <= 120) {
