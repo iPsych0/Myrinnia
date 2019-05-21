@@ -5,33 +5,31 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static dev.ipsych0.myrinnia.ui.ScrollBar.scrolledDown;
 import static dev.ipsych0.myrinnia.ui.ScrollBar.scrolledUp;
 
-public class DropDownBox<T> {
+public class DropDownBox extends UIImageButton {
 
-    private int x, y;
-    private int width, height;
-    private List<T> items;
+    private List<String> items;
     private int itemsPerView;
     private int currentIndex, selectedIndex;
     private int scrollMin, scrollMax;
-    private List<UIImageButton> elements;
     private UIManager uiManager;
     private boolean open;
+    private Color selectedColor = new Color(0, 255, 255, 62);
 
-    public DropDownBox(int x, int y, int width, int height, List<T> items) {
+    public DropDownBox(int x, int y, int width, int height, List<String> items, int selectedIndex) {
+        super(x, y, width, height, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.scrollMax = items.size();
         this.items = items;
-        this.elements = new ArrayList<>();
         this.uiManager = new UIManager();
+        this.selectedIndex = selectedIndex;
 
         if (items.size() <= 5) {
             itemsPerView = items.size();
@@ -39,15 +37,39 @@ public class DropDownBox<T> {
             itemsPerView = 6;
         }
 
-        for(int i = 0; i < items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
             UIImageButton btn = new UIImageButton(x, y + (i * 16), width, 16, Assets.genericButton);
             uiManager.addObject(btn);
         }
     }
 
+    public DropDownBox(int x, int y, int width, int height, List<String> items) {
+        this(x, y, width, height, items, 0);
+    }
+
     public void tick() {
-        if(open) {
-            Rectangle mouse = Handler.get().getMouse();
+        Rectangle mouse = Handler.get().getMouse();
+        if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            open = true;
+            this.height = 16 * itemsPerView;
+            hasBeenPressed = false;
+        } else if (!this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            open = false;
+            hasBeenPressed = false;
+            this.height = 16;
+        }
+
+        if (open) {
+
+            // TODO: CHANGE SELECTED INDEX BASED ON WHICH ELEMENT IS SELECTED
+            for (int i = currentIndex; i < scrollMax; i++) {
+                Rectangle bounds = uiManager.getObjects().get(i);
+                if (bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                    selectedIndex = i;
+                    hasBeenPressed = false;
+                    break;
+                }
+            }
 
             if (scrolledUp) {
                 scrollUp();
@@ -56,9 +78,8 @@ public class DropDownBox<T> {
                 scrollDown();
                 scrolledDown = false;
             }
-
-            uiManager.tick();
         }
+        uiManager.tick();
     }
 
     private void scrollUp() {
@@ -76,19 +97,27 @@ public class DropDownBox<T> {
     }
 
     public void render(Graphics2D g) {
-        if(open) {
-            for (int i = currentIndex; i < scrollMax; i++) {
-                elements.get(i).render(g);
-                Text.drawString(g, items.get(i).toString(), x, elements.get(i).y + 1, false, Color.YELLOW, Assets.font14);
+        if (open) {
+            for (int i = currentIndex; i < itemsPerView; i++) {
+                uiManager.getObjects().get(i).render(g);
+                if (i == selectedIndex) {
+                    g.setColor(selectedColor);
+                    Rectangle bounds = uiManager.getObjects().get(i).getBounds();
+                    g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+                }
+                Text.drawString(g, items.get(i), x, uiManager.getObjects().get(i).y + 14, false, Color.YELLOW, Assets.font14);
             }
+        } else {
+            uiManager.getObjects().get(selectedIndex).render(g);
+            Text.drawString(g, items.get(selectedIndex), x, y + 14, false, Color.YELLOW, Assets.font14);
         }
     }
 
-    public List<T> getItems() {
+    public List<String> getItems() {
         return items;
     }
 
-    public void setItems(List<T> items) {
+    public void setItems(List<String> items) {
         this.items = items;
     }
 
