@@ -18,12 +18,12 @@ public class ScrollBar implements Serializable {
     private int width;
     private int height;
     private Rectangle arrowUp, arrowDown;
-    private int scrollMinimum = 0, scrollMaximum;
-    private int index = 0;
+    private int scrollMinimum, scrollMaximum;
+    private int index;
     private int itemsPerWindow;
     private int listSize;
-    public static int clickTimer = 0;
-    public static int scrollTimer = 0;
+    public static int clickTimer;
+    public static int scrollTimer;
     public static boolean scrolledUp, scrolledDown;
 
     public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow) {
