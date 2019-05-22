@@ -7,9 +7,6 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.util.List;
 
-import static dev.ipsych0.myrinnia.ui.ScrollBar.scrolledDown;
-import static dev.ipsych0.myrinnia.ui.ScrollBar.scrolledUp;
-
 public class DropDownBox extends UIImageButton {
 
     private List<String> items;
@@ -19,7 +16,13 @@ public class DropDownBox extends UIImageButton {
     private UIManager uiManager;
     private boolean open;
     private Color selectedColor = new Color(0, 255, 255, 62);
+    public static boolean hasScrolledUp, hasScrolledDown;
+    private boolean itemChanged;
+    private int initialHeight;
 
+    /*
+     * Create DropDown with custom selected index
+     */
     public DropDownBox(int x, int y, int width, int height, List<String> items, int selectedIndex) {
         super(x, y, width, height, Assets.genericButton);
         this.x = x;
@@ -30,6 +33,7 @@ public class DropDownBox extends UIImageButton {
         this.items = items;
         this.uiManager = new UIManager();
         this.selectedIndex = selectedIndex;
+        this.initialHeight = height;
 
         if (items.size() <= 5) {
             itemsPerView = items.size();
@@ -38,11 +42,14 @@ public class DropDownBox extends UIImageButton {
         }
 
         for (int i = 0; i < items.size(); i++) {
-            UIImageButton btn = new UIImageButton(x, y + (i * 16), width, 16, Assets.genericButton);
+            UIImageButton btn = new UIImageButton(x, y + (i * height), width, height, Assets.genericButton);
             uiManager.addObject(btn);
         }
     }
 
+    /*
+     * Create default DropDown with default selected item as the first element
+     */
     public DropDownBox(int x, int y, int width, int height, List<String> items) {
         this(x, y, width, height, items, 0);
     }
@@ -51,37 +58,54 @@ public class DropDownBox extends UIImageButton {
         uiManager.tick();
 
         Rectangle mouse = Handler.get().getMouse();
-        if (!this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            open = false;
-            hasBeenPressed = false;
-            this.height = 16;
-        }
-
         if (open) {
-
             for (int i = currentIndex; i < scrollMax; i++) {
                 Rectangle bounds = uiManager.getObjects().get(i);
                 if (bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                     selectedIndex = i;
-                    hasBeenPressed = false;
-                    open = false;
+                    itemChanged = true;
+                    closeDropDown();
                     break;
                 }
             }
 
-            if (scrolledUp) {
+            if (!this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                closeDropDown();
+            }
+
+            if (hasScrolledUp) {
                 scrollUp();
-                scrolledUp = false;
-            } else if (scrolledDown) {
+                hasScrolledUp = false;
+            } else if (hasScrolledDown) {
                 scrollDown();
-                scrolledDown = false;
+                hasScrolledDown = false;
             }
         } else {
             if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                open = true;
-                this.height = 16 * itemsPerView;
-                hasBeenPressed = false;
+                openDropDown();
             }
+        }
+    }
+
+    private void closeDropDown() {
+        if (open) {
+            open = false;
+            hasBeenPressed = false;
+            this.height = initialHeight;
+            for (int i = 0; i < scrollMax; i++) {
+                UIObject btn = uiManager.getObjects().get(i);
+                uiManager.getObjects().get(i).setLocation(btn.x, btn.y + initialHeight * currentIndex);
+            }
+            currentIndex = 0;
+        }
+    }
+
+    private void openDropDown() {
+        if (!open) {
+            this.height = initialHeight * itemsPerView;
+            hasBeenPressed = false;
+            open = true;
+            currentIndex = 0;
         }
     }
 
@@ -89,6 +113,10 @@ public class DropDownBox extends UIImageButton {
         // Move up once per scroll
         if (currentIndex > scrollMin && items.size() > itemsPerView) {
             currentIndex--;
+            for (int i = 0; i < scrollMax; i++) {
+                UIObject btn = uiManager.getObjects().get(i);
+                uiManager.getObjects().get(i).setLocation(btn.x, btn.y + initialHeight);
+            }
         }
     }
 
@@ -96,23 +124,34 @@ public class DropDownBox extends UIImageButton {
         // Move down once per scroll
         if (currentIndex < (scrollMax - itemsPerView) && items.size() > itemsPerView) {
             currentIndex++;
+            for (int i = 0; i < scrollMax; i++) {
+                UIObject btn = uiManager.getObjects().get(i);
+                uiManager.getObjects().get(i).setLocation(btn.x, btn.y - initialHeight);
+            }
         }
     }
 
     public void render(Graphics2D g) {
         if (open) {
-            for (int i = currentIndex; i < itemsPerView; i++) {
-                uiManager.getObjects().get(i).render(g);
+            for (int i = currentIndex; i < itemsPerView + currentIndex; i++) {
+                UIObject o = uiManager.getObjects().get(i);
+                o.render(g);
                 if (i == selectedIndex) {
                     g.setColor(selectedColor);
-                    Rectangle bounds = uiManager.getObjects().get(i).getBounds();
+                    Rectangle bounds = o.getBounds();
                     g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 }
-                Text.drawString(g, items.get(i), x, uiManager.getObjects().get(i).y + 14, false, Color.YELLOW, Assets.font14);
+                Text.drawString(g, items.get(i), x + o.width / 2, o.y + o.height / 2, true, Color.YELLOW, Assets.font14);
+
+                if (i == 0) {
+                    Text.drawString(g, "^", x + width - 4, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+                }
             }
         } else {
-            uiManager.getObjects().get(selectedIndex).render(g);
-            Text.drawString(g, items.get(selectedIndex), x, y + 14, false, Color.YELLOW, Assets.font14);
+            UIObject o = uiManager.getObjects().get(0);
+            o.render(g);
+            Text.drawString(g, "V", x + width - 4, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, items.get(selectedIndex), x + o.width / 2, y + o.height / 2, true, Color.YELLOW, Assets.font14);
         }
     }
 
@@ -138,5 +177,13 @@ public class DropDownBox extends UIImageButton {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean isItemChanged() {
+        return itemChanged;
+    }
+
+    public void setItemChanged(boolean itemChanged) {
+        this.itemChanged = itemChanged;
     }
 }

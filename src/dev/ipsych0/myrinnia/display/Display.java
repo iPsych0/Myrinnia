@@ -50,7 +50,6 @@ public class Display implements Serializable {
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         gfxCard.setFullScreenWindow(null);
-        fullScreen = false;
         scaleX = 1.0;
         scaleY = 1.0;
 
@@ -89,62 +88,62 @@ public class Display implements Serializable {
 
         // If supported, start game in fullscreen, otherwise center the windowed application
         if (!fullScreenSupported) {
-            toggleFullScreen();
+            fullScreen = true;
+            setWindowedScreen();
         } else {
             frame.setLocationRelativeTo(null);
         }
     }
 
-    public void toggleFullScreen() {
+    public void setFullScreen() {
         if (fullScreenSupported) {
             if (!fullScreen) {
-                setFullScreen();
-            } else {
-                setWindowedScreen();
+                // Save the window's last position before going fullscreen
+                lastWindowWidth = frame.getWidth();
+                lastWindowHeight = frame.getHeight();
+
+                // Switch to fullscreen mode
+                Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+                frame.setVisible(false);
+                frame.dispose();
+                frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
+                frame.setUndecorated(true);
+                gfxCard.setFullScreenWindow(frame);
+                frame.setVisible(true);
+
+                // Scale the window to fullscreen size
+                windowedWidth = frame.getWidth();
+                windowedHeight = frame.getHeight();
+                scaleX = (double) frame.getWidth() / (double) width;
+                scaleY = (double) frame.getHeight() / (double) height;
+
+                fullScreen = true;
             }
-            fullScreen = !fullScreen;
         }
     }
 
-    private void setFullScreen() {
-        // Save the window's last position before going fullscreen
-        lastWindowWidth = frame.getWidth();
-        lastWindowHeight = frame.getHeight();
+    public void setWindowedScreen(){
+        if(fullScreen) {
+            // Switch to windowed mode
+            frame.dispose();
+            frame.setVisible(false);
+            gfxCard.setFullScreenWindow(null);
+            frame.setUndecorated(false);
+            frame.setVisible(true);
 
-        // Switch to fullscreen mode
-        Rectangle preferredWindowedBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-        frame.setVisible(false);
-        frame.dispose();
-        frame.setBounds(windowedX, windowedY, preferredWindowedBounds.width, preferredWindowedBounds.height);
-        frame.setUndecorated(true);
-        gfxCard.setFullScreenWindow(frame);
-        frame.setVisible(true);
+            // Set the window back to the last size
+            frame.setSize(lastWindowWidth, lastWindowHeight);
+            frame.setLocationRelativeTo(null);
+            frame.setResizable(true);
 
-        // Scale the window to fullscreen size
-        windowedWidth = frame.getWidth();
-        windowedHeight = frame.getHeight();
-        scaleX = (double) frame.getWidth() / (double) width;
-        scaleY = (double) frame.getHeight() / (double) height;
-    }
+            // Scale the window accordingly
+            windowedWidth = frame.getWidth();
+            windowedHeight = frame.getHeight();
+            scaleX = (double) frame.getWidth() / (double) width;
+            scaleY = (double) frame.getHeight() / (double) height;
 
-    private void setWindowedScreen(){
-        // Switch to windowed mode
-        frame.dispose();
-        frame.setVisible(false);
-        gfxCard.setFullScreenWindow(null);
-        frame.setUndecorated(false);
-        frame.setVisible(true);
-
-        // Set the window back to the last size
-        frame.setSize(lastWindowWidth, lastWindowHeight);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-
-        // Scale the window accordingly
-        windowedWidth = frame.getWidth();
-        windowedHeight = frame.getHeight();
-        scaleX = (double)frame.getWidth() / (double)width;
-        scaleY = (double)frame.getHeight() / (double)height;
+            fullScreen = false;
+        }
     }
 
     private void addFrameListeners(){
@@ -175,7 +174,7 @@ public class Display implements Serializable {
             public void windowStateChanged(WindowEvent e) {
                 // Maximize window
                 if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
-                    toggleFullScreen();
+                    setFullScreen();
                 }
             }
         });

@@ -23,6 +23,7 @@ public class Game implements Runnable, Serializable {
     private static final long serialVersionUID = 1320270378451615572L;
 
     public static final String CURRENT_VERSION = "v0.8";
+    public static final String TITLE_BAR = "Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION;
     private Display display;
     private int width, height;
     private String title;
@@ -62,7 +63,7 @@ public class Game implements Runnable, Serializable {
 
     public static Game get() {
         if (game == null) {
-            game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) MIN_RES_WIDTH, (int) MIN_RES_HEIGHT);
+            game = new Game(TITLE_BAR, MIN_RES_WIDTH, MIN_RES_HEIGHT);
         }
         return game;
     }
@@ -93,12 +94,7 @@ public class Game implements Runnable, Serializable {
 
     private void init() {
         display = new Display(title, width, height);
-        display.getFrame().addMouseListener(mouseManager);
-        display.getFrame().addKeyListener(keyManager);
-        display.getFrame().addMouseMotionListener(mouseManager);
-        display.getCanvas().addMouseListener(mouseManager);
-        display.getCanvas().addMouseMotionListener(mouseManager);
-        display.getCanvas().addMouseWheelListener(mouseManager);
+        addListeners();
 
         Assets.init();
 
@@ -126,6 +122,15 @@ public class Game implements Runnable, Serializable {
         State.setState(menuState);
 
         display.setInitialized(true);
+    }
+
+    public void addListeners() {
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addKeyListener(keyManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseWheelListener(mouseManager);
     }
 
     private void loadSettings(){

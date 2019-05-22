@@ -185,5 +185,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             ScrollBar.scrolledUp = e.getWheelRotation() <= -1;
             ScrollBar.scrolledDown = e.getWheelRotation() >= 1;
         }
+        DropDownBox.hasScrolledUp = e.getWheelRotation() <= -1;
+        DropDownBox.hasScrolledDown = e.getWheelRotation() >= 1;
     }
 }
