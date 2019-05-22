@@ -18,10 +18,7 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
-import dev.ipsych0.myrinnia.ui.DialogueBox;
-import dev.ipsych0.myrinnia.ui.DropDownBox;
-import dev.ipsych0.myrinnia.ui.ScrollBar;
-import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -121,6 +118,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             justClosedUI = false;
             ScrollBar.clickTimer = 0;
             ScrollBar.scrollTimer = 0;
+            SliderBar.released = true;
         } else if (e.getButton() == MouseEvent.BUTTON3) {
             isDragged = false;
             rightPressed = false;

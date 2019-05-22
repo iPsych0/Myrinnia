@@ -95,7 +95,6 @@ public class Handler implements Serializable {
     private RecapManager recapManager;
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
-    private boolean soundMuted = false;
     public static String initialWorldPath = "/worlds/port_azure.tmx";
     public static boolean debugCollision = false;
     public static boolean isJar;
@@ -147,7 +146,7 @@ public class Handler implements Serializable {
     }
 
     public void playMusic(Zone zone) {
-        if (!soundMuted) {
+        if (!AudioManager.soundMuted) {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
@@ -163,7 +162,7 @@ public class Handler implements Serializable {
     }
 
     public void playMusic(String song) {
-        if (!soundMuted) {
+        if (!AudioManager.soundMuted) {
             int buffer = -1;
             try {
                 buffer = AudioManager.loadSound(resourcePath + "music/songs/" + song);
@@ -185,12 +184,12 @@ public class Handler implements Serializable {
      * Play a sound effect one time with custom volume setting
      *
      * @param effect Name of the audio file
-     * @param volume Additional volume. Default volume is 0.15.
+     * @param volume Additional volume. Default max volume is 0.15.
      */
     public void playEffect(String effect, float volume) {
-        if (!soundMuted) {
-            if (volume < -0.15f) {
-                volume = -0.15f;
+        if (!AudioManager.sfxMuted) {
+            if (volume < -AudioManager.sfxVolume) {
+                volume = -AudioManager.sfxVolume;
             }
             int buffer = -1;
             try {
@@ -200,7 +199,7 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(0.15f + volume);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(AudioManager.sfxVolume + volume);
             AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setLooping(false);
             AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
 
@@ -562,14 +561,6 @@ public class Handler implements Serializable {
 
     public void setCraftingUI(CraftingUI craftingUI) {
         this.craftingUI = craftingUI;
-    }
-
-    public boolean isSoundMuted() {
-        return soundMuted;
-    }
-
-    public void setSoundMuted(boolean soundMuted) {
-        this.soundMuted = soundMuted;
     }
 
     public CharacterUI getCharacterUI() {

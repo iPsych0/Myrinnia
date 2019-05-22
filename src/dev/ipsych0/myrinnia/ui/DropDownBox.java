@@ -65,6 +65,7 @@ public class DropDownBox extends UIImageButton {
                     selectedIndex = i;
                     itemChanged = true;
                     closeDropDown();
+                    Handler.get().playEffect("ui/ui_button_click.wav");
                     break;
                 }
             }
@@ -83,6 +84,7 @@ public class DropDownBox extends UIImageButton {
         } else {
             if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 openDropDown();
+                Handler.get().playEffect("ui/ui_button_click.wav");
             }
         }
     }

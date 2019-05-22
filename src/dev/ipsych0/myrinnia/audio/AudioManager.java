@@ -20,6 +20,8 @@ public class AudioManager {
     public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
     private static Map<String, Integer> soundMap = new HashMap<>();
     private static Zone zone;
+    public static float musicVolume = 0.4f, sfxVolume = 0.15f;
+    public static boolean soundMuted, sfxMuted;
 
     public static void init() {
         deviceName = ALC10.alcGetString(0, ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -68,7 +70,7 @@ public class AudioManager {
         if (s.getFadingTimer() > 150) {
             s.setFadeInVolume(s.getFadeInVolume() + 0.002f);
             s.setVolume(s.getFadeInVolume());
-            if (s.getFadeInVolume() >= 0.4f) {
+            if (s.getFadeInVolume() >= musicVolume) {
                 s.setFadingIn(false);
             }
         }
@@ -143,7 +145,7 @@ public class AudioManager {
         } else {
             AudioManager.zone = zone;
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size()-1).setVolume(0.4f);
+            musicFiles.get(musicFiles.size()-1).setVolume(musicVolume);
             musicFiles.get(musicFiles.size()-1).setLooping(true);
             musicFiles.get(musicFiles.size()-1).playMusic(buffer);
         }
@@ -173,7 +175,7 @@ public class AudioManager {
             }
         } else {
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size()-1).setVolume(0.4f);
+            musicFiles.get(musicFiles.size()-1).setVolume(musicVolume);
             musicFiles.get(musicFiles.size()-1).setLooping(true);
             musicFiles.get(musicFiles.size()-1).playMusic(buffer);
         }

@@ -92,8 +92,6 @@ public class SettingState extends State {
                 selectedState = Handler.get().getGame().graphicsState;
                 selectedButton = graphicsButton;
                 hasBeenPressed = false;
-                AudioState.displaySoundPressed = false;
-                AudioState.displaySoundTimer = 0;
             }
         }
 

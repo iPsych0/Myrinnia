@@ -134,8 +134,20 @@ public class Game implements Runnable, Serializable {
     }
 
     private void loadSettings(){
-        String muted = Handler.get().loadProperty("muted");
-        Handler.get().setSoundMuted(Boolean.parseBoolean(muted));
+        String sfxMuted = Handler.get().loadProperty("sfxMuted");
+        String soundMuted = Handler.get().loadProperty("soundMuted");
+        String sfxVolume = Handler.get().loadProperty("sfxVolume");
+        String soundVolume = Handler.get().loadProperty("musicVolume");
+
+        AudioManager.sfxMuted = Boolean.parseBoolean(sfxMuted);
+        AudioManager.soundMuted = Boolean.parseBoolean(soundMuted);
+        double sfxVolumeD = Double.parseDouble(sfxVolume);
+        double soundVolumeD = Double.parseDouble(soundVolume);
+        float sfxRatio = (float)(sfxVolumeD / 100.0);
+        float soundRatio = (float)(soundVolumeD / 100.0);
+
+        AudioManager.sfxVolume = AudioManager.sfxVolume * sfxRatio;
+        AudioManager.musicVolume = AudioManager.musicVolume * soundRatio;
         keyManager.loadKeybinds();
     }
 

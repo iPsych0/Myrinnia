@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.SliderBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -13,24 +14,37 @@ import java.awt.*;
 public class AudioState extends State {
 
     private Rectangle overlay;
-    private Rectangle soundPopup;
-    private UIImageButton muteSoundButton, unmuteSoundButton;
+    private UIImageButton muteSoundButton, muteSfxButton;
+    private SliderBar musicSlider, sfxSlider;
     private UIManager uiManager;
-    public static boolean displaySoundPressed = false;
-    public static int displaySoundTimer = 0;
 
     public AudioState() {
         this.uiManager = new UIManager();
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
-        muteSoundButton = new UIImageButton(overlay.x + 24, overlay.y + 32, 32, 32, Assets.genericButton);
-        unmuteSoundButton = new UIImageButton(overlay.x + 56, overlay.y + 32, 32, 32, Assets.genericButton);
+        int musicPos, sfxPos;
+        try{
+            String sfxVolume = Handler.get().loadProperty("sfxVolume");
+            String soundVolume = Handler.get().loadProperty("musicVolume");
+            musicPos = Integer.parseInt(soundVolume);
+            sfxPos = Integer.parseInt(sfxVolume);
+            musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, musicPos);
+            sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, sfxPos);
+        } catch (Exception e){
+            musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, 100);
+            sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, 100);
+        }
+
+
+        muteSoundButton = new UIImageButton(overlay.x + 136, overlay.y + 268, 32, 32, Assets.genericButton);
+        muteSfxButton = new UIImageButton(overlay.x + 136, overlay.y + 300, 32, 32, Assets.genericButton);
 
         uiManager.addObject(muteSoundButton);
-        uiManager.addObject(unmuteSoundButton);
+        uiManager.addObject(muteSfxButton);
+        uiManager.addObject(musicSlider);
+        uiManager.addObject(sfxSlider);
 
-        soundPopup = new Rectangle(Handler.get().getWidth() / 2 - 153, 80, 306, 64);
     }
 
     @Override
@@ -39,31 +53,59 @@ public class AudioState extends State {
 
         if (muteSoundButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                displaySoundTimer = 0;
-                displaySoundPressed = true;
-                if (!Handler.get().isSoundMuted()) {
-                    Handler.get().setSoundMuted(true);
-                    Handler.get().saveProperty("muted", "true");
-                    for (Source s : AudioManager.soundfxFiles)
-                        s.delete();
+                if (!AudioManager.soundMuted) {
+                    AudioManager.soundMuted = true;
+                    Handler.get().saveProperty("soundMuted", "true");
                     for (Source s : AudioManager.musicFiles)
                         s.delete();
+                } else {
+                    Handler.get().saveProperty("soundMuted", "false");
+                    AudioManager.soundMuted = false;
+                    if (SettingState.previousState == Handler.get().getGame().pauseState) {
+                        Handler.get().playMusic(Handler.get().getPlayer().getZone());
+                    }
+                    hasBeenPressed = false;
                 }
-                hasBeenPressed = false;
             }
-        }
-        if(unmuteSoundButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().saveProperty("muted", "false");
-                Handler.get().setSoundMuted(false);
-                if (SettingState.previousState == Handler.get().getGame().pauseState) {
-                    Handler.get().playMusic(Handler.get().getPlayer().getZone());
-                }
-                hasBeenPressed = false;
-            }
+            hasBeenPressed = false;
         }
 
+        if (muteSfxButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                if (!AudioManager.sfxMuted) {
+                    AudioManager.sfxMuted = true;
+                    Handler.get().saveProperty("sfxMuted", "true");
+                    for (Source s : AudioManager.soundfxFiles)
+                        s.delete();
+                } else {
+                    Handler.get().saveProperty("sfxMuted", "false");
+                    AudioManager.sfxMuted = false;
+                    hasBeenPressed = false;
+                }
+            }
+            hasBeenPressed = false;
+        }
+
+
         uiManager.tick();
+
+        if (musicSlider.isChanged()) {
+            changeMusicVolume(musicSlider.getSliderXPos());
+        }
+        if (sfxSlider.isChanged()) {
+            changeSfxVolume(sfxSlider.getSliderXPos());
+        }
+
+        if (sfxSlider.isChanged() && SliderBar.released) {
+            System.out.println("test1");
+            Handler.get().saveProperty("sfxVolume", Integer.toString(sfxSlider.getSliderXPos()));
+            SliderBar.released = false;
+        } else if (musicSlider.isChanged() && SliderBar.released) {
+            System.out.println("test2");
+            Handler.get().saveProperty("musicVolume", Integer.toString(musicSlider.getSliderXPos()));
+            SliderBar.released = false;
+        }
+
     }
 
     @Override
@@ -77,20 +119,35 @@ public class AudioState extends State {
         Text.drawString(g, "Volume:", overlay.x + 8, overlay.y + 208, false, Color.YELLOW, Assets.font20);
 
         Text.drawString(g, "Mute Music:", overlay.x + 8, overlay.y + 288, false, Color.YELLOW, Assets.font20);
-        Text.drawString(g, "Mute Sound Effects:", overlay.x + 8, overlay.y + 320, false, Color.YELLOW, Assets.font20);
+        Text.drawString(g, "Mute Sfx:", overlay.x + 8, overlay.y + 320, false, Color.YELLOW, Assets.font20);
 
-        if (displaySoundPressed) {
-            displaySoundTimer++;
-            if (displaySoundTimer <= 120) {
-                g.drawImage(Assets.chatwindow, soundPopup.x, soundPopup.y, soundPopup.width, soundPopup.height, null);
-                if (!Handler.get().isSoundMuted())
-                    Text.drawString(g, "Sound unmuted!", soundPopup.x + soundPopup.width / 2, soundPopup.y + soundPopup.height / 2, true, Color.YELLOW, Assets.font20);
-                else
-                    Text.drawString(g, "Sound muted!", soundPopup.x + soundPopup.width / 2, soundPopup.y + soundPopup.height / 2, true, Color.YELLOW, Assets.font20);
-            } else {
-                displaySoundTimer = 0;
-                displaySoundPressed = false;
-            }
+        if (AudioManager.soundMuted) {
+            Text.drawString(g, "X", muteSoundButton.x + 16, muteSoundButton.y + 16, true, Color.RED, Assets.font20);
+        }
+
+        if (AudioManager.sfxMuted) {
+            Text.drawString(g, "X", muteSfxButton.x + 16, muteSfxButton.y + 16, true, Color.RED, Assets.font20);
+        }
+
+
+    }
+
+    private void changeMusicVolume(int percentage) {
+        double volumeD = (double) percentage / 100.0;
+        float newVolume = (float) (volumeD * 0.4);
+        AudioManager.musicVolume = newVolume;
+        Source.fadeOutVolume = newVolume;
+        for (Source s : AudioManager.musicFiles) {
+            s.setVolume(newVolume);
+        }
+    }
+
+    private void changeSfxVolume(int percentage) {
+        double volumeD = (double) percentage / 100.0;
+        float newVolume = (float) (volumeD * 0.15);
+        AudioManager.sfxVolume = newVolume;
+        for (Source s : AudioManager.soundfxFiles) {
+            s.setVolume(newVolume);
         }
     }
 }
