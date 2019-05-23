@@ -111,6 +111,7 @@ public class ItemManager implements Serializable {
 
     private void drawHoverCorners(Graphics2D g, Item i, int xOffset, int yOffset, Color color){
         g.setColor(color);
+        Stroke original = g.getStroke();
         g.setStroke(new BasicStroke(2));
 
         // Top left corner
@@ -128,6 +129,8 @@ public class ItemManager implements Serializable {
         // Bottom right corner
         g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - 6 - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()));
         g.drawLine((int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + i.getX() + Item.ITEMWIDTH - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + i.getY() + Item.ITEMHEIGHT - 6 - Handler.get().getGameCamera().getyOffset()));
+
+        g.setStroke(original);
     }
 
     private void drawHoverCorners(Graphics2D g, Item i) {

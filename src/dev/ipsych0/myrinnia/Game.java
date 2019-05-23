@@ -55,8 +55,8 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
-    private static final int MIN_RES_WIDTH = 1366;
-    private static final int MIN_RES_HEIGHT = 768;
+    private static final int MIN_RES_WIDTH = 1600;
+    private static final int MIN_RES_HEIGHT = 900;
 
     private Map<RenderingHints.Key, Object> renderHintMap;
     private RenderingHints renderingHints;
@@ -134,20 +134,6 @@ public class Game implements Runnable, Serializable {
     }
 
     private void loadSettings(){
-        String sfxMuted = Handler.get().loadProperty("sfxMuted");
-        String soundMuted = Handler.get().loadProperty("soundMuted");
-        String sfxVolume = Handler.get().loadProperty("sfxVolume");
-        String soundVolume = Handler.get().loadProperty("musicVolume");
-
-        AudioManager.sfxMuted = Boolean.parseBoolean(sfxMuted);
-        AudioManager.soundMuted = Boolean.parseBoolean(soundMuted);
-        double sfxVolumeD = Double.parseDouble(sfxVolume);
-        double soundVolumeD = Double.parseDouble(soundVolume);
-        float sfxRatio = (float)(sfxVolumeD / 100.0);
-        float soundRatio = (float)(soundVolumeD / 100.0);
-
-        AudioManager.sfxVolume = AudioManager.sfxVolume * sfxRatio;
-        AudioManager.musicVolume = AudioManager.musicVolume * soundRatio;
         keyManager.loadKeybinds();
     }
 

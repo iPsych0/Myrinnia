@@ -12,7 +12,7 @@ public class DevToolUI implements Serializable {
     private static final long serialVersionUID = 518181399399230861L;
     private static int x, y, width, height;
     public static boolean isOpen = false;
-    private static TextBox textBox;
+    private TextBox textBox;
     private CommandHandler commandHandler;
     public static boolean initialized = false;
 
@@ -79,6 +79,11 @@ public class DevToolUI implements Serializable {
             Handler.get().sendMsg("'" + commands[0] + "' is not a command.");
             return;
         }
-        commandHandler.handle(commands, firstCommand);
+        try {
+            commandHandler.handle(commands, firstCommand);
+        } catch (Exception e){
+            e.getStackTrace();
+            Handler.get().sendMsg("Something went wrong submitting this command.");
+        }
     }
 }

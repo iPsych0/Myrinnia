@@ -6,8 +6,7 @@ public class Source {
 
     private int sourceId;
     private boolean fadingIn, fadingOut;
-    private static float fadeInVolume = 0.0f;
-    public static float fadeOutVolume = 0.4f;
+    private float fadeInVolume = 0.0f, fadeOutVolume = 0.4f;
     private int fadingTimer = 0;
 
     public Source() {

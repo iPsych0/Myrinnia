@@ -68,7 +68,7 @@ public class AudioManager {
     private static void fadeIn(Source s) {
         s.setFadingTimer(s.getFadingTimer() + 1);
         if (s.getFadingTimer() > 150) {
-            s.setFadeInVolume(s.getFadeInVolume() + 0.002f);
+            s.setFadeInVolume(s.getFadeInVolume() + (musicVolume / 0.4f * 0.002f));
             s.setVolume(s.getFadeInVolume());
             if (s.getFadeInVolume() >= musicVolume) {
                 s.setFadingIn(false);
@@ -77,7 +77,7 @@ public class AudioManager {
     }
 
     private static void fadeOut(Source s) {
-        s.setFadeOutVolume(s.getFadeOutVolume() - 0.002f);
+        s.setFadeOutVolume(s.getFadeOutVolume() - (musicVolume / 0.4f * 0.002f));
         s.setVolume(s.getFadeOutVolume());
         if (s.getFadeOutVolume() <= 0.0f) {
             s.setFadingOut(false);
@@ -131,10 +131,10 @@ public class AudioManager {
                     } else {
                         musicFiles.get(0).setFadingOut(true);
                     }
-                    musicFiles.get(musicFiles.size()-1).setVolume(0.0f);
-                    musicFiles.get(musicFiles.size()-1).setFadingIn(true);
-                    musicFiles.get(musicFiles.size()-1).setLooping(true);
-                    musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+                    musicFiles.get(musicFiles.size() - 1).setVolume(0.0f);
+                    musicFiles.get(musicFiles.size() - 1).setFadingIn(true);
+                    musicFiles.get(musicFiles.size() - 1).setLooping(true);
+                    musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
                 } else {
                     AudioManager.zone = zone;
                     for (int i = 0; i < musicFiles.size() - 1; i++) {
@@ -145,9 +145,9 @@ public class AudioManager {
         } else {
             AudioManager.zone = zone;
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size()-1).setVolume(musicVolume);
-            musicFiles.get(musicFiles.size()-1).setLooping(true);
-            musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+            musicFiles.get(musicFiles.size() - 1).setVolume(musicVolume);
+            musicFiles.get(musicFiles.size() - 1).setLooping(true);
+            musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
         }
     }
 
@@ -163,10 +163,10 @@ public class AudioManager {
                     } else {
                         musicFiles.get(0).setFadingOut(true);
                     }
-                    musicFiles.get(musicFiles.size()-1).setVolume(0.0f);
-                    musicFiles.get(musicFiles.size()-1).setFadingIn(true);
-                    musicFiles.get(musicFiles.size()-1).setLooping(true);
-                    musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+                    musicFiles.get(musicFiles.size() - 1).setVolume(0.0f);
+                    musicFiles.get(musicFiles.size() - 1).setFadingIn(true);
+                    musicFiles.get(musicFiles.size() - 1).setLooping(true);
+                    musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
                 } else {
                     for (int i = 0; i < musicFiles.size() - 1; i++) {
                         musicFiles.get(i).setFadingOut(true);
@@ -175,9 +175,9 @@ public class AudioManager {
             }
         } else {
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size()-1).setVolume(musicVolume);
-            musicFiles.get(musicFiles.size()-1).setLooping(true);
-            musicFiles.get(musicFiles.size()-1).playMusic(buffer);
+            musicFiles.get(musicFiles.size() - 1).setVolume(musicVolume);
+            musicFiles.get(musicFiles.size() - 1).setLooping(true);
+            musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
         }
     }
 

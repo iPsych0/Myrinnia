@@ -23,14 +23,8 @@ public class AudioState extends State {
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
-        int musicPos, sfxPos;
         try{
-            String sfxVolume = Handler.get().loadProperty("sfxVolume");
-            String soundVolume = Handler.get().loadProperty("musicVolume");
-            musicPos = Integer.parseInt(soundVolume);
-            sfxPos = Integer.parseInt(sfxVolume);
-            musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, musicPos);
-            sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, sfxPos);
+            loadAudioSettings();
         } catch (Exception e){
             musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, 100);
             sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, 100);
@@ -45,6 +39,34 @@ public class AudioState extends State {
         uiManager.addObject(musicSlider);
         uiManager.addObject(sfxSlider);
 
+    }
+
+    private void loadAudioSettings(){
+        // Read audio properties from file
+        String sfxVolume = Handler.get().loadProperty("sfxVolume");
+        String soundVolume = Handler.get().loadProperty("musicVolume");
+        String sfxMuted = Handler.get().loadProperty("sfxMuted");
+        String soundMuted = Handler.get().loadProperty("soundMuted");
+
+        // Get the slider percentage
+        int musicPos = Integer.parseInt(soundVolume);
+        int sfxPos = Integer.parseInt(sfxVolume);
+        musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, musicPos);
+        sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, sfxPos);
+
+        // Set muted settings
+        AudioManager.sfxMuted = Boolean.parseBoolean(sfxMuted);
+        AudioManager.soundMuted = Boolean.parseBoolean(soundMuted);
+
+        // Get volume float values
+        double sfxVolumeD = Double.parseDouble(sfxVolume);
+        double soundVolumeD = Double.parseDouble(soundVolume);
+        float sfxRatio = (float)(sfxVolumeD / 100.0);
+        float soundRatio = (float)(soundVolumeD / 100.0);
+
+        // Set volumes
+        AudioManager.sfxVolume = AudioManager.sfxVolume * sfxRatio;
+        AudioManager.musicVolume = AudioManager.musicVolume * soundRatio;
     }
 
     @Override
@@ -136,9 +158,9 @@ public class AudioState extends State {
         double volumeD = (double) percentage / 100.0;
         float newVolume = (float) (volumeD * 0.4);
         AudioManager.musicVolume = newVolume;
-        Source.fadeOutVolume = newVolume;
         for (Source s : AudioManager.musicFiles) {
             s.setVolume(newVolume);
+            s.setFadeOutVolume(newVolume);
         }
     }
 
@@ -148,6 +170,7 @@ public class AudioState extends State {
         AudioManager.sfxVolume = newVolume;
         for (Source s : AudioManager.soundfxFiles) {
             s.setVolume(newVolume);
+            s.setFadeOutVolume(newVolume);
         }
     }
 }
