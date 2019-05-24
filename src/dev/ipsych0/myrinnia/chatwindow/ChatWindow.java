@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ChatWindow implements Serializable {
@@ -28,19 +28,14 @@ public class ChatWindow implements Serializable {
     private int currentIndex;
     private Rectangle windowBounds;
 
-    private List<TextSlot> textSlots;
+    private LinkedList<TextSlot> textSlots;
 
     public ChatWindow() {
-        this.textSlots = new ArrayList<>();
+        this.textSlots = new LinkedList<>();
         this.width = TextSlot.textWidth;
         this.height = MESSAGE_PER_VIEW * TextSlot.textHeight;
         this.x = 8;
         this.y = Handler.get().getHeight() - height - 16;
-        this.currentIndex = MAX_MESSAGES - MESSAGE_PER_VIEW;
-
-        for (int i = 0; i < MAX_MESSAGES; i++) {
-            textSlots.add(new TextSlot(x, y + (i * TextSlot.textHeight), null));
-        }
 
         windowBounds = new Rectangle(x, y, width, height);
     }
@@ -68,9 +63,14 @@ public class ChatWindow implements Serializable {
 
             Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 
-            for (int i = currentIndex; i < MESSAGE_PER_VIEW + currentIndex; i++) {
-                textSlots.get(i).render(g);
-
+            if (textSlots.size() > 7 && textSlots.size() <= 35) {
+                for (int i = currentIndex; i < MESSAGE_PER_VIEW + currentIndex; i++) {
+                    textSlots.get(i).render(g);
+                }
+            } else if(textSlots.size() > 0 && textSlots.size() <= 7){
+                for (int i = 0; i < textSlots.size(); i++) {
+                    textSlots.get(i).render(g);
+                }
             }
         }
     }
@@ -79,41 +79,14 @@ public class ChatWindow implements Serializable {
      * Sends a message to the chat log
      */
     public boolean sendMessage(String message) {
-        int chatIndex = freeTextSlot();
-        // System.out.println("The free slot in sendMessage = '" + chatIndex + "'");
-        if (chatIndex >= 0) {
-            getTextSlots().get(chatIndex).setMessage(message);
-            //System.out.println("Added the line '" + message + "'");
-            return true;
-        } else {
-            System.err.println("Something went wrong with the chatIndex in sendMessage:ChatWindow (negative index)");
-            return false;
+        if (textSlots.size() == MAX_MESSAGES) {
+            textSlots.removeLast();
         }
-    }
-
-    /*
-     * Makes the chat shift and pushes messages off the stack to make room for new messages
-     */
-    private int freeTextSlot() {
-        // Als de chat leeg is, vul altijd de 1e slot
-        if (textSlots.get(textSlots.size() - 1).getMessage() == null) {
-            return (textSlots.size() - 1);
+        for(TextSlot ts : textSlots){
+            ts.setY(ts.getY() - 16);
         }
-        for (int i = 0; i < textSlots.size(); i++) {
-            // Als textslot (i) != null is ...
-            if (textSlots.get(i).getMessage() != null) {
-                // Als alle slots vol zijn, maak de bovenste slot dan "null" en ga door met het 1e vakje (die zet ie dan weer naar 0, etc. voor de rest)
-                if (i == 0) {
-                    textSlots.get(0).setMessage(null);
-                    continue;
-                }
-                // Zet textslot (i) in temporary
-                String temporary = textSlots.get(i).getMessage();
-                // Zet slot i - 1 (0 - 1 = -1) naar temp
-                textSlots.get(i - 1).setMessage(temporary);
-            }
-        }
-        return (textSlots.size() - 1);
+        textSlots.addFirst(new TextSlot(x, y + height - 16, message));
+        return true;
     }
 
     private List<TextSlot> getTextSlots() {
