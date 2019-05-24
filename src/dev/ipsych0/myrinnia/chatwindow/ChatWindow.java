@@ -7,7 +7,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatWindow implements Serializable {
 
@@ -22,31 +23,23 @@ public class ChatWindow implements Serializable {
     private int x, y;
     private int width, height;
 
-    private int numCols = 1;
-    private int numRows = 7;
+    private static final int MESSAGE_PER_VIEW = 7;
+    private static final int MAX_MESSAGES = 35;
+    private int currentIndex;
     private Rectangle windowBounds;
 
-    private CopyOnWriteArrayList<TextSlot> textSlots;
+    private List<TextSlot> textSlots;
 
     public ChatWindow() {
-        textSlots = new CopyOnWriteArrayList<>();
-        width = numCols * (TextSlot.textWidth);
-        height = numRows * (TextSlot.textHeight + 1);
+        this.textSlots = new ArrayList<>();
+        this.width = TextSlot.textWidth;
+        this.height = MESSAGE_PER_VIEW * TextSlot.textHeight;
         this.x = 8;
         this.y = Handler.get().getHeight() - height - 16;
+        this.currentIndex = MAX_MESSAGES - MESSAGE_PER_VIEW;
 
-        for (int i = 0; i < numCols; i++) {
-            for (int j = 0; j < numRows; j++) {
-                if (j == (numRows)) {
-                    x += 8;
-                }
-
-                textSlots.add(new TextSlot(x + (i * (TextSlot.textWidth)), y + (j * TextSlot.textHeight), null));
-
-                if (j == (numRows)) {
-                    x -= 8;
-                }
-            }
+        for (int i = 0; i < MAX_MESSAGES; i++) {
+            textSlots.add(new TextSlot(x, y + (i * TextSlot.textHeight), null));
         }
 
         windowBounds = new Rectangle(x, y, width, height);
@@ -58,11 +51,6 @@ public class ChatWindow implements Serializable {
             // Tick dev tool
             if (DevToolUI.isOpen) {
                 Handler.get().getDevToolUI().tick();
-            }
-
-            for (TextSlot ts : textSlots) {
-                ts.tick();
-
             }
         }
     }
@@ -80,8 +68,8 @@ public class ChatWindow implements Serializable {
 
             Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 
-            for (TextSlot ts : textSlots) {
-                ts.render(g);
+            for (int i = currentIndex; i < MESSAGE_PER_VIEW + currentIndex; i++) {
+                textSlots.get(i).render(g);
 
             }
         }
@@ -128,7 +116,7 @@ public class ChatWindow implements Serializable {
         return (textSlots.size() - 1);
     }
 
-    private CopyOnWriteArrayList<TextSlot> getTextSlots() {
+    private List<TextSlot> getTextSlots() {
         return textSlots;
     }
 

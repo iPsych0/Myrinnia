@@ -14,7 +14,7 @@ class TextSlot implements Serializable {
      */
     private static final long serialVersionUID = 6041297662264038958L;
     public static final int textWidth = 432;
-    public static final int textHeight = 15;
+    public static final int textHeight = 16;
 
     private int x, y;
     private String message;
@@ -31,7 +31,7 @@ class TextSlot implements Serializable {
 
     public void render(Graphics2D g) {
         if (message != null) {
-            Text.drawString(g, message, x + 6, y + 24, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, message, x + 6, y + 20, false, Color.YELLOW, Assets.font14);
         }
     }
 
