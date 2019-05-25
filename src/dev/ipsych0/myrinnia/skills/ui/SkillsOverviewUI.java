@@ -38,9 +38,9 @@ public class SkillsOverviewUI implements Serializable {
 
         categories = new ArrayList<>();
 
-        scrollBar = new ScrollBar(x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
-
         bounds = new Rectangle(x, y, width, height);
+        scrollBar = new ScrollBar(x + width - 40, y + 40, 32, 256, 0, maxPerScreen, bounds);
+
         exit = new UIImageButton(x + width - 34, y + 10, 24, 24, Assets.genericButton);
 
         uiManager = new UIManager();

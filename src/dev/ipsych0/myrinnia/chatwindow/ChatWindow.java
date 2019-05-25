@@ -3,10 +3,13 @@ package dev.ipsych0.myrinnia.chatwindow;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,8 +28,8 @@ public class ChatWindow implements Serializable {
 
     private static final int MESSAGE_PER_VIEW = 7;
     private static final int MAX_MESSAGES = 35;
-    private int currentIndex;
     private Rectangle windowBounds;
+    private ScrollBar scrollBar;
 
     private LinkedList<TextSlot> textSlots;
 
@@ -38,14 +41,28 @@ public class ChatWindow implements Serializable {
         this.y = Handler.get().getHeight() - height - 16;
 
         windowBounds = new Rectangle(x, y, width, height);
+        scrollBar = new ScrollBar(x + width - 16, y + 8, 16, height, 0, MESSAGE_PER_VIEW, windowBounds, true);
     }
 
     public void tick() {
         if (chatIsOpen) {
-
             // Tick dev tool
             if (DevToolUI.isOpen) {
                 Handler.get().getDevToolUI().tick();
+            }
+
+            scrollBar.tick();
+
+            if (scrollBar.hasScrolledUp()) {
+                for (int i = 0; i < scrollBar.getScrollMaximum(); i++) {
+                    textSlots.get(i).setY(textSlots.get(i).getY() - 16);
+                }
+                scrollBar.setScrolledUp(false);
+            } else if (scrollBar.hasScrolledDown()){
+                for (int i = 0; i < scrollBar.getScrollMaximum(); i++) {
+                    textSlots.get(i).setY(textSlots.get(i).getY() + 16);
+                }
+                scrollBar.setScrolledDown(false);
             }
         }
     }
@@ -63,11 +80,13 @@ public class ChatWindow implements Serializable {
 
             Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 
+            scrollBar.render(g);
+
             if (textSlots.size() > 7 && textSlots.size() <= 35) {
-                for (int i = currentIndex; i < MESSAGE_PER_VIEW + currentIndex; i++) {
+                for (int i = scrollBar.getIndex(); i < MESSAGE_PER_VIEW + scrollBar.getIndex(); i++) {
                     textSlots.get(i).render(g);
                 }
-            } else if(textSlots.size() > 0 && textSlots.size() <= 7){
+            } else if (textSlots.size() > 0 && textSlots.size() <= 7) {
                 for (int i = 0; i < textSlots.size(); i++) {
                     textSlots.get(i).render(g);
                 }
@@ -85,7 +104,11 @@ public class ChatWindow implements Serializable {
         for(TextSlot ts : textSlots){
             ts.setY(ts.getY() - 16);
         }
-        textSlots.addFirst(new TextSlot(x, y + height - 16, message));
+        LocalDateTime ldt = LocalDateTime.now();
+        String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
+        textSlots.addFirst(new TextSlot(x, y + height - 16, "[" + timeStamp + "]: " + message));
+        scrollBar.setListSize(textSlots.size());
+        scrollBar.setScrollMaximum(textSlots.size());
         return true;
     }
 

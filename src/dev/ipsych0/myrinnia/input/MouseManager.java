@@ -4,11 +4,11 @@ import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
@@ -131,8 +131,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
     public void mouseMoved(MouseEvent e) {
         mouseMovedTimer = 0;
         Player.mouseMoved = true;
-        mouseX = (int)(e.getX() * (1.0/Display.scaleX));
-        mouseY = (int)(e.getY() * (1.0/Display.scaleY));
+        mouseX = (int) (e.getX() * (1.0 / Display.scaleX));
+        mouseY = (int) (e.getY() * (1.0 / Display.scaleY));
 
     }
 
@@ -146,8 +146,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
         }
 
         // Fix hier shit
-        mouseX = (int)(e.getX() * (1.0/Display.scaleX));
-        mouseY = (int)(e.getY() * (1.0/Display.scaleY));
+        mouseX = (int) (e.getX() * (1.0 / Display.scaleX));
+        mouseY = (int) (e.getY() * (1.0 / Display.scaleY));
     }
 
     @Override
@@ -179,10 +179,8 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if(SkillsOverviewUI.isOpen) {
-            ScrollBar.scrolledUp = e.getWheelRotation() <= -1;
-            ScrollBar.scrolledDown = e.getWheelRotation() >= 1;
-        }
+        ScrollBar.scrolledUp = e.getWheelRotation() <= -1;
+        ScrollBar.scrolledDown = e.getWheelRotation() >= 1;
         DropDownBox.hasScrolledUp = e.getWheelRotation() <= -1;
         DropDownBox.hasScrolledDown = e.getWheelRotation() >= 1;
     }
