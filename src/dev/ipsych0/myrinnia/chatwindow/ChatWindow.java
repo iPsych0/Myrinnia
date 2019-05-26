@@ -98,15 +98,17 @@ public class ChatWindow implements Serializable {
      * Sends a message to the chat log
      */
     public boolean sendMessage(String message) {
+        int offSet = 0;
         if (textSlots.size() == MAX_MESSAGES) {
             textSlots.removeLast();
+            offSet = scrollBar.getIndex();
         }
         for(TextSlot ts : textSlots){
             ts.setY(ts.getY() - 16);
         }
         LocalDateTime ldt = LocalDateTime.now();
         String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
-        textSlots.addFirst(new TextSlot(x, y + height - 16, "[" + timeStamp + "]: " + message));
+        textSlots.addFirst(new TextSlot(x, y + height - 16 + (offSet * 16), "[" + timeStamp + "]: " + message));
         scrollBar.setListSize(textSlots.size());
         scrollBar.setScrollMaximum(textSlots.size());
         return true;
