@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.*;
@@ -37,8 +36,12 @@ public class ControlsState extends State {
     private static String defaultConfirmMessage = "Do you wish to reset to the default key binds?";
     private static String[] confirmAnswers = {"Yes", "No"};
     private static boolean makingChoice = false;
-
     public static boolean escapePressed;
+
+    private static final String UP_SHORTCUT = "w", LEFT_SHORTCUT = "a", RIGHT_SHORTCUT = "d", DOWN_SHORTCUT = "s",
+                                INV_SHORTCUT = "i", INTERACT_SHORTCUT = " ", QUEST_SHORTCUT = "q", MAP_SHORTCUT = "m",
+                                SKILL_SHORTCUT = "l", STATS_SHORTCUT = "k", PAUSE_SHORTCUT = "p", ABILITY_SHORTCUT = "b",
+                                CHAT_SHORTCUT = "c";
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -109,6 +112,38 @@ public class ControlsState extends State {
         keys.put(downKey, Handler.get().loadProperty("downKey"));
         keys.put(rightKey, Handler.get().loadProperty("rightKey"));
         keys.put(interactKey, Handler.get().loadProperty("interactKey"));
+    }
+
+    private void setDefaultKeys() {
+        keys.put(invKey, INV_SHORTCUT);
+        keys.put(questKey, QUEST_SHORTCUT);
+        keys.put(skillsKey, SKILL_SHORTCUT);
+        keys.put(mapKey, MAP_SHORTCUT);
+        keys.put(statsKey, STATS_SHORTCUT);
+        keys.put(chatKey, CHAT_SHORTCUT);
+        keys.put(abilityKey, ABILITY_SHORTCUT);
+        keys.put(pauseKey, PAUSE_SHORTCUT);
+        keys.put(upKey, UP_SHORTCUT);
+        keys.put(leftKey, LEFT_SHORTCUT);
+        keys.put(downKey, DOWN_SHORTCUT);
+        keys.put(rightKey, RIGHT_SHORTCUT);
+        keys.put(interactKey, INTERACT_SHORTCUT);
+
+        Handler.get().saveProperty("inventoryKey", INV_SHORTCUT);
+        Handler.get().saveProperty("chatWindowKey", CHAT_SHORTCUT);
+        Handler.get().saveProperty("questWindowKey", QUEST_SHORTCUT);
+        Handler.get().saveProperty("mapWindowKey", MAP_SHORTCUT);
+        Handler.get().saveProperty("statsWindowKey", STATS_SHORTCUT);
+        Handler.get().saveProperty("skillsWindowKey", SKILL_SHORTCUT);
+        Handler.get().saveProperty("interactKey", INTERACT_SHORTCUT);
+        Handler.get().saveProperty("abilityKey", ABILITY_SHORTCUT);
+        Handler.get().saveProperty("pauseKey", PAUSE_SHORTCUT);
+        Handler.get().saveProperty("upKey", UP_SHORTCUT);
+        Handler.get().saveProperty("leftKey", LEFT_SHORTCUT);
+        Handler.get().saveProperty("downKey", DOWN_SHORTCUT);
+        Handler.get().saveProperty("rightKey", RIGHT_SHORTCUT);
+
+        Handler.get().getKeyManager().loadKeybinds();
     }
 
     @Override
@@ -187,6 +222,7 @@ public class ControlsState extends State {
             if ("Yes".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
                 // TODO: Reset keybinds
                 Handler.get().playEffect("ui/ui_button_click.wav");
+                setDefaultKeys();
             } else if ("No".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
