@@ -69,7 +69,6 @@ public class TestNPC extends StaticEntity {
 
     @Override
     protected void updateDialogue() {
-        Handler.get().sendMsg(speakingTurn);
         switch (speakingTurn) {
             case 0:
                 if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED) {

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.*;
@@ -21,8 +22,8 @@ public class ControlsState extends State {
     private Rectangle overlay;
     private UIImageButton upKey, leftKey, downKey, rightKey, invKey, chatKey, questKey,
             mapKey, statsKey, skillsKey, interactKey, abilityKey, pauseKey;
-    private static TextBox tb;
-    private static HashMap<UIObject, String> keys = new HashMap<>();
+    private TextBox tb;
+    private HashMap<UIObject, String> keys = new HashMap<>();
     private static UIObject selectedButton;
     public static boolean initialized;
     private static boolean errorShown;
@@ -31,6 +32,7 @@ public class ControlsState extends State {
     private DialogueBox dBox;
     private static String[] answers = {"Set", "Cancel"};
     private static String message = "Please enter the new key.";
+    public static boolean escapePressed;
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -103,13 +105,23 @@ public class ControlsState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
+        if(Handler.get().getKeyManager().escape && escapePressed && DialogueBox.isOpen){
+            escapePressed = false;
+            closeTextBox();
+            return;
+        }
+
         for (UIObject btn : uiManager.getObjects()) {
             if (btn.isHovering() && !btn.equals(returnButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey) {
                 hasBeenPressed = false;
                 selectingNewKey = true;
+                initialized = false;
                 DialogueBox.isOpen = true;
                 TextBox.isOpen = true;
                 selectedButton = btn;
+                TextBox.focus = true;
+                KeyManager.typingFocus = true;
+                break;
             }
         }
 
@@ -219,19 +231,19 @@ public class ControlsState extends State {
     }
 
     private void closeTextBox() {
+        hasBeenPressed = false;
+        TextBox.isOpen = false;
         TextBox.enterPressed = false;
         Handler.get().getKeyManager().setTextBoxTyping(false);
         KeyManager.typingFocus = false;
         tb.getSb().setLength(0);
         tb.setIndex(0);
         tb.setCharactersTyped(tb.getSb().toString());
-        TextBox.isOpen = false;
         dBox.setPressedButton(null);
         DialogueBox.isOpen = false;
         initialized = false;
         selectingNewKey = false;
         selectedButton = null;
-        tb.removeListeners();
     }
 
     @Override
@@ -288,13 +300,13 @@ public class ControlsState extends State {
 
         Text.drawString(g, "Mouse controls:", overlay.x + 424, overlay.y + 24, false, Color.YELLOW, Assets.font14);
 
-        g.drawImage(Assets.genericButton[1], overlay.x + 420, overlay.y + 28, 120, 132, null);
-        Text.drawString(g, "Left click:", overlay.x + 424, overlay.y + 48, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Attack", overlay.x + 432, overlay.y + 68, false, Color.YELLOW, Assets.font14);
+        g.drawImage(Assets.genericButton[1], overlay.x + 424, overlay.y + 28, 120, 132, null);
+        Text.drawString(g, "Left click:", overlay.x + 432, overlay.y + 48, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Attack", overlay.x + 440, overlay.y + 68, false, Color.YELLOW, Assets.font14);
 
-        Text.drawString(g, "Right click:", overlay.x + 424, overlay.y + 112, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Pick up item", overlay.x + 432, overlay.y + 132, false, Color.YELLOW, Assets.font14);
-        Text.drawString(g, "- Equip item", overlay.x + 432, overlay.y + 152, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Right click:", overlay.x + 432, overlay.y + 112, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Pick up item", overlay.x + 440, overlay.y + 132, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "- Equip item", overlay.x + 440, overlay.y + 152, false, Color.YELLOW, Assets.font14);
 
 
         Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
@@ -305,7 +317,7 @@ public class ControlsState extends State {
 
         if (errorShown) {
 //            g.drawImage(Assets.genericButton[0], overlay.x, overlay.y - 32, overlay.width, 32, null);
-            Text.drawString(g, "That key is already in use", overlay.x + overlay.width / 2, overlay.y - 16, true, Color.RED, Assets.font24);
+            Text.drawString(g, "That key is already in use", overlay.x + overlay.width / 2, overlay.y + overlay.height / 2, true, Color.RED, Assets.font32);
             errorTimer++;
             if (errorTimer >= 120) {
                 errorShown = false;

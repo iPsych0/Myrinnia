@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -361,21 +362,15 @@ public class Handler implements Serializable {
     /*
      * Sends a message to the chat log
      */
-    public void sendMsg(String message) {
+    public void sendMsg(String message, Filter filter) {
         String[] text = Text.splitIntoLine(message, 66);
         for (String s : text) {
-            getChatWindow().sendMessage(s);
+            getChatWindow().sendMessage(s, filter);
         }
     }
 
-    /*
-     * Overloaded for printing numerical values to the chat
-     */
-    public void sendMsg(int message) {
-        String[] text = Text.splitIntoLine(String.valueOf(message), 66);
-        for (String s : text) {
-            getChatWindow().sendMessage(s);
-        }
+    public void sendMsg(String message) {
+        sendMsg(message, null);
     }
 
     /*

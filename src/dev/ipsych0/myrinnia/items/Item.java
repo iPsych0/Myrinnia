@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -173,7 +174,7 @@ public class Item implements Serializable {
             // If we have space
             if (id == item.getId()) {
                 if (Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".");
+                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".", Filter.LOOT);
                     pickedUp = true;
                     return true;
                 }

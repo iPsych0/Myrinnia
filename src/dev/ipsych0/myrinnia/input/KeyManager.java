@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
+import dev.ipsych0.myrinnia.states.ControlsState;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.event.KeyEvent;
@@ -110,6 +111,8 @@ public class KeyManager implements KeyListener, Serializable {
                 SkillsUI.escapePressed = true;
                 QuestUI.escapePressed = true;
                 ShopWindow.escapePressed = true;
+                ControlsState.escapePressed = true;
+                DevToolUI.escapePressed = true;
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
             }

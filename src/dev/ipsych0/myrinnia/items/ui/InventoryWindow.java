@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -495,9 +496,8 @@ public class InventoryWindow implements Serializable {
         if (emptySlots == 0) {
             Handler.get().sendMsg("Your inventory is full.");
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -532,54 +532,21 @@ public class InventoryWindow implements Serializable {
         return -10;
     }
 
-    /*
-     * Returns an item based on id
-     * @param: Item ID
-     */
-    public Item getItemByID(int id) {
-        return Item.items[id];
-    }
-
-
     public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
         return itemSlots;
     }
-
 
     public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
         this.itemSlots = itemSlots;
     }
 
-
     public Rectangle getWindowBounds() {
         return windowBounds;
     }
 
-
     public void setWindowBounds(Rectangle windowBounds) {
         this.windowBounds = windowBounds;
     }
-
-
-    public int getNumCols() {
-        return numCols;
-    }
-
-
-    public void setNumCols(int numCols) {
-        this.numCols = numCols;
-    }
-
-
-    public int getNumRows() {
-        return numRows;
-    }
-
-
-    public void setNumRows(int numRows) {
-        this.numRows = numRows;
-    }
-
 
     public ItemStack getCurrentSelectedSlot() {
         return currentSelectedSlot;

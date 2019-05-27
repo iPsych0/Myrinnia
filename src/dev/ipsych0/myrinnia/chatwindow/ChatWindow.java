@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class ChatWindow implements Serializable {
     private static final int MAX_MESSAGES = 35;
     private Rectangle windowBounds;
     private ScrollBar scrollBar;
+    private List<Filter> filters;
 
     private LinkedList<TextSlot> textSlots;
 
@@ -38,7 +39,8 @@ public class ChatWindow implements Serializable {
         this.width = TextSlot.textWidth;
         this.height = MESSAGE_PER_VIEW * TextSlot.textHeight;
         this.x = 8;
-        this.y = Handler.get().getHeight() - height - 16;
+        this.y = Handler.get().getHeight() - height - TextSlot.textHeight;
+        this.filters = new ArrayList<>();
 
         windowBounds = new Rectangle(x, y, width, height);
         scrollBar = new ScrollBar(x + width - 16, y + 8, 16, height, 0, MESSAGE_PER_VIEW, windowBounds, true);
@@ -55,12 +57,12 @@ public class ChatWindow implements Serializable {
 
             if (scrollBar.hasScrolledUp()) {
                 for (int i = 0; i < scrollBar.getScrollMaximum(); i++) {
-                    textSlots.get(i).setY(textSlots.get(i).getY() - 16);
+                    textSlots.get(i).setY(textSlots.get(i).getY() - TextSlot.textHeight);
                 }
                 scrollBar.setScrolledUp(false);
             } else if (scrollBar.hasScrolledDown()){
                 for (int i = 0; i < scrollBar.getScrollMaximum(); i++) {
-                    textSlots.get(i).setY(textSlots.get(i).getY() + 16);
+                    textSlots.get(i).setY(textSlots.get(i).getY() + TextSlot.textHeight);
                 }
                 scrollBar.setScrolledDown(false);
             }
@@ -97,18 +99,28 @@ public class ChatWindow implements Serializable {
     /*
      * Sends a message to the chat log
      */
-    public boolean sendMessage(String message) {
+    public boolean sendMessage(String message, Filter filter) {
+        if(filter != null && filters.contains(filter)){
+            return false;
+        }
         int offSet = 0;
+        // If the chat is full, remove the first element (FIFO)
         if (textSlots.size() == MAX_MESSAGES) {
             textSlots.removeLast();
+            // The Y-offset for the new slot based on the current scroll index
             offSet = scrollBar.getIndex();
         }
+        // When a new message is added, move up all existing slots by 1 slotsize
         for(TextSlot ts : textSlots){
-            ts.setY(ts.getY() - 16);
+            ts.setY(ts.getY() - TextSlot.textHeight);
         }
+
+        // Add a timestamp (HH:mm format)
         LocalDateTime ldt = LocalDateTime.now();
         String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
-        textSlots.addFirst(new TextSlot(x, y + height - 16 + (offSet * 16), "[" + timeStamp + "]: " + message));
+
+        textSlots.addFirst(new TextSlot(x, y + height - TextSlot.textHeight + (offSet * TextSlot.textHeight),
+                "[" + timeStamp + "]: " + message));
         scrollBar.setListSize(textSlots.size());
         scrollBar.setScrollMaximum(textSlots.size());
         return true;

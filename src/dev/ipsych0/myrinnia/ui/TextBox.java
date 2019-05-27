@@ -138,13 +138,7 @@ TextBox implements KeyListener, Serializable {
                 index = 0;
                 focus = false;
                 isOpen = false;
-                DialogueBox.isOpen = false;
-                ShopWindow.hasBeenPressed = false;
-                ShopWindow.makingChoice = false;
                 KeyManager.typingFocus = false;
-                DevToolUI.isOpen = false;
-                DevToolUI.initialized = false;
-                ControlsState.initialized = false;
                 removeListeners();
                 return;
             }
