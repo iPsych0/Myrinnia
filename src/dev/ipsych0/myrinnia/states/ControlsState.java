@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
+import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.*;
@@ -19,6 +19,7 @@ public class ControlsState extends State {
     private UIManager uiManager;
     private boolean selectingNewKey = false;
     private UIImageButton returnButton;
+    private UIImageButton defaultButton;
     private Rectangle overlay;
     private UIImageButton upKey, leftKey, downKey, rightKey, invKey, chatKey, questKey,
             mapKey, statsKey, skillsKey, interactKey, abilityKey, pauseKey;
@@ -29,9 +30,14 @@ public class ControlsState extends State {
     private static boolean errorShown;
     private static int errorTimer;
 
-    private DialogueBox dBox;
-    private static String[] answers = {"Set", "Cancel"};
-    private static String message = "Please enter the new key.";
+    private DialogueBox keysDBox;
+    private DialogueBox defaultDBox;
+    private static String[] keysAnswers = {"Set", "Cancel"};
+    private static String keysMessage = "Please enter the new key.";
+    private static String defaultConfirmMessage = "Do you wish to reset to the default key binds?";
+    private static String[] confirmAnswers = {"Yes", "No"};
+    private static boolean makingChoice = false;
+
     public static boolean escapePressed;
 
     public ControlsState() {
@@ -73,6 +79,10 @@ public class ControlsState extends State {
 
         setKeys();
 
+        // DefaultButton to reset all keybinds
+        defaultButton = new UIImageButton(overlay.x + overlay.width - 96, overlay.y + overlay.height - 64, 64, 32, Assets.genericButton);
+        uiManager.addObject(defaultButton);
+
         /*
          * The return button to the main menu
          */
@@ -80,7 +90,8 @@ public class ControlsState extends State {
         uiManager.addObject(returnButton);
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
-        dBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, answers, message, tb);
+        keysDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, keysAnswers, keysMessage, tb);
+        defaultDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, confirmAnswers, defaultConfirmMessage, false);
 
     }
 
@@ -112,7 +123,7 @@ public class ControlsState extends State {
         }
 
         for (UIObject btn : uiManager.getObjects()) {
-            if (btn.isHovering() && !btn.equals(returnButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey) {
+            if (btn.isHovering() && !btn.equals(returnButton) && !btn.equals(defaultButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey) {
                 hasBeenPressed = false;
                 selectingNewKey = true;
                 initialized = false;
@@ -124,6 +135,22 @@ public class ControlsState extends State {
                 break;
             }
         }
+
+        if(defaultButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
+                makingChoice = true;
+                hasBeenPressed = false;
+                DialogueBox.isOpen = true;
+                DialogueBox.hasBeenPressed = false;
+            }
+        }
+
+        // If player is making a choice, show the dialoguebox
+        if (makingChoice) {
+            defaultDBox.tick();
+            confirmDefaultKeyBinds();
+        }
+
 
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -138,7 +165,7 @@ public class ControlsState extends State {
         this.uiManager.tick();
 
         if (selectingNewKey) {
-            dBox.tick();
+            keysDBox.tick();
             if (!initialized) {
                 tb.setKeyListeners();
                 initialized = true;
@@ -147,12 +174,27 @@ public class ControlsState extends State {
             checkSubmit();
 
             if (TextBox.enterPressed) {
-                dBox.setPressedButton(dBox.getButtons().get(0));
-                dBox.getPressedButton().getButtonParam()[0] = "Set";
+                keysDBox.setPressedButton(keysDBox.getButtons().get(0));
+                keysDBox.getPressedButton().getButtonParam()[0] = "Set";
                 checkKeys();
             }
         }
 
+    }
+
+    private void confirmDefaultKeyBinds() {
+        if (makingChoice && defaultDBox.getPressedButton() != null) {
+            if ("Yes".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
+                // TODO: Reset keybinds
+                Handler.get().playEffect("ui/ui_button_click.wav");
+            } else if ("No".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
+                Handler.get().playEffect("ui/ui_button_click.wav");
+            }
+            defaultDBox.setPressedButton(null);
+            DialogueBox.isOpen = false;
+            makingChoice = false;
+            hasBeenPressed = false;
+        }
     }
 
     private void checkKeys() {
@@ -167,7 +209,7 @@ public class ControlsState extends State {
             if (" ".equalsIgnoreCase(tb.getCharactersTyped().toLowerCase())) {
                 keys.clear();
                 for (UIObject o : uiManager.getObjects()) {
-                    if (!o.equals(returnButton)) {
+                    if (!o.equals(returnButton) && !o.equals(defaultButton)) {
                         o.width = 32;
                     }
                 }
@@ -176,7 +218,7 @@ public class ControlsState extends State {
             }else{
                 keys.clear();
                 for (UIObject o : uiManager.getObjects()) {
-                    if (!o.equals(returnButton)) {
+                    if (!o.equals(returnButton) && !o.equals(defaultButton)) {
                         o.width = 32;
                     }
                 }
@@ -220,10 +262,10 @@ public class ControlsState extends State {
     }
 
     private void checkSubmit(){
-        if (selectingNewKey && dBox.getPressedButton() != null) {
-            if ("Set".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
+        if (selectingNewKey && keysDBox.getPressedButton() != null) {
+            if ("Set".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
                 checkKeys();
-            } else if ("Cancel".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
+            } else if ("Cancel".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
                 closeTextBox();
             }
             Handler.get().playEffect("ui/ui_button_click.wav");
@@ -239,7 +281,9 @@ public class ControlsState extends State {
         tb.getSb().setLength(0);
         tb.setIndex(0);
         tb.setCharactersTyped(tb.getSb().toString());
-        dBox.setPressedButton(null);
+        keysDBox.setPressedButton(null);
+        defaultDBox.setPressedButton(null);
+        makingChoice = false;
         DialogueBox.isOpen = false;
         initialized = false;
         selectingNewKey = false;
@@ -252,7 +296,7 @@ public class ControlsState extends State {
         this.uiManager.render(g);
 
         for (UIObject o : uiManager.getObjects()) {
-            if (!o.equals(returnButton)) {
+            if (!o.equals(returnButton) && !o.equals(defaultButton)) {
                 if(" ".equalsIgnoreCase(keys.get(o))){
                     Text.drawString(g, "Space", o.x + o.width / 2, o.y + 16, true, Color.YELLOW, Assets.font14);
                 }else {
@@ -308,11 +352,17 @@ public class ControlsState extends State {
         Text.drawString(g, "- Pick up item", overlay.x + 440, overlay.y + 132, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "- Equip item", overlay.x + 440, overlay.y + 152, false, Color.YELLOW, Assets.font14);
 
+        Text.drawString(g, "Default", defaultButton.x + defaultButton.width / 2, defaultButton.y + defaultButton.height / 2, true, Color.YELLOW, Assets.font14);
 
         Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         if (selectingNewKey) {
-            dBox.render(g);
+            keysDBox.render(g);
+        }
+
+        // If player is making a choice, show the dialoguebox
+        if (makingChoice) {
+            defaultDBox.render(g);
         }
 
         if (errorShown) {
