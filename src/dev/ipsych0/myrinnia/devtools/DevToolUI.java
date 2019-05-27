@@ -61,13 +61,14 @@ public class DevToolUI implements Serializable {
         isOpen = false;
         initialized = false;
         // Reset the text box
-        TextBox.enterPressed = false;
-        KeyManager.typingFocus = false;
-        TextBox.focus = false;
         textBox.getSb().setLength(0);
         textBox.setIndex(0);
         textBox.setCharactersTyped(textBox.getSb().toString());
+        TextBox.enterPressed = false;
+        KeyManager.typingFocus = false;
+        TextBox.focus = false;
         TextBox.isOpen = false;
+        textBox.removeListeners();
     }
 
     public void render(Graphics2D g) {

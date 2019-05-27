@@ -90,6 +90,7 @@ public class KeyManager implements KeyListener, Serializable {
 
             // UI keys
             escape = keys[KeyEvent.VK_ESCAPE];
+
         }
     }
 
@@ -112,9 +113,9 @@ public class KeyManager implements KeyListener, Serializable {
                 QuestUI.escapePressed = true;
                 ShopWindow.escapePressed = true;
                 ControlsState.escapePressed = true;
-                DevToolUI.escapePressed = true;
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
+                escape = true;
             }
 
             // Inventory toggle
@@ -194,9 +195,14 @@ public class KeyManager implements KeyListener, Serializable {
                     TextBox.focus = true;
                     typingFocus = true;
                     DevToolUI.initialized = false;
+                    DevToolUI.isOpen = true;
+                    TextBox.isOpen = true;
+                } else {
+                    TextBox.focus = false;
+                    typingFocus = false;
+                    DevToolUI.isOpen = false;
+                    TextBox.isOpen = false;
                 }
-                DevToolUI.isOpen = !DevToolUI.isOpen;
-                TextBox.isOpen = !TextBox.isOpen;
             }
         }
     }
@@ -208,6 +214,9 @@ public class KeyManager implements KeyListener, Serializable {
                 return;
             }
             keys[e.getKeyCode()] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            escape = false;
         }
     }
 

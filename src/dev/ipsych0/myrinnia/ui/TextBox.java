@@ -136,9 +136,11 @@ TextBox implements KeyListener, Serializable {
             if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
                 sb.setLength(0);
                 index = 0;
+                charactersTyped = sb.toString();
                 focus = false;
                 isOpen = false;
                 KeyManager.typingFocus = false;
+                DevToolUI.isOpen = false;
                 removeListeners();
                 return;
             }
