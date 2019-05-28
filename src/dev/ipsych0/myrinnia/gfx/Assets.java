@@ -63,16 +63,9 @@ public class Assets {
     public static BufferedImage scorpion;
 
     // NPC images
-
     public static BufferedImage lorraine, banker;
 
-    // Inventory UI
-    public static BufferedImage invScreen;
-
     // Equipment UI
-    public static BufferedImage equipSlot;
-    public static BufferedImage equipScreen;
-    public static BufferedImage equipStats;
     public static BufferedImage earringSlot;
     public static BufferedImage mainhandSlot;
     public static BufferedImage glovesSlot;
@@ -87,15 +80,10 @@ public class Assets {
     public static BufferedImage ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
-    // Chatwindow UI
-    public static BufferedImage chatwindow, chatwindowTop;
-
     // Crafting UI
-    public static BufferedImage craftWindow;
     public static BufferedImage undiscovered;
 
     // HP Overlay UI
-    public static BufferedImage hpOverlay;
     public static BufferedImage craftingIcon, characterIcon, abilitiesIcon, questsIcon, mapIcon;
     public static BufferedImage locked, unlocked;
 
@@ -107,7 +95,7 @@ public class Assets {
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
             movSpdBuffIcon;
 
-    public static BufferedImage shopWindow;
+    public static BufferedImage uiWindow;
 
     public static BufferedImage[][] puzzlePieces;
 
@@ -228,7 +216,7 @@ public class Assets {
         equipmentPlaceHolders[10] = capeSlot;
         equipmentPlaceHolders[11] = ringSlot2;
 
-        shopWindow = shop_window.imageCrop(0, 0, 460, 313);
+        uiWindow = ui_sheet.imageCrop(0, 4, width * 6, height * 6);
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);
@@ -273,20 +261,7 @@ public class Assets {
         atkSpdBuffIcon = ui_sheet.imageCrop(5, 3);
         movSpdBuffIcon = ui_sheet.imageCrop(6, 3);
 
-        // Inventory sprites
-        invScreen = ui_sheet.imageCrop(0, 9, 132, 329);
-
-        // Equipment sprites
-        equipScreen = ui_sheet.imageCrop(13, 9, 132, 348);
-        equipSlot = ui_sheet.imageCrop(1, 0, 32, 32);
-        equipStats = ui_sheet.imageCrop(0, 20, 112, 160);
-
-        // Chat sprites
-        chatwindow = ui_sheet.imageCrop(0, 4, 432, 112);
-        chatwindowTop = ui_sheet.imageCrop(0, 8, 432, 20);
-
         // HP Overlay sprites
-        hpOverlay = ui_sheet.imageCrop(3, 0, 160, 32);
         abilitiesIcon = ui_sheet.imageCrop(4, 0);
         characterIcon = ui_sheet.imageCrop(5, 0);
         craftingIcon = ui_sheet.imageCrop(6, 0);
@@ -294,16 +269,15 @@ public class Assets {
         mapIcon = ui_sheet.imageCrop(8, 0);
 
         // Crafting UI sprites
-        craftWindow = ui_sheet.imageCrop(5, 9, 242, 320);
         undiscovered = ui_sheet.imageCrop(0, 0);
 
         /*
          * Generic Button Sprites
          */
         genericButton = new BufferedImage[3];
-        genericButton[0] = ui_sheet.imageCrop(9, 0, width * 7, height * 3);
-        genericButton[1] = ui_sheet.imageCrop(16, 0, width * 7, height * 3);
-        genericButton[2] = ui_sheet.imageCrop(16, 3, width * 7, height * 3);
+        genericButton[0] = ui_sheet.imageCrop(0, 10, width * 3, height);
+        genericButton[1] = ui_sheet.imageCrop(3, 10, width * 3, height);
+        genericButton[2] = ui_sheet.imageCrop(6, 10, width * 3, height);
 
         locked = ui_sheet.imageCrop(0, 1, 16, 16);
         unlocked = ui_sheet.imageCrop(1, 1, 16, 16);

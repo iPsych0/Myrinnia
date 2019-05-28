@@ -207,8 +207,8 @@ public class AbilityOverviewUI implements Serializable {
 
     public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
-            g.drawImage(Assets.shopWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);
             Text.drawString(g, "Ability Overview", x + width / 2, y + 16, true, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();

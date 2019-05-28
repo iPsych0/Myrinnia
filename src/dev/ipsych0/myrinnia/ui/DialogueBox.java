@@ -100,7 +100,7 @@ public class DialogueBox implements Serializable {
     public void render(Graphics2D g, Color color) {
         if (isOpen) {
 
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             String[] text = Text.splitIntoLine(String.valueOf(message), 32);
             for (int i = 0; i < text.length; i++) {

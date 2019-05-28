@@ -43,7 +43,7 @@ public class ChatWindow implements Serializable {
         this.filters = new ArrayList<>();
 
         windowBounds = new Rectangle(x, y, width, height);
-        scrollBar = new ScrollBar(x + width - 16, y + 8, 16, height, 0, MESSAGE_PER_VIEW, windowBounds, true);
+        scrollBar = new ScrollBar(x + width - 24, y + 4, 16, height, 0, MESSAGE_PER_VIEW, windowBounds, true);
     }
 
     public void tick() {
@@ -77,8 +77,12 @@ public class ChatWindow implements Serializable {
                 Handler.get().getDevToolUI().render(g);
             }
 
-            g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
-            g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+            Stroke originalStroke = g.getStroke();
+            g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
+            g.setStroke(new BasicStroke(2));
+            g.setColor(Color.BLACK);
+            g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
+            g.setStroke(originalStroke);
 
             Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 

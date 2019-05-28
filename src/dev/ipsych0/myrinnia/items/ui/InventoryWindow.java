@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
-import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -299,7 +298,7 @@ public class InventoryWindow implements Serializable {
 
     public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.invScreen, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
             Text.drawString(g, "Inventory", x + 37, y + 24, false, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();

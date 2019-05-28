@@ -30,7 +30,7 @@ public class XPBar implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        g.drawImage(Assets.invScreen, x, y, width, height, null);
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
         // XP bar
         double xp = Handler.get().getSkill(SkillsList.COMBAT).getExperience();
         double nextLvl = Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp();

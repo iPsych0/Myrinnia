@@ -86,7 +86,7 @@ TextBox implements KeyListener, Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
 
-            g.drawImage(Assets.chatwindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             // If we have focus, draw the cursor and keep track of the pause
             if (focus) {

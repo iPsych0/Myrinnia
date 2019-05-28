@@ -143,7 +143,7 @@ public class EquipmentWindow implements Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
 
-            g.drawImage(Assets.equipScreen, x, y, 132, 348, null);
+            g.drawImage(Assets.uiWindow, x, y, 132, 348, null);
             Text.drawString(g, "Equipment", x + 34, y + 24, false, Color.YELLOW, Assets.font14);
 
             for (int i = 0; i < equipmentSlots.size(); i++) {
@@ -157,7 +157,7 @@ public class EquipmentWindow implements Serializable {
 
                 // If hovering over an item in the inventory, draw the tooltip
                 if (slot.contains(mouse) && es.getEquipmentStack() != null) {
-                    g.drawImage(Assets.shopWindow, x - 160, y, 160, 154, null);
+                    g.drawImage(Assets.uiWindow, x - 160, y, 160, 154, null);
 
                     Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 153, y + 16, false, Color.YELLOW, Assets.font14);
 
@@ -186,7 +186,7 @@ public class EquipmentWindow implements Serializable {
                 }
             }
 
-            g.drawImage(Assets.shopWindow, x + 10, y + height + 12, 112, 160, null);
+            g.drawImage(Assets.uiWindow, x + 10, y + height + 12, 112, 160, null);
 
             int index = 0;
             Text.drawString(g, "Stats ", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);

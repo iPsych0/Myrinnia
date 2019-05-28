@@ -108,6 +108,7 @@ public class MenuState extends State {
         uiManager.render(g);
 
         // Render the text in the main menu
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 192, 24, 384, 80, null);
         Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 80, true, Color.YELLOW, Assets.font20);
 

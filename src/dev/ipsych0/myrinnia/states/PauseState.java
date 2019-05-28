@@ -124,6 +124,7 @@ public class PauseState extends State {
         uiManager.render(g);
 
         // Render the text in the main menu
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 192, 24, 384, 48, null);
         Text.drawString(g, "Game Paused!", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Resume Game", Handler.get().getWidth() / 2, resumeButton.y + resumeButton.height / 2, true, Color.YELLOW, Assets.font32);
         Text.drawString(g, "Settings", Handler.get().getWidth() / 2, settingsButton.y + settingsButton.height / 2, true, Color.YELLOW, Assets.font32);

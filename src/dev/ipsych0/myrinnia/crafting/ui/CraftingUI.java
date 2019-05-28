@@ -249,7 +249,7 @@ public class CraftingUI implements Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
 
-            g.drawImage(Assets.invScreen, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             uiManager.render(g);
 
@@ -277,7 +277,7 @@ public class CraftingUI implements Serializable {
 
             if (possibleRecipe != null) {
                 craftableRecipe = String.valueOf(possibleRecipe.getAmount());
-                g.drawImage(Assets.shopWindow, x + width, y, width - 40, height / 2, null);
+                g.drawImage(Assets.uiWindow, x + width, y, width - 40, height / 2, null);
 
             }
 

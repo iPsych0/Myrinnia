@@ -170,7 +170,7 @@ public class ScrollBar implements Serializable {
                 } else {
                     g.drawImage(Assets.genericButton[1], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
                 }
-                Text.drawString(g, "v", arrowDown.x + arrowDown.width / 2, arrowDown.y + arrowDown.height / 2, true, Color.YELLOW, fontSize);
+                Text.drawString(g, "v", arrowDown.x + arrowDown.width / 2, arrowDown.y + arrowDown.height / 2 - 2, true, Color.YELLOW, fontSize);
 
             }
         }

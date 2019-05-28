@@ -178,7 +178,7 @@ public class SkillsUI implements Serializable {
 
     public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             uiManager.render(g);
 

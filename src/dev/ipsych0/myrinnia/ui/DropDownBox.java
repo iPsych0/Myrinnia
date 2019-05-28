@@ -134,6 +134,7 @@ public class DropDownBox extends UIImageButton {
     }
 
     public void render(Graphics2D g) {
+        Stroke originalStroke = g.getStroke();
         if (open) {
             for (int i = currentIndex; i < itemsPerView + currentIndex; i++) {
                 UIObject o = uiManager.getObjects().get(i);
@@ -143,17 +144,26 @@ public class DropDownBox extends UIImageButton {
                     Rectangle bounds = o.getBounds();
                     g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 }
+
                 Text.drawString(g, items.get(i), x + o.width / 2, o.y + o.height / 2, true, Color.YELLOW, Assets.font14);
 
                 if (i == 0) {
-                    Text.drawString(g, "^", x + width - 4, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, "^", x + width - 9, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+                    g.setStroke(new BasicStroke(1));
+                    g.setColor(Color.BLACK);
+                    g.drawLine(x + width - 18, y + 1, x + width - 18, y + height - 2);
+                    g.setStroke(originalStroke);
                 }
             }
         } else {
             UIObject o = uiManager.getObjects().get(0);
             o.render(g);
-            Text.drawString(g, "V", x + width - 4, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+            g.setStroke(new BasicStroke(1));
+            g.setColor(Color.BLACK);
+            g.drawLine(x + width - 18, y + 1, x + width - 18, y + height - 2);
+            g.setStroke(originalStroke);
             Text.drawString(g, items.get(selectedIndex), x + o.width / 2, y + o.height / 2, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "v", x + width - 9, y + o.height / 2 - 2, true, Color.YELLOW, Assets.font14);
         }
     }
 

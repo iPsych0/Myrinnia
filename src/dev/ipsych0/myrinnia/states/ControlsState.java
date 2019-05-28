@@ -220,7 +220,6 @@ public class ControlsState extends State {
     private void confirmDefaultKeyBinds() {
         if (makingChoice && defaultDBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
-                // TODO: Reset keybinds
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 setDefaultKeys();
             } else if ("No".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
@@ -328,7 +327,7 @@ public class ControlsState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.genericButton[2], overlay.x, overlay.y, overlay.width, overlay.height, null);
+        g.drawImage(Assets.uiWindow, overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
 
         for (UIObject o : uiManager.getObjects()) {
@@ -380,7 +379,7 @@ public class ControlsState extends State {
 
         Text.drawString(g, "Mouse controls:", overlay.x + 424, overlay.y + 24, false, Color.YELLOW, Assets.font14);
 
-        g.drawImage(Assets.genericButton[1], overlay.x + 424, overlay.y + 28, 120, 132, null);
+        g.drawImage(Assets.uiWindow, overlay.x + 424, overlay.y + 28, 120, 132, null);
         Text.drawString(g, "Left click:", overlay.x + 432, overlay.y + 48, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "- Attack", overlay.x + 440, overlay.y + 68, false, Color.YELLOW, Assets.font14);
 

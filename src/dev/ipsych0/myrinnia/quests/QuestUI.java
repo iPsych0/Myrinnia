@@ -106,7 +106,7 @@ public class QuestUI implements Serializable {
             if (!zonesInitialized) {
                 initZones();
             }
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             Rectangle mouse = Handler.get().getMouse();
 

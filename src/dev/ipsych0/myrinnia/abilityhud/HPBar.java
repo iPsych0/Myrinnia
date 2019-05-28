@@ -30,7 +30,7 @@ public class HPBar implements Serializable {
 
     public void render(Graphics2D g) {
         // HP Bar
-        g.drawImage(Assets.invScreen, x, y, width, height, null);
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
         g.setColor(HPOverlay.hpColorRed);
         g.fillRect(x + 1, y + 1, width - 3, height - 3);
         g.setColor(HPOverlay.hpColorRedOutline);

@@ -70,8 +70,6 @@ public class GraphicsState extends State {
         Collections.reverse(uiManager.getObjects());
         uiManager.render(g);
 
-//        g.drawImage(Assets.genericButton[1], overlay.x + overlay.width / 4, overlay.y + 64, overlay.width - overlay.width / 4 - 32, overlay.height - 168, null);
-
         Text.drawString(g, "Display:", overlay.x + 8, overlay.y + 32, false, Color.YELLOW, Assets.font24);
         Text.drawString(g, "Display mode:", overlay.x + 8, overlay.y + 80, false, Color.YELLOW, Assets.font20);
         Text.drawString(g, "Resolution:", overlay.x + 8, overlay.y + 112, false, Color.YELLOW, Assets.font20);

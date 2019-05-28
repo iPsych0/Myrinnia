@@ -340,7 +340,7 @@ public abstract class Creature extends Entity {
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
-        g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
