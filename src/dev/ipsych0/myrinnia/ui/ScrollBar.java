@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -159,18 +158,16 @@ public class ScrollBar implements Serializable {
             if (listSize > itemsPerWindow) {
 
                 if (arrowUp.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                    g.drawImage(Assets.scrollUpButton[0], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
                 } else {
-                    g.drawImage(Assets.genericButton[1], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                    g.drawImage(Assets.scrollUpButton[1], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
                 }
-                Text.drawString(g, "^", arrowUp.x + arrowUp.width / 2, arrowUp.y + arrowUp.height / 2, true, Color.YELLOW, fontSize);
 
                 if (arrowDown.contains(mouse)) {
-                    g.drawImage(Assets.genericButton[0], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                    g.drawImage(Assets.scrollDownButton[0], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
                 } else {
-                    g.drawImage(Assets.genericButton[1], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                    g.drawImage(Assets.scrollDownButton[1], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
                 }
-                Text.drawString(g, "v", arrowDown.x + arrowDown.width / 2, arrowDown.y + arrowDown.height / 2 - 2, true, Color.YELLOW, fontSize);
 
             }
         }

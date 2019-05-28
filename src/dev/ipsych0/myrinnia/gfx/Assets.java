@@ -54,6 +54,7 @@ public class Assets {
 
     // Main menu buttons
     public static BufferedImage[] genericButton;
+    public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
     public static BufferedImage wood, ore, testSword, purpleSword, testAxe, testPickaxe;
@@ -170,7 +171,7 @@ public class Assets {
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
-        for(SpriteSheet tileSheet : tileSheets) {
+        for (SpriteSheet tileSheet : tileSheets) {
             for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
                 for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
                     tileSheet.tileCrop(x, y);
@@ -279,6 +280,14 @@ public class Assets {
         genericButton[1] = ui_sheet.imageCrop(3, 10, width * 3, height);
         genericButton[2] = ui_sheet.imageCrop(6, 10, width * 3, height);
 
+        scrollDownButton = new BufferedImage[2];
+        scrollDownButton[0] = ui_sheet.imageCrop(6, 4);
+        scrollDownButton[1] = ui_sheet.imageCrop(6, 5);
+
+        scrollUpButton = new BufferedImage[2];
+        scrollUpButton[0] = ui_sheet.imageCrop(6, 6);
+        scrollUpButton[1] = ui_sheet.imageCrop(6, 7);
+
         locked = ui_sheet.imageCrop(0, 1, 16, 16);
         unlocked = ui_sheet.imageCrop(1, 1, 16, 16);
 
@@ -371,7 +380,7 @@ public class Assets {
 
         /*
          * Creature Animations
-        */
+         */
 
         aquatic_cultist_down = new BufferedImage[3];
         aquatic_cultist_up = new BufferedImage[3];
