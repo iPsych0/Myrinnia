@@ -198,7 +198,10 @@ public abstract class World implements Serializable {
             renderOverTiles.get(i).tick();
             renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
         }
+        itemManager.postRender(g);
         entityManager.postRender(g);
+
+
 
 //        if(nightTime) {
 //            renderNight(g);

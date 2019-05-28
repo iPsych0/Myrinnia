@@ -91,7 +91,7 @@ public class AttributeBuff extends Buff {
         switch (attribute) {
             case STR:
                 double newStr = r.getStrength() * (1d + percentage);
-                statIncreaseInt = (int) newStr - r.getStrength();
+                statIncreaseInt = (int) Math.ceil(newStr) - r.getStrength();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
                     r.setStrength(r.getStrength() + statIncreaseInt);
@@ -101,7 +101,7 @@ public class AttributeBuff extends Buff {
                 break;
             case DEF:
                 double newDef = r.getDefence() * (1d + percentage);
-                statIncreaseInt = (int) newDef - r.getDefence();
+                statIncreaseInt = (int) Math.ceil(newDef) - r.getDefence();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
                     r.setDefence(r.getDefence() + statIncreaseInt);
@@ -111,7 +111,7 @@ public class AttributeBuff extends Buff {
                 break;
             case DEX:
                 double newDex = r.getDexterity() * (1d + percentage);
-                statIncreaseInt = (int) newDex - r.getDexterity();
+                statIncreaseInt = (int) Math.ceil(newDex) - r.getDexterity();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
                     r.setDexterity(r.getDexterity() + statIncreaseInt);
@@ -121,7 +121,7 @@ public class AttributeBuff extends Buff {
                 break;
             case INT:
                 double newInt = r.getIntelligence() * (1d + percentage);
-                statIncreaseInt = (int) newInt - r.getIntelligence();
+                statIncreaseInt = (int) Math.ceil(newInt) - r.getIntelligence();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
                     r.setIntelligence(r.getIntelligence() + statIncreaseInt);
@@ -131,7 +131,7 @@ public class AttributeBuff extends Buff {
                 break;
             case VIT:
                 double newVit = r.getVitality() * (1d + percentage);
-                statIncreaseInt = (int) newVit - r.getVitality();
+                statIncreaseInt = (int) Math.ceil(newVit) - r.getVitality();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
                     r.setVitality(r.getVitality() + statIncreaseInt);
@@ -141,7 +141,7 @@ public class AttributeBuff extends Buff {
                 break;
             case ATKSPD:
                 double newAtkSpd = r.getAttackSpeed() * (1d + percentage);
-                statIncreaseDouble = (int) newAtkSpd - r.getAttackSpeed();
+                statIncreaseDouble = (int) Math.ceil(newAtkSpd) - r.getAttackSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
                     r.setAttackSpeed((float) (r.getAttackSpeed() + statIncreaseDouble));
@@ -151,7 +151,7 @@ public class AttributeBuff extends Buff {
                 break;
             case MOVSPD:
                 double newMovSpd = r.getSpeed() * (1d + percentage);
-                statIncreaseDouble = (int) newMovSpd - r.getSpeed();
+                statIncreaseDouble = (int) Math.ceil(newMovSpd) - r.getSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
                     r.setSpeed((float) (r.getSpeed() + statIncreaseDouble));

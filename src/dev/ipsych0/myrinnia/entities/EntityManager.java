@@ -191,7 +191,6 @@ public class EntityManager implements Serializable {
         // Keep rendering the selected Entity
         if (selectedEntity != null) {
             if (selectedEntity.active) {
-                selectedEntity.drawEntityOverlay(selectedEntity, g);
                 if (selectedEntity.isNpc()) {
                     drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity, 0, 0, Color.YELLOW);
@@ -199,6 +198,7 @@ public class EntityManager implements Serializable {
                     drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity, 0, 0, Color.RED);
                 }
+                selectedEntity.drawEntityOverlay(selectedEntity, g);
             } else {
                 selectedEntity = null;
             }
@@ -209,9 +209,6 @@ public class EntityManager implements Serializable {
             Entity e = it.next();
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
-                if (e.isOverlayDrawn()) {
-                    e.drawEntityOverlay(e, g);
-                }
 
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc()) {
@@ -220,6 +217,9 @@ public class EntityManager implements Serializable {
                 } else if (e.isAttackable()) {
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.RED);
+                }
+                if (e.isOverlayDrawn()) {
+                    e.drawEntityOverlay(e, g);
                 }
             }
         }

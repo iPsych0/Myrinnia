@@ -30,26 +30,6 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
         recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
         recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
-recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.regularLogs, 5), new ItemStack(Item.regularOre, 5), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularOre, 2), new ItemStack(Item.regularLogs, 5), new ItemStack(Item.coins, 1), new ItemStack(Item.purpleSword, 1)));
-        recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
-recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.regularLogs, 5), new ItemStack(Item.regularOre, 5), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularOre, 2), new ItemStack(Item.regularLogs, 5), new ItemStack(Item.coins, 1), new ItemStack(Item.purpleSword, 1)));
-        recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
-recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.regularLogs, 5), new ItemStack(Item.regularOre, 5), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularOre, 2), new ItemStack(Item.regularLogs, 5), new ItemStack(Item.coins, 1), new ItemStack(Item.purpleSword, 1)));
-        recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
-recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.CraftingOther, new ItemStack(Item.regularLogs, 5), new ItemStack(Item.regularOre, 5), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularOre, 2), new ItemStack(Item.regularLogs, 5), new ItemStack(Item.coins, 1), new ItemStack(Item.purpleSword, 1)));
-        recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
-        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
 
 
         recipes.sort((o1, o2) -> {

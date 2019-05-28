@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ public class ItemManager implements Serializable {
     private Collection<Item> added;
     private static boolean soundPlayed = false;
     private static int lastPlayed = 0;
+    private transient Item lastHovered;
 
     public ItemManager() {
         items = new CopyOnWriteArrayList<>();
@@ -86,15 +89,35 @@ public class ItemManager implements Serializable {
     }
 
     public void render(Graphics2D g) {
+        int count = 0;
         for (Item i : items) {
             i.render(g);
             if(i.isHovering()){
+                count++;
                 drawHoverCorners(g, i, 1, 1, Color.BLACK);
                 drawHoverCorners(g, i);
+                lastHovered = i;
             }
 
             // Draw item bounds for picking up
 //			g.drawRect((int)(i.itemPosition(0, 0).x - Handler.get().getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - Handler.get().getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
+        }
+
+        if(count == 0){
+            lastHovered = null;
+        }
+
+        if(lastHovered != null && count > 1){
+            Text.drawString(g, "+" + count, lastHovered.getX() + Item.ITEMWIDTH - (int)Handler.get().getGameCamera().getxOffset(),
+                    lastHovered.getY() - (int)Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font14);
+        }
+    }
+
+    public void postRender(Graphics2D g){
+        if(lastHovered != null) {
+            g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
+            Text.drawString(g, lastHovered.getName(), Handler.get().getWidth() / 2, 12, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, lastHovered.getItemRarity().toString(), Handler.get().getWidth() / 2, 26, true, ItemRarity.getColor(lastHovered), Assets.font14);
         }
     }
 
