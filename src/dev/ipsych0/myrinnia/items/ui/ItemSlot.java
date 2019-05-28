@@ -33,7 +33,7 @@ public class ItemSlot implements Serializable {
 
     public void render(Graphics2D g) {
 
-        g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
+        g.drawImage(Assets.genericButton[0], x, y, SLOTSIZE, SLOTSIZE, null);
 
         if (itemStack != null) {
             if (itemStack.getItem() == Item.coins) {

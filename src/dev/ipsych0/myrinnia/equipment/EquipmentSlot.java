@@ -34,18 +34,11 @@ public class EquipmentSlot implements Serializable {
     }
 
     public void render(Graphics2D g, BufferedImage image) {
-
-//		g.setColor(interfaceColour);
-//		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-//		
-//		g.setColor(Color.BLACK);
-//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+        g.drawImage(Assets.genericButton[0], x, y, SLOTSIZE, SLOTSIZE, null);
 
         if (itemStack != null) {
-            g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
         } else {
-            g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
             g.drawImage(image, x, y, SLOTSIZE, SLOTSIZE, null);
         }
 

@@ -36,7 +36,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
 
     public void render(Graphics2D g, int slotNum) {
         super.render(g);
-        g.drawImage(Assets.genericButton[1], x, y, width, height, null);
+        g.drawImage(Assets.genericButton[0], x, y, width, height, null);
         if (ability != null) {
             ability.render(g, x, y);
             if (ability.isSelectable() && ability.isSelected()) {
