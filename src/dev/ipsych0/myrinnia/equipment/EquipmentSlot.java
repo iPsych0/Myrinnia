@@ -20,30 +20,25 @@ public class EquipmentSlot implements Serializable {
     private int x, y;
     private ItemStack itemStack;
     public static boolean hasSwapped = false;
+    private Rectangle bounds;
 
     public EquipmentSlot(int x, int y, ItemStack itemStack) {
         this.x = x;
         this.y = y;
         this.itemStack = itemStack;
+        this.bounds = new Rectangle(x, y, SLOTSIZE, SLOTSIZE);
     }
 
     public void tick() {
 
     }
 
-    public void render(Graphics g, BufferedImage image) {
-
-//		g.setColor(interfaceColour);
-//		g.fillRect(x, y, SLOTSIZE, SLOTSIZE);
-//		
-//		g.setColor(Color.BLACK);
-//		g.drawRect(x, y, SLOTSIZE, SLOTSIZE);
+    public void render(Graphics2D g, BufferedImage image) {
+        g.drawImage(Assets.genericButton[0], x, y, SLOTSIZE, SLOTSIZE, null);
 
         if (itemStack != null) {
-            g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
         } else {
-            g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
             g.drawImage(image, x, y, SLOTSIZE, SLOTSIZE, null);
         }
 
@@ -51,11 +46,7 @@ public class EquipmentSlot implements Serializable {
 
     public boolean equipItem(Item item) {
         if (this.itemStack != null) {
-            if (item.getEquipSlot() == itemStack.getItem().getEquipSlot()) {
-                return false;
-            } else {
-                return true;
-            }
+            return item.getEquipSlot() != itemStack.getItem().getEquipSlot();
         } else {
             this.itemStack = new ItemStack(item);
             return true;
@@ -87,6 +78,8 @@ public class EquipmentSlot implements Serializable {
         this.y = y;
     }
 
-
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }
 

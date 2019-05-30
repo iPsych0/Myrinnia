@@ -19,12 +19,10 @@ public class ChatDialogue implements Serializable {
      */
     private static final long serialVersionUID = -8130149340424276218L;
     private int x, y, width, height;
-    private ArrayList<ChatOptions> chatOptions;
-    private ContinueButton continueButton;
+    private ArrayList<ChatOption> chatOptions;
     public static boolean hasBeenPressed = false;
     private String[] menuOptions;
-    private int optionID;
-    private ChatOptions chosenOption;
+    private ChatOption chosenOption;
     private Rectangle bounds;
     private UIManager uiManager;
 
@@ -35,18 +33,16 @@ public class ChatDialogue implements Serializable {
         this.y = Handler.get().getHeight() - height - 16;
         this.menuOptions = menuOptions;
 
-        chatOptions = new ArrayList<ChatOptions>();
+        chatOptions = new ArrayList<>();
         uiManager = new UIManager();
 
-        // Zie DialogueBox functie voor inladen!!!
-        if (menuOptions.length > 1) {
-            for (int i = 0; i < menuOptions.length; i++) {
-                chatOptions.add(new ChatOptions(x + 16, y + 11 + (20 * i), i, menuOptions[i]));
-                uiManager.addObject(chatOptions.get(i));
+        for (int i = 0; i < menuOptions.length; i++) {
+            if (menuOptions.length == 1) {
+                chatOptions.add(new ChatOption(x + (width / 2) - 50, y + 12 + (20 * 4), menuOptions[i]));
+            } else {
+                chatOptions.add(new ChatOption(x + 16, y + 11 + (20 * i), i, menuOptions[i]));
             }
-        } else {
-            continueButton = new ContinueButton(x + (width / 2) - 50, y + 12 + (20 * 4));
-            uiManager.addObject(continueButton);
+            uiManager.addObject(chatOptions.get(i));
         }
 
         bounds = new Rectangle(x, y, width, height);
@@ -57,43 +53,34 @@ public class ChatDialogue implements Serializable {
 
         uiManager.tick();
 
-        if (menuOptions.length > 1) {
-            for (ChatOptions option : chatOptions) {
+        for (ChatOption option : chatOptions) {
 
-                option.tick();
+            option.tick();
 
-                Rectangle optionSlot = option.getBounds();
+            Rectangle optionSlot = option.getBounds();
 
-                if (optionSlot.contains(mouse)) {
-                    option.setHovering(true);
-                    if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
-                        hasBeenPressed = false;
-                        chosenOption = option;
-                        Player.hasInteracted = false;
-                        MouseManager.justClosedUI = true;
-                    }
-                } else {
-                    option.setHovering(false);
-                }
-            }
-        } else {
-            continueButton.tick();
-            if (continueButton.getBounds().contains(mouse)) {
-                continueButton.setHovering(true);
+            if (optionSlot.contains(mouse)) {
+                option.setHovering(true);
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !Handler.get().getMouseManager().isDragged()) {
                     hasBeenPressed = false;
+                    chosenOption = option;
                     Player.hasInteracted = false;
-                    continueButton.setPressed(true);
                     MouseManager.justClosedUI = true;
                 }
             } else {
-                continueButton.setHovering(false);
+                option.setHovering(false);
             }
         }
+
     }
 
-    public void render(Graphics g) {
-        g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
+    public void render(Graphics2D g) {
+        Stroke originalStroke = g.getStroke();
+        g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
+        g.setStroke(new BasicStroke(2));
+        g.setColor(Color.BLACK);
+        g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
+        g.setStroke(originalStroke);
 
         uiManager.render(g);
 
@@ -103,39 +90,23 @@ public class ChatDialogue implements Serializable {
             }
         }
 
-        g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
-        Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getClass().getSimpleName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
+//        g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+        Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
     }
 
-    public ArrayList<ChatOptions> getChatOptions() {
+    public ArrayList<ChatOption> getChatOptions() {
         return chatOptions;
     }
 
-    public void setChatOptions(ArrayList<ChatOptions> chatOptions) {
+    public void setChatOptions(ArrayList<ChatOption> chatOptions) {
         this.chatOptions = chatOptions;
     }
 
-    public int getOptionID() {
-        return optionID;
-    }
-
-    public void setOptionID(int optionID) {
-        this.optionID = optionID;
-    }
-
-    public ContinueButton getContinueButton() {
-        return continueButton;
-    }
-
-    public void setContinueButton(ContinueButton continueButton) {
-        this.continueButton = continueButton;
-    }
-
-    public ChatOptions getChosenOption() {
+    public ChatOption getChosenOption() {
         return chosenOption;
     }
 
-    public void setChosenOption(ChatOptions chosenOption) {
+    public void setChosenOption(ChatOption chosenOption) {
         this.chosenOption = chosenOption;
     }
 

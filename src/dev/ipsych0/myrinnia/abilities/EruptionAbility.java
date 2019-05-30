@@ -31,7 +31,7 @@ public class EruptionAbility extends Ability {
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.eruptionI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null) {
             g.drawImage(animation.getCurrentFrame(),
@@ -44,7 +44,7 @@ public class EruptionAbility extends Ability {
     @Override
     public void cast() {
         if (!initDone) {
-            displayTime = 1 * 60;
+            displayTime = 60;
             hitBox = new Rectangle((int) caster.getX() - 48, (int) caster.getY() - 48,
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
@@ -54,11 +54,11 @@ public class EruptionAbility extends Ability {
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (hitBox.contains(e.getCollisionBounds(0, 0))) {
+                if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
                     if (!e.isAttackable())
                         continue;
                     if (!e.equals(caster)) {
-                        e.damage(DamageType.STR, caster, e, this);
+                        e.damage(DamageType.INT, caster, e, this);
                         e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 3));
                     }
                 }

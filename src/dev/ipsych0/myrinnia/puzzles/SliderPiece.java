@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class SliderPiece implements Serializable {
+class SliderPiece implements Serializable {
 
     /**
      *
@@ -39,7 +39,7 @@ public class SliderPiece implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(texture, windowX + (32 * xPos), windowY + (32 * yPos), 32, 32, null);
         g.setColor(Color.BLACK);
         g.drawRect(windowX + (32 * xPos), windowY + (32 * yPos), 32, 32);

@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -101,12 +101,12 @@ public class QuestUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
             if (!zonesInitialized) {
                 initZones();
             }
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             Rectangle mouse = Handler.get().getMouse();
 
@@ -139,7 +139,7 @@ public class QuestUI implements Serializable {
                             }
                         }
                     }
-                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().toString(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
                 }
 
                 if (exitButton.contains(mouse)) {

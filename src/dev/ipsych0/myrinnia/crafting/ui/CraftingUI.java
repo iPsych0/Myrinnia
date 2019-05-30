@@ -246,10 +246,10 @@ public class CraftingUI implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
 
-            g.drawImage(Assets.invScreen, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             uiManager.render(g);
 
@@ -277,7 +277,7 @@ public class CraftingUI implements Serializable {
 
             if (possibleRecipe != null) {
                 craftableRecipe = String.valueOf(possibleRecipe.getAmount());
-                g.drawImage(Assets.shopWindow, x + width, y, width - 40, height / 2, null);
+                g.drawImage(Assets.uiWindow, x + width, y, width - 40, height / 2, null);
 
             }
 
@@ -409,7 +409,6 @@ public class CraftingUI implements Serializable {
         for (CraftingSlot craftingSlot : craftingSlots) {
             if (craftingSlot.getItemStack() == null) {
                 nullSlots++;
-                continue;
             } else {
                 tempCraftSlotList.add(craftingSlot.getItemStack());
 
@@ -487,7 +486,6 @@ public class CraftingUI implements Serializable {
 
                 for (int j = 0; j < craftingSlots.size(); j++) {
                     if (craftingSlots.get(j).getItemStack() == null) {
-                        continue;
                     } else {
                         test[index] = j;
                         index++;
@@ -548,7 +546,7 @@ public class CraftingUI implements Serializable {
     public void findRecipe() {
 
         //Create an ArrayList to store the ItemStacks from the Crafting Slots
-        ArrayList<ItemStack> tempCraftSlotList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> tempCraftSlotList = new ArrayList<>();
 
         int nullSlots = 0;
 
@@ -556,7 +554,6 @@ public class CraftingUI implements Serializable {
         for (CraftingSlot craftingSlot : craftingSlots) {
             if (craftingSlot.getItemStack() == null) {
                 nullSlots++;
-                continue;
             } else {
                 tempCraftSlotList.add(craftingSlot.getItemStack());
 
@@ -620,7 +617,6 @@ public class CraftingUI implements Serializable {
                 filledCraftSlots = new int[totalCraftAmount.length];
                 for (int j = 0; j < craftingSlots.size(); j++) {
                     if (craftingSlots.get(j).getItemStack() == null) {
-                        continue;
                     } else {
                         filledCraftSlots[temp] = j;
                         temp++;
@@ -661,7 +657,7 @@ public class CraftingUI implements Serializable {
      * Returns the ItemStack (the possible recipe)
      * @param: the recipe id
      */
-    public ItemStack getRecipeItem(int recipeID) {
+    private ItemStack getRecipeItem(int recipeID) {
         return craftingManager.getRecipes().get(recipeID).getResult();
     }
 

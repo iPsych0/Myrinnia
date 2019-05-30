@@ -27,8 +27,8 @@ public class AbilityTooltip implements Serializable {
 
     }
 
-    public void render(Graphics g, Ability ability) {
-        g.drawImage(Assets.invScreen, x, y, width, height, null);
+    public void render(Graphics2D g, Ability ability) {
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
         ability.render(g, x + 4, y + 16);
         Text.drawString(g, ability.getName(), x + 40, y + 32, false, Color.YELLOW, Assets.font14);
 

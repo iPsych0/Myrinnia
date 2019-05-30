@@ -46,7 +46,7 @@ public class InventoryWindow implements Serializable {
         this.x = Handler.get().getWidth() - width - 8;
         this.y = 8;
         windowBounds = new Rectangle(x, y, width, height);
-        itemSlots = new CopyOnWriteArrayList<ItemSlot>();
+        itemSlots = new CopyOnWriteArrayList<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -82,7 +82,7 @@ public class InventoryWindow implements Serializable {
 
                 is.tick();
 
-                Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                Rectangle slot = is.getBounds();
 
                 // If an item is dragged
                 if (Handler.get().getMouseManager().isDragged()) {
@@ -183,17 +183,15 @@ public class InventoryWindow implements Serializable {
 
                             // If we don't have the required level to equip that item, return
                             if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
-                                String missingReqs = "";
+                                StringBuilder missingReqs = new StringBuilder();
                                 boolean missing = false;
                                 for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
                                     if (is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
                                         missing = true;
                                         if (i < is.getItemStack().getItem().getRequirements().length - 1)
-                                            missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
-                                                    is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " and ";
+                                            missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" and ");
                                         else
-                                            missingReqs += is.getItemStack().getItem().getRequirements()[i].getLevel() + " " +
-                                                    is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase() + " points";
+                                            missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" points");
                                     }
                                 }
                                 if (missing) {
@@ -298,16 +296,16 @@ public class InventoryWindow implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.invScreen, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
             Text.drawString(g, "Inventory", x + 37, y + 24, false, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();
 
-            for (ItemSlot is : itemSlots) {
+            for (int i = itemSlots.size() - 1; i >= 0; i--) {
 
-                is.render(g);
+                itemSlots.get(i).render(g);
 
                 if (currentSelectedSlot != null) {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX() - 14,
@@ -316,12 +314,12 @@ public class InventoryWindow implements Serializable {
                         Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
                 }
 
-                Rectangle temp2 = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                Rectangle temp2 = itemSlots.get(i).getBounds();
 
 
                 // If hovering over an item in the inventory, draw the tooltip
-                if (temp2.contains(mouse) && is.getItemStack() != null) {
-                    itemTooltip.render(is.getItemStack().getItem(), g);
+                if (temp2.contains(mouse) && itemSlots.get(i).getItemStack() != null) {
+                    itemTooltip.render(itemSlots.get(i).getItemStack().getItem(), g);
                 }
             }
         }
@@ -341,7 +339,6 @@ public class InventoryWindow implements Serializable {
                     index = i;
                 }
             } else if (itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (itemSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
@@ -409,7 +406,6 @@ public class InventoryWindow implements Serializable {
                     break;
                 }
             } else {
-                continue;
             }
         }
         return found;
@@ -499,9 +495,8 @@ public class InventoryWindow implements Serializable {
         if (emptySlots == 0) {
             Handler.get().sendMsg("Your inventory is full.");
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -536,54 +531,21 @@ public class InventoryWindow implements Serializable {
         return -10;
     }
 
-    /*
-     * Returns an item based on id
-     * @param: Item ID
-     */
-    public Item getItemByID(int id) {
-        return Item.items[id];
-    }
-
-
     public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
         return itemSlots;
     }
-
 
     public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
         this.itemSlots = itemSlots;
     }
 
-
     public Rectangle getWindowBounds() {
         return windowBounds;
     }
 
-
     public void setWindowBounds(Rectangle windowBounds) {
         this.windowBounds = windowBounds;
     }
-
-
-    public int getNumCols() {
-        return numCols;
-    }
-
-
-    public void setNumCols(int numCols) {
-        this.numCols = numCols;
-    }
-
-
-    public int getNumRows() {
-        return numRows;
-    }
-
-
-    public void setNumRows(int numRows) {
-        this.numRows = numRows;
-    }
-
 
     public ItemStack getCurrentSelectedSlot() {
         return currentSelectedSlot;

@@ -4,9 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
-public class AoECircle extends Ellipse2D.Float {
+class AoECircle extends Ellipse2D.Float {
 
     private Rectangle bounds;
 

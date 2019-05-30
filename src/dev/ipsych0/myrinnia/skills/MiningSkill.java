@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
+import java.awt.image.BufferedImage;
 
 public class MiningSkill extends Skill {
 
@@ -15,6 +18,11 @@ public class MiningSkill extends Skill {
         initResources();
 
         categories.add(SkillCategory.Ores);
+    }
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.miningIcon;
     }
 
     private void initResources() {

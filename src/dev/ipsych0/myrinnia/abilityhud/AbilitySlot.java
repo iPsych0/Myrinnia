@@ -34,32 +34,32 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g, int slotNum) {
+    public void render(Graphics2D g, int slotNum) {
         super.render(g);
-        g.drawImage(Assets.genericButton[1], x, y, width, height, null);
+        g.drawImage(Assets.genericButton[0], x, y, width, height, null);
         if (ability != null) {
             ability.render(g, x, y);
             if (ability.isSelectable() && ability.isSelected()) {
                 g.setColor(selectedColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
             if (ability.isOnCooldown()) {
                 g.setColor(cooldownColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
 
             }
         }
-        Text.drawString(g, String.valueOf(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, Integer.toString(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         if (ability != null) {
             ability.render(g, x, y);
             if (!ability.isUnlocked()) {
                 g.setColor(cooldownColor);
-                g.fillRoundRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, 4, 4);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
         }
     }

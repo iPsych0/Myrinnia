@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
+import java.awt.image.BufferedImage;
 
 public class FishingSkill extends Skill {
 
@@ -17,6 +20,11 @@ public class FishingSkill extends Skill {
 
         categories.add(SkillCategory.Fish);
 
+    }
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.fishingIcon;
     }
 
     private void initResources() {

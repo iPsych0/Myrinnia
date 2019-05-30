@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
+import java.awt.image.BufferedImage;
 
 public class BountyHunterSkill extends Skill {
 
@@ -16,6 +19,11 @@ public class BountyHunterSkill extends Skill {
         categories.add(SkillCategory.BountyTargets);
 
         initResources();
+    }
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.bountyHunterIcon;
     }
 
     private void initResources() {

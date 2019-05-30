@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -28,7 +28,7 @@ public class Quest implements Serializable {
     public Quest(String questName, Zone zone) {
         this.questName = questName;
         this.zone = zone;
-        questSteps = new ArrayList<QuestStep>();
+        questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
 
@@ -36,7 +36,7 @@ public class Quest implements Serializable {
         this.questName = questName;
         this.zone = zone;
         this.requirements = questRequirements;
-        questSteps = new ArrayList<QuestStep>();
+        questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
 
@@ -44,7 +44,7 @@ public class Quest implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
     }
 

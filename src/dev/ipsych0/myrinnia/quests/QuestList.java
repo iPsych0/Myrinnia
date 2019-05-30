@@ -1,13 +1,13 @@
 package dev.ipsych0.myrinnia.quests;
 
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 public enum QuestList {
 
-    TheFirstQuest("The First Quest", Zone.Island),
-    TheSecondQuest("The Second Quest", Zone.Island),
-    TheThirdQuest("The Third Quest", Zone.Island),
-    TheTestQuest("The Test Quest", Zone.IslandUnderground),
+    TheFirstQuest("The First Quest", Zone.PortAzure),
+    TheSecondQuest("The Second Quest", Zone.PortAzure),
+    TheThirdQuest("The Third Quest", Zone.PortAzure),
+    TheTestQuest("The Test Quest", Zone.LakeAzure),
     AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
 
     private Zone zone;

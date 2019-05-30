@@ -17,7 +17,7 @@ public class Text {
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
-    public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
+    public static void drawString(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
         int x = xPos;
         int y = yPos;
 
@@ -27,8 +27,6 @@ public class Text {
             y = (yPos - fm.getHeight() / 2) + fm.getAscent();
         }
 
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(Color.BLACK);
         g.drawString(text, x + 1, y + 1);
@@ -39,7 +37,7 @@ public class Text {
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
-    public static void drawStringStrikeThru(Graphics g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
+    public static void drawStringStrikeThru(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
         int x = xPos;
         int y = yPos;
 
@@ -54,8 +52,6 @@ public class Text {
         as.addAttribute(TextAttribute.FONT, font);
         as.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
 
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(Color.BLACK);
         g.drawString(as.getIterator(), x + 1, y + 1);
@@ -63,7 +59,7 @@ public class Text {
         g.drawString(as.getIterator(), x, y);
     }
 
-    public static int getStringWidth(Graphics g, String text, Font font) {
+    public static int getStringWidth(Graphics2D g, String text, Font font) {
         FontMetrics fm = g.getFontMetrics(font);
         return fm.stringWidth(text);
     }
@@ -84,7 +80,7 @@ public class Text {
             String word = tok.nextToken();
 
             while (word.length() > maxCharInLine) {
-                output.append(word.substring(0, maxCharInLine - lineLen) + "\n");
+                output.append(word, 0, maxCharInLine - lineLen).append("\n");
                 word = word.substring(maxCharInLine - lineLen);
                 lineLen = 0;
             }

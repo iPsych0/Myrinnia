@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -13,38 +13,111 @@ public class ScrollBar implements Serializable {
      *
      */
     private static final long serialVersionUID = 8698572954217286128L;
-    public int x, y, width, height;
-    private Rectangle scrollUp, scrollDown;
-    private int scrollMinimum = 0, scrollMaximum;
-    private int index = 0;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private Rectangle arrowUp, arrowDown;
+    private int scrollMinimum, scrollMaximum;
+    private int index;
     private int itemsPerWindow;
     private int listSize;
-    public static int clickTimer = 0;
-    public static int scrollTimer = 0;
+    public static int clickTimer;
+    public static int scrollTimer;
+    public static boolean scrolledUp, scrolledDown;
+    private boolean open;
+    private Rectangle windowToScrollIn;
+    private boolean reversedScroll;
+    private Font fontSize;
+    private boolean hasScrolledUp, hasScrolledDown;
 
-    public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow) {
+    public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow, Rectangle windowToScrollIn, boolean reversedScroll) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.listSize = listSize;
         this.itemsPerWindow = itemsPerWindow;
+        this.windowToScrollIn = windowToScrollIn;
+        this.reversedScroll = reversedScroll;
 
-        scrollUp = new Rectangle(x, y, 32, 32);
-        scrollDown = new Rectangle(x, y + height - 32, 32, 32);
+        arrowUp = new Rectangle(x, y, width, width);
+        arrowDown = new Rectangle(x, y + height - width, width, width);
+
+        if (width == ItemSlot.SLOTSIZE) {
+            fontSize = Assets.font32;
+        } else {
+            fontSize = Assets.font14;
+        }
+    }
+
+    public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow, Rectangle windowToScrollIn) {
+        this(x, y, width, height, listSize, itemsPerWindow, windowToScrollIn, false);
     }
 
     public void tick() {
-        Rectangle mouse = Handler.get().getMouse();
+        if (open) {
+            Rectangle mouse = Handler.get().getMouse();
 
-        if (scrollUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-            scrollUp();
-        } else if (scrollDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-            scrollDown();
+            // If we're scrolling in the window, update the shown list
+            if (windowToScrollIn.contains(mouse)) {
+                if (!reversedScroll) {
+                    if (arrowUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                        scrollClickUp();
+                    } else if (arrowDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                        scrollClickDown();
+                    }
+                } else {
+                    if (arrowUp.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                        scrollClickDown();
+                    } else if (arrowDown.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                        scrollClickUp();
+                    }
+                }
+
+                if (!reversedScroll) {
+                    if (scrolledUp) {
+                        scrollUp();
+                        scrolledUp = false;
+                    } else if (scrolledDown) {
+                        scrollDown();
+                        scrolledDown = false;
+                    }
+                } else {
+                    if (scrolledUp) {
+                        scrollDown();
+                        scrolledUp = false;
+                    } else if (scrolledDown) {
+                        scrollUp();
+                        scrolledDown = false;
+                    }
+                }
+            } else {
+                // If we're not scrolling in the window, ignore scroll events
+                scrolledUp = false;
+                scrolledDown = false;
+            }
         }
     }
 
     private void scrollUp() {
+        // Move up once per scroll
+        if (index > scrollMinimum && listSize > itemsPerWindow) {
+            index--;
+            hasScrolledUp = true;
+        }
+    }
+
+    private void scrollDown() {
+        // Move down once per scroll
+        if (index < (scrollMaximum - itemsPerWindow) && listSize > itemsPerWindow) {
+            index++;
+            hasScrolledDown = true;
+        }
+
+    }
+
+    private void scrollClickUp() {
         // The first click, move it up once
         if (clickTimer == 0) {
             if (listSize < itemsPerWindow) {
@@ -54,6 +127,7 @@ public class ScrollBar implements Serializable {
                 return;
             } else {
                 index--;
+                hasScrolledUp = true;
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
         }
@@ -70,35 +144,36 @@ public class ScrollBar implements Serializable {
                     return;
                 } else {
                     index--;
+                    hasScrolledUp = true;
                     Handler.get().playEffect("ui/ui_button_click.wav");
                 }
             }
         }
     }
 
-    public void render(Graphics g) {
-        Rectangle mouse = Handler.get().getMouse();
+    public void render(Graphics2D g) {
+        if (open) {
+            Rectangle mouse = Handler.get().getMouse();
 
-        if (listSize > itemsPerWindow) {
-            if (scrollUp.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
-                Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
-            } else {
-                g.drawImage(Assets.genericButton[1], scrollUp.x, scrollUp.y, scrollUp.width, scrollUp.height, null);
-                Text.drawString(g, "^", scrollUp.x + 16, scrollUp.y + 24, true, Color.YELLOW, Assets.font32);
-            }
+            if (listSize > itemsPerWindow) {
 
-            if (scrollDown.contains(mouse)) {
-                g.drawImage(Assets.genericButton[0], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-                Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
-            } else {
-                g.drawImage(Assets.genericButton[1], scrollDown.x, scrollDown.y, scrollDown.width, scrollDown.height, null);
-                Text.drawString(g, "v", scrollDown.x + 16, scrollDown.y + 16, true, Color.YELLOW, Assets.font32);
+                if (arrowUp.contains(mouse)) {
+                    g.drawImage(Assets.scrollUpButton[0], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                } else {
+                    g.drawImage(Assets.scrollUpButton[1], arrowUp.x, arrowUp.y, arrowUp.width, arrowUp.height, null);
+                }
+
+                if (arrowDown.contains(mouse)) {
+                    g.drawImage(Assets.scrollDownButton[0], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                } else {
+                    g.drawImage(Assets.scrollDownButton[1], arrowDown.x, arrowDown.y, arrowDown.width, arrowDown.height, null);
+                }
+
             }
         }
     }
 
-    private void scrollDown() {
+    private void scrollClickDown() {
         // The first click, move it down once
         if (clickTimer == 0) {
             if (listSize < itemsPerWindow) {
@@ -108,6 +183,7 @@ public class ScrollBar implements Serializable {
                 return;
             } else {
                 index++;
+                hasScrolledDown = true;
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
         }
@@ -121,13 +197,29 @@ public class ScrollBar implements Serializable {
                     return;
                 }
                 if (index == scrollMaximum - itemsPerWindow) {
-                    return;
                 } else {
                     index++;
+                    hasScrolledDown = true;
                     Handler.get().playEffect("ui/ui_button_click.wav");
                 }
             }
         }
+    }
+
+    public boolean hasScrolledUp() {
+        return hasScrolledUp;
+    }
+
+    public boolean hasScrolledDown() {
+        return hasScrolledDown;
+    }
+
+    public void setScrolledUp(boolean hasScrolledUp) {
+        this.hasScrolledUp = hasScrolledUp;
+    }
+
+    public void setScrolledDown(boolean hasScrolledDown) {
+        this.hasScrolledDown = hasScrolledDown;
     }
 
     public int getScrollMinimum() {
@@ -143,6 +235,7 @@ public class ScrollBar implements Serializable {
     }
 
     public void setScrollMaximum(int scrollMaximum) {
+        open = listSize > itemsPerWindow;
         this.scrollMaximum = scrollMaximum;
     }
 
@@ -159,6 +252,7 @@ public class ScrollBar implements Serializable {
     }
 
     public void setListSize(int listSize) {
+        open = listSize > itemsPerWindow;
         this.listSize = listSize;
     }
 

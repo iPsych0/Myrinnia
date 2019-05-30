@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
+import java.awt.image.BufferedImage;
 
 public class CraftingSkill extends Skill {
 
@@ -13,6 +16,11 @@ public class CraftingSkill extends Skill {
         categories.add(SkillCategory.Leatherwork);
         categories.add(SkillCategory.CraftingOther);
 
+    }
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.craftingIcon;
     }
 
     @Override

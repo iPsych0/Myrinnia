@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.io.Serializable;
 
@@ -20,17 +20,17 @@ public class GameCamera implements Serializable {
         this.yOffset = yOffset;
     }
 
-    public void checkBlankSpace() {
+    private void checkBlankSpace() {
         if (xOffset < 0) {
             xOffset = 0;
-        } else if (xOffset > Handler.get().getWorld().getWidth() * Tiles.TILEWIDTH - Handler.get().getWidth()) {
-            xOffset = Handler.get().getWorld().getWidth() * Tiles.TILEWIDTH - Handler.get().getWidth();
+        } else if (xOffset > Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth()) {
+            xOffset = Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth();
         }
 
         if (yOffset < 0) {
             yOffset = 0;
-        } else if (yOffset > Handler.get().getWorld().getHeight() * Tiles.TILEHEIGHT - Handler.get().getHeight()) {
-            yOffset = Handler.get().getWorld().getHeight() * Tiles.TILEHEIGHT - Handler.get().getHeight();
+        } else if (yOffset > Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight()) {
+            yOffset = Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight();
         }
     }
 

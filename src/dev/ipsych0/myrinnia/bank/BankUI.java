@@ -24,7 +24,10 @@ public class BankUI implements Serializable {
      *
      */
     private static final long serialVersionUID = 1728128423147794469L;
-    public static int x, y, width, height;
+    public static int x;
+    public static int y;
+    public static int width;
+    private static int height;
     public static boolean isOpen = false;
     private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
     private ArrayList<BankTab> tabs = new ArrayList<>();
@@ -146,7 +149,7 @@ public class BankUI implements Serializable {
                  * Bankslot mouse interaction
                  */
                 for (ItemSlot is : openedTab.getBankSlots()) {
-                    Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                    Rectangle slot = is.getBounds();
                     if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && hasBeenPressed) {
                         if (is.getItemStack() != null && !Handler.get().invIsFull(is.getItemStack().getItem())) {
                             Handler.get().giveItem(is.getItemStack().getItem(), is.getItemStack().getAmount());
@@ -217,7 +220,7 @@ public class BankUI implements Serializable {
                  */
                 int slotIndex = 0;
                 for (ItemSlot is : invSlots) {
-                    Rectangle slot = new Rectangle(is.getX(), is.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+                    Rectangle slot = is.getBounds();
                     if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && hasBeenPressed) {
                         if (is.getItemStack() != null) {
                             if (openedTab.findFreeSlot(is.getItemStack().getItem()) != -1) {
@@ -325,9 +328,9 @@ public class BankUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             uiManager.render(g);
 
@@ -343,7 +346,7 @@ public class BankUI implements Serializable {
                 tab.render(g);
                 if (tab.isOpen()) {
                     g.setColor(selectedColor);
-                    g.fillRoundRect(tab.x, tab.y, tab.width, tab.height, 4, 4);
+                    g.fillRect(tab.x, tab.y, tab.width, tab.height);
                     for(ItemSlot is : tab.getBankSlots()){
                         if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
                             itemTooltip.render(is.getItemStack().getItem(), g);
@@ -382,7 +385,6 @@ public class BankUI implements Serializable {
                     index = i;
                 }
             } else if (invSlots.get(i).getItemStack() != null && !item.isStackable()) {
-                continue;
             } else if (invSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (invSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;

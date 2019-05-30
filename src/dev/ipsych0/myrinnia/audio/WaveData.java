@@ -16,8 +16,8 @@ public class WaveData {
 
     final int format;
     final int samplerate;
-    final int totalBytes;
-    final int bytesPerFrame;
+    private final int totalBytes;
+    private final int bytesPerFrame;
     final ByteBuffer data;
 
     private final AudioInputStream audioStream;
@@ -35,7 +35,7 @@ public class WaveData {
         loadData();
     }
 
-    protected void dispose() {
+    void dispose() {
         try {
             audioStream.close();
             data.clear();
@@ -44,7 +44,7 @@ public class WaveData {
         }
     }
 
-    private ByteBuffer loadData() {
+    private void loadData() {
         try {
             int bytesRead = audioStream.read(dataArray, 0, totalBytes);
             data.clear();
@@ -54,7 +54,6 @@ public class WaveData {
             e.printStackTrace();
             System.err.println("Couldn't read bytes from audio stream!");
         }
-        return data;
     }
 
 
@@ -67,9 +66,7 @@ public class WaveData {
         AudioInputStream audioStream = null;
         try {
             audioStream = AudioSystem.getAudioInputStream(bufferedInput);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
         WaveData wavStream = new WaveData(audioStream);

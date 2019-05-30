@@ -1,24 +1,29 @@
 package dev.ipsych0.myrinnia;
 
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
+import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.HitSplat;
+import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
+import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
-import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -33,17 +38,40 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.Island;
-import dev.ipsych0.myrinnia.worlds.World;
-import dev.ipsych0.myrinnia.worlds.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.PortAzure;
+import dev.ipsych0.myrinnia.worlds.data.World;
+import dev.ipsych0.myrinnia.worlds.data.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
+import java.io.*;
+import java.util.Properties;
 import java.util.Random;
 
 public class Handler implements Serializable {
+
+    public static final String resourcePath;
+    public static final File jarFile;
+    private Properties prop = new Properties();
+
+
+    static {
+        File jarFile1;
+        try {
+            jarFile1 = new File(Handler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        } catch (Exception e) {
+            jarFile1 = null;
+        }
+        // Run with JAR file
+        jarFile = jarFile1;
+        if (jarFile != null && jarFile.isFile()) {
+            System.out.println(jarFile.getAbsolutePath());
+            resourcePath = "";
+            isJar = true;
+        }else{
+            resourcePath = "res/";
+        }
+    }
 
 
     /**
@@ -52,7 +80,7 @@ public class Handler implements Serializable {
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
     private World world;
-    private Island island;
+    private PortAzure portAzure;
     private WorldHandler worldHandler;
     private Player player;
     private ChatWindow chatWindow;
@@ -68,8 +96,9 @@ public class Handler implements Serializable {
     private RecapManager recapManager;
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
-    private boolean soundMuted = false;
-    public static String initialWorldPath = "res/worlds/island.tmx";
+    public static String initialWorldPath = "/worlds/port_azure.tmx";
+    public static boolean debugCollision = false;
+    public static boolean isJar;
 
     private static Handler handler;
 
@@ -77,6 +106,7 @@ public class Handler implements Serializable {
      * Flag: Set to true for debug mode
      */
     public static boolean noclipMode = false;
+    private static boolean propsLoaded;
 
     public static Handler get() {
         if (handler == null) {
@@ -94,7 +124,7 @@ public class Handler implements Serializable {
         handler.setGame(Game.get());
 
         // Instantiate the player
-        player = new Player(5120, 5600);
+        player = new Player(2752, 2016);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -111,18 +141,17 @@ public class Handler implements Serializable {
         abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
 
-
         // Set the starting world
-        island = new Island("res/worlds/island.tmx");
-        worldHandler = new WorldHandler(island);
+        portAzure = new PortAzure(initialWorldPath);
+        worldHandler = new WorldHandler(portAzure);
     }
 
     public void playMusic(Zone zone) {
-        if (!soundMuted) {
+        if (!AudioManager.soundMuted) {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound("res/music/songs/" + songName);
+                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -133,31 +162,47 @@ public class Handler implements Serializable {
         }
     }
 
+    public void playMusic(String song) {
+        if (!AudioManager.soundMuted) {
+            int buffer = -1;
+            try {
+                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + song);
+            } catch (FileNotFoundException e) {
+                System.err.println("Couldn't find file: " + song);
+                e.printStackTrace();
+            }
+
+            // Fade from first song to the next
+            AudioManager.fadeSongs(song, buffer);
+        }
+    }
+
     public void playEffect(String effect) {
         playEffect(effect, 0.0f);
     }
 
     /**
      * Play a sound effect one time with custom volume setting
+     *
      * @param effect Name of the audio file
-     * @param volume Additional volume. Default volume is 0.15.
+     * @param volume Additional volume. Default max volume is 0.15.
      */
     public void playEffect(String effect, float volume) {
-        if (!soundMuted) {
-            if(volume < -0.15f){
-                volume = -0.15f;
+        if (!AudioManager.sfxMuted) {
+            if (volume < -AudioManager.sfxVolume) {
+                volume = -AudioManager.sfxVolume;
             }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("res/music/sfx/" + effect);
+                buffer = AudioManager.loadSound(resourcePath + "music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
             }
             AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setVolume(0.15f + volume);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).setLooping(false);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size()-1).playEffect(buffer);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(AudioManager.sfxVolume + volume);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setLooping(false);
+            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
 
         }
     }
@@ -214,15 +259,18 @@ public class Handler implements Serializable {
      * Go from your current world to the next
      *
      * @param zone - The new zone to enter
-     * @param x    - The X position in the new zone
-     * @param y    - The Y position in the new zone
+     * @param x    - The X pause in the new zone
+     * @param y    - The Y pause in the new zone
      */
     public void goToWorld(Zone zone, int x, int y) {
         player.setX(x);
         player.setY(y);
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
-        setWorld(worldHandler.getWorldsMap().get(zone));
+
+        World w = worldHandler.getWorldsMap().get(zone);
+        w.init();
+        setWorld(w);
 
         ZoneTransitionState transitionState = new ZoneTransitionState(zone);
         State.setState(transitionState);
@@ -249,17 +297,20 @@ public class Handler implements Serializable {
         return skillsUI.getSkill(skill);
     }
 
-    /**
-     * Unlock the specified recipe result item
-     *
-     * @param item - The resulting item of the recipe to be unlocked
-     */
     public void discoverRecipe(Item item) {
         craftingUI.getCraftingManager().getRecipeByItem(item).setDiscovered(true);
     }
 
     public boolean questStarted(QuestList quest) {
         return questManager.getQuestMap().get(quest).getState() != QuestState.NOT_STARTED;
+    }
+
+    public boolean questInProgress(QuestList quest) {
+        return questManager.getQuestMap().get(quest).getState() == QuestState.IN_PROGRESS;
+    }
+
+    public boolean questCompleted(QuestList quest) {
+        return questManager.getQuestMap().get(quest).getState() == QuestState.COMPLETED;
     }
 
     public Quest getQuest(QuestList quest) {
@@ -281,39 +332,45 @@ public class Handler implements Serializable {
      * Rounds off a number to two digits.
      */
     public double roundOff(double value) {
-        return (double) Math.ceil(value * 10d) / 10d;
+        return Math.ceil(value * 10d) / 10d;
+    }
+
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), damageType));
+    }
+
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver, ability), ability));
+    }
+
+    public void addHealSplat(Entity receiver, int healing){
+        getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, healing));
     }
 
     /*
      * Drop an item to the world
-     * @params: An item, an amount, x + y position in the world (usually based on the Entity or Object location)
+     * @params: An item, an amount, x + y pause in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
         dropItem(item, amount, x, y, true);
     }
 
-    public void dropItem(Item item, int amount, int x, int y, boolean despawn) {
+    private void dropItem(Item item, int amount, int x, int y, boolean despawn) {
         getWorld().getItemManager().addItem((item.createItem(x, y, amount)), despawn);
     }
 
     /*
      * Sends a message to the chat log
      */
-    public void sendMsg(String message) {
+    public void sendMsg(String message, Filter filter) {
         String[] text = Text.splitIntoLine(message, 66);
         for (String s : text) {
-            getChatWindow().sendMessage(s);
+            getChatWindow().sendMessage(s, filter);
         }
     }
 
-    /*
-     * Overloaded for printing numerical values to the chat
-     */
-    public void sendMsg(int message) {
-        String[] text = Text.splitIntoLine(String.valueOf(message), 66);
-        for (String s : text) {
-            getChatWindow().sendMessage(s);
-        }
+    public void sendMsg(String message) {
+        sendMsg(message, null);
     }
 
     /*
@@ -353,6 +410,54 @@ public class Handler implements Serializable {
         return getInventory().playerHasItem(item, amount);
     }
 
+    public void saveProperty(String propertyKey, String propertyValue) {
+        OutputStream output = null;
+
+        try {
+            prop.setProperty(propertyKey, propertyValue);
+            if(isJar){
+                output = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
+            }else {
+                output = new FileOutputStream(Handler.resourcePath + "settings/config.properties");
+            }
+            prop.store(output, null);
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public String loadProperty(String propertyKey) {
+        InputStream input = null;
+
+        try {
+            if (!propsLoaded) {
+                input = Handler.class.getResourceAsStream("/settings/config.properties");
+                prop.load(input);
+                propsLoaded = true;
+            }
+            return prop.getProperty(propertyKey);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     /*
      * Getters & Setters
      */
@@ -381,7 +486,7 @@ public class Handler implements Serializable {
         return game;
     }
 
-    public void setGame(Game game) {
+    private void setGame(Game game) {
         Handler.game = game;
     }
 
@@ -391,6 +496,10 @@ public class Handler implements Serializable {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public void setWorld(Zone zone) {
+        this.world = worldHandler.getWorldsMap().get(zone);
     }
 
     public WorldHandler getWorldHandler() {
@@ -447,14 +556,6 @@ public class Handler implements Serializable {
 
     public void setCraftingUI(CraftingUI craftingUI) {
         this.craftingUI = craftingUI;
-    }
-
-    public boolean isSoundMuted() {
-        return soundMuted;
-    }
-
-    public void setSoundMuted(boolean soundMuted) {
-        this.soundMuted = soundMuted;
     }
 
     public CharacterUI getCharacterUI() {

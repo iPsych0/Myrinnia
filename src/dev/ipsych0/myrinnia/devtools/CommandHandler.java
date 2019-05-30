@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.io.Serializable;
 
@@ -130,6 +130,8 @@ class CommandHandler implements Serializable {
                 if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
                         AStarMap.debugMode = !AStarMap.debugMode;
+                    } else if(commands[1].equalsIgnoreCase("collision")){
+                        Handler.debugCollision = !Handler.debugCollision;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
                     }
@@ -145,6 +147,11 @@ class CommandHandler implements Serializable {
                             a.setUnlocked(true);
                         }
                         Handler.get().sendMsg("Unlocked all abilities.");
+                        for(int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
+                            if(i == 10)
+                                break;
+                            Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities().get(i).setAbility(Handler.get().getAbilityManager().getAllAbilities().get(i));
+                        }
                         break;
                     }
                     if (!commands[1].isEmpty()) {

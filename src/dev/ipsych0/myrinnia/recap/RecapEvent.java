@@ -23,7 +23,7 @@ public class RecapEvent implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
     }
 

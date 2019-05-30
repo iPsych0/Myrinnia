@@ -5,7 +5,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -16,8 +16,6 @@ public class Scorpion extends Creature {
      *
      */
     private static final long serialVersionUID = 917078714756242679L;
-
-    private boolean initialized = false;
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
@@ -31,7 +29,7 @@ public class Scorpion extends Creature {
         dexterity = 0;
         intelligence = 5;
         vitality = 5;
-        defence = 10;
+        defence = 5;
         speed = DEFAULT_SPEED + 0.5f;
         attackSpeed = DEFAULT_ATTACKSPEED;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
@@ -43,19 +41,16 @@ public class Scorpion extends Creature {
             baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
             exponent *= LEVEL_EXPONENT;
         }
-        attackRange = Tiles.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 6;
 
         bounds.x = 2;
         bounds.y = 2;
         bounds.width = 28;
         bounds.height = 28;
 
-        pathFindRadiusX = 512 * 2;
-        pathFindRadiusY = 512 * 2;
-
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
-        map = new AStarMap(this, (int) xSpawn - pathFindRadiusX, (int) ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+        map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
     }
 
     @Override
@@ -64,7 +59,7 @@ public class Scorpion extends Creature {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.scorpion, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
 
@@ -123,7 +118,7 @@ public class Scorpion extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f));
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, Assets.earthProjectile));
 
     }
 
@@ -135,5 +130,10 @@ public class Scorpion extends Creature {
     @Override
     public void respawn() {
         Handler.get().getWorld().getEntityManager().addEntity(new Scorpion(xSpawn, ySpawn));
+    }
+
+    @Override
+    protected void updateDialogue() {
+
     }
 }

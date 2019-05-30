@@ -12,11 +12,11 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     private static final long serialVersionUID = -7162393727931954900L;
 
-    public static int resetCost = 1000;
+    private static int resetCost = 1000;
 
-    protected AbilityShopWindow abilityShopWindow;
+    AbilityShopWindow abilityShopWindow;
 
-    public AbilityTrainer(float x, float y, int width, int height) {
+    AbilityTrainer(float x, float y, int width, int height) {
         super(x, y, width, height);
 
         attackable = false;
@@ -31,7 +31,7 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
         this.abilityShopWindow = abilityShopWindow;
     }
 
-    public void resetSkillPoints() {
+    void resetSkillPoints() {
         if (Handler.get().playerHasItem(Item.coins, resetCost)) {
             Handler.get().removeItem(Item.coins, resetCost);
             for (CharacterStats stat : CharacterStats.values()) {

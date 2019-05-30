@@ -13,7 +13,10 @@ public class CategoryButton extends UIImageButton implements Serializable {
      *
      */
     private static final long serialVersionUID = -5801506235295805009L;
-    public int x, y, width, height;
+    public int x;
+    private int y;
+    public int width;
+    private int height;
     private SkillCategory category;
     private Rectangle bounds;
 
@@ -32,7 +35,7 @@ public class CategoryButton extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         Text.drawString(g, category.getName(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }

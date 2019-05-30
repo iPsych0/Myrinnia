@@ -6,7 +6,7 @@
   "description": "A strong earthquake",
   "abilityType": "StandardAbility",
   "element": "Fire",
-  "combatStyle": "Melee",
+  "combatStyle": "Magic",
   "onCooldown": false,
   "casting": false,
   "inOvercast": false,

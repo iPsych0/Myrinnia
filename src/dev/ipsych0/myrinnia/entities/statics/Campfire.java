@@ -1,13 +1,13 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -21,12 +21,11 @@ public class Campfire extends StaticEntity {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private Animation campfire;
-    private String[] firstDialogue = {"Feel the fire.", "Leave."};
-    private String[] secondDialogue = {"You almost burned your fingers trying to examine the fire. However, a sword is revealed."};
-    private String[] thirdDialogue = {"Take the sword.", "Leave it."};
 
-    public Campfire(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+    private Campfire(float x, float y) {
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+
+        script = Utils.loadScript("campfire.json");
 
         isNpc = true;
         attackable = false;
@@ -44,103 +43,62 @@ public class Campfire extends StaticEntity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(campfire.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
     @Override
-    public void interact() {
-
-        switch (speakingTurn) {
-
-            case 0:
-                speakingTurn++;
-                break;
-            case 1:
-                chatDialogue = new ChatDialogue(firstDialogue);
-                speakingTurn++;
-                break;
-            case 2:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
+    protected boolean choiceConditionMet(String condition) {
+        switch (condition) {
+            case "startFirstQuest":
+                if (!Handler.get().questStarted(QuestList.TheFirstQuest)) {
+                    Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
+                    Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
                 }
-
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    chatDialogue = new ChatDialogue(secondDialogue);
-                    speakingTurn++;
-                    if (!Handler.get().questStarted(QuestList.TheFirstQuest)) {
-                        Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire2.");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire3.");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire4.");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire5.");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-
-                    }
-                    break;
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
-                } else {
-                    speakingTurn = 2;
-                    break;
+                return true;
+            case "progressFirstQuest":
+                if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
+                    Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
+                    Handler.get().addQuestStep(QuestList.TheFirstQuest, "Solve the mystery of the campfire.");
+                    return true;
                 }
-            case 3:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-                chatDialogue = new ChatDialogue(thirdDialogue);
-                speakingTurn++;
-                break;
-            case 4:
-                if (chatDialogue == null) {
-                    speakingTurn = 1;
-                    break;
-                }
-
-                if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    if (Handler.get().getQuest(QuestList.TheFirstQuest).getState() == QuestState.IN_PROGRESS) {
-                        if (!Handler.get().invIsFull(Item.testSword)) {
-                            Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
-                            Handler.get().giveItem(Item.testSword, 1);
-                            Handler.get().discoverRecipe(Item.purpleSword);
-                            chatDialogue = null;
-                            speakingTurn = 1;
-                        } else {
-                            chatDialogue = null;
-                            speakingTurn = 1;
-                            Handler.get().sendMsg("Your inventory is full.");
-                        }
-                        break;
+                return false;
+            case "takeSword":
+                if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
+                    if (!Handler.get().invIsFull(Item.testSword)) {
+                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
+                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Reward:\n1x Test Sword\n Recipe: Purple Sword");
+                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
+                        Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+                        Handler.get().giveItem(Item.testSword, 1);
+                        Handler.get().discoverRecipe(Item.purpleSword);
                     } else {
-                        chatDialogue = null;
-                        speakingTurn = 1;
+                        Handler.get().sendMsg("Your inventory is full.");
+                        return false;
                     }
-                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    chatDialogue = null;
-                    speakingTurn = 1;
-                    break;
                 }
+                return true;
+
+            default:
+                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
+                return false;
         }
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 
     @Override
     public void respawn() {
         Handler.get().getWorld().getEntityManager().addEntity(new Campfire(xSpawn, ySpawn));
+    }
+
+    @Override
+    protected void updateDialogue() {
+
     }
 
 }

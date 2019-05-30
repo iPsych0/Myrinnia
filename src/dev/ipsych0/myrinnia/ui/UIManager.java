@@ -15,7 +15,7 @@ public class UIManager implements Serializable {
     private CopyOnWriteArrayList<UIObject> objects;
 
     public UIManager() {
-        objects = new CopyOnWriteArrayList<UIObject>();
+        objects = new CopyOnWriteArrayList<>();
     }
 
     public void tick() {
@@ -29,7 +29,7 @@ public class UIManager implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         for (UIObject o : objects) {
             o.render(g);
         }

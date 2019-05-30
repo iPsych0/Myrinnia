@@ -5,9 +5,12 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
+import dev.ipsych0.myrinnia.entities.npcs.Choice;
+import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
+import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -15,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Entity implements Serializable {
 
@@ -28,7 +32,7 @@ public abstract class Entity implements Serializable {
     protected Rectangle bounds;
     public static boolean isCloseToNPC = false;
     protected int health;
-    public static final int DEFAULT_HEALTH = 100;
+    protected static final int DEFAULT_HEALTH = 100;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
     protected boolean attackable = true;
@@ -37,18 +41,23 @@ public abstract class Entity implements Serializable {
     protected boolean damaged = false;
     protected boolean staticNpc = false;
     protected boolean solid = true;
-    protected Entity damageDealer, damageReceiver;
-    protected int speakingTurn = 1;
-    protected int speakingCheckpoint = 0;
+    private Entity damageDealer;
+    private Entity damageReceiver;
+    protected int speakingTurn = 0;
+    private int speakingCheckpoint = -1;
     protected transient ChatDialogue chatDialogue;
-    protected boolean overlayDrawn = true;
+    private boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
     protected int respawnTimer = 600;
     protected Rectangle collision;
+    protected Script script;
+    private String name;
+    private static final double DIVISION_QUOTIENT = 200.0;
+    private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 
-    public Entity(float x, float y, int width, int height) {
+    protected Entity(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -63,23 +72,23 @@ public abstract class Entity implements Serializable {
 
     public abstract void tick();
 
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 
-    public abstract void postRender(Graphics g);
+    public abstract void postRender(Graphics2D g);
 
-    public abstract void die();
+    protected abstract void die();
 
     public abstract void respawn();
 
-    public abstract void interact();
+    protected abstract String[] getEntityInfo(Entity hoveringEntity);
 
-    public abstract String[] getEntityInfo(Entity hoveringEntity);
+    protected abstract void updateDialogue();
 
     /*
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
      */
-    public boolean checkEntityCollisions(float xOffset, float yOffset) {
+    protected boolean checkEntityCollisions(float xOffset, float yOffset) {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -97,10 +106,10 @@ public abstract class Entity implements Serializable {
     /*
      * Checks if the distance between the player and the closest Entity is <= 64px
      */
-    public boolean playerIsNearNpc() {
+    protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
         if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tiles.TILEWIDTH * 2) {
+                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tile.TILEWIDTH * 2) {
             // Interact with the respective speaking turn
             isCloseToNPC = true;
             return true;
@@ -118,8 +127,8 @@ public abstract class Entity implements Serializable {
     public Entity getClosestEntity() {
         double closestDistance;
         Entity closestEntity;
-        HashMap<Double, Entity> hashMap = new HashMap<Double, Entity>();
-        ArrayList<Double> pythagoras = new ArrayList<Double>();
+        HashMap<Double, Entity> hashMap = new HashMap<>();
+        ArrayList<Double> pythagoras = new ArrayList<>();
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (!e.isNpc()) {
                 continue;
@@ -140,8 +149,7 @@ public abstract class Entity implements Serializable {
     }
 
     /*
-     * Returns the damage an Entity should deal (Combat formula)
-     * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
+     * Damage formula for auto attacks
      */
     public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
         // Default damage formula
@@ -163,34 +171,35 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage();
+        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage();
     }
 
     /*
-     * Returns the damage an Entity should deal + ability damage (Combat formula)
-     * NOTE: OVERRIDE THIS METHOD FOR SPECIFIC ENTITIES FOR CUSTOM DAMAGE FORMULAS!!!
+     * Damage formula for abilities
      */
     public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         // Default damage formula
         Creature d = (Creature) dealer;
         Creature r = (Creature) receiver;
-        int power;
-        switch (damageType) {
-            case STR:
-                power = d.getStrength();
-                break;
-            case DEX:
-                power = d.getDexterity();
-                break;
-            case INT:
-                power = d.getIntelligence();
-                break;
-            default:
-                power = 0;
-                break;
 
+        // Calculations
+        double defenceRatio = (DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence()));
+        double defaultDamage = (double) getDamage(damageType, dealer, receiver);
+        double abilityDamage = ability.getBaseDamage() * Math.pow(ABILITY_DMG_COEFFICIENT, (double) ability.getElement().getLevel());
+        double baseDamage = (double) d.getBaseDamage();
+
+        // Formula
+        return (int) Math.round((defaultDamage + abilityDamage) * defenceRatio + baseDamage);
+//        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
+    }
+
+    public void heal(int heal){
+        if(health + heal >= maxHealth){
+            health = maxHealth;
+        }else{
+            health += heal;
+            Handler.get().addHealSplat(this, heal);
         }
-        return (int) Math.ceil((100.0 / (100.0 + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
     /*
@@ -206,7 +215,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver), damageType));
+        Handler.get().addHitSplat(receiver, damageDealer, damageType);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -231,7 +240,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, dealer, receiver, ability), ability));
+        Handler.get().addHitSplat(receiver, damageDealer, damageType, ability);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -281,7 +290,7 @@ public abstract class Entity implements Serializable {
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
                 // If that's the case, increase the timeLeft
-                c.setDuration(c.getDuration() + condition.getDuration());
+                c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
 
                 // If the new ability has a higher condition damage than the current one, increase the damage
                 if (condition.getConditionDamage() > c.getConditionDamage()) {
@@ -330,29 +339,29 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void drawHP(Graphics g) {
+    public void drawHP(Graphics2D g) {
         g.setColor(HPOverlay.hpColorRed);
-        g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+        g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         g.setColor(HPOverlay.hpColorRedOutline);
-        g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+        g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
 
         g.setColor(HPOverlay.hpColorGreen);
-        if (this.getHealth() >= this.getMaxHealth()) {
-            g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+        if (health >= maxHealth) {
+            g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), 44, 6, 0, 4);
+            g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         } else {
-            g.fillRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) (44 * (double) this.getHealth() /
-                            (double) this.getMaxHealth()), 6, 0, 4);
+            g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
+                            (double) this.getMaxHealth()), 6);
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) (44 * (double) this.getHealth() /
-                            (double) this.getMaxHealth()), 6, 0, 4);
+            g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
+                            (double) this.getMaxHealth()), 6);
         }
     }
 
@@ -362,9 +371,9 @@ public abstract class Entity implements Serializable {
      * @param hoveringEntity
      * @param g
      */
-    public void drawEntityOverlay(Entity hoveringEntity, Graphics g) {
+    public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
-        g.drawImage(Assets.chatwindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
         for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
             Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
         }
@@ -374,7 +383,7 @@ public abstract class Entity implements Serializable {
     /*
      * Check the distance to another entity
      */
-    public double distanceToEntity(int x1, int y1, int x2, int y2) {
+    protected double distanceToEntity(int x1, int y1, int x2, int y2) {
         int dx = x2 - x1;
         int dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
@@ -387,6 +396,91 @@ public abstract class Entity implements Serializable {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
     }
+
+    public void interact() {
+        if (script == null) {
+            return;
+        }
+
+        // If the conversation was reset, reinitialize the first time we interact again
+        if (speakingTurn == -1) {
+            chatDialogue = null;
+            speakingTurn = 0;
+            return;
+        }
+        // If there is only text to be displayed, advance to the next conversation
+        if (script.getDialogues().get(speakingTurn).getText() != null) {
+            chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
+            chatDialogue.setChosenOption(null);
+            updateDialogue();
+            // If there is a condition to proceed, check the condition
+            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+                ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
+                String condition = choiceCondition.getCondition();
+                // Check if the condition is met
+                if(choiceConditionMet(condition)){
+                    setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+                }else{
+                    setSpeakingTurn(choiceCondition.getFalseId());
+                }
+            }else{
+                setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
+            }
+
+        } else {
+            // If we only have a continue button, don't set a chosen 'option'
+            if (chatDialogue != null && chatDialogue.getMenuOptions().length == 1) {
+                chatDialogue.setChosenOption(null);
+            }
+            // If there is a choice menu and we selected a choice, handle the choice logic
+            if (chatDialogue != null && chatDialogue.getChosenOption() != null) {
+                Choice choice = script.getDialogues().get(speakingTurn).getOptions().get(chatDialogue.getChosenOption().getOptionID());
+                // If there is a condition to proceed with the conversation, check it
+                if (choice.getChoiceCondition() != null) {
+                    String condition = choice.getChoiceCondition().getCondition();
+                    if (choiceConditionMet(condition)) {
+                        // If we meet the condition, proceed
+                        setSpeakingTurn(choice.getNextId());
+                    } else {
+                        // If we don't meet the condition, return to whatever menu falseId points to
+                        setSpeakingTurn(choice.getChoiceCondition().getFalseId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                } else {
+                    // If there is no condition, we can always proceed
+                    if (chatDialogue.getMenuOptions().length > 1) {
+                        setSpeakingTurn(choice.getNextId());
+                    }
+                    chatDialogue.setChosenOption(null);
+                    interact();
+                    return;
+                }
+            }
+
+            // Update the list of dialogue choices
+            List<Choice> choiceList = script.getDialogues().get(speakingTurn).getOptions();
+            String[] choices = new String[choiceList.size()];
+            for (int i = 0; i < choiceList.size(); i++) {
+                choices[i] = choiceList.get(i).getText();
+            }
+            chatDialogue = new ChatDialogue(choices);
+            updateDialogue();
+        }
+    }
+
+    /**
+     * MUST be overriden in the sub-class for specific behaviour!
+     *
+     * @param condition - The choice to check condition for
+     * @return true if condition is met, false if condition is not met
+     */
+    protected boolean choiceConditionMet(String condition) {
+        System.err.println("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
+        return false;
+    }
+
 
     // Getters & Setters
     public float getX() {
@@ -421,7 +515,7 @@ public abstract class Entity implements Serializable {
         this.height = height;
     }
 
-    public int getHealth() {
+    protected int getHealth() {
         return health;
     }
 
@@ -525,7 +619,7 @@ public abstract class Entity implements Serializable {
         return inCombat;
     }
 
-    public void setInCombat(boolean inCombat) {
+    private void setInCombat(boolean inCombat) {
         this.inCombat = inCombat;
     }
 
@@ -553,4 +647,11 @@ public abstract class Entity implements Serializable {
         return respawnTimer;
     }
 
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

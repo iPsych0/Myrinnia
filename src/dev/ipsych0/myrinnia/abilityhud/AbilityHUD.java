@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.entities.StatusTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -27,7 +28,7 @@ public class AbilityHUD implements Serializable {
     public static boolean hasBeenPressed;
     public static boolean hasBeenTyped;
     public static char pressedKey;
-    public static boolean locked = true;
+    private static boolean locked = true;
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
     private UIImageButton lockButton, unlockButton;
@@ -37,6 +38,7 @@ public class AbilityHUD implements Serializable {
             hoverUnlockedColor = new Color(8, 192, 0, 192);
     private Rectangle bounds;
     private UIManager uiManager;
+    private StatusTooltip statusTooltip;
 
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
@@ -65,6 +67,7 @@ public class AbilityHUD implements Serializable {
         uiManager.addObject(unlockButton);
 //		this.width = x + xpBar.getX() + xpBar.getWidth();
 //		this.height = y + ItemSlot.SLOTSIZE;
+        statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2 - 32);
     }
 
     /**
@@ -87,7 +90,6 @@ public class AbilityHUD implements Serializable {
             }
             if (selectedAbility.isOnCooldown()) {
                 Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
-                return;
             } else {
                 if (selectedAbility.isSelectable()) {
                     selectedAbility.setSelected(true);
@@ -113,7 +115,6 @@ public class AbilityHUD implements Serializable {
                 }
                 if (selectedAbility.isOnCooldown()) {
                     Handler.get().sendMsg(selectedAbility.getName() + " is on cooldown.");
-                    return;
                 } else {
                     if (selectedAbility.isSelectable()) {
                         selectedAbility.setSelected(true);
@@ -176,14 +177,13 @@ public class AbilityHUD implements Serializable {
         }
 
         if (lockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            if(!locked){
+            if (!locked) {
                 Handler.get().sendMsg("Ability bar locked.");
             }
             hasBeenPressed = false;
             AbilityHUD.locked = true;
-        }
-        else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-            if(locked){
+        } else if (unlockButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            if (locked) {
                 Handler.get().sendMsg("Ability bar unlocked.");
             }
             hasBeenPressed = false;
@@ -204,11 +204,12 @@ public class AbilityHUD implements Serializable {
                 handleDrag(as);
             }
         }
+
 //		hpBar.tick();
 //		xpBar.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
         uiManager.render(g);
@@ -227,7 +228,7 @@ public class AbilityHUD implements Serializable {
                     abilityTooltip.render(g, as.getAbility());
                 }
             }
-            if(!locked) {
+            if (!locked) {
                 g.setColor(Color.YELLOW);
                 g.drawRect(as.getBounds().x, as.getBounds().y, as.getBounds().width, as.getBounds().height);
             }
@@ -242,7 +243,7 @@ public class AbilityHUD implements Serializable {
         } else {
             g.setColor(lockedColor);
         }
-        g.fillRoundRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height, 2, 2);
+        g.fillRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height);
         g.drawImage(Assets.locked, lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
 
         if (unlockButton.contains(mouse)) {
@@ -250,10 +251,10 @@ public class AbilityHUD implements Serializable {
         } else {
             g.setColor(unlockedColor);
         }
-        g.fillRoundRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, 2, 2);
+        g.fillRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
         g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
 
-//		hpBar.render(g);
+//      hpBar.render(g);
 //		xpBar.render(g);
     }
 
@@ -285,4 +286,7 @@ public class AbilityHUD implements Serializable {
         return bounds;
     }
 
+    public StatusTooltip getStatusTooltip() {
+        return statusTooltip;
+    }
 }

@@ -17,14 +17,13 @@ public class AbilityOverviewUIButton extends UIImageButton implements Serializab
     public AbilityOverviewUIButton(int x, int y, CharacterStats characterStats) {
         super(x, y, ItemSlot.SLOTSIZE * 2, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.stat = characterStats;
-        this.bounds = new Rectangle(x, y, width, height);
     }
 
     public void tick() {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         Text.drawString(g, stat.toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }

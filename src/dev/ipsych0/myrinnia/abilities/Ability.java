@@ -15,28 +15,30 @@ public abstract class Ability implements Serializable {
      *
      */
     private static final long serialVersionUID = 6105053373876560350L;
-    protected Creature caster;
-    protected double cooldownTime;
-    protected double castingTime;
-    protected double overcastTime;
-    protected String name;
-    protected String description;
-    protected AbilityType abilityType;
-    protected CharacterStats element;
-    protected CharacterStats combatStyle;
-    protected boolean onCooldown, casting, inOvercast;
-    protected int castingTimeTimer = 0;
-    protected int cooldownTimer = 0;
-    protected int baseDamage;
-    protected boolean activated;
-    protected boolean channeling;
-    protected boolean selectable;
-    protected boolean selected;
-    protected boolean unlocked;
-    protected int price;
-    protected int id;
+    Creature caster;
+    double cooldownTime;
+    private double castingTime;
+    private double overcastTime;
+    private String name;
+    private String description;
+    private AbilityType abilityType;
+    private CharacterStats element;
+    private CharacterStats combatStyle;
+    private boolean onCooldown;
+    private boolean casting;
+    private boolean inOvercast;
+    int castingTimeTimer = 0;
+    int cooldownTimer = 0;
+    private int baseDamage;
+    private boolean activated;
+    private boolean channeling;
+    private boolean selectable;
+    private boolean selected;
+    private boolean unlocked;
+    private int price;
+    private int id;
 
-    public Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+    Ability(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable, double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         this.element = element;
         this.combatStyle = combatStyle;
         this.abilityType = abilityType;
@@ -50,9 +52,9 @@ public abstract class Ability implements Serializable {
         this.description = description;
     }
 
-    public abstract void render(Graphics g, int x, int y);
+    public abstract void render(Graphics2D g, int x, int y);
 
-    public abstract void cast();
+    protected abstract void cast();
 
 
     public void setCaster(Creature c) {
@@ -99,7 +101,7 @@ public abstract class Ability implements Serializable {
         }
     }
 
-    protected void countDown() {
+    void countDown() {
         cooldownTimer++;
         if (cooldownTimer / 60 == cooldownTime) {
             this.setOnCooldown(false);
@@ -173,7 +175,7 @@ public abstract class Ability implements Serializable {
         return onCooldown;
     }
 
-    public void setOnCooldown(boolean onCooldown) {
+    void setOnCooldown(boolean onCooldown) {
         this.onCooldown = onCooldown;
     }
 
@@ -181,7 +183,7 @@ public abstract class Ability implements Serializable {
         return casting;
     }
 
-    public void setCasting(boolean casting) {
+    void setCasting(boolean casting) {
         this.casting = casting;
     }
 
@@ -237,7 +239,7 @@ public abstract class Ability implements Serializable {
         return channeling;
     }
 
-    public void setChanneling(boolean channeling) {
+    private void setChanneling(boolean channeling) {
         this.channeling = channeling;
     }
 

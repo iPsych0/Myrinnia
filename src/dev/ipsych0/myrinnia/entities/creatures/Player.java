@@ -24,13 +24,14 @@ import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.World;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.World;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,15 +51,9 @@ public class Player extends Creature {
     public static boolean hasInteracted = false;
     public static boolean debugButtonPressed = false;
 
-    // Walking Animations
-    private Animation aDown, aUp, aLeft, aRight, aDefault;
-
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
     private ArrayList<Projectile> projectiles;
-
-    // Last faced direction
-    private Direction lastFaced = direction;
 
     // Attack timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
@@ -70,13 +65,16 @@ public class Player extends Creature {
     private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
     private double levelExponent = 1.1;
-    public static boolean isLevelUp = false;
-    private int levelUpTimer;
+    public static boolean isLevelUp;
+    public static boolean isXpGained;
+    public static Skill leveledSkill;
+    public static int xpGained;
+    private int levelUpTimer, xpGainedTimer;
 
     private boolean movementAllowed = true;
-    public static boolean isMoving = false;
+    public static boolean isMoving;
 
-    public static boolean mouseMoved = false;
+    public static boolean mouseMoved;
     private float xSpawn, ySpawn;
 
     // Entities we can interact with, with different functions
@@ -85,7 +83,7 @@ public class Player extends Creature {
     private AbilityTrainer abilityTrainer;
     private Banker bankEntity;
 
-    private Zone zone = Zone.Island;
+    private Zone zone = Zone.PortAzure;
     private Rectangle itemPickupRadius;
 
     private int abilityPoints;
@@ -93,10 +91,10 @@ public class Player extends Creature {
     public Player(float x, float y) {
         super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 
-        // Player combat/movement settings:
+        xSpawn = x;
+        ySpawn = y;
 
-        xSpawn = 5152.0f;
-        ySpawn = 5600.0f;
+        // Player combat/movement settings:
 
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -121,7 +119,7 @@ public class Player extends Creature {
 
         aDefault = aDown;
 
-        projectiles = new ArrayList<Projectile>();
+        projectiles = new ArrayList<>();
 
         respawnTimer = 1;
 
@@ -164,7 +162,7 @@ public class Player extends Creature {
         }
 
         // Debug button for in-game testing
-        if (Handler.get().getKeyManager().position && debugButtonPressed) {
+        if (Handler.get().getKeyManager().pause && debugButtonPressed) {
 
 //			maxHealth = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
 //			health = (!Handler.debugMode) ? 10000 : (int) (DEFAULT_HEALTH + Math.round(getVitality() * 1.5));
@@ -242,11 +240,10 @@ public class Player extends Creature {
                         }
                     }
                     // If the Entity only has a continue button (text only) and it's pressed
-                } else if (closestEntity.getChatDialogue().getContinueButton() != null && closestEntity.getChatDialogue().getContinueButton().isPressed()) {
+                } else if (closestEntity.getChatDialogue().getChatOptions().size() == 1 && closestEntity.getChatDialogue().getChatOptions().get(0).isPressed()) {
                     if (!hasInteracted) {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
-                            closestEntity.getChatDialogue().getContinueButton().setPressed(false);
                             closestEntity.interact();
                             Handler.get().playEffect("ui/ui_button_click.wav");
                             hasInteracted = true;
@@ -299,7 +296,7 @@ public class Player extends Creature {
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
                 if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
-                    if(MouseManager.justClosedUI){
+                    if (MouseManager.justClosedUI) {
                         return;
                     }
                     for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
@@ -334,35 +331,35 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
+        if(projectiles.size() < 1)
+            return;
+
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<Projectile>();
+        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
-            if (!p.active) {
+
+            p.tick();
+
+            if (!p.isActive()) {
                 deleted.add(p);
             }
+
             for (Entity e : getCurrentMap().getEntityManager().getEntities()) {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.active) {
+                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
-                        p.active = false;
+                        p.setActive(false);
                     }
                     if (e.isAttackable()) {
                         e.damage(DamageType.INT, this, e);
                         e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
-                        p.active = false;
+                        p.setActive(false);
                     }
                 }
             }
-            for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-                if (collisionWithTile((int) ((p.getX() + 16) / 32), (int) ((p.getY() + 16) / 32)) && p.active) {
-                    p.active = false;
-
-                }
-            }
-            p.tick();
         }
 
         projectiles.removeAll(deleted);
@@ -371,7 +368,7 @@ public class Player extends Creature {
     /*
      * Sets the angle of the mouse
      */
-    public void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
+    private void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
 
         double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
 
@@ -392,48 +389,8 @@ public class Player extends Creature {
 
     }
 
-    /*
-     * Sets the last faced direction, based on last movement
-     */
-    public void setLastFaced() {
-        if (lastFaced == null) {
-            aDefault = aDown;
-        }
-        if (lastFaced == Direction.LEFT) {
-            aDefault = aLeft;
-        } else if (lastFaced == Direction.RIGHT) {
-            aDefault = aRight;
-        } else if (lastFaced == Direction.DOWN) {
-            aDefault = aDown;
-        } else if (lastFaced == Direction.UP) {
-            aDefault = aUp;
-        }
-    }
-
-    /*
-     * Returns the sprite of the last faced direction
-     */
-    public BufferedImage getLastFacedImg() {
-        if (lastFaced == null) {
-            return Assets.player_down[1];
-        }
-        if (lastFaced == Direction.LEFT) {
-            return Assets.player_left[1];
-        }
-        if (lastFaced == Direction.RIGHT) {
-            return Assets.player_right[1];
-        }
-        if (lastFaced == Direction.DOWN) {
-            return Assets.player_down[1];
-        }
-        if (lastFaced == Direction.UP) {
-            return Assets.player_up[1];
-        }
-        return Assets.player_down[1];
-    }
-
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
         if (movementAllowed) {
@@ -444,13 +401,13 @@ public class Player extends Creature {
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         }
 
-        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
-
         // UNCOMMENT THIS BLOCK OF CODE TO SHOW THE PLAYER'S COLLISION RECTANGLE IN-GAME
 
-//		g.setColor(Color.RED);
-//		g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
-//				(int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
+        if (Handler.debugCollision) {
+            g.setColor(Color.RED);
+            g.fillRect((int) (x + bounds.x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
+        }
 
 
         // Player box
@@ -469,41 +426,17 @@ public class Player extends Creature {
 //		
 //		g.setColor(playerBoxColour);
 //		g.fillRect((int) ((x) - Handler.get().getGameCamera().getxOffset()), (int) ((y) - Handler.get().getGameCamera().getyOffset()), 32, 32);
-		
-		/* UNCOMMENT THIS TO SEE MELEE HITBOX
-		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
-		g.setColor(Color.MAGENTA);
-		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
-		 */
+
+//		UNCOMMENT THIS TO SEE MELEE HITBOX
+//		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+//		g.setColor(Color.MAGENTA);
+//		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
         if (projectiles.size() > 0) {
             for (Projectile p : projectiles) {
                 if (active)
                     p.render(g);
-            }
-        }
-
-        for (int i = 0; i < getConditions().size(); i++) {
-            getConditions().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
-                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8);
-        }
-
-        int yOffset = 0;
-        if (!getConditions().isEmpty()) yOffset = 1;
-        for (int i = 0; i < getBuffs().size(); i++) {
-            getBuffs().get(i).render(g, Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
-                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8);
-        }
-
-        if (isLevelUp) {
-            levelUpTimer++;
-            Text.drawString(g, "Level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 16),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font32);
-            if (levelUpTimer >= 60) {
-                levelUpTimer = 0;
-                isLevelUp = false;
             }
         }
 
@@ -681,9 +614,7 @@ public class Player extends Creature {
             }
         }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
-            if (Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
-                return true;
-            }
+            return Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
 
         // If the mouse is not clicked in one of the UI windows, return false
@@ -731,9 +662,7 @@ public class Player extends Creature {
             }
         }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
-            if (Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse)) {
-                return true;
-            }
+            return Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
 
 
@@ -761,7 +690,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f));
+                    9.0f, Assets.fireProjectile));
         }
 
     }
@@ -769,7 +698,7 @@ public class Player extends Creature {
     /*
      * Checks melee attacks
      */
-    public void checkMelee(Rectangle mouse) {
+    private void checkMelee(Rectangle mouse) {
         // Attack timers
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
@@ -840,7 +769,7 @@ public class Player extends Creature {
             this.setActive(true);
             this.setHealth(maxHealth);
 
-            Handler.get().setWorld(Handler.get().getWorldHandler().getWorlds().get(0));
+            Handler.get().setWorld(Zone.PortAzure);
             this.setX(xSpawn);
             this.setY(ySpawn);
         }
@@ -848,6 +777,11 @@ public class Player extends Creature {
 
     @Override
     public void respawn() {
+
+    }
+
+    @Override
+    protected void updateDialogue() {
 
     }
 
@@ -888,28 +822,61 @@ public class Player extends Creature {
      * Post render for things that should be drawn over other Entities
      */
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             closestEntity.getChatDialogue().render(g);
         }
-    }
 
-    /*
-     * Gets the animation based on last faced direction
-     * @returns the animation image
-     */
-    private BufferedImage getAnimationByLastFaced(Direction lastFaced) {
-        if (lastFaced == Direction.LEFT)
-            return aLeft.getCurrentFrame();
-        if (lastFaced == Direction.RIGHT)
-            return aRight.getCurrentFrame();
-        if (lastFaced == Direction.UP)
-            return aUp.getCurrentFrame();
-        if (lastFaced == Direction.DOWN)
-            return aDown.getCurrentFrame();
+        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
 
-        System.out.println("Can't get the last faced animation frame");
-        return aDefault.getCurrentFrame();
+        if (isXpGained) {
+            xpGainedTimer++;
+            g.drawImage(leveledSkill.getImg(), (int) (x - Handler.get().getGameCamera().getxOffset() - 66),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), null);
+            Text.drawString(g, "+" + xpGained + " XP",
+                    (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 48 - xpGainedTimer),
+                    false, Color.GREEN, Assets.font14);
+            if (xpGainedTimer >= 60) {
+                xpGainedTimer = 0;
+                isXpGained = false;
+            }
+        }
+
+        if (isLevelUp) {
+            levelUpTimer++;
+            Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
+                    true, Color.YELLOW, Assets.font24);
+            if (levelUpTimer >= 60) {
+                levelUpTimer = 0;
+                isLevelUp = false;
+            }
+        }
+
+        for (int i = 0; i < getConditions().size(); i++) {
+            Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - 8,
+                    32,
+                    32);
+            getConditions().get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getConditions().get(i), g);
+            }
+        }
+
+        int yOffset = 0;
+        if (!getConditions().isEmpty()) yOffset = 1;
+        for (int i = 0; i < getBuffs().size(); i++) {
+            Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
+                    32,
+                    32);
+            getBuffs().get(i).render(g, slotPos.x, slotPos.y);
+            if(slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getBuffs().get(i), g);
+            }
+        }
     }
 
     /*
@@ -924,9 +891,9 @@ public class Player extends Creature {
 
         if (xMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -937,9 +904,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (xMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -950,9 +917,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (yMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -963,9 +930,9 @@ public class Player extends Creature {
                 return attRight.getCurrentFrame();
         } else if (yMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return getAnimationByLastFaced(lastFaced);
+                return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
             else if (lastFaced == Direction.DOWN)
@@ -1023,33 +990,25 @@ public class Player extends Creature {
          */
 
         if (lastFaced == Direction.LEFT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aLeft.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aLeft.getDefaultFrame();
-            else
-                return attLeft.getCurrentFrame();
+            }
+            return attLeft.getCurrentFrame();
         } else if (lastFaced == Direction.RIGHT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aRight.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aRight.getDefaultFrame();
-            else
-                return attRight.getCurrentFrame();
+            }
+            return attRight.getCurrentFrame();
         } else if (lastFaced == Direction.UP && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aUp.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aUp.getDefaultFrame();
-            else
-                return attUp.getCurrentFrame();
+            }
+            return attUp.getCurrentFrame();
         } else if (lastFaced == Direction.DOWN && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse))
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
                 return aDown.getDefaultFrame();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
-                return aDown.getDefaultFrame();
-            else
-                return attDown.getCurrentFrame();
+            }
+            return attDown.getCurrentFrame();
         }
 
         /*
@@ -1070,8 +1029,7 @@ public class Player extends Creature {
             return aDefault.getDefaultFrame();
         }
 
-        // If lastFaced is null, return black tile
-        return Assets.black;
+        return Assets.player_down[1];
     }
 
     /*
@@ -1093,7 +1051,7 @@ public class Player extends Creature {
 
     // Getters & Setters
 
-    public World getCurrentMap() {
+    private World getCurrentMap() {
         return Handler.get().getWorld();
     }
 

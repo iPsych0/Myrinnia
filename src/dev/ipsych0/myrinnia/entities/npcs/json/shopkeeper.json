@@ -1,0 +1,26 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, how may I help you?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "I would like to see your shop, please.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openShop",
+            "falseId":-1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

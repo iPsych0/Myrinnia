@@ -34,7 +34,7 @@ public class MendWoundsAbility extends Ability {
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.mendWoundsI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
@@ -51,9 +51,8 @@ public class MendWoundsAbility extends Ability {
             regenSeconds = 5 * 60;
             baseHeal = 30;
             regenHeal = 3;
-            int heal = 0;
-            this.caster.setHealth(heal = (this.caster.getHealth() + baseHeal >= this.caster.getMaxHealth()) ?
-                    this.caster.getMaxHealth() : (this.caster.getHealth() + baseHeal));
+
+            caster.heal(baseHeal);
 
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
@@ -79,9 +78,7 @@ public class MendWoundsAbility extends Ability {
                 this.setCasting(false);
                 animation = null;
             }
-            int regen = 0;
-            this.caster.setHealth(regen = (this.caster.getHealth() + regenHeal >= this.caster.getMaxHealth()) ?
-                    this.caster.getMaxHealth() : (this.caster.getHealth() + regenHeal));
+            caster.heal(regenHeal);
         }
     }
 

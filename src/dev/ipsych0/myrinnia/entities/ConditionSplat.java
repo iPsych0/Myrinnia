@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -31,7 +30,7 @@ public class ConditionSplat extends HitSplat {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isActive()) {
             if (condition != null) {
 

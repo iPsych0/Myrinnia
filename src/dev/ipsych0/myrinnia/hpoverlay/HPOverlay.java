@@ -74,12 +74,13 @@ public class HPOverlay implements Serializable {
         uiManager.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
         Rectangle mouse = Handler.get().getMouse();
 
         // Draw the bars
-        g.drawImage(Assets.genericButton[0], bounds.x, bounds.y, bounds.width, bounds.height, null);
+        g.drawImage(Assets.uiWindow, bounds.x, bounds.y, bounds.width, bounds.height, null);
+
         g.drawImage(Assets.genericButton[1], hpBar.x, hpBar.y, hpBar.width, hpBar.height, null);
         g.drawImage(Assets.genericButton[1], xpBar.x, xpBar.y, xpBar.width, xpBar.height, null);
 
@@ -151,6 +152,15 @@ public class HPOverlay implements Serializable {
         if (mapButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
+                if (ShopWindow.lastOpenedWindow != null) {
+                    ShopWindow.lastOpenedWindow.exit();
+                }
+                if (AbilityShopWindow.lastOpenedWindow != null) {
+                    AbilityShopWindow.lastOpenedWindow.exit();
+                }
+                Handler.get().getBankUI().exit();
+                Handler.get().getCraftingUI().exit();
+                // TODO: OPEN THE MAP HERE ONCE IT'S CREATED
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 Handler.get().sendMsg("Map coming soon!");
             }
@@ -158,41 +168,41 @@ public class HPOverlay implements Serializable {
 
 
         // UI button icons
-        g.drawImage(Assets.hpOverlayQuestsIcon, questsButton.x, questsButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlaySkillsIcon, skillsButton.x, skillsButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayCharacterIcon, characterButton.x, characterButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayAbilitiesIcon, abilitiesButton.x, abilitiesButton.y, 32, 32, null);
-        g.drawImage(Assets.hpOverlayMapIcon, mapButton.x, mapButton.y, 32, 32, null);
+        g.drawImage(Assets.questsIcon, questsButton.x, questsButton.y, 32, 32, null);
+        g.drawImage(Assets.craftingIcon, skillsButton.x, skillsButton.y, 32, 32, null);
+        g.drawImage(Assets.characterIcon, characterButton.x, characterButton.y, 32, 32, null);
+        g.drawImage(Assets.abilitiesIcon, abilitiesButton.x, abilitiesButton.y, 32, 32, null);
+        g.drawImage(Assets.mapIcon, mapButton.x, mapButton.y, 32, 32, null);
 
         Text.drawString(g, "HP", hpBar.x - 16, hpBar.y + hpBar.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "XP", xpBar.x - 16, xpBar.y + xpBar.height / 2, true, Color.YELLOW, Assets.font14);
 
         // HP Bar
         g.setColor(hpColorRed);
-        g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+        g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
         g.setColor(hpColorRedOutline);
-        g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+        g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
         g.setColor(hpColorGreen);
         if (Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
-            g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+            g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
             g.setColor(hpColorGreenOutline);
-            g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3, 2, 4);
+            g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
         } else {
-            g.fillRoundRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
-                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+            g.fillRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
+                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
 
             g.setColor(hpColorGreenOutline);
-            g.drawRoundRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
-                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3, 2, 4);
+            g.drawRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
+                    (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
         }
 
         // XP bar
         g.setColor(xpColor);
-        g.fillRoundRect(xpBar.x + 2, xpBar.y + 1, (int) (xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
+        g.fillRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
         g.setColor(xpColorOutline);
-        g.drawRoundRect(xpBar.x + 2, xpBar.y + 1, (int) (xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()) - 2, xpBar.height - 4, 2, 4);
+        g.drawRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
 
         Text.drawString(g, "Combat level: " + Integer.toString(Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()),
                 combatBar.x + combatBar.width / 2, combatBar.y + combatBar.height / 2, true, Color.YELLOW, Assets.font14);

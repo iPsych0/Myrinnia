@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.worlds.data.World;
 
 import java.awt.*;
 
@@ -11,14 +11,7 @@ import java.awt.*;
 public class Myrinnia extends World {
 
     public Myrinnia(String path){
-        super();
-
-        this.worldPath = path;
-
-        width = MapLoader.getMapWidth(path);
-        height = MapLoader.getMapHeight(path);
-
-        loadWorld(path);
+        super(path);
     }
 
     @Override
@@ -29,7 +22,7 @@ public class Myrinnia extends World {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (Handler.get().getWorld() == this) {
             super.render(g);
         }

@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.gfx.Assets;
+
+import java.awt.image.BufferedImage;
 
 public class CombatSkill extends Skill {
 
@@ -8,6 +12,11 @@ public class CombatSkill extends Skill {
      *
      */
     private static final long serialVersionUID = -8746462876499708037L;
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.meleeIcon;
+    }
 
     @Override
     public void addLevel() {
@@ -31,8 +40,10 @@ public class CombatSkill extends Skill {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
+            Player.isLevelUp = true;
             Handler.get().getPlayer().levelUp();
             checkNextLevel();
+            Handler.get().playEffect("ui/level_up.wav", 0.1f);
         }
     }
 

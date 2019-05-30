@@ -1,13 +1,12 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.states.GameState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-public class TextSlot implements Serializable {
+class TextSlot implements Serializable {
 
 
     /**
@@ -15,7 +14,7 @@ public class TextSlot implements Serializable {
      */
     private static final long serialVersionUID = 6041297662264038958L;
     public static final int textWidth = 432;
-    public static final int textHeight = 15;
+    public static final int textHeight = 16;
 
     private int x, y;
     private String message;
@@ -30,19 +29,9 @@ public class TextSlot implements Serializable {
 
     }
 
-    public void render(Graphics g) {
-//		g.setColor(interfaceColour);
-//		g.fillRect(x, y + 17, textWidth, textHeight);
-//		
-//		g.setColor(Color.BLACK);
-//		g.drawRect(x, y + 17, textWidth, textHeight);
-
-        g.setFont(GameState.myFont);
-        g.setColor(Color.YELLOW);
-
+    public void render(Graphics2D g) {
         if (message != null) {
-            Text.drawString(g, message, x + 6, y + 24, false, Color.YELLOW, Assets.font14);
-            //g.drawString(npcText.getLine(), x + 5, y + 28);
+            Text.drawString(g, message, x + 6, y + 20, false, Color.YELLOW, Assets.font14);
         }
     }
 

@@ -8,9 +8,9 @@ public abstract class AbstractTransitionState extends State {
      *
      */
     private static final long serialVersionUID = -8450007202214676369L;
-    protected float alpha = 1.0f;
+    float alpha = 1.0f;
 
-    public AbstractTransitionState() {
+    AbstractTransitionState() {
         super();
     }
 
@@ -18,5 +18,5 @@ public abstract class AbstractTransitionState extends State {
     public abstract void tick();
 
     @Override
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 }
