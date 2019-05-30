@@ -283,6 +283,7 @@ public abstract class Creature extends Entity {
 
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
+        boolean hasPostRenderedTile = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -297,11 +298,16 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
+                    if(i == Handler.get().getWorld().getLayers().length-1){
+                        if(t.isPostRendered()){
+                            hasPostRenderedTile = true;
+                        }
+                    }
                 }
             }
         }
 
-        if(solidTileUnderPostRendered){
+        if(hasPostRenderedTile && solidTileUnderPostRendered){
             return true;
         }
 
@@ -314,6 +320,7 @@ public abstract class Creature extends Entity {
     public boolean collisionWithTile(int x, int y) {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
+        boolean hasPostRenderedTile = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -322,10 +329,15 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
+                    if(i == Handler.get().getWorld().getLayers().length-1){
+                        if(t.isPostRendered()){
+                            hasPostRenderedTile = true;
+                        }
+                    }
                 }
             }
         }
-        if(solidTileUnderPostRendered){
+        if(hasPostRenderedTile && solidTileUnderPostRendered){
             return true;
         }
         return !walkableOnTop;

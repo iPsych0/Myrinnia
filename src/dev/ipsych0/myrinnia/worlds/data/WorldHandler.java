@@ -32,6 +32,7 @@ public class WorldHandler implements Serializable {
         addWorld(new SunriseSands("/worlds/myrinnia_DUMMY_MAP.tmx"));
         addWorld(new SunsetCove("/worlds/sunset_cove.tmx"));
         addWorld(new SunshineCoast("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new PortAzureInside("/worlds/port_azure_inside.tmx"));
 
         try {
             worlds.sort(Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));

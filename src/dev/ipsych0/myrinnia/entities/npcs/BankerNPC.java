@@ -14,7 +14,7 @@ public class BankerNPC extends Banker implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
 
-    private BankerNPC(float x, float y) {
+    public BankerNPC(float x, float y) {
         super(x, y);
 
         script = Utils.loadScript("banker.json");

@@ -68,7 +68,7 @@ public class Handler implements Serializable {
             System.out.println(jarFile.getAbsolutePath());
             resourcePath = "";
             isJar = true;
-        }else{
+        } else {
             resourcePath = "res/";
         }
     }
@@ -335,15 +335,15 @@ public class Handler implements Serializable {
         return Math.ceil(value * 10d) / 10d;
     }
 
-    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType){
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), damageType));
     }
 
-    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability){
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver, ability), ability));
     }
 
-    public void addHealSplat(Entity receiver, int healing){
+    public void addHealSplat(Entity receiver, int healing) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, healing));
     }
 
@@ -415,9 +415,9 @@ public class Handler implements Serializable {
 
         try {
             prop.setProperty(propertyKey, propertyValue);
-            if(isJar){
+            if (isJar) {
                 output = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
-            }else {
+            } else {
                 output = new FileOutputStream(Handler.resourcePath + "settings/config.properties");
             }
             prop.store(output, null);
