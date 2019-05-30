@@ -11,6 +11,8 @@ import dev.ipsych0.myrinnia.states.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game implements Runnable, Serializable {
 
@@ -21,6 +23,7 @@ public class Game implements Runnable, Serializable {
     private static final long serialVersionUID = 1320270378451615572L;
 
     public static final String CURRENT_VERSION = "v0.8";
+    public static final String TITLE_BAR = "Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION;
     private Display display;
     private int width, height;
     private String title;
@@ -40,6 +43,8 @@ public class Game implements Runnable, Serializable {
     public State controlsState;
     public State pauseState;
     public State recapState;
+    public State graphicsState;
+    public State audioState;
 
     // Input
     private KeyManager keyManager;
@@ -50,13 +55,15 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
+    private static final int MIN_RES_WIDTH = 1600;
+    private static final int MIN_RES_HEIGHT = 900;
+
+    private Map<RenderingHints.Key, Object> renderHintMap;
+    private RenderingHints renderingHints;
 
     public static Game get() {
         if (game == null) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            double width = screenSize.getWidth();
-            double height = screenSize.getHeight();
-            game = new Game("Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION, (int) width, (int) height);
+            game = new Game(TITLE_BAR, MIN_RES_WIDTH, MIN_RES_HEIGHT);
         }
         return game;
     }
@@ -67,18 +74,33 @@ public class Game implements Runnable, Serializable {
         this.title = title;
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        renderHintMap = new HashMap<>();
+
+        // Default rendering settings
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_DEFAULT);
+
+        updateRenderingHints();
     }
 
     private void init() {
         display = new Display(title, width, height);
-        display.getFrame().addMouseListener(mouseManager);
-        display.getFrame().addKeyListener(keyManager);
-        display.getFrame().addMouseMotionListener(mouseManager);
-        display.getCanvas().addMouseListener(mouseManager);
-        display.getCanvas().addMouseMotionListener(mouseManager);
+        addListeners();
+
         Assets.init();
 
         handler = Handler.get();
+        loadSettings();
+
         // Create instance of Handler & gamecamera
         gameCamera = new GameCamera(0, 0);
 
@@ -89,6 +111,8 @@ public class Game implements Runnable, Serializable {
         controlsState = new ControlsState();
         pauseState = new PauseState();
         recapState = new RecapState();
+        graphicsState = new GraphicsState();
+        audioState = new AudioState();
 
 
         AudioManager.init();
@@ -97,6 +121,63 @@ public class Game implements Runnable, Serializable {
         // Set the initial state to the menu state
         State.setState(menuState);
 
+        display.setInitialized(true);
+    }
+
+    public void addListeners() {
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addKeyListener(keyManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseWheelListener(mouseManager);
+    }
+
+    private void loadSettings(){
+        keyManager.loadKeybinds();
+    }
+
+    public void setRenderingHint(RenderingHints.Key key, Object value) {
+        renderHintMap.put(key, value);
+        updateRenderingHints();
+    }
+
+    public void setPerformanceRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_OFF);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_SPEED);
+        updateRenderingHints();
+    }
+
+    public void setQualityRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        updateRenderingHints();
+    }
+
+    public void setDefaultRendering() {
+        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+        renderHintMap.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_DEFAULT);
+        updateRenderingHints();
+    }
+
+    private void updateRenderingHints() {
+        renderingHints = new RenderingHints(renderHintMap);
+    }
+
+    private RenderingHints getRenderingHints() {
+        return renderingHints;
     }
 
     private void tick() {
@@ -115,17 +196,25 @@ public class Game implements Runnable, Serializable {
             return;
         }
         g = bs.getDrawGraphics();
+        Graphics2D g2d = (Graphics2D)g;
+
+        // Set the chosen rendering hints
+        g2d.setRenderingHints(renderingHints);
+
+        // Scale the screen based on original size
+        g2d.scale(Display.scaleX, Display.scaleY);
+
         // Clear screen
-        g.clearRect(0, 0, width, height);
-        // Draw here
+        g2d.clearRect(0, 0, width, height);
 
         if (State.getState() != null) {
-            State.getState().render(g);
+            State.getState().render(g2d);
         }
 
         // End draw
         bs.show();
         g.dispose();
+        g2d.dispose();
     }
 
     @Override
@@ -166,7 +255,7 @@ public class Game implements Runnable, Serializable {
         // This value would probably be stored elsewhere.
         final double GAME_HERTZ = 60.0;
         // Calculate how many ms each frame should take for our target game hertz.
-        final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+        final double TIME_BETWEEN_UPDATES = 1000000000d / GAME_HERTZ;
         // At the very most we will update the game this many times before a new render.
         // If you're worried about visual hitches more than perfect timing, set this to
         // 1.
@@ -174,14 +263,14 @@ public class Game implements Runnable, Serializable {
         // We will need the last update time.
         double lastUpdateTime = System.nanoTime();
         // Store the last time we rendered.
-        double lastRenderTime = System.nanoTime();
+        double lastRenderTime;
 
         // If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 60;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+        final double TARGET_FPS = 60.0;
+        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000d / TARGET_FPS;
 
         // Simple way of finding FPS.
-        int lastSecondTime = (int) (lastUpdateTime / 1000000000);
+        int lastSecondTime = (int) (lastUpdateTime / 1000000000d);
 
         while (running) {
             double now = System.nanoTime();
@@ -209,7 +298,7 @@ public class Game implements Runnable, Serializable {
 
             // Update the frames we got.
 
-            int thisSecond = (int) (lastUpdateTime / 1000000000);
+            int thisSecond = (int) (lastUpdateTime / 1000000000d);
 
             if (thisSecond > lastSecondTime) {
                 framesPerSecond = ticks;
@@ -228,7 +317,7 @@ public class Game implements Runnable, Serializable {
                 // climbs on certain OSes.
                 try {
                     Thread.sleep(1);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
 
                 now = System.nanoTime();
@@ -268,7 +357,7 @@ public class Game implements Runnable, Serializable {
         thread.start();
     }
 
-    public synchronized void stop() {
+    private synchronized void stop() {
         if (!running)
             return;
         running = false;
@@ -309,5 +398,13 @@ public class Game implements Runnable, Serializable {
 
     public static void setHandler(Handler handler) {
         Game.handler = handler;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

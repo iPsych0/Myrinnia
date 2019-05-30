@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.abilities;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 
 import dev.ipsych0.myrinnia.Handler;
@@ -27,7 +27,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.supersonicDashI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),

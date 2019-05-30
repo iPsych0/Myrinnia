@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CraftingManager implements Serializable {
 
@@ -28,6 +29,7 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(1, 50, false, SkillCategory.CraftingOther, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularOre, 2), new ItemStack(Item.regularLogs, 5), new ItemStack(Item.coins, 1), new ItemStack(Item.purpleSword, 1)));
         recipes.add(new CraftingRecipe(2, 100, false, SkillCategory.CraftingOther, new ItemStack(Item.coins, 1), new ItemStack(Item.testSword, 1)));
         recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularLogs, 1)));
+        recipes.add(new CraftingRecipe(3, 5, false, SkillCategory.Leatherwork, new ItemStack(Item.testSword, 1), new ItemStack(Item.regularFish, 1), new ItemStack(Item.coins, 1), new ItemStack(Item.regularLogs, 1)));
 
 
         recipes.sort((o1, o2) -> {
@@ -45,12 +47,11 @@ public class CraftingManager implements Serializable {
      * @return - recipe / null if not found
      */
     public CraftingRecipe getRecipeByItem(Item item) {
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipes.get(i).getResult().getItem().getId() == item.getId()) {
-                return recipes.get(i);
-            }
-        }
-        return null;
+        return recipes
+                .stream()
+                .filter(x -> x.getResult().getItem().getId() == item.getId())
+                .findAny()
+                .orElse(null);
     }
 
     /**
@@ -60,15 +61,10 @@ public class CraftingManager implements Serializable {
      * @return - returns a sublist of the overall list, split by category / null if category not found
      */
     public List<CraftingRecipe> getListByCategory(SkillCategory category) {
-        List<CraftingRecipe> subList = new ArrayList<>();
-
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipes.get(i).getCategory() == category) {
-                subList.add(recipes.get(i));
-            }
-        }
-
-        return subList;
+        return recipes
+                .stream()
+                .filter(x -> x.getCategory() == category)
+                .collect(Collectors.toList());
     }
 
     public List<CraftingRecipe> getRecipes() {

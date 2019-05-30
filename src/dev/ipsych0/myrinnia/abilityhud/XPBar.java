@@ -29,17 +29,17 @@ public class XPBar implements Serializable {
 
     }
 
-    public void render(Graphics g) {
-        g.drawImage(Assets.invScreen, x, y, width, height, null);
+    public void render(Graphics2D g) {
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
         // XP bar
         double xp = Handler.get().getSkill(SkillsList.COMBAT).getExperience();
         double nextLvl = Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp();
         double offset = xp / nextLvl;
         int yDiff = (int) (height * offset);
         g.setColor(HPOverlay.xpColor);
-        g.fillRoundRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3, 2, 4);
+        g.fillRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3);
         g.setColor(HPOverlay.xpColorOutline);
-        g.drawRoundRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3, 2, 4);
+        g.drawRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3);
 //		
 //		Text.drawString(g, Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(),
 //				x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);

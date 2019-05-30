@@ -1,15 +1,14 @@
 package dev.ipsych0.itemmaker;
 
-import dev.ipsych0.myrinnia.utils.Utils;
-
 import java.io.File;
 import java.util.Objects;
 
 class JSONLoader {
 
+    private static File itemJsonDirectory = new File("src/dev/ipsych0/myrinnia/items/json/");
 
     static int[] loadIdPrefixesFromJsonFiles() {
-        File[] jsonFiles = Objects.requireNonNull(Utils.itemJsonDirectory).listFiles();
+        File[] jsonFiles = Objects.requireNonNull(itemJsonDirectory).listFiles();
         int numberOfItems = 0;
 
         if (jsonFiles != null) {

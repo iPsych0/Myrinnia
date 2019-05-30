@@ -2,7 +2,8 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Buff;
+import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -15,9 +16,7 @@ public class NimbleFeetAbility extends Ability {
      *
      */
     private static final long serialVersionUID = 6275665878660555382L;
-    private float baseMovementBoost;
-    private int boostTime;
-    private int boostTimeTimer;
+    private double baseMovementBoost;
     private boolean initialBoostDone;
     private Animation animation;
 
@@ -28,7 +27,7 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),
@@ -41,24 +40,17 @@ public class NimbleFeetAbility extends Ability {
     @Override
     public void cast() {
         if (!initialBoostDone) {
-            baseMovementBoost = 1.0f;
-            boostTime = 5 * 60;
-            getCaster().setSpeed(getCaster().getSpeed() + baseMovementBoost);
+            baseMovementBoost = 1.0;
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
             Handler.get().playEffect("abilities/nimble_feet.wav");
+            Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
+            caster.addBuff(caster, caster, b);
         }
-
-        boostTimeTimer++;
 
         animation.tick();
 
-        if (boostTimeTimer >= boostTime) {
-            if (getCaster().getSpeed() - baseMovementBoost <= Creature.DEFAULT_SPEED + 1.0f)
-                getCaster().setSpeed(Creature.DEFAULT_SPEED + 1.0f);
-            else
-                getCaster().setSpeed(getCaster().getSpeed() - baseMovementBoost);
-
+        if (animation.isTickDone()) {
             setCasting(false);
             animation = null;
         }
@@ -75,7 +67,6 @@ public class NimbleFeetAbility extends Ability {
             castingTimeTimer = 0;
             cooldownTimer = 0;
             initialBoostDone = false;
-            boostTimeTimer = 0;
         }
     }
 

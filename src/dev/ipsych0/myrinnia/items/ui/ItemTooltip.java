@@ -25,14 +25,14 @@ public class ItemTooltip implements Serializable {
 
     }
 
-    public void render(Item item, Graphics g) {
+    public void render(Item item, Graphics2D g) {
         if (item.getEquipSlot() == EquipSlot.None.getSlotId()) {
-            g.drawImage(Assets.shopWindow, x, y, 160, 64, null);
+            g.drawImage(Assets.uiWindow, x, y, 160, 64, null);
         } else {
             if (item.getRequirements() == null || item.getRequirements().length == 0)
-                g.drawImage(Assets.shopWindow, x, y, 160, 154, null);
+                g.drawImage(Assets.uiWindow, x, y, 160, 154, null);
             else
-                g.drawImage(Assets.shopWindow, x, y, 160, 170 + (item.getRequirements().length * 16), null);
+                g.drawImage(Assets.uiWindow, x, y, 160, 170 + (item.getRequirements().length * 16), null);
         }
 
 

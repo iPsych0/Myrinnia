@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.states.ControlsState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -21,7 +22,7 @@ TextBox implements KeyListener, Serializable {
     private static final long serialVersionUID = -2516956275598468379L;
     public int x, y, width, height;
     private String charactersTyped = "";
-    public boolean numbersOnly = false;
+    private boolean numbersOnly = false;
     private Rectangle bounds;
     public static boolean focus = false;
     private int index = 0;
@@ -30,13 +31,19 @@ TextBox implements KeyListener, Serializable {
     public static boolean isOpen = false;
     private int blinkTimer = 0;
     private String cursor = "|";
+    private int MAX_CHARACTERS = 100;
 
     public TextBox(int x, int y, int width, int height, boolean numbersOnly) {
+        this(x, y, width, height, numbersOnly, 100);
+    }
+
+    public TextBox(int x, int y, int width, int height, boolean numbersOnly, int characterLimit) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.numbersOnly = numbersOnly;
+        this.MAX_CHARACTERS = characterLimit;
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -76,17 +83,17 @@ TextBox implements KeyListener, Serializable {
         Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
 
-            g.drawImage(Assets.chatwindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
-            // If we have focus, draw the cursor and keep track of the position
+            // If we have focus, draw the cursor and keep track of the pause
             if (focus) {
 
                 blinkTimer++;
 
-                g.drawImage(Assets.chatwindow, x, y, width, height, null);
+                g.drawImage(Assets.genericButton[0], x, y, width, height, null);
 
                 if (blinkTimer >= 0 && blinkTimer < 60) {
                     cursor = "|";
@@ -103,7 +110,7 @@ TextBox implements KeyListener, Serializable {
                     blinkTimer = 0;
                 }
             } else {
-                g.drawImage(Assets.genericButton[0], x, y, width, height, null);
+                g.drawImage(Assets.genericButton[2], x, y, width, height, null);
             }
 
             if (!charactersTyped.isEmpty())
@@ -129,14 +136,11 @@ TextBox implements KeyListener, Serializable {
             if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
                 sb.setLength(0);
                 index = 0;
+                charactersTyped = sb.toString();
                 focus = false;
                 isOpen = false;
-                DialogueBox.isOpen = false;
-                ShopWindow.hasBeenPressed = false;
-                ShopWindow.makingChoice = false;
                 KeyManager.typingFocus = false;
                 DevToolUI.isOpen = false;
-                DevToolUI.initialized = false;
                 removeListeners();
                 return;
             }
@@ -170,9 +174,8 @@ TextBox implements KeyListener, Serializable {
                 // If numbersOnly is true, only digits allowed
                 if (numbersOnly) {
                     if (!Character.isDigit(e.getKeyChar())) {
-                        return;
                     } else {
-                        if (index <= 9) {
+                        if (index < 10) {
                             sb.append(e.getKeyChar());
                             index++;
                             charactersTyped = sb.toString();
@@ -180,7 +183,7 @@ TextBox implements KeyListener, Serializable {
                     }
                 } else {
                     // Otherwise all characters allowed
-                    if (index <= 100) {
+                    if (index < MAX_CHARACTERS) {
                         sb.append(e.getKeyChar());
                         index++;
                         charactersTyped = sb.toString();

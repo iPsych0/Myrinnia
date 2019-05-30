@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
+import dev.ipsych0.myrinnia.states.ControlsState;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.event.KeyEvent;
@@ -33,13 +34,14 @@ public class KeyManager implements KeyListener, Serializable {
     private static final long serialVersionUID = -1536796173877883719L;
     private boolean[] keys, justPressed, cantPress;
     public boolean up, down, left, right;
-    public boolean chat;
-    public boolean pickUp;
-    public boolean position;
+    private boolean chat;
+    public boolean pause;
     public boolean talk;
     public boolean escape;
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
+    private static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
+    statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey;
 
     public KeyManager() {
         keys = new boolean[256];
@@ -47,14 +49,30 @@ public class KeyManager implements KeyListener, Serializable {
         cantPress = new boolean[keys.length];
     }
 
+    public void loadKeybinds(){
+        upKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("upKey").charAt(0));
+        downKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("downKey").charAt(0));
+        leftKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("leftKey").charAt(0));
+        rightKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("rightKey").charAt(0));
+        chatWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("chatWindowKey").charAt(0));
+        questWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("questWindowKey").charAt(0));
+        skillsWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("skillsWindowKey").charAt(0));
+        statsWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("statsWindowKey").charAt(0));
+        mapWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("mapWindowKey").charAt(0));
+        inventoryWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("inventoryKey").charAt(0));
+        interactKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("interactKey").charAt(0));
+        pauseKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("pauseKey").charAt(0));
+        abilityWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("abilitiesKey").charAt(0));
+    }
+
     public void tick() {
 
         if (!typingFocus) {
             // Movement keys
-            up = keys[KeyEvent.VK_W];
-            down = keys[KeyEvent.VK_S];
-            left = keys[KeyEvent.VK_A];
-            right = keys[KeyEvent.VK_D];
+            up = keys[upKey];
+            down = keys[downKey];
+            left = keys[leftKey];
+            right = keys[rightKey];
 
             if (up || down || left || right) {
                 Player.isMoving = true;
@@ -66,15 +84,13 @@ public class KeyManager implements KeyListener, Serializable {
 
 
             // Interaction keys
-            chat = keys[KeyEvent.VK_C];
-            pickUp = keys[KeyEvent.VK_F];
-
-            // Coordinate keys
-            position = keys[KeyEvent.VK_P];
-            talk = keys[KeyEvent.VK_SPACE];
+            chat = keys[chatWindowKey];
+            pause = keys[pauseKey];
+            talk = keys[interactKey];
 
             // UI keys
             escape = keys[KeyEvent.VK_ESCAPE];
+
         }
     }
 
@@ -87,7 +103,7 @@ public class KeyManager implements KeyListener, Serializable {
 
             keys[e.getKeyCode()] = true;
 
-            if (e.getKeyCode() == KeyEvent.VK_P) {
+            if (e.getKeyCode() == pauseKey) {
                 Player.debugButtonPressed = true;
             }
 
@@ -96,24 +112,26 @@ public class KeyManager implements KeyListener, Serializable {
                 SkillsUI.escapePressed = true;
                 QuestUI.escapePressed = true;
                 ShopWindow.escapePressed = true;
+                ControlsState.escapePressed = true;
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
+                escape = true;
             }
 
             // Inventory toggle
-            if (e.getKeyCode() == KeyEvent.VK_I && !ShopWindow.isOpen) {
+            if (e.getKeyCode() == inventoryWindowKey && !ShopWindow.isOpen) {
                 InventoryWindow.isOpen = !InventoryWindow.isOpen;
                 EquipmentWindow.isOpen = !EquipmentWindow.isOpen;
             }
 
             // Chat window toggle
-            if (e.getKeyCode() == KeyEvent.VK_C) {
+            if (e.getKeyCode() == chatWindowKey) {
                 ChatWindow.chatIsOpen = !ChatWindow.chatIsOpen;
             }
 
             // QuestWindow toggle
-            if (e.getKeyCode() == KeyEvent.VK_Q) {
-                lastUIKeyPressed = KeyEvent.VK_Q;
+            if (e.getKeyCode() == questWindowKey) {
+                lastUIKeyPressed = questWindowKey;
                 if (!QuestUI.isOpen) {
                     QuestUI.isOpen = true;
                     CharacterUI.isOpen = false;
@@ -128,8 +146,8 @@ public class KeyManager implements KeyListener, Serializable {
             }
 
             // CharacterUI toggle
-            if (e.getKeyCode() == KeyEvent.VK_K) {
-                lastUIKeyPressed = KeyEvent.VK_K;
+            if (e.getKeyCode() == statsWindowKey) {
+                lastUIKeyPressed = statsWindowKey;
                 if (!CharacterUI.isOpen) {
                     CharacterUI.isOpen = true;
                     QuestUI.isOpen = false;
@@ -144,8 +162,8 @@ public class KeyManager implements KeyListener, Serializable {
             }
 
             // Skills window toggle
-            if (e.getKeyCode() == KeyEvent.VK_L) {
-                lastUIKeyPressed = KeyEvent.VK_L;
+            if (e.getKeyCode() == skillsWindowKey) {
+                lastUIKeyPressed = skillsWindowKey;
                 if (!SkillsUI.isOpen) {
                     SkillsUI.isOpen = true;
                     CharacterUI.isOpen = false;
@@ -159,7 +177,7 @@ public class KeyManager implements KeyListener, Serializable {
                 }
             }
 
-            if (e.getKeyCode() == KeyEvent.VK_B) {
+            if (e.getKeyCode() == abilityWindowKey) {
                 if (ShopWindow.lastOpenedWindow != null) {
                     ShopWindow.lastOpenedWindow.exit();
                 }
@@ -177,9 +195,14 @@ public class KeyManager implements KeyListener, Serializable {
                     TextBox.focus = true;
                     typingFocus = true;
                     DevToolUI.initialized = false;
+                    DevToolUI.isOpen = true;
+                    TextBox.isOpen = true;
+                } else {
+                    TextBox.focus = false;
+                    typingFocus = false;
+                    DevToolUI.isOpen = false;
+                    TextBox.isOpen = false;
                 }
-                DevToolUI.isOpen = !DevToolUI.isOpen;
-                TextBox.isOpen = !TextBox.isOpen;
             }
         }
     }
@@ -191,6 +214,9 @@ public class KeyManager implements KeyListener, Serializable {
                 return;
             }
             keys[e.getKeyCode()] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            escape = false;
         }
     }
 
@@ -211,7 +237,7 @@ public class KeyManager implements KeyListener, Serializable {
                 AbilityHUD.hasBeenTyped = true;
                 AbilityHUD.pressedKey = e.getKeyChar();
             }
-            if (e.getKeyChar() == KeyEvent.VK_SPACE && Entity.isCloseToNPC) {
+            if (e.getKeyChar() == interactKey && Entity.isCloseToNPC) {
                 Player.hasInteracted = false;
             }
         }

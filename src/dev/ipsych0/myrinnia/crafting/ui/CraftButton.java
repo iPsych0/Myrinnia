@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.crafting.ui;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 
@@ -31,7 +30,7 @@ public class CraftButton extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
     }
 

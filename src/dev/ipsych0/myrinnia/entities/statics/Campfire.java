@@ -1,14 +1,12 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
-import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -24,8 +22,8 @@ public class Campfire extends StaticEntity {
     private int ySpawn = (int) getY();
     private Animation campfire;
 
-    public Campfire(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+    private Campfire(float x, float y) {
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         script = Utils.loadScript("campfire.json");
 
@@ -45,7 +43,7 @@ public class Campfire extends StaticEntity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(campfire.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
@@ -63,8 +61,9 @@ public class Campfire extends StaticEntity {
                 if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
                     Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
                     Handler.get().addQuestStep(QuestList.TheFirstQuest, "Solve the mystery of the campfire.");
+                    return true;
                 }
-                return true;
+                return false;
             case "takeSword":
                 if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
                     if (!Handler.get().invIsFull(Item.testSword)) {
@@ -88,7 +87,7 @@ public class Campfire extends StaticEntity {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 

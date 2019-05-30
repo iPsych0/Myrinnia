@@ -2,12 +2,11 @@ package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.states.State;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class UIImageButton extends UIObject {
 
@@ -24,24 +23,29 @@ public class UIImageButton extends UIObject {
         this.images = images;
     }
 
+    public UIImageButton(Rectangle bounds, BufferedImage[] images) {
+        super(bounds.x, bounds.y, bounds.width, bounds.height);
+        this.images = images;
+    }
+
     @Override
     public void tick() {
 
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (hovering) {
-            if(!hasHovered){
+            if (!hasHovered) {
                 Handler.get().playEffect("ui/ui_button_hover.wav");
                 hasHovered = true;
             }
-            if(Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed){
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
             }
             g.drawImage(images[0], x, y, width, height, null);
-        }else {
+        } else {
             g.drawImage(images[1], x, y, width, height, null);
             hasHovered = false;
         }

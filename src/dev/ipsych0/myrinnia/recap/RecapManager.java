@@ -12,7 +12,7 @@ public class RecapManager implements Serializable {
     private LinkedList<RecapEvent> events;
 
     public RecapManager() {
-        this.events = new LinkedList<RecapEvent>();
+        this.events = new LinkedList<>();
     }
 
     public void addEvent(RecapEvent event) {

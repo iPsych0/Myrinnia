@@ -15,13 +15,14 @@ public class FireBallAbility extends Ability {
      */
     private static final long serialVersionUID = -2623074711686137258L;
 
+
     public FireBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                            double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics2D g, int x, int y) {
         g.drawImage(Assets.fireballI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 
     }

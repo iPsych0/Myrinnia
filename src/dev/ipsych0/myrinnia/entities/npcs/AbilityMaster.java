@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -13,7 +12,6 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
@@ -40,13 +38,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.lorraine, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 
@@ -86,5 +84,10 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    @Override
+    public String getName() {
+        return "Ability Master";
     }
 }

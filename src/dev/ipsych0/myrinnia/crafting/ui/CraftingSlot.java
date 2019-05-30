@@ -32,7 +32,7 @@ public class CraftingSlot extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
         if (itemStack != null) {
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);

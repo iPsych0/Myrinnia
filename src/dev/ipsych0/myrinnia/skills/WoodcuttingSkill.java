@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+
+import java.awt.image.BufferedImage;
 
 public class WoodcuttingSkill extends Skill {
 
@@ -15,6 +18,11 @@ public class WoodcuttingSkill extends Skill {
         initResources();
 
         categories.add(SkillCategory.Trees);
+    }
+
+    @Override
+    public BufferedImage getImg() {
+        return Assets.woodcuttingIcon;
     }
 
     private void initResources() {

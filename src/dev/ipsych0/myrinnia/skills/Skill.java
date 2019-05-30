@@ -1,13 +1,16 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Skill implements Serializable {
 
@@ -15,30 +18,23 @@ public abstract class Skill implements Serializable {
      *
      */
     private static final long serialVersionUID = 2650558782741069411L;
-    protected int experience, level;
-    protected int nextLevelXp = 100;
-    protected ArrayList<SkillResource> resources;
-    protected ArrayList<SkillCategory> categories;
+    int experience;
+    int level;
+    int nextLevelXp = 100;
+    ArrayList<SkillResource> resources;
+    ArrayList<SkillCategory> categories;
 
-    public Skill() {
-        resources = new ArrayList<SkillResource>();
-        categories = new ArrayList<SkillCategory>();
+    Skill() {
+        resources = new ArrayList<>();
+        categories = new ArrayList<>();
         experience = 0;
         level = 1;
     }
 
-    public int getExperience() {
-        return experience;
-    }
+    // Abstract methods
+    public abstract BufferedImage getImg();
 
-    public void addExperience(int experience) {
-        this.experience += experience;
-        checkNextLevel();
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
+    // Getter + setter logic
 
     public int getLevel() {
         return level;
@@ -48,19 +44,35 @@ public abstract class Skill implements Serializable {
         this.level = level;
     }
 
-    public void addLevel() {
+    void addLevel() {
         this.level++;
     }
 
-    protected void checkNextLevel() {
+    void checkNextLevel() {
         if (experience >= nextLevelXp) {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
             checkNextLevel();
             Player.isLevelUp = true;
-            Handler.get().playEffect("ui/level_up.wav", 0.1f);
         }
+        Handler.get().playEffect("ui/level_up.wav");
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void addExperience(int experience) {
+        Player.isXpGained = true;
+        Player.xpGained = experience;
+        this.experience += experience;
+        Player.leveledSkill = this;
+        checkNextLevel();
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public int getNextLevelXp() {
@@ -80,30 +92,17 @@ public abstract class Skill implements Serializable {
     }
 
     public SkillResource getResourceByItem(Item item) {
-        if (this == Handler.get().getSkill(SkillsList.CRAFTING)) {
-            System.out.println("Trying to get SkillResource from CraftingSkill. [Skill::getResourceByItem()]");
-            return null;
-        }
-
-        for (int i = 0; i < resources.size(); i++) {
-            if (resources.get(i).getItem().getId() == item.getId()) {
-                return resources.get(i);
-            }
-        }
-        System.out.println("No such resource exists.");
-        return null;
+        return resources
+                .stream()
+                .filter(x -> x.getItem().getId() == item.getId())
+                .findAny()
+                .orElse(null);
     }
 
     public List<SkillResource> getListByCategory(SkillCategory category) {
-        List<SkillResource> subList = new ArrayList<SkillResource>();
-
-        for (int i = 0; i < resources.size(); i++) {
-            if (resources.get(i).getCategory() == category) {
-                subList.add(resources.get(i));
-            }
-        }
-
-        return subList;
+        return resources
+                .stream()
+                .filter(x -> x.getCategory() == category)
+                .collect(Collectors.toList());
     }
-
 }

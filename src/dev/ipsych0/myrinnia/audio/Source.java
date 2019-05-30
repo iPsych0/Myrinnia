@@ -37,7 +37,7 @@ public class Source {
         AL10.alSourcePlay(sourceId);
     }
 
-    public void stop() {
+    private void stop() {
         AL10.alSourceStop(sourceId);
     }
 

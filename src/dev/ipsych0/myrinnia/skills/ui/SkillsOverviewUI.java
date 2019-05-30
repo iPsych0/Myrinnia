@@ -19,13 +19,16 @@ public class SkillsOverviewUI implements Serializable {
      *
      */
     private static final long serialVersionUID = -5483332963034314338L;
-    public int x = 216, y = 180, width = 384, height = 320;
+    public int x = 280;
+    public int y = 180;
+    private int width = 384;
+    private int height = 320;
     public static boolean isOpen = false;
     private Skill selectedSkill;
     private SkillCategory selectedCategory;
     public static boolean hasBeenPressed = false;
     private ScrollBar scrollBar;
-    private int maxPerScreen = 8;
+    private static final int maxPerScreen = 8;
     private ArrayList<CategoryButton> categories;
     private Rectangle bounds;
     private UIImageButton exit;
@@ -33,11 +36,11 @@ public class SkillsOverviewUI implements Serializable {
 
     public SkillsOverviewUI() {
 
-        categories = new ArrayList<CategoryButton>();
-
-        scrollBar = new ScrollBar(x + width - 40, y + 40, 32, 256, 0, maxPerScreen);
+        categories = new ArrayList<>();
 
         bounds = new Rectangle(x, y, width, height);
+        scrollBar = new ScrollBar(x + width - 40, y + 40, 32, 256, 0, maxPerScreen, bounds);
+
         exit = new UIImageButton(x + width - 34, y + 10, 24, 24, Assets.genericButton);
 
         uiManager = new UIManager();
@@ -108,9 +111,9 @@ public class SkillsOverviewUI implements Serializable {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             Rectangle mouse = Handler.get().getMouse();
 

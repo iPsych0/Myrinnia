@@ -141,6 +141,7 @@ public class Animation implements Serializable {
 
             out.writeInt(buffer.size()); // Prepend image with byte count
             buffer.writeTo(out);         // Write image
+            buffer.close();
         }
     }
 
@@ -155,7 +156,9 @@ public class Animation implements Serializable {
             byte[] buffer = new byte[size];
             in.readFully(buffer); // Make sure you read all bytes of the image
 
-            this.frames[i] = ImageIO.read(new ByteArrayInputStream(buffer));
+            InputStream is = new ByteArrayInputStream(buffer);
+            this.frames[i] = ImageIO.read(is);
+            is.close();
         }
     }
 

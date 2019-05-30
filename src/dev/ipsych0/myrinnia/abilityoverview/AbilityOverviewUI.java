@@ -9,7 +9,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -206,10 +205,10 @@ public class AbilityOverviewUI implements Serializable {
         hasBeenPressed = false;
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.shopWindow, x, y, width, height, null);
-            g.drawImage(Assets.shopWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);
+            g.drawImage(Assets.uiWindow, x, y, width, height, null);
+            g.drawImage(Assets.uiWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);
             Text.drawString(g, "Ability Overview", x + width / 2, y + 16, true, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();
@@ -231,8 +230,8 @@ public class AbilityOverviewUI implements Serializable {
             }
 
             g.setColor(selectedColor);
-            g.fillRoundRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height, 4, 4);
-            g.fillRoundRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height, 4, 4);
+            g.fillRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height);
+            g.fillRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height);
         }
     }
 

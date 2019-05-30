@@ -27,7 +27,7 @@ public class ShopKeeperNPC extends ShopKeeper {
 
         script = Utils.loadScript("shopkeeper.json");
 
-        shopItems = new ArrayList<ItemStack>();
+        shopItems = new ArrayList<>();
 
         shopItems.add(new ItemStack(Item.regularLogs, 5));
         shopItems.add(new ItemStack(Item.regularOre, 10));
@@ -42,7 +42,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.lorraine, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
@@ -67,7 +67,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 
@@ -82,7 +82,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     }
 
     public String getName() {
-        return "Shop owner";
+        return "Shopkeeper";
     }
 
 }

@@ -26,8 +26,8 @@ public class EntityManager implements Serializable {
 
     public EntityManager(Player player) {
         this.player = player;
-        entities = new CopyOnWriteArrayList<Entity>();
-        deleted = new CopyOnWriteArrayList<Entity>();
+        entities = new CopyOnWriteArrayList<>();
+        deleted = new CopyOnWriteArrayList<>();
         hitSplats = new CopyOnWriteArrayList<>();
         addEntity(player);
     }
@@ -35,37 +35,64 @@ public class EntityManager implements Serializable {
     public void tick() {
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
+        Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
+        Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Entity e = it.next();
             if (!e.isActive()) {
                 deleted.add(e);
             }
 
-            Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
-            Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
-            if(e instanceof Creature) {
+            Rectangle mouse = Handler.get().getMouse();
+
+            if (e instanceof Creature) {
                 for (Condition c : ((Creature) e).getConditions()) {
                     if (c.isActive()) {
                         c.tick();
-                    }else{
+                    } else {
                         deletedCondis.add(c);
                     }
                 }
                 ((Creature) e).getConditions().removeAll(deletedCondis);
-                for(Buff b : ((Creature) e).getBuffs()){
-                    if(b.isActive()){
+                deletedCondis.clear();
+                for (Buff b : ((Creature) e).getBuffs()) {
+                    if (b.isActive()) {
                         b.tick();
-                    }else{
+                    } else {
                         deletedBuffs.add(b);
                     }
                 }
-                ((Creature)e).getBuffs().removeAll(deletedBuffs);
+                ((Creature) e).getBuffs().removeAll(deletedBuffs);
+                deletedBuffs.clear();
             }
 
             e.tick();
             // Update combat timers
             if (e.isDamaged() && e.getDamageDealer() != null) {
                 e.updateCombatTimer();
+            }
+
+            // If we rightclick an Entity, lock it to the top of the screen.
+            if (!isPressed && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
+                isPressed = true;
+                if (e.isOverlayDrawn())
+                    selectedEntity = e;
+            }
+
+            // If we clicked away, remove the locked UI component
+            if (selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
+                    !Handler.get().getPlayer().hasRightClickedUI(mouse) &&
+                    !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
+                isPressed = true;
+                selectedEntity = null;
+
+                // Check if we're clicking on another Entity
+                for (Entity e2 : entities) {
+                    if (e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
+                        selectedEntity = e2;
+                        break;
+                    }
+                }
             }
         }
 
@@ -89,8 +116,7 @@ public class EntityManager implements Serializable {
         });
     }
 
-    public void render(Graphics g) {
-        Rectangle mouse = Handler.get().getMouse();
+    public void render(Graphics2D g) {
         for (Entity e : entities) {
 
             if (e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
@@ -108,40 +134,12 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            // If we rightclick an Entity, lock it to the top of the screen.
-            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
-                isPressed = true;
-                if (e.isOverlayDrawn())
-                    selectedEntity = e;
+            if (!e.equals(Handler.get().getPlayer())) {
+                e.postRender(g);
             }
-
-            // Keep rendering the selected Entity
-            if (selectedEntity != null) {
-                if (selectedEntity.active)
-                    selectedEntity.drawEntityOverlay(selectedEntity, g);
-                else
-                    selectedEntity = null;
-            }
-
-            // If we clicked away, remove the locked UI component
-            if (selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
-                    !Handler.get().getPlayer().hasRightClickedUI(mouse) &&
-                    !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
-                isPressed = true;
-                selectedEntity = null;
-            }
-
-            // If the mouse is hovered over an Entity, draw the overlay
-            if (e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer())) {
-                if (e.isOverlayDrawn())
-                    e.drawEntityOverlay(e, g);
-            }
-
-            e.postRender(g);
-
         }
 
-        Collection<HitSplat> deleted = new CopyOnWriteArrayList<HitSplat>();
+        Collection<HitSplat> deleted = new CopyOnWriteArrayList<>();
         for (HitSplat hs : hitSplats) {
             if (hs.isActive()) {
                 hs.render(g);
@@ -153,6 +151,31 @@ public class EntityManager implements Serializable {
 
     }
 
+    private void drawHoverCorners(Graphics2D g, Entity e, int xOffset, int yOffset, Color color) {
+        Stroke defaultStroke = g.getStroke();
+
+        g.setColor(color);
+        g.setStroke(new BasicStroke(2));
+
+        // Top left corner
+        g.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+
+        // Top right corner
+        g.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+
+        // Bottom left corner
+        g.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+
+        // Bottom right corner
+        g.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - (6 * (e.getWidth() / 32)) - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()));
+        g.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
+
+        g.setStroke(defaultStroke);
+    }
+
     public Entity getSelectedEntity() {
         return selectedEntity;
     }
@@ -161,9 +184,47 @@ public class EntityManager implements Serializable {
         this.selectedEntity = selectedEntity;
     }
 
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
         // Post renders for entities for additional
         player.postRender(g);
+
+        // Keep rendering the selected Entity
+        if (selectedEntity != null) {
+            if (selectedEntity.active) {
+                if (selectedEntity.isNpc()) {
+                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, selectedEntity, 0, 0, Color.YELLOW);
+                } else if (selectedEntity.isAttackable()) {
+                    drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, selectedEntity, 0, 0, Color.RED);
+                }
+                selectedEntity.drawEntityOverlay(selectedEntity, g);
+            } else {
+                selectedEntity = null;
+            }
+        }
+
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity e = it.next();
+            // If the mouse is hovered over an Entity, draw the overlay
+            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
+
+                // If Entity can be interacted with, show corner pieces on hovering
+                if (e.isNpc()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                } else if (e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.RED);
+                }
+                if (e.isOverlayDrawn()) {
+                    e.drawEntityOverlay(e, g);
+                }
+            }
+        }
+
+
     }
 
     public void addEntity(Entity e) {

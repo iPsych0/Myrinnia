@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -18,7 +19,7 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 5417348314768685085L;
     // ItemList
 
-    public static final int ITEMWIDTH = 24, ITEMHEIGHT = 24;
+    public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
     public static Item[] items = new Item[1024];
 
 
@@ -36,25 +37,32 @@ public class Item implements Serializable {
 
     // Class
 
-    protected ItemType[] itemTypes;
-    protected ItemRarity itemRarity;
-    protected ItemRequirement[] requirements;
-    protected transient BufferedImage texture;
-    protected String name;
-    protected final int id;
-    protected EquipSlot equipSlot;
-    protected int strength, dexterity, intelligence, defence, vitality;
-    protected float attackSpeed, movementSpeed;
-    protected int x, y;
-    protected Rectangle bounds;
-    protected Rectangle position;
-    protected int count;
-    protected boolean pickedUp = false;
+    private ItemType[] itemTypes;
+    private ItemRarity itemRarity;
+    private ItemRequirement[] requirements;
+    private transient BufferedImage texture;
+    private String name;
+    private final int id;
+    private EquipSlot equipSlot;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+    private int defence;
+    private int vitality;
+    private float attackSpeed;
+    private float movementSpeed;
+    private int x;
+    private int y;
+    private Rectangle bounds;
+    private Rectangle position;
+    private int count;
+    private boolean pickedUp = false;
     public static boolean pickUpKeyPressed = false;
-    protected int price;
-    protected boolean stackable;
+    private int price;
+    private boolean stackable;
     private int respawnTimer = 10800;
-    protected boolean equippable;
+    private boolean equippable;
+    private boolean hovering;
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes) {
         this.texture = texture;
@@ -113,19 +121,19 @@ public class Item implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         render(g, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()));
     }
 
-    public void render(Graphics g, int x, int y) {
-        g.drawImage(texture, x + 4, y + 4, ITEMWIDTH, ITEMHEIGHT, null);
+    private void render(Graphics2D g, int x, int y) {
+        g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
     }
 
     /*
      * Adds a new item equippable item to the world
-     * @params: x,y position and amount
+     * @params: x,y pause and amount
      */
-    public Item createItem(int x, int y, int count) {
+    public Item createItem(int x, int y, int amount) {
         Item i;
         if (this.isEquippable()) {
             i = new Item(texture, name, id, itemRarity, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, price, stackable, itemTypes, requirements);
@@ -137,20 +145,20 @@ public class Item implements Serializable {
 
         // If the item is stackable, set the amount
         if (i.stackable)
-            i.setCount(count);
+            i.setAmount(amount);
             // If the item is unstackable, the count is always 1.
         else
-            i.setCount(1);
+            i.setAmount(1);
         return i;
     }
 
-    public void setPosition(int x, int y) {
+    private void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     /*
-     * Returns the position of the item
+     * Returns the pause of the item
      */
     public Rectangle itemPosition(float xOffset, float yOffset) {
         position.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), 32, 32);
@@ -166,7 +174,7 @@ public class Item implements Serializable {
             // If we have space
             if (id == item.getId()) {
                 if (Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".");
+                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".", Filter.LOOT);
                     pickedUp = true;
                     return true;
                 }
@@ -244,11 +252,11 @@ public class Item implements Serializable {
         this.y = y;
     }
 
-    public int getCount() {
+    private int getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    private void setAmount(int count) {
         this.count = count;
     }
 
@@ -336,12 +344,20 @@ public class Item implements Serializable {
         this.position = position;
     }
 
-    public boolean isEquippable() {
+    private boolean isEquippable() {
         return equippable;
     }
 
     public void setEquippable(boolean equippable) {
         this.equippable = equippable;
+    }
+
+    public boolean isHovering() {
+        return hovering;
+    }
+
+    public void setHovering(boolean hovering) {
+        this.hovering = hovering;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

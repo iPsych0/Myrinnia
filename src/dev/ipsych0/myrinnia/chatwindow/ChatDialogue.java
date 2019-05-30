@@ -1,7 +1,5 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -35,7 +33,7 @@ public class ChatDialogue implements Serializable {
         this.y = Handler.get().getHeight() - height - 16;
         this.menuOptions = menuOptions;
 
-        chatOptions = new ArrayList<ChatOption>();
+        chatOptions = new ArrayList<>();
         uiManager = new UIManager();
 
         for (int i = 0; i < menuOptions.length; i++) {
@@ -76,8 +74,13 @@ public class ChatDialogue implements Serializable {
 
     }
 
-    public void render(Graphics g) {
-        g.drawImage(Assets.chatwindow, x, y, width, height + 8, null);
+    public void render(Graphics2D g) {
+        Stroke originalStroke = g.getStroke();
+        g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
+        g.setStroke(new BasicStroke(2));
+        g.setColor(Color.BLACK);
+        g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
+        g.setStroke(originalStroke);
 
         uiManager.render(g);
 
@@ -87,7 +90,7 @@ public class ChatDialogue implements Serializable {
             }
         }
 
-        g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
+//        g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
         Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
     }
 

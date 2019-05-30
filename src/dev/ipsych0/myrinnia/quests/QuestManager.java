@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -18,18 +18,18 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> islandQuests = new ArrayList<Quest>();
-    private ArrayList<Quest> testQuests = new ArrayList<Quest>();
+    private ArrayList<Quest> islandQuests = new ArrayList<>();
+    private ArrayList<Quest> testQuests = new ArrayList<>();
     private ArrayList<Quest> mainQuests = new ArrayList<>();
 
     // Get Quests by Enum value
-    private EnumMap<QuestList, Quest> questMap = new EnumMap<QuestList, Quest>(QuestList.class);
+    private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
 
     // Put all Quest Lists per zone into a List of all Quest Lists
     private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
 
     // Map Zones to Quest Lists
-    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<Zone, ArrayList<Quest>>(Zone.class);
+    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<>(Zone.class);
 
     public QuestManager() {
         questUI = new QuestUI();
@@ -56,34 +56,35 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        islandQuests.add(new Quest("The First Quest", Zone.Island));
-        islandQuests.add(new Quest("The Second Quest", Zone.Island, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
-        islandQuests.add(new Quest("The Third Quest", Zone.Island));
+        islandQuests.add(new Quest("The First Quest", Zone.PortAzure));
+        islandQuests.add(new Quest("The Second Quest", Zone.PortAzure, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
+        islandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
 
         // Test Quests
-        testQuests.add(new Quest("The Test Quest", Zone.IslandUnderground));
+        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
 
         //Main Quests
         mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
 
-        Collections.sort(islandQuests, (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
-
         // Sorts every list's quests by name, alphabetically
         for (int i = 0; i < allQuestLists.size(); i++) {
-            Collections.sort(allQuestLists.get(i), (o1, o2) -> o1.getQuestName().compareTo(o2.getQuestName()));
+            allQuestLists.get(i).sort(Comparator.comparing(Quest::getQuestName));
         }
 
         // Sort the enum list of quests alphabetically as well
         List<QuestList> questEnums = Arrays.asList(QuestList.values());
-        Collections.sort(questEnums, (o1, o2) -> o1.getZone().toString().compareTo(o2.getZone().toString()));
+        questEnums.sort(Comparator.comparing(Enum::toString));
 
-        int index = 0;
         // Maps the QuestList enums to the Quest objects
         for (int i = 0; i < allQuestLists.size(); i++) {
             for (int j = 0; j < allQuestLists.get(i).size(); j++) {
                 try {
-                    questMap.put(questEnums.get(index), allQuestLists.get(i).get(j));
-                    index++;
+                    for (int k = 0; k < questEnums.size(); k++) {
+                        if (questEnums.get(k).getName().equalsIgnoreCase(allQuestLists.get(i).get(j).getQuestName())) {
+                            questMap.put(questEnums.get(k), allQuestLists.get(i).get(j));
+                            break;
+                        }
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println("Error mapping quests to enums. Please check if you have added the quest to 'QuestList.java'.");
                     System.exit(1);
@@ -95,15 +96,21 @@ public class QuestManager implements Serializable {
     private void mapLists() {
         // Sort the Zone list by Zone Name
         List<Zone> zoneEnums = Arrays.asList(Zone.values());
-        Collections.sort(zoneEnums, (o1, o2) -> o1.toString().compareTo(o2.toString()));
+        zoneEnums.sort(Comparator.comparing(Enum::toString));
 
 
         // Sort the allQuestLists by zone as well
-        Collections.sort(allQuestLists, (o1, o2) -> o1.get(0).getZone().toString().compareTo(o2.get(0).getZone().toString()));
+        allQuestLists.sort(Comparator.comparing(o -> o.get(0).getZone().toString()));
 
         // Mapping the Zones together with the correct list of quests
         for (int i = 0; i < allQuestLists.size(); i++) {
-            zoneMap.put(zoneEnums.get(i), allQuestLists.get(i));
+            for (int j = 0; j < zoneEnums.size(); j++) {
+                // Only put in the map Zones that we actually have in our 'all' quests list
+                if (allQuestLists.get(i).get(0).getZone().toString().equalsIgnoreCase(zoneEnums.get(j).toString())) {
+                    zoneMap.put(zoneEnums.get(j), allQuestLists.get(i));
+                    break;
+                }
+            }
         }
     }
 
@@ -112,7 +119,7 @@ public class QuestManager implements Serializable {
             questUI.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (QuestUI.isOpen)
             questUI.render(g);
     }

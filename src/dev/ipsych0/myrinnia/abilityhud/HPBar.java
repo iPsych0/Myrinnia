@@ -28,27 +28,27 @@ public class HPBar implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         // HP Bar
-        g.drawImage(Assets.invScreen, x, y, width, height, null);
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
         g.setColor(HPOverlay.hpColorRed);
-        g.fillRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+        g.fillRect(x + 1, y + 1, width - 3, height - 3);
         g.setColor(HPOverlay.hpColorRedOutline);
-        g.drawRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+        g.drawRect(x + 1, y + 1, width - 3, height - 3);
 
         g.setColor(HPOverlay.hpColorGreen);
         if (Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
-            g.fillRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+            g.fillRect(x + 1, y + 1, width - 3, height - 3);
 
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect(x + 1, y + 1, width - 3, height - 3, 2, 4);
+            g.drawRect(x + 1, y + 1, width - 3, height - 3);
         } else {
             double yOffset = (double) Handler.get().getPlayer().getHealth() /
                     (double) Handler.get().getPlayer().getMaxHealth();
-            g.fillRoundRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3, 2, 4);
+            g.fillRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3);
 
             g.setColor(HPOverlay.hpColorGreenOutline);
-            g.drawRoundRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3, 2, 4);
+            g.drawRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3);
         }
         Text.drawString(g, "HP", x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }

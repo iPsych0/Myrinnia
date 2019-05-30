@@ -16,9 +16,9 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
      *
      */
     private static final long serialVersionUID = 8523315261993088996L;
-    public static final int SLOTSIZE = 32;
+    private static final int SLOTSIZE = 32;
     private ItemStack itemStack;
-    public static boolean stackable = true;
+    private static boolean stackable = true;
     private Rectangle bounds;
 
     public CraftResultSlot(int x, int y, ItemStack itemStack) {
@@ -33,7 +33,7 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.render(g);
 
         if (itemStack != null) {
@@ -47,7 +47,7 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
      * @returns: true/false if it can be added or not
      */
     public boolean addItem(Item item, int amount) {
-        if (itemStack != null && stackable == true) {
+        if (itemStack != null && stackable) {
             if (item.getName() == itemStack.getItem().getName()) {
                 this.itemStack.setAmount(this.itemStack.getAmount() + amount);
                 stackable = true;

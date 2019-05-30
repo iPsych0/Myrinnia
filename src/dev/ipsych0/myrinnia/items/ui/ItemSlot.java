@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -30,9 +31,9 @@ public class ItemSlot implements Serializable {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
-        g.drawImage(Assets.genericButton[1], x, y, SLOTSIZE, SLOTSIZE, null);
+        g.drawImage(Assets.genericButton[0], x, y, SLOTSIZE, SLOTSIZE, null);
 
         if (itemStack != null) {
             if (itemStack.getItem() == Item.coins) {
@@ -50,11 +51,13 @@ public class ItemSlot implements Serializable {
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 
             if (itemStack.getItem().isStackable()) {
-                g.setFont(Assets.font14);
-                g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(itemStack.getAmount()), x + 1, y + SLOTSIZE - 20);
-                g.setColor(Color.YELLOW);
-                g.drawString(Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21);
+                if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 2) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 3) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                } else {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                }
             } else if (!itemStack.getItem().isStackable() && itemStack.getAmount() <= 0) {
                 g.setFont(Assets.font14);
                 g.setColor(Color.YELLOW);

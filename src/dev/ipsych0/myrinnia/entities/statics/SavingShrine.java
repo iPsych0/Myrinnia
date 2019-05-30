@@ -1,10 +1,8 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.bank.BankUI;
-import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.tiles.Tiles;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -19,7 +17,7 @@ public class SavingShrine extends StaticEntity {
     private static final long serialVersionUID = -8566165980826138340L;
 
     public SavingShrine(float x, float y) {
-        super(x, y, Tiles.TILEWIDTH, Tiles.TILEHEIGHT);
+        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 
         script = Utils.loadScript("savingshrine.json");
 
@@ -39,10 +37,10 @@ public class SavingShrine extends StaticEntity {
     }
 
     @Override
-    public void render(Graphics g) {
-        g.drawImage(Assets.teleportShrine2, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+    public void render(Graphics2D g) {
+        g.drawImage(Assets.uiWindow, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
-        g.drawImage(Assets.teleportShrine1, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 32 - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.uiWindow, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 32 - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
@@ -67,7 +65,7 @@ public class SavingShrine extends StaticEntity {
     }
 
     @Override
-    public void postRender(Graphics g) {
+    public void postRender(Graphics2D g) {
 
     }
 
@@ -80,5 +78,10 @@ public class SavingShrine extends StaticEntity {
     protected void updateDialogue() {
 
     }
+
+    public String getName() {
+        return "Saving Shrine";
+    }
+
 
 }

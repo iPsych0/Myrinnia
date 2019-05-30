@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities;
 
 import java.awt.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,15 +9,16 @@ public abstract class Buff {
 
     protected Entity receiver;
     protected int timeLeft;
-    private final int EFFECT_DURATION;
-    protected boolean active;
+    private final int effectDuration;
+    private boolean active;
     private boolean effectApplied;
     private int buffId = -1;
     private static Set<Integer> ids = new HashSet<>();
+    private int timesStacked = 0;
 
-    public Buff(Entity receiver, int durationSeconds) {
+    protected Buff(Entity receiver, int durationSeconds) {
         this.receiver = receiver;
-        this.EFFECT_DURATION = durationSeconds * 60;
+        this.effectDuration = durationSeconds * 60;
         this.active = true;
     }
 
@@ -31,10 +31,11 @@ public abstract class Buff {
             }
 
             if (!effectApplied) {
-                timeLeft = timeLeft + EFFECT_DURATION;
+                timeLeft = timeLeft + effectDuration;
                 apply();
                 effectApplied = true;
                 timeLeft--;
+                timesStacked++;
                 return;
             }
 
@@ -51,13 +52,21 @@ public abstract class Buff {
         }
     }
 
-    public abstract void apply();
+    protected abstract void apply();
 
-    public abstract void update();
+    protected abstract void update();
 
-    public abstract void clear();
+    protected abstract void clear();
 
-    public abstract void render(Graphics g, int x, int y);
+    public abstract void render(Graphics2D g, int x, int y);
+
+    public abstract String getDescription();
+
+    public abstract String toString();
+
+    public int getTimesStacked() {
+        return timesStacked;
+    }
 
     public boolean isEffectApplied() {
         return effectApplied;
@@ -79,15 +88,19 @@ public abstract class Buff {
         return active;
     }
 
-    public void setActive(boolean active) {
+    private void setActive(boolean active) {
         this.active = active;
     }
 
-    public int getBuffId() {
+    private int getBuffId() {
         if(buffId == -1){
             System.err.println("Forgot to set buffId for: " + this.getClass().getSimpleName());
         }
         return buffId;
+    }
+
+    public int getEffectDuration() {
+        return effectDuration;
     }
 
     public void setBuffId(int buffId) {

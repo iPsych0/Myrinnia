@@ -1,4 +1,0 @@
-=== CURRENTLY KNOWN BUGS ===
-1. Minimap doesn’t scroll / isn’t resizable.
-2. The first time a player enters a new map, a new instance of "Player" is created and
-   variables such as EXP and position (spawn in map) are reset to the World file.

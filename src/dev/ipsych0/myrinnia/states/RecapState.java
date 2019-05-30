@@ -20,8 +20,6 @@ public class RecapState extends State {
     private int index = 0;
 
     public RecapState() {
-        super();
-
         this.continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() / 2, 320, 96, Assets.genericButton);
         uiManager = new UIManager();
         uiManager.addObject(continueButton);
@@ -34,7 +32,6 @@ public class RecapState extends State {
         if (Handler.get().getRecapManager().getEvents().size() == 0) {
             State.setState(new UITransitionState(Handler.get().getGame().gameState));
             Handler.get().playMusic(Handler.get().getPlayer().getZone());
-            return;
         } else {
             Rectangle mouse = Handler.get().getMouse();
             if (continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -42,7 +39,6 @@ public class RecapState extends State {
                     State.setState(new UITransitionState(Handler.get().getGame().gameState));
                     Handler.get().playMusic(Handler.get().getPlayer().getZone());
                     hasBeenPressed = false;
-                    return;
                 } else {
                     State.setState(new UITransitionState(this));
                     index++;
@@ -56,7 +52,7 @@ public class RecapState extends State {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (Handler.get().getRecapManager().getEvents().size() > 0) {
             Rectangle mouse = Handler.get().getMouse();
 
