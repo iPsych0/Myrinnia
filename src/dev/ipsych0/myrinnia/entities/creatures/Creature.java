@@ -282,6 +282,7 @@ public abstract class Creature extends Entity {
             return false;
 
         boolean walkableOnTop = false;
+        boolean solidTileUnderPostRendered = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -290,28 +291,42 @@ public abstract class Creature extends Entity {
                 } else {
                     walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
-            } else {
-                if (t != null && t != Tile.tiles[0])
-                    walkableOnTop = true;
-            }
-        }
-        return !walkableOnTop;
-    }
-
-    /*
-     * Handles collision detection for A*
-     */
-    public boolean collisionWithTile(int x, int y) {
-        boolean walkableOnTop = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
-            Tile t = Handler.get().getWorld().getTile(i, x, y);
-            if (t != null && t.isSolid()) {
-                walkableOnTop = false;
+                if(!walkableOnTop){
+                    solidTileUnderPostRendered = true;
+                }
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
                 }
             }
+        }
+
+        if(solidTileUnderPostRendered){
+            return true;
+        }
+
+        return !walkableOnTop;
+    }
+
+    /*
+     * Handles collision detection for A*, which does not take polygon bounds into consideration
+     */
+    public boolean collisionWithTile(int x, int y) {
+        boolean walkableOnTop = false;
+        boolean solidTileUnderPostRendered = false;
+        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+            Tile t = Handler.get().getWorld().getTile(i, x, y);
+            if (t != null && t.isSolid()) {
+                walkableOnTop = false;
+                solidTileUnderPostRendered = true;
+            } else {
+                if (t != null && t != Tile.tiles[0]) {
+                    walkableOnTop = true;
+                }
+            }
+        }
+        if(solidTileUnderPostRendered){
+            return true;
         }
         return !walkableOnTop;
     }

@@ -51,7 +51,13 @@ public class ItemSlot implements Serializable {
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 
             if (itemStack.getItem().isStackable()) {
-                Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 2) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 3) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                } else {
+                    Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
+                }
             } else if (!itemStack.getItem().isStackable() && itemStack.getAmount() <= 0) {
                 g.setFont(Assets.font14);
                 g.setColor(Color.YELLOW);

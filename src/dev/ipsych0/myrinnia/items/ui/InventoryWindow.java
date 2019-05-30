@@ -303,9 +303,9 @@ public class InventoryWindow implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            for (ItemSlot is : itemSlots) {
+            for (int i = itemSlots.size() - 1; i >= 0; i--) {
 
-                is.render(g);
+                itemSlots.get(i).render(g);
 
                 if (currentSelectedSlot != null) {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX() - 14,
@@ -314,12 +314,12 @@ public class InventoryWindow implements Serializable {
                         Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
                 }
 
-                Rectangle temp2 = is.getBounds();
+                Rectangle temp2 = itemSlots.get(i).getBounds();
 
 
                 // If hovering over an item in the inventory, draw the tooltip
-                if (temp2.contains(mouse) && is.getItemStack() != null) {
-                    itemTooltip.render(is.getItemStack().getItem(), g);
+                if (temp2.contains(mouse) && itemSlots.get(i).getItemStack() != null) {
+                    itemTooltip.render(itemSlots.get(i).getItemStack().getItem(), g);
                 }
             }
         }
