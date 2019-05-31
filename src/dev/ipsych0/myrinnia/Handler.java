@@ -265,38 +265,7 @@ public class Handler implements Serializable {
      * @param y    - The Y pause in the new zone
      */
     public void goToWorld(Zone zone, int x, int y) {
-        player.setX(x);
-        player.setY(y);
-        player.setZone(zone);
-        getWorld().getEntityManager().setSelectedEntity(null);
-
-        // Reset all NPCs to their spawn location
-        for(Entity e : world.getEntityManager().getEntities()){
-            if(e instanceof Creature && e.isAttackable() && !e.equals(player)){
-                Creature c = ((Creature)e);
-                // Reset A* aggro
-                c.setState(CombatState.BACKTRACK);
-                e.setDamaged(false);
-                // Clear buffs & condis & reset HP
-                c.clearBuffs();
-                c.clearConditions();
-                c.setHealth(c.getMaxHealth());
-                // Reset position
-                e.setX(c.getxSpawn());
-                e.setY(c.getySpawn());
-            }
-        }
-
-        World w = worldHandler.getWorldsMap().get(zone);
-        w.init();
-        setWorld(w);
-
-        ZoneTransitionState transitionState = new ZoneTransitionState(zone);
-        State.setState(transitionState);
-
-        for (Source s : AudioManager.soundfxFiles)
-            s.delete();
-        playMusic(zone);
+        goToWorld(zone, x, y, null);
     }
 
     public void goToWorld(Zone zone, int x, int y, String customName) {
@@ -306,9 +275,9 @@ public class Handler implements Serializable {
         getWorld().getEntityManager().setSelectedEntity(null);
 
         // Reset all NPCs to their spawn location
-        for(Entity e : world.getEntityManager().getEntities()){
-            if(e instanceof Creature && e.isAttackable() && !e.equals(player)){
-                Creature c = ((Creature)e);
+        for (Entity e : world.getEntityManager().getEntities()) {
+            if (e instanceof Creature && e.isAttackable() && !e.equals(player)) {
+                Creature c = ((Creature) e);
                 // Reset A* aggro
                 c.setState(CombatState.BACKTRACK);
                 e.setDamaged(false);
