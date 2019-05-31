@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.audio;
 
+import dev.ipsych0.myrinnia.Handler;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 
@@ -57,23 +58,16 @@ public class WaveData {
     }
 
 
-    public static WaveData create(BufferedInputStream is) {
-        InputStream stream = is;
-        if (stream == null) {
+    public static WaveData create(String file) {
+        WaveData wavStream;
+        try (InputStream in = Handler.class.getResourceAsStream(file)) {
+            InputStream bufferedIn = new BufferedInputStream(in);
+            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn)) {
+                wavStream = new WaveData(audioIn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
-        }
-        InputStream bufferedInput = new BufferedInputStream(stream);
-        AudioInputStream audioStream = null;
-        try {
-            audioStream = AudioSystem.getAudioInputStream(bufferedInput);
-        } catch (UnsupportedAudioFileException | IOException e) {
-            e.printStackTrace();
-        }
-        WaveData wavStream = new WaveData(audioStream);
-        try {
-            bufferedInput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return wavStream;
     }

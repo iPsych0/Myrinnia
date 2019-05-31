@@ -3,6 +3,8 @@ package dev.ipsych0.myrinnia.audio;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 import org.lwjgl.openal.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -106,15 +108,9 @@ public class AudioManager {
         int buffer = AL10.alGenBuffers();
         buffers.add(buffer);
         soundMap.put(file, buffer);
-        BufferedInputStream is = new BufferedInputStream(new FileInputStream(new File(file)));
-        WaveData waveFile = WaveData.create(is);
+        WaveData waveFile = WaveData.create(file);
         AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
         waveFile.dispose();
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return buffer;
     }
 

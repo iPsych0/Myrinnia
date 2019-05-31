@@ -153,7 +153,7 @@ public class Handler implements Serializable {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + songName);
+                buffer = AudioManager.loadSound("/music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -168,7 +168,7 @@ public class Handler implements Serializable {
         if (!AudioManager.soundMuted) {
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + song);
+                buffer = AudioManager.loadSound("/music/songs/" + song);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + song);
                 e.printStackTrace();
@@ -196,7 +196,7 @@ public class Handler implements Serializable {
             }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/sfx/" + effect);
+                buffer = AudioManager.loadSound("/music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
