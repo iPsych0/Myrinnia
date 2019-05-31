@@ -109,7 +109,7 @@ public class SpriteSheet {
         return imageCrop(x, y, width, height, false);
     }
 
-    private BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
+    public BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
 
         // Multiply by 32 pixel Tiles
         if (!customXandY) {
@@ -128,7 +128,7 @@ public class SpriteSheet {
      * @return cropped non-tile image
      */
     public BufferedImage imageCrop(int x, int y) {
-        return imageCrop(x, y, 32, 32);
+        return imageCrop(x, y, 32, 32, false);
     }
 
     public BufferedImage getSheet() {

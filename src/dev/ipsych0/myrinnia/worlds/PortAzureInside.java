@@ -2,6 +2,8 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.npcs.BankerNPC;
+import dev.ipsych0.myrinnia.entities.npcs.PortAzureMayor;
+import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.worlds.data.World;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 
@@ -24,6 +26,9 @@ public class PortAzureInside extends World {
         super(path);
 
         entityManager.addEntity(new BankerNPC(544, 2496));
+        entityManager.addEntity(new PortAzureMayor(1984, 1920));
+        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",416, 1600));
+
 
         bottomLeftHouseExit = new Rectangle(416, 2672, 32, 32);
         bottomRightHouseExit = new Rectangle(1216, 2672, 32, 32);

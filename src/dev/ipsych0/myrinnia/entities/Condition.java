@@ -99,7 +99,7 @@ public class Condition implements Serializable {
         receiver.tickCondition(receiver, this);
     }
 
-    private void clear() {
+    public void clear() {
         tickTimer = 0;
         this.setActive(false);
 

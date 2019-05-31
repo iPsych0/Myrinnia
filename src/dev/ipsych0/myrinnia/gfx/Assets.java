@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Assets {
 
-    public static final int width = 32, height = 32;
+    public static final int WIDTH = 32, HEIGHT = 32;
 
     // Fonts
     public static Font font14;
@@ -21,18 +21,6 @@ public class Assets {
     public static Font font40;
     public static Font font48;
     public static Font font64;
-
-    // Terrain images (paths, lava, water, etc)
-
-    // Object images
-
-
-    // Ambiance images
-
-    // Animated ambiance images
-    public static BufferedImage[] sparkles;
-    public static BufferedImage[] campfire;
-
 
     // Map item images (trees, rocks, etc)
     public static BufferedImage tree, rock;
@@ -100,6 +88,8 @@ public class Assets {
 
     public static BufferedImage[][] puzzlePieces;
 
+    public static BufferedImage mayor;
+
     public static void init() {
 
         MapLoader.setWorldDoc(Handler.initialWorldPath);
@@ -123,10 +113,7 @@ public class Assets {
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
-        SpriteSheet shop_window = new SpriteSheet("/textures/shopwindow-new.png");
         SpriteSheet texture_sheet = new SpriteSheet("/textures/textures.png");
-        SpriteSheet objects17 = new SpriteSheet("/textures/object_sprites17.png");
-        SpriteSheet objects3 = new SpriteSheet("/textures/object_sprites3.png");
         /*
          * Make skilling sheet for this
          */
@@ -137,6 +124,10 @@ public class Assets {
          */
         SpriteSheet player_sheet = new SpriteSheet("/textures/herosprites.png");
         SpriteSheet npc_sheet1 = new SpriteSheet("/textures/npc_sheet1.png");
+        SpriteSheet npc_sheet2 = new SpriteSheet("/textures/npc_sheet2.png");
+        SpriteSheet npc_sheet3 = new SpriteSheet("/textures/npc_sheet3.png");
+        SpriteSheet npc_sheet4 = new SpriteSheet("/textures/npc_sheet4.png");
+        SpriteSheet npc_sheet5 = new SpriteSheet("/textures/npc_sheet5.png");
 
         /*
          * Add items to this
@@ -217,7 +208,7 @@ public class Assets {
         equipmentPlaceHolders[10] = capeSlot;
         equipmentPlaceHolders[11] = ringSlot2;
 
-        uiWindow = ui_sheet.imageCrop(0, 4, width * 6, height * 6);
+        uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);
@@ -276,9 +267,9 @@ public class Assets {
          * Generic Button Sprites
          */
         genericButton = new BufferedImage[3];
-        genericButton[0] = ui_sheet.imageCrop(0, 10, width * 3, height);
-        genericButton[1] = ui_sheet.imageCrop(3, 10, width * 3, height);
-        genericButton[2] = ui_sheet.imageCrop(6, 10, width * 3, height);
+        genericButton[0] = ui_sheet.imageCrop(0, 10, WIDTH * 3, HEIGHT);
+        genericButton[1] = ui_sheet.imageCrop(3, 10, WIDTH * 3, HEIGHT);
+        genericButton[2] = ui_sheet.imageCrop(6, 10, WIDTH * 3, HEIGHT);
 
         scrollDownButton = new BufferedImage[2];
         scrollDownButton[0] = ui_sheet.imageCrop(6, 4);
@@ -308,16 +299,6 @@ public class Assets {
 
 
         /*
-         * Interactable Object Sprites
-         */
-        campfire = new BufferedImage[5];
-        campfire[0] = objects17.imageCrop(0, 15);
-        campfire[1] = objects17.imageCrop(1, 15);
-        campfire[2] = objects17.imageCrop(2, 15);
-        campfire[3] = objects17.imageCrop(3, 15);
-        campfire[4] = objects17.imageCrop(4, 15);
-
-        /*
          * Enemy Animations
          */
         scorpion = enemy_sheet.imageCrop(0, 0);
@@ -326,6 +307,7 @@ public class Assets {
 
         lorraine = lorraine_sprites.imageCrop(7, 0);
         banker = lorraine_sprites.imageCrop(10, 0);
+        mayor = lorraine_sprites.imageCrop(10, 4);
 
         /*
          * Player Animations
@@ -439,7 +421,7 @@ public class Assets {
 
         // Skilling objects
         tree = texture_sheet.imageCrop(1, 2);
-        rock = objects3.imageCrop(4, 9);
+        rock = texture_sheet.imageCrop(0, 3);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);

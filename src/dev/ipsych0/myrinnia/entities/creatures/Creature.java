@@ -33,6 +33,7 @@ public abstract class Creature extends Entity {
      */
     public static final float DEFAULT_SPEED = 1.0f;
     static final float DEFAULT_ATTACKSPEED = 1.0f;
+
     public static final int DEFAULT_CREATURE_WIDTH = 32,
             DEFAULT_CREATURE_HEIGHT = 32;
 
@@ -526,7 +527,7 @@ public abstract class Creature extends Entity {
     /**
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
-    private void combatStateManager() {
+    protected void combatStateManager() {
 
         if (damaged) {
             state = CombatState.PATHFINDING;
@@ -536,7 +537,6 @@ public abstract class Creature extends Entity {
         if (Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
-
         // If the Creature was not following or attacking the player, move around randomly.
         if (state == CombatState.IDLE) {
             randomWalk();
@@ -554,6 +554,7 @@ public abstract class Creature extends Entity {
                 !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.BACKTRACK;
         }
+
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + +this.getHeight() / 2),
@@ -835,5 +836,27 @@ public abstract class Creature extends Entity {
 
     public void setPathFindRadiusY(int pathFindRadiusY) {
         this.pathFindRadiusY = pathFindRadiusY;
+    }
+
+    public int getxSpawn() {
+        return xSpawn;
+    }
+
+    public int getySpawn() {
+        return ySpawn;
+    }
+
+    public void clearConditions(){
+        for(Condition c : conditions){
+            c.clear();
+        }
+        this.conditions.clear();
+    }
+
+    public void clearBuffs(){
+        for(Buff b : buffs){
+            b.clear();
+        }
+        this.buffs.clear();
     }
 }

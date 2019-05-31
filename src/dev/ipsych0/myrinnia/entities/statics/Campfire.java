@@ -20,7 +20,6 @@ public class Campfire extends StaticEntity {
     private static final long serialVersionUID = 1894028112446761958L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
-    private Animation campfire;
 
     private Campfire(float x, float y) {
         super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
@@ -29,12 +28,11 @@ public class Campfire extends StaticEntity {
 
         isNpc = true;
         attackable = false;
-        campfire = new Animation(125, Assets.campfire);
     }
 
     @Override
     public void tick() {
-        campfire.tick();
+
     }
 
     @Override
@@ -44,7 +42,7 @@ public class Campfire extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(campfire.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.eruption1[2], (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

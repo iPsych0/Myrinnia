@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.HitSplat;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
@@ -24,6 +25,7 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -268,11 +270,63 @@ public class Handler implements Serializable {
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
 
+        // Reset all NPCs to their spawn location
+        for(Entity e : world.getEntityManager().getEntities()){
+            if(e instanceof Creature && e.isAttackable() && !e.equals(player)){
+                Creature c = ((Creature)e);
+                // Reset A* aggro
+                c.setState(CombatState.BACKTRACK);
+                e.setDamaged(false);
+                // Clear buffs & condis & reset HP
+                c.clearBuffs();
+                c.clearConditions();
+                c.setHealth(c.getMaxHealth());
+                // Reset position
+                e.setX(c.getxSpawn());
+                e.setY(c.getySpawn());
+            }
+        }
+
         World w = worldHandler.getWorldsMap().get(zone);
         w.init();
         setWorld(w);
 
         ZoneTransitionState transitionState = new ZoneTransitionState(zone);
+        State.setState(transitionState);
+
+        for (Source s : AudioManager.soundfxFiles)
+            s.delete();
+        playMusic(zone);
+    }
+
+    public void goToWorld(Zone zone, int x, int y, String customName) {
+        player.setX(x);
+        player.setY(y);
+        player.setZone(zone);
+        getWorld().getEntityManager().setSelectedEntity(null);
+
+        // Reset all NPCs to their spawn location
+        for(Entity e : world.getEntityManager().getEntities()){
+            if(e instanceof Creature && e.isAttackable() && !e.equals(player)){
+                Creature c = ((Creature)e);
+                // Reset A* aggro
+                c.setState(CombatState.BACKTRACK);
+                e.setDamaged(false);
+                // Clear buffs & condis & reset HP
+                c.clearBuffs();
+                c.clearConditions();
+                c.setHealth(c.getMaxHealth());
+                // Reset position
+                e.setX(c.getxSpawn());
+                e.setY(c.getySpawn());
+            }
+        }
+
+        World w = worldHandler.getWorldsMap().get(zone);
+        w.init();
+        setWorld(w);
+
+        ZoneTransitionState transitionState = new ZoneTransitionState(zone, customName);
         State.setState(transitionState);
 
         for (Source s : AudioManager.soundfxFiles)

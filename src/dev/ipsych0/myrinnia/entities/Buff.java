@@ -56,7 +56,7 @@ public abstract class Buff {
 
     protected abstract void update();
 
-    protected abstract void clear();
+    public abstract void clear();
 
     public abstract void render(Graphics2D g, int x, int y);
 

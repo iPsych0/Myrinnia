@@ -32,17 +32,12 @@ public class PortAzure extends World {
         entityManager.addEntity(new Tree(240, 240));
         entityManager.addEntity(new Rock(182, 182));
 
-//		entityManager.addEntity(new Scorpion(4960, 5700));
-        entityManager.addEntity(new Scorpion(928, 2336));
-//		entityManager.addEntity(new Scorpion(4600, 5740));
-//		entityManager.addEntity(new Scorpion(4640, 5780));
-//		entityManager.addEntity(new Scorpion(4600, 5780));
+        entityManager.addEntity(new Scorpion(928, 800));
 
         entityManager.addEntity(new SavingShrine(2304, 1888));
-        entityManager.addEntity(new AquaticCultist(2304, 1632));
+        entityManager.addEntity(new AquaticCultist(2336, 1600));
         entityManager.addEntity(new TestNPC(1440, 2560));
         entityManager.addEntity(new AbilityMaster(1504, 2336));
-        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",1696, 2592));
         entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
@@ -85,10 +80,10 @@ public class PortAzure extends World {
                 Handler.get().goToWorld(Zone.PortAzureInside, 1216, 1808);
             }
             if(standingOnTile(topLeftHouseTile)){
-                Handler.get().goToWorld(Zone.PortAzureInside, 416, 1808);
+                Handler.get().goToWorld(Zone.PortAzureInside, 416, 1808, "General Store");
             }
             if(standingOnTile(mayorHouseTile)){
-                Handler.get().goToWorld(Zone.PortAzureInside, 1984, 2180);
+                Handler.get().goToWorld(Zone.PortAzureInside, 1984, 2180, "Town Hall");
             }
             if(standingOnTile(playerHouseTile)){
                 Handler.get().goToWorld(Zone.PortAzureInside, 2880, 2624);
