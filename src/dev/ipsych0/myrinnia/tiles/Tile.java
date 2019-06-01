@@ -17,7 +17,7 @@ public class Tile {
     private int x, y;
     private boolean solid, postRendered;
     private int[] xPoints, yPoints;
-    private Polygon bounds;
+    private Polygon polyBounds;
     private boolean initialized, reset;
     private int lastX = -1, lastY = -1;
 
@@ -33,7 +33,7 @@ public class Tile {
         this.solid = true;
         this.xPoints = x;
         this.yPoints = y;
-        this.bounds = new Polygon(x, y, (x.length + y.length) / 2);
+        this.polyBounds = new Polygon(x, y, (x.length + y.length) / 2);
     }
 
     public Tile(BufferedImage texture, int id, boolean solid, boolean postRendered) {
@@ -68,7 +68,7 @@ public class Tile {
 
     public void render(Graphics2D g, int x, int y) {
         g.drawImage(texture, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
-        if (Handler.debugCollision && bounds != null) {
+        if (Handler.debugCollision && polyBounds != null) {
             int[] xArr, yArr;
             xArr = xPoints.clone();
             yArr = yPoints.clone();
@@ -107,11 +107,11 @@ public class Tile {
         this.postRendered = postRendered;
     }
 
-    public Polygon getBounds() {
-        return bounds;
+    public Polygon getPolyBounds() {
+        return polyBounds;
     }
 
-    public Polygon getBounds(int xPos, int yPos) {
+    public Polygon getPolyBounds(int xPos, int yPos) {
         // Reset the polygon to other occurences of this Tile
         if (xPos != lastX || yPos != lastY) {
             // Don't reset the first time
@@ -120,7 +120,7 @@ public class Tile {
             }
             initialized = false;
         }
-        if (!initialized && bounds != null) {
+        if (!initialized && polyBounds != null) {
             for (int i = 0; i < xPoints.length; i++) {
                 // Subtract the old coordinates
                 if (reset) {
@@ -138,18 +138,21 @@ public class Tile {
                 yPoints[i] = yPoints[i] + (yPos * TILEHEIGHT);
             }
 
-            // Create the new bounds
-            bounds = new Polygon(xPoints, yPoints, (xPoints.length + yPoints.length) / 2);
+            // Create the new polyBounds
+            polyBounds = new Polygon(xPoints, yPoints, (xPoints.length + yPoints.length) / 2);
 
             initialized = true;
             reset = false;
             lastX = xPos;
             lastY = yPos;
         }
-        return bounds;
+        return polyBounds;
     }
 
-    public void setBounds(Polygon bounds) {
-        this.bounds = bounds;
+    public void setPolyBounds(Polygon bounds) {
+        this.polyBounds = bounds;
     }
+
+
+
 }

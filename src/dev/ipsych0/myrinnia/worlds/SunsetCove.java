@@ -15,14 +15,14 @@ public class SunsetCove extends World {
     public SunsetCove(String path){
         super(path);
 
-        portAzureTile = new Rectangle(1904, 4576, 16, 240);
+        portAzureTile = new Rectangle(2224, 4640, 16, 160);
         sunshineCoastTile = new Rectangle(1472, 0, 544, 16);
         sunshineCoastHiddenPathTile = new Rectangle(2048, 0, 32, 16);
     }
 
     @Override
     public void tick() {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             super.tick();
             if(standingOnTile(portAzureTile)){
                 Handler.get().goToWorld(Zone.PortAzure, 32, 320);
@@ -38,7 +38,7 @@ public class SunsetCove extends World {
 
     @Override
     public void render(Graphics2D g) {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             super.render(g);
         }
     }

@@ -17,6 +17,7 @@ public class PortAzure extends World {
     private static final long serialVersionUID = -3850769561562549459L;
 
     private Rectangle sunsetCoveTile;
+    private Rectangle sunriseSandsTile;
 
     private Rectangle bottomRightHouseTile;
     private Rectangle bottomLeftHouseTile;
@@ -51,6 +52,7 @@ public class PortAzure extends World {
         // Zone transition tiles
 
         sunsetCoveTile = new Rectangle(0, 160, 16, 400);
+        sunriseSandsTile = new Rectangle(3184, 192, 16, 224);
 
         bottomRightHouseTile = new Rectangle(1312, 1984, 32, 32);
         bottomLeftHouseTile = new Rectangle(928, 1984, 32, 32);
@@ -68,7 +70,7 @@ public class PortAzure extends World {
         if (Handler.get().getWorld().equals(this)) {
             super.tick();
             if(standingOnTile(sunsetCoveTile)){
-                Handler.get().goToWorld(Zone.SunsetCove, 1856, 4672);
+                Handler.get().goToWorld(Zone.SunsetCove, 2176, 4736);
             }
             if(standingOnTile(bottomRightHouseTile)){
                 Handler.get().goToWorld(Zone.PortAzureInside, 1216, 2640);
@@ -87,6 +89,9 @@ public class PortAzure extends World {
             }
             if(standingOnTile(playerHouseTile)){
                 Handler.get().goToWorld(Zone.PortAzureInside, 2880, 2624);
+            }
+            if(standingOnTile(sunriseSandsTile)){
+                Handler.get().goToWorld(Zone.SunriseSands, 32, 4672);
             }
         }
     }

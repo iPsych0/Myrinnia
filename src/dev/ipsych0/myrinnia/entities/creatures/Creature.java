@@ -289,9 +289,9 @@ public abstract class Creature extends Entity {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
-                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(xMove, 0));
                 } else {
-                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
                 if(!walkableOnTop){
                     solidTileUnderPostRendered = true;

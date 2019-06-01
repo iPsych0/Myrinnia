@@ -27,9 +27,9 @@ public class WorldHandler implements Serializable {
     private void initWorlds() {
         // Add new worlds here
 		addWorld(new Myrinnia("/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
-        addWorld(new LakeAzure("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new LakeAzure("/worlds/lake_azure.tmx"));
         addWorld(new MtAzure("/worlds/myrinnia_DUMMY_MAP.tmx"));
-        addWorld(new SunriseSands("/worlds/myrinnia_DUMMY_MAP.tmx"));
+        addWorld(new SunriseSands("/worlds/sunrise_sands.tmx"));
         addWorld(new SunsetCove("/worlds/sunset_cove.tmx"));
         addWorld(new SunshineCoast("/worlds/sunshine_coast.tmx"));
         addWorld(new PortAzureInside("/worlds/port_azure_inside.tmx"));

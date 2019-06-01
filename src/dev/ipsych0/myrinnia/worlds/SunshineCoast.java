@@ -10,30 +10,35 @@ public class SunshineCoast extends World {
 
     private Rectangle sunsetCoveTile;
     private Rectangle sunsetCoveHiddenPathTile;
+    private Rectangle sunriseSandsTile;
 
     public SunshineCoast(String path){
         super(path);
 
         sunsetCoveTile = new Rectangle(192, 1584, 512, 16);
         sunsetCoveHiddenPathTile = new Rectangle(738, 1584, 256, 16);
+        sunriseSandsTile = new Rectangle(2752, 1584, 256, 16);
     }
 
     @Override
     public void tick() {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             super.tick();
-        }
-        if(standingOnTile(sunsetCoveTile)){
-            Handler.get().goToWorld(Zone.SunsetCove, 1728, 32);
-        }
-        if(standingOnTile(sunsetCoveHiddenPathTile)){
-            Handler.get().goToWorld(Zone.SunsetCove, 2048, 32);
+            if(standingOnTile(sunsetCoveTile)){
+                Handler.get().goToWorld(Zone.SunsetCove, 1728, 32);
+            }
+            if(standingOnTile(sunsetCoveHiddenPathTile)){
+                Handler.get().goToWorld(Zone.SunsetCove, 2048, 32);
+            }
+            if(standingOnTile(sunriseSandsTile)){
+                Handler.get().goToWorld(Zone.SunriseSands, 416, 32);
+            }
         }
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             super.render(g);
         }
     }

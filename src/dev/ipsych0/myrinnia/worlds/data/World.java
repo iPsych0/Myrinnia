@@ -149,8 +149,6 @@ public abstract class World implements Serializable {
         float xOffset = Handler.get().getGameCamera().getxOffset();
         float yOffset = Handler.get().getGameCamera().getyOffset();
 
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 0, screenWidth, screenheight);
         // Set variables for rendering only the tiles that show on screen
         int xStart = (int) Math.max(0, xOffset / Tile.TILEWIDTH);
         int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tile.TILEWIDTH + 1);
@@ -161,6 +159,7 @@ public abstract class World implements Serializable {
         List<Tile> renderOverTiles = new ArrayList<>();
         List<Integer> xCoords = new ArrayList<>();
         List<Integer> yCoords = new ArrayList<>();
+//        boolean standingUnderPostRenderTile = false;
         for (int i = 0; i < layers.length; i++) {
             for (int y = yStart; y < yEnd; y++) {
                 for (int x = xStart; x < xEnd; x++) {
@@ -169,6 +168,9 @@ public abstract class World implements Serializable {
                         int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
                         int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
                         if (t.isPostRendered()) {
+//                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
+//                                standingUnderPostRenderTile = true;
+//                            }
                             renderOverTiles.add(t);
                             xCoords.add(xPos);
                             yCoords.add(yPos);
@@ -194,10 +196,18 @@ public abstract class World implements Serializable {
 
         // Entities
         entityManager.render(g);
+
+//        Composite composite = g.getComposite();
         for (int i = 0; i < renderOverTiles.size(); i++) {
             renderOverTiles.get(i).tick();
+//            if(standingUnderPostRenderTile){
+//                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
+//                g.setComposite(ac);
+//            }
             renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
         }
+//        g.setComposite(composite);
+
         itemManager.postRender(g);
         entityManager.postRender(g);
 
