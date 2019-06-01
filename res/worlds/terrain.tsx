@@ -3288,18 +3288,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="32">
+    <polyline points="0,0 8,0 9.5,-10 20,-20.75 32,-23.5 32,-30 18.25,-28.5 5.25,-22 -0.25,-10.25 -0.25,-0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="548">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="3" x="0" y="0">
+    <polyline points="0,0 0,11.5 31.75,11.5 31.75,-0.5 0,-0.5"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="549">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 0,8.25 15.25,14.25 22.25,22.5 24.25,31.75 32,31.75 32,21.75 27.75,12.25 19.75,6 0.25,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="550">
   <properties>
@@ -3522,18 +3537,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="32" y="0">
+    <polyline points="0,0 0,32 -8.25,32.25 -8.25,-0.25 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="587">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 7.5,-0.25 7.75,8.25 0,8 -0.25,-0.75"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="588">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="32" y="0">
+    <polyline points="0,0 -8,-0.25 -8,7.5 0.25,7.5 0.25,-0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="589">
   <properties>
@@ -3756,18 +3786,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 0,32 8,32 8,0.25 -0.25,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="626">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="32">
+    <polyline points="0,0 -0.25,-10 6.75,-10 9,0 0,0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="627">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="32" y="32">
+    <polyline points="0,0 -0.25,-10 -6.25,-10 -8.25,0 0.5,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="628">
   <properties>
@@ -3990,18 +4035,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="6" y="-0.5">
+    <polyline points="0,0 10.5,14 26.25,24.25 26.25,32.5 -6,32.5 -6,0.25 0.5,0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="665">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="32">
+    <polyline points="0,0 32,0 32,-12.5 -0.25,-12.5 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="666">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="32">
+    <polyline points="0,0 32,0 32,-32 25.75,-32 17.75,-20.75 5.5,-12.75 0,-12.25 0,-0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="667">
   <properties>
@@ -4458,18 +4518,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="-0.25" y="0">
+    <polyline points="0,0 32,26.5 32,0 0.25,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="743">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 32,0 32,27 0,27 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="744">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 32,0 0,26.25 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="745">
   <properties>

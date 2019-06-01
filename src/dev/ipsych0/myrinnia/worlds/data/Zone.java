@@ -2,9 +2,9 @@ package dev.ipsych0.myrinnia.worlds.data;
 
 public enum Zone {
 
-    PortAzure("Port Azure", "port_azure.wav"), Myrinnia("Myrinnia", "myrinnia.wav"), SunsetCove("Sunset Cove", "ancient.wav"),
-    SunriseSands("Sunrise Sands", "myrinnia.wav"), LakeAzure("Lake Azure", "myrinnia.wav"), MtAzure("Mt. Azure", "myrinnia.wav"),
-    SunshineCoast("Sunshine Coast", "myrinnia.wav"), PortAzureInside("Port Azure", "port_azure.wav");
+    PortAzure("Port Azure", "port_azure.wav"), Myrinnia("Myrinnia", "myrinnia.wav"), SunsetCove("Sunset Cove", "sunsetsunrise.wav"),
+    SunriseSands("Sunrise Sands", "sunsetsunrise.wav"), LakeAzure("Lake Azure", "omniscient.wav"), MtAzure("Mt. Azure", "myrinnia.wav"),
+    SunshineCoast("Sunshine Coast", "sunshinecoast.wav"), PortAzureInside("Port Azure", "port_azure.wav");
 
     private String musicFile;
     private String name;
