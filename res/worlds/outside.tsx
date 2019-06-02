@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="outside" tilewidth="32" tileheight="32" tilecount="1248" columns="52">
+<tileset version="1.2" tiledversion="1.2.4" name="outside" tilewidth="32" tileheight="32" tilecount="1248" columns="52">
  <image source="../textures/outside.png" trans="000000" width="1664" height="768"/>
  <tile id="0">
   <properties>
@@ -1977,7 +1977,7 @@
  </tile>
  <tile id="329">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -1995,7 +1995,7 @@
  </tile>
  <tile id="332">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
