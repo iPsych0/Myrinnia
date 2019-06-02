@@ -15,7 +15,6 @@ public class DevToolUI implements Serializable {
     public static boolean isOpen;
     private TextBox textBox;
     private CommandHandler commandHandler;
-    public static boolean initialized;
     public static boolean escapePressed;
 
     public DevToolUI() {
@@ -27,6 +26,7 @@ public class DevToolUI implements Serializable {
         commandHandler = new CommandHandler();
 
         textBox = new TextBox(x, y, width, height, false);
+        textBox.setKeyListeners();
     }
 
     public void tick() {
@@ -35,11 +35,6 @@ public class DevToolUI implements Serializable {
                 escapePressed = false;
                 close();
                 return;
-            }
-
-            if (!initialized) {
-                textBox.setKeyListeners();
-                initialized = true;
             }
 
             textBox.tick();
@@ -59,7 +54,6 @@ public class DevToolUI implements Serializable {
 
     private void close() {
         isOpen = false;
-        initialized = false;
         // Reset the text box
         textBox.getSb().setLength(0);
         textBox.setIndex(0);
@@ -68,7 +62,6 @@ public class DevToolUI implements Serializable {
         KeyManager.typingFocus = false;
         TextBox.focus = false;
         TextBox.isOpen = false;
-        textBox.removeListeners();
     }
 
     public void render(Graphics2D g) {

@@ -192,19 +192,19 @@ public class KeyManager implements KeyListener, Serializable {
             // Toggle dev tool window
             if (e.getKeyCode() == KeyEvent.VK_T) {
                 if (!DevToolUI.isOpen) {
+                    TextBox.openKeyPressed = true;
                     TextBox.focus = true;
                     typingFocus = true;
-                    DevToolUI.initialized = false;
                     DevToolUI.isOpen = true;
                     TextBox.isOpen = true;
-                } else {
-                    TextBox.focus = false;
-                    typingFocus = false;
-                    DevToolUI.isOpen = false;
-                    TextBox.isOpen = false;
                 }
             }
         }
+            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                int i = 10;
+                int j = i * 15;
+                int sum = i + j;
+            }
     }
 
     @Override
@@ -241,10 +241,6 @@ public class KeyManager implements KeyListener, Serializable {
                 Player.hasInteracted = false;
             }
         }
-    }
-
-    public void setTextBoxTyping(boolean textBoxTyping) {
-        KeyManager.typingFocus = textBoxTyping;
     }
 
     public int getLastUIKeyPressed() {

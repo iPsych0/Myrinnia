@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.*;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
@@ -250,7 +251,7 @@ public class ShopWindow implements Serializable {
         inventoryLoaded = false;
         DialogueBox.isOpen = false;
         TextBox.isOpen = false;
-        Handler.get().getKeyManager().setTextBoxTyping(false);
+        KeyManager.typingFocus = false;
         hasBeenPressed = false;
         selectedSlot = null;
         selectedInvItem = null;
@@ -273,7 +274,7 @@ public class ShopWindow implements Serializable {
             inventoryLoaded = false;
             DialogueBox.isOpen = false;
             TextBox.isOpen = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
+            KeyManager.typingFocus = false;
             hasBeenPressed = false;
             makingChoice = false;
             dBox.setPressedButton(null);
@@ -415,7 +416,7 @@ public class ShopWindow implements Serializable {
 //			dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
             DialogueBox.isOpen = false;
             TextBox.isOpen = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
+            KeyManager.typingFocus = false;
             makingChoice = false;
             hasBeenPressed = false;
         }
@@ -447,7 +448,7 @@ public class ShopWindow implements Serializable {
             dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
             DialogueBox.isOpen = false;
             TextBox.enterPressed = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
+            KeyManager.typingFocus = false;
             makingChoice = false;
             hasBeenPressed = false;
         }

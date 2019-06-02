@@ -311,7 +311,6 @@ public class ControlsState extends State {
         hasBeenPressed = false;
         TextBox.isOpen = false;
         TextBox.enterPressed = false;
-        Handler.get().getKeyManager().setTextBoxTyping(false);
         KeyManager.typingFocus = false;
         tb.getSb().setLength(0);
         tb.setIndex(0);

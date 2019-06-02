@@ -108,6 +108,10 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
+        if(getClosestEntity() == null){
+            isCloseToNPC = false;
+            return false;
+        }
         if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
                 ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tile.TILEWIDTH * 2) {
             // Interact with the respective speaking turn
@@ -141,6 +145,9 @@ public abstract class Entity implements Serializable {
             int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
             hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
             pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+        }
+        if(pythagoras.isEmpty()){
+            return null;
         }
         Collections.sort(pythagoras);
         closestDistance = pythagoras.get(0);

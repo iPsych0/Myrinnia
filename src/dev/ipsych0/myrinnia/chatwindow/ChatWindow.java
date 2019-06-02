@@ -47,11 +47,12 @@ public class ChatWindow implements Serializable {
     }
 
     public void tick() {
+        // Tick dev tool
+        if (DevToolUI.isOpen) {
+            Handler.get().getDevToolUI().tick();
+        }
+
         if (chatIsOpen) {
-            // Tick dev tool
-            if (DevToolUI.isOpen) {
-                Handler.get().getDevToolUI().tick();
-            }
 
             scrollBar.tick();
 
@@ -70,12 +71,12 @@ public class ChatWindow implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (chatIsOpen) {
+        // Render dev tool
+        if (DevToolUI.isOpen) {
+            Handler.get().getDevToolUI().render(g);
+        }
 
-            // Render dev tool
-            if (DevToolUI.isOpen) {
-                Handler.get().getDevToolUI().render(g);
-            }
+        if (chatIsOpen) {
 
             Stroke originalStroke = g.getStroke();
             g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
