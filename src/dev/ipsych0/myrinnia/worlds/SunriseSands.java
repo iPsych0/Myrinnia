@@ -10,12 +10,14 @@ public class SunriseSands extends World {
 
     private Rectangle portAzureTile;
     private Rectangle sunshineCoastTile;
+    private Rectangle lakeAzureTile;
 
     public SunriseSands(String path){
         super(path);
 
         portAzureTile = new Rectangle(0, 4544, 16, 256);
         sunshineCoastTile = new Rectangle(256, 0, 352, 16);
+        lakeAzureTile = new Rectangle(0, 2208, 16, 96);
     }
 
     @Override
@@ -27,6 +29,9 @@ public class SunriseSands extends World {
             }
             if(standingOnTile(sunshineCoastTile)){
                 Handler.get().goToWorld(Zone.SunshineCoast, 2880, 1536);
+            }
+            if(standingOnTile(lakeAzureTile)){
+                Handler.get().goToWorld(Zone.LakeAzure, 3136, 2576);
             }
         }
     }

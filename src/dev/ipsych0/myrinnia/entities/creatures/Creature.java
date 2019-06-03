@@ -299,11 +299,10 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
-                    if(i == Handler.get().getWorld().getLayers().length-1){
-                        if(t.isPostRendered()){
-                            hasPostRenderedTile = true;
-                        }
+                    if (t.isPostRendered()) {
+                        hasPostRenderedTile = true;
                     }
+
                 }
             }
         }
@@ -330,11 +329,10 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
-                    if(i == Handler.get().getWorld().getLayers().length-1){
-                        if(t.isPostRendered()){
-                            hasPostRenderedTile = true;
-                        }
+                    if(t.isPostRendered()){
+                        hasPostRenderedTile = true;
                     }
+
                 }
             }
         }

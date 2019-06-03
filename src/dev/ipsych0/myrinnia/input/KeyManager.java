@@ -200,11 +200,6 @@ public class KeyManager implements KeyListener, Serializable {
                 }
             }
         }
-            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                int i = 10;
-                int j = i * 15;
-                int sum = i + j;
-            }
     }
 
     @Override

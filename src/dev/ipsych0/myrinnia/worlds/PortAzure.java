@@ -18,6 +18,7 @@ public class PortAzure extends World {
 
     private Rectangle sunsetCoveTile;
     private Rectangle sunriseSandsTile;
+    private Rectangle lakeAzureTile;
 
     private Rectangle bottomRightHouseTile;
     private Rectangle bottomLeftHouseTile;
@@ -53,6 +54,7 @@ public class PortAzure extends World {
 
         sunsetCoveTile = new Rectangle(0, 160, 16, 400);
         sunriseSandsTile = new Rectangle(3184, 192, 16, 224);
+        lakeAzureTile = new Rectangle(1472, 0, 320, 16);
 
         bottomRightHouseTile = new Rectangle(1312, 1984, 32, 32);
         bottomLeftHouseTile = new Rectangle(928, 1984, 32, 32);
@@ -92,6 +94,9 @@ public class PortAzure extends World {
             }
             if(standingOnTile(sunriseSandsTile)){
                 Handler.get().goToWorld(Zone.SunriseSands, 32, 4672);
+            }
+            if(standingOnTile(lakeAzureTile)){
+                Handler.get().goToWorld(Zone.LakeAzure, 1584, 4736);
             }
         }
     }
