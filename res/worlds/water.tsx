@@ -1180,6 +1180,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="195" duration="500"/>
+   <frame tileid="198" duration="500"/>
+   <frame tileid="201" duration="500"/>
+  </animation>
  </tile>
  <tile id="196">
   <properties>
@@ -1486,6 +1491,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="246" duration="500"/>
+   <frame tileid="249" duration="500"/>
+   <frame tileid="252" duration="500"/>
+  </animation>
  </tile>
  <tile id="247">
   <properties>
@@ -1792,6 +1802,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="297" duration="500"/>
+   <frame tileid="300" duration="500"/>
+   <frame tileid="303" duration="500"/>
+  </animation>
  </tile>
  <tile id="298">
   <properties>
@@ -2098,6 +2113,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="348" duration="500"/>
+   <frame tileid="351" duration="500"/>
+   <frame tileid="354" duration="500"/>
+  </animation>
  </tile>
  <tile id="349">
   <properties>

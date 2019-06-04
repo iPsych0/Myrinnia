@@ -108,6 +108,11 @@ public class Utils {
 
     public static Script loadScript(String path) {
         Script s = loadObjectFromJsonFile(path, "entities/npcs", Script.class);
+        s.getDialogues().sort((o1, o2) -> {
+            Integer i1 = o1.getId();
+            Integer i2 = o2.getId();
+            return i1.compareTo(i2);
+        });
         return s;
     }
 
