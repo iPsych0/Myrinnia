@@ -285,7 +285,7 @@ public class MapLoader implements Serializable {
                 imageSource = tileset.item(0).getAttributes().item(1).getNodeValue();
 
                 // Get the source path and remove the first two dots
-                imageSource = "/textures/" + imageSource + ".png";
+                imageSource = "/textures/tiles/" + imageSource + ".png";
 
                 if(imageSource.equalsIgnoreCase(imagePath)) {
                     setSolidTiles(tsxFile);

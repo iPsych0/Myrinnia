@@ -122,12 +122,12 @@ public class Assets {
         /*
          * Player/NPCs
          */
-        SpriteSheet player_sheet = new SpriteSheet("/textures/herosprites.png");
-        SpriteSheet npc_sheet1 = new SpriteSheet("/textures/npc_sheet1.png");
-        SpriteSheet npc_sheet2 = new SpriteSheet("/textures/npc_sheet2.png");
-        SpriteSheet npc_sheet3 = new SpriteSheet("/textures/npc_sheet3.png");
-        SpriteSheet npc_sheet4 = new SpriteSheet("/textures/npc_sheet4.png");
-        SpriteSheet npc_sheet5 = new SpriteSheet("/textures/npc_sheet5.png");
+        SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/herosprites.png");
+        SpriteSheet npc_sheet1 = new SpriteSheet("/textures/npc_sprites/npc_sheet1.png");
+        SpriteSheet npc_sheet2 = new SpriteSheet("/textures/npc_sprites/npc_sheet2.png");
+        SpriteSheet npc_sheet3 = new SpriteSheet("/textures/npc_sprites/npc_sheet3.png");
+        SpriteSheet npc_sheet4 = new SpriteSheet("/textures/npc_sprites/npc_sheet4.png");
+        SpriteSheet npc_sheet5 = new SpriteSheet("/textures/npc_sprites/npc_sheet5.png");
 
         /*
          * Add items to this
@@ -138,7 +138,7 @@ public class Assets {
         /*
          * Crop ShopKeeperNPC out
          */
-        SpriteSheet lorraine_sprites = new SpriteSheet("/textures/lorrainesprites.png");
+        SpriteSheet lorraine_sprites = new SpriteSheet("/textures/npc_sprites/lorrainesprites.png");
 
         /*
          * Creature Animations
@@ -150,15 +150,15 @@ public class Assets {
          * All Tiled Sprites
          */
         List<SpriteSheet> tileSheets = new ArrayList<>();
-        tileSheets.add(new SpriteSheet("/textures/castle.png", true));
-        tileSheets.add(new SpriteSheet("/textures/desert.png", true));
-        tileSheets.add(new SpriteSheet("/textures/dungeon.png", true));
-        tileSheets.add(new SpriteSheet("/textures/house.png", true));
-        tileSheets.add(new SpriteSheet("/textures/inside.png", true));
-        tileSheets.add(new SpriteSheet("/textures/outside.png", true));
-        tileSheets.add(new SpriteSheet("/textures/terrain.png", true));
-        tileSheets.add(new SpriteSheet("/textures/water.png", true));
-        tileSheets.add(new SpriteSheet("/textures/beach.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/castle.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/desert.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/dungeon.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/house.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/inside.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/outside.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/terrain.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/water.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/beach.png", true));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
