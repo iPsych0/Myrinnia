@@ -52,7 +52,7 @@ public class Assets {
     public static BufferedImage scorpion;
 
     // NPC images
-    public static BufferedImage lorraine, banker;
+    public static BufferedImage shopKeeperMerchantWater, femaleBanker;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -88,7 +88,7 @@ public class Assets {
 
     public static BufferedImage[][] puzzlePieces;
 
-    public static BufferedImage mayor;
+    public static BufferedImage portAzureMayor;
 
     public static void init() {
 
@@ -123,6 +123,10 @@ public class Assets {
          * Player/NPCs
          */
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/herosprites.png");
+        SpriteSheet shopkeepers_sheet = new SpriteSheet("/textures/npc_sprites/shopkeepers_merchants.png");
+        SpriteSheet bankers_sheet = new SpriteSheet("/textures/npc_sprites/bankers.png");
+        SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
+        SpriteSheet generic_npcs = new SpriteSheet("/textures/npc_sprites/generic_npcs.png");
         SpriteSheet npc_sheet1 = new SpriteSheet("/textures/npc_sprites/npc_sheet1.png");
         SpriteSheet npc_sheet2 = new SpriteSheet("/textures/npc_sprites/npc_sheet2.png");
         SpriteSheet npc_sheet3 = new SpriteSheet("/textures/npc_sprites/npc_sheet3.png");
@@ -135,10 +139,6 @@ public class Assets {
         SpriteSheet item_sheet = new SpriteSheet("/textures/itemsprites.png");
 
         SpriteSheet enemy_sheet = new SpriteSheet("/textures/enemysprites.png");
-        /*
-         * Crop ShopKeeperNPC out
-         */
-        SpriteSheet lorraine_sprites = new SpriteSheet("/textures/npc_sprites/lorrainesprites.png");
 
         /*
          * Creature Animations
@@ -305,9 +305,9 @@ public class Assets {
 
         // NPC Sprites
 
-        lorraine = lorraine_sprites.imageCrop(7, 0);
-        banker = lorraine_sprites.imageCrop(10, 0);
-        mayor = lorraine_sprites.imageCrop(10, 4);
+        shopKeeperMerchantWater = shopkeepers_sheet.imageCrop(4, 0);
+        femaleBanker = bankers_sheet.imageCrop(4, 0);
+        portAzureMayor = azureal_island_npcs.imageCrop(1, 0);
 
         /*
          * Player Animations

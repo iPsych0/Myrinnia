@@ -27,7 +27,7 @@ public class BankerNPC extends Banker implements Serializable {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.banker, (int) (x - Handler.get().getGameCamera().getxOffset()),
+        g.drawImage(Assets.femaleBanker, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
 
