@@ -28,7 +28,7 @@ TextBox implements KeyListener, Serializable {
     private int index = 0;
     private StringBuilder sb;
     public static boolean enterPressed = false;
-    public static boolean isOpen = false;
+    private boolean isOpen = false;
     public static boolean openKeyPressed;
     private int blinkTimer = 0;
     private String cursor = "|";
@@ -211,5 +211,13 @@ TextBox implements KeyListener, Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

@@ -242,7 +242,6 @@ public class AbilityShopWindow implements Serializable {
             if (selectedSlot != null) {
                 makingChoice = true;
                 DialogueBox.isOpen = true;
-                TextBox.isOpen = false;
                 dBox.setParam("Unlock");
                 dBox.setMessage("Do you want to learn '" + selectedSlot.getAbility().getName() + "'?");
             }

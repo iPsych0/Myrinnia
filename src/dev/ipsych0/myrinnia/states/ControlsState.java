@@ -163,7 +163,7 @@ public class ControlsState extends State {
                 selectingNewKey = true;
                 initialized = false;
                 DialogueBox.isOpen = true;
-                TextBox.isOpen = true;
+                tb.setOpen(true);
                 selectedButton = btn;
                 TextBox.focus = true;
                 KeyManager.typingFocus = true;
@@ -189,11 +189,11 @@ public class ControlsState extends State {
 
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 hasBeenPressed = false;
                 selectingNewKey = false;
                 selectedButton = null;
                 closeTextBox();
+                State.setState(new UITransitionState(Handler.get().getGame().settingState));
             }
         }
 
@@ -309,7 +309,7 @@ public class ControlsState extends State {
 
     private void closeTextBox() {
         hasBeenPressed = false;
-        TextBox.isOpen = false;
+        tb.setOpen(false);
         TextBox.enterPressed = false;
         KeyManager.typingFocus = false;
         tb.getSb().setLength(0);

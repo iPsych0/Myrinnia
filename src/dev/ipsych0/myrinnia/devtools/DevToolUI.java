@@ -31,6 +31,10 @@ public class DevToolUI implements Serializable {
 
     public void tick() {
         if (isOpen) {
+
+            if(!textBox.isOpen()){
+                textBox.setOpen(true);
+            }
             if (Handler.get().getKeyManager().escape && escapePressed) {
                 escapePressed = false;
                 close();
@@ -61,7 +65,7 @@ public class DevToolUI implements Serializable {
         TextBox.enterPressed = false;
         KeyManager.typingFocus = false;
         TextBox.focus = false;
-        TextBox.isOpen = false;
+        textBox.setOpen(false);
     }
 
     public void render(Graphics2D g) {

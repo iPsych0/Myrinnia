@@ -196,7 +196,6 @@ public class KeyManager implements KeyListener, Serializable {
                     TextBox.focus = true;
                     typingFocus = true;
                     DevToolUI.isOpen = true;
-                    TextBox.isOpen = true;
                 }
             }
         }
