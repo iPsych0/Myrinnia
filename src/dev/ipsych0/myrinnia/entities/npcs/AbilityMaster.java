@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.chatwindow.ChatOption;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -62,8 +63,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has1000gold":
-                if(Handler.get().playerHasItem(Item.coins, 1000)) {
+                if(Handler.get().playerHasItem(Item.coins, resetCost)) {
                     resetSkillPoints();
+                    // Change the cost of resetting in the text
+                    Dialogue infoMsg = script.getDialogues().get(1);
+                    infoMsg.setText(infoMsg.getText().replaceAll("\\d+", String.valueOf(resetCost)));
+                    Choice confirm = script.getDialogues().get(2).getOptions().get(0);
+                    confirm.setText(confirm.getText().replaceAll("\\d+", String.valueOf(resetCost)));
                     return true;
                 }
                 break;
