@@ -151,7 +151,8 @@ public class ControlsState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
-        if(Handler.get().getKeyManager().escape && escapePressed && DialogueBox.isOpen){
+        if(Handler.get().getKeyManager().escape && escapePressed && keysDBox.isOpen() ||
+                Handler.get().getKeyManager().escape && escapePressed && defaultDBox.isOpen()){
             escapePressed = false;
             closeTextBox();
             return;
@@ -162,7 +163,8 @@ public class ControlsState extends State {
                 hasBeenPressed = false;
                 selectingNewKey = true;
                 initialized = false;
-                DialogueBox.isOpen = true;
+                defaultDBox.setOpen(false);
+                keysDBox.setOpen(true);
                 tb.setOpen(true);
                 selectedButton = btn;
                 TextBox.focus = true;
@@ -175,7 +177,7 @@ public class ControlsState extends State {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
                 makingChoice = true;
                 hasBeenPressed = false;
-                DialogueBox.isOpen = true;
+                defaultDBox.setOpen(true);
                 DialogueBox.hasBeenPressed = false;
             }
         }
@@ -201,10 +203,6 @@ public class ControlsState extends State {
 
         if (selectingNewKey) {
             keysDBox.tick();
-            if (!initialized) {
-                tb.setKeyListeners();
-                initialized = true;
-            }
 
             checkSubmit();
 
@@ -226,7 +224,7 @@ public class ControlsState extends State {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
             defaultDBox.setPressedButton(null);
-            DialogueBox.isOpen = false;
+            keysDBox.setOpen(false);
             makingChoice = false;
             hasBeenPressed = false;
         }
@@ -318,7 +316,8 @@ public class ControlsState extends State {
         keysDBox.setPressedButton(null);
         defaultDBox.setPressedButton(null);
         makingChoice = false;
-        DialogueBox.isOpen = false;
+        keysDBox.setOpen(false);
+        defaultDBox.setOpen(false);
         initialized = false;
         selectingNewKey = false;
         selectedButton = null;

@@ -22,10 +22,13 @@ public class GeneralSettingsState extends State {
     public GeneralSettingsState() {
         this.uiManager = new UIManager();
         this.activeButtons = new HashSet<>();
+
+        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
+
+        // Set all buttons to active
         for(int i = 0; i < Filter.values().length; i++){
             activeButtons.add(i);
         }
-        overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
         infoButton = new UIImageButton(overlay.x + 80, overlay.y + 82, 16, 16, Assets.genericButton);
         criticalButton = new UIImageButton(overlay.x + 80, overlay.y + 98, 16, 16, Assets.genericButton);
@@ -66,7 +69,6 @@ public class GeneralSettingsState extends State {
 
         for (Integer i : activeButtons) {
             g.setColor(Color.GREEN);
-//            g.fillRect(overlay.x + 82, overlay.y + 84 + i * 16, 12, 12);
             Text.drawString(g, "X", overlay.x + 80 + 8, overlay.y + 82 + 8 + i * 16, true, Color.GREEN, Assets.font14);
         }
 

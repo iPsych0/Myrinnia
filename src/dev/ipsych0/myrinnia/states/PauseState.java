@@ -62,7 +62,7 @@ public class PauseState extends State {
                 hasBeenPressed = false;
                 dBox.setPressedButton(null);
                 makingChoice = false;
-                DialogueBox.isOpen = false;
+                dBox.setOpen(false);
             }
         }
 
@@ -75,7 +75,7 @@ public class PauseState extends State {
                 hasBeenPressed = false;
                 dBox.setPressedButton(null);
                 makingChoice = false;
-                DialogueBox.isOpen = false;
+                dBox.setOpen(false);
                 return;
             }
         }
@@ -84,7 +84,7 @@ public class PauseState extends State {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
                 makingChoice = true;
                 hasBeenPressed = false;
-                DialogueBox.isOpen = true;
+                dBox.setOpen(true);
                 DialogueBox.hasBeenPressed = false;
             }
         }

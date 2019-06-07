@@ -249,7 +249,7 @@ public class ShopWindow implements Serializable {
         }
         isOpen = false;
         inventoryLoaded = false;
-        DialogueBox.isOpen = false;
+        dBox.setOpen(false);
         dBox.getTextBox().setOpen(false);
         KeyManager.typingFocus = false;
         hasBeenPressed = false;
@@ -272,7 +272,7 @@ public class ShopWindow implements Serializable {
         if (Handler.get().getKeyManager().escape && makingChoice && escapePressed) {
             escapePressed = false;
             inventoryLoaded = false;
-            DialogueBox.isOpen = false;
+            dBox.setOpen(false);
             dBox.getTextBox().setOpen(false);
             KeyManager.typingFocus = false;
             hasBeenPressed = false;
@@ -307,7 +307,7 @@ public class ShopWindow implements Serializable {
          */
         if (buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
             makingChoice = true;
-            DialogueBox.isOpen = true;
+            dBox.setOpen(true);
             dBox.getTextBox().setOpen(false);
             dBox.setParam("BuyAll");
             hasBeenPressed = false;
@@ -319,7 +319,7 @@ public class ShopWindow implements Serializable {
          */
         if (sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
             makingChoice = true;
-            DialogueBox.isOpen = true;
+            dBox.setOpen(true);
             dBox.getTextBox().setOpen(false);
             dBox.setParam("SellAll");
             hasBeenPressed = false;
@@ -331,7 +331,7 @@ public class ShopWindow implements Serializable {
          */
         if (buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
             makingChoice = true;
-            DialogueBox.isOpen = true;
+            dBox.setOpen(true);
             dBox.getTextBox().setOpen(true);
             dBox.setParam("BuyX");
             hasBeenPressed = false;
@@ -343,7 +343,7 @@ public class ShopWindow implements Serializable {
          */
         if (sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
             makingChoice = true;
-            DialogueBox.isOpen = true;
+            dBox.setOpen(true);
             dBox.getTextBox().setOpen(true);
             dBox.setParam("SellX");
             hasBeenPressed = false;
@@ -414,7 +414,7 @@ public class ShopWindow implements Serializable {
             dBox.getTextBox().setIndex(0);
             dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
 //			dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
-            DialogueBox.isOpen = false;
+            dBox.setOpen(false);
             dBox.getTextBox().setOpen(false);
             KeyManager.typingFocus = false;
             makingChoice = false;
@@ -446,7 +446,7 @@ public class ShopWindow implements Serializable {
             dBox.getTextBox().getSb().setLength(0);
             dBox.getTextBox().setIndex(0);
             dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-            DialogueBox.isOpen = false;
+            dBox.setOpen(false);
             TextBox.enterPressed = false;
             KeyManager.typingFocus = false;
             makingChoice = false;

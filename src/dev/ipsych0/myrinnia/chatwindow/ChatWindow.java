@@ -40,6 +40,8 @@ public class ChatWindow implements Serializable {
         this.x = 8;
         this.y = Handler.get().getHeight() - height - TextSlot.textHeight;
         this.filters = new HashSet<>();
+
+        // Enable all chat messages
         Collection<Filter> filters = Arrays.asList(Filter.values());
         this.filters.addAll(filters);
 
