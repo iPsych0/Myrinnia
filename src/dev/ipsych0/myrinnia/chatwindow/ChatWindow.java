@@ -9,8 +9,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 public class ChatWindow implements Serializable {
@@ -30,7 +29,7 @@ public class ChatWindow implements Serializable {
     private static final int MAX_MESSAGES = 35;
     private Rectangle windowBounds;
     private ScrollBar scrollBar;
-    private List<Filter> filters;
+    private Set<Filter> filters;
 
     private LinkedList<TextSlot> textSlots;
 
@@ -40,7 +39,9 @@ public class ChatWindow implements Serializable {
         this.height = MESSAGE_PER_VIEW * TextSlot.textHeight;
         this.x = 8;
         this.y = Handler.get().getHeight() - height - TextSlot.textHeight;
-        this.filters = new ArrayList<>();
+        this.filters = new HashSet<>();
+        Collection<Filter> filters = Arrays.asList(Filter.values());
+        this.filters.addAll(filters);
 
         windowBounds = new Rectangle(x, y, width, height);
         scrollBar = new ScrollBar(x + width - 24, y + 4, 16, height, 0, MESSAGE_PER_VIEW, windowBounds, true);
@@ -105,7 +106,7 @@ public class ChatWindow implements Serializable {
      * Sends a message to the chat log
      */
     public boolean sendMessage(String message, Filter filter) {
-        if(filter != null && filters.contains(filter)){
+        if(filter != null && !filters.contains(filter)){
             return false;
         }
         int offSet = 0;
@@ -173,5 +174,13 @@ public class ChatWindow implements Serializable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public Set<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<Filter> filters) {
+        this.filters = filters;
     }
 }

@@ -15,7 +15,7 @@ public class SettingState extends State {
      */
     private static final long serialVersionUID = -5598711872871726397L;
     private UIManager uiManager;
-    private UIImageButton graphicsButton, controlsButton, audioButton, returnButton;
+    private UIImageButton generalButton, graphicsButton, controlsButton, audioButton, returnButton;
     private UIImageButton selectedButton;
     public static State previousState;
     public static State selectedState;
@@ -28,21 +28,27 @@ public class SettingState extends State {
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
         /*
+         * General Button
+         */
+        generalButton = new UIImageButton(Handler.get().getWidth() / 2 - 256, 96, 128, 64, Assets.genericButton);
+        uiManager.addObject(generalButton);
+
+        /*
          * Graphics Button
          */
-        graphicsButton = new UIImageButton(Handler.get().getWidth() / 2 - 192, 96, 128, 64, Assets.genericButton);
+        graphicsButton = new UIImageButton(Handler.get().getWidth() / 2 - 128, 96, 128, 64, Assets.genericButton);
         uiManager.addObject(graphicsButton);
 
         /*
          * Audio Button
          */
-        audioButton = new UIImageButton(Handler.get().getWidth() / 2 - 64, 96, 128, 64, Assets.genericButton);
+        audioButton = new UIImageButton(Handler.get().getWidth() / 2, 96, 128, 64, Assets.genericButton);
         uiManager.addObject(audioButton);
 
         /*
          * Controls Button
          */
-        controlsButton = new UIImageButton(Handler.get().getWidth() / 2 + 64, 96, 128, 64, Assets.genericButton);
+        controlsButton = new UIImageButton(Handler.get().getWidth() / 2 + 128, 96, 128, 64, Assets.genericButton);
         uiManager.addObject(controlsButton);
 
 
@@ -60,6 +66,14 @@ public class SettingState extends State {
     public void tick() {
 
         Rectangle mouse = Handler.get().getMouse();
+
+        if (generalButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                selectedState = Handler.get().getGame().generalSettingsState;
+                selectedButton = generalButton;
+                hasBeenPressed = false;
+            }
+        }
 
         if (graphicsButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -112,6 +126,7 @@ public class SettingState extends State {
 
         Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
 
+        Text.drawString(g, "General", generalButton.x + generalButton.width / 2, generalButton.y + generalButton.height / 2, true, Color.YELLOW, Assets.font20);
         Text.drawString(g, "Graphics", graphicsButton.x + graphicsButton.width / 2, graphicsButton.y + graphicsButton.height / 2, true, Color.YELLOW, Assets.font20);
         Text.drawString(g, "Audio", audioButton.x + audioButton.width / 2, audioButton.y + audioButton.height / 2, true, Color.YELLOW, Assets.font20);
         Text.drawString(g, "Controls", controlsButton.x + controlsButton.width / 2, controlsButton.y + controlsButton.height / 2, true, Color.YELLOW, Assets.font20);
