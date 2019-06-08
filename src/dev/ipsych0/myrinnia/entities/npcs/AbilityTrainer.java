@@ -12,7 +12,7 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     private static final long serialVersionUID = -7162393727931954900L;
 
-    private static int resetCost = 1000;
+    protected static int resetCost = 1000;
 
     AbilityShopWindow abilityShopWindow;
 

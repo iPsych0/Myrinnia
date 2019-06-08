@@ -19,7 +19,7 @@ public class DialogueBox implements Serializable {
     private int width;
     private int height;
     private ArrayList<DialogueButton> buttons;
-    public static boolean isOpen = false;
+    private boolean isOpen = false;
     private String[] answers;
     private String param = "";
     private DialogueButton pressedButton = null;
@@ -157,5 +157,13 @@ public class DialogueBox implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

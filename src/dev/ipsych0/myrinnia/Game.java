@@ -45,6 +45,7 @@ public class Game implements Runnable, Serializable {
     public State recapState;
     public State graphicsState;
     public State audioState;
+    public State generalSettingsState;
 
     // Input
     private KeyManager keyManager;
@@ -113,6 +114,7 @@ public class Game implements Runnable, Serializable {
         recapState = new RecapState();
         graphicsState = new GraphicsState();
         audioState = new AudioState();
+        generalSettingsState = new GeneralSettingsState();
 
 
         AudioManager.init();

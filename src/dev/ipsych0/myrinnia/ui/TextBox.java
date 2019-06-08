@@ -13,8 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
-public class
-TextBox implements KeyListener, Serializable {
+public class TextBox implements KeyListener, Serializable {
 
     /**
      *
@@ -49,6 +48,8 @@ TextBox implements KeyListener, Serializable {
         bounds = new Rectangle(x, y, width, height);
 
         sb = new StringBuilder(charactersTyped);
+
+        setKeyListeners();
     }
 
     public void tick() {
@@ -134,7 +135,7 @@ TextBox implements KeyListener, Serializable {
                 DevToolUI.isOpen = false;
                 return;
             }
-            if (focus && !openKeyPressed) {
+            if (focus) {
                 // If enter is pressed, handle the input
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                     enterPressed = true;

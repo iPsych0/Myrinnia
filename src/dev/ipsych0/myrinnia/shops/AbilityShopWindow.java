@@ -121,7 +121,7 @@ public class AbilityShopWindow implements Serializable {
         hasBeenPressed = false;
         dBox.setPressedButton(null);
         makingChoice = false;
-        DialogueBox.isOpen = false;
+        dBox.setOpen(false);
     }
 
     public void tick() {
@@ -225,7 +225,7 @@ public class AbilityShopWindow implements Serializable {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
             dBox.setPressedButton(null);
-            DialogueBox.isOpen = false;
+            dBox.setOpen(false);
             makingChoice = false;
             hasBeenPressed = false;
         }
@@ -241,7 +241,7 @@ public class AbilityShopWindow implements Serializable {
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if (selectedSlot != null) {
                 makingChoice = true;
-                DialogueBox.isOpen = true;
+                dBox.setOpen(true);
                 dBox.setParam("Unlock");
                 dBox.setMessage("Do you want to learn '" + selectedSlot.getAbility().getName() + "'?");
             }

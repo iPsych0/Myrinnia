@@ -26,7 +26,6 @@ public class DevToolUI implements Serializable {
         commandHandler = new CommandHandler();
 
         textBox = new TextBox(x, y, width, height, false);
-        textBox.setKeyListeners();
     }
 
     public void tick() {
