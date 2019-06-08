@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.AquaticCultist;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
@@ -8,10 +9,13 @@ import dev.ipsych0.myrinnia.entities.npcs.PortAzureSailor;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
+import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.data.World;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class PortAzure extends World {
 
@@ -32,6 +36,8 @@ public class PortAzure extends World {
     public PortAzure(String path) {
         super(path);
 
+        MapLoader.initEnemiesItemsAndZoneTiles(path);
+
         entityManager.addEntity(new Tree(240, 240));
         entityManager.addEntity(new Rock(182, 182));
 
@@ -46,7 +52,8 @@ public class PortAzure extends World {
         // Southern beach
         entityManager.addEntity(new FishingSpot(928, 2520));
         entityManager.addEntity(new FishingSpot(1312, 2584));
-        entityManager.addEntity(new PortAzureSailor(2464, 2526));
+//        entityManager.addEntity(new PortAzureSailor(2464, 2526));
+
 //        entityManager.addEntity(new Campfire(2080, 2600));
 
         // World Item Spawns

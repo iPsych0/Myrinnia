@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -13,6 +14,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +96,7 @@ public class MapLoader implements Serializable {
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
 
-                    if(!init){
+                    if (!init) {
                         firstGid = 1 + lastId;
                         init = true;
                     }
@@ -103,7 +106,7 @@ public class MapLoader implements Serializable {
                         currentId = 1 + lastId;
 
                         // If new tile checked, clear old data
-                        if(currentId != lastId){
+                        if (currentId != lastId) {
                             animationIds = new ArrayList<>();
                         }
 
@@ -118,7 +121,7 @@ public class MapLoader implements Serializable {
                         }
                     } else if (qName.equalsIgnoreCase("frame")) {
                         // If new tile checked, clear old data
-                        if(currentId != lastId){
+                        if (currentId != lastId) {
                             animationIds.clear();
                         }
                         animationPropertyFound = true;
@@ -152,7 +155,7 @@ public class MapLoader implements Serializable {
                         postRenderTiles.put(currentId, postRender);
                         postRenderedPropertyFound = false;
                     }
-                    if(animationPropertyFound){
+                    if (animationPropertyFound) {
                         animationMap.put(currentId, animationIds);
                         animationPropertyFound = false;
                     }
@@ -229,8 +232,8 @@ public class MapLoader implements Serializable {
 
             // Fill the layers in the String[] (The entire String with all Tile IDs per layer)
             while (layer < mapValues.length) {
-                Node groundMap = maps.item(layer);
-                mapValues[layer] = groundMap.getTextContent();
+                Node csvData = maps.item(layer);
+                mapValues[layer] = csvData.getTextContent();
                 layer++;
             }
 
@@ -238,6 +241,64 @@ public class MapLoader implements Serializable {
         }
 
         return null;
+    }
+
+    public static void initEnemiesItemsAndZoneTiles(String path) {
+        try {
+            InputStream is = MapLoader.class.getResourceAsStream(path);
+            DefaultHandler handler = new DefaultHandler() {
+
+                private int x, y, width, height;
+                private String className;
+                private TiledObjectType objectType;
+                private int objectId;
+
+                public void startElement(String uri, String localName, String qName,
+                                         Attributes attributes) {
+
+                    if (qName.equalsIgnoreCase("object")) {
+                        x = Integer.parseInt(attributes.getValue("x"));
+                        y = Integer.parseInt(attributes.getValue("y"));
+                        width = Integer.parseInt(attributes.getValue("width"));
+                        height = Integer.parseInt(attributes.getValue("height"));
+                        objectId = Integer.parseInt(attributes.getValue("id"));
+                    } else if (qName.equalsIgnoreCase("property")) {
+                        if (attributes.getValue("name").equalsIgnoreCase("aObjectType")) {
+                            try {
+                                objectType = TiledObjectType.valueOf(attributes.getValue("value").toUpperCase());
+                            } catch (Exception e) {
+                                System.err.println("Object " + objectId + ": aObjectType '" +  attributes.getValue("value") + "' is not a valid value. Typo or missing?");
+                            }
+                        }
+                        try {
+                            Class<?> c = Class.forName("dev.ipsych0.myrinnia.entities.npcs." + attributes.getValue("value"));
+                            Constructor[] cstr = c.getDeclaredConstructors();
+                            Constructor cst = null;
+                            for (Constructor t : cstr) {
+                                if (t.getParameterCount() == 2) {
+                                    cst = t;
+                                }
+                            }
+                            Entity e = (Entity) cst.newInstance(x, y);
+                        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+            };
+
+            saxParser.parse(is, handler);
+
+            solidTiles.put(0, false);
+            postRenderTiles.put(0, false);
+
+            is.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static int[] getTiledFirstGid() {
@@ -287,7 +348,7 @@ public class MapLoader implements Serializable {
                 // Get the source path and remove the first two dots
                 imageSource = "/textures/tiles/" + imageSource + ".png";
 
-                if(imageSource.equalsIgnoreCase(imagePath)) {
+                if (imageSource.equalsIgnoreCase(imagePath)) {
                     setSolidTiles(tsxFile);
                     return i;
                 }
