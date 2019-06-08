@@ -38,8 +38,8 @@ public class TestNPC extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.player_down[0], (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
-                , width, height, null);
+        g.drawImage(Assets.player_down[0], (int) (x - Handler.get().getGameCamera().getxOffset()),
+                (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override

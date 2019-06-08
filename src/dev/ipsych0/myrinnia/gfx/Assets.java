@@ -305,9 +305,9 @@ public class Assets {
 
         // NPC Sprites
 
-        shopKeeperMerchantWater = shopkeepers_sheet.imageCrop(4, 0);
-        femaleBanker = bankers_sheet.imageCrop(4, 0);
-        portAzureMayor = azureal_island_npcs.imageCrop(1, 0);
+        shopKeeperMerchantWater = shopkeepers_sheet.npcCrop(4, 0);
+        femaleBanker = bankers_sheet.npcCrop(4, 0);
+        portAzureMayor = azureal_island_npcs.npcCrop(1, 0);
 
         /*
          * Player Animations
@@ -369,21 +369,21 @@ public class Assets {
         aquatic_cultist_left = new BufferedImage[3];
         aquatic_cultist_right = new BufferedImage[3];
 
-        aquatic_cultist_down[0] = npc_sheet1.imageCrop(3, 0);
-        aquatic_cultist_down[1] = npc_sheet1.imageCrop(4, 0);
-        aquatic_cultist_down[2] = npc_sheet1.imageCrop(5, 0);
+        aquatic_cultist_down[0] = npc_sheet1.npcCrop(3, 0);
+        aquatic_cultist_down[1] = npc_sheet1.npcCrop(4, 0);
+        aquatic_cultist_down[2] = npc_sheet1.npcCrop(5, 0);
 
-        aquatic_cultist_up[0] = npc_sheet1.imageCrop(3, 3);
-        aquatic_cultist_up[1] = npc_sheet1.imageCrop(4, 3);
-        aquatic_cultist_up[2] = npc_sheet1.imageCrop(5, 3);
+        aquatic_cultist_up[0] = npc_sheet1.npcCrop(3, 3);
+        aquatic_cultist_up[1] = npc_sheet1.npcCrop(4, 3);
+        aquatic_cultist_up[2] = npc_sheet1.npcCrop(5, 3);
 
-        aquatic_cultist_left[0] = npc_sheet1.imageCrop(3, 1);
-        aquatic_cultist_left[1] = npc_sheet1.imageCrop(4, 1);
-        aquatic_cultist_left[2] = npc_sheet1.imageCrop(5, 1);
+        aquatic_cultist_left[0] = npc_sheet1.npcCrop(3, 1);
+        aquatic_cultist_left[1] = npc_sheet1.npcCrop(4, 1);
+        aquatic_cultist_left[2] = npc_sheet1.npcCrop(5, 1);
 
-        aquatic_cultist_right[0] = npc_sheet1.imageCrop(3, 2);
-        aquatic_cultist_right[1] = npc_sheet1.imageCrop(4, 2);
-        aquatic_cultist_right[2] = npc_sheet1.imageCrop(5, 2);
+        aquatic_cultist_right[0] = npc_sheet1.npcCrop(3, 2);
+        aquatic_cultist_right[1] = npc_sheet1.npcCrop(4, 2);
+        aquatic_cultist_right[2] = npc_sheet1.npcCrop(5, 2);
 
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);

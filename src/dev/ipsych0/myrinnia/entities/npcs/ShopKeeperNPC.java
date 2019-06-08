@@ -44,7 +44,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.shopKeeperMerchantWater, (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+                (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
@@ -118,6 +119,24 @@ public class SpriteSheet {
         }
 
         return sheet.getSubimage(x, y, width, height);
+    }
+
+    /**
+     * Crop out an NPC with custom x/y & width/height
+     * @param x absolute xPos
+     * @param y absolute yPos
+     * @param width absolute width
+     * @param height absolute height
+     * @return cropped NPC image
+     */
+    public BufferedImage npcCrop(int x, int y, int width, int height) {
+        return sheet.getSubimage(x, y, width, height);
+    }
+
+    public BufferedImage npcCrop(int x, int y) {
+        // Crop out a 32x48 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
+                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f));
     }
 
     /**
