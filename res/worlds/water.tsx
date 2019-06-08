@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.2" tiledversion="1.2.4" name="water" tilewidth="32" tileheight="32" tilecount="2805" columns="51">
- <image source="../textures/water.png" trans="000000" width="1632" height="1760"/>
+ <image source="../textures/tiles/water.png" trans="000000" width="1632" height="1760"/>
  <terraintypes>
   <terrain name="DarkGrassWater" tile="766"/>
   <terrain name="MountainWater" tile="1684"/>

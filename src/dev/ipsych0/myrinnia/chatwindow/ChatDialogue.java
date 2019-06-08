@@ -85,8 +85,8 @@ public class ChatDialogue implements Serializable {
         uiManager.render(g);
 
         if (menuOptions.length == 1) {
-            for (int i = 0; i < Text.splitIntoLine(menuOptions[0], 60).length; i++) {
-                Text.drawString(g, Text.splitIntoLine(menuOptions[0], 60)[i], x + (width / 2), y + 20 + (i * 12), true, Color.YELLOW, Assets.font14);
+            for (int i = 0; i < Text.splitIntoLine(menuOptions[0], 56).length; i++) {
+                Text.drawString(g, Text.splitIntoLine(menuOptions[0], 56)[i], x + (width / 2), y + 20 + (i * 16), true, Color.YELLOW, Assets.font14);
             }
         }
 

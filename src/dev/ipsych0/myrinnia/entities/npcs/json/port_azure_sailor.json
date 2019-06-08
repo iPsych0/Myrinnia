@@ -1,0 +1,36 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hi there. I'm Captain Isaac. I run the boat service between Port Azure and the mainland of Myrinnia. What can I help you with?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "I would like to go to the mainland.",
+          "nextId": 2,
+          "choiceCondition": {
+            "condition": "hasCompletedQuests",
+            "falseId":3
+          }
+        },
+        {
+          "text": "Never mind.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Alright, let's board then!",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "My crew and I are making preparations for the ceremony. Please come see me after the ceremony if you wish to travel to the mainland.",
+      "nextId": -1
+    }
+  ]
+}

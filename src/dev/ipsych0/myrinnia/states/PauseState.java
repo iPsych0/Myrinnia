@@ -70,7 +70,7 @@ public class PauseState extends State {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
                 // Stop loading this UIManager and go to the settings screen
                 SettingState.previousState = this;
-                SettingState.selectedState = Handler.get().getGame().graphicsState;
+                SettingState.selectedState = Handler.get().getGame().generalSettingsState;
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 hasBeenPressed = false;
                 dBox.setPressedButton(null);

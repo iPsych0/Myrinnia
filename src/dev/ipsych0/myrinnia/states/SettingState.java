@@ -58,7 +58,7 @@ public class SettingState extends State {
         returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
         uiManager.addObject(returnButton);
 
-        selectedButton = graphicsButton;
+        selectedButton = generalButton;
 
     }
 

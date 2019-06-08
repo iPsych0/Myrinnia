@@ -88,7 +88,8 @@ public class Assets {
 
     public static BufferedImage[][] puzzlePieces;
 
-    public static BufferedImage portAzureMayor;
+    // Port Azure
+    public static BufferedImage portAzureMayor, portAzureSailor;
 
     public static void init() {
 
@@ -308,6 +309,7 @@ public class Assets {
         shopKeeperMerchantWater = shopkeepers_sheet.npcCrop(4, 0);
         femaleBanker = bankers_sheet.npcCrop(4, 0);
         portAzureMayor = azureal_island_npcs.npcCrop(1, 0);
+        portAzureSailor = azureal_island_npcs.npcCrop(4, 3);
 
         /*
          * Player Animations

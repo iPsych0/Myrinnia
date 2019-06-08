@@ -126,7 +126,7 @@ public class MapLoader implements Serializable {
                     } else if (qName.equalsIgnoreCase("object")) {
                         startX = (int) Double.parseDouble(attributes.getValue("x"));
                         startY = (int) Double.parseDouble(attributes.getValue("y"));
-                    } else if (qName.equalsIgnoreCase("polyline")) {
+                    } else if (qName.equalsIgnoreCase("polygon")) {
                         if (attributes.getQName(0).equalsIgnoreCase("points")) {
                             List<Point> polylines = new ArrayList<>();
                             // Split spaces to get the points

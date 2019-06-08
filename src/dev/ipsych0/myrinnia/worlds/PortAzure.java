@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.AquaticCultist;
 import dev.ipsych0.myrinnia.entities.creatures.Scorpion;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityMaster;
+import dev.ipsych0.myrinnia.entities.npcs.PortAzureSailor;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeperNPC;
 import dev.ipsych0.myrinnia.entities.npcs.TestNPC;
 import dev.ipsych0.myrinnia.entities.statics.*;
@@ -36,15 +37,16 @@ public class PortAzure extends World {
 
         entityManager.addEntity(new Scorpion(928, 800));
 
-        entityManager.addEntity(new SavingShrine(2304, 1888));
+//        entityManager.addEntity(new SavingShrine(2304, 1888));
         entityManager.addEntity(new AquaticCultist(2336, 1600));
-        entityManager.addEntity(new TestNPC(1440, 2560));
-        entityManager.addEntity(new AbilityMaster(1504, 2336));
-        entityManager.addEntity(new CraftingStation(1504, 2400));
+//        entityManager.addEntity(new TestNPC(1440, 2560));
+//        entityManager.addEntity(new AbilityMaster(1504, 2336));
+//        entityManager.addEntity(new CraftingStation(1504, 2400));
 
         // Southern beach
         entityManager.addEntity(new FishingSpot(928, 2520));
         entityManager.addEntity(new FishingSpot(1312, 2584));
+        entityManager.addEntity(new PortAzureSailor(2464, 2526));
 //        entityManager.addEntity(new Campfire(2080, 2600));
 
         // World Item Spawns

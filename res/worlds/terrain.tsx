@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.2" tiledversion="1.2.4" name="terrain" tilewidth="32" tileheight="32" tilecount="1482" columns="39">
- <image source="../textures/terrain.png" trans="000000" width="1248" height="1216"/>
+ <image source="../textures/tiles/terrain.png" trans="000000" width="1248" height="1216"/>
  <terraintypes>
   <terrain name="PathGrass" tile="263"/>
  </terraintypes>
