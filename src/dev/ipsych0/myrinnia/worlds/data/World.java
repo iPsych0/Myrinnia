@@ -98,6 +98,8 @@ public abstract class World implements Serializable {
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
 
+        MapLoader.initEnemiesItemsAndZoneTiles(path, this);
+
     }
 
     public void init() {

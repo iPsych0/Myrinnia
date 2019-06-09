@@ -36,8 +36,6 @@ public class PortAzure extends World {
     public PortAzure(String path) {
         super(path);
 
-        MapLoader.initEnemiesItemsAndZoneTiles(path, this);
-
         entityManager.addEntity(new Tree(240, 240));
         entityManager.addEntity(new Rock(182, 182));
 
