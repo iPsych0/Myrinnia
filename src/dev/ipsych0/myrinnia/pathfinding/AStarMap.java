@@ -23,7 +23,6 @@ public class AStarMap implements Serializable {
     public static Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
-    public static boolean debugMode = false;
 
     public AStarMap(Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
         this.creature = creature;

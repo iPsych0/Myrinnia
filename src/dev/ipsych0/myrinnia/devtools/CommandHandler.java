@@ -129,9 +129,11 @@ class CommandHandler implements Serializable {
             case DEBUG:
                 if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
-                        AStarMap.debugMode = !AStarMap.debugMode;
+                        Handler.debugAStar = !Handler.debugAStar;
                     } else if(commands[1].equalsIgnoreCase("collision")){
                         Handler.debugCollision = !Handler.debugCollision;
+                    } else if(commands[1].equalsIgnoreCase("zonetiles")){
+                        Handler.debugZones = !Handler.debugZones;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
                     }

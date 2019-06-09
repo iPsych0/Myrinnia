@@ -65,6 +65,7 @@ public abstract class World implements Serializable {
     private HPOverlay hpOverlay;
     private AbilityManager abilityManager;
     private AbilityOverviewUI abilityOverviewUI;
+    private List<ZoneTile> zoneTiles;
 
     // Actual code ---v
 
@@ -72,7 +73,7 @@ public abstract class World implements Serializable {
 
         this.worldPath = path;
 
-        if(path.equalsIgnoreCase(Handler.initialWorldPath)) {
+        if (path.equalsIgnoreCase(Handler.initialWorldPath)) {
             width = MapLoader.getMapWidth();
             height = MapLoader.getMapHeight();
 
@@ -95,10 +96,11 @@ public abstract class World implements Serializable {
         // This is each world's unique manager of Entities & Items
         entityManager = new EntityManager(player);
         itemManager = new ItemManager();
+        zoneTiles = new ArrayList<>();
 
     }
 
-    public void init(){
+    public void init() {
         MapLoader.setWorldDoc(worldPath);
 
         width = MapLoader.getMapWidth();
@@ -138,6 +140,11 @@ public abstract class World implements Serializable {
 
             // Set to night time if between 8 PM and 8 AM
             nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
+        }
+
+        // Check if player is moving to next zone
+        for (ZoneTile zt : zoneTiles) {
+            zt.tick();
         }
 
     }
@@ -212,7 +219,6 @@ public abstract class World implements Serializable {
         entityManager.postRender(g);
 
 
-
 //        if(nightTime) {
 //            renderNight(g);
 //        }
@@ -250,6 +256,12 @@ public abstract class World implements Serializable {
         }
         if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
             player.getAbilityTrainer().getAbilityShopWindow().render(g);
+        }
+
+        if (Handler.debugZones) {
+            for (ZoneTile zt : zoneTiles) {
+                zt.render(g);
+            }
         }
 
     }
@@ -374,4 +386,11 @@ public abstract class World implements Serializable {
         this.worldPath = worldPath;
     }
 
+    public List<ZoneTile> getZoneTiles() {
+        return zoneTiles;
+    }
+
+    public void setZoneTiles(List<ZoneTile> zoneTiles) {
+        this.zoneTiles = zoneTiles;
+    }
 }

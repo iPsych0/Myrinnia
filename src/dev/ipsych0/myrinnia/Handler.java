@@ -99,7 +99,9 @@ public class Handler implements Serializable {
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
     public static String initialWorldPath = "/worlds/port_azure.tmx";
-    public static boolean debugCollision = false;
+    public static boolean debugAStar;
+    public static boolean debugCollision;
+    public static boolean debugZones;
     public static boolean isJar;
 
     private static Handler handler;

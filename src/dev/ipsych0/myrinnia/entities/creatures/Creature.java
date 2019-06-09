@@ -392,7 +392,7 @@ public abstract class Creature extends Entity {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (AStarMap.debugMode) {
+        if (Handler.debugAStar) {
             g.setColor(Color.BLACK);
             g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), radius.width, radius.height);
 

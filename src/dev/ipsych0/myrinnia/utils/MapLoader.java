@@ -2,6 +2,11 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.worlds.data.World;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.data.ZoneTile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -243,19 +247,24 @@ public class MapLoader implements Serializable {
         return null;
     }
 
-    public static void initEnemiesItemsAndZoneTiles(String path) {
+    public static void initEnemiesItemsAndZoneTiles(String path, World world) {
         try {
             InputStream is = MapLoader.class.getResourceAsStream(path);
             DefaultHandler handler = new DefaultHandler() {
 
                 private int x, y, width, height;
-                private String className;
                 private TiledObjectType objectType;
                 private int objectId;
+                private List<ZoneTile> zoneTiles = new ArrayList<>();
+                private int itemAmount;
+                private Zone zone;
+                private int goToX, goToY;
+                private String customZoneName;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
 
+                    // Get object properties
                     if (qName.equalsIgnoreCase("object")) {
                         x = Integer.parseInt(attributes.getValue("x"));
                         y = Integer.parseInt(attributes.getValue("y"));
@@ -263,25 +272,54 @@ public class MapLoader implements Serializable {
                         height = Integer.parseInt(attributes.getValue("height"));
                         objectId = Integer.parseInt(attributes.getValue("id"));
                     } else if (qName.equalsIgnoreCase("property")) {
+                        // Get the object type (ITEM, NPC or ZONE_TILE)
                         if (attributes.getValue("name").equalsIgnoreCase("aObjectType")) {
                             try {
                                 objectType = TiledObjectType.valueOf(attributes.getValue("value").toUpperCase());
                             } catch (Exception e) {
-                                System.err.println("Object " + objectId + ": aObjectType '" +  attributes.getValue("value") + "' is not a valid value. Typo or missing?");
+                                System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
                             }
-                        }
-                        try {
-                            Class<?> c = Class.forName("dev.ipsych0.myrinnia.entities.npcs." + attributes.getValue("value"));
-                            Constructor[] cstr = c.getDeclaredConstructors();
-                            Constructor cst = null;
-                            for (Constructor t : cstr) {
-                                if (t.getParameterCount() == 2) {
-                                    cst = t;
+                        // Get the class name for the NPC
+                        } else if (attributes.getValue("name").equalsIgnoreCase("className")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                loadEntity(world, attributes, x, y);
+                            }
+                        // Get the amount for items
+                        } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
+                            if (TiledObjectType.ITEM == objectType) {
+                                itemAmount = Integer.parseInt(attributes.getValue("value"));
+                            }
+                        // Get the itemID
+                        } else if (attributes.getValue("name").equalsIgnoreCase("itemId")) {
+                            if (TiledObjectType.ITEM == objectType) {
+                                int itemId = Integer.parseInt(attributes.getValue("value"));
+                                loadItem(world, x, y, itemId, itemAmount);
+                            }
+                        // Get the new x-pos for the zone tile
+                        } else if (attributes.getValue("name").equalsIgnoreCase("goToX")) {
+                            if (TiledObjectType.ZONE_TILE == objectType) {
+                                goToX = Integer.parseInt(attributes.getValue("value")) * Tile.TILEWIDTH;
+                            }
+                        // Get the new y-pos for the zone tile
+                        } else if (attributes.getValue("name").equalsIgnoreCase("goToY")) {
+                            if (TiledObjectType.ZONE_TILE == objectType) {
+                                goToY = Integer.parseInt(attributes.getValue("value")) * Tile.TILEHEIGHT;
+                            }
+                        // Optional property to get custom zone name
+                        } else if (attributes.getValue("name").equalsIgnoreCase("customZoneName")) {
+                            if (TiledObjectType.ZONE_TILE == objectType) {
+                                customZoneName = attributes.getValue("value");
+                            }
+                        // Get the zone to change to
+                        } else if (attributes.getValue("name").equalsIgnoreCase("zone")) {
+                            if (TiledObjectType.ZONE_TILE == objectType) {
+                                try {
+                                    zone = Zone.valueOf(attributes.getValue("value"));
+                                    world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName));
+                                } catch (Exception e){
+                                    System.err.println("Could not load zone_tile for '" + attributes.getValue("value") + "'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.");
                                 }
                             }
-                            Entity e = (Entity) cst.newInstance(x, y);
-                        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                            e.printStackTrace();
                         }
                     }
 
@@ -291,11 +329,35 @@ public class MapLoader implements Serializable {
 
             saxParser.parse(is, handler);
 
-            solidTiles.put(0, false);
-            postRenderTiles.put(0, false);
-
             is.close();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void loadEntity(World world, Attributes attributes, int x, int y) {
+        try {
+            Class<?> c = Class.forName("dev.ipsych0.myrinnia.entities.npcs." + attributes.getValue("value"));
+            Constructor[] cstr = c.getDeclaredConstructors();
+            Constructor cst = null;
+            for (Constructor t : cstr) {
+                if (t.getParameterCount() == 2) {
+                    cst = t;
+                }
+            }
+            Entity e = (Entity) cst.newInstance(x, y);
+            world.getEntityManager().addEntity(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Could not create Entity '" + attributes.getValue("value") + "' in world: " + world.getWorldPath());
+        }
+    }
+
+    private static void loadItem(World world, int x, int y, int itemId, int amount) {
+        try {
+            Item i = Item.items[itemId];
+            world.getItemManager().addItem(i.createItem(x, y, amount), true);
         } catch (Exception e) {
             e.printStackTrace();
         }
