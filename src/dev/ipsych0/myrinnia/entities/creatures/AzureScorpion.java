@@ -10,7 +10,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class Scorpion extends Creature {
+public class AzureScorpion extends Creature {
 
 
     /**
@@ -21,7 +21,7 @@ public class Scorpion extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public Scorpion(float x, float y) {
+    public AzureScorpion(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         isNpc = false;
         attackable = true;
@@ -51,10 +51,10 @@ public class Scorpion extends Creature {
         bounds.height = 28;
 
         // Animations
-        aDown = new Animation(333, Assets.redScorpionDown);
-        aUp = new Animation(333, Assets.redScorpionUp);
-        aLeft = new Animation(333, Assets.redScorpionLeft);
-        aRight = new Animation(333, Assets.redScorpionRight);
+        aDown = new Animation(333, Assets.blueScorpionDown);
+        aUp = new Animation(333, Assets.blueScorpionUp);
+        aLeft = new Animation(333, Assets.blueScorpionLeft);
+        aRight = new Animation(333, Assets.blueScorpionRight);
         aDefault = aDown;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
@@ -138,7 +138,7 @@ public class Scorpion extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Scorpion(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AzureScorpion(xSpawn, ySpawn));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
@@ -50,7 +49,7 @@ public class Assets {
     public static BufferedImage[] coins;
 
     // Enemy images
-    public static BufferedImage[] redScorpionUp, redScorpionDown, redScorpionLeft, redScorpionRight;
+    public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
 
     // NPC images
     public static BufferedImage shopKeeperMerchantWater, femaleBanker;
@@ -313,10 +312,10 @@ public class Assets {
         /*
          * Enemy Animations
          */
-        redScorpionDown = enemy_sheet1.npcCrop(9, 0, WIDTH, HEIGHT);
-        redScorpionLeft = enemy_sheet1.npcCrop(9, 1, WIDTH, HEIGHT);
-        redScorpionRight= enemy_sheet1.npcCrop(9, 2, WIDTH, HEIGHT);
-        redScorpionUp = enemy_sheet1.npcCrop(9, 3, WIDTH, HEIGHT);
+        blueScorpionDown = enemy_sheet1.npcCrop(9, 0, WIDTH, HEIGHT);
+        blueScorpionLeft = enemy_sheet1.npcCrop(9, 1, WIDTH, HEIGHT);
+        blueScorpionRight = enemy_sheet1.npcCrop(9, 2, WIDTH, HEIGHT);
+        blueScorpionUp = enemy_sheet1.npcCrop(9, 3, WIDTH, HEIGHT);
 
         // NPC Sprites
 
