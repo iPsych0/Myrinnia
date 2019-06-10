@@ -271,52 +271,52 @@ public class MapLoader implements Serializable {
                         width = Integer.parseInt(attributes.getValue("width"));
                         height = Integer.parseInt(attributes.getValue("height"));
                         objectId = Integer.parseInt(attributes.getValue("id"));
-                    } else if (qName.equalsIgnoreCase("property")) {
+
                         // Get the object type (ITEM, NPC or ZONE_TILE)
-                        if (attributes.getValue("name").equalsIgnoreCase("aObjectType")) {
-                            try {
-                                objectType = TiledObjectType.valueOf(attributes.getValue("value").toUpperCase());
-                            } catch (Exception e) {
-                                System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
-                            }
+                        try {
+                            objectType = TiledObjectType.valueOf(attributes.getValue("type").toUpperCase());
+                        } catch (Exception e) {
+                            System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
+                        }
+                    } else if (qName.equalsIgnoreCase("property")) {
                         // Get the class name for the NPC
-                        } else if (attributes.getValue("name").equalsIgnoreCase("className")) {
+                        if (attributes.getValue("name").equalsIgnoreCase("className")) {
                             if (TiledObjectType.NPC == objectType) {
                                 loadEntity(world, attributes, x, y);
                             }
-                        // Get the amount for items
+                            // Get the amount for items
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
                                 itemAmount = Integer.parseInt(attributes.getValue("value"));
                             }
-                        // Get the itemID
+                            // Get the itemID
                         } else if (attributes.getValue("name").equalsIgnoreCase("itemId")) {
                             if (TiledObjectType.ITEM == objectType) {
                                 int itemId = Integer.parseInt(attributes.getValue("value"));
                                 loadItem(world, x, y, itemId, itemAmount);
                             }
-                        // Get the new x-pos for the zone tile
+                            // Get the new x-pos for the zone tile
                         } else if (attributes.getValue("name").equalsIgnoreCase("goToX")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 goToX = Integer.parseInt(attributes.getValue("value")) * Tile.TILEWIDTH;
                             }
-                        // Get the new y-pos for the zone tile
+                            // Get the new y-pos for the zone tile
                         } else if (attributes.getValue("name").equalsIgnoreCase("goToY")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 goToY = Integer.parseInt(attributes.getValue("value")) * Tile.TILEHEIGHT;
                             }
-                        // Optional property to get custom zone name
+                            // Optional property to get custom zone name
                         } else if (attributes.getValue("name").equalsIgnoreCase("customZoneName")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 customZoneName = attributes.getValue("value");
                             }
-                        // Get the zone to change to
+                            // Get the zone to change to
                         } else if (attributes.getValue("name").equalsIgnoreCase("zone")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 try {
                                     zone = Zone.valueOf(attributes.getValue("value"));
                                     world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName));
-                                } catch (Exception e){
+                                } catch (Exception e) {
                                     System.err.println("Could not load zone_tile for '" + attributes.getValue("value") + "'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.");
                                 }
                             }
@@ -337,8 +337,20 @@ public class MapLoader implements Serializable {
     }
 
     private static void loadEntity(World world, Attributes attributes, int x, int y) {
+        String[] packages = {"npcs.", "creatures.", "statics."};
         try {
-            Class<?> c = Class.forName("dev.ipsych0.myrinnia.entities.npcs." + attributes.getValue("value"));
+            Class<?> c = null;
+            for (int i = 0; i < packages.length; i++) {
+                try {
+                    c = Class.forName("dev.ipsych0.myrinnia.entities." + packages[i] + attributes.getValue("value"));
+                    break;
+                } catch (Exception e) {
+                    if (i == packages.length - 1) {
+                        e.printStackTrace();
+                        System.err.println("Could not find Entity '" + attributes.getValue("value") + "' in any package. (World: " + world.getWorldPath() + ")");
+                    }
+                }
+            }
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
             for (Constructor t : cstr) {
