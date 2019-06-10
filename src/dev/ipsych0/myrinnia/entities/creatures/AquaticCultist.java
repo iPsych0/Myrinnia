@@ -19,6 +19,7 @@ public class AquaticCultist extends Creature {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         isNpc = false;
+        attackable = true;
 
         // Animations
         aDown = new Animation(250, Assets.aquatic_cultist_down);

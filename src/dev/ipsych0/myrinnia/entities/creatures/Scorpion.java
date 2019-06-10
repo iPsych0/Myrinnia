@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -23,6 +24,7 @@ public class Scorpion extends Creature {
     public Scorpion(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         isNpc = false;
+        attackable = true;
 
         // Creature stats
         strength = 0;
@@ -48,6 +50,13 @@ public class Scorpion extends Creature {
         bounds.width = 28;
         bounds.height = 28;
 
+        // Animations
+        aDown = new Animation(333, Assets.redScorpionDown);
+        aUp = new Animation(333, Assets.redScorpionUp);
+        aLeft = new Animation(333, Assets.redScorpionLeft);
+        aRight = new Animation(333, Assets.redScorpionRight);
+        aDefault = aDown;
+
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
@@ -60,7 +69,7 @@ public class Scorpion extends Creature {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.scorpion, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
 
         // Draw HP above head

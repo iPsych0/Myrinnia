@@ -137,6 +137,10 @@ public class SpriteSheet {
         return imgs;
     }
 
+    public BufferedImage[] npcCrop(int x, int y, int width, int height) {
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT, width, height, 3);
+    }
+
     public BufferedImage[] npcCrop(int x, int y) {
         // Crop out a 32x48 NPC
         return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
@@ -151,7 +155,7 @@ public class SpriteSheet {
 
     public BufferedImage singleNpcCrop(int x, int y){
         // Crop out a 32x48 NPC
-        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
+        return singleNpcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
                 Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f));
     }
 
@@ -163,7 +167,7 @@ public class SpriteSheet {
      * @param height absolute height
      * @return cropped NPC image
      */
-    public BufferedImage npcCrop(int x, int y, int width, int height) {
+    public BufferedImage singleNpcCrop(int x, int y, int width, int height) {
         return sheet.getSubimage(x, y, width, height);
     }
 
