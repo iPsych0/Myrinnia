@@ -64,7 +64,7 @@ public class ChatWindow implements Serializable {
                     textSlots.get(i).setY(textSlots.get(i).getY() - TextSlot.textHeight);
                 }
                 scrollBar.setScrolledUp(false);
-            } else if (scrollBar.hasScrolledDown()){
+            } else if (scrollBar.hasScrolledDown()) {
                 for (int i = 0; i < scrollBar.getScrollMaximum(); i++) {
                     textSlots.get(i).setY(textSlots.get(i).getY() + TextSlot.textHeight);
                 }
@@ -108,7 +108,7 @@ public class ChatWindow implements Serializable {
      * Sends a message to the chat log
      */
     public boolean sendMessage(String message, Filter filter) {
-        if(filter != null && !filters.contains(filter)){
+        if (filter != null && !filters.contains(filter)) {
             return false;
         }
         int offSet = 0;
@@ -119,16 +119,20 @@ public class ChatWindow implements Serializable {
             offSet = scrollBar.getIndex();
         }
         // When a new message is added, move up all existing slots by 1 slotsize
-        for(TextSlot ts : textSlots){
+        for (TextSlot ts : textSlots) {
             ts.setY(ts.getY() - TextSlot.textHeight);
         }
 
-        // Add a timestamp (HH:mm format)
-        LocalDateTime ldt = LocalDateTime.now();
-        String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
+        if (filters.contains(Filter.TIMESTAMP)) {
+            // Add a timestamp (HH:mm format)
+            LocalDateTime ldt = LocalDateTime.now();
+            String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
 
-        textSlots.addFirst(new TextSlot(x, y + height - TextSlot.textHeight + (offSet * TextSlot.textHeight),
-                "[" + timeStamp + "]: " + message));
+            textSlots.addFirst(new TextSlot(x, y + height - TextSlot.textHeight + (offSet * TextSlot.textHeight),
+                    "[" + timeStamp + "]: " + message));
+        } else {
+            textSlots.addFirst(new TextSlot(x, y + height - TextSlot.textHeight + (offSet * TextSlot.textHeight), message));
+        }
         scrollBar.setListSize(textSlots.size());
         scrollBar.setScrollMaximum(textSlots.size());
         return true;

@@ -255,7 +255,6 @@ public class MapLoader implements Serializable {
                 private int x, y, width, height;
                 private TiledObjectType objectType;
                 private int objectId;
-                private List<ZoneTile> zoneTiles = new ArrayList<>();
                 private int itemAmount;
                 private Zone zone;
                 private int goToX, goToY;
@@ -266,6 +265,7 @@ public class MapLoader implements Serializable {
 
                     // Get object properties
                     if (qName.equalsIgnoreCase("object")) {
+                        customZoneName = null;
                         x = Integer.parseInt(attributes.getValue("x"));
                         y = Integer.parseInt(attributes.getValue("y"));
                         width = Integer.parseInt(attributes.getValue("width"));

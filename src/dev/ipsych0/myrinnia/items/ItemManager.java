@@ -92,10 +92,10 @@ public class ItemManager implements Serializable {
         int count = 0;
         for (Item i : items) {
             i.render(g);
+            drawHoverCorners(g, i, 1, 1, Color.BLACK);
+            drawHoverCorners(g, i);
             if(i.isHovering()){
                 count++;
-                drawHoverCorners(g, i, 1, 1, Color.BLACK);
-                drawHoverCorners(g, i);
                 lastHovered = i;
             }
 

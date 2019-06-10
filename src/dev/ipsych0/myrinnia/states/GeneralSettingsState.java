@@ -16,7 +16,7 @@ public class GeneralSettingsState extends State {
 
     private Rectangle overlay;
     private UIManager uiManager;
-    private UIImageButton infoButton, criticalButton, combatButton, lootButton, skillButton;
+    private UIImageButton infoButton, criticalButton, combatButton, lootButton, skillButton, timeStampButton;
     private Set<Integer> activeButtons;
 
     public GeneralSettingsState() {
@@ -35,12 +35,14 @@ public class GeneralSettingsState extends State {
         combatButton = new UIImageButton(overlay.x + 80, overlay.y + 114, 16, 16, Assets.genericButton);
         lootButton = new UIImageButton(overlay.x + 80, overlay.y + 130, 16, 16, Assets.genericButton);
         skillButton = new UIImageButton(overlay.x + 80, overlay.y + 146, 16, 16, Assets.genericButton);
+        timeStampButton = new UIImageButton(overlay.x + 80, overlay.y + 162, 16, 16, Assets.genericButton);
 
         uiManager.addObject(infoButton);
         uiManager.addObject(criticalButton);
         uiManager.addObject(combatButton);
         uiManager.addObject(lootButton);
         uiManager.addObject(skillButton);
+        uiManager.addObject(timeStampButton);
 
     }
 
@@ -57,8 +59,6 @@ public class GeneralSettingsState extends State {
     public void render(Graphics2D g) {
         uiManager.render(g);
 
-        Set<Filter> filters = Handler.get().getChatWindow().getFilters();
-
         Text.drawString(g, "General settings:", overlay.x + 8, overlay.y + 32, false, Color.YELLOW, Assets.font24);
         Text.drawString(g, "Chat messages:", overlay.x + 8, overlay.y + 64, false, Color.YELLOW, Assets.font20);
         Text.drawString(g, "Info:", overlay.x + 8, overlay.y + 96, false, Color.YELLOW, Assets.font14);
@@ -66,6 +66,7 @@ public class GeneralSettingsState extends State {
         Text.drawString(g, "Combat:", overlay.x + 8, overlay.y + 128, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Loot:", overlay.x + 8, overlay.y + 144, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Skill:", overlay.x + 8, overlay.y + 160, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Timestamp:", overlay.x + 8, overlay.y + 176, false, Color.YELLOW, Assets.font14);
 
         for (Integer i : activeButtons) {
             g.setColor(Color.GREEN);
@@ -128,6 +129,17 @@ public class GeneralSettingsState extends State {
                 } else {
                     filters.add(Filter.SKILL);
                     activeButtons.add(4);
+                }
+            }
+        }
+        if (timeStampButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                if (filters.contains(Filter.TIMESTAMP)) {
+                    filters.remove(Filter.TIMESTAMP);
+                    activeButtons.remove(5);
+                } else {
+                    filters.add(Filter.TIMESTAMP);
+                    activeButtons.add(5);
                 }
             }
         }

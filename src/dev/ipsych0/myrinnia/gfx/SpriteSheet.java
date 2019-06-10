@@ -122,7 +122,41 @@ public class SpriteSheet {
     }
 
     /**
-     * Crop out an NPC with custom x/y & width/height
+     * Crop out an array of NPC animations with custom x/y & width/height
+     * @param x absolute xPos
+     * @param y absolute yPos
+     * @param width absolute width
+     * @param height absolute height
+     * @return array of NPC animations
+     */
+    public BufferedImage[] npcCrop(int x, int y, int width, int height, int frames) {
+        BufferedImage[] imgs = new BufferedImage[frames];
+        for(int i = 0; i < imgs.length; i++) {
+            imgs[i] = sheet.getSubimage(x + (i * Creature.DEFAULT_CREATURE_WIDTH), y, width, height);
+        }
+        return imgs;
+    }
+
+    public BufferedImage[] npcCrop(int x, int y) {
+        // Crop out a 32x48 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
+                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f), 3);
+    }
+
+    public BufferedImage[] npcCrop(int x, int y, int frames) {
+        // Crop out a 32x48 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
+                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f), frames);
+    }
+
+    public BufferedImage singleNpcCrop(int x, int y){
+        // Crop out a 32x48 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
+                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f));
+    }
+
+    /**
+     * Crop out a single NPC frame with custom x/y & width/height
      * @param x absolute xPos
      * @param y absolute yPos
      * @param width absolute width
@@ -131,12 +165,6 @@ public class SpriteSheet {
      */
     public BufferedImage npcCrop(int x, int y, int width, int height) {
         return sheet.getSubimage(x, y, width, height);
-    }
-
-    public BufferedImage npcCrop(int x, int y) {
-        // Crop out a 32x48 NPC
-        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
-                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f));
     }
 
     /**

@@ -80,11 +80,11 @@ public abstract class Creature extends Entity {
     private int pathTimer = 0;
     private List<Condition> conditions = new CopyOnWriteArrayList<>();
     private List<Buff> buffs = new CopyOnWriteArrayList<>();
-    Animation aLeft;
-    Animation aRight;
-    Animation aUp;
-    Animation aDown;
-    Animation aDefault;
+    protected Animation aLeft;
+    protected Animation aRight;
+    protected Animation aUp;
+    protected Animation aDown;
+    protected  Animation aDefault;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -207,7 +207,7 @@ public abstract class Creature extends Entity {
      * Gets the animation based on last faced direction
      * @returns the animation image
      */
-    BufferedImage getAnimationByLastFaced() {
+    protected BufferedImage getAnimationByLastFaced() {
         // Idle animations
         if (xMove == 0 && yMove == 0) {
             if (lastFaced == Direction.LEFT) {
@@ -237,7 +237,7 @@ public abstract class Creature extends Entity {
     /*
      * Sets the last faced direction, based on last movement
      */
-    void setLastFaced() {
+    protected void setLastFaced() {
         if (lastFaced == null) {
             aDefault = aDown;
         }
@@ -255,7 +255,7 @@ public abstract class Creature extends Entity {
     /*
      * Returns the sprite of the last faced direction
      */
-    BufferedImage getLastFacedImg() {
+    protected BufferedImage getLastFacedImg() {
         if (lastFaced == null) {
             return aDown.getDefaultFrame();
         }
@@ -450,19 +450,23 @@ public abstract class Creature extends Entity {
             aRight.tick();
         }
 
-        if (!aStarInitialized) {
-            map.init();
-            aStarInitialized = true;
+        if(attackable) {
+            if (!aStarInitialized) {
+                map.init();
+                aStarInitialized = true;
+            }
+            radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
+            tickProjectiles();
+            combatStateManager();
+        } else if(isNpc){
+            randomWalk();
         }
-        radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
-        tickProjectiles();
-        combatStateManager();
     }
 
     /*
      * Walks into random directions at given intervals
      */
-    private void randomWalk() {
+    protected void randomWalk() {
         time++;
         int i = (Handler.get().getRandomNumber(60, 90));
         if (time % i == 0) {

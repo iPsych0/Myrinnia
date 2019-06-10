@@ -54,6 +54,16 @@ public class Assets {
     // NPC images
     public static BufferedImage shopKeeperMerchantWater, femaleBanker;
 
+    // Generic NPCs
+    public static BufferedImage[] genericFemale1Down, genericFemale1Left, genericFemale1Right, genericFemale1Up;
+    public static BufferedImage[] genericFemale2Down, genericFemale2Left, genericFemale2Right, genericFemale2Up;
+    public static BufferedImage[] genericFemale3Down, genericFemale3Left, genericFemale3Right, genericFemale3Up;
+    public static BufferedImage[] genericFemale4Down, genericFemale4Left, genericFemale4Right, genericFemale4Up;
+    public static BufferedImage[] genericMale1Down, genericMale1Left, genericMale1Right, genericMale1Up;
+    public static BufferedImage[] genericMale2Down, genericMale2Left, genericMale2Right, genericMale2Up;
+    public static BufferedImage[] genericMale3Down, genericMale3Left, genericMale3Right, genericMale3Up;
+    public static BufferedImage[] genericMale4Down, genericMale4Left, genericMale4Right, genericMale4Up;
+
     // Equipment UI
     public static BufferedImage earringSlot;
     public static BufferedImage mainhandSlot;
@@ -306,10 +316,52 @@ public class Assets {
 
         // NPC Sprites
 
-        shopKeeperMerchantWater = shopkeepers_sheet.npcCrop(4, 0);
-        femaleBanker = bankers_sheet.npcCrop(4, 0);
-        portAzureMayor = azureal_island_npcs.npcCrop(1, 0);
-        portAzureSailor = azureal_island_npcs.npcCrop(4, 3);
+        shopKeeperMerchantWater = shopkeepers_sheet.singleNpcCrop(4, 0);
+        femaleBanker = bankers_sheet.singleNpcCrop(4, 0);
+        portAzureMayor = azureal_island_npcs.singleNpcCrop(1, 0);
+        portAzureSailor = azureal_island_npcs.singleNpcCrop(4, 3);
+
+        // Generic female NPCs
+        genericFemale1Down = generic_npcs.npcCrop(0,0);
+        genericFemale1Left = generic_npcs.npcCrop(0,1);
+        genericFemale1Right = generic_npcs.npcCrop(0,2);
+        genericFemale1Up = generic_npcs.npcCrop(0,3);
+
+        genericFemale2Down = generic_npcs.npcCrop(0,4);
+        genericFemale2Left = generic_npcs.npcCrop(0,5);
+        genericFemale2Right = generic_npcs.npcCrop(0,6);
+        genericFemale2Up = generic_npcs.npcCrop(0,7);
+
+        genericFemale3Down = generic_npcs.npcCrop(3,4);
+        genericFemale3Left = generic_npcs.npcCrop(3,5);
+        genericFemale3Right = generic_npcs.npcCrop(3,6);
+        genericFemale3Up = generic_npcs.npcCrop(3,7);
+
+        genericFemale4Down = generic_npcs.npcCrop(9,4);
+        genericFemale4Left = generic_npcs.npcCrop(9,5);
+        genericFemale4Right = generic_npcs.npcCrop(9,6);
+        genericFemale4Up = generic_npcs.npcCrop(9,7);
+
+        // Generic male NPCs
+        genericMale1Down = generic_npcs.npcCrop(3,0);
+        genericMale1Left = generic_npcs.npcCrop(3,1);
+        genericMale1Right = generic_npcs.npcCrop(3,2);
+        genericMale1Up = generic_npcs.npcCrop(3,3);
+
+        genericMale2Down = generic_npcs.npcCrop(6,0);
+        genericMale2Left = generic_npcs.npcCrop(6,1);
+        genericMale2Right = generic_npcs.npcCrop(6,2);
+        genericMale2Up = generic_npcs.npcCrop(6,3);
+
+        genericMale3Down = generic_npcs.npcCrop(9,0);
+        genericMale3Left = generic_npcs.npcCrop(9,1);
+        genericMale3Right = generic_npcs.npcCrop(9,2);
+        genericMale3Up = generic_npcs.npcCrop(9,3);
+
+        genericMale4Down = generic_npcs.npcCrop(6,4);
+        genericMale4Left = generic_npcs.npcCrop(6,5);
+        genericMale4Right = generic_npcs.npcCrop(6,6);
+        genericMale4Up = generic_npcs.npcCrop(6,7);
 
         /*
          * Player Animations
@@ -366,26 +418,10 @@ public class Assets {
          * Creature Animations
          */
 
-        aquatic_cultist_down = new BufferedImage[3];
-        aquatic_cultist_up = new BufferedImage[3];
-        aquatic_cultist_left = new BufferedImage[3];
-        aquatic_cultist_right = new BufferedImage[3];
-
-        aquatic_cultist_down[0] = npc_sheet1.npcCrop(3, 0);
-        aquatic_cultist_down[1] = npc_sheet1.npcCrop(4, 0);
-        aquatic_cultist_down[2] = npc_sheet1.npcCrop(5, 0);
-
-        aquatic_cultist_up[0] = npc_sheet1.npcCrop(3, 3);
-        aquatic_cultist_up[1] = npc_sheet1.npcCrop(4, 3);
-        aquatic_cultist_up[2] = npc_sheet1.npcCrop(5, 3);
-
-        aquatic_cultist_left[0] = npc_sheet1.npcCrop(3, 1);
-        aquatic_cultist_left[1] = npc_sheet1.npcCrop(4, 1);
-        aquatic_cultist_left[2] = npc_sheet1.npcCrop(5, 1);
-
-        aquatic_cultist_right[0] = npc_sheet1.npcCrop(3, 2);
-        aquatic_cultist_right[1] = npc_sheet1.npcCrop(4, 2);
-        aquatic_cultist_right[2] = npc_sheet1.npcCrop(5, 2);
+        aquatic_cultist_down = npc_sheet1.npcCrop(3, 0);
+        aquatic_cultist_left = npc_sheet1.npcCrop(3, 1);
+        aquatic_cultist_right = npc_sheet1.npcCrop(3, 2);
+        aquatic_cultist_up = npc_sheet1.npcCrop(3, 3);
 
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);
