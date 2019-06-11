@@ -3,26 +3,19 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class AzureScorpion extends Creature {
-
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 917078714756242679L;
+public class AzureCrab extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AzureScorpion(float x, float y) {
+    public AzureCrab(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+
         isNpc = false;
         attackable = true;
 
@@ -51,10 +44,10 @@ public class AzureScorpion extends Creature {
         bounds.height = 28;
 
         // Animations
-        aDown = new Animation(333, Assets.blueScorpionDown);
-        aUp = new Animation(333, Assets.blueScorpionUp);
-        aLeft = new Animation(333, Assets.blueScorpionLeft);
-        aRight = new Animation(333, Assets.blueScorpionRight);
+        aDown = new Animation(333, Assets.blueCrabDown);
+        aUp = new Animation(333, Assets.blueCrabUp);
+        aLeft = new Animation(333, Assets.blueCrabLeft);
+        aRight = new Animation(333, Assets.blueCrabRight);
         aDefault = aDown;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
@@ -66,38 +59,17 @@ public class AzureScorpion extends Creature {
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
-
-        // Draw HP above head
-//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-//				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
-
-
     }
 
     @Override
-    public void die() {
-        // Drop table stuff
-        int randomNumber = Handler.get().getRandomNumber(1, 50);
-        System.out.println("Rolled " + randomNumber + " on the RNG dice.");
+    protected void die() {
 
-        if (randomNumber <= 10) {
-            Handler.get().dropItem(Item.regularLogs, 5, (int) x, (int) y);
-        } else if (randomNumber >= 11 && randomNumber <= 50) {
-            Handler.get().dropItem(Item.regularOre, 10, (int) x, (int) y);
-            Handler.get().dropItem(Item.purpleSword, 1, (int) x, (int) y);
-        }
-        Handler.get().dropItem(Item.coins, 50, (int) x, (int) y);
-        Handler.get().dropItem(Item.testAxe, 1, (int) x, (int) y);
-        Handler.get().dropItem(Item.testPickaxe, 1, (int) x, (int) y);
-
-//		FOR INSTA NEXT LEVEL: Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
     }
 
     /*
      * Checks the attack timers before the next attack
      */
-    protected void checkAttacks() {
+    public void checkAttacks() {
         // Attack timers
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
@@ -120,7 +92,7 @@ public class AzureScorpion extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AzureScorpion(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn));
     }
 
     @Override

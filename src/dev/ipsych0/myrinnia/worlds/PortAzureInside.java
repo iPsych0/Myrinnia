@@ -13,31 +13,10 @@ public class PortAzureInside extends World {
 
     private static final long serialVersionUID = -3850769561562549459L;
 
-    private Rectangle bottomRightHouseExit;
-    private Rectangle bottomLeftHouseExit;
-    private Rectangle topRightHouseExit;
-    private Rectangle topLeftHouseExit;
-
-    private Rectangle mayorHouseExit;
-
-    private Rectangle playerHouseExit;
-
     public PortAzureInside(String path) {
         super(path);
 
-        entityManager.addEntity(new BankerNPC(544, 2496));
-        entityManager.addEntity(new PortAzureMayor(1984, 1920));
         entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",416, 1600));
-
-
-        bottomLeftHouseExit = new Rectangle(416, 2672, 32, 32);
-        bottomRightHouseExit = new Rectangle(1216, 2672, 32, 32);
-        topLeftHouseExit = new Rectangle(416, 1840, 32, 32);
-        topRightHouseExit = new Rectangle(1216, 1840, 32, 32);
-
-        mayorHouseExit = new Rectangle(1984, 2224, 32, 32);
-
-        playerHouseExit = new Rectangle(2880, 2672, 32, 32);
 
     }
 
@@ -45,24 +24,6 @@ public class PortAzureInside extends World {
     public void tick() {
         if (Handler.get().getWorld().equals(this)) {
             super.tick();
-            if (standingOnTile(bottomRightHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 1312, 2016);
-            }
-            if (standingOnTile(bottomLeftHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 928, 2016);
-            }
-            if (standingOnTile(topRightHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 1312, 1568);
-            }
-            if (standingOnTile(topLeftHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 928, 1568);
-            }
-            if (standingOnTile(mayorHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 2080, 1848);
-            }
-            if (standingOnTile(playerHouseExit)) {
-                Handler.get().goToWorld(Zone.PortAzure, 2752, 2016);
-            }
         }
     }
 

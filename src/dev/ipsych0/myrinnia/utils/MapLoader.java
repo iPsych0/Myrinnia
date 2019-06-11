@@ -259,6 +259,8 @@ public class MapLoader implements Serializable {
                 private Zone zone;
                 private int goToX, goToY;
                 private String customZoneName;
+                private String customShopName;
+                private String className;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
@@ -266,6 +268,8 @@ public class MapLoader implements Serializable {
                     // Get object properties
                     if (qName.equalsIgnoreCase("object")) {
                         customZoneName = null;
+                        customShopName = null;
+                        className = null;
                         x = Integer.parseInt(attributes.getValue("x"));
                         y = Integer.parseInt(attributes.getValue("y"));
                         width = Integer.parseInt(attributes.getValue("width"));
@@ -280,11 +284,17 @@ public class MapLoader implements Serializable {
                         }
                     } else if (qName.equalsIgnoreCase("property")) {
                         // Get the class name for the NPC
-                        if (attributes.getValue("name").equalsIgnoreCase("className")) {
+                        if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
-                                loadEntity(world, attributes, x, y);
+                                className = attributes.getValue("value");
+                                loadEntity(world, className, customShopName, x, y);
                             }
-                            // Get the amount for items
+                        }
+                        // Get the custom shop name if present
+                        else if (attributes.getValue("name").equalsIgnoreCase("customShopName")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                customShopName = attributes.getValue("value");
+                            }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
                                 itemAmount = Integer.parseInt(attributes.getValue("value"));
@@ -336,33 +346,53 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, Attributes attributes, int x, int y) {
+    private static void loadEntity(World world, String className, String customShopName, int x, int y) {
+        // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
             Class<?> c = null;
             for (int i = 0; i < packages.length; i++) {
                 try {
-                    c = Class.forName("dev.ipsych0.myrinnia.entities." + packages[i] + attributes.getValue("value"));
+                    c = Class.forName("dev.ipsych0.myrinnia.entities." + packages[i] + className);
                     break;
                 } catch (Exception e) {
+                    // Only use exception when the class is in none of the 3 packages mentioned above
                     if (i == packages.length - 1) {
                         e.printStackTrace();
-                        System.err.println("Could not find Entity '" + attributes.getValue("value") + "' in any package. (World: " + world.getWorldPath() + ")");
+                        System.err.println("Could not find Entity '" + className + "' in any package. (World: " + world.getWorldPath() + ")");
                     }
                 }
             }
+            // Get all constructors
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
+
+            // Use default constructor if no custom shop name, otherwise use custom shop name constructor for NPC
+            int constructorArguments = 2;
+            if (customShopName != null) {
+                constructorArguments = 3;
+            }
+
             for (Constructor t : cstr) {
-                if (t.getParameterCount() == 2) {
+                if (t.getParameterCount() == constructorArguments) {
                     cst = t;
+                    break;
                 }
             }
-            Entity e = (Entity) cst.newInstance(x, y);
+
+            // Invoke the right constructor based on arguments
+            Entity e = null;
+            if (constructorArguments == 2) {
+                e = (Entity) cst.newInstance(x, y);
+            } else {
+                e = (Entity) cst.newInstance(customShopName, x, y);
+            }
+
+            // Add the NPC to the world
             world.getEntityManager().addEntity(e);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Could not create Entity '" + attributes.getValue("value") + "' in world: " + world.getWorldPath());
+            System.err.println("Could not create Entity '" + className + "' in world: " + world.getWorldPath());
         }
     }
 

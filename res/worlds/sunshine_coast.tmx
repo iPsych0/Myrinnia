@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="4">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -117,4 +117,27 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7833,7834,6999,7000,7107,7108,8660,8582,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8583,8584,8621,7110,7001,7002,8159,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="Object Layer 1">
+  <object id="1" name="Sunset Cove" type="zone_tile" x="184" y="1584" width="544" height="16">
+   <properties>
+    <property name="goToX" value="53"/>
+    <property name="goToY" value="1"/>
+    <property name="zone" value="SunsetCove"/>
+   </properties>
+  </object>
+  <object id="2" name="Sunset Cove Hidden Path" type="zone_tile" x="744" y="1584" width="272" height="16">
+   <properties>
+    <property name="goToX" value="64"/>
+    <property name="goToY" value="1"/>
+    <property name="zone" value="SunsetCove"/>
+   </properties>
+  </object>
+  <object id="3" name="Sunrise Sands" type="zone_tile" x="2752" y="1584" width="264" height="16">
+   <properties>
+    <property name="goToX" value="15"/>
+    <property name="goToY" value="1"/>
+    <property name="zone" value="SunriseSands"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

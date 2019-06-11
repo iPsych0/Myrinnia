@@ -50,6 +50,7 @@ public class Assets {
 
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
+    public static BufferedImage[] blueCrabUp, blueCrabDown, blueCrabLeft, blueCrabRight;
 
     // NPC images
     public static BufferedImage shopKeeperMerchantWater, femaleBanker;
@@ -150,6 +151,7 @@ public class Assets {
         SpriteSheet item_sheet = new SpriteSheet("/textures/itemsprites.png");
 
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
+        SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
 
         /*
          * Ability Animations
@@ -316,6 +318,11 @@ public class Assets {
         blueScorpionLeft = enemy_sheet1.npcCrop(9, 1, WIDTH, HEIGHT);
         blueScorpionRight = enemy_sheet1.npcCrop(9, 2, WIDTH, HEIGHT);
         blueScorpionUp = enemy_sheet1.npcCrop(9, 3, WIDTH, HEIGHT);
+
+        blueCrabDown = enemy_sheet2.npcCrop(0, 0, WIDTH, HEIGHT);
+        blueCrabLeft = enemy_sheet2.npcCrop(0, 1, WIDTH, HEIGHT);
+        blueCrabRight = enemy_sheet2.npcCrop(0, 2, WIDTH, HEIGHT);
+        blueCrabUp = enemy_sheet2.npcCrop(0, 3, WIDTH, HEIGHT);
 
         // NPC Sprites
 

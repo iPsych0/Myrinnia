@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
@@ -54,9 +53,12 @@ public abstract class Skill implements Serializable {
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
             checkNextLevel();
+            // Prevent sound from stacking when leveling 2 or more levels at once
+            if (!Player.isLevelUp) {
+                Handler.get().playEffect("ui/level_up.wav", 0.1f);
+            }
             Player.isLevelUp = true;
         }
-        Handler.get().playEffect("ui/level_up.wav");
     }
 
     public int getExperience() {
