@@ -99,7 +99,9 @@ public class EntityManager implements Serializable {
         // If enemies are dead, update the respawn timers
         if (deleted.size() > 0) {
             entities.removeAll(deleted);
-            for (Entity e : deleted) {
+            Iterator<Entity> dltd = deleted.iterator();
+            while (dltd.hasNext()) {
+                Entity e = dltd.next();
                 e.startRespawnTimer();
                 if (e.getRespawnTimer() == 0) {
                     e.respawn();
