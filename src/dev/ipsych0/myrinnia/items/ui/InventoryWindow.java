@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -32,7 +33,7 @@ public class InventoryWindow implements Serializable {
     private int numCols = 3;
     private int numRows = 10;
 
-    private CopyOnWriteArrayList<ItemSlot> itemSlots;
+    private List<ItemSlot> itemSlots;
     private ItemStack currentSelectedSlot;
     private ItemStack itemSwap;
     private ItemStack equipSwap;
@@ -46,7 +47,7 @@ public class InventoryWindow implements Serializable {
         this.x = Handler.get().getWidth() - width - 8;
         this.y = 8;
         windowBounds = new Rectangle(x, y, width, height);
-        itemSlots = new CopyOnWriteArrayList<>();
+        itemSlots = new ArrayList<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -78,7 +79,9 @@ public class InventoryWindow implements Serializable {
         if (isOpen) {
             Rectangle mouse = Handler.get().getMouse();
 
-            for (ItemSlot is : itemSlots) {
+            Iterator<ItemSlot> it = itemSlots.iterator();
+            while(it.hasNext()) {
+                ItemSlot is = it.next();
 
                 is.tick();
 
@@ -531,11 +534,11 @@ public class InventoryWindow implements Serializable {
         return -10;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
+    public List<ItemSlot> getItemSlots() {
         return itemSlots;
     }
 
-    public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
+    public void setItemSlots(List<ItemSlot> itemSlots) {
         this.itemSlots = itemSlots;
     }
 

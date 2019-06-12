@@ -23,7 +23,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class CraftingUI implements Serializable {
 
@@ -37,7 +37,7 @@ public class CraftingUI implements Serializable {
     private static boolean isCreated = false;
     private static boolean hasBeenPressed = false;
     private static boolean itemSelected = false;
-    private CopyOnWriteArrayList<CraftingSlot> craftingSlots;
+    private List<CraftingSlot> craftingSlots;
     private CraftResultSlot crs;
     private CraftButton cb;
     public static boolean craftButtonPressed = false;
@@ -67,7 +67,7 @@ public class CraftingUI implements Serializable {
         // First time it runs: set the window and dimensions/parameters
         if (!isCreated) {
 
-            craftingSlots = new CopyOnWriteArrayList<>();
+            craftingSlots = new ArrayList<>();
             craftingManager = new CraftingManager();
             uiManager = new UIManager();
 
@@ -661,7 +661,7 @@ public class CraftingUI implements Serializable {
         return craftingManager.getRecipes().get(recipeID).getResult();
     }
 
-    public CopyOnWriteArrayList<CraftingSlot> getCraftingSlots() {
+    public List<CraftingSlot> getCraftingSlots() {
         return craftingSlots;
     }
 

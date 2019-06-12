@@ -14,10 +14,6 @@ public abstract class UIObject extends Rectangle implements Serializable {
 
     UIObject(int x, int y, int width, int height) {
         super(x,y,width,height);
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
     }
 
     public abstract void tick();

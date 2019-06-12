@@ -3,11 +3,8 @@ package dev.ipsych0.myrinnia.audio;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 import org.lwjgl.openal.*;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class AudioManager {
 
@@ -18,8 +15,8 @@ public class AudioManager {
     private static ALCCapabilities alcCapabilities;
     private static ALCapabilities alCapabilities;
     private static List<Integer> buffers = new ArrayList<>();
-    public static List<Source> musicFiles = new CopyOnWriteArrayList<>();
-    public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
+    public static List<Source> musicFiles = new ArrayList<>();
+    public static List<Source> soundfxFiles = new ArrayList<>();
     private static Map<String, Integer> soundMap = new HashMap<>();
     private static Zone zone;
     public static float musicVolume = 0.4f, sfxVolume = 0.15f;

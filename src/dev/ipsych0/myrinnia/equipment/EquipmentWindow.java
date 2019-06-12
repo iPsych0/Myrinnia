@@ -10,7 +10,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EquipmentWindow implements Serializable {
 
@@ -26,7 +27,7 @@ public class EquipmentWindow implements Serializable {
     private int numCols = 3;
     private int numRows = 4;
 
-    private CopyOnWriteArrayList<EquipmentSlot> equipmentSlots;
+    private List<EquipmentSlot> equipmentSlots;
     private ItemStack currentSelectedSlot;
     public static boolean itemSelected;
     private Rectangle windowBounds;
@@ -39,7 +40,7 @@ public class EquipmentWindow implements Serializable {
         this.y = Handler.get().getInventory().getHeight() + 16;
         windowBounds = new Rectangle(x, y, width, height);
 
-        equipmentSlots = new CopyOnWriteArrayList<>();
+        equipmentSlots = new ArrayList<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -221,11 +222,11 @@ public class EquipmentWindow implements Serializable {
         this.height = height;
     }
 
-    public CopyOnWriteArrayList<EquipmentSlot> getEquipmentSlots() {
+    public List<EquipmentSlot> getEquipmentSlots() {
         return equipmentSlots;
     }
 
-    public void setEquipmentSlots(CopyOnWriteArrayList<EquipmentSlot> equipmentSlots) {
+    public void setEquipmentSlots(List<EquipmentSlot> equipmentSlots) {
         this.equipmentSlots = equipmentSlots;
     }
 

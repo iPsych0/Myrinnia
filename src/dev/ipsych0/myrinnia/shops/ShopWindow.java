@@ -7,18 +7,18 @@ import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.items.*;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
-import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class ShopWindow implements Serializable {
 
@@ -32,7 +32,7 @@ public class ShopWindow implements Serializable {
     private int height;
     private static final int NUM_COLS = 5;
     private static final int NUM_ROWS = 6;
-    private CopyOnWriteArrayList<ItemSlot> itemSlots, invSlots;
+    private List<ItemSlot> itemSlots, invSlots;
     private Color selectedColor = new Color(0, 255, 255, 62);
     private ItemStack selectedShopItem;
     private ItemStack selectedInvItem;
@@ -66,8 +66,8 @@ public class ShopWindow implements Serializable {
         this.y = Handler.get().getHeight() / 2 - height / 2;
 
         // Initialize the shops slots and the inventory slots
-        itemSlots = new CopyOnWriteArrayList<>();
-        invSlots = new CopyOnWriteArrayList<>();
+        itemSlots = new ArrayList<>();
+        invSlots = new ArrayList<>();
 
         // Add the shops slots
         for (int i = 0; i < NUM_ROWS; i++) {
@@ -652,7 +652,7 @@ public class ShopWindow implements Serializable {
      */
     private void buyAllItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
-            ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
+            List<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
             int i = 0;
             int buyAmount = 0;
             while (i < slots.size()) {
@@ -744,7 +744,7 @@ public class ShopWindow implements Serializable {
      */
     private void buyXItem(int amount) {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
-            ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
+            List<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
             int i = slots.size();
             int index = 0;
 
@@ -875,8 +875,8 @@ public class ShopWindow implements Serializable {
         return -1;
     }
 
-    private ArrayList<Integer> getMatchSlots(Item item) {
-        ArrayList<Integer> slots = new ArrayList<>();
+    private List<Integer> getMatchSlots(Item item) {
+        List<Integer> slots = new ArrayList<>();
         for (int i = 0; i < itemSlots.size(); i++) {
             if (itemSlots.get(i).getItemStack() == null) {
                 continue;
@@ -887,19 +887,19 @@ public class ShopWindow implements Serializable {
         return slots;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
+    public List<ItemSlot> getItemSlots() {
         return itemSlots;
     }
 
-    public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
+    public void setItemSlots(List<ItemSlot> itemSlots) {
         this.itemSlots = itemSlots;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getInvSlots() {
+    public List<ItemSlot> getInvSlots() {
         return invSlots;
     }
 
-    public void setInvSlots(CopyOnWriteArrayList<ItemSlot> invSlots) {
+    public void setInvSlots(List<ItemSlot> invSlots) {
         this.invSlots = invSlots;
     }
 

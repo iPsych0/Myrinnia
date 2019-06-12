@@ -13,8 +13,8 @@ public class WorldHandler implements Serializable {
      *
      */
     private static final long serialVersionUID = -4805050782549865233L;
-    private ArrayList<World> worlds;
-    private EnumMap<Zone, World> worldsMap;
+    private List<World> worlds;
+    private Map<Zone, World> worldsMap;
 
     public WorldHandler(PortAzure portAzure) {
         worlds = new ArrayList<>();
@@ -76,7 +76,7 @@ public class WorldHandler implements Serializable {
         worlds.add(w);
     }
 
-    public ArrayList<World> getWorlds() {
+    public List<World> getWorlds() {
         return worlds;
     }
 
@@ -84,11 +84,11 @@ public class WorldHandler implements Serializable {
         this.worlds = worlds;
     }
 
-    public EnumMap<Zone, World> getWorldsMap() {
+    public Map<Zone, World> getWorldsMap() {
         return worldsMap;
     }
 
-    public void setWorldsMap(EnumMap<Zone, World> worldsMap) {
+    public void setWorldsMap(Map<Zone, World> worldsMap) {
         this.worldsMap = worldsMap;
     }
 }

@@ -103,8 +103,8 @@ public class SettingState extends State {
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(previousState));
-                selectedState = Handler.get().getGame().graphicsState;
-                selectedButton = graphicsButton;
+                selectedState = Handler.get().getGame().generalSettingsState;
+                selectedButton = generalButton;
                 hasBeenPressed = false;
             }
         }

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -24,8 +23,7 @@ public class AbilityManager implements Serializable {
      */
     private static final long serialVersionUID = 1274154274799386875L;
     private List<Ability> allAbilities = new ArrayList<>();
-    private CopyOnWriteArrayList<Ability> activeAbilities = new CopyOnWriteArrayList<>();
-    private Collection<Ability> deleted = new CopyOnWriteArrayList<>();
+    private List<Ability> activeAbilities = new ArrayList<>();
     private Color castBarColor = new Color(240, 160, 5, 224);
     private AbilityHUD abilityHUD;
     private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
@@ -78,14 +76,8 @@ public class AbilityManager implements Serializable {
             if (a.isActivated()) {
                 a.tick();
             } else {
-                deleted.add(a);
+                it.remove();
             }
-        }
-
-        // Clear the non-active abilities
-        if (deleted.size() > 0) {
-            activeAbilities.removeAll(deleted);
-            deleted.clear();
         }
     }
 
@@ -110,11 +102,11 @@ public class AbilityManager implements Serializable {
         }
     }
 
-    public CopyOnWriteArrayList<Ability> getActiveAbilities() {
+    public List<Ability> getActiveAbilities() {
         return activeAbilities;
     }
 
-    public void setActiveAbilities(CopyOnWriteArrayList<Ability> activeAbilities) {
+    public void setActiveAbilities(List<Ability> activeAbilities) {
         this.activeAbilities = activeAbilities;
     }
 

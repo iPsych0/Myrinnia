@@ -6,9 +6,10 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class ItemManager implements Serializable {
 
@@ -16,7 +17,7 @@ public class ItemManager implements Serializable {
      *
      */
     private static final long serialVersionUID = 1092891818645452920L;
-    private CopyOnWriteArrayList<Item> items;
+    private List<Item> items;
     private Collection<Item> deleted;
     private Collection<Item> added;
     private static boolean soundPlayed = false;
@@ -24,9 +25,9 @@ public class ItemManager implements Serializable {
     private transient Item lastHovered;
 
     public ItemManager() {
-        items = new CopyOnWriteArrayList<>();
-        deleted = new CopyOnWriteArrayList<>();
-        added = new CopyOnWriteArrayList<>();
+        items = new ArrayList<>();
+        deleted = new ArrayList<>();
+        added = new ArrayList<>();
     }
 
     public void tick() {
@@ -162,11 +163,11 @@ public class ItemManager implements Serializable {
 
     // Getters & Setters
 
-    public CopyOnWriteArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(CopyOnWriteArrayList<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 

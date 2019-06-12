@@ -38,7 +38,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Creature {
 
@@ -335,7 +334,7 @@ public class Player extends Creature {
             return;
 
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
+        Collection<Projectile> deleted = new ArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
 

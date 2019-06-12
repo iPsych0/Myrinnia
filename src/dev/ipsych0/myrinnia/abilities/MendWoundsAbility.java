@@ -10,8 +10,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MendWoundsAbility extends Ability {
 
@@ -58,9 +58,8 @@ public class MendWoundsAbility extends Ability {
             initialHealDone = true;
             Handler.get().playEffect("abilities/mend_wounds.wav");
 
-            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
-            deleted.addAll(caster.getConditions());
-            caster.getConditions().removeAll(deleted);
+            // Remove all conditions
+            caster.getConditions().removeAll(caster.getConditions());
 
             Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
             Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);

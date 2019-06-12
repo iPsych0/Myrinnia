@@ -93,6 +93,12 @@ public class Display implements Serializable {
         } else {
             frame.setLocationRelativeTo(null);
         }
+
+        // Save the frame's position
+        windowedX = frame.getX();
+        windowedY = frame.getY();
+        windowedWidth = frame.getWidth();
+        windowedHeight = frame.getHeight();
     }
 
     public void setFullScreen() {
@@ -112,6 +118,8 @@ public class Display implements Serializable {
                 frame.setVisible(true);
 
                 // Scale the window to fullscreen size
+                windowedX = frame.getX();
+                windowedY = frame.getY();
                 windowedWidth = frame.getWidth();
                 windowedHeight = frame.getHeight();
                 scaleX = (double) frame.getWidth() / (double) width;
@@ -137,6 +145,8 @@ public class Display implements Serializable {
             frame.setResizable(true);
 
             // Scale the window accordingly
+            windowedX = frame.getX();
+            windowedY = frame.getY();
             windowedWidth = frame.getWidth();
             windowedHeight = frame.getHeight();
             scaleX = (double) frame.getWidth() / (double) width;
@@ -198,5 +208,15 @@ public class Display implements Serializable {
 
     public GraphicsDevice getGfxCard() {
         return gfxCard;
+    }
+
+    public Rectangle getWindowBounds() {
+        if (isFullScreen()) {
+            return new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+        } else {
+            Rectangle innerFrame = frame.getContentPane().getBounds();
+            innerFrame.setLocation(frame.getX(), frame.getY() + frame.getInsets().top);
+            return innerFrame;
+        }
     }
 }

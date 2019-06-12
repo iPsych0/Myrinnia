@@ -212,7 +212,7 @@ public class Handler implements Serializable {
     }
 
     public void addRecapEvent(String description) {
-        this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
+        this.recapManager.addEvent(new RecapEvent(description));
     }
 
     /**

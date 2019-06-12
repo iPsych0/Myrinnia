@@ -26,8 +26,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 import java.util.List;
 
 public abstract class World implements Serializable {
@@ -67,8 +66,6 @@ public abstract class World implements Serializable {
     private AbilityOverviewUI abilityOverviewUI;
     private List<ZoneTile> zoneTiles;
 
-    // Actual code ---v
-
     protected World(String path) {
 
         this.worldPath = path;
@@ -98,6 +95,7 @@ public abstract class World implements Serializable {
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
 
+        // Load in the enemies, items and zone tiles from Tiled editor
         MapLoader.initEnemiesItemsAndZoneTiles(path, this);
 
     }

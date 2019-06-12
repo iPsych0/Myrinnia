@@ -53,7 +53,7 @@ public abstract class Creature extends Entity {
     int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
     int attackRange = Tile.TILEWIDTH * 2;
-    ArrayList<Projectile> projectiles = new ArrayList<>();
+    List<Projectile> projectiles = new ArrayList<>();
 
     // Walking timer
     private int time = 0;
@@ -412,7 +412,7 @@ public abstract class Creature extends Entity {
             return;
 
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
+        Collection<Projectile> deleted = new ArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
             p.tick();
@@ -670,6 +670,20 @@ public abstract class Creature extends Entity {
         }
     }
 
+    public void clearConditions(){
+        for(Condition c : conditions){
+            c.clear();
+        }
+        this.conditions.clear();
+    }
+
+    public void clearBuffs(){
+        for(Buff b : buffs){
+            b.clear();
+        }
+        this.buffs.clear();
+    }
+
     // GETTERS + SETTERS
 
     public float getxMove() {
@@ -784,11 +798,11 @@ public abstract class Creature extends Entity {
         this.radius = radius;
     }
 
-    public ArrayList<Projectile> getProjectiles() {
+    public List<Projectile> getProjectiles() {
         return projectiles;
     }
 
-    public void setProjectiles(ArrayList<Projectile> projectiles) {
+    public void setProjectiles(List<Projectile> projectiles) {
         this.projectiles = projectiles;
     }
 
@@ -846,19 +860,5 @@ public abstract class Creature extends Entity {
 
     public int getySpawn() {
         return ySpawn;
-    }
-
-    public void clearConditions(){
-        for(Condition c : conditions){
-            c.clear();
-        }
-        this.conditions.clear();
-    }
-
-    public void clearBuffs(){
-        for(Buff b : buffs){
-            b.clear();
-        }
-        this.buffs.clear();
     }
 }

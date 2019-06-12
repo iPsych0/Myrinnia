@@ -9,7 +9,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BankTab extends UIImageButton implements Serializable {
@@ -23,7 +24,7 @@ public class BankTab extends UIImageButton implements Serializable {
     private Rectangle bounds;
     private int tabNumber;
     public static final int ROWS = 6, COLS = 5;
-    private CopyOnWriteArrayList<ItemSlot> bankSlots;
+    private List<ItemSlot> bankSlots;
     private boolean isOpen = false;
 
     public BankTab(int x, int y, int tabNumber) {
@@ -34,7 +35,7 @@ public class BankTab extends UIImageButton implements Serializable {
         this.height = ItemSlot.SLOTSIZE;
         this.tabNumber = tabNumber;
 
-        bankSlots = new CopyOnWriteArrayList<>();
+        bankSlots = new ArrayList<>();
 
         if (tabNumber == 0) {
             isOpen = true;
@@ -113,11 +114,11 @@ public class BankTab extends UIImageButton implements Serializable {
         this.tabNumber = tabNumber;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getBankSlots() {
+    public List<ItemSlot> getBankSlots() {
         return bankSlots;
     }
 
-    public void setBankSlots(CopyOnWriteArrayList<ItemSlot> bankSlots) {
+    public void setBankSlots(List<ItemSlot> bankSlots) {
         this.bankSlots = bankSlots;
     }
 

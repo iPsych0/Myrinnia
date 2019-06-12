@@ -3,8 +3,10 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
@@ -73,6 +75,7 @@ public class Rock extends StaticEntity {
                     attempts++;
 
                 }
+                Handler.get().addRecapEvent("Something");
                 speakingTurn = 0;
                 miningTimer = 0;
 

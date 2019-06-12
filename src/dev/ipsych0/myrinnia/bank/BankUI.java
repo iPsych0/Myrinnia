@@ -16,7 +16,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class BankUI implements Serializable {
 
@@ -29,8 +29,8 @@ public class BankUI implements Serializable {
     public static int width;
     private static int height;
     public static boolean isOpen = false;
-    private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
-    private ArrayList<BankTab> tabs = new ArrayList<>();
+    private List<ItemSlot> invSlots = new ArrayList<>();
+    private List<BankTab> tabs = new ArrayList<>();
     private BankTab openedTab;
     private static final int MAX_TABS = 10;
     public static boolean inventoryLoaded;

@@ -7,9 +7,10 @@ import dev.ipsych0.myrinnia.entities.creatures.Projectile;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class EntityManager implements Serializable {
 
@@ -18,52 +19,50 @@ public class EntityManager implements Serializable {
      */
     private static final long serialVersionUID = 4034952590793061132L;
     private Player player;
-    private CopyOnWriteArrayList<Entity> entities;
-    private Collection<Entity> deleted;
+    private List<Entity> entities;
+    private Collection<Entity> deadEntities;
     private Entity selectedEntity;
     public static boolean isPressed = false;
-    private CopyOnWriteArrayList<HitSplat> hitSplats;
+    private List<HitSplat> hitSplats;
 
     public EntityManager(Player player) {
         this.player = player;
-        entities = new CopyOnWriteArrayList<>();
-        deleted = new CopyOnWriteArrayList<>();
-        hitSplats = new CopyOnWriteArrayList<>();
+        entities = new ArrayList<>();
+        deadEntities = new ArrayList<>();
+        hitSplats = new ArrayList<>();
         addEntity(player);
     }
 
     public void tick() {
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
-        Collection<Condition> deletedCondis = new CopyOnWriteArrayList<>();
-        Collection<Buff> deletedBuffs = new CopyOnWriteArrayList<>();
         while (it.hasNext()) {
             Entity e = it.next();
             if (!e.isActive()) {
-                deleted.add(e);
+                deadEntities.add(e);
             }
 
             Rectangle mouse = Handler.get().getMouse();
 
             if (e instanceof Creature) {
-                for (Condition c : ((Creature) e).getConditions()) {
+                Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
+                while (condIt.hasNext()){
+                    Condition c = condIt.next();
                     if (c.isActive()) {
                         c.tick();
                     } else {
-                        deletedCondis.add(c);
+                        condIt.remove();
                     }
                 }
-                ((Creature) e).getConditions().removeAll(deletedCondis);
-                deletedCondis.clear();
-                for (Buff b : ((Creature) e).getBuffs()) {
+                Iterator<Buff> buffIt = ((Creature) e).getBuffs().iterator();
+                while (buffIt.hasNext()){
+                    Buff b = buffIt.next();
                     if (b.isActive()) {
                         b.tick();
                     } else {
-                        deletedBuffs.add(b);
+                        buffIt.remove();
                     }
                 }
-                ((Creature) e).getBuffs().removeAll(deletedBuffs);
-                deletedBuffs.clear();
             }
 
             e.tick();
@@ -97,15 +96,15 @@ public class EntityManager implements Serializable {
         }
 
         // If enemies are dead, update the respawn timers
-        if (deleted.size() > 0) {
-            entities.removeAll(deleted);
-            Iterator<Entity> dltd = deleted.iterator();
+        if (deadEntities.size() > 0) {
+            entities.removeAll(deadEntities);
+            Iterator<Entity> dltd = deadEntities.iterator();
             while (dltd.hasNext()) {
                 Entity e = dltd.next();
                 e.startRespawnTimer();
                 if (e.getRespawnTimer() == 0) {
                     e.respawn();
-                    deleted.remove(e);
+                    dltd.remove();
                 }
             }
         }
@@ -141,15 +140,15 @@ public class EntityManager implements Serializable {
             }
         }
 
-        Collection<HitSplat> deleted = new CopyOnWriteArrayList<>();
-        for (HitSplat hs : hitSplats) {
+        Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
+        while (hitSplatIt.hasNext()){
+            HitSplat hs = hitSplatIt.next();
             if (hs.isActive()) {
                 hs.render(g);
             } else {
-                deleted.add(hs);
+                hitSplatIt.remove();
             }
         }
-        hitSplats.removeAll(deleted);
 
     }
 
@@ -243,15 +242,15 @@ public class EntityManager implements Serializable {
         this.player = player;
     }
 
-    public CopyOnWriteArrayList<Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
-    public void setEntities(CopyOnWriteArrayList<Entity> entities) {
+    public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
 
-    public CopyOnWriteArrayList<HitSplat> getHitSplats() {
+    public List<HitSplat> getHitSplats() {
         return hitSplats;
     }
 }
