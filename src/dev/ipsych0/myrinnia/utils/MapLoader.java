@@ -36,7 +36,7 @@ public class MapLoader implements Serializable {
     public static Map<Integer, Boolean> solidTiles = new HashMap<>();
     public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
     public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
-    public static Map<Integer, List<Integer>> animationMap = new HashMap<>();
+    public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
     private static Document doc, tsxDoc;
     private static int tileCount, lastId;
 
@@ -93,7 +93,7 @@ public class MapLoader implements Serializable {
                 private boolean solid;
                 private boolean postRender;
                 private boolean init;
-                private List<Integer> animationIds = new ArrayList<>();
+                private Map<Integer, Integer> animationIds = new HashMap<>();
                 private int currentId, firstGid;
                 private int startX, startY;
 
@@ -111,7 +111,7 @@ public class MapLoader implements Serializable {
 
                         // If new tile checked, clear old data
                         if (currentId != lastId) {
-                            animationIds = new ArrayList<>();
+                            animationIds = new HashMap<>();
                         }
 
                         lastId++;
@@ -129,7 +129,10 @@ public class MapLoader implements Serializable {
                             animationIds.clear();
                         }
                         animationPropertyFound = true;
-                        animationIds.add(firstGid + Integer.parseInt(attributes.getValue("tileid")));
+                        int tileId = Integer.parseInt(attributes.getValue("tileid"));
+                        int animationSpeed = Integer.parseInt(attributes.getValue("duration"));
+                        
+                        animationIds.put(firstGid + tileId, animationSpeed);
                     } else if (qName.equalsIgnoreCase("object")) {
                         startX = (int) Double.parseDouble(attributes.getValue("x"));
                         startY = (int) Double.parseDouble(attributes.getValue("y"));

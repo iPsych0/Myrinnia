@@ -36,14 +36,14 @@ public class ItemManager implements Serializable {
             Item i = it.next();
 
             // Check if we're hovering over the item
-            i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(),-Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
+            i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
 
             // Checks player's pause for any items nearby to pick up
             if (Handler.get().getMouseManager().isRightPressed() && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
                 if (!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
                     if (i.pickUpItem(i)) {
                         if (i.isPickedUp()) {
-                            if(!soundPlayed) {
+                            if (!soundPlayed) {
                                 Handler.get().playEffect("ui/pickup.wav");
                                 soundPlayed = true;
                             }
@@ -54,9 +54,9 @@ public class ItemManager implements Serializable {
             }
 
             // Adds small delay to sounds to prevent them from stacking when picking up multiple items at once
-            if(soundPlayed){
+            if (soundPlayed) {
                 lastPlayed++;
-                if(lastPlayed >= 5){
+                if (lastPlayed >= 5) {
                     soundPlayed = false;
                     lastPlayed = 0;
                 }
@@ -65,27 +65,29 @@ public class ItemManager implements Serializable {
         }
 
         // If non-worldspawn Items are dropped, start timer for despawning
-        if (added.size() > 0) {
-            for (Item i : added) {
-                i.startRespawnTimer();
+        Iterator<Item> addedIt = added.iterator();
+        while (addedIt.hasNext()) {
+            Item i = addedIt.next();
+            i.startRespawnTimer();
 
-                // If item is picked up, reset the timer
-                if (i.isPickedUp()) {
-                    i.setRespawnTimer(10800);
-                    deleted.add(i);
-                    added.remove(i);
-                }
-                // If the timer expires, remove the item
-                else if (i.getRespawnTimer() == 0) {
-                    deleted.add(i);
-                    added.remove(i);
-                }
+            // If item is picked up, reset the timer
+            if (i.isPickedUp()) {
+                i.setRespawnTimer(10800);
+                deleted.add(i);
+                addedIt.remove();
+            }
+            // If the timer expires, remove the item
+            else if (i.getRespawnTimer() == 0) {
+                deleted.add(i);
+                addedIt.remove();
             }
         }
+
 
         // If Item's timer is 0, remove the items from the world.
         if (deleted.size() > 0) {
             items.removeAll(deleted);
+            deleted.clear();
         }
     }
 

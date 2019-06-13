@@ -374,14 +374,14 @@ public class Handler implements Serializable {
 
     /*
      * Drop an item to the world
-     * @params: An item, an amount, x + y pause in the world (usually based on the Entity or Object location)
+     * @params: An item, an amount, x + y pos in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
-        dropItem(item, amount, x, y, true);
+        dropItem(item, amount, x, y, false);
     }
 
-    private void dropItem(Item item, int amount, int x, int y, boolean despawn) {
-        getWorld().getItemManager().addItem((item.createItem(x, y, amount)), despawn);
+    private void dropItem(Item item, int amount, int x, int y, boolean isWorldSpawn) {
+        getWorld().getItemManager().addItem((item.createItem(x, y, amount)), isWorldSpawn);
     }
 
     /*
