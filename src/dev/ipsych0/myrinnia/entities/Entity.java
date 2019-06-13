@@ -32,7 +32,7 @@ public abstract class Entity implements Serializable {
     protected Rectangle bounds;
     public static boolean isCloseToNPC = false;
     protected int health;
-    protected static final int DEFAULT_HEALTH = 100;
+    protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
     protected boolean attackable = true;

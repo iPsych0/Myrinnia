@@ -30,12 +30,12 @@ public class GeneralSettingsState extends State {
             activeButtons.add(i);
         }
 
-        infoButton = new UIImageButton(overlay.x + 80, overlay.y + 82, 16, 16, Assets.genericButton);
-        criticalButton = new UIImageButton(overlay.x + 80, overlay.y + 98, 16, 16, Assets.genericButton);
-        combatButton = new UIImageButton(overlay.x + 80, overlay.y + 114, 16, 16, Assets.genericButton);
-        lootButton = new UIImageButton(overlay.x + 80, overlay.y + 130, 16, 16, Assets.genericButton);
-        skillButton = new UIImageButton(overlay.x + 80, overlay.y + 146, 16, 16, Assets.genericButton);
-        timeStampButton = new UIImageButton(overlay.x + 80, overlay.y + 162, 16, 16, Assets.genericButton);
+        infoButton = new UIImageButton(overlay.x + 96, overlay.y + 82, 16, 16, Assets.genericButton);
+        criticalButton = new UIImageButton(overlay.x + 96, overlay.y + 98, 16, 16, Assets.genericButton);
+        combatButton = new UIImageButton(overlay.x + 96, overlay.y + 114, 16, 16, Assets.genericButton);
+        lootButton = new UIImageButton(overlay.x + 96, overlay.y + 130, 16, 16, Assets.genericButton);
+        skillButton = new UIImageButton(overlay.x + 96, overlay.y + 146, 16, 16, Assets.genericButton);
+        timeStampButton = new UIImageButton(overlay.x + 96, overlay.y + 162, 16, 16, Assets.genericButton);
 
         uiManager.addObject(infoButton);
         uiManager.addObject(criticalButton);
@@ -70,7 +70,7 @@ public class GeneralSettingsState extends State {
 
         for (Integer i : activeButtons) {
             g.setColor(Color.GREEN);
-            Text.drawString(g, "X", overlay.x + 80 + 8, overlay.y + 82 + 8 + i * 16, true, Color.GREEN, Assets.font14);
+            Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16, true, Color.GREEN, Assets.font14);
         }
 
     }

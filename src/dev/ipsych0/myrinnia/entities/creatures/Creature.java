@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Creature extends Entity {
 
@@ -78,8 +77,8 @@ public abstract class Creature extends Entity {
     private static final int TIMES_PER_SECOND = 4;
     private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
-    private List<Condition> conditions = new CopyOnWriteArrayList<>();
-    private List<Buff> buffs = new CopyOnWriteArrayList<>();
+    private List<Condition> conditions = new ArrayList<>();
+    private List<Buff> buffs = new ArrayList<>();
     protected Animation aLeft;
     protected Animation aRight;
     protected Animation aUp;

@@ -48,7 +48,7 @@ public class Projectile extends Creature implements Serializable {
         xVelocity = velocity * Math.cos(angle);
         yVelocity = velocity * Math.sin(angle);
 
-        projectile = new Animation(83, animation);
+        projectile = new Animation(125, animation);
 
         active = true;
     }
