@@ -376,11 +376,6 @@
     <property name="npcClass" value="GenericMale1"/>
    </properties>
   </object>
-  <object id="34" name="rock" type="npc" x="2816" y="2176" width="32" height="32">
-   <properties>
-    <property name="npcClass" value="Rock"/>
-   </properties>
-  </object>
   <object id="38" name="crab" type="npc" x="1728" y="2240" width="32" height="32">
    <properties>
     <property name="npcClass" value="AzureCrab"/>

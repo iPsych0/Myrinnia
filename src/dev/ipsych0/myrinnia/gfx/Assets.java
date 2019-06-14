@@ -121,11 +121,9 @@ public class Assets {
         /*
          * Sprite Sheets
          */
-        SpriteSheet rsCastlePuzzle = new SpriteSheet("/textures/RS_CASTLE_PUZZLE.png");
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
-        SpriteSheet texture_sheet = new SpriteSheet("/textures/textures.png");
         /*
          * Make skilling sheet for this
          */
@@ -183,12 +181,12 @@ public class Assets {
             }
         }
 
-        puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
-        for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
-            for (int x = 0; x < rsCastlePuzzle.getSheet().getWidth() / 32; x++) {
-                puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x, y);
-            }
-        }
+//        puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
+//        for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
+//            for (int x = 0; x < rsCastlePuzzle.getSheet().getWidth() / 32; x++) {
+//                puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x, y);
+//            }
+//        }
 
         /*
          * Game UI Sprites
@@ -468,8 +466,8 @@ public class Assets {
         eruption1[6] = ability_animations.imageCrop(6, 1);
 
         // Skilling objects
-        tree = texture_sheet.imageCrop(1, 2);
-        rock = texture_sheet.imageCrop(0, 3);
+//        tree = texture_sheet.imageCrop(1, 2);
+//        rock = texture_sheet.imageCrop(0, 3);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);
