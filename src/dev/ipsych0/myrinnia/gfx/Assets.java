@@ -161,7 +161,7 @@ public class Assets {
          * All Tiled Sprites
          */
         List<SpriteSheet> tileSheets = new ArrayList<>();
-        tileSheets.add(new SpriteSheet("/textures/tiles/castle.png", true));git
+        tileSheets.add(new SpriteSheet("/textures/tiles/castle.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/desert.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/dungeon.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/house.png", true));

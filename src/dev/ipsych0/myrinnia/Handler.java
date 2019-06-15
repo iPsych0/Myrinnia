@@ -128,7 +128,7 @@ public class Handler implements Serializable {
         handler.setGame(Game.get());
 
         // Instantiate the player
-        player = new Player(2752, 2016);
+        player = new Player(2816, 1472);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();

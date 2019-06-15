@@ -226,7 +226,7 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="37" terrain=",,,0">
+ <tile id="37">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -302,7 +302,7 @@
    <frame tileid="51" duration="500"/>
   </animation>
  </tile>
- <tile id="43" terrain=",,0,">
+ <tile id="43">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -1736,7 +1736,7 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="253" terrain=",0,,">
+ <tile id="253">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
@@ -1812,7 +1812,7 @@
    <frame tileid="267" duration="500"/>
   </animation>
  </tile>
- <tile id="259" terrain="0,,,">
+ <tile id="259">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
