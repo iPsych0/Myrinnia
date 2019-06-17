@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
@@ -67,9 +68,7 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, new String[]{"This is meant to be a very, very long monologue test that should be split into more than a single line.",
-                        "This is meant to be a very, very long monologue test that should be split into more than a single line. It should have multiple lines being rendered.",
-                        "This is meant to be a very, very long monologue test that should be split into more than a single line. It should have multiple lines being rendered. This should accumulate to about five lines. This is meant to be a very, very long monologue test that should be split into more than a single line. This is meant to be a very, very long monologue test that should be split into more than a single line."})));
+                State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, Utils.loadMonologue("prologue.json"))));
                 Handler.get().playMusic(Zone.PortAzure);
                 hasBeenPressed = false;
             }
