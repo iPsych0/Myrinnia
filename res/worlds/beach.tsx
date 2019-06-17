@@ -2305,18 +2305,33 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 32,8 20,8 19.75,32.25 0,32"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="340">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 32,7.5 0,7.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="341">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polyline points="0,0 32,0 32,32 12,32 12.25,7.75 0.25,7.75 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="342">
   <properties>
@@ -3223,8 +3238,13 @@
  <tile id="484">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="2" x="0" y="32">
+    <polygon points="0,0 32,0 32,-10 -0.25,-10"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="485">
   <properties>
