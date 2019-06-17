@@ -69,7 +69,6 @@ public class MenuState extends State {
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, Utils.loadMonologue("prologue.json"))));
-                Handler.get().playMusic(Zone.PortAzure);
                 hasBeenPressed = false;
             }
         }

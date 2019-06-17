@@ -34,6 +34,7 @@ public class MonologueState extends AbstractTransitionState {
         // If we reached the last index, change to the new state
         if (textWriter.getCurrentText() == monologues.length) {
             newState.tick();
+            Handler.get().playMusic(Handler.get().getPlayer().getZone());
             if (alpha == 0) {
                 State.setState(newState);
             }
