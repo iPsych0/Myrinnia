@@ -52,11 +52,12 @@ public class TextWriter {
                     stoppingComma = true;
                 } else if (text[currentText].charAt(charIndex) == '.') {
                     stoppingFullStop = true;
+                    Handler.get().playEffect("ui/textbox_type.wav");
                 }
 
                 charIndex++;
                 timer = 0;
-                if (charIndex % Handler.get().getRandomNumber(2, 3) == 0) {
+                if (charIndex % Handler.get().getRandomNumber(2, 3) == 0 && !stoppingFullStop) {
                     Handler.get().playEffect("ui/textbox_type.wav");
                 }
             }
