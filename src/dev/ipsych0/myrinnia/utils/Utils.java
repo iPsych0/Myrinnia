@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.states.monologues.Monologue;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -42,7 +43,7 @@ public class Utils {
 
     private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
         InputStream inputStream = null;
-        jsonFile = "dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
+        jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
         inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
         try {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -94,26 +95,31 @@ public class Utils {
     }
 
     public static Ability loadAbility(String path) {
-        Ability a = loadObjectFromJsonFile(path, "abilities", getClassFromString(path, "abilities"));
+        Ability a = loadObjectFromJsonFile(path, "abilities/json/", getClassFromString(path, "abilities"));
         a.setId(abilityCounter++);
         return a;
     }
 
     public static Item loadItem(String path, BufferedImage sprite) {
-        Item i = loadObjectFromJsonFile(path, "items", Item.class);
+        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         return i;
     }
 
     public static Script loadScript(String path) {
-        Script s = loadObjectFromJsonFile(path, "entities/npcs", Script.class);
+        Script s = loadObjectFromJsonFile(path, "entities/npcs/json/", Script.class);
         s.getDialogues().sort((o1, o2) -> {
             Integer i1 = o1.getId();
             Integer i2 = o2.getId();
             return i1.compareTo(i2);
         });
         return s;
+    }
+
+    public static Monologue loadMonologue(String path) {
+        Monologue m = loadObjectFromJsonFile(path, "states/monologues/", Monologue.class);
+        return m;
     }
 
 }
