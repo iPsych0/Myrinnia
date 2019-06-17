@@ -67,7 +67,9 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                State.setState(new UITransitionState(Handler.get().getGame().gameState));
+                State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, new String[]{"This is meant to be a very, very long monologue test that should be split into more than a single line.",
+                        "This is meant to be a very, very long monologue test that should be split into more than a single line. It should have multiple lines being rendered.",
+                        "This is meant to be a very, very long monologue test that should be split into more than a single line. It should have multiple lines being rendered. This should accumulate to about five lines. This is meant to be a very, very long monologue test that should be split into more than a single line. This is meant to be a very, very long monologue test that should be split into more than a single line."})));
                 Handler.get().playMusic(Zone.PortAzure);
                 hasBeenPressed = false;
             }
