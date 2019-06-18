@@ -15,8 +15,10 @@ public class MonologueState extends AbstractTransitionState {
     private State newState;
     private String[] monologues;
     private UIImageButton continueButton;
+    private UIImageButton skipButton;
     private UIManager uiManager;
     private TextWriter textWriter;
+    private boolean skipButtonAdded;
 
     public MonologueState(State newState, Monologue monologue) {
         this.newState = newState;
@@ -24,6 +26,7 @@ public class MonologueState extends AbstractTransitionState {
         this.textWriter = new TextWriter(monologues);
 
         continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() - 128, 320, 96, Assets.genericButton);
+        skipButton = new UIImageButton(Handler.get().getWidth() - 160 * 2, Handler.get().getHeight() - 96, 160, 64, Assets.genericButton);
         uiManager = new UIManager();
         uiManager.addObject(continueButton);
     }
@@ -45,6 +48,15 @@ public class MonologueState extends AbstractTransitionState {
             if (continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
                 textWriter.nextDialogue();
+                if(textWriter.isSkipRequested() && !skipButtonAdded){
+                    uiManager.addObject(skipButton);
+                    skipButtonAdded = true;
+                }
+            }
+
+            if(textWriter.isSkipRequested() && skipButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
+                hasBeenPressed = false;
+                textWriter.setCurrentText(monologues.length);
             }
         }
 
@@ -76,6 +88,9 @@ public class MonologueState extends AbstractTransitionState {
             }
             uiManager.render(g);
             Text.drawString(g, "Continue", continueButton.x + continueButton.width / 2, continueButton.y + continueButton.height / 2, true, Color.YELLOW, Assets.font32);
+            if(skipButtonAdded){
+                Text.drawString(g, "Skip", skipButton.x + skipButton.width / 2, skipButton.y + skipButton.height / 2, true, Color.YELLOW, Assets.font24);
+            }
         }
     }
 

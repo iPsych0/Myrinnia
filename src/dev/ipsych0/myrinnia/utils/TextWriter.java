@@ -13,6 +13,7 @@ public class TextWriter {
     private int commaTimer, fullStopTimer;
     private boolean stoppingComma, stoppingFullStop;
     private int currentText;
+    private boolean skipRequested;
 
     public TextWriter(String[] text) {
         this.text = text;
@@ -70,6 +71,7 @@ public class TextWriter {
             sb.delete(0, text[currentText].length());
             sb.append(text[currentText]);
             charIndex = text[currentText].length();
+            skipRequested = true;
         } else {
             // If we press continue when whole string is ready, we proceed to next monologue
             sb.delete(0, text[currentText].length());
@@ -86,7 +88,15 @@ public class TextWriter {
         return currentText;
     }
 
+    public void setCurrentText(int currentText) {
+        this.currentText = currentText;
+    }
+
     public int getMonologueLength() {
         return text.length;
+    }
+
+    public boolean isSkipRequested() {
+        return skipRequested;
     }
 }

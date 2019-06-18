@@ -28,11 +28,13 @@ public class WorldHandler implements Serializable {
         // Add new worlds here
 		addWorld(new Myrinnia("/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
         addWorld(new LakeAzure("/worlds/lake_azure.tmx"));
-        addWorld(new MtAzure("/worlds/myrinnia_DUMMY_MAP.tmx"));
         addWorld(new SunriseSands("/worlds/sunrise_sands.tmx"));
         addWorld(new SunsetCove("/worlds/sunset_cove.tmx"));
         addWorld(new SunshineCoast("/worlds/sunshine_coast.tmx"));
         addWorld(new PortAzureInside("/worlds/port_azure_inside.tmx"));
+        addWorld(new MtAzure1("/worlds/mt_azure1.tmx"));
+        addWorld(new MtAzure2("/worlds/mt_azure2.tmx"));
+        addWorld(new MtAzure3("/worlds/mt_azure3.tmx"));
 
         try {
             worlds.sort(Comparator.comparing(o -> o.getClass().getSimpleName().toLowerCase()));

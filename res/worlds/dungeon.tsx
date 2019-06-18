@@ -1713,25 +1713,31 @@
  </tile>
  <tile id="285">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="285" duration="125"/>
+   <frame tileid="286" duration="125"/>
+   <frame tileid="287" duration="125"/>
+   <frame tileid="288" duration="125"/>
+  </animation>
  </tile>
  <tile id="286">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="287">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="288">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>

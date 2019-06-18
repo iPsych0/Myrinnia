@@ -11374,9 +11374,9 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1359" duration="500"/>
-   <frame tileid="1362" duration="500"/>
-   <frame tileid="1365" duration="500"/>
+   <frame tileid="1359" duration="250"/>
+   <frame tileid="1362" duration="250"/>
+   <frame tileid="1365" duration="250"/>
   </animation>
  </tile>
  <tile id="1870">
@@ -11681,13 +11681,13 @@
  </tile>
  <tile id="1920">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
   <animation>
-   <frame tileid="1920" duration="500"/>
-   <frame tileid="1923" duration="500"/>
-   <frame tileid="1926" duration="500"/>
+   <frame tileid="1920" duration="250"/>
+   <frame tileid="1923" duration="250"/>
+   <frame tileid="1926" duration="250"/>
   </animation>
  </tile>
  <tile id="1921">
@@ -11996,9 +11996,9 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1971" duration="500"/>
-   <frame tileid="1974" duration="500"/>
-   <frame tileid="1977" duration="500"/>
+   <frame tileid="1971" duration="250"/>
+   <frame tileid="1974" duration="250"/>
+   <frame tileid="1977" duration="250"/>
   </animation>
  </tile>
  <tile id="1972">

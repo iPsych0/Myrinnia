@@ -9,9 +9,11 @@ public class Main {
     public static void main(String[] args) {
 
         if(worldsDirectory.isDirectory()) {
+            // Go over all files in the worlds directory
             for (File f : worldsDirectory.listFiles()) {
-                if(f.getAbsolutePath().endsWith("port_azure.tmx") && !f.getAbsolutePath().endsWith("myrinnia_DUMMY_MAP.tmx")) {
-                    new FileLoader(f);
+                // Check if it ends with .tmx extension and skip the dummy map
+                if(f.getAbsolutePath().endsWith(".tmx") && !f.getAbsolutePath().endsWith("myrinnia_DUMMY_MAP.tmx")) {
+                    new FileParser(f);
                 }
             }
         }

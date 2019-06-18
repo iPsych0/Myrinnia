@@ -26,7 +26,8 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public abstract class World implements Serializable {
@@ -110,160 +111,165 @@ public abstract class World implements Serializable {
     }
 
     public void tick() {
-        itemManager.tick();
-        entityManager.tick();
-        inventory.tick();
-        equipment.tick();
-        craftingUI.tick();
-        chatWindow.tick();
-        questManager.tick();
-        characterUI.tick();
-        skillsUI.tick();
-        hpOverlay.tick();
-        abilityManager.tick();
-        abilityOverviewUI.tick();
-        if (BankUI.isOpen && player.getBankEntity() != null)
-            Handler.get().getBankUI().tick();
-        if (ShopWindow.isOpen && player.getShopKeeper() != null)
-            player.getShopKeeper().getShopWindow().tick();
-        if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
-            player.getAbilityTrainer().getAbilityShopWindow().tick();
-        }
+        if (Handler.get().getWorld() == this) {
+            itemManager.tick();
+            entityManager.tick();
+            inventory.tick();
+            equipment.tick();
+            craftingUI.tick();
+            chatWindow.tick();
+            questManager.tick();
+            characterUI.tick();
+            skillsUI.tick();
+            hpOverlay.tick();
+            abilityManager.tick();
+            abilityOverviewUI.tick();
+            if (BankUI.isOpen && player.getBankEntity() != null)
+                Handler.get().getBankUI().tick();
+            if (ShopWindow.isOpen && player.getShopKeeper() != null)
+                player.getShopKeeper().getShopWindow().tick();
+            if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
+                player.getAbilityTrainer().getAbilityShopWindow().tick();
+            }
 
-        // Check for night-time every minute
-        if (timeChecker++ >= 60 * 60) {
-            timeChecker = 0;
+            // Check for night-time every minute
+            if (timeChecker++ >= 60 * 60) {
+                timeChecker = 0;
 
-            // Get the current hour of day
-            Calendar c = Calendar.getInstance();
-            int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+                // Get the current hour of day
+                Calendar c = Calendar.getInstance();
+                int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-            // Set to night time if between 8 PM and 8 AM
-            nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
-        }
+                // Set to night time if between 8 PM and 8 AM
+                nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
+            }
 
-        // Check if player is moving to next zone
-        for (ZoneTile zt : zoneTiles) {
-            zt.tick();
+            // Check if player is moving to next zone
+            for (ZoneTile zt : zoneTiles) {
+                zt.tick();
+            }
+
         }
 
     }
 
     public void render(Graphics2D g) {
-        // Get the dimension once at the start
-        int screenWidth = Handler.get().getWidth();
-        int screenheight = Handler.get().getHeight();
-        float xOffset = Handler.get().getGameCamera().getxOffset();
-        float yOffset = Handler.get().getGameCamera().getyOffset();
+        if (Handler.get().getWorld() == this) {
+            // Get the dimension once at the start
+            int screenWidth = Handler.get().getWidth();
+            int screenheight = Handler.get().getHeight();
+            float xOffset = Handler.get().getGameCamera().getxOffset();
+            float yOffset = Handler.get().getGameCamera().getyOffset();
 
-        // Set variables for rendering only the tiles that show on screen
-        int xStart = (int) Math.max(0, xOffset / Tile.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tile.TILEWIDTH + 1);
-        int yStart = (int) Math.max(0, yOffset / Tile.TILEHEIGHT);
-        int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tile.TILEHEIGHT + 1);
+            // Set variables for rendering only the tiles that show on screen
+            int xStart = (int) Math.max(0, xOffset / Tile.TILEWIDTH);
+            int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tile.TILEWIDTH + 1);
+            int yStart = (int) Math.max(0, yOffset / Tile.TILEHEIGHT);
+            int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tile.TILEHEIGHT + 1);
 
-        // Render the tiles
-        List<Tile> renderOverTiles = new ArrayList<>();
-        List<Integer> xCoords = new ArrayList<>();
-        List<Integer> yCoords = new ArrayList<>();
+            // Render the tiles
+            List<Tile> renderOverTiles = new ArrayList<>();
+            List<Integer> xCoords = new ArrayList<>();
+            List<Integer> yCoords = new ArrayList<>();
 //        boolean standingUnderPostRenderTile = false;
-        for (int i = 0; i < layers.length; i++) {
-            for (int y = yStart; y < yEnd; y++) {
-                for (int x = xStart; x < xEnd; x++) {
-                    Tile t = getTile(i, x, y);
-                    if (t != Tile.tiles[0]) {
-                        int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
-                        int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
-                        if (t.isPostRendered()) {
+            for (int i = 0; i < layers.length; i++) {
+                for (int y = yStart; y < yEnd; y++) {
+                    for (int x = xStart; x < xEnd; x++) {
+                        Tile t = getTile(i, x, y);
+                        if (t != Tile.tiles[0]) {
+                            int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                            int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
+                            if (t.isPostRendered()) {
 //                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
 //                                standingUnderPostRenderTile = true;
 //                            }
-                            renderOverTiles.add(t);
-                            xCoords.add(xPos);
-                            yCoords.add(yPos);
-                            continue;
-                        }
-                        t.tick();
-                        t.render(g, xPos, yPos);
-                        if (Handler.debugCollision) {
-                            g.setColor(AStarMap.unwalkableColour);
-                            g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
-                            if (t.isSolid()) {
-                                g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                renderOverTiles.add(t);
+                                xCoords.add(xPos);
+                                yCoords.add(yPos);
+                                continue;
+                            }
+                            t.tick();
+                            t.render(g, xPos, yPos);
+                            if (Handler.debugCollision) {
+                                g.setColor(AStarMap.unwalkableColour);
+                                g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                if (t.isSolid()) {
+                                    g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        // Items
+            // Items
 
-        itemManager.render(g);
+            itemManager.render(g);
 
-        // Entities
-        entityManager.render(g);
+            // Entities
+            entityManager.render(g);
 
 //        Composite composite = g.getComposite();
-        for (int i = 0; i < renderOverTiles.size(); i++) {
-            renderOverTiles.get(i).tick();
+            for (int i = 0; i < renderOverTiles.size(); i++) {
+                renderOverTiles.get(i).tick();
 //            if(standingUnderPostRenderTile){
 //                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
 //                g.setComposite(ac);
 //            }
-            renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
-        }
+                renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+            }
 //        g.setComposite(composite);
 
-        itemManager.postRender(g);
-        entityManager.postRender(g);
+            itemManager.postRender(g);
+            entityManager.postRender(g);
 
 
 //        if(nightTime) {
 //            renderNight(g);
 //        }
 
-        // Chat
-        chatWindow.render(g);
+            // Chat
+            chatWindow.render(g);
 
 
-        hpOverlay.render(g);
+            hpOverlay.render(g);
 
-        // Inventory & Equipment
-        equipment.render(g);
-        inventory.render(g);
+            // Inventory & Equipment
+            equipment.render(g);
+            inventory.render(g);
 
 
-        // MiniMap
-        craftingUI.render(g);
+            // MiniMap
+            craftingUI.render(g);
 
-        questManager.render(g);
-        characterUI.render(g);
-        skillsUI.render(g);
+            questManager.render(g);
+            characterUI.render(g);
+            skillsUI.render(g);
 
-        abilityManager.render(g);
+            abilityManager.render(g);
 
-        abilityOverviewUI.render(g);
+            abilityOverviewUI.render(g);
 
-        if (BankUI.isOpen && player.getBankEntity() != null) {
-            Handler.get().getBankUI().render(g);
-            Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
-        }
-        if (ShopWindow.isOpen && player.getShopKeeper() != null) {
-            ShopWindow sw = player.getShopKeeper().getShopWindow();
-            sw.render(g);
-            Text.drawString(g, player.getShopKeeper().getShopName(), sw.x + (sw.width / 2), sw.y + 16, true, Color.YELLOW, Assets.font14);
-        }
-        if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
-            player.getAbilityTrainer().getAbilityShopWindow().render(g);
-        }
-
-        if (Handler.debugZones) {
-            for (ZoneTile zt : zoneTiles) {
-                zt.render(g);
+            if (BankUI.isOpen && player.getBankEntity() != null) {
+                Handler.get().getBankUI().render(g);
+                Text.drawString(g, "Bank of Myrinnia", BankUI.x + (BankUI.width / 2), BankUI.y + 16, true, Color.YELLOW, Assets.font14);
             }
-        }
+            if (ShopWindow.isOpen && player.getShopKeeper() != null) {
+                ShopWindow sw = player.getShopKeeper().getShopWindow();
+                sw.render(g);
+                Text.drawString(g, player.getShopKeeper().getShopName(), sw.x + (sw.width / 2), sw.y + 16, true, Color.YELLOW, Assets.font14);
+            }
+            if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
+                player.getAbilityTrainer().getAbilityShopWindow().render(g);
+            }
 
+            if (Handler.debugZones) {
+                for (ZoneTile zt : zoneTiles) {
+                    zt.render(g);
+                }
+            }
+
+        }
     }
 
     public Tile getTile(int layer, int x, int y) {
