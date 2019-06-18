@@ -170,6 +170,15 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/terrain.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/water.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/beach.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/dark_dimension.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/farm_fort.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/inside2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/inside3.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/outside2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/outside3.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/outside4.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
@@ -193,31 +202,18 @@ public class Assets {
          */
         equipmentPlaceHolders = new BufferedImage[12];
 
-        earringSlot = equipSlots.imageCrop(0, 0);
-        mainhandSlot = equipSlots.imageCrop(0, 1);
-        glovesSlot = equipSlots.imageCrop(0, 2);
-        ringSlot1 = equipSlots.imageCrop(0, 3);
-        helmSlot = equipSlots.imageCrop(1, 0);
-        bodySlot = equipSlots.imageCrop(1, 1);
-        legsSlot = equipSlots.imageCrop(1, 2);
-        bootsSlot = equipSlots.imageCrop(1, 3);
-        amuletSlot = equipSlots.imageCrop(2, 0);
-        offhandSlot = equipSlots.imageCrop(2, 1);
-        capeSlot = equipSlots.imageCrop(2, 2);
-        ringSlot2 = equipSlots.imageCrop(2, 3);
-
-        equipmentPlaceHolders[0] = earringSlot;
-        equipmentPlaceHolders[1] = mainhandSlot;
-        equipmentPlaceHolders[2] = glovesSlot;
-        equipmentPlaceHolders[3] = ringSlot1;
-        equipmentPlaceHolders[4] = helmSlot;
-        equipmentPlaceHolders[5] = bodySlot;
-        equipmentPlaceHolders[6] = legsSlot;
-        equipmentPlaceHolders[7] = bootsSlot;
-        equipmentPlaceHolders[8] = amuletSlot;
-        equipmentPlaceHolders[9] = offhandSlot;
-        equipmentPlaceHolders[10] = capeSlot;
-        equipmentPlaceHolders[11] = ringSlot2;
+        equipmentPlaceHolders[0] = earringSlot = equipSlots.imageCrop(0, 0);
+        equipmentPlaceHolders[1] = mainhandSlot = equipSlots.imageCrop(0, 1);
+        equipmentPlaceHolders[2] = glovesSlot = equipSlots.imageCrop(0, 2);
+        equipmentPlaceHolders[3] = ringSlot1 = equipSlots.imageCrop(0, 3);
+        equipmentPlaceHolders[4] = helmSlot = equipSlots.imageCrop(1, 0);
+        equipmentPlaceHolders[5] = bodySlot = equipSlots.imageCrop(1, 1);
+        equipmentPlaceHolders[6] = legsSlot = equipSlots.imageCrop(1, 2);
+        equipmentPlaceHolders[7] = bootsSlot = equipSlots.imageCrop(1, 3);
+        equipmentPlaceHolders[8] = amuletSlot = equipSlots.imageCrop(2, 0);
+        equipmentPlaceHolders[9] = offhandSlot = equipSlots.imageCrop(2, 1);
+        equipmentPlaceHolders[10] = capeSlot = equipSlots.imageCrop(2, 2);
+        equipmentPlaceHolders[11] = ringSlot2 = equipSlots.imageCrop(2, 3);
 
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
 
