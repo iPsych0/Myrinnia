@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.data.World;
@@ -131,7 +132,7 @@ public class MapLoader implements Serializable {
                         animationPropertyFound = true;
                         int tileId = Integer.parseInt(attributes.getValue("tileid"));
                         int animationSpeed = Integer.parseInt(attributes.getValue("duration"));
-                        
+
                         animationIds.put(firstGid + tileId, animationSpeed);
                     } else if (qName.equalsIgnoreCase("object")) {
                         startX = (int) Double.parseDouble(attributes.getValue("x"));
@@ -290,7 +291,7 @@ public class MapLoader implements Serializable {
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
                                 className = attributes.getValue("value");
-                                loadEntity(world, className, customShopName, x, y);
+                                loadEntity(world, className, customShopName, x, y, width, height);
                             }
                         }
                         // Get the custom shop name if present
@@ -349,7 +350,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, String className, String customShopName, int x, int y) {
+    private static void loadEntity(World world, String className, String customShopName, int x, int y, int width, int height) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
@@ -370,10 +371,17 @@ public class MapLoader implements Serializable {
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
 
+
+
             // Use default constructor if no custom shop name, otherwise use custom shop name constructor for NPC
             int constructorArguments = 2;
+
             if (customShopName != null) {
                 constructorArguments = 3;
+            }
+
+            if (width != Creature.DEFAULT_CREATURE_WIDTH || height != Creature.DEFAULT_CREATURE_HEIGHT) {
+                constructorArguments = 4;
             }
 
             for (Constructor t : cstr) {
@@ -387,8 +395,10 @@ public class MapLoader implements Serializable {
             Entity e = null;
             if (constructorArguments == 2) {
                 e = (Entity) cst.newInstance(x, y);
-            } else {
+            } else if (constructorArguments == 3) {
                 e = (Entity) cst.newInstance(customShopName, x, y);
+            } else if (constructorArguments == 4) {
+                e = (Entity) cst.newInstance(x, y, width, height);
             }
 
             // Add the NPC to the world
