@@ -202,7 +202,7 @@
     <property name="zone" value="MtAzure2"/>
    </properties>
   </object>
-  <object id="9" name="Mt Azure Level 2" type="zone_tile" x="736" y="1312" width="32" height="32">
+  <object id="9" name="Mt Azure Level 2" type="zone_tile" x="744" y="1320" width="16" height="16">
    <properties>
     <property name="goToX" value="19"/>
     <property name="goToY" value="41"/>

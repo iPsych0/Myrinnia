@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="6">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="7">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -500,6 +500,13 @@
     <property name="goToX" value="37"/>
     <property name="goToY" value="43"/>
     <property name="zone" value="MtAzure1"/>
+   </properties>
+  </object>
+  <object id="6" name="Mt Azure Level 3" type="zone_tile" x="2080" y="352" width="32" height="64">
+   <properties>
+    <property name="goToX" value="30"/>
+    <property name="goToY" value="27"/>
+    <property name="zone" value="MtAzure3"/>
    </properties>
   </object>
  </objectgroup>
