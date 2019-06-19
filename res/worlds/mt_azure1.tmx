@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="10">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="12">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -207,6 +207,16 @@
     <property name="goToX" value="19"/>
     <property name="goToY" value="41"/>
     <property name="zone" value="MtAzure2"/>
+   </properties>
+  </object>
+  <object id="10" name="Azure Bat" type="npc" x="288" y="480" width="32" height="32">
+   <properties>
+    <property name="npcClass" value="AzureBat"/>
+   </properties>
+  </object>
+  <object id="11" name="Azure Bat" type="npc" x="896" y="384" width="32" height="32">
+   <properties>
+    <property name="npcClass" value="AzureBat"/>
    </properties>
   </object>
  </objectgroup>

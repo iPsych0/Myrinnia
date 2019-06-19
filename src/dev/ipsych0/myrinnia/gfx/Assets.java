@@ -51,6 +51,7 @@ public class Assets {
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
     public static BufferedImage[] blueCrabUp, blueCrabDown, blueCrabLeft, blueCrabRight;
+    public static BufferedImage[] azureBatUp, azureBatDown, azureBatLeft, azureBatRight;
 
     // NPC images
     public static BufferedImage shopKeeperMerchantWater, femaleBanker;
@@ -317,6 +318,11 @@ public class Assets {
         blueCrabLeft = enemy_sheet2.npcCrop(0, 1, WIDTH, HEIGHT);
         blueCrabRight = enemy_sheet2.npcCrop(0, 2, WIDTH, HEIGHT);
         blueCrabUp = enemy_sheet2.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        azureBatDown = enemy_sheet1.npcCrop(9, 4, WIDTH, HEIGHT);
+        azureBatLeft = enemy_sheet1.npcCrop(9, 5, WIDTH, HEIGHT);
+        azureBatRight = enemy_sheet1.npcCrop(9, 6, WIDTH, HEIGHT);
+        azureBatUp = enemy_sheet1.npcCrop(9, 7, WIDTH, HEIGHT);
 
         // NPC Sprites
 
