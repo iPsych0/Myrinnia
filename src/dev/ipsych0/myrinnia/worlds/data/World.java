@@ -45,6 +45,7 @@ public abstract class World implements Serializable {
     private String worldPath;
     private boolean nightTime = false;
     private int timeChecker = 60 * 60;
+    private boolean initialized;
 
     // Entities
 
@@ -71,13 +72,6 @@ public abstract class World implements Serializable {
 
         this.worldPath = path;
 
-        if (path.equalsIgnoreCase(Handler.initialWorldPath)) {
-            width = MapLoader.getMapWidth();
-            height = MapLoader.getMapHeight();
-
-            loadWorld(path);
-        }
-
         // World-specific classes
         this.player = Handler.get().getPlayer();
         this.inventory = Handler.get().getInventory();
@@ -96,18 +90,27 @@ public abstract class World implements Serializable {
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
 
-        // Load in the enemies, items and zone tiles from Tiled editor
-        MapLoader.initEnemiesItemsAndZoneTiles(path, this);
+        // Only initialize the starting world on start-up
+        if (path.equalsIgnoreCase(Handler.initialWorldPath)) {
+            init();
+        }
 
     }
 
     public void init() {
-        MapLoader.setWorldDoc(worldPath);
+        if (!initialized) {
+            MapLoader.setWorldDoc(worldPath);
 
-        width = MapLoader.getMapWidth();
-        height = MapLoader.getMapHeight();
+            width = MapLoader.getMapWidth();
+            height = MapLoader.getMapHeight();
 
-        loadWorld(worldPath);
+            loadWorld(worldPath);
+
+            // Load in the enemies, items and zone tiles from Tiled editor
+            MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
+
+            initialized = true;
+        }
     }
 
     public void tick() {
@@ -399,4 +402,5 @@ public abstract class World implements Serializable {
     public void setZoneTiles(List<ZoneTile> zoneTiles) {
         this.zoneTiles = zoneTiles;
     }
+
 }

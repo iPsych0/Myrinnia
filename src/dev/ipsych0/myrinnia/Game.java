@@ -60,7 +60,7 @@ public class Game implements Runnable, Serializable {
     private static final int MIN_RES_HEIGHT = 768;
 
     private Map<RenderingHints.Key, Object> renderHintMap;
-    private RenderingHints renderingHints;
+    private Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
     public static Game get() {
         if (game == null) {
@@ -81,16 +81,15 @@ public class Game implements Runnable, Serializable {
         renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-
         renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         renderHintMap.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_DEFAULT);
+                RenderingHints.VALUE_RENDER_QUALITY);
 
-        updateRenderingHints();
+        // Add fractional metrics so text will be rendered with more accurate position
+        renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
     private void init() {
@@ -141,7 +140,6 @@ public class Game implements Runnable, Serializable {
 
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         renderHintMap.put(key, value);
-        updateRenderingHints();
     }
 
     public void setPerformanceRendering() {
@@ -151,7 +149,6 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_OFF);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_SPEED);
-        updateRenderingHints();
     }
 
     public void setQualityRendering() {
@@ -161,7 +158,6 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
-        updateRenderingHints();
     }
 
     public void setDefaultRendering() {
@@ -171,15 +167,6 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_DEFAULT);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_DEFAULT);
-        updateRenderingHints();
-    }
-
-    private void updateRenderingHints() {
-        renderingHints = new RenderingHints(renderHintMap);
-    }
-
-    private RenderingHints getRenderingHints() {
-        return renderingHints;
     }
 
     private void tick() {
@@ -200,8 +187,13 @@ public class Game implements Runnable, Serializable {
         g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D)g;
 
+        // Add user's default text rendering settings for prettier fonts
+        if (desktopHints != null) {
+            g2d.setRenderingHints(desktopHints);
+        }
+
         // Set the chosen rendering hints
-        g2d.setRenderingHints(renderingHints);
+        g2d.setRenderingHints(renderHintMap);
 
         // Scale the screen based on original size
         g2d.scale(Display.scaleX, Display.scaleY);
@@ -212,6 +204,8 @@ public class Game implements Runnable, Serializable {
         if (State.getState() != null) {
             State.getState().render(g2d);
         }
+
+        Toolkit.getDefaultToolkit().sync();
 
         // End draw
         bs.show();

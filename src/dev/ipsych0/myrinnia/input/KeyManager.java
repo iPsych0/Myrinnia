@@ -74,10 +74,6 @@ public class KeyManager implements KeyListener, Serializable {
             left = keys[leftKey];
             right = keys[rightKey];
 
-            if (up || down || left || right) {
-                Player.isMoving = true;
-            }
-
             if (!up && !down && !left && !right) {
                 Player.isMoving = false;
             }
