@@ -21,7 +21,7 @@ public class ControlsState extends State {
     private UIImageButton defaultButton;
     private Rectangle overlay;
     private UIImageButton upKey, leftKey, downKey, rightKey, invKey, chatKey, questKey,
-            mapKey, statsKey, skillsKey, interactKey, abilityKey, pauseKey;
+            mapKey, statsKey, skillsKey, interactKey, abilityKey, pauseKey, hudKey;
     private TextBox tb;
     private HashMap<UIObject, String> keys = new HashMap<>();
     private static UIObject selectedButton;
@@ -41,7 +41,7 @@ public class ControlsState extends State {
     private static final String UP_SHORTCUT = "w", LEFT_SHORTCUT = "a", RIGHT_SHORTCUT = "d", DOWN_SHORTCUT = "s",
                                 INV_SHORTCUT = "i", INTERACT_SHORTCUT = " ", QUEST_SHORTCUT = "q", MAP_SHORTCUT = "m",
                                 SKILL_SHORTCUT = "l", STATS_SHORTCUT = "k", PAUSE_SHORTCUT = "p", ABILITY_SHORTCUT = "b",
-                                CHAT_SHORTCUT = "c";
+                                CHAT_SHORTCUT = "c", HUD_SHORTCUT = "h";
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -56,6 +56,7 @@ public class ControlsState extends State {
         chatKey = new UIImageButton(overlay.x + 24, overlay.y + 232, 32, 32, Assets.genericButton);
         abilityKey = new UIImageButton(overlay.x + 24, overlay.y + 272, 32, 32, Assets.genericButton);
         pauseKey = new UIImageButton(overlay.x + 24, overlay.y + 312, 32, 32, Assets.genericButton);
+        hudKey = new UIImageButton(overlay.x + 24, overlay.y + 352, 32, 32, Assets.genericButton);
 
         // UI buttons
         uiManager.addObject(invKey);
@@ -66,6 +67,7 @@ public class ControlsState extends State {
         uiManager.addObject(chatKey);
         uiManager.addObject(abilityKey);
         uiManager.addObject(pauseKey);
+        uiManager.addObject(hudKey);
 
         upKey = new UIImageButton(overlay.x + 224, overlay.y + 32, 32, 32, Assets.genericButton);
         leftKey = new UIImageButton(overlay.x + 224, overlay.y + 72, 32, 32, Assets.genericButton);
@@ -112,6 +114,7 @@ public class ControlsState extends State {
         keys.put(downKey, Handler.get().loadProperty("downKey"));
         keys.put(rightKey, Handler.get().loadProperty("rightKey"));
         keys.put(interactKey, Handler.get().loadProperty("interactKey"));
+        keys.put(hudKey, Handler.get().loadProperty("hudKey"));
     }
 
     private void setDefaultKeys() {
@@ -128,6 +131,7 @@ public class ControlsState extends State {
         keys.put(downKey, DOWN_SHORTCUT);
         keys.put(rightKey, RIGHT_SHORTCUT);
         keys.put(interactKey, INTERACT_SHORTCUT);
+        keys.put(hudKey, HUD_SHORTCUT);
 
         Handler.get().saveProperty("inventoryKey", INV_SHORTCUT);
         Handler.get().saveProperty("chatWindowKey", CHAT_SHORTCUT);
@@ -142,6 +146,7 @@ public class ControlsState extends State {
         Handler.get().saveProperty("leftKey", LEFT_SHORTCUT);
         Handler.get().saveProperty("downKey", DOWN_SHORTCUT);
         Handler.get().saveProperty("rightKey", RIGHT_SHORTCUT);
+        Handler.get().saveProperty("hudKey", HUD_SHORTCUT);
 
         Handler.get().getKeyManager().loadKeybinds();
     }
@@ -372,6 +377,8 @@ public class ControlsState extends State {
         Text.drawString(g, "Abilities", abilityKey.x + abilityKey.width + 16, abilityKey.y + 20, false, Color.YELLOW, Assets.font14);
 
         Text.drawString(g, "Pause Game", pauseKey.x + pauseKey.width + 16, pauseKey.y + 20, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, "HUD", hudKey.x + hudKey.width + 16, hudKey.y + 20, false, Color.YELLOW, Assets.font14);
 
         // Mouse controls
 

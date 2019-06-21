@@ -58,11 +58,11 @@ public class SkillsUI implements Serializable {
             skills.put(skillsEnum.get(i), skillsList.get(i));
         }
 
-        bountyHunter = new UIImageButton(x + 16, y + 40, width - 16, 32, Assets.genericButton);
-        crafting = new UIImageButton(x + 16, y + 72, width - 16, 32, Assets.genericButton);
-        fishing = new UIImageButton(x + 16, y + 104, width - 16, 32, Assets.genericButton);
-        mining = new UIImageButton(x + 16, y + 136, width - 16, 32, Assets.genericButton);
-        woodcutting = new UIImageButton(x + 16, y + 168, width - 16, 32, Assets.genericButton);
+        bountyHunter = new UIImageButton(x + 16, y + 40, width - 32, 32, Assets.genericButton);
+        crafting = new UIImageButton(x + 16, y + 72, width - 32, 32, Assets.genericButton);
+        fishing = new UIImageButton(x + 16, y + 104, width - 32, 32, Assets.genericButton);
+        mining = new UIImageButton(x + 16, y + 136, width - 32, 32, Assets.genericButton);
+        woodcutting = new UIImageButton(x + 16, y + 168, width - 32, 32, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -186,7 +186,7 @@ public class SkillsUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Skills", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 
             drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
             drawXpProgress(g, crafting, SkillsList.CRAFTING);

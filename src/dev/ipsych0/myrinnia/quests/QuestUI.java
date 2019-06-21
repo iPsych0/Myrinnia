@@ -117,7 +117,7 @@ public class QuestUI implements Serializable {
             }
 
             if (!renderingQuests) {
-                Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Zones", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
                 for (int i = 0; i < Handler.get().getQuestManager().getAllQuestLists().size(); i++) {
                     if (zoneManager.getObjects().get(i).contains(mouse)) {
                         if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -153,7 +153,7 @@ public class QuestUI implements Serializable {
                 Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
 
             } else {
-                Text.drawString(g, "Quests:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Quests", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
                 for (int i = 0; i < Handler.get().getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
                     Color color;
                     if (Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)

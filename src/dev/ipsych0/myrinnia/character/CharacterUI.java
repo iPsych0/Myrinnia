@@ -130,7 +130,7 @@ public class CharacterUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            Text.drawString(g, "Character stats:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Character stats", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 
             Text.drawString(g, "Combat lvl: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "HP: " + Handler.get().getPlayer().getHealth() + "/" + Handler.get().getPlayer().getMaxHealth(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);

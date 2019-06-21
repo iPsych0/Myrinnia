@@ -235,7 +235,6 @@ public abstract class World implements Serializable {
             chatWindow.render(g);
 
 
-            hpOverlay.render(g);
 
             // Inventory & Equipment
             equipment.render(g);
@@ -252,6 +251,8 @@ public abstract class World implements Serializable {
             abilityManager.render(g);
 
             abilityOverviewUI.render(g);
+
+            hpOverlay.render(g);
 
             if (BankUI.isOpen && player.getBankEntity() != null) {
                 Handler.get().getBankUI().render(g);

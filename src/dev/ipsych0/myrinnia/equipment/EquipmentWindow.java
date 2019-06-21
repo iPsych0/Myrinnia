@@ -190,14 +190,14 @@ public class EquipmentWindow implements Serializable {
             g.drawImage(Assets.uiWindow, x + 10, y + height + 12, 112, 160, null);
 
             int index = 0;
-            Text.drawString(g, "Stats ", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "STR = " + Integer.toString(Handler.get().getPlayer().getStrength()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "DEX = " + Integer.toString(Handler.get().getPlayer().getDexterity()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "INT = " + Integer.toString(Handler.get().getPlayer().getIntelligence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Defence = " + Integer.toString(Handler.get().getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Vitality = " + Integer.toString(Handler.get().getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "ATK Spd. = " + Float.toString(Handler.get().getPlayer().getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "MOV Spd. = " + Float.toString(Handler.get().getPlayer().getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Stats", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "STR: " + Integer.toString(Handler.get().getPlayer().getStrength()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "DEX: " + Integer.toString(Handler.get().getPlayer().getDexterity()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "INT: " + Integer.toString(Handler.get().getPlayer().getIntelligence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Defence: " + Integer.toString(Handler.get().getPlayer().getDefence()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Vitality: " + Integer.toString(Handler.get().getPlayer().getVitality()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "ATK Speed: " + String.valueOf(Handler.get().getPlayer().getAttackSpeed() - 1.0f).replaceFirst("\\.[0]+$",""), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "MOV Speed: " + String.valueOf(Handler.get().getPlayer().getSpeed() - 2.0f).replaceFirst("\\.[0]+$",""), x + (width / 6) - 8, y + height + 32 + (16 * index), false, Color.YELLOW, Assets.font14);
 
             if (currentSelectedSlot != null) {
                 g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),

@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
+import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
@@ -41,7 +42,7 @@ public class KeyManager implements KeyListener, Serializable {
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
     private static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
-    statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey;
+    statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey, hudKey;
 
     public KeyManager() {
         keys = new boolean[256];
@@ -63,6 +64,7 @@ public class KeyManager implements KeyListener, Serializable {
         interactKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("interactKey").charAt(0));
         pauseKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("pauseKey").charAt(0));
         abilityWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("abilitiesKey").charAt(0));
+        hudKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("hudKey").charAt(0));
     }
 
     public void tick() {
@@ -123,6 +125,11 @@ public class KeyManager implements KeyListener, Serializable {
             // Chat window toggle
             if (e.getKeyCode() == chatWindowKey) {
                 ChatWindow.chatIsOpen = !ChatWindow.chatIsOpen;
+            }
+
+            // Chat window toggle
+            if (e.getKeyCode() == hudKey) {
+                HPOverlay.isOpen = !HPOverlay.isOpen;
             }
 
             // QuestWindow toggle

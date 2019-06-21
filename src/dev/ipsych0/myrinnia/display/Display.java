@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.display;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.states.GraphicsState;
+import dev.ipsych0.myrinnia.states.State;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,6 +90,7 @@ public class Display implements Serializable {
         frame.pack();
 
         // If supported, start game in fullscreen, otherwise center the windowed application
+        // TODO: INVERT THESE, FOR NOW ALWAYS WINDOWED MODE FOR TESTING
         if (!fullScreenSupported) {
             fullScreen = true;
             setWindowedScreen();
@@ -126,6 +130,9 @@ public class Display implements Serializable {
                 scaleY = (double) frame.getHeight() / (double) height;
 
                 fullScreen = true;
+
+                // Change the selected item in the dropdown to 'fullscreen'
+                getGraphicsState().getDisplayModeDropDown().setSelectedIndex(0);
             }
         }
     }
@@ -153,6 +160,9 @@ public class Display implements Serializable {
             scaleY = (double) frame.getHeight() / (double) height;
 
             fullScreen = false;
+
+            // Change the selected item in the dropdown to 'windowed'
+            getGraphicsState().getDisplayModeDropDown().setSelectedIndex(1);
         }
     }
 
@@ -218,5 +228,9 @@ public class Display implements Serializable {
             innerFrame.setLocation(frame.getX(), frame.getY() + frame.getInsets().top);
             return innerFrame;
         }
+    }
+
+    public GraphicsState getGraphicsState() {
+        return (GraphicsState) Handler.get().getGame().graphicsState;
     }
 }

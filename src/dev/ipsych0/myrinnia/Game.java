@@ -56,8 +56,8 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
-    private static final int MIN_RES_WIDTH = 1366;
-    private static final int MIN_RES_HEIGHT = 768;
+    private static final int MIN_RES_WIDTH = 1600;
+    private static final int MIN_RES_HEIGHT = 900;
 
     private Map<RenderingHints.Key, Object> renderHintMap;
     private Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
@@ -204,8 +204,6 @@ public class Game implements Runnable, Serializable {
         if (State.getState() != null) {
             State.getState().render(g2d);
         }
-
-        Toolkit.getDefaultToolkit().sync();
 
         // End draw
         bs.show();
@@ -403,4 +401,6 @@ public class Game implements Runnable, Serializable {
     public void setHeight(int height) {
         this.height = height;
     }
+
+
 }

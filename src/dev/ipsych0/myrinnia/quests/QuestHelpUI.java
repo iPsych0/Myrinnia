@@ -37,12 +37,12 @@ public class QuestHelpUI implements Serializable {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             if (selectedQuest != null) {
-                Text.drawString(g, selectedQuest.getQuestName() + ":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, selectedQuest.getQuestName(), x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 
                 if (selectedQuest.getState() == QuestState.COMPLETED) {
                     Text.drawString(g, "Quest complete!", x + (width / 2) + 6, y + 40, true, Color.GREEN, Assets.font14);
                 } else if (selectedQuest.getState() == QuestState.IN_PROGRESS) {
-                    Text.drawString(g, "Quest Log: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, "Quest Log:", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
                 } else {
                     renderRequirements(g, selectedQuest);
                 }
@@ -63,7 +63,7 @@ public class QuestHelpUI implements Serializable {
 
     private void renderRequirements(Graphics2D g, Quest selectedQuest) {
         if (selectedQuest.getState() == QuestState.NOT_STARTED) {
-            Text.drawString(g, "Requirements: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Requirements:", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
             if (selectedQuest.getRequirements() != null) {
                 Color requirementColor = Color.YELLOW;
 

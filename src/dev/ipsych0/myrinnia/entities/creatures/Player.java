@@ -829,8 +829,6 @@ public class Player extends Creature {
             closestEntity.getChatDialogue().render(g);
         }
 
-        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
-
         if (isXpGained) {
             xpGainedTimer++;
             g.drawImage(leveledSkill.getImg(), (int) (x - Handler.get().getGameCamera().getxOffset() - 66),
