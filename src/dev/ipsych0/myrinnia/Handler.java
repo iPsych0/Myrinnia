@@ -230,16 +230,19 @@ public class Handler implements Serializable {
             if (q.getRequirements()[i].getSkill() != null) {
                 if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
                     hasAllRequirements = false;
+                    break;
                 }
             }
             // Check quest requirements
             else if (q.getRequirements()[i].getQuest() != null) {
                 if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
                     hasAllRequirements = false;
+                    break;
                 }
                 // Check miscellaneous requirements
             } else if (!q.getRequirements()[i].isTaskDone()) {
                 hasAllRequirements = false;
+                break;
             }
         }
 

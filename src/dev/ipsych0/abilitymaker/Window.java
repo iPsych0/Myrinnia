@@ -174,6 +174,11 @@ public class Window extends JFrame {
         createButton.setMaximumSize(new Dimension(220, 0));
         createButton.setHorizontalAlignment(SwingConstants.CENTER);
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+           System.err.println("Could not create default system UI look.");
+        }
     }
 
     /**
