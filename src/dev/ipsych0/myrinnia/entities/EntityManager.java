@@ -7,10 +7,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Projectile;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public class EntityManager implements Serializable {
 
@@ -27,9 +25,9 @@ public class EntityManager implements Serializable {
 
     public EntityManager(Player player) {
         this.player = player;
-        entities = new ArrayList<>();
-        deadEntities = new ArrayList<>();
-        hitSplats = new ArrayList<>();
+        entities = Collections.synchronizedList(new ArrayList<>());
+        deadEntities = Collections.synchronizedList(new ArrayList<>());
+        hitSplats = Collections.synchronizedList(new ArrayList<>());
         addEntity(player);
     }
 
@@ -118,38 +116,41 @@ public class EntityManager implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        for (Entity e : entities) {
+        synchronized (entities) {
+            Iterator<Entity> entityIt = entities.iterator();
+            while (entityIt.hasNext()) {
+                Entity e = entityIt.next();
 
-            if (e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
-                if (e.isAttackable())
-                    e.drawHP(g);
-            }
+                if (e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
+                    if (e.isAttackable())
+                        e.drawHP(g);
+                }
 
-            e.render(g);
+                e.render(g);
 
-            if (e instanceof Creature) {
-                for (Projectile p : ((Creature) e).getProjectiles()) {
-                    if (p.active) {
-                        p.render(g);
+                if (e instanceof Creature) {
+                    for (Projectile p : ((Creature) e).getProjectiles()) {
+                        if (p.active) {
+                            p.render(g);
+                        }
                     }
+                }
+
+                if (!e.equals(Handler.get().getPlayer())) {
+                    e.postRender(g);
                 }
             }
 
-            if (!e.equals(Handler.get().getPlayer())) {
-                e.postRender(g);
+            Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
+            while (hitSplatIt.hasNext()) {
+                HitSplat hs = hitSplatIt.next();
+                if (hs.isActive()) {
+                    hs.render(g);
+                } else {
+                    hitSplatIt.remove();
+                }
             }
         }
-
-        Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
-        while (hitSplatIt.hasNext()){
-            HitSplat hs = hitSplatIt.next();
-            if (hs.isActive()) {
-                hs.render(g);
-            } else {
-                hitSplatIt.remove();
-            }
-        }
-
     }
 
     private void drawHoverCorners(Graphics2D g, Entity e, int xOffset, int yOffset, Color color) {
@@ -205,27 +206,28 @@ public class EntityManager implements Serializable {
             }
         }
 
-        Iterator<Entity> it = entities.iterator();
-        while (it.hasNext()) {
-            Entity e = it.next();
-            // If the mouse is hovered over an Entity, draw the overlay
-            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
+        synchronized (entities) {
+            Iterator<Entity> it = entities.iterator();
+            while (it.hasNext()) {
+                Entity e = it.next();
+                // If the mouse is hovered over an Entity, draw the overlay
+                if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
 
-                // If Entity can be interacted with, show corner pieces on hovering
-                if (e.isNpc()) {
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
-                } else if (e.isAttackable()) {
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e, 0, 0, Color.RED);
-                }
-                if (e.isOverlayDrawn()) {
-                    e.drawEntityOverlay(e, g);
+                    // If Entity can be interacted with, show corner pieces on hovering
+                    if (e.isNpc()) {
+                        drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                        drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                    } else if (e.isAttackable()) {
+                        drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                        drawHoverCorners(g, e, 0, 0, Color.RED);
+                    }
+                    if (e.isOverlayDrawn()) {
+                        e.drawEntityOverlay(e, g);
+                    }
                 }
             }
+
         }
-
-
     }
 
     public void addEntity(Entity e) {

@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia;
 
+import dev.ipsych0.RenderThread;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -31,7 +32,8 @@ public class Game implements Runnable, Serializable {
     private int framesPerSecond = 0;
 
     private boolean running = false;
-    private transient Thread thread;
+    private transient Thread mainThread;
+    private transient RenderThread renderThread;
 
     private transient BufferStrategy bs;
     private transient Graphics g;
@@ -180,7 +182,7 @@ public class Game implements Runnable, Serializable {
         }
     }
 
-    private void render() {
+    public void render() {
         bs = display.getCanvas().getBufferStrategy();
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
@@ -259,11 +261,9 @@ public class Game implements Runnable, Serializable {
         // We will need the last update time.
         double lastUpdateTime = System.nanoTime();
         // Store the last time we rendered.
-        double lastRenderTime;
 
         // If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = 60.0;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000d / TARGET_FPS;
 
         // Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1000000000d);
@@ -288,12 +288,7 @@ public class Game implements Runnable, Serializable {
                 lastUpdateTime = now - TIME_BETWEEN_UPDATES;
             }
 
-            // Render. To do so, we need to calculate interpolation for a smooth render.
-            render();
-            lastRenderTime = now;
-
             // Update the frames we got.
-
             int thisSecond = (int) (lastUpdateTime / 1000000000d);
 
             if (thisSecond > lastSecondTime) {
@@ -304,8 +299,8 @@ public class Game implements Runnable, Serializable {
 
             // Yield until it has been at least the target time between renders. This saves
             // the CPU from hogging.
-            while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-                Thread.yield();
+            while (now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+//                Thread.yield();
 
                 // This stops the app from consuming all your CPU. It makes this slightly less
                 // accurate, but is worth it.
@@ -349,8 +344,10 @@ public class Game implements Runnable, Serializable {
             return;
 
         running = true;
-        thread = new Thread(this);
-        thread.start();
+        mainThread = new Thread(this, "Main Thread");
+        renderThread = new RenderThread(this);
+        renderThread.start();
+        mainThread.start();
     }
 
     private synchronized void stop() {
@@ -358,7 +355,8 @@ public class Game implements Runnable, Serializable {
             return;
         running = false;
         try {
-            thread.join();
+            mainThread.join();
+            renderThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -404,5 +402,7 @@ public class Game implements Runnable, Serializable {
         this.height = height;
     }
 
-
+    public boolean isRunning() {
+        return running;
+    }
 }
