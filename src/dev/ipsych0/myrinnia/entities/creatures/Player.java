@@ -152,8 +152,6 @@ public class Player extends Creature {
             combatTimer = 0;
         }
 
-        Handler.get().getGameCamera().centerOnEntity(this);
-
         // Attacks
         if (!inCombat) {
             regenHealth();
@@ -390,6 +388,8 @@ public class Player extends Creature {
     @Override
     public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
+
+        Handler.get().getGameCamera().centerOnEntity(this);
 
         if (movementAllowed) {
             g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),

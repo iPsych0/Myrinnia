@@ -1,4 +1,4 @@
-package dev.ipsych0;
+package dev.ipsych0.myrinnia.display;
 
 import dev.ipsych0.myrinnia.Game;
 
@@ -6,18 +6,13 @@ public class RenderThread extends Thread {
 
     private Game game;
 
-    public RenderThread(Game game) {
-        super("Render Thread");
+    public RenderThread(Game game, String threadName) {
+        super(threadName);
         this.game = game;
     }
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         // This value would probably be stored elsewhere.
         final double GAME_HERTZ = 60.0;
         // Calculate how many ms each frame should take for our target game hertz.

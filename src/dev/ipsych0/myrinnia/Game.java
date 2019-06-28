@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia;
 
-import dev.ipsych0.RenderThread;
+import dev.ipsych0.myrinnia.display.RenderThread;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -219,6 +219,9 @@ public class Game implements Runnable, Serializable {
     public void run() {
 
         init();
+
+        renderThread = new RenderThread(this, "Render Thread");
+        renderThread.start();
         //
         // int fps = 60;
         // double timePerTick = 1000000000 / fps;
@@ -300,7 +303,7 @@ public class Game implements Runnable, Serializable {
             // Yield until it has been at least the target time between renders. This saves
             // the CPU from hogging.
             while (now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-//                Thread.yield();
+                Thread.yield();
 
                 // This stops the app from consuming all your CPU. It makes this slightly less
                 // accurate, but is worth it.
@@ -345,8 +348,6 @@ public class Game implements Runnable, Serializable {
 
         running = true;
         mainThread = new Thread(this, "Main Thread");
-        renderThread = new RenderThread(this);
-        renderThread.start();
         mainThread.start();
     }
 

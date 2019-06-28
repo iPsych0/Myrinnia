@@ -44,7 +44,7 @@ public class EntityManager implements Serializable {
 
             if (e instanceof Creature) {
                 Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
-                while (condIt.hasNext()){
+                while (condIt.hasNext()) {
                     Condition c = condIt.next();
                     if (c.isActive()) {
                         c.tick();
@@ -53,7 +53,7 @@ public class EntityManager implements Serializable {
                     }
                 }
                 Iterator<Buff> buffIt = ((Creature) e).getBuffs().iterator();
-                while (buffIt.hasNext()){
+                while (buffIt.hasNext()) {
                     Buff b = buffIt.next();
                     if (b.isActive()) {
                         b.tick();
@@ -107,12 +107,14 @@ public class EntityManager implements Serializable {
             }
         }
 
-        // Sort the list for rendering
-        entities.sort((o1, o2) -> {
-            Float a = o1.getY() + o1.getHeight();
-            Float b = o2.getY() + o2.getHeight();
-            return a.compareTo(b);
-        });
+        synchronized (entities) {
+            // Sort the list for rendering
+            entities.sort((o1, o2) -> {
+                Float a = o1.getY() + o1.getHeight();
+                Float b = o2.getY() + o2.getHeight();
+                return a.compareTo(b);
+            });
+        }
     }
 
     public void render(Graphics2D g) {
@@ -141,13 +143,15 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
-            while (hitSplatIt.hasNext()) {
-                HitSplat hs = hitSplatIt.next();
-                if (hs.isActive()) {
-                    hs.render(g);
-                } else {
-                    hitSplatIt.remove();
+            synchronized (hitSplats) {
+                Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
+                while (hitSplatIt.hasNext()) {
+                    HitSplat hs = hitSplatIt.next();
+                    if (hs.isActive()) {
+                        hs.render(g);
+                    } else {
+                        hitSplatIt.remove();
+                    }
                 }
             }
         }
