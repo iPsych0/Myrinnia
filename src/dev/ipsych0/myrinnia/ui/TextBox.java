@@ -90,8 +90,8 @@ public class TextBox implements KeyListener, Serializable {
                 if (blinkTimer >= 0 && blinkTimer < 60) {
                     cursor = "|";
                     if (!charactersTyped.isEmpty()) {
-                        int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
-                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 2, y + 17, true, Color.YELLOW, Assets.font20);
+                        int textWidth = Text.getStringWidth(g, charactersTyped, g.getFont());
+                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + charactersTyped.length() / 2 + 3, y + 17, true, Color.YELLOW, Assets.font20);
                     } else {
                         Text.drawString(g, cursor, x + (width / 2), y + 17, true, Color.YELLOW, Assets.font20);
                     }

@@ -63,7 +63,7 @@ public class RenderThread extends Thread {
             // Yield until it has been at least the target time between renders. This saves
             // the CPU from hogging.
             while (now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-//                Thread.yield();
+                Thread.yield();
 
                 // This stops the app from consuming all your CPU. It makes this slightly less
                 // accurate, but is worth it.

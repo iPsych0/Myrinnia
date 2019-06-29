@@ -57,7 +57,7 @@ public class Text {
 
     public static int getStringWidth(Graphics2D g, String text, Font font) {
         FontMetrics fm = g.getFontMetrics(font);
-        return fm.stringWidth(text);
+        return (int) fm.getStringBounds(text, g).getWidth();
     }
 
     /**
