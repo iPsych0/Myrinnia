@@ -222,24 +222,20 @@ public abstract class World implements Serializable {
                 renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
             }
 //        g.setComposite(composite);
+            // Inventory & Equipment
+            equipment.render(g);
+            inventory.render(g);
 
             itemManager.postRender(g);
             entityManager.postRender(g);
 
 
-//        if(nightTime) {
-//            renderNight(g);
-//        }
+            if(nightTime) {
+                renderNight(g);
+            }
 
             // Chat
             chatWindow.render(g);
-
-
-
-            // Inventory & Equipment
-            equipment.render(g);
-            inventory.render(g);
-
 
             // MiniMap
             craftingUI.render(g);

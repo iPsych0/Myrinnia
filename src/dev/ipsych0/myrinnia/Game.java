@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia;
 
-import dev.ipsych0.myrinnia.display.RenderThread;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -33,7 +32,6 @@ public class Game implements Runnable, Serializable {
 
     private boolean running = false;
     private transient Thread mainThread;
-    private transient RenderThread renderThread;
 
     private transient BufferStrategy bs;
     private transient Graphics g;
@@ -211,6 +209,7 @@ public class Game implements Runnable, Serializable {
 
         // End draw
         bs.show();
+        Toolkit.getDefaultToolkit().sync();
         g.dispose();
         g2d.dispose();
     }
@@ -219,39 +218,6 @@ public class Game implements Runnable, Serializable {
     public void run() {
 
         init();
-
-        renderThread = new RenderThread(this, "Render Thread");
-        renderThread.start();
-        //
-        // int fps = 60;
-        // double timePerTick = 1000000000 / fps;
-        // double delta = 0;
-        // long now;
-        // long lastTime = System.nanoTime();
-        // long timer = 0;
-        //
-        //
-        // while(running){
-        // now = System.nanoTime();
-        // delta += (now - lastTime) / timePerTick;
-        // timer += now - lastTime;
-        // lastTime = now;
-        //
-        // if(delta >= 1){
-        // tick();
-        // render();
-        // ticks++;
-        // delta--;
-        // }
-        //
-        // if(timer >= 1000000000){
-        // framesPerSecond = ticks;
-        // ticks = 0;
-        // timer = 0;
-        // }
-        // }
-        //
-        // stop();
 
         // This value would probably be stored elsewhere.
         final double GAME_HERTZ = 60.0;
@@ -299,6 +265,8 @@ public class Game implements Runnable, Serializable {
                 lastSecondTime = thisSecond;
                 ticks = 0;
             }
+
+            render();
 
             // Yield until it has been at least the target time between renders. This saves
             // the CPU from hogging.
@@ -357,7 +325,6 @@ public class Game implements Runnable, Serializable {
         running = false;
         try {
             mainThread.join();
-            renderThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -46,7 +46,7 @@ public class GameCamera implements Serializable {
         checkBlankSpace();
     }
 
-    public synchronized float getxOffset() {
+    public float getxOffset() {
         return xOffset;
     }
 
@@ -54,7 +54,7 @@ public class GameCamera implements Serializable {
         this.xOffset = xOffset;
     }
 
-    public synchronized float getyOffset() {
+    public float getyOffset() {
         return yOffset;
     }
 
