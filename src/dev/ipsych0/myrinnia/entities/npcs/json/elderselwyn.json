@@ -1,0 +1,90 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Would you like to hear a story?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Yes",
+          "nextId": 2
+        },
+        {
+          "text": "No",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Well, I don't have a story. Sorry, kid.",
+      "nextId": 3,
+      "choiceCondition": {
+        "condition": "has1testsword",
+        "falseId":9
+      }
+    },
+    {
+      "id": 3,
+      "text": "Next dialogue.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Tell me about yourself",
+          "nextId": 5,
+          "choiceCondition": {
+            "condition": "has100gold",
+            "falseId":-1
+          }
+        },
+        {
+          "text": "Never mind",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "options": [
+        {
+          "text": "Tell me more",
+          "nextId": 6
+        },
+        {
+          "text": "Never mind",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "text": "I'm stealing your 1,000 gold.",
+      "nextId": 7,
+      "choiceCondition": {
+        "condition": "has1000gold",
+        "falseId":8
+      }
+    },
+    {
+      "id": 7,
+      "text": "Thanks for the gold!",
+      "nextId": -1
+    },
+    {
+      "id": 8,
+      "text": "Oh, you don't have 1,000 gold...",
+      "nextId": -1
+    },
+    {
+      "id": 9,
+      "text": "You don't have a test sword.",
+      "nextId": -1
+    }
+  ]
+}

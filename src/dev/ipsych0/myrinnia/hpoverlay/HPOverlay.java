@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.hpoverlay;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
@@ -234,7 +235,9 @@ public class HPOverlay implements Serializable {
                 Text.drawString(g, "Map (M)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
             }
 
-            Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
+            if (Handler.get().getChatWindow().getFilters().contains(Filter.DRAWFPS)) {
+                Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
+            }
         }
     }
 

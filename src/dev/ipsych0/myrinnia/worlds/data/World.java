@@ -20,6 +20,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -66,6 +67,7 @@ public abstract class World implements Serializable {
     private HPOverlay hpOverlay;
     private AbilityManager abilityManager;
     private AbilityOverviewUI abilityOverviewUI;
+    private TutorialTipManager tipManager;
     private List<ZoneTile> zoneTiles;
 
     protected World(String path) {
@@ -84,6 +86,7 @@ public abstract class World implements Serializable {
         this.abilityManager = Handler.get().getAbilityManager();
         this.craftingUI = Handler.get().getCraftingUI();
         this.abilityOverviewUI = Handler.get().getAbilityOverviewUI();
+        this.tipManager = Handler.get().getTutorialTipManager();
 
         // This is each world's unique manager of Entities & Items
         entityManager = new EntityManager(player);
@@ -127,6 +130,7 @@ public abstract class World implements Serializable {
             hpOverlay.tick();
             abilityManager.tick();
             abilityOverviewUI.tick();
+            tipManager.tick();
             if (BankUI.isOpen && player.getBankEntity() != null)
                 Handler.get().getBankUI().tick();
             if (ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -269,6 +273,7 @@ public abstract class World implements Serializable {
                 }
             }
 
+            tipManager.render(g);
         }
     }
 

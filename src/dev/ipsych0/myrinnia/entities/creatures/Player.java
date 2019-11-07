@@ -70,7 +70,7 @@ public class Player extends Creature {
     private int levelUpTimer, xpGainedTimer;
 
     private boolean movementAllowed = true;
-    public static boolean isMoving;
+    public static boolean isMoving, hasMoved;
 
     public static boolean mouseMoved;
     private float xSpawn, ySpawn;
@@ -795,28 +795,28 @@ public class Player extends Creature {
             direction = Direction.UP;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
-            isMoving = true;
         }
         if (Handler.get().getKeyManager().down) {
             yMove = speed;
             direction = Direction.DOWN;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
-            isMoving = true;
         }
         if (Handler.get().getKeyManager().left) {
             xMove = -speed;
             direction = Direction.LEFT;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
-            isMoving = true;
         }
         if (Handler.get().getKeyManager().right) {
             xMove = speed;
             direction = Direction.RIGHT;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
+        }
+        if(xMove != 0 || yMove != 0){
             isMoving = true;
+            hasMoved = true;
         }
     }
 

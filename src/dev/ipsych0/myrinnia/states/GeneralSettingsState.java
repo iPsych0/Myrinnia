@@ -8,7 +8,6 @@ import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +16,7 @@ public class GeneralSettingsState extends State {
     private Rectangle overlay;
     private UIManager uiManager;
     private UIImageButton infoButton, criticalButton, combatButton, lootButton, skillButton, timeStampButton;
+    private UIImageButton drawFpsButton;
     private Set<Integer> activeButtons;
 
     public GeneralSettingsState() {
@@ -26,7 +26,7 @@ public class GeneralSettingsState extends State {
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
         // Set all buttons to active
-        for(int i = 0; i < Filter.values().length; i++){
+        for (int i = 0; i < Filter.values().length; i++) {
             activeButtons.add(i);
         }
 
@@ -36,6 +36,7 @@ public class GeneralSettingsState extends State {
         lootButton = new UIImageButton(overlay.x + 96, overlay.y + 130, 16, 16, Assets.genericButton);
         skillButton = new UIImageButton(overlay.x + 96, overlay.y + 146, 16, 16, Assets.genericButton);
         timeStampButton = new UIImageButton(overlay.x + 96, overlay.y + 162, 16, 16, Assets.genericButton);
+        drawFpsButton = new UIImageButton(overlay.x + 96, timeStampButton.y + 50, 16, 16, Assets.genericButton);
 
         uiManager.addObject(infoButton);
         uiManager.addObject(criticalButton);
@@ -43,6 +44,7 @@ public class GeneralSettingsState extends State {
         uiManager.addObject(lootButton);
         uiManager.addObject(skillButton);
         uiManager.addObject(timeStampButton);
+        uiManager.addObject(drawFpsButton);
 
     }
 
@@ -67,10 +69,17 @@ public class GeneralSettingsState extends State {
         Text.drawString(g, "Loot:", overlay.x + 8, overlay.y + 144, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Skill:", overlay.x + 8, overlay.y + 160, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Timestamp:", overlay.x + 8, overlay.y + 176, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Draw FPS:", overlay.x + 8, timeStampButton.y + 64, false, Color.YELLOW, Assets.font14);
 
         for (Integer i : activeButtons) {
-            g.setColor(Color.GREEN);
-            Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16, true, Color.GREEN, Assets.font14);
+            // FPS Button
+            if (i == 6) {
+                g.setColor(Color.GREEN);
+                Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16 + 32, true, Color.GREEN, Assets.font14);
+            } else {
+                g.setColor(Color.GREEN);
+                Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16, true, Color.GREEN, Assets.font14);
+            }
         }
 
     }
@@ -140,6 +149,17 @@ public class GeneralSettingsState extends State {
                 } else {
                     filters.add(Filter.TIMESTAMP);
                     activeButtons.add(5);
+                }
+            }
+        }
+        if (drawFpsButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                if (filters.contains(Filter.DRAWFPS)) {
+                    filters.remove(Filter.DRAWFPS);
+                    activeButtons.remove(6);
+                } else {
+                    filters.add(Filter.DRAWFPS);
+                    activeButtons.add(6);
                 }
             }
         }

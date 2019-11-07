@@ -18,7 +18,6 @@ import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
-import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
@@ -39,6 +38,8 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.PortAzure;
 import dev.ipsych0.myrinnia.worlds.data.World;
@@ -98,6 +99,7 @@ public class Handler implements Serializable {
     private RecapManager recapManager;
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
+    private TutorialTipManager tutorialTipManager;
     public static String initialWorldPath = "/worlds/port_azure.tmx";
     public static boolean debugAStar;
     public static boolean debugCollision;
@@ -144,6 +146,7 @@ public class Handler implements Serializable {
         devToolUI = new DevToolUI();
         abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
+        tutorialTipManager = new TutorialTipManager();
 
         // Set the starting world
         portAzure = new PortAzure(initialWorldPath);
@@ -209,6 +212,10 @@ public class Handler implements Serializable {
             AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
 
         }
+    }
+
+    public void addTip(TutorialTip tip) {
+        tutorialTipManager.addTip(tip);
     }
 
     public void addRecapEvent(String description) {
@@ -652,5 +659,13 @@ public class Handler implements Serializable {
 
     public void setAbilityOverviewUI(AbilityOverviewUI abilityOverviewUI) {
         this.abilityOverviewUI = abilityOverviewUI;
+    }
+
+    public TutorialTipManager getTutorialTipManager() {
+        return tutorialTipManager;
+    }
+
+    public void setTutorialTipManager(TutorialTipManager tutorialTipManager) {
+        this.tutorialTipManager = tutorialTipManager;
     }
 }
