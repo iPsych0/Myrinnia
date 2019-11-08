@@ -18,8 +18,8 @@ public class TutorialTipManager {
 
             // Slide out when completed
             if (tip.isSlidingDone()) {
-                if (tip.isCompleted()) {
-                    if (tip.getOffset() < 0) {
+                if (tip.getPopup().isOkPressed()) {
+                    if (tip.getOffset() < -16) {
                         tips.remove(0);
                     }
                     tip.decreaseOffset();

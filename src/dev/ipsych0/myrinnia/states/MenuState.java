@@ -3,16 +3,12 @@ package dev.ipsych0.myrinnia.states;
 import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
-import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.utils.Utils;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
 import java.nio.file.Files;
@@ -71,13 +67,8 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, Utils.loadMonologue("prologue.json"))));
-                Handler.get().addTip(new TutorialTip("Use WASD or Arrow Keys to move around.") {
-                    @Override
-                    public boolean isCompleted() {
-                        return Player.hasMoved;
-                    }
-                });
+                State.setState(new UITransitionState(Handler.get().getGame().gameState));
+                Handler.get().addTip(new TutorialTip("Use WASD keys to move around."));
                 hasBeenPressed = false;
             }
         }

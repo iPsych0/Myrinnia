@@ -81,12 +81,9 @@ public class ChatWindow implements Serializable {
 
         if (chatIsOpen) {
 
-            Stroke originalStroke = g.getStroke();
             g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
-            g.setStroke(new BasicStroke(2));
             g.setColor(Color.BLACK);
             g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
-            g.setStroke(originalStroke);
 
             Text.drawString(g, Handler.get().getPlayer().getZone().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
 

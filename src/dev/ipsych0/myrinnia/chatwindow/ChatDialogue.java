@@ -75,12 +75,9 @@ public class ChatDialogue implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        Stroke originalStroke = g.getStroke();
         g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
-        g.setStroke(new BasicStroke(2));
         g.setColor(Color.BLACK);
         g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
-        g.setStroke(originalStroke);
 
         uiManager.render(g);
 
