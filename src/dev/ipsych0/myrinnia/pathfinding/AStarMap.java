@@ -24,14 +24,14 @@ public class AStarMap implements Serializable {
     private Rectangle mapBounds;
     private Creature creature;
 
-    public AStarMap(Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
+    public AStarMap(Creature creature, int x, int y, int width, int height) {
         this.creature = creature;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.xSpawn = xSpawn;
-        this.ySpawn = ySpawn;
+        this.xSpawn = creature.getxSpawn();
+        this.ySpawn = creature.getySpawn();
 
         // Aantal nodes aanpassen dan?
         nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int) (Math.floor(height / 32)) + 1];

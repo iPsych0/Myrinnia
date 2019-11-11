@@ -32,7 +32,7 @@ public class PortAzureSailor extends Creature {
     public void render(Graphics2D g) {
         g.drawImage(Assets.portAzureSailor,
                 (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), null);
+                (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override

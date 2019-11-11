@@ -52,7 +52,13 @@ public class AudioManager {
 
         // Check for sound effects that have ended to clean up
         if (!soundfxFiles.isEmpty()) {
-            soundfxFiles.removeIf(s -> !s.isPlaying());
+            Iterator<Source> sourceIterator = soundfxFiles.iterator();
+            while (sourceIterator.hasNext()){
+                Source s = sourceIterator.next();
+                if (!s.isPlaying()) {
+                    sourceIterator.remove();
+                }
+            }
         }
     }
 

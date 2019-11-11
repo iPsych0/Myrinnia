@@ -69,7 +69,7 @@ public abstract class Creature extends Entity {
     private List<Node> nodes;
     int pathFindRadiusX = 1024;
     int pathFindRadiusY = 1024;
-    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private boolean aStarInitialized;
     private Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
@@ -83,7 +83,7 @@ public abstract class Creature extends Entity {
     protected Animation aRight;
     protected Animation aUp;
     protected Animation aDown;
-    protected  Animation aDefault;
+    protected Animation aDefault;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -292,7 +292,7 @@ public abstract class Creature extends Entity {
                 } else {
                     walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
-                if(!walkableOnTop){
+                if (!walkableOnTop) {
                     solidTileUnderPostRendered = true;
                 }
             } else {
@@ -306,7 +306,7 @@ public abstract class Creature extends Entity {
             }
         }
 
-        if(hasPostRenderedTile && solidTileUnderPostRendered){
+        if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
 
@@ -328,14 +328,14 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
-                    if(t.isPostRendered()){
+                    if (t.isPostRendered()) {
                         hasPostRenderedTile = true;
                     }
 
                 }
             }
         }
-        if(hasPostRenderedTile && solidTileUnderPostRendered){
+        if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
         return !walkableOnTop;
@@ -373,7 +373,7 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < conditions.size(); i++) {
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50, 32, 32);
             conditions.get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(conditions.get(i), g);
             }
         }
@@ -383,7 +383,7 @@ public abstract class Creature extends Entity {
         for (int i = 0; i < buffs.size(); i++) {
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
             buffs.get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(buffs.get(i), g);
             }
         }
@@ -407,7 +407,7 @@ public abstract class Creature extends Entity {
     }
 
     void tickProjectiles() {
-        if(projectiles.size() < 1)
+        if (projectiles.size() < 1)
             return;
 
         Iterator<Projectile> it = projectiles.iterator();
@@ -449,15 +449,15 @@ public abstract class Creature extends Entity {
             aRight.tick();
         }
 
-        if(attackable) {
+        if (attackable) {
             if (!aStarInitialized) {
                 map.init();
                 aStarInitialized = true;
             }
-            radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
+            radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
-        } else if(isNpc){
+        } else if (isNpc) {
             randomWalk();
         }
     }
@@ -509,17 +509,17 @@ public abstract class Creature extends Entity {
 
     private void findPath() {
         if (state == CombatState.BACKTRACK) {
-            nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
-                    Math.round(((xSpawn + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((ySpawn + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
+            nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                    ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
         } else {
-            int playerX = Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (xSpawn - pathFindRadiusX) / 32;
+            int playerX = Math.round(((Handler.get().getPlayer().getX() + 4) / 32)) - (xSpawn - pathFindRadiusX) / 32;
             int playerY = Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
 
             if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
-                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
-                        Math.round(((playerX + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((playerY + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
+                nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                        ((playerX + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((playerY + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
             } else {
-                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                         playerX, playerY);
             }
         }
@@ -640,9 +640,11 @@ public abstract class Creature extends Entity {
             return;
         }
 
-        if (next.getX() != (int) ((x + 8) / 32)) {
-            xMove = (next.getX() < (int) ((x + 8) / 32) ? -speed : speed);
-            if (x % 32 == 8) {
+        if (next.getX() == (int) ((x + width / 4) / 32)) {
+//            System.out.println("X == equal");
+        } else if (next.getX() != (int) ((x + width / 4) / 32)) {
+            xMove = (next.getX() < (int) ((x + width / 4) / 32) ? -speed : speed);
+            if ((int) x % 32 == width / 4) {
                 //x -= x % 32;
                 if (!nodes.isEmpty())
                     nodes.remove(0);
@@ -652,9 +654,12 @@ public abstract class Creature extends Entity {
             }
         }
 
-        if (next.getY() != (int) ((y + 8) / 32)) {
-            yMove = (next.getY() < (int) ((y + 8) / 32) ? -speed : speed);
-            if (y % 32 == 8) {
+        if (next.getY() == (int) ((y + height / 4) / 32)) {
+//            System.out.println("Y == equal");
+        }
+        else if (next.getY() != (int) ((y + height / 4) / 32)) {
+            yMove = (next.getY() < (int) ((y + height / 4) / 32) ? -speed : speed);
+            if ((int) y % 32 == height / 4) {
                 //y -= y % 32;
                 if (!nodes.isEmpty())
                     nodes.remove(0);
@@ -669,15 +674,15 @@ public abstract class Creature extends Entity {
         }
     }
 
-    public void clearConditions(){
-        for(Condition c : conditions){
+    public void clearConditions() {
+        for (Condition c : conditions) {
             c.clear();
         }
         this.conditions.clear();
     }
 
-    public void clearBuffs(){
-        for(Buff b : buffs){
+    public void clearBuffs() {
+        for (Buff b : buffs) {
             b.clear();
         }
         this.buffs.clear();

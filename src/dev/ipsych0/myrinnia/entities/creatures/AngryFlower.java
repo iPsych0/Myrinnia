@@ -10,35 +10,33 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class AquaticCultist extends Creature {
+public class AngryFlower extends Creature {
+
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AquaticCultist(float x, float y) {
+    public AngryFlower(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-
         isNpc = false;
         attackable = true;
-
-        // Animations
-        aDown = new Animation(250, Assets.aquatic_cultist_down);
-        aUp = new Animation(250, Assets.aquatic_cultist_up);
-        aLeft = new Animation(250, Assets.aquatic_cultist_left);
-        aRight = new Animation(250, Assets.aquatic_cultist_right);
-        aDefault = aDown;
 
         // Creature stats
         strength = 0;
         dexterity = 0;
-        intelligence = 10;
-        vitality = 10;
-        defence = 10;
+        intelligence = 5;
+        vitality = 5;
+        defence = 5;
         speed = DEFAULT_SPEED + 0.5f;
         attackSpeed = DEFAULT_ATTACKSPEED;
-        maxHealth = (int) (180 + Math.round(vitality * 1.5));
+        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 5;
+        combatLevel = 2;
 
         double exponent = 1.1;
         for (int i = 1; i < combatLevel; i++) {
@@ -47,10 +45,17 @@ public class AquaticCultist extends Creature {
         }
         attackRange = Tile.TILEWIDTH * 6;
 
-        bounds.x = 0;
-        bounds.y = 0;
-        bounds.width = 32;
-        bounds.height = 32;
+        bounds.x = 2;
+        bounds.y = 2;
+        bounds.width = 28;
+        bounds.height = 28;
+
+        // Animations
+        aDown = new Animation(500, Assets.angryFlower);
+        aUp = new Animation(500, Assets.angryFlower);
+        aLeft = new Animation(500, Assets.angryFlower);
+        aRight = new Animation(500, Assets.angryFlower);
+        aDefault = aDown;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
@@ -58,14 +63,15 @@ public class AquaticCultist extends Creature {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public void render(Graphics2D g) {
-        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - Handler.get().getGameCamera().getyOffset()), null);
+        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+                , width, height, null);
+
+        // Draw HP above head
+//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - Handler.get().getGameCamera().getxOffset() - 6),
+//				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
+
+
     }
 
     @Override
@@ -114,16 +120,11 @@ public class AquaticCultist extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AngryFlower(xSpawn, ySpawn));
     }
 
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Aquatic Cultist";
     }
 }

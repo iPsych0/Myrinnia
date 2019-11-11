@@ -75,9 +75,7 @@ public class Node implements Serializable {
     }
 
     private int calcHeuristic(Node goal) {
-        int xDistance = Math.abs(getX() - goal.getX());
-        int yDistance = Math.abs(getY() - goal.getY());
-        return Math.max(xDistance, yDistance);
+        return Math.max(Math.abs(x - goal.x), Math.abs(y - goal.y));
     }
 
     public int getF() {
@@ -94,7 +92,7 @@ public class Node implements Serializable {
             return true;
 
         Node n = (Node) o;
-        return n.getX() == x && n.getY() == y && n.isWalkable() == walkable;
+        return n.x == x && n.y == y && n.walkable == walkable;
     }
 
 

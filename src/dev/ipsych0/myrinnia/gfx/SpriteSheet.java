@@ -143,20 +143,20 @@ public class SpriteSheet {
 
     public BufferedImage[] npcCrop(int x, int y) {
         // Crop out a 32x48 NPC
-        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
-                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f), 3);
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, 3);
     }
 
     public BufferedImage[] npcCrop(int x, int y, int frames) {
         // Crop out a 32x48 NPC
-        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
-                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f), frames);
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, frames);
     }
 
     public BufferedImage singleNpcCrop(int x, int y){
         // Crop out a 32x48 NPC
-        return singleNpcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f),
-                Creature.DEFAULT_CREATURE_WIDTH, (int) (Creature.DEFAULT_CREATURE_HEIGHT * 1.5f));
+        return singleNpcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
     }
 
     /**

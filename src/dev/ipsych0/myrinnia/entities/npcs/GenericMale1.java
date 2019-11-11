@@ -15,10 +15,10 @@ public class GenericMale1 extends Creature {
         attackable = false;
         isNpc = true;
 
-        aDown = new Animation(333, Assets.genericMale1Down);
-        aUp = new Animation(333, Assets.genericMale1Up);
-        aLeft = new Animation(333, Assets.genericMale1Left);
-        aRight = new Animation(333, Assets.genericMale1Right);
+        aDown = new Animation(111, Assets.genericMale1Down);
+        aUp = new Animation(111, Assets.genericMale1Up);
+        aLeft = new Animation(111, Assets.genericMale1Left);
+        aRight = new Animation(111, Assets.genericMale1Right);
 
         aDefault = aDown;
     }
@@ -32,7 +32,7 @@ public class GenericMale1 extends Creature {
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(),
                 (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), null);
+                (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override
