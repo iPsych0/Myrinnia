@@ -764,18 +764,21 @@ public class Player extends Creature {
 
         // If we're dead, respawn
         if (!active) {
-            this.setActive(true);
-            this.setHealth(maxHealth);
-
-            Handler.get().setWorld(Zone.PortAzure);
-            this.setX(xSpawn);
-            this.setY(ySpawn);
+            respawn();
         }
     }
 
     @Override
     public void respawn() {
+        // TODO: Go to last saved location!
+        Handler.get().goToWorld(Zone.PortAzure, (int) xSpawn, (int) ySpawn);
 
+        // Clear buffs & condis & reset HP
+        clearBuffs();
+        clearConditions();
+        setHealth(maxHealth);
+        setDamaged(false);
+        setActive(true);
     }
 
     @Override
