@@ -138,16 +138,6 @@ public class EntityManager implements Serializable {
                 e.postRender(g);
             }
         }
-
-        Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
-        while (hitSplatIt.hasNext()) {
-            HitSplat hs = hitSplatIt.next();
-            if (hs.isActive()) {
-                hs.render(g);
-            } else {
-                hitSplatIt.remove();
-            }
-        }
     }
 
 
@@ -221,6 +211,16 @@ public class EntityManager implements Serializable {
                 if (e.isOverlayDrawn()) {
                     e.drawEntityOverlay(e, g);
                 }
+            }
+        }
+
+        Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
+        while (hitSplatIt.hasNext()) {
+            HitSplat hs = hitSplatIt.next();
+            if (hs.isActive()) {
+                hs.render(g);
+            } else {
+                hitSplatIt.remove();
             }
         }
     }
