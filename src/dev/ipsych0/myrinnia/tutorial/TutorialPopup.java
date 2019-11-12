@@ -62,4 +62,8 @@ public class TutorialPopup {
     public boolean isOkPressed() {
         return okPressed;
     }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }

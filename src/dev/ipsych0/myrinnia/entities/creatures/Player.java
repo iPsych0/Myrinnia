@@ -29,6 +29,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.data.World;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
@@ -615,6 +616,11 @@ public class Player extends Creature {
             return Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
 
+        TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
+        if(tip != null && Handler.get().getMouseManager().isLeftPressed() && tip.getPopup().getBounds().contains(mouse)){
+            return true;
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
     }
@@ -662,7 +668,10 @@ public class Player extends Creature {
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             return Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
-
+        TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
+        if(tip != null && Handler.get().getMouseManager().isRightPressed() && tip.getPopup().getBounds().contains(mouse)){
+            return true;
+        }
 
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
@@ -719,7 +728,6 @@ public class Player extends Creature {
                     continue;
                 if (e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, this, e);
-                    return;
                 }
             }
         }

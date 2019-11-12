@@ -44,4 +44,11 @@ public class TutorialTipManager {
     public void addTip(TutorialTip tip) {
         tips.add(tip);
     }
+
+    public TutorialTip getCurrentTip() {
+        if (!tips.isEmpty()) {
+            return tips.get(0);
+        }
+        return null;
+    }
 }

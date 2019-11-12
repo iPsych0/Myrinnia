@@ -71,7 +71,7 @@ public abstract class Creature extends Entity {
     int pathFindRadiusY = 1024;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private boolean aStarInitialized;
-    private Color pathColour = new Color(44, 255, 12, 127);
+    private static Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     private static final int TIMES_PER_SECOND = 4;
