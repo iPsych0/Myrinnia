@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.devtools;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
@@ -169,6 +168,15 @@ class CommandHandler implements Serializable {
                     }
                 } else {
                     Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'unlock {ability_Name} or 'unlock all'.");
+                }
+                break;
+            case RESET:
+                if (commands.length == 2) {
+                    if (commands[1].equalsIgnoreCase("inv")) {
+                        Handler.get().getInventory().empty();
+                    } else if (commands[1].equalsIgnoreCase("equip")) {
+                        Handler.get().getEquipment().empty();
+                    }
                 }
                 break;
             default:

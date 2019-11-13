@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InventoryWindow implements Serializable {
 
@@ -462,6 +461,12 @@ public class InventoryWindow implements Serializable {
             }
         }
         return hasItem;
+    }
+
+    public void empty() {
+        for (ItemSlot is : itemSlots) {
+            is.setItemStack(null);
+        }
     }
 
     /*

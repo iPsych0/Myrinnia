@@ -206,6 +206,15 @@ public class EquipmentWindow implements Serializable {
         }
     }
 
+    public void empty() {
+        for (EquipmentSlot es : equipmentSlots) {
+            if (es.getEquipmentStack() != null) {
+                Handler.get().getPlayer().removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
+                es.setItem(null);
+            }
+        }
+    }
+
     public int getWidth() {
         return width;
     }
