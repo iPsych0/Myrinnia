@@ -9,7 +9,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -24,7 +26,8 @@ public class AbilityManager implements Serializable {
     private static final long serialVersionUID = 1274154274799386875L;
     private List<Ability> allAbilities = new ArrayList<>();
     private List<Ability> activeAbilities = new ArrayList<>();
-    private Color castBarColor = new Color(240, 160, 5, 224);
+    private Color castBarColor = new Color(26, 240, 49, 224);
+    private Color castBarBgColor = new Color(240, 31, 31, 224);
     private AbilityHUD abilityHUD;
     private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
 
@@ -91,12 +94,15 @@ public class AbilityManager implements Serializable {
                     float timer = a.getCastingTimeTimer();
                     double castTime = a.getCastingTime() * 60;
                     double timeLeft = timer / castTime;
+                    g.setColor(castBarBgColor);
+                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+                            a.getCaster().getWidth() + 4, 8, 2, 2);
                     g.setColor(castBarColor);
-                    g.fillRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
-                            (int) (timeLeft * (a.getCaster().getWidth() + 4)), 8);
+                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+                            (int) (timeLeft * (a.getCaster().getWidth() + 4)), 8, 2, 2);
                     g.setColor(Color.BLACK);
-                    g.drawRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
-                            a.getCaster().getWidth() + 4, 8);
+                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+                            a.getCaster().getWidth() + 4, 8, 2, 2);
                 }
             }
         }

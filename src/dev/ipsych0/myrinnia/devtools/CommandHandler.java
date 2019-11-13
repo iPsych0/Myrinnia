@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -176,6 +177,13 @@ class CommandHandler implements Serializable {
                         Handler.get().getInventory().empty();
                     } else if (commands[1].equalsIgnoreCase("equip")) {
                         Handler.get().getEquipment().empty();
+                    } else if (commands[1].equalsIgnoreCase("abilities")) {
+                        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
+                            a.setUnlocked(false);
+                        }
+                        for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+                            as.setAbility(null);
+                        }
                     }
                 }
                 break;
