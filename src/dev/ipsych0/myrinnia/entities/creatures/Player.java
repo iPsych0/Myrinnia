@@ -7,7 +7,6 @@ import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
@@ -17,9 +16,11 @@ import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -54,11 +55,14 @@ public class Player extends Creature {
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
 
-    // Attack timer
+    // Melee timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 
     // Magic timer
     private long lastMagicTimer, magicCooldown = (long) (600 / getAttackSpeed()), magicTimer = magicCooldown;
+
+    // Ranged timer
+    private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
 
     // Regeneration timer
     private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
@@ -111,10 +115,10 @@ public class Player extends Creature {
         aLeft = new Animation(250, Assets.player_left);
         aRight = new Animation(250, Assets.player_right);
 
-        attDown = new Animation(333, Assets.player_attackingDown);
-        attUp = new Animation(333, Assets.player_attackingUp);
-        attLeft = new Animation(333, Assets.player_attackingLeft);
-        attRight = new Animation(333, Assets.player_attackingRight);
+        attDown = new Animation(333, Assets.player_melee_down);
+        attUp = new Animation(333, Assets.player_melee_up);
+        attLeft = new Animation(333, Assets.player_melee_left);
+        attRight = new Animation(333, Assets.player_melee_right);
 
         aDefault = aDown;
 
@@ -320,7 +324,26 @@ public class Player extends Creature {
     }
 
     private void checkRanged(Rectangle mouse) {
+        rangedTimer += System.currentTimeMillis() - lastRangedTimer;
+        lastRangedTimer = System.currentTimeMillis();
+        if (rangedTimer < rangedCooldown)
+            return;
 
+        if (hasLeftClickedUI(mouse))
+            return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+
+        rangedTimer = 0;
+
+        Handler.get().playEffect("abilities/fireball.wav");
+        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
+            projectiles.add(new Projectile(x, y,
+                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
+                    9.0f, Assets.earthProjectile));
+        }
     }
 
     /*
@@ -328,7 +351,7 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
-        if(projectiles.size() < 1)
+        if (projectiles.size() < 1)
             return;
 
         Iterator<Projectile> it = projectiles.iterator();
@@ -351,8 +374,12 @@ public class Player extends Creature {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        e.damage(DamageType.INT, this, e);
-                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
+                        if (getMainHandWeapon().isType(ItemType.MAGIC_WEAPON)) {
+                            e.damage(DamageType.INT, this, e);
+                        } else if (getMainHandWeapon().isType(ItemType.RANGED_WEAPON)) {
+                            e.damage(DamageType.DEX, this, e);
+                        }
+//                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
                         p.setActive(false);
                     }
                 }
@@ -408,23 +435,9 @@ public class Player extends Creature {
                     (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
         }
 
-
-        // Player box
-//		g.setColor(Color.BLACK);
-//		g.drawRect((int)(x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height);
-
         // Player item pickup radius
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(itemPickupRadius().x - Handler.get().getGameCamera().getxOffset()), (int) (itemPickupRadius().y - Handler.get().getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
-
-        // Draw HP above head
-//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
-//				(int) (x - Handler.get().getGameCamera().getxOffset() - 4), (int) (y - Handler.get().getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
-
-        //System.out.println((int) ((x) - (x % 16)));
-//		
-//		g.setColor(playerBoxColour);
-//		g.fillRect((int) ((x) - Handler.get().getGameCamera().getxOffset()), (int) ((y) - Handler.get().getGameCamera().getyOffset()), 32, 32);
 
 //		UNCOMMENT THIS TO SEE MELEE HITBOX
 //		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
@@ -462,6 +475,7 @@ public class Player extends Creature {
             // If slotnumber = 12 (unequippable) return
             return;
         }
+
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
 
             // Sets the new stats
@@ -479,6 +493,32 @@ public class Player extends Creature {
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
+        }
+    }
+
+    public Item getMainHandWeapon() {
+        ItemStack is = Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack();
+        return is == null ? null : is.getItem();
+    }
+
+    private void setWeaponAnimations(int equipSlot) {
+        // Change weapon animations based on equipped weapon
+        Item equipped = Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem();
+        if (equipped.isType(ItemType.MELEE_WEAPON)) {
+            attDown.setFrames(Assets.player_melee_down);
+            attUp.setFrames(Assets.player_melee_up);
+            attLeft.setFrames(Assets.player_melee_left);
+            attRight.setFrames(Assets.player_melee_right);
+        } else if (equipped.isType(ItemType.MAGIC_WEAPON)) {
+            attDown.setFrames(Assets.player_magic_down);
+            attUp.setFrames(Assets.player_magic_up);
+            attLeft.setFrames(Assets.player_magic_left);
+            attRight.setFrames(Assets.player_magic_right);
+        } else if (equipped.isType(ItemType.RANGED_WEAPON)) {
+            attDown.setFrames(Assets.player_ranged_down);
+            attUp.setFrames(Assets.player_ranged_up);
+            attLeft.setFrames(Assets.player_ranged_left);
+            attRight.setFrames(Assets.player_ranged_right);
         }
     }
 
@@ -617,7 +657,7 @@ public class Player extends Creature {
         }
 
         TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
-        if(tip != null && Handler.get().getMouseManager().isLeftPressed() && tip.getPopup().getBounds().contains(mouse)){
+        if (tip != null && Handler.get().getMouseManager().isLeftPressed() && tip.getPopup().getBounds().contains(mouse)) {
             return true;
         }
 
@@ -669,7 +709,7 @@ public class Player extends Creature {
             return Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
         TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
-        if(tip != null && Handler.get().getMouseManager().isRightPressed() && tip.getPopup().getBounds().contains(mouse)){
+        if (tip != null && Handler.get().getMouseManager().isRightPressed() && tip.getPopup().getBounds().contains(mouse)) {
             return true;
         }
 
@@ -689,6 +729,9 @@ public class Player extends Creature {
 
         if (hasLeftClickedUI(mouse))
             return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
         magicTimer = 0;
 
@@ -714,6 +757,9 @@ public class Player extends Creature {
 
         if (hasLeftClickedUI(mouse))
             return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
         attackTimer = 0;
 
@@ -825,7 +871,7 @@ public class Player extends Creature {
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
-        if(xMove != 0 || yMove != 0){
+        if (xMove != 0 || yMove != 0) {
             isMoving = true;
             hasMoved = true;
         }
@@ -871,7 +917,7 @@ public class Player extends Creature {
                     32,
                     32);
             getConditions().get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getConditions().get(i), g);
             }
         }
@@ -884,7 +930,7 @@ public class Player extends Creature {
                     32,
                     32);
             getBuffs().get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getBuffs().get(i), g);
             }
         }
@@ -1001,22 +1047,22 @@ public class Player extends Creature {
          */
 
         if (lastFaced == Direction.LEFT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aLeft.getDefaultFrame();
             }
             return attLeft.getCurrentFrame();
         } else if (lastFaced == Direction.RIGHT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aRight.getDefaultFrame();
             }
             return attRight.getCurrentFrame();
         } else if (lastFaced == Direction.UP && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aUp.getDefaultFrame();
             }
             return attUp.getCurrentFrame();
         } else if (lastFaced == Direction.DOWN && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aDown.getDefaultFrame();
             }
             return attDown.getCurrentFrame();

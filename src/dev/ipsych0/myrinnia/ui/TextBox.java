@@ -4,8 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
-import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.states.ControlsState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -90,8 +88,8 @@ public class TextBox implements KeyListener, Serializable {
                 if (blinkTimer >= 0 && blinkTimer < 60) {
                     cursor = "|";
                     if (!charactersTyped.isEmpty()) {
-                        int textWidth = Text.getStringWidth(g, charactersTyped, g.getFont());
-                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + charactersTyped.length() / 2 + 3, y + 17, true, Color.YELLOW, Assets.font20);
+                        int textWidth = Text.getStringBounds(g, charactersTyped, g.getFont()).width;
+                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 3, y + 17, true, Color.YELLOW, Assets.font20);
                     } else {
                         Text.drawString(g, cursor, x + (width / 2), y + 17, true, Color.YELLOW, Assets.font20);
                     }

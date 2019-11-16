@@ -45,10 +45,10 @@ public class ZoneTransitionState extends AbstractTransitionState {
         int textWidth;
         String name;
         if (customZoneName == null) {
-            textWidth = Text.getStringWidth(g, zone.getName(), Assets.font32);
+            textWidth = Text.getStringBounds(g, zone.getName(), Assets.font32).width;
             name = zone.getName();
         } else {
-            textWidth = Text.getStringWidth(g, customZoneName, Assets.font32);
+            textWidth = Text.getStringBounds(g, customZoneName, Assets.font32).width;
             name = customZoneName;
         }
 

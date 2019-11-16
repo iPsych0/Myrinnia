@@ -38,7 +38,9 @@ public class Assets {
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
     // Player attack images
-    public static BufferedImage[] player_attackingLeft, player_attackingRight, player_attackingDown, player_attackingUp;
+    public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
+    public static BufferedImage[] player_magic_left, player_magic_right, player_magic_down, player_magic_up;
+    public static BufferedImage[] player_ranged_left, player_ranged_right, player_ranged_down, player_ranged_up;
 
     // Main menu buttons
     public static BufferedImage[] genericButton;
@@ -134,7 +136,7 @@ public class Assets {
         /*
          * Player/NPCs
          */
-        SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/herosprites.png");
+        SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
 
         /*
          * Add items to this
@@ -376,43 +378,26 @@ public class Assets {
         /*
          * Player Animations
          */
-        player_attackingLeft = new BufferedImage[2];
-        player_attackingRight = new BufferedImage[2];
-        player_attackingDown = new BufferedImage[2];
-        player_attackingUp = new BufferedImage[2];
 
-        player_down = new BufferedImage[3];
-        player_up = new BufferedImage[3];
-        player_left = new BufferedImage[3];
-        player_right = new BufferedImage[3];
+        player_magic_down = player_sheet.npcCrop(3, 0);
+        player_magic_left = player_sheet.npcCrop(3, 1);
+        player_magic_right = player_sheet.npcCrop(3, 2);
+        player_magic_up = player_sheet.npcCrop(3, 3);
 
-        player_attackingLeft[0] = player_sheet.imageCrop(0, 4);
-        player_attackingLeft[1] = player_sheet.imageCrop(1, 4);
+        player_melee_down = player_sheet.npcCrop(6, 0);
+        player_melee_left = player_sheet.npcCrop(6, 1);
+        player_melee_right = player_sheet.npcCrop(6, 2);
+        player_melee_up = player_sheet.npcCrop(6, 3);
 
-        player_attackingRight[0] = player_sheet.imageCrop(0, 5);
-        player_attackingRight[1] = player_sheet.imageCrop(1, 5);
+        player_ranged_down = player_sheet.npcCrop(9, 0);
+        player_ranged_left = player_sheet.npcCrop(9, 1);
+        player_ranged_right = player_sheet.npcCrop(9, 2);
+        player_ranged_up = player_sheet.npcCrop(9, 3);
 
-        player_attackingDown[0] = player_sheet.imageCrop(0, 6);
-        player_attackingDown[1] = player_sheet.imageCrop(1, 6);
-
-        player_attackingUp[0] = player_sheet.imageCrop(0, 7);
-        player_attackingUp[1] = player_sheet.imageCrop(1, 7);
-
-        player_down[0] = player_sheet.imageCrop(0, 0);
-        player_down[1] = player_sheet.imageCrop(1, 0);
-        player_down[2] = player_sheet.imageCrop(2, 0);
-
-        player_up[0] = player_sheet.imageCrop(6, 3);
-        player_up[1] = player_sheet.imageCrop(7, 3);
-        player_up[2] = player_sheet.imageCrop(8, 3);
-
-        player_left[0] = player_sheet.imageCrop(0, 1);
-        player_left[1] = player_sheet.imageCrop(1, 1);
-        player_left[2] = player_sheet.imageCrop(2, 1);
-
-        player_right[0] = player_sheet.imageCrop(0, 2);
-        player_right[1] = player_sheet.imageCrop(1, 2);
-        player_right[2] = player_sheet.imageCrop(2, 2);
+        player_down = player_sheet.npcCrop(0, 0);
+        player_left = player_sheet.npcCrop(0, 1);
+        player_right = player_sheet.npcCrop(0, 2);
+        player_up = player_sheet.npcCrop(0, 3);
 
         /*
          * Ability Icons

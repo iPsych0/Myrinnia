@@ -73,17 +73,44 @@ public class SpriteSheet {
             if (MapLoader.animationMap.get(tileId) != null) {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
             } else {
+                BufferedImage img = sheet.getSubimage(x, y, width, height);
+                if(isTileTransparent(img)){
+                    return null;
+                }
                 Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
             }
         } else {
             if (MapLoader.animationMap.get(tileId) != null) {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
             } else {
-                Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+                BufferedImage img = sheet.getSubimage(x, y, width, height);
+                if(isTileTransparent(img)){
+                    return null;
+                }
+                Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
             }
         }
 
         return sheet.getSubimage(x, y, width, height);
+    }
+
+    private boolean isTileTransparent(BufferedImage img) {
+        int transparencyCount = 0;
+        for (int i = 0; i < img.getWidth(); i++) {
+            for (int j = 0; j < img.getHeight(); j++) {
+                if (isPixelTransparent(img, i, j)) {
+                    transparencyCount++;
+                } else {
+                    break;
+                }
+            }
+        }
+        return transparencyCount == img.getWidth() * img.getHeight();
+    }
+
+    private boolean isPixelTransparent(BufferedImage img, int x, int y) {
+        int pixel = img.getRGB(x, y);
+        return (pixel >> 24) == 0x00;
     }
 
     /**

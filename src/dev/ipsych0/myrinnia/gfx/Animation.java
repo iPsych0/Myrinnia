@@ -92,19 +92,19 @@ public class Animation implements Serializable {
 
             if (timer > speed) {
                 // If we haven't reached the end, increment the index
-                if(!reverseStarted) {
+                if (!reverseStarted) {
                     index++;
-                // Once we've reached the end, decrement backwards to index 0.
-                }else{
+                    // Once we've reached the end, decrement backwards to index 0.
+                } else {
                     index--;
                 }
 
                 timer = 0;
                 if (index >= frames.length && !reverseStarted) {
-                    index = frames.length-1;
+                    index = frames.length - 1;
                     reverseStarted = true;
                 }
-                if(reverseStarted && index == 0){
+                if (reverseStarted && index == 0) {
                     tickDone = true;
                 }
             }
@@ -162,4 +162,7 @@ public class Animation implements Serializable {
         }
     }
 
+    public void setFrames(BufferedImage[] frames) {
+        this.frames = frames;
+    }
 }

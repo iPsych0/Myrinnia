@@ -55,9 +55,9 @@ public class Text {
         g.drawString(as.getIterator(), xPos, yPos);
     }
 
-    public static int getStringWidth(Graphics2D g, String text, Font font) {
+    public static Rectangle getStringBounds(Graphics2D g, String text, Font font) {
         FontMetrics fm = g.getFontMetrics(font);
-        return (int) fm.getStringBounds(text, g).getWidth();
+        return fm.getStringBounds(text, g).getBounds();
     }
 
     /**
