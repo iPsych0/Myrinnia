@@ -35,7 +35,7 @@ public class ElderSelwyn extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.portAzureMayor,
+        g.drawImage(Assets.elderSelwyn,
                 (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }

@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.chatwindow.ChatOption;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -40,7 +39,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.shopKeeperMerchantWater, (int) (x - Handler.get().getGameCamera().getxOffset()),
+        g.drawImage(Assets.shopKeeper, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 

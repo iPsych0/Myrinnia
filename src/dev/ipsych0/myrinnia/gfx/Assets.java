@@ -57,7 +57,7 @@ public class Assets {
     public static BufferedImage[] angryOwl, angryFlower;
 
     // NPC images
-    public static BufferedImage shopKeeperMerchantWater, femaleBanker;
+    public static BufferedImage shopKeeper, femaleBanker;
 
     // Generic NPCs
 //    public static BufferedImage[] genericFemale1Down, genericFemale1Left, genericFemale1Right, genericFemale1Up;
@@ -104,7 +104,7 @@ public class Assets {
     public static BufferedImage[][] puzzlePieces;
 
     // Port Azure
-    public static BufferedImage portAzureMayor, portAzureSailor;
+    public static BufferedImage portAzureMayor, portAzureSailor, elderSelwyn;
 
     public static void init() {
 
@@ -137,6 +137,7 @@ public class Assets {
          * Player/NPCs
          */
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
+        SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
 
         /*
          * Add items to this
@@ -328,10 +329,11 @@ public class Assets {
 
         // NPC Sprites
 //
-//        shopKeeperMerchantWater = shopkeepers_sheet.singleNpcCrop(4, 0);
-//        femaleBanker = bankers_sheet.singleNpcCrop(4, 0);
-//        portAzureMayor = azureal_island_npcs.singleNpcCrop(1, 0);
-//        portAzureSailor = azureal_island_npcs.singleNpcCrop(4, 3);
+        elderSelwyn = azureal_island_npcs.singleNpcCrop(1, 0);
+        portAzureMayor = azureal_island_npcs.singleNpcCrop(4, 0);
+        portAzureSailor = azureal_island_npcs.singleNpcCrop(7, 3);
+        shopKeeper = azureal_island_npcs.singleNpcCrop(10, 0);
+        femaleBanker = azureal_island_npcs.singleNpcCrop(13, 0);
 //
 //        // Generic female NPCs
 //        genericFemale1Down = generic_npcs.npcCrop(0,0);
