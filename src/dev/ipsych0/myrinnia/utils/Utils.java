@@ -45,6 +45,9 @@ public class Utils {
         InputStream inputStream = null;
         jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
         inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
+        if (inputStream == null) {
+            throw new IllegalArgumentException(jsonFile + " could not be found.");
+        }
         try {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             T t = getGson().fromJson(reader, (Type) clazz);

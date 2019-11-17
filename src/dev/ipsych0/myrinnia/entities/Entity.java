@@ -53,7 +53,7 @@ public abstract class Entity implements Serializable {
     protected int respawnTimer = 600;
     protected Rectangle collision;
     protected Script script;
-    private String name;
+    protected String name;
     private static final double DIVISION_QUOTIENT = 200.0;
     private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 

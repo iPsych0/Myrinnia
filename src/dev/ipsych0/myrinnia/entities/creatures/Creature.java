@@ -441,7 +441,7 @@ public abstract class Creature extends Entity {
     }
 
     public void tick() {
-        if (aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
+        if (chatDialogue == null && aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();
             aUp.tick();
@@ -457,7 +457,7 @@ public abstract class Creature extends Entity {
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
-        } else if (isNpc) {
+        } else if (isNpc && chatDialogue == null) {
             randomWalk();
         }
     }
@@ -656,8 +656,7 @@ public abstract class Creature extends Entity {
 
         if (next.getY() == (int) ((y + height / 4) / 32)) {
 //            System.out.println("Y == equal");
-        }
-        else if (next.getY() != (int) ((y + height / 4) / 32)) {
+        } else if (next.getY() != (int) ((y + height / 4) / 32)) {
             yMove = (next.getY() < (int) ((y + height / 4) / 32) ? -speed : speed);
             if ((int) y % 32 == height / 4) {
                 //y -= y % 32;

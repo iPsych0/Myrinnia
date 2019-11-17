@@ -22,7 +22,7 @@ public class ShopKeeperNPC extends ShopKeeper {
     private int ySpawn = (int) getY();
     private ArrayList<ItemStack> shopItems;
 
-    public ShopKeeperNPC(String shopName, float x, float y) {
+    public ShopKeeperNPC(float x, float y, String shopName) {
         super(shopName, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         script = Utils.loadScript("shopkeeper.json");
@@ -73,7 +73,7 @@ public class ShopKeeperNPC extends ShopKeeper {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ShopKeeperNPC(shopName, xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new ShopKeeperNPC(xSpawn, ySpawn, shopName));
     }
 
     @Override

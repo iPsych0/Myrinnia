@@ -71,36 +71,36 @@ public class PortAzureMayor extends StaticEntity {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
-            case 0:
-                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED) {
-                    Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.IN_PROGRESS);
-                    Handler.get().getQuest(QuestList.TheThirdQuest).getQuestSteps().add(new QuestStep("Listen to the TestNPC's story."));
-                }
-                break;
-            case 1:
-                Handler.get().giveItem(Item.testPickaxe, 1);
-                break;
-            case 2:
-                Handler.get().removeItem(Item.testPickaxe, 1);
-                break;
-            case 3:
-                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.IN_PROGRESS) {
-                    Handler.get().getQuest(QuestList.TheThirdQuest).nextStep();
-                    Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.COMPLETED);
-                }
-                Handler.get().giveItem(Item.coins, 100);
-                break;
-            case 4:
-                Handler.get().removeItem(Item.coins, 100);
-                break;
-            case 5:
-                Handler.get().giveItem(Item.testSword, 1);
-                break;
-            case 6:
-                Handler.get().removeItem(Item.testSword, 1);
-                break;
-            case 7:
-                Handler.get().removeItem(Item.coins, 1000);
+//            case 0:
+//                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.NOT_STARTED) {
+//                    Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.IN_PROGRESS);
+//                    Handler.get().getQuest(QuestList.TheThirdQuest).getQuestSteps().add(new QuestStep("Listen to the TestNPC's story."));
+//                }
+//                break;
+//            case 1:
+//                Handler.get().giveItem(Item.testPickaxe, 1);
+//                break;
+//            case 2:
+//                Handler.get().removeItem(Item.testPickaxe, 1);
+//                break;
+//            case 3:
+//                if (Handler.get().getQuest(QuestList.TheThirdQuest).getState() == Quest.QuestState.IN_PROGRESS) {
+//                    Handler.get().getQuest(QuestList.TheThirdQuest).nextStep();
+//                    Handler.get().getQuest(QuestList.TheThirdQuest).setState(Quest.QuestState.COMPLETED);
+//                }
+//                Handler.get().giveItem(Item.coins, 100);
+//                break;
+//            case 4:
+//                Handler.get().removeItem(Item.coins, 100);
+//                break;
+//            case 5:
+//                Handler.get().giveItem(Item.testSword, 1);
+//                break;
+//            case 6:
+//                Handler.get().removeItem(Item.testSword, 1);
+//                break;
+//            case 7:
+//                Handler.get().removeItem(Item.coins, 1000);
         }
     }
 

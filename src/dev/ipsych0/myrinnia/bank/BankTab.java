@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BankTab extends UIImageButton implements Serializable {
+public class BankTab implements Serializable {
 
 
     /**
@@ -26,9 +25,9 @@ public class BankTab extends UIImageButton implements Serializable {
     public static final int ROWS = 6, COLS = 5;
     private List<ItemSlot> bankSlots;
     private boolean isOpen = false;
+    private boolean hovering;
 
     public BankTab(int x, int y, int tabNumber) {
-        super(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.x = x;
         this.y = y;
         this.width = ItemSlot.SLOTSIZE;
@@ -52,23 +51,22 @@ public class BankTab extends UIImageButton implements Serializable {
     }
 
     public void tick() {
-        if (isOpen) {
-            super.tick();
-        }
+
     }
 
     public void render(Graphics2D g) {
-        super.render(g);
-        if (bankSlots.get(0).getItemStack() != null)
-            g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);
-        else
-            Text.drawString(g, "" + (tabNumber + 1), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
-
         if (isOpen) {
             for (ItemSlot is : bankSlots) {
                 is.render(g);
             }
         }
+
+        if (bankSlots.get(0).getItemStack() != null) {
+            g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);
+        } else {
+            Text.drawString(g, "" + (tabNumber + 1), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
+        }
+
     }
 
     /*
@@ -130,5 +128,12 @@ public class BankTab extends UIImageButton implements Serializable {
         this.isOpen = isOpen;
     }
 
+    public boolean isHovering() {
+        return hovering;
+    }
+
+    public void setHovering(boolean hovering) {
+        this.hovering = hovering;
+    }
 
 }

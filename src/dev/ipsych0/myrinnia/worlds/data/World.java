@@ -288,13 +288,11 @@ public abstract class World implements Serializable {
     }
 
     protected void renderNight(Graphics2D g) {
-        float alpha = 0.6f;
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
         g.setComposite(ac);
         g.setColor(night);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-        alpha = 1.0f;
-        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
         g.setComposite(ac);
     }
 

@@ -17,7 +17,7 @@ public class ElderSelwyn extends StaticEntity {
     public ElderSelwyn(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
-        script = Utils.loadScript("testnpc1.json");
+        script = Utils.loadScript("elderselwyn.json");
         solid = true;
         attackable = false;
         isNpc = true;
@@ -43,16 +43,6 @@ public class ElderSelwyn extends StaticEntity {
     @Override
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
-            case "has100gold":
-                if (Handler.get().playerHasItem(Item.coins, 100)) {
-                    return true;
-                }
-                break;
-            case "has1000gold":
-                if (Handler.get().playerHasItem(Item.coins, 1000)) {
-                    return true;
-                }
-                break;
             case "has1testsword":
                 if (Handler.get().playerHasItem(Item.testSword, 1)) {
                     return true;

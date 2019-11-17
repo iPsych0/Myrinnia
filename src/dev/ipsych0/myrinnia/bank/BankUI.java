@@ -55,7 +55,6 @@ public class BankUI implements Serializable {
         // Add all the tabs
         for (int i = 0; i < MAX_TABS; i++) {
             tabs.add(new BankTab(x + (width / 2) - ((MAX_TABS * 32 / 2)) + (i * 32), y + 32, i));
-            uiManager.addObject(tabs.get(0));
         }
 
         // Add the inventory slots
@@ -97,6 +96,7 @@ public class BankUI implements Serializable {
              * BankTab mouse interaction
              */
             for (BankTab tab : tabs) {
+                tab.tick();
                 if (tab.getBounds().contains(mouse)) {
                     tab.setHovering(true);
                     if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {

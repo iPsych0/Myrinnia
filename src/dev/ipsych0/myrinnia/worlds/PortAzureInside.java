@@ -15,9 +15,6 @@ public class PortAzureInside extends World {
 
     public PortAzureInside(String path) {
         super(path);
-
-        entityManager.addEntity(new ShopKeeperNPC("Lorraine's General Store",416, 1600));
-
     }
 
     @Override

@@ -1,11 +1,13 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,14 +62,30 @@ public class Assets {
     public static BufferedImage shopKeeper, femaleBanker;
 
     // Generic NPCs
-//    public static BufferedImage[] genericFemale1Down, genericFemale1Left, genericFemale1Right, genericFemale1Up;
-//    public static BufferedImage[] genericFemale2Down, genericFemale2Left, genericFemale2Right, genericFemale2Up;
-//    public static BufferedImage[] genericFemale3Down, genericFemale3Left, genericFemale3Right, genericFemale3Up;
-//    public static BufferedImage[] genericFemale4Down, genericFemale4Left, genericFemale4Right, genericFemale4Up;
+    public static BufferedImage[] genericFemale1Down, genericFemale1Left, genericFemale1Right, genericFemale1Up;
+    public static BufferedImage[] genericFemale2Down, genericFemale2Left, genericFemale2Right, genericFemale2Up;
+    public static BufferedImage[] genericFemale3Down, genericFemale3Left, genericFemale3Right, genericFemale3Up;
+    public static BufferedImage[] genericFemale4Down, genericFemale4Left, genericFemale4Right, genericFemale4Up;
+    public static BufferedImage[] genericFemale5Down, genericFemale5Left, genericFemale5Right, genericFemale5Up;
+    public static BufferedImage[] genericFemale6Down, genericFemale6Left, genericFemale6Right, genericFemale6Up;
+    public static BufferedImage[] genericFemale7Down, genericFemale7Left, genericFemale7Right, genericFemale7Up;
+    public static BufferedImage[] genericFemale8Down, genericFemale8Left, genericFemale8Right, genericFemale8Up;
+    public static BufferedImage[] genericFemale9Down, genericFemale9Left, genericFemale9Right, genericFemale9Up;
+    public static BufferedImage[] genericFemale10Down, genericFemale10Left, genericFemale10Right, genericFemale10Up;
+    public static BufferedImage[] genericFemale11Down, genericFemale11Left, genericFemale11Right, genericFemale11Up;
+    public static BufferedImage[] genericFemale12Down, genericFemale12Left, genericFemale12Right, genericFemale12Up;
     public static BufferedImage[] genericMale1Down, genericMale1Left, genericMale1Right, genericMale1Up;
-//    public static BufferedImage[] genericMale2Down, genericMale2Left, genericMale2Right, genericMale2Up;
-//    public static BufferedImage[] genericMale3Down, genericMale3Left, genericMale3Right, genericMale3Up;
-//    public static BufferedImage[] genericMale4Down, genericMale4Left, genericMale4Right, genericMale4Up;
+    public static BufferedImage[] genericMale2Down, genericMale2Left, genericMale2Right, genericMale2Up;
+    public static BufferedImage[] genericMale3Down, genericMale3Left, genericMale3Right, genericMale3Up;
+    public static BufferedImage[] genericMale4Down, genericMale4Left, genericMale4Right, genericMale4Up;
+    public static BufferedImage[] genericMale5Down, genericMale5Left, genericMale5Right, genericMale5Up;
+    public static BufferedImage[] genericMale6Down, genericMale6Left, genericMale6Right, genericMale6Up;
+    public static BufferedImage[] genericMale7Down, genericMale7Left, genericMale7Right, genericMale7Up;
+    public static BufferedImage[] genericMale8Down, genericMale8Left, genericMale8Right, genericMale8Up;
+    public static BufferedImage[] genericMale9Down, genericMale9Left, genericMale9Right, genericMale9Up;
+    public static BufferedImage[] genericMale10Down, genericMale10Left, genericMale10Right, genericMale10Up;
+    public static BufferedImage[] genericMale11Down, genericMale11Left, genericMale11Right, genericMale11Up;
+    public static BufferedImage[] genericMale12Down, genericMale12Left, genericMale12Right, genericMale12Up;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -138,6 +156,8 @@ public class Assets {
          */
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
+        SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
+        SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
 
         /*
          * Add items to this
@@ -334,48 +354,128 @@ public class Assets {
         portAzureSailor = azureal_island_npcs.singleNpcCrop(7, 3);
         shopKeeper = azureal_island_npcs.singleNpcCrop(10, 0);
         femaleBanker = azureal_island_npcs.singleNpcCrop(13, 0);
-//
-//        // Generic female NPCs
-//        genericFemale1Down = generic_npcs.npcCrop(0,0);
-//        genericFemale1Left = generic_npcs.npcCrop(0,1);
-//        genericFemale1Right = generic_npcs.npcCrop(0,2);
-//        genericFemale1Up = generic_npcs.npcCrop(0,3);
-//
-//        genericFemale2Down = generic_npcs.npcCrop(0,4);
-//        genericFemale2Left = generic_npcs.npcCrop(0,5);
-//        genericFemale2Right = generic_npcs.npcCrop(0,6);
-//        genericFemale2Up = generic_npcs.npcCrop(0,7);
-//
-//        genericFemale3Down = generic_npcs.npcCrop(3,4);
-//        genericFemale3Left = generic_npcs.npcCrop(3,5);
-//        genericFemale3Right = generic_npcs.npcCrop(3,6);
-//        genericFemale3Up = generic_npcs.npcCrop(3,7);
-//
-//        genericFemale4Down = generic_npcs.npcCrop(9,4);
-//        genericFemale4Left = generic_npcs.npcCrop(9,5);
-//        genericFemale4Right = generic_npcs.npcCrop(9,6);
-//        genericFemale4Up = generic_npcs.npcCrop(9,7);
+
+        // Generic female NPCs
+        genericFemale1Down = generic_females1.npcCrop(0, 0);
+        genericFemale1Left = generic_females1.npcCrop(0, 1);
+        genericFemale1Right = generic_females1.npcCrop(0, 2);
+        genericFemale1Up = generic_females1.npcCrop(0, 3);
+
+        genericFemale2Down = generic_females1.npcCrop(3, 0);
+        genericFemale2Left = generic_females1.npcCrop(3, 1);
+        genericFemale2Right = generic_females1.npcCrop(3, 2);
+        genericFemale2Up = generic_females1.npcCrop(3, 3);
+
+        genericFemale3Down = generic_females1.npcCrop(6, 0);
+        genericFemale3Left = generic_females1.npcCrop(6, 1);
+        genericFemale3Right = generic_females1.npcCrop(6, 2);
+        genericFemale3Up = generic_females1.npcCrop(6, 3);
+
+        genericFemale4Down = generic_females1.npcCrop(9, 0);
+        genericFemale4Left = generic_females1.npcCrop(9, 1);
+        genericFemale4Right = generic_females1.npcCrop(9, 2);
+        genericFemale4Up = generic_females1.npcCrop(9, 3);
+
+        genericFemale5Down = generic_females1.npcCrop(12, 0);
+        genericFemale5Left = generic_females1.npcCrop(12, 1);
+        genericFemale5Right = generic_females1.npcCrop(12, 2);
+        genericFemale5Up = generic_females1.npcCrop(12, 3);
+
+        genericFemale6Down = generic_females1.npcCrop(15, 0);
+        genericFemale6Left = generic_females1.npcCrop(15, 1);
+        genericFemale6Right = generic_females1.npcCrop(15, 2);
+        genericFemale6Up = generic_females1.npcCrop(15, 3);
+
+        genericFemale7Down = generic_females1.npcCrop(0, 4);
+        genericFemale7Left = generic_females1.npcCrop(0, 5);
+        genericFemale7Right = generic_females1.npcCrop(0, 6);
+        genericFemale7Up = generic_females1.npcCrop(0, 7);
+
+        genericFemale8Down = generic_females1.npcCrop(3, 4);
+        genericFemale8Left = generic_females1.npcCrop(3, 5);
+        genericFemale8Right = generic_females1.npcCrop(3, 6);
+        genericFemale8Up = generic_females1.npcCrop(3, 7);
+
+        genericFemale9Down = generic_females1.npcCrop(6, 4);
+        genericFemale9Left = generic_females1.npcCrop(6, 5);
+        genericFemale9Right = generic_females1.npcCrop(6, 6);
+        genericFemale9Up = generic_females1.npcCrop(6, 7);
+
+        genericFemale10Down = generic_females1.npcCrop(9, 4);
+        genericFemale10Left = generic_females1.npcCrop(9, 5);
+        genericFemale10Right = generic_females1.npcCrop(9, 6);
+        genericFemale10Up = generic_females1.npcCrop(9, 7);
+
+        genericFemale11Down = generic_females1.npcCrop(12, 4);
+        genericFemale11Left = generic_females1.npcCrop(12, 5);
+        genericFemale11Right = generic_females1.npcCrop(12, 6);
+        genericFemale11Up = generic_females1.npcCrop(12, 7);
+
+        genericFemale12Down = generic_females1.npcCrop(15, 4);
+        genericFemale12Left = generic_females1.npcCrop(15, 5);
+        genericFemale12Right = generic_females1.npcCrop(15, 6);
+        genericFemale12Up = generic_females1.npcCrop(15, 7);
 
         // Generic male NPCs
-        genericMale1Up = player_sheet.npcCrop(0,0);
-        genericMale1Left = player_sheet.npcCrop(0,0);
-        genericMale1Down = player_sheet.npcCrop(0,0);
-        genericMale1Right = player_sheet.npcCrop(0,0);
+        genericMale1Down = generic_males1.npcCrop(0, 0);
+        genericMale1Left = generic_males1.npcCrop(0, 1);
+        genericMale1Right = generic_males1.npcCrop(0, 2);
+        genericMale1Up = generic_males1.npcCrop(0, 3);
 
-//        genericMale2Down = generic_npcs.npcCrop(6,0);
-//        genericMale2Left = generic_npcs.npcCrop(6,1);
-//        genericMale2Right = generic_npcs.npcCrop(6,2);
-//        genericMale2Up = generic_npcs.npcCrop(6,3);
-//
-//        genericMale3Down = generic_npcs.npcCrop(9,0);
-//        genericMale3Left = generic_npcs.npcCrop(9,1);
-//        genericMale3Right = generic_npcs.npcCrop(9,2);
-//        genericMale3Up = generic_npcs.npcCrop(9,3);
-//
-//        genericMale4Down = generic_npcs.npcCrop(6,4);
-//        genericMale4Left = generic_npcs.npcCrop(6,5);
-//        genericMale4Right = generic_npcs.npcCrop(6,6);
-//        genericMale4Up = generic_npcs.npcCrop(6,7);
+        genericMale2Down = generic_males1.npcCrop(3, 0);
+        genericMale2Left = generic_males1.npcCrop(3, 1);
+        genericMale2Right = generic_males1.npcCrop(3, 2);
+        genericMale2Up = generic_males1.npcCrop(3, 3);
+
+        genericMale3Down = generic_males1.npcCrop(6, 0);
+        genericMale3Left = generic_males1.npcCrop(6, 1);
+        genericMale3Right = generic_males1.npcCrop(6, 2);
+        genericMale3Up = generic_males1.npcCrop(6, 3);
+
+        genericMale4Down = generic_males1.npcCrop(9, 0);
+        genericMale4Left = generic_males1.npcCrop(9, 1);
+        genericMale4Right = generic_males1.npcCrop(9, 2);
+        genericMale4Up = generic_males1.npcCrop(9, 3);
+
+        genericMale5Down = generic_males1.npcCrop(12, 0);
+        genericMale5Left = generic_males1.npcCrop(12, 1);
+        genericMale5Right = generic_males1.npcCrop(12, 2);
+        genericMale5Up = generic_males1.npcCrop(12, 3);
+
+        genericMale6Down = generic_males1.npcCrop(15, 0);
+        genericMale6Left = generic_males1.npcCrop(15, 1);
+        genericMale6Right = generic_males1.npcCrop(15, 2);
+        genericMale6Up = generic_males1.npcCrop(15, 3);
+
+        genericMale7Down = generic_males1.npcCrop(0, 4);
+        genericMale7Left = generic_males1.npcCrop(0, 5);
+        genericMale7Right = generic_males1.npcCrop(0, 6);
+        genericMale7Up = generic_males1.npcCrop(0, 7);
+
+        genericMale8Down = generic_males1.npcCrop(3, 4);
+        genericMale8Left = generic_males1.npcCrop(3, 5);
+        genericMale8Right = generic_males1.npcCrop(3, 6);
+        genericMale8Up = generic_males1.npcCrop(3, 7);
+
+        genericMale9Down = generic_males1.npcCrop(6, 4);
+        genericMale9Left = generic_males1.npcCrop(6, 5);
+        genericMale9Right = generic_males1.npcCrop(6, 6);
+        genericMale9Up = generic_males1.npcCrop(6, 7);
+
+        genericMale10Down = generic_males1.npcCrop(9, 4);
+        genericMale10Left = generic_males1.npcCrop(9, 5);
+        genericMale10Right = generic_males1.npcCrop(9, 6);
+        genericMale10Up = generic_males1.npcCrop(9, 7);
+
+        genericMale11Down = generic_males1.npcCrop(12, 4);
+        genericMale11Left = generic_males1.npcCrop(12, 5);
+        genericMale11Right = generic_males1.npcCrop(12, 6);
+        genericMale11Up = generic_males1.npcCrop(12, 7);
+
+        genericMale12Down = generic_males1.npcCrop(15, 4);
+        genericMale12Left = generic_males1.npcCrop(15, 5);
+        genericMale12Right = generic_males1.npcCrop(15, 6);
+        genericMale12Up = generic_males1.npcCrop(15, 7);
 
         /*
          * Player Animations
@@ -467,7 +567,29 @@ public class Assets {
         whirlpool[5] = whirlPool.imageCrop(2, 1);
         whirlpool[6] = whirlPool.imageCrop(1, 1);
         whirlpool[7] = whirlPool.imageCrop(3, 1);
+    }
 
+    public static BufferedImage[][] getAnimationByTag(String tag) {
+        BufferedImage[][] frames = new BufferedImage[4][3];
+        for (Field f : Assets.class.getDeclaredFields()) {
+            if (f.getName().startsWith(tag)) {
+                try {
+                    if(f.getName().contains("Down")) {
+                        frames[0] = (BufferedImage[]) f.get(null);
+                    } else if(f.getName().contains("Left")) {
+                        frames[1] = (BufferedImage[]) f.get(null);
+                    } else if(f.getName().contains("Right")) {
+                        frames[2] = (BufferedImage[]) f.get(null);
+                    } else if(f.getName().contains("Up")) {
+                        frames[3] = (BufferedImage[]) f.get(null);
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return frames;
     }
 
 }
