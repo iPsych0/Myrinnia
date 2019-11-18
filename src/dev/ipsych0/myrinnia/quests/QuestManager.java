@@ -18,9 +18,9 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> islandQuests = new ArrayList<>();
-    private ArrayList<Quest> testQuests = new ArrayList<>();
-    private ArrayList<Quest> mainQuests = new ArrayList<>();
+    private ArrayList<Quest> azurealIslandQuests = new ArrayList<>();
+//    private ArrayList<Quest> testQuests = new ArrayList<>();
+//    private ArrayList<Quest> mainQuests = new ArrayList<>();
 
     // Get Quests by Enum value
     private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
@@ -47,24 +47,25 @@ public class QuestManager implements Serializable {
 
     private void initLists() {
         // Filling allQuestLists with ALL lists of quests
-        allQuestLists.add(islandQuests);
-        allQuestLists.add(testQuests);
-        allQuestLists.add(mainQuests);
+        allQuestLists.add(azurealIslandQuests);
+//        allQuestLists.add(testQuests);
+//        allQuestLists.add(mainQuests);
 
     }
 
     private void fillLists() {
 
         // Island Quests
-        islandQuests.add(new Quest("The First Quest", Zone.PortAzure));
-        islandQuests.add(new Quest("The Second Quest", Zone.PortAzure, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
-        islandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
+        azurealIslandQuests.add(new Quest("Bon Voyage!", Zone.PortAzure));
+        azurealIslandQuests.add(new Quest("Bounty Hunter", Zone.PortAzure));
+//        azurealIslandQuests.add(new Quest("The Second Quest", Zone.PortAzure, new QuestRequirement(QuestList.BonVoyage), new QuestRequirement(SkillsList.FISHING, 2)));
+//        azurealIslandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
 
         // Test Quests
-        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
+//        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
 
         //Main Quests
-        mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
+//        mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
 
         // Sorts every list's quests by name, alphabetically
         for (int i = 0; i < allQuestLists.size(); i++) {

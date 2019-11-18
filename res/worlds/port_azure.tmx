@@ -330,7 +330,7 @@
    <properties>
     <property name="animation" value="genericMale1"/>
     <property name="jsonFile" value="port_azure_man.json"/>
-    <property name="name" value="Jarrett"/>
+    <property name="name" value="Jared"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
@@ -346,7 +346,7 @@
   </object>
   <object id="48" name="Captain Isaac" type="npc" x="2240" y="2208" width="32" height="32">
    <properties>
-    <property name="npcClass" value="PortAzureSailor"/>
+    <property name="npcClass" value="CaptainIsaac"/>
    </properties>
   </object>
   <object id="49" name="Elder's house" type="zone_tile" x="2112" y="1088" width="32" height="64">

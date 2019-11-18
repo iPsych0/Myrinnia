@@ -13,7 +13,7 @@
           "nextId": 2,
           "choiceCondition": {
             "condition": "hasCompletedQuests",
-            "falseId":3
+            "falseId": 3
           }
         },
         {
@@ -29,7 +29,30 @@
     },
     {
       "id": 3,
-      "text": "My crew and I are making preparations for the ceremony. Please come see me after the ceremony if you wish to travel to the mainland.",
+      "text": "I am still missing some supplies. But...",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "Perhaps you wish to help? I still need 5 mackerel, 5 azurite ore and 5 lightwood.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "options": [
+        {
+          "text": "Yes, I'll bring you the materials you need.",
+          "nextId": 6
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Great! You may first want to see the village elder, before you start your quest.",
       "nextId": -1
     }
   ]

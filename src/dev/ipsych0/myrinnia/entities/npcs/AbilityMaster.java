@@ -74,7 +74,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                 break;
             case "openShop":
                 if (!AbilityShopWindow.isOpen) {
-                    Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
+//                    Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
                     AbilityShopWindow.open();
                 }
                 return true;

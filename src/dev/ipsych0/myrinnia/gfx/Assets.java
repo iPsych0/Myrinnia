@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
@@ -571,17 +570,25 @@ public class Assets {
 
     public static BufferedImage[][] getAnimationByTag(String tag) {
         BufferedImage[][] frames = new BufferedImage[4][3];
+        int count = 0;
         for (Field f : Assets.class.getDeclaredFields()) {
             if (f.getName().startsWith(tag)) {
                 try {
-                    if(f.getName().contains("Down")) {
+                    if (f.getName().contains("Down")) {
                         frames[0] = (BufferedImage[]) f.get(null);
-                    } else if(f.getName().contains("Left")) {
+                        count++;
+                    } else if (f.getName().contains("Left")) {
                         frames[1] = (BufferedImage[]) f.get(null);
-                    } else if(f.getName().contains("Right")) {
+                        count++;
+                    } else if (f.getName().contains("Right")) {
                         frames[2] = (BufferedImage[]) f.get(null);
-                    } else if(f.getName().contains("Up")) {
+                        count++;
+                    } else if (f.getName().contains("Up")) {
                         frames[3] = (BufferedImage[]) f.get(null);
+                        count++;
+                    }
+                    if (count == 4) {
+                        return frames;
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

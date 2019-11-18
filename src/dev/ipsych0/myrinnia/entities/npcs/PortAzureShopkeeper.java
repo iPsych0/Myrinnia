@@ -5,13 +5,14 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ShopKeeperNPC extends ShopKeeper {
+public class PortAzureShopkeeper extends ShopKeeper {
 
 
     /**
@@ -22,15 +23,15 @@ public class ShopKeeperNPC extends ShopKeeper {
     private int ySpawn = (int) getY();
     private ArrayList<ItemStack> shopItems;
 
-    public ShopKeeperNPC(float x, float y, String shopName) {
+    public PortAzureShopkeeper(float x, float y, String shopName) {
         super(shopName, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
-        script = Utils.loadScript("shopkeeper.json");
+        script = Utils.loadScript("port_azure_shopkeeper.json");
 
         shopItems = new ArrayList<>();
 
-        shopItems.add(new ItemStack(Item.regularLogs, 5));
-        shopItems.add(new ItemStack(Item.regularOre, 10));
+        shopItems.add(new ItemStack(Item.regularLogs, 1));
+        shopItems.add(new ItemStack(Item.regularOre, 1));
         shopItems.add(new ItemStack(Item.testSword, 1));
 
         shopWindow = new ShopWindow(shopItems);
@@ -55,9 +56,11 @@ public class ShopKeeperNPC extends ShopKeeper {
     @Override
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
-            case "openShop":
-                if (!ShopWindow.isOpen) {
-                    ShopWindow.open();
+            case "mayorQuest":
+                if (Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
+                    if (!ShopWindow.isOpen) {
+                        ShopWindow.open();
+                    }
                 }
                 return true;
             default:
@@ -73,12 +76,23 @@ public class ShopKeeperNPC extends ShopKeeper {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ShopKeeperNPC(xSpawn, ySpawn, shopName));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, shopName));
     }
 
     @Override
     protected void updateDialogue() {
-
+        switch (speakingTurn) {
+            case 5:
+                if(chatDialogue.getChosenOption().getOptionID() == 0){
+                    Handler.get().giveItem(Item.purpleSword, 1);
+                } else if(chatDialogue.getChosenOption().getOptionID() == 1){
+                    Handler.get().giveItem(Item.testAxe, 1);
+                } else if(chatDialogue.getChosenOption().getOptionID() == 2){
+                Handler.get().giveItem(Item.testSword, 1);
+            }
+                Handler.get().getQuest(QuestList.BountyHunter).nextStep();
+                Handler.get().addQuestStep(QuestList.BountyHunter, "Report back to the mayor.");
+        }
     }
 
     public String getName() {

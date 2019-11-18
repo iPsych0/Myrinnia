@@ -35,12 +35,13 @@ public abstract class Entity implements Serializable {
     protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
-    protected boolean attackable = true;
+    protected boolean attackable = false;
     protected boolean isNpc = false;
     protected boolean drawnOnMap = false;
     protected boolean damaged = false;
     protected boolean staticNpc = false;
     protected boolean solid = true;
+    protected boolean walker = true;
     private Entity damageDealer;
     private Entity damageReceiver;
     protected int speakingTurn = 0;
@@ -417,9 +418,9 @@ public abstract class Entity implements Serializable {
         }
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
+            updateDialogue();
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
-            updateDialogue();
             // If there is a condition to proceed, check the condition
             if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
                 ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
@@ -452,7 +453,7 @@ public abstract class Entity implements Serializable {
                         // If we don't meet the condition, return to whatever menu falseId points to
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
-                    chatDialogue.setChosenOption(null);
+//                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 } else {
@@ -460,7 +461,7 @@ public abstract class Entity implements Serializable {
                     if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
-                    chatDialogue.setChosenOption(null);
+//                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 }
@@ -660,5 +661,13 @@ public abstract class Entity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isWalker() {
+        return walker;
+    }
+
+    public void setWalker(boolean walker) {
+        this.walker = walker;
     }
 }

@@ -353,7 +353,7 @@ public abstract class Creature extends Entity {
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "HP: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
+        name[1] = "HP: " + health + "/" + maxHealth;
         return name;
     }
 
@@ -457,7 +457,7 @@ public abstract class Creature extends Entity {
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
-        } else if (isNpc && chatDialogue == null) {
+        } else if (walker && chatDialogue == null) {
             randomWalk();
         }
     }

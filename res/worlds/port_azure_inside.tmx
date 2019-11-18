@@ -477,9 +477,9 @@
     <property name="zone" value="PortAzure"/>
    </properties>
   </object>
-  <object id="9" name="Port Azure Mayor" type="npc" x="1984" y="1920" width="32" height="32">
+  <object id="9" name="Mayor Wilson" type="npc" x="1984" y="1920" width="32" height="32">
    <properties>
-    <property name="npcClass" value="PortAzureMayor"/>
+    <property name="npcClass" value="MayorWilson"/>
    </properties>
   </object>
   <object id="10" name="Banker" type="npc" x="1216" y="1696" width="32" height="32">
@@ -490,7 +490,7 @@
   <object id="11" name="Shop Keeper" type="npc" x="416" y="1600" width="32" height="32">
    <properties>
     <property name="customShopName" value="Port Azure General Store"/>
-    <property name="npcClass" value="ShopKeeperNPC"/>
+    <property name="npcClass" value="PortAzureShopkeeper"/>
    </properties>
   </object>
   <object id="13" name="Elder Selwyn" type="npc" x="1984" y="1312" width="32" height="32">

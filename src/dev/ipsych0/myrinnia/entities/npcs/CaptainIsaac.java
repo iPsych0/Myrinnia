@@ -3,16 +3,19 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
-public class PortAzureSailor extends Creature {
+public class CaptainIsaac extends Creature {
 
-    public PortAzureSailor(float x, float y) {
+    public CaptainIsaac(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
-        script = Utils.loadScript("port_azure_sailor.json");
+        script = Utils.loadScript("captain_isaac.json");
         solid = true;
         attackable = false;
         isNpc = true;

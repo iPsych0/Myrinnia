@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest.QuestState;
@@ -50,25 +49,25 @@ public class Campfire extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "startFirstQuest":
-                if (!Handler.get().questStarted(QuestList.TheFirstQuest)) {
-                    Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.TheFirstQuest, "Investigate the fire.");
+                if (!Handler.get().questStarted(QuestList.BonVoyage)) {
+                    Handler.get().getQuest(QuestList.BonVoyage).setState(QuestState.IN_PROGRESS);
+                    Handler.get().addQuestStep(QuestList.BonVoyage, "Investigate the fire.");
                 }
                 return true;
             case "progressFirstQuest":
-                if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
-                    Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                    Handler.get().addQuestStep(QuestList.TheFirstQuest, "Solve the mystery of the campfire.");
+                if (Handler.get().questInProgress(QuestList.BonVoyage)) {
+                    Handler.get().getQuest(QuestList.BonVoyage).nextStep();
+                    Handler.get().addQuestStep(QuestList.BonVoyage, "Solve the mystery of the campfire.");
                     return true;
                 }
                 return false;
             case "takeSword":
-                if (Handler.get().questInProgress(QuestList.TheFirstQuest)) {
+                if (Handler.get().questInProgress(QuestList.BonVoyage)) {
                     if (!Handler.get().invIsFull(Item.testSword)) {
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().addQuestStep(QuestList.TheFirstQuest, "Reward:\n1x Test Sword\n Recipe: Purple Sword");
-                        Handler.get().getQuest(QuestList.TheFirstQuest).nextStep();
-                        Handler.get().getQuest(QuestList.TheFirstQuest).setState(QuestState.COMPLETED);
+                        Handler.get().getQuest(QuestList.BonVoyage).nextStep();
+                        Handler.get().addQuestStep(QuestList.BonVoyage, "Reward:\n1x Test Sword\n Recipe: Purple Sword");
+                        Handler.get().getQuest(QuestList.BonVoyage).nextStep();
+                        Handler.get().getQuest(QuestList.BonVoyage).setState(QuestState.COMPLETED);
                         Handler.get().giveItem(Item.testSword, 1);
                         Handler.get().discoverRecipe(Item.purpleSword);
                     } else {

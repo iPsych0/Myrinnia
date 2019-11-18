@@ -209,7 +209,7 @@ public class HPOverlay implements Serializable {
             g.setColor(xpColorOutline);
             g.drawRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
 
-            Text.drawString(g, "Combat level: " + Integer.toString(Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel()),
+            Text.drawString(g, "Combat level: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(),
                     combatBar.x + combatBar.width / 2, combatBar.y + combatBar.height / 2, true, Color.YELLOW, Assets.font14);
 
             Text.drawString(g, Handler.get().getPlayer().getHealth() + "/" +
@@ -220,7 +220,7 @@ public class HPOverlay implements Serializable {
 
             if (questsButton.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
-                Text.drawString(g, "Quests (Q)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Quest Journal (Q)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);
             } else if (skillsButton.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 96, 32, null);
                 Text.drawString(g, "Skills (L)", mouse.x + 56, mouse.y + 24, true, Color.YELLOW, Assets.font14);

@@ -4,11 +4,12 @@ import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 public enum QuestList {
 
-    TheFirstQuest("The First Quest", Zone.PortAzure),
-    TheSecondQuest("The Second Quest", Zone.PortAzure),
-    TheThirdQuest("The Third Quest", Zone.PortAzure),
-    TheTestQuest("The Test Quest", Zone.LakeAzure),
-    AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
+    BonVoyage("Bon Voyage!", Zone.PortAzure),
+    BountyHunter("Bounty Hunter", Zone.PortAzure);
+//    TheSecondQuest("The Second Quest", Zone.PortAzure),
+//    TheThirdQuest("The Third Quest", Zone.PortAzure),
+//    TheTestQuest("The Test Quest", Zone.LakeAzure),
+//    AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
 
     private Zone zone;
     private String name;
