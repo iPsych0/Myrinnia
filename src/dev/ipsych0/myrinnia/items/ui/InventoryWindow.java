@@ -407,7 +407,6 @@ public class InventoryWindow implements Serializable {
                     found = true;
                     break;
                 }
-            } else {
             }
         }
         return found;
@@ -418,11 +417,11 @@ public class InventoryWindow implements Serializable {
      * @returns boolean: true if successful, false if item+quantity requirement not met
      */
     public boolean removeItem(Item item, int amount) {
-        boolean hasItem = false;
         if (!playerHasItem(item, amount)) {
             Handler.get().sendMsg("You don't have " + amount + "x " + item.getName().toLowerCase() + ".");
-            return hasItem;
+            return false;
         }
+
         List<Integer> matchSlots = new ArrayList<>();
         int foundAmount = 0;
         int leftOverAmount;
@@ -436,14 +435,13 @@ public class InventoryWindow implements Serializable {
                     foundAmount += itemSlots.get(i).getItemStack().getAmount();
                     if (foundAmount >= amount) {
                         leftOverAmount = foundAmount - amount;
-                        hasItem = true;
                         for (int j = 0; j < matchSlots.size(); j++) {
                             if (j == matchSlots.size() - 1) {
                                 itemSlots
                                         .get(matchSlots.get(j))
                                         .getItemStack()
                                         .setAmount(leftOverAmount);
-                                return hasItem;
+                                return true;
                             }
                             foundAmount -= itemSlots.get(matchSlots.get(j)).getItemStack().getAmount();
                             itemSlots.get(matchSlots.get(j)).setItemStack(null);
@@ -451,16 +449,14 @@ public class InventoryWindow implements Serializable {
                     }
                 } else if ((itemSlots.get(i).getItemStack().getAmount() - amount) == 0) {
                     itemSlots.get(i).setItemStack(null);
-                    hasItem = true;
-                    return hasItem;
+                    return true;
                 } else if ((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1) {
                     itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
-                    hasItem = true;
-                    return hasItem;
+                    return true;
                 }
             }
         }
-        return hasItem;
+        return false;
     }
 
     public void empty() {
@@ -474,15 +470,13 @@ public class InventoryWindow implements Serializable {
      * @returns boolean: true if successful, false if item+quantity requirement not met
      */
     public boolean removeBankItemSlot(ItemSlot is) {
-        boolean hasItem = false;
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == is.getItemStack()) {
-                itemSlots.get(i).setItemStack(null);
-                hasItem = true;
-                break;
+        for (ItemSlot itemSlot : itemSlots) {
+            if (itemSlot.getItemStack() == is.getItemStack()) {
+                itemSlot.setItemStack(null);
+                return true;
             }
         }
-        return hasItem;
+        return false;
     }
 
     /*
@@ -491,12 +485,12 @@ public class InventoryWindow implements Serializable {
      */
     public boolean inventoryIsFull(Item item) {
         int emptySlots = 0;
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == null) {
+        for (ItemSlot itemSlot : itemSlots) {
+            if (itemSlot.getItemStack() == null) {
                 emptySlots++;
                 continue;
             }
-            if (itemSlots.get(i).getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
+            if (itemSlot.getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
                 return false;
             }
         }
@@ -533,10 +527,10 @@ public class InventoryWindow implements Serializable {
      * @returns int: index of the equipment slot to be filled
      */
     public int checkEquipmentSlot(Item item) {
-        if (item.getEquipSlot() >= 0 && item.getEquipSlot() <= 11)
+        if (item.getEquipSlot() >= 0 && item.getEquipSlot() < 12)
             return item.getEquipSlot();
 
-        return -10;
+        throw new IllegalArgumentException(item.getName() + " does not have an equipment slot ID.");
     }
 
     public List<ItemSlot> getItemSlots() {

@@ -99,4 +99,9 @@ public class AzureCrab extends Creature {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Azure Crab";
+    }
 }

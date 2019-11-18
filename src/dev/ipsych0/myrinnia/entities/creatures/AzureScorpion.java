@@ -127,4 +127,9 @@ public class AzureScorpion extends Creature {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Azure Scorpion";
+    }
 }

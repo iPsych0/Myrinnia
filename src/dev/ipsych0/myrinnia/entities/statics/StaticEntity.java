@@ -23,7 +23,7 @@ public abstract class StaticEntity extends Entity {
         if (attackable) {
             String[] name = new String[2];
             name[0] = hoveringEntity.getName();
-            name[1] = "Health: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
+            name[1] = "Health: " + health + "/" + maxHealth;
             return name;
         } else {
             String[] name = new String[1];

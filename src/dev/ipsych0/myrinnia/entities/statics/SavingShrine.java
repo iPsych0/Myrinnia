@@ -56,14 +56,6 @@ public class SavingShrine extends StaticEntity {
         }
     }
 
-    public int getSpeakingTurn() {
-        return speakingTurn;
-    }
-
-    public void setSpeakingTurn(int speakingTurn) {
-        this.speakingTurn = speakingTurn;
-    }
-
     @Override
     public void postRender(Graphics2D g) {
 

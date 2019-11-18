@@ -99,4 +99,9 @@ public class AzureBat extends Creature {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Azure Bat";
+    }
 }

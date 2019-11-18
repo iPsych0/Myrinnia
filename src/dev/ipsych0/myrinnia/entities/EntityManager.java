@@ -120,8 +120,9 @@ public class EntityManager implements Serializable {
     public void render(Graphics2D g) {
         for (Entity e : entities) {
             if (e.getDamageReceiver() != null && Handler.get().getPlayer().isInCombat()) {
-                if (e.isAttackable())
+                if (e.isAttackable()) {
                     e.drawHP(g);
+                }
             }
 
             e.render(g);

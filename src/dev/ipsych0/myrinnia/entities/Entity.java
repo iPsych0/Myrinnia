@@ -85,6 +85,8 @@ public abstract class Entity implements Serializable {
 
     protected abstract void updateDialogue();
 
+    public abstract String getName();
+
     /*
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
@@ -523,7 +525,7 @@ public abstract class Entity implements Serializable {
         this.height = height;
     }
 
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
 
@@ -653,10 +655,6 @@ public abstract class Entity implements Serializable {
 
     public int getRespawnTimer() {
         return respawnTimer;
-    }
-
-    public String getName() {
-        return this.getClass().getSimpleName();
     }
 
     public void setName(String name) {

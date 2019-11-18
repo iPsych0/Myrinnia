@@ -138,4 +138,9 @@ public class Rock extends StaticEntity {
 
     }
 
+    @Override
+    public String getName() {
+        return "Rock";
+    }
+
 }

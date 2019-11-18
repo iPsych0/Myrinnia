@@ -2,8 +2,40 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "I heard that the mayor could use some help. Here on Azureal Island, we all make sure we contribute to the community one way or another.",
-      "nextId": -1
+      "text": "Here on Azureal Island, we all make sure we contribute to the community one way or another.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "You should speak to the locals. They will be happy to help you on your way.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "What can I do around here?",
+          "nextId": 3
+        },
+        {
+          "text": "I would like to learn more about your ways.",
+          "nextId": 4
+        },
+        {
+          "text": "Thanks!",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Well, we primarily fish. There are some fishing docks south of here, but you will need a fishing rod. I heard that someone is handing one out to travellers who help him.",
+      "nextId": 2
+    },
+    {
+      "id": 4,
+      "text": "Isn't that lovely! If you wish to, I suppose you should talk to Elder Selwyn. His house is north of the mayor's house.",
+      "nextId": 2
     }
   ]
 }

@@ -134,4 +134,9 @@ public class Tree extends StaticEntity {
 
     }
 
+    @Override
+    public String getName() {
+        return "Tree";
+    }
+
 }

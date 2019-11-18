@@ -127,4 +127,9 @@ public class AngryOwl extends Creature {
     protected void updateDialogue() {
 
     }
+
+    @Override
+    public String getName() {
+        return "Angry Owl";
+    }
 }

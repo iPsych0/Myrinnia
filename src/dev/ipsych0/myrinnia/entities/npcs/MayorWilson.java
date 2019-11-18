@@ -80,6 +80,7 @@ public class MayorWilson extends StaticEntity {
 
     }
 
+    @Override
     public String getName() {
         return "Mayor";
     }

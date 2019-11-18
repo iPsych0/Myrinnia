@@ -96,6 +96,7 @@ public class Player extends Creature {
 
         xSpawn = x;
         ySpawn = y;
+        attackable = true;
 
         // Player combat/movement settings:
 
@@ -838,6 +839,11 @@ public class Player extends Creature {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    @Override
+    public String getName() {
+        return "Player";
     }
 
     /*

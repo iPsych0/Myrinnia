@@ -98,46 +98,9 @@ public class Projectile extends Creature implements Serializable {
 
     }
 
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public double getxVelocity() {
-        return xVelocity;
-    }
-
-    public void setxVelocity(double xVelocity) {
-        this.xVelocity = xVelocity;
-    }
-
-    public double getyVelocity() {
-        return yVelocity;
-    }
-
-    public void setyVelocity(double yVelocity) {
-        this.yVelocity = yVelocity;
-    }
-
-    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
-        collision.setLocation((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset));
-        return collision;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
+    @Override
+    public String getName() {
+        return null;
     }
 
 }
