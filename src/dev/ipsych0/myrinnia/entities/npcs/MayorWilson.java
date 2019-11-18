@@ -67,6 +67,12 @@ public class MayorWilson extends StaticEntity {
                     Handler.get().addQuestStep(QuestList.BountyHunter, "Choose your first weapon from the store.");
                 }
                 break;
+            case 6:
+                if (Handler.get().questInProgress(QuestList.BountyHunter)) {
+                    Handler.get().getQuest(QuestList.BountyHunter).nextStep();
+                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose a bounty target from the board.");
+                }
+                break;
         }
     }
 

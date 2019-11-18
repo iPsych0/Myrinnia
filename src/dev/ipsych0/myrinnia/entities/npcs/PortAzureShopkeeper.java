@@ -6,11 +6,13 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PortAzureShopkeeper extends ShopKeeper {
 
@@ -57,16 +59,21 @@ public class PortAzureShopkeeper extends ShopKeeper {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "mayorQuest":
-                if (Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
-                    if (!ShopWindow.isOpen) {
-                        ShopWindow.open();
-                    }
+                List<QuestStep> steps = Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps();
+                if (!steps.isEmpty() && !steps.get(0).isFinished()) {
+                    return true;
                 }
-                return true;
+                break;
+            case "openShop":
+                if(!ShopWindow.isOpen){
+                    ShopWindow.open();
+                }
+                break;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 return false;
         }
+        return false;
     }
 
     @Override
