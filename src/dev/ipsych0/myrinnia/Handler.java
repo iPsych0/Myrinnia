@@ -353,6 +353,13 @@ public class Handler implements Serializable {
     }
 
     public void addQuestStep(QuestList quest, String objective) {
+        for (QuestStep steps : getQuest(quest).getQuestSteps()) {
+            if (steps.getObjective().equalsIgnoreCase(objective)) {
+                System.err.println("Duplicate quest step added! Please check the implementation!");
+                System.err.println(quest.getName() + ": " + objective);
+                return;
+            }
+        }
         getQuest(quest).getQuestSteps().add(new QuestStep(objective));
     }
 

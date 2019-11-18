@@ -4,8 +4,7 @@ import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 public enum QuestList {
 
-    BonVoyage("Bon Voyage!", Zone.PortAzure),
-    BountyHunter("Bounty Hunter", Zone.PortAzure);
+    LearningTheRopes("Learning The Ropes", Zone.PortAzure);
 //    TheSecondQuest("The Second Quest", Zone.PortAzure),
 //    TheThirdQuest("The Third Quest", Zone.PortAzure),
 //    TheTestQuest("The Test Quest", Zone.LakeAzure),

@@ -72,14 +72,14 @@ public class EntityManager implements Serializable {
             }
 
             // If we rightclick an Entity, lock it to the top of the screen.
-            if (!isPressed && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
+            if (!isPressed && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) && !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed()) {
                 isPressed = true;
                 if (e.isOverlayDrawn())
                     selectedEntity = e;
             }
 
             // If we clicked away, remove the locked UI component
-            if (selectedEntity != null && !e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
+            if (selectedEntity != null && !e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse) &&
                     !Handler.get().getPlayer().hasRightClickedUI(mouse) &&
                     !e.equals(Handler.get().getPlayer()) && Handler.get().getMouseManager().isRightPressed() && !isPressed) {
                 isPressed = true;
@@ -87,7 +87,7 @@ public class EntityManager implements Serializable {
 
                 // Check if we're clicking on another Entity
                 for (Entity e2 : entities) {
-                    if (e2.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
+                    if (e2.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                         selectedEntity = e2;
                         break;
                     }
@@ -199,7 +199,7 @@ public class EntityManager implements Serializable {
         while (it.hasNext()) {
             Entity e = it.next();
             // If the mouse is hovered over an Entity, draw the overlay
-            if (!e.equals(Handler.get().getPlayer()) && e.getCollisionBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
+            if (!e.equals(Handler.get().getPlayer()) && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
 
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc()) {

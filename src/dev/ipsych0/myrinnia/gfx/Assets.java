@@ -13,6 +13,7 @@ import java.util.List;
 public class Assets {
 
     public static final int WIDTH = 32, HEIGHT = 32;
+    private static List<SpriteSheet> tileSheets;
 
     // Fonts
     public static Font font14;
@@ -25,6 +26,7 @@ public class Assets {
 
     // Map item images (trees, rocks, etc)
     public static BufferedImage tree, rock;
+    public static BufferedImage bountyBoard1, bountyBoard2;
 
     /*
      * Creature Animations
@@ -175,7 +177,7 @@ public class Assets {
         /*
          * All Tiled Sprites
          */
-        List<SpriteSheet> tileSheets = new ArrayList<>();
+        tileSheets = new ArrayList<>();
         tileSheets.add(new SpriteSheet("/textures/tiles/castle.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/desert.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/dungeon.png", true));
@@ -556,8 +558,10 @@ public class Assets {
         // Skilling objects
 //        tree = texture_sheet.imageCrop(1, 2);
 //        rock = texture_sheet.imageCrop(0, 3);
+        bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
+        bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
 
-        whirlpool = new BufferedImage[8];
+                whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);
         whirlpool[1] = whirlPool.imageCrop(2, 0);
         whirlpool[2] = whirlPool.imageCrop(1, 0);
@@ -597,6 +601,16 @@ public class Assets {
         }
 
         return frames;
+    }
+
+    private static SpriteSheet getSheetByFilename(String fileName) {
+        String prefix = "/textures/tiles/";
+        for (SpriteSheet sheet : tileSheets) {
+            if (sheet.getPath().equalsIgnoreCase(prefix + fileName)) {
+                return sheet;
+            }
+        }
+        throw new IllegalArgumentException("SpriteSheet not found: " + prefix + fileName);
     }
 
 }

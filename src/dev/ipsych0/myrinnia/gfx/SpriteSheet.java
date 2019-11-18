@@ -17,9 +17,11 @@ public class SpriteSheet {
     public static int[] firstGids = MapLoader.getTiledFirstGid();
     private int imageIndex;
     private int columns;
+    private String path;
 
     public SpriteSheet(String path, boolean isTileSet) {
         this.sheet = ImageLoader.loadImage(path);
+        this.path = path;
 
         if (isTileSet) {
             imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
@@ -29,6 +31,7 @@ public class SpriteSheet {
 
     public SpriteSheet(String path) {
         this.sheet = ImageLoader.loadImage(path);
+        this.path = path;
     }
 
     /**
@@ -219,5 +222,9 @@ public class SpriteSheet {
 
     public int getImageIndex() {
         return imageIndex;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

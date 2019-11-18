@@ -46,7 +46,7 @@ public class MayorWilson extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasObtainedWeapon":
-                if (Handler.get().questInProgress(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.LearningTheRopes) && Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps().get(0).isFinished()) {
                     return true;
                 }
                 break;
@@ -61,16 +61,16 @@ public class MayorWilson extends StaticEntity {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 2:
-                if (!Handler.get().questCompleted(QuestList.BountyHunter) && !Handler.get().questStarted(QuestList.BountyHunter)) {
+                if (!Handler.get().questCompleted(QuestList.LearningTheRopes) && !Handler.get().questStarted(QuestList.LearningTheRopes)) {
                     Handler.get().addTip(new TutorialTip("Press Q to open your Quest Journal."));
-                    Handler.get().getQuest(QuestList.BountyHunter).setState(Quest.QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose your first weapon from the store.");
+                    Handler.get().getQuest(QuestList.LearningTheRopes).setState(Quest.QuestState.IN_PROGRESS);
+                    Handler.get().addQuestStep(QuestList.LearningTheRopes, "Choose your first weapon from the store.");
                 }
                 break;
             case 6:
-                if (Handler.get().questInProgress(QuestList.BountyHunter)) {
-                    Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose a bounty target from the board.");
+                if (Handler.get().questInProgress(QuestList.LearningTheRopes) && !Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps().get(1).isFinished()) {
+                    Handler.get().getQuest(QuestList.LearningTheRopes).nextStep();
+                    Handler.get().addQuestStep(QuestList.LearningTheRopes, "Choose a bounty target from the board.");
                 }
                 break;
         }
@@ -88,7 +88,7 @@ public class MayorWilson extends StaticEntity {
 
     @Override
     public String getName() {
-        return "Mayor";
+        return "Mayor Wilson The 1st in his name";
     }
 
 

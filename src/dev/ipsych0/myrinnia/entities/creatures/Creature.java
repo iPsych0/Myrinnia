@@ -346,7 +346,7 @@ public abstract class Creature extends Entity {
      */
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (this.isNpc) {
+        if (!attackable || isNpc) {
             String[] name = new String[1];
             name[0] = hoveringEntity.getName();
             return name;
@@ -364,11 +364,7 @@ public abstract class Creature extends Entity {
      * @param g
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
-        int yPos = 12;
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
-        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
-        }
+        super.drawEntityOverlay(hoveringEntity, g);
 
         for (int i = 0; i < conditions.size(); i++) {
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50, 32, 32);

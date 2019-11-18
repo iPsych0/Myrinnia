@@ -394,6 +394,10 @@ public class MapLoader implements Serializable {
             // Use default constructor if no custom properties
             int constructorArguments = 2;
 
+            if (width != Creature.DEFAULT_CREATURE_WIDTH || height != Creature.DEFAULT_CREATURE_HEIGHT) {
+                constructorArguments = 4;
+            }
+
             if (customShopName != null || jsonFile != null) {
                 constructorArguments++;
             }
@@ -404,10 +408,6 @@ public class MapLoader implements Serializable {
 
             if(animation != null){
                 constructorArguments++;
-            }
-
-            if (width != Creature.DEFAULT_CREATURE_WIDTH || height != Creature.DEFAULT_CREATURE_HEIGHT) {
-                constructorArguments = 4;
             }
 
             for (Constructor t : cstr) {

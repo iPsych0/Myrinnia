@@ -59,7 +59,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "mayorQuest":
-                List<QuestStep> steps = Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps();
+                List<QuestStep> steps = Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps();
                 if (!steps.isEmpty() && !steps.get(0).isFinished()) {
                     return true;
                 }
@@ -97,8 +97,8 @@ public class PortAzureShopkeeper extends ShopKeeper {
                 } else if(chatDialogue.getChosenOption().getOptionID() == 2){
                 Handler.get().giveItem(Item.testSword, 1);
             }
-                Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                Handler.get().addQuestStep(QuestList.BountyHunter, "Report back to the mayor.");
+                Handler.get().getQuest(QuestList.LearningTheRopes).nextStep();
+                Handler.get().addQuestStep(QuestList.LearningTheRopes, "Report back to the mayor.");
         }
     }
 

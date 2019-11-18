@@ -30,6 +30,7 @@ public abstract class Entity implements Serializable {
     protected float x, y;
     protected int width, height;
     protected Rectangle bounds;
+    protected Rectangle fullBounds;
     public static boolean isCloseToNPC = false;
     protected int health;
     protected static final int DEFAULT_HEALTH = 50;
@@ -66,6 +67,7 @@ public abstract class Entity implements Serializable {
         health = DEFAULT_HEALTH;
 
         bounds = new Rectangle(0, 0, width, height);
+        fullBounds = new Rectangle(0, 0, width, height);
         collision = new Rectangle((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
     }
 
@@ -383,9 +385,31 @@ public abstract class Entity implements Serializable {
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
-        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
+        Font font;
+
+        String[] text = getEntityInfo(hoveringEntity);
+        Rectangle titleBounds;
+        if (text.length == 1) {
+            yPos += 12;
+            font = Assets.font20;
+            titleBounds = Text.getStringBounds(g, text[0], font);
+        } else {
+            font = Assets.font14;
+            String longest = null;
+            for (String s : text) {
+                if (longest == null) {
+                    longest = s;
+                } else if (s.length() > longest.length()) {
+                    longest = s;
+                }
+            }
+            titleBounds = Text.getStringBounds(g, longest, font);
+        }
+
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
+
+        for (int i = 0; i < text.length; i++) {
+            Text.drawString(g, text[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, font);
         }
     }
 
@@ -405,6 +429,14 @@ public abstract class Entity implements Serializable {
     public Rectangle getCollisionBounds(float xOffset, float yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
+    }
+
+    /*
+     * Returns the collision bounds of an Entity
+     */
+    public Rectangle getFullBounds(float xOffset, float yOffset) {
+        fullBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), width, height);
+        return fullBounds;
     }
 
     public void interact() {
@@ -455,7 +487,6 @@ public abstract class Entity implements Serializable {
                         // If we don't meet the condition, return to whatever menu falseId points to
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
-//                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 } else {
@@ -463,7 +494,6 @@ public abstract class Entity implements Serializable {
                     if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
-//                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 }
