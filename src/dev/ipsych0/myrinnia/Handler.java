@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -35,6 +35,8 @@ import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardManager;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
@@ -674,5 +676,9 @@ public class Handler implements Serializable {
 
     public void setTutorialTipManager(TutorialTipManager tutorialTipManager) {
         this.tutorialTipManager = tutorialTipManager;
+    }
+
+    public BountyBoardUI getBountyBoardByZone(Zone zone) {
+        return BountyBoardManager.get().getBoardByZone(zone).getBountyBoardUI();
     }
 }

@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.hpoverlay;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.gfx.Assets;

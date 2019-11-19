@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -94,9 +95,10 @@ public class PortAzureShopkeeper extends ShopKeeper {
                     Handler.get().giveItem(Item.purpleSword, 1);
                 } else if(chatDialogue.getChosenOption().getOptionID() == 1){
                     Handler.get().giveItem(Item.testAxe, 1);
-                } else if(chatDialogue.getChosenOption().getOptionID() == 2){
-                Handler.get().giveItem(Item.testSword, 1);
-            }
+                } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
+                    Handler.get().giveItem(Item.testSword, 1);
+                }
+                Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
                 Handler.get().getQuest(QuestList.LearningTheRopes).nextStep();
                 Handler.get().addQuestStep(QuestList.LearningTheRopes, "Report back to the mayor.");
         }

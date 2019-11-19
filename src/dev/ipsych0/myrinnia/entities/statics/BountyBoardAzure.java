@@ -1,13 +1,20 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyPanel;
+import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
+import java.util.List;
 
-public class BountyBoardAzure extends StaticEntity {
+public class BountyBoardAzure extends BountyBoard {
 
     private static final long serialVersionUID = 4925882540927003315L;
+
+    private BountyBoardUI bountyBoardUI;
 
     public BountyBoardAzure(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -19,6 +26,17 @@ public class BountyBoardAzure extends StaticEntity {
 
         attackable = false;
         isNpc = true;
+
+        bountyBoardUI = new BountyBoardUI(Zone.PortAzure);
+        bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
+        bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
+        bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
+
+    }
+
+    @Override
+    public BountyBoardUI getBountyBoardUI() {
+        return bountyBoardUI;
     }
 
     @Override
@@ -38,12 +56,6 @@ public class BountyBoardAzure extends StaticEntity {
     }
 
     @Override
-    public void interact() {
-        Handler.get().sendMsg("Coming soon!");
-        // TODO: OPEN AZURE BOUNTY BOARD!
-    }
-
-    @Override
     public void die() {
 
     }
@@ -56,10 +68,5 @@ public class BountyBoardAzure extends StaticEntity {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Bounty Board";
     }
 }

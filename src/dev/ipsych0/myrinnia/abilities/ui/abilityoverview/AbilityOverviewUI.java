@@ -1,9 +1,9 @@
-package dev.ipsych0.myrinnia.abilityoverview;
+package dev.ipsych0.myrinnia.abilities.ui.abilityoverview;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;

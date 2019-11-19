@@ -1,8 +1,8 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
+import dev.ipsych0.myrinnia.entities.statics.BountyBoard;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
@@ -26,6 +27,7 @@ import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -85,6 +87,7 @@ public class Player extends Creature {
     private ShopKeeper shopKeeper;
     private AbilityTrainer abilityTrainer;
     private Banker bankEntity;
+    private BountyBoard bountyBoard;
 
     private Zone zone = Zone.PortAzure;
     private Rectangle itemPickupRadius;
@@ -212,6 +215,8 @@ public class Player extends Creature {
                         } else if (closestEntity instanceof AbilityTrainer) {
                             abilityTrainer = (AbilityTrainer) getClosestEntity();
                             abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
+                        } else if (closestEntity instanceof BountyBoard) {
+                            bountyBoard = (BountyBoard) getClosestEntity();
                         }
                     } else {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
@@ -662,6 +667,12 @@ public class Player extends Creature {
             return true;
         }
 
+        if(bountyBoard != null && BountyBoardUI.isOpen){
+            if (Handler.get().getMouseManager().isLeftPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
+                return true;
+            }
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
     }
@@ -712,6 +723,12 @@ public class Player extends Creature {
         TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
         if (tip != null && Handler.get().getMouseManager().isRightPressed() && tip.getPopup().getBounds().contains(mouse)) {
             return true;
+        }
+
+        if(bountyBoard != null && BountyBoardUI.isOpen){
+            if (Handler.get().getMouseManager().isRightPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
+                return true;
+            }
         }
 
         // If the mouse is not clicked in one of the UI windows, return false
@@ -1165,6 +1182,14 @@ public class Player extends Creature {
 
     public void setAbilityTrainer(AbilityTrainer abilityTrainer) {
         this.abilityTrainer = abilityTrainer;
+    }
+
+    public BountyBoard getBountyBoard() {
+        return bountyBoard;
+    }
+
+    public void setBountyBoard(BountyBoard bountyBoard) {
+        this.bountyBoard = bountyBoard;
     }
 
     public int getAbilityPoints() {

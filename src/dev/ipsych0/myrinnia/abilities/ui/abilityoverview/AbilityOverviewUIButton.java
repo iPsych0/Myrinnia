@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.abilityoverview;
+package dev.ipsych0.myrinnia.abilities.ui.abilityoverview;
 
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Assets;

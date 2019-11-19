@@ -1,9 +1,9 @@
 package dev.ipsych0.myrinnia.input;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;

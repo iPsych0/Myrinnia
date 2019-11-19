@@ -30,7 +30,11 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void tick() {
-
+        if (getBounds().contains(Handler.get().getMouse())) {
+            setHovering(true);
+        } else {
+            setHovering(false);
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.crafting.ui;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingManager;
 import dev.ipsych0.myrinnia.crafting.CraftingRecipe;

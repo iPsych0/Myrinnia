@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.abilityhud;
+package dev.ipsych0.myrinnia.abilities.ui.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;

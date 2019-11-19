@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.worlds.data;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
@@ -137,6 +138,9 @@ public abstract class World implements Serializable {
                 player.getShopKeeper().getShopWindow().tick();
             if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
                 player.getAbilityTrainer().getAbilityShopWindow().tick();
+            }
+            if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
+                player.getBountyBoard().getBountyBoardUI().tick();
             }
 
             // Check for night-time every minute
@@ -265,6 +269,9 @@ public abstract class World implements Serializable {
             }
             if (AbilityShopWindow.isOpen && player.getAbilityTrainer() != null) {
                 player.getAbilityTrainer().getAbilityShopWindow().render(g);
+            }
+            if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
+                player.getBountyBoard().getBountyBoardUI().render(g);
             }
 
             if (Handler.debugZones) {
