@@ -408,7 +408,7 @@ public class Handler implements Serializable {
      * Sends a message to the chat log
      */
     public void sendMsg(String message, Filter filter) {
-        String[] text = Text.splitIntoLine(message, 60);
+        String[] text = Text.splitIntoLine(message, 58);
         for (String s : text) {
             getChatWindow().sendMessage(s, filter);
         }
