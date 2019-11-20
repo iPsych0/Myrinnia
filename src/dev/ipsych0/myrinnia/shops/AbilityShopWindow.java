@@ -41,7 +41,6 @@ public class AbilityShopWindow implements Serializable {
     private static final int DIALOGUE_WIDTH = 300;
     private static final int DIALOGUE_HEIGHT = 150;
     private String[] answers = {"Yes", "No"};
-    private static boolean makingChoice = false;
     public static AbilityShopWindow lastOpenedWindow;
 
     private UIManager uiManager;
@@ -105,7 +104,7 @@ public class AbilityShopWindow implements Serializable {
         selectedButton = allButton;
 
         // Instance of the DialogueBox
-        dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "", false);
+        dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "", null);
     }
 
     public void setLastOpenedWindow() {
@@ -118,9 +117,7 @@ public class AbilityShopWindow implements Serializable {
         }
         isOpen = false;
         hasBeenPressed = false;
-        dBox.setPressedButton(null);
-        makingChoice = false;
-        dBox.setOpen(false);
+        dBox.close();
     }
 
     public void tick() {
@@ -146,7 +143,7 @@ public class AbilityShopWindow implements Serializable {
         }
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.tick();
 
         checkSubmit();
@@ -192,7 +189,7 @@ public class AbilityShopWindow implements Serializable {
         drawButtons(g);
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.render(g);
     }
 
@@ -217,15 +214,13 @@ public class AbilityShopWindow implements Serializable {
     }
 
     private void checkSubmit() {
-        if (makingChoice && dBox.getPressedButton() != null) {
+        if (dBox.isMakingChoice() && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 buyAbility(selectedSlot.getAbility());
             } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
-            dBox.setPressedButton(null);
-            dBox.setOpen(false);
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
     }
@@ -239,8 +234,7 @@ public class AbilityShopWindow implements Serializable {
         // Buy button
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if (selectedSlot != null) {
-                makingChoice = true;
-                dBox.setOpen(true);
+                dBox.open();
                 dBox.setParam("Unlock");
                 dBox.setMessage("Do you want to learn '" + selectedSlot.getAbility().getName() + "'?");
             }

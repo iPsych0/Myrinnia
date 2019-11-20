@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.ControlsState;
@@ -113,6 +114,7 @@ public class KeyManager implements KeyListener, Serializable {
                 ControlsState.escapePressed = true;
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
+                BountyBoardUI.escapePressed = true;
                 escape = true;
             }
 
@@ -196,8 +198,6 @@ public class KeyManager implements KeyListener, Serializable {
             if (e.getKeyCode() == KeyEvent.VK_T) {
                 if (!DevToolUI.isOpen) {
                     TextBox.openKeyPressed = true;
-                    TextBox.focus = true;
-                    typingFocus = true;
                     DevToolUI.isOpen = true;
                 }
             }

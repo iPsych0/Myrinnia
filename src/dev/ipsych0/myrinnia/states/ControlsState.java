@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.*;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -16,7 +15,6 @@ public class ControlsState extends State {
      */
     private static final long serialVersionUID = 8517192489288492030L;
     private UIManager uiManager;
-    private boolean selectingNewKey = false;
     private UIImageButton returnButton;
     private UIImageButton defaultButton;
     private Rectangle overlay;
@@ -35,7 +33,6 @@ public class ControlsState extends State {
     private static String keysMessage = "Please enter the new key.";
     private static String defaultConfirmMessage = "Do you wish to reset to the default key binds?";
     private static String[] confirmAnswers = {"Yes", "No"};
-    private static boolean makingChoice = false;
     public static boolean escapePressed;
 
     private static final String UP_SHORTCUT = "w", LEFT_SHORTCUT = "a", RIGHT_SHORTCUT = "d", DOWN_SHORTCUT = "s",
@@ -96,7 +93,7 @@ public class ControlsState extends State {
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
         keysDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, keysAnswers, keysMessage, tb);
-        defaultDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, confirmAnswers, defaultConfirmMessage, false);
+        defaultDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, confirmAnswers, defaultConfirmMessage, null);
 
     }
 
@@ -164,31 +161,25 @@ public class ControlsState extends State {
         }
 
         for (UIObject btn : uiManager.getObjects()) {
-            if (btn.isHovering() && !btn.equals(returnButton) && !btn.equals(defaultButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !selectingNewKey) {
+            if (btn.isHovering() && !btn.equals(returnButton) && !btn.equals(defaultButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !keysDBox.isMakingChoice()) {
                 hasBeenPressed = false;
-                selectingNewKey = true;
                 initialized = false;
-                defaultDBox.setOpen(false);
-                keysDBox.setOpen(true);
-                tb.setOpen(true);
+                defaultDBox.close();
+                keysDBox.open();
                 selectedButton = btn;
-                TextBox.focus = true;
-                KeyManager.typingFocus = true;
                 break;
             }
         }
 
         if(defaultButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
-                makingChoice = true;
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !defaultDBox.isMakingChoice()) {
                 hasBeenPressed = false;
-                defaultDBox.setOpen(true);
-                DialogueBox.hasBeenPressed = false;
+                defaultDBox.open();
             }
         }
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice) {
+        if (defaultDBox.isMakingChoice()) {
             defaultDBox.tick();
             confirmDefaultKeyBinds();
         }
@@ -197,7 +188,6 @@ public class ControlsState extends State {
         if (returnButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 hasBeenPressed = false;
-                selectingNewKey = false;
                 selectedButton = null;
                 closeTextBox();
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
@@ -206,7 +196,7 @@ public class ControlsState extends State {
 
         this.uiManager.tick();
 
-        if (selectingNewKey) {
+        if (keysDBox.isMakingChoice()) {
             keysDBox.tick();
 
             checkSubmit();
@@ -221,16 +211,14 @@ public class ControlsState extends State {
     }
 
     private void confirmDefaultKeyBinds() {
-        if (makingChoice && defaultDBox.getPressedButton() != null) {
+        if (defaultDBox.isMakingChoice() && defaultDBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 setDefaultKeys();
             } else if ("No".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
             }
-            defaultDBox.setPressedButton(null);
-            keysDBox.setOpen(false);
-            makingChoice = false;
+            defaultDBox.close();
             hasBeenPressed = false;
         }
     }
@@ -300,7 +288,7 @@ public class ControlsState extends State {
     }
 
     private void checkSubmit(){
-        if (selectingNewKey && keysDBox.getPressedButton() != null) {
+        if (keysDBox.isMakingChoice() && keysDBox.getPressedButton() != null) {
             if ("Set".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
                 checkKeys();
             } else if ("Cancel".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
@@ -312,20 +300,10 @@ public class ControlsState extends State {
 
     private void closeTextBox() {
         hasBeenPressed = false;
-        tb.setOpen(false);
-        TextBox.enterPressed = false;
-        KeyManager.typingFocus = false;
-        tb.getSb().setLength(0);
-        tb.setIndex(0);
-        tb.setCharactersTyped(tb.getSb().toString());
-        keysDBox.setPressedButton(null);
-        defaultDBox.setPressedButton(null);
-        makingChoice = false;
-        keysDBox.setOpen(false);
-        defaultDBox.setOpen(false);
         initialized = false;
-        selectingNewKey = false;
         selectedButton = null;
+        keysDBox.close();
+        defaultDBox.close();
     }
 
     @Override
@@ -396,12 +374,12 @@ public class ControlsState extends State {
 
         Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
 
-        if (selectingNewKey) {
+        if (keysDBox.isMakingChoice()) {
             keysDBox.render(g);
         }
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice) {
+        if (defaultDBox.isMakingChoice()) {
             defaultDBox.render(g);
         }
 

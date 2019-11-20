@@ -23,7 +23,6 @@ public class PauseState extends State {
     private DialogueBox dBox;
     private static String[] answers = {"Yes", "No"};
     private static String message = "If you exit without saving, you will lose your progress! Are you sure you wish to quit?";
-    private static boolean makingChoice = false;
 
     public PauseState() {
         uiManager = new UIManager();
@@ -46,7 +45,7 @@ public class PauseState extends State {
         quitButton = new Rectangle(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96);
         uiManager.addObject(new UIImageButton(quitButton, Assets.genericButton));
 
-        dBox = new DialogueBox(Handler.get().getWidth() / 2 - 144, Handler.get().getHeight() / 2 - 80, 288, 160, answers, message, false);
+        dBox = new DialogueBox(Handler.get().getWidth() / 2 - 144, Handler.get().getHeight() / 2 - 80, 288, 160, answers, message, null);
 
     }
 
@@ -56,41 +55,35 @@ public class PauseState extends State {
         Rectangle mouse = Handler.get().getMouse();
 
         if (resumeButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !dBox.isMakingChoice()) {
                 MouseManager.justClosedUI = true;
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
                 hasBeenPressed = false;
-                dBox.setPressedButton(null);
-                makingChoice = false;
-                dBox.setOpen(false);
+                dBox.close();
             }
         }
 
         if (settingsButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !dBox.isMakingChoice()) {
                 // Stop loading this UIManager and go to the settings screen
                 SettingState.previousState = this;
                 SettingState.selectedState = Handler.get().getGame().generalSettingsState;
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 hasBeenPressed = false;
-                dBox.setPressedButton(null);
-                makingChoice = false;
-                dBox.setOpen(false);
+                dBox.close();
                 return;
             }
         }
 
         if (quitButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !makingChoice) {
-                makingChoice = true;
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !dBox.isMakingChoice()) {
                 hasBeenPressed = false;
-                dBox.setOpen(true);
-                DialogueBox.hasBeenPressed = false;
+                dBox.open();
             }
         }
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.tick();
 
         confirmExit();
@@ -100,7 +93,7 @@ public class PauseState extends State {
     }
 
     private void confirmExit() {
-        if (makingChoice && dBox.getPressedButton() != null) {
+        if (dBox.isMakingChoice() && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 // Close window without visual delay
                 Frame frame = Handler.get().getGame().getDisplay().getFrame();
@@ -112,9 +105,7 @@ public class PauseState extends State {
                 System.exit(0);
             } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
-                dBox.setPressedButton(null);
-                makingChoice = false;
-                hasBeenPressed = false;
+                dBox.close();
             }
         }
     }
@@ -131,7 +122,7 @@ public class PauseState extends State {
         Text.drawString(g, "Quit Game", Handler.get().getWidth() / 2, quitButton.y + quitButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.render(g, Color.RED);
     }
 

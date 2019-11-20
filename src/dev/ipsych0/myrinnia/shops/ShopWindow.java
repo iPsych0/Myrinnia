@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
@@ -41,7 +40,6 @@ public class ShopWindow implements Serializable {
     private static boolean inventoryLoaded = false;
     private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;
     private Rectangle windowBounds;
-    public static boolean makingChoice = false;
     private DialogueBox dBox;
     private String[] answers = {"Yes", "No"};
     private ItemSlot selectedSlot = null;
@@ -56,7 +54,7 @@ public class ShopWindow implements Serializable {
     private static final double COMMISSION = 0.75;
     public static boolean escapePressed = false;
     public static ShopWindow lastOpenedWindow;
-
+    private TextBox textBox;
 
     public ShopWindow(ArrayList<ItemStack> shopItems) {
         this.shopItems = shopItems;
@@ -114,7 +112,7 @@ public class ShopWindow implements Serializable {
 
         // Instance of the DialogueBox
         dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "Please confirm your trade.", true);
-
+        textBox = dBox.getTextBox();
     }
 
     public void tick() {
@@ -151,7 +149,7 @@ public class ShopWindow implements Serializable {
             tradeSlot.tick();
 
             // If player is making a choice, show the dialoguebox
-            if (makingChoice)
+            if (dBox.isMakingChoice())
                 dBox.tick();
 
         }
@@ -229,7 +227,7 @@ public class ShopWindow implements Serializable {
                 g.fillRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
 
-            if (makingChoice)
+            if (dBox.isMakingChoice())
                 dBox.render(g);
         }
     }
@@ -249,15 +247,11 @@ public class ShopWindow implements Serializable {
         }
         isOpen = false;
         inventoryLoaded = false;
-        dBox.setOpen(false);
-        dBox.getTextBox().setOpen(false);
-        KeyManager.typingFocus = false;
         hasBeenPressed = false;
         selectedSlot = null;
         selectedInvItem = null;
         selectedShopItem = null;
-        makingChoice = false;
-        dBox.setPressedButton(null);
+        dBox.close();
         InventoryWindow.isOpen = true;
         EquipmentWindow.isOpen = true;
         escapePressed = false;
@@ -269,16 +263,11 @@ public class ShopWindow implements Serializable {
             return;
         }
 
-        if (Handler.get().getKeyManager().escape && makingChoice && escapePressed) {
+        if (Handler.get().getKeyManager().escape && dBox.isMakingChoice() && escapePressed) {
             escapePressed = false;
             inventoryLoaded = false;
-            dBox.setOpen(false);
-            dBox.getTextBox().setOpen(false);
-            KeyManager.typingFocus = false;
-            hasBeenPressed = false;
-            makingChoice = false;
-            dBox.setPressedButton(null);
-        } else if (Handler.get().getKeyManager().escape && !makingChoice && escapePressed) {
+            dBox.close();
+        } else if (Handler.get().getKeyManager().escape && !dBox.isMakingChoice() && escapePressed) {
             exit();
         }
     }
@@ -287,7 +276,7 @@ public class ShopWindow implements Serializable {
         /*
          * Buy 1 Button onClick
          */
-        if (buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
+        if (buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
             buyItem();
             hasBeenPressed = false;
             return;
@@ -296,7 +285,7 @@ public class ShopWindow implements Serializable {
         /*
          * Sell 1 Button onClick
          */
-        if (sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+        if (sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
             sellItem();
             hasBeenPressed = false;
             return;
@@ -305,10 +294,9 @@ public class ShopWindow implements Serializable {
         /*
          * Buy All Button onClick
          */
-        if (buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
-            makingChoice = true;
-            dBox.setOpen(true);
-            dBox.getTextBox().setOpen(false);
+        if (buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
+            dBox.setTextBox(null);
+            dBox.open();
             dBox.setParam("BuyAll");
             hasBeenPressed = false;
             return;
@@ -317,10 +305,9 @@ public class ShopWindow implements Serializable {
         /*
          * Sell All Button onClick
          */
-        if (sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-            makingChoice = true;
-            dBox.setOpen(true);
-            dBox.getTextBox().setOpen(false);
+        if (sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
+            dBox.setTextBox(null);
+            dBox.open();
             dBox.setParam("SellAll");
             hasBeenPressed = false;
             return;
@@ -329,10 +316,9 @@ public class ShopWindow implements Serializable {
         /*
          * Buy X Button onClick
          */
-        if (buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
-            makingChoice = true;
-            dBox.setOpen(true);
-            dBox.getTextBox().setOpen(true);
+        if (buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
+            dBox.setTextBox(textBox);
+            dBox.open();
             dBox.setParam("BuyX");
             hasBeenPressed = false;
             return;
@@ -341,10 +327,9 @@ public class ShopWindow implements Serializable {
         /*
          * Sell X Button onClick
          */
-        if (sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-            makingChoice = true;
-            dBox.setOpen(true);
-            dBox.getTextBox().setOpen(true);
+        if (sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
+            dBox.setTextBox(textBox);
+            dBox.open();
             dBox.setParam("SellX");
             hasBeenPressed = false;
         }
@@ -381,8 +366,8 @@ public class ShopWindow implements Serializable {
 
     private void submitShopRequest() {
         // If the dialoguebox is open and player is making a choice
-        if (makingChoice && dBox.getPressedButton() != null) {
-            if (!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+        if (dBox.isMakingChoice() && dBox.getPressedButton() != null) {
+            if (dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
                 // If the user has typed in an amount and confirmed the trade per button, buy the item
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
@@ -409,20 +394,12 @@ public class ShopWindow implements Serializable {
                 Handler.get().playEffect("ui/shop_trade.wav");
             }
 
-            dBox.setPressedButton(null);
-            dBox.getTextBox().getSb().setLength(0);
-            dBox.getTextBox().setIndex(0);
-            dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-//			dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
-            dBox.setOpen(false);
-            dBox.getTextBox().setOpen(false);
-            KeyManager.typingFocus = false;
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
 
-        if (TextBox.enterPressed && makingChoice) {
-            if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+        if (TextBox.enterPressed && dBox.isMakingChoice()) {
+            if(dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
                 // If enter is pressed while making choice, this means a positive response ("Yes")
                 dBox.setPressedButton(dBox.getButtons().get(0));
                 dBox.getPressedButton().getButtonParam()[0] = "Yes";
@@ -442,14 +419,7 @@ public class ShopWindow implements Serializable {
                 }
             }
 
-            dBox.setPressedButton(null);
-            dBox.getTextBox().getSb().setLength(0);
-            dBox.getTextBox().setIndex(0);
-            dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-            dBox.setOpen(false);
-            TextBox.enterPressed = false;
-            KeyManager.typingFocus = false;
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
     }
@@ -463,7 +433,7 @@ public class ShopWindow implements Serializable {
             Rectangle slot = is.getBounds();
 
             // If left-clicked, select an item
-            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice()) {
                 if (is.getItemStack() != null) {
                     if (selectedShopItem == null) {
                         selectedInvItem = null;
@@ -511,7 +481,7 @@ public class ShopWindow implements Serializable {
 
             Rectangle slot = is.getBounds();
 
-            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice()) {
                 if (is.getItemStack() != null) {
                     Handler.get().playEffect("ui/ui_button_click.wav");
                     // If the price = -1, item cannot be sold

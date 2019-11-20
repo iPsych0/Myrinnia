@@ -313,7 +313,7 @@ public class InventoryWindow implements Serializable {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX() - 14,
                             Handler.get().getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
                     if (currentSelectedSlot.getItem().isStackable())
-                        Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
+                        Text.drawString(g, getAbbrevRenderAmount(currentSelectedSlot), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
                 }
 
                 Rectangle temp2 = itemSlots.get(i).getBounds();
@@ -324,6 +324,28 @@ public class InventoryWindow implements Serializable {
                     itemTooltip.render(itemSlots.get(i).getItemStack().getItem(), g);
                 }
             }
+        }
+    }
+
+    public String getAbbrevRenderAmount(ItemStack itemStack){
+        if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
+            return Integer.toString(itemStack.getAmount()).substring(0, 2) + "k";
+        } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {
+            return Integer.toString(itemStack.getAmount()).substring(0, 3) + "k";
+        } else if (itemStack.getAmount() >= 1_000_000) {
+            // Move the decimal point 1 place per extra 0
+            int offset = Integer.toString(itemStack.getAmount()).length() - 7;
+            String amt = Integer.toString(itemStack.getAmount()).substring(0, 2 + offset);
+
+            // Add decimal place for millions only if it doesn't end in 0
+            if (amt.endsWith("0")) {
+                amt = amt.substring(0, 1 + offset) + "M";
+            } else {
+                amt = amt.substring(0, 1 + offset) + "." + amt.substring(1 + offset) + "M";
+            }
+            return amt;
+        } else {
+            return Integer.toString(itemStack.getAmount());
         }
     }
 

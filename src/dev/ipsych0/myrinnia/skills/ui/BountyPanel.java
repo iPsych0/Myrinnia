@@ -10,6 +10,7 @@ public class BountyPanel extends UIImageButton {
 
     private String task;
     private String description;
+    private boolean completed;
 
     public BountyPanel(String task, String description, int x, int y, int width, int height) {
         super(x, y, width, height, Assets.genericButton);
@@ -27,10 +28,19 @@ public class BountyPanel extends UIImageButton {
 
     public void render(Graphics2D g) {
         super.render(g);
+        g.drawImage(Assets.bountyHunterIcon, x + 10, y + 16, 32, 32, null);
         Text.drawString(g, task, x + 48, y + 20, false, Color.YELLOW, Assets.font20);
         String[] text = Text.splitIntoLine(description, 50);
         for (int i = 0; i < text.length; i++) {
             Text.drawString(g, text[i], x + 48, y + 40 + (i * 16), false, Color.YELLOW, Assets.font14);
         }
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

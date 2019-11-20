@@ -68,6 +68,23 @@ public class TextBox implements KeyListener, Serializable {
         }
     }
 
+    public void open() {
+        close();
+        isOpen = true;
+        KeyManager.typingFocus = true;
+        focus = true;
+    }
+
+    public void close() {
+        sb.setLength(0);
+        index = 0;
+        charactersTyped = sb.toString();
+        enterPressed = false;
+        KeyManager.typingFocus = false;
+        focus = false;
+        isOpen = false;
+    }
+
     public void setKeyListeners() {
         Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
         Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
@@ -219,4 +236,5 @@ public class TextBox implements KeyListener, Serializable {
     public void setOpen(boolean open) {
         isOpen = open;
     }
+
 }

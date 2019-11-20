@@ -1,14 +1,11 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
-import dev.ipsych0.myrinnia.skills.ui.BountyPanel;
 import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.awt.*;
-import java.util.List;
 
 public class BountyBoardAzure extends BountyBoard {
 
@@ -31,7 +28,6 @@ public class BountyBoardAzure extends BountyBoard {
         bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
         bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
         bountyBoardUI.addPanel("Lorem ipsum", "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum.");
-
     }
 
     @Override
