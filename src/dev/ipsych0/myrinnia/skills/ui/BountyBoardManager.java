@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.worlds.data.Zone;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BountyBoardManager {
 
@@ -33,5 +34,23 @@ public class BountyBoardManager {
             }
         }
         throw new IllegalArgumentException("Zone not found");
+    }
+
+    public Bounty getBountyByZoneAndTask(Zone zone, String task) {
+        // Get the requested board by zone
+        Optional<BountyBoard> bountyBoard = bountyBoards
+                .stream()
+                .filter((z) -> z.getBountyBoardUI().getZone().equals(zone))
+                .findAny();
+
+        // Get the requested task by board
+        if (bountyBoard.isPresent()) {
+            for (Bounty panel : bountyBoard.get().getBountyBoardUI().getPanels()) {
+                if (panel.getTask().equalsIgnoreCase(task)) {
+                    return panel;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Zone or task not found.");
     }
 }

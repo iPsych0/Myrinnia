@@ -34,6 +34,7 @@ public class Item implements Serializable {
     public static Item regularFish = Utils.loadItem("5_fish.json", Assets.fishingIcon);
     public static Item testAxe =  Utils.loadItem("6_test_axe.json", Assets.testAxe);
     public static Item testPickaxe = Utils.loadItem("7_test_pickaxe.json", Assets.testPickaxe);
+    public static Item bountyContract = Utils.loadItem("9_bounty_contract.json", Assets.bountyContract);
 
     // Class
 
@@ -63,6 +64,10 @@ public class Item implements Serializable {
     private int respawnTimer = 10800;
     private boolean equippable;
     private boolean hovering;
+    private Use use;
+    private int useCooldown = 60;
+    private boolean used;
+    private int usedTimer;
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes) {
         this.texture = texture;
@@ -360,6 +365,38 @@ public class Item implements Serializable {
         this.hovering = hovering;
     }
 
+    public Use getUse() {
+        return use;
+    }
+
+    public void setUse(Use use) {
+        this.use = use;
+    }
+
+    public int getUseCooldown() {
+        return useCooldown;
+    }
+
+    public void setUseCooldown(int useCooldown) {
+        this.useCooldown = useCooldown;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public int getUsedTimer() {
+        return usedTimer;
+    }
+
+    public void setUsedTimer(int usedTimer) {
+        this.usedTimer = usedTimer;
+    }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
 
@@ -382,5 +419,4 @@ public class Item implements Serializable {
         this.texture = ImageIO.read(is);
         is.close();
     }
-
 }

@@ -18,8 +18,8 @@ public abstract class BountyBoard extends StaticEntity {
         return "Bounty Board";
     }
 
-    public void addPanel(String task, String description){
-        getBountyBoardUI().addPanel(task, description);
+    public void addPanel(String task, String description, String fullDescription){
+        getBountyBoardUI().addPanel(task, description, fullDescription);
     }
 
     public void removePanel(){

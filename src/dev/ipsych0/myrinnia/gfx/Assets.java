@@ -27,6 +27,7 @@ public class Assets {
     // Map item images (trees, rocks, etc)
     public static BufferedImage tree, rock;
     public static BufferedImage bountyBoard1, bountyBoard2;
+    public static BufferedImage bountyContract;
 
     /*
      * Creature Animations
@@ -320,6 +321,7 @@ public class Assets {
         purpleSword = item_sheet.imageCrop(2, 0);
         testAxe = item_sheet.imageCrop(0, 6);
         testPickaxe = item_sheet.imageCrop(0, 7);
+        bountyContract = item_sheet.imageCrop(0, 8);
 
 
         /*

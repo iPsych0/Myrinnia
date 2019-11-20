@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -17,20 +18,20 @@ public class BountyBoardUI {
     private Zone zone;
     private int x, y, width, height;
     private Rectangle bounds;
-    private List<BountyPanel> panels;
+    private List<Bounty> panels;
     private UIManager uiManager;
     private int currentYPanel = 0;
     private static final int PANEL_WIDTH = 400, PANEL_HEIGHT = 64;
     private static Color selectedColor = new Color(0, 255, 255, 62);
     private static Color completedColor = new Color(44, 255, 12, 62);
-    private BountyPanel selectedPanel;
+    private Bounty selectedPanel;
     public static boolean isOpen;
     public static boolean escapePressed;
     private UIImageButton exitButton;
     private UIImageButton acceptButton;
     private DialogueBox dialogueBox;
 
-    public BountyBoardUI(Zone zone, List<BountyPanel> panels) {
+    public BountyBoardUI(Zone zone, List<Bounty> panels) {
         this.zone = zone;
         this.panels = panels;
         width = 460;
@@ -63,7 +64,7 @@ public class BountyBoardUI {
         Rectangle mouse = Handler.get().getMouse();
 
         // Selecting a panel
-        for (BountyPanel panel : panels) {
+        for (Bounty panel : panels) {
             if (panel.isHovering() && Handler.get().getMouseManager().isLeftPressed()) {
                 selectedPanel = panel;
             }
@@ -93,11 +94,17 @@ public class BountyBoardUI {
 
     }
 
-    private void confirmBounty(BountyPanel panel) {
+    private void confirmBounty(Bounty bounty) {
         if (dialogueBox.isMakingChoice() && dialogueBox.getPressedButton() != null) {
             if ("Accept".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                //TODO: ADD BOUNTY SOMEWHERE
-                panel.setCompleted(true);
+                Handler.get().giveItemWithUse(Item.bountyContract, 1, i -> {
+                    String message = BountyBoardManager.get().getBountyByZoneAndTask(Zone.PortAzure, "King of the Hill").getFullDescription();
+                    Handler.get().sendMsg(message);
+                });
+
+                Handler.get().giveItemWithUse(Item.bountyContract, 1, i -> {
+                    Handler.get().sendMsg("Contract 2");
+                });
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 dialogueBox.close();
             } else if ("Leave".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
@@ -120,7 +127,7 @@ public class BountyBoardUI {
 
         uiManager.render(g);
 
-        for (BountyPanel panel : panels) {
+        for (Bounty panel : panels) {
             if (panel.isCompleted()) {
                 g.setColor(completedColor);
                 g.fillRoundRect(panel.getBounds().x, panel.getBounds().y, panel.getBounds().width, panel.getBounds().height, 18, 18);
@@ -140,8 +147,8 @@ public class BountyBoardUI {
             dialogueBox.render(g);
     }
 
-    public void addPanel(String task, String description) {
-        BountyPanel panel = new BountyPanel(task, description, x + 8, y + 40 + currentYPanel, PANEL_WIDTH, PANEL_HEIGHT);
+    public void addPanel(String task, String description, String fullDescription) {
+        Bounty panel = new Bounty(task, description, fullDescription,x + 8, y + 40 + currentYPanel, PANEL_WIDTH, PANEL_HEIGHT);
         panels.add(panel);
         currentYPanel += PANEL_HEIGHT;
         uiManager.addObject(panel);
@@ -159,7 +166,7 @@ public class BountyBoardUI {
         return zone;
     }
 
-    public List<BountyPanel> getPanels() {
+    public List<Bounty> getPanels() {
         return panels;
     }
 }

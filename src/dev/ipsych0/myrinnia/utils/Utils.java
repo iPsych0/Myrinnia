@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
 
 import java.awt.image.BufferedImage;
@@ -107,6 +108,15 @@ public class Utils {
         Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
+        return i;
+    }
+
+    public static Item loadItem(String path, BufferedImage sprite, int cooldown, Use use) {
+        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
+        Item.items[i.getId()] = i;
+        i.setTexture(sprite);
+        i.setUse(use);
+        i.setUseCooldown(cooldown);
         return i;
     }
 

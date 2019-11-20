@@ -12,9 +12,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public class InventoryWindow implements Serializable {
 
@@ -39,6 +38,7 @@ public class InventoryWindow implements Serializable {
     public static boolean itemSelected;
     private Rectangle windowBounds;
     private ItemTooltip itemTooltip;
+    private Set<Item> usedItems;
 
     public InventoryWindow() {
         width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
@@ -47,6 +47,7 @@ public class InventoryWindow implements Serializable {
         this.y = 8;
         windowBounds = new Rectangle(x, y, width, height);
         itemSlots = new ArrayList<>();
+        usedItems = new HashSet<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -75,6 +76,21 @@ public class InventoryWindow implements Serializable {
 
 
     public void tick() {
+        Iterator<Item> it2 = usedItems.iterator();
+        while (it2.hasNext()) {
+            Item i = it2.next();
+            // Manage item using
+            if (i.getUse() != null && i.isUsed()) {
+                i.setUsedTimer(i.getUsedTimer() + 1);
+                if (i.getUsedTimer() >= i.getUseCooldown()) {
+                    i.setUsed(false);
+                    i.setUsedTimer(0);
+                    it2.remove();
+                }
+            }
+
+        }
+
         if (isOpen) {
             Rectangle mouse = Handler.get().getMouse();
 
@@ -157,6 +173,26 @@ public class InventoryWindow implements Serializable {
                 // If item is right-clicked
                 if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && equipPressed && !hasBeenPressed && !Handler.get().getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen) {
                     if (is.getItemStack() != null) {
+                        Item item = is.getItemStack().getItem();
+                        if (item.getUse() != null) {
+                            boolean hasUsed = false;
+                            for (Item i : usedItems) {
+                                if (i.getId() == item.getId()) {
+                                    double cooldownLeft = Handler.get().roundOff(((double) i.getUseCooldown() / 60d) - (double) i.getUsedTimer() / (double) i.getUseCooldown());
+                                    Handler.get().sendMsg("Item use on cooldown for another " + cooldownLeft + "s.");
+                                    hasUsed = true;
+                                    break;
+                                }
+                            }
+                            if (!hasUsed) {
+                                item.setUsed(true);
+                                is.getItemStack().getItem().getUse().use(item);
+                                addUsedItem(item);
+                            }
+                            hasBeenPressed = false;
+                            equipPressed = false;
+                            return;
+                        }
                         if (Handler.get().getPlayer().isInCombat()) {
                             Handler.get().sendMsg("You cannot equip items while in combat.");
                             hasBeenPressed = false;
@@ -165,7 +201,7 @@ public class InventoryWindow implements Serializable {
                         }
                         if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                             // If the item's equipmentslot = 12, that means it's unequippable, so return
-                            Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName() + ".");
+                            Handler.get().sendMsg("You cannot use " + is.getItemStack().getItem().getName() + ".");
                             equipPressed = false;
                             hasBeenPressed = false;
                             return;
@@ -325,6 +361,10 @@ public class InventoryWindow implements Serializable {
                 }
             }
         }
+    }
+
+    public void addUsedItem(Item i) {
+        usedItems.add(i);
     }
 
     public String getAbbrevRenderAmount(ItemStack itemStack){

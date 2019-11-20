@@ -23,6 +23,7 @@ import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -407,7 +408,7 @@ public class Handler implements Serializable {
      * Sends a message to the chat log
      */
     public void sendMsg(String message, Filter filter) {
-        String[] text = Text.splitIntoLine(message, 66);
+        String[] text = Text.splitIntoLine(message, 60);
         for (String s : text) {
             getChatWindow().sendMessage(s, filter);
         }
@@ -435,6 +436,19 @@ public class Handler implements Serializable {
      */
     public void giveItem(Item item, int amount) {
         getInventory().giveItem(item, amount);
+    }
+
+    public void giveItemWithUse(Item item, int amount, int cooldown, Use use) {
+        Item i = item.createItem(0, 0, amount);
+        i.setUse(use);
+        i.setUseCooldown(cooldown);
+        getInventory().giveItem(i, amount);
+    }
+
+    public void giveItemWithUse(Item item, int amount, Use use) {
+        Item i = item.createItem(0, 0, amount);
+        i.setUse(use);
+        getInventory().giveItem(i, amount);
     }
 
 

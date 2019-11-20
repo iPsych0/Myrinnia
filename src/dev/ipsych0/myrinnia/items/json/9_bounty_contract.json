@@ -1,16 +1,16 @@
 {
   "itemTypes": [
-    "MAGIC_WEAPON"
+    "MISC"
   ],
-  "itemRarity": "Exquisite",
-  "name": "Magic staff",
-  "id": 8,
-  "equipSlot": "Mainhand",
+  "itemRarity": "Unique",
+  "name": "Bounty contract",
+  "id": 9,
+  "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
-  "intelligence": 50,
-  "defence": 5,
-  "vitality": 15,
+  "intelligence": 0,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "useCooldown": 60,
@@ -30,8 +30,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 100,
+  "price": -1,
   "stackable": false,
-  "equippable": true,
+  "equippable": false,
   "respawnTimer": 10800
 }
