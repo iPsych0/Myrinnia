@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.*;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -223,6 +224,7 @@ public class SkillsUI implements Serializable {
 
             if (exit.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                    MouseManager.justClosedUI = true;
                     hasBeenPressed = false;
                     SkillsOverviewUI.isOpen = false;
                     SkillsUI.isOpen = false;

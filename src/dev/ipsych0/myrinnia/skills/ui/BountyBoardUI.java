@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -24,6 +25,7 @@ public class BountyBoardUI {
     private static final int PANEL_WIDTH = 400, PANEL_HEIGHT = 64;
     private static Color selectedColor = new Color(0, 255, 255, 62);
     private static Color completedColor = new Color(44, 255, 12, 62);
+    private static Color acceptedColor = new Color(196, 204, 17, 62);
     private Bounty selectedPanel;
     public static boolean isOpen;
     public static boolean escapePressed;
@@ -45,7 +47,7 @@ public class BountyBoardUI {
         }
 
         exitButton = new UIImageButton(x + width - 32, y + 16, 16, 16, Assets.genericButton);
-        acceptButton = new UIImageButton(x + width / 4, y + height - 48, 64, 32, Assets.genericButton);
+        acceptButton = new UIImageButton(x + width / 2 - 48, y + height - 48, 96, 32, Assets.genericButton);
 
         dialogueBox = new DialogueBox(x + width / 2 - 100, y + height / 2 - 100, 200, 200, new String[]{"Accept", "Leave"}, "Do you want to accept this bounty?", null);
 
@@ -64,9 +66,13 @@ public class BountyBoardUI {
         Rectangle mouse = Handler.get().getMouse();
 
         // Selecting a panel
+        boolean hovering = false;
         for (Bounty panel : panels) {
-            if (panel.isHovering() && Handler.get().getMouseManager().isLeftPressed()) {
-                selectedPanel = panel;
+            if (panel.isHovering()) {
+                hovering = true;
+                if (Handler.get().getMouseManager().isLeftPressed()) {
+                    selectedPanel = panel;
+                }
             }
         }
 
@@ -91,30 +97,45 @@ public class BountyBoardUI {
             confirmBounty(selectedPanel);
         }
 
+        // If we haven't clicked on a panel, but we have clicked in the UI, deselect
+        if (!hovering && bounds.contains(mouse) && !acceptButton.contains(mouse) && !dialogueBox.isOpen() && Handler.get().getMouseManager().isLeftPressed()) {
+            selectedPanel = null;
+        }
 
     }
 
     private void confirmBounty(Bounty bounty) {
         if (dialogueBox.isMakingChoice() && dialogueBox.getPressedButton() != null) {
             if ("Accept".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().giveItemWithUse(Item.bountyContract, 1, i -> {
-                    String message = BountyBoardManager.get().getBountyByZoneAndTask(Zone.PortAzure, "King of the Hill").getFullDescription();
-                    Handler.get().sendMsg(message);
-                });
+                // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
+                if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {
 
-                Handler.get().giveItemWithUse(Item.bountyContract, 1, i -> {
-                    Handler.get().sendMsg("Contract 2");
-                });
+                    bounty.setAccepted(true);
+                    Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, i -> {
+                        BountyContractUI.open(bounty);
+
+                    });
+                } else if (bounty.isCompleted()) {
+                    Handler.get().sendMsg("You have already completed this bounty.");
+                } else {
+                    Handler.get().sendMsg("You have already accepted this bounty.");
+                }
+
+                selectedPanel = null;
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 dialogueBox.close();
             } else if ("Leave".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 dialogueBox.close();
+                selectedPanel = null;
             }
         }
     }
 
     public void close() {
+        if (Handler.get().getMouseManager().isLeftPressed()) {
+            MouseManager.justClosedUI = true;
+        }
         selectedPanel = null;
         isOpen = false;
         escapePressed = false;
@@ -130,6 +151,9 @@ public class BountyBoardUI {
         for (Bounty panel : panels) {
             if (panel.isCompleted()) {
                 g.setColor(completedColor);
+                g.fillRoundRect(panel.getBounds().x, panel.getBounds().y, panel.getBounds().width, panel.getBounds().height, 18, 18);
+            } else if (panel.isAccepted()) {
+                g.setColor(acceptedColor);
                 g.fillRoundRect(panel.getBounds().x, panel.getBounds().y, panel.getBounds().width, panel.getBounds().height, 18, 18);
             }
         }

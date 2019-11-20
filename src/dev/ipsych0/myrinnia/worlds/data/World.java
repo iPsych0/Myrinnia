@@ -19,6 +19,7 @@ import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
@@ -69,6 +70,7 @@ public abstract class World implements Serializable {
     private AbilityManager abilityManager;
     private AbilityOverviewUI abilityOverviewUI;
     private TutorialTipManager tipManager;
+    private BountyContractUI contractUI;
     private List<ZoneTile> zoneTiles;
 
     protected World(String path) {
@@ -88,6 +90,7 @@ public abstract class World implements Serializable {
         this.craftingUI = Handler.get().getCraftingUI();
         this.abilityOverviewUI = Handler.get().getAbilityOverviewUI();
         this.tipManager = Handler.get().getTutorialTipManager();
+        this.contractUI = Handler.get().getContractUI();
 
         // This is each world's unique manager of Entities & Items
         entityManager = new EntityManager(player);
@@ -132,6 +135,7 @@ public abstract class World implements Serializable {
             abilityManager.tick();
             abilityOverviewUI.tick();
             tipManager.tick();
+            contractUI.tick();
             if (BankUI.isOpen && player.getBankEntity() != null)
                 Handler.get().getBankUI().tick();
             if (ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -273,6 +277,8 @@ public abstract class World implements Serializable {
             if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
                 player.getBountyBoard().getBountyBoardUI().render(g);
             }
+
+            contractUI.render(g);
 
             if (Handler.debugZones) {
                 for (ZoneTile zt : zoneTiles) {

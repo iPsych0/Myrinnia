@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
@@ -129,6 +130,7 @@ public class SkillsOverviewUI implements Serializable {
 
                 if (exit.contains(mouse)) {
                     if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                        MouseManager.justClosedUI = true;
                         isOpen = false;
                         hasBeenPressed = false;
                         return;

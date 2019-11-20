@@ -38,6 +38,7 @@ import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardManager;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
@@ -103,6 +104,7 @@ public class Handler implements Serializable {
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
     private TutorialTipManager tutorialTipManager;
+    private BountyContractUI contractUI;
     public static String initialWorldPath = "/worlds/port_azure.tmx";
     public static boolean debugAStar;
     public static boolean debugCollision;
@@ -150,6 +152,7 @@ public class Handler implements Serializable {
         abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
         tutorialTipManager = new TutorialTipManager();
+        contractUI = new BountyContractUI();
 
         // Set the starting world
         portAzure = new PortAzure(initialWorldPath);
@@ -329,6 +332,10 @@ public class Handler implements Serializable {
             return skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement();
         }
         return false;
+    }
+
+    public BountyBoardUI getBountyBoardByZone(Zone zone) {
+        return BountyBoardManager.get().getBoardByZone(zone).getBountyBoardUI();
     }
 
     public Skill getSkill(SkillsList skill) {
@@ -692,7 +699,11 @@ public class Handler implements Serializable {
         this.tutorialTipManager = tutorialTipManager;
     }
 
-    public BountyBoardUI getBountyBoardByZone(Zone zone) {
-        return BountyBoardManager.get().getBoardByZone(zone).getBountyBoardUI();
+    public BountyContractUI getContractUI() {
+        return contractUI;
+    }
+
+    public void setContractUI(BountyContractUI contractUI) {
+        this.contractUI = contractUI;
     }
 }

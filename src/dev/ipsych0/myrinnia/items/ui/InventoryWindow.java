@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -179,7 +180,7 @@ public class InventoryWindow implements Serializable {
                             for (Item i : usedItems) {
                                 if (i.getId() == item.getId()) {
                                     double cooldownLeft = Handler.get().roundOff(((double) i.getUseCooldown() / 60d) - (double) i.getUsedTimer() / (double) i.getUseCooldown());
-                                    Handler.get().sendMsg("Item use on cooldown for another " + cooldownLeft + "s.");
+                                    Handler.get().sendMsg("Item use on cooldown for another " + cooldownLeft + "s.", Filter.INFO);
                                     hasUsed = true;
                                     break;
                                 }

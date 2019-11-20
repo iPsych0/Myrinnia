@@ -16,6 +16,7 @@ import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -28,6 +29,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -647,11 +649,13 @@ public class Player extends Creature {
             return true;
         if (CharacterUI.isOpen && Handler.get().getCharacterUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (HPOverlay.isOpen && Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+            return true;
+        if (BountyContractUI.isOpen && Handler.get().getContractUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (abilityTrainer != null && AbilityShopWindow.isOpen) {
             if (Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
@@ -711,6 +715,8 @@ public class Player extends Creature {
         if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+            return true;
+        if (BountyContractUI.isOpen && Handler.get().getContractUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
         if (abilityTrainer != null && AbilityShopWindow.isOpen) {
             if (Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {

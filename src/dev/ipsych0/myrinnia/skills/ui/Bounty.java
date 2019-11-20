@@ -11,6 +11,7 @@ public class Bounty extends UIImageButton {
     private String task;
     private String shortDescription;
     private String fullDescription;
+    private boolean accepted;
     private boolean completed;
 
     public Bounty(String task, String shortDescription, String fullDescription, int x, int y, int width, int height) {
@@ -44,6 +45,14 @@ public class Bounty extends UIImageButton {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 
     public String getTask() {

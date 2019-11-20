@@ -25,7 +25,7 @@ public class BountyBoardAzure extends BountyBoard {
         isNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.PortAzure);
-        bountyBoardUI.addPanel("King of the Hill", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded.\n- {Insert Owner's Name}");
+        bountyBoardUI.addPanel("Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded.\n\n- {Insert Owner's Name}");
     }
 
     @Override
