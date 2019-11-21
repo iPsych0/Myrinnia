@@ -108,9 +108,9 @@ public class MenuState extends State {
         uiManager.render(g);
 
         // Render the text in the main menu
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 192, 24, 384, 80, null);
-        Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 80, true, Color.YELLOW, Assets.font20);
+        g.drawImage(Assets.genericButton[1], Handler.get().getWidth() / 2 - 192, 24, 384, 80, null);
+        Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 50, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 82, true, Color.YELLOW, Assets.font20);
 
         if (continueButton != null) {
             Text.drawString(g, "Continue", continueButton.x + continueButton.width / 2, continueButton.y + continueButton.height / 2, true, Color.YELLOW, Assets.font32);

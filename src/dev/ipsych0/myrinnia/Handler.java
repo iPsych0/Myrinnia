@@ -36,19 +36,18 @@ import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.skills.ui.BountyBoardManager;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.PortAzure;
-import dev.ipsych0.myrinnia.worlds.data.World;
-import dev.ipsych0.myrinnia.worlds.data.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.*;
@@ -87,7 +86,7 @@ public class Handler implements Serializable {
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
     private World world;
-    private PortAzure portAzure;
+    private World portAzure;
     private WorldHandler worldHandler;
     private Player player;
     private ChatWindow chatWindow;
@@ -155,7 +154,7 @@ public class Handler implements Serializable {
         contractUI = new BountyContractUI();
 
         // Set the starting world
-        portAzure = new PortAzure(initialWorldPath);
+        portAzure = new World(Zone.PortAzure, initialWorldPath);
         worldHandler = new WorldHandler(portAzure);
     }
 
@@ -334,8 +333,12 @@ public class Handler implements Serializable {
         return false;
     }
 
+    public boolean playerHasSkillLevel(SkillsList skill, int requirement) {
+        return skillsUI.getSkill(skill).getLevel() >= requirement;
+    }
+
     public BountyBoardUI getBountyBoardByZone(Zone zone) {
-        return BountyBoardManager.get().getBoardByZone(zone).getBountyBoardUI();
+        return BountyManager.get().getBoardByZone(zone).getBountyBoardUI();
     }
 
     public Skill getSkill(SkillsList skill) {
@@ -408,7 +411,12 @@ public class Handler implements Serializable {
     }
 
     private void dropItem(Item item, int amount, int x, int y, boolean isWorldSpawn) {
-        getWorld().getItemManager().addItem((item.createItem(x, y, amount)), isWorldSpawn);
+        Item i = item.createItem(x, y, amount);
+        if (item.getUse() != null) {
+            i.setUse(item.getUse());
+            i.setUseCooldown(item.getUseCooldown());
+        }
+        getWorld().getItemManager().addItem(i, isWorldSpawn);
     }
 
     /*

@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.worlds.data;
+package dev.ipsych0.myrinnia.worlds;
 
 public enum Zone {
 

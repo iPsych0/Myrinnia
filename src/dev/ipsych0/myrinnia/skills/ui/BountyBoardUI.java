@@ -4,11 +4,12 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -107,18 +108,21 @@ public class BountyBoardUI {
     private void confirmBounty(Bounty bounty) {
         if (dialogueBox.isMakingChoice() && dialogueBox.getPressedButton() != null) {
             if ("Accept".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
-                if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {
-
-                    bounty.setAccepted(true);
-                    Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, i -> {
-                        BountyContractUI.open(bounty);
-
-                    });
-                } else if (bounty.isCompleted()) {
-                    Handler.get().sendMsg("You have already completed this bounty.");
+                if (Handler.get().playerHasSkillLevel(SkillsList.BOUNTYHUNTER, bounty.getLevelRequirement())) {
+                    // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
+                    if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {
+                        BountyManager.get().addBounty(bounty);
+                        bounty.setAccepted(true);
+                        Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, i -> {
+                            BountyContractUI.open(bounty);
+                        });
+                    } else if (bounty.isCompleted()) {
+                        Handler.get().sendMsg("You have already completed this bounty.");
+                    } else {
+                        Handler.get().sendMsg("You have already accepted this bounty.");
+                    }
                 } else {
-                    Handler.get().sendMsg("You have already accepted this bounty.");
+                    Handler.get().sendMsg("You need to be level " + bounty.getLevelRequirement() + " to accept this bounty.");
                 }
 
                 selectedPanel = null;
@@ -171,15 +175,11 @@ public class BountyBoardUI {
             dialogueBox.render(g);
     }
 
-    public void addPanel(String task, String description, String fullDescription) {
-        Bounty panel = new Bounty(task, description, fullDescription,x + 8, y + 40 + currentYPanel, PANEL_WIDTH, PANEL_HEIGHT);
+    public void addPanel(int levelRequirement, String task, String description, String fullDescription) {
+        Bounty panel = new Bounty(levelRequirement, task, description, fullDescription, x + 8, y + 40 + currentYPanel, PANEL_WIDTH, PANEL_HEIGHT);
         panels.add(panel);
         currentYPanel += PANEL_HEIGHT;
         uiManager.addObject(panel);
-    }
-
-    public void removePanel() {
-
     }
 
     public Rectangle getBounds() {

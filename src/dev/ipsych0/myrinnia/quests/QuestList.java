@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.quests;
 
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 public enum QuestList {
 

@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
@@ -25,7 +25,7 @@ public class BountyBoardAzure extends BountyBoard {
         isNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.PortAzure);
-        bountyBoardUI.addPanel("Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded.\n\n- {Insert Owner's Name}");
+        bountyBoardUI.addPanel(1, "Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded.\n\n- {Insert Owner's Name}");
     }
 
     @Override

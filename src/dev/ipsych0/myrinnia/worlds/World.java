@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.worlds.data;
+package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
@@ -20,6 +20,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public abstract class World implements Serializable {
+public class World implements Serializable {
 
     /**
      *
@@ -44,15 +45,14 @@ public abstract class World implements Serializable {
     private int height;
     private int[][][] tiles;
     private String[] layers;
-    private Color night = new Color(0, 13, 35);
     private String worldPath;
-    private boolean nightTime = false;
-    private int timeChecker = 60 * 60;
+    private static boolean nightTime = false;
+    private static int timeChecker = 60 * 60;
     private boolean initialized;
 
     // Entities
 
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     // Items
 
@@ -72,9 +72,20 @@ public abstract class World implements Serializable {
     private TutorialTipManager tipManager;
     private BountyContractUI contractUI;
     private List<ZoneTile> zoneTiles;
+    private Zone zone;
+    private WeatherEffect weatherEffect;
+    private boolean dayNightCycle;
 
-    protected World(String path) {
+    private static final int radius = 800;
+    private static final float[] fractions = {0.0f, 1.0f};
+    private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 255)};
+    private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
+            getHeight() / 2, radius, fractions, colors);
 
+    public World(Zone zone, WeatherEffect weatherEffect, boolean dayNightCycle, String path) {
+        this.zone = zone;
+        this.weatherEffect = weatherEffect;
+        this.dayNightCycle = dayNightCycle;
         this.worldPath = path;
 
         // World-specific classes
@@ -104,6 +115,14 @@ public abstract class World implements Serializable {
 
     }
 
+    public World(Zone zone, String path) {
+        this(zone, WeatherEffect.NONE, true, path);
+    }
+
+    public World(Zone zone, boolean dayNightCycle, String path) {
+        this(zone, WeatherEffect.NONE, dayNightCycle, path);
+    }
+
     public void init() {
         if (!initialized) {
             MapLoader.setWorldDoc(worldPath);
@@ -121,7 +140,7 @@ public abstract class World implements Serializable {
     }
 
     public void tick() {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             itemManager.tick();
             entityManager.tick();
             inventory.tick();
@@ -136,6 +155,7 @@ public abstract class World implements Serializable {
             abilityOverviewUI.tick();
             tipManager.tick();
             contractUI.tick();
+            BountyManager.get().tick();
             if (BankUI.isOpen && player.getBankEntity() != null)
                 Handler.get().getBankUI().tick();
             if (ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -148,7 +168,7 @@ public abstract class World implements Serializable {
             }
 
             // Check for night-time every minute
-            if (timeChecker++ >= 60 * 60) {
+            if (dayNightCycle && timeChecker++ >= 60 * 60) {
                 timeChecker = 0;
 
                 // Get the current hour of day
@@ -157,6 +177,7 @@ public abstract class World implements Serializable {
 
                 // Set to night time if between 8 PM and 8 AM
                 nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
+                nightTime = true;
             }
 
             // Check if player is moving to next zone
@@ -169,7 +190,7 @@ public abstract class World implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (Handler.get().getWorld() == this) {
+        if (Handler.get().getWorld().equals(this)) {
             // Get the dimension once at the start
             int screenWidth = Handler.get().getWidth();
             int screenheight = Handler.get().getHeight();
@@ -234,6 +255,11 @@ public abstract class World implements Serializable {
                 renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
             }
 //        g.setComposite(composite);
+
+            if (dayNightCycle && nightTime) {
+                renderNight(g);
+            }
+
             // Inventory & Equipment
             equipment.render(g);
             inventory.render(g);
@@ -241,10 +267,6 @@ public abstract class World implements Serializable {
             itemManager.postRender(g);
             entityManager.postRender(g);
 
-
-            if(nightTime) {
-                renderNight(g);
-            }
 
             // Chat
             chatWindow.render(g);
@@ -301,12 +323,22 @@ public abstract class World implements Serializable {
     }
 
     protected void renderNight(Graphics2D g) {
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
-        g.setComposite(ac);
-        g.setColor(night);
-        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
-        g.setComposite(ac);
+        Paint originalPaint = g.getPaint();
+        Composite originalComposite = g.getComposite();
+
+//        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+//        g.setComposite(ac);
+//        g.setColor(night);
+//        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
+//        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+//        g.setComposite(ac);
+        g.setPaint(paint);
+//        g.setComposite(AlphaComposite.DstOut);
+        g.fillOval(Handler.get().getWidth() / 2 - radius, Handler.get().getHeight() / 2 - radius, radius * 2, radius * 2);
+
+
+        g.setComposite(originalComposite);
+        g.setPaint(originalPaint);
     }
 
     private void loadWorld(String path) {
@@ -416,4 +448,27 @@ public abstract class World implements Serializable {
         this.zoneTiles = zoneTiles;
     }
 
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public WeatherEffect getWeatherEffect() {
+        return weatherEffect;
+    }
+
+    public void setWeatherEffect(WeatherEffect weatherEffect) {
+        this.weatherEffect = weatherEffect;
+    }
+
+    public boolean isDayNightCycle() {
+        return dayNightCycle;
+    }
+
+    public void setDayNightCycle(boolean dayNightCycle) {
+        this.dayNightCycle = dayNightCycle;
+    }
 }

@@ -1,26 +1,40 @@
 package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.entities.statics.BountyBoard;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class BountyBoardManager {
+public class BountyManager {
 
-    private static BountyBoardManager instance;
+    private static BountyManager instance;
     private List<BountyBoard> bountyBoards;
+    private Set<Bounty> activeBounties;
 
-    public static BountyBoardManager get() {
+    public static BountyManager get() {
         if (instance == null) {
-            instance = new BountyBoardManager();
+            instance = new BountyManager();
         }
         return instance;
     }
 
-    public BountyBoardManager() {
+    public BountyManager() {
         bountyBoards = new ArrayList<>();
+        activeBounties = new HashSet<>();
+    }
+
+    public void tick() {
+        Iterator<Bounty> it = activeBounties.iterator();
+        while (it.hasNext()) {
+            Bounty b = it.next();
+            if (b.isCompleted()) {
+                it.remove();
+            }
+        }
+    }
+
+    public void addBounty(Bounty bounty) {
+        activeBounties.add(bounty);
     }
 
     public void addBoard(BountyBoard board) {
@@ -38,14 +52,11 @@ public class BountyBoardManager {
 
     public Bounty getBountyByZoneAndTask(Zone zone, String task) {
         // Get the requested board by zone
-        Optional<BountyBoard> bountyBoard = bountyBoards
-                .stream()
-                .filter((z) -> z.getBountyBoardUI().getZone().equals(zone))
-                .findAny();
+        BountyBoard bountyBoard = getBoardByZone(zone);
 
         // Get the requested task by board
-        if (bountyBoard.isPresent()) {
-            for (Bounty panel : bountyBoard.get().getBountyBoardUI().getPanels()) {
+        if (bountyBoard != null) {
+            for (Bounty panel : bountyBoard.getBountyBoardUI().getPanels()) {
                 if (panel.getTask().equalsIgnoreCase(task)) {
                     return panel;
                 }
