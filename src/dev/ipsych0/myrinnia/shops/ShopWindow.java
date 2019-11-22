@@ -49,14 +49,14 @@ public class ShopWindow implements Serializable {
     private int destockTimer = 0;
     private int seconds = 60;
     private int[] defaultStock;
-    private ArrayList<ItemStack> shopItems;
+    private List<ItemStack> shopItems;
     public static boolean hasBeenPressed = false;
     private static final double COMMISSION = 0.75;
     public static boolean escapePressed = false;
     public static ShopWindow lastOpenedWindow;
     private TextBox textBox;
 
-    public ShopWindow(ArrayList<ItemStack> shopItems) {
+    public ShopWindow(List<ItemStack> shopItems) {
         this.shopItems = shopItems;
         this.width = 460;
         this.height = 313;

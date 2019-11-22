@@ -15,8 +15,8 @@ public class AquaticCultist extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AquaticCultist(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public AquaticCultist(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = false;
         attackable = true;
@@ -29,22 +29,13 @@ public class AquaticCultist extends Creature {
         aDefault = aDown;
 
         // Creature stats
-        strength = 0;
-        dexterity = 0;
-        intelligence = 10;
-        vitality = 10;
-        defence = 10;
-        speed = DEFAULT_SPEED + 0.5f;
-        attackSpeed = DEFAULT_ATTACKSPEED;
-        maxHealth = (int) (180 + Math.round(vitality * 1.5));
+        strength += 0;
+        dexterity += 0;
+        intelligence += 5;
+        vitality += 5;
+        defence += 5;
+        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 5;
-
-        double exponent = 1.1;
-        for (int i = 1; i < combatLevel; i++) {
-            baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
-            exponent *= LEVEL_EXPONENT;
-        }
         attackRange = Tile.TILEWIDTH * 6;
 
         bounds.x = 0;
@@ -114,7 +105,7 @@ public class AquaticCultist extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

@@ -14,10 +14,8 @@ public class BankerNPC extends Banker implements Serializable {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
 
-    public BankerNPC(float x, float y) {
-        super(x, y);
-
-        script = Utils.loadScript("banker.json");
+    public BankerNPC(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class BankerNPC extends Banker implements Serializable {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new BankerNPC(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new BankerNPC(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
@@ -263,11 +262,13 @@ public class MapLoader implements Serializable {
                 private Zone zone;
                 private int goToX, goToY;
                 private String customZoneName;
-                private String customShopName;
                 private String className;
-                private String jsonFile;
                 private String name;
+                private Integer level;
+                private String dropTable;
+                private String jsonFile;
                 private String animation;
+                private String itemsShop;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
@@ -276,10 +277,12 @@ public class MapLoader implements Serializable {
                     if (qName.equalsIgnoreCase("object")) {
                         customZoneName = null;
                         className = null;
-                        customShopName = null;
                         name = null;
+                        level = null;
+                        dropTable = null;
                         animation = null;
                         jsonFile = null;
+                        itemsShop = null;
                         x = Integer.parseInt(attributes.getValue("x"));
                         y = Integer.parseInt(attributes.getValue("y"));
                         width = Integer.parseInt(attributes.getValue("width"));
@@ -297,26 +300,31 @@ public class MapLoader implements Serializable {
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
                                 className = attributes.getValue("value");
-                                loadEntity(world, className, name, jsonFile, animation, customShopName, x, y, width, height);
-                            }
-                        } else if (attributes.getValue("name").equalsIgnoreCase("jsonFile")) {
-                            if (TiledObjectType.NPC == objectType) {
-                                jsonFile = attributes.getValue("value");
+                                loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("name")) {
                             if (TiledObjectType.NPC == objectType) {
                                 name = attributes.getValue("value");
                             }
-                        }
-                        else if (attributes.getValue("name").equalsIgnoreCase("animation")) {
+                        } else if (attributes.getValue("name").equalsIgnoreCase("level")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                level = Integer.valueOf(attributes.getValue("value"));
+                            }
+                        } else if (attributes.getValue("name").equalsIgnoreCase("dropTable")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                dropTable = attributes.getValue("value");
+                            }
+                        } else if (attributes.getValue("name").equalsIgnoreCase("jsonFile")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                jsonFile = attributes.getValue("value");
+                            }
+                        } else if (attributes.getValue("name").equalsIgnoreCase("animation")) {
                             if (TiledObjectType.NPC == objectType) {
                                 animation = attributes.getValue("value");
                             }
-                        }
-                        // Get the custom shop name if present
-                        else if (attributes.getValue("name").equalsIgnoreCase("customShopName")) {
+                        } else if (attributes.getValue("name").equalsIgnoreCase("itemsShop")) {
                             if (TiledObjectType.NPC == objectType) {
-                                customShopName = attributes.getValue("value");
+                                itemsShop = attributes.getValue("value");
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
@@ -369,7 +377,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, String className, String name, String jsonFile, String animation, String customShopName, int x, int y, int width, int height) {
+    private static void loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
@@ -392,23 +400,7 @@ public class MapLoader implements Serializable {
 
 
             // Use default constructor if no custom properties
-            int constructorArguments = 2;
-
-            if (width != Creature.DEFAULT_CREATURE_WIDTH || height != Creature.DEFAULT_CREATURE_HEIGHT) {
-                constructorArguments = 4;
-            }
-
-            if (customShopName != null || jsonFile != null) {
-                constructorArguments++;
-            }
-
-            if (name != null) {
-                constructorArguments++;
-            }
-
-            if(animation != null){
-                constructorArguments++;
-            }
+            int constructorArguments = 10;
 
             for (Constructor t : cstr) {
                 if (t.getParameterCount() == constructorArguments) {
@@ -417,25 +409,12 @@ public class MapLoader implements Serializable {
                 }
             }
 
-            // Invoke the right constructor based on arguments
-            Entity e = null;
-            if (constructorArguments == 2) {
-                e = (Entity) cst.newInstance(x, y);
-            } else if (constructorArguments == 3) {
-                if (customShopName != null) {
-                    e = (Entity) cst.newInstance(x, y, customShopName);
-                } else if (jsonFile != null) {
-                    e = (Entity) cst.newInstance(x, y, jsonFile);
-                }
-            } else if (constructorArguments == 4) {
-                if (name != null && jsonFile != null) {
-                    e = (Entity) cst.newInstance(x, y, jsonFile, name);
-                } else {
-                    e = (Entity) cst.newInstance(x, y, width, height);
-                }
-            } else if(constructorArguments == 5){
-                e = (Entity) cst.newInstance(x, y, jsonFile, name, animation);
+            if (level == null) {
+                level = 1;
             }
+
+            // Invoke the right constructor based on arguments
+            Entity e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
             // Add the NPC to the world
             world.getEntityManager().addEntity(e);

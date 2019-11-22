@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -26,8 +25,8 @@ public class FishingSpot extends StaticEntity {
     private int random = 0;
     private int attempts = 0;
 
-    public FishingSpot(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = true;
         attackable = false;
@@ -107,7 +106,7 @@ public class FishingSpot extends StaticEntity {
                 Handler.get().sendMsg("Fishing...");
                 speakingTurn = 1;
                 isFishing = true;
-            }else{
+            } else {
                 Handler.get().sendMsg("You need a fishing level of " + Handler.get().getSkillResource(SkillsList.FISHING, Item.regularLogs).getLevelRequirement() + " to catch this type of fish.");
             }
         }
@@ -123,7 +122,7 @@ public class FishingSpot extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new FishingSpot(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new FishingSpot(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
@@ -24,20 +23,10 @@ public class PortAzureShopkeeper extends ShopKeeper {
     private static final long serialVersionUID = -3340636213278064668L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
-    private ArrayList<ItemStack> shopItems;
 
-    public PortAzureShopkeeper(float x, float y, String shopName) {
-        super(shopName, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-
-        script = Utils.loadScript("port_azure_shopkeeper.json");
-
-        shopItems = new ArrayList<>();
-
-        shopItems.add(new ItemStack(Item.regularLogs, 1));
-        shopItems.add(new ItemStack(Item.regularOre, 1));
-        shopItems.add(new ItemStack(Item.testSword, 1));
-
-        shopWindow = new ShopWindow(shopItems);
+    public PortAzureShopkeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+        shopName = "Port Azure's General Store";
     }
 
     @Override
@@ -66,7 +55,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
                 }
                 break;
             case "openShop":
-                if(!ShopWindow.isOpen){
+                if (!ShopWindow.isOpen) {
                     ShopWindow.open();
                 }
                 break;
@@ -84,16 +73,16 @@ public class PortAzureShopkeeper extends ShopKeeper {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, shopName));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 5:
-                if(chatDialogue.getChosenOption().getOptionID() == 0){
+                if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     Handler.get().giveItem(Item.purpleSword, 1);
-                } else if(chatDialogue.getChosenOption().getOptionID() == 1){
+                } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     Handler.get().giveItem(Item.testAxe, 1);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
                     Handler.get().giveItem(Item.testSword, 1);

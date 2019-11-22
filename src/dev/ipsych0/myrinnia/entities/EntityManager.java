@@ -87,6 +87,8 @@ public class EntityManager implements Serializable {
 
                 // Check if we're clicking on another Entity
                 for (Entity e2 : entities) {
+                    if(e2.equals(player))
+                        continue;
                     if (e2.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                         selectedEntity = e2;
                         break;

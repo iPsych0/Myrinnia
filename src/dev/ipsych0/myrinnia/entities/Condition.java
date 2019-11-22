@@ -82,10 +82,10 @@ public class Condition implements Serializable {
 
     private void apply() {
         receiver.tickCondition(receiver, this);
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
+        if (type == Type.CHILL) {
+            Creature r = ((Creature) receiver);
             float currMovSpd = r.getSpeed();
-            float newMovSpd = (float)(r.getSpeed() * CHILL_MOVSPD);
+            float newMovSpd = (float) (r.getSpeed() * CHILL_MOVSPD);
             initialSpeedDecrease = currMovSpd - newMovSpd;
             r.setSpeed(newMovSpd);
         }
@@ -103,8 +103,8 @@ public class Condition implements Serializable {
         tickTimer = 0;
         this.setActive(false);
 
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
+        if (type == Type.CHILL) {
+            Creature r = ((Creature) receiver);
             r.setSpeed(r.getSpeed() + initialSpeedDecrease);
         }
     }
@@ -142,7 +142,7 @@ public class Condition implements Serializable {
     }
 
     public enum Type {
-        BURNING(Assets.burnIcon,"'Burning' inflicts damage over time."),
+        BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
         CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 33%."),
         BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),

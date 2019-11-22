@@ -93,7 +93,7 @@ public abstract class Buff {
     }
 
     private int getBuffId() {
-        if(buffId == -1){
+        if (buffId == -1) {
             System.err.println("Forgot to set buffId for: " + this.getClass().getSimpleName());
         }
         return buffId;
@@ -115,9 +115,9 @@ public abstract class Buff {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this)return true;
-        if(!(obj instanceof Buff)) return false;
-        Buff b = (Buff)obj;
+        if (obj == this) return true;
+        if (!(obj instanceof Buff)) return false;
+        Buff b = (Buff) obj;
         return buffId == b.getBuffId();
     }
 }

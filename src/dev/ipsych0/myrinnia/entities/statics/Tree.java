@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -25,8 +24,8 @@ public class Tree extends StaticEntity {
     private int random = 0;
     private int attempts = 0;
 
-    public Tree(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = true;
         attackable = false;
@@ -126,7 +125,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

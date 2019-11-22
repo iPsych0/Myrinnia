@@ -97,7 +97,7 @@ public class Player extends Creature {
     private int abilityPoints;
 
     public Player(float x, float y) {
-        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null);
 
         xSpawn = x;
         ySpawn = y;
@@ -105,7 +105,7 @@ public class Player extends Creature {
 
         // Player combat/movement settings:
 
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
         health = maxHealth;
         speed = DEFAULT_SPEED + 1.0f;
 
@@ -497,7 +497,7 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
@@ -584,7 +584,7 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
             if (health >= previousMaxHP) {
                 health = maxHealth;
             }
@@ -671,7 +671,7 @@ public class Player extends Creature {
             return true;
         }
 
-        if(bountyBoard != null && BountyBoardUI.isOpen){
+        if (bountyBoard != null && BountyBoardUI.isOpen) {
             if (Handler.get().getMouseManager().isLeftPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
                 return true;
             }
@@ -731,7 +731,7 @@ public class Player extends Creature {
             return true;
         }
 
-        if(bountyBoard != null && BountyBoardUI.isOpen){
+        if (bountyBoard != null && BountyBoardUI.isOpen) {
             if (Handler.get().getMouseManager().isRightPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
                 return true;
             }
@@ -805,40 +805,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
-        System.out.println("You died!");
-        // Drop all items
-        for (int i = 0; i < Handler.get().getInventory().getItemSlots().size(); i++) {
-            if (Handler.get().getInventory().getItemSlots().get(i).getItemStack() == null) {
-                continue;
-            }
-            Handler.get().dropItem(Handler.get().getInventory().getItemSlots().get(i).getItemStack().getItem(),
-                    Handler.get().getInventory().getItemSlots().get(i).getItemStack().getAmount(), (int) x, (int) y);
-            Handler.get().getInventory().getItemSlots().get(i).setItemStack(null);
-        }
-        // If we're dragging an item from inventory while dying, drop it too!
-        if (Handler.get().getInventory().getCurrentSelectedSlot() != null) {
-            Handler.get().dropItem(Handler.get().getInventory().getCurrentSelectedSlot().getItem(), Handler.get().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-            Handler.get().getInventory().setCurrentSelectedSlot(null);
-            InventoryWindow.hasBeenPressed = false;
-            InventoryWindow.itemSelected = false;
-        }
-        // Drop all equipment
-        for (int i = 0; i < Handler.get().getEquipment().getEquipmentSlots().size(); i++) {
-            if (Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null) {
-                continue;
-            }
-            Handler.get().dropItem(Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem(),
-                    Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount(), (int) x, (int) y);
-            removeEquipmentStats(Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
-            Handler.get().getEquipment().getEquipmentSlots().get(i).setItem(null);
-        }
-        // If we're dragging an item from equipment while dying, drop it too!
-        if (Handler.get().getEquipment().getCurrentSelectedSlot() != null) {
-            Handler.get().dropItem(Handler.get().getEquipment().getCurrentSelectedSlot().getItem(), Handler.get().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-            Handler.get().getEquipment().setCurrentSelectedSlot(null);
-            EquipmentWindow.hasBeenPressed = false;
-            EquipmentWindow.itemSelected = false;
-        }
+        Handler.get().sendMsg("You died!");
 
         // If we're dead, respawn
         if (!active) {

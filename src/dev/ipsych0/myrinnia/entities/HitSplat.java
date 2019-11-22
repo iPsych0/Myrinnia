@@ -66,7 +66,7 @@ public class HitSplat implements Serializable {
         if (active) {
             if (!healing) {
                 fadeOutDamage(g);
-            }else{
+            } else {
                 fadeOutHealing(g);
             }
 

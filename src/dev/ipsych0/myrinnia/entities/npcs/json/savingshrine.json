@@ -31,7 +31,7 @@
           "nextId": -1,
           "choiceCondition": {
             "condition": "saveGame",
-            "falseId":-1
+            "falseId": -1
           }
         },
         {

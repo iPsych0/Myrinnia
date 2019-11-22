@@ -3,8 +3,12 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.skills.ui.Bounty;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
@@ -13,35 +17,26 @@ public class AzureCrab extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AzureCrab(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public AzureCrab(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = false;
         attackable = true;
 
         // Creature stats
-        strength = 0;
-        dexterity = 0;
-        intelligence = 5;
-        vitality = 5;
-        defence = 5;
-        speed = DEFAULT_SPEED + 0.5f;
-        attackSpeed = DEFAULT_ATTACKSPEED;
+        strength += 0;
+        dexterity += 0;
+        intelligence += 5;
+        vitality += 5;
+        defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 2;
-
-        double exponent = 1.1;
-        for (int i = 1; i < combatLevel; i++) {
-            baseDamage = (int) Math.ceil((baseDamage * exponent) + 1);
-            exponent *= LEVEL_EXPONENT;
-        }
         attackRange = Tile.TILEWIDTH * 6;
 
-        bounds.x = 2;
-        bounds.y = 2;
-        bounds.width = 28;
-        bounds.height = 28;
+//        bounds.x = 2;
+//        bounds.y = 2;
+//        bounds.width = 28;
+//        bounds.height = 28;
 
         // Animations
         aDown = new Animation(333, Assets.blueCrabDown);
@@ -63,7 +58,10 @@ public class AzureCrab extends Creature {
 
     @Override
     protected void die() {
-
+        Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.PortAzure, "Cut the Crab");
+        if (bounty.isAccepted()) {
+            Handler.get().giveItem(Item.testAxe, 1);
+        }
     }
 
     /*
@@ -92,7 +90,9 @@ public class AzureCrab extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn));
+        if (!name.equalsIgnoreCase("King Azure Crab")) {
+            Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        }
     }
 
     @Override
@@ -102,6 +102,6 @@ public class AzureCrab extends Creature {
 
     @Override
     public String getName() {
-        return "Azure Crab";
+        return name;
     }
 }

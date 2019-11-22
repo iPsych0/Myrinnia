@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -16,8 +15,8 @@ public class SavingShrine extends StaticEntity {
      */
     private static final long serialVersionUID = -8566165980826138340L;
 
-    public SavingShrine(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public SavingShrine(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         script = Utils.loadScript("savingshrine.json");
 

@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -56,15 +57,31 @@ public abstract class Entity implements Serializable {
     protected Rectangle collision;
     protected Script script;
     protected String name;
+    protected String dropTable;
+    protected String jsonFile;
+    protected String animationTag;
+    protected String shopItemsFile;
     private static final double DIVISION_QUOTIENT = 200.0;
     private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 
-    protected Entity(float x, float y, int width, int height) {
+    protected Entity(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.shopItemsFile = itemsShop;
+        this.name = name;
+        this.dropTable = dropTable;
+        this.jsonFile = jsonFile;
+        this.animationTag = animation;
         health = DEFAULT_HEALTH;
+
+        if (dropTable != null) {
+            // TODO: LOAD DROP TABLE FROM JSON FILE!
+        }
+        if (jsonFile != null) {
+            script = Utils.loadScript(jsonFile);
+        }
 
         bounds = new Rectangle(0, 0, width, height);
         fullBounds = new Rectangle(0, 0, width, height);
@@ -87,7 +104,9 @@ public abstract class Entity implements Serializable {
 
     protected abstract void updateDialogue();
 
-    public abstract String getName();
+    public String getName() {
+        return name;
+    }
 
     /*
      * Checks the collision for Entities
@@ -113,7 +132,7 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
-        if(getClosestEntity() == null){
+        if (getClosestEntity() == null) {
             isCloseToNPC = false;
             return false;
         }
@@ -151,7 +170,7 @@ public abstract class Entity implements Serializable {
             hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
             pythagoras.add(Math.sqrt(dx * dx + dy * dy));
         }
-        if(pythagoras.isEmpty()){
+        if (pythagoras.isEmpty()) {
             return null;
         }
         Collections.sort(pythagoras);
@@ -205,10 +224,10 @@ public abstract class Entity implements Serializable {
 //        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
-    public void heal(int heal){
-        if(health + heal >= maxHealth){
+    public void heal(int heal) {
+        if (health + heal >= maxHealth) {
             health = maxHealth;
-        }else{
+        } else {
             health += heal;
             Handler.get().addHealSplat(this, heal);
         }
@@ -456,16 +475,16 @@ public abstract class Entity implements Serializable {
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
             // If there is a condition to proceed, check the condition
-            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+            if (script.getDialogues().get(speakingTurn).getChoiceCondition() != null) {
                 ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
                 String condition = choiceCondition.getCondition();
                 // Check if the condition is met
-                if(choiceConditionMet(condition)){
+                if (choiceConditionMet(condition)) {
                     setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-                }else{
+                } else {
                     setSpeakingTurn(choiceCondition.getFalseId());
                 }
-            }else{
+            } else {
                 setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
             }
 
@@ -698,4 +717,5 @@ public abstract class Entity implements Serializable {
     public void setWalker(boolean walker) {
         this.walker = walker;
     }
+
 }

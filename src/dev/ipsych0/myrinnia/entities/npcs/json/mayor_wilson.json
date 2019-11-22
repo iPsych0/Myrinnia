@@ -6,7 +6,7 @@
       "nextId": 3,
       "choiceCondition": {
         "condition": "hasObtainedWeapon",
-        "falseId":1
+        "falseId": 1
       }
     },
     {

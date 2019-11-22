@@ -6,7 +6,7 @@
       "nextId": 1,
       "choiceCondition": {
         "condition": "has1testsword",
-        "falseId":2
+        "falseId": 2
       }
     },
     {

@@ -3,19 +3,15 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.quests.Quest;
-import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
 public class CaptainIsaac extends Creature {
 
-    public CaptainIsaac(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public CaptainIsaac(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
-        script = Utils.loadScript("captain_isaac.json");
         solid = true;
         attackable = false;
         isNpc = true;

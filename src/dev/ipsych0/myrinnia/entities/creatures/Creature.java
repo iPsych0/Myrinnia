@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,7 +30,7 @@ public abstract class Creature extends Entity {
     /*
      * Default Creature variables
      */
-    public static final float DEFAULT_SPEED = 1.0f;
+    public static final float DEFAULT_SPEED = 1.5f;
     static final float DEFAULT_ATTACKSPEED = 1.0f;
 
     public static final int DEFAULT_CREATURE_WIDTH = 32,
@@ -49,7 +49,7 @@ public abstract class Creature extends Entity {
     int defence;
     int vitality;
     float attackSpeed;
-    int combatLevel;
+    protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
     int attackRange = Tile.TILEWIDTH * 2;
     List<Projectile> projectiles = new ArrayList<>();
@@ -58,8 +58,8 @@ public abstract class Creature extends Entity {
     private int time = 0;
 
     // Radius variables:
-    int xSpawn = (int) getX();
-    int ySpawn = (int) getY();
+    protected int xSpawn = (int) getX();
+    protected int ySpawn = (int) getY();
     int xRadius = 192;
     int yRadius = 192;
     Rectangle radius;
@@ -84,6 +84,7 @@ public abstract class Creature extends Entity {
     protected Animation aUp;
     protected Animation aDown;
     protected Animation aDefault;
+    protected double baseDmgExponent = 1.1;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -97,8 +98,19 @@ public abstract class Creature extends Entity {
     float xMove;
     float yMove;
 
-    protected Creature(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    protected Creature(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+        this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
+
+        if (animation != null) {
+            BufferedImage[][] anims = Assets.getAnimationByTag(animation);
+            aDown = new Animation(250, anims[0]);
+            aLeft = new Animation(250, anims[1]);
+            aRight = new Animation(250, anims[2]);
+            aUp = new Animation(250, anims[3]);
+            aDefault = aDown;
+        }
+
         state = CombatState.IDLE;
         baseDamage = (DEFAULT_DAMAGE);
         strength = (DEFAULT_STRENGTH);
@@ -110,12 +122,26 @@ public abstract class Creature extends Entity {
         attackSpeed = (DEFAULT_ATTACKSPEED);
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 1;
+        setCombatLevel();
+
         xMove = 0;
         yMove = 0;
         drawnOnMap = true;
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
+    }
 
+    protected void setCombatLevel() {
+        for (int i = 1; i < combatLevel; i++) {
+            baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
+            baseDmgExponent *= LEVEL_EXPONENT;
+            strength += 2;
+            dexterity += 2;
+            intelligence += 2;
+            defence += 2;
+            vitality += 3;
+            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+            health = maxHealth;
+        }
     }
 
     /*

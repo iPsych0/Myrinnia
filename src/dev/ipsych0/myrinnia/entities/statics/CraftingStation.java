@@ -14,10 +14,8 @@ public class CraftingStation extends StaticEntity {
      */
     private static final long serialVersionUID = -8804679431303966524L;
 
-    public CraftingStation(float x, float y) {
-        super(x, y, 64, 64);
-
-        script = Utils.loadScript("craftingstation.json");
+    public CraftingStation(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         bounds.y = 16;
         bounds.height -= 12;

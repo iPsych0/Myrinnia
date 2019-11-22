@@ -229,35 +229,35 @@ public class AttributeBuff extends Buff {
         String text = null;
         switch (attribute) {
             case STR:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Strength by " + totalIncrease + ".";
                 } else {
                     text = "Increases Strength by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case INT:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Intelligence by " + totalIncrease + ".";
                 } else {
                     text = "Increases Intelligence by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case DEF:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Defence by " + totalIncrease + ".";
                 } else {
                     text = "Increases Defence by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case DEX:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Dexterity by " + totalIncrease + ".";
                 } else {
                     text = "Increases Dexterity by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case VIT:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Vitality by " + totalIncrease + ".";
                 } else {
                     text = "Increases Vitality by " + statBuff * getTimesStacked() + ".";
@@ -271,7 +271,7 @@ public class AttributeBuff extends Buff {
                 }
                 break;
             case MOVSPD:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Movement Speed by " + totalIncreaseDecimal + ".";
                 } else {
                     text = "Increases Movement Speed by " + statBuff * getTimesStacked() + ".";

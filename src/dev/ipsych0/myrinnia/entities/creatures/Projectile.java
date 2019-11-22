@@ -22,7 +22,7 @@ public class Projectile extends Creature implements Serializable {
     private Animation projectile;
 
     public Projectile(float x, float y, int mouseX, int mouseY, float velocity, BufferedImage[] animation) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null);
 
         this.x = x;
         this.y = y;
@@ -57,12 +57,12 @@ public class Projectile extends Creature implements Serializable {
         if (active) {
             projectile.tick();
 
-            float ty = (y + (float)yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
-            float tx = (x + (float)xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
+            float ty = (y + (float) yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
+            float tx = (x + (float) xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
             if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||
-                            collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, false)) {
+                    collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, false)) {
                 active = false;
                 return;
             }

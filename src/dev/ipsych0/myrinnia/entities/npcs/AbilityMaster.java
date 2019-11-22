@@ -2,10 +2,8 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -22,12 +20,11 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    public AbilityMaster(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         abilities = new ArrayList<>();
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
-        script = Utils.loadScript("ability_master.json");
         abilityShopWindow = new AbilityShopWindow(abilities);
 
     }
@@ -55,14 +52,14 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has1000gold":
-                if(Handler.get().playerHasItem(Item.coins, resetCost)) {
+                if (Handler.get().playerHasItem(Item.coins, resetCost)) {
                     resetSkillPoints();
                     // Change the cost of resetting in the text
                     Dialogue infoMsg = script.getDialogues().get(1);

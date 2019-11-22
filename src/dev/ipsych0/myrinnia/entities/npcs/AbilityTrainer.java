@@ -16,8 +16,8 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     AbilityShopWindow abilityShopWindow;
 
-    AbilityTrainer(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    AbilityTrainer(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         attackable = false;
         isNpc = true;

@@ -3,12 +3,9 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
-import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -27,8 +24,8 @@ public class Rock extends StaticEntity {
     private int random = 0;
     private int attempts = 0;
 
-    public Rock(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = true;
         attackable = false;
@@ -130,7 +127,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override
