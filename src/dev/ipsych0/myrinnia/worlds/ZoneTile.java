@@ -8,20 +8,22 @@ public class ZoneTile extends Rectangle {
 
     private Zone zone;
     private String customZoneName;
+    private String customZoneMusic;
     private int goToX, goToY;
 
-    public ZoneTile(Zone zone, int fromX, int fromY, int width, int height, int goToX, int goToY, String customZoneName) {
+    public ZoneTile(Zone zone, int fromX, int fromY, int width, int height, int goToX, int goToY, String customZoneName, String customZoneMusic) {
         super(fromX, fromY, width, height);
 
         this.goToX = goToX;
         this.goToY = goToY;
         this.zone = zone;
         this.customZoneName = customZoneName;
+        this.customZoneMusic = customZoneMusic;
     }
 
     public void tick() {
         if(this.intersects(Handler.get().getPlayer().getCollisionBounds(0, 0))){
-            Handler.get().goToWorld(zone, goToX, goToY, customZoneName);
+            Handler.get().goToWorld(zone, goToX, goToY, customZoneName, customZoneMusic);
         }
     }
 

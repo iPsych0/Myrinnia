@@ -274,18 +274,20 @@ public class Handler implements Serializable {
         }
     }
 
+    public void goToWorld(Zone zone, int x, int y) {
+        goToWorld(zone, x, y, null, null);
+    }
+
     /**
      * Go from your current world to the next
      *
-     * @param zone - The new zone to enter
-     * @param x    - The X pause in the new zone
-     * @param y    - The Y pause in the new zone
+     * @param zone            - The new zone to enter
+     * @param x               - The X pause in the new zone
+     * @param y               - The Y pause in the new zone
+     * @param customName      - Override the zone name
+     * @param customMusicName - Override the music played
      */
-    public void goToWorld(Zone zone, int x, int y) {
-        goToWorld(zone, x, y, null);
-    }
-
-    public void goToWorld(Zone zone, int x, int y, String customName) {
+    public void goToWorld(Zone zone, int x, int y, String customName, String customMusicName) {
         player.setX(x);
         player.setY(y);
         player.setZone(zone);
@@ -317,7 +319,12 @@ public class Handler implements Serializable {
 
         for (Source s : AudioManager.soundfxFiles)
             s.delete();
-        playMusic(zone);
+
+        if (customMusicName == null) {
+            playMusic(zone);
+        } else {
+            playMusic(customMusicName);
+        }
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {

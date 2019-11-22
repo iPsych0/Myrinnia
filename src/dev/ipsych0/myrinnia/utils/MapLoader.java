@@ -262,12 +262,13 @@ public class MapLoader implements Serializable {
                 private Zone zone;
                 private int goToX, goToY;
                 private String customZoneName;
+                private String customMusicName;
                 private String className;
                 private String name;
                 private Integer level;
                 private String dropTable;
-                private String jsonFile;
                 private String animation;
+                private String jsonFile;
                 private String itemsShop;
 
                 public void startElement(String uri, String localName, String qName,
@@ -276,6 +277,7 @@ public class MapLoader implements Serializable {
                     // Get object properties
                     if (qName.equalsIgnoreCase("object")) {
                         customZoneName = null;
+                        customMusicName = null;
                         className = null;
                         name = null;
                         level = null;
@@ -352,11 +354,16 @@ public class MapLoader implements Serializable {
                                 customZoneName = attributes.getValue("value");
                             }
                             // Get the zone to change to
+                        } else if (attributes.getValue("name").equalsIgnoreCase("customMusicName")) {
+                            if (TiledObjectType.ZONE_TILE == objectType) {
+                                customMusicName = attributes.getValue("value");
+                            }
+                            // Get the zone to change to
                         } else if (attributes.getValue("name").equalsIgnoreCase("zone")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 try {
                                     zone = Zone.valueOf(attributes.getValue("value"));
-                                    world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName));
+                                    world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName, customMusicName));
                                 } catch (Exception e) {
                                     System.err.println("Could not load zone_tile for '" + attributes.getValue("value") + "'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.");
                                 }

@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.tutorial;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -20,6 +21,12 @@ public class TutorialPopup {
 
     public TutorialPopup(String[] lines) {
         this.lines = lines;
+
+        int height = 64 + (lines.length * 16);
+        if (height < 128) {
+            height = 128;
+        }
+        bounds.setBounds(bounds.x, bounds.y, bounds.width, height);
 
         okButton = new UIImageButton(bounds.x + bounds.width / 2 - 32, bounds.y + bounds.height - 24, 64, 16, Assets.genericButton);
         uiManager = new UIManager();
@@ -56,6 +63,7 @@ public class TutorialPopup {
 
         if (okButton.isHovering() && Handler.get().getMouseManager().isLeftPressed()) {
             okPressed = true;
+            MouseManager.justClosedUI = true;
         }
     }
 

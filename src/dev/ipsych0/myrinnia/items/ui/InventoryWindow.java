@@ -52,15 +52,7 @@ public class InventoryWindow implements Serializable {
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
-                if (j == (numRows)) {
-                    x += 8;
-                }
-
                 itemSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 32 + (j * ItemSlot.SLOTSIZE), null));
-
-                if (j == (numRows)) {
-                    x -= 8;
-                }
             }
         }
 

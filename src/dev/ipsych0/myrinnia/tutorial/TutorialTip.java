@@ -28,11 +28,11 @@ public class TutorialTip {
     }
 
     public void increaseOffset() {
-        offset += 2;
+        offset += 4;
     }
 
     public void decreaseOffset() {
-        offset -= 2;
+        offset -= 4;
     }
 
     public boolean isSlidingDone() {

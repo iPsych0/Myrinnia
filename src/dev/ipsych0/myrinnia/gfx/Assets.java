@@ -90,6 +90,7 @@ public class Assets {
     public static BufferedImage[] genericMale12Down, genericMale12Left, genericMale12Right, genericMale12Up;
 
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
+    public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -488,6 +489,11 @@ public class Assets {
         portAzureRyanLeft = azureal_island_npcs.npcCrop(0, 5);
         portAzureRyanRight = azureal_island_npcs.npcCrop(0, 6);
         portAzureRyanUp = azureal_island_npcs.npcCrop(0, 7);
+
+        portAzureDouglasDown = azureal_island_npcs.npcCrop(3, 4);
+        portAzureDouglasLeft = azureal_island_npcs.npcCrop(3, 5);
+        portAzureDouglasRight = azureal_island_npcs.npcCrop(3, 6);
+        portAzureDouglasUp = azureal_island_npcs.npcCrop(3, 7);
 
         /*
          * Player Animations
