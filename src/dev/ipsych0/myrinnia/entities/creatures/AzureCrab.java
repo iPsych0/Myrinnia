@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.Bounty;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -63,6 +64,9 @@ public class AzureCrab extends Creature {
         if (name.equalsIgnoreCase("King Azure Crab") && bounty != null && bounty.isAccepted()) {
             Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
             Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(50);
+        } else {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
         }
     }
 

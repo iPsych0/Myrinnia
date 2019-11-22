@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.tutorial;
 
+import dev.ipsych0.myrinnia.Handler;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,9 @@ public class TutorialTipManager {
     }
 
     public void addTip(TutorialTip tip) {
+        if (!tips.contains(tip)) {
+            Handler.get().playEffect("ui/tutorialtip.wav");
+        }
         tips.add(tip);
     }
 
