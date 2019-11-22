@@ -445,10 +445,10 @@ public abstract class Creature extends Entity {
                     if (e.equals(Handler.get().getPlayer())) {
                         e.damage(DamageType.DEX, this, e);
 
-                        int dice = Handler.get().getRandomNumber(0, 5);
-                        if (dice == 1) {
-                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
-                        }
+//                        int dice = Handler.get().getRandomNumber(0, 5);
+//                        if (dice == 1) {
+//                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
+//                        }
 
                         p.setActive(false);
                     }

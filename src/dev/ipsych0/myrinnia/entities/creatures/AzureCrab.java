@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.ui.Bounty;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -59,8 +60,9 @@ public class AzureCrab extends Creature {
     @Override
     protected void die() {
         Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.PortAzure, "Cut the Crab");
-        if (bounty.isAccepted()) {
-            Handler.get().giveItem(Item.testAxe, 1);
+        if (name.equalsIgnoreCase("King Azure Crab") && bounty != null && bounty.isAccepted()) {
+            Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
+            Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
         }
     }
 

@@ -2,10 +2,8 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -44,7 +42,7 @@ public class ElderSelwyn extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has1testsword":
-                if (Handler.get().playerHasItem(Item.testSword, 1)) {
+                if (Handler.get().playerHasItem(Item.beginnersSword, 1)) {
                     return true;
                 }
                 break;
@@ -69,10 +67,5 @@ public class ElderSelwyn extends Creature {
     public void respawn() {
 
     }
-
-    public String getName() {
-        return "Elder Selwyn";
-    }
-
 
 }

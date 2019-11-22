@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
+import dev.ipsych0.myrinnia.shops.Stock;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
 
 import java.awt.image.BufferedImage;
@@ -13,6 +14,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Utils {
 
@@ -127,6 +131,11 @@ public class Utils {
             Integer i2 = o2.getId();
             return i1.compareTo(i2);
         });
+        return s;
+    }
+
+    public static List<Stock> loadStocks(String path) {
+        List<Stock> s = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile(path, "shops/json/", Stock[].class)));
         return s;
     }
 

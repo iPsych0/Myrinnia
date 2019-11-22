@@ -502,13 +502,6 @@
     <property name="zone" value="SunshineCoast"/>
    </properties>
   </object>
-  <object id="4" name="KingCrab" type="npc" x="672" y="416" width="64" height="64">
-   <properties>
-    <property name="level" value="3"/>
-    <property name="name" value="King Azure Crab"/>
-    <property name="npcClass" value="AzureCrab"/>
-   </properties>
-  </object>
   <object id="5" name="crab" type="npc" x="1440" y="3616" width="32" height="32">
    <properties>
     <property name="level" value="2"/>

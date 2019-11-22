@@ -1,11 +1,12 @@
 {
   "itemTypes": [
-    "MISC"
+    "MELEE_WEAPON",
+    "PICKAXE"
   ],
-  "itemRarity": "Unique",
-  "name": "Bounty Contract",
-  "id": 9,
-  "equipSlot": "None",
+  "itemRarity": "Common",
+  "name": "Simple Pickaxe",
+  "id": 7,
+  "equipSlot": "Mainhand",
   "strength": 0,
   "dexterity": 0,
   "intelligence": 0,
@@ -30,8 +31,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": -1,
+  "price": 10,
   "stackable": false,
-  "equippable": false,
+  "equippable": true,
   "respawnTimer": 10800
 }

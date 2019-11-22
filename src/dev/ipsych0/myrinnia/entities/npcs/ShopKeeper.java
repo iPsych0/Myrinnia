@@ -1,8 +1,11 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.shops.Stock;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +19,23 @@ public abstract class ShopKeeper extends Creature {
     private static final long serialVersionUID = 3802705595380640443L;
     ShopWindow shopWindow;
     String shopName;
-    protected List<ItemStack> itemStacks;
+    protected List<Stock> itemStacks;
 
     ShopKeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         if (itemsShop != null) {
-            // TODO: LOAD ITEMSTACKS FROM FILE
-//            itemStacks = Utils.loadShop(itemsShop);
+            itemStacks = Utils.loadStocks(itemsShop);
         }
+
         attackable = false;
         isNpc = true;
 
-        shopWindow = new ShopWindow(itemStacks);
+        List<ItemStack> items = new ArrayList<>();
+        for (Stock s : itemStacks) {
+            items.add(new ItemStack(Item.items[s.getId()], s.getAmount()));
+        }
+        shopWindow = new ShopWindow(items);
 
     }
 

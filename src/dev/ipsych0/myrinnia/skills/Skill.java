@@ -59,6 +59,9 @@ public abstract class Skill implements Serializable {
             }
             Player.isLevelUp = true;
         }
+        if (Player.isLevelUp) {
+            Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+        }
     }
 
     public int getExperience() {

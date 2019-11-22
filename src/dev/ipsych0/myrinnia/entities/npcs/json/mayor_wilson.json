@@ -21,22 +21,22 @@
     },
     {
       "id": 3,
-      "text": "That weapon should protect you from dangers.",
+      "text": "That weapon should protect you from dangers. Many cities and towns in Myrinnia face local troubles. Port Azure also has its problems.",
       "nextId": 4
     },
     {
       "id": 4,
-      "text": "Many cities and towns in Myrinnia deal with such dangers. Port Azure also has its problems. Some people pursue this as a craft and are often handsomely rewarded. This skill is called Bounty Hunter.",
+      "text": "Some people pursue these combat challenges and are often handsomely rewarded. This skill is called Bounty Hunter.",
       "nextId": 5
     },
     {
       "id": 5,
-      "text": "You should try out different skills and work on whichever you like best. To give you a taste, I'd like you to go outside and find the bounty board next to this building.",
+      "text": "You should try out different skills and work on whichever you like best. To give you a taste of what Bounty Hunter is like, I'd like you to go outside and find the Bounty Board next to this building.",
       "nextId": 6
     },
     {
       "id": 6,
-      "text": "Choose a bounty and complete it to receive your reward from me.",
+      "text": "Just pick one of the listed bounties and complete it to receive a reward and some experience.",
       "nextId": -1
     }
   ]

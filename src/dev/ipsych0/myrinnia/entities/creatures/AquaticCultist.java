@@ -69,11 +69,11 @@ public class AquaticCultist extends Creature {
             Handler.get().dropItem(Item.regularLogs, 5, (int) x, (int) y);
         } else if (randomNumber >= 11 && randomNumber <= 50) {
             Handler.get().dropItem(Item.regularOre, 10, (int) x, (int) y);
-            Handler.get().dropItem(Item.purpleSword, 1, (int) x, (int) y);
+            Handler.get().dropItem(Item.magicSword, 1, (int) x, (int) y);
         }
         Handler.get().dropItem(Item.coins, 50, (int) x, (int) y);
-        Handler.get().dropItem(Item.testAxe, 1, (int) x, (int) y);
-        Handler.get().dropItem(Item.testPickaxe, 1, (int) x, (int) y);
+        Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
+        Handler.get().dropItem(Item.simplePickaxe, 1, (int) x, (int) y);
 
 //		FOR INSTA NEXT LEVEL: Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp()
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);

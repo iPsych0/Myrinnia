@@ -66,13 +66,7 @@ public class InventoryWindow implements Serializable {
 
         itemTooltip = new ItemTooltip(x - 160, y);
 
-        itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.coins, 1000);
-        itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs, 100);
-        itemSlots.get(findFreeSlot(Item.regularOre)).addItem(Item.regularOre, 100);
-        itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
-        itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
-
-
+        itemSlots.get(findFreeSlot(Item.beginnersSword)).addItem(Item.magicSword, 1);
     }
 
 
@@ -96,7 +90,7 @@ public class InventoryWindow implements Serializable {
             Rectangle mouse = Handler.get().getMouse();
 
             Iterator<ItemSlot> it = itemSlots.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 ItemSlot is = it.next();
 
                 is.tick();
@@ -368,7 +362,7 @@ public class InventoryWindow implements Serializable {
         usedItems.add(i);
     }
 
-    public String getAbbrevRenderAmount(ItemStack itemStack){
+    public String getAbbrevRenderAmount(ItemStack itemStack) {
         if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
             return Integer.toString(itemStack.getAmount()).substring(0, 2) + "k";
         } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {

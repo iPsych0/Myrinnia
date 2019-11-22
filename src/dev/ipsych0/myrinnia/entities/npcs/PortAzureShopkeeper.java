@@ -3,15 +3,12 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PortAzureShopkeeper extends ShopKeeper {
@@ -49,7 +46,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "mayorQuest":
-                List<QuestStep> steps = Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps();
+                List<QuestStep> steps = Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps();
                 if (!steps.isEmpty() && !steps.get(0).isFinished()) {
                     return true;
                 }
@@ -81,20 +78,16 @@ public class PortAzureShopkeeper extends ShopKeeper {
         switch (speakingTurn) {
             case 5:
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    Handler.get().giveItem(Item.purpleSword, 1);
+                    Handler.get().giveItem(Item.beginnersStaff, 1);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    Handler.get().giveItem(Item.testAxe, 1);
+                    Handler.get().giveItem(Item.beginnersBow, 1);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
-                    Handler.get().giveItem(Item.testSword, 1);
+                    Handler.get().giveItem(Item.beginnersSword, 1);
                 }
                 Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
-                Handler.get().getQuest(QuestList.LearningTheRopes).nextStep();
-                Handler.get().addQuestStep(QuestList.LearningTheRopes, "Report back to the mayor.");
+                Handler.get().getQuest(QuestList.BountyHunter).nextStep();
+                Handler.get().addQuestStep(QuestList.BountyHunter, "Report back to the mayor.");
         }
-    }
-
-    public String getName() {
-        return "Shopkeeper";
     }
 
 }

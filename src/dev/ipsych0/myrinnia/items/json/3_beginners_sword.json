@@ -3,20 +3,14 @@
     "MELEE_WEAPON"
   ],
   "itemRarity": "Unique",
-  "requirements": [
-    {
-      "stat": "Melee",
-      "level": 2
-    }
-  ],
-  "name": "Test sword",
+  "name": "Beginner's Sword",
   "id": 3,
   "equipSlot": "Mainhand",
-  "strength": 20,
+  "strength": 5,
   "dexterity": 0,
   "intelligence": 0,
-  "defence": 5,
-  "vitality": 5,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "useCooldown": 60,
@@ -36,7 +30,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 10,
+  "price": 5,
   "stackable": false,
   "equippable": true,
   "respawnTimer": 10800

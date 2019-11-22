@@ -1,18 +1,19 @@
 {
   "itemTypes": [
-    "MAGIC_WEAPON"
+    "MELEE_WEAPON",
+    "AXE"
   ],
-  "itemRarity": "Exquisite",
-  "name": "Magic wand",
-  "id": 2,
+  "itemRarity": "Unique",
+  "name": "Ryan's Axe",
+  "id": 6,
   "equipSlot": "Mainhand",
   "strength": 0,
   "dexterity": 0,
-  "intelligence": 5,
-  "defence": 5,
-  "vitality": 5,
+  "intelligence": 0,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
-  "movementSpeed": 3.0,
+  "movementSpeed": 0.0,
   "useCooldown": 60,
   "x": 0,
   "y": 0,
@@ -30,7 +31,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 25,
+  "price": -1,
   "stackable": false,
   "equippable": true,
   "respawnTimer": 10800

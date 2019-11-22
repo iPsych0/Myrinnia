@@ -51,7 +51,7 @@ public class Assets {
     public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
-    public static BufferedImage wood, ore, testSword, purpleSword, testAxe, testPickaxe;
+    public static BufferedImage wood, ore, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow;
     public static BufferedImage[] coins;
 
     // Enemy images
@@ -88,6 +88,8 @@ public class Assets {
     public static BufferedImage[] genericMale10Down, genericMale10Left, genericMale10Right, genericMale10Up;
     public static BufferedImage[] genericMale11Down, genericMale11Left, genericMale11Right, genericMale11Up;
     public static BufferedImage[] genericMale12Down, genericMale12Left, genericMale12Right, genericMale12Up;
+
+    public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -317,11 +319,13 @@ public class Assets {
         coins[1] = item_sheet.imageCrop(0, 3);
         coins[2] = item_sheet.imageCrop(0, 4);
         coins[3] = item_sheet.imageCrop(0, 5);
-        testSword = item_sheet.imageCrop(1, 0);
-        purpleSword = item_sheet.imageCrop(2, 0);
-        testAxe = item_sheet.imageCrop(0, 6);
-        testPickaxe = item_sheet.imageCrop(0, 7);
+        beginnersSword = item_sheet.imageCrop(1, 0);
+        beginnersStaff = item_sheet.imageCrop(2, 0);
+        beginnersBow = item_sheet.imageCrop(3, 0);
+        ryansAxe = item_sheet.imageCrop(0, 6);
+        simplePickaxe = item_sheet.imageCrop(0, 7);
         bountyContract = item_sheet.imageCrop(0, 8);
+        simpleAxe = item_sheet.imageCrop(0, 9);
 
 
         /*
@@ -479,6 +483,11 @@ public class Assets {
         genericMale12Left = generic_males1.npcCrop(15, 5);
         genericMale12Right = generic_males1.npcCrop(15, 6);
         genericMale12Up = generic_males1.npcCrop(15, 7);
+
+        portAzureRyanDown = azureal_island_npcs.npcCrop(0, 4);
+        portAzureRyanLeft = azureal_island_npcs.npcCrop(0, 5);
+        portAzureRyanRight = azureal_island_npcs.npcCrop(0, 6);
+        portAzureRyanUp = azureal_island_npcs.npcCrop(0, 7);
 
         /*
          * Player Animations

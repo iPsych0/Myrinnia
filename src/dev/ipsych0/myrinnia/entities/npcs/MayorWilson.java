@@ -2,12 +2,10 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -45,8 +43,11 @@ public class MayorWilson extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasObtainedWeapon":
-                if (Handler.get().questInProgress(QuestList.LearningTheRopes) && Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps().get(0).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
                     return true;
+                }
+                if (Handler.get().questCompleted(QuestList.BountyHunter)) {
+                    script.getDialogues().get(2).setText("Once you have learned all skills, you should ask Captain Isaac to take you with him! You can find him on the docks south of here.");
                 }
                 break;
             default:
@@ -59,17 +60,22 @@ public class MayorWilson extends Creature {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
+            case 0:
+                if (Handler.get().questInProgress(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
+                    script.getDialogues().get(0).setText("Welcome back!");
+                }
+                break;
             case 2:
-                if (!Handler.get().questCompleted(QuestList.LearningTheRopes) && !Handler.get().questStarted(QuestList.LearningTheRopes)) {
+                if (!Handler.get().questCompleted(QuestList.BountyHunter) && !Handler.get().questStarted(QuestList.BountyHunter)) {
                     Handler.get().addTip(new TutorialTip("Press Q to open your Quest Journal."));
-                    Handler.get().getQuest(QuestList.LearningTheRopes).setState(Quest.QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.LearningTheRopes, "Choose your first weapon from the store.");
+                    Handler.get().getQuest(QuestList.BountyHunter).setState(Quest.QuestState.IN_PROGRESS);
+                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose your first weapon from the store.");
                 }
                 break;
             case 6:
-                if (Handler.get().questInProgress(QuestList.LearningTheRopes) && !Handler.get().getQuest(QuestList.LearningTheRopes).getQuestSteps().get(1).isFinished()) {
-                    Handler.get().getQuest(QuestList.LearningTheRopes).nextStep();
-                    Handler.get().addQuestStep(QuestList.LearningTheRopes, "Choose a bounty target from the board.");
+                if (Handler.get().questInProgress(QuestList.BountyHunter) && !Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(1).isFinished()) {
+                    Handler.get().getQuest(QuestList.BountyHunter).nextStep();
+                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose a bounty target from the board.");
                 }
                 break;
         }
@@ -84,11 +90,5 @@ public class MayorWilson extends Creature {
     public void respawn() {
 
     }
-
-    @Override
-    public String getName() {
-        return "Mayor Wilson The 1st in his name";
-    }
-
 
 }

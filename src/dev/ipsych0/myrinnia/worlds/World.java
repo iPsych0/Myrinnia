@@ -177,7 +177,6 @@ public class World implements Serializable {
 
                 // Set to night time if between 8 PM and 8 AM
                 nightTime = (timeOfDay >= 20 && timeOfDay < 24) || timeOfDay >= 0 && timeOfDay < 8;
-                nightTime = true;
             }
 
             // Check if player is moving to next zone

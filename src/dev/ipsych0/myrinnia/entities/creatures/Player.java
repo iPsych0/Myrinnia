@@ -107,7 +107,7 @@ public class Player extends Creature {
 
         maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
         health = maxHealth;
-        speed = DEFAULT_SPEED + 1.0f;
+        speed = DEFAULT_SPEED + 0.5f;
 
         // Set collision boundaries on sprite
         bounds.x = 10;
@@ -191,7 +191,7 @@ public class Player extends Creature {
 
 
 //			for(int i = 0; i < Handler.get().getInventory().getItemSlots().size(); i++) {
-//				Handler.get().getInventory().getItemSlots().get(i).addItem(Item.testSword, 1);
+//				Handler.get().getInventory().getItemSlots().get(i).addItem(Item.beginnersSword, 1);
 //			}
             debugButtonPressed = false;
 

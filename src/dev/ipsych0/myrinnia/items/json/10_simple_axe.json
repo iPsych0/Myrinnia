@@ -1,11 +1,12 @@
 {
   "itemTypes": [
-    "MISC"
+    "MELEE_WEAPON",
+    "AXE"
   ],
-  "itemRarity": "Unique",
-  "name": "Bounty Contract",
-  "id": 9,
-  "equipSlot": "None",
+  "itemRarity": "Common",
+  "name": "Simple Axe",
+  "id": 10,
+  "equipSlot": "Mainhand",
   "strength": 0,
   "dexterity": 0,
   "intelligence": 0,
@@ -13,7 +14,6 @@
   "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
-  "useCooldown": 60,
   "x": 0,
   "y": 0,
   "bounds": {
@@ -30,8 +30,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": -1,
+  "price": 5,
   "stackable": false,
-  "equippable": false,
-  "respawnTimer": 10800
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
 }
