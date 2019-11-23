@@ -8,7 +8,11 @@
     {
       "id": 1,
       "text": "You should speak to the locals. They will be happy to help you on your way.",
-      "nextId": 2
+      "nextId": 5,
+      "choiceCondition": {
+        "condition": "has5fishandquest",
+        "falseId": 2
+      }
     },
     {
       "id": 2,
@@ -29,13 +33,18 @@
     },
     {
       "id": 3,
-      "text": "Well, we primarily fish. There are some fishing docks south of here, but you will need a fishing rod. I heard that someone is handing one out to travellers who help him.",
+      "text": "Well, we primarily fish. There are some fishing docks south of here, but you will need a fishing rod. My husband is handing one out to travellers who help him.",
       "nextId": 2
     },
     {
       "id": 4,
       "text": "Isn't that lovely! If you wish to, I suppose you should talk to Elder Selwyn. His house is north of the mayor's house.",
       "nextId": 2
+    },
+    {
+      "id": 5,
+      "text": "Oh, those fish are for me? Why, thank you! ",
+      "nextId": 6
     }
   ]
 }

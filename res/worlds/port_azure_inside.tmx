@@ -513,7 +513,7 @@
     <property name="zone" value="PortAzure"/>
    </properties>
   </object>
-  <object id="17" name="GenericMale" type="npc" x="1152" y="2464" width="32" height="32">
+  <object id="17" name="Jeff" type="npc" x="1152" y="2464" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale1"/>
     <property name="jsonFile" value="port_azure_man2.json"/>
@@ -521,12 +521,12 @@
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="18" name="GenericFemale" type="npc" x="416" y="2432" width="32" height="32">
+  <object id="18" name="Mary" type="npc" x="416" y="2432" width="32" height="32">
    <properties>
-    <property name="animation" value="genericFemale1"/>
-    <property name="jsonFile" value="port_azure_woman.json"/>
+    <property name="animation" value=""/>
+    <property name="jsonFile" value="port_azure_mary.json"/>
     <property name="name" value="Mary"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="PortAzureMary"/>
    </properties>
   </object>
   <object id="19" name="Sunshine Coast" type="zone_tile" x="672" y="496" width="96" height="16">
