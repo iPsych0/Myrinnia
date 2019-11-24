@@ -42,7 +42,7 @@ public class KeyManager implements KeyListener, Serializable {
     public boolean escape;
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
-    private static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
+    public static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
     statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey, hudKey;
 
     public KeyManager() {

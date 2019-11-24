@@ -645,8 +645,10 @@ public class ShopWindow implements Serializable {
                         }
                     }
                     buyAmount = (int) Math.floor(coins / tradeSlot.getItemStack().getItem().getPrice());
-                    Handler.get().removeItem(Item.coins, (buyAmount * tradeSlot.getItemStack().getItem().getPrice()));
-                    Handler.get().giveItem(tradeSlot.getItemStack().getItem(), buyAmount);
+                    if (buyAmount > 0) {
+                        Handler.get().removeItem(Item.coins, (buyAmount * tradeSlot.getItemStack().getItem().getPrice()));
+                        Handler.get().giveItem(tradeSlot.getItemStack().getItem(), buyAmount);
+                    }
                     Handler.get().sendMsg("You don't have enough gold to buy " + (tradeSlot.getItemStack().getAmount() - buyAmount) + "x " + tradeSlot.getItemStack().getItem().getName());
                     hasBeenPressed = false;
                     i++;

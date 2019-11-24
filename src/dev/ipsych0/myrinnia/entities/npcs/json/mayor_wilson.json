@@ -17,7 +17,11 @@
     {
       "id": 2,
       "text": "First, you must be able to defend yourself from threats out there. Please see the Shop Owner next door to choose a weapon.",
-      "nextId": -1
+      "nextId": 7,
+      "choiceCondition": {
+        "condition": "allQuestsDone",
+        "falseId": -1
+      }
     },
     {
       "id": 3,
@@ -37,6 +41,24 @@
     {
       "id": 6,
       "text": "Just pick one of the listed bounties and complete it to receive a reward and some experience.",
+      "nextId": -1
+    },
+    {
+      "id": 7,
+      "options": [
+        {
+          "text": "What should I do now?",
+          "nextId": 8
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "text": "{This dialogue will be replaced by hint messages from the Mayor}",
       "nextId": -1
     }
   ]

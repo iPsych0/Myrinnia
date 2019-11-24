@@ -5,8 +5,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.Bounty;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
@@ -95,7 +95,7 @@ public class PortAzureRyan extends Creature {
                 if (!completedBounty) {
                     bounty.setCompleted(true);
                     Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                    Handler.get().getQuest(QuestList.BountyHunter).setState(Quest.QuestState.COMPLETED);
+                    Handler.get().getQuest(QuestList.BountyHunter).setState(QuestState.COMPLETED);
                     Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
                     Handler.get().removeItem(Item.bountyContract, 1);
                     Handler.get().addTip(new TutorialTip("Press L to open your Skills Menu."));

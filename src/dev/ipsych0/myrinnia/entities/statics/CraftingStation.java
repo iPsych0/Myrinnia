@@ -2,8 +2,6 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -17,9 +15,6 @@ public class CraftingStation extends StaticEntity {
     public CraftingStation(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
-        bounds.y = 16;
-        bounds.height -= 12;
-
         attackable = false;
         isNpc = true;
     }
@@ -31,7 +26,6 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.mainhandSlot, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 
     }
 

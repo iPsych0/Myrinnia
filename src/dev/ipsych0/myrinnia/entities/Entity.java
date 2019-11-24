@@ -47,7 +47,7 @@ public abstract class Entity implements Serializable {
     private Entity damageDealer;
     private Entity damageReceiver;
     protected int speakingTurn = 0;
-    private int speakingCheckpoint = -1;
+    protected int speakingCheckpoint = 0;
     protected transient ChatDialogue chatDialogue;
     private boolean overlayDrawn = true;
     private int lastHit = 0;
@@ -413,7 +413,7 @@ public abstract class Entity implements Serializable {
             font = Assets.font20;
             titleBounds = Text.getStringBounds(g, text[0], font);
         } else {
-            font = Assets.font14;
+            font = Assets.font20;
             String longest = null;
             for (String s : text) {
                 if (longest == null) {
@@ -427,7 +427,14 @@ public abstract class Entity implements Serializable {
 
         g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
 
+        if (script != null || isNpc) {
+            font = Assets.font20;
+        }
         for (int i = 0; i < text.length; i++) {
+            if (i >= 1) {
+                font = Assets.font14;
+                yPos += 6;
+            }
             Text.drawString(g, text[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, font);
         }
     }
@@ -466,7 +473,11 @@ public abstract class Entity implements Serializable {
         // If the conversation was reset, reinitialize the first time we interact again
         if (speakingTurn == -1) {
             chatDialogue = null;
-            speakingTurn = 0;
+            if (speakingCheckpoint != 0) {
+                speakingTurn = speakingCheckpoint;
+            } else {
+                speakingTurn = 0;
+            }
             return;
         }
         // If there is only text to be displayed, advance to the next conversation

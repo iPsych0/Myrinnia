@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.input.KeyManager;
+
+import java.awt.event.KeyEvent;
 
 public abstract class StaticEntity extends Entity {
 
@@ -15,21 +18,21 @@ public abstract class StaticEntity extends Entity {
 
         staticNpc = true;
         solid = true;
-        attackable = false;
     }
 
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (attackable) {
+        if (script != null || isNpc) {
             String[] name = new String[2];
             name[0] = hoveringEntity.getName();
-            name[1] = "Health: " + health + "/" + maxHealth;
-            return name;
-        } else {
-            String[] name = new String[1];
-            name[0] = hoveringEntity.getName();
+            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+            name[1] = "Press '" + interactKey + "' to interact";
             return name;
         }
+        String[] name = new String[2];
+        name[0] = hoveringEntity.getName();
+        name[1] = "Health: " + health + "/" + maxHealth;
+        return name;
     }
 
 

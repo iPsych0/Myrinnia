@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
@@ -24,6 +25,8 @@ public class FishingSpot extends StaticEntity {
     private int minAttempts = 4, maxAttempts = 9;
     private int random = 0;
     private int attempts = 0;
+    private Item fish;
+    private int experience;
 
     public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -31,20 +34,25 @@ public class FishingSpot extends StaticEntity {
         isNpc = true;
         attackable = false;
         spinning = new Animation(125, Assets.whirlpool);
+
+        if (name.equalsIgnoreCase("Mackerel Fishing Spot")) {
+            fish = Item.regularFish;
+            experience = 10;
+        }
     }
 
     @Override
     public void tick() {
         spinning.tick();
         if (isFishing) {
-            if (Handler.get().invIsFull(Item.regularFish)) {
+            if (Handler.get().invIsFull(fish)) {
                 fishingTimer = 0;
                 speakingTurn = -1;
                 interact();
                 isFishing = false;
             }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
-                    !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
+                    !Handler.get().getPlayer().hasLeftClickedUI(Handler.get().getMouse())) {
                 fishingTimer = 0;
                 speakingTurn = 0;
                 isFishing = false;
@@ -65,9 +73,9 @@ public class FishingSpot extends StaticEntity {
                 System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 60) {
-                    Handler.get().giveItem(Item.regularFish, 1);
+                    Handler.get().giveItem(fish, 1);
                     Handler.get().sendMsg("You caught something!");
-                    Handler.get().getSkillsUI().getSkill(SkillsList.FISHING).addExperience(10);
+                    Handler.get().getSkillsUI().getSkill(SkillsList.FISHING).addExperience(experience);
                     attempts++;
                 } else {
                     Handler.get().sendMsg("The fish got away...");
@@ -102,12 +110,16 @@ public class FishingSpot extends StaticEntity {
             return;
         }
         if (this.speakingTurn == 0) {
-            if (Handler.get().playerHasSkillLevel(SkillsList.FISHING, Item.regularFish)) {
-                Handler.get().sendMsg("Fishing...");
-                speakingTurn = 1;
-                isFishing = true;
+            if (Handler.get().playerHasSkillLevel(SkillsList.FISHING, fish)) {
+                if (Handler.get().playerHasItemType(ItemType.FISHING_ROD)) {
+                    Handler.get().sendMsg("Fishing...");
+                    speakingTurn = 1;
+                    isFishing = true;
+                } else {
+                    Handler.get().sendMsg("You need a fishing rod to catch fish.");
+                }
             } else {
-                Handler.get().sendMsg("You need a fishing level of " + Handler.get().getSkillResource(SkillsList.FISHING, Item.regularLogs).getLevelRequirement() + " to catch this type of fish.");
+                Handler.get().sendMsg("You need a fishing level of " + Handler.get().getSkillResource(SkillsList.FISHING, fish).getLevelRequirement() + " to catch this type of fish.");
             }
         }
     }
@@ -129,10 +141,4 @@ public class FishingSpot extends StaticEntity {
     protected void updateDialogue() {
 
     }
-
-    public String getName() {
-        return "Fishing Spot";
-    }
-
-
 }

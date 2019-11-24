@@ -6,14 +6,15 @@ import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -372,9 +373,11 @@ public abstract class Creature extends Entity {
      */
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (!attackable || isNpc) {
-            String[] name = new String[1];
+        if (script != null) {
+            String[] name = new String[2];
             name[0] = hoveringEntity.getName();
+            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+            name[1] = "Press '" + interactKey + "' to interact";
             return name;
         }
         String[] name = new String[2];

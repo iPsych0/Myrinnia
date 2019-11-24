@@ -7,7 +7,9 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -15,6 +17,7 @@ public class PortAzureDouglas extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.WoodcuttingAndFishing);
     private boolean tipDisplayed = false;
+    private boolean scriptChanged;
 
     public PortAzureDouglas(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -74,15 +77,22 @@ public class PortAzureDouglas extends Creature {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
+            case 0:
+                if (!scriptChanged && Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
+                    scriptChanged = true;
+                    script = Utils.loadScript("port_azure_douglas2.json");
+                }
+                break;
             case 5:
                 if (!Handler.get().questStarted(QuestList.WoodcuttingAndFishing)) {
-                    quest.setState(Quest.QuestState.IN_PROGRESS);
+                    quest.setState(QuestState.IN_PROGRESS);
                     Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Cut 5 logs from weak palm trees in Sunrise Sands.");
                 }
                 break;
             case 6:
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && !quest.getQuestSteps().get(0).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.regularLogs, 5)) {
                     Handler.get().giveItem(Item.regularFish, 1);
+                    Handler.get().removeItem(Item.regularLogs, 5);
                     quest.nextStep();
                     Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Deliver 5 fish to Mary in Port Azure.");
                 }
@@ -97,7 +107,10 @@ public class PortAzureDouglas extends Creature {
     }
 
     @Override
-    public String getName() {
-        return name;
+    public void postRender(Graphics2D g) {
+        if (Handler.get().hasQuestReqs(QuestList.WoodcuttingAndFishing) && quest.getState() == QuestState.NOT_STARTED) {
+            g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
+        }
     }
 }

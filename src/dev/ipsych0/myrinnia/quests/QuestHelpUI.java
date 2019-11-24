@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -90,7 +89,11 @@ public class QuestHelpUI implements Serializable {
                         if (selectedQuest.getRequirements()[i].isTaskDone()) {
                             requirementColor = Color.GREEN;
                         } else {
-                            requirementColor = Color.RED;
+                            if (selectedQuest.getRequirements()[i].isMandatory()) {
+                                requirementColor = Color.RED;
+                            } else {
+                                requirementColor = Color.YELLOW;
+                            }
                         }
                     }
 

@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.quests;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;

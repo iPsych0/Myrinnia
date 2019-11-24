@@ -5,7 +5,8 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 public enum QuestList {
 
     BountyHunter("Bounty Hunter", Zone.PortAzure),
-    WoodcuttingAndFishing("Woodcutting & Fishing", Zone.PortAzure);
+    WoodcuttingAndFishing("Woodcutting & Fishing", Zone.PortAzure),
+    MiningAndCrafting("Mining & Crafting", Zone.PortAzure);
 //    TheSecondQuest("The Second Quest", Zone.PortAzure),
 //    TheThirdQuest("The Third Quest", Zone.PortAzure),
 //    TheTestQuest("The Test Quest", Zone.LakeAzure),

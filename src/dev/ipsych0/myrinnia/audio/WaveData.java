@@ -7,7 +7,6 @@ import org.lwjgl.openal.AL10;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,6 +61,9 @@ public class WaveData {
     public static WaveData create(String file) {
         WaveData wavStream;
         try (InputStream in = Handler.class.getResourceAsStream(file)) {
+            if (in == null) {
+                throw new FileNotFoundException("File not found: " + file);
+            }
             InputStream bufferedIn = new BufferedInputStream(in);
             try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn)) {
                 wavStream = new WaveData(audioIn);

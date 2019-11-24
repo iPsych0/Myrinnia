@@ -26,11 +26,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
-import dev.ipsych0.myrinnia.quests.Quest;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
-import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.quests.QuestManager;
-import dev.ipsych0.myrinnia.quests.QuestStep;
+import dev.ipsych0.myrinnia.quests.*;
 import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
@@ -237,6 +233,10 @@ public class Handler implements Serializable {
         Quest q = getQuest(quest);
         boolean hasAllRequirements = true;
 
+        if (q.getRequirements() == null) {
+            return true;
+        }
+
         for (int i = 0; i < q.getRequirements().length; i++) {
             // Check skill requirements
             if (q.getRequirements()[i].getSkill() != null) {
@@ -257,9 +257,6 @@ public class Handler implements Serializable {
                 break;
             }
         }
-
-        if (!hasAllRequirements)
-            sendMsg("You do not meet the requirements to start " + q.getQuestName() + ".");
 
         return hasAllRequirements;
     }

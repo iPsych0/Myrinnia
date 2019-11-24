@@ -91,6 +91,7 @@ public class Assets {
 
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
+    public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -121,6 +122,7 @@ public class Assets {
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
             movSpdBuffIcon;
+    public static BufferedImage exclamationIcon;
 
     public static BufferedImage uiWindow;
 
@@ -155,6 +157,7 @@ public class Assets {
          * Make skilling sheet for this
          */
         SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
+        SpriteSheet skill_resources = new SpriteSheet("/textures/skill_resources.png");
 
         /*
          * Player/NPCs
@@ -290,6 +293,7 @@ public class Assets {
 
         // Crafting UI sprites
         undiscovered = ui_sheet.imageCrop(0, 0);
+        exclamationIcon = ui_sheet.imageCrop(3,1);
 
         /*
          * Generic Button Sprites
@@ -495,6 +499,11 @@ public class Assets {
         portAzureDouglasRight = azureal_island_npcs.npcCrop(3, 6);
         portAzureDouglasUp = azureal_island_npcs.npcCrop(3, 7);
 
+        portAzureDuncanDown = azureal_island_npcs.npcCrop(6, 4);
+        portAzureDuncanLeft = azureal_island_npcs.npcCrop(6, 5);
+        portAzureDuncanRight = azureal_island_npcs.npcCrop(6, 6);
+        portAzureDuncanUp = azureal_island_npcs.npcCrop(6, 7);
+
         /*
          * Player Animations
          */
@@ -573,12 +582,12 @@ public class Assets {
         eruption1[6] = ability_animations.imageCrop(6, 1);
 
         // Skilling objects
-//        tree = texture_sheet.imageCrop(1, 2);
-//        rock = texture_sheet.imageCrop(0, 3);
+        tree = skill_resources.imageCrop(0, 0, WIDTH, HEIGHT * 2);
+        rock = skill_resources.imageCrop(1, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
 
-                whirlpool = new BufferedImage[8];
+        whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);
         whirlpool[1] = whirlPool.imageCrop(2, 0);
         whirlpool[2] = whirlPool.imageCrop(1, 0);

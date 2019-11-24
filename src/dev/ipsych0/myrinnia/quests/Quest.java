@@ -21,10 +21,6 @@ public class Quest implements Serializable {
 
     private Zone zone;
 
-    public enum QuestState {
-        NOT_STARTED, IN_PROGRESS, COMPLETED
-    }
-
     public Quest(String questName, Zone zone) {
         this.questName = questName;
         this.zone = zone;

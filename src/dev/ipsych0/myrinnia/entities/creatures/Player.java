@@ -77,6 +77,7 @@ public class Player extends Creature {
     public static Skill leveledSkill;
     public static int xpGained;
     private int levelUpTimer, xpGainedTimer;
+    public static boolean expEffectPlayed;
 
     private boolean movementAllowed = true;
     public static boolean isMoving, hasMoved;
@@ -272,7 +273,11 @@ public class Player extends Creature {
             hasInteracted = false;
 
             closestEntity.setChatDialogue(null);
-            closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+            if (closestEntity.getSpeakingCheckpoint() != 0) {
+                closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+            } else {
+                closestEntity.setSpeakingTurn(-1);
+            }
             closestEntity.interact();
             closestEntity = null;
         }
@@ -327,6 +332,11 @@ public class Player extends Creature {
                     }
                 }
             }
+        }
+
+        if (isXpGained && !expEffectPlayed) {
+            Handler.get().sendMsg("EXP gained");
+            expEffectPlayed = true;
         }
 
     }
@@ -889,7 +899,7 @@ public class Player extends Creature {
             Text.drawString(g, "+" + xpGained + " XP",
                     (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
                     (int) (y - Handler.get().getGameCamera().getyOffset() + 48 - xpGainedTimer),
-                    false, Color.GREEN, Assets.font14);
+                    false, Color.GREEN, Assets.font20);
             if (xpGainedTimer >= 60) {
                 xpGainedTimer = 0;
                 isXpGained = false;

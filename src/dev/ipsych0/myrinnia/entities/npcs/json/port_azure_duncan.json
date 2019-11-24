@@ -1,0 +1,175 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Welcome to the Artisans' workshop, traveler.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Who are you?",
+          "nextId": 2
+        },
+        {
+          "text": "What do you do here?",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "My name is Duncan! I'm the head craftsman and owner of this workshop. If you need any help creating or building things, I'm your guy!",
+      "nextId": 1
+    },
+    {
+      "id": 3,
+      "text": "In this workshop we focus on building and creating things! In short, we focus on the art of Crafting!",
+      "nextId": 4,
+      "choiceCondition": {
+        "condition": "hasCompletedQuests",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 4,
+      "text": "I heard good things about you from Douglas. He's my apprentice! How would you like to learn some new skills?",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "I can teach you the basics of Crafting if you'd like?",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "options": [
+        {
+          "text": "Please teach me how Crafting works!",
+          "nextId": 7
+        },
+        {
+          "text": "Maybe later.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "text": "That's the spirit! Now, before we get started. Let's get some basics down.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "text": "First, in order to create items, we will need resources. The number can range from 1 to 4 resources and we call the combination a 'recipe'.",
+      "nextId": 9
+    },
+    {
+      "id": 9,
+      "text": "Whether you can create an item will depend on two things: You must have the required Crafting level to create the item, and you must know the recipe.",
+      "nextId": 10
+    },
+    {
+      "id": 10,
+      "text": "Some common recipes will be readily available to you, whereas better and often rarer recipes can be unlocked in a variety of ways. You should explore and discover these yourself.",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "You may use Crafting Stations to create your desired item. There are two in this building, but you can find them in most towns or cities in Myrinnia.",
+      "nextId": 12
+    },
+    {
+      "id": 12,
+      "text": "That's it. Would you like me to repeat this, or are you ready to get to work?",
+      "nextId": 13
+    },
+    {
+      "id": 13,
+      "options": [
+        {
+          "text": "I understand. I'm ready to get started!",
+          "nextId": 14
+        },
+        {
+          "text": "Can we go over it once more?",
+          "nextId": 8
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Alright, we will need resources first. 5 Azurite Ore and 2 Logs should do.",
+      "nextId": 19,
+      "choiceCondition": {
+        "condition": "hasMaterials",
+        "falseId": 15
+      }
+    },
+    {
+      "id": 15,
+      "options": [
+        {
+          "text": "Where can I get Azurite Ore?",
+          "nextId": 16
+        },
+        {
+          "text": "Where can I get Logs?",
+          "nextId": 18
+        },
+        {
+          "text": "Thanks.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Azurite ore can be mined in Mt. Azure. Go directly north from Port Azure to Lake Azure, where you will find the entrance to the mountain caves.",
+      "nextId": 15,
+      "choiceCondition": {
+        "condition": "hasPickaxe",
+        "falseId": 17
+      }
+    },
+    {
+      "id": 17,
+      "text": "You will need this pickaxe.",
+      "nextId": 15
+    },
+    {
+      "id": 18,
+      "text": "You will find some trees in Sunrise Sands, but also around Lake Azure.",
+      "nextId": 15
+    },
+    {
+      "id": 19,
+      "text": "Great! I see you managed to get the required materials. Now, we still haven't discussed what we're going to make. That's because I will provide you with the recipes now.",
+      "nextId": 20
+    },
+    {
+      "id": 20,
+      "text": "You may choose to create either a sword, a bow or a staff. Please proceed to the Crafting Station and create the item of your choice.",
+      "nextId": 21,
+      "choiceCondition": {
+        "condition": "hasCrafteditem",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 21,
+      "text": "Excellent work! You'll be a great craftsman in no time! Keep your weapon as a reward!",
+      "nextId": 22
+    },
+    {
+      "id": 22,
+      "text": "I suppose now your work here is done. You should ask Mayor Wilson what to do next.",
+      "nextId": -1
+    }
+  ]
+}

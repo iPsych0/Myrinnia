@@ -70,6 +70,7 @@ public abstract class Skill implements Serializable {
 
     public void addExperience(int experience) {
         Player.isXpGained = true;
+        Player.expEffectPlayed = false;
         Player.xpGained = experience;
         this.experience += experience;
         Player.leveledSkill = this;

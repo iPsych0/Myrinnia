@@ -43,8 +43,18 @@
     },
     {
       "id": 5,
-      "text": "Oh, those fish are for me? Why, thank you! ",
+      "text": "Oh, Douglas sent you to bring me 5 fish?",
       "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "Thank you so much, dear! Please accept this reward for all your efforts.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "[Received 50 coins]",
+      "nextId": -1
     }
   ]
 }
