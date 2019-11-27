@@ -57,7 +57,8 @@ public class QuestManager implements Serializable {
         // Island Quests
         azurealIslandQuests.add(new Quest("Bounty Hunter", Zone.PortAzure));
         azurealIslandQuests.add(new Quest("Woodcutting & Fishing", Zone.PortAzure, new QuestRequirement(QuestList.BountyHunter)));
-        azurealIslandQuests.add(new Quest("Mining & Crafting", Zone.PortAzure, new QuestRequirement(QuestList.BountyHunter), new QuestRequirement(QuestList.WoodcuttingAndFishing)));
+        azurealIslandQuests.add(new Quest("Mining & Crafting", Zone.PortAzure, new QuestRequirement(QuestList.WoodcuttingAndFishing)));
+        azurealIslandQuests.add(new Quest("Water Magic", Zone.PortAzure, new QuestRequirement(QuestList.MiningAndCrafting)));
 
         // Test Quests
 //        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));

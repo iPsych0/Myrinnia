@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
@@ -270,6 +271,7 @@ public class MapLoader implements Serializable {
                 private String animation;
                 private String jsonFile;
                 private String itemsShop;
+                private Creature.Direction direction;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
@@ -285,6 +287,7 @@ public class MapLoader implements Serializable {
                         animation = null;
                         jsonFile = null;
                         itemsShop = null;
+                        direction = null;
                         x = Integer.parseInt(attributes.getValue("x"));
                         y = Integer.parseInt(attributes.getValue("y"));
                         width = Integer.parseInt(attributes.getValue("width"));
@@ -302,7 +305,7 @@ public class MapLoader implements Serializable {
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
                                 className = attributes.getValue("value");
-                                loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+                                loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("name")) {
                             if (TiledObjectType.NPC == objectType) {
@@ -327,6 +330,14 @@ public class MapLoader implements Serializable {
                         } else if (attributes.getValue("name").equalsIgnoreCase("itemsShop")) {
                             if (TiledObjectType.NPC == objectType) {
                                 itemsShop = attributes.getValue("value");
+                            }
+                        } else if (attributes.getValue("name").equalsIgnoreCase("direction")) {
+                            if (TiledObjectType.NPC == objectType) {
+                                try {
+                                    direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
+                                } catch (Exception e) {
+                                    System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
+                                }
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
@@ -384,7 +395,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop) {
+    private static void loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
@@ -405,9 +416,12 @@ public class MapLoader implements Serializable {
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
 
-
             // Use default constructor if no custom properties
             int constructorArguments = 10;
+            if (Creature.class.isAssignableFrom(c)) {
+                // For creatures, call
+                constructorArguments++;
+            }
 
             for (Constructor t : cstr) {
                 if (t.getParameterCount() == constructorArguments) {
@@ -421,8 +435,12 @@ public class MapLoader implements Serializable {
             }
 
             // Invoke the right constructor based on arguments
-            Entity e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-
+            Entity e;
+            if (constructorArguments == 10) {
+                e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+            } else {
+                e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+            }
             // Add the NPC to the world
             world.getEntityManager().addEntity(e);
         } catch (Exception e) {

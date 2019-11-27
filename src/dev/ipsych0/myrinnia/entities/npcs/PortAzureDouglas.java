@@ -19,8 +19,8 @@ public class PortAzureDouglas extends Creature {
     private boolean tipDisplayed = false;
     private boolean scriptChanged;
 
-    public PortAzureDouglas(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public PortAzureDouglas(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -53,7 +53,7 @@ public class PortAzureDouglas extends Creature {
                 }
                 break;
             case "has5logs":
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.regularLogs, 5)) {
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.lightWood, 5)) {
                     return true;
                 }
                 break;
@@ -71,28 +71,31 @@ public class PortAzureDouglas extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDouglas(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDouglas(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
-            case 0:
-                if (!scriptChanged && Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
-                    scriptChanged = true;
-                    script = Utils.loadScript("port_azure_douglas2.json");
-                }
-                break;
             case 5:
+                speakingCheckpoint = 5;
                 if (!Handler.get().questStarted(QuestList.WoodcuttingAndFishing)) {
                     quest.setState(QuestState.IN_PROGRESS);
                     Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Cut 5 logs from weak palm trees in Sunrise Sands.");
                 }
                 break;
-            case 6:
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.regularLogs, 5)) {
-                    Handler.get().giveItem(Item.regularFish, 1);
-                    Handler.get().removeItem(Item.regularLogs, 5);
+            case 7:
+                if (!scriptChanged && Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
+                    scriptChanged = true;
+                    script = Utils.loadScript("port_azure_douglas2.json");
+                    speakingCheckpoint = 0;
+                    speakingTurn = 0;
+                    break;
+                }
+                speakingCheckpoint = 7;
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.lightWood, 5)) {
+                    Handler.get().giveItem(Item.simpleFishingRod, 1);
+                    Handler.get().removeItem(Item.lightWood, 5);
                     quest.nextStep();
                     Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Deliver 5 fish to Mary in Port Azure.");
                 }

@@ -1,10 +1,10 @@
 {
   "itemTypes": [
-    "FOOD"
+    "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Common",
-  "name": "Fish",
-  "id": 5,
+  "itemRarity": "Uncommon",
+  "name": "Azurite Ore",
+  "id": 1,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,

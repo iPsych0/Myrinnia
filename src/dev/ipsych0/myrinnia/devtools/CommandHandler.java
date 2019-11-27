@@ -4,6 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -187,6 +189,19 @@ class CommandHandler implements Serializable {
                     }
                 }
                 break;
+            case COMPLETE:
+                if (commands.length == 2) {
+                    QuestList quest;
+                    try {
+                        quest = QuestList.valueOf(commands[1]);
+                    } catch (Exception e) {
+                        Handler.get().sendMsg(commands[1] + " is not a quest.");
+                        break;
+                    }
+
+                    Handler.get().getQuest(quest).setState(QuestState.COMPLETED);
+                    break;
+                }
             default:
                 Handler.get().sendMsg("Could not parse command.");
                 break;

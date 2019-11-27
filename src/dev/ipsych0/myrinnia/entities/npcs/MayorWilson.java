@@ -14,8 +14,8 @@ public class MayorWilson extends Creature {
 
     private static final long serialVersionUID = 101550362959052644L;
 
-    public MayorWilson(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public MayorWilson(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         walker = false;
         solid = true;
         attackable = false;

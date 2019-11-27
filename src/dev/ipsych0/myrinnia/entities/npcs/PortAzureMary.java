@@ -8,7 +8,6 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
@@ -16,8 +15,8 @@ public class PortAzureMary extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.WoodcuttingAndFishing);
 
-    public PortAzureMary(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public PortAzureMary(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -45,7 +44,7 @@ public class PortAzureMary extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has5fishandquest":
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.regularFish, 5)) {
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     return true;
                 }
                 break;
@@ -63,15 +62,15 @@ public class PortAzureMary extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureMary(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureMary(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 6:
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.regularFish, 5)) {
-                    Handler.get().removeItem(Item.regularFish, 5);
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                    Handler.get().removeItem(Item.mackerelFish, 5);
                     quest.nextStep();
                 }
                 break;

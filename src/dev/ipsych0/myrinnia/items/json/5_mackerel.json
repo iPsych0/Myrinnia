@@ -1,10 +1,10 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "FOOD"
   ],
-  "itemRarity": "Uncommon",
-  "name": "Ore",
-  "id": 1,
+  "itemRarity": "Common",
+  "name": "Mackerel",
+  "id": 5,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,

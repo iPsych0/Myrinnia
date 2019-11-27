@@ -15,8 +15,8 @@ public class AquaticCultist extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AquaticCultist(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public AquaticCultist(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
 
         isNpc = false;
         attackable = true;
@@ -66,9 +66,9 @@ public class AquaticCultist extends Creature {
         System.out.println("Rolled " + randomNumber + " on the RNG dice.");
 
         if (randomNumber <= 10) {
-            Handler.get().dropItem(Item.regularLogs, 5, (int) x, (int) y);
+            Handler.get().dropItem(Item.lightWood, 5, (int) x, (int) y);
         } else if (randomNumber >= 11 && randomNumber <= 50) {
-            Handler.get().dropItem(Item.regularOre, 10, (int) x, (int) y);
+            Handler.get().dropItem(Item.azuriteOre, 10, (int) x, (int) y);
             Handler.get().dropItem(Item.magicSword, 1, (int) x, (int) y);
         }
         Handler.get().dropItem(Item.coins, 50, (int) x, (int) y);
@@ -105,7 +105,7 @@ public class AquaticCultist extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new AquaticCultist(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
     }
 
     @Override

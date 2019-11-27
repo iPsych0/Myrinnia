@@ -19,8 +19,8 @@ public class AzureCrab extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
 
-    public AzureCrab(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public AzureCrab(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
 
         isNpc = false;
         attackable = true;
@@ -97,7 +97,7 @@ public class AzureCrab extends Creature {
     @Override
     public void respawn() {
         if (!name.equalsIgnoreCase("King Azure Crab")) {
-            Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+            Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
         }
     }
 

@@ -501,7 +501,7 @@
   </object>
   <object id="13" name="Elder Selwyn" type="npc" x="1984" y="1312" width="32" height="32">
    <properties>
-    <property name="jsonFile" value="elderselwyn.json"/>
+    <property name="jsonFile" value="port_azure_elder.json"/>
     <property name="name" value="Elder Selwyn"/>
     <property name="npcClass" value="ElderSelwyn"/>
    </properties>
@@ -524,6 +524,7 @@
   <object id="18" name="Mary" type="npc" x="416" y="2432" width="32" height="32">
    <properties>
     <property name="animation" value=""/>
+    <property name="direction" value="DOWN"/>
     <property name="jsonFile" value="port_azure_mary.json"/>
     <property name="name" value="Mary"/>
     <property name="npcClass" value="PortAzureMary"/>

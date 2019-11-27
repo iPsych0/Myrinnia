@@ -25,7 +25,7 @@ public class Assets {
     public static Font font64;
 
     // Map item images (trees, rocks, etc)
-    public static BufferedImage tree, rock;
+    public static BufferedImage weakPalmTree, azuriteRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage bountyContract;
 
@@ -51,7 +51,8 @@ public class Assets {
     public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
-    public static BufferedImage wood, ore, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow;
+    public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
+                                simpleFishingRod, mackerelFish;
     public static BufferedImage[] coins;
 
     // Enemy images
@@ -317,8 +318,8 @@ public class Assets {
         /*
          * Item Sprites
          */
-        wood = item_sheet.imageCrop(0, 0);
-        ore = item_sheet.imageCrop(0, 1);
+        lightWood = item_sheet.imageCrop(0, 0);
+        azuriteOre = item_sheet.imageCrop(0, 1);
         coins = new BufferedImage[4];
         coins[0] = item_sheet.imageCrop(0, 2);
         coins[1] = item_sheet.imageCrop(0, 3);
@@ -331,7 +332,8 @@ public class Assets {
         simplePickaxe = item_sheet.imageCrop(0, 7);
         bountyContract = item_sheet.imageCrop(0, 8);
         simpleAxe = item_sheet.imageCrop(0, 9);
-
+        simpleFishingRod = item_sheet.imageCrop(0, 10);
+        mackerelFish = item_sheet.imageCrop(0, 11);
 
         /*
          * Enemy Animations
@@ -582,8 +584,8 @@ public class Assets {
         eruption1[6] = ability_animations.imageCrop(6, 1);
 
         // Skilling objects
-        tree = skill_resources.imageCrop(0, 0, WIDTH, HEIGHT * 2);
-        rock = skill_resources.imageCrop(1, 0);
+        weakPalmTree = skill_resources.imageCrop(0, 0, WIDTH, HEIGHT * 2);
+        azuriteRock = skill_resources.imageCrop(1, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
 

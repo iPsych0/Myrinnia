@@ -22,7 +22,7 @@ public class Projectile extends Creature implements Serializable {
     private Animation projectile;
 
     public Projectile(float x, float y, int mouseX, int mouseY, float velocity, BufferedImage[] animation) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null);
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.x = x;
         this.y = y;

@@ -33,7 +33,7 @@ public class Rock extends StaticEntity {
         attackable = false;
 
         if (name.equalsIgnoreCase("Azure Rock")) {
-            ore = Item.regularOre;
+            ore = Item.azuriteOre;
             experience = 10;
         }
     }
@@ -97,7 +97,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.rock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.azuriteRock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

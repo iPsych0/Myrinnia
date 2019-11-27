@@ -20,8 +20,8 @@ public class PortAzureRyan extends Creature {
     private boolean hasRemovedAxe;
     private boolean completedBounty;
 
-    public PortAzureRyan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public PortAzureRyan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -68,7 +68,7 @@ public class PortAzureRyan extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureRyan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureRyan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override

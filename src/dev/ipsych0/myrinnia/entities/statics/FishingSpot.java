@@ -36,7 +36,7 @@ public class FishingSpot extends StaticEntity {
         spinning = new Animation(125, Assets.whirlpool);
 
         if (name.equalsIgnoreCase("Mackerel Fishing Spot")) {
-            fish = Item.regularFish;
+            fish = Item.mackerelFish;
             experience = 10;
         }
     }

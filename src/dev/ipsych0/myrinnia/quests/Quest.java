@@ -53,6 +53,10 @@ public class Quest implements Serializable {
         this.step++;
     }
 
+    public void addStep(String objective) {
+        questSteps.add(new QuestStep(objective));
+    }
+
     public ArrayList<QuestStep> getQuestSteps() {
         return questSteps;
     }

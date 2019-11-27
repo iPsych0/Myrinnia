@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.AzureCrab;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
@@ -116,7 +117,7 @@ public class BountyBoardUI {
                         Handler.get().getQuest(QuestList.BountyHunter).nextStep();
                         Handler.get().addQuestStep(QuestList.BountyHunter, "Complete the bounty contract and claim your reward.");
                         Handler.get().addTip(new TutorialTip("Right-click the contract in your inventory to open it."));
-                        Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null));
+                        Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }
                     // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
                     if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {

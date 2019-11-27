@@ -98,7 +98,7 @@ public class Player extends Creature {
     private int abilityPoints;
 
     public Player(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null);
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
 
         xSpawn = x;
         ySpawn = y;

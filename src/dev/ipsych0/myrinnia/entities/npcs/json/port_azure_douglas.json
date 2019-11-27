@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Hmm.. So much to do...",
+      "text": "Hmm.. So much to do... I'm running late for my delivery...",
       "nextId": 2,
       "choiceCondition": {
         "condition": "hasCompletedBountyHunter",
@@ -11,17 +11,13 @@
     },
     {
       "id": 1,
-      "text": "Please come back later, I'm busy now.",
+      "text": "Could you please come back later? I'm a bit busy right now.",
       "nextId": -1
     },
     {
       "id": 2,
-      "text": "Say, girl, would you like to help me out here? I need some logs, 5 will do. Could you get me some?",
-      "nextId": 6,
-      "choiceCondition": {
-        "condition": "has5logs",
-        "falseId": 3
-      }
+      "text": "Say, girl, would you like to help me out here? I need to deliver some Lightwood to Duncan in Port Azure, 5 will do. Could you help me out?",
+      "nextId": 3
     },
     {
       "id": 3,
@@ -44,21 +40,25 @@
     {
       "id": 5,
       "text": "Excellent! I'm Douglas by the way, welcome to my workshop! You will find trees which you can cut south-east of here in Sunrise Sands. Look for the weak palm trees.",
-      "nextId": -1
+      "nextId": 6,
+      "choiceCondition": {
+        "condition": "has5logs",
+        "falseId": -1
+      }
     },
     {
       "id": 6,
-      "text": "Great! Thank you! Allow me to thank you by giving you this fishing rod!",
+      "text": "Great! Thank you, I will deliver these to Duncan! Allow me to thank you by giving you this fishing rod!",
       "nextId": 7
     },
     {
       "id": 7,
-      "text": "There is a fishing spot next to my house. Feel free to use it any time you please.",
+      "text": "Anyway, if you could deliver 5 fish to my wife Mary, I would really appreciate it. She lives in Port Azure!",
       "nextId": 8
     },
     {
-      "id": 9,
-      "text": "Anyway, if you could deliver 5 fish to my wife Mary, I would really appreciate it. She lives in Port Azure!",
+      "id": 8,
+      "text": "There is a fishing spot next to my house. Feel free to use it any time you please.",
       "nextId": -1
     }
   ]

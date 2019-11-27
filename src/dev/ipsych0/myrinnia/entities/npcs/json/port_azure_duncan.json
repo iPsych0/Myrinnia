@@ -104,7 +104,7 @@
     },
     {
       "id": 14,
-      "text": "Alright, we will need resources first. 5 Azurite Ore and 2 Logs should do.",
+      "text": "Alright, we will need resources first. 5 Azurite Ore and 2 Lightwood should do.",
       "nextId": 19,
       "choiceCondition": {
         "condition": "hasMaterials",
@@ -144,7 +144,7 @@
     },
     {
       "id": 18,
-      "text": "You will find some trees in Sunrise Sands, but also around Lake Azure.",
+      "text": "You will find some trees with Lightwood bark in Sunrise Sands, but also around Lake Azure.",
       "nextId": 15
     },
     {

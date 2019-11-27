@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
@@ -15,8 +16,8 @@ public class PortAzureDuncan extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.MiningAndCrafting);
 
-    public PortAzureDuncan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public PortAzureDuncan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -45,15 +46,23 @@ public class PortAzureDuncan extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedQuests":
-//                if (Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
-//                    return true;
-//                }
-//                break;
-                return true;
-            case "hasMaterials":
-                if (Handler.get().playerHasItem(Item.regularOre, 5) && Handler.get().playerHasItem(Item.regularLogs, 2)) {
+                if (Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
                     return true;
                 }
+                break;
+            case "hasMaterials":
+                if (Handler.get().playerHasItem(Item.azuriteOre, 5) && Handler.get().playerHasItem(Item.lightWood, 2)) {
+                    return true;
+                }
+                break;
+            case "hasPickaxe":
+                if (Handler.get().playerHasItemType(ItemType.PICKAXE)) {
+                    return true;
+                }
+                break;
+            case "hasCrafteditem":
+                // TODO: IMPLEMENT CHECK
+                return true;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 break;
@@ -68,14 +77,40 @@ public class PortAzureDuncan extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDuncan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDuncan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 14:
-                speakingCheckpoint = 14;
+                if (speakingCheckpoint != 14) {
+                    speakingCheckpoint = 14;
+                }
+                if (quest.getState() == QuestState.NOT_STARTED) {
+                    quest.setState(QuestState.IN_PROGRESS);
+                    quest.addStep("Gather 5 Azurite Ore and 2 Lightwood.");
+                }
+                break;
+            case 17:
+                if (!Handler.get().playerHasItemType(ItemType.PICKAXE)) {
+                    Handler.get().giveItem(Item.simplePickaxe, 1);
+                }
+                break;
+            case 20:
+                if (speakingCheckpoint != 20) {
+                    speakingCheckpoint = 20;
+                }
+                if (!quest.getQuestSteps().get(0).isFinished()) {
+                    quest.nextStep();
+                    quest.addStep("Create your weapon of choice: Bow, Staff or Sword.");
+                }
+                break;
+            case 21:
+                if (quest.getState() == QuestState.IN_PROGRESS) {
+                    quest.nextStep();
+                    quest.setState(QuestState.COMPLETED);
+                }
                 break;
         }
     }

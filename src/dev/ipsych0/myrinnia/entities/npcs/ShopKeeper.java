@@ -21,9 +21,8 @@ public abstract class ShopKeeper extends Creature {
     String shopName;
     protected List<Stock> itemStacks;
 
-    ShopKeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-
+    ShopKeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         if (itemsShop != null) {
             itemStacks = Utils.loadStocks(itemsShop);
         }

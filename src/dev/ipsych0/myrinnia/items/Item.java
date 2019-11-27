@@ -26,18 +26,19 @@ public class Item implements Serializable {
     /*
      * Items
      */
-    public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
-    public static Item regularOre = Utils.loadItem("1_ore.json", Assets.ore);
+    public static Item lightWood = Utils.loadItem("0_lightwood.json", Assets.lightWood);
+    public static Item azuriteOre = Utils.loadItem("1_azurite_ore.json", Assets.azuriteOre);
     public static Item magicSword = Utils.loadItem("2_magic_sword.json", Assets.undiscovered);
     public static Item beginnersSword = Utils.loadItem("3_beginners_sword.json", Assets.beginnersSword);
     public static Item coins = Utils.loadItem("4_coins.json", Assets.coins[0]);
-    public static Item regularFish = Utils.loadItem("5_fish.json", Assets.fishingIcon);
+    public static Item mackerelFish = Utils.loadItem("5_mackerel.json", Assets.mackerelFish);
     public static Item ryansAxe =  Utils.loadItem("6_ryans_axe.json", Assets.ryansAxe);
     public static Item simplePickaxe = Utils.loadItem("7_simple_pickaxe.json", Assets.simplePickaxe);
     public static Item beginnersStaff = Utils.loadItem("8_beginners_staff.json", Assets.beginnersStaff);
     public static Item bountyContract = Utils.loadItem("9_bounty_contract.json", Assets.bountyContract);
     public static Item simpleAxe = Utils.loadItem("10_simple_axe.json", Assets.simpleAxe);
     public static Item beginnersBow = Utils.loadItem("11_beginner's_bow.json", Assets.beginnersBow);
+    public static Item simpleFishingRod = Utils.loadItem("12_simple_fishing_rod.json", Assets.simpleFishingRod);
 
     // Class
 

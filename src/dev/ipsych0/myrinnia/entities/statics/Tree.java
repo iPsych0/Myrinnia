@@ -8,9 +8,6 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Tree extends StaticEntity {
 
@@ -36,7 +33,7 @@ public class Tree extends StaticEntity {
         attackable = false;
 
         if (name.equalsIgnoreCase("Weak Palm Tree")) {
-            logs = Item.regularLogs;
+            logs = Item.lightWood;
             experience = 10;
         } else {
             throw new IllegalArgumentException("Tree name not found: " + name);
@@ -102,7 +99,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.tree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.weakPalmTree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

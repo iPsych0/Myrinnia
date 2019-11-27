@@ -91,15 +91,15 @@ public abstract class Creature extends Entity {
         UP, DOWN, LEFT, RIGHT
     }
 
-    Direction direction;
+    protected Direction direction;
     // Last faced direction
-    Direction lastFaced;
+    protected Direction lastFaced;
 
     float speed;
     float xMove;
     float yMove;
 
-    protected Creature(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+    public Creature(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
 
@@ -110,6 +110,11 @@ public abstract class Creature extends Entity {
             aRight = new Animation(250, anims[2]);
             aUp = new Animation(250, anims[3]);
             aDefault = aDown;
+        }
+
+        if (direction != null) {
+            lastFaced = direction;
+            walker = false;
         }
 
         state = CombatState.IDLE;

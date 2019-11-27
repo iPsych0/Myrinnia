@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -20,9 +19,8 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-
+    public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         abilities = new ArrayList<>();
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
         abilityShopWindow = new AbilityShopWindow(abilities);
@@ -52,7 +50,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override
