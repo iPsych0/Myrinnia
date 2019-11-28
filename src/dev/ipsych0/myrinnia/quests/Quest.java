@@ -1,11 +1,14 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Quest implements Serializable {
 
@@ -18,12 +21,15 @@ public class Quest implements Serializable {
     private String questName;
     private QuestState state;
     private QuestRequirement[] requirements;
+    private Map<String, Object> customChecks;
 
     private Zone zone;
 
     public Quest(String questName, Zone zone) {
         this.questName = questName;
         this.zone = zone;
+
+        customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
@@ -32,6 +38,8 @@ public class Quest implements Serializable {
         this.questName = questName;
         this.zone = zone;
         this.requirements = questRequirements;
+
+        customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
@@ -80,6 +88,8 @@ public class Quest implements Serializable {
     public void setState(QuestState state) {
         this.state = state;
         if (state == QuestState.COMPLETED) {
+            Player.questCompleted = this;
+            Player.isQuestCompleted = true;
             Handler.get().playEffect("ui/quest_complete.wav", 0.1f);
             Handler.get().sendMsg("Completed '" + this.questName + "'!");
             Handler.get().addRecapEvent("Completed '" + this.questName + "'");
@@ -102,4 +112,20 @@ public class Quest implements Serializable {
         this.requirements = requirements;
     }
 
+    public Map<String, Object> getCustomChecks() {
+        return customChecks;
+    }
+
+    public void addNewCheck(String key, Object o) {
+        key = key.toLowerCase();
+        customChecks.put(key, o);
+    }
+
+    public Object getCheckValue(String key) {
+        key = key.toLowerCase();
+        if (!customChecks.containsKey(key)) {
+            throw new IllegalArgumentException("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
+        }
+        return customChecks.get(key);
+    }
 }

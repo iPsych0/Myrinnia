@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 
@@ -77,6 +78,8 @@ public class PortAzureMary extends Creature {
             case 7:
                 Handler.get().giveItem(Item.coins, 50);
                 quest.setState(QuestState.COMPLETED);
+                Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
+                Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 break;
         }
     }

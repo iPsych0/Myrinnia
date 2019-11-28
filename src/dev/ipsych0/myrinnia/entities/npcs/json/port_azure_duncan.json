@@ -157,18 +157,13 @@
       "text": "You may choose to create either a sword, a bow or a staff. Please proceed to the Crafting Station and create the item of your choice.",
       "nextId": 21,
       "choiceCondition": {
-        "condition": "hasCrafteditem",
+        "condition": "hasCraftedItem",
         "falseId": -1
       }
     },
     {
       "id": 21,
-      "text": "Excellent work! You'll be a great craftsman in no time! Keep your weapon as a reward!",
-      "nextId": 22
-    },
-    {
-      "id": 22,
-      "text": "I suppose now your work here is done. You should ask Mayor Wilson what to do next.",
+      "text": "I suppose then your work here is done. Next, you should see Elder Selwyn. He may have some wisdom to share with a young potential such as yourself!",
       "nextId": -1
     }
   ]

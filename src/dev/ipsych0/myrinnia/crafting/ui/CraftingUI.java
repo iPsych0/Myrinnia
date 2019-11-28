@@ -7,11 +7,12 @@ import dev.ipsych0.myrinnia.crafting.CraftingManager;
 import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
+import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
@@ -514,7 +515,21 @@ public class CraftingUI implements Serializable {
                 craftRecipe = craftingManager.getRecipes().get(i);
                 makeItem(i);
                 Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(craftingManager.getRecipes().get(i).getCraftingXP());
+
+                // For tutorial quest
+                if (Handler.get().questInProgress(QuestList.MiningAndCrafting)) {
+                    if (possibleRecipe.getItem() == Item.beginnersSword ||
+                            possibleRecipe.getItem() == Item.beginnersBow ||
+                            possibleRecipe.getItem() == Item.beginnersStaff) {
+                        if (!Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                            Handler.get().getQuest(QuestList.MiningAndCrafting).nextStep();
+                            Handler.get().getQuest(QuestList.MiningAndCrafting).addStep("Report back to Duncan.");
+                        }
+                    }
+                }
+
                 findRecipe();
+
 
                 // Set matches back to 0 for next craft and stop iterating
                 break;

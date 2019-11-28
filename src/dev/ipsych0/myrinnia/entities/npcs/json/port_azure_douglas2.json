@@ -2,7 +2,12 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Thanks so much for helping me and my wife. I wish you all the best, adventurer!",
+      "text": "I'm sorry I was in such a rush earlier. Working for Duncan can be quite demanding, but I love being out in the wild.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Thanks so much for helping me and my wife. She misses me often, but she supports the work I do out here. In the end, I also look after her with the supplies I gather here.",
       "nextId": -1
     }
   ]

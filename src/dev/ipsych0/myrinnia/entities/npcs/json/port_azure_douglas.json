@@ -53,12 +53,12 @@
     },
     {
       "id": 7,
-      "text": "Anyway, if you could deliver 5 fish to my wife Mary, I would really appreciate it. She lives in Port Azure!",
+      "text": "Can I ask you one more favour? I promised to bring my wife Mary 5 fish. Could you please deliver these in my stead? She lives in Port Azure.",
       "nextId": 8
     },
     {
       "id": 8,
-      "text": "There is a fishing spot next to my house. Feel free to use it any time you please.",
+      "text": "There is a fishing spot next to my house. Feel free to use it any time you please. She will happily reward you for your efforts.",
       "nextId": -1
     }
   ]

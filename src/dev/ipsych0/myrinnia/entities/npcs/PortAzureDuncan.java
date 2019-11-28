@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 
@@ -60,9 +61,11 @@ public class PortAzureDuncan extends Creature {
                     return true;
                 }
                 break;
-            case "hasCrafteditem":
-                // TODO: IMPLEMENT CHECK
-                return true;
+            case "hasCraftedItem":
+                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                    return true;
+                }
+                break;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 break;
@@ -102,14 +105,22 @@ public class PortAzureDuncan extends Creature {
                     speakingCheckpoint = 20;
                 }
                 if (!quest.getQuestSteps().get(0).isFinished()) {
+                    Handler.get().discoverRecipe(Item.beginnersSword);
+                    Handler.get().discoverRecipe(Item.beginnersBow);
+                    Handler.get().discoverRecipe(Item.beginnersStaff);
                     quest.nextStep();
-                    quest.addStep("Create your weapon of choice: Bow, Staff or Sword.");
+                    quest.addStep("Create your weapon of choice!");
                 }
                 break;
             case 21:
+                if (speakingCheckpoint != 21) {
+                    speakingCheckpoint = 21;
+                }
                 if (quest.getState() == QuestState.IN_PROGRESS) {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
+                    Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(50);
                 }
                 break;
         }

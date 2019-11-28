@@ -85,16 +85,16 @@ public class MayorWilson extends Creature {
                 }
                 break;
             case 7:
-                // If bounty hunter is done, but woodcutting/fishing isn't, change dialogue
                 if (Handler.get().questCompleted(QuestList.BountyHunter) && !Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
                     script.getDialogues().get(8).setText("You could see Douglas. He has a workshop in Sunshine Coast, the northern most point of the island.");
                 }
-                // If bounty hunter is done, but woodcutting/fishing isn't, change dialogue
                 else if (Handler.get().questCompleted(QuestList.WoodcuttingAndFishing) && !Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
                     script.getDialogues().get(8).setText("You should pay Port Azure's workshop a visit! I heard that they could use some hands.");
                 }
-                // If bounty hunter is done, but woodcutting/fishing isn't, change dialogue
                 else if (Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
+                    script.getDialogues().get(8).setText("Elder Selwyn lives north of here. If you wish to learn about abilities, you should talk to him!");
+                }
+                else if (Handler.get().questCompleted(QuestList.WaterMagic)) {
                     script.getDialogues().get(8).setText("Captain Isaac is about to depart to the mainland. You might want to have a chat with him!");
                 }
                 break;

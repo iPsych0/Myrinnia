@@ -13,6 +13,7 @@ public class CraftingSkill extends Skill {
     private static final long serialVersionUID = -8142804707921092774L;
 
     public CraftingSkill() {
+        categories.add(SkillCategory.Weapons);
         categories.add(SkillCategory.Leatherwork);
         categories.add(SkillCategory.CraftingOther);
 

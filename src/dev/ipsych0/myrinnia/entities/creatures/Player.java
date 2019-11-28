@@ -23,6 +23,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -75,8 +76,10 @@ public class Player extends Creature {
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
+    public static Quest questCompleted;
+    public static boolean isQuestCompleted;
     public static int xpGained;
-    private int levelUpTimer, xpGainedTimer;
+    private int levelUpTimer, xpGainedTimer, questCompleteTimer;
     public static boolean expEffectPlayed;
 
     private boolean movementAllowed = true;
@@ -335,7 +338,7 @@ public class Player extends Creature {
         }
 
         if (isXpGained && !expEffectPlayed) {
-            Handler.get().sendMsg("EXP gained");
+            Handler.get().playEffect("ui/exp_gain.wav");
             expEffectPlayed = true;
         }
 
@@ -914,6 +917,17 @@ public class Player extends Creature {
             if (levelUpTimer >= 60) {
                 levelUpTimer = 0;
                 isLevelUp = false;
+            }
+        }
+
+        if (isQuestCompleted) {
+            questCompleteTimer++;
+            Text.drawString(g, questCompleted.getQuestName() + " completed!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - questCompleteTimer),
+                    true, Color.YELLOW, Assets.font24);
+            if (questCompleteTimer >= 60) {
+                questCompleteTimer = 0;
+                isQuestCompleted = false;
             }
         }
 

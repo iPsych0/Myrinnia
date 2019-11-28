@@ -58,9 +58,10 @@ public abstract class Skill implements Serializable {
                 Handler.get().playEffect("ui/level_up.wav", 0.1f);
             }
             Player.isLevelUp = true;
-        }
-        if (Player.isLevelUp) {
-            Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+        } else {
+            if (Player.isLevelUp) {
+                Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+            }
         }
     }
 
