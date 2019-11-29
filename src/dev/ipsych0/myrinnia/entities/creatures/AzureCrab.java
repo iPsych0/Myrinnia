@@ -17,7 +17,9 @@ import java.awt.*;
 public class AzureCrab extends Creature {
 
     //Attack timer
-    private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
+    private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private static boolean firstKill = true;
+    private static boolean hasFoughtBefore;
 
     public AzureCrab(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -28,12 +30,12 @@ public class AzureCrab extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 5;
+        intelligence += 4;
         vitality += 5;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 5;
 
 //        bounds.x = 2;
 //        bounds.y = 2;
@@ -50,6 +52,11 @@ public class AzureCrab extends Creature {
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+
+        if (!hasFoughtBefore) {
+            hasFoughtBefore = true;
+            Handler.get().addTip(new TutorialTip("Left-click and aim with your mouse to attack."));
+        }
     }
 
     @Override
@@ -62,10 +69,18 @@ public class AzureCrab extends Creature {
     protected void die() {
         Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.PortAzure, "Cut the Crab");
         if (name.equalsIgnoreCase("King Azure Crab") && bounty != null && bounty.isAccepted()) {
+            if (firstKill) {
+                Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
+                firstKill = false;
+            }
             Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
-            Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(50);
         } else {
+            if (firstKill) {
+                Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
+                firstKill = false;
+            }
+            Handler.get().dropItem(Item.coins, Handler.get().getRandomNumber(1, 5), (int) x, (int) y);
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
         }
     }
@@ -90,7 +105,7 @@ public class AzureCrab extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, Assets.waterProjectile));
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, DamageType.INT, Assets.waterProjectile));
 
     }
 

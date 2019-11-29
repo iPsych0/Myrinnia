@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -87,7 +88,7 @@ public class EntityManager implements Serializable {
 
                 // Check if we're clicking on another Entity
                 for (Entity e2 : entities) {
-                    if(e2.equals(player))
+                    if (e2.equals(player))
                         continue;
                     if (e2.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(mouse)) {
                         selectedEntity = e2;
@@ -110,13 +111,6 @@ public class EntityManager implements Serializable {
                 }
             }
         }
-
-        // Sort the list for rendering
-        entities.sort((o1, o2) -> {
-            Float a = o1.getY() + o1.getHeight();
-            Float b = o2.getY() + o2.getHeight();
-            return a.compareTo(b);
-        });
     }
 
     public void render(Graphics2D g) {
@@ -214,6 +208,33 @@ public class EntityManager implements Serializable {
                 if (e.isOverlayDrawn()) {
                     e.drawEntityOverlay(e, g);
                 }
+            } else {
+
+                // Skip the player
+                if (e.equals(player)) {
+                    continue;
+                }
+
+                // If we're not hovering, check if Entity is standing on postRender tile and draw the overlay anyway
+                int layers = Handler.get().getWorld().getLayers().length;
+                boolean shouldRender = false;
+                for (int i = 0; i < layers; i++) {
+                    Tile currentTile = Handler.get().getWorld().getTile(i, (int) (e.getX() + e.getWidth() / 2) / 32, (int) (e.getY() + e.getHeight() / 2) / 32);
+                    if (currentTile != null && currentTile.isPostRendered()) {
+                        shouldRender = true;
+                        break;
+                    }
+                }
+
+                if (shouldRender) {
+                    if (e.isNpc()) {
+                        drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                        drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                    } else if (e.isAttackable()) {
+                        drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                        drawHoverCorners(g, e, 0, 0, Color.RED);
+                    }
+                }
             }
         }
 
@@ -226,6 +247,13 @@ public class EntityManager implements Serializable {
                 hitSplatIt.remove();
             }
         }
+
+        // Sort the list for rendering
+        entities.sort((o1, o2) -> {
+            Float a = o1.getY() + o1.getHeight();
+            Float b = o2.getY() + o2.getHeight();
+            return a.compareTo(b);
+        });
     }
 
     public void addEntity(Entity e) {

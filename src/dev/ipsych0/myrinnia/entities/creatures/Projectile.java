@@ -20,14 +20,16 @@ public class Projectile extends Creature implements Serializable {
     private double angle;
     private static final int MAX_RADIUS = 320;
     private Animation projectile;
+    private DamageType damageType;
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, BufferedImage[] animation) {
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, BufferedImage[] animation) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.x = x;
         this.y = y;
         this.width = Creature.DEFAULT_CREATURE_WIDTH;
         this.height = Creature.DEFAULT_CREATURE_HEIGHT;
+        this.damageType = damageType;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -98,9 +100,11 @@ public class Projectile extends Creature implements Serializable {
 
     }
 
-    @Override
-    public String getName() {
-        return null;
+    public DamageType getDamageType() {
+        return damageType;
     }
 
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
+    }
 }

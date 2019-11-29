@@ -48,17 +48,17 @@
     },
     {
       "id": 6,
-      "text": "Great! Thank you, I will deliver these to Duncan! Allow me to thank you by giving you this fishing rod!",
+      "text": "Great! Thank you, I will deliver these to Duncan! Can I ask you one more favour? I promised to bring my wife Mary 5 fish.",
       "nextId": 7
     },
     {
       "id": 7,
-      "text": "Can I ask you one more favour? I promised to bring my wife Mary 5 fish. Could you please deliver these in my stead? She lives in Port Azure.",
+      "text": "You may use and keep my fishing rod. Could you please deliver these in my stead? She lives in Port Azure.",
       "nextId": 8
     },
     {
       "id": 8,
-      "text": "There is a fishing spot next to my house. Feel free to use it any time you please. She will happily reward you for your efforts.",
+      "text": "There is a fishing spot next to my house. Feel free to use it any time you please. Mary will happily reward you for your efforts.",
       "nextId": -1
     }
   ]

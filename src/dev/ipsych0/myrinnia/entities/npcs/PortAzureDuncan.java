@@ -62,7 +62,7 @@ public class PortAzureDuncan extends Creature {
                 }
                 break;
             case "hasCraftedItem":
-                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
                     return true;
                 }
                 break;
@@ -92,19 +92,21 @@ public class PortAzureDuncan extends Creature {
                 }
                 if (quest.getState() == QuestState.NOT_STARTED) {
                     quest.setState(QuestState.IN_PROGRESS);
+                    quest.addStep("Obtain a pickaxe from Duncan.");
                     quest.addStep("Gather 5 Azurite Ore and 2 Lightwood.");
                 }
                 break;
             case 17:
                 if (!Handler.get().playerHasItemType(ItemType.PICKAXE)) {
                     Handler.get().giveItem(Item.simplePickaxe, 1);
+                    quest.nextStep();
                 }
                 break;
             case 20:
                 if (speakingCheckpoint != 20) {
                     speakingCheckpoint = 20;
                 }
-                if (!quest.getQuestSteps().get(0).isFinished()) {
+                if (!quest.getQuestSteps().get(1).isFinished()) {
                     Handler.get().discoverRecipe(Item.beginnersSword);
                     Handler.get().discoverRecipe(Item.beginnersBow);
                     Handler.get().discoverRecipe(Item.beginnersStaff);

@@ -521,7 +521,7 @@ public class CraftingUI implements Serializable {
                     if (possibleRecipe.getItem() == Item.beginnersSword ||
                             possibleRecipe.getItem() == Item.beginnersBow ||
                             possibleRecipe.getItem() == Item.beginnersStaff) {
-                        if (!Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                        if (!Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
                             Handler.get().getQuest(QuestList.MiningAndCrafting).nextStep();
                             Handler.get().getQuest(QuestList.MiningAndCrafting).addStep("Report back to Duncan.");
                         }

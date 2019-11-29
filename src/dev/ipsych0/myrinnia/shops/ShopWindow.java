@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -55,6 +56,7 @@ public class ShopWindow implements Serializable {
     public static boolean escapePressed = false;
     public static ShopWindow lastOpenedWindow;
     private TextBox textBox;
+    private ItemTooltip itemTooltip;
 
     public ShopWindow(List<ItemStack> shopItems) {
         this.shopItems = shopItems;
@@ -113,6 +115,8 @@ public class ShopWindow implements Serializable {
         // Instance of the DialogueBox
         dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "Please confirm your trade.", true);
         textBox = dBox.getTextBox();
+
+        itemTooltip = new ItemTooltip(x - 160, y);
     }
 
     public void tick() {
@@ -207,11 +211,18 @@ public class ShopWindow implements Serializable {
 
                 is.render(g);
 
+                if (is.getBounds().contains(mouse) && is.getItemStack() != null) {
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
+
             }
 
             for (ItemSlot is : invSlots) {
                 is.render(g);
 
+                if (is.getBounds().contains(mouse) && is.getItemStack() != null) {
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
             }
 
             Text.drawString(g, "Shop stock", x + 81 + 32, y + 36, true, Color.YELLOW, Assets.font14);
@@ -242,7 +253,7 @@ public class ShopWindow implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         isOpen = false;
@@ -399,7 +410,7 @@ public class ShopWindow implements Serializable {
         }
 
         if (TextBox.enterPressed && dBox.isMakingChoice()) {
-            if(dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
+            if (dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
                 // If enter is pressed while making choice, this means a positive response ("Yes")
                 dBox.setPressedButton(dBox.getButtons().get(0));
                 dBox.getPressedButton().getButtonParam()[0] = "Yes";

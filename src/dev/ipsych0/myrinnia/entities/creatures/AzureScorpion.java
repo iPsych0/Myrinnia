@@ -90,7 +90,7 @@ public class AzureScorpion extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, Assets.waterProjectile));
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, DamageType.INT, Assets.waterProjectile));
 
     }
 

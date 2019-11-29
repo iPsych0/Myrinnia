@@ -363,7 +363,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, Assets.earthProjectile));
+                    9.0f, DamageType.DEX, Assets.earthProjectile));
         }
     }
 
@@ -482,7 +482,7 @@ public class Player extends Creature {
 
         // Change base damage and restore to full health
         this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-        this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        this.maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
 
         this.health = maxHealth;
     }
@@ -596,9 +596,8 @@ public class Player extends Creature {
 
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
-            int previousMaxHP = maxHealth;
             maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
-            if (health >= previousMaxHP) {
+            if (health >= maxHealth) {
                 health = maxHealth;
             }
         }
@@ -777,7 +776,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, Assets.fireProjectile));
+                    9.0f, DamageType.INT, Assets.fireProjectile));
         }
 
     }

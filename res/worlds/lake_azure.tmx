@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="24">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -544,6 +544,43 @@
     <property name="jsonFile" value="port_azure_sam.json"/>
     <property name="name" value="Sam"/>
     <property name="npcClass" value="PortAzureSam"/>
+   </properties>
+  </object>
+  <object id="17" name="Azurite Ore" type="npc" x="1696" y="1600" width="32" height="32">
+   <properties>
+    <property name="name" value="Azurite Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="18" name="Azurite Ore" type="npc" x="1184" y="1504" width="32" height="32">
+   <properties>
+    <property name="name" value="Azurite Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="19" name="Azurite Ore" type="npc" x="768" y="1440" width="32" height="32">
+   <properties>
+    <property name="name" value="Azurite Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="20" name="Azurite Ore" type="npc" x="640" y="832" width="32" height="32">
+   <properties>
+    <property name="name" value="Azurite Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="22" name="Azurite Ore" type="npc" x="2624" y="1408" width="32" height="32">
+   <properties>
+    <property name="name" value="Azurite Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="23" type="npc" x="1568" y="4192" width="64" height="32">
+   <properties>
+    <property name="jsonFile" value="port_azure_lake_sign.json"/>
+    <property name="name" value="Sign"/>
+    <property name="npcClass" value="GenericObject"/>
    </properties>
   </object>
  </objectgroup>

@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Welcome to Port Azure! If you would like to know more about this town, you should see the mayor. He lives in this building right here.",
+      "text": "Hi there! If you are new to Port Azure, you should see the mayor for help. He lives in this building right here.",
       "nextId": -1
     }
   ]

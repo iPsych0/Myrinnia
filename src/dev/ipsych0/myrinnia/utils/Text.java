@@ -75,6 +75,10 @@ public class Text {
         while (tok.hasMoreTokens()) {
             String word = tok.nextToken();
 
+            if (word.contains("\n")) {
+                lineLen = 0;
+            }
+
             while (word.length() > maxCharInLine) {
                 output.append(word, 0, maxCharInLine - lineLen).append("\n");
                 word = word.substring(maxCharInLine - lineLen);

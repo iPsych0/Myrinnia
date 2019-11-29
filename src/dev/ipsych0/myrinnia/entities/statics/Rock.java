@@ -32,7 +32,7 @@ public class Rock extends StaticEntity {
         isNpc = true;
         attackable = false;
 
-        if (name.equalsIgnoreCase("Azure Rock")) {
+        if (name.equalsIgnoreCase("Azurite Rock")) {
             ore = Item.azuriteOre;
             experience = 10;
         }
@@ -125,7 +125,6 @@ public class Rock extends StaticEntity {
     @Override
     public void postRender(Graphics2D g) {
         if (isMining) {
-            g.setColor(Color.WHITE);
             g.drawImage(Assets.miningIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32), width, height, null);
         }
 
@@ -139,11 +138,6 @@ public class Rock extends StaticEntity {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Rock";
     }
 
 }
