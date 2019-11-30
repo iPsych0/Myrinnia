@@ -190,7 +190,7 @@
   </object>
   <object id="2" name="Lake Azure Top Mountain" type="zone_tile" x="968" y="804" width="16" height="16">
    <properties>
-    <property name="customZoneName" value="Mt. Azure Basin"/>
+    <property name="customZoneName" value="Mt. Azure Peak"/>
     <property name="goToX" value="65"/>
     <property name="goToY" value="14"/>
     <property name="zone" value="LakeAzure"/>

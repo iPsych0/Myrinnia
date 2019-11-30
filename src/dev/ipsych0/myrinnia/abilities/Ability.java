@@ -7,6 +7,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Ability implements Serializable {
 

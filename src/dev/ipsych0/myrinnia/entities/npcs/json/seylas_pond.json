@@ -1,0 +1,36 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The water looks crystal clear and pure.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "waterQuestStarted",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Drink from the water",
+          "nextId": 2
+        },
+        {
+          "text": "Leave it.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Your body absorbs the liquid and your mind is filled with knowledge...",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "[You learned {AbilityName} ability]",
+      "nextId": -1
+    }
+  ]
+}

@@ -69,7 +69,6 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                 break;
             case "openShop":
                 if (!AbilityShopWindow.isOpen) {
-//                    Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
                     AbilityShopWindow.open();
                 }
                 return true;
@@ -84,10 +83,5 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Ability Master";
     }
 }

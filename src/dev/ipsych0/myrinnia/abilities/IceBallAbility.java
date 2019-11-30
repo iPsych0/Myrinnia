@@ -8,16 +8,16 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 
-public class TestAbility extends Ability implements Serializable {
+public class IceBallAbility extends Ability implements Serializable {
 
-    public TestAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
+    public IceBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                        double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.TestImage, x, y, null);
+        g.drawImage(Assets.chillIcon, x, y, null);
     }
 
     @Override

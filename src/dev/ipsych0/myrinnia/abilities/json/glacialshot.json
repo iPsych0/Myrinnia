@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 10.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Glacial Shot",
+  "description": "Fire an arrow that freezes a single enemy on impact.",
+  "abilityType": "StandardAbility",
+  "element": "Water",
+  "combatStyle": "Ranged",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.GlacialShotAbility"
+}

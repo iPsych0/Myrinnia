@@ -10,7 +10,6 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -32,6 +31,7 @@ public abstract class Entity implements Serializable {
     protected int width, height;
     protected Rectangle bounds;
     protected Rectangle fullBounds;
+    protected Rectangle interactionBounds;
     public static boolean isCloseToNPC = false;
     protected int health;
     protected static final int DEFAULT_HEALTH = 50;
@@ -86,6 +86,7 @@ public abstract class Entity implements Serializable {
         bounds = new Rectangle(0, 0, width, height);
         fullBounds = new Rectangle(0, 0, width, height);
         collision = new Rectangle((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+        interactionBounds = new Rectangle(0, 0, width, height);
     }
 
     // Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
@@ -132,12 +133,13 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
-        if (getClosestEntity() == null) {
+        Entity closest = getClosestEntity();
+        if (closest == null) {
             isCloseToNPC = false;
             return false;
         }
-        if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tile.TILEWIDTH * 2) {
+
+        if (isNear(closest)) {
             // Interact with the respective speaking turn
             isCloseToNPC = true;
             return true;
@@ -146,7 +148,11 @@ public abstract class Entity implements Serializable {
             isCloseToNPC = false;
             return false;
         }
+    }
 
+    private boolean isNear(Entity closest) {
+        return closest.getInteractionBounds(-40, -40, 80, 80)
+                .intersects(Handler.get().getPlayer().getCollisionBounds(0, 0));
     }
 
     /*
@@ -457,6 +463,11 @@ public abstract class Entity implements Serializable {
         return collision;
     }
 
+    public Rectangle getInteractionBounds(float xOffset, float yOffset, int width, int height) {
+        interactionBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), this.width + width, this.height + height);
+        return interactionBounds;
+    }
+
     /*
      * Returns the collision bounds of an Entity
      */
@@ -480,9 +491,19 @@ public abstract class Entity implements Serializable {
             }
             return;
         }
+
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
             updateDialogue();
+            if (speakingTurn == -1) {
+                chatDialogue = null;
+                if (speakingCheckpoint != 0) {
+                    speakingTurn = speakingCheckpoint;
+                } else {
+                    speakingTurn = 0;
+                }
+                return;
+            }
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
             // If there is a condition to proceed, check the condition

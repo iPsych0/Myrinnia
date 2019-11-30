@@ -280,8 +280,8 @@ public class Player extends Creature {
                 closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
             } else {
                 closestEntity.setSpeakingTurn(-1);
+                closestEntity.interact();
             }
-            closestEntity.interact();
             closestEntity = null;
         }
 

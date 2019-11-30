@@ -5,9 +5,11 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Bounty extends UIImageButton {
+public class Bounty extends UIImageButton implements Serializable {
 
+    private static final long serialVersionUID = -1551440676077921331L;
     private String task;
     private String shortDescription;
     private String fullDescription;

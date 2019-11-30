@@ -3,11 +3,13 @@ package dev.ipsych0.myrinnia.tutorial;
 import dev.ipsych0.myrinnia.Handler;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialTipManager {
+public class TutorialTipManager implements Serializable {
 
+    private static final long serialVersionUID = 3905401417918808389L;
     private List<TutorialTip> tips;
 
     public TutorialTipManager() {

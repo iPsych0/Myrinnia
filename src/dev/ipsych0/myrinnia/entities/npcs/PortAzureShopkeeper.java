@@ -79,10 +79,13 @@ public class PortAzureShopkeeper extends ShopKeeper {
             case 5:
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     Handler.get().giveItem(Item.beginnersStaff, 1);
+                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersStaff);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     Handler.get().giveItem(Item.beginnersBow, 1);
+                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersBow);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
                     Handler.get().giveItem(Item.beginnersSword, 1);
+                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersSword);
                 }
                 Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
                 Handler.get().getQuest(QuestList.BountyHunter).nextStep();

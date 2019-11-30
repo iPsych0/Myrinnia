@@ -9,10 +9,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -30,6 +28,8 @@ public class AbilityManager implements Serializable {
     private Color castBarBgColor = new Color(240, 31, 31, 224);
     private AbilityHUD abilityHUD;
     private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
+    public static Map<Class<? extends Ability>, Ability> abilityMap = new HashMap<>();
+
 
     /*
      * Abilities (maybe via file inladen)

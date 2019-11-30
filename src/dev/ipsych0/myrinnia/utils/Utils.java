@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
@@ -105,6 +106,7 @@ public class Utils {
     public static Ability loadAbility(String path) {
         Ability a = loadObjectFromJsonFile(path, "abilities/json/", getClassFromString(path, "abilities"));
         a.setId(abilityCounter++);
+        AbilityManager.abilityMap.put(a.getClass(), a);
         return a;
     }
 

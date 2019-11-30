@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="24">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="28">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -581,6 +581,13 @@
     <property name="jsonFile" value="port_azure_lake_sign.json"/>
     <property name="name" value="Sign"/>
     <property name="npcClass" value="GenericObject"/>
+   </properties>
+  </object>
+  <object id="27" name="Seyla's Pond" type="npc" x="992" y="96" width="832" height="384">
+   <properties>
+    <property name="jsonFile" value="seylas_pond.json"/>
+    <property name="name" value="Seyla's Pond"/>
+    <property name="npcClass" value="SeylasPond"/>
    </properties>
   </object>
  </objectgroup>

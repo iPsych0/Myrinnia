@@ -1,11 +1,16 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.*;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
@@ -14,6 +19,8 @@ public class ElderSelwyn extends Creature {
 
     private static final long serialVersionUID = 101550362959052644L;
     private Quest quest = Handler.get().getQuest(QuestList.WaterMagic);
+    private boolean tipShown;
+    private Ability learntAbility;
 
     public ElderSelwyn(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -48,6 +55,15 @@ public class ElderSelwyn extends Creature {
                     return true;
                 }
                 break;
+            case "hasSlottedAbility":
+                for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+                    if (as.getAbility() != null && as.getAbility() == learntAbility) {
+                        return true;
+                    }
+                }
+                break;
+            case "hasDrunkWater":
+                return false;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 return false;
@@ -68,8 +84,69 @@ public class ElderSelwyn extends Creature {
             case 6:
                 if (speakingCheckpoint != 6) {
                     speakingCheckpoint = 7;
-                    quest.nextStep();
+                    Item chosenItem = (Item) quest.getCheckValue("chosenItem");
+                    Class abilityClass;
+                    if (chosenItem == Item.beginnersSword) {
+                        abilityClass = MendWoundsAbility.class;
+                        AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
+                    } else if (chosenItem == Item.beginnersBow) {
+                        AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
+                        abilityClass = HealingSpringAbility.class;
+                    } else {
+                        AbilityManager.abilityMap.get(ArcaneRenewalAbility.class).setUnlocked(true);
+                        abilityClass = ArcaneRenewalAbility.class;
+                    }
+                    learntAbility = AbilityManager.abilityMap.get(abilityClass);
+                    quest.addNewCheck("combatStyle", learntAbility.getCombatStyle());
+                    script.getDialogues().get(speakingTurn).setText(script.getDialogues().get(speakingTurn).getText().replaceFirst("\\{AbilityName\\}", learntAbility.getName()));
                 }
+                break;
+            case 8:
+                if (!tipShown) {
+                    Dialogue current = script.getDialogues().get(speakingTurn);
+                    current.setText(current.getText().replaceFirst("\\{CombatStyle\\}", learntAbility.getCombatStyle().toString()));
+                    tipShown = true;
+                    Handler.get().addTip(new TutorialTip("Press B to open your Abilities Overview."));
+                }
+                break;
+            case 9:
+                if (speakingCheckpoint != 9) {
+                    speakingCheckpoint = 9;
+                }
+                break;
+            case 14:
+                if (speakingCheckpoint != 14) {
+                    speakingCheckpoint = 14;
+                }
+                break;
+            case 15:
+                if (speakingCheckpoint != 15) {
+                    speakingCheckpoint = 15;
+                    quest.nextStep();
+                    quest.addStep("Ascend Mt. Azure and drink water from the source.");
+                    quest.addNewCheck("hasDrunkWater", false);
+                } else {
+                    if ((Boolean) quest.getCheckValue("hasDrunkWater")) {
+                        speakingTurn = 19;
+                        speakingCheckpoint = 19;
+                    }
+                }
+                break;
+            case 19:
+                if (speakingCheckpoint != 19) {
+                    speakingCheckpoint = 19;
+                }
+                break;
+            case 20:
+                if (speakingCheckpoint != 20) {
+                    speakingCheckpoint = 20;
+                }
+                if (Handler.get().getQuest(QuestList.WaterMagic).getState() == QuestState.IN_PROGRESS) {
+                    quest.nextStep();
+                    quest.setState(QuestState.COMPLETED);
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                }
+                break;
         }
     }
 

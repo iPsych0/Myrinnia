@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
@@ -16,11 +17,13 @@ import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BountyBoardUI {
+public class BountyBoardUI implements Serializable {
 
+    private static final long serialVersionUID = 7164283265721220038L;
     private Zone zone;
     private int x, y, width, height;
     private Rectangle bounds;
@@ -123,7 +126,7 @@ public class BountyBoardUI {
                     if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {
                         BountyManager.get().addBounty(bounty);
                         bounty.setAccepted(true);
-                        Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, i -> {
+                        Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, (Use & Serializable) i -> {
                             BountyContractUI.open(bounty);
                         });
                     } else if (bounty.isCompleted()) {

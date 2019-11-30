@@ -25,12 +25,17 @@
     {
       "id": 2,
       "text": "Alright, let's board then!",
-      "nextId": -1
+      "nextId": 4
     },
     {
       "id": 3,
       "text": "I am still missing some supplies. Perhaps you could help around in town while I prepare for the journey.",
       "nextId": 1
+    },
+    {
+      "id": 4,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
     }
   ]
 }

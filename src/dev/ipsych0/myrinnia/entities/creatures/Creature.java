@@ -588,7 +588,7 @@ public abstract class Creature extends Entity {
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + +this.getHeight() / 2),
+        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
                 ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2),
                 ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
                 Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&

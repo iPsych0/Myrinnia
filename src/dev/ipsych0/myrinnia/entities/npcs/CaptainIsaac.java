@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
@@ -36,7 +37,9 @@ public class CaptainIsaac extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedQuests":
-                // TODO: Add check here for quests done
+                if (Handler.get().questCompleted(QuestList.WaterMagic)) {
+                    return true;
+                }
                 break;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
@@ -47,7 +50,12 @@ public class CaptainIsaac extends Creature {
 
     @Override
     protected void updateDialogue() {
-
+        switch (speakingTurn) {
+            case 4:
+                Handler.get().sendMsg("You finished the tutorial! More will come soon!");
+                speakingTurn = -1;
+                break;
+        }
     }
 
     @Override
@@ -58,9 +66,5 @@ public class CaptainIsaac extends Creature {
     @Override
     public void respawn() {
 
-    }
-
-    public String getName() {
-        return "Captain Isaac";
     }
 }

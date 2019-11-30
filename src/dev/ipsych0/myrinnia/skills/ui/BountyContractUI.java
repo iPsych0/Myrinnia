@@ -8,9 +8,11 @@ import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class BountyContractUI {
+public class BountyContractUI implements Serializable {
 
+    private static final long serialVersionUID = -3447762773306372576L;
     private static Bounty bounty;
     private int x, y, width, height;
     public static boolean isOpen;

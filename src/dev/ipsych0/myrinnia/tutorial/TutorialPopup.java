@@ -8,9 +8,11 @@ import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class TutorialPopup {
+public class TutorialPopup implements Serializable {
 
+    private static final long serialVersionUID = 1144402697977172941L;
     private String[] lines;
     private int blinkTimer;
     private UIImageButton okButton;

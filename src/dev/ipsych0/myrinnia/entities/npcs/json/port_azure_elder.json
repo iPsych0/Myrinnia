@@ -39,23 +39,104 @@
     },
     {
       "id": 5,
-      "text": "Alright. I can teach you your first ability.",
+      "text": "Alright. I can teach you your first ability based on your choice of first weapon.",
       "nextId": 6
     },
     {
       "id": 6,
-      "text": "[You learnt 'Mend Wounds' ability]",
+      "text": "[You learnt {AbilityName} ability]",
       "nextId": 7
     },
     {
       "id": 7,
-      "text": "'Mend Wounds' is a healing ability that will heal you for an initial amount, plus regenerate some additional health over time.",
-      "nextId": 8
+      "text": "Abilities can only be used together with weapons that match the ability's combat style.",
+      "nextId": 9,
+      "choiceCondition": {
+        "condition": "hasSlottedAbility",
+        "falseId": 8
+      }
     },
     {
-      "id": 7,
-      "text": "You must first put this ability in your active slots.",
-      "nextId": 8
+      "id": 8,
+      "text": "You must first drag this ability in your active slots. You can find it under '{CombatStyle}' and 'Water' in the Ability Overview.",
+      "nextId": -1
+    },
+    {
+      "id": 9,
+      "text": "Now to use an ability, you can either press the corresponding key or click it. Some abilities can be cast instantly, some require you to aim.",
+      "nextId": 10
+    },
+    {
+      "id": 10,
+      "text": "You may find Ability Masters across Myrinnia who can teach you all sorts of abilities. You can purchase these with Ability Points. You gain 1 point per combat level-up.",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "Another way of obtaining points is by doing quests or exploration. Finally, you may also learn new abilities from quests or exploration.",
+      "nextId": 12
+    },
+    {
+      "id": 12,
+      "text": "Well then, are you ready to learn your second ability?",
+      "nextId": 13
+    },
+    {
+      "id": 13,
+      "options": [
+        {
+          "text": "I got it. Please tell me how to learn my second ability!",
+          "nextId": 14
+        },
+        {
+          "text": "Could you repeat that?",
+          "nextId": 9
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Alright, you will have to do some exploration for this one and learn naturally.",
+      "nextId": 15
+    },
+    {
+      "id": 15,
+      "text": "North of here you will find Mt. Azure, an ancient mountain. It is said that it was created by Terra, the Spirit of Earth and Seyla, the Spirit of Water.",
+      "nextId": 19,
+      "choiceCondition": {
+        "condition": "hasDrunkWater",
+        "falseId": 16
+      }
+    },
+    {
+      "id": 16,
+      "text": "Terra is responsible for the creation of most land mass and wildlife in Myrinnia. Seyla is responsible for most oceans, rivers and lakes in Myrinnia.",
+      "nextId": 17
+    },
+    {
+      "id": 17,
+      "text": "Since both Spirits were involved in its creation, Mt. Azure possesses some magical properties. Being exposed to this magic, might fill your mind with new knowledge.",
+      "nextId": 18
+    },
+    {
+      "id": 18,
+      "text": "Therefore, if you wish to learn your second ability, you should reach the top of Mt. Azure and drink some water from the source.",
+      "nextId": -1
+    },
+    {
+      "id": 19,
+      "text": "Welcome back, adventurer. I sense something different about you. You managed to ascend Mt. Azure.",
+      "nextId": 20
+    },
+    {
+      "id": 20,
+      "text": "Congratulations. You should be ready to explore the world of Myrinnia now. If you want to explore the island more, feel free to do so.",
+      "nextId": 21
+    },
+    {
+      "id": 21,
+      "text": "You may want to speak to Captain Isaac, on the southern docks, if you wish to leave Azureal Island.",
+      "nextId": -1
     }
   ]
 }

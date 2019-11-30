@@ -3,10 +3,12 @@ package dev.ipsych0.myrinnia.skills.ui;
 import dev.ipsych0.myrinnia.entities.statics.BountyBoard;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class BountyManager {
+public class BountyManager implements Serializable {
 
+    private static final long serialVersionUID = -7315226453656853868L;
     private static BountyManager instance;
     private List<BountyBoard> bountyBoards;
     private Set<Bounty> activeBounties;
