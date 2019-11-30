@@ -451,13 +451,17 @@ public abstract class Creature extends Entity {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (e.equals(Handler.get().getPlayer())) {
-                        e.damage(p.getDamageType(), this, e);
+                        if (p.getAbility() != null) {
+                            e.damage(p.getDamageType(), this, e, p.getAbility());
+                        } else {
+                            e.damage(p.getDamageType(), this, e);
+                        }
 
 //                        int dice = Handler.get().getRandomNumber(0, 5);
 //                        if (dice == 1) {
 //                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
 //                        }
-
+                        p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }
                     if (!e.isAttackable()) {

@@ -33,12 +33,11 @@ public class Assets {
      * Creature Animations
      */
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] aquatic_cultist_down, aquatic_cultist_up, aquatic_cultist_left, aquatic_cultist_right;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
     public static BufferedImage[] airProjectile;
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, glacialShot1;
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
 
     // Player attack images
@@ -564,6 +563,14 @@ public class Assets {
         waterSplash1[2] = ability_animations.imageCrop(2, 6);
         waterSplash1[3] = ability_animations.imageCrop(3, 6);
         waterSplash1[4] = ability_animations.imageCrop(4, 6);
+
+        iceBall1 = new BufferedImage[1];
+        iceBall1[0] = ability_animations.imageCrop(0, 7);
+
+        glacialShot1 = new BufferedImage[3];
+        glacialShot1[0] = ability_animations.imageCrop(0, 8);
+        glacialShot1[1] = ability_animations.imageCrop(1, 8);
+        glacialShot1[2] = ability_animations.imageCrop(2, 8);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

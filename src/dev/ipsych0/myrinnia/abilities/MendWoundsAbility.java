@@ -58,13 +58,13 @@ public class MendWoundsAbility extends Ability {
             initialHealDone = true;
             Handler.get().playEffect("abilities/mend_wounds.wav");
 
-            // Remove all conditions
-            caster.getConditions().removeAll(caster.getConditions());
-
-            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
-            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
-            caster.addBuff(caster, caster, b);
-            caster.addBuff(caster, caster, b2);
+//            // Remove all conditions
+//            caster.getConditions().removeAll(caster.getConditions());
+//
+//            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
+//            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
+//            caster.addBuff(caster, caster, b);
+//            caster.addBuff(caster, caster, b2);
         }
 
         animation.tick();

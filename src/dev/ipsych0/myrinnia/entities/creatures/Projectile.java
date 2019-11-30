@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
@@ -19,10 +20,12 @@ public class Projectile extends Creature implements Serializable {
     private int maxX, maxY, minX, minY;
     private double angle;
     private static final int MAX_RADIUS = 320;
-    private Animation projectile;
+    private Animation animation;
     private DamageType damageType;
+    private Ability ability;
+    private Creature hitCreature;
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, BufferedImage[] animation) {
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.x = x;
@@ -30,6 +33,7 @@ public class Projectile extends Creature implements Serializable {
         this.width = Creature.DEFAULT_CREATURE_WIDTH;
         this.height = Creature.DEFAULT_CREATURE_HEIGHT;
         this.damageType = damageType;
+        this.ability = ability;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -50,14 +54,35 @@ public class Projectile extends Creature implements Serializable {
         xVelocity = velocity * Math.cos(angle);
         yVelocity = velocity * Math.sin(angle);
 
-        projectile = new Animation(125, animation);
+        // Default animation settings
+        if (animation == null) {
+            this.animation = new Animation(125, frames);
+        } else {
+            this.animation = animation;
+        }
 
         active = true;
     }
 
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, BufferedImage[] animation) {
+        this(x, y, mouseX, mouseY, velocity, damageType, null, null, animation);
+    }
+
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Animation animation) {
+        this(x, y, mouseX, mouseY, velocity, damageType, null, animation, null);
+    }
+
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, Animation animation) {
+        this(x, y, mouseX, mouseY, velocity, damageType, ability, animation, null);
+    }
+
+    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, BufferedImage[] animation) {
+        this(x, y, mouseX, mouseY, velocity, damageType, ability, null, animation);
+    }
+
     public void tick() {
         if (active) {
-            projectile.tick();
+            animation.tick();
 
             float ty = (y + (float) yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
             float tx = (x + (float) xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
@@ -81,7 +106,7 @@ public class Projectile extends Creature implements Serializable {
 
     public void render(Graphics2D g) {
         if (active) {
-            g.drawImage(projectile.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+            g.drawImage(animation.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
         }
     }
 
@@ -106,5 +131,21 @@ public class Projectile extends Creature implements Serializable {
 
     public void setDamageType(DamageType damageType) {
         this.damageType = damageType;
+    }
+
+    public Ability getAbility() {
+        return ability;
+    }
+
+    public void setAbility(Ability ability) {
+        this.ability = ability;
+    }
+
+    public Creature getHitCreature() {
+        return hitCreature;
+    }
+
+    public void setHitCreature(Creature hitCreature) {
+        this.hitCreature = hitCreature;
     }
 }

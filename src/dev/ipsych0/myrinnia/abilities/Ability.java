@@ -7,8 +7,6 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Ability implements Serializable {
 
@@ -58,6 +56,9 @@ public abstract class Ability implements Serializable {
 
     protected abstract void cast();
 
+    public void renderUnderEntity(Graphics2D g) {
+        // TODO: OVERRIDE IN SUBCLASS IMPLEMENTATION FOR RENDERING ABILITY EFFECTS UNDER PLAYER
+    }
 
     public void setCaster(Creature c) {
         this.caster = c;
@@ -66,7 +67,6 @@ public abstract class Ability implements Serializable {
         if (this.getCastingTime() > 0) {
             this.setChanneling(true);
         }
-        System.out.println("Cast: " + this.getName());
     }
 
     public void tick() {

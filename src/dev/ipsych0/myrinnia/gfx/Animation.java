@@ -78,7 +78,7 @@ public class Animation implements Serializable {
                 index++;
                 timer = 0;
                 if (index >= frames.length) {
-                    index = 0;
+                    index = frames.length - 1;
                     tickDone = true;
                 }
             }

@@ -15,7 +15,7 @@
   "baseDamage": 10,
   "activated": false,
   "channeling": false,
-  "selectable": false,
+  "selectable": true,
   "selected": false,
   "unlocked": false,
   "price": 1,

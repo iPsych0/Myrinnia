@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -241,6 +242,10 @@ public class World implements Serializable {
 
             itemManager.render(g);
 
+            for (Ability a : abilityManager.getActiveAbilities()) {
+                a.renderUnderEntity(g);
+            }
+
             // Entities
             entityManager.render(g);
 
@@ -255,7 +260,7 @@ public class World implements Serializable {
             }
 //        g.setComposite(composite);
 
-            if (dayNightCycle && nightTime) {
+            if (dayNightCycle && (nightTime = false)) {
                 renderNight(g);
             }
 

@@ -2,8 +2,10 @@ package dev.ipsych0.myrinnia.abilities.ui.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.StatusTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -70,6 +72,39 @@ public class AbilityHUD implements Serializable {
         statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2 - 32);
     }
 
+    public boolean compatibleWeaponType(Ability selectedAbility, boolean sendMsg) {
+        if (Handler.get().getPlayer().getMainHandWeapon() == null) {
+            if (sendMsg) {
+                Handler.get().sendMsg("You must wield a " + selectedAbility.getCombatStyle().toString().toLowerCase() + " weapon to use this ability.");
+            }
+            return false;
+        }
+        if (selectedAbility.getCombatStyle() == CharacterStats.Melee) {
+            if (!Handler.get().getPlayer().getMainHandWeapon().isType(ItemType.MELEE_WEAPON)) {
+                if (sendMsg) {
+                    Handler.get().sendMsg("You must wield a " + selectedAbility.getCombatStyle().toString().toLowerCase() + " weapon to use this ability.");
+                }
+                return false;
+            }
+        } else if (selectedAbility.getCombatStyle() == CharacterStats.Ranged) {
+            if (!Handler.get().getPlayer().getMainHandWeapon().isType(ItemType.RANGED_WEAPON)) {
+                if (sendMsg) {
+                    Handler.get().sendMsg("You must wield a " + selectedAbility.getCombatStyle().toString().toLowerCase() + " weapon to use this ability.");
+                }
+                return false;
+            }
+        } else if (selectedAbility.getCombatStyle() == CharacterStats.Magic) {
+            if (!Handler.get().getPlayer().getMainHandWeapon().isType(ItemType.MAGIC_WEAPON)) {
+                if (sendMsg) {
+                    Handler.get().sendMsg("You must wield a " + selectedAbility.getCombatStyle().toString().toLowerCase() + " weapon to use this ability.");
+                }
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Handles the pressed ability slot button
      */
@@ -78,6 +113,11 @@ public class AbilityHUD implements Serializable {
         // Funky calculation. If 0 is pressed, it should be the last slot instead of first, otherwise the slot is 1-9 pressed -1 by index
         Ability selectedAbility = slottedAbilities.get(pressedKey == 48 ? slottedAbilities.size() - 1 : (pressedKey - 49)).getAbility();
         if (selectedAbility != null) {
+
+            if (!compatibleWeaponType(selectedAbility, true)) {
+                return;
+            }
+
             for (AbilitySlot as : slottedAbilities) {
                 if (as.getAbility() != null) {
                     if (as.getAbility().isChanneling()) {
@@ -106,6 +146,11 @@ public class AbilityHUD implements Serializable {
         if (locked) {
             Ability selectedAbility = slot.getAbility();
             if (selectedAbility != null) {
+
+                if (!compatibleWeaponType(selectedAbility, true)) {
+                    return;
+                }
+
                 for (AbilitySlot as : slottedAbilities) {
                     if (as.getAbility() != null) {
                         if (as.getAbility().isChanneling()) {

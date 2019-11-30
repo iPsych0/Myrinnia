@@ -10,12 +10,6 @@ import java.awt.*;
 
 public class FireBallAbility extends Ability {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -2623074711686137258L;
-
-
     public FireBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                            double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
@@ -39,7 +33,6 @@ public class FireBallAbility extends Ability {
     public void setCaster(Creature c) {
         this.caster = c;
         this.setActivated(true);
-        System.out.println("Cast: " + this.getName());
     }
 
 }

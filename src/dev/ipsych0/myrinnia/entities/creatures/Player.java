@@ -395,12 +395,13 @@ public class Player extends Creature {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        if (getMainHandWeapon().isType(ItemType.MAGIC_WEAPON)) {
-                            e.damage(DamageType.INT, this, e);
-                        } else if (getMainHandWeapon().isType(ItemType.RANGED_WEAPON)) {
-                            e.damage(DamageType.DEX, this, e);
+                        if (p.getAbility() != null) {
+                            e.damage(p.getDamageType(), this, e, p.getAbility());
+                        } else {
+                            e.damage(p.getDamageType(), this, e);
                         }
 //                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
+                        p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }
                 }
@@ -522,7 +523,7 @@ public class Player extends Creature {
         return is == null ? null : is.getItem();
     }
 
-    private void setWeaponAnimations(int equipSlot) {
+    public void setWeaponAnimations(int equipSlot) {
         // Change weapon animations based on equipped weapon
         Item equipped = Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem();
         if (equipped.isType(ItemType.MELEE_WEAPON)) {

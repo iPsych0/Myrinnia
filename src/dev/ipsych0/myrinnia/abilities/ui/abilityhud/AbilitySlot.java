@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.abilities.ui.abilityhud;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -20,6 +21,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
     private int x, y;
     private Color cooldownColor = new Color(24, 24, 24, 192);
     private Color selectedColor = new Color(64, 64, 64, 192);
+    private Color blockedColor = new Color(224, 0, 0, 160);
     private Rectangle bounds;
 
     public AbilitySlot(Ability ability, int x, int y) {
@@ -39,15 +41,17 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         g.drawImage(Assets.genericButton[0], x, y, width, height, null);
         if (ability != null) {
             ability.render(g, x, y);
+            if (!Handler.get().getAbilityManager().getAbilityHUD().compatibleWeaponType(ability, false)) {
+                g.setColor(blockedColor);
+                g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+            }
             if (ability.isSelectable() && ability.isSelected()) {
                 g.setColor(selectedColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
-            }
-            if (ability.isOnCooldown()) {
+            } else if (ability.isOnCooldown()) {
                 g.setColor(cooldownColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
-
             }
         }
         Text.drawString(g, Integer.toString(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
