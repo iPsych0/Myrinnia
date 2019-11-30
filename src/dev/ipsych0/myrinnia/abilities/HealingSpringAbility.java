@@ -32,7 +32,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.mendWoundsI, x, y, null);
+        g.drawImage(Assets.healingSpringI, x, y, null);
 
         if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),

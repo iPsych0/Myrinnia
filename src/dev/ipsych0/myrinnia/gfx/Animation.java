@@ -165,4 +165,5 @@ public class Animation implements Serializable {
     public void setFrames(BufferedImage[] frames) {
         this.frames = frames;
     }
+
 }

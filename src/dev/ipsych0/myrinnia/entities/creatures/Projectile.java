@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -24,6 +25,7 @@ public class Projectile extends Creature implements Serializable {
     private DamageType damageType;
     private Ability ability;
     private Creature hitCreature;
+    private double rotation;
 
     public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
@@ -53,6 +55,12 @@ public class Projectile extends Creature implements Serializable {
         angle = Math.atan2(mouseY - y, mouseX - x);
         xVelocity = velocity * Math.cos(angle);
         yVelocity = velocity * Math.sin(angle);
+
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        rotation = Math.toDegrees(angle);
+        if (rotation < 0) {
+            rotation += 360d;
+        }
 
         // Default animation settings
         if (animation == null) {
@@ -106,7 +114,10 @@ public class Projectile extends Creature implements Serializable {
 
     public void render(Graphics2D g) {
         if (active) {
+            AffineTransform old = g.getTransform();
+            g.rotate(Math.toRadians(rotation), (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + height / 2 - Handler.get().getGameCamera().getyOffset()));
             g.drawImage(animation.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+            g.setTransform(old);
         }
     }
 

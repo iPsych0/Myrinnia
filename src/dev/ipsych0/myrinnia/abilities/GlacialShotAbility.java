@@ -28,7 +28,7 @@ public class GlacialShotAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.chillIcon, x, y, null);
+        g.drawImage(Assets.glacialShotI, x, y, null);
     }
 
     @Override

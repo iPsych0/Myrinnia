@@ -38,7 +38,7 @@ public class Assets {
     public static BufferedImage[] earthProjectile;
     public static BufferedImage[] airProjectile;
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, glacialShot1;
-    public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI;
+    public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, glacialShotI, healingSpringI, arcaneRenewalI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -537,6 +537,11 @@ public class Assets {
         mendWoundsI = ability_icons.imageCrop(2, 0);
         nimbleFeetI = ability_icons.imageCrop(3, 0);
         supersonicDashI = ability_icons.imageCrop(4, 0);
+        frostJabI = ability_icons.imageCrop(5, 0);
+        iceBallI = ability_icons.imageCrop(6, 0);
+        glacialShotI = ability_icons.imageCrop(7, 0);
+        healingSpringI = ability_icons.imageCrop(8, 0);
+        arcaneRenewalI = ability_icons.imageCrop(9, 0);
 
 
         /*

@@ -26,7 +26,7 @@ public class IceBallAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.chillIcon, x, y, null);
+        g.drawImage(Assets.iceBallI, x, y, null);
     }
 
     @Override
