@@ -2,22 +2,60 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Do you have a test sword?",
-      "nextId": 1,
+      "text": "Hello there, young one. My name is Selwyn.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I have devoted my life to the studies of Water Magic. There are many mysteries surrounding the origins of magic in Myrinnia.",
+      "nextId": 3,
       "choiceCondition": {
-        "condition": "has1testsword",
+        "condition": "hasCompletedMiningAndCrafting",
         "falseId": 2
       }
     },
     {
-      "id": 1,
-      "text": "You have a test sword.",
+      "id": 2,
+      "text": "Come see me once you have learnt the other skills. I can help you master your first Ability.",
       "nextId": -1
     },
     {
-      "id": 2,
-      "text": "You don't have a test sword.",
-      "nextId": -1
+      "id": 3,
+      "text": "If you'd like, I can get you started with Water Magic.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Teach me.",
+          "nextId": 5
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Alright. I can teach you your first ability.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "[You learnt 'Mend Wounds' ability]",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "'Mend Wounds' is a healing ability that will heal you for an initial amount, plus regenerate some additional health over time.",
+      "nextId": 8
+    },
+    {
+      "id": 7,
+      "text": "You must first put this ability in your active slots.",
+      "nextId": 8
     }
   ]
 }

@@ -3,7 +3,9 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 
 import java.awt.*;
 
@@ -11,6 +13,7 @@ public class ElderSelwyn extends Creature {
 
 
     private static final long serialVersionUID = 101550362959052644L;
+    private Quest quest = Handler.get().getQuest(QuestList.WaterMagic);
 
     public ElderSelwyn(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -40,8 +43,8 @@ public class ElderSelwyn extends Creature {
     @Override
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
-            case "has1testsword":
-                if (Handler.get().playerHasItem(Item.beginnersSword, 1)) {
+            case "hasCompletedMiningAndCrafting":
+                if (Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
                     return true;
                 }
                 break;
@@ -54,7 +57,20 @@ public class ElderSelwyn extends Creature {
 
     @Override
     protected void updateDialogue() {
-
+        switch (speakingTurn) {
+            case 5:
+                if (quest.getState() == QuestState.NOT_STARTED) {
+                    quest.setState(QuestState.IN_PROGRESS);
+                    quest.addStep("Get your first Ability from Selwyn.");
+                    speakingCheckpoint = 5;
+                }
+                break;
+            case 6:
+                if (speakingCheckpoint != 6) {
+                    speakingCheckpoint = 7;
+                    quest.nextStep();
+                }
+        }
     }
 
     @Override
