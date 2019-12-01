@@ -95,9 +95,9 @@ public abstract class Creature extends Entity {
     // Last faced direction
     protected Direction lastFaced;
 
-    float speed;
-    float xMove;
-    float yMove;
+    protected float speed;
+    protected float xMove;
+    protected float yMove;
 
     public Creature(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);

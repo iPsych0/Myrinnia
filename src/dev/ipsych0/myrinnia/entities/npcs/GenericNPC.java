@@ -40,9 +40,4 @@ public class GenericNPC extends Creature {
     protected void updateDialogue() {
 
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

@@ -93,6 +93,7 @@ public class Assets {
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
     public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
+    public static BufferedImage[] portAzureCooperDown, portAzureCooperLeft, portAzureCooperRight, portAzureCooperUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -507,6 +508,11 @@ public class Assets {
         portAzureDuncanRight = azureal_island_npcs.npcCrop(6, 6);
         portAzureDuncanUp = azureal_island_npcs.npcCrop(6, 7);
 
+        portAzureCooperDown = azureal_island_npcs.npcCrop(9, 4);
+        portAzureCooperLeft = azureal_island_npcs.npcCrop(9, 5);
+        portAzureCooperRight = azureal_island_npcs.npcCrop(9, 6);
+        portAzureCooperUp = azureal_island_npcs.npcCrop(9, 7);
+
         /*
          * Player Animations
          */
@@ -565,11 +571,6 @@ public class Assets {
         /*
          * Creature Animations
          */
-
-//        aquatic_cultist_down = npc_sheet1.npcCrop(3, 0);
-//        aquatic_cultist_left = npc_sheet1.npcCrop(3, 1);
-//        aquatic_cultist_right = npc_sheet1.npcCrop(3, 2);
-//        aquatic_cultist_up = npc_sheet1.npcCrop(3, 3);
 
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);

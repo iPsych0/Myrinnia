@@ -4,23 +4,37 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
 public class PortAzureSam extends Creature {
 
     private boolean firstAccess = true;
+    private boolean hasSteppedAside;
+    private boolean moveSpeedSet;
+    private float startX;
 
     public PortAzureSam(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = true;
         attackable = false;
         isNpc = true;
+        startX = x;
     }
 
     @Override
     public void tick() {
         super.tick();
+        if (!hasSteppedAside && walker) {
+            if (!moveSpeedSet && x > (startX - Tile.TILEWIDTH)) {
+                xMove -= speed;
+                moveSpeedSet = true;
+            } else if (xMove <= (startX - Tile.TILEWIDTH)) {
+                hasSteppedAside = true;
+            }
+            move();
+        }
     }
 
     @Override

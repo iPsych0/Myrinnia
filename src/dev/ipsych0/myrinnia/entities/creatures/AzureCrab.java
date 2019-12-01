@@ -53,7 +53,7 @@ public class AzureCrab extends Creature {
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
 
-        if (!hasFoughtBefore) {
+        if (!name.equalsIgnoreCase("King Azure Crab") && !hasFoughtBefore) {
             hasFoughtBefore = true;
             Handler.get().addTip(new TutorialTip("Left-click and aim with your mouse to attack."));
         }

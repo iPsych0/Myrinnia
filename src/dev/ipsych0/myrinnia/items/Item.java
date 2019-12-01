@@ -31,7 +31,10 @@ public class Item implements Serializable {
     public static Item magicSword = Utils.loadItem("2_magic_sword.json", Assets.undiscovered);
     public static Item beginnersSword = Utils.loadItem("3_beginners_sword.json", Assets.beginnersSword);
     public static Item coins = Utils.loadItem("4_coins.json", Assets.coins[0]);
-    public static Item mackerelFish = Utils.loadItem("5_mackerel.json", Assets.mackerelFish);
+    public static Item mackerelFish = Utils.loadItem("5_mackerel.json", Assets.mackerelFish, 10 * 60, (Use & Serializable) (i) -> {
+        Handler.get().getPlayer().heal(20);
+        Handler.get().removeItem(Item.mackerelFish, 1);
+    });
     public static Item ryansAxe =  Utils.loadItem("6_ryans_axe.json", Assets.ryansAxe);
     public static Item simplePickaxe = Utils.loadItem("7_simple_pickaxe.json", Assets.simplePickaxe);
     public static Item beginnersStaff = Utils.loadItem("8_beginners_staff.json", Assets.beginnersStaff);

@@ -36,9 +36,9 @@ public class FrostJabAbility extends Ability implements Serializable {
                 meleeAnimation.tick();
 
                 AffineTransform old = g.getTransform();
-                g.rotate(Math.toRadians(rotation), (int) (x + xPos + 32 / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + yPos + 32 / 2 - Handler.get().getGameCamera().getyOffset()));
-                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + xPos - Handler.get().getGameCamera().getxOffset()),
-                        (int) (y + yPos - Handler.get().getGameCamera().getyOffset()), (int) (32 * 1.25f), (int) (32 * 1.25f), null);
+                g.rotate(Math.toRadians(rotation), (int) (caster.getX() + xPos + 32 / 2 - Handler.get().getGameCamera().getxOffset()), (int) (caster.getY() + yPos + 32 / 2 - Handler.get().getGameCamera().getyOffset()));
+                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (caster.getX() + xPos - Handler.get().getGameCamera().getxOffset()),
+                        (int) (caster.getY() + yPos - Handler.get().getGameCamera().getyOffset()), (int) (32 * 1.25f), (int) (32 * 1.25f), null);
                 g.setTransform(old);
             }
         }

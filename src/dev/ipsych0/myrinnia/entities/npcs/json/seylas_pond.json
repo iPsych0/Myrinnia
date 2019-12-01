@@ -30,6 +30,11 @@
     {
       "id": 3,
       "text": "[You learned {AbilityName} ability]",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "{DUMMY}",
       "nextId": -1
     }
   ]
