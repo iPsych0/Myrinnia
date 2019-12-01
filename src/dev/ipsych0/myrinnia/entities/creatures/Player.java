@@ -134,7 +134,7 @@ public class Player extends Creature {
         attLeft = new Animation(333, Assets.player_melee_left);
         attRight = new Animation(333, Assets.player_melee_right);
 
-        meleeAnimation = new Animation(62, Assets.regularMelee, true, false);
+        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
         aDefault = aDown;
 
@@ -350,29 +350,6 @@ public class Player extends Creature {
 
     }
 
-    private void checkRanged(Rectangle mouse) {
-        rangedTimer += System.currentTimeMillis() - lastRangedTimer;
-        lastRangedTimer = System.currentTimeMillis();
-        if (rangedTimer < rangedCooldown)
-            return;
-
-        if (hasLeftClickedUI(mouse))
-            return;
-
-        // Change attacking animation depending on which weapon type
-        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
-
-        rangedTimer = 0;
-
-        Handler.get().playEffect("abilities/fireball.wav");
-        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            projectiles.add(new Projectile(x, y,
-                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, DamageType.DEX, Assets.regularArrow));
-        }
-    }
-
     /*
      * Ticks the projectiles of the player
      */
@@ -469,7 +446,7 @@ public class Player extends Creature {
 
 //		UNCOMMENT THIS TO SEE MELEE HITBOX
 //		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
+//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 40, 40);
 //		g.setColor(Color.MAGENTA);
 //		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
@@ -489,7 +466,7 @@ public class Player extends Creature {
                 AffineTransform old = g.getTransform();
                 g.rotate(Math.toRadians(rotation), (int) (x + xPos + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + yPos + height / 2 - Handler.get().getGameCamera().getyOffset()));
                 g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + xPos - Handler.get().getGameCamera().getxOffset()),
-                        (int) (y + yPos - Handler.get().getGameCamera().getyOffset()), width, height, null);
+                        (int) (y + yPos - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
                 g.setTransform(old);
             }
         }
@@ -774,6 +751,29 @@ public class Player extends Creature {
         return false;
     }
 
+    private void checkRanged(Rectangle mouse) {
+        rangedTimer += System.currentTimeMillis() - lastRangedTimer;
+        lastRangedTimer = System.currentTimeMillis();
+        if (rangedTimer < rangedCooldown)
+            return;
+
+        if (hasLeftClickedUI(mouse))
+            return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+
+        rangedTimer = 0;
+
+        Handler.get().playEffect("abilities/ranged_shot.wav", 0.3f);
+        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
+            projectiles.add(new Projectile(x, y,
+                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
+                    9.0f, DamageType.DEX, Assets.regularArrow));
+        }
+    }
+
     /*
      * Check for magic attacks
      */
@@ -792,7 +792,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("abilities/fireball.wav");
+        Handler.get().playEffect("abilities/magic_strike.wav", 0.25f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -820,13 +820,15 @@ public class Player extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(62, Assets.regularMelee, true, false);
+        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
         setMeleeSwing(mouse);
 
+        Handler.get().playEffect("abilities/sword_swing.wav", -0.05f);
+
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-            Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 32, 32);
+            Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 40, 40);
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (e.equals(this))

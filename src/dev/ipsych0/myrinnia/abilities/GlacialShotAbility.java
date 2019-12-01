@@ -49,7 +49,7 @@ public class GlacialShotAbility extends Ability implements Serializable {
         // Change attacking animation depending on which weapon type
         player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
-        Handler.get().playEffect("abilities/fireball.wav");
+        Handler.get().playEffect("abilities/glacial_shot.wav", 0.1f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectile = new Projectile(player.getX(), player.getY(),
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),

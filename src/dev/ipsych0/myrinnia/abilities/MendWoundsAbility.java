@@ -56,7 +56,7 @@ public class MendWoundsAbility extends Ability {
 
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
-            Handler.get().playEffect("abilities/mend_wounds.wav");
+            Handler.get().playEffect("abilities/mend_wounds.wav", 0.1f);
 
 //            // Remove all conditions
 //            caster.getConditions().removeAll(caster.getConditions());

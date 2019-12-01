@@ -19,7 +19,7 @@ public class AudioManager {
     public static List<Source> soundfxFiles = new ArrayList<>();
     private static Map<String, Integer> soundMap = new HashMap<>();
     private static Zone zone;
-    public static float musicVolume = 0.4f, sfxVolume = 0.15f;
+    public static float musicVolume = 0.4f, sfxVolume = 0.2f;
     public static boolean soundMuted, sfxMuted;
 
     public static void init() {
@@ -49,17 +49,18 @@ public class AudioManager {
                 }
             }
         }
-
-        // Check for sound effects that have ended to clean up
-        if (!soundfxFiles.isEmpty()) {
-            Iterator<Source> sourceIterator = soundfxFiles.iterator();
-            while (sourceIterator.hasNext()){
-                Source s = sourceIterator.next();
-                if (!s.isPlaying()) {
-                    sourceIterator.remove();
-                }
-            }
-        }
+//
+//        // Check for sound effects that have ended to clean up
+//        if (!soundfxFiles.isEmpty()) {
+//            Iterator<Source> sourceIterator = soundfxFiles.iterator();
+//            while (sourceIterator.hasNext()){
+//                Source s = sourceIterator.next();
+//                if (!s.isPlaying()) {
+//                    soundMap.remove(s);
+//                    sourceIterator.remove();
+//                }
+//            }
+//        }
     }
 
     private static void fadeIn(Source s) {
