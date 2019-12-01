@@ -41,6 +41,7 @@ import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,6 +60,7 @@ public class Player extends Creature {
 
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
+    private Animation meleeAnimation;
 
     // Melee timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
@@ -99,6 +101,8 @@ public class Player extends Creature {
     private Rectangle itemPickupRadius;
 
     private int abilityPoints;
+    private double rotation;
+    private double xPos, yPos;
 
     public Player(float x, float y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
@@ -129,6 +133,8 @@ public class Player extends Creature {
         attUp = new Animation(333, Assets.player_melee_up);
         attLeft = new Animation(333, Assets.player_melee_left);
         attRight = new Animation(333, Assets.player_melee_right);
+
+        meleeAnimation = new Animation(62, Assets.regularMelee, true, false);
 
         aDefault = aDown;
 
@@ -363,7 +369,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, DamageType.DEX, Assets.earthProjectile));
+                    9.0f, DamageType.DEX, Assets.regularArrow));
         }
     }
 
@@ -471,6 +477,20 @@ public class Player extends Creature {
             for (Projectile p : projectiles) {
                 if (active)
                     p.render(g);
+            }
+        }
+
+        if (meleeAnimation != null) {
+            if (meleeAnimation.isTickDone()) {
+                meleeAnimation = null;
+            } else {
+                meleeAnimation.tick();
+
+                AffineTransform old = g.getTransform();
+                g.rotate(Math.toRadians(rotation), (int) (x + xPos + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + yPos + height / 2 - Handler.get().getGameCamera().getyOffset()));
+                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + xPos - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + yPos - Handler.get().getGameCamera().getyOffset()), width, height, null);
+                g.setTransform(old);
             }
         }
 
@@ -777,7 +797,7 @@ public class Player extends Creature {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, DamageType.INT, Assets.fireProjectile));
+                    9.0f, DamageType.INT, Assets.regularMagic));
         }
 
     }
@@ -800,6 +820,10 @@ public class Player extends Creature {
 
         attackTimer = 0;
 
+        meleeAnimation = new Animation(62, Assets.regularMelee, true, false);
+
+        setMeleeSwing(mouse);
+
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
             Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 32, 32);
@@ -813,6 +837,37 @@ public class Player extends Creature {
                     e.damage(DamageType.STR, this, e);
                 }
             }
+        }
+    }
+
+    private void setMeleeSwing(Rectangle mouse) {
+        // The angle and speed of the projectile
+        double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        rotation = Math.toDegrees(angle);
+        if (rotation < 0) {
+            rotation += 360d;
+        }
+
+        double xOffset = 1.0f * Math.cos(angle);
+        double yOffset = 1.0f * Math.sin(angle);
+
+
+        // xPos change RIGHT
+        if (rotation >= 270 || rotation < 90) {
+            xPos = 20d * xOffset;
+            // xPos change LEFT
+        } else if (rotation >= 90 || rotation < 270) {
+            xPos = 20d * xOffset;
+        }
+
+        // xPos change RIGHT
+        if (rotation >= 180 || rotation <= 360) {
+            yPos = 20d * yOffset;
+            // xPos change LEFT
+        } else if (rotation >= 0 || rotation < 180) {
+            yPos = 20d * yOffset;
         }
     }
 

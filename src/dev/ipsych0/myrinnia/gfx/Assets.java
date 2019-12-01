@@ -33,6 +33,7 @@ public class Assets {
      * Creature Animations
      */
     public static BufferedImage[] player_down, player_up, player_left, player_right;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
@@ -180,6 +181,7 @@ public class Assets {
          */
         SpriteSheet ability_icons = new SpriteSheet("/textures/animations/abilitysheet.png");
         SpriteSheet ability_animations = new SpriteSheet("/textures/animations/ability_animations.png");
+        SpriteSheet regular_attacks = new SpriteSheet("/textures/regular_attacks.png");
 
         /*
          * All Tiled Sprites
@@ -528,6 +530,22 @@ public class Assets {
         player_left = player_sheet.npcCrop(0, 1);
         player_right = player_sheet.npcCrop(0, 2);
         player_up = player_sheet.npcCrop(0, 3);
+
+        regularMelee = new BufferedImage[5];
+        regularArrow = new BufferedImage[1];
+        regularMagic = new BufferedImage[3];
+
+        regularMelee[0] = regular_attacks.imageCrop(4, 0);
+        regularMelee[1] = regular_attacks.imageCrop(5, 0);
+        regularMelee[2] = regular_attacks.imageCrop(6, 0);
+        regularMelee[3] = regular_attacks.imageCrop(7, 0);
+        regularMelee[4] = regular_attacks.imageCrop(8, 0);
+
+        regularArrow[0] = regular_attacks.imageCrop(0, 0);
+
+        regularMagic[0] = regular_attacks.imageCrop(1, 0);
+        regularMagic[1] = regular_attacks.imageCrop(2, 0);
+        regularMagic[2] = regular_attacks.imageCrop(3, 0);
 
         /*
          * Ability Icons
