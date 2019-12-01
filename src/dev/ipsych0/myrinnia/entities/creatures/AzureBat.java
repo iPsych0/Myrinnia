@@ -12,7 +12,7 @@ import java.awt.*;
 public class AzureBat extends Creature {
 
     //Attack timer
-    private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
+    private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 
     public AzureBat(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -23,8 +23,8 @@ public class AzureBat extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 5;
-        vitality += 5;
+        intelligence += 3;
+        vitality += 7;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -72,8 +72,8 @@ public class AzureBat extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, DamageType.INT, Assets.waterProjectile));
+        Handler.get().playEffect("abilities/magic_strike.wav");
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.waterProjectile));
 
     }
 
@@ -90,10 +90,5 @@ public class AzureBat extends Creature {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Azure Bat";
     }
 }

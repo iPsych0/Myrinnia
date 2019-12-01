@@ -42,6 +42,10 @@ public class Item implements Serializable {
     public static Item simpleAxe = Utils.loadItem("10_simple_axe.json", Assets.simpleAxe);
     public static Item beginnersBow = Utils.loadItem("11_beginner's_bow.json", Assets.beginnersBow);
     public static Item simpleFishingRod = Utils.loadItem("12_simple_fishing_rod.json", Assets.simpleFishingRod);
+    public static Item simpleSpellBook = Utils.loadItem("13_simple_spellbook.json", Assets.simpleSpellBook);
+    public static Item simpleShield = Utils.loadItem("14_simple_shield.json", Assets.simpleShield);
+    public static Item simpleQuiver = Utils.loadItem("15_simple_quiver.json", Assets.simpleQuiver);
+    public static Item simpleSandals = Utils.loadItem("16_simple_sandals.json", Assets.simpleSandals);
 
     // Class
 
@@ -57,8 +61,8 @@ public class Item implements Serializable {
     private int intelligence;
     private int defence;
     private int vitality;
-    private float attackSpeed;
-    private float movementSpeed;
+    private double attackSpeed;
+    private double movementSpeed;
     private int x;
     private int y;
     private Rectangle bounds;
@@ -114,7 +118,7 @@ public class Item implements Serializable {
     }
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
-                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,
+                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, double attackSpeed, double movementSpeed,
                 int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
         this(texture, name, id, itemRarity, price, stackable, itemTypes);
         this.equipSlot = equipSlot;
@@ -172,7 +176,7 @@ public class Item implements Serializable {
     /*
      * Returns the pause of the item
      */
-    public Rectangle itemPosition(float xOffset, float yOffset) {
+    public Rectangle itemPosition(double xOffset, double yOffset) {
         position.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), 32, 32);
         return position;
     }
@@ -224,11 +228,11 @@ public class Item implements Serializable {
         return vitality;
     }
 
-    public float getAttackSpeed() {
+    public double getAttackSpeed() {
         return attackSpeed;
     }
 
-    public float getMovementSpeed() {
+    public double getMovementSpeed() {
         return movementSpeed;
     }
 

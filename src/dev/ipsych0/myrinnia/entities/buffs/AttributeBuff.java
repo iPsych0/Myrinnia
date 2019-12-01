@@ -144,9 +144,9 @@ public class AttributeBuff extends Buff {
                 statIncreaseDouble = (int) Math.ceil(newAtkSpd) - r.getAttackSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() + statIncreaseDouble));
+                    r.setAttackSpeed((r.getAttackSpeed() + statIncreaseDouble));
                 } else {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() + statBuff));
+                    r.setAttackSpeed((r.getAttackSpeed() + statBuff));
                 }
                 break;
             case MOVSPD:
@@ -154,9 +154,9 @@ public class AttributeBuff extends Buff {
                 statIncreaseDouble = (int) Math.ceil(newMovSpd) - r.getSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setSpeed((float) (r.getSpeed() + statIncreaseDouble));
+                    r.setSpeed((r.getSpeed() + statIncreaseDouble));
                 } else {
-                    r.setSpeed((float) (r.getSpeed() + statBuff));
+                    r.setSpeed((r.getSpeed() + statBuff));
                 }
                 break;
         }
@@ -166,14 +166,14 @@ public class AttributeBuff extends Buff {
         switch (attribute) {
             case MOVSPD:
                 if (percentageIncrease) {
-                    r.setSpeed((float) (r.getSpeed() - totalIncreaseDecimal));
+                    r.setSpeed((r.getSpeed() - totalIncreaseDecimal));
                 } else {
                     r.setSpeed(r.getSpeed() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() - totalIncreaseDecimal));
+                    r.setAttackSpeed((r.getAttackSpeed() - totalIncreaseDecimal));
                 } else {
                     r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff * getTimesStacked());
                 }

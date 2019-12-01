@@ -1,0 +1,37 @@
+{
+  "itemTypes": [
+    "ARMOUR"
+  ],
+  "itemRarity": "Common",
+  "name": "Simple sandals",
+  "id": 16,
+  "equipSlot": "Boots",
+  "strength": 0,
+  "dexterity": 0,
+  "intelligence": 0,
+  "defence": 1,
+  "vitality": 0,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.1,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 20,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

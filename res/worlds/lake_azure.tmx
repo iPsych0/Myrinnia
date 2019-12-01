@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="28">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="30">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -588,6 +588,18 @@
     <property name="jsonFile" value="seylas_pond.json"/>
     <property name="name" value="Seyla's Pond"/>
     <property name="npcClass" value="SeylasPond"/>
+   </properties>
+  </object>
+  <object id="28" name="Simple Shield" type="item" x="2592" y="128" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="14"/>
+   </properties>
+  </object>
+  <object id="29" name="Simple Spellbook" type="item" x="544" y="160" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="13"/>
    </properties>
   </object>
  </objectgroup>

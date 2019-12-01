@@ -352,12 +352,12 @@ public class MapLoader implements Serializable {
                             // Get the new x-pos for the zone tile
                         } else if (attributes.getValue("name").equalsIgnoreCase("goToX")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
-                                goToX = Integer.parseInt(attributes.getValue("value")) * Tile.TILEWIDTH;
+                                goToX = Integer.parseInt(attributes.getValue("value"));
                             }
                             // Get the new y-pos for the zone tile
                         } else if (attributes.getValue("name").equalsIgnoreCase("goToY")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
-                                goToY = Integer.parseInt(attributes.getValue("value")) * Tile.TILEHEIGHT;
+                                goToY = Integer.parseInt(attributes.getValue("value"));
                             }
                             // Optional property to get custom zone name
                         } else if (attributes.getValue("name").equalsIgnoreCase("customZoneName")) {

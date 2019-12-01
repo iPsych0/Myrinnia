@@ -88,7 +88,7 @@ public class Player extends Creature {
     public static boolean isMoving, hasMoved;
 
     public static boolean mouseMoved;
-    private float xSpawn, ySpawn;
+    private double xSpawn, ySpawn;
 
     // Entities we can interact with, with different functions
     private Entity closestEntity;
@@ -104,7 +104,7 @@ public class Player extends Creature {
     private double rotation;
     private double xPos, yPos;
 
-    public Player(float x, float y) {
+    public Player(double x, double y) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
 
         xSpawn = x;
@@ -115,7 +115,7 @@ public class Player extends Creature {
 
         maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
         health = maxHealth;
-        speed = DEFAULT_SPEED + 0.5f;
+        speed = DEFAULT_SPEED + 0.5;
 
         // Set collision boundaries on sprite
         bounds.x = 10;
@@ -383,7 +383,10 @@ public class Player extends Creature {
                         } else {
                             e.damage(p.getDamageType(), this, e);
                         }
-//                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
+
+                        if (p.getImpactSound() != null) {
+                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
+                        }
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }
@@ -397,7 +400,7 @@ public class Player extends Creature {
     /*
      * Sets the angle of the mouse
      */
-    private void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
+    private void setMouseAngle(double playerX, double playerY, int mouseX, int mouseY) {
 
         double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
 
@@ -765,12 +768,12 @@ public class Player extends Creature {
 
         rangedTimer = 0;
 
-        Handler.get().playEffect("abilities/ranged_shot.wav", 0.3f);
+        Handler.get().playEffect("abilities/ranged_shot.wav", 0.35f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, DamageType.DEX, Assets.regularArrow));
+                    9.0f, "abilities/ranged_shot_impact.wav", DamageType.DEX, Assets.regularArrow));
         }
     }
 
@@ -792,12 +795,12 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav", 0.25f);
+        Handler.get().playEffect("abilities/magic_strike.wav");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
             projectiles.add(new Projectile(x, y,
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, DamageType.INT, Assets.regularMagic));
+                    9.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.regularMagic));
         }
 
     }

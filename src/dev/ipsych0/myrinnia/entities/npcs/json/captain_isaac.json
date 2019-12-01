@@ -2,14 +2,14 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Hi there. I'm Captain Isaac. I run the boat service between Port Azure and the mainland of Myrinnia. What can I help you with?",
+      "text": "Hi there. I'm Captain Isaac. I run the boat service between Port Azure and Shamrock Harbour. What can I help you with?",
       "nextId": 1
     },
     {
       "id": 1,
       "options": [
         {
-          "text": "I would like to go to the mainland.",
+          "text": "I would like to go to Shamrock Harbour.",
           "nextId": 2,
           "choiceCondition": {
             "condition": "hasCompletedQuests",
@@ -29,7 +29,7 @@
     },
     {
       "id": 3,
-      "text": "I am still missing some supplies. Perhaps you could help around in town while I prepare for the journey.",
+      "text": "I am still preparing for departure. Perhaps you could help around in town while I prepare for the journey to come.",
       "nextId": 1
     },
     {

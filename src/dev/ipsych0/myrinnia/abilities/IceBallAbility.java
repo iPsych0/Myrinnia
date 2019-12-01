@@ -47,7 +47,7 @@ public class IceBallAbility extends Ability implements Serializable {
             projectile = new Projectile(player.getX(), player.getY(),
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    6.0f, DamageType.INT, this, Assets.iceBall1);
+                    6.0f, "abilities/ice_projectile_impact.wav", DamageType.INT, this, Assets.iceBall1);
             player.getProjectiles().add(projectile);
         }
         Handler.get().getMouseManager().setLeftPressed(false);

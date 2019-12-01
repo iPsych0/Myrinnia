@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class GenericObject extends StaticEntity {
 
-    public GenericObject(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+    public GenericObject(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         solid = true;
         attackable = false;

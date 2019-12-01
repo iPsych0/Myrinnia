@@ -54,7 +54,7 @@ public class GlacialShotAbility extends Ability implements Serializable {
             projectile = new Projectile(player.getX(), player.getY(),
                     (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
                     (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    7.0f, DamageType.INT, this, animation);
+                    7.0f, "abilities/ice_projectile_impact.wav", DamageType.DEX, this, animation);
             player.getProjectiles().add(projectile);
         }
         Handler.get().getMouseManager().setLeftPressed(false);

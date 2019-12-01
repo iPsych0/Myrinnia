@@ -20,7 +20,7 @@ public class Condition implements Serializable {
     private boolean active;
     private int conditionDamage;
     private transient BufferedImage img;
-    private float initialSpeedDecrease;
+    private double initialSpeedDecrease;
     private static final double CHILL_MOVSPD = 0.66;
     private Type type;
 
@@ -84,8 +84,8 @@ public class Condition implements Serializable {
         receiver.tickCondition(receiver, this);
         if (type == Type.CHILL) {
             Creature r = ((Creature) receiver);
-            float currMovSpd = r.getSpeed();
-            float newMovSpd = (float) (r.getSpeed() * CHILL_MOVSPD);
+            double currMovSpd = r.getSpeed();
+            double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
             initialSpeedDecrease = currMovSpd - newMovSpd;
             r.setSpeed(newMovSpd);
         }

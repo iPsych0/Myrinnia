@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -13,6 +14,11 @@ public class CombatSkill extends Skill {
      */
     private static final long serialVersionUID = -8746462876499708037L;
 
+    // Always start at 1 combat, so have 1 level.
+    static {
+        CharacterStats.Combat.addLevel();
+    }
+
     @Override
     public BufferedImage getImg() {
         return Assets.meleeIcon;
@@ -21,6 +27,7 @@ public class CombatSkill extends Skill {
     @Override
     public void addLevel() {
         this.level++;
+        CharacterStats.Combat.addLevel();
         // Add base
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();

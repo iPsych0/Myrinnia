@@ -79,7 +79,7 @@ public class World implements Serializable {
 
     private static final int radius = 800;
     private static final float[] fractions = {0.0f, 1.0f};
-    private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 255)};
+    private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 236)};
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
             getHeight() / 2, radius, fractions, colors);
 
@@ -194,8 +194,8 @@ public class World implements Serializable {
             // Get the dimension once at the start
             int screenWidth = Handler.get().getWidth();
             int screenheight = Handler.get().getHeight();
-            float xOffset = Handler.get().getGameCamera().getxOffset();
-            float yOffset = Handler.get().getGameCamera().getyOffset();
+            double xOffset = Handler.get().getGameCamera().getxOffset();
+            double yOffset = Handler.get().getGameCamera().getyOffset();
 
             // Set variables for rendering only the tiles that show on screen
             int xStart = (int) Math.max(0, xOffset / Tile.TILEWIDTH);
@@ -260,7 +260,7 @@ public class World implements Serializable {
             }
 //        g.setComposite(composite);
 
-            if (dayNightCycle && (nightTime = false)) {
+            if (dayNightCycle && nightTime) {
                 renderNight(g);
             }
 

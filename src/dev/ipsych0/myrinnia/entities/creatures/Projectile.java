@@ -26,14 +26,16 @@ public class Projectile extends Creature implements Serializable {
     private Ability ability;
     private Creature hitCreature;
     private double rotation;
+    private String impactSound;
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames) {
+    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.x = x;
         this.y = y;
         this.width = Creature.DEFAULT_CREATURE_WIDTH;
         this.height = Creature.DEFAULT_CREATURE_HEIGHT;
+        this.impactSound = impactSound;
         this.damageType = damageType;
         this.ability = ability;
 
@@ -72,28 +74,28 @@ public class Projectile extends Creature implements Serializable {
         active = true;
     }
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, BufferedImage[] animation) {
-        this(x, y, mouseX, mouseY, velocity, damageType, null, null, animation);
+    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, BufferedImage[] animation) {
+        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, null, null, animation);
     }
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Animation animation) {
-        this(x, y, mouseX, mouseY, velocity, damageType, null, animation, null);
+    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Animation animation) {
+        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, null, animation, null);
     }
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, Animation animation) {
-        this(x, y, mouseX, mouseY, velocity, damageType, ability, animation, null);
+    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation) {
+        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, ability, animation, null);
     }
 
-    public Projectile(float x, float y, int mouseX, int mouseY, float velocity, DamageType damageType, Ability ability, BufferedImage[] animation) {
-        this(x, y, mouseX, mouseY, velocity, damageType, ability, null, animation);
+    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, BufferedImage[] animation) {
+        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, ability, null, animation);
     }
 
     public void tick() {
         if (active) {
             animation.tick();
 
-            float ty = (y + (float) yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
-            float tx = (x + (float) xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
+            double ty = (y + yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
+            double tx = (x + xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
             if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||
@@ -158,5 +160,13 @@ public class Projectile extends Creature implements Serializable {
 
     public void setHitCreature(Creature hitCreature) {
         this.hitCreature = hitCreature;
+    }
+
+    public String getImpactSound() {
+        return impactSound;
+    }
+
+    public void setImpactSound(String impactSound) {
+        this.impactSound = impactSound;
     }
 }

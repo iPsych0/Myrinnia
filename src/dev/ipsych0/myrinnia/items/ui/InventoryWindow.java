@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
@@ -210,17 +211,29 @@ public class InventoryWindow implements Serializable {
                             if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
                                 StringBuilder missingReqs = new StringBuilder();
                                 boolean missing = false;
+                                boolean isCombat = false;
+                                int combatLevelReq = 0;
                                 for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
                                     if (is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
                                         missing = true;
-                                        if (i < is.getItemStack().getItem().getRequirements().length - 1)
+                                        if (i < is.getItemStack().getItem().getRequirements().length - 1) {
                                             missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" and ");
-                                        else
+                                        } else {
                                             missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" points");
+                                        }
+
+                                        if (is.getItemStack().getItem().getRequirements()[i].getStat() == CharacterStats.Combat) {
+                                            isCombat = true;
+                                            combatLevelReq = is.getItemStack().getItem().getRequirements()[i].getLevel();
+                                        }
                                     }
                                 }
                                 if (missing) {
-                                    Handler.get().sendMsg("You need " + missingReqs + " to equip this item.");
+                                    if (isCombat) {
+                                        Handler.get().sendMsg("You need level " + combatLevelReq + " combat to equip this item.");
+                                    } else {
+                                        Handler.get().sendMsg("You need " + missingReqs + " to equip this item.");
+                                    }
                                     equipPressed = false;
                                     hasBeenPressed = false;
                                     return;

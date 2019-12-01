@@ -52,7 +52,7 @@ public class Assets {
 
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
-                                simpleFishingRod, mackerelFish;
+                                simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals;
     public static BufferedImage[] coins;
 
     // Enemy images
@@ -131,7 +131,8 @@ public class Assets {
     public static BufferedImage[][] puzzlePieces;
 
     // Port Azure
-    public static BufferedImage portAzureMayor, portAzureSailor, elderSelwyn;
+    public static BufferedImage portAzureMayor, elderSelwyn;
+    public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
 
     public static void init() {
 
@@ -336,6 +337,10 @@ public class Assets {
         simpleAxe = item_sheet.imageCrop(0, 9);
         simpleFishingRod = item_sheet.imageCrop(0, 10);
         mackerelFish = item_sheet.imageCrop(0, 11);
+        simpleSpellBook = item_sheet.imageCrop(0, 12);
+        simpleShield = item_sheet.imageCrop(0, 13);
+        simpleQuiver = item_sheet.imageCrop(0, 14);
+        simpleSandals = item_sheet.imageCrop(0, 15);
 
         /*
          * Enemy Animations
@@ -367,9 +372,13 @@ public class Assets {
 //
         elderSelwyn = azureal_island_npcs.singleNpcCrop(1, 0);
         portAzureMayor = azureal_island_npcs.singleNpcCrop(4, 0);
-        portAzureSailor = azureal_island_npcs.singleNpcCrop(7, 3);
         shopKeeper = azureal_island_npcs.singleNpcCrop(10, 0);
         femaleBanker = azureal_island_npcs.singleNpcCrop(13, 0);
+
+        portAzureSailorDown = azureal_island_npcs.npcCrop(6, 0);
+        portAzureSailorLeft = azureal_island_npcs.npcCrop(6, 1);
+        portAzureSailorRight = azureal_island_npcs.npcCrop(6, 2);
+        portAzureSailorUp = azureal_island_npcs.npcCrop(6, 3);
 
         // Generic female NPCs
         genericFemale1Down = generic_females1.npcCrop(0, 0);

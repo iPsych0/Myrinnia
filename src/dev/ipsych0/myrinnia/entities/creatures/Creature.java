@@ -31,8 +31,8 @@ public abstract class Creature extends Entity {
     /*
      * Default Creature variables
      */
-    public static final float DEFAULT_SPEED = 1.5f;
-    static final float DEFAULT_ATTACKSPEED = 1.0f;
+    public static final double DEFAULT_SPEED = 1.5;
+    public static final double DEFAULT_ATTACKSPEED = 1.0;
 
     public static final int DEFAULT_CREATURE_WIDTH = 32,
             DEFAULT_CREATURE_HEIGHT = 32;
@@ -49,7 +49,7 @@ public abstract class Creature extends Entity {
     int intelligence;
     int defence;
     int vitality;
-    float attackSpeed;
+    double attackSpeed;
     protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
     int attackRange = Tile.TILEWIDTH * 2;
@@ -95,11 +95,11 @@ public abstract class Creature extends Entity {
     // Last faced direction
     protected Direction lastFaced;
 
-    protected float speed;
-    protected float xMove;
-    protected float yMove;
+    protected double speed;
+    protected double xMove;
+    protected double yMove;
 
-    public Creature(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+    public Creature(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
 
@@ -163,9 +163,9 @@ public abstract class Creature extends Entity {
      * Moves on the X or Y axis, keeping in mind the collision detection
      */
     public void move() {
-        if (!checkEntityCollisions(xMove, 0f))
+        if (!checkEntityCollisions(xMove, 0))
             moveX();
-        if (!checkEntityCollisions(0f, yMove))
+        if (!checkEntityCollisions(0, yMove))
             moveY();
     }
 
@@ -176,7 +176,7 @@ public abstract class Creature extends Entity {
         if (xMove > 0) { // Moving right
             direction = Direction.RIGHT;
             lastFaced = Direction.RIGHT;
-            float tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+            double tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
 
             if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
                     !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
@@ -188,7 +188,7 @@ public abstract class Creature extends Entity {
         } else if (xMove < 0) { // Moving left
             direction = Direction.LEFT;
             lastFaced = Direction.LEFT;
-            float tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
+            double tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
 
             if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
                     !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
@@ -209,7 +209,7 @@ public abstract class Creature extends Entity {
         if (yMove < 0) { // Up
             direction = Direction.UP;
             lastFaced = Direction.UP;
-            float ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
+            double ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 
             if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
                     !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
@@ -221,7 +221,7 @@ public abstract class Creature extends Entity {
         } else if (yMove > 0) { // Down
             direction = Direction.DOWN;
             lastFaced = Direction.DOWN;
-            float ty = (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
+            double ty = (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 
             if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
                     !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
@@ -457,10 +457,10 @@ public abstract class Creature extends Entity {
                             e.damage(p.getDamageType(), this, e);
                         }
 
-//                        int dice = Handler.get().getRandomNumber(0, 5);
-//                        if (dice == 1) {
-//                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
-//                        }
+                        if (p.getImpactSound() != null) {
+                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
+                        }
+
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }
@@ -546,8 +546,8 @@ public abstract class Creature extends Entity {
             nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                     ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
         } else {
-            int playerX = Math.round(((Handler.get().getPlayer().getX() + 4) / 32)) - (xSpawn - pathFindRadiusX) / 32;
-            int playerY = Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
+            int playerX = Math.round((((int) Handler.get().getPlayer().getX() + 4) / 32)) - (xSpawn - pathFindRadiusX) / 32;
+            int playerY = Math.round((((int) Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
 
             if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
                 nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
@@ -723,27 +723,27 @@ public abstract class Creature extends Entity {
 
     // GETTERS + SETTERS
 
-    public float getxMove() {
+    public double getxMove() {
         return xMove;
     }
 
-    public void setxMove(float xMove) {
+    public void setxMove(double xMove) {
         this.xMove = xMove;
     }
 
-    public float getyMove() {
+    public double getyMove() {
         return yMove;
     }
 
-    public void setyMove(float yMove) {
+    public void setyMove(double yMove) {
         this.yMove = yMove;
     }
 
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -787,11 +787,11 @@ public abstract class Creature extends Entity {
         this.vitality = vitality;
     }
 
-    public float getAttackSpeed() {
+    public double getAttackSpeed() {
         return attackSpeed;
     }
 
-    public void setAttackSpeed(float attackSpeed) {
+    public void setAttackSpeed(double attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
 

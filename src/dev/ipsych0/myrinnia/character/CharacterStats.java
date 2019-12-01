@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.character;
 
 public enum CharacterStats {
 
-    Melee, Ranged, Magic, Fire, Air, Earth, Water;
+    Combat, Melee, Ranged, Magic, Fire, Air, Earth, Water;
 
     private int level;
 

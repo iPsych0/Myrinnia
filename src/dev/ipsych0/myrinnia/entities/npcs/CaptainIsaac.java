@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
@@ -28,7 +29,7 @@ public class CaptainIsaac extends Creature {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.portAzureSailor,
+        g.drawImage(getAnimationByLastFaced(),
                 (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
@@ -51,8 +52,20 @@ public class CaptainIsaac extends Creature {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
+            case 0:
+                Choice option1 = script.getDialogues().get(1).getOptions().get(0);
+                if (Handler.get().getPlayer().getZone() == Zone.ShamrockHarbour) {
+                    option1.setText(option1.getText().replaceFirst("Shamrock Harbour", "Port Azure"));
+                } else if(Handler.get().getPlayer().getZone() == Zone.PortAzure){
+                    option1.setText(option1.getText().replaceFirst("Port Azure", "Shamrock Harbour"));
+                }
+                break;
             case 4:
-                Handler.get().sendMsg("You finished the tutorial! More will come soon!");
+                if (Handler.get().getPlayer().getZone() == Zone.ShamrockHarbour) {
+                    Handler.get().goToWorld(Zone.PortAzure, 70, 65);
+                } else if(Handler.get().getPlayer().getZone() == Zone.PortAzure){
+                    Handler.get().goToWorld(Zone.ShamrockHarbour, 12, 13);
+                }
                 speakingTurn = -1;
                 break;
         }

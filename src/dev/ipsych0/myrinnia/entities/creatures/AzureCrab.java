@@ -30,7 +30,7 @@ public class AzureCrab extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 4;
+        intelligence += 2;
         vitality += 5;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
@@ -56,6 +56,11 @@ public class AzureCrab extends Creature {
         if (!name.equalsIgnoreCase("King Azure Crab") && !hasFoughtBefore) {
             hasFoughtBefore = true;
             Handler.get().addTip(new TutorialTip("Left-click and aim with your mouse to attack."));
+        }
+
+        if (name.equalsIgnoreCase("King Azure Crab")) {
+            intelligence += 2;
+            vitality += 2;
         }
     }
 
@@ -104,8 +109,8 @@ public class AzureCrab extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, DamageType.INT, Assets.waterProjectile));
+        Handler.get().playEffect("abilities/magic_strike.wav");
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.waterProjectile));
 
     }
 
@@ -119,10 +124,5 @@ public class AzureCrab extends Creature {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

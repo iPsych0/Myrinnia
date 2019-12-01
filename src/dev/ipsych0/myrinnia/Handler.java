@@ -38,6 +38,7 @@ import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -81,6 +82,7 @@ public class Handler implements Serializable {
      */
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
+    private Random random;
     private World world;
     private World portAzure;
     private WorldHandler worldHandler;
@@ -128,6 +130,8 @@ public class Handler implements Serializable {
 
     private void init() {
         handler.setGame(Game.get());
+
+        random = new Random();
 
         // Instantiate the player
         player = new Player(2816, 1472);
@@ -279,14 +283,14 @@ public class Handler implements Serializable {
      * Go from your current world to the next
      *
      * @param zone            - The new zone to enter
-     * @param x               - The X pause in the new zone
-     * @param y               - The Y pause in the new zone
+     * @param x               - The X coord in the new zone
+     * @param y               - The Y coord in the new zone
      * @param customName      - Override the zone name
      * @param customMusicName - Override the music played
      */
     public void goToWorld(Zone zone, int x, int y, String customName, String customMusicName) {
-        player.setX(x);
-        player.setY(y);
+        player.setX(x * Tile.TILEWIDTH);
+        player.setY(y * Tile.TILEHEIGHT);
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
 
@@ -313,9 +317,6 @@ public class Handler implements Serializable {
 
         ZoneTransitionState transitionState = new ZoneTransitionState(zone, customName);
         State.setState(transitionState);
-
-        for (Source s : AudioManager.soundfxFiles)
-            s.delete();
 
         if (customMusicName == null) {
             playMusic(zone);
@@ -380,18 +381,21 @@ public class Handler implements Serializable {
         getQuest(quest).getQuestSteps().add(new QuestStep(objective));
     }
 
-    /*
-     * Generates a random numbers between min & max
+    /**
+     *
+     * @param min INCLUSIVE minimum value
+     * @param max INCLUSIVE maximum value
+     * @return
      */
     public int getRandomNumber(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
+        return random.nextInt((max - min) + 1) + min;
     }
 
     /*
      * Rounds off a number to two digits.
      */
     public double roundOff(double value) {
-        return Math.ceil(value * 10d) / 10d;
+        return Math.round(value * 10d) / 10d;
     }
 
     public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType) {

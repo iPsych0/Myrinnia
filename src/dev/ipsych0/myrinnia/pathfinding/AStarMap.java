@@ -56,7 +56,7 @@ public class AStarMap implements Serializable {
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (e instanceof StaticEntity) {
                 if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
-                    nodes[Math.round(((e.getX()) / 32)) - x / 32][Math.round(((e.getY()) / 32)) - y / 32].setWalkable(false);
+                    nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
                 }
             }
         }

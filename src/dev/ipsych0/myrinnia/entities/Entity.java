@@ -27,7 +27,7 @@ public abstract class Entity implements Serializable {
      *
      */
     private static final long serialVersionUID = -6319447656301966908L;
-    protected float x, y;
+    protected double x, y;
     protected int width, height;
     protected Rectangle bounds;
     protected Rectangle fullBounds;
@@ -64,7 +64,7 @@ public abstract class Entity implements Serializable {
     private static final double DIVISION_QUOTIENT = 200.0;
     private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 
-    protected Entity(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+    protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -113,7 +113,7 @@ public abstract class Entity implements Serializable {
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
      */
-    protected boolean checkEntityCollisions(float xOffset, float yOffset) {
+    protected boolean checkEntityCollisions(double xOffset, double yOffset) {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -458,12 +458,12 @@ public abstract class Entity implements Serializable {
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
     }
 
-    public Rectangle getInteractionBounds(float xOffset, float yOffset, int width, int height) {
+    public Rectangle getInteractionBounds(double xOffset, double yOffset, int width, int height) {
         interactionBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), this.width + width, this.height + height);
         return interactionBounds;
     }
@@ -471,7 +471,7 @@ public abstract class Entity implements Serializable {
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getFullBounds(float xOffset, float yOffset) {
+    public Rectangle getFullBounds(double xOffset, double yOffset) {
         fullBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), width, height);
         return fullBounds;
     }
@@ -574,19 +574,19 @@ public abstract class Entity implements Serializable {
 
 
     // Getters & Setters
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 

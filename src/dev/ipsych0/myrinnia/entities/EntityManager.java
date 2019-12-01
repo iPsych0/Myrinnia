@@ -250,8 +250,8 @@ public class EntityManager implements Serializable {
 
         // Sort the list for rendering
         entities.sort((o1, o2) -> {
-            Float a = o1.getY() + o1.getHeight();
-            Float b = o2.getY() + o2.getHeight();
+            Double a = o1.getY() + o1.getHeight();
+            Double b = o2.getY() + o2.getHeight();
             return a.compareTo(b);
         });
     }

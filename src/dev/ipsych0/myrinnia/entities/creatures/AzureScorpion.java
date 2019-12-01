@@ -19,9 +19,9 @@ public class AzureScorpion extends Creature {
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer
-    private long lastAttackTimer, attackCooldown = 600, attackTimer = attackCooldown;
+    private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 
-    public AzureScorpion(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+    public AzureScorpion(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         isNpc = false;
         attackable = true;
@@ -29,12 +29,12 @@ public class AzureScorpion extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 5;
+        intelligence += 2;
         vitality += 5;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 5;
 
         bounds.x = 2;
         bounds.y = 2;
@@ -67,7 +67,7 @@ public class AzureScorpion extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
     /*
@@ -89,8 +89,8 @@ public class AzureScorpion extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/fireball.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 9.0f, DamageType.INT, Assets.waterProjectile));
+        Handler.get().playEffect("abilities/magic_strike.wav");
+        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.waterProjectile));
 
     }
 
@@ -102,10 +102,5 @@ public class AzureScorpion extends Creature {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Azure Scorpion";
     }
 }

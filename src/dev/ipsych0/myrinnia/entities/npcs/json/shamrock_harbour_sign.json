@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Welcome to Shamrock Harbour, the green and vibrant town!",
+      "nextId": -1
+    }
+  ]
+}
