@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="6">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="8">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -129,6 +129,13 @@
     <property name="jsonFile" value="captain_neil.json"/>
     <property name="name" value="Captain Neil"/>
     <property name="npcClass" value="CaptainNeil"/>
+   </properties>
+  </object>
+  <object id="7" name="Shamrock Town" type="zone_tile" x="1584" y="352" width="16" height="192">
+   <properties>
+    <property name="goToX" value="2"/>
+    <property name="goToY" value="35"/>
+    <property name="zone" value="ShamrockTown"/>
    </properties>
   </object>
  </objectgroup>
