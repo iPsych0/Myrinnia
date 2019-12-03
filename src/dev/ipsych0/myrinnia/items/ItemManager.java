@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -97,7 +98,7 @@ public class ItemManager implements Serializable {
             i.render(g);
             drawHoverCorners(g, i, 1, 1, Color.BLACK);
             drawHoverCorners(g, i);
-            if(i.isHovering()){
+            if (i.isHovering()) {
                 count++;
                 lastHovered = i;
             }
@@ -106,21 +107,39 @@ public class ItemManager implements Serializable {
 //			g.drawRect((int)(i.itemPosition(0, 0).x - Handler.get().getGameCamera().getxOffset()), (int)(i.itemPosition(0, 0).y - Handler.get().getGameCamera().getyOffset()), i.itemPosition(0, 0).width, i.itemPosition(0, 0).height);
         }
 
-        if(count == 0){
+        if (count == 0) {
             lastHovered = null;
         }
 
-        if(lastHovered != null && count > 1){
-            Text.drawString(g, "+" + count, lastHovered.getX() + Item.ITEMWIDTH - (int)Handler.get().getGameCamera().getxOffset(),
-                    lastHovered.getY() - (int)Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
+        if (lastHovered != null && count > 1) {
+            Text.drawString(g, "+" + count, lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
+                    lastHovered.getY() - (int) Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
         }
     }
 
-    public void postRender(Graphics2D g){
-        if(lastHovered != null) {
+    public void postRender(Graphics2D g) {
+        if (lastHovered != null) {
             g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
             Text.drawString(g, lastHovered.getName(), Handler.get().getWidth() / 2, 12, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, lastHovered.getItemRarity().toString(), Handler.get().getWidth() / 2, 26, true, ItemRarity.getColor(lastHovered), Assets.font14);
+        }
+
+        for (Item item : items) {
+            // If we're not hovering, check if Item is behind postRender tile and draw the overlay anyway
+            int layers = Handler.get().getWorld().getLayers().length;
+            boolean shouldRender = false;
+            for (int i = 0; i < layers; i++) {
+                Tile currentTile = Handler.get().getWorld().getTile(i, (item.getX() + Item.ITEMWIDTH / 2) / 32, (item.getY() + Item.ITEMHEIGHT / 2) / 32);
+                if (currentTile != null && currentTile.isPostRendered()) {
+                    shouldRender = true;
+                    break;
+                }
+            }
+
+            if (shouldRender) {
+                drawHoverCorners(g, item, 1, 1, Color.BLACK);
+                drawHoverCorners(g, item);
+            }
         }
     }
 
@@ -130,12 +149,12 @@ public class ItemManager implements Serializable {
 
     public void addItem(Item i, boolean isWorldSpawn) {
         items.add(i);
-        if(!isWorldSpawn){
+        if (!isWorldSpawn) {
             added.add(i);
         }
     }
 
-    private void drawHoverCorners(Graphics2D g, Item i, int xOffset, int yOffset, Color color){
+    private void drawHoverCorners(Graphics2D g, Item i, int xOffset, int yOffset, Color color) {
         g.setColor(color);
         Stroke original = g.getStroke();
         g.setStroke(new BasicStroke(2));

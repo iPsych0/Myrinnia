@@ -61,8 +61,10 @@ public class Assets {
     public static BufferedImage[] azureBatUp, azureBatDown, azureBatLeft, azureBatRight;
     public static BufferedImage[] angryOwl, angryFlower;
 
-    // NPC images
-    public static BufferedImage shopKeeper, femaleBanker;
+    // Generic Util NPC images
+    public static BufferedImage[] shopKeeperDown, shopKeeperLeft, shopKeeperRight, shopKeeperUp,
+            femaleBankerDown, femaleBankerLeft, femaleBankerRight, femaleBankerUp,
+            maleBankerDown, maleBankerLeft, maleBankerRight, maleBankerUp;
 
     // Generic NPCs
     public static BufferedImage[] genericFemale1Down, genericFemale1Left, genericFemale1Right, genericFemale1Up;
@@ -77,6 +79,13 @@ public class Assets {
     public static BufferedImage[] genericFemale10Down, genericFemale10Left, genericFemale10Right, genericFemale10Up;
     public static BufferedImage[] genericFemale11Down, genericFemale11Left, genericFemale11Right, genericFemale11Up;
     public static BufferedImage[] genericFemale12Down, genericFemale12Left, genericFemale12Right, genericFemale12Up;
+    public static BufferedImage[] genericFemale13Down, genericFemale13Left, genericFemale13Right, genericFemale13Up;
+    public static BufferedImage[] genericFemale14Down, genericFemale14Left, genericFemale14Right, genericFemale14Up;
+    public static BufferedImage[] genericFemale15Down, genericFemale15Left, genericFemale15Right, genericFemale15Up;
+    public static BufferedImage[] genericFemale16Down, genericFemale16Left, genericFemale16Right, genericFemale16Up;
+    public static BufferedImage[] genericFemale17Down, genericFemale17Left, genericFemale17Right, genericFemale17Up;
+    public static BufferedImage[] genericFemale18Down, genericFemale18Left, genericFemale18Right, genericFemale18Up;
+
     public static BufferedImage[] genericMale1Down, genericMale1Left, genericMale1Right, genericMale1Up;
     public static BufferedImage[] genericMale2Down, genericMale2Left, genericMale2Right, genericMale2Up;
     public static BufferedImage[] genericMale3Down, genericMale3Left, genericMale3Right, genericMale3Up;
@@ -89,11 +98,18 @@ public class Assets {
     public static BufferedImage[] genericMale10Down, genericMale10Left, genericMale10Right, genericMale10Up;
     public static BufferedImage[] genericMale11Down, genericMale11Left, genericMale11Right, genericMale11Up;
     public static BufferedImage[] genericMale12Down, genericMale12Left, genericMale12Right, genericMale12Up;
+    public static BufferedImage[] genericMale13Down, genericMale13Left, genericMale13Right, genericMale13Up;
+    public static BufferedImage[] genericMale14Down, genericMale14Left, genericMale14Right, genericMale14Up;
+    public static BufferedImage[] genericMale15Down, genericMale15Left, genericMale15Right, genericMale15Up;
+    public static BufferedImage[] genericMale16Down, genericMale16Left, genericMale16Right, genericMale16Up;
+    public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
+    public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
 
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
     public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
     public static BufferedImage[] portAzureCooperDown, portAzureCooperLeft, portAzureCooperRight, portAzureCooperUp;
+    public static BufferedImage[] shamrockEdgarDown, shamrockEdgarLeft, shamrockEdgarRight, shamrockEdgarUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -167,8 +183,10 @@ public class Assets {
          */
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
+        SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
+        SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
 
         /*
          * Add items to this
@@ -372,8 +390,21 @@ public class Assets {
 //
         elderSelwyn = azureal_island_npcs.singleNpcCrop(1, 0);
         portAzureMayor = azureal_island_npcs.singleNpcCrop(4, 0);
-        shopKeeper = azureal_island_npcs.singleNpcCrop(10, 0);
-        femaleBanker = azureal_island_npcs.singleNpcCrop(13, 0);
+
+        shopKeeperDown = generic_util_npcs.npcCrop(0, 0);
+        shopKeeperLeft = generic_util_npcs.npcCrop(0, 1);
+        shopKeeperRight = generic_util_npcs.npcCrop(0, 2);
+        shopKeeperUp = generic_util_npcs.npcCrop(0, 3);
+
+        femaleBankerDown = generic_util_npcs.npcCrop(3, 0);
+        femaleBankerLeft = generic_util_npcs.npcCrop(3, 1);
+        femaleBankerRight = generic_util_npcs.npcCrop(3, 2);
+        femaleBankerUp = generic_util_npcs.npcCrop(3, 3);
+
+        maleBankerDown = generic_util_npcs.npcCrop(6, 0);
+        maleBankerLeft = generic_util_npcs.npcCrop(6, 1);
+        maleBankerRight = generic_util_npcs.npcCrop(6, 2);
+        maleBankerUp = generic_util_npcs.npcCrop(6, 3);
 
         portAzureSailorDown = azureal_island_npcs.npcCrop(6, 0);
         portAzureSailorLeft = azureal_island_npcs.npcCrop(6, 1);
@@ -441,6 +472,36 @@ public class Assets {
         genericFemale12Right = generic_females1.npcCrop(15, 6);
         genericFemale12Up = generic_females1.npcCrop(15, 7);
 
+        genericFemale13Down = generic_females1.npcCrop(0, 8);
+        genericFemale13Left = generic_females1.npcCrop(0, 9);
+        genericFemale13Right = generic_females1.npcCrop(0, 10);
+        genericFemale13Up = generic_females1.npcCrop(0, 11);
+
+        genericFemale14Down = generic_females1.npcCrop(3, 8);
+        genericFemale14Left = generic_females1.npcCrop(3, 9);
+        genericFemale14Right = generic_females1.npcCrop(3, 10);
+        genericFemale14Up = generic_females1.npcCrop(3, 11);
+
+        genericFemale15Down = generic_females1.npcCrop(6, 8);
+        genericFemale15Left = generic_females1.npcCrop(6, 9);
+        genericFemale15Right = generic_females1.npcCrop(6, 10);
+        genericFemale15Up = generic_females1.npcCrop(6, 11);
+
+        genericFemale16Down = generic_females1.npcCrop(9, 8);
+        genericFemale16Left = generic_females1.npcCrop(9, 9);
+        genericFemale16Right = generic_females1.npcCrop(9, 10);
+        genericFemale16Up = generic_females1.npcCrop(9, 11);
+
+        genericFemale17Down = generic_females1.npcCrop(12, 8);
+        genericFemale17Left = generic_females1.npcCrop(12, 9);
+        genericFemale17Right = generic_females1.npcCrop(12, 10);
+        genericFemale17Up = generic_females1.npcCrop(12, 11);
+
+        genericFemale18Down = generic_females1.npcCrop(15, 8);
+        genericFemale18Left = generic_females1.npcCrop(15, 9);
+        genericFemale18Right = generic_females1.npcCrop(15, 10);
+        genericFemale18Up = generic_females1.npcCrop(15, 11);
+
         // Generic male NPCs
         genericMale1Down = generic_males1.npcCrop(0, 0);
         genericMale1Left = generic_males1.npcCrop(0, 1);
@@ -502,6 +563,36 @@ public class Assets {
         genericMale12Right = generic_males1.npcCrop(15, 6);
         genericMale12Up = generic_males1.npcCrop(15, 7);
 
+        genericMale13Down = generic_males1.npcCrop(0, 8);
+        genericMale13Left = generic_males1.npcCrop(0, 9);
+        genericMale13Right = generic_males1.npcCrop(0, 10);
+        genericMale13Up = generic_males1.npcCrop(0, 11);
+
+        genericMale14Down = generic_males1.npcCrop(3, 8);
+        genericMale14Left = generic_males1.npcCrop(3, 9);
+        genericMale14Right = generic_males1.npcCrop(3, 10);
+        genericMale14Up = generic_males1.npcCrop(3, 11);
+
+        genericMale15Down = generic_males1.npcCrop(6, 8);
+        genericMale15Left = generic_males1.npcCrop(6, 9);
+        genericMale15Right = generic_males1.npcCrop(6, 10);
+        genericMale15Up = generic_males1.npcCrop(6, 11);
+
+        genericMale16Down = generic_males1.npcCrop(9, 8);
+        genericMale16Left = generic_males1.npcCrop(9, 9);
+        genericMale16Right = generic_males1.npcCrop(9, 10);
+        genericMale16Up = generic_males1.npcCrop(9, 11);
+
+        genericMale17Down = generic_males1.npcCrop(12, 8);
+        genericMale17Left = generic_males1.npcCrop(12, 9);
+        genericMale17Right = generic_males1.npcCrop(12, 10);
+        genericMale17Up = generic_males1.npcCrop(12, 11);
+
+        genericMale18Down = generic_males1.npcCrop(15, 8);
+        genericMale18Left = generic_males1.npcCrop(15, 9);
+        genericMale18Right = generic_males1.npcCrop(15, 10);
+        genericMale18Up = generic_males1.npcCrop(15, 11);
+
         portAzureRyanDown = azureal_island_npcs.npcCrop(0, 4);
         portAzureRyanLeft = azureal_island_npcs.npcCrop(0, 5);
         portAzureRyanRight = azureal_island_npcs.npcCrop(0, 6);
@@ -521,6 +612,11 @@ public class Assets {
         portAzureCooperLeft = azureal_island_npcs.npcCrop(9, 5);
         portAzureCooperRight = azureal_island_npcs.npcCrop(9, 6);
         portAzureCooperUp = azureal_island_npcs.npcCrop(9, 7);
+
+        shamrockEdgarDown = shamrock_npcs.npcCrop(0, 0);
+        shamrockEdgarLeft= shamrock_npcs.npcCrop(0, 1);
+        shamrockEdgarRight = shamrock_npcs.npcCrop(0, 2);
+        shamrockEdgarUp = shamrock_npcs.npcCrop(0, 3);
 
         /*
          * Player Animations

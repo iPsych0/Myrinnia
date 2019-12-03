@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="29">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="29">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -486,6 +486,8 @@
   </object>
   <object id="10" name="Banker" type="npc" x="1216" y="1696" width="32" height="32">
    <properties>
+    <property name="animation" value="maleBanker"/>
+    <property name="direction" value="DOWN"/>
     <property name="jsonFile" value="banker.json"/>
     <property name="name" value="Banker"/>
     <property name="npcClass" value="BankerNPC"/>
@@ -493,6 +495,8 @@
   </object>
   <object id="11" name="Shop Keeper" type="npc" x="416" y="1600" width="32" height="32">
    <properties>
+    <property name="animation" value="shopKeeper"/>
+    <property name="direction" value="DOWN"/>
     <property name="itemsShop" value="azure_stock.json"/>
     <property name="jsonFile" value="port_azure_shopkeeper.json"/>
     <property name="name" value="Shopkeeper"/>

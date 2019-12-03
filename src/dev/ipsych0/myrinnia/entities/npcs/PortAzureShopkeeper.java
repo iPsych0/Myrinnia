@@ -33,7 +33,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.shopKeeper, (int) (x - Handler.get().getGameCamera().getxOffset()),
+        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 

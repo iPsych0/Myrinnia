@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.AzureCrab;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
@@ -86,7 +87,7 @@ public class BountyBoardUI implements Serializable {
 
         // Closing the window
         if (Handler.get().getKeyManager().escape && escapePressed ||
-                exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+                exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() || Player.isMoving) {
             close();
         }
 

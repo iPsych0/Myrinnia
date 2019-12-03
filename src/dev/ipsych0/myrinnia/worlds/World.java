@@ -322,24 +322,12 @@ public class World implements Serializable {
         return Tile.tiles[tiles[layer][x][y]];
     }
 
-    protected boolean standingOnTile(Rectangle box) {
-        return box.intersects(player.getCollisionBounds(0, 0));
-    }
-
     protected void renderNight(Graphics2D g) {
         Paint originalPaint = g.getPaint();
         Composite originalComposite = g.getComposite();
 
-//        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
-//        g.setComposite(ac);
-//        g.setColor(night);
-//        g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
-//        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
-//        g.setComposite(ac);
         g.setPaint(paint);
-//        g.setComposite(AlphaComposite.DstOut);
         g.fillOval(Handler.get().getWidth() / 2 - radius, Handler.get().getHeight() / 2 - radius, radius * 2, radius * 2);
-
 
         g.setComposite(originalComposite);
         g.setPaint(originalPaint);
