@@ -52,7 +52,8 @@ public class Assets {
 
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
-                                simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals;
+                                simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
+                                copperOre, malachite, miningEquipment, dustyScroll;
     public static BufferedImage[] coins;
 
     // Enemy images
@@ -359,6 +360,12 @@ public class Assets {
         simpleShield = item_sheet.imageCrop(0, 13);
         simpleQuiver = item_sheet.imageCrop(0, 14);
         simpleSandals = item_sheet.imageCrop(0, 15);
+        copperPickaxe = item_sheet.imageCrop(0, 16);
+        copperAxe = item_sheet.imageCrop(0, 17);
+        copperOre = item_sheet.imageCrop(0, 18);
+        malachite = item_sheet.imageCrop(0, 19);
+        miningEquipment = item_sheet.imageCrop(0, 20);
+        dustyScroll = item_sheet.imageCrop(0, 21);
 
         /*
          * Enemy Animations

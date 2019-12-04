@@ -46,6 +46,16 @@ public class Item implements Serializable {
     public static Item simpleShield = Utils.loadItem("14_simple_shield.json", Assets.simpleShield);
     public static Item simpleQuiver = Utils.loadItem("15_simple_quiver.json", Assets.simpleQuiver);
     public static Item simpleSandals = Utils.loadItem("16_simple_sandals.json", Assets.simpleSandals);
+    public static Item copperPickaxe = Utils.loadItem("17_copper_pickaxe.json", Assets.copperPickaxe);
+    public static Item copperAxe = Utils.loadItem("18_copper_axe.json", Assets.copperAxe);
+    public static Item copperOre = Utils.loadItem("19_copper_ore.json", Assets.copperOre);
+    public static Item miningEquipment = Utils.loadItem("20_mining_equipment.json", Assets.miningEquipment);
+    public static Item malachite = Utils.loadItem("21_malachite.json", Assets.malachite);
+    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.dustyScroll, 0, (Use & Serializable) (i) -> {
+        // TODO: UNLOCK EARTH ABILITY FOR MAGIC/RANGED/MELEE
+        Handler.get().sendMsg("TODO: You unlocked [Earth Ability].");
+        Handler.get().removeItem(Item.dustyScroll, 1);
+    });
 
     // Class
 
@@ -76,7 +86,7 @@ public class Item implements Serializable {
     private boolean equippable;
     private boolean hovering;
     private Use use;
-    private int useCooldown = 60;
+    private int useCooldown;
     private boolean used;
     private int usedTimer;
 

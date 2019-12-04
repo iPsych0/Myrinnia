@@ -124,7 +124,7 @@ public class BountyBoardUI implements Serializable {
                         Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }
                     // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
-                    if (!bounty.isAccepted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted()) {
+                    if (!bounty.isAccepted() && !bounty.isCompleted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted() && !bounty.isCompleted()) {
                         BountyManager.get().addBounty(bounty);
                         bounty.setAccepted(true);
                         Handler.get().giveItemWithUse(Item.bountyContract, 1, 0, (Use & Serializable) i -> {

@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.Bounty;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
@@ -63,18 +62,18 @@ public class ShamrockEdgar extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                // TODO: IF PLAYER HAS EQUIPMENT ITEM, SET SPEAKING TURN & CHECKPOINT TO 4
-                if (false) {
+                if (Handler.get().playerHasItem(Item.miningEquipment, 1)) {
                     speakingTurn = 4;
                     speakingCheckpoint = 4;
                 }
                 break;
             case 5:
-                // TODO: GIVE PLAYER BETTER PICKAXE
-                // TODO: REMOVE THE EQUIPMENT ITEM FROM INVENTORY
+                Handler.get().giveItem(Item.copperPickaxe, 1);
+                Handler.get().removeItem(Item.miningEquipment, 1);
+                Handler.get().removeItem(Item.bountyContract, 1);
+
                 bounty.setCompleted(true);
                 Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(100);
-                Handler.get().removeItem(Item.bountyContract, 1);
                 speakingCheckpoint = 6;
                 break;
         }
