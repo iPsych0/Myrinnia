@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello. You're from Port Azure?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "That's so nice. I envy you for getting to explore new places!",
+      "nextId": -1
+    }
+  ]
+}

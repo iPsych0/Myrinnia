@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, adventurer. One of our mining crews has not returned from their last expedition.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "",
+      "nextId": -1
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello there. Would you like to hear about our town's history?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Tell me.",
+          "nextId": 2
+        },
+        {
+          "text": "No, thank you.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Upon arrival, a group of miners found a plethora of rich mineral veins under this green paradise.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "After their first expedition into the mines, some of them had fallen ill. Not knowing the cause, it seemed like a hopeless situation.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "One of them decided to look for medicinal herbs in the nearby forest. He returned with a handful shamrocks and the stew he made out of them, cured the miners.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "Hence, the town's name stems from the green colour of shamrocks.",
+      "nextId": -1
+    }
+  ]
+}

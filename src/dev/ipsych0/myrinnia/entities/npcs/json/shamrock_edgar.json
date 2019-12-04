@@ -1,0 +1,55 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "My mining equipment was stolen by some thugs!",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "bountyAccepted",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Do you have any idea who might have done it?",
+          "nextId": 2
+        },
+        {
+          "text": "Is there anyone who might have seen it happen?",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "I don't. I wasn't home when it happened...",
+      "nextId": 1
+    },
+    {
+      "id": 3,
+      "text": "You could ask some people around the town square. They might have seen something.",
+      "nextId": 1
+    },
+    {
+      "id": 4,
+      "text": "Oh, you found it! Thank you so much. I hope that's the last we'll be seeing of those thugs.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "Please, take this pickaxe as a reward.",
+      "nextId": -1
+    },
+    {
+      "id": 6,
+      "text": "Hello again. Thanks for helping out earlier! Enjoy your stay in Shamrock Town.",
+      "nextId": -1
+    }
+  ]
+}

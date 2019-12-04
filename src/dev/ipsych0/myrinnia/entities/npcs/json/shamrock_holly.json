@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hey, are you heading east towards the Malachite Hills? Watch out for poisonous enemies.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Poison decreases your HP over time. Some abilities are able to cleanse conditions.",
+      "nextId": -1
+    }
+  ]
+}

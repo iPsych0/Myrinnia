@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.quests;
 
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -18,6 +19,7 @@ public class QuestManager implements Serializable {
 
     // Quest Lists per zone
     private ArrayList<Quest> azurealIslandQuests = new ArrayList<>();
+    private ArrayList<Quest> shamrockTownQuests = new ArrayList<>();
 //    private ArrayList<Quest> testQuests = new ArrayList<>();
 //    private ArrayList<Quest> mainQuests = new ArrayList<>();
 
@@ -47,9 +49,7 @@ public class QuestManager implements Serializable {
     private void initLists() {
         // Filling allQuestLists with ALL lists of quests
         allQuestLists.add(azurealIslandQuests);
-//        allQuestLists.add(testQuests);
-//        allQuestLists.add(mainQuests);
-
+        allQuestLists.add(shamrockTownQuests);
     }
 
     private void fillLists() {
@@ -59,6 +59,8 @@ public class QuestManager implements Serializable {
         azurealIslandQuests.add(new Quest("Woodcutting & Fishing", Zone.PortAzure, new QuestRequirement(QuestList.BountyHunter)));
         azurealIslandQuests.add(new Quest("Mining & Crafting", Zone.PortAzure, new QuestRequirement(QuestList.WoodcuttingAndFishing)));
         azurealIslandQuests.add(new Quest("Water Magic", Zone.PortAzure, new QuestRequirement(QuestList.MiningAndCrafting)));
+
+        shamrockTownQuests.add(new Quest("We Delved Too Deep", Zone.ShamrockTown, new QuestRequirement(SkillsList.MINING, 5)));
 
         // Test Quests
 //        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));

@@ -7,7 +7,8 @@ public enum QuestList {
     BountyHunter("Bounty Hunter", Zone.PortAzure),
     WoodcuttingAndFishing("Woodcutting & Fishing", Zone.PortAzure),
     MiningAndCrafting("Mining & Crafting", Zone.PortAzure),
-    WaterMagic("Water Magic", Zone.PortAzure);
+    WaterMagic("Water Magic", Zone.PortAzure),
+    WeDelvedTooDeep("We Delved Too Deep", Zone.ShamrockTown);
 //    TheSecondQuest("The Second Quest", Zone.PortAzure),
 //    TheThirdQuest("The Third Quest", Zone.PortAzure),
 //    TheTestQuest("The Test Quest", Zone.LakeAzure),

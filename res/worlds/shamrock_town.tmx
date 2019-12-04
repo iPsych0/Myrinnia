@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="45" height="65" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="20">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="45" height="65" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="22">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -239,15 +239,16 @@
     <property name="npcClass" value="BountyBoardShamrock"/>
    </properties>
   </object>
-  <object id="3" name="Malachite Hills" type="zone_tile" x="1424" y="1376" width="16" height="224"/>
-  <object id="4" name="Malachite Hills" type="zone_tile" x="1424" y="1664" width="16" height="96"/>
-  <object id="5" name="Malachite Hills" type="zone_tile" x="1424" y="1088" width="16" height="160"/>
+  <object id="3" name="Malachite Hills" type="zone_tile" x="1424" y="1376" width="16" height="216"/>
+  <object id="4" name="Malachite Hills" type="zone_tile" x="1424" y="1664" width="16" height="88"/>
+  <object id="5" name="Malachite Hills" type="zone_tile" x="1424" y="1088" width="16" height="152"/>
   <object id="6" name="To be determined" type="zone_tile" x="96" y="0" width="160" height="16"/>
   <object id="7" name="Shamrock Mines" type="zone_tile" x="576" y="32" width="32" height="32"/>
   <object id="8" name="Shamrock Mines" type="zone_tile" x="1216" y="64" width="32" height="32"/>
   <object id="9" name="Olaf" type="npc" x="448" y="832" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale18"/>
+    <property name="jsonFile" value="shamrock_olaf.json"/>
     <property name="name" value="Olaf"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -265,6 +266,7 @@
   <object id="12" name="Liam" type="npc" x="160" y="1440" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale17"/>
+    <property name="jsonFile" value="shamrock_liam.json"/>
     <property name="name" value="Liam"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -273,6 +275,7 @@
    <properties>
     <property name="animation" value="genericFemale15"/>
     <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="shamrock_holly.json"/>
     <property name="name" value="Holly"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -280,6 +283,7 @@
   <object id="15" name="Reece" type="npc" x="896" y="896" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale5"/>
+    <property name="jsonFile" value="shamrock_reece.json"/>
     <property name="name" value="Reece"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -287,6 +291,7 @@
   <object id="16" name="Simon" type="npc" x="576" y="1408" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale9"/>
+    <property name="jsonFile" value="shamrock_simon.json"/>
     <property name="name" value="Simon"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -295,6 +300,7 @@
    <properties>
     <property name="animation" value="shamrockEdgar"/>
     <property name="direction" value="RIGHT"/>
+    <property name="jsonFile" value="shamrock_edgar.json"/>
     <property name="name" value="Edgar"/>
     <property name="npcClass" value="ShamrockEdgar"/>
    </properties>
@@ -309,8 +315,17 @@
   <object id="19" name="Aimee" type="npc" x="284" y="928" width="32" height="32">
    <properties>
     <property name="animation" value="genericFemale14"/>
+    <property name="jsonFile" value="shamrock_aimee.json"/>
     <property name="name" value="Aimee"/>
     <property name="npcClass" value="GenericNPC"/>
+   </properties>
+  </object>
+  <object id="20" name="Malachite Hills" type="zone_tile" x="1424" y="1824" width="16" height="96"/>
+  <object id="21" name="Shamrock Harbour" type="zone_tile" x="0" y="1248" width="16" height="696">
+   <properties>
+    <property name="goToX" value="48"/>
+    <property name="goToY" value="20"/>
+    <property name="zone" value="ShamrockHarbour"/>
    </properties>
   </object>
  </objectgroup>
