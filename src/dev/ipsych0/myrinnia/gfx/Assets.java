@@ -106,11 +106,16 @@ public class Assets {
     public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
     public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
 
+    // Port Azure
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
     public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
     public static BufferedImage[] portAzureCooperDown, portAzureCooperLeft, portAzureCooperRight, portAzureCooperUp;
+
+    // Shamrock
     public static BufferedImage[] shamrockEdgarDown, shamrockEdgarLeft, shamrockEdgarRight, shamrockEdgarUp;
+    public static BufferedImage[] shamrockEdvardDown, shamrockEdvardLeft, shamrockEdvardRight, shamrockEdvardUp;
+    public static BufferedImage[] shamrockEsmundDown, shamrockEsmundLeft, shamrockEsmundRight, shamrockEsmundUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -624,6 +629,16 @@ public class Assets {
         shamrockEdgarLeft= shamrock_npcs.npcCrop(0, 1);
         shamrockEdgarRight = shamrock_npcs.npcCrop(0, 2);
         shamrockEdgarUp = shamrock_npcs.npcCrop(0, 3);
+
+        shamrockEdvardDown = shamrock_npcs.npcCrop(3, 0);
+        shamrockEdvardLeft= shamrock_npcs.npcCrop(3, 1);
+        shamrockEdvardRight = shamrock_npcs.npcCrop(3, 2);
+        shamrockEdvardUp = shamrock_npcs.npcCrop(3, 3);
+
+        shamrockEsmundDown = shamrock_npcs.npcCrop(6, 0);
+        shamrockEsmundLeft= shamrock_npcs.npcCrop(6, 1);
+        shamrockEsmundRight = shamrock_npcs.npcCrop(6, 2);
+        shamrockEsmundUp = shamrock_npcs.npcCrop(6, 3);
 
         /*
          * Player Animations

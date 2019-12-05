@@ -2,12 +2,17 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "I heard the miners stumbled upon some ancient relics on an expedition deep down the Shamrock Mines.",
+      "text": "The guards here are really strict. There have been rumours of an aggressive wolf pack attacking people.",
       "nextId": 1
     },
     {
       "id": 1,
-      "text": "I wonder what they found?",
+      "text": "For everyone's safety, they have closed off the northern route for now.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "If you wish to go north, I'm afraid you will have to travel east through Malachite Hills and then head north.",
       "nextId": -1
     }
   ]

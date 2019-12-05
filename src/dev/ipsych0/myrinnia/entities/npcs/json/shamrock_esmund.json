@@ -1,0 +1,36 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, traveler. Edvard and I are guarding the passage between Shamrock Town and the northern trail.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Can I pass?",
+          "nextId": 3,
+          "choiceCondition": {
+            "condition": "hasAccess",
+            "falseId": 2
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "The northern trail is off limits to all at the moment. Recent wolf attacks have cost many lives. We are taking all necessary precautions.",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "Please take care.",
+      "nextId": -1
+    }
+  ]
+}
