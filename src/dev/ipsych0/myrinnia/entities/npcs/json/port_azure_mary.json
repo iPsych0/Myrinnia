@@ -8,11 +8,7 @@
     {
       "id": 1,
       "text": "You should speak to the locals. They will be happy to help you on your way.",
-      "nextId": 5,
-      "choiceCondition": {
-        "condition": "has5fishandquest",
-        "falseId": 2
-      }
+      "nextId": 2
     },
     {
       "id": 2,

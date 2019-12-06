@@ -34,7 +34,7 @@ public class AngryFlower extends Creature {
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 5;
 
         bounds.x = 2;
         bounds.y = 2;
@@ -67,7 +67,7 @@ public class AngryFlower extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
     /*

@@ -792,12 +792,6 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
-        addImmunity(this, new Immunity(Condition.Type.CHILL, 15 * 60, 0.1));
-        addImmunity(this, new Immunity(Condition.Type.BURNING, 15 * 60, 0.1));
-        addImmunity(this, new Immunity(Condition.Type.POISON, 15 * 60, 0.1));
-        addImmunity(this, new Immunity(Condition.Type.BLEEDING, 15 * 60, 0.1));
-        addImmunity(this, new Immunity(Condition.Type.STUN, 15 * 60, 0.1));
-
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 

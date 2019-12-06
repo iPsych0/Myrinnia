@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
@@ -42,21 +43,6 @@ public class PortAzureMary extends Creature {
     }
 
     @Override
-    protected boolean choiceConditionMet(String condition) {
-        switch (condition) {
-            case "has5fishandquest":
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
-                    return true;
-                }
-                break;
-            default:
-                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
-                return false;
-        }
-        return false;
-    }
-
-    @Override
     protected void die() {
 
     }
@@ -69,6 +55,11 @@ public class PortAzureMary extends Creature {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
+            case 0:
+                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                    speakingTurn = 5;
+                    break;
+                }
             case 6:
                 if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     Handler.get().removeItem(Item.mackerelFish, 5);
@@ -80,6 +71,7 @@ public class PortAzureMary extends Creature {
                 quest.setState(QuestState.COMPLETED);
                 Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
                 Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
+                Handler.get().addTip(new TutorialTip("Press P to pause the game. Here, you can save your game or change settings."));
                 break;
         }
     }

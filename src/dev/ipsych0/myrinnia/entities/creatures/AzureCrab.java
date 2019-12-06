@@ -30,7 +30,7 @@ public class AzureCrab extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 2;
+        intelligence += 1;
         vitality += 5;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
@@ -59,7 +59,7 @@ public class AzureCrab extends Creature {
         }
 
         if (name.equalsIgnoreCase("King Azure Crab")) {
-            intelligence += 2;
+            intelligence += 1;
             vitality += 2;
         }
     }
@@ -79,14 +79,14 @@ public class AzureCrab extends Creature {
                 firstKill = false;
             }
             Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(50);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(35);
         } else {
             if (firstKill) {
                 Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
                 firstKill = false;
             }
             Handler.get().dropItem(Item.coins, Handler.get().getRandomNumber(1, 5), (int) x, (int) y);
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
         }
     }
 

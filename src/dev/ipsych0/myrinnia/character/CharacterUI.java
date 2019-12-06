@@ -17,13 +17,10 @@ public class CharacterUI implements Serializable {
      *
      */
     private static final long serialVersionUID = 2534979108806910921L;
-    private int x = 8;
-    private int y = 180;
-    private int width = 272;
-    private int height = 320;
+    private int x, y, width, height;
     public static boolean isOpen = false;
-    private int baseStatPoints = 5;
-    private int elementalStatPoints = 5;
+    private int baseStatPoints;
+    private int elementalStatPoints;
     private UIImageButton meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
     public static boolean hasBeenPressed = false;
     private Rectangle bounds;
@@ -32,6 +29,10 @@ public class CharacterUI implements Serializable {
     private UIManager uiManager, baseStatManager, elementalStatManager;
 
     public CharacterUI() {
+        width = 272;
+        height = 320;
+        x = Handler.get().getWidth() / 2 - width / 2;
+        y = Handler.get().getHeight() / 2 - height / 2;
         meleeUp = new UIImageButton(x + 112, y + 136, 16, 16, Assets.genericButton);
         rangedUp = new UIImageButton(x + 112, y + 152, 16, 16, Assets.genericButton);
         magicUp = new UIImageButton(x + 112, y + 168, 16, 16, Assets.genericButton);
@@ -127,8 +128,6 @@ public class CharacterUI implements Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
-
-            Rectangle mouse = Handler.get().getMouse();
 
             Text.drawString(g, "Character stats", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 

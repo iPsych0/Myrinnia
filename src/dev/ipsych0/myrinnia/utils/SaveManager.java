@@ -38,6 +38,7 @@ public class SaveManager {
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
+            // TODO: Play error sound!!! IMPORTANT
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
 

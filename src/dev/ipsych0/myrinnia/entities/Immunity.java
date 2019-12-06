@@ -6,9 +6,11 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class Immunity {
+public class Immunity implements Serializable {
 
+    private static final long serialVersionUID = 3317119477719007572L;
     private Condition.Type type;
     private int expiryTime;
     private int timer;

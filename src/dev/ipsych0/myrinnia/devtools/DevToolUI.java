@@ -5,7 +5,11 @@ import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 public class DevToolUI implements Serializable {
@@ -13,7 +17,7 @@ public class DevToolUI implements Serializable {
     private static final long serialVersionUID = 518181399399230861L;
     private static int x, y, width, height;
     public static boolean isOpen;
-    private TextBox textBox;
+    private transient TextBox textBox;
     private CommandHandler commandHandler;
     public static boolean escapePressed;
 
@@ -91,5 +95,11 @@ public class DevToolUI implements Serializable {
             e.getStackTrace();
             Handler.get().sendMsg("Something went wrong submitting this command.");
         }
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        textBox = new TextBox(x, y, width, height, false);
     }
 }

@@ -35,6 +35,7 @@ public abstract class ShopKeeper extends Creature {
             items.add(new ItemStack(Item.items[s.getId()], s.getAmount()));
         }
         shopWindow = new ShopWindow(items);
+        shopName = name + "'s Store";
 
     }
 

@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.image.BufferedImage;
 
@@ -31,6 +32,12 @@ public class CombatSkill extends Skill {
         // Add base
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();
+
+        if (this.level == 5) {
+            Handler.get().addTip(new TutorialTip("Press K to open your Character Stats.\n\nIncreasing an Elemental Stat will increase the effectiveness of abilities of that Element type."));
+            Handler.get().addTip(new TutorialTip("You may customize your Stats to create a build you like. Some equipment have level requirements to be equipped."));
+            Handler.get().addTip(new TutorialTip("If you wish to reset your points, you should see an Ability Master. It will cost more gold depending on your Combat level."));
+        }
 
         // Increase ability points on level-up
         Handler.get().getPlayer().addAbilityPoints();

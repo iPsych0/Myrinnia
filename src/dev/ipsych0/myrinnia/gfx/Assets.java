@@ -53,7 +53,7 @@ public class Assets {
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-                                copperOre, malachite, miningEquipment, dustyScroll;
+                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace;
     public static BufferedImage[] coins;
 
     // Enemy images
@@ -63,7 +63,12 @@ public class Assets {
     public static BufferedImage[] angryOwl, angryFlower;
 
     // Generic Util NPC images
-    public static BufferedImage[] shopKeeperDown, shopKeeperLeft, shopKeeperRight, shopKeeperUp,
+    public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
+            shopKeeper2Down, shopKeeper2Left, shopKeeper2Right, shopKeeper2Up,
+            shopKeeper3Down, shopKeeper3Left, shopKeeper3Right, shopKeeper3Up,
+            shopKeeper4Down, shopKeeper4Left, shopKeeper4Right, shopKeeper4Up,
+            shopKeeper5Down, shopKeeper5Left, shopKeeper5Right, shopKeeper5Up,
+            shopKeeper6Down, shopKeeper6Left, shopKeeper6Right, shopKeeper6Up,
             femaleBankerDown, femaleBankerLeft, femaleBankerRight, femaleBankerUp,
             maleBankerDown, maleBankerLeft, maleBankerRight, maleBankerUp;
 
@@ -371,6 +376,7 @@ public class Assets {
         malachite = item_sheet.imageCrop(0, 19);
         miningEquipment = item_sheet.imageCrop(0, 20);
         dustyScroll = item_sheet.imageCrop(0, 21);
+        azuriteNecklace = item_sheet.imageCrop(0, 22);
 
         /*
          * Enemy Animations
@@ -403,10 +409,35 @@ public class Assets {
         elderSelwyn = azureal_island_npcs.singleNpcCrop(1, 0);
         portAzureMayor = azureal_island_npcs.singleNpcCrop(4, 0);
 
-        shopKeeperDown = generic_util_npcs.npcCrop(0, 0);
-        shopKeeperLeft = generic_util_npcs.npcCrop(0, 1);
-        shopKeeperRight = generic_util_npcs.npcCrop(0, 2);
-        shopKeeperUp = generic_util_npcs.npcCrop(0, 3);
+        shopKeeper1Down = generic_util_npcs.npcCrop(0, 0);
+        shopKeeper1Left = generic_util_npcs.npcCrop(0, 1);
+        shopKeeper1Right = generic_util_npcs.npcCrop(0, 2);
+        shopKeeper1Up = generic_util_npcs.npcCrop(0, 3);
+
+        shopKeeper2Down = generic_util_npcs.npcCrop(0, 4);
+        shopKeeper2Left = generic_util_npcs.npcCrop(0, 5);
+        shopKeeper2Right = generic_util_npcs.npcCrop(0, 6);
+        shopKeeper2Up = generic_util_npcs.npcCrop(0, 7);
+
+        shopKeeper3Down = generic_util_npcs.npcCrop(3, 4);
+        shopKeeper3Left = generic_util_npcs.npcCrop(3, 5);
+        shopKeeper3Right = generic_util_npcs.npcCrop(3, 6);
+        shopKeeper3Up = generic_util_npcs.npcCrop(3, 7);
+
+        shopKeeper4Down = generic_util_npcs.npcCrop(6, 4);
+        shopKeeper4Left = generic_util_npcs.npcCrop(6, 5);
+        shopKeeper4Right = generic_util_npcs.npcCrop(6, 6);
+        shopKeeper4Up = generic_util_npcs.npcCrop(6, 7);
+
+        shopKeeper5Down = generic_util_npcs.npcCrop(9, 4);
+        shopKeeper5Left = generic_util_npcs.npcCrop(9, 5);
+        shopKeeper5Right = generic_util_npcs.npcCrop(9, 6);
+        shopKeeper5Up = generic_util_npcs.npcCrop(9, 7);
+
+        shopKeeper6Down = generic_util_npcs.npcCrop(9, 0);
+        shopKeeper6Left = generic_util_npcs.npcCrop(9, 1);
+        shopKeeper6Right = generic_util_npcs.npcCrop(9, 2);
+        shopKeeper6Up = generic_util_npcs.npcCrop(9, 3);
 
         femaleBankerDown = generic_util_npcs.npcCrop(3, 0);
         femaleBankerLeft = generic_util_npcs.npcCrop(3, 1);

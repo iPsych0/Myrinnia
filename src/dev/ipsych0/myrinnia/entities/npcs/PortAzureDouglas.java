@@ -102,7 +102,7 @@ public class PortAzureDouglas extends Creature {
                 break;
             case 8:
                 if(!tipDisplayed){
-                    Handler.get().addTip(new TutorialTip("You can eat fish or other food in Myrinnia to restore some health. Food have cooldowns on how often you can use them, so it is best to save them for emergency cases."));
+                    Handler.get().addTip(new TutorialTip("You can use fish and other ingredients to craft food. Food provides long term buffs that can be used to make your character stronger."));
                     tipDisplayed = true;
                 }
                 break;

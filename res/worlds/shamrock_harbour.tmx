@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="9">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="9">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -110,14 +110,14 @@
    <properties>
     <property name="animation" value="portAzureSailor"/>
     <property name="direction" value="DOWN"/>
-    <property name="jsonFile" value="captain_isaac.json"/>
+    <property name="jsonFile" value="port_azure_isaac.json"/>
     <property name="name" value="Captain Isaac"/>
     <property name="npcClass" value="CaptainIsaac"/>
    </properties>
   </object>
   <object id="4" name="Sign" type="npc" x="1312" y="320" width="64" height="64">
    <properties>
-    <property name="jsonFile" value="shamrock_harbour_sign.json"/>
+    <property name="jsonFile" value="shamrock_sign.json"/>
     <property name="name" value="Sign"/>
     <property name="npcClass" value="GenericObject"/>
    </properties>
@@ -126,7 +126,7 @@
    <properties>
     <property name="animation" value="portAzureSailor"/>
     <property name="direction" value="UP"/>
-    <property name="jsonFile" value="captain_neil.json"/>
+    <property name="jsonFile" value="shamrock_neil.json"/>
     <property name="name" value="Captain Neil"/>
     <property name="npcClass" value="CaptainNeil"/>
    </properties>

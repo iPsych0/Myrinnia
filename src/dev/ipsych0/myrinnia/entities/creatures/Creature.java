@@ -474,7 +474,6 @@ public abstract class Creature extends Entity {
                             Handler.get().playEffect(p.getImpactSound(), 0.1f);
                         }
 
-                        e.addCondition(this, e, new Condition(Condition.Type.BURNING, e, 10, 10));
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }

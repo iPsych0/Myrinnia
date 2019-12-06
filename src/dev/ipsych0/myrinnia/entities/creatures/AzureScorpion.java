@@ -29,7 +29,7 @@ public class AzureScorpion extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 2;
+        intelligence += 1;
         vitality += 5;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
@@ -67,7 +67,7 @@ public class AzureScorpion extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
     }
 
     /*

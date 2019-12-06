@@ -329,18 +329,11 @@
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="47" name="Saving Shrine" type="npc" x="2912" y="1152" width="32" height="32">
-   <properties>
-    <property name="jsonFile" value="savingshrine.json"/>
-    <property name="name" value="Saving Shrine"/>
-    <property name="npcClass" value="SavingShrine"/>
-   </properties>
-  </object>
   <object id="48" name="Captain Isaac" type="npc" x="2240" y="2144" width="32" height="32">
    <properties>
     <property name="animation" value="portAzureSailor"/>
     <property name="direction" value="UP"/>
-    <property name="jsonFile" value="captain_isaac.json"/>
+    <property name="jsonFile" value="port_azure_isaac.json"/>
     <property name="name" value="Captain Isaac"/>
     <property name="npcClass" value="CaptainIsaac"/>
    </properties>
