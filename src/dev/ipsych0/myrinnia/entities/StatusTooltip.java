@@ -32,6 +32,18 @@ public class StatusTooltip implements Serializable {
         }
     }
 
+    public void render(Immunity i, Graphics2D g) {
+        String condition = i.getType().toString();
+        String[] text = Text.splitIntoLine(i.getDescription(), 20);
+        g.drawImage(Assets.uiWindow, x, y, 176, 48 + (text.length * 16), null);
+        i.render(g, x + 4, y + 4);
+        Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase(), x + 40, y + 22, false, Color.YELLOW, Assets.font14);
+        int index = 0;
+        for (String s : text) {
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
+        }
+    }
+
     public void render(Condition c, Graphics2D g) {
         String[] text = Text.splitIntoLine(c.getType().getDescription(), 20);
         g.drawImage(Assets.uiWindow, x, y, 176, 48 + (text.length * 16), null);

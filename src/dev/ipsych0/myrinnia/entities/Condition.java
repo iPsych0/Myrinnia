@@ -74,7 +74,7 @@ public class Condition implements Serializable {
     }
 
     public void render(Graphics2D g, int x, int y) {
-        if (this.isActive()) {
+        if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             Text.drawString(g, String.valueOf(currentDuration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
@@ -95,7 +95,6 @@ public class Condition implements Serializable {
         // After 1 second, recreate the damage splat
         tickTimer = 0;
         currentDuration -= 60;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
         receiver.tickCondition(receiver, this);
     }
 

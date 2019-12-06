@@ -311,6 +311,18 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public void addImmunity(Entity receiver, Immunity immunity) {
+        Creature r = ((Creature) receiver);
+        for (Immunity i : r.getImmunities()) {
+            if (i.getType() == immunity.getType()) {
+                i.setExpiryTime(i.getExpiryTime() + immunity.getExpiryTime());
+                return;
+            }
+        }
+
+        r.getImmunities().add(immunity);
+    }
+
     public void addCondition(Entity dealer, Entity receiver, Condition condition) {
         damageDealer = dealer;
         damageReceiver = receiver;
@@ -322,23 +334,58 @@ public abstract class Entity implements Serializable {
         Creature r = ((Creature) receiver);
 
         boolean hasCondition = false;
+        double multiplier = 1.0;
         for (Condition c : r.getConditions()) {
             // Check if the condition is already on the receiver
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
-                // If that's the case, increase the timeLeft
-                c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
 
-                // If the new ability has a higher condition damage than the current one, increase the damage
-                if (condition.getConditionDamage() > c.getConditionDamage()) {
-                    c.setConditionDamage(condition.getConditionDamage());
+                // If we have a stun/chill immunity active, decrease the duration applied
+                if (c.getType() == Condition.Type.STUN || c.getType() == Condition.Type.CHILL) {
+                    Immunity i = getImmunity(r, c.getType());
+                    if (i != null) {
+                        multiplier -= i.getEffectiveness();
+                        c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getCurrentDuration() * multiplier));
+                    } else {
+                        // Otherwise stack normal duration
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                    }
+                } else {
+                    Immunity i = getImmunity(r, c.getType());
+                    if (i != null) {
+                        // If we have an immunity, decrease the condition damage applied.
+                        multiplier -= i.getEffectiveness();
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                        c.setConditionDamage((int) (condition.getConditionDamage() * multiplier));
+                    } else {
+                        // If the new ability has a higher condition damage than the current one, increase the damage and duration
+                        if (condition.getConditionDamage() > c.getConditionDamage()) {
+                            c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                            c.setConditionDamage(condition.getConditionDamage());
+                        }
+                    }
                 }
-                // If we don't already have a condition of this type, simply add it
             }
         }
+
+        // If we don't already have a condition of this type, simply add it
         if (!hasCondition) {
-            r.getConditions().add(condition);
-            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+            // Subtract duration or damage based on type of condition
+            if (condition.getType() == Condition.Type.STUN || condition.getType() == Condition.Type.CHILL) {
+                Immunity i = getImmunity(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setCurrentDuration((int) (condition.getCurrentDuration() * multiplier));
+                r.getConditions().add(condition);
+            } else {
+                Immunity i = getImmunity(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setConditionDamage((int) (condition.getConditionDamage() * multiplier));
+                r.getConditions().add(condition);
+            }
         }
 
 
@@ -348,7 +395,17 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public Immunity getImmunity(Creature receiver, Condition.Type type) {
+        for (Immunity i : receiver.getImmunities()) {
+            if (i.getType() == type) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public void tickCondition(Entity receiver, Condition condition) {
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
         damageReceiver = receiver;
         damageReceiver.health -= condition.getConditionDamage();
         damageReceiver.damaged = true;

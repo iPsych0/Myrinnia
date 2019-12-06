@@ -7,7 +7,9 @@ import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.Immunity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
@@ -790,6 +792,12 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
+        addImmunity(this, new Immunity(Condition.Type.CHILL, 15 * 60, 0.1));
+        addImmunity(this, new Immunity(Condition.Type.BURNING, 15 * 60, 0.1));
+        addImmunity(this, new Immunity(Condition.Type.POISON, 15 * 60, 0.1));
+        addImmunity(this, new Immunity(Condition.Type.BLEEDING, 15 * 60, 0.1));
+        addImmunity(this, new Immunity(Condition.Type.STUN, 15 * 60, 0.1));
+
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
@@ -1004,8 +1012,22 @@ public class Player extends Creature {
 
         int yOffset = 0;
         if (!getConditions().isEmpty()) yOffset = 1;
-        for (int i = 0; i < getBuffs().size(); i++) {
+        // Always draw immunity buffs first on the left
+        int immunityCount = 0;
+        for (int i = 0; i < getImmunities().size(); i++) {
+            immunityCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
+                    32,
+                    32);
+            getImmunities().get(i).render(g, slotPos.x, slotPos.y);
+            if (slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getImmunities().get(i), g);
+            }
+        }
+        // Draw buffs to the right of immunities
+        for (int i = 0; i < getBuffs().size(); i++) {
+            Rectangle slotPos = new Rectangle(immunityCount + Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
                     Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
                     32,
                     32);

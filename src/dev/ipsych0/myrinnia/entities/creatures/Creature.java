@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.Immunity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
@@ -76,10 +77,11 @@ public abstract class Creature extends Entity {
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     private static final int TIMES_PER_SECOND = 4;
-    private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
+    private static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
-    private List<Condition> conditions = new ArrayList<>();
-    private List<Buff> buffs = new ArrayList<>();
+    protected List<Condition> conditions = new ArrayList<>();
+    protected List<Buff> buffs = new ArrayList<>();
+    protected List<Immunity> immunities = new ArrayList<>();
     protected Animation aLeft;
     protected Animation aRight;
     protected Animation aUp;
@@ -410,8 +412,19 @@ public abstract class Creature extends Entity {
 
         int yOffset = 0;
         if (!conditions.isEmpty()) yOffset = 1;
-        for (int i = 0; i < buffs.size(); i++) {
+        int immunityCount = 0;
+        // First draw Immunities
+        for (int i = 0; i < immunities.size(); i++) {
+            immunityCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
+            immunities.get(i).render(g, slotPos.x, slotPos.y);
+            if (slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(immunities.get(i), g);
+            }
+        }
+        // Then draw buffs in the same row, but after the immunities
+        for (int i = 0; i < buffs.size(); i++) {
+            Rectangle slotPos = new Rectangle(immunityCount + Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
             buffs.get(i).render(g, slotPos.x, slotPos.y);
             if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(buffs.get(i), g);
@@ -461,6 +474,7 @@ public abstract class Creature extends Entity {
                             Handler.get().playEffect(p.getImpactSound(), 0.1f);
                         }
 
+                        e.addCondition(this, e, new Condition(Condition.Type.BURNING, e, 10, 10));
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
                     }
@@ -614,7 +628,7 @@ public abstract class Creature extends Entity {
         if (state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
             // Control the number of times we check for new path
             pathTimer++;
-            if (pathTimer >= timePerPathCheck) {
+            if (pathTimer >= TIME_PER_PATH_CHECK) {
                 findPath();
                 pathTimer = 0;
             }
@@ -865,6 +879,14 @@ public abstract class Creature extends Entity {
 
     public void setBuffs(List<Buff> buffs) {
         this.buffs = buffs;
+    }
+
+    public List<Immunity> getImmunities() {
+        return immunities;
+    }
+
+    public void setImmunities(List<Immunity> immunities) {
+        this.immunities = immunities;
     }
 
     public int getPathFindRadiusX() {

@@ -45,28 +45,11 @@ public class EntityManager implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            if (e instanceof Creature) {
-                Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
-                while (condIt.hasNext()) {
-                    Condition c = condIt.next();
-                    if (c.isActive()) {
-                        c.tick();
-                    } else {
-                        condIt.remove();
-                    }
-                }
-                Iterator<Buff> buffIt = ((Creature) e).getBuffs().iterator();
-                while (buffIt.hasNext()) {
-                    Buff b = buffIt.next();
-                    if (b.isActive()) {
-                        b.tick();
-                    } else {
-                        buffIt.remove();
-                    }
-                }
-            }
+            // Update buffs, conditions and immunities
+            updateBuffsCondisAndImmunities(e);
 
             e.tick();
+
             // Update combat timers
             if (e.isDamaged() && e.getDamageDealer() != null) {
                 e.updateCombatTimer();
@@ -108,6 +91,39 @@ public class EntityManager implements Serializable {
                 if (e.getRespawnTimer() == 0) {
                     e.respawn();
                     dltd.remove();
+                }
+            }
+        }
+    }
+
+    private void updateBuffsCondisAndImmunities(Entity e) {
+        if (e instanceof Creature) {
+            Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
+            while (condIt.hasNext()) {
+                Condition c = condIt.next();
+                if (c.isActive()) {
+                    c.tick();
+                } else {
+                    condIt.remove();
+                }
+            }
+            Iterator<Buff> buffIt = ((Creature) e).getBuffs().iterator();
+            while (buffIt.hasNext()) {
+                Buff b = buffIt.next();
+                if (b.isActive()) {
+                    b.tick();
+                } else {
+                    buffIt.remove();
+                }
+            }
+
+            Iterator<Immunity> immunIt = ((Creature) e).getImmunities().iterator();
+            while (immunIt.hasNext()) {
+                Immunity i = immunIt.next();
+                if (i.isActive()) {
+                    i.tick();
+                } else {
+                    immunIt.remove();
                 }
             }
         }
