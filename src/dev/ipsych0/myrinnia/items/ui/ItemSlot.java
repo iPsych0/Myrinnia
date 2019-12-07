@@ -81,7 +81,11 @@ public class ItemSlot implements Serializable {
 
         } else if (!item.isStackable()) {
             // If the item isn't stackable
-            this.itemStack = new ItemStack(item);
+            if (amount <= 0) {
+                this.itemStack = new ItemStack(item, 0);
+            } else {
+                this.itemStack = new ItemStack(item);
+            }
             return true;
         } else {
             // Else create a new stack

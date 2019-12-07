@@ -792,12 +792,6 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
-        addImmunity(this, new Resistance(Condition.Type.CHILL, 15*60, 0.1));
-        addImmunity(this, new Resistance(Condition.Type.BURNING, 15*60, 0.1));
-        addImmunity(this, new Resistance(Condition.Type.POISON, 15*60, 0.1));
-        addImmunity(this, new Resistance(Condition.Type.STUN, 15*60, 0.1));
-        addImmunity(this, new Resistance(Condition.Type.BLEEDING, 15*60, 0.1));
-
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
@@ -1012,10 +1006,10 @@ public class Player extends Creature {
 
         int yOffset = 0;
         if (!getConditions().isEmpty()) yOffset = 1;
-        // Always draw immunity buffs first on the left
-        int immunityCount = 0;
+        // Always draw resistance buffs first on the left
+        int resistanceCount = 0;
         for (int i = 0; i < getImmunities().size(); i++) {
-            immunityCount += ItemSlot.SLOTSIZE;
+            resistanceCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
                     Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
                     32,
@@ -1027,7 +1021,7 @@ public class Player extends Creature {
         }
         // Draw buffs to the right of immunities
         for (int i = 0; i < getBuffs().size(); i++) {
-            Rectangle slotPos = new Rectangle(immunityCount + Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+            Rectangle slotPos = new Rectangle(resistanceCount + Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
                     Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
                     32,
                     32);

@@ -412,10 +412,10 @@ public abstract class Creature extends Entity {
 
         int yOffset = 0;
         if (!conditions.isEmpty()) yOffset = 1;
-        int immunityCount = 0;
+        int resistanceCount = 0;
         // First draw Immunities
         for (int i = 0; i < immunities.size(); i++) {
-            immunityCount += ItemSlot.SLOTSIZE;
+            resistanceCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
             immunities.get(i).render(g, slotPos.x, slotPos.y);
             if (slotPos.contains(Handler.get().getMouse())) {
@@ -424,7 +424,7 @@ public abstract class Creature extends Entity {
         }
         // Then draw buffs in the same row, but after the immunities
         for (int i = 0; i < buffs.size(); i++) {
-            Rectangle slotPos = new Rectangle(immunityCount + Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
+            Rectangle slotPos = new Rectangle(resistanceCount + Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
             buffs.get(i).render(g, slotPos.x, slotPos.y);
             if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(buffs.get(i), g);

@@ -29,7 +29,7 @@ public class Resistance implements Serializable {
         active = true;
     }
 
-    // Set the immunity description
+    // Set the resistance description
     private String getDescription(Condition.Type type) {
         String desc = "Reduces the %s of %s by %.1f";
         String name = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
@@ -58,7 +58,7 @@ public class Resistance implements Serializable {
     public void render(Graphics2D g, int x, int y) {
         if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            g.drawImage(Assets.immunityIcon, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+            g.drawImage(Assets.resistanceIcon, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
             Text.drawString(g, String.valueOf((expiryTime - timer) / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }

@@ -311,7 +311,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void addImmunity(Entity receiver, Resistance resistance) {
+    public void addResistance(Entity receiver, Resistance resistance) {
         Creature r = ((Creature) receiver);
         for (Resistance i : r.getImmunities()) {
             if (i.getType() == resistance.getType()) {
@@ -340,9 +340,9 @@ public abstract class Entity implements Serializable {
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
 
-                // If we have a stun/chill immunity active, decrease the duration applied
+                // If we have a stun/chill resistance active, decrease the duration applied
                 if (c.getType() == Condition.Type.STUN || c.getType() == Condition.Type.CHILL) {
-                    Resistance i = getImmunity(r, c.getType());
+                    Resistance i = getResistance(r, c.getType());
                     if (i != null) {
                         multiplier -= i.getEffectiveness();
                         c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getCurrentDuration() * multiplier));
@@ -351,9 +351,9 @@ public abstract class Entity implements Serializable {
                         c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
                     }
                 } else {
-                    Resistance i = getImmunity(r, c.getType());
+                    Resistance i = getResistance(r, c.getType());
                     if (i != null) {
-                        // If we have an immunity, decrease the condition damage applied.
+                        // If we have a resistance, decrease the condition damage applied.
                         multiplier -= i.getEffectiveness();
                         c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
                         c.setConditionDamage((int) (condition.getConditionDamage() * multiplier));
@@ -372,14 +372,14 @@ public abstract class Entity implements Serializable {
         if (!hasCondition) {
             // Subtract duration or damage based on type of condition
             if (condition.getType() == Condition.Type.STUN || condition.getType() == Condition.Type.CHILL) {
-                Resistance i = getImmunity(r, condition.getType());
+                Resistance i = getResistance(r, condition.getType());
                 if (i != null) {
                     multiplier -= i.getEffectiveness();
                 }
                 condition.setCurrentDuration((int) (condition.getCurrentDuration() * multiplier));
                 r.getConditions().add(condition);
             } else {
-                Resistance i = getImmunity(r, condition.getType());
+                Resistance i = getResistance(r, condition.getType());
                 if (i != null) {
                     multiplier -= i.getEffectiveness();
                 }
@@ -395,7 +395,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public Resistance getImmunity(Creature receiver, Condition.Type type) {
+    public Resistance getResistance(Creature receiver, Condition.Type type) {
         for (Resistance i : receiver.getImmunities()) {
             if (i.getType() == type) {
                 return i;

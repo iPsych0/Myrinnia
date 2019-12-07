@@ -149,7 +149,7 @@ public class Assets {
     // Icons
     public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon;
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
-    public static BufferedImage immunityIcon, weaknessIcon;
+    public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
             movSpdBuffIcon;
     public static BufferedImage exclamationIcon;
@@ -310,7 +310,7 @@ public class Assets {
         stunIcon = ui_sheet.imageCrop(4, 2);
 
         // Weakness & Resistance icons
-        immunityIcon = ui_sheet.imageCrop(4,1);
+        resistanceIcon = ui_sheet.imageCrop(4,1);
         weaknessIcon = ui_sheet.imageCrop(6,1);
 
         // Buff icons
