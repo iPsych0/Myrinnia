@@ -648,7 +648,7 @@ public class Player extends Creature {
             return true;
         if (ChatWindow.chatIsOpen && Handler.get().getChatWindow().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (CraftingUI.isOpen && Handler.get().getCraftingUI().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (CraftingUI.isOpen && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (ShopWindow.isOpen && Handler.get().getMouseManager().isLeftPressed())
             return true;
@@ -709,7 +709,7 @@ public class Player extends Creature {
             return true;
         if (ChatWindow.chatIsOpen && Handler.get().getChatWindow().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (CraftingUI.isOpen && Handler.get().getCraftingUI().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+        if (CraftingUI.isOpen && Handler.get().getMouseManager().isRightPressed())
             return true;
         if (ShopWindow.isOpen && Handler.get().getMouseManager().isRightPressed())
             return true;

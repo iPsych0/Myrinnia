@@ -9,6 +9,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 
+import static dev.ipsych0.myrinnia.items.ui.ItemSlot.SLOTSIZE;
+
 public class CraftingSlot extends UIImageButton implements Serializable {
 
 
@@ -16,15 +18,11 @@ public class CraftingSlot extends UIImageButton implements Serializable {
      *
      */
     private static final long serialVersionUID = 4758228481988705528L;
-    private int x, y;
-    public static final int SLOTSIZE = 32;
     private ItemStack itemStack;
     public static boolean stackable = true;
 
     public CraftingSlot(int x, int y, ItemStack itemStack) {
-        super(x, y, 32, 32, Assets.genericButton);
-        this.x = x;
-        this.y = y;
+        super(x, y, SLOTSIZE, SLOTSIZE, Assets.genericButton);
         this.itemStack = itemStack;
     }
 

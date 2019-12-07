@@ -48,6 +48,10 @@ public class UIManager implements Serializable {
         objects.remove(o);
     }
 
+    public void removeAllObjects(List<? extends UIObject> objects) {
+        this.objects.removeAll(objects);
+    }
+
     public List<UIObject> getObjects() {
         return objects;
     }
