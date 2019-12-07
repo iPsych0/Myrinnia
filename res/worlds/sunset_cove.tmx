@@ -495,13 +495,6 @@
     <property name="zone" value="SunshineCoast"/>
    </properties>
   </object>
-  <object id="3" name="Hidden Sunshine Coast Path" type="zone_tile" x="2032" y="0" width="128" height="16">
-   <properties>
-    <property name="goToX" value="24"/>
-    <property name="goToY" value="48"/>
-    <property name="zone" value="SunshineCoast"/>
-   </properties>
-  </object>
   <object id="5" name="crab" type="npc" x="1440" y="3616" width="32" height="32">
    <properties>
     <property name="level" value="2"/>
@@ -542,12 +535,6 @@
     <property name="level" value="2"/>
     <property name="name" value="Crabling"/>
     <property name="npcClass" value="AzureCrab"/>
-   </properties>
-  </object>
-  <object id="14" name="Simple Quiver" type="item" x="2016" y="960" width="32" height="32">
-   <properties>
-    <property name="amount" value="1"/>
-    <property name="itemId" value="15"/>
    </properties>
   </object>
  </objectgroup>

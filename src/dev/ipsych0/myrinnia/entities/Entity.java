@@ -53,7 +53,7 @@ public abstract class Entity implements Serializable {
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
-    protected int respawnTimer = 600;
+    protected int respawnTimer = 60 * 30; // 30 seconds
     protected Rectangle collision;
     protected Script script;
     protected String name;

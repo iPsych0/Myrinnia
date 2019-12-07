@@ -142,9 +142,7 @@ public abstract class Creature extends Entity {
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
             baseDmgExponent *= LEVEL_EXPONENT;
-            strength += 2;
-            dexterity += 2;
-            intelligence += 2;
+            // Only add defence and HP per level up by default
             defence += 2;
             vitality += 3;
             maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));

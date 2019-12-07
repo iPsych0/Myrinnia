@@ -116,9 +116,14 @@ public class AzureCrab extends Creature {
 
     @Override
     public void respawn() {
-        if (!name.equalsIgnoreCase("King Azure Crab")) {
-            Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        if (name.equalsIgnoreCase("King Azure Crab")) {
+            name = "Crabling";
+            width = 32;
+            height = 32;
+            combatLevel = 2;
+            setCombatLevel();
         }
+        Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
     }
 
     @Override

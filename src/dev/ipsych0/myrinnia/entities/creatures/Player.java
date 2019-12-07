@@ -891,7 +891,7 @@ public class Player extends Creature {
     @Override
     public void respawn() {
         // TODO: Go to last saved location!
-        Handler.get().goToWorld(Zone.PortAzure, (int) xSpawn, (int) ySpawn);
+        Handler.get().goToWorld(Zone.PortAzure, (int) xSpawn / 32, (int) ySpawn / 32);
 
         // Clear buffs & condis & reset HP
         clearBuffs();
@@ -904,11 +904,6 @@ public class Player extends Creature {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Player";
     }
 
     /*

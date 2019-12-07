@@ -52,18 +52,22 @@ public class SaveManager {
      */
     public static void loadHandler() {
         Handler handlerObject = null;
-        InputStream is;
         ObjectInputStream oin;
         try {
 
-            is = SaveManager.class.getResourceAsStream("/savegames/save.dat");
-            oin = new ObjectInputStream(is);
+            FileInputStream fis;
+            if(Handler.isJar){
+                fis = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
+            }else {
+                fis = new FileInputStream(Handler.resourcePath + "savegames/save.dat");
+            }
+            oin = new ObjectInputStream(fis);
 
             // Load in the Handler object
             handlerObject = (Handler) oin.readObject();
 
             oin.close();
-            is.close();
+            fis.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(1);

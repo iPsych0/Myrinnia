@@ -119,11 +119,9 @@ public class AudioState extends State {
         }
 
         if (sfxSlider.isChanged() && SliderBar.released) {
-            System.out.println("test1");
             Handler.get().saveProperty("sfxVolume", Integer.toString(sfxSlider.getSliderXPos()));
             SliderBar.released = false;
         } else if (musicSlider.isChanged() && SliderBar.released) {
-            System.out.println("test2");
             Handler.get().saveProperty("musicVolume", Integer.toString(musicSlider.getSliderXPos()));
             SliderBar.released = false;
         }
