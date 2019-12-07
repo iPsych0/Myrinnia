@@ -4,7 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.Immunity;
+import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
@@ -81,7 +81,7 @@ public abstract class Creature extends Entity {
     private int pathTimer = 0;
     protected List<Condition> conditions = new ArrayList<>();
     protected List<Buff> buffs = new ArrayList<>();
-    protected List<Immunity> immunities = new ArrayList<>();
+    protected List<Resistance> immunities = new ArrayList<>();
     protected Animation aLeft;
     protected Animation aRight;
     protected Animation aUp;
@@ -880,11 +880,11 @@ public abstract class Creature extends Entity {
         this.buffs = buffs;
     }
 
-    public List<Immunity> getImmunities() {
+    public List<Resistance> getImmunities() {
         return immunities;
     }
 
-    public void setImmunities(List<Immunity> immunities) {
+    public void setImmunities(List<Resistance> immunities) {
         this.immunities = immunities;
     }
 

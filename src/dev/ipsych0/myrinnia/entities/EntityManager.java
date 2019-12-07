@@ -117,9 +117,9 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            Iterator<Immunity> immunIt = ((Creature) e).getImmunities().iterator();
+            Iterator<Resistance> immunIt = ((Creature) e).getImmunities().iterator();
             while (immunIt.hasNext()) {
-                Immunity i = immunIt.next();
+                Resistance i = immunIt.next();
                 if (i.isActive()) {
                     i.tick();
                 } else {

@@ -71,6 +71,7 @@ public class PauseState extends State {
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
                 hasBeenPressed = false;
                 exitDbox.close();
+                saveDbox.close();
             }
         }
 
@@ -82,6 +83,7 @@ public class PauseState extends State {
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 hasBeenPressed = false;
                 exitDbox.close();
+                saveDbox.close();
                 return;
             }
         }
@@ -134,7 +136,7 @@ public class PauseState extends State {
             if ("Yes".equalsIgnoreCase(saveDbox.getPressedButton().getButtonParam()[0])) {
                 SaveManager.savehandler();
                 saveDbox.close();
-            } else if ("No".equalsIgnoreCase(exitDbox.getPressedButton().getButtonParam()[0])) {
+            } else if ("No".equalsIgnoreCase(saveDbox.getPressedButton().getButtonParam()[0])) {
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 saveDbox.close();
             }

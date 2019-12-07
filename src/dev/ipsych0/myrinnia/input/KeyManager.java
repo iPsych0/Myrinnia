@@ -159,8 +159,6 @@ public class KeyManager implements KeyListener, Serializable {
                     QuestHelpUI.isOpen = false;
                     QuestUI.renderingQuests = false;
                     CraftingUI.isOpen = false;
-                    SkillsUI.isOpen = false;
-                    SkillsOverviewUI.isOpen = false;
                 } else {
                     CharacterUI.isOpen = false;
                 }
@@ -171,7 +169,6 @@ public class KeyManager implements KeyListener, Serializable {
                 lastUIKeyPressed = skillsWindowKey;
                 if (!SkillsUI.isOpen) {
                     SkillsUI.isOpen = true;
-                    CharacterUI.isOpen = false;
                     QuestUI.isOpen = false;
                     QuestHelpUI.isOpen = false;
                     QuestUI.renderingQuests = false;

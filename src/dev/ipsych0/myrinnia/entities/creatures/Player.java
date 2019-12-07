@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.Immunity;
+import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
@@ -791,6 +791,12 @@ public class Player extends Creature {
 
         if (hasLeftClickedUI(mouse))
             return;
+
+        addImmunity(this, new Resistance(Condition.Type.CHILL, 15*60, 0.1));
+        addImmunity(this, new Resistance(Condition.Type.BURNING, 15*60, 0.1));
+        addImmunity(this, new Resistance(Condition.Type.POISON, 15*60, 0.1));
+        addImmunity(this, new Resistance(Condition.Type.STUN, 15*60, 0.1));
+        addImmunity(this, new Resistance(Condition.Type.BLEEDING, 15*60, 0.1));
 
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());

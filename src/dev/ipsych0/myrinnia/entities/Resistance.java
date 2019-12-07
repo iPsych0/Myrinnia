@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class Immunity implements Serializable {
+public class Resistance implements Serializable {
 
     private static final long serialVersionUID = 3317119477719007572L;
     private Condition.Type type;
@@ -19,7 +19,7 @@ public class Immunity implements Serializable {
     private double effectiveness;
     private String description;
 
-    public Immunity(Condition.Type type, int expiryTime, double effectiveness) {
+    public Resistance(Condition.Type type, int expiryTime, double effectiveness) {
         this.type = type;
         this.expiryTime = expiryTime;
         this.effectiveness = effectiveness;
@@ -58,6 +58,7 @@ public class Immunity implements Serializable {
     public void render(Graphics2D g, int x, int y) {
         if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
+            g.drawImage(Assets.immunityIcon, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
             Text.drawString(g, String.valueOf((expiryTime - timer) / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
