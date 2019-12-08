@@ -55,6 +55,9 @@ public class Assets {
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
                                 copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace;
     public static BufferedImage[] coins;
+    public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
+            weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
+            weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
 
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
@@ -383,6 +386,31 @@ public class Assets {
         miningEquipment = item_sheet.imageCrop(0, 20);
         dustyScroll = item_sheet.imageCrop(0, 21);
         azuriteNecklace = item_sheet.imageCrop(0, 22);
+
+        // Potions
+        weakAntidote = item_sheet.imageCrop(15, 15);
+        antidote = item_sheet.imageCrop(15, 14);
+        strongAntidote = item_sheet.imageCrop(15, 13);
+
+        weakPotionOfMight = item_sheet.imageCrop(17, 15);
+        potionOfMight = item_sheet.imageCrop(17, 14);
+        strongPotionOfMight = item_sheet.imageCrop(17, 13);
+
+        weakPotionOfPrecision = item_sheet.imageCrop(19, 15);
+        potionOfPrecision = item_sheet.imageCrop(19, 14);
+        strongPotionOfPrecision = item_sheet.imageCrop(19, 13);
+
+        weakPotionOfWisdom = item_sheet.imageCrop(22, 15);
+        potionOfWisdom = item_sheet.imageCrop(22, 14);
+        strongPotionOfWisdom = item_sheet.imageCrop(22, 13);
+
+        weakPotionOfProtection = item_sheet.imageCrop(20, 15);
+        potionOfProtection = item_sheet.imageCrop(20, 14);
+        strongPotionOfProtection = item_sheet.imageCrop(20, 13);
+
+        weakPotionOfVigor = item_sheet.imageCrop(23, 15);
+        potionOfVigor = item_sheet.imageCrop(23, 14);
+        strongPotionOfVigor = item_sheet.imageCrop(23, 13);
 
         /*
          * Enemy Animations

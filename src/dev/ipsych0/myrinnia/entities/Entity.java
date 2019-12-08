@@ -315,7 +315,17 @@ public abstract class Entity implements Serializable {
         Creature r = ((Creature) receiver);
         for (Resistance i : r.getImmunities()) {
             if (i.getType() == resistance.getType()) {
-                i.setExpiryTime(i.getExpiryTime() + resistance.getExpiryTime());
+                // If the new resistance is better than or same as previous
+                if (resistance.getExpiryTime() >= i.getExpiryTime()) {
+                    // Set time to new resistance and reset timer
+                    i.setExpiryTime(resistance.getExpiryTime());
+                    i.setTimer(0);
+                }
+                if (resistance.getEffectiveness() >= i.getEffectiveness()) {
+                    // Set effectiveness to new resistance and reset timer
+                    i.setEffectiveness(resistance.getEffectiveness());
+                    i.setTimer(0);
+                }
                 return;
             }
         }

@@ -59,7 +59,16 @@ public class Resistance implements Serializable {
         if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             g.drawImage(Assets.resistanceIcon, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-            Text.drawString(g, String.valueOf((expiryTime - timer) / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+
+            int timeLeft = (expiryTime - timer) / 60 + 1;
+            String text = String.valueOf(timeLeft);
+
+            // Draw minutes left if time left is greater than 60 seconds
+            if (timeLeft >= 60) {
+                text = timeLeft / 60 + "m";
+            }
+
+            Text.drawString(g, text, x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 
@@ -89,5 +98,14 @@ public class Resistance implements Serializable {
 
     public void setEffectiveness(double effectiveness) {
         this.effectiveness = effectiveness;
+        this.description = getDescription(type);
+    }
+
+    public int getTimer() {
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
     }
 }
