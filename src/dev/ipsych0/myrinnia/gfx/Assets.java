@@ -121,6 +121,7 @@ public class Assets {
     public static BufferedImage[] shamrockEdgarDown, shamrockEdgarLeft, shamrockEdgarRight, shamrockEdgarUp;
     public static BufferedImage[] shamrockEdvardDown, shamrockEdvardLeft, shamrockEdvardRight, shamrockEdvardUp;
     public static BufferedImage[] shamrockEsmundDown, shamrockEsmundLeft, shamrockEsmundRight, shamrockEsmundUp;
+    public static BufferedImage[] shamrockJoraDown, shamrockJoraLeft, shamrockJoraRight, shamrockJoraUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -675,6 +676,11 @@ public class Assets {
         shamrockEsmundLeft= shamrock_npcs.npcCrop(6, 1);
         shamrockEsmundRight = shamrock_npcs.npcCrop(6, 2);
         shamrockEsmundUp = shamrock_npcs.npcCrop(6, 3);
+
+        shamrockJoraDown = shamrock_npcs.npcCrop(9, 0);
+        shamrockJoraLeft= shamrock_npcs.npcCrop(9, 1);
+        shamrockJoraRight = shamrock_npcs.npcCrop(9, 2);
+        shamrockJoraUp = shamrock_npcs.npcCrop(9, 3);
 
         /*
          * Player Animations

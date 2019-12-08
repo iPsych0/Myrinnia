@@ -3,7 +3,7 @@
     {
       "id": 0,
       "text": "Hello, welcome to Shamrock's workshop. Feel free to use the Crafting Station if you'd like.",
-      "nextId": 1
+      "nextId": -1
     }
   ]
 }

@@ -20,22 +20,22 @@
     },
     {
       "id": 2,
-      "text": "Upon arrival, a group of miners found a plethora of rich mineral veins under this green paradise.",
+      "text": "Upon arrival here, a group of six miners found a plethora of rich mineral veins under the hills of this green paradise.",
       "nextId": 3
     },
     {
       "id": 3,
-      "text": "After their first expedition into the mines, some of them had fallen ill. Not knowing the cause, it seemed like a hopeless situation.",
+      "text": "After their first expedition into the mines, some had fallen ill. One of them decided to look for medicinal herbs in the nearby forest.",
       "nextId": 4
     },
     {
       "id": 4,
-      "text": "One of them decided to look for medicinal herbs in the nearby forest. He returned with a handful shamrocks and the stew he made out of them, cured the miners.",
+      "text": "Unable to find any, he plucked a handful shamrocks and returned. The stew that he made from these shamrocks miraculously cured the miners.",
       "nextId": 5
     },
     {
       "id": 5,
-      "text": "Hence, the town's name stems from the green colour of shamrocks.",
+      "text": "Hence, this town was named after shamrocks and their green colour.",
       "nextId": -1
     }
   ]
