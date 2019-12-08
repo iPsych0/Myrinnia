@@ -25,9 +25,9 @@ public class CraftingManager implements Serializable {
 
         recipes = new ArrayList<>();
 
-        recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
-        recipes.add(new CraftingRecipe(1, 25, true, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
-        recipes.add(new CraftingRecipe(1, 25, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
+        recipes.add(new CraftingRecipe(1, 20, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
+        recipes.add(new CraftingRecipe(1, 20, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
+        recipes.add(new CraftingRecipe(1, 20, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
 
         recipes.sort((o1, o2) -> {
             Integer a = o1.getRequiredLevel();

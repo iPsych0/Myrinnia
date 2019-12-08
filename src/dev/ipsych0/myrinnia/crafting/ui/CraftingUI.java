@@ -53,7 +53,7 @@ public class CraftingUI implements Serializable {
     private List<CraftSelectSlot> selectSlots;
     private CraftSelectSlot selectedSlot;
     private Color selectedColor = new Color(0, 255, 255, 62);
-    private Color insufficientAmountColor = new Color(64, 64, 64, 192);
+    private Color insufficientAmountColor = new Color(255, 0, 0, 62);
 
     public CraftingUI() {
         this.width = 242;
@@ -324,7 +324,11 @@ public class CraftingUI implements Serializable {
                             itemTooltip.render(slot.getRecipe().getResult().getItem(), g);
                         }
                         if (Handler.get().getMouseManager().isLeftPressed() && craftButtonPressed) {
-                            selectedSlot = slot;
+                            if (slot.equals(selectedSlot)) {
+                                selectedSlot = null;
+                            } else {
+                                selectedSlot = slot;
+                            }
                             craftButtonPressed = false;
                         }
                     }
@@ -483,6 +487,7 @@ public class CraftingUI implements Serializable {
 
             Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(selectedSlot.getRecipe().getCraftingXP());
         } else {
+            findRecipe();
             Handler.get().sendMsg("You don't have the required materials to make this item.");
         }
     }
@@ -490,8 +495,10 @@ public class CraftingUI implements Serializable {
     private boolean hasEnoughQuantity(CraftSelectSlot selectedSlot) {
         // Check the components from the slots
         for (ItemStack c : selectedSlot.getRecipe().getComponents()) {
+            int slotMatches = 0;
             for (CraftingSlot slot : craftingSlots) {
                 if (slot.getItemStack() != null) {
+                    slotMatches++;
                     // If we found the slot matching the item
                     if (slot.getItemStack().getItem().getId() == c.getItem().getId()) {
                         int slotAmt = slot.getItemStack().getAmount();
@@ -501,6 +508,9 @@ public class CraftingUI implements Serializable {
                         }
                     }
                 }
+            }
+            if (slotMatches != selectedSlot.getRecipe().getComponents().size()) {
+                return false;
             }
         }
         return true;
@@ -512,7 +522,8 @@ public class CraftingUI implements Serializable {
             if (result.getItem() == Item.beginnersSword ||
                     result.getItem() == Item.beginnersBow ||
                     result.getItem() == Item.beginnersStaff) {
-                if (!Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.MiningAndCrafting) && Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(0).isFinished() &&
+                        Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished() && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
                     Handler.get().getQuest(QuestList.MiningAndCrafting).nextStep();
                     Handler.get().getQuest(QuestList.MiningAndCrafting).addStep("Report back to Duncan.");
                 }

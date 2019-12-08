@@ -2,7 +2,7 @@
   "itemTypes": [
     "MELEE_WEAPON"
   ],
-  "itemRarity": "Unique",
+  "itemRarity": "Common",
   "name": "Beginner's Sword",
   "id": 3,
   "equipSlot": "Mainhand",

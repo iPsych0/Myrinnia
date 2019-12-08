@@ -2,6 +2,8 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 
 import java.awt.*;
 
@@ -60,11 +62,15 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     protected void updateDialogue() {
-
-    }
-
-    @Override
-    public String getName() {
-        return "Crafting Station";
+        switch (speakingTurn) {
+            case 0:
+                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getState() == QuestState.NOT_STARTED ||
+                        Handler.get().questInProgress(QuestList.MiningAndCrafting) && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(0).isFinished() ||
+                        Handler.get().questInProgress(QuestList.MiningAndCrafting) && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                    Handler.get().sendMsg("You should talk to Duncan first to learn how this works.");
+                    speakingTurn = -1;
+                    break;
+                }
+        }
     }
 }

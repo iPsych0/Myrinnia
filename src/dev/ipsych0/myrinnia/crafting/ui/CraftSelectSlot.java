@@ -28,7 +28,7 @@ public class CraftSelectSlot extends UIImageButton implements Serializable {
         super.render(g);
         if (recipe.isDiscovered()) {
             g.drawImage(recipe.getResult().getItem().getTexture(), x, y, null);
-            Text.drawString(g, String.valueOf(recipe.getResult().getAmount()), x + width + (width / 2) - 36, y + 8, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, String.valueOf(recipe.getResult().getAmount()), x, y + ItemSlot.SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
         } else {
             g.drawImage(Assets.undiscovered, x, y, null);
         }
