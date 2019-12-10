@@ -1,0 +1,37 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "HAI BLUR!",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Ben je klaar om je verrassing te onthullen?",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Kut op, Djaan. Vertel het me...",
+          "nextId": 3
+        },
+        {
+          "text": "Djaan, waarom ben je ALTIJD naakt?",
+          "nextId": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Praat dan maar met de Taxi chauffeur!",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "Djaan was onderweg naar de supermarkt!",
+      "nextId": 2
+    }
+  ]
+}

@@ -210,6 +210,11 @@ public class EntityManager implements Serializable {
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
             Entity e = it.next();
+            if(e.equals(Handler.get().getPlayer())){
+                continue;
+            }
+            drawHoverCorners(g, e, 1, 1, Color.BLACK);
+            drawHoverCorners(g, e, 0, 0, Color.YELLOW);
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
 

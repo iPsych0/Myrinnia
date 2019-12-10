@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -68,9 +69,12 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                State.setState(new UITransitionState(Handler.get().getGame().gameState));
-                Handler.get().addTip(new TutorialTip("Use WASD keys to move around."));
-                Handler.get().playMusic(Zone.PortAzure);
+//                State.setState(new UITransitionState(Handler.get().getGame().gameState));
+                Handler.get().goToWorld(Zone.Home, 26, 19);
+                State.setState(new UITransitionState(new MonologueState(Handler.get().getGame().gameState, Utils.loadMonologue("prologue.json"))));
+                Handler.get().addTip(new TutorialTip("Gebruik WASD toetsen om te lopen."));
+                Handler.get().addTip(new TutorialTip("Doel: Zoek je sleutels en verlaat het huis."));
+//                Handler.get().playMusic(Zone.PortAzure);
                 hasBeenPressed = false;
             }
         }

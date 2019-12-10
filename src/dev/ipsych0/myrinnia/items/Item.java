@@ -55,6 +55,8 @@ public class Item implements Serializable {
         Handler.get().removeItem(Item.dustyScroll, 1);
     });
     public static Item azuriteNecklace = Utils.loadItem("23_azurite_necklace.json", Assets.azuriteNecklace);
+    public static Item keys = Utils.loadItem("42_keys.json", Assets.keys
+    );
     public static Item weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
             weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;

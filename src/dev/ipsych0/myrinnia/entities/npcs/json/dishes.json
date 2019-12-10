@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Het aanrecht staat vol vuile vaat.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Laat de afwas staan.",
+          "nextId": 2
+        },
+        {
+          "text": "Laat de afwas staan.",
+          "nextId": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Je besluit om de afwas te laten staan voor Djaan. :)",
+      "nextId": -1
+    }
+  ]
+}

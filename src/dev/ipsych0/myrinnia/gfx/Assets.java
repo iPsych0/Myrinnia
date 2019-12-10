@@ -59,6 +59,7 @@ public class Assets {
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
             weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
 
+    public static BufferedImage keys;
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
     public static BufferedImage[] blueCrabUp, blueCrabDown, blueCrabLeft, blueCrabRight;
@@ -386,6 +387,7 @@ public class Assets {
         miningEquipment = item_sheet.imageCrop(0, 20);
         dustyScroll = item_sheet.imageCrop(0, 21);
         azuriteNecklace = item_sheet.imageCrop(0, 22);
+        keys = item_sheet.imageCrop(0, 23);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);

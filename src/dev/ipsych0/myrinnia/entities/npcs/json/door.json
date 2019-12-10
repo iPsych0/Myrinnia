@@ -1,0 +1,31 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "options": [
+        {
+          "text": "Verlaat het huis.",
+          "nextId": 1,
+          "choiceCondition": {
+            "condition": "hasKeys",
+            "falseId": 2
+          }
+        },
+        {
+          "text": "Verken het huis meer.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "text": "{DUMMY}",
+      "nextId": -1
+    },
+    {
+      "id": 2,
+      "text": "Ik kan mijn huis niet uit zonder sleutels!",
+      "nextId": -1
+    }
+  ]
+}
