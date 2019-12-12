@@ -17,9 +17,9 @@ public class ItemSlot implements Serializable {
 
     public static final int SLOTSIZE = 32;
 
-    private int x, y;
-    private ItemStack itemStack;
-    private Rectangle bounds;
+    protected int x, y;
+    protected ItemStack itemStack;
+    protected Rectangle bounds;
 
     public ItemSlot(int x, int y, ItemStack itemStack) {
         this.x = x;

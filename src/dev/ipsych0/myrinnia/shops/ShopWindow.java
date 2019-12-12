@@ -73,7 +73,7 @@ public class ShopWindow implements Serializable {
         for (int i = 0; i < NUM_ROWS; i++) {
             for (int j = 0; j < NUM_COLS; j++) {
 
-                shopSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
+                shopSlots.add(new ShopSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
 
             }
         }
@@ -567,6 +567,9 @@ public class ShopWindow implements Serializable {
      */
     private void buyItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
             if (Handler.get().playerHasItem(Item.coins, (tradeSlot.getItemStack().getItem().getPrice()))) {
                 Handler.get().playEffect("ui/shop_trade.wav");
                 if (!Handler.get().invIsFull(tradeSlot.getItemStack().getItem()) && selectedSlot.getItemStack().getAmount() > 0) {
@@ -633,6 +636,9 @@ public class ShopWindow implements Serializable {
      */
     private void buyAllItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
             List<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
             int i = 0;
             int buyAmount = 0;
@@ -727,13 +733,12 @@ public class ShopWindow implements Serializable {
      */
     private void buyXItem(int amount) {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
-            List<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
-            int i = slots.size();
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
             int index = 0;
 
-            if (amount > i && !tradeSlot.getItemStack().getItem().isStackable()) {
-                amount = i;
-            } else if (amount > tradeSlot.getItemStack().getAmount() && tradeSlot.getItemStack().getItem().isStackable()) {
+            if (amount > tradeSlot.getItemStack().getAmount()) {
                 amount = tradeSlot.getItemStack().getAmount();
             }
             while (index < amount) {
@@ -763,10 +768,10 @@ public class ShopWindow implements Serializable {
                 if (shopSlots.get(j).getItemStack() == null)
                     continue;
                 if (shopSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
-                    if (shopSlots.get(j).getItemStack().getItem().isStackable() && shopSlots.get(j).getItemStack().getAmount() - amount >= 0) {
+                    if (shopSlots.get(j).getItemStack().getAmount() - amount >= 0) {
                         shopSlots.get(j).getItemStack().setAmount(shopSlots.get(j).getItemStack().getAmount() - amount);
                         matches++;
-                    } else if (!shopSlots.get(j).getItemStack().getItem().isStackable() && shopSlots.get(j).getItemStack().getAmount() > 0) {
+                    } else if (shopSlots.get(j).getItemStack().getAmount() > 0) {
                         shopSlots.get(j).getItemStack().setAmount(0);
                         matches++;
                     }
@@ -843,10 +848,9 @@ public class ShopWindow implements Serializable {
                     firstFreeSlotFound = true;
                     index = i;
                 }
-            } else if (shopSlots.get(i).getItemStack() != null && !item.isStackable() && shopSlots.get(i).getItemStack().getAmount() == 0 && shopSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
+            } else if (shopSlots.get(i).getItemStack() != null && shopSlots.get(i).getItemStack().getAmount() == 0 && shopSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                 return i;
-            } else if (shopSlots.get(i).getItemStack() != null && !item.isStackable()) {
-            } else if (shopSlots.get(i).getItemStack() != null && item.isStackable()) {
+            } else if (shopSlots.get(i).getItemStack() != null) {
                 if (shopSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
                 }

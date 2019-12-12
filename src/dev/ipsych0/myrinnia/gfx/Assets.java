@@ -64,6 +64,7 @@ public class Assets {
     public static BufferedImage[] blueCrabUp, blueCrabDown, blueCrabLeft, blueCrabRight;
     public static BufferedImage[] azureBatUp, azureBatDown, azureBatLeft, azureBatRight;
     public static BufferedImage[] angryOwl, angryFlower;
+    public static BufferedImage[] venovineUp, venovineDown, venovineLeft, venovineRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -211,6 +212,7 @@ public class Assets {
 
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
+        SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
 
         /*
          * Ability Animations
@@ -437,6 +439,11 @@ public class Assets {
         azureBatLeft = enemy_sheet1.npcCrop(9, 5, WIDTH, HEIGHT);
         azureBatRight = enemy_sheet1.npcCrop(9, 6, WIDTH, HEIGHT);
         azureBatUp = enemy_sheet1.npcCrop(9, 7, WIDTH, HEIGHT);
+
+        venovineDown = enemy_sheet3.npcCrop(0, 0, WIDTH, HEIGHT);
+        venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
+        venovineRight= enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
+        venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
 
         // NPC Sprites
 //

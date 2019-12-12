@@ -61,9 +61,9 @@ public class InventoryWindow implements Serializable {
 
         itemSlots.get(findFreeSlot(Item.beginnersSword)).addItem(Item.magicSword, 1);
 
-        for (int i = 24; i < 42; i++) {
-            itemSlots.get(findFreeSlot(Item.items[i])).addItem(Item.items[i], 1);
-        }
+//        for (int i = 24; i < 42; i++) {
+//            itemSlots.get(findFreeSlot(Item.items[i])).addItem(Item.items[i], 1);
+//        }
     }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.0" name="outside3" tilewidth="32" tileheight="32" tilecount="625" columns="25">
+<tileset version="1.2" tiledversion="1.2.4" name="outside3" tilewidth="32" tileheight="32" tilecount="625" columns="25">
  <image source="../textures/tiles/outside3.png" width="800" height="800"/>
  <tile id="0">
   <properties>
@@ -2193,6 +2193,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 31.75,24.25 0.25,24"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="363">
   <properties>
@@ -2368,8 +2373,13 @@
  <tile id="389">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,32 20,32 20,-0.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="390">
   <properties>
@@ -2380,8 +2390,13 @@
  <tile id="391">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="32" y="0">
+    <polygon points="0,0 -20.5,0 -20.5,31.75 0,32"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="392">
   <properties>
@@ -2508,6 +2523,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="32">
+    <polygon points="0,0 32,0 32,-18.5 -0.25,-18.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="413">
   <properties>
@@ -2649,31 +2669,31 @@
  </tile>
  <tile id="436">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="437">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="438">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="439">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="440">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
