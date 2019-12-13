@@ -1,10 +1,19 @@
 package dev.ipsych0.myrinnia.audio;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import org.lwjgl.openal.*;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.FileNotFoundException;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.util.*;
+
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.libc.LibCStdlib.free;
 
 public class AudioManager {
 
@@ -97,11 +106,98 @@ public class AudioManager {
         ALC10.alcCloseDevice(device);
     }
 
+    public static int playOggSound() {
+        ShortBuffer rawAudioBuffer;
+
+        int channels;
+        int sampleRate;
+
+        try (MemoryStack stack = stackPush()) {
+            //Allocate space to store return information from the function
+            IntBuffer channelsBuffer = stack.mallocInt(1);
+            IntBuffer sampleRateBuffer = stack.mallocInt(1);
+
+            rawAudioBuffer = stb_vorbis_decode_filename("sound.ogg", channelsBuffer, sampleRateBuffer);
+
+            //Retreive the extra information that was stored in the buffers by the function
+            channels = channelsBuffer.get(0);
+            sampleRate = sampleRateBuffer.get(0);
+        }
+
+        //Find the correct OpenAL format
+        int format = -1;
+        if (channels == 1) {
+            format = AL_FORMAT_MONO16;
+        } else if (channels == 2) {
+            format = AL_FORMAT_STEREO16;
+        }
+
+        //Request space for the buffer
+        int bufferPointer = alGenBuffers();
+
+        //Send the data to OpenAL
+        alBufferData(bufferPointer, format, rawAudioBuffer, sampleRate);
+
+        //Free the memory allocated by STB
+        free(rawAudioBuffer);
+
+        return bufferPointer;
+    }
+
     public static int loadSound(String file) throws FileNotFoundException {
         // If the sound has been loaded already, load the same buffer to prevent memory consumption
         if (soundMap.containsKey(file)) {
             return soundMap.get(file);
         }
+        if (file.endsWith(".wav")) {
+            return loadWav(file);
+        } else if (file.endsWith(".ogg")) {
+            return loadOgg(file);
+        } else {
+            throw new IllegalArgumentException("Audio format not supported! Supported formats: .wav, .ogg");
+        }
+    }
+
+    private static int loadOgg(String file) {
+        ShortBuffer rawAudioBuffer;
+        file = file.replaceFirst("/", Handler.resourcePath);
+
+        int channels;
+        int sampleRate;
+
+        try (MemoryStack stack = stackPush()) {
+            //Allocate space to store return information from the function
+            IntBuffer channelsBuffer = stack.mallocInt(1);
+            IntBuffer sampleRateBuffer = stack.mallocInt(1);
+
+            rawAudioBuffer = stb_vorbis_decode_filename(file, channelsBuffer, sampleRateBuffer);
+
+            //Retreive the extra information that was stored in the buffers by the function
+            channels = channelsBuffer.get(0);
+            sampleRate = sampleRateBuffer.get(0);
+        }
+
+        //Find the correct OpenAL format
+        int format = -1;
+        if (channels == 1) {
+            format = AL_FORMAT_MONO16;
+        } else if (channels == 2) {
+            format = AL_FORMAT_STEREO16;
+        }
+
+        //Request space for the buffer
+        int buffer = alGenBuffers();
+
+        //Send the data to OpenAL
+        alBufferData(buffer, format, rawAudioBuffer, sampleRate);
+
+        //Free the memory allocated by STB
+        free(rawAudioBuffer);
+
+        return buffer;
+    }
+
+    private static int loadWav(String file) {
         int buffer = AL10.alGenBuffers();
         buffers.add(buffer);
         soundMap.put(file, buffer);
