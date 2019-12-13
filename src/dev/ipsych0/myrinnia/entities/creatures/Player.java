@@ -772,10 +772,10 @@ public class Player extends Creature {
 
         Handler.get().playEffect("abilities/ranged_shot.wav", 0.35f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            projectiles.add(new Projectile(x, y,
-                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, "abilities/ranged_shot_impact.wav", DamageType.DEX, Assets.regularArrow));
+
+            new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
+                    .withVelocity(9.0f).build();
         }
     }
 
@@ -799,10 +799,10 @@ public class Player extends Creature {
 
         Handler.get().playEffect("abilities/magic_strike.wav");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            projectiles.add(new Projectile(x, y,
-                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.regularMagic));
+
+            new Projectile.Builder(DamageType.INT, Assets.regularMagic, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
+                    .withVelocity(9.0f).build();
         }
 
     }

@@ -120,7 +120,7 @@ public class Condition implements Serializable {
         return active;
     }
 
-    private void setActive(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

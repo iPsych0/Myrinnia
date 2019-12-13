@@ -369,7 +369,7 @@ public abstract class Entity implements Serializable {
                         c.setConditionDamage((int) Math.floor(condition.getConditionDamage() * multiplier));
                     } else {
                         // If the new ability has a higher condition damage than the current one, increase the damage and duration
-                        if (condition.getConditionDamage() > c.getConditionDamage()) {
+                        if (condition.getConditionDamage() >= c.getConditionDamage()) {
                             c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
                             c.setConditionDamage((int) Math.floor(condition.getConditionDamage()));
                         }

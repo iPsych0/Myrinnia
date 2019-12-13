@@ -46,7 +46,9 @@ public class EntityManager implements Serializable {
             Rectangle mouse = Handler.get().getMouse();
 
             // Update buffs, conditions and immunities
-            updateBuffsCondisAndImmunities(e);
+            if (e.isActive()) {
+                updateBuffsCondisAndImmunities(e);
+            }
 
             e.tick();
 
@@ -98,6 +100,11 @@ public class EntityManager implements Serializable {
 
     private void updateBuffsCondisAndImmunities(Entity e) {
         if (e instanceof Creature) {
+            if (!e.isActive()) {
+                ((Creature) e).clearBuffs();
+                ((Creature) e).clearConditions();
+                return;
+            }
             Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
             while (condIt.hasNext()) {
                 Condition c = condIt.next();

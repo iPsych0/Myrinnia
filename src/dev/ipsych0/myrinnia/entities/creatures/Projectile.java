@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.OnImpact;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
@@ -11,6 +12,92 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Projectile extends Creature implements Serializable {
+
+    public static class Builder implements Serializable {
+        private Creature caster;
+        private double x, y;
+        private int targetX, targetY;
+        private Animation animation;
+        private float velocity = 6.0f;
+        private String impactSound;
+        private DamageType damageType;
+        private Ability ability;
+        private OnImpact onImpact;
+        private BufferedImage[] frames;
+
+        public Builder(DamageType damageType, Animation animation, Creature caster, int targetX, int targetY) {
+            this.damageType = damageType;
+            this.animation = animation;
+            this.caster = caster;
+            this.x = caster.getX();
+            this.y = caster.getY();
+            this.targetX = targetX;
+            this.targetY = targetY;
+
+            switch (damageType) {
+                case INT:
+                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    break;
+                case DEX:
+                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    break;
+            }
+        }
+
+        public Builder(DamageType damageType, BufferedImage[] frames, Creature caster, int targetX, int targetY) {
+            this.damageType = damageType;
+            this.frames = frames;
+            this.caster = caster;
+            this.x = caster.getX();
+            this.y = caster.getY();
+            this.targetX = targetX;
+            this.targetY = targetY;
+
+            switch (damageType) {
+                case INT:
+                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    break;
+                case DEX:
+                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    break;
+            }
+        }
+
+        public Builder withVelocity(float velocity) {
+            this.velocity = velocity;
+            return this;
+        }
+
+        public Builder withImpactSound(String sound) {
+            this.impactSound = sound;
+            return this;
+        }
+
+        public Builder withAbility(Ability ability) {
+            this.ability = ability;
+            return this;
+        }
+
+        public Builder withAnimation(Animation animation) {
+            this.animation = animation;
+            return this;
+        }
+
+        public Builder withFrames(BufferedImage[] frames) {
+            this.frames = frames;
+            return this;
+        }
+
+        public Builder withImpact(OnImpact onImpact) {
+            this.onImpact = onImpact;
+            return this;
+        }
+
+        public Projectile build() {
+            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, damageType, ability, animation, frames, onImpact);
+        }
+
+    }
 
 
     /**
@@ -24,20 +111,20 @@ public class Projectile extends Creature implements Serializable {
     private Animation animation;
     private DamageType damageType;
     private Ability ability;
+    private Creature caster;
     private Creature hitCreature;
     private double rotation;
     private String impactSound;
+    private OnImpact onImpact;
 
-    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames) {
+    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
-        this.x = x;
-        this.y = y;
-        this.width = Creature.DEFAULT_CREATURE_WIDTH;
-        this.height = Creature.DEFAULT_CREATURE_HEIGHT;
+        this.caster = caster;
         this.impactSound = impactSound;
         this.damageType = damageType;
         this.ability = ability;
+        this.onImpact = onImpact;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -54,7 +141,7 @@ public class Projectile extends Creature implements Serializable {
         minY = (int) (y - MAX_RADIUS);
 
         // The angle and speed of the projectile
-        angle = Math.atan2(mouseY - y, mouseX - x);
+        angle = Math.atan2(targetY - y, targetX - x);
         xVelocity = velocity * Math.cos(angle);
         yVelocity = velocity * Math.sin(angle);
 
@@ -72,22 +159,8 @@ public class Projectile extends Creature implements Serializable {
         }
 
         active = true;
-    }
 
-    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, BufferedImage[] animation) {
-        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, null, null, animation);
-    }
-
-    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Animation animation) {
-        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, null, animation, null);
-    }
-
-    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation) {
-        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, ability, animation, null);
-    }
-
-    public Projectile(double x, double y, int mouseX, int mouseY, float velocity, String impactSound, DamageType damageType, Ability ability, BufferedImage[] animation) {
-        this(x, y, mouseX, mouseY, velocity, impactSound, damageType, ability, null, animation);
+        caster.getProjectiles().add(this);
     }
 
     public void tick() {
@@ -168,5 +241,13 @@ public class Projectile extends Creature implements Serializable {
 
     public void setImpactSound(String impactSound) {
         this.impactSound = impactSound;
+    }
+
+    public OnImpact getOnImpact() {
+        return onImpact;
+    }
+
+    public void setOnImpact(OnImpact onImpact) {
+        this.onImpact = onImpact;
     }
 }

@@ -474,6 +474,11 @@ public abstract class Creature extends Entity {
 
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
+
+                        // Apply special effect if has one
+                        if (p.getOnImpact() != null) {
+                            p.getOnImpact().impact(p.getHitCreature());
+                        }
                     }
                     if (!e.isAttackable()) {
                         p.setActive(false);
@@ -720,16 +725,14 @@ public abstract class Creature extends Entity {
 
     public void clearConditions() {
         for (Condition c : conditions) {
-            c.clear();
+            c.setActive(false);
         }
-        this.conditions.clear();
     }
 
     public void clearBuffs() {
         for (Buff b : buffs) {
-            b.clear();
+            b.setActive(false);
         }
-        this.buffs.clear();
     }
 
     // GETTERS + SETTERS

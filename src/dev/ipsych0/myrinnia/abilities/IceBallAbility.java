@@ -17,8 +17,6 @@ import java.io.Serializable;
 
 public class IceBallAbility extends Ability implements Serializable {
 
-    private Projectile projectile;
-
     public IceBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                        double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
@@ -44,12 +42,15 @@ public class IceBallAbility extends Ability implements Serializable {
 
         Handler.get().playEffect("abilities/ice_ball.wav", 0.1f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            projectile = new Projectile(player.getX(), player.getY(),
-                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    7.0f, "abilities/ice_projectile_impact.wav", DamageType.INT, this, Assets.iceBall1);
-            player.getProjectiles().add(projectile);
+            new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
+                    .withVelocity(7.0f)
+                    .withImpactSound("abilities/ice_projectile_impact.wav")
+                    .withImpact((c) -> {
+                        c.addCondition(Handler.get().getPlayer(), c, new Condition(Condition.Type.CHILL, c, 3));
+                    }).build();
         }
+
         Handler.get().getMouseManager().setLeftPressed(false);
         setCasting(false);
     }
@@ -62,13 +63,6 @@ public class IceBallAbility extends Ability implements Serializable {
 
     @Override
     public void countDown() {
-        if (projectile != null && !projectile.isActive()) {
-            if (projectile.getHitCreature() != null) {
-                Creature c = projectile.getHitCreature();
-                c.addCondition(Handler.get().getPlayer(), c, new Condition(Condition.Type.CHILL, c, 3));
-                projectile = null;
-            }
-        }
         cooldownTimer++;
         if (cooldownTimer / 60 == cooldownTime) {
             this.setOnCooldown(false);

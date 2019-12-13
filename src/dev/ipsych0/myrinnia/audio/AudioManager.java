@@ -37,30 +37,31 @@ public class AudioManager {
     public static void tick() {
         // Check for music that has ended to clean up
         if (!musicFiles.isEmpty()) {
-            Iterator<Source> sourceIterator = musicFiles.iterator();
-            while (sourceIterator.hasNext()){
-                Source s = sourceIterator.next();
+            Collection<Source> deleted = new ArrayList<>();
+            for (Source s : musicFiles) {
                 if (s.isFadingIn())
                     fadeIn(s);
                 else if (s.isFadingOut())
                     fadeOut(s);
                 if (!s.isPlaying()) {
-                    sourceIterator.remove();
+                    deleted.add(s);
+                    s.delete();
                 }
             }
+            musicFiles.removeAll(deleted);
         }
-//
-//        // Check for sound effects that have ended to clean up
-//        if (!soundfxFiles.isEmpty()) {
-//            Iterator<Source> sourceIterator = soundfxFiles.iterator();
-//            while (sourceIterator.hasNext()){
-//                Source s = sourceIterator.next();
-//                if (!s.isPlaying()) {
-//                    soundMap.remove(s);
-//                    sourceIterator.remove();
-//                }
-//            }
-//        }
+
+        // Check for sound effects that have ended to clean up
+        if (!soundfxFiles.isEmpty()) {
+            Collection<Source> deleted = new ArrayList<>();
+            for (Source s : soundfxFiles) {
+                if (!s.isPlaying()) {
+                    deleted.add(s);
+                    s.delete();
+                }
+            }
+            soundfxFiles.removeAll(deleted);
+        }
     }
 
     private static void fadeIn(Source s) {

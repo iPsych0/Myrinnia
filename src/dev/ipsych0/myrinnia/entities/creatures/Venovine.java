@@ -1,14 +1,15 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.OnImpact;
 import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.io.Serializable;
 
 public class Venovine extends Creature {
 
@@ -46,6 +47,10 @@ public class Venovine extends Creature {
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     }
 
+    public void tick() {
+        super.tick();
+    }
+
     @Override
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
@@ -76,11 +81,14 @@ public class Venovine extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/magic_strike.wav");
-        projectiles.add(new Projectile(x, y, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 6.0f, "abilities/magic_strike_impact.wav", DamageType.INT, Assets.earthProjectile));
-        int rnd = Handler.get().getRandomNumber(0, 10);
-        if (rnd == 0) {
-            Handler.get().getPlayer().addCondition(this, Handler.get().getPlayer(), new Condition(Condition.Type.POISON, Handler.get().getPlayer(), 4, 5));
-        }
+        int targetX = (int) Handler.get().getPlayer().getX();
+        int targetY = (int) Handler.get().getPlayer().getY();
+
+        new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, targetX, targetY)
+                .withImpactSound("abilities/magic_strike_impact.wav")
+                .withImpact((Serializable & OnImpact) (receiver) -> {
+                    receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 5));
+                }).build();
     }
 
     @Override

@@ -6,7 +6,7 @@ public enum Zone {
     SunriseSands("Sunrise Sands", "sunsetsunrise.wav"), LakeAzure("Lake Azure", "lake_azure.wav"), MtAzure1("Mt. Azure", "lake_azure.wav"),
     MtAzure2("Mt. Azure", "lake_azure.wav"), MtAzure3("Mt. Azure", "lake_azure.wav"), SunshineCoast("Sunshine Coast", "sunshinecoast.wav"),
     PortAzureInside("Port Azure", "port_azure.wav"), ShamrockHarbour("Shamrock Harbour", "shamrock.wav"), ShamrockTown("Shamrock Town", "shamrock.wav"),
-    ShamrockTownInside("Shamrock Town", "shamrock.wav"), MalachiteHills("Malachite Hills", "shamrock.wav"), MalachiteHideout("Malachite Hideout", "shamrock.wav");
+    ShamrockTownInside("Shamrock Town", "shamrock.wav"), MalachiteHills("Malachite Hills", "malachite_hills.wav"), MalachiteHideout("Malachite Hideout", "shamrock.wav");
 
     private String musicFile;
     private String name;
