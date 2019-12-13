@@ -149,6 +149,7 @@ public class AudioManager {
         if (soundMap.containsKey(file)) {
             return soundMap.get(file);
         }
+
         if (file.endsWith(".wav")) {
             return loadWav(file);
         } else if (file.endsWith(".ogg")) {
@@ -158,9 +159,15 @@ public class AudioManager {
         }
     }
 
-    private static int loadOgg(String file) {
+    private static int loadOgg(String file) throws FileNotFoundException {
         ShortBuffer rawAudioBuffer;
-        file = file.replaceFirst("/", Handler.resourcePath);
+
+        String fixedFile;
+        if (!Handler.isJar) {
+            fixedFile = file.replaceFirst("/", Handler.resourcePath);
+        } else {
+            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + file;
+        }
 
         int channels;
         int sampleRate;
@@ -170,7 +177,10 @@ public class AudioManager {
             IntBuffer channelsBuffer = stack.mallocInt(1);
             IntBuffer sampleRateBuffer = stack.mallocInt(1);
 
-            rawAudioBuffer = stb_vorbis_decode_filename(file, channelsBuffer, sampleRateBuffer);
+            rawAudioBuffer = stb_vorbis_decode_filename(fixedFile, channelsBuffer, sampleRateBuffer);
+
+            if (rawAudioBuffer == null)
+                throw new FileNotFoundException("Could not find file: " + file);
 
             //Retreive the extra information that was stored in the buffers by the function
             channels = channelsBuffer.get(0);
@@ -194,14 +204,22 @@ public class AudioManager {
         //Free the memory allocated by STB
         free(rawAudioBuffer);
 
+        buffers.add(buffer);
+        soundMap.put(file, buffer);
+
         return buffer;
     }
 
-    private static int loadWav(String file) {
+    private static int loadWav(String file) throws FileNotFoundException {
         int buffer = AL10.alGenBuffers();
         buffers.add(buffer);
         soundMap.put(file, buffer);
         WaveData waveFile = WaveData.create(file);
+
+        if (waveFile == null) {
+            throw new FileNotFoundException("File not found: " + file);
+        }
+
         AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
         waveFile.dispose();
         return buffer;

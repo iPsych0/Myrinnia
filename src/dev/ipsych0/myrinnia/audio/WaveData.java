@@ -7,10 +7,7 @@ import org.lwjgl.openal.AL10;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 public class WaveData {
@@ -60,7 +57,15 @@ public class WaveData {
 
     public static WaveData create(String file) {
         WaveData wavStream;
-        try (InputStream in = Handler.class.getResourceAsStream(file)) {
+
+        String fixedFile;
+        if (!Handler.isJar) {
+            fixedFile = file.replaceFirst("/", Handler.resourcePath);
+        } else {
+            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + file;
+        }
+
+        try (InputStream in = new FileInputStream(fixedFile)) {
             if (in == null) {
                 throw new FileNotFoundException("File not found: " + file);
             }
