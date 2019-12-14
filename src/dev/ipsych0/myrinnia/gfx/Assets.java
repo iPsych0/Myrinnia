@@ -168,6 +168,8 @@ public class Assets {
     public static BufferedImage portAzureMayor, elderSelwyn;
     public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
 
+    public static BufferedImage mainBackground;
+
     public static void init() {
 
         MapLoader.setWorldDoc(Handler.initialWorldPath);
@@ -187,6 +189,9 @@ public class Assets {
         /*
          * Sprite Sheets
          */
+        SpriteSheet main_background = new SpriteSheet("/textures/pixel_art_example.png");
+        mainBackground = main_background.imageCrop(0, 0, 1366, 768);
+
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");

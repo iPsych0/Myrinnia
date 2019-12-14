@@ -145,6 +145,8 @@ public class PauseState extends State {
 
     @Override
     public void render(Graphics2D g) {
+        g.drawImage(Assets.mainBackground, 0, 0, null);
+
         uiManager.render(g);
 
         // Render the text in the main menu

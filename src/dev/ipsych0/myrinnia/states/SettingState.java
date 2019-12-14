@@ -117,8 +117,9 @@ public class SettingState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.uiWindow, overlay.x, overlay.y, overlay.width, overlay.height, null);
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 192, 24, 384, 48, null);
+        g.drawImage(Assets.mainBackground, 0, 0, null);
+        g.drawImage(Assets.genericButton[1], overlay.x, overlay.y, overlay.width, overlay.height, null);
+        g.drawImage(Assets.genericButton[1], Handler.get().getWidth() / 2 - 192, 24, 384, 48, null);
         this.uiManager.render(g);
 
         g.setColor(selectedColor);

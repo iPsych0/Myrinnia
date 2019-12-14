@@ -15,7 +15,6 @@ public class ControlsState extends State {
      */
     private static final long serialVersionUID = 8517192489288492030L;
     private UIManager uiManager;
-    private UIImageButton returnButton;
     private UIImageButton defaultButton;
     private Rectangle overlay;
     private UIImageButton upKey, leftKey, downKey, rightKey, invKey, chatKey, questKey,
@@ -84,12 +83,6 @@ public class ControlsState extends State {
         // DefaultButton to reset all keybinds
         defaultButton = new UIImageButton(overlay.x + overlay.width - 96, overlay.y + overlay.height - 64, 64, 32, Assets.genericButton);
         uiManager.addObject(defaultButton);
-
-        /*
-         * The return button to the main menu
-         */
-        returnButton = new UIImageButton(Handler.get().getWidth() / 2 - 112, Handler.get().getHeight() - 112, 224, 96, Assets.genericButton);
-        uiManager.addObject(returnButton);
 
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
         keysDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, keysAnswers, keysMessage, tb);
@@ -161,7 +154,7 @@ public class ControlsState extends State {
         }
 
         for (UIObject btn : uiManager.getObjects()) {
-            if (btn.isHovering() && !btn.equals(returnButton) && !btn.equals(defaultButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !keysDBox.isMakingChoice()) {
+            if (btn.isHovering() && !btn.equals(defaultButton) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !keysDBox.isMakingChoice()) {
                 hasBeenPressed = false;
                 initialized = false;
                 defaultDBox.close();
@@ -182,16 +175,6 @@ public class ControlsState extends State {
         if (defaultDBox.isMakingChoice()) {
             defaultDBox.tick();
             confirmDefaultKeyBinds();
-        }
-
-
-        if (returnButton.contains(mouse)) {
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                hasBeenPressed = false;
-                selectedButton = null;
-                closeTextBox();
-                State.setState(new UITransitionState(Handler.get().getGame().settingState));
-            }
         }
 
         this.uiManager.tick();
@@ -235,7 +218,7 @@ public class ControlsState extends State {
             if (" ".equalsIgnoreCase(tb.getCharactersTyped().toLowerCase())) {
                 keys.clear();
                 for (UIObject o : uiManager.getObjects()) {
-                    if (!o.equals(returnButton) && !o.equals(defaultButton)) {
+                    if (!o.equals(defaultButton)) {
                         o.width = 32;
                     }
                 }
@@ -244,7 +227,7 @@ public class ControlsState extends State {
             }else{
                 keys.clear();
                 for (UIObject o : uiManager.getObjects()) {
-                    if (!o.equals(returnButton) && !o.equals(defaultButton)) {
+                    if (!o.equals(defaultButton)) {
                         o.width = 32;
                     }
                 }
@@ -308,11 +291,10 @@ public class ControlsState extends State {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.uiWindow, overlay.x, overlay.y, overlay.width, overlay.height, null);
         this.uiManager.render(g);
 
         for (UIObject o : uiManager.getObjects()) {
-            if (!o.equals(returnButton) && !o.equals(defaultButton)) {
+            if (!o.equals(defaultButton)) {
                 if(" ".equalsIgnoreCase(keys.get(o))){
                     Text.drawString(g, "Space", o.x + o.width / 2, o.y + 16, true, Color.YELLOW, Assets.font14);
                 }else {
@@ -362,7 +344,7 @@ public class ControlsState extends State {
 
         Text.drawString(g, "Mouse controls:", overlay.x + 424, overlay.y + 24, false, Color.YELLOW, Assets.font14);
 
-        g.drawImage(Assets.uiWindow, overlay.x + 424, overlay.y + 28, 120, 132, null);
+        g.drawImage(Assets.genericButton[1], overlay.x + 424, overlay.y + 28, 120, 132, null);
         Text.drawString(g, "Left click:", overlay.x + 432, overlay.y + 48, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "- Attack", overlay.x + 440, overlay.y + 68, false, Color.YELLOW, Assets.font14);
 
@@ -371,8 +353,6 @@ public class ControlsState extends State {
         Text.drawString(g, "- Equip item", overlay.x + 440, overlay.y + 152, false, Color.YELLOW, Assets.font14);
 
         Text.drawString(g, "Default", defaultButton.x + defaultButton.width / 2, defaultButton.y + defaultButton.height / 2, true, Color.YELLOW, Assets.font14);
-
-        Text.drawString(g, "Return", returnButton.x + returnButton.width / 2, returnButton.y + returnButton.height / 2, true, Color.YELLOW, Assets.font32);
 
         if (keysDBox.isMakingChoice()) {
             keysDBox.render(g);
