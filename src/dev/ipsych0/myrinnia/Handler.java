@@ -41,6 +41,7 @@ import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
@@ -114,6 +115,7 @@ public class Handler implements Serializable {
     private AbilityOverviewUI abilityOverviewUI;
     private TutorialTipManager tutorialTipManager;
     private BountyContractUI contractUI;
+    private CelebrationUI celebrationUI;
     public static boolean debugAStar;
     public static boolean debugCollision;
     public static boolean debugZones;
@@ -163,6 +165,7 @@ public class Handler implements Serializable {
         abilityOverviewUI = new AbilityOverviewUI();
         tutorialTipManager = new TutorialTipManager();
         contractUI = new BountyContractUI();
+        celebrationUI = new CelebrationUI();
 
         // Set the starting world
         portAzure = new World(Zone.PortAzure, initialWorldPath);
@@ -736,5 +739,13 @@ public class Handler implements Serializable {
 
     public void setContractUI(BountyContractUI contractUI) {
         this.contractUI = contractUI;
+    }
+
+    public CelebrationUI getCelebrationUI() {
+        return celebrationUI;
+    }
+
+    public void setCelebrationUI(CelebrationUI celebrationUI) {
+        this.celebrationUI = celebrationUI;
     }
 }

@@ -97,7 +97,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
             DialogueBox.hasBeenPressed = true;
-            DropDownBox.hasBeenPressed = true;
+            CelebrationUI.hasBeenPressed = true;
         }
 
         // Right Click

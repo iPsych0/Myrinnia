@@ -25,6 +25,7 @@ import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -72,6 +73,7 @@ public class World implements Serializable {
     private AbilityOverviewUI abilityOverviewUI;
     private TutorialTipManager tipManager;
     private BountyContractUI contractUI;
+    private CelebrationUI celebrationUI;
     private List<ZoneTile> zoneTiles;
     private Zone zone;
     private WeatherEffect weatherEffect;
@@ -114,6 +116,7 @@ public class World implements Serializable {
         this.abilityOverviewUI = Handler.get().getAbilityOverviewUI();
         this.tipManager = Handler.get().getTutorialTipManager();
         this.contractUI = Handler.get().getContractUI();
+        this.celebrationUI = Handler.get().getCelebrationUI();
 
         // This is each world's unique manager of Entities & Items
         entityManager = new EntityManager(player);
@@ -168,6 +171,7 @@ public class World implements Serializable {
             tipManager.tick();
             contractUI.tick();
             BountyManager.get().tick();
+            celebrationUI.tick();
             if (BankUI.isOpen && player.getBankEntity() != null)
                 Handler.get().getBankUI().tick();
             if (ShopWindow.isOpen && player.getShopKeeper() != null)
@@ -316,6 +320,8 @@ public class World implements Serializable {
             }
 
             contractUI.render(g);
+
+            celebrationUI.render(g);
 
             if (Handler.debugZones) {
                 for (ZoneTile zt : zoneTiles) {

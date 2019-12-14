@@ -391,6 +391,11 @@ public class Player extends Creature {
                         }
                         p.setHitCreature((Creature) e);
                         p.setActive(false);
+
+                        // Apply special effect if has one
+                        if (p.getOnImpact() != null) {
+                            p.getOnImpact().impact(p.getHitCreature());
+                        }
                     }
                 }
             }

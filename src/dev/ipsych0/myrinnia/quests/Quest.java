@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.ui.Celebration;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -93,6 +94,7 @@ public class Quest implements Serializable {
             Handler.get().playEffect("ui/quest_complete.wav", 0.1f);
             Handler.get().sendMsg("Completed '" + this.questName + "'!");
             Handler.get().addRecapEvent("Completed '" + this.questName + "'");
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "You have completed '" + getQuestName() + "'!"));
         }
     }
 

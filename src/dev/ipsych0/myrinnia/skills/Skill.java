@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -60,7 +61,7 @@ public abstract class Skill implements Serializable {
             Player.isLevelUp = true;
         } else {
             if (Player.isLevelUp) {
-                Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+                Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));
             }
         }
     }

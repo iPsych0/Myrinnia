@@ -17,7 +17,7 @@ public class RecapState extends State {
     private static final long serialVersionUID = 1824990655259776935L;
     private UIImageButton continueButton;
     private UIManager uiManager;
-    private int index = 0;
+    private static int index = 0;
 
     public RecapState() {
         this.continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() - 128, 320, 96, Assets.genericButton);
