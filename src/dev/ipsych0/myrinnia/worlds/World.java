@@ -84,10 +84,21 @@ public class World implements Serializable {
             getHeight() / 2, radius, fractions, colors);
 
     public World(Zone zone, WeatherEffect weatherEffect, boolean dayNightCycle, String path) {
+        // First world path is already corrected per IDE/JAR
+        if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
+            String fixedFile;
+            if (Handler.isJar) {
+                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
+            } else {
+                fixedFile = path.replaceFirst("/", Handler.resourcePath);
+            }
+            this.worldPath = fixedFile;
+        } else {
+            this.worldPath = path;
+        }
         this.zone = zone;
         this.weatherEffect = weatherEffect;
         this.dayNightCycle = dayNightCycle;
-        this.worldPath = path;
 
         // World-specific classes
         this.player = Handler.get().getPlayer();
@@ -110,7 +121,7 @@ public class World implements Serializable {
         zoneTiles = new ArrayList<>();
 
         // Only initialize the starting world on start-up
-        if (path.equalsIgnoreCase(Handler.initialWorldPath)) {
+        if (worldPath.equalsIgnoreCase(Handler.initialWorldPath)) {
             init();
         }
 

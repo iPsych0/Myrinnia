@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
@@ -17,6 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.*;
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -57,11 +57,13 @@ public class MapLoader implements Serializable {
 
     public static void setWorldDoc(String path) {
         // Creates new DocumentBuilder on the file
-        InputStream is = Handler.class.getResourceAsStream(path);
+        InputStream input;
+
         try {
-            doc = builder.parse(is);
+            input = new FileInputStream(path);
+            doc = builder.parse(input);
             doc.normalize();
-            is.close();
+            input.close();
         } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -69,11 +71,13 @@ public class MapLoader implements Serializable {
 
     public static void setTsxDoc(String path) {
         // Creates new DocumentBuilder on the file
-        InputStream is = Handler.class.getResourceAsStream(path);
+        InputStream input;
+
         try {
-            tsxDoc = builder.parse(is);
+            input = new FileInputStream(path);
+            tsxDoc = builder.parse(input);
             tsxDoc.normalize();
-            is.close();
+            input.close();
         } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +89,7 @@ public class MapLoader implements Serializable {
      */
     public static void setSolidTiles(String path) {
         try {
-            InputStream is = MapLoader.class.getResourceAsStream(path);
+            InputStream is = new FileInputStream(path);
             DefaultHandler handler = new DefaultHandler() {
 
                 private boolean solidPropertyFound = false;
@@ -253,7 +257,8 @@ public class MapLoader implements Serializable {
 
     public static void initEnemiesItemsAndZoneTiles(String path, World world) {
         try {
-            InputStream is = MapLoader.class.getResourceAsStream(path);
+            InputStream is = new FileInputStream(path);
+
             DefaultHandler handler = new DefaultHandler() {
 
                 private int x, y, width, height;
@@ -495,7 +500,15 @@ public class MapLoader implements Serializable {
                 // Get the source path and remove the first two dots
                 tsxFile = "/worlds/" + tsxFile;
 
-                setTsxDoc(tsxFile);
+
+                String fixedDoc;
+                if (Handler.isJar) {
+                    fixedDoc = Handler.jarFile.getParentFile().getAbsolutePath() + tsxFile;
+                } else {
+                    fixedDoc = tsxFile.replaceFirst("/", Handler.resourcePath);
+                }
+
+                setTsxDoc(fixedDoc);
 
                 NodeList tileset = tsxDoc.getElementsByTagName("tileset");
 
@@ -505,8 +518,15 @@ public class MapLoader implements Serializable {
                 // Get the source path and remove the first two dots
                 imageSource = "/textures/tiles/" + imageSource + ".png";
 
-                if (imageSource.equalsIgnoreCase(imagePath)) {
-                    setSolidTiles(tsxFile);
+                String fixedImg;
+                if (Handler.isJar) {
+                    fixedImg = Handler.jarFile.getParentFile().getAbsolutePath() + imageSource;
+                } else {
+                    fixedImg = imageSource.replaceFirst("/", Handler.resourcePath);
+                }
+
+                if (fixedImg.contains(imagePath)) {
+                    setSolidTiles(fixedDoc);
                     return i;
                 }
             }

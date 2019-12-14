@@ -76,6 +76,18 @@ public class Handler implements Serializable {
         }
     }
 
+    public static String initialWorldPath = "/worlds/port_azure.tmx";
+    static {
+        String fixedFile;
+        if (Handler.isJar) {
+            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + initialWorldPath;
+        } else {
+            fixedFile = initialWorldPath.replaceFirst("/", Handler.resourcePath);
+        }
+
+        initialWorldPath = fixedFile;
+    }
+
 
     /**
      *
@@ -102,7 +114,6 @@ public class Handler implements Serializable {
     private AbilityOverviewUI abilityOverviewUI;
     private TutorialTipManager tutorialTipManager;
     private BountyContractUI contractUI;
-    public static String initialWorldPath = "/worlds/port_azure.tmx";
     public static boolean debugAStar;
     public static boolean debugCollision;
     public static boolean debugZones;
@@ -520,7 +531,11 @@ public class Handler implements Serializable {
 
         try {
             if (!propsLoaded) {
-                input = Handler.class.getResourceAsStream("/settings/config.properties");
+                if (isJar) {
+                    input = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
+                } else {
+                    input = new FileInputStream(Handler.resourcePath + "settings/config.properties");
+                }
                 prop.load(input);
                 propsLoaded = true;
             }

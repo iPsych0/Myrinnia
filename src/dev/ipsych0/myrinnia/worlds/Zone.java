@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.worlds;
 
 public enum Zone {
 
-    PortAzure("Port Azure", "port_azure.wav"), Myrinnia("Myrinnia", "DUMMY"), SunsetCove("Sunset Cove", "sunsetsunrise.ogg"),
+    PortAzure("Port Azure", "port_azure.ogg"), Myrinnia("Myrinnia", "DUMMY"), SunsetCove("Sunset Cove", "sunsetsunrise.ogg"),
     SunriseSands("Sunrise Sands", "sunsetsunrise.ogg"), LakeAzure("Lake Azure", "lake_azure.ogg"), MtAzure1("Mt. Azure", "lake_azure.ogg"),
     MtAzure2("Mt. Azure", "lake_azure.ogg"), MtAzure3("Mt. Azure", "lake_azure.ogg"), SunshineCoast("Sunshine Coast", "sunshinecoast.ogg"),
     PortAzureInside("Port Azure", "port_azure.ogg"), ShamrockHarbour("Shamrock Harbour", "shamrock.ogg"), ShamrockTown("Shamrock Town", "shamrock.ogg"),

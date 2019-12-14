@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.gfx;
 
+import dev.ipsych0.myrinnia.Handler;
+
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -8,9 +12,18 @@ class FontLoader {
 
     public static Font loadFont(String path, float size) {
         try {
-            InputStream is = FontLoader.class.getResourceAsStream(path);
-            Font f = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.BOLD, size);
-            is.close();
+            InputStream input;
+
+            String fixedFile;
+            if (Handler.isJar) {
+                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
+                input = new FileInputStream(fixedFile);
+            } else {
+                fixedFile = path.replaceFirst("/", Handler.resourcePath);
+                input = new FileInputStream(fixedFile);
+            }
+            Font f = Font.createFont(Font.TRUETYPE_FONT, input).deriveFont(Font.BOLD, size);
+            input.close();
             return f;
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();

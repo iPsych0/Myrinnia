@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.gfx;
 
+import dev.ipsych0.myrinnia.Handler;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,10 +12,20 @@ class ImageLoader {
 
     public static BufferedImage loadImage(String path) {
         try {
-            InputStream is = ImageLoader.class.getResourceAsStream(path);
-            BufferedImage img = ImageIO.read(is);
+            InputStream input;
+
+            String fixedFile;
+            if (Handler.isJar) {
+                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
+                input = new FileInputStream(fixedFile);
+            } else {
+                fixedFile = path.replaceFirst("/", Handler.resourcePath);
+                input = new FileInputStream(fixedFile);
+            }
+
+            BufferedImage img = ImageIO.read(input);
             img.setAccelerationPriority(1);
-            is.close();
+            input.close();
             return img;
         } catch (IOException e) {
             e.printStackTrace();
