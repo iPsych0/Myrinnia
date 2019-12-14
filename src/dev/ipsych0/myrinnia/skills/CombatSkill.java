@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 
@@ -54,10 +55,16 @@ public class CombatSkill extends Skill {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
+            if (!Player.isLevelUp) {
+                Handler.get().playEffect("ui/level_up.wav", 0.1f);
+            }
             Player.isLevelUp = true;
             Handler.get().getPlayer().levelUp();
             checkNextLevel();
-            Handler.get().playEffect("ui/level_up.wav", 0.1f);
+        } else {
+            if (Player.isLevelUp) {
+                Handler.get().sendMsg(toString() + " level rose to level " + this.getLevel() + "!");
+            }
         }
     }
 

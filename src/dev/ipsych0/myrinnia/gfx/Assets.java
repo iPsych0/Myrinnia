@@ -32,6 +32,7 @@ public class Assets {
     /*
      * Creature Animations
      */
+    public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
     public static BufferedImage[] regularArrow, regularMagic, regularMelee;
     public static BufferedImage[] fireProjectile;
@@ -198,6 +199,7 @@ public class Assets {
         /*
          * Player/NPCs
          */
+        SpriteSheet level_up = new SpriteSheet("/textures/animations/level_up.png");
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
@@ -740,6 +742,30 @@ public class Assets {
         player_left = player_sheet.npcCrop(0, 1);
         player_right = player_sheet.npcCrop(0, 2);
         player_up = player_sheet.npcCrop(0, 3);
+
+        combatUpFront = new BufferedImage[10];
+        combatUpFront[0] = level_up.imageCrop(0, 0, 64, 64);
+        combatUpFront[1] = level_up.imageCrop(2, 0, 64, 64);
+        combatUpFront[2] = level_up.imageCrop(4, 0, 64, 64);
+        combatUpFront[3] = level_up.imageCrop(6, 0, 64, 64);
+        combatUpFront[4] = level_up.imageCrop(8, 0, 64, 64);
+        combatUpFront[5] = level_up.imageCrop(0, 2, 64, 64);
+        combatUpFront[6] = level_up.imageCrop(2, 2, 64, 64);
+        combatUpFront[7] = level_up.imageCrop(4, 2, 64, 64);
+        combatUpFront[8] = level_up.imageCrop(6, 2, 64, 64);
+        combatUpFront[9] = level_up.imageCrop(8, 2, 64, 64);
+
+        combatUpBack = new BufferedImage[10];
+        combatUpBack[0] = level_up.imageCrop(0, 4, 64, 64);
+        combatUpBack[1] = level_up.imageCrop(2, 4, 64, 64);
+        combatUpBack[2] = level_up.imageCrop(4, 4, 64, 64);
+        combatUpBack[3] = level_up.imageCrop(6, 4, 64, 64);
+        combatUpBack[4] = level_up.imageCrop(8, 4, 64, 64);
+        combatUpBack[5] = level_up.imageCrop(0, 6, 64, 64);
+        combatUpBack[6] = level_up.imageCrop(2, 6, 64, 64);
+        combatUpBack[7] = level_up.imageCrop(4, 6, 64, 64);
+        combatUpBack[8] = level_up.imageCrop(6, 6, 64, 64);
+        combatUpBack[9] = level_up.imageCrop(8, 6, 64, 64);
 
         regularMelee = new BufferedImage[5];
         regularArrow = new BufferedImage[1];

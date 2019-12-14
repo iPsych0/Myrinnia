@@ -53,12 +53,11 @@ public abstract class Skill implements Serializable {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
-            checkNextLevel();
-            // Prevent sound from stacking when leveling 2 or more levels at once
             if (!Player.isLevelUp) {
                 Handler.get().playEffect("ui/level_up.wav", 0.1f);
             }
             Player.isLevelUp = true;
+            checkNextLevel();
         } else {
             if (Player.isLevelUp) {
                 Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));

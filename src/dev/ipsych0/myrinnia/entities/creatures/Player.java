@@ -7,9 +7,7 @@ import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
@@ -30,6 +28,7 @@ import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
@@ -38,6 +37,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -63,6 +63,8 @@ public class Player extends Creature {
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
     private Animation meleeAnimation;
+
+    private Animation combatUpFront, combatUpBack;
 
     // Melee timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
@@ -137,6 +139,9 @@ public class Player extends Creature {
         attRight = new Animation(333, Assets.player_melee_right);
 
         meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+
+        combatUpFront = new Animation(48, Assets.combatUpFront);
+        combatUpBack = new Animation(48, Assets.combatUpBack);
 
         aDefault = aDown;
 
@@ -434,6 +439,12 @@ public class Player extends Creature {
 
         Handler.get().getGameCamera().centerOnEntity(this);
 
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
+            combatUpBack.tick();
+            g.drawImage(combatUpBack.getCurrentFrame(), (int) (x - 16 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), width * 2, height * 2, null);
+        }
+
         if (movementAllowed) {
             g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
@@ -697,6 +708,11 @@ public class Player extends Creature {
             }
         }
 
+        CelebrationUI celebrationUI = Handler.get().getCelebrationUI();
+        if (!celebrationUI.getEvents().isEmpty() && celebrationUI.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+            return true;
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
     }
@@ -755,6 +771,11 @@ public class Player extends Creature {
             if (Handler.get().getMouseManager().isRightPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
                 return true;
             }
+        }
+
+        CelebrationUI celebrationUI = Handler.get().getCelebrationUI();
+        if (!celebrationUI.getEvents().isEmpty() && celebrationUI.getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed()) {
+            return true;
         }
 
         // If the mouse is not clicked in one of the UI windows, return false
@@ -960,23 +981,31 @@ public class Player extends Creature {
         if (isXpGained) {
             xpGainedTimer++;
             g.drawImage(leveledSkill.getImg(), (int) (x - Handler.get().getGameCamera().getxOffset() - 66),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), null);
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), 24, 24, null);
             Text.drawString(g, "+" + xpGained + " XP",
-                    (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 48 - xpGainedTimer),
-                    false, Color.GREEN, Assets.font20);
+                    (int) (x - Handler.get().getGameCamera().getxOffset() - 40),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 44 - xpGainedTimer),
+                    false, Color.GREEN, Assets.font14);
             if (xpGainedTimer >= 60) {
                 xpGainedTimer = 0;
                 isXpGained = false;
             }
         }
 
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
+            combatUpFront.tick();
+            g.drawImage(combatUpFront.getCurrentFrame(), (int) (x - 16 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), width * 2, height * 2, null);
+        }
+
         if (isLevelUp) {
             levelUpTimer++;
-            Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font24);
-            if (levelUpTimer >= 60) {
+            if (levelUpTimer <= 60) {
+                Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x + width - Handler.get().getGameCamera().getxOffset() + 4),
+                        (int) (y - Handler.get().getGameCamera().getyOffset() + 60 - levelUpTimer),
+                        false, Color.GREEN, Assets.font24);
+            }
+            if (levelUpTimer >= 210) {
                 levelUpTimer = 0;
                 isLevelUp = false;
             }
