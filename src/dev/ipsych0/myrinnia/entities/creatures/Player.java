@@ -75,9 +75,6 @@ public class Player extends Creature {
     // Ranged timer
     private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
 
-    // Regeneration timer
-    private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
-
     private double levelExponent = 1.1;
     public static boolean isLevelUp;
     public static boolean isXpGained;
@@ -178,11 +175,6 @@ public class Player extends Creature {
         if (combatTimer >= 300) {
             inCombat = false;
             combatTimer = 0;
-        }
-
-        // Attacks
-        if (!inCombat) {
-            regenHealth();
         }
 
         // Debug button for in-game testing
@@ -619,35 +611,6 @@ public class Player extends Creature {
             if (health >= maxHealth) {
                 health = maxHealth;
             }
-        }
-    }
-
-    /*
-     * Regenerates health
-     */
-    private void regenHealth() {
-        if (health == maxHealth) {
-            return;
-        }
-
-        regenTimer += System.currentTimeMillis() - lastRegenTimer;
-        lastRegenTimer = System.currentTimeMillis();
-        if (regenTimer < regenCooldown)
-            return;
-
-        // If current health is higher than your max health value, degenerate health
-        if (health > maxHealth) {
-
-            health -= 1;
-            regenTimer = 0;
-        }
-
-        // If current health is lower than your max health value, regenerate health
-        if (health < maxHealth) {
-
-            health += 1;
-
-            regenTimer = 0;
         }
     }
 

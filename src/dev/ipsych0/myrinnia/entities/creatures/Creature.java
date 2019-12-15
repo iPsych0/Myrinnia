@@ -56,6 +56,9 @@ public abstract class Creature extends Entity {
     int attackRange = Tile.TILEWIDTH * 2;
     List<Projectile> projectiles = new ArrayList<>();
 
+    // Regeneration timer
+    protected long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
+
     // Walking timer
     private int time = 0;
 
@@ -499,6 +502,15 @@ public abstract class Creature extends Entity {
             aRight.tick();
         }
 
+        if (inCombat) {
+            combatTimer++;
+        }
+
+        if (combatTimer >= 300) {
+            inCombat = false;
+            combatTimer = 0;
+        }
+
         if (attackable) {
             if (!aStarInitialized) {
                 map.init();
@@ -723,6 +735,35 @@ public abstract class Creature extends Entity {
         }
     }
 
+    /*
+     * Regenerates health
+     */
+    public void regenHealth() {
+        if (health == maxHealth) {
+            return;
+        }
+
+        regenTimer += System.currentTimeMillis() - lastRegenTimer;
+        lastRegenTimer = System.currentTimeMillis();
+        if (regenTimer < regenCooldown)
+            return;
+
+        // If current health is higher than your max health value, degenerate health
+        if (health > maxHealth) {
+
+            health -= 1;
+            regenTimer = 0;
+        }
+
+        // If current health is lower than your max health value, regenerate health
+        if (health < maxHealth) {
+
+            health += 1;
+
+            regenTimer = 0;
+        }
+    }
+
     public void clearConditions() {
         for (Condition c : conditions) {
             c.setActive(false);
@@ -912,4 +953,6 @@ public abstract class Creature extends Entity {
     public int getySpawn() {
         return ySpawn;
     }
+
+
 }

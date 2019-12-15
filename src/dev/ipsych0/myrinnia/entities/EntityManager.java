@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
@@ -25,6 +26,8 @@ public class EntityManager implements Serializable {
     private Entity selectedEntity;
     public static boolean isPressed = false;
     private List<HitSplat> hitSplats;
+    private int oocCounter; // Out-of-combat counter
+    private int creatureCounter;
 
     public EntityManager(Player player) {
         this.player = player;
@@ -35,9 +38,13 @@ public class EntityManager implements Serializable {
     }
 
     public void tick() {
+        oocCounter = 0;
+        creatureCounter = 0;
+
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
+
             Entity e = it.next();
             if (!e.isActive()) {
                 deadEntities.add(e);
@@ -47,7 +54,24 @@ public class EntityManager implements Serializable {
 
             // Update buffs, conditions and immunities
             if (e.isActive()) {
-                updateBuffsCondisAndImmunities(e);
+                if (e instanceof Creature) {
+                    Creature c = ((Creature) e);
+
+                    if (c.isAttackable()) {
+                        updateBuffsCondisAndImmunities(c);
+                        creatureCounter++;
+
+                        if (!c.equals(player) && c.getState() != CombatState.PATHFINDING && c.getState() != CombatState.ATTACK && !c.isInCombat()) {
+                            c.regenHealth();
+                            oocCounter++;
+                        }
+                    }
+                }
+            }
+
+            // If all creatures are out of combat, regen health
+            if (!player.isInCombat() && (creatureCounter - 1) == oocCounter) {
+                player.regenHealth();
             }
 
             e.tick();
@@ -98,40 +122,38 @@ public class EntityManager implements Serializable {
         }
     }
 
-    private void updateBuffsCondisAndImmunities(Entity e) {
-        if (e instanceof Creature) {
-            if (!e.isActive()) {
-                ((Creature) e).clearBuffs();
-                ((Creature) e).clearConditions();
-                return;
+    private void updateBuffsCondisAndImmunities(Creature c) {
+        if (!c.isActive()) {
+            c.clearBuffs();
+            c.clearConditions();
+            return;
+        }
+        Iterator<Condition> condIt = c.getConditions().iterator();
+        while (condIt.hasNext()) {
+            Condition condi = condIt.next();
+            if (condi.isActive()) {
+                condi.tick();
+            } else {
+                condIt.remove();
             }
-            Iterator<Condition> condIt = ((Creature) e).getConditions().iterator();
-            while (condIt.hasNext()) {
-                Condition c = condIt.next();
-                if (c.isActive()) {
-                    c.tick();
-                } else {
-                    condIt.remove();
-                }
+        }
+        Iterator<Buff> buffIt = c.getBuffs().iterator();
+        while (buffIt.hasNext()) {
+            Buff b = buffIt.next();
+            if (b.isActive()) {
+                b.tick();
+            } else {
+                buffIt.remove();
             }
-            Iterator<Buff> buffIt = ((Creature) e).getBuffs().iterator();
-            while (buffIt.hasNext()) {
-                Buff b = buffIt.next();
-                if (b.isActive()) {
-                    b.tick();
-                } else {
-                    buffIt.remove();
-                }
-            }
+        }
 
-            Iterator<Resistance> immunIt = ((Creature) e).getImmunities().iterator();
-            while (immunIt.hasNext()) {
-                Resistance i = immunIt.next();
-                if (i.isActive()) {
-                    i.tick();
-                } else {
-                    immunIt.remove();
-                }
+        Iterator<Resistance> immunIt = c.getImmunities().iterator();
+        while (immunIt.hasNext()) {
+            Resistance i = immunIt.next();
+            if (i.isActive()) {
+                i.tick();
+            } else {
+                immunIt.remove();
             }
         }
     }
