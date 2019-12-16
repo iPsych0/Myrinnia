@@ -743,24 +743,25 @@ public abstract class Creature extends Entity {
             return;
         }
 
-        regenTimer += System.currentTimeMillis() - lastRegenTimer;
-        lastRegenTimer = System.currentTimeMillis();
-        if (regenTimer < regenCooldown)
-            return;
-
         // If current health is higher than your max health value, degenerate health
         if (health > maxHealth) {
 
-            health -= 1;
-            regenTimer = 0;
+            if (health - (int) Math.ceil(0.00005d * (double) maxHealth) > maxHealth) {
+                health -= (int) Math.ceil(0.00005d * (double) maxHealth);
+            } else {
+                health = maxHealth;
+            }
         }
 
         // If current health is lower than your max health value, regenerate health
         if (health < maxHealth) {
 
-            health += 1;
+            if (health + (int) Math.ceil(0.00005d * (double) maxHealth) < maxHealth) {
+                health += (int) Math.ceil(0.00005d * (double) maxHealth);
+            } else {
+                health = maxHealth;
+            }
 
-            regenTimer = 0;
         }
     }
 
