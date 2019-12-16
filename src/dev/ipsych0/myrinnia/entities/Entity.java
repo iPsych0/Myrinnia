@@ -500,15 +500,37 @@ public abstract class Entity implements Serializable {
 
         g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
 
+        if (hoveringEntity.isAttackable()) {
+            drawHPinOverlay(g, hoveringEntity, titleBounds);
+        }
+
         if (script != null || isNpc) {
             font = Assets.font20;
         }
         for (int i = 0; i < text.length; i++) {
             if (i >= 1) {
                 font = Assets.font14;
-                yPos += 6;
+                yPos += 8;
             }
             Text.drawString(g, text[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, font);
+        }
+    }
+
+    public void drawHPinOverlay(Graphics2D g, Entity hoveringEntity, Rectangle titleBounds) {
+        g.setColor(HPOverlay.hpColorRed);
+        g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        g.setColor(HPOverlay.hpColorRedOutline);
+        g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+
+        g.setColor(HPOverlay.hpColorGreen);
+        if (health >= maxHealth) {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        } else {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
+            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
         }
     }
 
