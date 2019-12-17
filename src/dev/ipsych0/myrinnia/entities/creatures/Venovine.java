@@ -31,7 +31,7 @@ public class Venovine extends Creature {
         strength += 0;
         dexterity += 0;
         intelligence -= 3;
-        vitality += 8;
+        vitality += 12;
         defence += 24;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;

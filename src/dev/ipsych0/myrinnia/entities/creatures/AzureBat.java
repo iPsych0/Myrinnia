@@ -23,8 +23,8 @@ public class AzureBat extends Creature {
         // Creature stats
         strength += 0;
         dexterity += 0;
-        intelligence += 2;
-        vitality += 7;
+        intelligence += 1;
+        vitality += 10;
         defence += 5;
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
@@ -79,7 +79,7 @@ public class AzureBat extends Creature {
 
     @Override
     protected void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
     }
 
     @Override

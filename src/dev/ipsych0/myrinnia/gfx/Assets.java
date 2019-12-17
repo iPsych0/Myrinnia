@@ -128,6 +128,11 @@ public class Assets {
     public static BufferedImage[] shamrockEsmundDown, shamrockEsmundLeft, shamrockEsmundRight, shamrockEsmundUp;
     public static BufferedImage[] shamrockJoraDown, shamrockJoraLeft, shamrockJoraRight, shamrockJoraUp;
 
+    // Malachite
+    public static BufferedImage[] malachiteThug1Down, malachiteThug1Left, malachiteThug1Right, malachiteThug1Up;
+    public static BufferedImage[] malachiteThug2Down, malachiteThug2Left, malachiteThug2Right, malachiteThug2Up;
+    public static BufferedImage[] malachiteThugLeaderDown, malachiteThugLeaderLeft, malachiteThugLeaderRight, malachiteThugLeaderUp;
+
     // Equipment UI
     public static BufferedImage earringSlot;
     public static BufferedImage mainhandSlot;
@@ -208,6 +213,7 @@ public class Assets {
         SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
+        SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
         SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
@@ -723,6 +729,21 @@ public class Assets {
         shamrockJoraLeft= shamrock_npcs.npcCrop(9, 1);
         shamrockJoraRight = shamrock_npcs.npcCrop(9, 2);
         shamrockJoraUp = shamrock_npcs.npcCrop(9, 3);
+
+        malachiteThug1Down = malachite_npcs.npcCrop(0, 0);
+        malachiteThug1Left= malachite_npcs.npcCrop(0, 1);
+        malachiteThug1Right = malachite_npcs.npcCrop(0, 2);
+        malachiteThug1Up = malachite_npcs.npcCrop(0, 3);
+
+        malachiteThug2Down = malachite_npcs.npcCrop(3, 0);
+        malachiteThug2Left= malachite_npcs.npcCrop(3, 1);
+        malachiteThug2Right = malachite_npcs.npcCrop(3, 2);
+        malachiteThug2Up = malachite_npcs.npcCrop(3, 3);
+
+        malachiteThugLeaderDown = malachite_npcs.npcCrop(6, 0);
+        malachiteThugLeaderLeft= malachite_npcs.npcCrop(6, 1);
+        malachiteThugLeaderRight = malachite_npcs.npcCrop(6, 2);
+        malachiteThugLeaderUp = malachite_npcs.npcCrop(6, 3);
 
         /*
          * Player Animations

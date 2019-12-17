@@ -79,14 +79,14 @@ public class AzureCrab extends Creature {
                 firstKill = false;
             }
             Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(35);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
         } else {
             if (firstKill) {
                 Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
                 firstKill = false;
             }
             Handler.get().dropItem(Item.coins, Handler.get().getRandomNumber(1, 5), (int) x, (int) y);
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         }
     }
 
