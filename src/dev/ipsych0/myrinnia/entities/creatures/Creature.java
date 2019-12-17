@@ -5,14 +5,17 @@ import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.Resistance;
+import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -55,9 +58,6 @@ public abstract class Creature extends Entity {
     static final double LEVEL_EXPONENT = 0.998;
     int attackRange = Tile.TILEWIDTH * 2;
     List<Projectile> projectiles = new ArrayList<>();
-
-    // Regeneration timer
-    protected long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
 
     // Walking timer
     private int time = 0;
@@ -104,6 +104,10 @@ public abstract class Creature extends Entity {
     protected double xMove;
     protected double yMove;
 
+    protected List<DropTableEntry> dropTableEntries;
+    protected int maxDropTableWeight;
+    protected int emptyWeight;
+
     public Creature(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
@@ -120,6 +124,18 @@ public abstract class Creature extends Entity {
         if (direction != null) {
             lastFaced = direction;
             walker = false;
+        }
+
+        if (dropTable != null) {
+            dropTableEntries = Utils.loadDropTable(dropTable);
+            for (DropTableEntry entry : dropTableEntries) {
+                // ItemID -1 for empty drop
+                if (entry.getItemId() == -1) {
+                    emptyWeight = entry.getWeight();
+                } else {
+                    maxDropTableWeight += entry.getWeight();
+                }
+            }
         }
 
         state = CombatState.IDLE;
@@ -151,6 +167,30 @@ public abstract class Creature extends Entity {
             maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
             health = maxHealth;
         }
+    }
+
+    protected void getDroptableItem() {
+        if (maxDropTableWeight == 0) {
+            // The drop table must be empty
+            throw new IllegalArgumentException("Drop table for " + getName() + " is empty in " + Handler.get().getWorld().getZone().getName() + ". Please check 'dropTable' property in Tiled.");
+        }
+
+        // Roll number between 1 and sum of all weights
+        int roll = Handler.get().getRandomNumber(1, maxDropTableWeight + emptyWeight);
+        int index = 0;
+        for (DropTableEntry entry : dropTableEntries) {
+            index += entry.getWeight();
+            if (roll <= index && roll > (index - entry.getWeight())) {
+                // Don't drop anything if we rolled the empty table
+                if(entry.getItemId() == -1)
+                    return;
+
+                Handler.get().dropItem(Item.items[entry.getItemId()], entry.getAmount(), (int) x, (int) y);
+                return;
+            }
+        }
+        // The drop table must be empty
+        Handler.get().sendMsg("Drop table for " + getName() + " is empty.");
     }
 
     /*

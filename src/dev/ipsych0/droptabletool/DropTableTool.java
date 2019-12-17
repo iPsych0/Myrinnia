@@ -3,6 +3,7 @@ package dev.ipsych0.droptabletool;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

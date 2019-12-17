@@ -1,0 +1,27 @@
+[
+  {
+    "itemId": 43,
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": 4,
+    "amount": 2,
+    "weight": 3
+  },
+  {
+    "itemId": 4,
+    "amount": 3,
+    "weight": 2
+  },
+  {
+    "itemId": 4,
+    "amount": 5,
+    "weight": 2
+  },
+  {
+    "itemId": -1,
+    "amount": 0,
+    "weight": 3
+  }
+]

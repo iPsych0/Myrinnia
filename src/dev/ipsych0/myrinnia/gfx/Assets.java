@@ -54,7 +54,7 @@ public class Assets {
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace;
+                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -401,6 +401,10 @@ public class Assets {
         miningEquipment = item_sheet.imageCrop(0, 20);
         dustyScroll = item_sheet.imageCrop(0, 21);
         azuriteNecklace = item_sheet.imageCrop(0, 22);
+        azureBatWing = item_sheet.imageCrop(0, 23);
+        crablingClaw = item_sheet.imageCrop(0, 24);
+        simpleGloves = item_sheet.imageCrop(0, 25);
+        simpleBandana = item_sheet.imageCrop(0, 26);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);

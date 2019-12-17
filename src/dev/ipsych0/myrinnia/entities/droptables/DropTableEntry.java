@@ -1,6 +1,8 @@
-package dev.ipsych0.droptabletool;
+package dev.ipsych0.myrinnia.entities.droptables;
 
-public class DropTableEntry {
+import java.io.Serializable;
+
+public class DropTableEntry implements Serializable {
 
     private int itemId;
     private int amount;

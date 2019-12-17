@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
@@ -139,6 +140,11 @@ public class Utils {
     public static List<Stock> loadStocks(String path) {
         List<Stock> s = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile(path, "shops/json/", Stock[].class)));
         return s;
+    }
+
+    public static List<DropTableEntry> loadDropTable(String path) {
+        List<DropTableEntry> e = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile(path, "entities/droptables/", DropTableEntry[].class)));
+        return e;
     }
 
     public static Monologue loadMonologue(String path) {

@@ -68,6 +68,7 @@ public class AzureScorpion extends Creature {
     @Override
     public void die() {
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        getDroptableItem();
     }
 
     /*

@@ -211,6 +211,7 @@
   </object>
   <object id="10" name="Azure Bat" type="npc" x="192" y="768" width="32" height="32">
    <properties>
+    <property name="dropTable" value="azure_bat.json"/>
     <property name="level" value="3"/>
     <property name="name" value="Azure Bat"/>
     <property name="npcClass" value="AzureBat"/>
@@ -218,6 +219,7 @@
   </object>
   <object id="11" name="Azure Bat" type="npc" x="1088" y="256" width="32" height="32">
    <properties>
+    <property name="dropTable" value="azure_bat.json"/>
     <property name="level" value="3"/>
     <property name="name" value="Azure Bat"/>
     <property name="npcClass" value="AzureBat"/>
@@ -225,6 +227,7 @@
   </object>
   <object id="12" name="Azure Bat" type="npc" x="1280" y="896" width="32" height="32">
    <properties>
+    <property name="dropTable" value="azure_bat.json"/>
     <property name="level" value="3"/>
     <property name="name" value="Azure Bat"/>
     <property name="npcClass" value="AzureBat"/>
