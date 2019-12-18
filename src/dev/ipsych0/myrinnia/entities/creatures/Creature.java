@@ -182,7 +182,7 @@ public abstract class Creature extends Entity {
             index += entry.getWeight();
             if (roll <= index && roll > (index - entry.getWeight())) {
                 // Don't drop anything if we rolled the empty table
-                if(entry.getItemId() == -1)
+                if (entry.getItemId() == -1)
                     return;
 
                 Handler.get().dropItem(Item.items[entry.getItemId()], entry.getAmount(), (int) x, (int) y);
@@ -233,7 +233,7 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.LEFT;
             double tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
 
-            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
+            if (tx >= 0 && !collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
                     !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
 
                 x += xMove;
@@ -254,7 +254,7 @@ public abstract class Creature extends Entity {
             lastFaced = Direction.UP;
             double ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
+            if (ty >= 0 && !collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
                     !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
@@ -348,6 +348,12 @@ public abstract class Creature extends Entity {
         return aDown.getDefaultFrame();
     }
 
+    private boolean isOutsideMap(int x, int y) {
+        int width = Handler.get().getWorld().getWidth();
+        int height = Handler.get().getWorld().getHeight();
+        return x < 0 || y < 0 || x >= width || y >= height;
+    }
+
     /*
      * Handles collision detection with Tiles
      */
@@ -355,6 +361,10 @@ public abstract class Creature extends Entity {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
+
+        if (isOutsideMap(x, y)) {
+            return true;
+        }
 
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;

@@ -21,6 +21,11 @@ public class GameCamera implements Serializable {
     }
 
     private void checkBlankSpace() {
+        // Don't correct outside map bounds for small maps
+        if (Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth() ||
+                Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()) {
+            return;
+        }
         if (xOffset < 0) {
             xOffset = 0;
         } else if (xOffset > Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth()) {
