@@ -1,0 +1,55 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "[You hear some voices behind the rock slide]",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "H-hello? Is anyone there?!",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Hello! Sebastian sent me to find you.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Oh thank Terra! You have to get us out of here. We found some ancient treasury in this room, but when we paved our way through the crevice, a rock slide blocked us out.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "How do you suggest I help you out?",
+          "nextId": 5
+        },
+        {
+          "text": "I will find a way.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "We tried using our pickaxes, but it's pointless. These rocks are too tough to break. A controlled explosion should do the trick.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "I'm sure you will be able to find some dynamite in these mines somewhere. Please hurry!",
+      "nextId": -1
+    }
+  ]
+}

@@ -27,7 +27,7 @@ public class Assets {
     // Map item images (trees, rocks, etc)
     public static BufferedImage weakPalmTree, azuriteRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
-    public static BufferedImage bountyContract;
+    public static BufferedImage rockSlide;
 
     /*
      * Creature Animations
@@ -52,7 +52,7 @@ public class Assets {
     public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
-    public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, beginnersBow,
+    public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
                                 copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana;
     public static BufferedImage[] coins;
@@ -879,6 +879,7 @@ public class Assets {
         azuriteRock = skill_resources.imageCrop(1, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
+        rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);
