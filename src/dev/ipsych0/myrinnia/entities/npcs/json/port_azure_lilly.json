@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Along the eastern shores of Azureal Island, you will find many scorpions. A man by the name of 'Crazy Cooper' lives nearby the forest edge.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Rumour has it, he was stung by a scorpion, but rather than the venom killing him, it drove him mad. He has become somewhat... unstable.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Quite the tragedy. He used to be a citizen of Port Azure. Now, he doesn't want to return and he lives out in the wild.",
+      "nextId": -1
+    }
+  ]
+}
