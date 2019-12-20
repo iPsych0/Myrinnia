@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -812,6 +813,19 @@ public abstract class Creature extends Entity {
                 health = maxHealth;
             }
 
+        }
+    }
+
+    public void castAbility(Ability ability) {
+        if(ability.isOnCooldown() || ability.isChanneling()){
+            return;
+        }
+        if (ability.isSelectable()) {
+            ability.setSelected(true);
+        }
+        if (!Handler.get().getAbilityManager().getActiveAbilities().contains(ability)) {
+            Handler.get().getAbilityManager().getActiveAbilities().add(ability);
+            ability.setCaster(this);
         }
     }
 

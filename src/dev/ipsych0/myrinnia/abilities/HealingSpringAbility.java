@@ -54,7 +54,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
     public void cast() {
         if (!initialHealDone) {
             springActive = true;
-            pbAoECircle = new PBAoECircle(80);
+            pbAoECircle = new PBAoECircle(caster, 80);
 
             regenSeconds = 5 * 60;
             baseHeal = 35;
@@ -78,7 +78,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
         animation.tick();
 
         // Check if we're standing in the spring
-        standingOn = Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(pbAoECircle.getBounds());
+        standingOn = caster.getCollisionBounds(0, 0).intersects(pbAoECircle.getBounds());
 
         // If it's active and we're standing in it, start counting the regen timer
         if (springActive && standingOn) {

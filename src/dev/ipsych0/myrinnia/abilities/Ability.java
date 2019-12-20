@@ -71,6 +71,46 @@ public abstract class Ability implements Serializable {
 
     public void tick() {
         Rectangle mouse = Handler.get().getMouse();
+        if (caster.equals(Handler.get().getPlayer())) {
+            handlePlayerSelectableLogic(mouse);
+        } else {
+            handleEnemySelectableLogic();
+        }
+
+        if (casting) {
+            cast();
+        }
+
+        if (onCooldown) {
+            countDown();
+        }
+    }
+
+    private void handleEnemySelectableLogic() {
+        if (isSelectable() && isSelected()) {
+            setSelected(false);
+            for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+                // Skip current casting ability
+                if(a.equals(this))
+                    continue;
+                if (a.getCaster().equals(caster) && a.isChanneling()) {
+                    this.setActivated(false);
+                    return;
+                }
+            }
+            if (this.getCastingTime() > 0) {
+                this.setChanneling(true);
+            }
+            this.setOnCooldown(true);
+        } else {
+            if (this.castingTime * 60 == castingTimeTimer++) {
+                this.setCasting(true);
+                this.setChanneling(false);
+            }
+        }
+    }
+
+    private void handlePlayerSelectableLogic(Rectangle mouse) {
         if (isSelectable() && isSelected()) {
             if (!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                 setSelected(false);
@@ -92,14 +132,6 @@ public abstract class Ability implements Serializable {
                 this.setCasting(true);
                 this.setChanneling(false);
             }
-        }
-
-        if (casting) {
-            cast();
-        }
-
-        if (onCooldown) {
-            countDown();
         }
     }
 

@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
@@ -29,29 +28,38 @@ public class IceBallAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
-        Handler.get().getMouseManager().setLeftPressed(true);
 
         Player player = Handler.get().getPlayer();
-        Rectangle mouse = Handler.get().getMouse();
+        Rectangle direction;
+        if (caster.equals(player)) {
+            direction = Handler.get().getMouse();
+            if (player.hasLeftClickedUI(direction))
+                return;
 
-        if (player.hasLeftClickedUI(mouse))
-            return;
-
-        // Change attacking animation depending on which weapon type
-        player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
-
-        Handler.get().playEffect("abilities/ice_ball.wav", 0.1f);
-        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
-                    .withVelocity(7.0f)
-                    .withImpactSound("abilities/ice_projectile_impact.wav")
-                    .withImpact((c) -> {
-                        c.addCondition(Handler.get().getPlayer(), c, new Condition(Condition.Type.CHILL, c, 3));
-                    }).build();
+            // Change attacking animation depending on which weapon type
+            player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+        } else {
+            direction = new Rectangle((int) player.getX(), (int) player.getY(), 1, 1);
         }
 
-        Handler.get().getMouseManager().setLeftPressed(false);
+        int targetX, targetY;
+        if (caster.equals(player)) {
+            targetX = (int) (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16);
+            targetY = (int) (direction.getY() + Handler.get().getGameCamera().getyOffset() - 16);
+            setSelected(false);
+        } else {
+            targetX = (int) (direction.getX());
+            targetY = (int) (direction.getY());
+        }
+
+        Handler.get().playEffect("abilities/ice_ball.wav", 0.1f);
+        new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, targetX, targetY)
+                .withVelocity(7.0f)
+                .withImpactSound("abilities/ice_projectile_impact.wav")
+                .withImpact((c) -> {
+                    c.addCondition(caster, c, new Condition(Condition.Type.CHILL, c, 3));
+                }).build();
+
         setCasting(false);
     }
 

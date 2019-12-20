@@ -37,31 +37,40 @@ public class GlacialShotAbility extends Ability implements Serializable {
             initialized = true;
         }
 
-        Handler.get().getMouseManager().setLeftPressed(true);
-
+        Rectangle direction;
         Player player = Handler.get().getPlayer();
-        Rectangle mouse = Handler.get().getMouse();
+        if (caster.equals(player)) {
 
-        if (player.hasLeftClickedUI(mouse))
-            return;
+            direction = Handler.get().getMouse();
 
-        // Change attacking animation depending on which weapon type
-        player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+            if (player.hasLeftClickedUI(direction))
+                return;
+
+            // Change attacking animation depending on which weapon type
+            player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+        } else {
+            direction = new Rectangle((int) player.getX(), (int) player.getY(), 1, 1);
+        }
+
+        int targetX, targetY;
+        if (caster.equals(player)) {
+            targetX = (int) (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16);
+            targetY = (int) (direction.getY() + Handler.get().getGameCamera().getyOffset() - 16);
+            setSelected(false);
+        } else {
+            targetX = (int) (direction.getX());
+            targetY = (int) (direction.getY());
+        }
 
         Handler.get().playEffect("abilities/glacial_shot.wav", 0.1f);
-        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
+        new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
+                .withImpactSound("abilities/ice_projectile_impact.wav")
+                .withAbility(this)
+                .withVelocity(7.0f)
+                .withImpact((Serializable & OnImpact) (receiver) ->
+                        receiver.addCondition(caster, receiver, new Condition(Condition.Type.CHILL, receiver, 3)))
+                .build();
 
-            int targetX = (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16);
-            int targetY = (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16);
-
-            new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
-                    .withImpactSound("abilities/ice_projectile_impact.wav")
-                    .withAbility(this)
-                    .withVelocity(7.0f)
-                    .withImpact((Serializable & OnImpact) (receiver) ->
-                            receiver.addCondition(Handler.get().getPlayer(), receiver, new Condition(Condition.Type.CHILL, receiver, 3))).build();
-        }
-        Handler.get().getMouseManager().setLeftPressed(false);
         setCasting(false);
     }
 

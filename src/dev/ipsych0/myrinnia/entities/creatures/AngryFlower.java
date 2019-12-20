@@ -1,12 +1,13 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -20,6 +21,7 @@ public class AngryFlower extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private Ability ability = Utils.loadAbility("healingspring.json");
 
     public AngryFlower(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -89,9 +91,15 @@ public class AngryFlower extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
-        new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
-
+//        int rnd = Handler.get().getRandomNumber(0, 3);
+//        if (rnd <= 2) {
+//            Handler.get().playEffect("abilities/magic_strike.wav");
+//            new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
+//        } else {
+        if (!ability.isOnCooldown()) {
+            castAbility(ability);
+        }
+//        }
     }
 
     @Override

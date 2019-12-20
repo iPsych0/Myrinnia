@@ -105,6 +105,9 @@ public class AbilityManager implements Serializable {
                             a.getCaster().getWidth() + 4, 8, 2, 2);
                 }
             }
+            if (a.isOnCooldown()) {
+                a.render(g, (int) a.getCaster().getX(), (int) a.getCaster().getY());
+            }
         }
     }
 
