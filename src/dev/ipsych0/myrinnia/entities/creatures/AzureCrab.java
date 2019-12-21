@@ -55,7 +55,7 @@ public class AzureCrab extends Creature {
 
         if (!name.equalsIgnoreCase("King Azure Crab") && !hasFoughtBefore) {
             hasFoughtBefore = true;
-            Handler.get().addTip(new TutorialTip("Left-click and aim with your mouse to attack."));
+            Handler.get().addTip(new TutorialTip("Aim with with your mouse and left-click to attack."));
         }
 
         if (name.equalsIgnoreCase("King Azure Crab")) {

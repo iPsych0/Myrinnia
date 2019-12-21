@@ -84,6 +84,7 @@ public class PortAzureRyan extends Creature {
                 if (!hasRemovedAxe) {
                     Handler.get().removeItem(Item.ryansAxe, 1);
                     hasRemovedAxe = true;
+                    speakingCheckpoint = 1;
                 }
                 break;
             case 2:

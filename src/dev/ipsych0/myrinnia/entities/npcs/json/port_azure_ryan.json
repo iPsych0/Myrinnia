@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Oh man... I'm so startled. I was attacked by this big crab in Sunset Cove...",
+      "text": "Oh man... I'm so startled. I was attacked by this big crab in Sunset Cove, west of here...",
       "nextId": 1,
       "choiceCondition": {
         "condition": "hasCompletedBounty",
