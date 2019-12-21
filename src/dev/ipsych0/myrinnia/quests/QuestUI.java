@@ -138,21 +138,7 @@ public class QuestUI implements Serializable {
                             }
                         }
                     }
-                    Color questStatus;
-                    int completed = 0;
-                    for (Quest quest : Handler.get().getQuestManager().getAllQuestLists().get(i)) {
-                        if (quest.getState() == QuestState.COMPLETED) {
-                            completed++;
-                        }
-                    }
-
-                    if (completed == Handler.get().getQuestManager().getAllQuestLists().get(i).size()) {
-                        questStatus = Color.GREEN;
-                    } else if (completed == 0) {
-                        questStatus = Color.RED;
-                    } else {
-                        questStatus = Color.YELLOW;
-                    }
+                    Color questStatus = getZoneStatus(i);
                     Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, questStatus, Assets.font14);
                 }
 
@@ -208,6 +194,29 @@ public class QuestUI implements Serializable {
                 questHelpUI.render(g, selectedQuest);
             }
         }
+    }
+
+    private Color getZoneStatus(int index) {
+        Color questStatus;
+        int completed = 0;
+        int started = 0;
+        for (Quest quest : Handler.get().getQuestManager().getAllQuestLists().get(index)) {
+            if (quest.getState() == QuestState.COMPLETED) {
+                completed++;
+            } else if (quest.getState() == QuestState.IN_PROGRESS) {
+                started++;
+            }
+        }
+
+        if (completed == Handler.get().getQuestManager().getAllQuestLists().get(index).size()) {
+            questStatus = Color.GREEN;
+        } else if (started >= 1 || completed >= 1) {
+            questStatus = Color.YELLOW;
+        } else {
+            questStatus = Color.RED;
+        }
+
+        return questStatus;
     }
 
     public Rectangle getBounds() {

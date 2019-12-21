@@ -107,7 +107,9 @@ public class Utils {
     public static Ability loadAbility(String path) {
         Ability a = loadObjectFromJsonFile(path, "abilities/json/", getClassFromString(path, "abilities"));
         a.setId(abilityCounter++);
-        AbilityManager.abilityMap.put(a.getClass(), a);
+        if (!AbilityManager.abilityMap.containsKey(a.getClass())) {
+            AbilityManager.abilityMap.put(a.getClass(), a);
+        }
         return a;
     }
 

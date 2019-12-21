@@ -120,7 +120,7 @@ public class BountyBoardUI implements Serializable {
                     if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
                         Handler.get().getQuest(QuestList.GettingStarted).nextStep();
                         Handler.get().addQuestStep(QuestList.GettingStarted, "Complete the bounty contract and claim your reward.");
-                        Handler.get().addTip(new TutorialTip("Right-click the contract in your inventory to open it."));
+                        Handler.get().addTip(new TutorialTip("Right-click on items in your inventory to 'use' them. Click on the contract to open it."));
                         Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }
                     // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)

@@ -25,7 +25,7 @@
     },
     {
       "id": 3,
-      "text": "Oh thank Terra! You have to get us out of here. We found some ancient treasury in this room, but when we paved our way through the crevice, a rock slide blocked us out.",
+      "text": "Oh thank Terra! You have to get us out of here. We found some ancient treasury room, but when we paved our way through the crevice, a rock slide occurred blocked our way out.",
       "nextId": 4
     },
     {
@@ -48,7 +48,12 @@
     },
     {
       "id": 6,
-      "text": "I'm sure you will be able to find some dynamite in these mines somewhere. Please hurry!",
+      "text": "You should place a dynamite stick north, west and east of the rock slide. That means you should look for 3 dynamite in total.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "Finally, once the dynamite has been put in position, you will need a detonator. I'm sure all of these items can be found in the mines. Good luck!",
       "nextId": -1
     }
   ]

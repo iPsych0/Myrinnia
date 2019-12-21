@@ -18,6 +18,7 @@ import java.awt.*;
 public class PortAzureRyan extends Creature {
 
     private boolean hasRemovedAxe;
+    private boolean hasGivenAxe;
     private boolean completedBounty;
 
     public PortAzureRyan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
@@ -88,12 +89,15 @@ public class PortAzureRyan extends Creature {
                 }
                 break;
             case 2:
-                if (hasRemovedAxe && !completedBounty) {
+                if (hasRemovedAxe && !hasGivenAxe && !completedBounty) {
                     Handler.get().giveItem(Item.simpleAxe, 1);
+                    hasGivenAxe = true;
+                    speakingCheckpoint = 2;
                 }
                 break;
             case 3:
                 if (!completedBounty) {
+                    speakingCheckpoint = 3;
                     bounty.setCompleted(true);
                     Handler.get().getQuest(QuestList.GettingStarted).nextStep();
                     Handler.get().getQuest(QuestList.GettingStarted).setState(QuestState.COMPLETED);
