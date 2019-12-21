@@ -4,15 +4,11 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 public enum QuestList {
 
-    BountyHunter("Bounty Hunter", Zone.PortAzure),
-    WoodcuttingAndFishing("Woodcutting & Fishing", Zone.PortAzure),
-    MiningAndCrafting("Mining & Crafting", Zone.PortAzure),
-    WaterMagic("Water Magic", Zone.PortAzure),
+    GettingStarted("Getting Started", Zone.PortAzure),
+    GatheringYourStuff("Gathering Your Stuff", Zone.PortAzure),
+    PreparingYourJourney("Preparing Your Journey", Zone.PortAzure),
+    WaveGoodbye("Wave Goodbye", Zone.PortAzure),
     WeDelvedTooDeep("We Delved Too Deep", Zone.ShamrockTown);
-//    TheSecondQuest("The Second Quest", Zone.PortAzure),
-//    TheThirdQuest("The Third Quest", Zone.PortAzure),
-//    TheTestQuest("The Test Quest", Zone.LakeAzure),
-//    AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
 
     private Zone zone;
     private String name;

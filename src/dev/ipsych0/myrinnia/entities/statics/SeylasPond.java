@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class SeylasPond extends StaticEntity {
 
-    private Quest quest = Handler.get().getQuest(QuestList.WaterMagic);
+    private Quest quest = Handler.get().getQuest(QuestList.WaveGoodbye);
 
     public SeylasPond(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -49,7 +49,7 @@ public class SeylasPond extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "waterQuestStarted":
-                if (Handler.get().questInProgress(QuestList.WaterMagic)) {
+                if (Handler.get().questInProgress(QuestList.WaveGoodbye)) {
                     return true;
                 }
                 break;

@@ -18,7 +18,7 @@ public class ElderSelwyn extends Creature {
 
 
     private static final long serialVersionUID = 101550362959052644L;
-    private Quest quest = Handler.get().getQuest(QuestList.WaterMagic);
+    private Quest quest = Handler.get().getQuest(QuestList.WaveGoodbye);
     private boolean tipShown;
     private Ability learntAbility;
 
@@ -51,7 +51,7 @@ public class ElderSelwyn extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedMiningAndCrafting":
-                if (Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
+                if (Handler.get().questCompleted(QuestList.PreparingYourJourney)) {
                     return true;
                 }
                 break;
@@ -141,7 +141,7 @@ public class ElderSelwyn extends Creature {
                 if (speakingCheckpoint != 20) {
                     speakingCheckpoint = 20;
                 }
-                if (Handler.get().getQuest(QuestList.WaterMagic).getState() == QuestState.IN_PROGRESS) {
+                if (Handler.get().getQuest(QuestList.WaveGoodbye).getState() == QuestState.IN_PROGRESS) {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);

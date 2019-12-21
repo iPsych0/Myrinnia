@@ -64,9 +64,9 @@ public class CraftingStation extends StaticEntity {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getState() == QuestState.NOT_STARTED ||
-                        Handler.get().questInProgress(QuestList.MiningAndCrafting) && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(0).isFinished() ||
-                        Handler.get().questInProgress(QuestList.MiningAndCrafting) && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished()) {
+                if (Handler.get().getQuest(QuestList.PreparingYourJourney).getState() == QuestState.NOT_STARTED ||
+                        Handler.get().questInProgress(QuestList.PreparingYourJourney) && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(0).isFinished() ||
+                        Handler.get().questInProgress(QuestList.PreparingYourJourney) && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(1).isFinished()) {
                     Handler.get().sendMsg("You should talk to Duncan first to learn how this works.");
                     speakingTurn = -1;
                     break;

@@ -1,9 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -47,7 +45,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "mayorQuest":
-                List<QuestStep> steps = Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps();
+                List<QuestStep> steps = Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps();
                 if (!steps.isEmpty() && !steps.get(0).isFinished()) {
                     return true;
                 }
@@ -80,17 +78,17 @@ public class PortAzureShopkeeper extends ShopKeeper {
             case 5:
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
                     Handler.get().giveItem(Item.beginnersStaff, 1);
-                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersStaff);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersStaff);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
                     Handler.get().giveItem(Item.beginnersBow, 1);
-                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersBow);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersBow);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
                     Handler.get().giveItem(Item.beginnersSword, 1);
-                    Handler.get().getQuest(QuestList.WaterMagic).addNewCheck("chosenItem", Item.beginnersSword);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersSword);
                 }
                 Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
-                Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                Handler.get().addQuestStep(QuestList.BountyHunter, "Report back to the mayor.");
+                Handler.get().getQuest(QuestList.GettingStarted).nextStep();
+                Handler.get().addQuestStep(QuestList.GettingStarted, "Report back to the mayor.");
         }
     }
 

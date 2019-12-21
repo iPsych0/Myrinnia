@@ -42,13 +42,13 @@ public class ItemSlot implements Serializable {
     public void renderItem(Graphics2D g, int x, int y) {
         if (itemStack != null) {
             if (itemStack.getItem() == Item.coins) {
-                if (itemStack.getAmount() >= 1 && itemStack.getAmount() < 100) {
+                if (itemStack.getAmount() >= 1 && itemStack.getAmount() < 50) {
                     itemStack.getItem().setTexture(Assets.coins[0]);
-                } else if (itemStack.getAmount() >= 100 && itemStack.getAmount() < 1000) {
+                } else if (itemStack.getAmount() >= 50 && itemStack.getAmount() < 1000) {
                     itemStack.getItem().setTexture(Assets.coins[1]);
                 } else if (itemStack.getAmount() >= 1000 && itemStack.getAmount() < 10000) {
                     itemStack.getItem().setTexture(Assets.coins[2]);
-                } else if (itemStack.getAmount() >= 10000 && itemStack.getAmount() < 100000) {
+                } else if (itemStack.getAmount() >= 10000) {
                     itemStack.getItem().setTexture(Assets.coins[3]);
                 }
             }

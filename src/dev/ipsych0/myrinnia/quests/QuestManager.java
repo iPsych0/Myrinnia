@@ -55,10 +55,10 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        azurealIslandQuests.add(new Quest("Bounty Hunter", Zone.PortAzure));
-        azurealIslandQuests.add(new Quest("Woodcutting & Fishing", Zone.PortAzure, new QuestRequirement(QuestList.BountyHunter)));
-        azurealIslandQuests.add(new Quest("Mining & Crafting", Zone.PortAzure, new QuestRequirement(QuestList.WoodcuttingAndFishing)));
-        azurealIslandQuests.add(new Quest("Water Magic", Zone.PortAzure, new QuestRequirement(QuestList.MiningAndCrafting)));
+        azurealIslandQuests.add(new Quest("Getting Started", Zone.PortAzure));
+        azurealIslandQuests.add(new Quest("Gathering Your Stuff", Zone.PortAzure, new QuestRequirement(QuestList.GettingStarted)));
+        azurealIslandQuests.add(new Quest("Preparing Your Journey", Zone.PortAzure, new QuestRequirement(QuestList.GatheringYourStuff)));
+        azurealIslandQuests.add(new Quest("Wave Goodbye", Zone.PortAzure, new QuestRequirement(QuestList.PreparingYourJourney)));
 
         shamrockTownQuests.add(new Quest("We Delved Too Deep", Zone.ShamrockTown, new QuestRequirement(SkillsList.MINING, 5)));
 

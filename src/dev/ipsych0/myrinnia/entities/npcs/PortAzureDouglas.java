@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class PortAzureDouglas extends Creature {
 
-    private Quest quest = Handler.get().getQuest(QuestList.WoodcuttingAndFishing);
+    private Quest quest = Handler.get().getQuest(QuestList.GatheringYourStuff);
     private boolean tipDisplayed = false;
     private boolean scriptChanged;
 
@@ -48,12 +48,12 @@ public class PortAzureDouglas extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedBountyHunter":
-                if (Handler.get().questCompleted(QuestList.BountyHunter)) {
+                if (Handler.get().questCompleted(QuestList.GettingStarted)) {
                     return true;
                 }
                 break;
             case "has5logs":
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.lightWood, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.lightWood, 5)) {
                     return true;
                 }
                 break;
@@ -79,13 +79,13 @@ public class PortAzureDouglas extends Creature {
         switch (speakingTurn) {
             case 5:
                 speakingCheckpoint = 5;
-                if (!Handler.get().questStarted(QuestList.WoodcuttingAndFishing)) {
+                if (!Handler.get().questStarted(QuestList.GatheringYourStuff)) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Cut 5 Lightwood from weak palm trees in Sunrise Sands.");
+                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Cut 5 Lightwood from weak palm trees in Sunrise Sands.");
                 }
                 break;
             case 7:
-                if (!scriptChanged && Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
+                if (!scriptChanged && Handler.get().questCompleted(QuestList.GatheringYourStuff)) {
                     scriptChanged = true;
                     script = Utils.loadScript("port_azure_douglas2.json");
                     speakingCheckpoint = 0;
@@ -93,11 +93,11 @@ public class PortAzureDouglas extends Creature {
                     break;
                 }
                 speakingCheckpoint = 7;
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.lightWood, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.lightWood, 5)) {
                     Handler.get().giveItem(Item.simpleFishingRod, 1);
                     Handler.get().removeItem(Item.lightWood, 5);
                     quest.nextStep();
-                    Handler.get().addQuestStep(QuestList.WoodcuttingAndFishing, "Deliver 5 fish to Mary in Port Azure.");
+                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Deliver 5 fish to Mary in Port Azure.");
                 }
                 break;
             case 8:
@@ -111,7 +111,7 @@ public class PortAzureDouglas extends Creature {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (Handler.get().hasQuestReqs(QuestList.WoodcuttingAndFishing) && quest.getState() == QuestState.NOT_STARTED) {
+        if (Handler.get().hasQuestReqs(QuestList.GatheringYourStuff) && quest.getState() == QuestState.NOT_STARTED) {
             g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
         }

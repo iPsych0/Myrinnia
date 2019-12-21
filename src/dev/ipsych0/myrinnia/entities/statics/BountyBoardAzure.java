@@ -43,7 +43,7 @@ public class BountyBoardAzure extends BountyBoard {
 
     @Override
     public void interact() {
-        List<QuestStep> steps = Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps();
+        List<QuestStep> steps = Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps();
         if (steps != null) {
             if (steps.size() >= 3) {
                 BountyBoardUI.isOpen = true;

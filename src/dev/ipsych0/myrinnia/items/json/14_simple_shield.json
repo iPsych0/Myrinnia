@@ -3,12 +3,6 @@
     "ARMOUR"
   ],
   "itemRarity": "Common",
-  "requirements": [
-    {
-      "stat": "Combat",
-      "level": 3
-    }
-  ],
   "name": "Simple shield",
   "id": 14,
   "equipSlot": "Offhand",

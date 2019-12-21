@@ -43,15 +43,15 @@ public class MayorWilson extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasObtainedWeapon":
-                if (Handler.get().questInProgress(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.GettingStarted) && Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(0).isFinished()) {
                     return true;
                 }
-                if (Handler.get().questCompleted(QuestList.BountyHunter)) {
+                if (Handler.get().questCompleted(QuestList.GettingStarted)) {
                     script.getDialogues().get(2).setText("Once you have learned all skills, you should ask Captain Isaac to take you with him! You can find him on the docks south of here.");
                 }
                 break;
             case "allQuestsDone":
-                if (!Handler.get().questCompleted(QuestList.BountyHunter)) {
+                if (!Handler.get().questCompleted(QuestList.GettingStarted)) {
                     speakingTurn = -1;
                     break;
                 }
@@ -67,34 +67,34 @@ public class MayorWilson extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if (Handler.get().questInProgress(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(0).isFinished()) {
+                if (Handler.get().questInProgress(QuestList.GettingStarted) && Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(0).isFinished()) {
                     script.getDialogues().get(0).setText("Welcome back!");
                 }
                 break;
             case 2:
-                if (!Handler.get().questCompleted(QuestList.BountyHunter) && !Handler.get().questStarted(QuestList.BountyHunter)) {
+                if (!Handler.get().questCompleted(QuestList.GettingStarted) && !Handler.get().questStarted(QuestList.GettingStarted)) {
                     Handler.get().addTip(new TutorialTip("Press Q to open your Quest Journal."));
-                    Handler.get().getQuest(QuestList.BountyHunter).setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose your first weapon from the store.");
+                    Handler.get().getQuest(QuestList.GettingStarted).setState(QuestState.IN_PROGRESS);
+                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose your first weapon from the store.");
                 }
                 break;
             case 6:
-                if (Handler.get().questInProgress(QuestList.BountyHunter) && !Handler.get().getQuest(QuestList.BountyHunter).getQuestSteps().get(1).isFinished()) {
-                    Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                    Handler.get().addQuestStep(QuestList.BountyHunter, "Choose a bounty target from the board.");
+                if (Handler.get().questInProgress(QuestList.GettingStarted) && !Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(1).isFinished()) {
+                    Handler.get().getQuest(QuestList.GettingStarted).nextStep();
+                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose a bounty target from the board.");
                 }
                 break;
             case 7:
-                if (Handler.get().questCompleted(QuestList.BountyHunter) && !Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
+                if (Handler.get().questCompleted(QuestList.GettingStarted) && !Handler.get().questCompleted(QuestList.GatheringYourStuff)) {
                     script.getDialogues().get(8).setText("You could see Douglas. He has a workshop in Sunshine Coast, the northern most point of the island.");
                 }
-                else if (Handler.get().questCompleted(QuestList.WoodcuttingAndFishing) && !Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
+                else if (Handler.get().questCompleted(QuestList.GatheringYourStuff) && !Handler.get().questCompleted(QuestList.PreparingYourJourney)) {
                     script.getDialogues().get(8).setText("You should pay Port Azure's workshop a visit! I heard that they could use some hands.");
                 }
-                else if (Handler.get().questCompleted(QuestList.MiningAndCrafting)) {
+                else if (Handler.get().questCompleted(QuestList.PreparingYourJourney)) {
                     script.getDialogues().get(8).setText("Elder Selwyn lives north of here. If you wish to learn about abilities, you should talk to him!");
                 }
-                else if (Handler.get().questCompleted(QuestList.WaterMagic)) {
+                else if (Handler.get().questCompleted(QuestList.WaveGoodbye)) {
                     script.getDialogues().get(8).setText("Captain Isaac is about to depart to the mainland. You might want to have a chat with him!");
                 }
                 break;
@@ -103,7 +103,7 @@ public class MayorWilson extends Creature {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (Handler.get().hasQuestReqs(QuestList.BountyHunter) && Handler.get().getQuest(QuestList.BountyHunter).getState() == QuestState.NOT_STARTED) {
+        if (Handler.get().hasQuestReqs(QuestList.GettingStarted) && Handler.get().getQuest(QuestList.GettingStarted).getState() == QuestState.NOT_STARTED) {
             g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
         }

@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class PortAzureDuncan extends Creature {
 
-    private Quest quest = Handler.get().getQuest(QuestList.MiningAndCrafting);
+    private Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
 
     public PortAzureDuncan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -47,7 +47,7 @@ public class PortAzureDuncan extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedQuests":
-                if (Handler.get().questCompleted(QuestList.WoodcuttingAndFishing)) {
+                if (Handler.get().questCompleted(QuestList.GatheringYourStuff)) {
                     return true;
                 }
                 break;
@@ -62,7 +62,7 @@ public class PortAzureDuncan extends Creature {
                 }
                 break;
             case "hasCraftedItem":
-                if (Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
+                if (Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(2).isFinished()) {
                     return true;
                 }
                 break;
@@ -130,7 +130,7 @@ public class PortAzureDuncan extends Creature {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (Handler.get().hasQuestReqs(QuestList.MiningAndCrafting) && quest.getState() == QuestState.NOT_STARTED) {
+        if (Handler.get().hasQuestReqs(QuestList.PreparingYourJourney) && quest.getState() == QuestState.NOT_STARTED) {
             g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
         }

@@ -138,7 +138,22 @@ public class QuestUI implements Serializable {
                             }
                         }
                     }
-                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
+                    Color questStatus;
+                    int completed = 0;
+                    for (Quest quest : Handler.get().getQuestManager().getAllQuestLists().get(i)) {
+                        if (quest.getState() == QuestState.COMPLETED) {
+                            completed++;
+                        }
+                    }
+
+                    if (completed == Handler.get().getQuestManager().getAllQuestLists().get(i).size()) {
+                        questStatus = Color.GREEN;
+                    } else if (completed == 0) {
+                        questStatus = Color.RED;
+                    } else {
+                        questStatus = Color.YELLOW;
+                    }
+                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, questStatus, Assets.font14);
                 }
 
                 if (exitButton.contains(mouse)) {

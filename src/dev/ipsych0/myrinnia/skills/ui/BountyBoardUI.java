@@ -117,9 +117,9 @@ public class BountyBoardUI implements Serializable {
         if (dialogueBox.isMakingChoice() && dialogueBox.getPressedButton() != null) {
             if ("Accept".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
                 if (Handler.get().playerHasSkillLevel(SkillsList.BOUNTYHUNTER, bounty.getLevelRequirement())) {
-                    if (Handler.get().questInProgress(QuestList.BountyHunter) && !bounty.isAccepted()) {
-                        Handler.get().getQuest(QuestList.BountyHunter).nextStep();
-                        Handler.get().addQuestStep(QuestList.BountyHunter, "Complete the bounty contract and claim your reward.");
+                    if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
+                        Handler.get().getQuest(QuestList.GettingStarted).nextStep();
+                        Handler.get().addQuestStep(QuestList.GettingStarted, "Complete the bounty contract and claim your reward.");
                         Handler.get().addTip(new TutorialTip("Right-click the contract in your inventory to open it."));
                         Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }

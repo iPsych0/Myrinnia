@@ -21,6 +21,7 @@ import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.ControlsState;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.event.KeyEvent;
@@ -115,6 +116,7 @@ public class KeyManager implements KeyListener, Serializable {
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
                 BountyBoardUI.escapePressed = true;
+                CelebrationUI.escapePressed = true;
                 escape = true;
             }
 

@@ -2,7 +2,7 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Uncommon",
+  "itemRarity": "Common",
   "name": "Azurite Ore",
   "id": 1,
   "equipSlot": "None",

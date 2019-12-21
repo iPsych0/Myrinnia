@@ -48,7 +48,7 @@ public class PortAzureSam extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasStartedElderQuest":
-                if (Handler.get().getQuest(QuestList.WaterMagic).getState() != QuestState.NOT_STARTED) {
+                if (Handler.get().getQuest(QuestList.WaveGoodbye).getState() != QuestState.NOT_STARTED) {
                     return true;
                 }
                 break;

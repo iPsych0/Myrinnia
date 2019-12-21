@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class PortAzureMary extends Creature {
 
-    private Quest quest = Handler.get().getQuest(QuestList.WoodcuttingAndFishing);
+    private Quest quest = Handler.get().getQuest(QuestList.GatheringYourStuff);
 
     public PortAzureMary(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -56,12 +56,12 @@ public class PortAzureMary extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     speakingTurn = 5;
                     break;
                 }
             case 6:
-                if (Handler.get().questInProgress(QuestList.WoodcuttingAndFishing) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     Handler.get().removeItem(Item.mackerelFish, 5);
                     quest.nextStep();
                 }

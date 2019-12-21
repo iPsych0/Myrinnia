@@ -518,14 +518,14 @@ public class CraftingUI implements Serializable {
 
     private void updateTutorial(ItemStack result) {
         // For tutorial quest
-        if (Handler.get().questInProgress(QuestList.MiningAndCrafting)) {
+        if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
             if (result.getItem() == Item.beginnersSword ||
                     result.getItem() == Item.beginnersBow ||
                     result.getItem() == Item.beginnersStaff) {
-                if (Handler.get().questInProgress(QuestList.MiningAndCrafting) && Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(0).isFinished() &&
-                        Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(1).isFinished() && !Handler.get().getQuest(QuestList.MiningAndCrafting).getQuestSteps().get(2).isFinished()) {
-                    Handler.get().getQuest(QuestList.MiningAndCrafting).nextStep();
-                    Handler.get().getQuest(QuestList.MiningAndCrafting).addStep("Report back to Duncan.");
+                if (Handler.get().questInProgress(QuestList.PreparingYourJourney) && Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(0).isFinished() &&
+                        Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(1).isFinished() && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(2).isFinished()) {
+                    Handler.get().getQuest(QuestList.PreparingYourJourney).nextStep();
+                    Handler.get().getQuest(QuestList.PreparingYourJourney).addStep("Report back to Duncan.");
                 }
             }
         }

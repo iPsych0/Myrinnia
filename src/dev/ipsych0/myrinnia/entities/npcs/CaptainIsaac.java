@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -38,7 +37,7 @@ public class CaptainIsaac extends Creature {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "hasCompletedQuests":
-                if (Handler.get().questCompleted(QuestList.WaterMagic)) {
+                if (Handler.get().questCompleted(QuestList.WaveGoodbye)) {
                     return true;
                 }
                 break;

@@ -21,6 +21,7 @@ public class CelebrationUI implements Serializable {
     private UIManager uiManager;
     public static boolean hasBeenPressed;
     private Rectangle bounds;
+    public static boolean escapePressed;
 
     public CelebrationUI() {
         width = 384;
@@ -65,6 +66,12 @@ public class CelebrationUI implements Serializable {
                 events.clear();
                 hasBeenPressed = false;
                 MouseManager.justClosedUI = true;
+            }
+
+            if (escapePressed) {
+                events.clear();
+                hasBeenPressed = false;
+                escapePressed = false;
             }
         }
     }

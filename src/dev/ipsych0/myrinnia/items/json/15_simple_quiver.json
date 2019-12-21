@@ -3,12 +3,6 @@
     "ARMOUR"
   ],
   "itemRarity": "Common",
-  "requirements": [
-    {
-      "stat": "Combat",
-      "level": 3
-    }
-  ],
   "name": "Simple quiver",
   "id": 15,
   "equipSlot": "Offhand",
