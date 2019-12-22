@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 public class Item implements Serializable {
 
@@ -22,8 +23,18 @@ public class Item implements Serializable {
     // ItemList
 
     public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
-    public static Item[] items = new Item[1024];
 
+    // Get the total number of items by checking how many Json files there are
+    private static File itemJsonDirectory = new File("src/dev/ipsych0/myrinnia/items/json/");
+    private static int ITEM_COUNT;
+    static {
+        File[] jsonFiles = Objects.requireNonNull(itemJsonDirectory).listFiles();
+        if (jsonFiles != null) {
+            ITEM_COUNT = jsonFiles.length;
+        }
+    }
+
+    public static Item[] items = new Item[ITEM_COUNT];
 
     /*
      * Items
@@ -71,13 +82,17 @@ public class Item implements Serializable {
     public static Item vineRoot = Utils.loadItem("51_vine_root.json", Assets.vineRoot);
     public static Item simpleVest = Utils.loadItem("52_simple_vest.json", Assets.simpleVest);
     public static Item simpleTrousers = Utils.loadItem("53_simple_trousers.json", Assets.simpleTrousers);
-
+    public static Item pileOfSand = Utils.loadItem("54_pile_of_sand.json", Assets.pileOfSand);
+    public static Item pileOfAshes = Utils.loadItem("55_pile_of_ashes.json", Assets.pileOfAshes);
+    public static Item glass = Utils.loadItem("56_glass.json", Assets.glass);
 
     static {
         initPotions();
     }
 
-    // Class
+    /*
+     * Class variables
+     */
 
     private ItemType[] itemTypes;
     private ItemRarity itemRarity;

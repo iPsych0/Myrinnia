@@ -11,8 +11,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class SkillsUI implements Serializable {
 
@@ -88,78 +88,23 @@ public class SkillsUI implements Serializable {
 
             if (bountyHunter.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.BOUNTYHUNTER));
-                    overviewUI.setSelectedCategory(SkillCategory.BountyTargets);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.BOUNTYHUNTER).getListByCategory(SkillCategory.BountyTargets).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.BOUNTYHUNTER).getListByCategory(SkillCategory.BountyTargets).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.BOUNTYHUNTER, SkillCategory.BountyTargets);
                 }
             } else if (crafting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
-                    overviewUI.setSelectedCategory(SkillCategory.Weapons);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(SkillCategory.Weapons).size());
-                    overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(SkillCategory.Weapons).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.CRAFTING, SkillCategory.Equipment);
                 }
             } else if (fishing.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
-                    overviewUI.setSelectedCategory(SkillCategory.Fish);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.FISHING, SkillCategory.Fish);
                 }
             } else if (mining.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
-                    overviewUI.setSelectedCategory(SkillCategory.Ores);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.MINING, SkillCategory.Ores);
                 }
             } else if (woodcutting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
-                    overviewUI.setSelectedCategory(SkillCategory.Trees);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.WOODCUTTING, SkillCategory.Trees);
                 }
             }
 
@@ -174,6 +119,24 @@ public class SkillsUI implements Serializable {
             }
 
             overviewUI.tick();
+        }
+    }
+
+    private void changeTab(SkillsList skill, SkillCategory category) {
+        hasBeenPressed = false;
+        SkillsOverviewUI.isOpen = true;
+        overviewUI.setSelectedSkill(getSkill(skill));
+        overviewUI.setSelectedCategory(category);
+        if (overviewUI.getSelectedButton() != null) {
+            overviewUI.setSelectedButton(overviewUI.getCategories().get(0));
+        }
+        overviewUI.getScrollBar().setIndex(0);
+        overviewUI.getScrollBar().setListSize(getSkill(skill).getListByCategory(category).size());
+        overviewUI.getScrollBar().setScrollMaximum(getSkill(skill).getListByCategory(category).size());
+        overviewUI.getCategories().clear();
+        for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+            overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+                    overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
         }
     }
 

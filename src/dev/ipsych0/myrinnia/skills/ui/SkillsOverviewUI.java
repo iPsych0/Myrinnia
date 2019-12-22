@@ -285,4 +285,11 @@ public class SkillsOverviewUI implements Serializable {
         this.bounds = bounds;
     }
 
+    public CategoryButton getSelectedButton() {
+        return selectedButton;
+    }
+
+    public void setSelectedButton(CategoryButton selectedButton) {
+        this.selectedButton = selectedButton;
+    }
 }

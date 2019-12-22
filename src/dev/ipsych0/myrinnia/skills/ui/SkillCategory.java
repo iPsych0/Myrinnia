@@ -2,7 +2,15 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 public enum SkillCategory {
 
-    Leatherwork("Leatherwork"), CraftingOther("Other"), Weapons("Weapons"), Fish("Fish"), Ores("Ores"), Trees("Trees"), BountyTargets("Targets");
+    Leatherwork("Leatherwork"),
+    CraftingOther("Other"),
+    Equipment("Equipment"),
+    Materials("Materials"),
+    Potions("Potions"),
+    Fish("Fish"),
+    Ores("Ores"),
+    Trees("Trees"),
+    BountyTargets("Targets");
 
     private String name;
 
