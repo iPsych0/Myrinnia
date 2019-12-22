@@ -40,7 +40,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         super.render(g);
         g.drawImage(Assets.genericButton[0], x, y, width, height, null);
         if (ability != null) {
-            ability.render(g, x, y);
+            ability.renderIcon(g, x, y);
             if (!Handler.get().getAbilityManager().getAbilityHUD().compatibleWeaponType(ability, false)) {
                 g.setColor(blockedColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
@@ -60,7 +60,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
     public void render(Graphics2D g) {
         super.render(g);
         if (ability != null) {
-            ability.render(g, x, y);
+            ability.renderIcon(g, x, y);
             if (!ability.isUnlocked()) {
                 g.setColor(cooldownColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);

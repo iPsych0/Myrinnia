@@ -77,15 +77,7 @@ public class Game implements Runnable, Serializable {
         mouseManager = new MouseManager();
         renderHintMap = new HashMap<>();
 
-        // Default rendering settings
-        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        renderHintMap.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        setQualityRendering();
 
         // Add fractional metrics so text will be rendered with more accurate position
         renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,

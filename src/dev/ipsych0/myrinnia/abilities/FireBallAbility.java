@@ -17,8 +17,12 @@ public class FireBallAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.fireballI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
 
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.fireballI, x, y, null);
     }
 
     @Override

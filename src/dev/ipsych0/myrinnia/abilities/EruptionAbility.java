@@ -33,13 +33,17 @@ public class EruptionAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.eruptionI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
                     (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
                     hitBox.width, hitBox.height, null);
         }
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.eruptionI, x, y, null);
     }
 
     @Override

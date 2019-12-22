@@ -54,6 +54,8 @@ public abstract class Ability implements Serializable {
 
     public abstract void render(Graphics2D g, int x, int y);
 
+    public abstract void renderIcon(Graphics2D g, int x, int y);
+
     protected abstract void cast();
 
     public void renderUnderEntity(Graphics2D g) {

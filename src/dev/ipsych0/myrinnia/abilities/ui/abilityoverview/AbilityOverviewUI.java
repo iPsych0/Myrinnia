@@ -226,7 +226,7 @@ public class AbilityOverviewUI implements Serializable {
             }
 
             if (currentSelectedAbility != null) {
-                currentSelectedAbility.render(g, Handler.get().getMouse().x, Handler.get().getMouse().y);
+                currentSelectedAbility.renderIcon(g, mouse.x, mouse.y);
             }
 
             g.setColor(selectedColor);

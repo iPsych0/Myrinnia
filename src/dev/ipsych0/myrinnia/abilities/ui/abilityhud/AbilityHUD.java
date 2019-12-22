@@ -280,7 +280,7 @@ public class AbilityHUD implements Serializable {
         }
 
         if (selectedAbility != null) {
-            selectedAbility.render(g, mouse.x, mouse.y);
+            selectedAbility.renderIcon(g, mouse.x, mouse.y);
         }
 
         if (lockButton.contains(mouse)) {

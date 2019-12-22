@@ -205,7 +205,8 @@ public class Assets {
          * Make skilling sheet for this
          */
         SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
-        SpriteSheet skill_resources = new SpriteSheet("/textures/skill_resources.png");
+        SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
+        SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
 
         /*
          * Player/NPCs
@@ -885,8 +886,8 @@ public class Assets {
         eruption1[6] = ability_animations.imageCrop(6, 1);
 
         // Skilling objects
-        weakPalmTree = skill_resources.imageCrop(0, 0, WIDTH, HEIGHT * 2);
-        azuriteRock = skill_resources.imageCrop(1, 0);
+        weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);
+        azuriteRock = mining_rocks.imageCrop(1, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);

@@ -27,8 +27,6 @@ public class FrostJabAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.frostJabI, x, y, null);
-
         if (meleeAnimation != null) {
             if (meleeAnimation.isTickDone()) {
                 meleeAnimation = null;
@@ -43,6 +41,11 @@ public class FrostJabAbility extends Ability implements Serializable {
                 g.setTransform(old);
             }
         }
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.frostJabI, x, y, null);
     }
 
     @Override

@@ -35,6 +35,10 @@ public class Tree extends StaticEntity {
         if (name.equalsIgnoreCase("Weak Palm Tree")) {
             logs = Item.lightWood;
             experience = 10;
+            bounds.x = 32;
+            bounds.y = 104;
+            bounds.width = 32;
+            bounds.height = 16;
         } else {
             throw new IllegalArgumentException("Tree name not found: " + name);
         }

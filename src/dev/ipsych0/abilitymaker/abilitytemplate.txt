@@ -16,8 +16,13 @@ public class TestAbility extends Ability implements Serializable {
     }
 
     @Override
-    public void render(Graphics2D g, int x, int y) {
+    public void renderIcon(Graphics2D g, int x, int y) {
         g.drawImage(Assets.TestImage, x, y, null);
+    }
+
+    @Override
+    public void render(Graphics2D g, int x, int y) {
+        // Render the ability animation
     }
 
     @Override

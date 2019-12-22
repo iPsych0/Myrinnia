@@ -68,6 +68,7 @@ public class AngryOwl extends Creature {
     @Override
     public void die() {
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        getDroptableItem();
     }
 
     /*

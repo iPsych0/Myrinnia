@@ -28,7 +28,7 @@ public class AbilityShopSlot extends UIImageButton implements Serializable {
 
     public void render(Graphics2D g) {
         super.render(g);
-        ability.render(g, x, y);
+        ability.renderIcon(g, x, y);
         if (ability.isUnlocked()) {
             g.setColor(unlockedColor);
             g.fillRect(x, y, width, height);

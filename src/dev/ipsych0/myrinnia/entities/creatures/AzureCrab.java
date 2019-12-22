@@ -85,7 +85,7 @@ public class AzureCrab extends Creature {
                 Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
                 firstKill = false;
             }
-            Handler.get().dropItem(Item.coins, Handler.get().getRandomNumber(1, 5), (int) x, (int) y);
+            getDroptableItem();
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         }
     }
@@ -121,6 +121,7 @@ public class AzureCrab extends Creature {
             width = 32;
             height = 32;
             combatLevel = 2;
+            dropTable = "azure_crab.json";
             setCombatLevel();
         }
         Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));

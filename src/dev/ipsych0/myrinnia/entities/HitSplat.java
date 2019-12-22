@@ -88,7 +88,7 @@ public class HitSplat implements Serializable {
         g.setComposite(ac);
 
         if (ability != null) {
-            ability.render(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
+            ability.renderIcon(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
                     (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset));
         }
         Text.drawString(g, String.valueOf(damage),

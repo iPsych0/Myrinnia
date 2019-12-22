@@ -173,7 +173,9 @@ public abstract class Creature extends Entity {
     protected void getDroptableItem() {
         if (maxDropTableWeight == 0) {
             // The drop table must be empty
-            throw new IllegalArgumentException("Drop table for " + getName() + " is empty in " + Handler.get().getWorld().getZone().getName() + ". Please check 'dropTable' property in Tiled.");
+            Handler.get().sendMsg(getName() + " has an empty drop table.");
+            System.err.println("Drop table for " + getName() + " is empty in " + Handler.get().getWorld().getZone().getName() + ". Please check 'dropTable' property in Tiled.");
+            return;
         }
 
         // Roll number between 1 and sum of all weights
