@@ -54,7 +54,8 @@ public class Assets {
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana;
+                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
+                                chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -405,6 +406,15 @@ public class Assets {
         crablingClaw = item_sheet.imageCrop(0, 24);
         simpleGloves = item_sheet.imageCrop(0, 25);
         simpleBandana = item_sheet.imageCrop(0, 26);
+        chitin = item_sheet.imageCrop(0, 27);
+        scorpionTail = item_sheet.imageCrop(0, 28);
+        owlFeather = item_sheet.imageCrop(0, 29);
+
+        dynamite = item_sheet.imageCrop(1, 1);
+        detonator = item_sheet.imageCrop(1, 2);
+        vineRoot = item_sheet.imageCrop(1, 3);
+        simpleVest = item_sheet.imageCrop(1, 4);
+        simpleTrousers = item_sheet.imageCrop(1, 5);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);

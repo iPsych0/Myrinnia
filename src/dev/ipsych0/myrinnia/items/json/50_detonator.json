@@ -1,16 +1,17 @@
 {
   "itemTypes": [
-    "ARMOUR"
+    "QUEST_ITEM",
+    "MISC"
   ],
-  "itemRarity": "Common",
-  "name": "Simple bandana",
-  "id": 45,
-  "equipSlot": "Helm",
+  "itemRarity": "Unique",
+  "name": "Detonator",
+  "id": 50,
+  "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
   "intelligence": 0,
-  "defence": 1,
-  "vitality": 1,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -29,9 +30,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 15,
+  "price": -1,
   "stackable": false,
-  "equippable": true,
+  "equippable": false,
   "respawnTimer": 10800,
   "useCooldown": 60
 }

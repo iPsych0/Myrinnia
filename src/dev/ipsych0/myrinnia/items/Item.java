@@ -63,6 +63,15 @@ public class Item implements Serializable {
     public static Item simpleGloves = Utils.loadItem("44_simple_gloves.json", Assets.simpleGloves);
     public static Item simpleBandana = Utils.loadItem("45_simple_bandana.json", Assets.simpleBandana);
 
+    public static Item chitin = Utils.loadItem("46_chitin.json", Assets.chitin);
+    public static Item scorpionTail = Utils.loadItem("47_scorpion_tail.json", Assets.scorpionTail);
+    public static Item owlFeather = Utils.loadItem("48_owl_feather.json", Assets.owlFeather);
+    public static Item dynamite = Utils.loadItem("49_dynamite.json", Assets.dynamite);
+    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator);
+    public static Item vineRoot = Utils.loadItem("51_vine_root.json", Assets.vineRoot);
+    public static Item simpleVest = Utils.loadItem("52_simple_vest.json", Assets.simpleVest);
+    public static Item simpleTrousers = Utils.loadItem("53_simple_trousers.json", Assets.simpleTrousers);
+
 
     static {
         initPotions();
