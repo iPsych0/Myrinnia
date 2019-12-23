@@ -29,6 +29,7 @@ public class FishingSkill extends Skill {
 
     private void initResources() {
         resources.add(new SkillResource(1, Item.mackerelFish, SkillCategory.Fish));
+        resources.add(new SkillResource(5, Item.trout, SkillCategory.Fish));
     }
 
     @Override

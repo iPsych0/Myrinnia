@@ -89,8 +89,6 @@ public class Quest implements Serializable {
     public void setState(QuestState state) {
         this.state = state;
         if (state == QuestState.COMPLETED) {
-            Player.questCompleted = this;
-            Player.isQuestCompleted = true;
             Handler.get().playEffect("ui/quest_complete.wav", 0.1f);
             Handler.get().sendMsg("Completed '" + this.questName + "'!");
             Handler.get().addRecapEvent("Completed '" + this.questName + "'");

@@ -255,6 +255,7 @@ public class CraftingUI implements Serializable {
         selectedSlot = null;
         results.clear();
         uiManager.removeAllObjects(selectSlots);
+        selectSlots.clear();
 
         // Get the items in the slots
         List<ItemStack> filledSlots = new ArrayList<>();

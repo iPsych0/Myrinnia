@@ -1,10 +1,10 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "FOOD"
   ],
   "itemRarity": "Common",
-  "name": "Copper ore",
-  "id": 19,
+  "name": "Trout",
+  "id": 61,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,7 +29,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 20,
+  "price": 10,
   "stackable": true,
   "equippable": false,
   "respawnTimer": 10800,

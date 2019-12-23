@@ -19,6 +19,7 @@ public class CombatSkill extends Skill {
     // Always start at 1 combat, so have 1 level.
     static {
         CharacterStats.Combat.addLevel();
+        Handler.get().getPlayer().addAbilityPoints();
     }
 
     @Override

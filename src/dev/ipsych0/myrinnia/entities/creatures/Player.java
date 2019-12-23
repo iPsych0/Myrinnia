@@ -79,8 +79,6 @@ public class Player extends Creature {
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
-    public static Quest questCompleted;
-    public static boolean isQuestCompleted;
     public static int xpGained;
     private int levelUpTimer, xpGainedTimer, questCompleteTimer;
     public static boolean expEffectPlayed;
@@ -961,7 +959,7 @@ public class Player extends Creature {
                     (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), width * 2, height * 2, null);
         }
 
-        if (isLevelUp) {
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
             levelUpTimer++;
             if (levelUpTimer <= 60) {
                 Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x + width - Handler.get().getGameCamera().getxOffset() + 4),
@@ -971,17 +969,6 @@ public class Player extends Creature {
             if (levelUpTimer >= 210) {
                 levelUpTimer = 0;
                 isLevelUp = false;
-            }
-        }
-
-        if (isQuestCompleted) {
-            questCompleteTimer++;
-            Text.drawString(g, questCompleted.getQuestName() + " completed!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - questCompleteTimer),
-                    true, Color.YELLOW, Assets.font24);
-            if (questCompleteTimer >= 60) {
-                questCompleteTimer = 0;
-                isQuestCompleted = false;
             }
         }
 

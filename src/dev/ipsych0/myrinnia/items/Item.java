@@ -85,6 +85,12 @@ public class Item implements Serializable {
     public static Item pileOfSand = Utils.loadItem("54_pile_of_sand.json", Assets.pileOfSand);
     public static Item pileOfAshes = Utils.loadItem("55_pile_of_ashes.json", Assets.pileOfAshes);
     public static Item glass = Utils.loadItem("56_glass.json", Assets.glass);
+    public static Item lightWoodPlank = Utils.loadItem("57_lightwood_plank.json", Assets.lightWoodPlank);
+    public static Item hardWood = Utils.loadItem("58_hardwood.json", Assets.hardWood);
+    public static Item hardWoodPlank = Utils.loadItem("59_hardwood_plank.json", Assets.hardWoodPlank);
+    public static Item ironOre = Utils.loadItem("60_iron_ore.json", Assets.ironOre);
+    public static Item trout = Utils.loadItem("61_trout.json", Assets.trout);
+    public static Item boneMeal = Utils.loadItem("62_bonemeal.json", Assets.boneMeal);
 
     static {
         initPotions();

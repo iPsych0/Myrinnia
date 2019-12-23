@@ -61,6 +61,9 @@ public class CharacterUI implements Serializable {
 
         uiManager.addObject(exit);
 
+        addBaseStatPoints();
+        addElementalStatPoints();
+
     }
 
     public void tick() {
