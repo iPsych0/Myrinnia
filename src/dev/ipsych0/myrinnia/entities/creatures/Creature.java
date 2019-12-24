@@ -372,7 +372,7 @@ public abstract class Creature extends Entity {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayersContent().length; i++) {
+        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
@@ -408,7 +408,7 @@ public abstract class Creature extends Entity {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayersContent().length; i++) {
+        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 walkableOnTop = false;

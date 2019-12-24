@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -34,7 +35,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class World implements Serializable {
 
@@ -46,12 +46,11 @@ public class World implements Serializable {
     private int width;
     private int height;
     private int[][][] tiles;
-    private String[] layersContent;
+    private String[] layers;
     private String worldPath;
     private static boolean nightTime = false;
     private static int timeChecker = 60 * 60;
     private boolean initialized;
-    private List<Layer> layers;
 
     // Entities
 
@@ -123,7 +122,6 @@ public class World implements Serializable {
         entityManager = new EntityManager(player);
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
-        layers = new ArrayList<>();
 
         // Only initialize the starting world on start-up
         if (worldPath.equalsIgnoreCase(Handler.initialWorldPath)) {
@@ -149,18 +147,10 @@ public class World implements Serializable {
 
             loadWorld(worldPath);
 
-            initializeTiles();
-
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
 
             initialized = true;
-        }
-    }
-
-    private void initializeTiles() {
-        for (int i = 0; i < layersContent.length; i++) {
-
         }
     }
 
@@ -228,62 +218,40 @@ public class World implements Serializable {
             int yStart = (int) Math.max(0, yOffset / Tile.TILEHEIGHT);
             int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tile.TILEHEIGHT + 1);
 
-            List<NonNullTile> postRenderedTiles = new ArrayList<>();
-            for (Layer layer : layers) {
-                List<NonNullTile> renderTiles = layer.getNotEmptyTiles()
-                        .stream()
-                        .filter((t) -> t.getX() >= xStart && t.getX() < xEnd && t.getY() >= yStart && t.getY() < yEnd)
-                        .collect(Collectors.toList());
-
-                for (NonNullTile t : renderTiles) {
-                    Tile tile = Tile.tiles[t.getId()];
-                    int xPos = (int) (t.getX() * Tile.TILEWIDTH - xOffset);
-                    int yPos = (int) (t.getY() * Tile.TILEHEIGHT - yOffset);
-                    if (tile != null) {
-                        if (tile.isPostRendered()) {
-                            postRenderedTiles.add(t);
-                            continue;
+            // Render the tiles
+            List<Tile> renderOverTiles = new ArrayList<>();
+            List<Integer> xCoords = new ArrayList<>();
+            List<Integer> yCoords = new ArrayList<>();
+//        boolean standingUnderPostRenderTile = false;
+            for (int i = 0; i < layers.length; i++) {
+                for (int y = yStart; y < yEnd; y++) {
+                    for (int x = xStart; x < xEnd; x++) {
+                        Tile t = getTile(i, x, y);
+                        if (t != Tile.tiles[0]) {
+                            int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                            int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
+                            if (t.isPostRendered()) {
+//                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
+//                                standingUnderPostRenderTile = true;
+//                            }
+                                renderOverTiles.add(t);
+                                xCoords.add(xPos);
+                                yCoords.add(yPos);
+                                continue;
+                            }
+                            t.tick();
+                            t.render(g, xPos, yPos);
+                            if (Handler.debugCollision) {
+                                g.setColor(AStarMap.unwalkableColour);
+                                g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                if (t.isSolid()) {
+                                    g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                }
+                            }
                         }
-                        tile.tick();
-                        tile.render(g, xPos, yPos);
                     }
                 }
             }
-
-//            // Render the tiles
-//            List<Tile> renderOverTiles = new ArrayList<>();
-//            List<Integer> xCoords = new ArrayList<>();
-//            List<Integer> yCoords = new ArrayList<>();
-////        boolean standingUnderPostRenderTile = false;
-//            for (int i = 0; i < layersContent.length; i++) {
-//                for (int y = yStart; y < yEnd; y++) {
-//                    for (int x = xStart; x < xEnd; x++) {
-//                        Tile t = getTile(i, x, y);
-//                        if (t != Tile.tiles[0]) {
-//                            int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
-//                            int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
-//                            if (t.isPostRendered()) {
-////                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
-////                                standingUnderPostRenderTile = true;
-////                            }
-//                                renderOverTiles.add(t);
-//                                xCoords.add(xPos);
-//                                yCoords.add(yPos);
-//                                continue;
-//                            }
-//                            t.tick();
-//                            t.render(g, xPos, yPos);
-//                            if (Handler.debugCollision) {
-//                                g.setColor(AStarMap.unwalkableColour);
-//                                g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
-//                                if (t.isSolid()) {
-//                                    g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
 
             // Items
 
@@ -297,23 +265,15 @@ public class World implements Serializable {
             entityManager.render(g);
 
 //        Composite composite = g.getComposite();
-//            for (int i = 0; i < renderOverTiles.size(); i++) {
-//                renderOverTiles.get(i).tick();
+            for (int i = 0; i < renderOverTiles.size(); i++) {
+                renderOverTiles.get(i).tick();
 //            if(standingUnderPostRenderTile){
 //                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
 //                g.setComposite(ac);
 //            }
-//                renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
-//            }
-//        g.setComposite(composite);
-
-            for (NonNullTile t : postRenderedTiles) {
-                Tile tile = Tile.tiles[t.getId()];
-                int xPos = (int) (t.getX() * Tile.TILEWIDTH - xOffset);
-                int yPos = (int) (t.getY() * Tile.TILEHEIGHT - yOffset);
-                tile.tick();
-                tile.render(g, xPos, yPos);
+                renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
             }
+//        g.setComposite(composite);
 
             if (dayNightCycle && nightTime) {
                 renderNight(g);
@@ -391,27 +351,20 @@ public class World implements Serializable {
     }
 
     private void loadWorld(String path) {
-        layersContent = MapLoader.getMapTiles(path);
-        tiles = new int[layersContent.length][width][height];
+        layers = MapLoader.getMapTiles(path);
+        tiles = new int[layers.length][width][height];
 
-        for (int layerNumber = 0; layerNumber < layersContent.length; layerNumber++) {
-            Layer layer = new Layer();
-            // Splits worlds files by commas and puts them all in an array
-            layersContent[layerNumber] = layersContent[layerNumber].replace("\n", "").replace("\r", "").trim();
-            String[] tokens = layersContent[layerNumber].split(",");
+        for (int i = 0; i < layers.length; i++) {
+            // Splits worlds files by spaces and puts them all in an array
+            layers[i] = layers[i].replace("\n", "").replace("\r", "").trim();
+            String[] tokens = layers[i].split(",");
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     // Loads in the actual tiles to the tiles[][][]
-                    tiles[layerNumber][x][y] = Utils.parseInt(tokens[(x + y * width)]);
-                    if (tiles[layerNumber][x][y] != 0) {
-                        layer.addTile(tiles[layerNumber][x][y], x, y);
-                    }
+                    tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
                 }
             }
-
-            // Add the layer to the world, starting at 1, stacking up
-            layers.add(layer);
         }
 
     }
@@ -440,12 +393,12 @@ public class World implements Serializable {
         this.itemManager = itemManager;
     }
 
-    public String[] getLayersContent() {
-        return layersContent;
+    public String[] getLayers() {
+        return layers;
     }
 
-    public void setLayersContent(String[] layersContent) {
-        this.layersContent = layersContent;
+    public void setLayers(String[] layers) {
+        this.layers = layers;
     }
 
     public InventoryWindow getInventory() {

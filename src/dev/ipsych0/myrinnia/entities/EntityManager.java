@@ -262,7 +262,7 @@ public class EntityManager implements Serializable {
                 }
 
                 // If we're not hovering, check if Entity is standing on postRender tile and draw the overlay anyway
-                int layers = Handler.get().getWorld().getLayersContent().length;
+                int layers = Handler.get().getWorld().getLayers().length;
                 boolean shouldRender = false;
                 for (int i = 0; i < layers; i++) {
                     Tile currentTile = Handler.get().getWorld().getTile(i, (int) (e.getX() + e.getWidth() / 2) / 32, (int) (e.getY() + e.getHeight() / 2) / 32);
