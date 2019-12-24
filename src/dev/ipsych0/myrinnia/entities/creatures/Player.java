@@ -23,7 +23,6 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
-import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -142,7 +141,7 @@ public class Player extends Creature {
 
         projectiles = new ArrayList<>();
 
-        respawnTimer = 1;
+        respawnTime = 1;
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 

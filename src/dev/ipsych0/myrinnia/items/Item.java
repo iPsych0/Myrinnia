@@ -23,18 +23,7 @@ public class Item implements Serializable {
     // ItemList
 
     public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
-
-    // Get the total number of items by checking how many Json files there are
-    private static File itemJsonDirectory = new File("src/dev/ipsych0/myrinnia/items/json/");
-    private static int ITEM_COUNT;
-    static {
-        File[] jsonFiles = Objects.requireNonNull(itemJsonDirectory).listFiles();
-        if (jsonFiles != null) {
-            ITEM_COUNT = jsonFiles.length;
-        }
-    }
-
-    public static Item[] items = new Item[ITEM_COUNT];
+    public static Item[] items = new Item[1024];
 
     /*
      * Items

@@ -126,7 +126,7 @@ public class ItemManager implements Serializable {
 
         for (Item item : items) {
             // If we're not hovering, check if Item is behind postRender tile and draw the overlay anyway
-            int layers = Handler.get().getWorld().getLayers().length;
+            int layers = Handler.get().getWorld().getLayersContent().length;
             boolean shouldRender = false;
             for (int i = 0; i < layers; i++) {
                 Tile currentTile = Handler.get().getWorld().getTile(i, (item.getX() + Item.ITEMWIDTH / 2) / 32, (item.getY() + Item.ITEMHEIGHT / 2) / 32);

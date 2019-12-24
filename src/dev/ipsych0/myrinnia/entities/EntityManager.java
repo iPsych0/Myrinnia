@@ -47,6 +47,7 @@ public class EntityManager implements Serializable {
 
             Entity e = it.next();
             if (!e.isActive()) {
+                e.setTimeOfDeath(System.currentTimeMillis());
                 deadEntities.add(e);
             }
 
@@ -109,12 +110,12 @@ public class EntityManager implements Serializable {
 
         // If enemies are dead, update the respawn timers
         if (deadEntities.size() > 0) {
+            long currentTime = System.currentTimeMillis();
             entities.removeAll(deadEntities);
             Iterator<Entity> dltd = deadEntities.iterator();
             while (dltd.hasNext()) {
                 Entity e = dltd.next();
-                e.startRespawnTimer();
-                if (e.getRespawnTimer() == 0) {
+                if (((currentTime - e.getTimeOfDeath()) / 1000L) >= e.getRespawnTime()) {
                     e.respawn();
                     dltd.remove();
                 }
@@ -261,7 +262,7 @@ public class EntityManager implements Serializable {
                 }
 
                 // If we're not hovering, check if Entity is standing on postRender tile and draw the overlay anyway
-                int layers = Handler.get().getWorld().getLayers().length;
+                int layers = Handler.get().getWorld().getLayersContent().length;
                 boolean shouldRender = false;
                 for (int i = 0; i < layers; i++) {
                     Tile currentTile = Handler.get().getWorld().getTile(i, (int) (e.getX() + e.getWidth() / 2) / 32, (int) (e.getY() + e.getHeight() / 2) / 32);

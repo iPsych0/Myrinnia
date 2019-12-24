@@ -53,7 +53,8 @@ public abstract class Entity implements Serializable {
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
-    protected int respawnTimer = 60 * 30; // 30 seconds
+    protected long respawnTime = 30L; // 30 seconds
+    protected long timeOfDeath;
     protected Rectangle collision;
     protected Script script;
     protected String name;
@@ -819,14 +820,6 @@ public abstract class Entity implements Serializable {
         this.maxHealth = maxHealth;
     }
 
-    public void startRespawnTimer() {
-        this.respawnTimer--;
-    }
-
-    public int getRespawnTimer() {
-        return respawnTimer;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -839,4 +832,19 @@ public abstract class Entity implements Serializable {
         this.walker = walker;
     }
 
+    public long getRespawnTime() {
+        return respawnTime;
+    }
+
+    public void setRespawnTime(long respawnTime) {
+        this.respawnTime = respawnTime;
+    }
+
+    public long getTimeOfDeath() {
+        return timeOfDeath;
+    }
+
+    public void setTimeOfDeath(long timeOfDeath) {
+        this.timeOfDeath = timeOfDeath;
+    }
 }
