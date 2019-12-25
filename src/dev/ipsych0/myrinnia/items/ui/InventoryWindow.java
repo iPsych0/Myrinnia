@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingSlot;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -144,6 +145,40 @@ public class InventoryWindow implements Serializable {
                             itemSelected = false;
                             hasBeenPressed = false;
                             BankUI.inventoryLoaded = false;
+                        }
+                    }
+                    if (CraftingUI.isOpen) {
+                        for (CraftingSlot cs : Handler.get().getCraftingUI().getCraftingSlots()) {
+                            if (itemSelected && cs.getBounds().contains(mouse) && !Handler.get().getMouseManager().isDragged()) {
+                                // If the itemstack already holds an item
+                                if (cs.getItemStack() != null) {
+                                    if (currentSelectedSlot.getItem().isStackable()) {
+                                        // And if the item in the slot is stackable
+                                        if (cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+                                            // Add the item back to the inventory
+                                            currentSelectedSlot = null;
+                                            itemSelected = false;
+                                            hasBeenPressed = false;
+                                            Handler.get().getCraftingUI().findRecipe();
+
+                                        } else {
+                                            // If we cannot add the item to an existing stack
+                                            hasBeenPressed = false;
+                                            return;
+                                        }
+                                    } else {
+                                        // If the item is not stackable / we cannot add the item
+                                        hasBeenPressed = false;
+                                    }
+                                } else {
+                                    // If the item stack == null, we can safely add it.
+                                    cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+                                    currentSelectedSlot = null;
+                                    itemSelected = false;
+                                    hasBeenPressed = false;
+                                    Handler.get().getCraftingUI().findRecipe();
+                                }
+                            }
                         }
                     }
                 }

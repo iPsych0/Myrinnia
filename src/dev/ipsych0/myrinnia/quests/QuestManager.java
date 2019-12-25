@@ -55,12 +55,12 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        azurealIslandQuests.add(new Quest("Getting Started", Zone.PortAzure));
-        azurealIslandQuests.add(new Quest("Gathering Your Stuff", Zone.PortAzure, new QuestRequirement(QuestList.GettingStarted)));
-        azurealIslandQuests.add(new Quest("Preparing Your Journey", Zone.PortAzure, new QuestRequirement(QuestList.GatheringYourStuff)));
-        azurealIslandQuests.add(new Quest("Wave Goodbye", Zone.PortAzure, new QuestRequirement(QuestList.PreparingYourJourney)));
+        azurealIslandQuests.add(new Quest("Getting Started", Zone.PortAzure, "Talk to Mayor Wilson in Port Azure."));
+        azurealIslandQuests.add(new Quest("Gathering Your Stuff", Zone.PortAzure, "Talk to Douglas in Sunshine Coast.", new QuestRequirement(QuestList.GettingStarted)));
+        azurealIslandQuests.add(new Quest("Preparing Your Journey", Zone.PortAzure, "Talk to Duncan in Port Azure.", new QuestRequirement(QuestList.GatheringYourStuff)));
+        azurealIslandQuests.add(new Quest("Wave Goodbye", Zone.PortAzure, "Talk to Elder Selwyn in Port Azure.", new QuestRequirement(QuestList.PreparingYourJourney)));
 
-        shamrockTownQuests.add(new Quest("We Delved Too Deep", Zone.ShamrockTown, new QuestRequirement(SkillsList.MINING, 5)));
+        shamrockTownQuests.add(new Quest("We Delved Too Deep", Zone.ShamrockTown, "Talk to Sebastian in Shamrock Town.", new QuestRequirement(SkillsList.MINING, 5)));
 
         // Test Quests
 //        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));

@@ -20,24 +20,27 @@ public class Quest implements Serializable {
     private ArrayList<QuestStep> questSteps;
     private int step = 0;
     private String questName;
+    private String questStart;
     private QuestState state;
     private QuestRequirement[] requirements;
     private Map<String, Object> customChecks;
 
     private Zone zone;
 
-    public Quest(String questName, Zone zone) {
+    public Quest(String questName, Zone zone, String questStart) {
         this.questName = questName;
         this.zone = zone;
+        this.questStart = questStart;
 
         customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
     }
 
-    public Quest(String questName, Zone zone, QuestRequirement... questRequirements) {
+    public Quest(String questName, Zone zone, String questStart, QuestRequirement... questRequirements) {
         this.questName = questName;
         this.zone = zone;
+        this.questStart = questStart;
         this.requirements = questRequirements;
 
         customChecks = new HashMap<>();
@@ -127,5 +130,13 @@ public class Quest implements Serializable {
             throw new IllegalArgumentException("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
         }
         return customChecks.get(key);
+    }
+
+    public String getQuestStart() {
+        return questStart;
+    }
+
+    public void setQuestStart(String questStart) {
+        this.questStart = questStart;
     }
 }

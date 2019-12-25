@@ -279,6 +279,8 @@ public class World implements Serializable {
                 renderNight(g);
             }
 
+            craftingUI.render(g);
+
             // Inventory & Equipment
             equipment.render(g);
             inventory.render(g);
@@ -289,9 +291,6 @@ public class World implements Serializable {
 
             // Chat
             chatWindow.render(g);
-
-            // MiniMap
-            craftingUI.render(g);
 
             questManager.render(g);
             characterUI.render(g);

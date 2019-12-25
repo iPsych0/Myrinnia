@@ -65,6 +65,14 @@ public class QuestHelpUI implements Serializable {
     private void renderRequirements(Graphics2D g, Quest selectedQuest) {
         if (selectedQuest.getState() == QuestState.NOT_STARTED) {
             Text.drawString(g, "Requirements:", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+
+            String[] text = Text.splitIntoLine(selectedQuest.getQuestStart(), 26);
+            int offset = 0;
+            for (int i = 0; i < text.length; i++) {
+                offset = i;
+                Text.drawString(g, text[i], x + (width / 2) + 6, y + 60 + (i * 16), true, Color.YELLOW, Assets.font14);
+            }
+
             if (selectedQuest.getRequirements() != null) {
                 Color requirementColor = Color.YELLOW;
 
@@ -100,15 +108,12 @@ public class QuestHelpUI implements Serializable {
                     // Render the requirements
                     for (int j = 0; j < Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26).length; j++) {
                         if (requirementColor == Color.RED)
-                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 80 + (offset * 16) + (i * 16 + j * 16), true, requirementColor, Assets.font14);
                         else if (requirementColor == Color.GREEN)
-                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 80 + (offset * 16) + (i * 16 + j * 16), true, requirementColor, Assets.font14);
                     }
                 }
-            } else {
-                Text.drawString(g, "None", x + (width / 2) + 6, y + 60, true, Color.GREEN, Assets.font14);
             }
-
         }
     }
 

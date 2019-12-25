@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.crafting.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.crafting.CraftingManager;
 import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
@@ -244,6 +245,65 @@ public class CraftingUI implements Serializable {
                             hasBeenPressed = false;
                             return;
                         }
+                    }
+
+                    checkDragging(mouse);
+                }
+            }
+        }
+    }
+
+    private void checkDragging(Rectangle mouse) {
+        for (CraftingSlot cs : craftingSlots) {
+            // If an item is dragged
+            if (Handler.get().getMouseManager().isDragged()) {
+                if (cs.getBounds().contains(mouse) && !hasBeenPressed && !itemSelected) {
+                    hasBeenPressed = true;
+
+                    // Stick the item to the mouse
+                    if (currentSelectedSlot == null) {
+                        if (cs.getItemStack() != null) {
+                            currentSelectedSlot = cs.getItemStack();
+                            cs.setItemStack(null);
+                            itemSelected = true;
+                        } else {
+                            hasBeenPressed = false;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        if (itemSelected && currentSelectedSlot != null) {
+            for (ItemSlot is : Handler.get().getInventory().getItemSlots()) {
+                if (is.getBounds().contains(mouse) && !Handler.get().getMouseManager().isDragged()) {
+                    // If the itemstack already holds an item
+                    if (is.getItemStack() != null) {
+                        if (currentSelectedSlot.getItem().isStackable()) {
+                            // And if the item in the slot is stackable
+                            if (is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+                                // Add the item back to the inventory
+                                currentSelectedSlot = null;
+                                itemSelected = false;
+                                hasBeenPressed = false;
+                                BankUI.inventoryLoaded = false;
+
+                            } else {
+                                // If we cannot add the item to an existing stack
+                                hasBeenPressed = false;
+                                return;
+                            }
+                        } else {
+                            // If the item is not stackable / we cannot add the item
+                            hasBeenPressed = false;
+                        }
+                    } else {
+                        // If the item stack == null, we can safely add it.
+                        is.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+                        currentSelectedSlot = null;
+                        itemSelected = false;
+                        hasBeenPressed = false;
+                        BankUI.inventoryLoaded = false;
                     }
                 }
             }

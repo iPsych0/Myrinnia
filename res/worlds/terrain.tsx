@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.4" name="terrain" tilewidth="32" tileheight="32" tilecount="1950" columns="39">
+<tileset version="1.2" tiledversion="1.3.0" name="terrain" tilewidth="32" tileheight="32" tilecount="1950" columns="39">
  <image source="../textures/tiles/terrain.png" trans="000000" width="1248" height="1600"/>
  <terraintypes>
   <terrain name="PathGrass" tile="263"/>
@@ -6931,7 +6931,7 @@
  <tile id="1108">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="1109">

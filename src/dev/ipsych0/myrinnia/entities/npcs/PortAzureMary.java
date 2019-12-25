@@ -16,6 +16,7 @@ import java.awt.*;
 public class PortAzureMary extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.GatheringYourStuff);
+    private boolean hasRemovedFish;
 
     public PortAzureMary(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -61,9 +62,11 @@ public class PortAzureMary extends Creature {
                     break;
                 }
             case 6:
-                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (!hasRemovedFish && Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     Handler.get().removeItem(Item.mackerelFish, 5);
                     quest.nextStep();
+                    speakingCheckpoint = 6;
+                    hasRemovedFish = true;
                 }
                 break;
             case 7:
@@ -72,6 +75,7 @@ public class PortAzureMary extends Creature {
                 Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
                 Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 Handler.get().addTip(new TutorialTip("Press P to pause the game. Here, you can save your game or change settings."));
+                speakingCheckpoint = 0;
                 break;
         }
     }
