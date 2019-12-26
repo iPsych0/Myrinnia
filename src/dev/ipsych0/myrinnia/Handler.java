@@ -78,6 +78,7 @@ public class Handler implements Serializable {
     }
 
     public static String initialWorldPath = "/worlds/port_azure.tmx";
+
     static {
         String fixedFile;
         if (Handler.isJar) {
@@ -225,11 +226,19 @@ public class Handler implements Serializable {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
             }
-            AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(AudioManager.sfxVolume + volume);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setLooping(false);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
-
+            Source s;
+            if (AudioManager.soundfxFiles.containsKey(buffer)) {
+                s = AudioManager.soundfxFiles.get(buffer);
+                s.setVolume(AudioManager.sfxVolume + volume);
+                s.setLooping(false);
+                s.playEffect(buffer);
+            } else {
+                s = new Source();
+                AudioManager.soundfxFiles.put(buffer, s);
+                s.setVolume(AudioManager.sfxVolume + volume);
+                s.setLooping(false);
+                s.playEffect(buffer);
+            }
         }
     }
 
@@ -396,7 +405,6 @@ public class Handler implements Serializable {
     }
 
     /**
-     *
      * @param min INCLUSIVE minimum value
      * @param max INCLUSIVE maximum value
      * @return

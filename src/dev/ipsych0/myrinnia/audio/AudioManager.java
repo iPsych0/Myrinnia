@@ -25,7 +25,7 @@ public class AudioManager {
     private static ALCapabilities alCapabilities;
     private static List<Integer> buffers = new ArrayList<>();
     public static List<Source> musicFiles = new ArrayList<>();
-    public static List<Source> soundfxFiles = new ArrayList<>();
+    public static Map<Integer, Source> soundfxFiles = new HashMap<>();
     private static Map<String, Integer> soundMap = new HashMap<>();
     private static Zone zone;
     public static float musicVolume = 0.4f, sfxVolume = 0.2f;
