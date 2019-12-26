@@ -1,0 +1,24 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Did you know? Port Azure was founded by James Hook.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "James Hook left the mainland for a life of solitude on Azureal Island, away from the political conflict that took place back then.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Together with some sailors and fishers, he arrived here at the southern beaches, where he established Port Azure. His intention was never to return to the mainland.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Though, Port Azure is still connected to the mainland through a boat service. If you're lucky, Captain Isaac might take you with him next time he leaves!",
+      "nextId": -1
+    }
+  ]
+}

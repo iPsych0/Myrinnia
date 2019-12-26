@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "I heard the miners stumbled upon some ancient relics on an expedition deep down the Shamrock Mines.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I wonder what they found?",
+      "nextId": -1
+    }
+  ]
+}

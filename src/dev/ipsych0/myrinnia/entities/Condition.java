@@ -20,7 +20,7 @@ public class Condition implements Serializable {
     private boolean active;
     private int conditionDamage;
     private transient BufferedImage img;
-    private float initialSpeedDecrease;
+    private double initialSpeedDecrease;
     private static final double CHILL_MOVSPD = 0.66;
     private Type type;
 
@@ -74,7 +74,7 @@ public class Condition implements Serializable {
     }
 
     public void render(Graphics2D g, int x, int y) {
-        if (this.isActive()) {
+        if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
             Text.drawString(g, String.valueOf(currentDuration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
@@ -82,10 +82,10 @@ public class Condition implements Serializable {
 
     private void apply() {
         receiver.tickCondition(receiver, this);
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
-            float currMovSpd = r.getSpeed();
-            float newMovSpd = (float)(r.getSpeed() * CHILL_MOVSPD);
+        if (type == Type.CHILL) {
+            Creature r = ((Creature) receiver);
+            double currMovSpd = r.getSpeed();
+            double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
             initialSpeedDecrease = currMovSpd - newMovSpd;
             r.setSpeed(newMovSpd);
         }
@@ -95,16 +95,15 @@ public class Condition implements Serializable {
         // After 1 second, recreate the damage splat
         tickTimer = 0;
         currentDuration -= 60;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
         receiver.tickCondition(receiver, this);
     }
 
-    private void clear() {
+    public void clear() {
         tickTimer = 0;
         this.setActive(false);
 
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
+        if (type == Type.CHILL) {
+            Creature r = ((Creature) receiver);
             r.setSpeed(r.getSpeed() + initialSpeedDecrease);
         }
     }
@@ -121,7 +120,7 @@ public class Condition implements Serializable {
         return active;
     }
 
-    private void setActive(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -142,7 +141,7 @@ public class Condition implements Serializable {
     }
 
     public enum Type {
-        BURNING(Assets.burnIcon,"'Burning' inflicts damage over time."),
+        BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
         CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 33%."),
         BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),

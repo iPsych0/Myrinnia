@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.display;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.states.GraphicsState;
+import dev.ipsych0.myrinnia.states.State;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,12 +90,19 @@ public class Display implements Serializable {
         frame.pack();
 
         // If supported, start game in fullscreen, otherwise center the windowed application
+        // TODO: INVERT THESE, FOR NOW ALWAYS WINDOWED MODE FOR TESTING
         if (!fullScreenSupported) {
             fullScreen = true;
             setWindowedScreen();
         } else {
             frame.setLocationRelativeTo(null);
         }
+
+        // Save the frame's position
+        windowedX = frame.getX();
+        windowedY = frame.getY();
+        windowedWidth = frame.getWidth();
+        windowedHeight = frame.getHeight();
     }
 
     public void setFullScreen() {
@@ -112,12 +122,17 @@ public class Display implements Serializable {
                 frame.setVisible(true);
 
                 // Scale the window to fullscreen size
+                windowedX = frame.getX();
+                windowedY = frame.getY();
                 windowedWidth = frame.getWidth();
                 windowedHeight = frame.getHeight();
                 scaleX = (double) frame.getWidth() / (double) width;
                 scaleY = (double) frame.getHeight() / (double) height;
 
                 fullScreen = true;
+
+                // Change the selected item in the dropdown to 'fullscreen'
+                getGraphicsState().getDisplayModeDropDown().setSelectedIndex(0);
             }
         }
     }
@@ -137,12 +152,17 @@ public class Display implements Serializable {
             frame.setResizable(true);
 
             // Scale the window accordingly
+            windowedX = frame.getX();
+            windowedY = frame.getY();
             windowedWidth = frame.getWidth();
             windowedHeight = frame.getHeight();
             scaleX = (double) frame.getWidth() / (double) width;
             scaleY = (double) frame.getHeight() / (double) height;
 
             fullScreen = false;
+
+            // Change the selected item in the dropdown to 'windowed'
+            getGraphicsState().getDisplayModeDropDown().setSelectedIndex(1);
         }
     }
 
@@ -198,5 +218,19 @@ public class Display implements Serializable {
 
     public GraphicsDevice getGfxCard() {
         return gfxCard;
+    }
+
+    public Rectangle getWindowBounds() {
+        if (isFullScreen()) {
+            return new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+        } else {
+            Rectangle innerFrame = frame.getContentPane().getBounds();
+            innerFrame.setLocation(frame.getX(), frame.getY() + frame.getInsets().top);
+            return innerFrame;
+        }
+    }
+
+    public GraphicsState getGraphicsState() {
+        return (GraphicsState) Handler.get().getGame().graphicsState;
     }
 }

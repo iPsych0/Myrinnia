@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -24,19 +23,32 @@ public class Tree extends StaticEntity {
     private int minAttempts = 3, maxAttempts = 6;
     private int random = 0;
     private int attempts = 0;
+    private Item logs;
+    private int experience;
 
-    public Tree(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = true;
         attackable = false;
+
+        if (name.equalsIgnoreCase("Weak Palm Tree")) {
+            logs = Item.lightWood;
+            experience = 10;
+            bounds.x = 32;
+            bounds.y = 104;
+            bounds.width = 32;
+            bounds.height = 16;
+        } else {
+            throw new IllegalArgumentException("Tree name not found: " + name);
+        }
 
     }
 
     @Override
     public void tick() {
         if (isWoodcutting) {
-            if (Handler.get().invIsFull(Item.regularLogs)) {
+            if (Handler.get().invIsFull(logs)) {
                 woodcuttingTimer = 0;
                 speakingTurn = -1;
                 interact();
@@ -64,9 +76,9 @@ public class Tree extends StaticEntity {
                 System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 70) {
-                    Handler.get().giveItem(Item.regularLogs, Handler.get().getRandomNumber(1, 3));
+                    Handler.get().giveItem(logs, Handler.get().getRandomNumber(1, 3));
                     Handler.get().sendMsg("You succesfully chopped some logs.");
-                    Handler.get().getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(20);
+                    Handler.get().getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(experience);
                     attempts++;
 
                 } else {
@@ -91,7 +103,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.tree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.weakPalmTree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
@@ -102,7 +114,7 @@ public class Tree extends StaticEntity {
             return;
         }
         if (this.speakingTurn == 0) {
-            if (Handler.get().playerHasSkillLevel(SkillsList.WOODCUTTING, Item.regularLogs)) {
+            if (Handler.get().playerHasSkillLevel(SkillsList.WOODCUTTING, logs)) {
                 if (Handler.get().playerHasItemType(ItemType.AXE)) {
                     Handler.get().sendMsg("Chop chop...");
                     speakingTurn = 1;
@@ -111,7 +123,7 @@ public class Tree extends StaticEntity {
                     Handler.get().sendMsg("You need an axe to chop this tree.");
                 }
             } else {
-                Handler.get().sendMsg("You need a woodcutting level of " + Handler.get().getSkillResource(SkillsList.WOODCUTTING, Item.regularLogs).getLevelRequirement() + " to chop this tree.");
+                Handler.get().sendMsg("You need a woodcutting level of " + Handler.get().getSkillResource(SkillsList.WOODCUTTING, logs).getLevelRequirement() + " to chop this tree.");
             }
         }
     }
@@ -126,7 +138,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

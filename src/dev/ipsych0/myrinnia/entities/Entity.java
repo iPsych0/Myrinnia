@@ -10,8 +10,8 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -27,45 +27,67 @@ public abstract class Entity implements Serializable {
      *
      */
     private static final long serialVersionUID = -6319447656301966908L;
-    protected float x, y;
+    protected double x, y;
     protected int width, height;
     protected Rectangle bounds;
+    protected Rectangle fullBounds;
+    protected Rectangle interactionBounds;
     public static boolean isCloseToNPC = false;
     protected int health;
-    protected static final int DEFAULT_HEALTH = 100;
+    protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
-    protected boolean attackable = true;
+    protected boolean attackable = false;
     protected boolean isNpc = false;
     protected boolean drawnOnMap = false;
     protected boolean damaged = false;
     protected boolean staticNpc = false;
     protected boolean solid = true;
+    protected boolean walker = true;
     private Entity damageDealer;
     private Entity damageReceiver;
     protected int speakingTurn = 0;
-    private int speakingCheckpoint = -1;
+    protected int speakingCheckpoint = 0;
     protected transient ChatDialogue chatDialogue;
     private boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
-    protected int respawnTimer = 600;
+    protected long respawnTime = 30L; // 30 seconds
+    protected long timeOfDeath;
     protected Rectangle collision;
     protected Script script;
-    private String name;
+    protected String name;
+    protected String dropTable;
+    protected String jsonFile;
+    protected String animationTag;
+    protected String shopItemsFile;
     private static final double DIVISION_QUOTIENT = 200.0;
     private static final double ABILITY_DMG_COEFFICIENT = 1.08;
 
-    protected Entity(float x, float y, int width, int height) {
+    protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.shopItemsFile = itemsShop;
+        this.name = name;
+        this.dropTable = dropTable;
+        this.jsonFile = jsonFile;
+        this.animationTag = animation;
         health = DEFAULT_HEALTH;
 
+        if (dropTable != null) {
+            // TODO: LOAD DROP TABLE FROM JSON FILE!
+        }
+        if (jsonFile != null) {
+            script = Utils.loadScript(jsonFile);
+        }
+
         bounds = new Rectangle(0, 0, width, height);
+        fullBounds = new Rectangle(0, 0, width, height);
         collision = new Rectangle((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+        interactionBounds = new Rectangle(0, 0, width, height);
     }
 
     // Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
@@ -84,11 +106,15 @@ public abstract class Entity implements Serializable {
 
     protected abstract void updateDialogue();
 
+    public String getName() {
+        return name;
+    }
+
     /*
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
      */
-    protected boolean checkEntityCollisions(float xOffset, float yOffset) {
+    protected boolean checkEntityCollisions(double xOffset, double yOffset) {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -108,8 +134,13 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
-        if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tile.TILEWIDTH * 2) {
+        Entity closest = getClosestEntity();
+        if (closest == null) {
+            isCloseToNPC = false;
+            return false;
+        }
+
+        if (isNear(closest)) {
             // Interact with the respective speaking turn
             isCloseToNPC = true;
             return true;
@@ -118,7 +149,11 @@ public abstract class Entity implements Serializable {
             isCloseToNPC = false;
             return false;
         }
+    }
 
+    private boolean isNear(Entity closest) {
+        return closest.getInteractionBounds(-40, -40, 80, 80)
+                .intersects(Handler.get().getPlayer().getCollisionBounds(0, 0));
     }
 
     /*
@@ -141,6 +176,9 @@ public abstract class Entity implements Serializable {
             int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
             hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
             pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+        }
+        if (pythagoras.isEmpty()) {
+            return null;
         }
         Collections.sort(pythagoras);
         closestDistance = pythagoras.get(0);
@@ -193,10 +231,10 @@ public abstract class Entity implements Serializable {
 //        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
-    public void heal(int heal){
-        if(health + heal >= maxHealth){
+    public void heal(int heal) {
+        if (health + heal >= maxHealth) {
             health = maxHealth;
-        }else{
+        } else {
             health += heal;
             Handler.get().addHealSplat(this, heal);
         }
@@ -274,6 +312,28 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public void addResistance(Entity receiver, Resistance resistance) {
+        Creature r = ((Creature) receiver);
+        for (Resistance i : r.getImmunities()) {
+            if (i.getType() == resistance.getType()) {
+                // If the new resistance is better than or same as previous
+                if (resistance.getExpiryTime() >= i.getExpiryTime()) {
+                    // Set time to new resistance and reset timer
+                    i.setExpiryTime(resistance.getExpiryTime());
+                    i.setTimer(0);
+                }
+                if (resistance.getEffectiveness() >= i.getEffectiveness()) {
+                    // Set effectiveness to new resistance and reset timer
+                    i.setEffectiveness(resistance.getEffectiveness());
+                    i.setTimer(0);
+                }
+                return;
+            }
+        }
+
+        r.getImmunities().add(resistance);
+    }
+
     public void addCondition(Entity dealer, Entity receiver, Condition condition) {
         damageDealer = dealer;
         damageReceiver = receiver;
@@ -285,23 +345,58 @@ public abstract class Entity implements Serializable {
         Creature r = ((Creature) receiver);
 
         boolean hasCondition = false;
+        double multiplier = 1.0;
         for (Condition c : r.getConditions()) {
             // Check if the condition is already on the receiver
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
-                // If that's the case, increase the timeLeft
-                c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
 
-                // If the new ability has a higher condition damage than the current one, increase the damage
-                if (condition.getConditionDamage() > c.getConditionDamage()) {
-                    c.setConditionDamage(condition.getConditionDamage());
+                // If we have a stun/chill resistance active, decrease the duration applied
+                if (c.getType() == Condition.Type.STUN || c.getType() == Condition.Type.CHILL) {
+                    Resistance i = getResistance(r, c.getType());
+                    if (i != null) {
+                        multiplier -= i.getEffectiveness();
+                        c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getCurrentDuration() * multiplier));
+                    } else {
+                        // Otherwise stack normal duration
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                    }
+                } else {
+                    Resistance i = getResistance(r, c.getType());
+                    if (i != null) {
+                        // If we have a resistance, decrease the condition damage applied.
+                        multiplier -= i.getEffectiveness();
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                        c.setConditionDamage((int) Math.floor(condition.getConditionDamage() * multiplier));
+                    } else {
+                        // If the new ability has a higher condition damage than the current one, increase the damage and duration
+                        if (condition.getConditionDamage() >= c.getConditionDamage()) {
+                            c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                            c.setConditionDamage((int) Math.floor(condition.getConditionDamage()));
+                        }
+                    }
                 }
-                // If we don't already have a condition of this type, simply add it
             }
         }
+
+        // If we don't already have a condition of this type, simply add it
         if (!hasCondition) {
-            r.getConditions().add(condition);
-            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+            // Subtract duration or damage based on type of condition
+            if (condition.getType() == Condition.Type.STUN || condition.getType() == Condition.Type.CHILL) {
+                Resistance i = getResistance(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setCurrentDuration((int) (condition.getCurrentDuration() * multiplier));
+                r.getConditions().add(condition);
+            } else {
+                Resistance i = getResistance(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setConditionDamage((int) (condition.getConditionDamage() * multiplier));
+                r.getConditions().add(condition);
+            }
         }
 
 
@@ -311,7 +406,17 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public Resistance getResistance(Creature receiver, Condition.Type type) {
+        for (Resistance i : receiver.getImmunities()) {
+            if (i.getType() == type) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public void tickCondition(Entity receiver, Condition condition) {
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
         damageReceiver = receiver;
         damageReceiver.health -= condition.getConditionDamage();
         damageReceiver.damaged = true;
@@ -373,9 +478,60 @@ public abstract class Entity implements Serializable {
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
-        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
+        Font font;
+
+        String[] text = getEntityInfo(hoveringEntity);
+        Rectangle titleBounds;
+        if (text.length == 1) {
+            yPos += 12;
+            font = Assets.font20;
+            titleBounds = Text.getStringBounds(g, text[0], font);
+        } else {
+            font = Assets.font20;
+            String longest = null;
+            for (String s : text) {
+                if (longest == null) {
+                    longest = s;
+                } else if (s.length() > longest.length()) {
+                    longest = s;
+                }
+            }
+            titleBounds = Text.getStringBounds(g, longest, font);
+        }
+
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
+
+        if (hoveringEntity.isAttackable()) {
+            drawHPinOverlay(g, hoveringEntity, titleBounds);
+        }
+
+        if (script != null || isNpc) {
+            font = Assets.font20;
+        }
+        for (int i = 0; i < text.length; i++) {
+            if (i >= 1) {
+                font = Assets.font14;
+                yPos += 8;
+            }
+            Text.drawString(g, text[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, font);
+        }
+    }
+
+    public void drawHPinOverlay(Graphics2D g, Entity hoveringEntity, Rectangle titleBounds) {
+        g.setColor(HPOverlay.hpColorRed);
+        g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        g.setColor(HPOverlay.hpColorRedOutline);
+        g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+
+        g.setColor(HPOverlay.hpColorGreen);
+        if (health >= maxHealth) {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        } else {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
+            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
         }
     }
 
@@ -392,9 +548,22 @@ public abstract class Entity implements Serializable {
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
+    }
+
+    public Rectangle getInteractionBounds(double xOffset, double yOffset, int width, int height) {
+        interactionBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), this.width + width, this.height + height);
+        return interactionBounds;
+    }
+
+    /*
+     * Returns the collision bounds of an Entity
+     */
+    public Rectangle getFullBounds(double xOffset, double yOffset) {
+        fullBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), width, height);
+        return fullBounds;
     }
 
     public void interact() {
@@ -405,25 +574,39 @@ public abstract class Entity implements Serializable {
         // If the conversation was reset, reinitialize the first time we interact again
         if (speakingTurn == -1) {
             chatDialogue = null;
-            speakingTurn = 0;
+            if (speakingCheckpoint != 0) {
+                speakingTurn = speakingCheckpoint;
+            } else {
+                speakingTurn = 0;
+            }
             return;
         }
+
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
+            updateDialogue();
+            if (speakingTurn == -1) {
+                chatDialogue = null;
+                if (speakingCheckpoint != 0) {
+                    speakingTurn = speakingCheckpoint;
+                } else {
+                    speakingTurn = 0;
+                }
+                return;
+            }
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
-            updateDialogue();
             // If there is a condition to proceed, check the condition
-            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+            if (script.getDialogues().get(speakingTurn).getChoiceCondition() != null) {
                 ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
                 String condition = choiceCondition.getCondition();
                 // Check if the condition is met
-                if(choiceConditionMet(condition)){
+                if (choiceConditionMet(condition)) {
                     setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-                }else{
+                } else {
                     setSpeakingTurn(choiceCondition.getFalseId());
                 }
-            }else{
+            } else {
                 setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
             }
 
@@ -445,7 +628,6 @@ public abstract class Entity implements Serializable {
                         // If we don't meet the condition, return to whatever menu falseId points to
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
-                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 } else {
@@ -453,7 +635,6 @@ public abstract class Entity implements Serializable {
                     if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
-                    chatDialogue.setChosenOption(null);
                     interact();
                     return;
                 }
@@ -483,19 +664,19 @@ public abstract class Entity implements Serializable {
 
 
     // Getters & Setters
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -515,7 +696,7 @@ public abstract class Entity implements Serializable {
         this.height = height;
     }
 
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
 
@@ -639,19 +820,31 @@ public abstract class Entity implements Serializable {
         this.maxHealth = maxHealth;
     }
 
-    public void startRespawnTimer() {
-        this.respawnTimer--;
-    }
-
-    public int getRespawnTimer() {
-        return respawnTimer;
-    }
-
-    public String getName() {
-        return this.getClass().getSimpleName();
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isWalker() {
+        return walker;
+    }
+
+    public void setWalker(boolean walker) {
+        this.walker = walker;
+    }
+
+    public long getRespawnTime() {
+        return respawnTime;
+    }
+
+    public void setRespawnTime(long respawnTime) {
+        this.respawnTime = respawnTime;
+    }
+
+    public long getTimeOfDeath() {
+        return timeOfDeath;
+    }
+
+    public void setTimeOfDeath(long timeOfDeath) {
+        this.timeOfDeath = timeOfDeath;
     }
 }

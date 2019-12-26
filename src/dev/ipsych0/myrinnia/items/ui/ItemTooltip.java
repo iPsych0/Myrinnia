@@ -149,8 +149,8 @@ public class ItemTooltip implements Serializable {
                     g.setColor(Color.YELLOW);
                 }
 
-                Text.drawString(g, "ATK Spd.: " + item.getAttackSpeed(), x + 7, y + 128, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()) + ")", x + 116, y + 128, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "ATK Spd.: " + String.valueOf(item.getAttackSpeed()).replaceFirst("\\.[0]+$",""), x + 7, y + 128, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + String.valueOf(item.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getAttackSpeed()).replaceFirst("\\.[0]+$","") + ")", x + 116, y + 128, false, g.getColor(), Assets.font14);
 
                 /*
                  * Draw movement speed colour red/green if stats are lower/higher
@@ -162,8 +162,8 @@ public class ItemTooltip implements Serializable {
                 } else {
                     g.setColor(Color.YELLOW);
                 }
-                Text.drawString(g, "MOV Spd.: " + item.getMovementSpeed(), x + 7, y + 144, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "(" + (item.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()) + ")", x + 116, y + 144, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "MOV Spd.: " + String.valueOf(item.getMovementSpeed()).replaceFirst("\\.[0]+$",""), x + 7, y + 144, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "(" + String.valueOf(item.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(item.getEquipSlot()).getEquipmentStack().getItem().getMovementSpeed()).replaceFirst("\\.[0]+$","") + ")", x + 116, y + 144, false, g.getColor(), Assets.font14);
 
             } else {
                 g.setColor(Color.YELLOW);
@@ -172,8 +172,8 @@ public class ItemTooltip implements Serializable {
                 Text.drawString(g, "INT: " + item.getIntelligence(), x + 7, y + 80, false, g.getColor(), Assets.font14);
                 Text.drawString(g, "DEF: " + item.getDefence(), x + 7, y + 96, false, g.getColor(), Assets.font14);
                 Text.drawString(g, "VIT: " + item.getVitality(), x + 7, y + 112, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "ATK Spd.: " + item.getAttackSpeed(), x + 7, y + 128, false, g.getColor(), Assets.font14);
-                Text.drawString(g, "MOV Spd.: " + item.getMovementSpeed(), x + 7, y + 144, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "ATK Spd.: " + String.valueOf(item.getAttackSpeed()).replaceFirst("\\.[0]+$",""), x + 7, y + 128, false, g.getColor(), Assets.font14);
+                Text.drawString(g, "MOV Spd.: " + String.valueOf(item.getMovementSpeed()).replaceFirst("\\.[0]+$",""), x + 7, y + 144, false, g.getColor(), Assets.font14);
             }
         }
     }

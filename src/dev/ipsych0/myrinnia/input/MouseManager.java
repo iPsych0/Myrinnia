@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.input;
 
-import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
@@ -97,7 +97,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
             DialogueBox.hasBeenPressed = true;
-            DropDownBox.hasBeenPressed = true;
+            CelebrationUI.hasBeenPressed = true;
         }
 
         // Right Click

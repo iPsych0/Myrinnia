@@ -1,0 +1,28 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Oh man... I'm so startled. I was attacked by this big crab in Sunset Cove, west of here...",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasCompletedBounty",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "text": "Oh, you found my axe! Thank you so much! It's a family heirloom so it is very valuable to me.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "My family specializes in crafting axes. I would like to give you an axe that we've made as token of gratitude. You can use it to chop down certain trees.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "If you would like to know more about the Woodcutting skill, you should go north along Sunset Cove beach. You will find Douglas. Good luck!",
+      "nextId": -1
+    }
+  ]
+}

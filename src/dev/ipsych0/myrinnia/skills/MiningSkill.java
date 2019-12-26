@@ -26,7 +26,9 @@ public class MiningSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.regularOre, SkillCategory.Ores));
+        resources.add(new SkillResource(1, Item.azuriteOre, SkillCategory.Ores));
+        resources.add(new SkillResource(2, Item.copperOre, SkillCategory.Ores));
+        resources.add(new SkillResource(5, Item.ironOre, SkillCategory.Ores));
     }
 
     @Override

@@ -8,9 +8,7 @@ import java.awt.*;
 
 public class ConditionSplat extends HitSplat {
 
-    private Entity receiver;
     private Condition condition;
-    private int ty;
     private int xOffset;
     private int damage;
 
@@ -33,24 +31,38 @@ public class ConditionSplat extends HitSplat {
     public void render(Graphics2D g) {
         if (isActive()) {
             if (condition != null) {
-
-                // Draw the condition sprite
-                g.drawImage(condition.getImg(), (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + 8 + xOffset),
-                        (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - 16 - ty), 16, 16, null);
-
-                // Draw the damage number
-                if (damage > 0) {
-                    Text.drawString(g, String.valueOf(damage),
-                            (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width + receiver.width / 2 - 8 + xOffset),
-                            (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty), false, Color.YELLOW, Assets.font24);
-                }
+                fadeOutCondition(g);
             }
+
             ty++;
-
-
-            if(ty >= 60){
+            if (alpha <= 0) {
                 setActive(false);
             }
         }
+    }
+
+    private void fadeOutCondition(Graphics2D g) {
+        alpha -= ALPHA_PER_TICK;
+        ALPHA_PER_TICK *= exponent;
+        if (alpha < 0) {
+            alpha = 0;
+        }
+
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        g.setComposite(ac);
+
+        // Draw the condition sprite
+        g.drawImage(condition.getImg(), (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + 8 + xOffset),
+                (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - 16 - ty), 16, 16, null);
+
+        // Draw the damage number
+        if (damage > 0) {
+            Text.drawString(g, String.valueOf(damage),
+                    (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width + receiver.width / 2 - 8 + xOffset),
+                    (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty), false, Color.YELLOW, Assets.font24);
+        }
+
+        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+        g.setComposite(ac);
     }
 }

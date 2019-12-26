@@ -10,8 +10,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MendWoundsAbility extends Ability {
 
@@ -35,13 +35,17 @@ public class MendWoundsAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.mendWoundsI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
                     32, 32, null);
         }
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.mendWoundsI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
     }
 
     @Override
@@ -56,16 +60,15 @@ public class MendWoundsAbility extends Ability {
 
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
             initialHealDone = true;
-            Handler.get().playEffect("abilities/mend_wounds.wav");
+            Handler.get().playEffect("abilities/mend_wounds.wav", 0.1f);
 
-            Collection<Condition> deleted = new CopyOnWriteArrayList<>();
-            deleted.addAll(caster.getConditions());
-            caster.getConditions().removeAll(deleted);
-
-            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
-            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
-            caster.addBuff(caster, caster, b);
-            caster.addBuff(caster, caster, b2);
+//            // Remove all conditions
+//            caster.getConditions().removeAll(caster.getConditions());
+//
+//            Buff b = new AttributeBuff(AttributeBuff.Attribute.INT, caster, 5, 10, true);
+//            Buff b2 = new AttributeBuff(AttributeBuff.Attribute.STR, caster, 5, 10);
+//            caster.addBuff(caster, caster, b);
+//            caster.addBuff(caster, caster, b2);
         }
 
         animation.tick();

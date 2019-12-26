@@ -1,25 +1,30 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.Resistance;
+import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.KeyManager;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Creature extends Entity {
 
@@ -31,8 +36,9 @@ public abstract class Creature extends Entity {
     /*
      * Default Creature variables
      */
-    public static final float DEFAULT_SPEED = 1.0f;
-    static final float DEFAULT_ATTACKSPEED = 1.0f;
+    public static final double DEFAULT_SPEED = 1.5;
+    public static final double DEFAULT_ATTACKSPEED = 1.0;
+
     public static final int DEFAULT_CREATURE_WIDTH = 32,
             DEFAULT_CREATURE_HEIGHT = 32;
 
@@ -48,18 +54,18 @@ public abstract class Creature extends Entity {
     int intelligence;
     int defence;
     int vitality;
-    float attackSpeed;
-    int combatLevel;
+    double attackSpeed;
+    protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
     int attackRange = Tile.TILEWIDTH * 2;
-    ArrayList<Projectile> projectiles = new ArrayList<>();
+    List<Projectile> projectiles = new ArrayList<>();
 
     // Walking timer
     private int time = 0;
 
     // Radius variables:
-    int xSpawn = (int) getX();
-    int ySpawn = (int) getY();
+    protected int xSpawn = (int) getX();
+    protected int ySpawn = (int) getY();
     int xRadius = 192;
     int yRadius = 192;
     Rectangle radius;
@@ -69,36 +75,70 @@ public abstract class Creature extends Entity {
     private List<Node> nodes;
     int pathFindRadiusX = 1024;
     int pathFindRadiusY = 1024;
-    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2, xSpawn, ySpawn);
+    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private boolean aStarInitialized;
-    private Color pathColour = new Color(44, 255, 12, 127);
+    private static Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     private static final int TIMES_PER_SECOND = 4;
-    private int timePerPathCheck = (60 / TIMES_PER_SECOND); // 4 times per second.
+    private static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
     private int pathTimer = 0;
-    private List<Condition> conditions = new CopyOnWriteArrayList<>();
-    private List<Buff> buffs = new CopyOnWriteArrayList<>();
-    Animation aLeft;
-    Animation aRight;
-    Animation aUp;
-    Animation aDown;
-    Animation aDefault;
+    protected List<Condition> conditions = new ArrayList<>();
+    protected List<Buff> buffs = new ArrayList<>();
+    protected List<Resistance> immunities = new ArrayList<>();
+    protected Animation aLeft;
+    protected Animation aRight;
+    protected Animation aUp;
+    protected Animation aDown;
+    protected Animation aDefault;
+    protected double baseDmgExponent = 1.1;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
-    Direction direction;
+    protected Direction direction;
     // Last faced direction
-    Direction lastFaced;
+    protected Direction lastFaced;
 
-    float speed;
-    float xMove;
-    float yMove;
+    protected double speed;
+    protected double xMove;
+    protected double yMove;
 
-    protected Creature(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    protected List<DropTableEntry> dropTableEntries;
+    protected int maxDropTableWeight;
+    protected int emptyWeight;
+
+    public Creature(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+        this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
+
+        if (animation != null) {
+            BufferedImage[][] anims = Assets.getAnimationByTag(animation);
+            aDown = new Animation(250, anims[0]);
+            aLeft = new Animation(250, anims[1]);
+            aRight = new Animation(250, anims[2]);
+            aUp = new Animation(250, anims[3]);
+            aDefault = aDown;
+        }
+
+        if (direction != null) {
+            lastFaced = direction;
+            walker = false;
+        }
+
+        if (dropTable != null) {
+            dropTableEntries = Utils.loadDropTable(dropTable);
+            for (DropTableEntry entry : dropTableEntries) {
+                // ItemID -1 for empty drop
+                if (entry.getItemId() == -1) {
+                    emptyWeight = entry.getWeight();
+                } else {
+                    maxDropTableWeight += entry.getWeight();
+                }
+            }
+        }
+
         state = CombatState.IDLE;
         baseDamage = (DEFAULT_DAMAGE);
         strength = (DEFAULT_STRENGTH);
@@ -110,12 +150,50 @@ public abstract class Creature extends Entity {
         attackSpeed = (DEFAULT_ATTACKSPEED);
         maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
         health = maxHealth;
-        combatLevel = 1;
+        setCombatLevel();
+
         xMove = 0;
         yMove = 0;
         drawnOnMap = true;
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
+    }
 
+    protected void setCombatLevel() {
+        for (int i = 1; i < combatLevel; i++) {
+            baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
+            baseDmgExponent *= LEVEL_EXPONENT;
+            // Only add defence and HP per level up by default
+            defence += 2;
+            vitality += 3;
+            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+            health = maxHealth;
+        }
+    }
+
+    protected void getDroptableItem() {
+        if (maxDropTableWeight == 0) {
+            // The drop table must be empty
+            Handler.get().sendMsg(getName() + " has an empty drop table.");
+            System.err.println("Drop table for " + getName() + " is empty in " + Handler.get().getWorld().getZone().getName() + ". Please check 'dropTable' property in Tiled.");
+            return;
+        }
+
+        // Roll number between 1 and sum of all weights
+        int roll = Handler.get().getRandomNumber(1, maxDropTableWeight + emptyWeight);
+        int index = 0;
+        for (DropTableEntry entry : dropTableEntries) {
+            index += entry.getWeight();
+            if (roll <= index && roll > (index - entry.getWeight())) {
+                // Don't drop anything if we rolled the empty table
+                if (entry.getItemId() == -1)
+                    return;
+
+                Handler.get().dropItem(Item.items[entry.getItemId()], entry.getAmount(), (int) x, (int) y);
+                return;
+            }
+        }
+        // The drop table must be empty
+        Handler.get().sendMsg("Drop table for " + getName() + " is empty.");
     }
 
     /*
@@ -131,9 +209,9 @@ public abstract class Creature extends Entity {
      * Moves on the X or Y axis, keeping in mind the collision detection
      */
     public void move() {
-        if (!checkEntityCollisions(xMove, 0f))
+        if (!checkEntityCollisions(xMove, 0))
             moveX();
-        if (!checkEntityCollisions(0f, yMove))
+        if (!checkEntityCollisions(0, yMove))
             moveY();
     }
 
@@ -144,7 +222,7 @@ public abstract class Creature extends Entity {
         if (xMove > 0) { // Moving right
             direction = Direction.RIGHT;
             lastFaced = Direction.RIGHT;
-            float tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+            double tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
 
             if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
                     !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
@@ -156,9 +234,9 @@ public abstract class Creature extends Entity {
         } else if (xMove < 0) { // Moving left
             direction = Direction.LEFT;
             lastFaced = Direction.LEFT;
-            float tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
+            double tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
 
-            if (!collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
+            if (tx >= 0 && !collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, true) &&
                     !collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, true)) {
 
                 x += xMove;
@@ -177,9 +255,9 @@ public abstract class Creature extends Entity {
         if (yMove < 0) { // Up
             direction = Direction.UP;
             lastFaced = Direction.UP;
-            float ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
+            double ty = (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 
-            if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
+            if (ty >= 0 && !collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
                     !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
                 y += yMove;
             } else {
@@ -189,7 +267,7 @@ public abstract class Creature extends Entity {
         } else if (yMove > 0) { // Down
             direction = Direction.DOWN;
             lastFaced = Direction.DOWN;
-            float ty = (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
+            double ty = (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 
             if (!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, false) &&
                     !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, false)) {
@@ -206,7 +284,7 @@ public abstract class Creature extends Entity {
      * Gets the animation based on last faced direction
      * @returns the animation image
      */
-    BufferedImage getAnimationByLastFaced() {
+    protected BufferedImage getAnimationByLastFaced() {
         // Idle animations
         if (xMove == 0 && yMove == 0) {
             if (lastFaced == Direction.LEFT) {
@@ -236,7 +314,7 @@ public abstract class Creature extends Entity {
     /*
      * Sets the last faced direction, based on last movement
      */
-    void setLastFaced() {
+    protected void setLastFaced() {
         if (lastFaced == null) {
             aDefault = aDown;
         }
@@ -254,7 +332,7 @@ public abstract class Creature extends Entity {
     /*
      * Returns the sprite of the last faced direction
      */
-    BufferedImage getLastFacedImg() {
+    protected BufferedImage getLastFacedImg() {
         if (lastFaced == null) {
             return aDown.getDefaultFrame();
         }
@@ -273,6 +351,12 @@ public abstract class Creature extends Entity {
         return aDown.getDefaultFrame();
     }
 
+    private boolean isOutsideMap(int x, int y) {
+        int width = Handler.get().getWorld().getWidth();
+        int height = Handler.get().getWorld().getHeight();
+        return x < 0 || y < 0 || x >= width || y >= height;
+    }
+
     /*
      * Handles collision detection with Tiles
      */
@@ -281,27 +365,36 @@ public abstract class Creature extends Entity {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
 
+        if (isOutsideMap(x, y)) {
+            return true;
+        }
+
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
+        boolean hasPostRenderedTile = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
-                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(xMove, 0));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(xMove, 0));
                 } else {
-                    walkableOnTop = t.getBounds() != null && !t.getBounds(x, y).intersects(getCollisionBounds(0, yMove));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
-                if(!walkableOnTop){
+                if (!walkableOnTop) {
                     solidTileUnderPostRendered = true;
                 }
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
+                    if (t.isPostRendered()) {
+                        hasPostRenderedTile = true;
+                    }
+
                 }
             }
         }
 
-        if(solidTileUnderPostRendered){
+        if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
 
@@ -314,6 +407,7 @@ public abstract class Creature extends Entity {
     public boolean collisionWithTile(int x, int y) {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
+        boolean hasPostRenderedTile = false;
         for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -322,10 +416,14 @@ public abstract class Creature extends Entity {
             } else {
                 if (t != null && t != Tile.tiles[0]) {
                     walkableOnTop = true;
+                    if (t.isPostRendered()) {
+                        hasPostRenderedTile = true;
+                    }
+
                 }
             }
         }
-        if(solidTileUnderPostRendered){
+        if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
         return !walkableOnTop;
@@ -336,14 +434,16 @@ public abstract class Creature extends Entity {
      */
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (this.isNpc) {
-            String[] name = new String[1];
+        if (script != null) {
+            String[] name = new String[2];
             name[0] = hoveringEntity.getName();
+            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+            name[1] = "Press '" + interactKey + "' to interact";
             return name;
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "HP: " + String.valueOf(health) + "/" + String.valueOf(maxHealth);
+        name[1] = "HP: " + health + "/" + maxHealth;
         return name;
     }
 
@@ -354,26 +454,33 @@ public abstract class Creature extends Entity {
      * @param g
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
-        int yPos = 12;
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
-        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
-        }
+        super.drawEntityOverlay(hoveringEntity, g);
 
         for (int i = 0; i < conditions.size(); i++) {
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50, 32, 32);
             conditions.get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(conditions.get(i), g);
             }
         }
 
         int yOffset = 0;
         if (!conditions.isEmpty()) yOffset = 1;
-        for (int i = 0; i < buffs.size(); i++) {
+        int resistanceCount = 0;
+        // First draw Immunities
+        for (int i = 0; i < immunities.size(); i++) {
+            resistanceCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
+            immunities.get(i).render(g, slotPos.x, slotPos.y);
+            if (slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(immunities.get(i), g);
+            }
+        }
+        // Then draw buffs in the same row, but after the immunities
+        for (int i = 0; i < buffs.size(); i++) {
+            Rectangle slotPos = new Rectangle(resistanceCount + Handler.get().getWidth() / 2 - 100 + (i * ItemSlot.SLOTSIZE), 50 + (ItemSlot.SLOTSIZE * yOffset), 32, 32);
             buffs.get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(buffs.get(i), g);
             }
         }
@@ -381,7 +488,7 @@ public abstract class Creature extends Entity {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (AStarMap.debugMode) {
+        if (Handler.debugAStar) {
             g.setColor(Color.BLACK);
             g.drawRect((int) (radius.x - Handler.get().getGameCamera().getxOffset()), (int) (radius.y - Handler.get().getGameCamera().getyOffset()), radius.width, radius.height);
 
@@ -397,11 +504,11 @@ public abstract class Creature extends Entity {
     }
 
     void tickProjectiles() {
-        if(projectiles.size() < 1)
+        if (projectiles.size() < 1)
             return;
 
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
+        Collection<Projectile> deleted = new ArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
             p.tick();
@@ -411,14 +518,23 @@ public abstract class Creature extends Entity {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (e.equals(Handler.get().getPlayer())) {
-                        e.damage(DamageType.DEX, this, e);
-
-                        int dice = Handler.get().getRandomNumber(0, 5);
-                        if (dice == 1) {
-                            e.addCondition(this, e, new Condition(Condition.Type.POISON, e, 5, 3));
+                        if (p.getAbility() != null) {
+                            e.damage(p.getDamageType(), this, e, p.getAbility());
+                        } else {
+                            e.damage(p.getDamageType(), this, e);
                         }
 
+                        if (p.getImpactSound() != null) {
+                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
+                        }
+
+                        p.setHitCreature((Creature) e);
                         p.setActive(false);
+
+                        // Apply special effect if has one
+                        if (p.getOnImpact() != null) {
+                            p.getOnImpact().impact(p.getHitCreature());
+                        }
                     }
                     if (!e.isAttackable()) {
                         p.setActive(false);
@@ -431,7 +547,7 @@ public abstract class Creature extends Entity {
     }
 
     public void tick() {
-        if (aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
+        if (chatDialogue == null && aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();
             aUp.tick();
@@ -439,19 +555,32 @@ public abstract class Creature extends Entity {
             aRight.tick();
         }
 
-        if (!aStarInitialized) {
-            map.init();
-            aStarInitialized = true;
+        if (inCombat) {
+            combatTimer++;
         }
-        radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
-        tickProjectiles();
-        combatStateManager();
+
+        if (combatTimer >= 300) {
+            inCombat = false;
+            combatTimer = 0;
+        }
+
+        if (attackable) {
+            if (!aStarInitialized) {
+                map.init();
+                aStarInitialized = true;
+            }
+            radius.setLocation((int) x - xRadius, (int) y - yRadius);
+            tickProjectiles();
+            combatStateManager();
+        } else if (walker && chatDialogue == null) {
+            randomWalk();
+        }
     }
 
     /*
      * Walks into random directions at given intervals
      */
-    private void randomWalk() {
+    protected void randomWalk() {
         time++;
         int i = (Handler.get().getRandomNumber(60, 90));
         if (time % i == 0) {
@@ -495,17 +624,17 @@ public abstract class Creature extends Entity {
 
     private void findPath() {
         if (state == CombatState.BACKTRACK) {
-            nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
-                    Math.round(((xSpawn + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((ySpawn + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
+            nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                    ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
         } else {
-            int playerX = Math.round(((Handler.get().getPlayer().getX() + 0) / 32)) - (xSpawn - pathFindRadiusX) / 32;
-            int playerY = Math.round(((Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
+            int playerX = Math.round((((int) Handler.get().getPlayer().getX() + 4) / 32)) - (xSpawn - pathFindRadiusX) / 32;
+            int playerY = Math.round((((int) Handler.get().getPlayer().getY() + 4) / 32)) - (ySpawn - pathFindRadiusY) / 32;
 
             if (playerX == map.getNodes().length || playerY == map.getNodes().length) {
-                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
-                        Math.round(((playerX + 8) / 32)) - (xSpawn - pathFindRadiusX) / 32, Math.round(((playerY + 8) / 32)) - (ySpawn - pathFindRadiusY) / 32);
+                nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                        ((playerX + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((playerY + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
             } else {
-                nodes = map.findPath((int) ((x + 8) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + 8) / 32) - (ySpawn - pathFindRadiusY) / 32,
+                nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                         playerX, playerY);
             }
         }
@@ -514,7 +643,7 @@ public abstract class Creature extends Entity {
     /**
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
-    private void combatStateManager() {
+    protected void combatStateManager() {
 
         if (damaged) {
             state = CombatState.PATHFINDING;
@@ -524,7 +653,6 @@ public abstract class Creature extends Entity {
         if (Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
-
         // If the Creature was not following or attacking the player, move around randomly.
         if (state == CombatState.IDLE) {
             randomWalk();
@@ -543,8 +671,9 @@ public abstract class Creature extends Entity {
             state = CombatState.BACKTRACK;
         }
 
+
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + +this.getHeight() / 2),
+        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
                 ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2),
                 ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
                 Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
@@ -566,7 +695,7 @@ public abstract class Creature extends Entity {
         if (state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
             // Control the number of times we check for new path
             pathTimer++;
-            if (pathTimer >= timePerPathCheck) {
+            if (pathTimer >= TIME_PER_PATH_CHECK) {
                 findPath();
                 pathTimer = 0;
             }
@@ -626,9 +755,11 @@ public abstract class Creature extends Entity {
             return;
         }
 
-        if (next.getX() != (int) ((x + 8) / 32)) {
-            xMove = (next.getX() < (int) ((x + 8) / 32) ? -speed : speed);
-            if (x % 32 == 8) {
+        if (next.getX() == (int) ((x + width / 4) / 32)) {
+//            System.out.println("X == equal");
+        } else if (next.getX() != (int) ((x + width / 4) / 32)) {
+            xMove = (next.getX() < (int) ((x + width / 4) / 32) ? -speed : speed);
+            if ((int) x % 32 == width / 4) {
                 //x -= x % 32;
                 if (!nodes.isEmpty())
                     nodes.remove(0);
@@ -638,9 +769,11 @@ public abstract class Creature extends Entity {
             }
         }
 
-        if (next.getY() != (int) ((y + 8) / 32)) {
-            yMove = (next.getY() < (int) ((y + 8) / 32) ? -speed : speed);
-            if (y % 32 == 8) {
+        if (next.getY() == (int) ((y + height / 4) / 32)) {
+//            System.out.println("Y == equal");
+        } else if (next.getY() != (int) ((y + height / 4) / 32)) {
+            yMove = (next.getY() < (int) ((y + height / 4) / 32) ? -speed : speed);
+            if ((int) y % 32 == height / 4) {
                 //y -= y % 32;
                 if (!nodes.isEmpty())
                     nodes.remove(0);
@@ -655,37 +788,84 @@ public abstract class Creature extends Entity {
         }
     }
 
+    /*
+     * Regenerates health
+     */
+    public void regenHealth() {
+        if (health == maxHealth) {
+            return;
+        }
+
+        // If current health is higher than your max health value, degenerate health
+        if (health > maxHealth) {
+
+            if (health - (int) Math.ceil(0.00005d * (double) maxHealth) > maxHealth) {
+                health -= (int) Math.ceil(0.00005d * (double) maxHealth);
+            } else {
+                health = maxHealth;
+            }
+        }
+
+        // If current health is lower than your max health value, regenerate health
+        if (health < maxHealth) {
+
+            if (health + (int) Math.ceil(0.00005d * (double) maxHealth) < maxHealth) {
+                health += (int) Math.ceil(0.00005d * (double) maxHealth);
+            } else {
+                health = maxHealth;
+            }
+
+        }
+    }
+
+    public void castAbility(Ability ability) {
+        if(ability.isOnCooldown() || ability.isChanneling()){
+            return;
+        }
+        if (ability.isSelectable()) {
+            ability.setSelected(true);
+        }
+        if (!Handler.get().getAbilityManager().getActiveAbilities().contains(ability)) {
+            Handler.get().getAbilityManager().getActiveAbilities().add(ability);
+            ability.setCaster(this);
+        }
+    }
+
+    public void clearConditions() {
+        for (Condition c : conditions) {
+            c.setActive(false);
+        }
+    }
+
+    public void clearBuffs() {
+        for (Buff b : buffs) {
+            b.setActive(false);
+        }
+    }
+
     // GETTERS + SETTERS
 
-    public float getxMove() {
+    public double getxMove() {
         return xMove;
     }
 
-    public void setxMove(float xMove) {
+    public void setxMove(double xMove) {
         this.xMove = xMove;
     }
 
-    public float getyMove() {
+    public double getyMove() {
         return yMove;
     }
 
-    public void setyMove(float yMove) {
+    public void setyMove(double yMove) {
         this.yMove = yMove;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -729,11 +909,11 @@ public abstract class Creature extends Entity {
         this.vitality = vitality;
     }
 
-    public float getAttackSpeed() {
+    public double getAttackSpeed() {
         return attackSpeed;
     }
 
-    public void setAttackSpeed(float attackSpeed) {
+    public void setAttackSpeed(double attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
 
@@ -769,11 +949,11 @@ public abstract class Creature extends Entity {
         this.radius = radius;
     }
 
-    public ArrayList<Projectile> getProjectiles() {
+    public List<Projectile> getProjectiles() {
         return projectiles;
     }
 
-    public void setProjectiles(ArrayList<Projectile> projectiles) {
+    public void setProjectiles(List<Projectile> projectiles) {
         this.projectiles = projectiles;
     }
 
@@ -809,6 +989,14 @@ public abstract class Creature extends Entity {
         this.buffs = buffs;
     }
 
+    public List<Resistance> getImmunities() {
+        return immunities;
+    }
+
+    public void setImmunities(List<Resistance> immunities) {
+        this.immunities = immunities;
+    }
+
     public int getPathFindRadiusX() {
         return pathFindRadiusX;
     }
@@ -824,4 +1012,14 @@ public abstract class Creature extends Entity {
     public void setPathFindRadiusY(int pathFindRadiusY) {
         this.pathFindRadiusY = pathFindRadiusY;
     }
+
+    public int getxSpawn() {
+        return xSpawn;
+    }
+
+    public int getySpawn() {
+        return ySpawn;
+    }
+
+
 }

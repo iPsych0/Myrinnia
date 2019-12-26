@@ -30,7 +30,11 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void tick() {
-
+        if (getBounds().contains(Handler.get().getMouse())) {
+            setHovering(true);
+        } else {
+            setHovering(false);
+        }
     }
 
     @Override
@@ -44,9 +48,9 @@ public class UIImageButton extends UIObject {
                 Handler.get().playEffect("ui/ui_button_click.wav");
                 hasBeenPressed = false;
             }
-            g.drawImage(images[0], x, y, width, height, null);
-        } else {
             g.drawImage(images[1], x, y, width, height, null);
+        } else {
+            g.drawImage(images[0], x, y, width, height, null);
             hasHovered = false;
         }
     }

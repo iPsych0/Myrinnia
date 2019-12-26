@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 20.0,
+  "castingTime": 0.5,
+  "overcastTime": 0.0,
+  "name": "Healing Spring",
+  "description": "The restorative properties of the spring heal X HP and an additional Y HP per second you stand in it.",
+  "abilityType": "HealingAbility",
+  "element": "Water",
+  "combatStyle": "Ranged",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 0,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.HealingSpringAbility"
+}

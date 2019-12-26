@@ -23,16 +23,15 @@ public class AStarMap implements Serializable {
     public static Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
-    public static boolean debugMode = false;
 
-    public AStarMap(Creature creature, int x, int y, int width, int height, int xSpawn, int ySpawn) {
+    public AStarMap(Creature creature, int x, int y, int width, int height) {
         this.creature = creature;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.xSpawn = xSpawn;
-        this.ySpawn = ySpawn;
+        this.xSpawn = creature.getxSpawn();
+        this.ySpawn = creature.getySpawn();
 
         // Aantal nodes aanpassen dan?
         nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int) (Math.floor(height / 32)) + 1];
@@ -57,7 +56,7 @@ public class AStarMap implements Serializable {
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (e instanceof StaticEntity) {
                 if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
-                    nodes[Math.round(((e.getX()) / 32)) - x / 32][Math.round(((e.getY()) / 32)) - y / 32].setWalkable(false);
+                    nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
                 }
             }
         }
@@ -99,20 +98,20 @@ public class AStarMap implements Serializable {
         if (startX <= -1) {
             creature.setxMove(creature.getSpeed());
             creature.move();
-            return new ArrayList<>();
+            return null;
         } else if (startX >= nodes.length) {
             creature.setxMove(-creature.getSpeed());
             creature.move();
-            return new ArrayList<>();
+            return null;
         }
         if (startY <= -1) {
             creature.setyMove(creature.getSpeed());
             creature.move();
-            return new ArrayList<>();
+            return null;
         } else if (startY >= nodes.length) {
             creature.setyMove(-creature.getSpeed());
             creature.move();
-            return new ArrayList<>();
+            return null;
         }
 
         if (goalX >= nodes.length - 1 || goalX < 0 || goalY >= nodes.length - 1 || goalY < 0) {
@@ -132,7 +131,7 @@ public class AStarMap implements Serializable {
         if (startX == goalX && startY == goalY) {
             creature.setState(CombatState.IDLE);
             // Return an empty path, because we don't need to move at all.
-            return new ArrayList<>();
+            return null;
         }
 
         // The set of nodes already visited.

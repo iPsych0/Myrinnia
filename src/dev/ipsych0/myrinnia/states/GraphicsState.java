@@ -33,15 +33,21 @@ public class GraphicsState extends State {
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
         if (Handler.get().getGame().getDisplay().isFullScreen()) {
-            displayModeDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 64, 128, 20, Arrays.asList(displayOptions));
+            displayModeDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 64,
+                    128, 20, Arrays.asList(displayOptions));
         } else {
-            displayModeDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 64, 128, 20, Arrays.asList(displayOptions), 1);
+            displayModeDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 64,
+                    128, 20, Arrays.asList(displayOptions), 1);
         }
 
-        resolutionDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 96, 128, 20, Arrays.asList(resolutionOptions), 2);
-        antiAliasingDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 224, 128, 20, Arrays.asList(antiAliasingOptions), 2);
-        renderQualityDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 256, 128, 20, Arrays.asList(renderQualityOptions), 2);
-        textQualityDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 288, 128, 20, Arrays.asList(textQualityOptions), 2);
+        resolutionDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 96,
+                128, 20, Arrays.asList(resolutionOptions), 2);
+        antiAliasingDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 224,
+                128, 20, Arrays.asList(antiAliasingOptions), 0);
+        renderQualityDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 256,
+                128, 20, Arrays.asList(renderQualityOptions), 0);
+        textQualityDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 288,
+                128, 20, Arrays.asList(textQualityOptions), 0);
 
         uiManager.addObject(displayModeDropDown);
         uiManager.addObject(resolutionDropDown);
@@ -63,6 +69,7 @@ public class GraphicsState extends State {
                 }
             }
         }
+
     }
 
     @Override
@@ -121,5 +128,13 @@ public class GraphicsState extends State {
                 Handler.get().getGame().setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
             }
         }
+    }
+
+    public DropDownBox getDisplayModeDropDown() {
+        return displayModeDropDown;
+    }
+
+    public DropDownBox getResolutionDropDown() {
+        return resolutionDropDown;
     }
 }

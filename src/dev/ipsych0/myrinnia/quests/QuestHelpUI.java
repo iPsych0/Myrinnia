@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -37,23 +36,25 @@ public class QuestHelpUI implements Serializable {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
             if (selectedQuest != null) {
-                Text.drawString(g, selectedQuest.getQuestName() + ":", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, selectedQuest.getQuestName(), x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
 
                 if (selectedQuest.getState() == QuestState.COMPLETED) {
                     Text.drawString(g, "Quest complete!", x + (width / 2) + 6, y + 40, true, Color.GREEN, Assets.font14);
                 } else if (selectedQuest.getState() == QuestState.IN_PROGRESS) {
-                    Text.drawString(g, "Quest Log: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, "Quest Log:", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
                 } else {
                     renderRequirements(g, selectedQuest);
                 }
 
+                int offset = 0;
                 for (int j = 0; j < selectedQuest.getQuestSteps().size(); j++) {
                     for (int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length; i++) {
                         if (selectedQuest.getQuestSteps().get(j).isFinished()) {
-                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.GREEN, Assets.font14);
+                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.GREEN, Assets.font14);
                         } else {
-                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (i * 16) + (j * Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length * 16), true, Color.YELLOW, Assets.font14);
+                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.YELLOW, Assets.font14);
                         }
+                        offset++;
                     }
                 }
             }
@@ -63,7 +64,15 @@ public class QuestHelpUI implements Serializable {
 
     private void renderRequirements(Graphics2D g, Quest selectedQuest) {
         if (selectedQuest.getState() == QuestState.NOT_STARTED) {
-            Text.drawString(g, "Requirements: ", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Requirements:", x + (width / 2) + 6, y + 40, true, Color.YELLOW, Assets.font14);
+
+            String[] text = Text.splitIntoLine(selectedQuest.getQuestStart(), 26);
+            int offset = 0;
+            for (int i = 0; i < text.length; i++) {
+                offset = i;
+                Text.drawString(g, text[i], x + (width / 2) + 6, y + 60 + (i * 16), true, Color.YELLOW, Assets.font14);
+            }
+
             if (selectedQuest.getRequirements() != null) {
                 Color requirementColor = Color.YELLOW;
 
@@ -88,22 +97,23 @@ public class QuestHelpUI implements Serializable {
                         if (selectedQuest.getRequirements()[i].isTaskDone()) {
                             requirementColor = Color.GREEN;
                         } else {
-                            requirementColor = Color.RED;
+                            if (selectedQuest.getRequirements()[i].isMandatory()) {
+                                requirementColor = Color.RED;
+                            } else {
+                                requirementColor = Color.YELLOW;
+                            }
                         }
                     }
 
                     // Render the requirements
                     for (int j = 0; j < Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26).length; j++) {
                         if (requirementColor == Color.RED)
-                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+                            Text.drawString(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 80 + (offset * 16) + (i * 16 + j * 16), true, requirementColor, Assets.font14);
                         else if (requirementColor == Color.GREEN)
-                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 60 + (i * 16 + j * 16), true, requirementColor, Assets.font14);
+                            Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getRequirements()[i].getRequirement(), 26)[j], x + (width / 2) + 6, y + 80 + (offset * 16) + (i * 16 + j * 16), true, requirementColor, Assets.font14);
                     }
                 }
-            } else {
-                Text.drawString(g, "None", x + (width / 2) + 6, y + 60, true, Color.GREEN, Assets.font14);
             }
-
         }
     }
 

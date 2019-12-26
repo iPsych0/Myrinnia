@@ -1,10 +1,10 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -53,10 +53,18 @@ public abstract class Skill implements Serializable {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
-            checkNextLevel();
+            if (!Player.isLevelUp) {
+                Handler.get().playEffect("ui/level_up.wav", 0.1f);
+            }
             Player.isLevelUp = true;
+            checkNextLevel();
+        } else {
+            if (Player.isLevelUp) {
+                Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));
+                Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+                Player.isLevelUp = false;
+            }
         }
-        Handler.get().playEffect("ui/level_up.wav");
     }
 
     public int getExperience() {
@@ -65,6 +73,7 @@ public abstract class Skill implements Serializable {
 
     public void addExperience(int experience) {
         Player.isXpGained = true;
+        Player.expEffectPlayed = false;
         Player.xpGained = experience;
         this.experience += experience;
         Player.leveledSkill = this;

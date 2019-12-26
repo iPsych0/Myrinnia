@@ -2,6 +2,9 @@ package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.chatwindow.Filter;
+import dev.ipsych0.myrinnia.crafting.ui.CraftingSlot;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -12,9 +15,8 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
 
 public class InventoryWindow implements Serializable {
 
@@ -32,13 +34,14 @@ public class InventoryWindow implements Serializable {
     private int numCols = 3;
     private int numRows = 10;
 
-    private CopyOnWriteArrayList<ItemSlot> itemSlots;
+    private List<ItemSlot> itemSlots;
     private ItemStack currentSelectedSlot;
     private ItemStack itemSwap;
     private ItemStack equipSwap;
     public static boolean itemSelected;
     private Rectangle windowBounds;
     private ItemTooltip itemTooltip;
+    private Set<Item> usedItems;
 
     public InventoryWindow() {
         width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
@@ -46,39 +49,47 @@ public class InventoryWindow implements Serializable {
         this.x = Handler.get().getWidth() - width - 8;
         this.y = 8;
         windowBounds = new Rectangle(x, y, width, height);
-        itemSlots = new CopyOnWriteArrayList<>();
+        itemSlots = new ArrayList<>();
+        usedItems = new HashSet<>();
 
         for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
-                if (j == (numRows)) {
-                    x += 8;
-                }
-
                 itemSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 32 + (j * ItemSlot.SLOTSIZE), null));
-
-                if (j == (numRows)) {
-                    x -= 8;
-                }
             }
         }
 
         itemTooltip = new ItemTooltip(x - 160, y);
 
-        itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.coins, 1000);
-        itemSlots.get(findFreeSlot(Item.regularLogs)).addItem(Item.regularLogs, 100);
-        itemSlots.get(findFreeSlot(Item.regularOre)).addItem(Item.regularOre, 100);
-        itemSlots.get(findFreeSlot(Item.testSword)).addItem(Item.testSword, 1);
-        itemSlots.get(findFreeSlot(Item.purpleSword)).addItem(Item.purpleSword, 1);
+        itemSlots.get(findFreeSlot(Item.magicSword)).addItem(Item.magicSword, 1);
 
-
+//        for (int i = 24; i < 42; i++) {
+//            itemSlots.get(findFreeSlot(Item.items[i])).addItem(Item.items[i], 1);
+//        }
     }
 
 
     public void tick() {
+        Iterator<Item> it2 = usedItems.iterator();
+        while (it2.hasNext()) {
+            Item i = it2.next();
+            // Manage item using
+            if (i.getUse() != null && i.isUsed()) {
+                i.setUsedTimer(i.getUsedTimer() + 1);
+                if (i.getUsedTimer() >= i.getUseCooldown()) {
+                    i.setUsed(false);
+                    i.setUsedTimer(0);
+                    it2.remove();
+                }
+            }
+
+        }
+
         if (isOpen) {
             Rectangle mouse = Handler.get().getMouse();
 
-            for (ItemSlot is : itemSlots) {
+            Iterator<ItemSlot> it = itemSlots.iterator();
+            while (it.hasNext()) {
+                ItemSlot is = it.next();
 
                 is.tick();
 
@@ -136,6 +147,40 @@ public class InventoryWindow implements Serializable {
                             BankUI.inventoryLoaded = false;
                         }
                     }
+                    if (CraftingUI.isOpen) {
+                        for (CraftingSlot cs : Handler.get().getCraftingUI().getCraftingSlots()) {
+                            if (itemSelected && cs.getBounds().contains(mouse) && !Handler.get().getMouseManager().isDragged()) {
+                                // If the itemstack already holds an item
+                                if (cs.getItemStack() != null) {
+                                    if (currentSelectedSlot.getItem().isStackable()) {
+                                        // And if the item in the slot is stackable
+                                        if (cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount())) {
+                                            // Add the item back to the inventory
+                                            currentSelectedSlot = null;
+                                            itemSelected = false;
+                                            hasBeenPressed = false;
+                                            Handler.get().getCraftingUI().findRecipe();
+
+                                        } else {
+                                            // If we cannot add the item to an existing stack
+                                            hasBeenPressed = false;
+                                            return;
+                                        }
+                                    } else {
+                                        // If the item is not stackable / we cannot add the item
+                                        hasBeenPressed = false;
+                                    }
+                                } else {
+                                    // If the item stack == null, we can safely add it.
+                                    cs.addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
+                                    currentSelectedSlot = null;
+                                    itemSelected = false;
+                                    hasBeenPressed = false;
+                                    Handler.get().getCraftingUI().findRecipe();
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // If the item is dragged outside the inventory
@@ -155,6 +200,26 @@ public class InventoryWindow implements Serializable {
                 // If item is right-clicked
                 if (slot.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && equipPressed && !hasBeenPressed && !Handler.get().getMouseManager().isDragged() && !CraftingUI.isOpen && !ShopWindow.isOpen) {
                     if (is.getItemStack() != null) {
+                        Item item = is.getItemStack().getItem();
+                        if (item.getUse() != null) {
+                            boolean hasUsed = false;
+                            for (Item i : usedItems) {
+                                if (i.getId() == item.getId()) {
+                                    double cooldownLeft = Handler.get().roundOff(((double) i.getUseCooldown() / 60d) - (double) i.getUsedTimer() / (double) i.getUseCooldown());
+                                    Handler.get().sendMsg("Item use on cooldown for another " + cooldownLeft + "s.", Filter.INFO);
+                                    hasUsed = true;
+                                    break;
+                                }
+                            }
+                            if (!hasUsed) {
+                                item.setUsed(true);
+                                is.getItemStack().getItem().getUse().use(item);
+                                addUsedItem(item);
+                            }
+                            hasBeenPressed = false;
+                            equipPressed = false;
+                            return;
+                        }
                         if (Handler.get().getPlayer().isInCombat()) {
                             Handler.get().sendMsg("You cannot equip items while in combat.");
                             hasBeenPressed = false;
@@ -163,7 +228,7 @@ public class InventoryWindow implements Serializable {
                         }
                         if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                             // If the item's equipmentslot = 12, that means it's unequippable, so return
-                            Handler.get().sendMsg("You cannot equip " + is.getItemStack().getItem().getName() + ".");
+                            Handler.get().sendMsg("You cannot use " + is.getItemStack().getItem().getName() + ".");
                             equipPressed = false;
                             hasBeenPressed = false;
                             return;
@@ -185,17 +250,29 @@ public class InventoryWindow implements Serializable {
                             if (is.getItemStack().getItem().getRequirements() != null && is.getItemStack().getItem().getRequirements().length > 0) {
                                 StringBuilder missingReqs = new StringBuilder();
                                 boolean missing = false;
+                                boolean isCombat = false;
+                                int combatLevelReq = 0;
                                 for (int i = 0; i < is.getItemStack().getItem().getRequirements().length; i++) {
                                     if (is.getItemStack().getItem().getRequirements()[i].getStat().getLevel() < is.getItemStack().getItem().getRequirements()[i].getLevel()) {
                                         missing = true;
-                                        if (i < is.getItemStack().getItem().getRequirements().length - 1)
+                                        if (i < is.getItemStack().getItem().getRequirements().length - 1) {
                                             missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" and ");
-                                        else
+                                        } else {
                                             missingReqs.append(is.getItemStack().getItem().getRequirements()[i].getLevel()).append(" ").append(is.getItemStack().getItem().getRequirements()[i].getStat().toString().toLowerCase()).append(" points");
+                                        }
+
+                                        if (is.getItemStack().getItem().getRequirements()[i].getStat() == CharacterStats.Combat) {
+                                            isCombat = true;
+                                            combatLevelReq = is.getItemStack().getItem().getRequirements()[i].getLevel();
+                                        }
                                     }
                                 }
                                 if (missing) {
-                                    Handler.get().sendMsg("You need " + missingReqs + " to equip this item.");
+                                    if (isCombat) {
+                                        Handler.get().sendMsg("You need level " + combatLevelReq + " combat to equip this item.");
+                                    } else {
+                                        Handler.get().sendMsg("You need " + missingReqs + " to equip this item.");
+                                    }
                                     equipPressed = false;
                                     hasBeenPressed = false;
                                     return;
@@ -311,7 +388,7 @@ public class InventoryWindow implements Serializable {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX() - 14,
                             Handler.get().getMouseManager().getMouseY() - 14, ItemSlot.SLOTSIZE - 4, ItemSlot.SLOTSIZE - 4, null);
                     if (currentSelectedSlot.getItem().isStackable())
-                        Text.drawString(g, Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
+                        Text.drawString(g, getAbbrevRenderAmount(currentSelectedSlot), Handler.get().getMouseManager().getMouseX() - 14, Handler.get().getMouseManager().getMouseY() - 4, false, Color.YELLOW, Assets.font14);
                 }
 
                 Rectangle temp2 = itemSlots.get(i).getBounds();
@@ -322,6 +399,32 @@ public class InventoryWindow implements Serializable {
                     itemTooltip.render(itemSlots.get(i).getItemStack().getItem(), g);
                 }
             }
+        }
+    }
+
+    public void addUsedItem(Item i) {
+        usedItems.add(i);
+    }
+
+    public String getAbbrevRenderAmount(ItemStack itemStack) {
+        if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
+            return Integer.toString(itemStack.getAmount()).substring(0, 2) + "k";
+        } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {
+            return Integer.toString(itemStack.getAmount()).substring(0, 3) + "k";
+        } else if (itemStack.getAmount() >= 1_000_000) {
+            // Move the decimal point 1 place per extra 0
+            int offset = Integer.toString(itemStack.getAmount()).length() - 7;
+            String amt = Integer.toString(itemStack.getAmount()).substring(0, 2 + offset);
+
+            // Add decimal place for millions only if it doesn't end in 0
+            if (amt.endsWith("0")) {
+                amt = amt.substring(0, 1 + offset) + "M";
+            } else {
+                amt = amt.substring(0, 1 + offset) + "." + amt.substring(1 + offset) + "M";
+            }
+            return amt;
+        } else {
+            return Integer.toString(itemStack.getAmount());
         }
     }
 
@@ -405,7 +508,6 @@ public class InventoryWindow implements Serializable {
                     found = true;
                     break;
                 }
-            } else {
             }
         }
         return found;
@@ -416,11 +518,11 @@ public class InventoryWindow implements Serializable {
      * @returns boolean: true if successful, false if item+quantity requirement not met
      */
     public boolean removeItem(Item item, int amount) {
-        boolean hasItem = false;
         if (!playerHasItem(item, amount)) {
             Handler.get().sendMsg("You don't have " + amount + "x " + item.getName().toLowerCase() + ".");
-            return hasItem;
+            return false;
         }
+
         List<Integer> matchSlots = new ArrayList<>();
         int foundAmount = 0;
         int leftOverAmount;
@@ -434,14 +536,13 @@ public class InventoryWindow implements Serializable {
                     foundAmount += itemSlots.get(i).getItemStack().getAmount();
                     if (foundAmount >= amount) {
                         leftOverAmount = foundAmount - amount;
-                        hasItem = true;
                         for (int j = 0; j < matchSlots.size(); j++) {
                             if (j == matchSlots.size() - 1) {
                                 itemSlots
                                         .get(matchSlots.get(j))
                                         .getItemStack()
                                         .setAmount(leftOverAmount);
-                                return hasItem;
+                                return true;
                             }
                             foundAmount -= itemSlots.get(matchSlots.get(j)).getItemStack().getAmount();
                             itemSlots.get(matchSlots.get(j)).setItemStack(null);
@@ -449,16 +550,20 @@ public class InventoryWindow implements Serializable {
                     }
                 } else if ((itemSlots.get(i).getItemStack().getAmount() - amount) == 0) {
                     itemSlots.get(i).setItemStack(null);
-                    hasItem = true;
-                    return hasItem;
+                    return true;
                 } else if ((itemSlots.get(i).getItemStack().getAmount() - amount) >= 1) {
                     itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - amount);
-                    hasItem = true;
-                    return hasItem;
+                    return true;
                 }
             }
         }
-        return hasItem;
+        return false;
+    }
+
+    public void empty() {
+        for (ItemSlot is : itemSlots) {
+            is.setItemStack(null);
+        }
     }
 
     /*
@@ -466,15 +571,13 @@ public class InventoryWindow implements Serializable {
      * @returns boolean: true if successful, false if item+quantity requirement not met
      */
     public boolean removeBankItemSlot(ItemSlot is) {
-        boolean hasItem = false;
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == is.getItemStack()) {
-                itemSlots.get(i).setItemStack(null);
-                hasItem = true;
-                break;
+        for (ItemSlot itemSlot : itemSlots) {
+            if (itemSlot.getItemStack() == is.getItemStack()) {
+                itemSlot.setItemStack(null);
+                return true;
             }
         }
-        return hasItem;
+        return false;
     }
 
     /*
@@ -483,12 +586,12 @@ public class InventoryWindow implements Serializable {
      */
     public boolean inventoryIsFull(Item item) {
         int emptySlots = 0;
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == null) {
+        for (ItemSlot itemSlot : itemSlots) {
+            if (itemSlot.getItemStack() == null) {
                 emptySlots++;
                 continue;
             }
-            if (itemSlots.get(i).getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
+            if (itemSlot.getItemStack().getItem().getId() == item.getId() && item.isStackable()) {
                 return false;
             }
         }
@@ -525,17 +628,17 @@ public class InventoryWindow implements Serializable {
      * @returns int: index of the equipment slot to be filled
      */
     public int checkEquipmentSlot(Item item) {
-        if (item.getEquipSlot() >= 0 && item.getEquipSlot() <= 11)
+        if (item.getEquipSlot() >= 0 && item.getEquipSlot() < 12)
             return item.getEquipSlot();
 
-        return -10;
+        throw new IllegalArgumentException(item.getName() + " does not have an equipment slot ID.");
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
+    public List<ItemSlot> getItemSlots() {
         return itemSlots;
     }
 
-    public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
+    public void setItemSlots(List<ItemSlot> itemSlots) {
         this.itemSlots = itemSlots;
     }
 

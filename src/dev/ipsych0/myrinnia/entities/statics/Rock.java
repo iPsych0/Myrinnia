@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
@@ -24,25 +23,32 @@ public class Rock extends StaticEntity {
     private int minAttempts = 3, maxAttempts = 6;
     private int random = 0;
     private int attempts = 0;
+    private Item ore;
+    private int experience;
 
-    public Rock(float x, float y) {
-        super(x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+    public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         isNpc = true;
         attackable = false;
+
+        if (name.equalsIgnoreCase("Azurite Rock")) {
+            ore = Item.azuriteOre;
+            experience = 10;
+        }
     }
 
     @Override
     public void tick() {
         if (isMining) {
-            if (Handler.get().invIsFull(Item.regularOre)) {
+            if (Handler.get().invIsFull(ore)) {
                 miningTimer = 0;
                 speakingTurn = -1;
                 interact();
                 isMining = false;
             }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
-                    !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
+                    !Handler.get().getPlayer().hasLeftClickedUI(Handler.get().getMouse())) {
                 miningTimer = 0;
                 speakingTurn = 0;
                 isMining = false;
@@ -63,9 +69,9 @@ public class Rock extends StaticEntity {
                 System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 60) {
-                    Handler.get().giveItem(Item.regularOre, Handler.get().getRandomNumber(1, 3));
+                    Handler.get().giveItem(ore, Handler.get().getRandomNumber(1, 3));
                     Handler.get().sendMsg("You succesfully mined some ore!");
-                    Handler.get().getSkillsUI().getSkill(SkillsList.MINING).addExperience(10);
+                    Handler.get().getSkillsUI().getSkill(SkillsList.MINING).addExperience(experience);
                     attempts++;
 
                 } else {
@@ -91,7 +97,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.rock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(Assets.azuriteRock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
@@ -102,7 +108,7 @@ public class Rock extends StaticEntity {
             return;
         }
         if (this.speakingTurn == 0) {
-            if (Handler.get().playerHasSkillLevel(SkillsList.MINING, Item.regularOre)) {
+            if (Handler.get().playerHasSkillLevel(SkillsList.MINING, ore)) {
                 if (Handler.get().playerHasItemType(ItemType.PICKAXE)) {
                     Handler.get().sendMsg("Mining...");
                     speakingTurn = 1;
@@ -111,7 +117,7 @@ public class Rock extends StaticEntity {
                     Handler.get().sendMsg("You need a pickaxe to mine this rock.");
                 }
             } else {
-                Handler.get().sendMsg("You need a mining level of " + Handler.get().getSkillResource(SkillsList.MINING, Item.regularOre).getLevelRequirement() + " to mine this rock.");
+                Handler.get().sendMsg("You need a mining level of " + Handler.get().getSkillResource(SkillsList.MINING, ore).getLevelRequirement() + " to mine this rock.");
             }
         }
     }
@@ -119,7 +125,6 @@ public class Rock extends StaticEntity {
     @Override
     public void postRender(Graphics2D g) {
         if (isMining) {
-            g.setColor(Color.WHITE);
             g.drawImage(Assets.miningIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32), width, height, null);
         }
 
@@ -127,7 +132,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

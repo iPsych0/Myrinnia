@@ -1,0 +1,33 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Mt. Azure is an ancient mountain. It was created thousands of years ago by Terra, the Spirit of Earth.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "While Terra created the mountain, Seyla, the Spirit of Water, created a water source atop the mountain. That is the water you see here flowing into Lake Azure.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Many believe the source of this water to have divine properties. I have been instructed by Elder Selwyn to protect the mountain from trespassers.",
+      "nextId": 4,
+      "choiceCondition": {
+        "condition": "hasStartedElderQuest",
+        "falseId": 3
+      }
+    },
+    {
+      "id": 3,
+      "text": "I'm sorry, but you cannot enter without Elder Selwyn's approval.",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "With Elder Selwyn's permission, you may enter. Please be careful inside Mt. Azure. ",
+      "nextId": -1
+    }
+  ]
+}

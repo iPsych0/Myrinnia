@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "See those whirlpools over there? That's a fishing spot for Mackerel.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "In order to catch fish in Myrinnia, you need two things: The required fishing level and a fishing rod.",
+      "nextId": -1
+    }
+  ]
+}

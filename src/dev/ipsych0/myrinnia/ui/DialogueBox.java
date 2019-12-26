@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -14,12 +15,9 @@ public class DialogueBox implements Serializable {
      *
      */
     private static final long serialVersionUID = -5830274597655100531L;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private int x, y, width, height;
     private ArrayList<DialogueButton> buttons;
-    public static boolean isOpen = false;
+    private boolean isOpen = false;
     private String[] answers;
     private String param = "";
     private DialogueButton pressedButton = null;
@@ -27,6 +25,7 @@ public class DialogueBox implements Serializable {
     private String message;
     private UIManager uiManager;
     public static boolean hasBeenPressed;
+    private boolean makingChoice;
 
     public DialogueBox(int x, int y, int width, int height, String[] answers, String message, boolean numbersOnly) {
         this.x = x;
@@ -71,7 +70,10 @@ public class DialogueBox implements Serializable {
         if (isOpen) {
 
             Rectangle mouse = Handler.get().getMouse();
-            tb.tick();
+            if (tb != null) {
+                tb.tick();
+            }
+
             uiManager.tick();
             for (DialogueButton db : buttons) {
                 db.tick();
@@ -119,7 +121,33 @@ public class DialogueBox implements Serializable {
                 }
             }
 
-            tb.render(g);
+            if (tb != null) {
+                tb.render(g);
+            }
+        }
+    }
+
+    public void open() {
+        makingChoice = true;
+        isOpen = true;
+        hasBeenPressed = false;
+        if (tb != null) {
+            tb.open();
+        }
+    }
+
+    public void close() {
+        isOpen = false;
+        hasBeenPressed = false;
+        setPressedButton(null);
+        makingChoice = false;
+        if (tb != null) {
+            tb.setOpen(false);
+            TextBox.enterPressed = false;
+            KeyManager.typingFocus = false;
+            tb.getSb().setLength(0);
+            tb.setIndex(0);
+            tb.setCharactersTyped(tb.getSb().toString());
         }
     }
 
@@ -151,11 +179,31 @@ public class DialogueBox implements Serializable {
         return tb;
     }
 
+    public void setTextBox(TextBox tb) {
+        this.tb = tb;
+    }
+
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public boolean isMakingChoice() {
+        return makingChoice;
+    }
+
+    public void setMakingChoice(boolean makingChoice) {
+        this.makingChoice = makingChoice;
     }
 }

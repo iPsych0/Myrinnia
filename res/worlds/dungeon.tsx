@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="dungeon" tilewidth="32" tileheight="32" tilecount="1479" columns="51">
- <image source="../textures/dungeon.png" trans="000000" width="1632" height="928"/>
+<tileset version="1.2" tiledversion="1.3.0" name="dungeon" tilewidth="32" tileheight="32" tilecount="1479" columns="51">
+ <image source="../textures/tiles/dungeon.png" trans="000000" width="1632" height="928"/>
  <tile id="0">
   <properties>
    <property name="postRendered" value="false"/>
@@ -1713,25 +1713,31 @@
  </tile>
  <tile id="285">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="285" duration="125"/>
+   <frame tileid="286" duration="125"/>
+   <frame tileid="287" duration="125"/>
+   <frame tileid="288" duration="125"/>
+  </animation>
  </tile>
  <tile id="286">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="287">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="288">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -3196,7 +3202,7 @@
  <tile id="532">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="533">
@@ -5979,7 +5985,7 @@
  </tile>
  <tile id="996">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="true"/>
   </properties>
  </tile>
@@ -7264,7 +7270,7 @@
  <tile id="1210">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="1211">
@@ -7570,7 +7576,7 @@
  <tile id="1261">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="1262">
@@ -8163,7 +8169,7 @@
  </tile>
  <tile id="1360">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -8175,13 +8181,13 @@
  </tile>
  <tile id="1362">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1363">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -8193,13 +8199,13 @@
  </tile>
  <tile id="1365">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1366">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -8469,7 +8475,7 @@
  </tile>
  <tile id="1411">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -8487,7 +8493,7 @@
  </tile>
  <tile id="1414">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -8505,7 +8511,7 @@
  </tile>
  <tile id="1417">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>

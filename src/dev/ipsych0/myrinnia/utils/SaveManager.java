@@ -38,6 +38,7 @@ public class SaveManager {
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
+            Handler.get().playEffect("ui/save_game_error.wav", 0.15f);
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
 
@@ -51,18 +52,22 @@ public class SaveManager {
      */
     public static void loadHandler() {
         Handler handlerObject = null;
-        InputStream is;
         ObjectInputStream oin;
         try {
 
-            is = SaveManager.class.getResourceAsStream("/savegames/save.dat");
-            oin = new ObjectInputStream(is);
+            FileInputStream fis;
+            if(Handler.isJar){
+                fis = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
+            }else {
+                fis = new FileInputStream(Handler.resourcePath + "savegames/save.dat");
+            }
+            oin = new ObjectInputStream(fis);
 
             // Load in the Handler object
             handlerObject = (Handler) oin.readObject();
 
             oin.close();
-            is.close();
+            fis.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(1);

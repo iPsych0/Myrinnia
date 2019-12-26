@@ -4,8 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
-import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.states.ControlsState;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -13,8 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
-public class
-TextBox implements KeyListener, Serializable {
+public class TextBox implements KeyListener, Serializable {
 
     /**
      *
@@ -28,7 +25,8 @@ TextBox implements KeyListener, Serializable {
     private int index = 0;
     private StringBuilder sb;
     public static boolean enterPressed = false;
-    public static boolean isOpen = false;
+    private boolean isOpen = false;
+    public static boolean openKeyPressed;
     private int blinkTimer = 0;
     private String cursor = "|";
     private int MAX_CHARACTERS = 100;
@@ -48,6 +46,8 @@ TextBox implements KeyListener, Serializable {
         bounds = new Rectangle(x, y, width, height);
 
         sb = new StringBuilder(charactersTyped);
+
+        setKeyListeners();
     }
 
     public void tick() {
@@ -56,31 +56,38 @@ TextBox implements KeyListener, Serializable {
 
             // Sets focus when the textfield is clicked
             if (bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-                if (!focus) {
-                    setKeyListeners();
-                }
                 KeyManager.typingFocus = true;
                 focus = true;
             }
 
             // Removes focus when clicked outside the textfield
             if (!bounds.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-                if (focus) {
-                    removeListeners();
-                }
                 KeyManager.typingFocus = false;
                 focus = false;
             }
         }
     }
 
+    public void open() {
+        close();
+        isOpen = true;
+        KeyManager.typingFocus = true;
+        focus = true;
+    }
+
+    public void close() {
+        sb.setLength(0);
+        index = 0;
+        charactersTyped = sb.toString();
+        enterPressed = false;
+        KeyManager.typingFocus = false;
+        focus = false;
+        isOpen = false;
+    }
+
     public void setKeyListeners() {
         Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
         Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
-    }
-
-    public void removeListeners() {
-        Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
     }
 
     public void render(Graphics2D g) {
@@ -98,8 +105,8 @@ TextBox implements KeyListener, Serializable {
                 if (blinkTimer >= 0 && blinkTimer < 60) {
                     cursor = "|";
                     if (!charactersTyped.isEmpty()) {
-                        int textWidth = g.getFontMetrics().stringWidth(charactersTyped);
-                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 2, y + 17, true, Color.YELLOW, Assets.font20);
+                        int textWidth = Text.getStringBounds(g, charactersTyped, g.getFont()).width;
+                        Text.drawString(g, cursor, (x + (width / 2)) + textWidth / 2 + 3, y + 17, true, Color.YELLOW, Assets.font20);
                     } else {
                         Text.drawString(g, cursor, x + (width / 2), y + 17, true, Color.YELLOW, Assets.font20);
                     }
@@ -141,18 +148,16 @@ TextBox implements KeyListener, Serializable {
                 isOpen = false;
                 KeyManager.typingFocus = false;
                 DevToolUI.isOpen = false;
-                removeListeners();
                 return;
             }
             if (focus) {
                 // If enter is pressed, handle the input
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                     enterPressed = true;
+                    focus = false;
                     if (charactersTyped.isEmpty()) {
                         return;
                     }
-                    focus = false;
-                    removeListeners();
                     charactersTyped = sb.toString();
                     sb.setLength(0);
                     index = 0;
@@ -196,6 +201,8 @@ TextBox implements KeyListener, Serializable {
             index = 0;
 
         }
+
+        openKeyPressed = false;
     }
 
     public StringBuilder getSb() {
@@ -221,4 +228,13 @@ TextBox implements KeyListener, Serializable {
     public void setIndex(int index) {
         this.index = index;
     }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
 }

@@ -28,7 +28,6 @@ public class NimbleFeetAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
@@ -38,12 +37,17 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+    }
+
+    @Override
     public void cast() {
         if (!initialBoostDone) {
             baseMovementBoost = 1.0;
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
-            Handler.get().playEffect("abilities/nimble_feet.wav");
+            Handler.get().playEffect("abilities/nimble_feet.wav", 0.1f);
             Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
             caster.addBuff(caster, caster, b);
         }

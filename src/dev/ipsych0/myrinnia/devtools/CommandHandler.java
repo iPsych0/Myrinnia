@@ -2,11 +2,13 @@ package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
 
@@ -129,9 +131,11 @@ class CommandHandler implements Serializable {
             case DEBUG:
                 if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
-                        AStarMap.debugMode = !AStarMap.debugMode;
+                        Handler.debugAStar = !Handler.debugAStar;
                     } else if(commands[1].equalsIgnoreCase("collision")){
                         Handler.debugCollision = !Handler.debugCollision;
+                    } else if(commands[1].equalsIgnoreCase("zonetiles")){
+                        Handler.debugZones = !Handler.debugZones;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
                     }
@@ -169,6 +173,35 @@ class CommandHandler implements Serializable {
                     Handler.get().sendMsg("Invalid number of arguments provided. Syntax: 'unlock {ability_Name} or 'unlock all'.");
                 }
                 break;
+            case RESET:
+                if (commands.length == 2) {
+                    if (commands[1].equalsIgnoreCase("inv")) {
+                        Handler.get().getInventory().empty();
+                    } else if (commands[1].equalsIgnoreCase("equip")) {
+                        Handler.get().getEquipment().empty();
+                    } else if (commands[1].equalsIgnoreCase("abilities")) {
+                        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
+                            a.setUnlocked(false);
+                        }
+                        for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+                            as.setAbility(null);
+                        }
+                    }
+                }
+                break;
+            case COMPLETE:
+                if (commands.length == 2) {
+                    QuestList quest;
+                    try {
+                        quest = QuestList.valueOf(commands[1]);
+                    } catch (Exception e) {
+                        Handler.get().sendMsg(commands[1] + " is not a quest.");
+                        break;
+                    }
+
+                    Handler.get().getQuest(quest).setState(QuestState.COMPLETED);
+                    break;
+                }
             default:
                 Handler.get().sendMsg("Could not parse command.");
                 break;

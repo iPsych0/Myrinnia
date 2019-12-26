@@ -1,11 +1,19 @@
 package dev.ipsych0.myrinnia.audio;
 
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.worlds.Zone;
 import org.lwjgl.openal.*;
+import org.lwjgl.system.MemoryStack;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.libc.LibCStdlib.free;
 
 public class AudioManager {
 
@@ -16,11 +24,11 @@ public class AudioManager {
     private static ALCCapabilities alcCapabilities;
     private static ALCapabilities alCapabilities;
     private static List<Integer> buffers = new ArrayList<>();
-    public static List<Source> musicFiles = new CopyOnWriteArrayList<>();
-    public static List<Source> soundfxFiles = new CopyOnWriteArrayList<>();
+    public static List<Source> musicFiles = new ArrayList<>();
+    public static Map<Integer, Source> soundfxFiles = new HashMap<>();
     private static Map<String, Integer> soundMap = new HashMap<>();
     private static Zone zone;
-    public static float musicVolume = 0.4f, sfxVolume = 0.15f;
+    public static float musicVolume = 0.4f, sfxVolume = 0.2f;
     public static boolean soundMuted, sfxMuted;
 
     public static void init() {
@@ -36,6 +44,14 @@ public class AudioManager {
     }
 
     public static void tick() {
+
+        // Check for any audio issues with OpenAL
+        int AL_ERROR = AL10.alGetError();
+        if (AL_ERROR == AL_OUT_OF_MEMORY) {
+            System.err.println("OpenAL Out of Memory error.");
+            freeAllSources();
+        }
+
         // Check for music that has ended to clean up
         if (!musicFiles.isEmpty()) {
             Collection<Source> deleted = new ArrayList<>();
@@ -51,18 +67,20 @@ public class AudioManager {
             }
             musicFiles.removeAll(deleted);
         }
+    }
 
-        // Check for sound effects that have ended to clean up
-        if (!soundfxFiles.isEmpty()) {
-            Collection<Source> deleted = new ArrayList<>();
-            for (Source s : soundfxFiles) {
-                if (!s.isPlaying()) {
-                    deleted.add(s);
-                    s.delete();
-                }
-            }
-            soundfxFiles.removeAll(deleted);
+    private static void freeAllSources() {
+        for (Source s : AudioManager.musicFiles) {
+            s.delete();
         }
+        for (Source s : AudioManager.soundfxFiles.values()) {
+            s.delete();
+        }
+
+        musicFiles.clear();
+        soundfxFiles.clear();
+        soundMap.clear();
+        buffers.clear();
     }
 
     private static void fadeIn(Source s) {
@@ -94,6 +112,7 @@ public class AudioManager {
         for (int buffer : buffers) {
             AL10.alDeleteBuffers(buffer);
         }
+
         ALC10.alcDestroyContext(context);
         ALC10.alcCloseDevice(device);
     }
@@ -103,18 +122,79 @@ public class AudioManager {
         if (soundMap.containsKey(file)) {
             return soundMap.get(file);
         }
+
+        if (file.endsWith(".wav")) {
+            return loadWav(file);
+        } else if (file.endsWith(".ogg")) {
+            return loadOgg(file);
+        } else {
+            throw new IllegalArgumentException("Audio format not supported! Supported formats: .wav, .ogg");
+        }
+    }
+
+    private static int loadOgg(String file) throws FileNotFoundException {
+        ShortBuffer rawAudioBuffer;
+
+        String fixedFile;
+        if (!Handler.isJar) {
+            fixedFile = file.replaceFirst("/", Handler.resourcePath);
+        } else {
+            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + file;
+        }
+
+        int channels;
+        int sampleRate;
+
+        try (MemoryStack stack = stackPush()) {
+            //Allocate space to store return information from the function
+            IntBuffer channelsBuffer = stack.mallocInt(1);
+            IntBuffer sampleRateBuffer = stack.mallocInt(1);
+
+            rawAudioBuffer = stb_vorbis_decode_filename(fixedFile, channelsBuffer, sampleRateBuffer);
+
+            if (rawAudioBuffer == null)
+                throw new FileNotFoundException("Could not find file: " + file);
+
+            //Retreive the extra information that was stored in the buffers by the function
+            channels = channelsBuffer.get(0);
+            sampleRate = sampleRateBuffer.get(0);
+        }
+
+        //Find the correct OpenAL format
+        int format = -1;
+        if (channels == 1) {
+            format = AL_FORMAT_MONO16;
+        } else if (channels == 2) {
+            format = AL_FORMAT_STEREO16;
+        }
+
+        //Request space for the buffer
+        int buffer = alGenBuffers();
+
+        //Send the data to OpenAL
+        alBufferData(buffer, format, rawAudioBuffer, sampleRate);
+
+        //Free the memory allocated by STB
+        free(rawAudioBuffer);
+
+        buffers.add(buffer);
+        soundMap.put(file, buffer);
+
+        return buffer;
+    }
+
+    private static int loadWav(String file) throws FileNotFoundException {
         int buffer = AL10.alGenBuffers();
         buffers.add(buffer);
         soundMap.put(file, buffer);
-        BufferedInputStream is = new BufferedInputStream(new FileInputStream(new File(file)));
-        WaveData waveFile = WaveData.create(is);
+        WaveData waveFile = WaveData.create(file);
+
+        if (waveFile == null) {
+            throw new FileNotFoundException("File not found: " + file);
+        }
+
         AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
         waveFile.dispose();
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return buffer;
     }
 

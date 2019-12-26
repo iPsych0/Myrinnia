@@ -144,9 +144,9 @@ public class AttributeBuff extends Buff {
                 statIncreaseDouble = (int) Math.ceil(newAtkSpd) - r.getAttackSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() + statIncreaseDouble));
+                    r.setAttackSpeed((r.getAttackSpeed() + statIncreaseDouble));
                 } else {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() + statBuff));
+                    r.setAttackSpeed((r.getAttackSpeed() + statBuff));
                 }
                 break;
             case MOVSPD:
@@ -154,9 +154,9 @@ public class AttributeBuff extends Buff {
                 statIncreaseDouble = (int) Math.ceil(newMovSpd) - r.getSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setSpeed((float) (r.getSpeed() + statIncreaseDouble));
+                    r.setSpeed((r.getSpeed() + statIncreaseDouble));
                 } else {
-                    r.setSpeed((float) (r.getSpeed() + statBuff));
+                    r.setSpeed((r.getSpeed() + statBuff));
                 }
                 break;
         }
@@ -166,14 +166,14 @@ public class AttributeBuff extends Buff {
         switch (attribute) {
             case MOVSPD:
                 if (percentageIncrease) {
-                    r.setSpeed((float) (r.getSpeed() - totalIncreaseDecimal));
+                    r.setSpeed((r.getSpeed() - totalIncreaseDecimal));
                 } else {
                     r.setSpeed(r.getSpeed() - (int) statBuff * getTimesStacked());
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
-                    r.setAttackSpeed((float) (r.getAttackSpeed() - totalIncreaseDecimal));
+                    r.setAttackSpeed((r.getAttackSpeed() - totalIncreaseDecimal));
                 } else {
                     r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff * getTimesStacked());
                 }
@@ -229,35 +229,35 @@ public class AttributeBuff extends Buff {
         String text = null;
         switch (attribute) {
             case STR:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Strength by " + totalIncrease + ".";
                 } else {
                     text = "Increases Strength by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case INT:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Intelligence by " + totalIncrease + ".";
                 } else {
                     text = "Increases Intelligence by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case DEF:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Defence by " + totalIncrease + ".";
                 } else {
                     text = "Increases Defence by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case DEX:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Dexterity by " + totalIncrease + ".";
                 } else {
                     text = "Increases Dexterity by " + statBuff * getTimesStacked() + ".";
                 }
                 break;
             case VIT:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Vitality by " + totalIncrease + ".";
                 } else {
                     text = "Increases Vitality by " + statBuff * getTimesStacked() + ".";
@@ -271,7 +271,7 @@ public class AttributeBuff extends Buff {
                 }
                 break;
             case MOVSPD:
-                if(percentageIncrease) {
+                if (percentageIncrease) {
                     text = "Increases Movement Speed by " + totalIncreaseDecimal + ".";
                 } else {
                     text = "Increases Movement Speed by " + statBuff * getTimesStacked() + ".";

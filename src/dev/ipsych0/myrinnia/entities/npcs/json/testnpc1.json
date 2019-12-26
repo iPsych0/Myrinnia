@@ -24,7 +24,7 @@
       "nextId": 3,
       "choiceCondition": {
         "condition": "has1testsword",
-        "falseId":9
+        "falseId": 9
       }
     },
     {
@@ -40,7 +40,7 @@
           "nextId": 5,
           "choiceCondition": {
             "condition": "has100gold",
-            "falseId":-1
+            "falseId": -1
           }
         },
         {
@@ -68,7 +68,7 @@
       "nextId": 7,
       "choiceCondition": {
         "condition": "has1000gold",
-        "falseId":8
+        "falseId": 8
       }
     },
     {

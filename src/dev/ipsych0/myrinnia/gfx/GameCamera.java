@@ -13,14 +13,19 @@ public class GameCamera implements Serializable {
      *
      */
     private static final long serialVersionUID = 6890827040135434870L;
-    private float xOffset, yOffset;
+    private double xOffset, yOffset;
 
-    public GameCamera(float xOffset, float yOffset) {
+    public GameCamera(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
 
     private void checkBlankSpace() {
+        // Don't correct outside map bounds for small maps
+        if (Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth() ||
+                Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()) {
+            return;
+        }
         if (xOffset < 0) {
             xOffset = 0;
         } else if (xOffset > Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth()) {
@@ -35,30 +40,30 @@ public class GameCamera implements Serializable {
     }
 
     public void centerOnEntity(Entity e) {
-        xOffset = e.getX() - Handler.get().getWidth() / 2 + e.getWidth() / 2;
-        yOffset = e.getY() - Handler.get().getHeight() / 2 + e.getHeight() / 2;
+        xOffset = e.getX() - Handler.get().getWidth() / 2f + e.getWidth() / 2f;
+        yOffset = e.getY() - Handler.get().getHeight() / 2f + e.getHeight() / 2f;
         checkBlankSpace();
     }
 
-    public void move(float xAmount, float yAmount) {
+    public void move(double xAmount, double yAmount) {
         xOffset += xAmount;
         yOffset += yAmount;
         checkBlankSpace();
     }
 
-    public float getxOffset() {
+    public double getxOffset() {
         return xOffset;
     }
 
-    public void setxOffset(float xOffset) {
+    public void setxOffset(double xOffset) {
         this.xOffset = xOffset;
     }
 
-    public float getyOffset() {
+    public double getyOffset() {
         return yOffset;
     }
 
-    public void setyOffset(float yOffset) {
+    public void setyOffset(double yOffset) {
         this.yOffset = yOffset;
     }
 

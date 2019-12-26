@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -32,13 +33,17 @@ public class EruptionAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.eruptionI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if (animation != null) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
                     (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
                     hitBox.width, hitBox.height, null);
         }
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.eruptionI, x, y, null);
     }
 
     @Override
@@ -49,18 +54,26 @@ public class EruptionAbility extends Ability {
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
 
-            Handler.get().playEffect("abilities/eruption.wav");
+            Handler.get().playEffect("abilities/eruption.wav", 0.1f);
 
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
-                    if (!e.isAttackable())
-                        continue;
-                    if (!e.equals(caster)) {
-                        e.damage(DamageType.INT, caster, e, this);
-                        e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 3));
+            if (caster.equals(Handler.get().getPlayer())) {
+                for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                    if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
+                        if (!e.isAttackable())
+                            continue;
+                        if (!e.equals(caster)) {
+                            e.damage(DamageType.INT, caster, e, this);
+                            e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 3));
+                        }
                     }
+                }
+            } else {
+                Player player = Handler.get().getPlayer();
+                if (hitBox.intersects(player.getCollisionBounds(0, 0))) {
+                    player.damage(DamageType.INT, caster, player, this);
+                    player.addCondition(caster, player, new Condition(Condition.Type.BURNING, player, 5, 3));
                 }
             }
         }

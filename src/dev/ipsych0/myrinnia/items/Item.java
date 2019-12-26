@@ -2,6 +2,8 @@ package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
+import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -10,6 +12,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 public class Item implements Serializable {
 
@@ -22,20 +25,69 @@ public class Item implements Serializable {
     public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
     public static Item[] items = new Item[1024];
 
-
     /*
      * Items
      */
-    public static Item regularLogs = Utils.loadItem("0_wood.json", Assets.wood);
-    public static Item regularOre = Utils.loadItem("1_ore.json", Assets.ore);
-    public static Item purpleSword = Utils.loadItem("2_magic_wand.json", Assets.purpleSword);
-    public static Item testSword = Utils.loadItem("3_test_sword.json", Assets.testSword);
+    public static Item lightWood = Utils.loadItem("0_lightwood.json", Assets.lightWood);
+    public static Item azuriteOre = Utils.loadItem("1_azurite_ore.json", Assets.azuriteOre);
+    public static Item magicSword = Utils.loadItem("2_magic_sword.json", Assets.undiscovered);
+    public static Item beginnersSword = Utils.loadItem("3_beginners_sword.json", Assets.beginnersSword);
     public static Item coins = Utils.loadItem("4_coins.json", Assets.coins[0]);
-    public static Item regularFish = Utils.loadItem("5_fish.json", Assets.fishingIcon);
-    public static Item testAxe =  Utils.loadItem("6_test_axe.json", Assets.testAxe);
-    public static Item testPickaxe = Utils.loadItem("7_test_pickaxe.json", Assets.testPickaxe);
+    public static Item mackerelFish = Utils.loadItem("5_mackerel.json", Assets.mackerelFish);
+    public static Item ryansAxe = Utils.loadItem("6_ryans_axe.json", Assets.ryansAxe);
+    public static Item simplePickaxe = Utils.loadItem("7_simple_pickaxe.json", Assets.simplePickaxe);
+    public static Item beginnersStaff = Utils.loadItem("8_beginners_staff.json", Assets.beginnersStaff);
+    public static Item bountyContract = Utils.loadItem("9_bounty_contract.json", Assets.bountyContract);
+    public static Item simpleAxe = Utils.loadItem("10_simple_axe.json", Assets.simpleAxe);
+    public static Item beginnersBow = Utils.loadItem("11_beginner's_bow.json", Assets.beginnersBow);
+    public static Item simpleFishingRod = Utils.loadItem("12_simple_fishing_rod.json", Assets.simpleFishingRod);
+    public static Item simpleSpellBook = Utils.loadItem("13_simple_spellbook.json", Assets.simpleSpellBook);
+    public static Item simpleShield = Utils.loadItem("14_simple_shield.json", Assets.simpleShield);
+    public static Item simpleQuiver = Utils.loadItem("15_simple_quiver.json", Assets.simpleQuiver);
+    public static Item simpleSandals = Utils.loadItem("16_simple_sandals.json", Assets.simpleSandals);
+    public static Item copperPickaxe = Utils.loadItem("17_copper_pickaxe.json", Assets.copperPickaxe);
+    public static Item copperAxe = Utils.loadItem("18_copper_axe.json", Assets.copperAxe);
+    public static Item copperOre = Utils.loadItem("19_copper_ore.json", Assets.copperOre);
+    public static Item miningEquipment = Utils.loadItem("20_mining_equipment.json", Assets.miningEquipment);
+    public static Item malachite = Utils.loadItem("21_malachite.json", Assets.malachite);
+    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.dustyScroll, 0, (Use & Serializable) (i) -> {
+        Handler.get().sendMsg("TODO: You unlocked [Earth Ability].");
+        Handler.get().removeItem(Item.dustyScroll, 1);
+    });
+    public static Item azuriteNecklace = Utils.loadItem("23_azurite_necklace.json", Assets.azuriteNecklace);
+    public static Item weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
+            weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
+            weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+    public static Item azureBatWing = Utils.loadItem("42_azure_bat_wing.json", Assets.azureBatWing);
+    public static Item crablingClaw = Utils.loadItem("43_crabling_claw.json", Assets.crablingClaw);
+    public static Item simpleGloves = Utils.loadItem("44_simple_gloves.json", Assets.simpleGloves);
+    public static Item simpleBandana = Utils.loadItem("45_simple_bandana.json", Assets.simpleBandana);
 
-    // Class
+    public static Item chitin = Utils.loadItem("46_chitin.json", Assets.chitin);
+    public static Item scorpionTail = Utils.loadItem("47_scorpion_tail.json", Assets.scorpionTail);
+    public static Item owlFeather = Utils.loadItem("48_owl_feather.json", Assets.owlFeather);
+    public static Item dynamite = Utils.loadItem("49_dynamite.json", Assets.dynamite);
+    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator);
+    public static Item vineRoot = Utils.loadItem("51_vine_root.json", Assets.vineRoot);
+    public static Item simpleVest = Utils.loadItem("52_simple_vest.json", Assets.simpleVest);
+    public static Item simpleTrousers = Utils.loadItem("53_simple_trousers.json", Assets.simpleTrousers);
+    public static Item pileOfSand = Utils.loadItem("54_pile_of_sand.json", Assets.pileOfSand);
+    public static Item pileOfAshes = Utils.loadItem("55_pile_of_ashes.json", Assets.pileOfAshes);
+    public static Item glass = Utils.loadItem("56_glass.json", Assets.glass);
+    public static Item lightWoodPlank = Utils.loadItem("57_lightwood_plank.json", Assets.lightWoodPlank);
+    public static Item hardWood = Utils.loadItem("58_hardwood.json", Assets.hardWood);
+    public static Item hardWoodPlank = Utils.loadItem("59_hardwood_plank.json", Assets.hardWoodPlank);
+    public static Item ironOre = Utils.loadItem("60_iron_ore.json", Assets.ironOre);
+    public static Item trout = Utils.loadItem("61_trout.json", Assets.trout);
+    public static Item boneMeal = Utils.loadItem("62_bonemeal.json", Assets.boneMeal);
+
+    static {
+        initPotions();
+    }
+
+    /*
+     * Class variables
+     */
 
     private ItemType[] itemTypes;
     private ItemRarity itemRarity;
@@ -49,8 +101,8 @@ public class Item implements Serializable {
     private int intelligence;
     private int defence;
     private int vitality;
-    private float attackSpeed;
-    private float movementSpeed;
+    private double attackSpeed;
+    private double movementSpeed;
     private int x;
     private int y;
     private Rectangle bounds;
@@ -63,6 +115,10 @@ public class Item implements Serializable {
     private int respawnTimer = 10800;
     private boolean equippable;
     private boolean hovering;
+    private Use use;
+    private int useCooldown;
+    private boolean used;
+    private int usedTimer;
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity, int price, boolean stackable, ItemType... itemTypes) {
         this.texture = texture;
@@ -102,7 +158,7 @@ public class Item implements Serializable {
     }
 
     public Item(BufferedImage texture, String name, int id, ItemRarity itemRarity,
-                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,
+                EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, double attackSpeed, double movementSpeed,
                 int price, boolean stackable, ItemType[] itemTypes, ItemRequirement... requirements) {
         this(texture, name, id, itemRarity, price, stackable, itemTypes);
         this.equipSlot = equipSlot;
@@ -160,7 +216,7 @@ public class Item implements Serializable {
     /*
      * Returns the pause of the item
      */
-    public Rectangle itemPosition(float xOffset, float yOffset) {
+    public Rectangle itemPosition(double xOffset, double yOffset) {
         position.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), 32, 32);
         return position;
     }
@@ -212,11 +268,11 @@ public class Item implements Serializable {
         return vitality;
     }
 
-    public float getAttackSpeed() {
+    public double getAttackSpeed() {
         return attackSpeed;
     }
 
-    public float getMovementSpeed() {
+    public double getMovementSpeed() {
         return movementSpeed;
     }
 
@@ -360,6 +416,38 @@ public class Item implements Serializable {
         this.hovering = hovering;
     }
 
+    public Use getUse() {
+        return use;
+    }
+
+    public void setUse(Use use) {
+        this.use = use;
+    }
+
+    public int getUseCooldown() {
+        return useCooldown;
+    }
+
+    public void setUseCooldown(int useCooldown) {
+        this.useCooldown = useCooldown;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public int getUsedTimer() {
+        return usedTimer;
+    }
+
+    public void setUsedTimer(int usedTimer) {
+        this.usedTimer = usedTimer;
+    }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
 
@@ -383,4 +471,88 @@ public class Item implements Serializable {
         is.close();
     }
 
+    /*
+     * Items that have use cases
+     */
+
+    // Potions
+    private static void initPotions() {
+        weakAntidote = Utils.loadItem("24_weak_antidote.json", Assets.weakAntidote, 0, (Use & Serializable) (i) -> {
+            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
+            Handler.get().removeItem(Item.weakAntidote, 1);
+        });
+        antidote = Utils.loadItem("25_antidote.json", Assets.antidote, 0, (Use & Serializable) (i) -> {
+            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
+            Handler.get().removeItem(Item.antidote, 1);
+        });
+        strongAntidote = Utils.loadItem("26_strong_antidote.json", Assets.strongAntidote, 0, (Use & Serializable) (i) -> {
+            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
+            Handler.get().removeItem(Item.strongAntidote, 1);
+        });
+
+        weakPotionOfMight = Utils.loadItem("27_weak_potion_of_might.json", Assets.weakPotionOfMight, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.weakPotionOfMight, 1);
+        });
+        potionOfMight = Utils.loadItem("28_potion_of_might.json", Assets.potionOfMight, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.potionOfMight, 1);
+        });
+        strongPotionOfMight = Utils.loadItem("29_strong_potion_of_might.json", Assets.strongPotionOfMight, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.strongPotionOfMight, 1);
+        });
+
+        weakPotionOfPrecision = Utils.loadItem("30_weak_potion_of_precision.json", Assets.weakPotionOfPrecision, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.weakPotionOfPrecision, 1);
+        });
+        potionOfPrecision = Utils.loadItem("31_potion_of_precision.json", Assets.potionOfPrecision, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.potionOfPrecision, 1);
+        });
+        strongPotionOfPrecision = Utils.loadItem("32_strong_potion_of_precision.json", Assets.strongPotionOfPrecision, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.strongPotionOfPrecision, 1);
+        });
+
+        weakPotionOfWisdom = Utils.loadItem("33_weak_potion_of_wisdom.json", Assets.weakPotionOfWisdom, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.weakPotionOfWisdom, 1);
+        });
+        potionOfWisdom = Utils.loadItem("34_potion_of_wisdom.json", Assets.potionOfWisdom, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.potionOfWisdom, 1);
+        });
+        strongPotionOfWisdom = Utils.loadItem("35_strong_potion_of_wisdom.json", Assets.strongPotionOfWisdom, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.strongPotionOfWisdom, 1);
+        });
+
+        weakPotionOfProtection = Utils.loadItem("36_weak_potion_of_protection.json", Assets.weakPotionOfProtection, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.weakPotionOfProtection, 1);
+        });
+        potionOfProtection = Utils.loadItem("37_potion_of_protection.json", Assets.potionOfProtection, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.potionOfProtection, 1);
+        });
+        strongPotionOfProtection = Utils.loadItem("38_strong_potion_of_protection.json", Assets.strongPotionOfProtection, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.strongPotionOfProtection, 1);
+        });
+
+        weakPotionOfVigor = Utils.loadItem("39_weak_potion_of_vigor.json", Assets.weakPotionOfVigor, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.weakPotionOfVigor, 1);
+        });
+        potionOfVigor = Utils.loadItem("40_potion_of_vigor.json", Assets.potionOfVigor, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.potionOfVigor, 1);
+        });
+        strongPotionOfVigor = Utils.loadItem("41_strong_potion_of_vigor.json", Assets.strongPotionOfVigor, 0, (Use & Serializable) (i) -> {
+            Handler.get().sendMsg("This potion has not been implemented yet.");
+            Handler.get().removeItem(Item.strongPotionOfVigor, 1);
+        });
+    }
 }

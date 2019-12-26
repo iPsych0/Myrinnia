@@ -4,7 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UIManager implements Serializable {
 
@@ -12,10 +13,10 @@ public class UIManager implements Serializable {
      *
      */
     private static final long serialVersionUID = -2791935865770773924L;
-    private CopyOnWriteArrayList<UIObject> objects;
+    private List<UIObject> objects;
 
     public UIManager() {
-        objects = new CopyOnWriteArrayList<>();
+        objects = new ArrayList<>();
     }
 
     public void tick() {
@@ -39,15 +40,23 @@ public class UIManager implements Serializable {
         objects.add(o);
     }
 
+    public void addAllObjects(List<? extends UIObject> objects) {
+        this.objects.addAll(objects);
+    }
+
     public void removeObject(UIObject o) {
         objects.remove(o);
     }
 
-    public CopyOnWriteArrayList<UIObject> getObjects() {
+    public void removeAllObjects(List<? extends UIObject> objects) {
+        this.objects.removeAll(objects);
+    }
+
+    public List<UIObject> getObjects() {
         return objects;
     }
 
-    public void setObjects(CopyOnWriteArrayList<UIObject> objects) {
+    public void setObjects(List<UIObject> objects) {
         this.objects = objects;
     }
 }

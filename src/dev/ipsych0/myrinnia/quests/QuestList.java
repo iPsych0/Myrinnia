@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.quests;
 
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 public enum QuestList {
 
-    TheFirstQuest("The First Quest", Zone.PortAzure),
-    TheSecondQuest("The Second Quest", Zone.PortAzure),
-    TheThirdQuest("The Third Quest", Zone.PortAzure),
-    TheTestQuest("The Test Quest", Zone.LakeAzure),
-    AMysteriousFinding("A Mysterious Finding", Zone.Myrinnia);
+    GettingStarted("Getting Started", Zone.PortAzure),
+    GatheringYourStuff("Gathering Your Stuff", Zone.PortAzure),
+    PreparingYourJourney("Preparing Your Journey", Zone.PortAzure),
+    WaveGoodbye("Wave Goodbye", Zone.PortAzure),
+    WeDelvedTooDeep("We Delved Too Deep", Zone.ShamrockTown);
 
     private Zone zone;
     private String name;

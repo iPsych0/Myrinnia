@@ -75,22 +75,18 @@ public class ChatDialogue implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        Stroke originalStroke = g.getStroke();
         g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
-        g.setStroke(new BasicStroke(2));
         g.setColor(Color.BLACK);
         g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
-        g.setStroke(originalStroke);
 
         uiManager.render(g);
 
         if (menuOptions.length == 1) {
-            for (int i = 0; i < Text.splitIntoLine(menuOptions[0], 60).length; i++) {
-                Text.drawString(g, Text.splitIntoLine(menuOptions[0], 60)[i], x + (width / 2), y + 20 + (i * 12), true, Color.YELLOW, Assets.font14);
+            for (int i = 0; i < Text.splitIntoLine(menuOptions[0], 56).length; i++) {
+                Text.drawString(g, Text.splitIntoLine(menuOptions[0], 56)[i], x + (width / 2), y + 20 + (i * 16), true, Color.YELLOW, Assets.font14);
             }
         }
 
-//        g.drawImage(Assets.chatwindowTop, x, y - 19, width, 20, null);
         Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
     }
 

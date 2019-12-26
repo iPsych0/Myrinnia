@@ -3,11 +3,10 @@ package dev.ipsych0.myrinnia.quests;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -117,7 +116,7 @@ public class QuestUI implements Serializable {
             }
 
             if (!renderingQuests) {
-                Text.drawString(g, "Zones:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Zones", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
                 for (int i = 0; i < Handler.get().getQuestManager().getAllQuestLists().size(); i++) {
                     if (zoneManager.getObjects().get(i).contains(mouse)) {
                         if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -139,7 +138,8 @@ public class QuestUI implements Serializable {
                             }
                         }
                     }
-                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, Color.YELLOW, Assets.font14);
+                    Color questStatus = getZoneStatus(i);
+                    Text.drawString(g, Handler.get().getQuestManager().getAllQuestLists().get(i).get(0).getZone().getName(), x + (width / 2) + 1, y + 41 + (i * 16), true, questStatus, Assets.font14);
                 }
 
                 if (exitButton.contains(mouse)) {
@@ -153,7 +153,7 @@ public class QuestUI implements Serializable {
                 Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
 
             } else {
-                Text.drawString(g, "Quests:", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Quests", x + (width / 2) + 6, y + 19, true, Color.YELLOW, Assets.font14);
                 for (int i = 0; i < Handler.get().getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
                     Color color;
                     if (Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)
@@ -194,6 +194,29 @@ public class QuestUI implements Serializable {
                 questHelpUI.render(g, selectedQuest);
             }
         }
+    }
+
+    private Color getZoneStatus(int index) {
+        Color questStatus;
+        int completed = 0;
+        int started = 0;
+        for (Quest quest : Handler.get().getQuestManager().getAllQuestLists().get(index)) {
+            if (quest.getState() == QuestState.COMPLETED) {
+                completed++;
+            } else if (quest.getState() == QuestState.IN_PROGRESS) {
+                started++;
+            }
+        }
+
+        if (completed == Handler.get().getQuestManager().getAllQuestLists().get(index).size()) {
+            questStatus = Color.GREEN;
+        } else if (started >= 1 || completed >= 1) {
+            questStatus = Color.YELLOW;
+        } else {
+            questStatus = Color.RED;
+        }
+
+        return questStatus;
     }
 
     public Rectangle getBounds() {

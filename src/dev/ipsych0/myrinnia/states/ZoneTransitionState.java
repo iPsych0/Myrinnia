@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.states;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
@@ -14,14 +14,19 @@ public class ZoneTransitionState extends AbstractTransitionState {
      */
     private static final long serialVersionUID = 353118389669820751L;
     private Zone zone;
+    private String customZoneName;
     private int secondYOffset = 4;
     private int idleTimer = 0;
     private static final int POPUP_HEIGHT = 48;
     private int yOffset = -POPUP_HEIGHT;
 
-    public ZoneTransitionState(Zone zone) {
-        super();
+    public ZoneTransitionState(Zone zone, String customZoneName) {
         this.zone = zone;
+        this.customZoneName = customZoneName;
+    }
+
+    public ZoneTransitionState(Zone zone) {
+        this(zone, null);
     }
 
     @Override
@@ -37,12 +42,20 @@ public class ZoneTransitionState extends AbstractTransitionState {
         Handler.get().getGame().gameState.render(g);
 
         // Get the textWidth of the Zone name
-        int textWidth = Text.getStringWidth(g, zone.getName(), Assets.font32);
+        int textWidth;
+        String name;
+        if (customZoneName == null) {
+            textWidth = Text.getStringBounds(g, zone.getName(), Assets.font32).width;
+            name = zone.getName();
+        } else {
+            textWidth = Text.getStringBounds(g, customZoneName, Assets.font32).width;
+            name = customZoneName;
+        }
 
         // Fade in UI element
         if (yOffset < 4) {
             g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 2,
+            Text.drawString(g, name, Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 2,
                     true, Color.YELLOW, Assets.font32);
             yOffset++;
         }
@@ -50,7 +63,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
         if (yOffset == 4) {
             idleTimer++;
             g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, zone.getName(), Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 2,
+            Text.drawString(g, name, Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 2,
                     true, Color.YELLOW, Assets.font32);
             if (idleTimer > 180 && secondYOffset > -POPUP_HEIGHT) {
                 secondYOffset--;

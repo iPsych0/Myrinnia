@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="castle" tilewidth="32" tileheight="32" tilecount="578" columns="34">
- <image source="../textures/castle.png" trans="000000" width="1088" height="544"/>
+<tileset version="1.2" tiledversion="1.2.4" name="castle" tilewidth="32" tileheight="32" tilecount="578" columns="34">
+ <image source="../textures/tiles/castle.png" trans="000000" width="1088" height="544"/>
  <tile id="0">
   <properties>
    <property name="postRendered" value="false"/>

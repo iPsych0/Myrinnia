@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
@@ -26,6 +27,7 @@ public class SkillsOverviewUI implements Serializable {
     public static boolean isOpen = false;
     private Skill selectedSkill;
     private SkillCategory selectedCategory;
+    private CategoryButton selectedButton;
     public static boolean hasBeenPressed = false;
     private ScrollBar scrollBar;
     private static final int maxPerScreen = 8;
@@ -33,6 +35,7 @@ public class SkillsOverviewUI implements Serializable {
     private Rectangle bounds;
     private UIImageButton exit;
     private UIManager uiManager;
+    private Color selectedColor = new Color(0, 255, 255, 62);
 
     public SkillsOverviewUI() {
 
@@ -58,11 +61,15 @@ public class SkillsOverviewUI implements Serializable {
                 int yPos = 0;
 
                 for (CategoryButton cb : categories) {
+                    if (selectedButton == null) {
+                        selectedButton = cb;
+                    }
                     if (cb.getBounds().contains(mouse)) {
                         cb.setHovering(true);
                         if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                             hasBeenPressed = false;
                             selectedCategory = cb.getCategory();
+                            selectedButton = cb;
                             if (selectedSkill == Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING)) {
                                 scrollBar.setIndex(0);
                                 scrollBar.setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(selectedCategory).size());
@@ -123,12 +130,19 @@ public class SkillsOverviewUI implements Serializable {
                 Text.drawString(g, selectedSkill.toString(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
                 int yPos = 0;
 
+                if (selectedButton != null) {
+                    g.setColor(selectedColor);
+                    g.fillRoundRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height, 4, 4);
+                }
+
                 for (CategoryButton cb : categories) {
                     cb.render(g);
                 }
 
+
                 if (exit.contains(mouse)) {
                     if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                        MouseManager.justClosedUI = true;
                         isOpen = false;
                         hasBeenPressed = false;
                         return;
@@ -271,4 +285,11 @@ public class SkillsOverviewUI implements Serializable {
         this.bounds = bounds;
     }
 
+    public CategoryButton getSelectedButton() {
+        return selectedButton;
+    }
+
+    public void setSelectedButton(CategoryButton selectedButton) {
+        this.selectedButton = selectedButton;
+    }
 }

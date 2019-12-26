@@ -1,0 +1,65 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Welcome to Port Azure! My name is Mayor Wilson!",
+      "nextId": 3,
+      "choiceCondition": {
+        "condition": "hasObtainedWeapon",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "text": "Feel free to explore this wonderful island however you wish. You will find that people here are very willing to teach you what they know!",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "First, you must be able to defend yourself from threats out there. Please see the Shop Owner next door to choose a weapon.",
+      "nextId": 7,
+      "choiceCondition": {
+        "condition": "allQuestsDone",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 3,
+      "text": "That weapon should protect you from dangers. Many cities and towns in Myrinnia face local troubles. Port Azure also has its problems.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "Some people pursue these combat challenges and are often handsomely rewarded. This skill is called Bounty Hunter.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "You should try out different skills and work on whichever you like best. To give you a taste of what Bounty Hunter is like, I'd like you to go outside and find the Bounty Board next to this building.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "Just pick one of the listed bounties and complete it to receive a reward and some experience.",
+      "nextId": -1
+    },
+    {
+      "id": 7,
+      "options": [
+        {
+          "text": "What should I do now?",
+          "nextId": 8
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "text": "{This dialogue will be replaced by hint messages from the Mayor}",
+      "nextId": -1
+    }
+  ]
+}

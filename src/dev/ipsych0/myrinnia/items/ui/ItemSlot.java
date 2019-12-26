@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.items.ui;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -16,9 +17,9 @@ public class ItemSlot implements Serializable {
 
     public static final int SLOTSIZE = 32;
 
-    private int x, y;
-    private ItemStack itemStack;
-    private Rectangle bounds;
+    protected int x, y;
+    protected ItemStack itemStack;
+    protected Rectangle bounds;
 
     public ItemSlot(int x, int y, ItemStack itemStack) {
         this.x = x;
@@ -35,15 +36,19 @@ public class ItemSlot implements Serializable {
 
         g.drawImage(Assets.genericButton[0], x, y, SLOTSIZE, SLOTSIZE, null);
 
+        renderItem(g, x, y);
+    }
+
+    public void renderItem(Graphics2D g, int x, int y) {
         if (itemStack != null) {
             if (itemStack.getItem() == Item.coins) {
-                if (itemStack.getAmount() >= 1 && itemStack.getAmount() < 100) {
+                if (itemStack.getAmount() >= 1 && itemStack.getAmount() < 50) {
                     itemStack.getItem().setTexture(Assets.coins[0]);
-                } else if (itemStack.getAmount() >= 100 && itemStack.getAmount() < 1000) {
+                } else if (itemStack.getAmount() >= 50 && itemStack.getAmount() < 1000) {
                     itemStack.getItem().setTexture(Assets.coins[1]);
                 } else if (itemStack.getAmount() >= 1000 && itemStack.getAmount() < 10000) {
                     itemStack.getItem().setTexture(Assets.coins[2]);
-                } else if (itemStack.getAmount() >= 10000 && itemStack.getAmount() < 100000) {
+                } else if (itemStack.getAmount() >= 10000) {
                     itemStack.getItem().setTexture(Assets.coins[3]);
                 }
             }
@@ -51,13 +56,7 @@ public class ItemSlot implements Serializable {
             g.drawImage(itemStack.getItem().getTexture(), x, y, SLOTSIZE, SLOTSIZE, null);
 
             if (itemStack.getItem().isStackable()) {
-                if (itemStack.getAmount() >= 10_000 && itemStack.getAmount() < 100_000) {
-                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 2) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
-                } else if (itemStack.getAmount() >= 100_000 && itemStack.getAmount() < 1_000_000) {
-                    Text.drawString(g, Integer.toString(itemStack.getAmount()).substring(0, 3) + "k", x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
-                } else {
-                    Text.drawString(g, Integer.toString(itemStack.getAmount()), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
-                }
+                Text.drawString(g, Handler.get().getInventory().getAbbrevRenderAmount(itemStack), x, y + SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
             } else if (!itemStack.getItem().isStackable() && itemStack.getAmount() <= 0) {
                 g.setFont(Assets.font14);
                 g.setColor(Color.YELLOW);
@@ -82,7 +81,11 @@ public class ItemSlot implements Serializable {
 
         } else if (!item.isStackable()) {
             // If the item isn't stackable
-            this.itemStack = new ItemStack(item);
+            if (amount <= 0) {
+                this.itemStack = new ItemStack(item, 0);
+            } else {
+                this.itemStack = new ItemStack(item);
+            }
             return true;
         } else {
             // Else create a new stack

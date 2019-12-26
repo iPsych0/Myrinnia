@@ -8,7 +8,7 @@
           "nextId": -1,
           "choiceCondition": {
             "condition": "openShop",
-            "falseId":-1
+            "falseId": -1
           }
         },
         {
@@ -34,7 +34,7 @@
           "nextId": -1,
           "choiceCondition": {
             "condition": "has1000gold",
-            "falseId":3
+            "falseId": 3
           }
         },
         {

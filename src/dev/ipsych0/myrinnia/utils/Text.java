@@ -18,33 +18,29 @@ public class Text {
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
     public static void drawString(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
-        int x = xPos;
-        int y = yPos;
 
         if (center) {
             FontMetrics fm = g.getFontMetrics(font);
-            x = xPos - fm.stringWidth(text) / 2;
-            y = (yPos - fm.getHeight() / 2) + fm.getAscent();
+            xPos = xPos - fm.stringWidth(text) / 2;
+            yPos = (yPos - fm.getHeight() / 2) + fm.getAscent();
         }
 
         g.setFont(font);
         g.setColor(Color.BLACK);
-        g.drawString(text, x + 1, y + 1);
+        g.drawString(text, xPos + 1, yPos + 1);
         g.setColor(color);
-        g.drawString(text, x, y);
+        g.drawString(text, xPos, yPos);
     }
 
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */
     public static void drawStringStrikeThru(Graphics2D g, String text, int xPos, int yPos, boolean center, Color color, Font font) {
-        int x = xPos;
-        int y = yPos;
 
         if (center) {
             FontMetrics fm = g.getFontMetrics(font);
-            x = xPos - fm.stringWidth(text) / 2;
-            y = (yPos - fm.getHeight() / 2) + fm.getAscent();
+            xPos = xPos - fm.stringWidth(text) / 2;
+            yPos = (yPos - fm.getHeight() / 2) + fm.getAscent();
         }
 
         AttributedString as = new AttributedString(text);
@@ -54,14 +50,14 @@ public class Text {
 
         g.setFont(font);
         g.setColor(Color.BLACK);
-        g.drawString(as.getIterator(), x + 1, y + 1);
+        g.drawString(as.getIterator(), xPos + 1, yPos + 1);
         g.setColor(color);
-        g.drawString(as.getIterator(), x, y);
+        g.drawString(as.getIterator(), xPos, yPos);
     }
 
-    public static int getStringWidth(Graphics2D g, String text, Font font) {
+    public static Rectangle getStringBounds(Graphics2D g, String text, Font font) {
         FontMetrics fm = g.getFontMetrics(font);
-        return fm.stringWidth(text);
+        return fm.getStringBounds(text, g).getBounds();
     }
 
     /**
@@ -79,6 +75,10 @@ public class Text {
         while (tok.hasMoreTokens()) {
             String word = tok.nextToken();
 
+            if (word.contains("\n")) {
+                lineLen = 0;
+            }
+
             while (word.length() > maxCharInLine) {
                 output.append(word, 0, maxCharInLine - lineLen).append("\n");
                 word = word.substring(maxCharInLine - lineLen);
@@ -89,7 +89,7 @@ public class Text {
                 output.append("\n");
                 lineLen = 0;
             }
-            output.append(word + " ");
+            output.append(word).append(" ");
 
             lineLen += word.length() + 1;
         }

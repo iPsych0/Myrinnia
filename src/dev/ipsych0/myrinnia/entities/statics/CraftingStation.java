@@ -2,8 +2,8 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 
 import java.awt.*;
 
@@ -14,13 +14,8 @@ public class CraftingStation extends StaticEntity {
      */
     private static final long serialVersionUID = -8804679431303966524L;
 
-    public CraftingStation(float x, float y) {
-        super(x, y, 64, 64);
-
-        script = Utils.loadScript("craftingstation.json");
-
-        bounds.y = 16;
-        bounds.height -= 12;
+    public CraftingStation(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
 
         attackable = false;
         isNpc = true;
@@ -33,7 +28,6 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.mainhandSlot, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
 
     }
 
@@ -68,11 +62,15 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     protected void updateDialogue() {
-
-    }
-
-    @Override
-    public String getName() {
-        return "Crafting Station";
+        switch (speakingTurn) {
+            case 0:
+                if (Handler.get().getQuest(QuestList.PreparingYourJourney).getState() == QuestState.NOT_STARTED ||
+                        Handler.get().questInProgress(QuestList.PreparingYourJourney) && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(0).isFinished() ||
+                        Handler.get().questInProgress(QuestList.PreparingYourJourney) && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(1).isFinished()) {
+                    Handler.get().sendMsg("You should talk to Duncan first to learn how this works.");
+                    speakingTurn = -1;
+                    break;
+                }
+        }
     }
 }

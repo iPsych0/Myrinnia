@@ -4,11 +4,12 @@ import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.SaveManager;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.nio.file.Files;
@@ -68,6 +69,7 @@ public class MenuState extends State {
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
+                Handler.get().addTip(new TutorialTip("Use WASD keys to move around."));
                 Handler.get().playMusic(Zone.PortAzure);
                 hasBeenPressed = false;
             }
@@ -86,7 +88,7 @@ public class MenuState extends State {
                 // Stop loading this UIManager and go to the settings screen
                 State.setState(new UITransitionState(Handler.get().getGame().settingState));
                 SettingState.previousState = this;
-                SettingState.selectedState = Handler.get().getGame().graphicsState;
+                SettingState.selectedState = Handler.get().getGame().generalSettingsState;
                 hasBeenPressed = false;
             }
         }
@@ -105,12 +107,14 @@ public class MenuState extends State {
 
     @Override
     public void render(Graphics2D g) {
+        g.drawImage(Assets.mainBackground, 0, 0, null);
+
         uiManager.render(g);
 
         // Render the text in the main menu
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 192, 24, 384, 80, null);
-        Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);
-        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 80, true, Color.YELLOW, Assets.font20);
+        g.drawImage(Assets.genericButton[1], Handler.get().getWidth() / 2 - 192, 24, 384, 80, null);
+        Text.drawString(g, "Elements of Myrinnia", Handler.get().getWidth() / 2, 50, true, Color.YELLOW, Assets.font32);
+        Text.drawString(g, "Current version: " + Game.CURRENT_VERSION, Handler.get().getWidth() / 2, 82, true, Color.YELLOW, Assets.font20);
 
         if (continueButton != null) {
             Text.drawString(g, "Continue", continueButton.x + continueButton.width / 2, continueButton.y + continueButton.height / 2, true, Color.YELLOW, Assets.font32);

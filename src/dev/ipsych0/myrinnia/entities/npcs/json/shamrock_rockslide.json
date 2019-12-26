@@ -1,0 +1,60 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "[You hear some voices behind the rock slide]",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "H-hello? Is anyone there?!",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Hello! Sebastian sent me to find you.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Oh thank Terra! You have to get us out of here. We found some ancient treasury room, but when we paved our way through the crevice, a rock slide occurred blocked our way out.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "How do you suggest I help you out?",
+          "nextId": 5
+        },
+        {
+          "text": "I will find a way.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "We tried using our pickaxes, but it's pointless. These rocks are too tough to break. A controlled explosion should do the trick.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "You should place a dynamite stick north, west and east of the rock slide. That means you should look for 3 dynamite in total.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "Finally, once the dynamite has been put in position, you will need a detonator. I'm sure all of these items can be found in the mines. Good luck!",
+      "nextId": -1
+    }
+  ]
+}

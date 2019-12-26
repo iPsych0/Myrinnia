@@ -2,12 +2,9 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -22,12 +19,10 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private ArrayList<Ability> abilities;
 
-    public AbilityMaster(float x, float y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-
+    public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         abilities = new ArrayList<>();
         abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
-        script = Utils.loadScript("ability_master.json");
         abilityShopWindow = new AbilityShopWindow(abilities);
 
     }
@@ -39,8 +34,8 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.lorraine, (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
+        g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()),
+                (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override
@@ -55,21 +50,25 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn));
+        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "has1000gold":
-                if(Handler.get().playerHasItem(Item.coins, 1000)) {
+                if (Handler.get().playerHasItem(Item.coins, resetCost)) {
                     resetSkillPoints();
+                    // Change the cost of resetting in the text
+                    Dialogue infoMsg = script.getDialogues().get(1);
+                    infoMsg.setText(infoMsg.getText().replaceAll("\\d+", String.valueOf(resetCost)));
+                    Choice confirm = script.getDialogues().get(2).getOptions().get(0);
+                    confirm.setText(confirm.getText().replaceAll("\\d+", String.valueOf(resetCost)));
                     return true;
                 }
                 break;
             case "openShop":
                 if (!AbilityShopWindow.isOpen) {
-                    Handler.get().getQuest(QuestList.AMysteriousFinding).getRequirements()[0].setTaskDone(true);
                     AbilityShopWindow.open();
                 }
                 return true;
@@ -84,10 +83,5 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    @Override
-    public String getName() {
-        return "Ability Master";
     }
 }

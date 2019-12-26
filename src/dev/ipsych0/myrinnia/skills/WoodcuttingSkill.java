@@ -26,7 +26,8 @@ public class WoodcuttingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.regularLogs, SkillCategory.Trees));
+        resources.add(new SkillResource(1, Item.lightWood, SkillCategory.Trees));
+        resources.add(new SkillResource(5, Item.hardWood, SkillCategory.Trees));
     }
 
     @Override

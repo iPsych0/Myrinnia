@@ -28,13 +28,17 @@ public class SupersonicDashAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.supersonicDashI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
         if(animation != null && !animation.isTickDone()){
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
                     32, 32, null);
         }
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.supersonicDashI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
     }
 
     @Override
@@ -57,7 +61,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             double framesPerSecond = dashTime / 60.0; // Percentage of time traveled per tick (0.4)
             double animationSpeed = (1000 / Assets.airCloud1.length) * framesPerSecond; // 7 frames per second (1000)
             animation = new Animation((int)animationSpeed, Assets.airCloud1, true);
-            Handler.get().playEffect("abilities/supersonic_dash.wav");
+            Handler.get().playEffect("abilities/supersonic_dash.wav", 0.1f);
         }
 
         animation.tick();
@@ -70,8 +74,8 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             animation = null;
         }
 
-        caster.setxMove((float)xVelocity);
-        caster.setyMove((float)yVelocity);
+        caster.setxMove(xVelocity);
+        caster.setyMove(yVelocity);
 
         caster.move();
 

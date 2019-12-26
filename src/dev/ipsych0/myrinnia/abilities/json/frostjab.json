@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 5.0,
+  "castingTime": 0.0,
+  "overcastTime": 0.0,
+  "name": "Frost Jab",
+  "description": "Deals X damage and has a 10% chance to freeze an enemy for Y seconds.",
+  "abilityType": "StandardAbility",
+  "element": "Water",
+  "combatStyle": "Melee",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.FrostJabAbility"
+}

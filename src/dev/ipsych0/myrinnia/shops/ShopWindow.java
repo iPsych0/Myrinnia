@@ -1,23 +1,24 @@
 package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.items.*;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
-import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class ShopWindow implements Serializable {
 
@@ -31,7 +32,7 @@ public class ShopWindow implements Serializable {
     private int height;
     private static final int NUM_COLS = 5;
     private static final int NUM_ROWS = 6;
-    private CopyOnWriteArrayList<ItemSlot> itemSlots, invSlots;
+    private List<ItemSlot> shopSlots, invSlots;
     private Color selectedColor = new Color(0, 255, 255, 62);
     private ItemStack selectedShopItem;
     private ItemStack selectedInvItem;
@@ -40,7 +41,6 @@ public class ShopWindow implements Serializable {
     private static boolean inventoryLoaded = false;
     private Rectangle buyAllButton, sellAllButton, buy1Button, sell1Button, buyXButton, sellXButton, exit;
     private Rectangle windowBounds;
-    public static boolean makingChoice = false;
     private DialogueBox dBox;
     private String[] answers = {"Yes", "No"};
     private ItemSlot selectedSlot = null;
@@ -50,14 +50,15 @@ public class ShopWindow implements Serializable {
     private int destockTimer = 0;
     private int seconds = 60;
     private int[] defaultStock;
-    private ArrayList<ItemStack> shopItems;
+    private List<ItemStack> shopItems;
     public static boolean hasBeenPressed = false;
     private static final double COMMISSION = 0.75;
     public static boolean escapePressed = false;
     public static ShopWindow lastOpenedWindow;
+    private TextBox textBox;
+    private ItemTooltip itemTooltip;
 
-
-    public ShopWindow(ArrayList<ItemStack> shopItems) {
+    public ShopWindow(List<ItemStack> shopItems) {
         this.shopItems = shopItems;
         this.width = 460;
         this.height = 313;
@@ -65,14 +66,14 @@ public class ShopWindow implements Serializable {
         this.y = Handler.get().getHeight() / 2 - height / 2;
 
         // Initialize the shops slots and the inventory slots
-        itemSlots = new CopyOnWriteArrayList<>();
-        invSlots = new CopyOnWriteArrayList<>();
+        shopSlots = new ArrayList<>();
+        invSlots = new ArrayList<>();
 
         // Add the shops slots
         for (int i = 0; i < NUM_ROWS; i++) {
             for (int j = 0; j < NUM_COLS; j++) {
 
-                itemSlots.add(new ItemSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
+                shopSlots.add(new ShopSlot(x + 17 + (i * (ItemSlot.SLOTSIZE)), y + 48 + (j * ItemSlot.SLOTSIZE), null));
 
             }
         }
@@ -82,7 +83,7 @@ public class ShopWindow implements Serializable {
 
         // Fill the shops slots with the shops items and set the default stock
         for (int i = 0; i < shopItems.size(); i++) {
-            itemSlots.get(i).addItem(shopItems.get(i).getItem(), shopItems.get(i).getAmount());
+            shopSlots.get(i).addItem(shopItems.get(i).getItem(), shopItems.get(i).getAmount());
             defaultStock[i] = shopItems.get(i).getAmount();
         }
 
@@ -113,7 +114,9 @@ public class ShopWindow implements Serializable {
 
         // Instance of the DialogueBox
         dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "Please confirm your trade.", true);
+        textBox = dBox.getTextBox();
 
+        itemTooltip = new ItemTooltip(x - 160, y);
     }
 
     public void tick() {
@@ -150,7 +153,7 @@ public class ShopWindow implements Serializable {
             tradeSlot.tick();
 
             // If player is making a choice, show the dialoguebox
-            if (makingChoice)
+            if (dBox.isMakingChoice())
                 dBox.tick();
 
         }
@@ -204,15 +207,22 @@ public class ShopWindow implements Serializable {
             else
                 g.drawImage(Assets.genericButton[1], exit.x, exit.y, exit.width, exit.height, null);
             Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
-            for (ItemSlot is : itemSlots) {
+            for (ItemSlot is : shopSlots) {
 
                 is.render(g);
+
+                if (is.getBounds().contains(mouse) && is.getItemStack() != null) {
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
 
             }
 
             for (ItemSlot is : invSlots) {
                 is.render(g);
 
+                if (is.getBounds().contains(mouse) && is.getItemStack() != null) {
+                    itemTooltip.render(is.getItemStack().getItem(), g);
+                }
             }
 
             Text.drawString(g, "Shop stock", x + 81 + 32, y + 36, true, Color.YELLOW, Assets.font14);
@@ -228,7 +238,7 @@ public class ShopWindow implements Serializable {
                 g.fillRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
 
-            if (makingChoice)
+            if (dBox.isMakingChoice())
                 dBox.render(g);
         }
     }
@@ -243,20 +253,16 @@ public class ShopWindow implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         isOpen = false;
         inventoryLoaded = false;
-        DialogueBox.isOpen = false;
-        TextBox.isOpen = false;
-        Handler.get().getKeyManager().setTextBoxTyping(false);
         hasBeenPressed = false;
         selectedSlot = null;
         selectedInvItem = null;
         selectedShopItem = null;
-        makingChoice = false;
-        dBox.setPressedButton(null);
+        dBox.close();
         InventoryWindow.isOpen = true;
         EquipmentWindow.isOpen = true;
         escapePressed = false;
@@ -268,16 +274,11 @@ public class ShopWindow implements Serializable {
             return;
         }
 
-        if (Handler.get().getKeyManager().escape && makingChoice && escapePressed) {
+        if (Handler.get().getKeyManager().escape && dBox.isMakingChoice() && escapePressed) {
             escapePressed = false;
             inventoryLoaded = false;
-            DialogueBox.isOpen = false;
-            TextBox.isOpen = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
-            hasBeenPressed = false;
-            makingChoice = false;
-            dBox.setPressedButton(null);
-        } else if (Handler.get().getKeyManager().escape && !makingChoice && escapePressed) {
+            dBox.close();
+        } else if (Handler.get().getKeyManager().escape && !dBox.isMakingChoice() && escapePressed) {
             exit();
         }
     }
@@ -286,7 +287,7 @@ public class ShopWindow implements Serializable {
         /*
          * Buy 1 Button onClick
          */
-        if (buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
+        if (buy1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
             buyItem();
             hasBeenPressed = false;
             return;
@@ -295,7 +296,7 @@ public class ShopWindow implements Serializable {
         /*
          * Sell 1 Button onClick
          */
-        if (sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
+        if (sell1Button.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
             sellItem();
             hasBeenPressed = false;
             return;
@@ -304,10 +305,9 @@ public class ShopWindow implements Serializable {
         /*
          * Buy All Button onClick
          */
-        if (buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
-            makingChoice = true;
-            DialogueBox.isOpen = true;
-            TextBox.isOpen = false;
+        if (buyAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
+            dBox.setTextBox(null);
+            dBox.open();
             dBox.setParam("BuyAll");
             hasBeenPressed = false;
             return;
@@ -316,10 +316,9 @@ public class ShopWindow implements Serializable {
         /*
          * Sell All Button onClick
          */
-        if (sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-            makingChoice = true;
-            DialogueBox.isOpen = true;
-            TextBox.isOpen = false;
+        if (sellAllButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
+            dBox.setTextBox(null);
+            dBox.open();
             dBox.setParam("SellAll");
             hasBeenPressed = false;
             return;
@@ -328,10 +327,9 @@ public class ShopWindow implements Serializable {
         /*
          * Buy X Button onClick
          */
-        if (buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedShopItem != null) {
-            makingChoice = true;
-            DialogueBox.isOpen = true;
-            TextBox.isOpen = true;
+        if (buyXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedShopItem != null) {
+            dBox.setTextBox(textBox);
+            dBox.open();
             dBox.setParam("BuyX");
             hasBeenPressed = false;
             return;
@@ -340,10 +338,9 @@ public class ShopWindow implements Serializable {
         /*
          * Sell X Button onClick
          */
-        if (sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice && selectedInvItem != null) {
-            makingChoice = true;
-            DialogueBox.isOpen = true;
-            TextBox.isOpen = true;
+        if (sellXButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice() && selectedInvItem != null) {
+            dBox.setTextBox(textBox);
+            dBox.open();
             dBox.setParam("SellX");
             hasBeenPressed = false;
         }
@@ -354,12 +351,12 @@ public class ShopWindow implements Serializable {
         restockTimer++;
         if (restockTimer >= (seconds * 60)) {
             for (int i = 0; i < shopItems.size(); i++) {
-                if (itemSlots.get(i).getItemStack() != null) {
-                    if (itemSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {
-                        itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() + 1);
+                if (shopSlots.get(i).getItemStack() != null) {
+                    if (shopSlots.get(i).getItemStack().getAmount() < defaultStock[i]) {
+                        shopSlots.get(i).getItemStack().setAmount(shopSlots.get(i).getItemStack().getAmount() + 1);
                     }
-                    if (itemSlots.get(i).getItemStack().getAmount() > defaultStock[i]) {
-                        itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+                    if (shopSlots.get(i).getItemStack().getAmount() > defaultStock[i]) {
+                        shopSlots.get(i).getItemStack().setAmount(shopSlots.get(i).getItemStack().getAmount() - 1);
                     }
                 }
             }
@@ -369,9 +366,9 @@ public class ShopWindow implements Serializable {
         // Keeps a timer before destocking non-stock items.
         destockTimer++;
         if (destockTimer >= (seconds * 180)) {
-            for (int i = defaultStock.length; i < itemSlots.size(); i++) {
-                if (itemSlots.get(i).getItemStack() != null)
-                    itemSlots.get(i).getItemStack().setAmount(itemSlots.get(i).getItemStack().getAmount() - 1);
+            for (int i = defaultStock.length; i < shopSlots.size(); i++) {
+                if (shopSlots.get(i).getItemStack() != null)
+                    shopSlots.get(i).getItemStack().setAmount(shopSlots.get(i).getItemStack().getAmount() - 1);
             }
             destockTimer = 0;
             clearNonStockItems();
@@ -380,8 +377,8 @@ public class ShopWindow implements Serializable {
 
     private void submitShopRequest() {
         // If the dialoguebox is open and player is making a choice
-        if (makingChoice && dBox.getPressedButton() != null) {
-            if (!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+        if (dBox.isMakingChoice() && dBox.getPressedButton() != null) {
+            if (dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
                 // If the user has typed in an amount and confirmed the trade per button, buy the item
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
@@ -408,20 +405,12 @@ public class ShopWindow implements Serializable {
                 Handler.get().playEffect("ui/shop_trade.wav");
             }
 
-            dBox.setPressedButton(null);
-            dBox.getTextBox().getSb().setLength(0);
-            dBox.getTextBox().setIndex(0);
-            dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-//			dBox = new DialogueBox(handler, x + (width / 2) - (dialogueWidth / 2), y + (height / 2) - (dialogueHeight / 2), dialogueWidth, dialogueHeight, answers, "Please confirm your trade.", true);
-            DialogueBox.isOpen = false;
-            TextBox.isOpen = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
 
-        if (TextBox.enterPressed && makingChoice) {
-            if(!dBox.getTextBox().getCharactersTyped().isEmpty()) {
+        if (TextBox.enterPressed && dBox.isMakingChoice()) {
+            if (dBox.getTextBox() != null && !dBox.getTextBox().getCharactersTyped().isEmpty()) {
                 // If enter is pressed while making choice, this means a positive response ("Yes")
                 dBox.setPressedButton(dBox.getButtons().get(0));
                 dBox.getPressedButton().getButtonParam()[0] = "Yes";
@@ -441,28 +430,21 @@ public class ShopWindow implements Serializable {
                 }
             }
 
-            dBox.setPressedButton(null);
-            dBox.getTextBox().getSb().setLength(0);
-            dBox.getTextBox().setIndex(0);
-            dBox.getTextBox().setCharactersTyped(dBox.getTextBox().getSb().toString());
-            DialogueBox.isOpen = false;
-            TextBox.enterPressed = false;
-            Handler.get().getKeyManager().setTextBoxTyping(false);
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
     }
 
     private void tickShopSlots(Rectangle mouse) {
         // Tick shops slots
-        for (ItemSlot is : itemSlots) {
+        for (ItemSlot is : shopSlots) {
             is.tick();
 
 
             Rectangle slot = is.getBounds();
 
             // If left-clicked, select an item
-            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice()) {
                 if (is.getItemStack() != null) {
                     if (selectedShopItem == null) {
                         selectedInvItem = null;
@@ -510,7 +492,7 @@ public class ShopWindow implements Serializable {
 
             Rectangle slot = is.getBounds();
 
-            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !makingChoice) {
+            if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice()) {
                 if (is.getItemStack() != null) {
                     Handler.get().playEffect("ui/ui_button_click.wav");
                     // If the price = -1, item cannot be sold
@@ -564,9 +546,9 @@ public class ShopWindow implements Serializable {
      * If item reaches 0 quantity that is not in default stock, remove it from the store
      */
     private void clearNonStockItems() {
-        for (int i = shopItems.size(); i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() != null && itemSlots.get(i).getItemStack().getAmount() <= 0) {
-                itemSlots.get(i).setItemStack(null);
+        for (int i = shopItems.size(); i < shopSlots.size(); i++) {
+            if (shopSlots.get(i).getItemStack() != null && shopSlots.get(i).getItemStack().getAmount() <= 0) {
+                shopSlots.get(i).setItemStack(null);
             }
         }
     }
@@ -585,6 +567,9 @@ public class ShopWindow implements Serializable {
      */
     private void buyItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
             if (Handler.get().playerHasItem(Item.coins, (tradeSlot.getItemStack().getItem().getPrice()))) {
                 Handler.get().playEffect("ui/shop_trade.wav");
                 if (!Handler.get().invIsFull(tradeSlot.getItemStack().getItem()) && selectedSlot.getItemStack().getAmount() > 0) {
@@ -628,7 +613,7 @@ public class ShopWindow implements Serializable {
                 if (findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
                     Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
                     Handler.get().giveItem(Item.coins, (int) (Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
-                    itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
+                    shopSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
                     inventoryLoaded = false;
 
                     if (tradeSlot.getItemStack().getAmount() == 1) {
@@ -651,7 +636,10 @@ public class ShopWindow implements Serializable {
      */
     private void buyAllItem() {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
-            ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
+            List<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
             int i = 0;
             int buyAmount = 0;
             while (i < slots.size()) {
@@ -674,8 +662,10 @@ public class ShopWindow implements Serializable {
                         }
                     }
                     buyAmount = (int) Math.floor(coins / tradeSlot.getItemStack().getItem().getPrice());
-                    Handler.get().removeItem(Item.coins, (buyAmount * tradeSlot.getItemStack().getItem().getPrice()));
-                    Handler.get().giveItem(tradeSlot.getItemStack().getItem(), buyAmount);
+                    if (buyAmount > 0) {
+                        Handler.get().removeItem(Item.coins, (buyAmount * tradeSlot.getItemStack().getItem().getPrice()));
+                        Handler.get().giveItem(tradeSlot.getItemStack().getItem(), buyAmount);
+                    }
                     Handler.get().sendMsg("You don't have enough gold to buy " + (tradeSlot.getItemStack().getAmount() - buyAmount) + "x " + tradeSlot.getItemStack().getItem().getName());
                     hasBeenPressed = false;
                     i++;
@@ -684,13 +674,13 @@ public class ShopWindow implements Serializable {
                 i++;
             }
             int matches = 0;
-            for (int j = 0; j < itemSlots.size(); j++) {
+            for (int j = 0; j < shopSlots.size(); j++) {
                 if (matches == i)
                     break;
-                if (itemSlots.get(j).getItemStack() == null)
+                if (shopSlots.get(j).getItemStack() == null)
                     continue;
-                if (itemSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
-                    itemSlots.get(j).getItemStack().setAmount((tradeSlot.getItemStack().getAmount() - buyAmount));
+                if (shopSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
+                    shopSlots.get(j).getItemStack().setAmount((tradeSlot.getItemStack().getAmount() - buyAmount));
                     matches++;
                 }
             }
@@ -719,7 +709,7 @@ public class ShopWindow implements Serializable {
                 if (findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
                     Handler.get().removeItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
                     Handler.get().giveItem(Item.coins, (int) (Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * tradeSlot.getItemStack().getAmount()));
-                    itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
+                    shopSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), tradeSlot.getItemStack().getAmount());
                     inventoryLoaded = false;
                 } else {
                     Handler.get().sendMsg("You cannot sell any more items to the shops.");
@@ -743,13 +733,12 @@ public class ShopWindow implements Serializable {
      */
     private void buyXItem(int amount) {
         if (tradeSlot.getItemStack() != null && selectedInvItem == null) {
-            ArrayList<Integer> slots = getMatchSlots(tradeSlot.getItemStack().getItem());
-            int i = slots.size();
+            if (tradeSlot.getItemStack().getAmount() == 0) {
+                Handler.get().sendMsg("This item is out of stock.");
+            }
             int index = 0;
 
-            if (amount > i && !tradeSlot.getItemStack().getItem().isStackable()) {
-                amount = i;
-            } else if (amount > tradeSlot.getItemStack().getAmount() && tradeSlot.getItemStack().getItem().isStackable()) {
+            if (amount > tradeSlot.getItemStack().getAmount()) {
                 amount = tradeSlot.getItemStack().getAmount();
             }
             while (index < amount) {
@@ -773,17 +762,17 @@ public class ShopWindow implements Serializable {
             }
 
             int matches = 0;
-            for (int j = 0; j < itemSlots.size(); j++) {
+            for (int j = 0; j < shopSlots.size(); j++) {
                 if (matches == amount)
                     break;
-                if (itemSlots.get(j).getItemStack() == null)
+                if (shopSlots.get(j).getItemStack() == null)
                     continue;
-                if (itemSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
-                    if (itemSlots.get(j).getItemStack().getItem().isStackable() && itemSlots.get(j).getItemStack().getAmount() - amount >= 0) {
-                        itemSlots.get(j).getItemStack().setAmount(itemSlots.get(j).getItemStack().getAmount() - amount);
+                if (shopSlots.get(j).getItemStack().getItem().getId() == tradeSlot.getItemStack().getItem().getId()) {
+                    if (shopSlots.get(j).getItemStack().getAmount() - amount >= 0) {
+                        shopSlots.get(j).getItemStack().setAmount(shopSlots.get(j).getItemStack().getAmount() - amount);
                         matches++;
-                    } else if (!itemSlots.get(j).getItemStack().getItem().isStackable() && itemSlots.get(j).getItemStack().getAmount() > 0) {
-                        itemSlots.get(j).getItemStack().setAmount(0);
+                    } else if (shopSlots.get(j).getItemStack().getAmount() > 0) {
+                        shopSlots.get(j).getItemStack().setAmount(0);
                         matches++;
                     }
                 }
@@ -824,7 +813,7 @@ public class ShopWindow implements Serializable {
                     if (findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
                         Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
                         Handler.get().giveItem(Item.coins, (int) (Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));
-                        itemSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
+                        shopSlots.get(findFreeSlot(tradeSlot.getItemStack().getItem())).addItem(tradeSlot.getItemStack().getItem(), 1);
                     } else {
                         Handler.get().sendMsg("You cannot sell any more items to the shops.");
                         break;
@@ -853,17 +842,16 @@ public class ShopWindow implements Serializable {
     private int findFreeSlot(Item item) {
         boolean firstFreeSlotFound = false;
         int index = -1;
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == null) {
+        for (int i = 0; i < shopSlots.size(); i++) {
+            if (shopSlots.get(i).getItemStack() == null) {
                 if (!firstFreeSlotFound) {
                     firstFreeSlotFound = true;
                     index = i;
                 }
-            } else if (itemSlots.get(i).getItemStack() != null && !item.isStackable() && itemSlots.get(i).getItemStack().getAmount() == 0 && itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
+            } else if (shopSlots.get(i).getItemStack() != null && shopSlots.get(i).getItemStack().getAmount() == 0 && shopSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                 return i;
-            } else if (itemSlots.get(i).getItemStack() != null && !item.isStackable()) {
-            } else if (itemSlots.get(i).getItemStack() != null && item.isStackable()) {
-                if (itemSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
+            } else if (shopSlots.get(i).getItemStack() != null) {
+                if (shopSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
                 }
             }
@@ -874,31 +862,31 @@ public class ShopWindow implements Serializable {
         return -1;
     }
 
-    private ArrayList<Integer> getMatchSlots(Item item) {
-        ArrayList<Integer> slots = new ArrayList<>();
-        for (int i = 0; i < itemSlots.size(); i++) {
-            if (itemSlots.get(i).getItemStack() == null) {
+    private List<Integer> getMatchSlots(Item item) {
+        List<Integer> slots = new ArrayList<>();
+        for (int i = 0; i < shopSlots.size(); i++) {
+            if (shopSlots.get(i).getItemStack() == null) {
                 continue;
             }
-            if (itemSlots.get(i).getItemStack().getItem() == item)
+            if (shopSlots.get(i).getItemStack().getItem() == item)
                 slots.add(i);
         }
         return slots;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getItemSlots() {
-        return itemSlots;
+    public List<ItemSlot> getShopSlots() {
+        return shopSlots;
     }
 
-    public void setItemSlots(CopyOnWriteArrayList<ItemSlot> itemSlots) {
-        this.itemSlots = itemSlots;
+    public void setShopSlots(List<ItemSlot> shopSlots) {
+        this.shopSlots = shopSlots;
     }
 
-    public CopyOnWriteArrayList<ItemSlot> getInvSlots() {
+    public List<ItemSlot> getInvSlots() {
         return invSlots;
     }
 
-    public void setInvSlots(CopyOnWriteArrayList<ItemSlot> invSlots) {
+    public void setInvSlots(List<ItemSlot> invSlots) {
         this.invSlots = invSlots;
     }
 

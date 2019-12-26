@@ -63,6 +63,12 @@ class Window extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+            System.err.println("Could not create default system UI look.");
+        }
+
         // Show the
         equippableDropDown.addActionListener(e -> {
             if (equippableDropDown.getSelectedIndex() == 0) {
