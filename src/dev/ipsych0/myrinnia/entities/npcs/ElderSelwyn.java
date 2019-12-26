@@ -152,7 +152,10 @@ public class ElderSelwyn extends Creature {
 
     @Override
     public void postRender(Graphics2D g) {
-
+        if (Handler.get().hasQuestReqs(QuestList.WaveGoodbye) && Handler.get().getQuest(QuestList.WaveGoodbye).getState() == QuestState.NOT_STARTED) {
+            g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
+        }
     }
 
     @Override

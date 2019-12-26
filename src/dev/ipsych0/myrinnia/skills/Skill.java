@@ -62,6 +62,7 @@ public abstract class Skill implements Serializable {
             if (Player.isLevelUp) {
                 Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));
                 Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+                Player.isLevelUp = false;
             }
         }
     }

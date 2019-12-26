@@ -81,15 +81,15 @@ public class MayorWilson extends Creature {
             case 6:
                 if (Handler.get().questInProgress(QuestList.GettingStarted) && !Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(1).isFinished()) {
                     Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose a bounty target from the board.");
+                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose a bounty target from the board right outside the Town Hall.");
                 }
                 break;
             case 7:
                 if (Handler.get().questCompleted(QuestList.GettingStarted) && !Handler.get().questCompleted(QuestList.GatheringYourStuff)) {
-                    script.getDialogues().get(8).setText("You could see Douglas. He has a workshop in Sunshine Coast, the northern most point of the island.");
+                    script.getDialogues().get(8).setText("You could see Douglas. He has a workshop in Sunshine Coast, the northern most point of the island. I heard he needs help gathering some resources.");
                 }
                 else if (Handler.get().questCompleted(QuestList.GatheringYourStuff) && !Handler.get().questCompleted(QuestList.PreparingYourJourney)) {
-                    script.getDialogues().get(8).setText("You should pay Port Azure's workshop a visit! I heard that they could use some hands.");
+                    script.getDialogues().get(8).setText("You should pay Port Azure's workshop a visit! I heard that Duncan is looking for an apprentice.");
                 }
                 else if (Handler.get().questCompleted(QuestList.PreparingYourJourney)) {
                     script.getDialogues().get(8).setText("Elder Selwyn lives north of here. If you wish to learn about abilities, you should talk to him!");

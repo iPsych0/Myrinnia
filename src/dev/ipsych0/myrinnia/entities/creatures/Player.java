@@ -79,7 +79,7 @@ public class Player extends Creature {
     public static boolean isXpGained;
     public static Skill leveledSkill;
     public static int xpGained;
-    private int levelUpTimer, xpGainedTimer, questCompleteTimer;
+    private int levelUpTimer, xpGainedTimer;
     public static boolean expEffectPlayed;
 
     private boolean movementAllowed = true;

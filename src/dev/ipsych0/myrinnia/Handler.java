@@ -226,14 +226,14 @@ public class Handler implements Serializable {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
             }
-            Source s;
+
             if (AudioManager.soundfxFiles.containsKey(buffer)) {
-                s = AudioManager.soundfxFiles.get(buffer);
+                Source s = AudioManager.soundfxFiles.get(buffer);
                 s.setVolume(AudioManager.sfxVolume + volume);
                 s.setLooping(false);
                 s.playEffect(buffer);
             } else {
-                s = new Source();
+                Source s = new Source();
                 AudioManager.soundfxFiles.put(buffer, s);
                 s.setVolume(AudioManager.sfxVolume + volume);
                 s.setLooping(false);

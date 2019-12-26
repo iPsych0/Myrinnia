@@ -119,7 +119,7 @@ public class BountyBoardUI implements Serializable {
                 if (Handler.get().playerHasSkillLevel(SkillsList.BOUNTYHUNTER, bounty.getLevelRequirement())) {
                     if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
                         Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-                        Handler.get().addQuestStep(QuestList.GettingStarted, "Complete the bounty contract and claim your reward.");
+                        Handler.get().addQuestStep(QuestList.GettingStarted, "Complete the bounty contract and claim your reward from Ryan in Port Azure.");
                         Handler.get().addTip(new TutorialTip("Right-click on items in your inventory to 'use' them. Click on the contract to open it."));
                         Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }

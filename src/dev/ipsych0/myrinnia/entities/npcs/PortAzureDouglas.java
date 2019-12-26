@@ -81,7 +81,7 @@ public class PortAzureDouglas extends Creature {
                 speakingCheckpoint = 5;
                 if (!Handler.get().questStarted(QuestList.GatheringYourStuff)) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Cut 5 Lightwood from weak palm trees in Sunrise Sands.");
+                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Cut 5 Lightwood from weak palm trees in Sunrise Sands and return to Douglas.");
                 }
                 break;
             case 7:

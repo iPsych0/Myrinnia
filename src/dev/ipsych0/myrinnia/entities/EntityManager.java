@@ -177,9 +177,9 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            if (!e.equals(Handler.get().getPlayer())) {
-                e.postRender(g);
-            }
+//            if (!e.equals(Handler.get().getPlayer())) {
+//                e.postRender(g);
+//            }
         }
     }
 
@@ -240,6 +240,10 @@ public class EntityManager implements Serializable {
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
             Entity e = it.next();
+
+            if (!e.equals(player)) {
+                e.postRender(g);
+            }
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
 

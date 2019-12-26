@@ -44,6 +44,14 @@ public class AudioManager {
     }
 
     public static void tick() {
+
+        // Check for any audio issues with OpenAL
+        int AL_ERROR = AL10.alGetError();
+        if (AL_ERROR == AL_OUT_OF_MEMORY) {
+            System.err.println("OpenAL Out of Memory error.");
+            freeAllSources();
+        }
+
         // Check for music that has ended to clean up
         if (!musicFiles.isEmpty()) {
             Collection<Source> deleted = new ArrayList<>();
@@ -59,18 +67,20 @@ public class AudioManager {
             }
             musicFiles.removeAll(deleted);
         }
+    }
 
-        // Check for sound effects that have ended to clean up
-//        if (!soundfxFiles.isEmpty()) {
-//            Collection<Source> deleted = new ArrayList<>();
-//            for (Source s : soundfxFiles) {
-//                if (!s.isPlaying()) {
-//                    deleted.add(s);
-//                    s.delete();
-//                }
-//            }
-//            soundfxFiles.removeAll(deleted);
-//        }
+    private static void freeAllSources() {
+        for (Source s : AudioManager.musicFiles) {
+            s.delete();
+        }
+        for (Source s : AudioManager.soundfxFiles.values()) {
+            s.delete();
+        }
+
+        musicFiles.clear();
+        soundfxFiles.clear();
+        soundMap.clear();
+        buffers.clear();
     }
 
     private static void fadeIn(Source s) {
@@ -102,6 +112,7 @@ public class AudioManager {
         for (int buffer : buffers) {
             AL10.alDeleteBuffers(buffer);
         }
+
         ALC10.alcDestroyContext(context);
         ALC10.alcCloseDevice(device);
     }
