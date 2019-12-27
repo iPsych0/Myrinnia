@@ -57,8 +57,9 @@ public abstract class Creature extends Entity {
     double attackSpeed;
     protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
-    int attackRange = Tile.TILEWIDTH * 2;
+    int attackRange = Tile.TILEWIDTH + 16;
     List<Projectile> projectiles = new ArrayList<>();
+    protected double meleeDirection, meleeXOffset, meleeYOffset;
 
     // Walking timer
     private int time = 0;
@@ -649,8 +650,10 @@ public abstract class Creature extends Entity {
             state = CombatState.PATHFINDING;
         }
 
+        Player player = Handler.get().getPlayer();
+
         // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
-        if (Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+        if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
         // If the Creature was not following or attacking the player, move around randomly.
@@ -660,35 +663,31 @@ public abstract class Creature extends Entity {
         }
 
         // If the player has moved out of the initial aggro box, but is still within the A* map, keep following
-        else if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-                !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.PATHFINDING;
         }
 
         // If the player has moved out of the aggro box and out of the A* map,
-        else if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-                !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.BACKTRACK;
         }
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2),
-                ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
-                Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
-                Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
-            state = CombatState.ATTACK;
+        if (isInAttackRange(player)) {
             checkAttacks();
+            state = CombatState.ATTACK;
         }
 
         // If the Creature was attacking, but the player moved out of aggro range or out of the A* map bounds, backtrack to spawn.
-        if (state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+        if (state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.BACKTRACK;
         }
 
         // If the Creature was following the player but he moved out of the A* map, backtrack.
-        if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+        if (!player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
             state = CombatState.BACKTRACK;
         }
 
@@ -703,10 +702,18 @@ public abstract class Creature extends Entity {
         }
     }
 
+    protected boolean isInAttackRange(Player player) {
+        return distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
+                ((int) player.getX() + player.getWidth() / 2),
+                ((int) player.getY() + player.getHeight() / 2)) <= attackRange &&
+                player.getCollisionBounds(0, 0).intersects(getRadius()) &&
+                player.getCollisionBounds(0, 0).intersects(map.getMapBounds());
+    }
+
     /**
      * Override this method in the creature's class
      */
-    void checkAttacks() {
+    protected void checkAttacks() {
 
     }
 
@@ -788,6 +795,92 @@ public abstract class Creature extends Entity {
         }
     }
 
+    protected void checkMeleeHitboxes(){
+        checkMeleeHitboxes(40, 40);
+    }
+
+    protected void checkMeleeHitboxes(int width, int height) {
+        double angle = getAngle();
+        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.getX()), (int) (32 * Math.sin(angle) + (int) this.getY()), width, height);
+
+        if (this.equals(Handler.get().getPlayer())) {
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (e.equals(Handler.get().getPlayer()))
+                    continue;
+                if (!e.isAttackable())
+                    continue;
+                if (e.getCollisionBounds(0, 0).intersects(ar)) {
+                    e.damage(DamageType.STR, this, e);
+                    // Break because we only hit 1 target
+                    break;
+                }
+            }
+        } else {
+            Player player = Handler.get().getPlayer();
+            if (player.getFullBounds(0, 0).intersects(ar)) {
+                player.damage(DamageType.STR, this, player);
+            }
+        }
+    }
+
+    protected void setMeleeSwing(Rectangle direction) {
+        // The angle and speed of the projectile
+        double angle;
+        if (this.equals(Handler.get().getPlayer())) {
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - this.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - this.getX());
+        } else {
+            angle = Math.atan2((direction.getY() - 16) - this.getY(), (direction.getX() - 16) - this.getX());
+        }
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        meleeDirection = Math.toDegrees(angle);
+        if (meleeDirection < 0) {
+            meleeDirection += 360d;
+        }
+
+        double xOffset = 1.0f * Math.cos(angle);
+        double yOffset = 1.0f * Math.sin(angle);
+
+
+        // meleeXOffset change RIGHT
+        if (meleeDirection >= 270 || meleeDirection < 90) {
+            meleeXOffset = 20d * xOffset;
+            // meleeXOffset change LEFT
+        } else if (meleeDirection >= 90 || meleeDirection < 270) {
+            meleeXOffset = 20d * xOffset;
+        }
+
+        // meleeXOffset change RIGHT
+        if (meleeDirection >= 180 || meleeDirection <= 360) {
+            meleeYOffset = 20d * yOffset;
+            // meleeXOffset change LEFT
+        } else if (meleeDirection >= 0 || meleeDirection < 180) {
+            meleeYOffset = 20d * yOffset;
+        }
+    }
+
+    protected double getRotation() {
+        double angle = getAngle();
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        double rotation = Math.toDegrees(angle);
+        if (rotation < 0) {
+            rotation += 360d;
+        }
+
+        return rotation;
+    }
+
+    protected double getAngle() {
+        double angle;
+        if (this.equals(Handler.get().getPlayer())) {
+            Rectangle direction = Handler.get().getMouse();
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - this.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - this.getX());
+        } else {
+            Rectangle direction = new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1);
+            angle = Math.atan2((direction.getY() - 16) - this.getY(), (direction.getX() - 16) - this.getX());
+        }
+        return angle;
+    }
+
     /*
      * Regenerates health
      */
@@ -819,7 +912,7 @@ public abstract class Creature extends Entity {
     }
 
     public void castAbility(Ability ability) {
-        if(ability.isOnCooldown() || ability.isChanneling()){
+        if (ability.isOnCooldown() || ability.isChanneling()) {
             return;
         }
         if (ability.isSelectable()) {
