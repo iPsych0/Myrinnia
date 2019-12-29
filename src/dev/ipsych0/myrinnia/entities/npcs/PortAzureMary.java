@@ -57,12 +57,12 @@ public class PortAzureMary extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && quest.getQuestSteps().get(0).isFinished() && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     speakingTurn = 5;
                     break;
                 }
             case 6:
-                if (!hasRemovedFish && Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (quest.getQuestSteps().get(0).isFinished() && !hasRemovedFish && Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     Handler.get().removeItem(Item.mackerelFish, 5);
                     quest.nextStep();
                     speakingCheckpoint = 6;

@@ -42,6 +42,9 @@ public class WorldHandler implements Serializable {
         addWorld(new World(Zone.ShamrockMines1, false,"/worlds/shamrock_mines1.tmx"));
         addWorld(new World(Zone.ShamrockMines2, false,"/worlds/shamrock_mines2.tmx"));
         addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
+        addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
+        addWorld(new World(Zone.MalachiteFields, false,"/worlds/malachite_fields.tmx"));
+        addWorld(new World(Zone.MalachiteSlopes, false,"/worlds/malachite_slopes.tmx"));
     }
 
     public void tick() {
