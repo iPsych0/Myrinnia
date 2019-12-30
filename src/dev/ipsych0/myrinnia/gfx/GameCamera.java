@@ -39,6 +39,27 @@ public class GameCamera implements Serializable {
         }
     }
 
+    public boolean isAtRightBound() {
+        if(Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
+            return false;
+        return xOffset >= Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth();
+    }
+
+    public boolean isAtLeftBound() {
+        return xOffset <= 0;
+    }
+
+    public boolean isAtBottomBound() {
+        if(Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()){
+            return false;
+        }
+        return yOffset >= Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight();
+    }
+
+    public boolean isAtTopBound() {
+        return yOffset <= 0;
+    }
+
     public void centerOnEntity(Entity e) {
         xOffset = e.getX() - Handler.get().getWidth() / 2f + e.getWidth() / 2f;
         yOffset = e.getY() - Handler.get().getHeight() / 2f + e.getHeight() / 2f;

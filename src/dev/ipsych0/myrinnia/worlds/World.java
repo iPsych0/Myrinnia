@@ -282,8 +282,15 @@ public class World implements Serializable {
             craftingUI.render(g);
 
             // Inventory & Equipment
+            Composite current = g.getComposite();
+            if(Handler.get().getGameCamera().isAtRightBound()){
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
             equipment.render(g);
             inventory.render(g);
+            if(Handler.get().getGameCamera().isAtRightBound()){
+                g.setComposite(current);
+            }
 
             itemManager.postRender(g);
             entityManager.postRender(g);

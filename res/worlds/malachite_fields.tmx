@@ -278,15 +278,15 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="10" name="Malachite Slopes" type="zone_tile" x="3808" y="288" width="32" height="608">
+  <object id="10" name="Malachite Slopes" type="zone_tile" x="3824" y="288" width="16" height="608">
    <properties>
     <property name="goToX" value="1"/>
     <property name="goToY" value="69"/>
     <property name="zone" value="MalachiteSlopes"/>
    </properties>
   </object>
-  <object id="11" name="Malachite Pass" type="zone_tile" x="2080" y="0" width="224" height="32"/>
-  <object id="12" name="Malachite Hills" type="zone_tile" x="0" y="1152" width="32" height="736">
+  <object id="11" name="Malachite Pass" type="zone_tile" x="2080" y="0" width="224" height="16"/>
+  <object id="12" name="Malachite Hills" type="zone_tile" x="0" y="1152" width="16" height="736">
    <properties>
     <property name="goToX" value="88"/>
     <property name="goToY" value="21"/>
