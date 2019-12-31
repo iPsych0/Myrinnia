@@ -223,16 +223,24 @@ public abstract class Entity implements Serializable {
         // Calculations
         double defaultDamage = (double) getDamage(damageType, dealer, receiver);
 
-        double L = 110d;
-        double x0 = 39d;
-        double x = ability.getElement().getLevel();
-        double k = 0.11d;
-        double multiplication = L / 1 + Math.exp(-k * (x - x0));
-        double abilityDamage = ability.getBaseDamage() * multiplication;
+        double abilityDamage = getAbilityDamage(ability);
 
         // Formula
         return (int) Math.round((defaultDamage + abilityDamage));
 //        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
+    }
+
+    private double getAbilityDamage(Ability ability) {
+        // Logicistic regression formula
+        // f\left(x\right)=\frac{L}{1+e^{-k\left(x-x_{0}\right)}}-0.487
+        double L = 110d;
+        double x0 = 39d;
+        double x = ability.getElement().getLevel();
+        double k = 0.11d;
+
+        double multiplication = L / (1d + Math.exp(-1 * k * (x - x0))) - 0.487d;
+
+        return ability.getBaseDamage() * multiplication;
     }
 
     public void heal(int heal) {
