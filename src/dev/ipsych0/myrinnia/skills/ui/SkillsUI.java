@@ -26,8 +26,8 @@ public class SkillsUI implements Serializable {
     private int height = 320;
     public static boolean isOpen = false;
     public static boolean hasBeenPressed = false;
-    private HashMap<SkillsList, Skill> skills;
-    private ArrayList<Skill> skillsList;
+    private Map<SkillsList, Skill> skills;
+    private List<Skill> skillsList;
     private UIImageButton crafting, fishing, mining, woodcutting, bountyHunter;
     private SkillsOverviewUI overviewUI;
     public static boolean escapePressed = false;

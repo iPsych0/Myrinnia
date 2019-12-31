@@ -51,11 +51,11 @@ public class HPOverlay implements Serializable {
         // Colors
         hpColorRed = new Color(148, 8, 0);
         hpColorGreen = new Color(58, 143, 0);
-        xpColor = new Color(188, 143, 5);
+        xpColor = new Color(0, 255, 255, 62);
 
         hpColorRedOutline = new Color(198, 8, 0);
         hpColorGreenOutline = new Color(58, 188, 0);
-        xpColorOutline = new Color(248, 168, 5);
+        xpColorOutline = new Color(0, 255, 255, 93);
 
         // Buttons
         questsButton = new UIImageButton(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);

@@ -676,18 +676,22 @@ public abstract class Creature extends Entity {
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (isInAttackRange(player)) {
-            checkAttacks();
-            state = CombatState.ATTACK;
+        if (attackable) {
+            if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                checkAttacks();
+                state = CombatState.ATTACK;
+            } else {
+                state = CombatState.PATHFINDING;
+            }
         }
 
-        // If the Creature was attacking, but the player moved out of aggro range or out of the A* map bounds, backtrack to spawn.
-        if (state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+        // If the Creature was attacking, but the player moved out of the A* map bounds, backtrack to spawn.
+        if (state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.BACKTRACK;
         }
 
         // If the Creature was following the player but he moved out of the A* map, backtrack.
-        if (!player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+        if (!player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING) {
             state = CombatState.BACKTRACK;
         }
 
@@ -703,11 +707,68 @@ public abstract class Creature extends Entity {
     }
 
     protected boolean isInAttackRange(Player player) {
-        return distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
+        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
                 ((int) player.getX() + player.getWidth() / 2),
                 ((int) player.getY() + player.getHeight() / 2)) <= attackRange &&
                 player.getCollisionBounds(0, 0).intersects(getRadius()) &&
-                player.getCollisionBounds(0, 0).intersects(map.getMapBounds());
+                player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+
+            return hasLineOfSight(this.x + this.width / 2d, this.y + this.height / 2d, player.x + 16, player.y + 16);
+        }
+
+        return false;
+    }
+
+    private boolean hasLineOfSight(double x1, double y1, double x2, double y2) {
+        double m = ((double) (y2 - y1)) / ((double) (x2 - x1));//slope
+        double b = y1 - (m * ((double) x1));//vertical shift
+
+        //Takes care of the domain we will loop between.
+        //min and max will be assigned minX and maxX if the line is not vertical.
+        //minY and maxY are assigned to min and max otherwise.
+        int minX = (int) Math.min(x1, x2);//minimum x value we should consider
+        int maxX = (int) Math.max(x1, x2);//maximum x value we should consider
+        int minY = (int) Math.min(y1, y2);//minimum y value we should consider
+        int maxY = (int) Math.max(y1, y2);//maximum y value we should consider
+        int min = 0;
+        int max = 0;
+        boolean plugX = true; //if true, the line is not vertical.
+        List<Point> points = new ArrayList<>(); //Store all points here
+
+        if (x1 == x2) {//plug the y value instead the x, this is a vertical line.
+            plugX = false;
+            min = minY;
+            max = maxY;
+        } else {//dont change and plug x values.
+            min = minX;
+            max = maxX;
+        }
+
+        for (int i = min; i <= max; i++) {
+            int obtained = 0;
+            if (plugX) {//not a vertical line
+                obtained = (int) Math.round((m * i + b));
+//                System.out.println("x = " + i + "  ,  y = " + obtained);
+                points.add(new Point(i, obtained));
+                //Uncomment to see the full blue line.
+//                g.drawLine(i, obtained, i, obtained);
+            } else {//vertical line
+                obtained = (int) Math.round((double) (i - b) / (double) m);
+//                System.out.println("x = " + x1 + "  ,  y = " + i);
+//                g.drawLine(x1, i, x1, i);//Uncomment to see the full blue line.
+                points.add(new Point((int) x1, i));
+            }
+        }
+
+        for (Point point : points) {
+            double xPos = point.getX();
+            double yPos = point.getY();
+            if (collisionWithTile((int) (xPos / 32d), (int) (yPos / 32d))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -795,7 +856,7 @@ public abstract class Creature extends Entity {
         }
     }
 
-    protected void checkMeleeHitboxes(){
+    protected void checkMeleeHitboxes() {
         checkMeleeHitboxes(40, 40);
     }
 

@@ -148,7 +148,7 @@ public class Handler implements Serializable {
         random = new Random();
 
         // Instantiate the player
-        player = new Player(2816, 1472);
+        player = new Player(77*32, 51*32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();

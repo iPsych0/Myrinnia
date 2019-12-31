@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingSlot;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -612,6 +613,18 @@ public class InventoryWindow implements Serializable {
         for (ItemSlot slot : itemSlots) {
 
             ItemStack is = slot.getItemStack();
+
+            if (is == null || is.getItem().getItemTypes() == null)
+                continue;
+
+            if (is.getItem().isType(type)) {
+                return true;
+            }
+        }
+
+        for (EquipmentSlot slot : Handler.get().getEquipment().getEquipmentSlots()) {
+
+            ItemStack is = slot.getEquipmentStack();
 
             if (is == null || is.getItem().getItemTypes() == null)
                 continue;

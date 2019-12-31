@@ -21,7 +21,7 @@ public class AngryFlower extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
-    private Ability ability = Utils.loadAbility("healingspring.json");
+//    private Ability ability = Utils.loadAbility("healingspring.json");
 
     public AngryFlower(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -93,12 +93,12 @@ public class AngryFlower extends Creature {
 
 //        int rnd = Handler.get().getRandomNumber(0, 3);
 //        if (rnd <= 2) {
-//            Handler.get().playEffect("abilities/magic_strike.wav");
-//            new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
+            Handler.get().playEffect("abilities/magic_strike.wav");
+            new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 //        } else {
-        if (!ability.isOnCooldown()) {
-            castAbility(ability);
-        }
+//        if (!ability.isOnCooldown()) {
+//            castAbility(ability);
+//        }
 //        }
     }
 
