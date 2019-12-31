@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -48,16 +49,17 @@ public abstract class Creature extends Entity {
     private static final int DEFAULT_INTELLIGENCE = 0;
     private static final int DEFAULT_DEFENCE = 0;
     private static final int DEFAULT_VITALITY = 0;
-    int baseDamage;
-    int strength;
-    int dexterity;
-    int intelligence;
-    int defence;
-    int vitality;
-    double attackSpeed;
+    protected int baseDamage;
+    protected int strength;
+    protected int dexterity;
+    protected int intelligence;
+    protected int defence;
+    protected int vitality;
+    protected double attackSpeed;
+    protected int waterLevel = 1, fireLevel = 1, airLevel = 1, earthLevel = 1;
     protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
-    int attackRange = Tile.TILEWIDTH + 16;
+    protected int attackRange = Tile.TILEWIDTH + 16;
     List<Projectile> projectiles = new ArrayList<>();
     protected double meleeDirection, meleeXOffset, meleeYOffset;
 
@@ -1175,5 +1177,50 @@ public abstract class Creature extends Entity {
         return ySpawn;
     }
 
+    public int getLevelByElement(CharacterStats element) {
+        switch (element) {
+            case Water:
+                return waterLevel;
+            case Air:
+                return airLevel;
+            case Fire:
+                return fireLevel;
+            case Earth:
+                return earthLevel;
+            default:
+                throw new IllegalArgumentException("Enter an element, not a combat style.");
+        }
+    }
 
+    public int getWaterLevel() {
+        return waterLevel;
+    }
+
+    public void setWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
+    }
+
+    public int getFireLevel() {
+        return fireLevel;
+    }
+
+    public void setFireLevel(int fireLevel) {
+        this.fireLevel = fireLevel;
+    }
+
+    public int getAirLevel() {
+        return airLevel;
+    }
+
+    public void setAirLevel(int airLevel) {
+        this.airLevel = airLevel;
+    }
+
+    public int getEarthLevel() {
+        return earthLevel;
+    }
+
+    public void setEarthLevel(int earthLevel) {
+        this.earthLevel = earthLevel;
+    }
 }

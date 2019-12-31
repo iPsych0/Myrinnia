@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
@@ -839,6 +840,11 @@ public class Player extends Creature {
         setHealth(maxHealth);
         setDamaged(false);
         setActive(true);
+    }
+
+    @Override
+    public int getLevelByElement(CharacterStats element) {
+        return element.getLevel();
     }
 
     @Override

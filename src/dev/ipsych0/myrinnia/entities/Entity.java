@@ -63,7 +63,6 @@ public abstract class Entity implements Serializable {
     protected String animationTag;
     protected String shopItemsFile;
     private static final double DIVISION_QUOTIENT = 150.0d;
-    private static final double ABILITY_DMG_COEFFICIENT = 1.1d;
 
     protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
@@ -216,26 +215,23 @@ public abstract class Entity implements Serializable {
      * Damage formula for abilities
      */
     public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
-        // Default damage formula
         Creature d = (Creature) dealer;
-        Creature r = (Creature) receiver;
 
-        // Calculations
+        // Get default attack damage
         double defaultDamage = (double) getDamage(damageType, dealer, receiver);
 
-        double abilityDamage = getAbilityDamage(ability);
+        // Calculate additional ability damage
+        double abilityDamage = getAbilityDamage(ability, d);
 
-        // Formula
         return (int) Math.round((defaultDamage + abilityDamage));
-//        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 
-    private double getAbilityDamage(Ability ability) {
+    private double getAbilityDamage(Ability ability, Creature dealer) {
         // Logicistic regression formula
         // f\left(x\right)=\frac{L}{1+e^{-k\left(x-x_{0}\right)}}-0.487
         double L = 110d;
         double x0 = 39d;
-        double x = ability.getElement().getLevel();
+        double x = dealer.getLevelByElement(ability.getElement());
         double k = 0.11d;
 
         double multiplication = L / (1d + Math.exp(-1 * k * (x - x0))) - 0.487d;
