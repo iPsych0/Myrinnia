@@ -62,7 +62,7 @@ public class FrostJabAbility extends Ability implements Serializable {
             setMeleeSwing(direction);
             meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-            Handler.get().playEffect("abilities/frost_jab.wav", 0.1f);
+            Handler.get().playEffect("abilities/frost_jab.ogg", 0.1f);
             initialized = true;
 
             checkHitBox(direction);

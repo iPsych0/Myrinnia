@@ -210,7 +210,7 @@ public class Player extends Creature {
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
-                        Handler.get().playEffect("ui/ui_button_click.wav");
+                        Handler.get().playEffect("ui/ui_button_click.ogg");
 
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
@@ -228,7 +228,7 @@ public class Player extends Creature {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
                             closestEntity.interact();
                             hasInteracted = true;
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                         }
                     }
                 }
@@ -258,7 +258,7 @@ public class Player extends Creature {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
                             closestEntity.interact();
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                             hasInteracted = true;
                         }
                     }
@@ -338,7 +338,7 @@ public class Player extends Creature {
         }
 
         if (isXpGained && !expEffectPlayed) {
-            Handler.get().playEffect("ui/exp_gain.wav");
+            Handler.get().playEffect("ui/exp_gain.ogg");
             expEffectPlayed = true;
         }
 
@@ -754,7 +754,7 @@ public class Player extends Creature {
 
         rangedTimer = 0;
 
-        Handler.get().playEffect("abilities/ranged_shot.wav", 0.35f);
+        Handler.get().playEffect("abilities/ranged_shot.ogg", 0.35f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
 
             new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -781,7 +781,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
 
             new Projectile.Builder(DamageType.INT, Assets.regularMagic, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -813,7 +813,7 @@ public class Player extends Creature {
 
         setMeleeSwing(mouse);
 
-        Handler.get().playEffect("abilities/sword_swing.wav", -0.05f);
+        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
         checkMeleeHitboxes();
     }

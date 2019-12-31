@@ -93,7 +93,7 @@ public class AngryFlower extends Creature {
 
 //        int rnd = Handler.get().getRandomNumber(0, 3);
 //        if (rnd <= 2) {
-            Handler.get().playEffect("abilities/magic_strike.wav");
+            Handler.get().playEffect("abilities/magic_strike.ogg");
             new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 //        } else {
 //        if (!ability.isOnCooldown()) {

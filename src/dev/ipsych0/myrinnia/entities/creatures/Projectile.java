@@ -36,10 +36,10 @@ public class Projectile extends Creature implements Serializable {
 
             switch (damageType) {
                 case INT:
-                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    this.impactSound = "abilities/magic_strike_impact.ogg";
                     break;
                 case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    this.impactSound = "abilities/ranged_shot_impact.ogg";
                     break;
             }
         }
@@ -55,10 +55,10 @@ public class Projectile extends Creature implements Serializable {
 
             switch (damageType) {
                 case INT:
-                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    this.impactSound = "abilities/magic_strike_impact.ogg";
                     break;
                 case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    this.impactSound = "abilities/ranged_shot_impact.ogg";
                     break;
             }
         }

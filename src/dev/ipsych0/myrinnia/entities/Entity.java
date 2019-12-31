@@ -62,8 +62,8 @@ public abstract class Entity implements Serializable {
     protected String jsonFile;
     protected String animationTag;
     protected String shopItemsFile;
-    private static final double DIVISION_QUOTIENT = 200.0;
-    private static final double ABILITY_DMG_COEFFICIENT = 1.08;
+    private static final double DIVISION_QUOTIENT = 150.0d;
+    private static final double ABILITY_DMG_COEFFICIENT = 1.1d;
 
     protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
@@ -221,13 +221,17 @@ public abstract class Entity implements Serializable {
         Creature r = (Creature) receiver;
 
         // Calculations
-        double defenceRatio = (DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence()));
         double defaultDamage = (double) getDamage(damageType, dealer, receiver);
-        double abilityDamage = ability.getBaseDamage() * Math.pow(ABILITY_DMG_COEFFICIENT, (double) ability.getElement().getLevel());
-        double baseDamage = (double) d.getBaseDamage();
+
+        double L = 110d;
+        double x0 = 39d;
+        double x = ability.getElement().getLevel();
+        double k = 0.11d;
+        double multiplication = L / 1 + Math.exp(-k * (x - x0));
+        double abilityDamage = ability.getBaseDamage() * multiplication;
 
         // Formula
-        return (int) Math.round((defaultDamage + abilityDamage) * defenceRatio + baseDamage);
+        return (int) Math.round((defaultDamage + abilityDamage));
 //        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
     }
 

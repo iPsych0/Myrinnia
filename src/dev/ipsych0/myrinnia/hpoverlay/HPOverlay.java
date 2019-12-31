@@ -98,7 +98,7 @@ public class HPOverlay implements Serializable {
             // Quests UI button
             if (questsButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     SkillsUI.isOpen = false;
                     SkillsOverviewUI.isOpen = false;
@@ -112,7 +112,7 @@ public class HPOverlay implements Serializable {
             // Skills UI button
             if (skillsButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     CharacterUI.isOpen = false;
                     QuestUI.isOpen = false;
@@ -125,7 +125,7 @@ public class HPOverlay implements Serializable {
             // Character UI button
             if (characterButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     SkillsUI.isOpen = false;
                     SkillsOverviewUI.isOpen = false;
@@ -139,7 +139,7 @@ public class HPOverlay implements Serializable {
             // Abilities UI button
             if (abilitiesButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     if (ShopWindow.lastOpenedWindow != null) {
                         ShopWindow.lastOpenedWindow.exit();
@@ -166,7 +166,7 @@ public class HPOverlay implements Serializable {
                     Handler.get().getBankUI().exit();
                     Handler.get().getCraftingUI().exit();
                     // TODO: OPEN THE MAP HERE ONCE IT'S CREATED
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     Handler.get().sendMsg("Map coming soon!");
                 }
             }

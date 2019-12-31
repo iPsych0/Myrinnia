@@ -67,9 +67,9 @@ public class GlacialShotAbility extends Ability implements Serializable {
             targetY = (int) (direction.getY());
         }
 
-        Handler.get().playEffect("abilities/glacial_shot.wav", 0.1f);
+        Handler.get().playEffect("abilities/glacial_shot.ogg", 0.1f);
         new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
-                .withImpactSound("abilities/ice_projectile_impact.wav")
+                .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withAbility(this)
                 .withVelocity(7.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->

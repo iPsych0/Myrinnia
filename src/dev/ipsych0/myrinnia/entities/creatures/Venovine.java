@@ -80,12 +80,12 @@ public class Venovine extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         int targetX = (int) Handler.get().getPlayer().getX();
         int targetY = (int) Handler.get().getPlayer().getY();
 
         new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, targetX, targetY)
-                .withImpactSound("abilities/magic_strike_impact.wav")
+                .withImpactSound("abilities/magic_strike_impact.ogg")
                 .withImpact((Serializable & OnImpact) (receiver) -> {
                     receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 5));
                 }).build();

@@ -76,7 +76,7 @@ public class MalachiteThugL extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/sword_swing.wav");
+        Handler.get().playEffect("abilities/sword_swing.ogg");
         new Projectile.Builder(DamageType.STR, Assets.waterProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }

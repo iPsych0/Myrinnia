@@ -128,7 +128,7 @@ public class ScrollBar implements Serializable {
             } else {
                 index--;
                 hasScrolledUp = true;
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
         }
         clickTimer++;
@@ -145,7 +145,7 @@ public class ScrollBar implements Serializable {
                 } else {
                     index--;
                     hasScrolledUp = true;
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                 }
             }
         }
@@ -184,7 +184,7 @@ public class ScrollBar implements Serializable {
             } else {
                 index++;
                 hasScrolledDown = true;
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
         }
         clickTimer++;
@@ -200,7 +200,7 @@ public class ScrollBar implements Serializable {
                 } else {
                     index++;
                     hasScrolledDown = true;
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                 }
             }
         }

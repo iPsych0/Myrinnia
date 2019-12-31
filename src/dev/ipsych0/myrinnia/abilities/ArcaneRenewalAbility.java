@@ -44,7 +44,7 @@ public class ArcaneRenewalAbility extends Ability implements Serializable {
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
 
             initialHealDone = true;
-            Handler.get().playEffect("abilities/arcane_renewal.wav", 0.1f);
+            Handler.get().playEffect("abilities/arcane_renewal.ogg", 0.1f);
 
             // Remove the first applied condition
             if (!caster.getConditions().isEmpty()) {

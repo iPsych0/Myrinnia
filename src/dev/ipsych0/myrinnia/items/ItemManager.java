@@ -45,7 +45,7 @@ public class ItemManager implements Serializable {
                     if (i.pickUpItem(i)) {
                         if (i.isPickedUp()) {
                             if (!soundPlayed) {
-                                Handler.get().playEffect("ui/pickup.wav");
+                                Handler.get().playEffect("ui/pickup.ogg");
                                 soundPlayed = true;
                             }
                             deleted.add(i);

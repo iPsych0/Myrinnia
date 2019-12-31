@@ -205,11 +205,11 @@ public class AbilityShopWindow implements Serializable {
             Handler.get().getPlayer().setAbilityPoints(abilityPoints - price);
             Handler.get().getAbilityManager().getAllAbilities().get(ability.getId()).setUnlocked(true);
             Handler.get().sendMsg("Unlocked '" + ability.getName() + "'!");
-            Handler.get().playEffect("ui/shop_trade.wav");
+            Handler.get().playEffect("ui/shop_trade.ogg");
             selectedSlot = null;
         } else {
             Handler.get().sendMsg("You don't have enough Ability Points.");
-            Handler.get().playEffect("ui/ui_button_click.wav");
+            Handler.get().playEffect("ui/ui_button_click.ogg");
         }
     }
 
@@ -218,7 +218,7 @@ public class AbilityShopWindow implements Serializable {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 buyAbility(selectedSlot.getAbility());
             } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
             dBox.close();
             hasBeenPressed = false;

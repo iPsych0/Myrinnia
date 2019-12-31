@@ -54,7 +54,7 @@ public class EruptionAbility extends Ability {
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
 
-            Handler.get().playEffect("abilities/eruption.wav", 0.1f);
+            Handler.get().playEffect("abilities/eruption.ogg", 0.1f);
 
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 

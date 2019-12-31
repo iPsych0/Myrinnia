@@ -76,7 +76,7 @@ public class MalachiteThugR extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/ranged_shot.wav");
+        Handler.get().playEffect("abilities/ranged_shot.ogg");
         new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }

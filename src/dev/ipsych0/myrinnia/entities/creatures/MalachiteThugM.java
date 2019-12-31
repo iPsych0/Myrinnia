@@ -98,7 +98,7 @@ public class MalachiteThugM extends Creature {
 
         setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
 
-        Handler.get().playEffect("abilities/sword_swing.wav", -0.05f);
+        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
         checkMeleeHitboxes();
 

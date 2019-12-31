@@ -127,7 +127,7 @@ public class PauseState extends State {
                 AudioManager.cleanUp();
                 System.exit(0);
             } else if ("No".equalsIgnoreCase(exitDbox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 exitDbox.close();
             }
         }
@@ -137,7 +137,7 @@ public class PauseState extends State {
                 SaveManager.savehandler();
                 saveDbox.close();
             } else if ("No".equalsIgnoreCase(saveDbox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 saveDbox.close();
             }
         }

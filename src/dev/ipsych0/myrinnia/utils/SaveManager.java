@@ -34,11 +34,11 @@ public class SaveManager {
             o.writeObject(Handler.get());
             o.close();
             f.close();
-            Handler.get().playEffect("ui/save_game.wav");
+            Handler.get().playEffect("ui/save_game.ogg");
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
-            Handler.get().playEffect("ui/save_game_error.wav", 0.15f);
+            Handler.get().playEffect("ui/save_game_error.ogg", 0.15f);
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
 

@@ -163,7 +163,7 @@ public class TextBox implements KeyListener, Serializable {
                     index = 0;
                     return;
                 }else{
-                    Handler.get().playEffect("ui/textbox_type.wav");
+                    Handler.get().playEffect("ui/textbox_type.ogg");
                 }
 
                 // If backspace is pressed, remove the last index

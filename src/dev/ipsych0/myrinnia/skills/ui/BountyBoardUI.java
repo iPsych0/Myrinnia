@@ -140,10 +140,10 @@ public class BountyBoardUI implements Serializable {
                 }
 
                 selectedPanel = null;
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 dialogueBox.close();
             } else if ("Leave".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 dialogueBox.close();
                 selectedPanel = null;
             }
