@@ -27,11 +27,11 @@ public class MalachiteThugR extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 1;
-        intelligence += 0;
-        vitality += 12;
-        defence += 10;
+        strength =  0;
+        dexterity = 1;
+        intelligence = 0;
+        vitality = 12;
+        defence = 10;
         maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;

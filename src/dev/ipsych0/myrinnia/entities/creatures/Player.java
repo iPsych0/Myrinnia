@@ -505,8 +505,9 @@ public class Player extends Creature {
         double x = Handler.get().getSkill(SkillsList.COMBAT).getLevel();
         double k = 0.05d;
 
+
         // Return new base HP
-        return (int) ((L / (1d + Math.exp(-1 * k * (x - x0 + 20d))) - 57d) * 10d);
+        return (DEFAULT_HEALTH * 2) + (int) ((L / (1d + Math.exp(-1 * k * (x - x0 + 20d))) - 57d) * 10d);
     }
 
     /*

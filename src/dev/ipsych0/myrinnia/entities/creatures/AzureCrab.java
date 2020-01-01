@@ -28,11 +28,11 @@ public class AzureCrab extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence += 1;
-        vitality += 5;
-        defence += 5;
+        strength =  0;
+        dexterity = 0;
+        intelligence = 1;
+        vitality = 5;
+        defence = 5;
         maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -59,8 +59,9 @@ public class AzureCrab extends Creature {
         }
 
         if (name.equalsIgnoreCase("King Azure Crab")) {
-            intelligence += 1;
-            vitality += 2;
+            intelligence += 3;
+            defence += 5;
+            vitality += 5;
         }
     }
 

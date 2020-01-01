@@ -28,11 +28,11 @@ public class Venovine extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence -= 3;
-        vitality += 12;
-        defence += 24;
+        strength = 0;
+        dexterity = 0;
+        intelligence = 5;
+        vitality = 25;
+        defence = 24;
         maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -87,7 +87,10 @@ public class Venovine extends Creature {
         new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, targetX, targetY)
                 .withImpactSound("abilities/magic_strike_impact.ogg")
                 .withImpact((Serializable & OnImpact) (receiver) -> {
-                    receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 5));
+                    int rnd = Handler.get().getRandomNumber(1, 5);
+                    if(rnd == 1) {
+                        receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 4));
+                    }
                 }).build();
     }
 

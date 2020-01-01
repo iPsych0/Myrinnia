@@ -22,11 +22,11 @@ public class AzureBat extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence += 1;
-        vitality += 10;
-        defence += 5;
+        strength =  0;
+        dexterity = 0;
+        intelligence = 1;
+        vitality = 10;
+        defence = 5;
         maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 6;
