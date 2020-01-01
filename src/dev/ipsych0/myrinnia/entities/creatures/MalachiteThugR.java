@@ -32,7 +32,7 @@ public class MalachiteThugR extends Creature {
         intelligence += 0;
         vitality += 12;
         defence += 10;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 

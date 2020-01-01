@@ -30,6 +30,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
@@ -76,6 +77,7 @@ public class Player extends Creature {
     private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
 
     private double levelExponent = 1.1;
+    private int baseHP = 100;
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
@@ -110,7 +112,7 @@ public class Player extends Creature {
 
         // Player combat/movement settings:
 
-        maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+        maxHealth = baseHP + vitality * 2;
         health = maxHealth;
         speed = DEFAULT_SPEED + 0.5;
 
@@ -485,13 +487,26 @@ public class Player extends Creature {
     public void levelUp() {
         isLevelUp = true;
 
-        this.levelExponent *= LEVEL_EXPONENT;
+        levelExponent *= LEVEL_EXPONENT;
 
         // Change base damage and restore to full health
-        this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-        this.maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+        baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
+        baseHP = getNewBaseHP();
+        maxHealth = baseHP + vitality * 2;
 
-        this.health = maxHealth;
+        health = maxHealth;
+    }
+
+    private int getNewBaseHP() {
+        // Logicistic regression formula
+        // f\left(x\right)=\left(\frac{L}{1+e^{-k\left(x-x_{0}+20\right)}}-57\right)\cdot10
+        double L = 300d;
+        double x0 = 50d;
+        double x = Handler.get().getSkill(SkillsList.COMBAT).getLevel();
+        double k = 0.05d;
+
+        // Return new base HP
+        return (int) ((L / (1d + Math.exp(-1 * k * (x - x0 + 20d))) - 57d) * 10d);
     }
 
     /*
@@ -517,7 +532,7 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+            maxHealth = baseHP + vitality * 2;
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
@@ -603,7 +618,7 @@ public class Player extends Creature {
 
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
-            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+            maxHealth = baseHP + vitality * 2;
             if (health >= maxHealth) {
                 health = maxHealth;
             }
@@ -1213,5 +1228,13 @@ public class Player extends Creature {
 
     public void addAbilityPoints() {
         this.abilityPoints++;
+    }
+
+    public int getBaseHP() {
+        return baseHP;
+    }
+
+    public void setBaseHP(int baseHP) {
+        this.baseHP = baseHP;
     }
 }

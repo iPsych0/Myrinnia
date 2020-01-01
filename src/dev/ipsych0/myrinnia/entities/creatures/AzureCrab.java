@@ -33,7 +33,7 @@ public class AzureCrab extends Creature {
         intelligence += 1;
         vitality += 5;
         defence += 5;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 

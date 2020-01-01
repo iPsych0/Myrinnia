@@ -151,7 +151,7 @@ public abstract class Creature extends Entity {
         vitality = (DEFAULT_VITALITY);
         speed = (DEFAULT_SPEED);
         attackSpeed = (DEFAULT_ATTACKSPEED);
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = DEFAULT_HEALTH + vitality * 2;
         health = maxHealth;
         setCombatLevel();
 
@@ -165,10 +165,6 @@ public abstract class Creature extends Entity {
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
             baseDmgExponent *= LEVEL_EXPONENT;
-            // Only add defence and HP per level up by default
-            defence += 2;
-            vitality += 3;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
             health = maxHealth;
         }
     }
