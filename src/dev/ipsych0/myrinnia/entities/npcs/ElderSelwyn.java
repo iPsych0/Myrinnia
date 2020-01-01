@@ -85,11 +85,11 @@ public class ElderSelwyn extends Creature {
                 if (speakingCheckpoint != 6) {
                     speakingCheckpoint = 7;
                     Item chosenItem = (Item) quest.getCheckValue("chosenItem");
-                    Class abilityClass;
-                    if (chosenItem == Item.beginnersSword) {
+                    Class<? extends Ability> abilityClass;
+                    if (chosenItem == Item.beginnersBow) {
                         abilityClass = MendWoundsAbility.class;
                         AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
-                    } else if (chosenItem == Item.beginnersBow) {
+                    } else if (chosenItem == Item.beginnersSword) {
                         AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
                         abilityClass = HealingSpringAbility.class;
                     } else {
@@ -145,6 +145,7 @@ public class ElderSelwyn extends Creature {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                    Handler.get().addTip(new TutorialTip("Captain Isaac should be ready for department. He's waiting on the southern docks."));
                 }
                 break;
         }

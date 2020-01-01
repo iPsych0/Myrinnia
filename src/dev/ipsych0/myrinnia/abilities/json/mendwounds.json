@@ -6,7 +6,7 @@
   "description": "Restores X health and gives regeneration for Y seconds.",
   "abilityType": "HealingAbility",
   "element": "Water",
-  "combatStyle": "Melee",
+  "combatStyle": "Ranged",
   "onCooldown": false,
   "casting": false,
   "inOvercast": false,

@@ -3,10 +3,10 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
@@ -14,6 +14,7 @@ public class AzureBat extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private static boolean tipShown = false;
 
     public AzureBat(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -22,7 +23,7 @@ public class AzureBat extends Creature {
         attackable = true;
 
         // Creature stats
-        strength =  0;
+        strength = 0;
         dexterity = 0;
         intelligence = 1;
         vitality = 10;
@@ -46,6 +47,11 @@ public class AzureBat extends Creature {
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+
+        if (!tipShown) {
+            tipShown = true;
+            Handler.get().addTip(new TutorialTip("You can lock in the enemy or object info box by right-clicking on it."));
+        }
     }
 
     @Override

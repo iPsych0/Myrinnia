@@ -144,7 +144,7 @@
     },
     {
       "id": 18,
-      "text": "You will find some trees with Lightwood bark in Sunrise Sands, but also around Lake Azure.",
+      "text": "You can find some trees with Lightwood bark in Sunrise Sands. Look for the Weak Palm Trees.",
       "nextId": 15
     },
     {
@@ -154,7 +154,7 @@
     },
     {
       "id": 20,
-      "text": "You may choose to create either a sword, a bow or a staff. Please proceed to the Crafting Station and create the item of your choice.",
+      "text": "You may choose to create either a sword, a bow or a staff. Please proceed to one the Crafting Stations next to me and create a weapon of your choice.",
       "nextId": 21,
       "choiceCondition": {
         "condition": "hasCraftedItem",

@@ -82,7 +82,7 @@ public class AbilityOverviewUI implements Serializable {
         abilitySlots = new ArrayList<>(displayedAbilities.size());
         updateSlots();
 
-        abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
+        abilityTooltip = new AbilityTooltip(x - 160, y);
     }
 
     public void tick() {

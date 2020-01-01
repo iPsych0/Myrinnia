@@ -57,7 +57,7 @@ public class AbilityHUD implements Serializable {
         // Add XP Bar after HP Bar
 //		xpBar = new XPBar(Handler.get(), hpBar.getX() + hpBar.getWidth(), y);
 
-        abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
+        abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2 - 64);
 
         lockButton = new UIImageButton(x + width + 1, y, 16, 16, Assets.genericButton);
         unlockButton = new UIImageButton(x + width + 1, y + 16, 16, 16, Assets.genericButton);

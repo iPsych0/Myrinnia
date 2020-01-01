@@ -2,6 +2,19 @@ package dev.ipsych0.myrinnia.abilities;
 
 public enum AbilityType {
 
-    AutoAttack, StandardAbility, HealingAbility, EliteAbility
+    StandardAbility("Ability"), HealingAbility("Healing"), EliteAbility("Elite");
 
+    String name;
+
+    AbilityType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
