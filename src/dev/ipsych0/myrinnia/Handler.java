@@ -442,6 +442,7 @@ public class Handler implements Serializable {
 
     private void dropItem(Item item, int amount, int x, int y, boolean isWorldSpawn) {
         Item i = item.createItem(x, y, amount);
+        i.setTimeDropped(System.currentTimeMillis());
         if (item.getUse() != null) {
             i.setUse(item.getUse());
             i.setUseCooldown(item.getUseCooldown());

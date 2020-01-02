@@ -15,10 +15,12 @@ public class ZoneTransitionState extends AbstractTransitionState {
     private static final long serialVersionUID = 353118389669820751L;
     private Zone zone;
     private String customZoneName;
-    private int secondYOffset = 4;
     private int idleTimer = 0;
+    private static final int IDLE_TIME = 120;
     private static final int POPUP_HEIGHT = 48;
-    private int yOffset = -POPUP_HEIGHT;
+    private float textAlpha = 0;
+    private int xOffset = -408;
+    private static final AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
 
     public ZoneTransitionState(Zone zone, String customZoneName) {
         this.zone = zone;
@@ -32,7 +34,7 @@ public class ZoneTransitionState extends AbstractTransitionState {
     @Override
     public void tick() {
         Handler.get().getGame().gameState.tick();
-        if (alpha == 0 && secondYOffset == -POPUP_HEIGHT) {
+        if (alpha == 0 && idleTimer >= IDLE_TIME && textAlpha == 0) {
             State.setState(Handler.get().getGame().gameState);
         }
     }
@@ -40,6 +42,8 @@ public class ZoneTransitionState extends AbstractTransitionState {
     @Override
     public void render(Graphics2D g) {
         Handler.get().getGame().gameState.render(g);
+
+        g.setComposite(ac);
 
         // Get the textWidth of the Zone name
         int textWidth;
@@ -53,26 +57,46 @@ public class ZoneTransitionState extends AbstractTransitionState {
         }
 
         // Fade in UI element
-        if (yOffset < 4) {
-            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, yOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, name, Handler.get().getWidth() / 2, yOffset + (POPUP_HEIGHT / 2) - 2,
-                    true, Color.YELLOW, Assets.font32);
-            yOffset++;
-        }
-        // Wait 3 seconds, then fade out UI element
-        if (yOffset == 4) {
-            idleTimer++;
-            g.drawImage(Assets.genericButton[0], Handler.get().getWidth() / 2 - (textWidth / 2) - 24, secondYOffset, textWidth + 48, POPUP_HEIGHT, null);
-            Text.drawString(g, name, Handler.get().getWidth() / 2, secondYOffset + (POPUP_HEIGHT / 2) - 2,
-                    true, Color.YELLOW, Assets.font32);
-            if (idleTimer > 180 && secondYOffset > -POPUP_HEIGHT) {
-                secondYOffset--;
+        if (textAlpha < 255f && idleTimer == 0) {
+            if (xOffset <= 0) {
+                xOffset += 8;
             }
+            textAlpha += 4f;
+            if (textAlpha > 255f) {
+                textAlpha = 255f;
+            }
+            AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (textAlpha / 255f));
+            g.setComposite(composite);
+            g.drawImage(Assets.genericButton[0], xOffset + Handler.get().getWidth() / 2 - (textWidth / 2) - 36, POPUP_HEIGHT * 3 + POPUP_HEIGHT / 2, textWidth + 72, POPUP_HEIGHT, null);
+            Text.drawString(g, name, xOffset + Handler.get().getWidth() / 2, POPUP_HEIGHT * 4,
+                    true, Color.WHITE, Assets.font40);
         }
 
-        // Fade from black
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        // Wait 2 seconds, then fade out UI element
+        else if (textAlpha <= 255f || idleTimer >= 1) {
+            if (idleTimer <= IDLE_TIME) {
+                idleTimer++;
+            } else {
+                textAlpha -= 6f;
+                if (textAlpha < 0f) {
+                    textAlpha = 0f;
+                }
+                if (xOffset >= 0) {
+                    xOffset += 12;
+                }
+            }
+            AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (textAlpha / 255f));
+            g.setComposite(composite);
+            g.drawImage(Assets.genericButton[0], xOffset + Handler.get().getWidth() / 2 - (textWidth / 2) - 36, POPUP_HEIGHT * 3 + POPUP_HEIGHT / 2, textWidth + 72, POPUP_HEIGHT, null);
+            Text.drawString(g, name, xOffset + Handler.get().getWidth() / 2, POPUP_HEIGHT * 4,
+                    true, Color.WHITE, Assets.font40);
+        }
+
         g.setComposite(ac);
+
+        // Fade from black
+        AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        g.setComposite(composite);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
         if (alpha - (0.5 / 60) < 0)

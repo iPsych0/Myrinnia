@@ -112,7 +112,8 @@ public class Item implements Serializable {
     public static boolean pickUpKeyPressed = false;
     private int price;
     private boolean stackable;
-    private int respawnTimer = 10800;
+    private long respawnTime = 180L;
+    private long timeDropped;
     private boolean equippable;
     private boolean hovering;
     private Use use;
@@ -380,16 +381,20 @@ public class Item implements Serializable {
         this.requirements = requirements;
     }
 
-    public void startRespawnTimer() {
-        this.respawnTimer--;
+    public long getRespawnTime() {
+        return respawnTime;
     }
 
-    public int getRespawnTimer() {
-        return respawnTimer;
+    public void setRespawnTimer(long respawnTime) {
+        this.respawnTime = respawnTime;
     }
 
-    public void setRespawnTimer(int respawnTimer) {
-        this.respawnTimer = respawnTimer;
+    public long getTimeDropped() {
+        return timeDropped;
+    }
+
+    public void setTimeDropped(long timeDropped) {
+        this.timeDropped = timeDropped;
     }
 
     public Rectangle getPosition() {
