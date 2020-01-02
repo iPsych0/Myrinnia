@@ -382,7 +382,7 @@ public class Player extends Creature {
                         }
 
                         if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
+                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
                         }
                         p.setHitCreature((Creature) e);
                         p.setActive(false);

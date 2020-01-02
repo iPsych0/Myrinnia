@@ -38,7 +38,7 @@ public class Window extends JFrame {
 
     private String[] elements = {"Fire", "Air", "Earth", "Water"};
     private String[] combatStyles = {"Melee", "Ranged", "Magic"};
-    private String[] types = {"AutoAttack", "StandardAbility", "HealingAbility", "EliteAbility"};
+    private String[] types = {"StandardAbility", "HealingAbility", "EliteAbility"};
     private String[] selectables = {"True", "False"};
 
     private JButton createButton = new JButton("Create Ability");

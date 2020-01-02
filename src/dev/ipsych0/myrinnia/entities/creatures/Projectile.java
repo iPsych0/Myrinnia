@@ -20,6 +20,7 @@ public class Projectile extends Creature implements Serializable {
         private Animation animation;
         private float velocity = 6.0f;
         private String impactSound;
+        private float impactVolume = 0.1f;
         private DamageType damageType;
         private Ability ability;
         private OnImpact onImpact;
@@ -68,6 +69,12 @@ public class Projectile extends Creature implements Serializable {
             return this;
         }
 
+        public Builder withImpactSound(String sound, float impactVolume) {
+            this.impactSound = sound;
+            this.impactVolume = impactVolume;
+            return this;
+        }
+
         public Builder withImpactSound(String sound) {
             this.impactSound = sound;
             return this;
@@ -94,7 +101,7 @@ public class Projectile extends Creature implements Serializable {
         }
 
         public Projectile build() {
-            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, damageType, ability, animation, frames, onImpact);
+            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact);
         }
 
     }
@@ -115,13 +122,15 @@ public class Projectile extends Creature implements Serializable {
     private Creature hitCreature;
     private double rotation;
     private String impactSound;
+    private float impactVolume;
     private OnImpact onImpact;
 
-    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact) {
+    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.caster = caster;
         this.impactSound = impactSound;
+        this.impactVolume = impactVolume;
         this.damageType = damageType;
         this.ability = ability;
         this.onImpact = onImpact;
@@ -249,5 +258,13 @@ public class Projectile extends Creature implements Serializable {
 
     public void setOnImpact(OnImpact onImpact) {
         this.onImpact = onImpact;
+    }
+
+    public float getImpactVolume() {
+        return impactVolume;
+    }
+
+    public void setImpactVolume(float impactVolume) {
+        this.impactVolume = impactVolume;
     }
 }

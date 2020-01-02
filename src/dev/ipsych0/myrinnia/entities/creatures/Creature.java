@@ -524,7 +524,7 @@ public abstract class Creature extends Entity {
                         }
 
                         if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
+                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
                         }
 
                         p.setHitCreature((Creature) e);

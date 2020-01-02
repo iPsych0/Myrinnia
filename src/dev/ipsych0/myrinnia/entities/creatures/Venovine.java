@@ -1,15 +1,15 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.OnImpact;
-import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.PoisonDartAbility;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
-import java.io.Serializable;
 
 public class Venovine extends Creature {
 
@@ -21,6 +21,7 @@ public class Venovine extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private Ability poisonDartAbility = Utils.loadAbility("poisondart.json");
 
     public Venovine(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -29,8 +30,8 @@ public class Venovine extends Creature {
 
         // Creature stats
         strength = 0;
-        dexterity = 0;
-        intelligence = 5;
+        dexterity = 2;
+        intelligence = 0;
         vitality = 25;
         defence = 24;
         maxHealth = DEFAULT_HEALTH + vitality * 2;
@@ -80,18 +81,17 @@ public class Venovine extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.ogg");
-        int targetX = (int) Handler.get().getPlayer().getX();
-        int targetY = (int) Handler.get().getPlayer().getY();
+        if (!poisonDartAbility.isOnCooldown()) {
+            castAbility(poisonDartAbility);
+        } else {
+            Handler.get().playEffect("abilities/magic_strike.ogg");
+            int targetX = (int) Handler.get().getPlayer().getX();
+            int targetY = (int) Handler.get().getPlayer().getY();
 
-        new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, targetX, targetY)
-                .withImpactSound("abilities/magic_strike_impact.ogg")
-                .withImpact((Serializable & OnImpact) (receiver) -> {
-                    int rnd = Handler.get().getRandomNumber(1, 5);
-                    if(rnd == 1) {
-                        receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 4));
-                    }
-                }).build();
+            new Projectile.Builder(DamageType.DEX, Assets.earthProjectile, this, targetX, targetY)
+                    .withImpactSound("abilities/magic_strike_impact.ogg").build();
+        }
+
     }
 
     @Override
