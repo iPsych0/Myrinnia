@@ -1,9 +1,12 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
@@ -20,11 +23,24 @@ public class BurrowingBeetle extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
+    private Animation diggingAnimation;
+    private Animation originalDown, originalLeft, originalRight, originalUp;
+    private boolean digging;
+    private long digTime = 4L;
+    private long timeOfDigging;
+    private boolean lastResortDigging;
 
     public BurrowingBeetle(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         isNpc = false;
         attackable = true;
+
+        diggingAnimation = new Animation(250, Assets.burrowMound);
+
+        originalDown = aDown;
+        originalLeft = aLeft;
+        originalRight = aRight;
+        originalUp = aUp;
 
         // Creature stats
         strength = 5;
@@ -48,6 +64,24 @@ public class BurrowingBeetle extends Creature {
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        long currentTime = System.currentTimeMillis();
+        if (digging) {
+            if (((currentTime - timeOfDigging) / 1000L) >= digTime) {
+                digging = false;
+
+                // Reset to normal animations
+                aDown = originalDown;
+                aLeft = originalLeft;
+                aRight = originalRight;
+                aUp = originalUp;
+                timeOfDigging = 0;
+            }
+        }
     }
 
     @Override
@@ -95,15 +129,62 @@ public class BurrowingBeetle extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+        if (!digging) {
+            meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+            setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
 
-        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+            Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
-        checkMeleeHitboxes();
+            checkMeleeHitboxes();
+        }
 
     }
+
+    @Override
+    public void damage(DamageType damageType, Entity dealer, Entity receiver) {
+        super.damage(damageType, dealer, receiver);
+        int rnd = Handler.get().getRandomNumber(1, 6);
+        if (!lastResortDigging && !digging && health <= maxHealth / 4) {
+            digging = true;
+            lastResortDigging = true;
+            aLeft = diggingAnimation;
+            aDown = diggingAnimation;
+            aRight = diggingAnimation;
+            aUp = diggingAnimation;
+            timeOfDigging = System.currentTimeMillis();
+        } else if (rnd == 1) {
+            digging = true;
+            aLeft = diggingAnimation;
+            aDown = diggingAnimation;
+            aRight = diggingAnimation;
+            aUp = diggingAnimation;
+            timeOfDigging = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
+        super.damage(damageType, dealer, receiver, ability);
+        int rnd = Handler.get().getRandomNumber(1, 6);
+        if (!lastResortDigging && !digging && health <= maxHealth / 4) {
+            digging = true;
+            lastResortDigging = true;
+            aLeft = diggingAnimation;
+            aDown = diggingAnimation;
+            aRight = diggingAnimation;
+            aUp = diggingAnimation;
+            timeOfDigging = System.currentTimeMillis();
+        } else if (rnd == 1) {
+            digging = true;
+            aLeft = diggingAnimation;
+            aDown = diggingAnimation;
+            aRight = diggingAnimation;
+            aUp = diggingAnimation;
+            timeOfDigging = System.currentTimeMillis();
+        }
+    }
+
 
     @Override
     public void respawn() {
@@ -113,5 +194,85 @@ public class BurrowingBeetle extends Creature {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    /**
+     * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
+     */
+    @Override
+    protected void combatStateManager() {
+
+        if (digging) {
+            randomWalk();
+            return;
+        }
+
+        if (damaged) {
+            state = CombatState.PATHFINDING;
+        }
+
+        Player player = Handler.get().getPlayer();
+
+        // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
+        if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+            state = CombatState.PATHFINDING;
+        }
+        // If the Creature was not following or attacking the player, move around randomly.
+        if (state == CombatState.IDLE) {
+            randomWalk();
+            return;
+        }
+
+        // If the player has moved out of the initial aggro box, but is still within the A* map, keep following
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+            state = CombatState.PATHFINDING;
+        }
+
+        // If the player has moved out of the aggro box and out of the A* map,
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+            state = CombatState.BACKTRACK;
+        }
+
+
+        // If the player is <= X * TileWidth away from the Creature, attack him.
+        if (attackable) {
+            if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                checkAttacks();
+                state = CombatState.ATTACK;
+            } else {
+                state = CombatState.PATHFINDING;
+            }
+        }
+
+        // If the Creature was attacking, but the player moved out of the A* map bounds, backtrack to spawn.
+        if (state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+            state = CombatState.BACKTRACK;
+        }
+
+        // If the Creature was following the player but he moved out of the A* map, backtrack.
+        if (!player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING) {
+            state = CombatState.BACKTRACK;
+        }
+
+        if (state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+            // Control the number of times we check for new path
+            pathTimer++;
+            if (pathTimer >= TIME_PER_PATH_CHECK) {
+                findPath();
+                pathTimer = 0;
+            }
+            followAStar();
+        }
+    }
+
+    @Override
+    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
+        if (digging) {
+            return new Rectangle(-100, -100, 0, 0);
+        } else {
+            return super.getCollisionBounds(xOffset, yOffset);
+        }
     }
 }

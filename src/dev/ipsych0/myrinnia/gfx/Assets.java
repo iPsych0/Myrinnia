@@ -41,7 +41,7 @@ public class Assets {
     public static BufferedImage[] airProjectile;
 
     // Ability animations
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -887,6 +887,10 @@ public class Assets {
 
         poisonDart = new BufferedImage[1];
         poisonDart[0] = ability_animations.imageCrop(1, 7);
+
+        burrowMound = new BufferedImage[2];
+        burrowMound[0] = ability_animations.imageCrop(2, 7);
+        burrowMound[1] = ability_animations.imageCrop(3, 7);
 
         glacialShot1 = new BufferedImage[3];
         glacialShot1[0] = ability_animations.imageCrop(0, 8);

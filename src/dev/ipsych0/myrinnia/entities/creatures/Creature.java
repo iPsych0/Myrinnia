@@ -74,8 +74,8 @@ public abstract class Creature extends Entity {
     Rectangle radius;
 
     // A* stuff
-    private CombatState state;
-    private List<Node> nodes;
+    protected CombatState state;
+    protected List<Node> nodes;
     int pathFindRadiusX = 1024;
     int pathFindRadiusY = 1024;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
@@ -83,9 +83,9 @@ public abstract class Creature extends Entity {
     private static Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
-    private static final int TIMES_PER_SECOND = 4;
-    private static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
-    private int pathTimer = 0;
+    protected static final int TIMES_PER_SECOND = 4;
+    protected static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
+    protected int pathTimer = 0;
     protected List<Condition> conditions = new ArrayList<>();
     protected List<Buff> buffs = new ArrayList<>();
     protected List<Resistance> immunities = new ArrayList<>();
@@ -625,7 +625,7 @@ public abstract class Creature extends Entity {
 
     }
 
-    private void findPath() {
+    protected void findPath() {
         if (state == CombatState.BACKTRACK) {
             nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                     ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
@@ -783,7 +783,7 @@ public abstract class Creature extends Entity {
     /**
      * Movement logic for following each node in the List nodes
      */
-    private void followAStar() {
+    protected void followAStar() {
         if (nodes == null) {
             return;
         }
@@ -1097,7 +1097,7 @@ public abstract class Creature extends Entity {
         this.state = state;
     }
 
-    private Rectangle getRadius() {
+    protected Rectangle getRadius() {
         return radius;
     }
 
