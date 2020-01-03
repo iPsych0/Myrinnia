@@ -1,0 +1,37 @@
+[
+  {
+    "itemId": 19,
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 21,
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 63,
+    "amount": 1,
+    "weight": 5
+  },
+  {
+    "itemId": 52,
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 7,
+    "amount": 1,
+    "weight": 4
+  },
+  {
+    "itemId": 4,
+    "amount": 3,
+    "weight": 10
+  },
+  {
+    "itemId": 4,
+    "amount": 5,
+    "weight": 6
+  }
+]

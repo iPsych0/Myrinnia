@@ -3,15 +3,13 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class MalachiteThugL extends Creature {
+public class BurrowingBeetle extends Creature {
 
 
     /**
@@ -23,17 +21,22 @@ public class MalachiteThugL extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
-    public MalachiteThugL(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+    public BurrowingBeetle(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         isNpc = false;
         attackable = true;
 
         // Creature stats
-        strength = 16;
+        strength = 5;
         dexterity = 0;
         intelligence = 0;
-        vitality = 37;
-        defence = 30;
+        if (level == 5) {
+            vitality = 30;
+            defence = 45;
+        } else {
+            vitality = 25;
+            defence = 40;
+        }
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
 
@@ -52,6 +55,13 @@ public class MalachiteThugL extends Creature {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
 
+//        // Uncomment to see hitbox
+//        double angle = getAngle();
+//        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.getX() - Handler.get().getGameCamera().getxOffset()), (int) (32 * Math.sin(angle) + (int) this.getY() - Handler.get().getGameCamera().getyOffset()), width, height);
+//
+//        g.setColor(Color.RED);
+//        g.drawRect(ar.x, ar.y, ar.width, ar.height);
+
         if (meleeAnimation != null) {
             if (meleeAnimation.isTickDone()) {
                 meleeAnimation = null;
@@ -69,8 +79,8 @@ public class MalachiteThugL extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(40);
-        Handler.get().dropItem(Item.miningEquipment, 1, (int) x, (int) y);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        getDroptableItem();
     }
 
     /*
@@ -97,7 +107,7 @@ public class MalachiteThugL extends Creature {
 
     @Override
     public void respawn() {
-//        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugL(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new BurrowingBeetle(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
     }
 
     @Override

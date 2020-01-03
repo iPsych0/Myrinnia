@@ -61,7 +61,7 @@ public class Assets {
                                 simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
                                 copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
                                 chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
-                                lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal;
+                                lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -73,6 +73,7 @@ public class Assets {
     public static BufferedImage[] azureBatUp, azureBatDown, azureBatLeft, azureBatRight;
     public static BufferedImage[] angryOwl, angryFlower;
     public static BufferedImage[] venovineUp, venovineDown, venovineLeft, venovineRight;
+    public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -431,6 +432,7 @@ public class Assets {
         ironOre = item_sheet.imageCrop(1, 12);
         trout = item_sheet.imageCrop(1, 13);
         boneMeal = item_sheet.imageCrop(1, 14);
+        rockyShell = item_sheet.imageCrop(1, 15);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);
@@ -472,6 +474,11 @@ public class Assets {
         blueScorpionLeft = enemy_sheet1.npcCrop(9, 1, WIDTH, HEIGHT);
         blueScorpionRight = enemy_sheet1.npcCrop(9, 2, WIDTH, HEIGHT);
         blueScorpionUp = enemy_sheet1.npcCrop(9, 3, WIDTH, HEIGHT);
+
+        burrowingBeetleDown = enemy_sheet1.npcCrop(12, 0, WIDTH, HEIGHT);
+        burrowingBeetleLeft = enemy_sheet1.npcCrop(12, 1, WIDTH, HEIGHT);
+        burrowingBeetleRight = enemy_sheet1.npcCrop(12, 2, WIDTH, HEIGHT);
+        burrowingBeetleUp = enemy_sheet1.npcCrop(12, 3, WIDTH, HEIGHT);
 
         blueCrabDown = enemy_sheet2.npcCrop(0, 0, WIDTH, HEIGHT);
         blueCrabLeft = enemy_sheet2.npcCrop(0, 1, WIDTH, HEIGHT);

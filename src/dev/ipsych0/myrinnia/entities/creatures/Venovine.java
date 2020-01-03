@@ -30,7 +30,7 @@ public class Venovine extends Creature {
 
         // Creature stats
         strength = 0;
-        dexterity = 2;
+        dexterity = 3;
         intelligence = 0;
         vitality = 30;
         defence = 24;
@@ -67,6 +67,7 @@ public class Venovine extends Creature {
     @Override
     public void die() {
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        getDroptableItem();
     }
 
     /*

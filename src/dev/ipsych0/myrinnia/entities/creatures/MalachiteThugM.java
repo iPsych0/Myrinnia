@@ -79,7 +79,7 @@ public class MalachiteThugM extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
     /*

@@ -218,6 +218,7 @@
   <object id="14" name="Venovine" type="npc" x="768" y="1120" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Venovine"/>
     <property name="npcClass" value="Venovine"/>
@@ -226,6 +227,7 @@
   <object id="16" name="Venovine" type="npc" x="1568" y="736" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Venovine"/>
     <property name="npcClass" value="Venovine"/>
@@ -234,6 +236,7 @@
   <object id="17" name="Venovine" type="npc" x="2368" y="320" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Venovine"/>
     <property name="npcClass" value="Venovine"/>
@@ -242,6 +245,7 @@
   <object id="18" name="Venovine" type="npc" x="1632" y="1408" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Venovine"/>
     <property name="npcClass" value="Venovine"/>
@@ -250,6 +254,7 @@
   <object id="20" name="Venovine" type="npc" x="2112" y="1792" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Venovine"/>
     <property name="npcClass" value="Venovine"/>

@@ -80,6 +80,7 @@ public class Item implements Serializable {
     public static Item ironOre = Utils.loadItem("60_iron_ore.json", Assets.ironOre);
     public static Item trout = Utils.loadItem("61_trout.json", Assets.trout);
     public static Item boneMeal = Utils.loadItem("62_bonemeal.json", Assets.boneMeal);
+    public static Item rockyShell = Utils.loadItem("63_rocky_shell.json", Assets.rockyShell);
 
     static {
         initPotions();
