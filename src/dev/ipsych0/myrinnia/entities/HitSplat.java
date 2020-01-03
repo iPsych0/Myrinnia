@@ -91,9 +91,11 @@ public class HitSplat implements Serializable {
             ability.renderIcon(g, (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + xOffset),
                     (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + receiver.height - ty + yOffset));
         }
-        Text.drawString(g, String.valueOf(damage),
-                (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + xOffset),
-                (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 16 + receiver.height - ty + yOffset), false, Color.RED, Assets.font24);
+        if (damage > 0) {
+            Text.drawString(g, String.valueOf(damage),
+                    (int) (receiver.x - Handler.get().getGameCamera().getxOffset() + receiver.width / 2 + xOffset),
+                    (int) (receiver.y - Handler.get().getGameCamera().getyOffset() + 16 + receiver.height - ty + yOffset), false, Color.RED, Assets.font24);
+        }
 
         ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
         g.setComposite(ac);

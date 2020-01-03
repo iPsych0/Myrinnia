@@ -29,10 +29,10 @@ public class AzureScorpion extends Creature {
         // Creature stats
         strength =  0;
         dexterity = 0;
-        intelligence = 1;
-        vitality = 5;
+        intelligence = 3;
+        vitality = 7;
         defence = 5;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 

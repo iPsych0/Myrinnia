@@ -34,7 +34,7 @@ public class AngryFlower extends Creature {
         intelligence = 0;
         vitality = 8;
         defence = 5;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 

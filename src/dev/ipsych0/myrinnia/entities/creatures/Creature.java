@@ -151,7 +151,7 @@ public abstract class Creature extends Entity {
         vitality = (DEFAULT_VITALITY);
         speed = (DEFAULT_SPEED);
         attackSpeed = (DEFAULT_ATTACKSPEED);
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         setCombatLevel();
 
@@ -508,37 +508,41 @@ public abstract class Creature extends Entity {
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
+        Player player = Handler.get().getPlayer();
         while (it.hasNext()) {
             Projectile p = it.next();
             p.tick();
             if (!p.isActive()) {
                 deleted.add(p);
             }
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
-                    if (e.equals(Handler.get().getPlayer())) {
-                        if (p.getAbility() != null) {
-                            e.damage(p.getDamageType(), this, e, p.getAbility());
-                        } else {
-                            e.damage(p.getDamageType(), this, e);
-                        }
-
-                        if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
-                        }
-
-                        p.setHitCreature((Creature) e);
-                        p.setActive(false);
-
-                        // Apply special effect if has one
-                        if (p.getOnImpact() != null) {
-                            p.getOnImpact().impact(p.getHitCreature());
-                        }
+            if (p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (!p.getHitCreatures().contains(player)) {
+                    if (p.getAbility() != null) {
+                        player.damage(p.getDamageType(), this, player, p.getAbility());
+                    } else {
+                        player.damage(p.getDamageType(), this, player);
                     }
-                    if (!e.isAttackable()) {
-                        p.setActive(false);
+
+                    if (p.getImpactSound() != null) {
+                        Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
                     }
                 }
+
+
+                p.setHitCreature(player);
+
+                if (!p.isPiercing()) {
+                    p.setActive(false);
+                }
+
+                // Apply special effect if has one
+                if (p.getOnImpact() != null) {
+                    if (!p.getHitCreatures().contains(player)) {
+                        p.getOnImpact().impact(player);
+                    }
+                }
+
+                p.getHitCreatures().add(player);
             }
         }
 

@@ -112,7 +112,7 @@ public class Player extends Creature {
 
         // Player combat/movement settings:
 
-        maxHealth = baseHP + vitality * 2;
+        maxHealth = baseHP + vitality * 4;
         health = maxHealth;
         speed = DEFAULT_SPEED + 0.5;
 
@@ -375,22 +375,33 @@ public class Player extends Creature {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        if (p.getAbility() != null) {
-                            e.damage(p.getDamageType(), this, e, p.getAbility());
-                        } else {
-                            e.damage(p.getDamageType(), this, e);
+                        if (!p.getHitCreatures().contains((Creature) e)) {
+                            if (p.getAbility() != null) {
+                                e.damage(p.getDamageType(), this, e, p.getAbility());
+                            } else {
+                                e.damage(p.getDamageType(), this, e);
+                            }
+
+                            if (p.getImpactSound() != null) {
+                                Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
+                            }
                         }
 
-                        if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
-                        }
                         p.setHitCreature((Creature) e);
-                        p.setActive(false);
 
                         // Apply special effect if has one
                         if (p.getOnImpact() != null) {
-                            p.getOnImpact().impact(p.getHitCreature());
+                            if (!p.getHitCreatures().contains(p.getHitCreature())) {
+                                p.getOnImpact().impact(p.getHitCreature());
+                            }
                         }
+
+                        if (!p.isPiercing()) {
+                            p.setActive(false);
+                            break;
+                        }
+
+                        p.getHitCreatures().add((Creature) e);
                     }
                 }
             }
@@ -492,7 +503,7 @@ public class Player extends Creature {
         // Change base damage and restore to full health
         baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
         baseHP = getNewBaseHP();
-        maxHealth = baseHP + vitality * 2;
+        maxHealth = baseHP + vitality * 4;
 
         health = maxHealth;
     }
@@ -533,7 +544,7 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = baseHP + vitality * 2;
+            maxHealth = baseHP + vitality * 4;
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
@@ -619,7 +630,7 @@ public class Player extends Creature {
 
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
-            maxHealth = baseHP + vitality * 2;
+            maxHealth = baseHP + vitality * 4;
             if (health >= maxHealth) {
                 health = maxHealth;
             }

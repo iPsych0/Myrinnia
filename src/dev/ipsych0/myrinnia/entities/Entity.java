@@ -218,10 +218,16 @@ public abstract class Entity implements Serializable {
         Creature d = (Creature) dealer;
 
         // Get default attack damage
-        double defaultDamage = (double) getDamage(damageType, dealer, receiver);
+        double defaultDamage = getDamage(damageType, dealer, receiver);
 
         // Calculate additional ability damage
         double abilityDamage = getAbilityDamage(ability, d);
+
+        // If the ability has 0 base damage, then don't 'hit' the opponent
+        if (ability.getBaseDamage() <= 0) {
+            defaultDamage = 0;
+            abilityDamage = 0;
+        }
 
         return (int) Math.round((defaultDamage + abilityDamage));
     }
@@ -281,7 +287,9 @@ public abstract class Entity implements Serializable {
     public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         damageDealer = dealer;
         damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);
+        if (ability.getBaseDamage() > 0) {
+            damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);
+        }
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;

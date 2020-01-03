@@ -31,9 +31,9 @@ public class AzureCrab extends Creature {
         strength =  0;
         dexterity = 0;
         intelligence = 1;
-        vitality = 5;
+        vitality = 2;
         defence = 5;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
@@ -59,9 +59,11 @@ public class AzureCrab extends Creature {
         }
 
         if (name.equalsIgnoreCase("King Azure Crab")) {
-            intelligence += 3;
-            defence += 5;
-            vitality += 5;
+            intelligence = 3;
+            defence = 5;
+            vitality = 9;
+            maxHealth = DEFAULT_HEALTH + vitality * 4;
+            health = maxHealth;
         }
     }
 

@@ -58,10 +58,11 @@ public class PoisonDartAbility extends Ability implements Serializable {
 
         Handler.get().playEffect("abilities/ranged_shot.ogg", 0.2f);
         new Projectile.Builder(DamageType.DEX, Assets.poisonDart, caster, targetX, targetY)
-                .withVelocity(7.0f)
+                .withVelocity(8.0f)
+                .withAbility(this)
                 .withImpactSound("abilities/ranged_shot_impact.ogg")
                 .withImpact((c) -> {
-                    c.addCondition(caster, c, new Condition(Condition.Type.POISON, c, 4, 4));
+                    c.addCondition(caster, c, new Condition(Condition.Type.POISON, c, 5, 4));
                 }).build();
 
         setCasting(false);

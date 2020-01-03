@@ -32,9 +32,9 @@ public class Venovine extends Creature {
         strength = 0;
         dexterity = 2;
         intelligence = 0;
-        vitality = 25;
+        vitality = 30;
         defence = 24;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 

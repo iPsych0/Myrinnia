@@ -60,6 +60,7 @@ public class IceBallAbility extends Ability implements Serializable {
         Handler.get().playEffect("abilities/ice_ball.ogg", 0.1f);
         new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, targetX, targetY)
                 .withVelocity(7.0f)
+                .withAbility(this)
                 .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withImpact((c) -> {
                     c.addCondition(caster, c, new Condition(Condition.Type.CHILL, c, 3));

@@ -29,12 +29,12 @@ public class MalachiteThugL extends Creature {
         attackable = true;
 
         // Creature stats
-        strength =  3;
+        strength = 16;
         dexterity = 0;
         intelligence = 0;
-        vitality = 18;
-        defence = 8;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        vitality = 37;
+        defence = 30;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
 
         bounds.x = 2;

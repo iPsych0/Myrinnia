@@ -10,6 +10,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Projectile extends Creature implements Serializable {
 
@@ -21,6 +25,7 @@ public class Projectile extends Creature implements Serializable {
         private float velocity = 6.0f;
         private String impactSound;
         private float impactVolume = 0.1f;
+        private boolean piercing;
         private DamageType damageType;
         private Ability ability;
         private OnImpact onImpact;
@@ -69,6 +74,11 @@ public class Projectile extends Creature implements Serializable {
             return this;
         }
 
+        public Builder withPiercing(boolean piercing) {
+            this.piercing = piercing;
+            return this;
+        }
+
         public Builder withImpactSound(String sound, float impactVolume) {
             this.impactSound = sound;
             this.impactVolume = impactVolume;
@@ -101,7 +111,7 @@ public class Projectile extends Creature implements Serializable {
         }
 
         public Projectile build() {
-            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact);
+            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact, piercing);
         }
 
     }
@@ -124,8 +134,10 @@ public class Projectile extends Creature implements Serializable {
     private String impactSound;
     private float impactVolume;
     private OnImpact onImpact;
+    private boolean piercing;
+    private Set<Creature> hitCreatures = new HashSet<>();
 
-    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact) {
+    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact, boolean piercing) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.caster = caster;
@@ -134,6 +146,7 @@ public class Projectile extends Creature implements Serializable {
         this.damageType = damageType;
         this.ability = ability;
         this.onImpact = onImpact;
+        this.piercing = piercing;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -266,5 +279,21 @@ public class Projectile extends Creature implements Serializable {
 
     public void setImpactVolume(float impactVolume) {
         this.impactVolume = impactVolume;
+    }
+
+    public boolean isPiercing() {
+        return piercing;
+    }
+
+    public void setPiercing(boolean piercing) {
+        this.piercing = piercing;
+    }
+
+    public Set<Creature> getHitCreatures() {
+        return hitCreatures;
+    }
+
+    public void setHitCreatures(Set<Creature> hitCreatures) {
+        this.hitCreatures = hitCreatures;
     }
 }

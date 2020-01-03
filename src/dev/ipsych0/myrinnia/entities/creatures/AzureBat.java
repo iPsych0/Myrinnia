@@ -25,12 +25,12 @@ public class AzureBat extends Creature {
         // Creature stats
         strength = 0;
         dexterity = 0;
-        intelligence = 1;
-        vitality = 10;
+        intelligence = 7;
+        vitality = 13;
         defence = 5;
-        maxHealth = DEFAULT_HEALTH + vitality * 2;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 5;
 
         bounds.x = 2;
         bounds.y = 2;
@@ -50,7 +50,7 @@ public class AzureBat extends Creature {
 
         if (!tipShown) {
             tipShown = true;
-            Handler.get().addTip(new TutorialTip("You can lock in the enemy or object info box by right-clicking on it."));
+            Handler.get().addTip(new TutorialTip("You can lock in an enemy's or object's hover info by right-clicking on it."));
         }
     }
 
