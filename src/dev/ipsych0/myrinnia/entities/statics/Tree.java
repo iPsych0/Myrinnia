@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 
@@ -20,7 +21,7 @@ public class Tree extends StaticEntity {
     private int ySpawn = (int) getY();
     private boolean isWoodcutting = false;
     private int woodcuttingTimer = 0;
-    private int minAttempts = 3, maxAttempts = 6;
+    private int minAttempts = 4, maxAttempts = 9;
     private int random = 0;
     private int attempts = 0;
     private Item logs;
@@ -55,7 +56,7 @@ public class Tree extends StaticEntity {
                 isWoodcutting = false;
             }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
-                    !Handler.get().getPlayer().hasLeftClickedUI(new Rectangle(Handler.get().getMouseManager().getMouseX(), Handler.get().getMouseManager().getMouseY(), 1, 1))) {
+                    !Handler.get().getPlayer().hasLeftClickedUI(Handler.get().getMouse())) {
                 woodcuttingTimer = 0;
                 speakingTurn = 0;
                 isWoodcutting = false;
@@ -73,11 +74,10 @@ public class Tree extends StaticEntity {
             woodcuttingTimer++;
 
             if (woodcuttingTimer >= 180) {
-                System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
                 if (roll < 70) {
-                    Handler.get().giveItem(logs, Handler.get().getRandomNumber(1, 3));
-                    Handler.get().sendMsg("You succesfully chopped some logs.");
+                    Handler.get().giveItem(logs, 1);
+                    Handler.get().sendMsg("You successfully chopped some logs.");
                     Handler.get().getSkillsUI().getSkill(SkillsList.WOODCUTTING).addExperience(experience);
                     attempts++;
 
@@ -130,8 +130,18 @@ public class Tree extends StaticEntity {
 
     @Override
     public void postRender(Graphics2D g) {
+        g.drawImage(Assets.woodcuttingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isWoodcutting) {
-            g.drawImage(Assets.woodcuttingIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32), 32, 32, null);
+            StringBuilder pending = new StringBuilder();
+            int dots = (int) Math.ceil(woodcuttingTimer / 30);
+            for (int i = 0; i < dots; i++) {
+                pending.append(".");
+            }
+
+            int xOffset = width / 32 - 1;
+
+            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + (xOffset * 16 ) - Handler.get().getGameCamera().getxOffset()),
+                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
         }
 
     }

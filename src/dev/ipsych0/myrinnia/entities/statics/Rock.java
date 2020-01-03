@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 
@@ -20,7 +21,7 @@ public class Rock extends StaticEntity {
     private int ySpawn = (int) getY();
     private boolean isMining = false;
     private int miningTimer = 0;
-    private int minAttempts = 3, maxAttempts = 6;
+    private int minAttempts = 4, maxAttempts = 9;
     private int random = 0;
     private int attempts = 0;
     private Item ore;
@@ -66,11 +67,10 @@ public class Rock extends StaticEntity {
             miningTimer++;
 
             if (miningTimer >= 180) {
-                System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
-                if (roll < 60) {
-                    Handler.get().giveItem(ore, Handler.get().getRandomNumber(1, 3));
-                    Handler.get().sendMsg("You succesfully mined some ore!");
+                if (roll < 70) {
+                    Handler.get().giveItem(ore, 1);
+                    Handler.get().sendMsg("You successfully mined some ore!");
                     Handler.get().getSkillsUI().getSkill(SkillsList.MINING).addExperience(experience);
                     attempts++;
 
@@ -124,8 +124,18 @@ public class Rock extends StaticEntity {
 
     @Override
     public void postRender(Graphics2D g) {
+        g.drawImage(Assets.miningIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isMining) {
-            g.drawImage(Assets.miningIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32), width, height, null);
+            StringBuilder pending = new StringBuilder();
+            int dots = (int) Math.ceil(miningTimer / 30);
+            for (int i = 0; i < dots; i++) {
+                pending.append(".");
+            }
+
+            int xOffset = width / 32 - 1;
+
+            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + (xOffset * 16) - Handler.get().getGameCamera().getxOffset()),
+                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
         }
 
     }

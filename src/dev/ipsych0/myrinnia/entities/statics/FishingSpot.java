@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 
@@ -70,9 +71,8 @@ public class FishingSpot extends StaticEntity {
             fishingTimer++;
 
             if (fishingTimer >= 180) {
-                System.out.println(random + " and " + attempts);
                 int roll = Handler.get().getRandomNumber(1, 100);
-                if (roll < 60) {
+                if (roll < 70) {
                     Handler.get().giveItem(fish, 1);
                     Handler.get().sendMsg("You caught something!");
                     Handler.get().getSkillsUI().getSkill(SkillsList.FISHING).addExperience(experience);
@@ -126,8 +126,18 @@ public class FishingSpot extends StaticEntity {
 
     @Override
     public void postRender(Graphics2D g) {
+        g.drawImage(Assets.fishingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isFishing) {
-            g.drawImage(Assets.fishingIcon, (int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()), (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset() - 32), width, height, null);
+            StringBuilder pending = new StringBuilder();
+            int dots = (int) Math.ceil(fishingTimer / 30);
+            for (int i = 0; i < dots; i++) {
+                pending.append(".");
+            }
+
+            int xOffset = width / 32 - 1;
+
+            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + (xOffset * 16) - Handler.get().getGameCamera().getxOffset()),
+                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
         }
 
     }
