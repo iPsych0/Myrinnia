@@ -133,14 +133,12 @@ public class Tree extends StaticEntity {
         g.drawImage(Assets.woodcuttingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isWoodcutting) {
             StringBuilder pending = new StringBuilder();
-            int dots = (int) Math.ceil(woodcuttingTimer / 30);
+            int dots = (int) Math.ceil(woodcuttingTimer / 30d);
             for (int i = 0; i < dots; i++) {
                 pending.append(".");
             }
 
-            int xOffset = width / 32 - 1;
-
-            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + (xOffset * 16 ) - Handler.get().getGameCamera().getxOffset()),
+            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + 16 - Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
         }
 

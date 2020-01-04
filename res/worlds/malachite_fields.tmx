@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="18">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -313,6 +313,15 @@
     <property name="goToX" value="88"/>
     <property name="goToY" value="40"/>
     <property name="zone" value="MalachiteHills"/>
+   </properties>
+  </object>
+  <object id="15" name="Farm House Inside" type="zone_tile" x="2464" y="2080" width="32" height="64">
+   <properties>
+    <property name="customMusicName" value="malachite_hills.ogg"/>
+    <property name="customZoneName" value="Malachite Fields"/>
+    <property name="goToX" value="11"/>
+    <property name="goToY" value="19"/>
+    <property name="zone" value="MalachiteInside"/>
    </properties>
   </object>
  </objectgroup>

@@ -14,7 +14,8 @@ public enum Zone {
     MalachiteHills("Malachite Hills", "malachite_hills.ogg"),
     MalachiteHideout("Malachite Hideout", "malachite_hideout.ogg"),
     ShamrockMines1("Shamrock Mines B1", "shamrock_mines.ogg"), ShamrockMines2("Shamrock Mines B2", "shamrock_mines.ogg"), ShamrockMines3("Shamrock Mines B3", "shamrock_mines.ogg"),
-    MalachiteFields("Malachite Fields", "malachite_hills.ogg"), MalachiteSlopes("Malachite Slopes", "malachite_hills.ogg");
+    MalachiteFields("Malachite Fields", "malachite_hills.ogg"), MalachiteSlopes("Malachite Slopes", "malachite_hills.ogg"),
+    MalachiteInside("Malachite Inside", "malachite_hills.ogg");
 
     private String musicFile;
     private String name;
