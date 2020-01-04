@@ -6,6 +6,7 @@ import java.io.Serializable;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
@@ -66,6 +67,12 @@ public class PoisonDartAbility extends Ability implements Serializable {
                 }).build();
 
         setCasting(false);
+    }
+
+    @Override
+    public void setCaster(Creature c) {
+        this.caster = c;
+        this.setActivated(true);
     }
 
 }

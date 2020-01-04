@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,6 +22,8 @@ public class MalachiteThugL extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
+    private boolean hasSpawnedFirstAlly, hasSpawnedSecondAlly;
+    private int firstTextTimer, secondTextTimer;
 
     public MalachiteThugL(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -48,6 +50,21 @@ public class MalachiteThugL extends Creature {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+
+        // If below 75% HP, spawn first ally
+        if (health <= (maxHealth * 0.75d) && !hasSpawnedFirstAlly) {
+            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(53 * 32, 17 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
+            hasSpawnedFirstAlly = true;
+            // If below 40% health, spawn second ally
+        } else if (health <= (maxHealth * 0.50d) && !hasSpawnedSecondAlly) {
+            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(48 * 32, 23 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
+            hasSpawnedSecondAlly = true;
+        }
+    }
+
+    @Override
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
@@ -64,6 +81,22 @@ public class MalachiteThugL extends Creature {
                         (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
                 g.setTransform(old);
             }
+        }
+
+        if (hasSpawnedFirstAlly && firstTextTimer <= 120) {
+            firstTextTimer++;
+            Text.drawString(g, "My associate will deal with you!",
+                    (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()),
+                    true, Color.YELLOW, Assets.font14);
+        }
+
+        else if (hasSpawnedSecondAlly && secondTextTimer <= 120) {
+            secondTextTimer++;
+            Text.drawString(g, "Argh, get her!",
+                    (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()),
+                    true, Color.YELLOW, Assets.font14);
         }
     }
 
@@ -97,7 +130,7 @@ public class MalachiteThugL extends Creature {
 
     @Override
     public void respawn() {
-//        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugL(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+
     }
 
     @Override

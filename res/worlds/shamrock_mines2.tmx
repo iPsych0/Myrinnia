@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="15">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="15">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -149,6 +149,7 @@
  <objectgroup id="3" name="Object Layer 1">
   <object id="1" name="Shamrock Mines L1" type="zone_tile" x="2304" y="128" width="32" height="32">
    <properties>
+    <property name="direction" value="UP"/>
     <property name="goToX" value="59"/>
     <property name="goToY" value="9"/>
     <property name="zone" value="ShamrockMines1"/>
@@ -156,6 +157,7 @@
   </object>
   <object id="2" name="Shamrock Mines L1" type="zone_tile" x="1920" y="800" width="32" height="32">
    <properties>
+    <property name="direction" value="UP"/>
     <property name="goToX" value="53"/>
     <property name="goToY" value="35"/>
     <property name="zone" value="ShamrockMines1"/>
@@ -168,6 +170,7 @@
   <object id="7" name="Copper Ore" type="npc" x="1184" y="1120" width="32" height="32"/>
   <object id="8" name="Shamrock Mines L3" type="zone_tile" x="1248" y="288" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="41"/>
     <property name="goToY" value="11"/>
     <property name="zone" value="ShamrockMines3"/>
@@ -175,6 +178,7 @@
   </object>
   <object id="9" name="Shamrock Mines L3" type="zone_tile" x="1920" y="1152" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="61"/>
     <property name="goToY" value="38"/>
     <property name="zone" value="ShamrockMines3"/>
@@ -182,6 +186,7 @@
   </object>
   <object id="10" name="Shamrock Mines L3" type="zone_tile" x="2016" y="1856" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="67"/>
     <property name="goToY" value="61"/>
     <property name="zone" value="ShamrockMines3"/>
@@ -189,6 +194,7 @@
   </object>
   <object id="11" name="Shamrock Mines L3" type="zone_tile" x="352" y="1728" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="29"/>
     <property name="goToY" value="66"/>
     <property name="zone" value="ShamrockMines3"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="10">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="10">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -183,6 +183,7 @@
  <objectgroup id="4" name="Object Layer 1">
   <object id="2" name="Mt Azure Level 1" type="zone_tile" x="224" y="288" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="7"/>
     <property name="goToY" value="11"/>
     <property name="zone" value="MtAzure1"/>
@@ -190,6 +191,7 @@
   </object>
   <object id="3" name="Mt Azure Level 1" type="zone_tile" x="672" y="1312" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="21"/>
     <property name="goToY" value="41"/>
     <property name="zone" value="MtAzure1"/>
@@ -197,6 +199,7 @@
   </object>
   <object id="4" name="Mt Azure Level 3" type="zone_tile" x="1344" y="280" width="32" height="32">
    <properties>
+    <property name="direction" value="DOWN"/>
     <property name="goToX" value="39"/>
     <property name="goToY" value="14"/>
     <property name="zone" value="MtAzure3"/>

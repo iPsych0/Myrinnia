@@ -23,6 +23,7 @@ public class EntityManager implements Serializable {
     private Player player;
     private List<Entity> entities;
     private Collection<Entity> deadEntities;
+    private List<Entity> toBeAddedEntities;
     private Entity selectedEntity;
     public static boolean isPressed = false;
     private List<HitSplat> hitSplats;
@@ -33,6 +34,7 @@ public class EntityManager implements Serializable {
         this.player = player;
         entities = new ArrayList<>();
         deadEntities = new ArrayList<>();
+        toBeAddedEntities = new ArrayList<>();
         hitSplats = new ArrayList<>();
         addEntity(player);
     }
@@ -40,6 +42,10 @@ public class EntityManager implements Serializable {
     public void tick() {
         oocCounter = 0;
         creatureCounter = 0;
+
+        if (entities.addAll(toBeAddedEntities)) {
+            toBeAddedEntities.clear();
+        }
 
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
@@ -308,6 +314,10 @@ public class EntityManager implements Serializable {
 
     public void addEntity(Entity e) {
         entities.add(e);
+    }
+
+    public void addRuntimeEntity(Entity e) {
+        toBeAddedEntities.add(e);
     }
 
     // Getters & Setters

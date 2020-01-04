@@ -1,9 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -36,6 +34,14 @@ public class MalachiteThugR extends Creature {
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
+        if ("Devon's associate".equalsIgnoreCase(name)) {
+            dexterity = 6;
+            vitality = 12;
+            defence = 12;
+            maxHealth = DEFAULT_HEALTH + vitality * 4;
+            health = maxHealth;
+        }
+
         bounds.x = 2;
         bounds.y = 2;
         bounds.width = 28;
@@ -54,6 +60,9 @@ public class MalachiteThugR extends Creature {
 
     @Override
     public void die() {
+        if ("Devon's associate".equalsIgnoreCase(name)) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        }
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
@@ -83,7 +92,9 @@ public class MalachiteThugR extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugR(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        if (!"Devon's associate".equalsIgnoreCase(name)) {
+            Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugR(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        }
     }
 
     @Override

@@ -336,14 +336,12 @@ public class MapLoader implements Serializable {
                             if (TiledObjectType.NPC == objectType) {
                                 itemsShop = attributes.getValue("value");
                             }
-                        } else if (attributes.getValue("name").equalsIgnoreCase("direction")) {
-                            if (TiledObjectType.NPC == objectType) {
+                        } else if (TiledObjectType.NPC == objectType && attributes.getValue("name").equalsIgnoreCase("direction")) {
                                 try {
                                     direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
                                 } catch (Exception e) {
                                     System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
                                 }
-                            }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
                                 itemAmount = Integer.parseInt(attributes.getValue("value"));
@@ -374,12 +372,19 @@ public class MapLoader implements Serializable {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 customMusicName = attributes.getValue("value");
                             }
+                            // Get the direction to interact with
+                        } else if (TiledObjectType.ZONE_TILE == objectType && attributes.getValue("name").equalsIgnoreCase("direction")) {
+                            try {
+                                direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
+                            } catch (Exception e) {
+                                System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
+                            }
                             // Get the zone to change to
                         } else if (attributes.getValue("name").equalsIgnoreCase("zone")) {
                             if (TiledObjectType.ZONE_TILE == objectType) {
                                 try {
                                     zone = Zone.valueOf(attributes.getValue("value"));
-                                    world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName, customMusicName));
+                                    world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName, customMusicName, direction));
                                 } catch (Exception e) {
                                     System.err.println("Could not load zone_tile for '" + attributes.getValue("value") + "'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.");
                                 }

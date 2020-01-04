@@ -329,10 +329,8 @@ public class World implements Serializable {
 
             celebrationUI.render(g);
 
-            if (Handler.debugZones) {
-                for (ZoneTile zt : zoneTiles) {
-                    zt.render(g);
-                }
+            for (ZoneTile zt : zoneTiles) {
+                zt.render(g);
             }
 
             tipManager.render(g);
