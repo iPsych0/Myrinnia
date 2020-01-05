@@ -28,7 +28,7 @@ public class SkillsUI implements Serializable {
     public static boolean hasBeenPressed = false;
     private Map<SkillsList, Skill> skills;
     private List<Skill> skillsList;
-    private UIImageButton crafting, fishing, mining, woodcutting, bountyHunter;
+    private UIImageButton crafting, fishing, farming, mining, woodcutting, bountyHunter;
     private SkillsOverviewUI overviewUI;
     public static boolean escapePressed = false;
     private Rectangle bounds;
@@ -45,6 +45,7 @@ public class SkillsUI implements Serializable {
         skillsList.add(new MiningSkill());
         skillsList.add(new CombatSkill());
         skillsList.add(new BountyHunterSkill());
+        skillsList.add(new FarmingSkill());
 
 
         // Sort the Skills
@@ -61,9 +62,10 @@ public class SkillsUI implements Serializable {
 
         bountyHunter = new UIImageButton(x + 16, y + 40, width - 32, 32, Assets.genericButton);
         crafting = new UIImageButton(x + 16, y + 72, width - 32, 32, Assets.genericButton);
-        fishing = new UIImageButton(x + 16, y + 104, width - 32, 32, Assets.genericButton);
-        mining = new UIImageButton(x + 16, y + 136, width - 32, 32, Assets.genericButton);
-        woodcutting = new UIImageButton(x + 16, y + 168, width - 32, 32, Assets.genericButton);
+        farming = new UIImageButton(x + 16, y + 104, width - 32, 32, Assets.genericButton);
+        fishing = new UIImageButton(x + 16, y + 136, width - 32, 32, Assets.genericButton);
+        mining = new UIImageButton(x + 16, y + 168, width - 32, 32, Assets.genericButton);
+        woodcutting = new UIImageButton(x + 16, y + 200, width - 32, 32, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -74,6 +76,7 @@ public class SkillsUI implements Serializable {
 
         uiManager.addObject(bountyHunter);
         uiManager.addObject(crafting);
+        uiManager.addObject(farming);
         uiManager.addObject(fishing);
         uiManager.addObject(mining);
         uiManager.addObject(woodcutting);
@@ -93,6 +96,10 @@ public class SkillsUI implements Serializable {
             } else if (crafting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
                     changeTab(SkillsList.CRAFTING, SkillCategory.Equipment);
+                }
+            } else if (farming.contains(mouse)) {
+                if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                    changeTab(SkillsList.FARMING, SkillCategory.Fruits);
                 }
             } else if (fishing.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -154,15 +161,17 @@ public class SkillsUI implements Serializable {
 
             drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
             drawXpProgress(g, crafting, SkillsList.CRAFTING);
+            drawXpProgress(g, farming, SkillsList.FARMING);
             drawXpProgress(g, fishing, SkillsList.FISHING);
             drawXpProgress(g, mining, SkillsList.MINING);
             drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
 
             Text.drawString(g, "Bounty Hunter lvl: " + getSkill(SkillsList.BOUNTYHUNTER).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 184, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Farming lvl: " + getSkill(SkillsList.FARMING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 184, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 216, true, Color.YELLOW, Assets.font14);
 
             if (bountyHunter.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
@@ -171,6 +180,10 @@ public class SkillsUI implements Serializable {
             if (crafting.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
                 Text.drawString(g, String.valueOf(getSkill(SkillsList.CRAFTING).getExperience()) + "/" + getSkill(SkillsList.CRAFTING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+            }
+            if (farming.contains(mouse)) {
+                g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+                Text.drawString(g, String.valueOf(getSkill(SkillsList.FARMING).getExperience()) + "/" + getSkill(SkillsList.FARMING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
             }
             if (fishing.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);

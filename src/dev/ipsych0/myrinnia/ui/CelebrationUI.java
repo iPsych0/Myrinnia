@@ -60,6 +60,7 @@ public class CelebrationUI implements Serializable {
             // Remove first element in the queue of events
             if (currentEvent.hasPressedNext()) {
                 events.removeFirst();
+                hasBeenPressed = false;
             }
 
             if (closeAllButton.contains(Handler.get().getMouse()) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -68,11 +69,11 @@ public class CelebrationUI implements Serializable {
                 MouseManager.justClosedUI = true;
             }
 
-            if (escapePressed) {
-                events.clear();
-                hasBeenPressed = false;
-                escapePressed = false;
-            }
+//            if (escapePressed) {
+//                events.clear();
+//                hasBeenPressed = false;
+//                escapePressed = false;
+//            }
         }
     }
 

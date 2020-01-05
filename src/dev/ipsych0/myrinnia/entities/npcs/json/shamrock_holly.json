@@ -3,7 +3,29 @@
     {
       "id": 0,
       "text": "Hey, are you heading east towards the Malachite Hills? Watch out for poisonous enemies.",
-      "nextId": 1
+      "nextId": 4,
+      "choiceCondition": {
+        "condition": "hasStartedBounty",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Have you seen any strange men passing by lately?",
+          "nextId": 5
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Some men in black clothes headed east into Malachite Hills last night. They looked like they were in a hurry. Hope that helps!",
+      "nextId": -1
     },
     {
       "id": 1,

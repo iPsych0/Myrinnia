@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "My mining equipment was stolen by some thugs!",
+      "text": "My mining equipment was stolen. Please, help me get it back!",
       "nextId": 1,
       "choiceCondition": {
         "condition": "bountyAccepted",
@@ -28,7 +28,7 @@
     },
     {
       "id": 2,
-      "text": "I don't know. I was meeting some friends in the Town Hall and when I came back, some equipment was missing from my cart.",
+      "text": "I don't know. I was meeting some friends in the Town Hall last night and when I came back, some equipment was missing from my cart.",
       "nextId": 1
     },
     {
@@ -38,7 +38,7 @@
     },
     {
       "id": 4,
-      "text": "Oh, you found it! Thank you so much. Some thugs stole it? I'm glad you got rid of them then!",
+      "text": "Oh, you found my equipment! Thank you so much. Some thugs stole it? I'm glad you got rid of them then!",
       "nextId": 5
     },
     {

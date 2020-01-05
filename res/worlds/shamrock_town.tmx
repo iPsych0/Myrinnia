@@ -316,7 +316,7 @@
     <property name="direction" value="DOWN"/>
     <property name="jsonFile" value="shamrock_holly.json"/>
     <property name="name" value="Holly"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="ShamrockHolly"/>
    </properties>
   </object>
   <object id="15" name="Reece" type="npc" x="896" y="896" width="32" height="32">
@@ -324,7 +324,7 @@
     <property name="animation" value="genericMale5"/>
     <property name="jsonFile" value="shamrock_reece.json"/>
     <property name="name" value="Reece"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="ShamrockReece"/>
    </properties>
   </object>
   <object id="16" name="Simon" type="npc" x="576" y="1408" width="32" height="32">

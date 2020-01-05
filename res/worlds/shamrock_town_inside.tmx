@@ -440,6 +440,7 @@
    <properties>
     <property name="animation" value="genericMale1"/>
     <property name="direction" value="RIGHT"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
     <property name="name" value="NPC"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -448,6 +449,7 @@
    <properties>
     <property name="animation" value="genericFemale13"/>
     <property name="direction" value="LEFT"/>
+    <property name="jsonFile" value="shamrock_townhall_npc2.json"/>
     <property name="name" value="NPC"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -456,6 +458,7 @@
    <properties>
     <property name="animation" value="genericMale10"/>
     <property name="direction" value="LEFT"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
     <property name="name" value="NPC"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -464,6 +467,7 @@
    <properties>
     <property name="animation" value="genericMale4"/>
     <property name="direction" value="RIGHT"/>
+    <property name="jsonFile" value="shamrock_townhall_npc2.json"/>
     <property name="name" value="NPC"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -472,6 +476,7 @@
    <properties>
     <property name="animation" value="genericFemale7"/>
     <property name="direction" value="LEFT"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
     <property name="name" value="NPC"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>

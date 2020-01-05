@@ -25,7 +25,7 @@ public class BountyBoardShamrock extends BountyBoard {
         isNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.ShamrockTown);
-        bountyBoardUI.addPanel(2, "It's mine", "Some thugs stole some of my equipment. Please help me retrieve it.", "Hi, brave adventurer.\nLast night, some of my equipment was stolen. Could you find the thug(s) that did this and retrieve my equipment? Someone in town might have witnessed something.\n\nI will await your return near the town square.\n\n- Edgar");
+        bountyBoardUI.addPanel(2, "It's mine", "Some thugs stole some of my equipment. Please help me retrieve it.", "Hi, brave adventurer.\nLast night, some of my equipment was stolen. Could you find out whoever did this and retrieve my equipment? Someone in town might have witnessed something.\n\nI will await your return near the town square.\n\n- Edgar");
         bountyBoardUI.addPanel(3, "Heavy metal", "Under development...", "Under development...");
         bountyBoardUI.addPanel(5, "Ruling with an iron fist", "Under development...", "Under development...");
     }

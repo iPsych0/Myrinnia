@@ -3,6 +3,46 @@
     {
       "id": 0,
       "text": "At night, the stars shimmer brightly above Shamrock Town. There's little interference from other light sources around here.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasStartedBounty",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Have you seen anything unusual lately?",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Well, last night I saw a bunch of strange men roaming the town square.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "options": [
+        {
+          "text": "Did you see where they went?",
+          "nextId": 4
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "I'm sorry. It's unlikely that they were from around, I didn't recognize them. Perhaps somebody saw them passing by as they left?",
       "nextId": -1
     }
   ]

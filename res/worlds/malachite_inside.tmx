@@ -123,7 +123,15 @@
  <objectgroup id="4" name="Object Layer 1">
   <object id="1" name="Animal" type="npc" x="800" y="512" width="32" height="32"/>
   <object id="4" name="Animal" type="npc" x="672" y="448" width="32" height="32"/>
-  <object id="5" name="Farming NPC" type="npc" x="352" y="448" width="32" height="32"/>
+  <object id="5" name="Farming NPC" type="npc" x="352" y="448" width="32" height="32">
+   <properties>
+    <property name="animation" value="malachiteTony"/>
+    <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="malachite_tony.json"/>
+    <property name="name" value="Farmer Tony"/>
+    <property name="npcClass" value="MalachiteTony"/>
+   </properties>
+  </object>
   <object id="6" name="Malachite Fields" type="zone_tile" x="320" y="656" width="96" height="16">
    <properties>
     <property name="goToX" value="77"/>

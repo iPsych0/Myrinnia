@@ -140,6 +140,7 @@ public class Assets {
     public static BufferedImage[] malachiteThug1Down, malachiteThug1Left, malachiteThug1Right, malachiteThug1Up;
     public static BufferedImage[] malachiteThug2Down, malachiteThug2Left, malachiteThug2Right, malachiteThug2Up;
     public static BufferedImage[] malachiteThugLeaderDown, malachiteThugLeaderLeft, malachiteThugLeaderRight, malachiteThugLeaderUp;
+    public static BufferedImage[] malachiteTonyDown, malachiteTonyLeft, malachiteTonyRight, malachiteTonyUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -166,7 +167,7 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
@@ -329,6 +330,7 @@ public class Assets {
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
         bountyHunterIcon = ui_sheet.imageCrop(5, 1);
+        farmingIcon = ui_sheet.imageCrop(7, 1);
 
         // Condition icons
         chillIcon = ui_sheet.imageCrop(0, 2);
@@ -781,6 +783,11 @@ public class Assets {
         malachiteThugLeaderLeft= malachite_npcs.npcCrop(6, 1);
         malachiteThugLeaderRight = malachite_npcs.npcCrop(6, 2);
         malachiteThugLeaderUp = malachite_npcs.npcCrop(6, 3);
+
+        malachiteTonyDown = malachite_npcs.npcCrop(9, 0);
+        malachiteTonyLeft= malachite_npcs.npcCrop(9, 1);
+        malachiteTonyRight = malachite_npcs.npcCrop(9, 2);
+        malachiteTonyUp = malachite_npcs.npcCrop(9, 3);
 
         /*
          * Player Animations

@@ -3,6 +3,29 @@
     {
       "id": 0,
       "text": "Greetings, traveler. My name is Jora. I am the mayor of this town and ancestor of Jotar, one of the original settlers of Shamrock Town. How can I help you?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "What can I do around town?",
+          "nextId": 2
+        },
+        {
+          "text": "Maybe later.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "You could check the Bounty Board over at the Town Square to see if you can help around. I also heard that Sebastian is looking for an experienced miner to help him locate his missing mining crew.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Oh, and currently the northern trail is closed due to brutal animal attacks. If you wish to continue your journey, I suggest you head east through the Malachite Hills.",
       "nextId": -1
     }
   ]

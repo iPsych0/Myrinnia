@@ -10,6 +10,8 @@ public enum SkillCategory {
     Fish("Fish"),
     Ores("Ores"),
     Trees("Trees"),
+    Vegetables("Vegetables"),
+    Fruits("Fruits"),
     BountyTargets("Targets");
 
     private String name;
