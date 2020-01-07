@@ -106,6 +106,12 @@ public class Quest implements Serializable {
     public void setState(QuestState state) {
         // Only give the reward if we haven't completed it yet.
         if (state == QuestState.COMPLETED && !finished) {
+            for (QuestStep step : questSteps) {
+                if (!step.isFinished()) {
+                    step.setFinished(true);
+                    this.step++;
+                }
+            }
             Handler.get().playEffect("ui/quest_complete.ogg", 0.1f);
             Handler.get().sendMsg("Completed '" + questName + "'!");
             Handler.get().addRecapEvent("Completed '" + questName + "'");

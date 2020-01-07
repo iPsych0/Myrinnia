@@ -213,6 +213,10 @@ public class AbilityOverviewUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
+            for (AbilityOverviewUIButton btn : uiButtons) {
+                btn.renderBackground(g, true);
+            }
+
             uiManager.render(g);
             abilityUIManager.render(g);
 

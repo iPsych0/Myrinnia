@@ -10,6 +10,10 @@ public class QuestVO implements Serializable {
     private String questStart;
     private List<String> objectives;
 
+    public QuestVO() {
+
+    }
+
     public QuestVO(String questName, String questStart, List<String> objectives) {
         this.questName = questName;
         this.questStart = questStart;

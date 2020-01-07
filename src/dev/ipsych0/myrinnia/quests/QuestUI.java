@@ -176,7 +176,7 @@ public class QuestUI implements Serializable {
                             selectedQuest = Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i);
                         }
                     }
-                    Text.drawString(g, Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 41 + (i * 16), true, color, Assets.font14);
+                    Text.drawString(g, Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getQuestName(), x + (width / 2) + 1, y + 40 + (i * 16), true, color, Assets.font14);
                 }
 
                 if (backButton.contains(mouse)) {

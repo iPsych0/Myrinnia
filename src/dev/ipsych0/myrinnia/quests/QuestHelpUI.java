@@ -47,15 +47,19 @@ public class QuestHelpUI implements Serializable {
                 }
 
                 int offset = 0;
-                if (selectedQuest.getState() == QuestState.IN_PROGRESS)
+                if (selectedQuest.getState() != QuestState.NOT_STARTED)
                     for (int j = 0; j < selectedQuest.getStep() + 1; j++) {
-                        for (int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length; i++) {
-                            if (selectedQuest.getQuestSteps().get(j).isFinished()) {
-                                Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.GREEN, Assets.font14);
-                            } else {
-                                Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.YELLOW, Assets.font14);
+                        try {
+                            for (int i = 0; i < Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26).length; i++) {
+                                if (selectedQuest.getQuestSteps().get(j).isFinished()) {
+                                    Text.drawStringStrikeThru(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.GREEN, Assets.font14);
+                                } else {
+                                    Text.drawString(g, Text.splitIntoLine(selectedQuest.getQuestSteps().get(j).getObjective(), 26)[i], x + (width / 2) + 6, y + 60 + (offset * 16), true, Color.YELLOW, Assets.font14);
+                                }
+                                offset++;
                             }
-                            offset++;
+                        } catch (IndexOutOfBoundsException e) {
+
                         }
                     }
             }

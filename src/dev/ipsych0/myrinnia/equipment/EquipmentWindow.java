@@ -187,7 +187,7 @@ public class EquipmentWindow implements Serializable {
                 }
             }
 
-            g.drawImage(Assets.uiWindow, x + 10, y + height + 12, 112, 160, null);
+            g.drawImage(Assets.genericButton[0], x + 10, y + height + 12, 112, 160, null);
 
             int index = 0;
             Text.drawString(g, "Stats", x + (width / 2), y + height + 24 + (16 * index++), true, Color.YELLOW, Assets.font14);
