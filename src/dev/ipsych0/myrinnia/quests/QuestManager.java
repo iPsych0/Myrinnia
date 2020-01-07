@@ -1,12 +1,14 @@
 package dev.ipsych0.myrinnia.quests;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class QuestManager implements Serializable {
 
@@ -55,12 +57,30 @@ public class QuestManager implements Serializable {
     private void fillLists() {
 
         // Island Quests
-        azurealIslandQuests.add(new Quest("Getting Started", Zone.PortAzure, "Talk to Mayor Wilson in Port Azure."));
-        azurealIslandQuests.add(new Quest("Gathering Your Stuff", Zone.PortAzure, "Talk to Douglas in Sunshine Coast.", new QuestRequirement(QuestList.GettingStarted)));
-        azurealIslandQuests.add(new Quest("Preparing Your Journey", Zone.PortAzure, "Talk to Duncan in Port Azure.", new QuestRequirement(QuestList.GatheringYourStuff)));
-        azurealIslandQuests.add(new Quest("Wave Goodbye", Zone.PortAzure, "Talk to Elder Selwyn in Port Azure.", new QuestRequirement(QuestList.PreparingYourJourney)));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gettingstarted.json",
+                () -> {
+                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
+                }));
 
-        shamrockTownQuests.add(new Quest("We Delved Too Deep", Zone.ShamrockTown, "Talk to Sebastian in Shamrock Town.", new QuestRequirement(SkillsList.MINING, 5)));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
+                () -> {
+                    Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
+                }));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
+                () -> {
+                    Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(50);
+                }));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", Arrays.asList(new QuestRequirement(QuestList.PreparingYourJourney)),
+                () -> {
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                }));
+
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5)),
+                () -> {
+                    Handler.get().giveItem(Item.dustyScroll, 1);
+                }));
 
         // Test Quests
 //        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));

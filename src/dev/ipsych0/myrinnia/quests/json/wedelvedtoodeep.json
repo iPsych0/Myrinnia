@@ -1,0 +1,7 @@
+{
+  "questName": "We Delved Too Deep",
+  "questStart": "Talk to Sebastian in Shamrock Town.",
+  "objectives": [
+    "Locate the missing crew members in the Shamrock Mines."
+  ]
+}

@@ -72,8 +72,6 @@ public class PortAzureMary extends Creature {
             case 7:
                 Handler.get().giveItem(Item.coins, 50);
                 quest.setState(QuestState.COMPLETED);
-                Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
-                Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 Handler.get().addTip(new TutorialTip("Press P to pause the game. Here, you can save your game or change settings."));
                 speakingCheckpoint = 0;
                 break;

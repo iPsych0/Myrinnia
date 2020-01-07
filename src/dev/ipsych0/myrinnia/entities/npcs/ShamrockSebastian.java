@@ -61,7 +61,6 @@ public class ShamrockSebastian extends Creature {
                 if (speakingCheckpoint != 7) {
                     speakingCheckpoint = 7;
                     quest.setState(QuestState.IN_PROGRESS);
-                    quest.addStep("Locate the missing crew members in the Shamrock Mines.");
                 }
 
                 // If we located and returned them, go to dialogue 10
@@ -73,7 +72,6 @@ public class ShamrockSebastian extends Creature {
             case 12:
                 quest.nextStep();
                 quest.setState(QuestState.COMPLETED);
-                Handler.get().giveItem(Item.dustyScroll, 1);
                 speakingCheckpoint = 13;
                 break;
         }

@@ -81,7 +81,6 @@ public class PortAzureDouglas extends Creature {
                 speakingCheckpoint = 5;
                 if (!Handler.get().questStarted(QuestList.GatheringYourStuff)) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Cut 5 Lightwood from weak palm trees in Sunrise Sands and return to Douglas.");
                 }
                 break;
             case 7:
@@ -97,7 +96,6 @@ public class PortAzureDouglas extends Creature {
                     Handler.get().giveItem(Item.simpleFishingRod, 1);
                     Handler.get().removeItem(Item.lightWood, 5);
                     quest.nextStep();
-                    Handler.get().addQuestStep(QuestList.GatheringYourStuff, "Deliver 5 fish to Mary in Port Azure.");
                 }
                 break;
             case 8:

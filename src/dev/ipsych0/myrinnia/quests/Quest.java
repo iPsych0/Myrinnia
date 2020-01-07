@@ -1,14 +1,15 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.ui.Celebration;
+import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Quest implements Serializable {
@@ -22,30 +23,47 @@ public class Quest implements Serializable {
     private String questName;
     private String questStart;
     private QuestState state;
-    private QuestRequirement[] requirements;
+    private List<QuestRequirement> requirements;
     private Map<String, Object> customChecks;
+    private OnCompletion onCompletion;
+    private boolean finished;
 
     private Zone zone;
 
-    public Quest(String questName, Zone zone, String questStart) {
-        this.questName = questName;
+    public Quest(Zone zone, String jsonFile, OnCompletion onCompletion) {
         this.zone = zone;
-        this.questStart = questStart;
+        this.onCompletion = onCompletion;
+
+        QuestVO questVO = Utils.loadQuest(jsonFile);
+        this.questStart = questVO.getQuestStart();
+        this.questName = questVO.getQuestName();
 
         customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
+
+        for (String s : questVO.getObjectives()) {
+            questSteps.add(new QuestStep(s));
+        }
     }
 
-    public Quest(String questName, Zone zone, String questStart, QuestRequirement... questRequirements) {
-        this.questName = questName;
+    public Quest(Zone zone, String jsonFile, List<QuestRequirement> requirements, OnCompletion onCompletion) {
         this.zone = zone;
-        this.questStart = questStart;
-        this.requirements = questRequirements;
+        this.requirements = requirements;
+        this.onCompletion = onCompletion;
+
+        QuestVO questVO = Utils.loadQuest(jsonFile);
+
+        this.questStart = questVO.getQuestStart();
+        this.questName = questVO.getQuestName();
 
         customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
+
+        for (String s : questVO.getObjectives()) {
+            questSteps.add(new QuestStep(s));
+        }
     }
 
     public void tick() {
@@ -63,10 +81,6 @@ public class Quest implements Serializable {
     public void nextStep() {
         this.getQuestSteps().get(step).setFinished(true);
         this.step++;
-    }
-
-    public void addStep(String objective) {
-        questSteps.add(new QuestStep(objective));
     }
 
     public ArrayList<QuestStep> getQuestSteps() {
@@ -90,13 +104,18 @@ public class Quest implements Serializable {
     }
 
     public void setState(QuestState state) {
-        this.state = state;
-        if (state == QuestState.COMPLETED) {
+        // Only give the reward if we haven't completed it yet.
+        if (state == QuestState.COMPLETED && !finished) {
             Handler.get().playEffect("ui/quest_complete.ogg", 0.1f);
-            Handler.get().sendMsg("Completed '" + this.questName + "'!");
-            Handler.get().addRecapEvent("Completed '" + this.questName + "'");
+            Handler.get().sendMsg("Completed '" + questName + "'!");
+            Handler.get().addRecapEvent("Completed '" + questName + "'");
             Handler.get().getCelebrationUI().addEvent(new Celebration(this, "You have completed '" + getQuestName() + "'!"));
+
+            onCompletion.giveReward();
+            finished = true;
         }
+
+        this.state = state;
     }
 
     public Zone getZone() {
@@ -107,11 +126,11 @@ public class Quest implements Serializable {
         this.zone = zone;
     }
 
-    public QuestRequirement[] getRequirements() {
+    public List<QuestRequirement> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(QuestRequirement[] requirements) {
+    public void setRequirements(List<QuestRequirement> requirements) {
         this.requirements = requirements;
     }
 

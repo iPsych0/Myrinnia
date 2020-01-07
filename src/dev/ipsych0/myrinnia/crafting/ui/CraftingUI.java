@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
+import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestUI;
@@ -580,13 +581,12 @@ public class CraftingUI implements Serializable {
     private void updateTutorial(ItemStack result) {
         // For tutorial quest
         if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
+            Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
             if (result.getItem() == Item.beginnersSword ||
                     result.getItem() == Item.beginnersBow ||
                     result.getItem() == Item.beginnersStaff) {
-                if (Handler.get().questInProgress(QuestList.PreparingYourJourney) && Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(0).isFinished() &&
-                        Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(1).isFinished() && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(2).isFinished()) {
-                    Handler.get().getQuest(QuestList.PreparingYourJourney).nextStep();
-                    Handler.get().getQuest(QuestList.PreparingYourJourney).addStep("Report back to Duncan.");
+                if (!quest.getQuestSteps().get(2).isFinished()) {
+                    quest.nextStep();
                 }
             }
         }

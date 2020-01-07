@@ -92,8 +92,6 @@ public class PortAzureDuncan extends Creature {
                 }
                 if (quest.getState() == QuestState.NOT_STARTED) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    quest.addStep("Obtain a pickaxe from Duncan.");
-                    quest.addStep("Return to Duncan with 5 Azurite Ore and 2 Lightwood.");
                 }
                 break;
             case 17:
@@ -111,7 +109,6 @@ public class PortAzureDuncan extends Creature {
                     Handler.get().discoverRecipe(Item.beginnersBow);
                     Handler.get().discoverRecipe(Item.beginnersStaff);
                     quest.nextStep();
-                    quest.addStep("Create your weapon of choice and talk to Duncan.");
                 }
                 break;
             case 21:
@@ -121,8 +118,6 @@ public class PortAzureDuncan extends Creature {
                 if (quest.getState() == QuestState.IN_PROGRESS) {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
-                    Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
-                    Handler.get().getSkill(SkillsList.MINING).addExperience(50);
                 }
                 break;
         }

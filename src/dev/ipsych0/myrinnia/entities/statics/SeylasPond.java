@@ -85,7 +85,6 @@ public class SeylasPond extends StaticEntity {
                 script.getDialogues().get(3).setText(script.getDialogues().get(3).getText().replaceFirst("\\{AbilityName\\}", a.getName()));
 
                 quest.nextStep();
-                quest.addStep("Return to Elder Selwyn.");
                 break;
             case 4:
                 speakingTurn = -1;

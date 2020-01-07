@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
+import dev.ipsych0.myrinnia.quests.QuestVO;
 import dev.ipsych0.myrinnia.shops.Stock;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
 
@@ -152,6 +153,11 @@ public class Utils {
     public static Monologue loadMonologue(String path) {
         Monologue m = loadObjectFromJsonFile(path, "states/monologues/", Monologue.class);
         return m;
+    }
+
+    public static QuestVO loadQuest(String path) {
+        QuestVO q = loadObjectFromJsonFile(path, "quests/json/", QuestVO.class);
+        return q;
     }
 
 }

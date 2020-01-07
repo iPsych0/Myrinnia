@@ -88,7 +88,6 @@ public class PortAzureShopkeeper extends ShopKeeper {
                 }
                 Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
                 Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-                Handler.get().addQuestStep(QuestList.GettingStarted, "Report back to the mayor.");
         }
     }
 

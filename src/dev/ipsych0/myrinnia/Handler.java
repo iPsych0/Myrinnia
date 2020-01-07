@@ -26,7 +26,10 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
-import dev.ipsych0.myrinnia.quests.*;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestManager;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
@@ -264,22 +267,22 @@ public class Handler implements Serializable {
             return true;
         }
 
-        for (int i = 0; i < q.getRequirements().length; i++) {
+        for (int i = 0; i < q.getRequirements().size(); i++) {
             // Check skill requirements
-            if (q.getRequirements()[i].getSkill() != null) {
-                if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
+            if (q.getRequirements().get(i).getSkill() != null) {
+                if (getSkill(q.getRequirements().get(i).getSkill()).getLevel() < q.getRequirements().get(i).getLevel()) {
                     hasAllRequirements = false;
                     break;
                 }
             }
             // Check quest requirements
-            else if (q.getRequirements()[i].getQuest() != null) {
-                if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
+            else if (q.getRequirements().get(i).getQuest() != null) {
+                if (getQuest(q.getRequirements().get(i).getQuest()).getState() != QuestState.COMPLETED) {
                     hasAllRequirements = false;
                     break;
                 }
                 // Check miscellaneous requirements
-            } else if (!q.getRequirements()[i].isTaskDone()) {
+            } else if (!q.getRequirements().get(i).isTaskDone()) {
                 hasAllRequirements = false;
                 break;
             }
@@ -391,17 +394,6 @@ public class Handler implements Serializable {
 
     public Quest getQuest(QuestList quest) {
         return questManager.getQuestMap().get(quest);
-    }
-
-    public void addQuestStep(QuestList quest, String objective) {
-        for (QuestStep steps : getQuest(quest).getQuestSteps()) {
-            if (steps.getObjective().equalsIgnoreCase(objective)) {
-                System.err.println("Duplicate quest step added! Please check the implementation!");
-                System.err.println(quest.getName() + ": " + objective);
-                return;
-            }
-        }
-        getQuest(quest).getQuestSteps().add(new QuestStep(objective));
     }
 
     /**

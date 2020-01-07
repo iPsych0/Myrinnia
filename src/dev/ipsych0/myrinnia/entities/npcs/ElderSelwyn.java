@@ -77,7 +77,6 @@ public class ElderSelwyn extends Creature {
             case 5:
                 if (quest.getState() == QuestState.NOT_STARTED) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    quest.addStep("Get your first Ability from Selwyn.");
                     speakingCheckpoint = 5;
                 }
                 break;
@@ -123,7 +122,6 @@ public class ElderSelwyn extends Creature {
                 if (speakingCheckpoint != 15) {
                     speakingCheckpoint = 15;
                     quest.nextStep();
-                    quest.addStep("Ascend Mt. Azure and drink water from the source.");
                     quest.addNewCheck("hasDrunkWater", false);
                 } else {
                     if ((Boolean) quest.getCheckValue("hasDrunkWater")) {
@@ -144,7 +142,6 @@ public class ElderSelwyn extends Creature {
                 if (Handler.get().getQuest(QuestList.WaveGoodbye).getState() == QuestState.IN_PROGRESS) {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
-                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                     Handler.get().addTip(new TutorialTip("Captain Isaac should be ready for department. He's waiting on the southern docks."));
                 }
                 break;
