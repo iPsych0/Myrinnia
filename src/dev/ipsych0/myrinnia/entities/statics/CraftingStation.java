@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 
@@ -33,7 +34,7 @@ public class CraftingStation extends StaticEntity {
 
     @Override
     public void postRender(Graphics2D g) {
-
+        g.drawImage(Assets.craftingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
     }
 
     @Override

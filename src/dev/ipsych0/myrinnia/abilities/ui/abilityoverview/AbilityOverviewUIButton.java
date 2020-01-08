@@ -28,7 +28,7 @@ public class AbilityOverviewUIButton extends UIImageButton implements Serializab
         Text.drawString(g, stat.toString(), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
     }
 
-    public void renderBackground(Graphics2D g, boolean renderBackground) {
+    public void renderBackground(Graphics2D g) {
         if (stat == CharacterStats.Fire || stat == CharacterStats.Air || stat == CharacterStats.Water || stat == CharacterStats.Earth) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
         }

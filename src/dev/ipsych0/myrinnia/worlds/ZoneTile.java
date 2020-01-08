@@ -30,31 +30,29 @@ public class ZoneTile extends Rectangle {
     }
 
     public void tick() {
-        if(this.intersects(Handler.get().getPlayer().getCollisionBounds(0, 0))){
-            if (direction != null) {
+        if (direction != null) {
+            if (this.intersects(Handler.get().getPlayer().getFullBounds(0, 0))) {
                 if (Handler.get().getKeyManager().talk) {
                     Handler.get().goToWorld(zone, goToX, goToY, customZoneName, customZoneMusic);
                 }
-            } else {
-                Handler.get().goToWorld(zone, goToX, goToY, customZoneName, customZoneMusic);
             }
+        } else if (this.intersects(Handler.get().getPlayer().getCollisionBounds(0, 0))) {
+            Handler.get().goToWorld(zone, goToX, goToY, customZoneName, customZoneMusic);
         }
     }
 
     public void render(Graphics2D g) {
-        if (direction != null && this.intersects(Handler.get().getPlayer().getCollisionBounds(0, 0))) {
+        if (direction != null && this.intersects(Handler.get().getPlayer().getFullBounds(0, 0))) {
             drawHoverCorners(g, 1, 1, Color.BLACK);
             drawHoverCorners(g, 0, 0, Color.YELLOW);
 
-            Player player = Handler.get().getPlayer();
-            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
-            Text.drawString(g, "Press '" + interactKey + "' to interact", (int) (player.getX() + 16 - Handler.get().getGameCamera().getxOffset()), (int) (player.getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font14);
+            String interactKey = KeyEvent.getKeyText(KeyManager.interactKey);
+            Text.drawString(g, "Press '" + interactKey + "' to interact", (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + height / 2 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font14);
         } else if (direction != null && new Rectangle((int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height).contains(Handler.get().getMouse())) {
             drawHoverCorners(g, 1, 1, Color.BLACK);
             drawHoverCorners(g, 0, 0, Color.YELLOW);
 
-            Player player = Handler.get().getPlayer();
-            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+            String interactKey = KeyEvent.getKeyText(KeyManager.interactKey);
             Text.drawString(g, "Press '" + interactKey + "' to interact", (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + height / 2 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font14);
         }
         if (Handler.debugZones) {

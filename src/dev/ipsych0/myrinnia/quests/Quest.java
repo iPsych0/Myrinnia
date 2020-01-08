@@ -112,6 +112,7 @@ public class Quest implements Serializable {
                     this.step++;
                 }
             }
+
             Handler.get().playEffect("ui/quest_complete.ogg", 0.1f);
             Handler.get().sendMsg("Completed '" + questName + "'!");
             Handler.get().addRecapEvent("Completed '" + questName + "'");
