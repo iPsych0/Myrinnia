@@ -17,6 +17,10 @@
           "nextId": 5
         },
         {
+          "text": "How does poison damage work?",
+          "nextId": 1
+        },
+        {
           "text": "Leave.",
           "nextId": -1
         }
@@ -29,17 +33,22 @@
     },
     {
       "id": 1,
-      "text": "Poison decreases your HP over time. Some abilities are able to cleanse conditions.",
+      "text": "Poison decreases your HP over time. Some abilities are capable of cleansing conditions.",
       "nextId": 2
     },
     {
       "id": 2,
-      "text": "If you don't have these abilities yet, you could maybe buy an Antidote Potion from one of the stalls in this town.",
+      "text": "If you don't have these abilities yet, you could buy an Antidote Potion from that market stall over there.",
       "nextId": 3
     },
     {
       "id": 3,
       "text": "Potions such as Antidotes will grant you some resistance to Poison damage. Stronger potions will grant better resistance.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "Resistance only partially decreases damage, it doesn't provide full immunity.",
       "nextId": -1
     }
   ]

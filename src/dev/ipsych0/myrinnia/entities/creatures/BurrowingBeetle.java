@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -25,10 +26,12 @@ public class BurrowingBeetle extends Creature {
     private Animation meleeAnimation;
     private Animation diggingAnimation;
     private Animation originalDown, originalLeft, originalRight, originalUp;
+    private Animation poofAnimation;
     private boolean digging;
     private long digTime = 4L;
     private long timeOfDigging;
     private boolean lastResortDigging;
+    private static boolean hasDroppedDynamite;
 
     public BurrowingBeetle(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -49,17 +52,16 @@ public class BurrowingBeetle extends Creature {
         if (level == 5) {
             vitality = 30;
             defence = 45;
+        } else if (level == 6) {
+            strength = 8;
+            vitality = 38;
+            defence = 50;
         } else {
             vitality = 25;
             defence = 40;
         }
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
-
-        bounds.x = 2;
-        bounds.y = 2;
-        bounds.width = 28;
-        bounds.height = 28;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
@@ -69,6 +71,9 @@ public class BurrowingBeetle extends Creature {
     @Override
     public void tick() {
         super.tick();
+        if (health <= 0) {
+            return;
+        }
         long currentTime = System.currentTimeMillis();
         if (digging) {
             if (((currentTime - timeOfDigging) / 1000L) >= digTime) {
@@ -96,6 +101,17 @@ public class BurrowingBeetle extends Creature {
 //        g.setColor(Color.RED);
 //        g.drawRect(ar.x, ar.y, ar.width, ar.height);
 
+        if (poofAnimation != null) {
+            if (poofAnimation.isTickDone()) {
+                poofAnimation = null;
+            } else {
+                poofAnimation.tick();
+
+                g.drawImage(poofAnimation.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y - 8 - Handler.get().getGameCamera().getyOffset()), (int) (width), (int) (height), null);
+            }
+        }
+
         if (meleeAnimation != null) {
             if (meleeAnimation.isTickDone()) {
                 meleeAnimation = null;
@@ -113,7 +129,15 @@ public class BurrowingBeetle extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        if (combatLevel == 5) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        } else if (combatLevel == 6) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(30);
+            if (!hasDroppedDynamite) {
+                hasDroppedDynamite = true;
+                Handler.get().dropItem(Item.dynamite, 1, (int) x, (int) y);
+            }
+        }
         getDroptableItem();
     }
 
@@ -144,8 +168,13 @@ public class BurrowingBeetle extends Creature {
     @Override
     public void damage(DamageType damageType, Entity dealer, Entity receiver) {
         super.damage(damageType, dealer, receiver);
+        if (health <= 0) {
+            return;
+        }
         int rnd = Handler.get().getRandomNumber(1, 6);
         if (!lastResortDigging && !digging && health <= maxHealth / 4) {
+            poofAnimation = new Animation(150, Assets.airCloud1, true);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             digging = true;
             lastResortDigging = true;
             aLeft = diggingAnimation;
@@ -154,6 +183,8 @@ public class BurrowingBeetle extends Creature {
             aUp = diggingAnimation;
             timeOfDigging = System.currentTimeMillis();
         } else if (rnd == 1) {
+            poofAnimation = new Animation(150, Assets.airCloud1, true);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             digging = true;
             aLeft = diggingAnimation;
             aDown = diggingAnimation;
@@ -166,8 +197,13 @@ public class BurrowingBeetle extends Creature {
     @Override
     public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
         super.damage(damageType, dealer, receiver, ability);
+        if (health <= 0) {
+            return;
+        }
         int rnd = Handler.get().getRandomNumber(1, 6);
         if (!lastResortDigging && !digging && health <= maxHealth / 4) {
+            poofAnimation = new Animation(150, Assets.airCloud1, true);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             digging = true;
             lastResortDigging = true;
             aLeft = diggingAnimation;
@@ -176,6 +212,8 @@ public class BurrowingBeetle extends Creature {
             aUp = diggingAnimation;
             timeOfDigging = System.currentTimeMillis();
         } else if (rnd == 1) {
+            poofAnimation = new Animation(150, Assets.airCloud1, true);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             digging = true;
             aLeft = diggingAnimation;
             aDown = diggingAnimation;

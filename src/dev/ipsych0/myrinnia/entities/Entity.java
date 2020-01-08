@@ -276,6 +276,7 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            clearActiveAbilities();
         }
     }
 
@@ -303,7 +304,12 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            clearActiveAbilities();
         }
+    }
+
+    private void clearActiveAbilities() {
+        Handler.get().getAbilityManager().getActiveAbilities().removeIf(a -> (a.getCaster().equals(this)));
     }
 
     public void addBuff(Entity dealer, Entity receiver, Buff buff) {

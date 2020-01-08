@@ -37,11 +37,6 @@ public class AzureCrab extends Creature {
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
-//        bounds.x = 2;
-//        bounds.y = 2;
-//        bounds.width = 28;
-//        bounds.height = 28;
-
         // Animations
         aDown = new Animation(333, Assets.blueCrabDown);
         aUp = new Animation(333, Assets.blueCrabUp);
