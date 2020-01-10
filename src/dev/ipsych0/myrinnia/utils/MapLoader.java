@@ -337,11 +337,11 @@ public class MapLoader implements Serializable {
                                 itemsShop = attributes.getValue("value");
                             }
                         } else if (TiledObjectType.NPC == objectType && attributes.getValue("name").equalsIgnoreCase("direction")) {
-                                try {
-                                    direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
-                                } catch (Exception e) {
-                                    System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
-                                }
+                            try {
+                                direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
+                            } catch (Exception e) {
+                                System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
+                            }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
                                 itemAmount = Integer.parseInt(attributes.getValue("value"));

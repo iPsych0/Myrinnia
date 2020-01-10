@@ -650,16 +650,14 @@ public abstract class Entity implements Serializable {
                         // If we don't meet the condition, return to whatever menu falseId points to
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
-                    interact();
-                    return;
                 } else {
                     // If there is no condition, we can always proceed
                     if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
-                    interact();
-                    return;
                 }
+                interact();
+                return;
             }
 
             // Update the list of dialogue choices
