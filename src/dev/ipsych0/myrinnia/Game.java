@@ -82,6 +82,9 @@ public class Game implements Runnable, Serializable {
         // Add fractional metrics so text will be rendered with more accurate position
         renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,
                 RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
     }
 
     private void init() {

@@ -5,11 +5,11 @@ import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
@@ -44,7 +44,7 @@ public class KeyManager implements KeyListener, Serializable {
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
     public static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
-    statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey, hudKey;
+            statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey, hudKey;
 
     public KeyManager() {
         keys = new boolean[256];
@@ -52,7 +52,7 @@ public class KeyManager implements KeyListener, Serializable {
         cantPress = new boolean[keys.length];
     }
 
-    public void loadKeybinds(){
+    public void loadKeybinds() {
         upKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("upKey").charAt(0));
         downKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("downKey").charAt(0));
         leftKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("leftKey").charAt(0));
@@ -73,10 +73,13 @@ public class KeyManager implements KeyListener, Serializable {
 
         if (!typingFocus) {
             // Movement keys
-            up = keys[upKey];
-            down = keys[downKey];
-            left = keys[leftKey];
-            right = keys[rightKey];
+
+            if (Handler.get().getPlayer().isMovementAllowed()) {
+                up = keys[upKey];
+                down = keys[downKey];
+                left = keys[leftKey];
+                right = keys[rightKey];
+            }
 
             if (!up && !down && !left && !right) {
                 Player.isMoving = false;
