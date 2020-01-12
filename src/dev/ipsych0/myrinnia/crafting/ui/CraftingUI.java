@@ -432,9 +432,9 @@ public class CraftingUI implements Serializable {
                 if (currentSelectedSlot != null) {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),
                             Handler.get().getMouseManager().getMouseY(), null);
-                    g.setFont(Assets.font14);
-                    g.setColor(Color.YELLOW);
-                    g.drawString(Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16);
+
+                    Text.drawString(g, String.valueOf(currentSelectedSlot.getAmount()),
+                            Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
                 }
             }
         }

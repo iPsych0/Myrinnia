@@ -29,7 +29,16 @@ public class FarmingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.vineRoot, SkillCategory.Fruits));
+        resources.add(new FarmingResource(1, Item.vineRoot, 3, SkillCategory.Vegetables, 1L, Item.chitin));
+    }
+
+    @Override
+    public SkillResource getResourceByItem(Item item) {
+        return resources
+                .stream()
+                .filter(x -> ((FarmingResource)x).getSeed().getId() == item.getId())
+                .findAny()
+                .orElse(null);
     }
 
     @Override

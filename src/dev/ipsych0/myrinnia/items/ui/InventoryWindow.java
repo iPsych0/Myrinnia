@@ -96,6 +96,12 @@ public class InventoryWindow implements Serializable {
 
                 Rectangle slot = is.getBounds();
 
+                if (is.getItemStack() != null) {
+                    if (is.getItemStack().getAmount() <= 0) {
+                        is.setItemStack(null);
+                    }
+                }
+
                 // If an item is dragged
                 if (Handler.get().getMouseManager().isDragged()) {
                     if (slot.contains(mouse) && !hasBeenPressed && !itemSelected) {

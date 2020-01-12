@@ -6,22 +6,37 @@ import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
 public class FarmingResource extends SkillResource{
 
-    private int levelRequirement;
     private Item seed;
+    private int quantity;
     private long timePlanted;
-    private long timeToGrow = 60L * 60L;
+    private long timeToGrow;
     private Item harvest;
     private boolean composted;
     private boolean watered;
 
-    public FarmingResource(int requirement, Item seed, SkillCategory category, long timeToGrow, Item harvest) {
+    public FarmingResource(int requirement, Item seed, int quantity, SkillCategory category, long minutesToGrow, Item harvest) {
         super(requirement, harvest, category);
 
         if (!seed.isType(ItemType.SEED)) {
             throw new IllegalArgumentException("Farming resources must use seeds. '" + seed.getName() + "' is not a seed.");
         }
+
         this.seed = seed;
-        this.timeToGrow = timeToGrow;
+        this.quantity = quantity;
+        this.timeToGrow = minutesToGrow * 60L;
+        this.harvest = harvest;
+    }
+
+    public FarmingResource(int requirement, Item seed, SkillCategory category, long minutesToGrow, Item harvest) {
+        super(requirement, harvest, category);
+
+        if (!seed.isType(ItemType.SEED)) {
+            throw new IllegalArgumentException("Farming resources must use seeds. '" + seed.getName() + "' is not a seed.");
+        }
+
+        this.quantity = 1;
+        this.seed = seed;
+        this.timeToGrow = minutesToGrow * 60L;
         this.harvest = harvest;
     }
 
@@ -71,5 +86,13 @@ public class FarmingResource extends SkillResource{
 
     public void setWatered(boolean watered) {
         this.watered = watered;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

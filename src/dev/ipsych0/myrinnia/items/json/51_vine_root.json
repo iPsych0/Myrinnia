@@ -1,6 +1,7 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "CRAFTING_MATERIAL",
+    "SEED"
   ],
   "itemRarity": "Common",
   "name": "Vine root",
