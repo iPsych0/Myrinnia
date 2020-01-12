@@ -58,14 +58,17 @@ public class Assets {
 
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
-                                simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
-                                chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
-                                lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell;
+            simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
+            copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
+            chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
+            lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
             weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+
+    // Farming icons
+    public static BufferedImage cropsPlanted1;
 
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
@@ -215,6 +218,7 @@ public class Assets {
         SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
         SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
         SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
+        SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
 
         /*
          * Player/NPCs
@@ -340,8 +344,8 @@ public class Assets {
         stunIcon = ui_sheet.imageCrop(4, 2);
 
         // Weakness & Resistance icons
-        resistanceIcon = ui_sheet.imageCrop(4,1);
-        weaknessIcon = ui_sheet.imageCrop(6,1);
+        resistanceIcon = ui_sheet.imageCrop(4, 1);
+        weaknessIcon = ui_sheet.imageCrop(6, 1);
 
         // Buff icons
         strBuffIcon = ui_sheet.imageCrop(0, 3);
@@ -361,7 +365,7 @@ public class Assets {
 
         // Crafting UI sprites
         undiscovered = ui_sheet.imageCrop(0, 0);
-        exclamationIcon = ui_sheet.imageCrop(3,1);
+        exclamationIcon = ui_sheet.imageCrop(3, 1);
 
         /*
          * Generic Button Sprites
@@ -435,6 +439,13 @@ public class Assets {
         trout = item_sheet.imageCrop(1, 13);
         boneMeal = item_sheet.imageCrop(1, 14);
         rockyShell = item_sheet.imageCrop(1, 15);
+        tomatoSeeds = item_sheet.imageCrop(1, 16);
+        cabbageSeeds = item_sheet.imageCrop(1, 17);
+        tomato = item_sheet.imageCrop(1, 18);
+        cabbage = item_sheet.imageCrop(1, 19);
+
+        // Farming sprites
+        cropsPlanted1 = farming_sheet.imageCrop(0, 0);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);
@@ -494,7 +505,7 @@ public class Assets {
 
         venovineDown = enemy_sheet3.npcCrop(0, 0, WIDTH, HEIGHT);
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
-        venovineRight= enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
+        venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
 
         // NPC Sprites
@@ -750,42 +761,42 @@ public class Assets {
         portAzureCooperUp = azureal_island_npcs.npcCrop(9, 7);
 
         shamrockEdgarDown = shamrock_npcs.npcCrop(0, 0);
-        shamrockEdgarLeft= shamrock_npcs.npcCrop(0, 1);
+        shamrockEdgarLeft = shamrock_npcs.npcCrop(0, 1);
         shamrockEdgarRight = shamrock_npcs.npcCrop(0, 2);
         shamrockEdgarUp = shamrock_npcs.npcCrop(0, 3);
 
         shamrockEdvardDown = shamrock_npcs.npcCrop(3, 0);
-        shamrockEdvardLeft= shamrock_npcs.npcCrop(3, 1);
+        shamrockEdvardLeft = shamrock_npcs.npcCrop(3, 1);
         shamrockEdvardRight = shamrock_npcs.npcCrop(3, 2);
         shamrockEdvardUp = shamrock_npcs.npcCrop(3, 3);
 
         shamrockEsmundDown = shamrock_npcs.npcCrop(6, 0);
-        shamrockEsmundLeft= shamrock_npcs.npcCrop(6, 1);
+        shamrockEsmundLeft = shamrock_npcs.npcCrop(6, 1);
         shamrockEsmundRight = shamrock_npcs.npcCrop(6, 2);
         shamrockEsmundUp = shamrock_npcs.npcCrop(6, 3);
 
         shamrockJoraDown = shamrock_npcs.npcCrop(9, 0);
-        shamrockJoraLeft= shamrock_npcs.npcCrop(9, 1);
+        shamrockJoraLeft = shamrock_npcs.npcCrop(9, 1);
         shamrockJoraRight = shamrock_npcs.npcCrop(9, 2);
         shamrockJoraUp = shamrock_npcs.npcCrop(9, 3);
 
         malachiteThug1Down = malachite_npcs.npcCrop(0, 0);
-        malachiteThug1Left= malachite_npcs.npcCrop(0, 1);
+        malachiteThug1Left = malachite_npcs.npcCrop(0, 1);
         malachiteThug1Right = malachite_npcs.npcCrop(0, 2);
         malachiteThug1Up = malachite_npcs.npcCrop(0, 3);
 
         malachiteThug2Down = malachite_npcs.npcCrop(3, 0);
-        malachiteThug2Left= malachite_npcs.npcCrop(3, 1);
+        malachiteThug2Left = malachite_npcs.npcCrop(3, 1);
         malachiteThug2Right = malachite_npcs.npcCrop(3, 2);
         malachiteThug2Up = malachite_npcs.npcCrop(3, 3);
 
         malachiteThugLeaderDown = malachite_npcs.npcCrop(6, 0);
-        malachiteThugLeaderLeft= malachite_npcs.npcCrop(6, 1);
+        malachiteThugLeaderLeft = malachite_npcs.npcCrop(6, 1);
         malachiteThugLeaderRight = malachite_npcs.npcCrop(6, 2);
         malachiteThugLeaderUp = malachite_npcs.npcCrop(6, 3);
 
         malachiteTonyDown = malachite_npcs.npcCrop(9, 0);
-        malachiteTonyLeft= malachite_npcs.npcCrop(9, 1);
+        malachiteTonyLeft = malachite_npcs.npcCrop(9, 1);
         malachiteTonyRight = malachite_npcs.npcCrop(9, 2);
         malachiteTonyUp = malachite_npcs.npcCrop(9, 3);
 

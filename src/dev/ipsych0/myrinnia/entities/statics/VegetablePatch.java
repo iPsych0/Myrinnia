@@ -57,7 +57,7 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         if (resource != null) {
             for (int x = 0; x < width; x += 32) {
                 for (int y = 0; y < height; y += 32) {
-                    g.drawImage(Assets.farmingIcon, (int) (this.x + x - Handler.get().getGameCamera().getxOffset()), (int) (this.y + y - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
+                    g.drawImage(Assets.cropsPlanted1, (int) (this.x + x - Handler.get().getGameCamera().getxOffset()), (int) (this.y + y - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
                 }
             }
         }
@@ -108,8 +108,8 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
             return;
         }
 
-        if (!Handler.get().playerHasItem(resource.getItem(), resource.getQuantity())) {
-            Handler.get().sendMsg("You need " + resource.getQuantity() + " " + resource.getItem().getName() + " to plant that crop.");
+        if (!Handler.get().playerHasItem(seeds.getItem(), resource.getQuantity())) {
+            Handler.get().sendMsg("You need " + resource.getQuantity() + " " + seeds.getItem().getName() + " to plant that crop.");
             resource = null;
             return;
         }
@@ -117,5 +117,6 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         // Plant the seed and remove from inventory.
         Handler.get().removeItem(seeds.getItem(), resource.getQuantity());
         resource.setTimePlanted(System.currentTimeMillis());
+        Handler.get().sendMsg("You planted " + resource.getQuantity() + " " + seeds.getItem().getName() + ".");
     }
 }

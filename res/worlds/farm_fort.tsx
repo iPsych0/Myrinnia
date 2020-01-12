@@ -4149,19 +4149,19 @@
  <tile id="690">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="691">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="692">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="693">
@@ -8072,26 +8072,31 @@
  </tile>
  <tile id="1344">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.5" y="0.131579">
+    <polygon points="0,0 0.526316,32.1053 14.5,31.8684 14.5,-0.131579"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1345">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1346">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1347">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1348">
@@ -8321,6 +8326,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="18" y="0">
+    <polygon points="0,0 0.181818,32.1818 14,32 14,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1386">
   <properties>
@@ -8567,12 +8577,22 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.6364" y="-0.181818">
+    <polygon points="0,0 0.181818,32.5455 14.3636,32.1818 14.3636,0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1427">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,32 16,32.1818 15.8182,-0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1428">
   <properties>
@@ -8585,6 +8605,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.4545" y="0">
+    <polygon points="0,0 0.181818,31.6364 14.5455,32 14.5455,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1430">
   <properties>
@@ -8813,17 +8838,27 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.6364" y="0.181818">
+    <polygon points="0,0 0.545455,32.1818 14.3636,31.8182 14.3636,-0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1468">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,32 14,32.1818 14,-0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1469">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="1470">
@@ -8831,6 +8866,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="32" y="0">
+    <polyline points="0,0 0,32 -14.1818,32 -14.3636,0 0,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1471">
   <properties>
@@ -9059,6 +9099,11 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.6364" y="-0.363636">
+    <polygon points="0,0 0.181818,26.1818 14.1818,26.3636 14.3636,0.363636"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1509">
   <properties>

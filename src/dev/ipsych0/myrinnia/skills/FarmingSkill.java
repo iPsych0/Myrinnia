@@ -29,7 +29,8 @@ public class FarmingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new FarmingResource(1, Item.vineRoot, 3, SkillCategory.Vegetables, 1L, Item.chitin));
+        resources.add(new FarmingResource(1, Item.tomatoSeeds, 3, SkillCategory.Vegetables, 30L, Item.tomato));
+        resources.add(new FarmingResource(1, Item.cabbageSeeds, 3, SkillCategory.Vegetables, 30L, Item.cabbage));
     }
 
     @Override

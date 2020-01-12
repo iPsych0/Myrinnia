@@ -81,6 +81,10 @@ public class Item implements Serializable {
     public static Item trout = Utils.loadItem("61_trout.json", Assets.trout);
     public static Item boneMeal = Utils.loadItem("62_bonemeal.json", Assets.boneMeal);
     public static Item rockyShell = Utils.loadItem("63_rocky_shell.json", Assets.rockyShell);
+    public static Item tomatoSeeds = Utils.loadItem("64_tomato_seeds.json", Assets.tomatoSeeds);
+    public static Item cabbageSeeds = Utils.loadItem("65_cabbage_seeds.json", Assets.cabbageSeeds);
+    public static Item tomato = Utils.loadItem("66_tomato.json", Assets.tomato);
+    public static Item cabbage = Utils.loadItem("67_cabbage.json", Assets.cabbage);
 
     static {
         initPotions();

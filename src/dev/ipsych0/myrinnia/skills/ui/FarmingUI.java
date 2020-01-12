@@ -3,9 +3,11 @@ package dev.ipsych0.myrinnia.skills.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.skills.FarmingResource;
 import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -31,7 +33,7 @@ public class FarmingUI {
     private static Color selectedColor = new Color(0, 255, 255, 62);
     private static Color insufficientAmountColor = new Color(255, 0, 0, 62);
     private List<Item> categoryItems;
-
+    public static boolean hasBeenPressed;
 
 
     public FarmingUI(SkillCategory category, FarmingPatch farmingPatch) {
@@ -41,7 +43,7 @@ public class FarmingUI {
         categoryItems = new ArrayList<>();
         List<SkillResource> resources = Handler.get().getSkill(SkillsList.FARMING).getListByCategory(category);
         for (SkillResource res : resources) {
-            categoryItems.add(res.getItem());
+            categoryItems.add(((FarmingResource) res).getSeed());
         }
 
         farmingSlots = new ArrayList<>();
@@ -66,15 +68,22 @@ public class FarmingUI {
             close();
         }
 
-        if (selectedButton != null && plantButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
-            farmingPatch.plant(selectedButton.getSeeds());
+        if (selectedButton != null && plantButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            hasBeenPressed = false;
+            if (!categoryItems.contains(selectedButton.getSeed().getItem())) {
+                Handler.get().sendMsg("You can't plant that type of seed in a " + farmingPatch.getName() + ".");
+                return;
+            }
+            farmingPatch.plant(selectedButton.getSeed());
             close();
         }
     }
 
     private void close() {
+        escapePressed = false;
         selectedButton = null;
         open = false;
+        MouseManager.justClosedUI = true;
     }
 
     public void render(Graphics2D g) {
@@ -82,7 +91,7 @@ public class FarmingUI {
         uiManager.render(g);
 
         for (FarmingSlot fs : farmingSlots) {
-            if (!categoryItems.contains(fs.getSeeds().getItem())) {
+            if (!categoryItems.contains(fs.getSeed().getItem()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeed().getItem())) {
                 g.setColor(insufficientAmountColor);
                 g.fillRoundRect(fs.x, fs.y, fs.width, fs.height, 4, 4);
             }

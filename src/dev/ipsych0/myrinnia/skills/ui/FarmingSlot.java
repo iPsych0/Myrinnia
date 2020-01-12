@@ -12,7 +12,6 @@ import java.awt.*;
 public class FarmingSlot extends UIImageButton {
 
     private ItemStack seeds;
-    private boolean canPlant;
 
     public FarmingSlot(int x, int y, ItemStack seeds) {
         super(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
@@ -27,13 +26,9 @@ public class FarmingSlot extends UIImageButton {
         super.render(g);
         g.drawImage(seeds.getItem().getTexture(), x, y, width, height, null);
         Text.drawString(g, String.valueOf(seeds.getAmount()), x, y + ItemSlot.SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
-        if (!canPlant) {
-            // TODO: Fill with red border
-        }
-
     }
 
-    public ItemStack getSeeds() {
+    public ItemStack getSeed() {
         return seeds;
     }
 

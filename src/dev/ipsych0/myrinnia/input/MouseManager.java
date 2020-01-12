@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
@@ -98,6 +99,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             AbilityOverviewUI.hasBeenPressed = true;
             DialogueBox.hasBeenPressed = true;
             CelebrationUI.hasBeenPressed = true;
+            FarmingUI.hasBeenPressed = true;
         }
 
         // Right Click
