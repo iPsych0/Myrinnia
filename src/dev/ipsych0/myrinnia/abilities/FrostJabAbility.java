@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -91,7 +92,7 @@ public class FrostJabAbility extends Ability implements Serializable {
                     // 10% Chance of chilling
                     int rnd = Handler.get().getRandomNumber(1, 10);
                     if (rnd == 1) {
-                        e.addCondition(caster, e, new Condition(Condition.Type.CHILL, e, 3));
+                        e.addCondition(caster, e, new Condition(Condition.Type.CHILL, 3));
                     }
                     // Break because we only hit 1 target
                     break;
@@ -105,7 +106,7 @@ public class FrostJabAbility extends Ability implements Serializable {
                 // 10% Chance of chilling
                 int rnd = Handler.get().getRandomNumber(1, 10);
                 if (rnd == 1) {
-                    player.addCondition(caster, player, new Condition(Condition.Type.CHILL, player, 3));
+                    player.addCondition(caster, player, new Condition(Condition.Type.CHILL, 3));
                 }
             }
         }

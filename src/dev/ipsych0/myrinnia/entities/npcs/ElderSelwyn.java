@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.*;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -9,7 +10,6 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;

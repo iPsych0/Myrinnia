@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;

@@ -1,6 +1,7 @@
-package dev.ipsych0.myrinnia.abilities;
+package dev.ipsych0.myrinnia.abilities.data;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.utils.Utils;

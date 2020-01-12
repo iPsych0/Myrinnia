@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
@@ -278,6 +279,8 @@ public abstract class Entity implements Serializable {
             damageReceiver.die();
             clearActiveAbilities();
         }
+
+        EffectManager.get().applyOnHitEffect(dealer, receiver);
     }
 
     /*
@@ -306,6 +309,8 @@ public abstract class Entity implements Serializable {
             damageReceiver.die();
             clearActiveAbilities();
         }
+
+        EffectManager.get().applyOnHitEffect(dealer, receiver);
     }
 
     private void clearActiveAbilities() {
@@ -365,6 +370,7 @@ public abstract class Entity implements Serializable {
         damageReceiver.inCombat = true;
 
         Creature r = ((Creature) receiver);
+        condition.setReceiver(receiver);
 
         boolean hasCondition = false;
         double multiplier = 1.0;
@@ -378,22 +384,22 @@ public abstract class Entity implements Serializable {
                     Resistance i = getResistance(r, c.getType());
                     if (i != null) {
                         multiplier -= i.getEffectiveness();
-                        c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getCurrentDuration() * multiplier));
+                        c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getInitialDuration() * multiplier));
                     } else {
                         // Otherwise stack normal duration
-                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
                     }
                 } else {
                     Resistance i = getResistance(r, c.getType());
                     if (i != null) {
                         // If we have a resistance, decrease the condition damage applied.
                         multiplier -= i.getEffectiveness();
-                        c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                        c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
                         c.setConditionDamage((int) Math.floor(condition.getConditionDamage() * multiplier));
                     } else {
                         // If the new ability has a higher condition damage than the current one, increase the damage and duration
                         if (condition.getConditionDamage() >= c.getConditionDamage()) {
-                            c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
+                            c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
                             c.setConditionDamage((int) Math.floor(condition.getConditionDamage()));
                         }
                     }
@@ -409,7 +415,7 @@ public abstract class Entity implements Serializable {
                 if (i != null) {
                     multiplier -= i.getEffectiveness();
                 }
-                condition.setCurrentDuration((int) (condition.getCurrentDuration() * multiplier));
+                condition.setCurrentDuration((int) (condition.getInitialDuration() * multiplier));
                 r.getConditions().add(condition);
             } else {
                 Resistance i = getResistance(r, condition.getType());

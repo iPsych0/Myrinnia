@@ -1,17 +1,13 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.Buff;
-import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class MendWoundsAbility extends Ability {
 

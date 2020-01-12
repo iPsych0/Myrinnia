@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.abilities;
+package dev.ipsych0.myrinnia.abilities.data;
 
 import java.awt.geom.Ellipse2D;
 

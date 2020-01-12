@@ -1,10 +1,14 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
+import dev.ipsych0.myrinnia.abilities.data.PBAoECircle;
+import dev.ipsych0.myrinnia.abilities.effects.ConditionOnHitEvent;
+import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -26,7 +30,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
     private static Color springColor = new Color(26, 93, 139, 172);
 
     public HealingSpringAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                                double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
@@ -56,6 +60,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialHealDone) {
+            EffectManager.get().addEvent(caster, new ConditionOnHitEvent(Condition.Type.POISON, 3, 5, 10, 3));
             springActive = true;
             pbAoECircle = new PBAoECircle(caster, 80);
 

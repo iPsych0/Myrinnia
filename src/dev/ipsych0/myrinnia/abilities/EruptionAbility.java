@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -8,7 +9,6 @@ import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 
@@ -65,7 +65,7 @@ public class EruptionAbility extends Ability {
                             continue;
                         if (!e.equals(caster)) {
                             e.damage(DamageType.INT, caster, e, this);
-                            e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 3));
+                            e.addCondition(caster, e, new Condition(Condition.Type.BURNING, 5, 3));
                         }
                     }
                 }
@@ -73,7 +73,7 @@ public class EruptionAbility extends Ability {
                 Player player = Handler.get().getPlayer();
                 if (hitBox.intersects(player.getCollisionBounds(0, 0))) {
                     player.damage(DamageType.INT, caster, player, this);
-                    player.addCondition(caster, player, new Condition(Condition.Type.BURNING, player, 5, 3));
+                    player.addCondition(caster, player, new Condition(Condition.Type.BURNING, 5, 3));
                 }
             }
         }

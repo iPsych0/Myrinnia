@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.abilities;
+package dev.ipsych0.myrinnia.abilities.data;
 
 public enum AbilityType {
 

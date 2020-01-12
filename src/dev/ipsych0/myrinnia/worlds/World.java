@@ -2,7 +2,8 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
@@ -183,6 +184,8 @@ public class World implements Serializable {
                 player.getBountyBoard().getBountyBoardUI().tick();
             }
 
+            EffectManager.get().tick();
+
             // Check for night-time every minute
             if (dayNightCycle && timeChecker++ >= 60 * 60) {
                 timeChecker = 0;
@@ -263,6 +266,8 @@ public class World implements Serializable {
 
             // Entities
             entityManager.render(g);
+
+            EffectManager.get().render(g);
 
 //        Composite composite = g.getComposite();
             for (int i = 0; i < renderOverTiles.size(); i++) {

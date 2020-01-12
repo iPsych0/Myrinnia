@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;

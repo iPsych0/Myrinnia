@@ -24,19 +24,17 @@ public class Condition implements Serializable {
     private static final double CHILL_MOVSPD = 0.66;
     private Type type;
 
-    public Condition(Type type, Entity receiver, int durationSeconds) {
+    public Condition(Type type, int durationSeconds) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
+        this.initialDuration = durationSeconds * 60;
         this.currentDuration = durationSeconds * 60;
-        this.initialDuration = currentDuration;
         this.active = true;
     }
 
-    public Condition(Type type, Entity receiver, int durationSeconds, int conditionDamage) {
+    public Condition(Type type, int durationSeconds, int conditionDamage) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
         this.currentDuration = durationSeconds * 60;
         this.initialDuration = currentDuration;
         this.conditionDamage = conditionDamage;
@@ -138,6 +136,22 @@ public class Condition implements Serializable {
 
     public Type getType() {
         return type;
+    }
+
+    public Entity getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Entity receiver) {
+        this.receiver = receiver;
+    }
+
+    public int getInitialDuration() {
+        return initialDuration;
+    }
+
+    public void setInitialDuration(int initialDuration) {
+        this.initialDuration = initialDuration;
     }
 
     public enum Type {

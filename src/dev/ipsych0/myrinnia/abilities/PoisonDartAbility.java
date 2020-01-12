@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.Serializable;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -12,13 +13,12 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 
 public class PoisonDartAbility extends Ability implements Serializable {
 
     public PoisonDartAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                             double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
@@ -63,7 +63,7 @@ public class PoisonDartAbility extends Ability implements Serializable {
                 .withAbility(this)
                 .withImpactSound("abilities/ranged_shot_impact.ogg")
                 .withImpact((c) -> {
-                    c.addCondition(caster, c, new Condition(Condition.Type.POISON, c, 5, 4));
+                    c.addCondition(caster, c, new Condition(Condition.Type.POISON, 5, 4));
                 }).build();
 
         setCasting(false);

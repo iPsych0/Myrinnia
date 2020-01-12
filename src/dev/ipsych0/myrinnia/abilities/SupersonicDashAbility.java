@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.Serializable;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -21,7 +22,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
     private Animation animation;
 
     public SupersonicDashAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                             double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                                 double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
     }
