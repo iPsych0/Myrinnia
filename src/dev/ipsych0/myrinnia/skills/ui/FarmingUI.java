@@ -6,6 +6,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.skills.SkillResource;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -27,10 +29,20 @@ public class FarmingUI {
     private boolean open;
     public static boolean escapePressed;
     private static Color selectedColor = new Color(0, 255, 255, 62);
+    private static Color insufficientAmountColor = new Color(255, 0, 0, 62);
+    private List<Item> categoryItems;
+
+
 
     public FarmingUI(SkillCategory category, FarmingPatch farmingPatch) {
         this.category = category;
         this.farmingPatch = farmingPatch;
+
+        categoryItems = new ArrayList<>();
+        List<SkillResource> resources = Handler.get().getSkill(SkillsList.FARMING).getListByCategory(category);
+        for (SkillResource res : resources) {
+            categoryItems.add(res.getItem());
+        }
 
         farmingSlots = new ArrayList<>();
         uiManager = new UIManager();
@@ -68,6 +80,13 @@ public class FarmingUI {
     public void render(Graphics2D g) {
         g.drawImage(Assets.uiWindow, x, y, width, height, null);
         uiManager.render(g);
+
+        for (FarmingSlot fs : farmingSlots) {
+            if (!categoryItems.contains(fs.getSeeds().getItem())) {
+                g.setColor(insufficientAmountColor);
+                g.fillRoundRect(fs.x, fs.y, fs.width, fs.height, 4, 4);
+            }
+        }
 
         if (selectedButton != null) {
             g.setColor(selectedColor);

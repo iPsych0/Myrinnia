@@ -54,8 +54,8 @@ public class CraftingUI implements Serializable {
     private List<CraftingRecipe> results;
     private List<CraftSelectSlot> selectSlots;
     private CraftSelectSlot selectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
-    private Color insufficientAmountColor = new Color(255, 0, 0, 62);
+    private static Color selectedColor = new Color(0, 255, 255, 62);
+    private static Color insufficientAmountColor = new Color(255, 0, 0, 62);
 
     public CraftingUI() {
         this.width = 242;

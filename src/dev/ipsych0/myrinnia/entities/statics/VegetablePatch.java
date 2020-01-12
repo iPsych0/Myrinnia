@@ -108,6 +108,12 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
             return;
         }
 
+        if (!Handler.get().playerHasItem(resource.getItem(), resource.getQuantity())) {
+            Handler.get().sendMsg("You need " + resource.getQuantity() + " " + resource.getItem().getName() + " to plant that crop.");
+            resource = null;
+            return;
+        }
+
         // Plant the seed and remove from inventory.
         Handler.get().removeItem(seeds.getItem(), resource.getQuantity());
         resource.setTimePlanted(System.currentTimeMillis());
