@@ -11,9 +11,9 @@ public class SkillResource implements Serializable {
      *
      */
     private static final long serialVersionUID = 242384514442352183L;
-    private int levelRequirement;
-    private Item item;
-    private SkillCategory category;
+    protected int levelRequirement;
+    protected Item item;
+    protected SkillCategory category;
 
     public SkillResource(int requirement, Item item, SkillCategory category) {
         this.levelRequirement = requirement;
