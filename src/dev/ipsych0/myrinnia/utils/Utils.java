@@ -50,6 +50,9 @@ public class Utils {
     }
 
     private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
+        if (jsonFile == null) {
+            throw new IllegalArgumentException("JSON file cannot be null/empty.");
+        }
         InputStream inputStream = null;
         jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
         inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);

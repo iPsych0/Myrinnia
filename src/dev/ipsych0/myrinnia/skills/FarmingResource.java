@@ -11,10 +11,10 @@ public class FarmingResource extends SkillResource{
     private long timePlanted;
     private long timeToGrow;
     private Item harvest;
-    private boolean composted;
-    private boolean watered;
+    private int harvestQuantity;
+    private int experience;
 
-    public FarmingResource(int requirement, Item seed, int quantity, SkillCategory category, long minutesToGrow, Item harvest) {
+    public FarmingResource(int requirement, Item seed, int quantity, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience) {
         super(requirement, harvest, category);
 
         if (!seed.isType(ItemType.SEED)) {
@@ -25,9 +25,11 @@ public class FarmingResource extends SkillResource{
         this.quantity = quantity;
         this.timeToGrow = minutesToGrow * 60L;
         this.harvest = harvest;
+        this.harvestQuantity = harvestQuantity;
+        this.experience = experience;
     }
 
-    public FarmingResource(int requirement, Item seed, SkillCategory category, long minutesToGrow, Item harvest) {
+    public FarmingResource(int requirement, Item seed, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience) {
         super(requirement, harvest, category);
 
         if (!seed.isType(ItemType.SEED)) {
@@ -38,6 +40,8 @@ public class FarmingResource extends SkillResource{
         this.seed = seed;
         this.timeToGrow = minutesToGrow * 60L;
         this.harvest = harvest;
+        this.harvestQuantity = harvestQuantity;
+        this.experience = experience;
     }
 
     public Item getSeed() {
@@ -72,27 +76,27 @@ public class FarmingResource extends SkillResource{
         this.harvest = harvest;
     }
 
-    public boolean isComposted() {
-        return composted;
-    }
-
-    public void setComposted(boolean composted) {
-        this.composted = composted;
-    }
-
-    public boolean isWatered() {
-        return watered;
-    }
-
-    public void setWatered(boolean watered) {
-        this.watered = watered;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getHarvestQuantity() {
+        return harvestQuantity;
+    }
+
+    public void setHarvestQuantity(int harvestQuantity) {
+        this.harvestQuantity = harvestQuantity;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 }

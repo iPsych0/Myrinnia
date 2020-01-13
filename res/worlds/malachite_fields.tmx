@@ -326,6 +326,7 @@
   </object>
   <object id="18" name="Vegetable Patch" type="npc" x="2112" y="2048" width="192" height="64">
    <properties>
+    <property name="jsonFile" value="farming_patch.json"/>
     <property name="name" value="Vegetable Patch"/>
     <property name="npcClass" value="VegetablePatch"/>
    </properties>
