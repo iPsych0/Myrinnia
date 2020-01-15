@@ -196,15 +196,6 @@ public abstract class Creature extends Entity {
     }
 
     /*
-     * The default damage formula (see Entity::getDamage() function)
-     * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
-     */
-    @Override
-    public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
-        return super.getDamage(damageType, dealer, receiver);
-    }
-
-    /*
      * Moves on the X or Y axis, keeping in mind the collision detection
      */
     public void move() {

@@ -39,6 +39,10 @@ public class GameCamera implements Serializable {
         }
     }
 
+    public boolean isAtAnyBound() {
+        return isAtRightBound() || isAtBottomBound() || isAtLeftBound() || isAtTopBound();
+    }
+
     public boolean isAtRightBound() {
         if(Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
             return false;

@@ -83,8 +83,8 @@ public class Game implements Runnable, Serializable {
         renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,
                 RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
-        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+//        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+//                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
     }
 
     private void init() {

@@ -46,9 +46,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.World;
-import dev.ipsych0.myrinnia.worlds.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.*;
 
 import java.awt.*;
 import java.io.*;
@@ -172,7 +170,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World(Zone.PortAzure, initialWorldPath);
+        portAzure = new World(Zone.PortAzure, new Rain(true), initialWorldPath);
         worldHandler = new WorldHandler(portAzure);
     }
 

@@ -24,6 +24,9 @@ public class Assets {
     public static Font font48;
     public static Font font64;
 
+    // Weather effects
+    public static BufferedImage rain, snow, sandStorm, fog;
+
     // Map item images (trees, rocks, etc)
     public static BufferedImage weakPalmTree, elmTree, azuriteRock, copperRock, ironRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
@@ -61,7 +64,8 @@ public class Assets {
             simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
             copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
-            lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage;
+            lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
+            wateringCan;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -219,6 +223,18 @@ public class Assets {
         SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
         SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
         SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
+
+        /*
+         * Weather sprites
+         */
+        SpriteSheet rain_sheet = new SpriteSheet("/textures/weather/wsheet_rain1_1.png");
+        rain = rain_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet snow_sheet = new SpriteSheet("/textures/weather/wsheet_snow_1.png");
+        snow = snow_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet sand_sheet = new SpriteSheet("/textures/weather/wsheet_sand_1.png");
+        sandStorm = sand_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet fog_sheet = new SpriteSheet("/textures/weather/wsheet_fog_1.png");
+        fog = fog_sheet.imageCrop(0, 0, 128, 32);
 
         /*
          * Player/NPCs
@@ -443,6 +459,7 @@ public class Assets {
         cabbageSeeds = item_sheet.imageCrop(1, 17);
         tomato = item_sheet.imageCrop(1, 18);
         cabbage = item_sheet.imageCrop(1, 19);
+        wateringCan = item_sheet.imageCrop(1, 20);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

@@ -45,7 +45,7 @@ public class BountyBoardAzure extends BountyBoard {
     public void interact() {
         List<QuestStep> steps = Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps();
         if (steps != null) {
-            if (steps.get(2).isFinished()) {
+            if (steps.get(1).isFinished()) {
                 BountyBoardUI.isOpen = true;
             } else {
                 Handler.get().sendMsg("I should probably ask the mayor what to do here first.");
