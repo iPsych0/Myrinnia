@@ -40,6 +40,10 @@ public class FishingSpot extends StaticEntity {
             fish = Item.mackerelFish;
             experience = 10;
         }
+        if (name.equalsIgnoreCase("Trout Fishing Spot")) {
+            fish = Item.trout;
+            experience = 15;
+        }
     }
 
     @Override

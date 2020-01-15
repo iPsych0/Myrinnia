@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
 
@@ -473,25 +474,25 @@ public abstract class Entity implements Serializable {
     }
 
     public void drawHP(Graphics2D g) {
-        g.setColor(HPOverlay.hpColorRed);
+        g.setColor(Colors.hpColorRed);
         g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
-        g.setColor(HPOverlay.hpColorRedOutline);
+        g.setColor(Colors.hpColorRedOutline);
         g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
 
-        g.setColor(HPOverlay.hpColorGreen);
+        g.setColor(Colors.hpColorGreen);
         if (health >= maxHealth) {
             g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         } else {
             g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6);
@@ -546,19 +547,19 @@ public abstract class Entity implements Serializable {
     }
 
     public void drawHPinOverlay(Graphics2D g, Entity hoveringEntity, Rectangle titleBounds) {
-        g.setColor(HPOverlay.hpColorRed);
+        g.setColor(Colors.hpColorRed);
         g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
-        g.setColor(HPOverlay.hpColorRedOutline);
+        g.setColor(Colors.hpColorRedOutline);
         g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
 
-        g.setColor(HPOverlay.hpColorGreen);
+        g.setColor(Colors.hpColorGreen);
         if (health >= maxHealth) {
             g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
         } else {
             g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
         }
     }

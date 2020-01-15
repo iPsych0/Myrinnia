@@ -9,6 +9,13 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 public class Tree extends StaticEntity {
 
@@ -26,6 +33,10 @@ public class Tree extends StaticEntity {
     private int attempts = 0;
     private Item logs;
     private int experience;
+    private static Map<String, BufferedImage> textureMap = Map.ofEntries(
+            entry("Weak Palm Tree", Assets.weakPalmTree),
+            entry("Elm Tree", Assets.elmTree)
+    );
 
     public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -34,6 +45,13 @@ public class Tree extends StaticEntity {
         attackable = false;
 
         if (name.equalsIgnoreCase("Weak Palm Tree")) {
+            logs = Item.lightWood;
+            experience = 10;
+            bounds.x = 32;
+            bounds.y = 104;
+            bounds.width = 32;
+            bounds.height = 16;
+        } else if (name.equalsIgnoreCase("Elm Tree")) {
             logs = Item.lightWood;
             experience = 10;
             bounds.x = 32;
@@ -103,7 +121,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.weakPalmTree, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(textureMap.get(name), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 
@@ -153,5 +171,4 @@ public class Tree extends StaticEntity {
     protected void updateDialogue() {
 
     }
-
 }

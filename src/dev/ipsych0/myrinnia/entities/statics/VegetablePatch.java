@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.skills.ui.FarmingPatch;
 import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -31,7 +32,6 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
     public static boolean tutorialDone;
     private Rectangle progressBar;
     private Rectangle totalBar;
-    private static Color selectedColor = new Color(0, 255, 255, 127);
 
     public VegetablePatch(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -93,12 +93,16 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         double percentDone = ((currentTime - resource.getTimePlanted()) / 1000D / (double) resource.getTimeToGrow());
 
         progressBar.setSize((int) (totalBar.width * percentDone), 16);
-        g.setColor(selectedColor);
         g.drawImage(Assets.uiWindow, (int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, null);
+
+        g.setColor(Colors.progressBarColor);
         g.fillRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
-        g.setColor(Color.BLACK);
-        g.drawRoundRect((int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, 4, 4);
+
+        g.setColor(Colors.progressBarOutlineColor);
         g.drawRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
+
+//        g.setColor(Color.BLACK);
+//        g.drawRoundRect((int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, 4, 4);
     }
 
     @Override

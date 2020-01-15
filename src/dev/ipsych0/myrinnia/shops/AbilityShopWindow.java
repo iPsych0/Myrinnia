@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,7 +31,6 @@ public class AbilityShopWindow implements Serializable {
     private ArrayList<AbilityShopSlot> currentSlots;
     public static boolean hasBeenPressed;
     private AbilityShopSlot selectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private UIImageButton buyButton;
     private UIImageButton exitButton;
     private UIImageButton allButton, meleeButton, rangedButton, magicButton;
@@ -179,7 +179,7 @@ public class AbilityShopWindow implements Serializable {
         // Draw selected ability information
         if (selectedSlot != null) {
             Ability a = selectedSlot.getAbility();
-            g.setColor(selectedColor);
+            g.setColor(Colors.selectedColor);
             g.fillRect((int) selectedSlot.getX(), (int) selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 
             Text.drawString(g, a.getName() + " costs: " + a.getPrice() + " ability points.", x + width / 2, buyButton.y + buyButton.height + 16, true, Color.YELLOW, Assets.font14);
@@ -296,7 +296,7 @@ public class AbilityShopWindow implements Serializable {
     }
 
     private void drawButtons(Graphics2D g) {
-        g.setColor(selectedColor);
+        g.setColor(Colors.selectedColor);
         g.fillRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height);
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);

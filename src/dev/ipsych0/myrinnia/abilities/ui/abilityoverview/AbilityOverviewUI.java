@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -40,7 +41,6 @@ public class AbilityOverviewUI implements Serializable {
     private AbilityOverviewUIButton lastElementTab;
 
     private AbilityTooltip abilityTooltip;
-    private static Color selectedColor = new Color(0, 255, 255, 62);
 
     private UIManager uiManager;
     private UIManager abilityUIManager;
@@ -233,7 +233,7 @@ public class AbilityOverviewUI implements Serializable {
                 currentSelectedAbility.renderIcon(g, mouse.x, mouse.y);
             }
 
-            g.setColor(selectedColor);
+            g.setColor(Colors.selectedColor);
             g.fillRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height);
             g.fillRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height);
         }

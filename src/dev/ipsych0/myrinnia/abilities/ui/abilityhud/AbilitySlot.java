@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -19,9 +20,6 @@ public class AbilitySlot extends UIImageButton implements Serializable {
     private static final long serialVersionUID = 4376752517769900190L;
     private Ability ability;
     private int x, y;
-    private Color cooldownColor = new Color(24, 24, 24, 192);
-    private Color selectedColor = new Color(64, 64, 64, 192);
-    private Color blockedColor = new Color(224, 0, 0, 160);
     private Rectangle bounds;
 
     public AbilitySlot(Ability ability, int x, int y) {
@@ -42,14 +40,14 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         if (ability != null) {
             ability.renderIcon(g, x, y);
             if (!Handler.get().getAbilityManager().getAbilityHUD().compatibleWeaponType(ability, false)) {
-                g.setColor(blockedColor);
+                g.setColor(Colors.blockedColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
             if (ability.isSelectable() && ability.isSelected()) {
-                g.setColor(selectedColor);
+                g.setColor(Colors.selectedColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             } else if (ability.isOnCooldown()) {
-                g.setColor(cooldownColor);
+                g.setColor(Colors.cooldownColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
             }
@@ -62,7 +60,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         if (ability != null) {
             ability.renderIcon(g, x, y);
             if (!ability.isUnlocked()) {
-                g.setColor(cooldownColor);
+                g.setColor(Colors.cooldownColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
         }

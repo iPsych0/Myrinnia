@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
+import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -20,7 +21,6 @@ public class AStarMap implements Serializable {
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
-    public static Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
 
@@ -77,7 +77,7 @@ public class AStarMap implements Serializable {
                     g.setColor(Color.RED);
                     g.drawRect((int) (nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 } else {
-                    g.setColor(unwalkableColour);
+                    g.setColor(Colors.unwalkableColour);
                     g.fillRect((int) (nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 }
             }

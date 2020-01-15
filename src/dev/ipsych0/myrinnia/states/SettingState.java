@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -20,7 +21,6 @@ public class SettingState extends State {
     public static State previousState;
     public static State selectedState;
     private Rectangle overlay;
-    private Color selectedColor = new Color(0, 255, 255, 62);
 
     public SettingState() {
         this.uiManager = new UIManager();
@@ -122,7 +122,7 @@ public class SettingState extends State {
         g.drawImage(Assets.genericButton[1], Handler.get().getWidth() / 2 - 192, 24, 384, 48, null);
         this.uiManager.render(g);
 
-        g.setColor(selectedColor);
+        g.setColor(Colors.selectedColor);
         g.fillRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height);
 
         Text.drawString(g, "Settings", Handler.get().getWidth() / 2, 48, true, Color.YELLOW, Assets.font32);

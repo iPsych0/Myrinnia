@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -80,7 +81,6 @@ public abstract class Creature extends Entity {
     int pathFindRadiusY = 1024;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private boolean aStarInitialized;
-    private static Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     protected static final int TIMES_PER_SECOND = 4;
@@ -495,7 +495,7 @@ public abstract class Creature extends Entity {
 
             if (nodes != null) {
                 for (Node n : nodes) {
-                    g.setColor(pathColour);
+                    g.setColor(Colors.pathFindingColor);
                     g.fillRect((int) (n.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (n.getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 }
             }

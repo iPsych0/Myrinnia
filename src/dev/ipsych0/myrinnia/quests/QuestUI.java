@@ -157,7 +157,7 @@ public class QuestUI implements Serializable {
                 for (int i = 0; i < Handler.get().getQuestManager().getZoneMap().get(selectedZone).size(); i++) {
                     Color color;
                     if (Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.NOT_STARTED)
-                        color = new Color(255, 0, 0);
+                        color = Color.RED;
                     else if (Handler.get().getQuestManager().getZoneMap().get(selectedZone).get(i).getState() == QuestState.IN_PROGRESS)
                         color = Color.YELLOW;
                     else

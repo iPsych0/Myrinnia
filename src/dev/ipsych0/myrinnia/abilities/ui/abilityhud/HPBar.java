@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.abilities.ui.abilityhud;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -31,23 +32,23 @@ public class HPBar implements Serializable {
     public void render(Graphics2D g) {
         // HP Bar
         g.drawImage(Assets.uiWindow, x, y, width, height, null);
-        g.setColor(HPOverlay.hpColorRed);
+        g.setColor(Colors.hpColorRed);
         g.fillRect(x + 1, y + 1, width - 3, height - 3);
-        g.setColor(HPOverlay.hpColorRedOutline);
+        g.setColor(Colors.hpColorRedOutline);
         g.drawRect(x + 1, y + 1, width - 3, height - 3);
 
-        g.setColor(HPOverlay.hpColorGreen);
+        g.setColor(Colors.hpColorGreen);
         if (Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
             g.fillRect(x + 1, y + 1, width - 3, height - 3);
 
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect(x + 1, y + 1, width - 3, height - 3);
         } else {
             double yOffset = (double) Handler.get().getPlayer().getHealth() /
                     (double) Handler.get().getPlayer().getMaxHealth();
             g.fillRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3);
 
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect(x + 1, y + 1 + (int) (height * (1 - yOffset)), width - 3, height - 3);
         }
         Text.drawString(g, "HP", x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);

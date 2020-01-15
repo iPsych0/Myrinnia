@@ -16,7 +16,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
-import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -27,6 +26,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -245,7 +245,7 @@ public class World implements Serializable {
                             t.tick();
                             t.render(g, xPos, yPos);
                             if (Handler.debugCollision) {
-                                g.setColor(AStarMap.unwalkableColour);
+                                g.setColor(Colors.unwalkableColour);
                                 g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
                                 if (t.isSolid()) {
                                     g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);

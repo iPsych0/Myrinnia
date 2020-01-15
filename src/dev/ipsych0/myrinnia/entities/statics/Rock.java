@@ -9,6 +9,10 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 public class Rock extends StaticEntity {
 
@@ -26,6 +30,11 @@ public class Rock extends StaticEntity {
     private int attempts = 0;
     private Item ore;
     private int experience;
+    private static Map<String, BufferedImage> textureMap = Map.ofEntries(
+            entry("Azurite Rock", Assets.azuriteRock),
+            entry("Copper Rock", Assets.copperRock),
+            entry("Iron Rock", Assets.ironRock)
+    );
 
     public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -36,6 +45,12 @@ public class Rock extends StaticEntity {
         if (name.equalsIgnoreCase("Azurite Rock")) {
             ore = Item.azuriteOre;
             experience = 10;
+        } else if (name.equalsIgnoreCase("Copper Rock")) {
+            ore = Item.copperOre;
+            experience = 15;
+        } else if (name.equalsIgnoreCase("Iron Rock")) {
+            ore = Item.ironOre;
+            experience = 20;
         }
     }
 
@@ -97,7 +112,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.azuriteRock, (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
+        g.drawImage(textureMap.get(name), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
     }
 

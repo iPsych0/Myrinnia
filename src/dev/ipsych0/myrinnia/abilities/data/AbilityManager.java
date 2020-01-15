@@ -4,6 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -25,8 +27,6 @@ public class AbilityManager implements Serializable {
     private static final long serialVersionUID = 1274154274799386875L;
     private List<Ability> allAbilities = new ArrayList<>();
     private List<Ability> activeAbilities = new ArrayList<>();
-    private Color castBarColor = new Color(26, 240, 49, 224);
-    private Color castBarBgColor = new Color(240, 31, 31, 224);
     private AbilityHUD abilityHUD;
     private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
     public static Map<Class<? extends Ability>, Ability> abilityMap = new HashMap<>();
@@ -95,15 +95,20 @@ public class AbilityManager implements Serializable {
                     float timer = a.getCastingTimeTimer();
                     double castTime = a.getCastingTime() * 60;
                     double timeLeft = timer / castTime;
-                    g.setColor(castBarBgColor);
-                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
-                            a.getCaster().getWidth() + 4, 8, 2, 2);
-                    g.setColor(castBarColor);
-                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+
+                    g.drawImage(Assets.uiWindow, (int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
+                            a.getCaster().getWidth() + 4, 8, null);
+
+                    g.setColor(Colors.progressBarColor);
+                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
                             (int) (timeLeft * (a.getCaster().getWidth() + 4)), 8, 2, 2);
-                    g.setColor(Color.BLACK);
-                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+
+                    g.setColor(Colors.progressBarOutlineColor);
+                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
                             a.getCaster().getWidth() + 4, 8, 2, 2);
+//                    g.setColor(Color.BLACK);
+//                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+//                            a.getCaster().getWidth() + 4, 8, 2, 2);
                 }
             }
             if (a.isOnCooldown()) {

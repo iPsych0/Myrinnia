@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.*;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -211,9 +212,9 @@ public class SkillsUI implements Serializable {
     }
 
     private void drawXpProgress(Graphics2D g, Rectangle skillRect, SkillsList skill) {
-        g.setColor(HPOverlay.xpColor);
+        g.setColor(Colors.xpColor);
         g.fillRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
-        g.setColor(HPOverlay.xpColorOutline);
+        g.setColor(Colors.xpColorOutline);
         g.drawRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
 
         // Icon

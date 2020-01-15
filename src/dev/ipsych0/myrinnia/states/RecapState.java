@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -57,7 +58,7 @@ public class RecapState extends State {
 
             RecapEvent event = Handler.get().getRecapManager().getEvents().get(index);
             g.drawImage(event.getImg(), 0, 0, Handler.get().getWidth(), Handler.get().getHeight(), null);
-            g.setColor(new Color(27, 27, 27, 196));
+            g.setColor(Colors.recapBackgroundColor);
             g.fillRect(0, 0, Handler.get().getWidth(), Handler.get().getHeight());
 
             Text.drawString(g, "You last did... [" + (index + 1) + "/" + Handler.get().getRecapManager().getEvents().size() + "]", Handler.get().getWidth() / 2, 96, true, Color.YELLOW, Assets.font32);

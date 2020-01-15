@@ -58,27 +58,27 @@ public class QuestManager implements Serializable {
 
         // Island Quests
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gettingstarted.json",
-                () -> {
+                (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
                 }));
 
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
-                () -> {
+                (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 }));
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
-                () -> {
+                (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(50);
                 }));
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", Arrays.asList(new QuestRequirement(QuestList.PreparingYourJourney)),
-                () -> {
+                (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                 }));
 
         shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5)),
-                () -> {
+                (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                 }));
 

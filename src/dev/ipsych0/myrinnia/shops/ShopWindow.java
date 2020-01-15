@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -33,7 +34,6 @@ public class ShopWindow implements Serializable {
     private static final int NUM_COLS = 5;
     private static final int NUM_ROWS = 6;
     private List<ItemSlot> shopSlots, invSlots;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private ItemStack selectedShopItem;
     private ItemStack selectedInvItem;
     public static boolean isOpen = false;
@@ -234,7 +234,7 @@ public class ShopWindow implements Serializable {
                 Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins. (" + selectedShopItem.getItem().getPrice() + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 
             if (selectedSlot != null) {
-                g.setColor(selectedColor);
+                g.setColor(Colors.selectedColor);
                 g.fillRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
 

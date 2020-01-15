@@ -22,6 +22,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -54,8 +55,6 @@ public class CraftingUI implements Serializable {
     private List<CraftingRecipe> results;
     private List<CraftSelectSlot> selectSlots;
     private CraftSelectSlot selectedSlot;
-    private static Color selectedColor = new Color(0, 255, 255, 62);
-    private static Color insufficientAmountColor = new Color(255, 0, 0, 62);
 
     public CraftingUI() {
         this.width = 242;
@@ -402,17 +401,17 @@ public class CraftingUI implements Serializable {
             for (CraftSelectSlot slot : selectSlots) {
                 if (slot.getRecipe().isDiscovered()) {
                     if (!Handler.get().playerHasSkillLevel(SkillsList.CRAFTING, slot.getRecipe().getRequiredLevel())) {
-                        g.setColor(insufficientAmountColor);
+                        g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
                     } else if (!hasEnoughQuantity(slot)) {
-                        g.setColor(insufficientAmountColor);
+                        g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
                     }
                 }
             }
 
             if (selectedSlot != null) {
-                g.setColor(selectedColor);
+                g.setColor(Colors.selectedColor);
                 g.fillRoundRect(selectedSlot.x, selectedSlot.y, selectedSlot.width, selectedSlot.height, 4, 4);
                 drawRequirementAmounts(g);
             }

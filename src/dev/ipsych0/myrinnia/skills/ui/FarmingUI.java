@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -30,8 +31,6 @@ public class FarmingUI {
     private FarmingPatch farmingPatch;
     private boolean open;
     public static boolean escapePressed;
-    private static Color selectedColor = new Color(0, 255, 255, 62);
-    private static Color insufficientAmountColor = new Color(255, 0, 0, 62);
     private List<Item> categoryItems;
     public static boolean hasBeenPressed;
 
@@ -92,13 +91,13 @@ public class FarmingUI {
 
         for (FarmingSlot fs : farmingSlots) {
             if (!categoryItems.contains(fs.getSeed().getItem()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeed().getItem())) {
-                g.setColor(insufficientAmountColor);
+                g.setColor(Colors.insufficientAmountColor);
                 g.fillRoundRect(fs.x, fs.y, fs.width, fs.height, 4, 4);
             }
         }
 
         if (selectedButton != null) {
-            g.setColor(selectedColor);
+            g.setColor(Colors.selectedColor);
             g.fillRoundRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height, 4, 4);
         }
 

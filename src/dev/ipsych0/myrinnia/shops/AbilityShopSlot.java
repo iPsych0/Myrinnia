@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.shops;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -12,7 +13,6 @@ public class AbilityShopSlot extends UIImageButton implements Serializable {
     private Ability ability;
     private int x, y;
     private Rectangle bounds;
-    private Color unlockedColor = new Color(106, 105, 105, 96);
 
     public AbilityShopSlot(Ability ability, int x, int y) {
         super(x, y, 32, 32, Assets.genericButton);
@@ -30,7 +30,7 @@ public class AbilityShopSlot extends UIImageButton implements Serializable {
         super.render(g);
         ability.renderIcon(g, x, y);
         if (ability.isUnlocked()) {
-            g.setColor(unlockedColor);
+            g.setColor(Colors.abilityUnlockedColor);
             g.fillRect(x, y, width, height);
         }
     }
