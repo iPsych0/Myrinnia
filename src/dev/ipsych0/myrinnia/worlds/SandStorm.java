@@ -21,10 +21,10 @@ public class SandStorm implements Weather {
     @Override
     public void tick() {
         xOffset += 2;
-        if (Handler.get().getPlayer().getxMove() > 0 && !Handler.get().getGameCamera().isAtAnyBound()) {
+        if (Handler.get().getPlayer().getxMove() > 0) {
             xOffset += Handler.get().getPlayer().getSpeed();
         }
-        if (xOffset >= 128) {
+        if (xOffset >= 32) {
             xOffset = 0;
         }
     }

@@ -77,7 +77,7 @@ public class World implements Serializable {
     private CelebrationUI celebrationUI;
     private List<ZoneTile> zoneTiles;
     private Zone zone;
-    private Weather weatherEffect;
+    private List<Weather> weatherEffects;
     private boolean dayNightCycle;
 
     private static final int radius = 800;
@@ -86,7 +86,7 @@ public class World implements Serializable {
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
             getHeight() / 2, radius, fractions, colors);
 
-    public World(Zone zone, Weather weatherEffect, boolean dayNightCycle, String path) {
+    public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             String fixedFile;
@@ -100,7 +100,7 @@ public class World implements Serializable {
             this.worldPath = path;
         }
         this.zone = zone;
-        this.weatherEffect = weatherEffect;
+        this.weatherEffects = weatherEffects;
         this.dayNightCycle = dayNightCycle;
 
         // World-specific classes
@@ -132,15 +132,15 @@ public class World implements Serializable {
     }
 
     public World(Zone zone, String path) {
-        this(zone, null, true, path);
+        this(zone, new ArrayList<>(), true, path);
     }
 
     public World(Zone zone, boolean dayNightCycle, String path) {
-        this(zone, null, dayNightCycle, path);
+        this(zone, new ArrayList<>(), dayNightCycle, path);
     }
 
-    public World(Zone zone, Weather weatherEffect, String path) {
-        this(zone, weatherEffect, true, path);
+    public World(Zone zone, List<Weather> weatherEffects, String path) {
+        this(zone, weatherEffects, true, path);
     }
 
     public void init() {
@@ -284,17 +284,20 @@ public class World implements Serializable {
             }
 //        g.setComposite(composite);
 
-            if (weatherEffect != null) {
-                weatherEffect.tick();
-                weatherEffect.render(g);
+            for (Weather weather : weatherEffects) {
+                weather.tick();
+                weather.render(g);
             }
 
             if (dayNightCycle && nightTime) {
                 renderNight(g);
             }
 
-            if (weatherEffect instanceof Rain) {
-                ((Rain)weatherEffect).renderThunder(g);
+
+            for (Weather weather : weatherEffects) {
+                if (weather instanceof Rain) {
+                    ((Rain) weather).renderThunder(g);
+                }
             }
 
             craftingUI.render(g);
@@ -487,12 +490,12 @@ public class World implements Serializable {
         this.zone = zone;
     }
 
-    public Weather getWeatherEffect() {
-        return weatherEffect;
+    public List<Weather> getWeatherEffects() {
+        return weatherEffects;
     }
 
-    public void setWeatherEffect(Weather weatherEffect) {
-        this.weatherEffect = weatherEffect;
+    public void setWeatherEffects(List<Weather> weatherEffects) {
+        this.weatherEffects = weatherEffects;
     }
 
     public boolean isDayNightCycle() {

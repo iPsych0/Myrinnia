@@ -4,15 +4,17 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Resistance;
+import dev.ipsych0.myrinnia.entities.statics.ShamrockRockslide;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Objects;
 
 public class Item implements Serializable {
 
@@ -67,7 +69,9 @@ public class Item implements Serializable {
     public static Item scorpionTail = Utils.loadItem("47_scorpion_tail.json", Assets.scorpionTail);
     public static Item owlFeather = Utils.loadItem("48_owl_feather.json", Assets.owlFeather);
     public static Item dynamite = Utils.loadItem("49_dynamite.json", Assets.dynamite);
-    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator);
+    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator, 0, (Use & Serializable) (i) -> {
+        detonatorLogic();
+    });
     public static Item vineRoot = Utils.loadItem("51_vine_root.json", Assets.vineRoot);
     public static Item simpleVest = Utils.loadItem("52_simple_vest.json", Assets.simpleVest);
     public static Item simpleTrousers = Utils.loadItem("53_simple_trousers.json", Assets.simpleTrousers);
@@ -565,5 +569,22 @@ public class Item implements Serializable {
             Handler.get().sendMsg("This potion has not been implemented yet.");
             Handler.get().removeItem(Item.strongPotionOfVigor, 1);
         });
+    }
+
+    private static void detonatorLogic() {
+        if (!ShamrockRockslide.hasDetonated) {
+            if (Handler.get().getPlayer().getZone() != Zone.ShamrockMines3) {
+                Handler.get().sendMsg("You must use this detonator in Shamrock Mines B3");
+                return;
+            }
+            if ((Integer) Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValue("dynamitePlaced") < 3) {
+                Handler.get().sendMsg("You should place a dynamite stick north, east and west of the rock slide before using the detonator.");
+            } else {
+                Handler.get().sendMsg("You press the button and the dynamite explodes.");
+                ShamrockRockslide.hasDetonated = true;
+            }
+        } else {
+            Handler.get().sendMsg("There's no use for this anymore.");
+        }
     }
 }

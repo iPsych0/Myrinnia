@@ -438,7 +438,9 @@ public class Player extends Creature {
     public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
-        Handler.get().getGameCamera().centerOnEntity(this);
+        if (Handler.get().getGameCamera().getFocusedEntity().equals(this)) {
+            Handler.get().getGameCamera().centerOnEntity(this);
+        }
 
         if (isLevelUp && leveledSkill instanceof CombatSkill) {
             combatUpBack.tick();

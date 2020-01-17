@@ -50,6 +50,7 @@ import dev.ipsych0.myrinnia.worlds.*;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Collections;
 import java.util.Properties;
 import java.util.Random;
 
@@ -170,7 +171,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World(Zone.PortAzure, new Rain(true), initialWorldPath);
+        portAzure = new World(Zone.PortAzure, initialWorldPath);
         worldHandler = new WorldHandler(portAzure);
     }
 

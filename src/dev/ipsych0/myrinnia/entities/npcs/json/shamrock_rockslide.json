@@ -69,6 +69,24 @@
       "id": 9,
       "text": "Finally, once the dynamite has been put in position, you will need a detonator. I'm sure all of these items can be found in the mines. Good luck!",
       "nextId": -1
+    },
+    {
+      "id": 10,
+      "options": [
+        {
+          "text": "Place dynamite.",
+          "nextId": 11
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
     }
   ]
 }

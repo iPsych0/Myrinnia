@@ -4,12 +4,12 @@ import dev.ipsych0.myrinnia.Handler;
 
 import java.awt.*;
 
-public class Drought implements Weather {
+public class Swamp implements Weather {
 
-    // Drought atmosphere
+    // Swamp atmosphere
     private static final int radius = 800;
-    private static final float[] fractions = {0.0f, 1.0f};
-    private static final Color[] colors = {new Color(218, 153, 83, 53), new Color(195, 73, 0, 132)};
+    private static final float[] fractions = {0.0f, 0.8f, 1.0f};
+    private static final Color[] colors = {new Color(57, 170, 136, 16), new Color(21, 74, 62, 192), new Color(18, 66, 58, 232)};
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
             getHeight() / 2, radius, fractions, colors);
 

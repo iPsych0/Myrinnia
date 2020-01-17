@@ -30,7 +30,7 @@ public class Assets {
     // Map item images (trees, rocks, etc)
     public static BufferedImage weakPalmTree, elmTree, azuriteRock, copperRock, ironRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
-    public static BufferedImage rockSlide;
+    public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
 
     /*
      * Creature Animations
@@ -959,6 +959,17 @@ public class Assets {
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
+
+        SpriteSheet dungeon = getSheetByFilename("dungeon.png");
+        shamrockSinkholeTL = dungeon.imageCrop(7,9);
+        shamrockSinkholeTM = dungeon.imageCrop(4,9);
+        shamrockSinkholeTR = dungeon.imageCrop(10,9);
+        shamrockSinkholeML = dungeon.imageCrop(6,9);
+        shamrockSinkholeMM = dungeon.imageCrop(1,9);
+        shamrockSinkholeMR = dungeon.imageCrop(11,9);
+        shamrockSinkholeBL = dungeon.imageCrop(14,9);
+        shamrockSinkholeBM = dungeon.imageCrop(13,9);
+        shamrockSinkholeBR = dungeon.imageCrop(15,9);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);

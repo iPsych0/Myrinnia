@@ -21,9 +21,11 @@ public class Fog implements Weather {
     @Override
     public void tick() {
         xOffset += 1;
-        if (Handler.get().getPlayer().getxMove() < 0 && !Handler.get().getGameCamera().isAtAnyBound()) {
+
+        if (Handler.get().getPlayer().getxMove() > 0) {
             xOffset += Handler.get().getPlayer().getSpeed();
         }
+
         if (xOffset >= 128) {
             xOffset = 0;
         }

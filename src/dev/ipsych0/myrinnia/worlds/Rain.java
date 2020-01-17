@@ -45,14 +45,14 @@ public class Rain implements Weather {
         xOffset += 1;
         yOffset += 1;
 
-        if (Handler.get().getPlayer().getxMove() > 0 && !Handler.get().getGameCamera().isAtAnyBound()) {
+        if (Handler.get().getPlayer().getxMove() > 0) {
             xOffset += Handler.get().getPlayer().getSpeed();
         }
-        if (Handler.get().getPlayer().getyMove() > 0 && !Handler.get().getGameCamera().isAtAnyBound()) {
-            yOffset -= Handler.get().getPlayer().getSpeed();
+        if (Handler.get().getPlayer().getyMove() < 0) {
+            yOffset += Handler.get().getPlayer().getSpeed();
         }
 
-        if (xOffset >= 32 && yOffset >= 32) {
+        if (xOffset >= 32 || yOffset >= 32) {
             xOffset = 0;
             yOffset = 0;
         }

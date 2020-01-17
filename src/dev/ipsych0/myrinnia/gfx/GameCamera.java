@@ -14,10 +14,12 @@ public class GameCamera implements Serializable {
      */
     private static final long serialVersionUID = 6890827040135434870L;
     private double xOffset, yOffset;
+    private Entity focusedEntity;
 
     public GameCamera(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.focusedEntity = Handler.get().getPlayer();
     }
 
     private void checkBlankSpace() {
@@ -65,6 +67,7 @@ public class GameCamera implements Serializable {
     }
 
     public void centerOnEntity(Entity e) {
+        this.focusedEntity = e;
         xOffset = e.getX() - Handler.get().getWidth() / 2f + e.getWidth() / 2f;
         yOffset = e.getY() - Handler.get().getHeight() / 2f + e.getHeight() / 2f;
         checkBlankSpace();
@@ -92,4 +95,11 @@ public class GameCamera implements Serializable {
         this.yOffset = yOffset;
     }
 
+    public Entity getFocusedEntity() {
+        return focusedEntity;
+    }
+
+    public void setFocusedEntity(Entity focusedEntity) {
+        this.focusedEntity = focusedEntity;
+    }
 }
