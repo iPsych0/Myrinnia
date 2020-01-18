@@ -84,7 +84,7 @@ public class ShamrockSinkhole extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "jump":
-                Handler.get().goToWorld(Zone.ShamrockTown, 2, 35);
+                Handler.get().goToWorld(Zone.ShamrockMinesBasin, 20, 89);
                 return true;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
