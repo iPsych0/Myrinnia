@@ -73,9 +73,13 @@ public class GameCamera implements Serializable {
         checkBlankSpace();
     }
 
-    public void move(double xAmount, double yAmount) {
-        xOffset += xAmount;
-        yOffset += yAmount;
+    public void moveX(double xMove) {
+        xOffset += xMove;
+        checkBlankSpace();
+    }
+
+    public void moveY(double yMove) {
+        yOffset += yMove;
         checkBlankSpace();
     }
 

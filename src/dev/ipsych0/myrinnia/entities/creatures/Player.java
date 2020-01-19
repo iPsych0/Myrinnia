@@ -166,6 +166,10 @@ public class Player extends Creature {
             attRight.tick();
         }
 
+        if (Handler.get().getGameCamera().getFocusedEntity().equals(this)) {
+            Handler.get().getGameCamera().centerOnEntity(this);
+        }
+
         if (inCombat) {
             combatTimer++;
         }
@@ -437,10 +441,6 @@ public class Player extends Creature {
     @Override
     public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
-
-        if (Handler.get().getGameCamera().getFocusedEntity().equals(this)) {
-            Handler.get().getGameCamera().centerOnEntity(this);
-        }
 
         if (isLevelUp && leveledSkill instanceof CombatSkill) {
             combatUpBack.tick();

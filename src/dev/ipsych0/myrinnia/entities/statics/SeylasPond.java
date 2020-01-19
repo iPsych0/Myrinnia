@@ -1,11 +1,18 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.*;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.FrostJabAbility;
+import dev.ipsych0.myrinnia.abilities.GlacialShotAbility;
+import dev.ipsych0.myrinnia.abilities.IceBallAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.cutscenes.Cutscene;
+import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.states.CutsceneState;
+import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
@@ -13,17 +20,28 @@ import java.awt.*;
 public class SeylasPond extends StaticEntity {
 
     private Quest quest = Handler.get().getQuest(QuestList.WaveGoodbye);
+    private boolean cutsceneShown;
+    private Rectangle cutsceneTrigger = new Rectangle(1440, 4224, 320, 192);
 
     public SeylasPond(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         solid = false;
         attackable = false;
         isNpc = true;
+
     }
 
     @Override
     public void tick() {
-
+        if (!cutsceneShown) {
+            if (cutsceneTrigger.contains(Handler.get().getPlayer().getCollisionBounds(0, 0))) {
+                State.setState(new CutsceneState(new Cutscene(
+                        new MoveCameraEvent(
+                                Handler.get().getPlayer().getCollisionBounds(0, 0),
+                                getCollisionBounds(0, 0)))));
+                cutsceneShown = true;
+            }
+        }
     }
 
     @Override
