@@ -11562,10 +11562,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1359" duration="250"/>
-   <frame tileid="1362" duration="250"/>
-   <frame tileid="1365" duration="250"/>
-   <frame tileid="1872" duration="250"/>
+   <frame tileid="1359" duration="500"/>
+   <frame tileid="1362" duration="500"/>
+   <frame tileid="1365" duration="500"/>
+   <frame tileid="1872" duration="500"/>
   </animation>
  </tile>
  <tile id="1870">
@@ -11874,10 +11874,10 @@
    <property name="solid" value="false"/>
   </properties>
   <animation>
-   <frame tileid="1920" duration="250"/>
-   <frame tileid="1923" duration="250"/>
-   <frame tileid="1926" duration="250"/>
-   <frame tileid="1923" duration="250"/>
+   <frame tileid="1920" duration="500"/>
+   <frame tileid="1923" duration="500"/>
+   <frame tileid="1926" duration="500"/>
+   <frame tileid="1923" duration="500"/>
   </animation>
  </tile>
  <tile id="1921">
@@ -12186,10 +12186,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1971" duration="250"/>
-   <frame tileid="1974" duration="250"/>
-   <frame tileid="1977" duration="250"/>
-   <frame tileid="1974" duration="250"/>
+   <frame tileid="1971" duration="500"/>
+   <frame tileid="1974" duration="500"/>
+   <frame tileid="1977" duration="500"/>
+   <frame tileid="1974" duration="500"/>
   </animation>
  </tile>
  <tile id="1972">
@@ -12501,7 +12501,7 @@
    <frame tileid="2022" duration="500"/>
    <frame tileid="2025" duration="500"/>
    <frame tileid="2028" duration="500"/>
-   <frame tileid="2025" duration="250"/>
+   <frame tileid="2025" duration="500"/>
   </animation>
  </tile>
  <tile id="2023">

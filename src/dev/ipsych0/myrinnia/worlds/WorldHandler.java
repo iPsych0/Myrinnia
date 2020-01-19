@@ -47,6 +47,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World(Zone.MalachiteSlopes,"/worlds/malachite_slopes.tmx"));
         addWorld(new World(Zone.MalachiteInside, false,"/worlds/malachite_inside.tmx"));
         addWorld(new World(Zone.ShamrockMinesBasin, Collections.singletonList(new Cave()), false, "/worlds/shamrock_mines4.tmx"));
+        addWorld(new World(Zone.MalachitePass, "/worlds/malachite_pass.tmx"));
     }
 
     public void tick() {
