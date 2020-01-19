@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -301,6 +302,10 @@ public abstract class Ability implements Serializable {
     }
 
     public void setUnlocked(boolean unlocked) {
+        if (!this.unlocked && unlocked) {
+            // Only show the first time we unlock to prevent erroneous message if we accidentally add an already available ability
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "You unlocked the '" + getName() + "' ability."));
+        }
         this.unlocked = unlocked;
     }
 

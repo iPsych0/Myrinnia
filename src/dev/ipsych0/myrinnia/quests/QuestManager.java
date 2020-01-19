@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
+import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
+import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -70,14 +74,14 @@ public class QuestManager implements Serializable {
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
-                    Handler.get().getSkill(SkillsList.MINING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(80);
                 }));
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", Arrays.asList(new QuestRequirement(QuestList.PreparingYourJourney)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                 }));
 
-        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5)),
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 8)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                 }));

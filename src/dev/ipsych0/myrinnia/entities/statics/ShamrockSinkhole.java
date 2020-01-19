@@ -1,16 +1,21 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.cutscenes.Cutscene;
+import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.states.CutsceneState;
+import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
 public class ShamrockSinkhole extends StaticEntity {
-    private boolean hasFocus;
-    private int focusTime = 240, focusTimer;
+
+    private boolean cutsceneStarted;
 
     public ShamrockSinkhole(double x, double y, int width, int height) {
         super(x, y, width, height, null, 1, null, null, null, null);
@@ -22,28 +27,22 @@ public class ShamrockSinkhole extends StaticEntity {
         this.name = "Sinkhole";
         this.script = Utils.loadScript("shamrock_sinkhole.json");
 
-        Handler.get().getGameCamera().setFocusedEntity(this);
-        Handler.get().getPlayer().setMovementAllowed(false);
-        hasFocus = true;
+        remove("Miner Robert");
+        remove("Miner Albert");
+        remove("Miner Aaron");
+
+        Handler.get().getQuest(QuestList.WeDelvedTooDeep).nextStep();
+
     }
 
     @Override
     public void tick() {
-        if (hasFocus) {
-            Handler.get().getGameCamera().centerOnEntity(this);
-            focusTimer++;
-            if (focusTimer / 60 == 1) {
-                remove("Miner Robert");
-            } else if (focusTimer / 60 == 2) {
-                remove("Miner Albert");
-            } else if (focusTimer / 60 == 3) {
-                remove("Miner Aaron");
-            }
-            if (focusTimer >= focusTime) {
-                hasFocus = false;
-                Handler.get().getGameCamera().centerOnEntity(Handler.get().getPlayer());
-                Handler.get().getPlayer().setMovementAllowed(true);
-            }
+        if (!cutsceneStarted) {
+            State.setState(new CutsceneState(new Cutscene(
+                    new MoveCameraEvent(Handler.get().getPlayer().getCollisionBounds(0,0), getCollisionBounds(0,0))
+            )));
+
+            cutsceneStarted = true;
         }
     }
 
@@ -84,7 +83,7 @@ public class ShamrockSinkhole extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "jump":
-                Handler.get().goToWorld(Zone.ShamrockMinesBasin, 20, 89);
+                Handler.get().goToWorld(Zone.ShamrockMinesBasin, 76, 31);
                 return true;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");

@@ -48,7 +48,6 @@ public class ShamrockRockslide extends StaticEntity {
                     (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), width + 64, height + 64, null);
 
             if (explosion.isTickDone()) {
-                quest.nextStep();
                 active = false;
                 die();
                 Handler.get().getWorld().getEntityManager().addRuntimeEntity(new ShamrockSinkhole(1248, 1248, 5 * 32, 3 * 32));
@@ -88,11 +87,11 @@ public class ShamrockRockslide extends StaticEntity {
                 // If collection dynamite step
                 if (quest.getQuestSteps().get(0).isFinished() && !quest.getQuestSteps().get(1).isFinished()) {
                     if (Handler.get().playerHasItem(Item.dynamite, 1)) {
-                        if (Handler.get().getPlayer().getX() < this.x) {
+                        if (Handler.get().getPlayer().getX() <= this.x) {
                             locationToRockslide = Creature.Direction.LEFT;
-                        } else if (Handler.get().getPlayer().getX() > (this.x + this.width)) {
+                        } else if (Handler.get().getPlayer().getX() >= (this.x + this.width)) {
                             locationToRockslide = Creature.Direction.RIGHT;
-                        } else if (Handler.get().getPlayer().getY() < this.y) {
+                        } else if (Handler.get().getPlayer().getY() <= this.y) {
                             locationToRockslide = Creature.Direction.UP;
                         }
 
@@ -115,47 +114,64 @@ public class ShamrockRockslide extends StaticEntity {
                 // If collection dynamite step
                 if (quest.getQuestSteps().get(0).isFinished() && !quest.getQuestSteps().get(1).isFinished()) {
                     if (Handler.get().playerHasItem(Item.dynamite, 1)) {
-                        if (Handler.get().getPlayer().getX() < this.x) {
+                        if (Handler.get().getPlayer().getX() <= this.x) {
                             locationToRockslide = Creature.Direction.LEFT;
-                        } else if (Handler.get().getPlayer().getX() > (this.x + this.width)) {
+                        } else if (Handler.get().getPlayer().getX() >= (this.x + this.width)) {
                             locationToRockslide = Creature.Direction.RIGHT;
-                        } else if (Handler.get().getPlayer().getY() < this.y) {
+                        } else if (Handler.get().getPlayer().getY() <= this.y) {
                             locationToRockslide = Creature.Direction.UP;
                         }
                     }
                 }
                 break;
             case 11:
+                if (dynamitePlaced == 3) {
+                    speakingTurn = -1;
+                    Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                    break;
+                }
                 if (Handler.get().playerHasItem(Item.dynamite, 1)) {
-                    if (locationToRockslide == Creature.Direction.LEFT && !westDynamitePlaced) {
-                        westDynamitePlaced = true;
-                        Handler.get().removeItem(Item.dynamite, 1);
-                        dynamitePlaced++;
-                        quest.addNewCheck("dynamitePlaced", dynamitePlaced);
-                        Handler.get().sendMsg("You placed a dynamite stick.");
-                        if (dynamitePlaced == 3) {
-                            quest.nextStep();
-                            Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                    if (locationToRockslide == Creature.Direction.LEFT) {
+                        if (!westDynamitePlaced) {
+                            westDynamitePlaced = true;
+                            Handler.get().removeItem(Item.dynamite, 1);
+                            dynamitePlaced++;
+                            quest.addNewCheck("dynamitePlaced", dynamitePlaced);
+                            Handler.get().sendMsg("You placed a dynamite stick.");
+                            if (dynamitePlaced == 3) {
+                                quest.nextStep();
+                                Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                            }
+                        } else {
+                            Handler.get().sendMsg("You have already placed some dynamite west of the rock slide.");
                         }
-                    } else if (locationToRockslide == Creature.Direction.RIGHT && !eastDynamitePlaced) {
-                        eastDynamitePlaced = true;
-                        Handler.get().removeItem(Item.dynamite, 1);
-                        dynamitePlaced++;
-                        quest.addNewCheck("dynamitePlaced", dynamitePlaced);
-                        Handler.get().sendMsg("You placed a dynamite stick.");
-                        if (dynamitePlaced == 3) {
-                            quest.nextStep();
-                            Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                    } else if (locationToRockslide == Creature.Direction.RIGHT) {
+                        if (!eastDynamitePlaced) {
+                            eastDynamitePlaced = true;
+                            Handler.get().removeItem(Item.dynamite, 1);
+                            dynamitePlaced++;
+                            quest.addNewCheck("dynamitePlaced", dynamitePlaced);
+                            Handler.get().sendMsg("You placed a dynamite stick.");
+                            if (dynamitePlaced == 3) {
+                                quest.nextStep();
+                                Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                            }
+                        } else {
+                            Handler.get().sendMsg("You have already placed some dynamite east of the rock slide.");
                         }
-                    } else if (locationToRockslide == Creature.Direction.UP && !northDynamitePlaced) {
-                        northDynamitePlaced = true;
-                        Handler.get().removeItem(Item.dynamite, 1);
-                        dynamitePlaced++;
-                        quest.addNewCheck("dynamitePlaced", dynamitePlaced);
-                        Handler.get().sendMsg("You placed a dynamite stick.");
-                        if (dynamitePlaced == 3) {
-                            quest.nextStep();
-                            Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                    } else if (locationToRockslide == Creature.Direction.UP) {
+                        if (!northDynamitePlaced) {
+                            northDynamitePlaced = true;
+                            Handler.get().removeItem(Item.dynamite, 1);
+                            dynamitePlaced++;
+                            quest.addNewCheck("dynamitePlaced", dynamitePlaced);
+                            Handler.get().sendMsg("You placed a dynamite stick.");
+                            if (dynamitePlaced == 3) {
+                                quest.nextStep();
+                                Handler.get().sendMsg("Find and use the detonator to make the rock slide vanish.");
+                            }
+                        } else {
+                            Handler.get().sendMsg("You have already placed some dynamite north of the rock slide.");
                         }
                     }
                 }

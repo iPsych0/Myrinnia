@@ -85,7 +85,6 @@ public class Player extends Creature {
     private int levelUpTimer, xpGainedTimer;
     public static boolean expEffectPlayed;
 
-    private boolean movementAllowed = true;
     public static boolean isMoving, hasMoved;
 
     public static boolean mouseMoved;
@@ -1173,14 +1172,6 @@ public class Player extends Creature {
 
     private World getCurrentMap() {
         return Handler.get().getWorld();
-    }
-
-    public boolean isMovementAllowed() {
-        return movementAllowed;
-    }
-
-    public void setMovementAllowed(boolean movementAllowed) {
-        this.movementAllowed = movementAllowed;
     }
 
     public Direction getLastFaced() {

@@ -1,12 +1,10 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.FrostJabAbility;
 import dev.ipsych0.myrinnia.abilities.GlacialShotAbility;
 import dev.ipsych0.myrinnia.abilities.IceBallAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
-import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.cutscenes.Cutscene;
 import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -84,24 +82,11 @@ public class SeylasPond extends StaticEntity {
         switch (speakingTurn) {
             case 3:
                 quest.addNewCheck("hasDrunkWater", true);
-                CharacterStats combatStyle = (CharacterStats) quest.getCheckValue("combatStyle");
-                Ability a;
-                if (combatStyle == CharacterStats.Melee) {
-                    AbilityManager.abilityMap.get(FrostJabAbility.class).setUnlocked(true);
-                    Handler.get().addTip(new TutorialTip("You unlocked 'Frost Jab'. Press B to open Ability Overview."));
-                    a = AbilityManager.abilityMap.get(FrostJabAbility.class);
 
-                } else if (combatStyle == CharacterStats.Ranged) {
-                    AbilityManager.abilityMap.get(GlacialShotAbility.class).setUnlocked(true);
-                    Handler.get().addTip(new TutorialTip("You unlocked 'Glacial Shot'. Press B to open Ability Overview."));
-                    a = AbilityManager.abilityMap.get(GlacialShotAbility.class);
-                } else {
-                    AbilityManager.abilityMap.get(IceBallAbility.class).setUnlocked(true);
-                    Handler.get().addTip(new TutorialTip("You unlocked 'Ice Ball'. Press B to open Ability Overview."));
-                    a = AbilityManager.abilityMap.get(IceBallAbility.class);
-                }
-
-                script.getDialogues().get(3).setText(script.getDialogues().get(3).getText().replaceFirst("\\{AbilityName\\}", a.getName()));
+                AbilityManager.abilityMap.get(FrostJabAbility.class).setUnlocked(true);
+                AbilityManager.abilityMap.get(GlacialShotAbility.class).setUnlocked(true);
+                AbilityManager.abilityMap.get(IceBallAbility.class).setUnlocked(true);
+                Handler.get().addTip(new TutorialTip("You have unlocked new abilities. Press B to open Ability Overview."));
 
                 quest.nextStep();
                 break;

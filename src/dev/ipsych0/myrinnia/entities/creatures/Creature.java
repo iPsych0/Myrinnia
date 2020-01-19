@@ -65,7 +65,7 @@ public abstract class Creature extends Entity {
     protected double meleeDirection, meleeXOffset, meleeYOffset;
 
     // Walking timer
-    private int time = 0;
+    private int walkingTimer = 0;
 
     // Radius variables:
     protected int xSpawn = (int) getX();
@@ -95,6 +95,7 @@ public abstract class Creature extends Entity {
     protected Animation aDown;
     protected Animation aDefault;
     protected double baseDmgExponent = 1.1;
+    protected boolean movementAllowed = true;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -575,9 +576,9 @@ public abstract class Creature extends Entity {
      * Walks into random directions at given intervals
      */
     protected void randomWalk() {
-        time++;
+        walkingTimer++;
         int i = (Handler.get().getRandomNumber(60, 90));
-        if (time % i == 0) {
+        if (walkingTimer % i == 0) {
             xMove = 0;
             yMove = 0;
 
@@ -600,7 +601,7 @@ public abstract class Creature extends Entity {
             if (direction == 4) {
                 yMove = +speed;
             }
-            time = 0;
+            walkingTimer = 0;
         }
 
         if (getX() > (xSpawn + xRadius)) {
@@ -1213,5 +1214,13 @@ public abstract class Creature extends Entity {
 
     public void setEarthLevel(int earthLevel) {
         this.earthLevel = earthLevel;
+    }
+
+    public boolean isMovementAllowed() {
+        return movementAllowed;
+    }
+
+    public void setMovementAllowed(boolean movementAllowed) {
+        this.movementAllowed = movementAllowed;
     }
 }

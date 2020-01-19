@@ -1,7 +1,10 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.*;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
+import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
+import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -116,6 +119,9 @@ public class ElderSelwyn extends Creature {
             case 14:
                 if (speakingCheckpoint != 14) {
                     speakingCheckpoint = 14;
+                    AbilityManager.abilityMap.get(ArcaneRenewalAbility.class).setUnlocked(true);
+                    AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
+                    AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
                 }
                 break;
             case 15:
