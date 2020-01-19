@@ -81,6 +81,7 @@ public class Assets {
     public static BufferedImage[] angryOwl, angryFlower;
     public static BufferedImage[] venovineUp, venovineDown, venovineLeft, venovineRight;
     public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
+    public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -509,6 +510,11 @@ public class Assets {
         burrowingBeetleLeft = enemy_sheet1.npcCrop(12, 1, WIDTH, HEIGHT);
         burrowingBeetleRight = enemy_sheet1.npcCrop(12, 2, WIDTH, HEIGHT);
         burrowingBeetleUp = enemy_sheet1.npcCrop(12, 3, WIDTH, HEIGHT);
+
+        hedgehogDown = enemy_sheet2.npcCrop(9, 4, WIDTH, HEIGHT);
+        hedgehogLeft = enemy_sheet2.npcCrop(9, 5, WIDTH, HEIGHT);
+        hedgehogRight = enemy_sheet2.npcCrop(9, 6, WIDTH, HEIGHT);
+        hedgehogUp = enemy_sheet2.npcCrop(9, 7, WIDTH, HEIGHT);
 
         blueCrabDown = enemy_sheet2.npcCrop(0, 0, WIDTH, HEIGHT);
         blueCrabLeft = enemy_sheet2.npcCrop(0, 1, WIDTH, HEIGHT);

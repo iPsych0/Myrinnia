@@ -77,8 +77,8 @@ public abstract class Creature extends Entity {
     // A* stuff
     protected CombatState state;
     protected List<Node> nodes;
-    int pathFindRadiusX = 1024;
-    int pathFindRadiusY = 1024;
+    int pathFindRadiusX = 768;
+    int pathFindRadiusY = 768;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private boolean aStarInitialized;
     private int stuckTimerX = 0, stuckTimerY = 0;
@@ -670,7 +670,7 @@ public abstract class Creature extends Entity {
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (attackable) {
+        if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
                 checkAttacks();
                 state = CombatState.ATTACK;
