@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class SandStorm implements Weather {
+public class SandStorm implements Weather, Serializable {
 
     private static final int WIDTH = Handler.get().getWidth(), HEIGHT = Handler.get().getHeight();
     private static final int SAND_W = 128, SAND_H = 32;
+    private static final long serialVersionUID = -9222286332549262565L;
     private int xOffset;
 
     // Shading effect

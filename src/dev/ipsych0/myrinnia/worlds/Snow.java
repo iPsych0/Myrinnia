@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Snow implements Weather {
+public class Snow implements Weather, Serializable {
 
     private static final int WIDTH = Handler.get().getWidth(), HEIGHT = Handler.get().getHeight();
     private static final int SNOW_W = 128, SNOW_H = 32;
+    private static final long serialVersionUID = -746170327884092808L;
     private int xOffset, yOffset;
 
     // Shading effect

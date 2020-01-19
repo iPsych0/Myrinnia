@@ -8,9 +8,11 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class MoveCameraEvent implements CutsceneEvent {
+public class MoveCameraEvent implements CutsceneEvent, Serializable {
 
+    private static final long serialVersionUID = 4734735791005699168L;
     private double xStart, yStart, xEnd, yEnd;
     private double xDiff, yDiff;
     private double xMove, yMove;

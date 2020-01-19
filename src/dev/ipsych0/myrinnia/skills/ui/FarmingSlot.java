@@ -7,10 +7,12 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
 
-public class FarmingSlot extends UIImageButton {
+public class FarmingSlot extends UIImageButton implements Serializable {
 
+    private static final long serialVersionUID = 6894810811350660833L;
     private ItemStack seeds;
 
     public FarmingSlot(int x, int y, ItemStack seeds) {

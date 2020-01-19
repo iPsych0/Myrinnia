@@ -1,12 +1,14 @@
 package dev.ipsych0.myrinnia.cutscenes;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Cutscene {
+public class Cutscene implements Serializable {
 
+    private static final long serialVersionUID = -5005782572625898350L;
     private List<CutsceneEvent> events;
     private boolean finished;
 

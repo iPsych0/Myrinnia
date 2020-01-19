@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Fog implements Weather {
+public class Fog implements Weather, Serializable {
 
     private static final int WIDTH = Handler.get().getWidth(), HEIGHT = Handler.get().getHeight();
     private static final int FOG_W = 128, FOG_H = 32;
+    private static final long serialVersionUID = 5790736826993930044L;
     private int xOffset;
 
     // Shading effect

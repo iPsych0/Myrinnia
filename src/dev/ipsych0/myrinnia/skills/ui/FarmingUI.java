@@ -16,11 +16,13 @@ import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FarmingUI {
+public class FarmingUI implements Serializable {
 
+    private static final long serialVersionUID = 2366561978033275640L;
     private int x, y, width, height;
     private SkillCategory category;
     private List<FarmingSlot> farmingSlots;

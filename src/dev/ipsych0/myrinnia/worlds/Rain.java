@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Rain implements Weather {
+public class Rain implements Weather, Serializable {
 
     private static final int WIDTH = Handler.get().getWidth(), HEIGHT = Handler.get().getHeight();
     private static final int RAIN_W = 128, RAIN_H = 32;
+    private static final long serialVersionUID = -549292755989850950L;
     private int xOffset, yOffset;
 
     // Rain atmosphere
