@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="110" height="160" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="47">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="160" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="47">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -518,7 +518,15 @@
     <property name="zone" value="MalachiteFields"/>
    </properties>
   </object>
-  <object id="13" name="Merchant" type="npc" x="2480" y="4224" width="32" height="32"/>
+  <object id="13" name="Merchant" type="npc" x="2480" y="4216" width="32" height="32">
+   <properties>
+    <property name="animation" value="shopKeeper1"/>
+    <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="generic_shopkeeper.json"/>
+    <property name="name" value="Merchant"/>
+    <property name="npcClass" value="GenericShopkeeper"/>
+   </properties>
+  </object>
   <object id="14" name="Trout Fishing Spot" type="npc" x="2824" y="3168" width="32" height="32">
    <properties>
     <property name="name" value="Trout Fishing Spot"/>

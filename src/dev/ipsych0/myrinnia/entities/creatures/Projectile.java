@@ -187,8 +187,8 @@ public class Projectile extends Creature implements Serializable {
         if (active) {
             animation.tick();
 
-            double ty = (y + yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
-            double tx = (x + xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
+            double ty = (y + yVelocity + bounds.y + (bounds.height / 2d)) / Tile.TILEHEIGHT;
+            double tx = (x + xVelocity + bounds.x + (bounds.width / 2d)) / Tile.TILEWIDTH;
             if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||

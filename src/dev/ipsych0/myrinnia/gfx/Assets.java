@@ -42,6 +42,7 @@ public class Assets {
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
     public static BufferedImage[] airProjectile;
+    public static BufferedImage[] hedgeHogRoll;
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound;
@@ -932,6 +933,10 @@ public class Assets {
         burrowMound = new BufferedImage[2];
         burrowMound[0] = ability_animations.imageCrop(2, 7);
         burrowMound[1] = ability_animations.imageCrop(3, 7);
+
+        hedgeHogRoll = new BufferedImage[2];
+        hedgeHogRoll[0] = ability_animations.imageCrop(4, 7);
+        hedgeHogRoll[1] = ability_animations.imageCrop(5, 7);
 
         glacialShot1 = new BufferedImage[3];
         glacialShot1[0] = ability_animations.imageCrop(0, 8);

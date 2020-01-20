@@ -713,7 +713,7 @@ public abstract class Creature extends Entity {
         return false;
     }
 
-    private boolean hasLineOfSight(double x1, double y1, double x2, double y2) {
+    protected boolean hasLineOfSight(double x1, double y1, double x2, double y2) {
         double m = ((double) (y2 - y1)) / ((double) (x2 - x1));//slope
         double b = y1 - (m * ((double) x1));//vertical shift
 
