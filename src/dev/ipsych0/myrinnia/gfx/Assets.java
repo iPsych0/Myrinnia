@@ -288,6 +288,7 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/outside4.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/z_tile_marker.png", true));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 

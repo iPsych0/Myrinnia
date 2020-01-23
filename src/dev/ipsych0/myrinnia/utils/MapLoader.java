@@ -241,7 +241,7 @@ public class MapLoader implements Serializable {
             // Check for permissions layer (MUST be named 'Permissions')
             int layer = 0;
             while (layer < maps.getLength()) {
-                if ("Permissions".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").toString())) {
+                if ("Permissions".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
                     world.setHasPermissionsLayer(true);
                     break;
                 }

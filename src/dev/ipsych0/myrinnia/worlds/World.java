@@ -53,6 +53,7 @@ public class World implements Serializable {
     private static int timeChecker = 60 * 60;
     private boolean initialized;
     private boolean hasPermissionsLayer;
+    private int renderLayers;
 
     // Entities
 
@@ -84,8 +85,8 @@ public class World implements Serializable {
     private static final int radius = 800;
     private static final float[] fractions = {0.0f, 1.0f};
     private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 232)};
-    private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
-            getHeight() / 2, radius, fractions, colors);
+    private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
+            getHeight() / 2f, radius, fractions, colors);
 
     public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, String path) {
         // First world path is already corrected per IDE/JAR
@@ -152,6 +153,9 @@ public class World implements Serializable {
             height = MapLoader.getMapHeight();
 
             loadWorld();
+
+            // Render all but the top layer if we have a permissionsLayer
+            renderLayers = hasPermissionsLayer ? (layers.length - 1) : (layers.length);
 
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
@@ -231,7 +235,7 @@ public class World implements Serializable {
             List<Integer> xCoords = new ArrayList<>();
             List<Integer> yCoords = new ArrayList<>();
 //        boolean standingUnderPostRenderTile = false;
-            for (int i = 0; i < layers.length; i++) {
+            for (int i = 0; i < renderLayers; i++) {
                 for (int y = yStart; y < yEnd; y++) {
                     for (int x = xStart; x < xEnd; x++) {
                         Tile t = getTile(i, x, y);
@@ -254,6 +258,19 @@ public class World implements Serializable {
                                 g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
                                 if (t.isSolid()) {
                                     g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                }
+                            }
+                        }
+
+                        // Render permission tiles
+                        if (Handler.debugCollision) {
+                            if (hasPermissionsLayer && i == (renderLayers - 1)) {
+                                int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                                int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
+
+                                Tile permission = getTile(i + 1, x, y);
+                                if (permission != Tile.tiles[0]) {
+                                    permission.render(g, xPos, yPos);
                                 }
                             }
                         }
@@ -305,12 +322,12 @@ public class World implements Serializable {
 
             // Inventory & Equipment
             Composite current = g.getComposite();
-            if(Handler.get().getGameCamera().isAtRightBound()){
+            if (Handler.get().getGameCamera().isAtRightBound()) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
             }
             equipment.render(g);
             inventory.render(g);
-            if(Handler.get().getGameCamera().isAtRightBound()){
+            if (Handler.get().getGameCamera().isAtRightBound()) {
                 g.setComposite(current);
             }
 

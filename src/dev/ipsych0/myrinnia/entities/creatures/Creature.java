@@ -95,6 +95,8 @@ public abstract class Creature extends Entity {
     protected Animation aDefault;
     protected double baseDmgExponent = 1.1;
     protected boolean movementAllowed = true;
+    protected Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
+    protected boolean hasSwitchedTile;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -203,6 +205,32 @@ public abstract class Creature extends Entity {
             moveX();
         if (!checkEntityCollisions(0, yMove))
             moveY();
+
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            Tile oldTile = currentTile;
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, (int) (x / 32), (int) (y / 32));
+            if (currentTile != Tile.tiles[0]) {
+                if (currentTile != oldTile) {
+                    hasSwitchedTile = true;
+                }
+                if (hasSwitchedTile) {
+                    if (currentTile != null) {
+                        hasSwitchedTile = false;
+                        previousTile = oldTile;
+                    }
+
+                    if (previousTile != null) {
+                        System.out.println("Previous: " + previousTile.getPermission());
+                    }
+                    if (currentTile != null) {
+                        System.out.println("Current: " + currentTile.getPermission());
+                    }
+                    System.out.println("--------------");
+                }
+            }
+        } else {
+            currentTile = Tile.tiles[23780];
+        }
     }
 
     /*
@@ -351,18 +379,19 @@ public abstract class Creature extends Entity {
      * Handles collision detection with Tiles
      */
     boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
-        int layers;
-        if (Handler.get().getWorld().hasPermissionsLayer()) {
-            layers = Handler.get().getWorld().getLayers().length - 1;
-        } else {
-            layers = Handler.get().getWorld().getLayers().length ;
-        }
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
 
         if (isOutsideMap(x, y)) {
             return true;
+        }
+
+        int layers;
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            layers = Handler.get().getWorld().getLayers().length - 1;
+        } else {
+            layers = Handler.get().getWorld().getLayers().length;
         }
 
         boolean walkableOnTop = false;
@@ -401,6 +430,10 @@ public abstract class Creature extends Entity {
      * Handles collision detection for A*, which does not take polygon bounds into consideration
      */
     public boolean collisionWithTile(int x, int y) {
+        if (isOutsideMap(x, y)) {
+            return true;
+        }
+
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
@@ -409,7 +442,7 @@ public abstract class Creature extends Entity {
         if (Handler.get().getWorld().hasPermissionsLayer()) {
             layers = Handler.get().getWorld().getLayers().length - 1;
         } else {
-            layers = Handler.get().getWorld().getLayers().length ;
+            layers = Handler.get().getWorld().getLayers().length;
         }
 
         for (int i = 0; i < layers; i++) {
