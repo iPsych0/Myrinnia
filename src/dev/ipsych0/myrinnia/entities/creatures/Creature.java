@@ -23,10 +23,8 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public abstract class Creature extends Entity {
 
@@ -97,6 +95,7 @@ public abstract class Creature extends Entity {
     protected boolean movementAllowed = true;
     protected Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
     protected boolean hasSwitchedTile;
+    private static Map<Integer, Polygon> polyTiles = new HashMap<>();
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -205,32 +204,6 @@ public abstract class Creature extends Entity {
             moveX();
         if (!checkEntityCollisions(0, yMove))
             moveY();
-
-        if (Handler.get().getWorld().hasPermissionsLayer()) {
-            Tile oldTile = currentTile;
-            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, (int) (x / 32), (int) (y / 32));
-            if (currentTile != Tile.tiles[0]) {
-                if (currentTile != oldTile) {
-                    hasSwitchedTile = true;
-                }
-                if (hasSwitchedTile) {
-                    if (currentTile != null) {
-                        hasSwitchedTile = false;
-                        previousTile = oldTile;
-                    }
-
-                    if (previousTile != null) {
-                        System.out.println("Previous: " + previousTile.getPermission());
-                    }
-                    if (currentTile != null) {
-                        System.out.println("Current: " + currentTile.getPermission());
-                    }
-                    System.out.println("--------------");
-                }
-            }
-        } else {
-            currentTile = Tile.tiles[23780];
-        }
     }
 
     /*
@@ -375,6 +348,94 @@ public abstract class Creature extends Entity {
         return x < 0 || y < 0 || x >= width || y >= height;
     }
 
+    private void checkPermissionTiles(int x, int y) {
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            Tile oldTile = currentTile;
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            if (currentTile != Tile.tiles[0]) {
+                if (currentTile != oldTile) {
+                    hasSwitchedTile = true;
+                }
+                if (hasSwitchedTile) {
+                    if (currentTile != null) {
+                        hasSwitchedTile = false;
+                        previousTile = oldTile;
+                    }
+
+                    if (previousTile != null) {
+                        System.out.println("Previous: " + previousTile.getPermission());
+                    }
+                    if (currentTile != null) {
+                        System.out.println("Current: " + currentTile.getPermission());
+                    }
+                    System.out.println("--------------");
+                }
+            }
+        } else {
+            currentTile = Tile.tiles[23780];
+        }
+    }
+
+    private boolean isAllowedToMove(int topLayer, int x, int y) {
+        Tile target = Handler.get().getWorld().getTile(topLayer, x, y);
+        if (target != Tile.tiles[0]) {
+            if (target.getPermission() != null && previousTile != null && currentTile != null) {
+                return hasRightPrivileges(previousTile, currentTile, target, topLayer, x, y);
+            }
+        }
+        return true;
+    }
+
+    private boolean hasRightPrivileges(Tile previousTile, Tile currentTile, Tile target, int topLayer, int x, int y) {
+        switch (target.getPermission()) {
+            case "C":
+                return currentTile.getPermission().equalsIgnoreCase("C") || currentTile.getPermission().equalsIgnoreCase("0") || currentTile.getPermission().equalsIgnoreCase("3C") && previousTile.getPermission().equalsIgnoreCase("C");
+            case "0":
+                return true;
+            case "8":
+                return currentTile.getPermission().equalsIgnoreCase("8") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "10":
+                return currentTile.getPermission().equalsIgnoreCase("10") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "14":
+                return currentTile.getPermission().equalsIgnoreCase("14") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "18":
+                return currentTile.getPermission().equalsIgnoreCase("18") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "22":
+                return currentTile.getPermission().equalsIgnoreCase("22") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "3C":
+                if (currentTile.getPermission().equalsIgnoreCase("C") || currentTile.getPermission().equalsIgnoreCase("3C") && previousTile.getPermission().equalsIgnoreCase("C")) {
+                    for (int i = topLayer - 1; i >= 0; i--) {
+                        Tile t = Handler.get().getWorld().getTile(i, x, y);
+                        if (t != Tile.tiles[0]) {
+                            t.setPostRendered(true);
+                            if (t.getPolyBounds() != null) {
+                                polyTiles.put(t.getId(), t.getPolyBounds());
+                                t.setPolyBounds(null);
+                                t.setSolid(false);
+                            }
+                            return true;
+                        }
+                    }
+                } else {
+                    // Reset postRender so we can walk over it
+                    for (int i = topLayer - 1; i >= 0; i--) {
+                        Tile t = Handler.get().getWorld().getTile(i, x, y);
+                        if (t != Tile.tiles[0]) {
+                            t.setPostRendered(false);
+                            polyTiles.forEach((key, value) -> Tile.tiles[key].setPolyBounds(value));
+                            t.setSolid(true);
+                            polyTiles.clear();
+                            break;
+                        }
+                    }
+                    return true;
+                }
+            default:
+                return true;
+
+        }
+    }
+
     /*
      * Handles collision detection with Tiles
      */
@@ -387,17 +448,23 @@ public abstract class Creature extends Entity {
             return true;
         }
 
-        int layers;
+        int topLayer;
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            layers = Handler.get().getWorld().getLayers().length - 1;
+            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            boolean allowed = isAllowedToMove(topLayer, x, y);
+            if (!allowed) {
+                return true;
+            }
         } else {
-            layers = Handler.get().getWorld().getLayers().length;
+            topLayer = Handler.get().getWorld().getLayers().length;
         }
+
+        checkPermissionTiles(x, y);
 
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < layers; i++) {
+        for (int i = 0; i < topLayer; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
@@ -445,6 +512,8 @@ public abstract class Creature extends Entity {
             layers = Handler.get().getWorld().getLayers().length;
         }
 
+        checkPermissionTiles(x, y);
+
         for (int i = 0; i < layers; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
@@ -463,6 +532,7 @@ public abstract class Creature extends Entity {
         if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
+
         return !walkableOnTop;
     }
 

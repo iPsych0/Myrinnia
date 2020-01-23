@@ -96,6 +96,10 @@ public class Tile {
         return solid;
     }
 
+    public void setSolid(boolean solid) {
+        this.solid = solid;
+    }
+
     public int getId() {
         return id;
     }
