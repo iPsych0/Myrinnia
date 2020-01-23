@@ -22,12 +22,17 @@ public class Hedgehog extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1000, attackTimer = attackCooldown;
     private Animation rollingAnimation;
+    private Animation stunAnimation;
+    private boolean charging;
     private boolean rolling;
-    private int chargeTime = 60 * 2; // 2 seconds
+    private int chargeTime = 60;
     private int chargeTimer;
+    private boolean stunned;
+    private int stunnedTime = 120, stunnedTimer = 0;
     private int rollChance = 3, diceRolls;
-    private double rollSpeed = 4.0;
+    private double rollSpeed = 5.0;
     private double xVelocity, yVelocity;
+    private int maxX, maxY, minX, minY;
     private static final int RADIUS = 256;
     private double angle, rotation;
 
@@ -37,15 +42,14 @@ public class Hedgehog extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 15;
+        strength = 22;
         dexterity = 12;
         intelligence = 0;
-        vitality = 36;
+        vitality = 52;
         defence = 40;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
-
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
@@ -59,30 +63,70 @@ public class Hedgehog extends Creature {
             return;
         }
 
+        // Stunned when hitting a wall
+        if (stunned) {
+            stunnedTimer++;
+            if (stunnedTimer >= stunnedTime) {
+                stunned = false;
+                stunnedTimer = 0;
+                stopRolling();
+                attackTimer = -500; // Add extra .5 second delay to attacking after stun
+            }
+            return;
+        }
+
+        // Charge for the duration given
+        if (charging) {
+            chargeTimer++;
+            if (chargeTimer >= chargeTime) {
+                charging = false;
+                rolling = true;
+            }
+        }
+
+        // Roll towards position
         if (rolling) {
-            // Update position based on direction
-            double ty = (y + yVelocity + bounds.y + (bounds.height / 2d)) / Tile.TILEHEIGHT;
-            double tx = (x + xVelocity + bounds.x + (bounds.width / 2d)) / Tile.TILEWIDTH;
+
+            double ty;
+            if (yVelocity >= 0) {
+                ty = (y + yVelocity + bounds.y + bounds.height) / Tile.TILEHEIGHT;
+            } else {
+                ty = (y + yVelocity + bounds.y) / Tile.TILEHEIGHT;
+            }
+
+            double tx;
+            if (xVelocity >= 0) {
+                tx = (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+            } else {
+                tx = (x + xMove + bounds.x) / Tile.TILEWIDTH;
+            }
+
             if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, false)) {
                 stopRolling();
+                stunned = true;
+                stunAnimation = new Animation(200, Assets.stunned, true, true);
                 return;
             }
 
             // If out of range, remove this projectile
-            if (x > x + RADIUS || x < x + -RADIUS || y > y + RADIUS || y < y + -RADIUS) {
+            if (x >= maxX || x <= minX || y >= maxY || y <= minY) {
                 stopRolling();
+                return;
             }
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (getCollisionBounds(xVelocity, yVelocity).intersects(e.getCollisionBounds(0, 0))) {
-                    if (e.equals(Handler.get().getPlayer())) {
+                    if (e.equals(this))
+                        continue;
+                    if (e.equals(Handler.get().getPlayer()))
                         e.damage(DamageType.STR, this, e);
-                        stopRolling();
-                        return;
-                    }
+
+                    stopRolling();
+                    attackTimer = -500; // Add extra .5 second attacking delay on hit
+                    return;
                 }
             }
 
@@ -94,7 +138,11 @@ public class Hedgehog extends Creature {
 
     private void stopRolling() {
         rolling = false;
+        charging = false;
+        chargeTimer = 0;
         rollingAnimation = null;
+        attackTimer = 0;
+        lastAttackTimer = System.currentTimeMillis();
     }
 
     @Override
@@ -110,6 +158,11 @@ public class Hedgehog extends Creature {
         } else {
             g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                     , width, height, null);
+            if (stunned && stunAnimation != null && !stunAnimation.isTickDone()) {
+                stunAnimation.tick();
+                g.drawImage(stunAnimation.getCurrentFrame(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - 16 - Handler.get().getGameCamera().getyOffset())
+                        , width, height, null);
+            }
         }
     }
 
@@ -117,17 +170,18 @@ public class Hedgehog extends Creature {
     public void die() {
         getDroptableItem();
         Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        stopRolling();
     }
 
     /*
      * Checks the attack timers before the next attack
      */
     protected void checkAttacks() {
-        // Attack timers
-        if (rolling) {
+        if (rolling || charging || stunned) {
             return;
         }
 
+        // Attack timers
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
         if (attackTimer < attackCooldown)
@@ -136,8 +190,8 @@ public class Hedgehog extends Creature {
         attackTimer = 0;
 
         diceRolls++;
-        if (diceRolls >= rollChance) {
-            rolling = true;
+        if (diceRolls >= Handler.get().getRandomNumber(3, 5)) {
+            charging = true;
             rollingAnimation = new Animation(25, Assets.hedgeHogRoll);
 
             // Get the angle towards the player
@@ -145,6 +199,12 @@ public class Hedgehog extends Creature {
 
             xVelocity = rollSpeed * Math.cos(angle);
             yVelocity = rollSpeed * Math.sin(angle);
+
+            minX = (int) x - RADIUS;
+            maxX = (int) x + RADIUS;
+
+            minY = (int) y - RADIUS;
+            maxY = (int) y + RADIUS;
 
             // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
             rotation = Math.toDegrees(angle);
@@ -174,7 +234,7 @@ public class Hedgehog extends Creature {
 
     @Override
     protected void combatStateManager() {
-        if (!rolling) {
+        if (!rolling && !charging && !stunned) {
             super.combatStateManager();
         }
     }

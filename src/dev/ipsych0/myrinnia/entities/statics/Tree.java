@@ -54,10 +54,10 @@ public class Tree extends StaticEntity {
         } else if (name.equalsIgnoreCase("Elm Tree")) {
             logs = Item.lightWood;
             experience = 10;
-            bounds.x = 32;
-            bounds.y = 104;
-            bounds.width = 32;
-            bounds.height = 16;
+            bounds.x = 17;
+            bounds.y = 83;
+            bounds.width = 29;
+            bounds.height = 13;
         } else {
             throw new IllegalArgumentException("Tree name not found: " + name);
         }

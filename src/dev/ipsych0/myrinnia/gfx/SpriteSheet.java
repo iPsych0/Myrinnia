@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
+import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
@@ -92,6 +93,11 @@ public class SpriteSheet {
                 }
                 Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
             }
+        }
+
+        // If we're loading a movement permission tile, set the right permission
+        if (MovePermission.map.get(tileId) != null) {
+            Tile.tiles[tileId].setPermission(MovePermission.map.get(tileId));
         }
 
         return sheet.getSubimage(x, y, width, height);

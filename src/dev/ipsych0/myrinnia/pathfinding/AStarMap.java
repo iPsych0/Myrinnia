@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.pathfinding;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
 import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
@@ -23,6 +22,7 @@ public class AStarMap implements Serializable {
     private Node[][] nodes;
     private Rectangle mapBounds;
     private Creature creature;
+    private boolean initialiazed;
 
     public AStarMap(Creature creature, int x, int y, int width, int height) {
         this.creature = creature;
@@ -33,18 +33,27 @@ public class AStarMap implements Serializable {
         this.xSpawn = creature.getxSpawn();
         this.ySpawn = creature.getySpawn();
 
-        // Aantal nodes aanpassen dan?
         nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int) (Math.floor(height / 32)) + 1];
         mapBounds = new Rectangle(x, y, width, height);
     }
 
     public void init() {
-        mapBounds = new Rectangle(x, y, width, height);
-        for (int i = 0; i < nodes.length; i++) {
-            for (int j = 0; j < nodes.length; j++) {
-                nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
+        if (!initialiazed) {
+            for (int i = 0; i < nodes.length; i++) {
+                for (int j = 0; j < nodes.length; j++) {
+                    nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
+                }
+            }
+        } else {
+            // Reset walkable tiles and re-check
+            for (int i = 0; i < nodes.length; i++) {
+                for (int j = 0; j < nodes.length; j++) {
+                    nodes[i][j].setWalkable(true);
+                }
             }
         }
+
+        // Check for Tile collisions
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
                 if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
@@ -53,11 +62,12 @@ public class AStarMap implements Serializable {
             }
         }
 
+        // Cannot move through enemies, so mark those tiles as unavailable to avoid getting stuck
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-            if (e instanceof StaticEntity) {
-                if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
-                    nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
-                }
+            if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
+                nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
+            } else if (mapBounds.contains(e.getCollisionBounds(0, 0))) {
+                nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
             }
         }
 

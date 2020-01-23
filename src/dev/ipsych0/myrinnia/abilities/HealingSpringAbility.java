@@ -60,7 +60,7 @@ public class HealingSpringAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialHealDone) {
-            EffectManager.get().addEvent(caster, new ConditionOnHitEvent(Condition.Type.POISON, 3, 5, 10, 3));
+//            EffectManager.get().addEvent(caster, new ConditionOnHitEvent(Condition.Type.POISON, 3, 5, 10, 3));
             springActive = true;
             pbAoECircle = new PBAoECircle(caster, 80);
 

@@ -80,7 +80,6 @@ public abstract class Creature extends Entity {
     int pathFindRadiusX = 768;
     int pathFindRadiusY = 768;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
-    private boolean aStarInitialized;
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     protected static final int TIMES_PER_SECOND = 4;
@@ -352,6 +351,12 @@ public abstract class Creature extends Entity {
      * Handles collision detection with Tiles
      */
     boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
+        int layers;
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            layers = Handler.get().getWorld().getLayers().length - 1;
+        } else {
+            layers = Handler.get().getWorld().getLayers().length ;
+        }
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -363,7 +368,7 @@ public abstract class Creature extends Entity {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+        for (int i = 0; i < layers; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
@@ -399,7 +404,15 @@ public abstract class Creature extends Entity {
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+
+        int layers;
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            layers = Handler.get().getWorld().getLayers().length - 1;
+        } else {
+            layers = Handler.get().getWorld().getLayers().length ;
+        }
+
+        for (int i = 0; i < layers; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 walkableOnTop = false;
@@ -560,10 +573,6 @@ public abstract class Creature extends Entity {
         }
 
         if (attackable) {
-            if (!aStarInitialized) {
-                map.init();
-                aStarInitialized = true;
-            }
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
@@ -693,6 +702,7 @@ public abstract class Creature extends Entity {
             // Control the number of times we check for new path
             pathTimer++;
             if (pathTimer >= TIME_PER_PATH_CHECK) {
+                map.init();
                 findPath();
                 pathTimer = 0;
             }

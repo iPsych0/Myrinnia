@@ -18,6 +18,7 @@
  <tileset firstgid="18856" source="outside4.tsx"/>
  <tileset firstgid="19720" source="ruindungeons_sheet_full.tsx"/>
  <tileset firstgid="22268" source="ship_tileset.tsx"/>
+ <tileset firstgid="23780" source="z_tile_marker.tsx"/>
  <layer id="6" name="Tile Layer 1" width="45" height="65">
   <data encoding="csv">
 13115,13115,8210,8657,8063,8063,8063,8063,8657,8735,8736,8736,8736,8736,8736,8736,8736,8736,8738,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8736,8660,8699,8700,8700,8700,8700,8700,8700,8700,8661,8161,

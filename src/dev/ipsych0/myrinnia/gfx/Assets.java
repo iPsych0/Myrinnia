@@ -45,7 +45,7 @@ public class Assets {
     public static BufferedImage[] hedgeHogRoll;
 
     // Ability animations
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -933,6 +933,13 @@ public class Assets {
         burrowMound = new BufferedImage[2];
         burrowMound[0] = ability_animations.imageCrop(2, 7);
         burrowMound[1] = ability_animations.imageCrop(3, 7);
+
+        stunned = new BufferedImage[5];
+        stunned[0] = ability_animations.imageCrop(3, 8);
+        stunned[1] = ability_animations.imageCrop(4, 8);
+        stunned[2] = ability_animations.imageCrop(5, 8);
+        stunned[3] = ability_animations.imageCrop(6, 8);
+        stunned[4] = ability_animations.imageCrop(7, 8);
 
         hedgeHogRoll = new BufferedImage[2];
         hedgeHogRoll[0] = ability_animations.imageCrop(4, 7);

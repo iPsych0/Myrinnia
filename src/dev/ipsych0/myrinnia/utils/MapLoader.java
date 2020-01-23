@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
@@ -37,6 +38,7 @@ public class MapLoader implements Serializable {
     public static Map<Integer, Boolean> solidTiles = new HashMap<>();
     public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
     public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
+    public static Map<Integer, MovePermission> movePermissions = new HashMap<>();
     public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
     private static Document doc, tsxDoc;
     private static int tileCount, lastId;
@@ -87,7 +89,7 @@ public class MapLoader implements Serializable {
      * Returns the width of the map from Tiled
      * @params: String path in OS
      */
-    public static void setSolidTiles(String path) {
+    public static void loadTiles(String path) {
         try {
             InputStream is = new FileInputStream(path);
             DefaultHandler handler = new DefaultHandler() {
@@ -230,17 +232,28 @@ public class MapLoader implements Serializable {
      * @param: path - input path from OS to read in the .tmx file
      * @returns: String[] mapValues - all Tile IDs per layer
      */
-    public static String[] getMapTiles(String path) {
+    public static String[] getMapTiles(World world) {
 
         if (doc != null) {
             // Get all tags
             NodeList maps = doc.getElementsByTagName("layer");
 
+            // Check for permissions layer (MUST be named 'Permissions')
+            int layer = 0;
+            while (layer < maps.getLength()) {
+                if ("Permissions".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").toString())) {
+                    world.setHasPermissionsLayer(true);
+                    break;
+                }
+                layer++;
+            }
+
             // Index the String[] at the size of the number of layers
-            String[] mapValues = new String[maps.getLength()];
+            String[] mapValues;
+            mapValues = new String[maps.getLength()];
 
             // Set variables to iterate over the maps
-            int layer = 0;
+            layer = 0;
 
             // Fill the layers in the String[] (The entire String with all Tile IDs per layer)
             while (layer < mapValues.length) {
@@ -531,7 +544,7 @@ public class MapLoader implements Serializable {
                 }
 
                 if (fixedImg.contains(imagePath)) {
-                    setSolidTiles(fixedDoc);
+                    loadTiles(fixedDoc);
                     return i;
                 }
             }

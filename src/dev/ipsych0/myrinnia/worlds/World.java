@@ -52,6 +52,7 @@ public class World implements Serializable {
     private static boolean nightTime = false;
     private static int timeChecker = 60 * 60;
     private boolean initialized;
+    private boolean hasPermissionsLayer;
 
     // Entities
 
@@ -150,7 +151,7 @@ public class World implements Serializable {
             width = MapLoader.getMapWidth();
             height = MapLoader.getMapHeight();
 
-            loadWorld(worldPath);
+            loadWorld();
 
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
@@ -375,8 +376,8 @@ public class World implements Serializable {
         g.setPaint(originalPaint);
     }
 
-    private void loadWorld(String path) {
-        layers = MapLoader.getMapTiles(path);
+    private void loadWorld() {
+        layers = MapLoader.getMapTiles(this);
         tiles = new int[layers.length][width][height];
 
         for (int i = 0; i < layers.length; i++) {
@@ -391,7 +392,6 @@ public class World implements Serializable {
                 }
             }
         }
-
     }
 
     public int getWidth() {
@@ -504,5 +504,13 @@ public class World implements Serializable {
 
     public void setDayNightCycle(boolean dayNightCycle) {
         this.dayNightCycle = dayNightCycle;
+    }
+
+    public boolean hasPermissionsLayer() {
+        return hasPermissionsLayer;
+    }
+
+    public void setHasPermissionsLayer(boolean hasPermissionsLayer) {
+        this.hasPermissionsLayer = hasPermissionsLayer;
     }
 }
