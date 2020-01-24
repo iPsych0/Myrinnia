@@ -109,7 +109,10 @@ public class Projectile extends Creature implements Serializable {
         }
 
         public Projectile build() {
-            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact, piercing);
+            Projectile p = new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact, piercing);
+            p.setCurrentTile(caster.getCurrentTile());
+            p.setPreviousTile(caster.getPreviousTile());
+            return p;
         }
 
     }

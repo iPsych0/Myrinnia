@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.pathfinding;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
@@ -59,11 +60,25 @@ public class AStarMap implements Serializable {
                 if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
                     nodes[i][j].setWalkable(false);
                 }
+
+//                Player player = Handler.get().getPlayer();
+//                if (player.getCurrentTile() != null) {
+//                    // If player is on 3C tile, but not on ground level, but we are on ground level, we cannot reach
+//                    if (player.getCurrentTile().getPermission().equalsIgnoreCase("3C") &&
+//                            !player.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
+//                            creature.getCurrentTile().getPermission().equalsIgnoreCase("C")) {
+//                        nodes[i][j].setWalkable(false);
+//                    }
+//                }
+                // TODO: CHECK IF PLAYER IS ON 3C AND LAST TILE NOT C
+                // TODO: AND CHECK IF WE'RE ON C, IF SO: SOLID!!!!!!1
             }
         }
 
         // Cannot move through enemies, so mark those tiles as unavailable to avoid getting stuck
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+            if (e.equals(Handler.get().getPlayer()) || e.equals(creature))
+                continue;
             if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
                 nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
             } else if (mapBounds.contains(e.getCollisionBounds(0, 0))) {

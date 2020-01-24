@@ -234,7 +234,7 @@ public class World implements Serializable {
             List<Tile> renderOverTiles = new ArrayList<>();
             List<Integer> xCoords = new ArrayList<>();
             List<Integer> yCoords = new ArrayList<>();
-//        boolean standingUnderPostRenderTile = false;
+
             for (int i = 0; i < renderLayers; i++) {
                 for (int y = yStart; y < yEnd; y++) {
                     for (int x = xStart; x < xEnd; x++) {
@@ -243,9 +243,14 @@ public class World implements Serializable {
                             int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
                             int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
                             if (t.isPostRendered()) {
-//                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
-//                                standingUnderPostRenderTile = true;
-//                            }
+                                if (Handler.debugCollision && hasPermissionsLayer && i == (renderLayers - 1)) {
+                                    Tile permission = getTile(i + 1, x, y);
+                                    if (permission != Tile.tiles[0]) {
+                                        renderOverTiles.add(permission);
+                                        xCoords.add(xPos);
+                                        yCoords.add(yPos);
+                                    }
+                                }
                                 renderOverTiles.add(t);
                                 xCoords.add(xPos);
                                 yCoords.add(yPos);
@@ -298,7 +303,13 @@ public class World implements Serializable {
 //                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
 //                g.setComposite(ac);
 //            }
-                renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                if (renderOverTiles.get(i).getPermission() != null) {
+                    if (Handler.debugCollision) {
+                        renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                    }
+                } else {
+                    renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                }
             }
 //        g.setComposite(composite);
 
