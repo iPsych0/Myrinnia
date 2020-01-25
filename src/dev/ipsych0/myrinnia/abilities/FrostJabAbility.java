@@ -86,7 +86,7 @@ public class FrostJabAbility extends Ability implements Serializable {
                     continue;
                 if (!e.isAttackable())
                     continue;
-                if (e.getCollisionBounds(0, 0).intersects(ar)) {
+                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, caster, e, this);
 
                     // 10% Chance of chilling
@@ -100,7 +100,7 @@ public class FrostJabAbility extends Ability implements Serializable {
             }
         } else {
             Player player = Handler.get().getPlayer();
-            if (player.getCollisionBounds(0, 0).intersects(ar)) {
+            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
                 player.damage(DamageType.STR, caster, player, this);
 
                 // 10% Chance of chilling

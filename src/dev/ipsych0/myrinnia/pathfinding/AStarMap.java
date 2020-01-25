@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
@@ -34,7 +35,7 @@ public class AStarMap implements Serializable {
         this.xSpawn = creature.getxSpawn();
         this.ySpawn = creature.getySpawn();
 
-        nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int) (Math.floor(height / 32)) + 1];
+        nodes = new Node[(int) (Math.floor(width / 32f)) + 1][(int) (Math.floor(height / 32f)) + 1];
         mapBounds = new Rectangle(x, y, width, height);
     }
 
@@ -55,23 +56,29 @@ public class AStarMap implements Serializable {
         }
 
         // Check for Tile collisions
+        boolean on3CTile = false;
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
                 if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
                     nodes[i][j].setWalkable(false);
                 }
 
-//                Player player = Handler.get().getPlayer();
-//                if (player.getCurrentTile() != null) {
-//                    // If player is on 3C tile, but not on ground level, but we are on ground level, we cannot reach
-//                    if (player.getCurrentTile().getPermission().equalsIgnoreCase("3C") &&
-//                            !player.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
-//                            creature.getCurrentTile().getPermission().equalsIgnoreCase("C")) {
-//                        nodes[i][j].setWalkable(false);
-//                    }
-//                }
-                // TODO: CHECK IF PLAYER IS ON 3C AND LAST TILE NOT C
-                // TODO: AND CHECK IF WE'RE ON C, IF SO: SOLID!!!!!!1
+                if (Handler.get().getWorld().hasPermissionsLayer()) {
+                    Player player = Handler.get().getPlayer();
+                    int topLayer = Handler.get().getWorld().getLayers().length - 1;
+                    if (creature.getCurrentTile().getPermission().equalsIgnoreCase("C") || creature.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
+                        !player.getCurrentTile().getPermission().equalsIgnoreCase("C") || !player.getCurrentTile().getPermission().equalsIgnoreCase("0")) {
+                        on3CTile = true;
+                    }
+
+                    if (on3CTile) {
+                        Tile topTile = Handler.get().getWorld().getTile(topLayer - 1, nodes[i][j].getX(), nodes[i][j].getY());
+                        if (topTile != Tile.tiles[0] && topTile.isPostRendered()) {
+                            nodes[i][j].setWalkable(false);
+                        }
+                    }
+                }
+
             }
         }
 

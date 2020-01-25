@@ -60,7 +60,7 @@ public class EruptionAbility extends Ability {
 
             if (caster.equals(Handler.get().getPlayer())) {
                 for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                    if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
+                    if (e.getVerticality() == caster.getVerticality() && hitBox.intersects(e.getCollisionBounds(0, 0))) {
                         if (!e.isAttackable())
                             continue;
                         if (!e.equals(caster)) {
@@ -71,7 +71,7 @@ public class EruptionAbility extends Ability {
                 }
             } else {
                 Player player = Handler.get().getPlayer();
-                if (hitBox.intersects(player.getCollisionBounds(0, 0))) {
+                if (player.getVerticality() == caster.getVerticality() && hitBox.intersects(player.getCollisionBounds(0, 0))) {
                     player.damage(DamageType.INT, caster, player, this);
                     player.addCondition(caster, player, new Condition(Condition.Type.BURNING, 5, 3));
                 }

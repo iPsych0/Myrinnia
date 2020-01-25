@@ -373,7 +373,7 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }

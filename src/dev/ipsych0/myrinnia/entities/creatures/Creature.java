@@ -360,15 +360,23 @@ public abstract class Creature extends Entity {
                     if (currentTile != null) {
                         hasSwitchedTile = false;
                         previousTile = oldTile;
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("C")) {
+                            verticality = 1;
+                        }
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("10")) {
+                            verticality = 0;
+                        }
                     }
 
-                    if (previousTile != null) {
-                        System.out.println("Previous: " + previousTile.getPermission());
+                    if (this.equals(Handler.get().getPlayer())) {
+                        if (previousTile != null) {
+                            System.out.println("Previous: " + previousTile.getPermission());
+                        }
+                        if (currentTile != null) {
+                            System.out.println("Current: " + currentTile.getPermission());
+                        }
+                        System.out.println("--------------");
                     }
-                    if (currentTile != null) {
-                        System.out.println("Current: " + currentTile.getPermission());
-                    }
-                    System.out.println("--------------");
                 }
             } else {
                 currentTile = Tile.tiles[23780];
@@ -432,6 +440,8 @@ public abstract class Creature extends Entity {
                             t.setPostRendered(true);
                             if (t.getPolyBounds() != null) {
                                 polyTiles.put(t.getId(), t.getPolyBounds(x, y));
+                                // TODO: Instead of REMOVING the bounds and post render and solid,
+                                // TODO: In collision checking, later on, we check for THAT CREATURE if it should be removed/passed
                                 t.setPolyBounds(null);
                             }
                             if (!polyTiles.containsKey(t.getId())) {
@@ -670,7 +680,7 @@ public abstract class Creature extends Entity {
             if (!p.isActive()) {
                 deleted.add(p);
             }
-            if (p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
+            if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
                 if (!p.getHitCreatures().contains(player)) {
                     if (p.getAbility() != null) {
                         player.damage(p.getDamageType(), this, player, p.getAbility());
@@ -804,6 +814,10 @@ public abstract class Creature extends Entity {
         }
 
         Player player = Handler.get().getPlayer();
+        if (player.verticality != this.verticality) {
+            randomWalk();
+            return;
+        }
 
         // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
         if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
@@ -1024,7 +1038,7 @@ public abstract class Creature extends Entity {
                     continue;
                 if (!e.isAttackable())
                     continue;
-                if (e.getCollisionBounds(0, 0).intersects(ar)) {
+                if (e.getVerticality() == Handler.get().getPlayer().getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, this, e);
                     // Break because we only hit 1 target
                     break;
@@ -1032,7 +1046,7 @@ public abstract class Creature extends Entity {
             }
         } else {
             Player player = Handler.get().getPlayer();
-            if (player.getFullBounds(0, 0).intersects(ar)) {
+            if (player.getVerticality() == this.getVerticality() && player.getFullBounds(0, 0).intersects(ar)) {
                 player.damage(DamageType.STR, this, player);
             }
         }

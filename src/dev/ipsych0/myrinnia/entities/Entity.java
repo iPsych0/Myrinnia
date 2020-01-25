@@ -64,6 +64,7 @@ public abstract class Entity implements Serializable {
     protected String animationTag;
     protected String shopItemsFile;
     private static final double DIVISION_QUOTIENT = 150.0d;
+    protected int verticality;
 
     protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
@@ -875,5 +876,13 @@ public abstract class Entity implements Serializable {
 
     public void setTimeOfDeath(long timeOfDeath) {
         this.timeOfDeath = timeOfDeath;
+    }
+
+    public int getVerticality() {
+        return verticality;
+    }
+
+    public void setVerticality(int verticality) {
+        this.verticality = verticality;
     }
 }
