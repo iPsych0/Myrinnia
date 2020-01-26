@@ -387,10 +387,12 @@ public abstract class Creature extends Entity {
                     if (currentTile != null) {
                         hasSwitchedTile = false;
                         previousTile = oldTile;
-                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("C")) {
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("C") ||
+                            currentTile.getPermission().equalsIgnoreCase("10") && previousTile.getPermission().equalsIgnoreCase("0")) {
                             verticality = 1;
                         }
-                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("10")) {
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("10") ||
+                                currentTile.getPermission().equalsIgnoreCase("C") && previousTile.getPermission().equalsIgnoreCase("0")) {
                             verticality = 0;
                         }
                     }
@@ -464,7 +466,7 @@ public abstract class Creature extends Entity {
     /*
      * Handles collision detection with Tiles
      */
-    boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
+    public boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -547,8 +549,8 @@ public abstract class Creature extends Entity {
         } else {
             topLayer = Handler.get().getWorld().getLayers().length;
         }
-
-        checkPermissionTiles(x, y);
+//
+//        checkPermissionTiles(x, y);
 
         // Special exclusion for 3C tiles when walking underneath (allow all movement)
         if (currentTile != null && currentTile.getPermission() != null && currentTile.getPermission().equalsIgnoreCase("3C")) {
@@ -800,15 +802,16 @@ public abstract class Creature extends Entity {
         }
 
         Player player = Handler.get().getPlayer();
-        if (player.verticality != this.verticality) {
-            randomWalk();
-            return;
-        }
 
         // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
         if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
+
+        if (player.verticality != this.verticality) {
+            state = CombatState.IDLE;
+        }
+
         // If the Creature was not following or attacking the player, move around randomly.
         if (state == CombatState.IDLE) {
             randomWalk();
