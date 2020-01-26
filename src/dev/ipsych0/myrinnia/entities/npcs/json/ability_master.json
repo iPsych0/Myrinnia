@@ -12,7 +12,7 @@
           }
         },
         {
-          "text": "Could you reset my skill points for me?",
+          "text": "Could you reset my Character points for me?",
           "nextId": 1
         },
         {
@@ -23,7 +23,7 @@
     },
     {
       "id": 1,
-      "text": "I can reset your Skill Points for a fee of 1000 gold.",
+      "text": "I can reset your Skill Points for a fee of 1000 gold. With every reset, this amount will increase. Are you sure?",
       "nextId": 2
     },
     {

@@ -237,7 +237,6 @@ public class BurrowingBeetle extends Creature {
     /**
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
-    @Override
     protected void combatStateManager() {
 
         if (digging) {
@@ -255,6 +254,11 @@ public class BurrowingBeetle extends Creature {
         if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
+
+        if (player.getVerticality() != this.verticality) {
+            state = CombatState.IDLE;
+        }
+
         // If the Creature was not following or attacking the player, move around randomly.
         if (state == CombatState.IDLE) {
             randomWalk();
@@ -275,7 +279,7 @@ public class BurrowingBeetle extends Creature {
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (attackable) {
+        if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
                 checkAttacks();
                 state = CombatState.ATTACK;
@@ -298,6 +302,7 @@ public class BurrowingBeetle extends Creature {
             // Control the number of times we check for new path
             pathTimer++;
             if (pathTimer >= TIME_PER_PATH_CHECK) {
+                map.init();
                 findPath();
                 pathTimer = 0;
             }

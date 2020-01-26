@@ -2,13 +2,13 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
@@ -17,7 +17,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
-    private ArrayList<Ability> abilities;
+    private List<Ability> abilities;
 
     public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);

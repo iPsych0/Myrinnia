@@ -18,6 +18,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbilityShopWindow implements Serializable {
 
@@ -49,7 +50,7 @@ public class AbilityShopWindow implements Serializable {
 
     private AbilityTooltip abilityTooltip;
 
-    public AbilityShopWindow(ArrayList<Ability> abilities) {
+    public AbilityShopWindow(List<Ability> abilities) {
         this.width = 460;
         this.height = 313;
         this.x = Handler.get().getWidth() / 2 - width / 2;

@@ -438,13 +438,13 @@ public abstract class Creature extends Entity {
             case "8":
                 return currentTile.getPermission().equalsIgnoreCase("8") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
             case "10":
-                return currentTile.getPermission().equalsIgnoreCase("10") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+                return currentTile.getPermission().equalsIgnoreCase("10") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 1 || currentTile.getPermission().equalsIgnoreCase("0");
             case "14":
-                return currentTile.getPermission().equalsIgnoreCase("14") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+                return currentTile.getPermission().equalsIgnoreCase("14") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 2 || currentTile.getPermission().equalsIgnoreCase("0");
             case "18":
-                return currentTile.getPermission().equalsIgnoreCase("18") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+                return currentTile.getPermission().equalsIgnoreCase("18") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 3 || currentTile.getPermission().equalsIgnoreCase("0");
             case "22":
-                return currentTile.getPermission().equalsIgnoreCase("22") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+                return currentTile.getPermission().equalsIgnoreCase("22") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 4 || currentTile.getPermission().equalsIgnoreCase("0");
             case "3C":
                 if (verticality == 0) {
                     Tile postRender;
@@ -502,9 +502,9 @@ public abstract class Creature extends Entity {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
-                    walkableOnTop = verticality >= 1 && t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(xMove, 0));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(xMove, 0));
                 } else {
-                    walkableOnTop = verticality >= 1 && t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(0, yMove));
+                    walkableOnTop = t.getPolyBounds() != null && !t.getPolyBounds(x, y).intersects(getCollisionBounds(0, yMove));
                 }
                 if (!walkableOnTop) {
                     solidTileUnderPostRendered = true;
