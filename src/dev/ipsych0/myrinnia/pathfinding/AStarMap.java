@@ -24,7 +24,7 @@ public class AStarMap implements Serializable {
     private Node[][] nodes;
     private Rectangle mapBounds;
     private Creature creature;
-    private boolean initialiazed;
+    private boolean initialized;
 
     public AStarMap(Creature creature, int x, int y, int width, int height) {
         this.creature = creature;
@@ -40,12 +40,13 @@ public class AStarMap implements Serializable {
     }
 
     public void init() {
-        if (!initialiazed) {
+        if (!initialized) {
             for (int i = 0; i < nodes.length; i++) {
                 for (int j = 0; j < nodes.length; j++) {
                     nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
                 }
             }
+            initialized = true;
         } else {
             // Reset walkable tiles and re-check
             for (int i = 0; i < nodes.length; i++) {
@@ -66,14 +67,19 @@ public class AStarMap implements Serializable {
                 if (Handler.get().getWorld().hasPermissionsLayer()) {
                     Player player = Handler.get().getPlayer();
                     int topLayer = Handler.get().getWorld().getLayers().length - 1;
-                    if (creature.getCurrentTile().getPermission().equalsIgnoreCase("C") || creature.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
-                        !player.getCurrentTile().getPermission().equalsIgnoreCase("C") || !player.getCurrentTile().getPermission().equalsIgnoreCase("0")) {
-                        on3CTile = true;
+
+                    if (!on3CTile) {
+                        // Check if player is not on C or 0 tile, he is on a higher layer 3C, which means we cannot navigate
+                        if (creature.getCurrentTile().getPermission().equalsIgnoreCase("C") || creature.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
+                                !player.getCurrentTile().getPermission().equalsIgnoreCase("C") || !player.getCurrentTile().getPermission().equalsIgnoreCase("0")) {
+                            on3CTile = true;
+                        }
                     }
 
                     if (on3CTile) {
-                        Tile topTile = Handler.get().getWorld().getTile(topLayer - 1, nodes[i][j].getX(), nodes[i][j].getY());
-                        if (topTile != Tile.tiles[0] && topTile.isPostRendered()) {
+                        Tile permissionsTile = Handler.get().getWorld().getTile(topLayer, nodes[i][j].getX(), nodes[i][j].getY());
+                        // If we are on a 3C tile, and we're not on the same vertical level, we can't navigate
+                        if (permissionsTile != Tile.tiles[0] && creature.getVerticality() != player.getVerticality() && permissionsTile.getPermission().equalsIgnoreCase("3C")) {
                             nodes[i][j].setWalkable(false);
                         }
                     }

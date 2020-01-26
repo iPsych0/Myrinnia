@@ -181,7 +181,14 @@ public class EntityManager implements Serializable {
                         p.render(g);
                     }
                 }
+
+                // Render post render tiles for this creature
+                for (Tile t : ((Creature) e).getPostRenderTiles().keySet()) {
+                    Point point = ((Creature) e).getPostRenderTiles().get(t);
+                    t.render(g, (int) (point.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (point.getY() * 32 - Handler.get().getGameCamera().getyOffset()));
+                }
             }
+
 
 //            if (!e.equals(Handler.get().getPlayer())) {
 //                e.postRender(g);

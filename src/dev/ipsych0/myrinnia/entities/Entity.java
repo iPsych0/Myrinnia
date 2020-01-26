@@ -64,7 +64,7 @@ public abstract class Entity implements Serializable {
     protected String animationTag;
     protected String shopItemsFile;
     private static final double DIVISION_QUOTIENT = 150.0d;
-    protected int verticality;
+    protected int verticality = 0;
 
     protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
@@ -123,7 +123,7 @@ public abstract class Entity implements Serializable {
                 continue;
             if (!e.solid)
                 continue;
-            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
+            if (e.getVerticality() == this.verticality && e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
                 return true;
         }
         return false;

@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import org.lwjgl.system.CallbackI;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -61,6 +62,12 @@ public class Hedgehog extends Creature {
         super.tick();
         if (health <= 0) {
             return;
+        }
+
+        if (stunned) {
+            defence = 0;
+        } else {
+            defence = 40;
         }
 
         // Stunned when hitting a wall
