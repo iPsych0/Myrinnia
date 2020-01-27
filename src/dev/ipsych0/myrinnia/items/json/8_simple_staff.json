@@ -1,18 +1,19 @@
 {
   "itemTypes": [
-    "RANGED_WEAPON"
+    "MAGIC_WEAPON"
   ],
   "itemRarity": "Common",
-  "name": "Beginner's Bow",
-  "id": 11,
+  "name": "Simple Staff",
+  "id": 8,
   "equipSlot": "Mainhand",
   "strength": 0,
-  "dexterity": 5,
-  "intelligence": 0,
+  "dexterity": 0,
+  "intelligence": 5,
   "defence": 0,
   "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
+  "useCooldown": 60,
   "x": 0,
   "y": 0,
   "bounds": {
@@ -32,6 +33,5 @@
   "price": 20,
   "stackable": false,
   "equippable": true,
-  "respawnTimer": 10800,
-  "useCooldown": 60
+  "respawnTimer": 10800
 }

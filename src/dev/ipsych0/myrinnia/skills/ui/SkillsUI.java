@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.*;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -96,7 +95,7 @@ public class SkillsUI implements Serializable {
                 }
             } else if (crafting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    changeTab(SkillsList.CRAFTING, SkillCategory.Equipment);
+                    changeTab(SkillsList.CRAFTING, SkillCategory.Weapons);
                 }
             } else if (farming.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {

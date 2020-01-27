@@ -25,9 +25,9 @@ public class CraftingManager implements Serializable {
 
         recipes = new ArrayList<>();
 
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Equipment, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Equipment, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Equipment, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
 
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightWood, 1), new ItemStack(Item.pileOfAshes, 2)));
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.pileOfAshes, 1), new ItemStack(Item.pileOfSand, 1), new ItemStack(Item.glass, 1)));
