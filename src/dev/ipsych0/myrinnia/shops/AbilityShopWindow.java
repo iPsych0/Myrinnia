@@ -9,9 +9,9 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -27,9 +27,11 @@ public class AbilityShopWindow implements Serializable {
     public static boolean isOpen;
     private int x, y, width, height;
     private static final int MAX_HORIZONTAL_SLOTS = 10;
-    private ArrayList<AbilityShopSlot> allSlots;
-    private ArrayList<AbilityShopSlot> meleeSlots, rangedSlots, magicSlots;
-    private ArrayList<AbilityShopSlot> currentSlots;
+    private List<AbilityShopSlot> allSlots;
+    private List<AbilityShopSlot> meleeSlots;
+    private List<AbilityShopSlot> rangedSlots;
+    private List<AbilityShopSlot> magicSlots;
+    private List<AbilityShopSlot> currentSlots;
     public static boolean hasBeenPressed;
     private AbilityShopSlot selectedSlot;
     private UIImageButton buyButton;
@@ -58,8 +60,7 @@ public class AbilityShopWindow implements Serializable {
         this.bounds = new Rectangle(x, y, width, height);
 
         if (abilities.isEmpty()) {
-            System.err.println("Ability shops must always have at least one ability to teach.");
-            System.exit(1);
+            System.err.println("Warning: Ability Shop in " + Handler.get().getWorld().getZone().getName() + " has 0 abilities to teach.");
         }
 
         uiManager = new UIManager();
@@ -307,7 +308,7 @@ public class AbilityShopWindow implements Serializable {
         Text.drawString(g, "Magic", magicButton.x + magicButton.width / 2, magicButton.y + magicButton.height / 2, true, Color.YELLOW, Assets.font14);
     }
 
-    private void setSubSlots(ArrayList<AbilityShopSlot> slots) {
+    private void setSubSlots(List<AbilityShopSlot> slots) {
         int meleeXPos = 0;
         int meleeYPos = 0;
         int rangedXPos = 0;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="45" height="65" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="33">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="45" height="65" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="37">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -219,7 +219,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15225,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15147,
-15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15146,15145,15145,15147,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+15146,15145,15145,15146,15145,15145,15147,0,0,0,0,0,15144,15145,15145,15146,15145,15145,15147,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -504,6 +504,24 @@
     <property name="goToX" value="8"/>
     <property name="goToY" value="34"/>
     <property name="zone" value="ShamrockTownInside"/>
+   </properties>
+  </object>
+  <object id="34" name="Mackerel" type="npc" x="224" y="1952" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
+   </properties>
+  </object>
+  <object id="35" name="Mackerel" type="npc" x="288" y="1952" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
+   </properties>
+  </object>
+  <object id="36" name="Mackerel" type="npc" x="352" y="1952" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
    </properties>
   </object>
  </objectgroup>

@@ -329,6 +329,9 @@ public class World implements Serializable {
                 }
             }
 
+            itemManager.postRender(g);
+            entityManager.postRender(g);
+
             craftingUI.render(g);
 
             // Inventory & Equipment
@@ -342,9 +345,7 @@ public class World implements Serializable {
                 g.setComposite(current);
             }
 
-            itemManager.postRender(g);
-            entityManager.postRender(g);
-
+            player.postRender(g);
 
             // Chat
             chatWindow.render(g);

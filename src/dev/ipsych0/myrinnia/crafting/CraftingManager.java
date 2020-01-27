@@ -40,6 +40,7 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.owlFeather, 1), new ItemStack(Item.weakPotionOfPrecision, 1)));
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.azureBatWing, 1), new ItemStack(Item.weakPotionOfWisdom, 1)));
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.vineRoot, 1), new ItemStack(Item.weakPotionOfVigor, 1)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.rockyShell, 1), new ItemStack(Item.weakPotionofFortitude, 1)));
 
         recipes.sort((o1, o2) -> {
             Integer a = o1.getRequiredLevel();

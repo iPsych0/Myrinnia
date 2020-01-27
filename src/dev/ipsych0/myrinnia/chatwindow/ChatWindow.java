@@ -81,6 +81,11 @@ public class ChatWindow implements Serializable {
 
         if (chatIsOpen) {
 
+            Composite current = g.getComposite();
+            if (Handler.get().getGameCamera().isAtLeftBound() && Handler.get().getGameCamera().isAtBottomBound()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
+
             g.drawImage(Assets.uiWindow, x, y - 19, width, height + 8 + 20, null);
             g.setColor(Color.BLACK);
             g.drawLine(x + 1, y + 1, x + width - 2, y + 1);
@@ -98,6 +103,8 @@ public class ChatWindow implements Serializable {
                     textSlots.get(i).render(g);
                 }
             }
+
+            g.setComposite(current);
         }
     }
 

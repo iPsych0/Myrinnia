@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -22,7 +23,15 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         abilities = new ArrayList<>();
-        abilities.addAll(Handler.get().getAbilityManager().getAllAbilities());
+
+        // Load abilities from files
+        if (itemsShop != null && !itemsShop.isEmpty()) {
+            String[] jsonFiles = itemsShop.replaceAll(" ", "").split(",");
+            for (String file : jsonFiles) {
+                abilities.add(Utils.loadAbility(file));
+            }
+        }
+
         abilityShopWindow = new AbilityShopWindow(abilities);
 
     }

@@ -59,7 +59,7 @@ public class Item implements Serializable {
     public static Item azuriteNecklace = Utils.loadItem("23_azurite_necklace.json", Assets.azuriteNecklace);
     public static Item weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
     public static Item azureBatWing = Utils.loadItem("42_azure_bat_wing.json", Assets.azureBatWing);
     public static Item crablingClaw = Utils.loadItem("43_crabling_claw.json", Assets.crablingClaw);
     public static Item simpleGloves = Utils.loadItem("44_simple_gloves.json", Assets.simpleGloves);
@@ -544,17 +544,17 @@ public class Item implements Serializable {
             Handler.get().removeItem(Item.strongPotionOfWisdom, 1);
         });
 
-        weakPotionOfProtection = Utils.loadItem("36_weak_potion_of_protection.json", Assets.weakPotionOfProtection, 0, (Use & Serializable) (i) -> {
+        weakPotionofFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.weakPotionOfProtection, 1);
+            Handler.get().removeItem(Item.weakPotionofFortitude, 1);
         });
-        potionOfProtection = Utils.loadItem("37_potion_of_protection.json", Assets.potionOfProtection, 0, (Use & Serializable) (i) -> {
+        potionofFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.potionOfProtection, 1);
+            Handler.get().removeItem(Item.potionofFortitude, 1);
         });
-        strongPotionOfProtection = Utils.loadItem("38_strong_potion_of_protection.json", Assets.strongPotionOfProtection, 0, (Use & Serializable) (i) -> {
+        strongPotionofFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.strongPotionOfProtection, 1);
+            Handler.get().removeItem(Item.strongPotionofFortitude, 1);
         });
 
         weakPotionOfVigor = Utils.loadItem("39_weak_potion_of_vigor.json", Assets.weakPotionOfVigor, 0, (Use & Serializable) (i) -> {

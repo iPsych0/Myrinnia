@@ -71,6 +71,11 @@ public class HPOverlay implements Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
 
+            Composite current = g.getComposite();
+            if (Handler.get().getGameCamera().isAtLeftBound() && Handler.get().getGameCamera().isAtTopBound()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
+
             Rectangle mouse = Handler.get().getMouse();
 
             // Draw the bars
@@ -228,6 +233,8 @@ public class HPOverlay implements Serializable {
             if (Handler.get().getChatWindow().getFilters().contains(Filter.DRAWFPS)) {
                 Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
             }
+
+            g.setComposite(current);
         }
     }
 

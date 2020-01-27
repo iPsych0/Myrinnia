@@ -29,7 +29,7 @@ public class Hedgehog extends Creature {
     private int chargeTime = 60;
     private int chargeTimer;
     private boolean stunned;
-    private int stunnedTime = 120, stunnedTimer = 0;
+    private int stunnedTime = 150, stunnedTimer = 0;
     private int rollChance = 3, diceRolls;
     private double rollSpeed = 5.0;
     private double xVelocity, yVelocity;
@@ -43,7 +43,7 @@ public class Hedgehog extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 22;
+        strength = 24;
         dexterity = 12;
         intelligence = 0;
         vitality = 52;
@@ -62,12 +62,6 @@ public class Hedgehog extends Creature {
         super.tick();
         if (health <= 0) {
             return;
-        }
-
-        if (stunned) {
-            defence = 0;
-        } else {
-            defence = 40;
         }
 
         // Stunned when hitting a wall

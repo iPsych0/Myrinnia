@@ -231,9 +231,6 @@ public class EntityManager implements Serializable {
     }
 
     public void postRender(Graphics2D g) {
-        // Post renders for entities for additional
-        player.postRender(g);
-
         // Keep rendering the selected Entity
         if (selectedEntity != null) {
             if (selectedEntity.active) {

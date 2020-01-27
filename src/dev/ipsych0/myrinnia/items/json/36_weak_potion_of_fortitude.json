@@ -2,9 +2,9 @@
   "itemTypes": [
     "POTION"
   ],
-  "itemRarity": "Rare",
-  "name": "Strong potion of protection",
-  "id": 38,
+  "itemRarity": "Common",
+  "name": "Weak potion of fortitude",
+  "id": 36,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,7 +29,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 2250,
+  "price": 30,
   "stackable": false,
   "equippable": false,
   "respawnTimer": 10800,

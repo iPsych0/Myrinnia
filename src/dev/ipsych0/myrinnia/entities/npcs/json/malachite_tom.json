@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "This seems a good place to rest and restock. There are plenty of resources here.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Those hedgehogs better stay away, though...",
+      "nextId": -1
+    }
+  ]
+}
