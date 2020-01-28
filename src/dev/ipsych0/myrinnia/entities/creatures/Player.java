@@ -380,9 +380,9 @@ public class Player extends Creature {
                     if (e.isAttackable()) {
                         if (!p.getHitCreatures().contains((Creature) e)) {
                             if (p.getAbility() != null) {
-                                e.damage(p.getDamageType(), this, e, p.getAbility());
+                                e.damage(p.getDamageType(), this, p.getAbility());
                             } else {
-                                e.damage(p.getDamageType(), this, e);
+                                e.damage(p.getDamageType(), this);
                             }
 
                             if (p.getImpactSound() != null) {

@@ -671,9 +671,9 @@ public abstract class Creature extends Entity {
             if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
                 if (!p.getHitCreatures().contains(player)) {
                     if (p.getAbility() != null) {
-                        player.damage(p.getDamageType(), this, player, p.getAbility());
+                        player.damage(p.getDamageType(), this, p.getAbility());
                     } else {
-                        player.damage(p.getDamageType(), this, player);
+                        player.damage(p.getDamageType(), this);
                     }
 
                     if (p.getImpactSound() != null) {
@@ -1028,7 +1028,7 @@ public abstract class Creature extends Entity {
                 if (!e.isAttackable())
                     continue;
                 if (e.getVerticality() == Handler.get().getPlayer().getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, this, e);
+                    e.damage(DamageType.STR, this);
                     // Break because we only hit 1 target
                     break;
                 }
@@ -1036,7 +1036,7 @@ public abstract class Creature extends Entity {
         } else {
             Player player = Handler.get().getPlayer();
             if (player.getVerticality() == this.getVerticality() && player.getFullBounds(0, 0).intersects(ar)) {
-                player.damage(DamageType.STR, this, player);
+                player.damage(DamageType.STR, this);
             }
         }
     }

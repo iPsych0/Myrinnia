@@ -166,8 +166,8 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public void damage(DamageType damageType, Entity dealer, Entity receiver) {
-        super.damage(damageType, dealer, receiver);
+    public void damage(DamageType damageType, Entity dealer) {
+        super.damage(damageType, dealer);
         if (health <= 0) {
             return;
         }
@@ -195,8 +195,8 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
-        super.damage(damageType, dealer, receiver, ability);
+    public void damage(DamageType damageType, Entity dealer, Ability ability) {
+        super.damage(damageType, dealer, ability);
         if (health <= 0) {
             return;
         }

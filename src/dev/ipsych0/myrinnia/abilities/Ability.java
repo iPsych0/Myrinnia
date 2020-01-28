@@ -119,7 +119,7 @@ public abstract class Ability implements Serializable {
             if (!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                 setSelected(false);
                 for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
-                    if (as.getAbility() != null) {
+                    if (as.getAbility() != null && as.getAbility() != this) {
                         if (as.getAbility().isChanneling()) {
                             this.setActivated(false);
                             return;

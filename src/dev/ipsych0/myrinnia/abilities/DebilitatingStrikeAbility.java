@@ -15,15 +15,20 @@ import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 
 
-public class FrostJabAbility extends Ability implements Serializable {
+public class DebilitatingStrikeAbility extends Ability implements Serializable {
 
     private boolean initialized = false;
     private Animation meleeAnimation;
     private double rotation, xPos, yPos;
 
-    public FrostJabAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                           double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+    public DebilitatingStrikeAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
+                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
+    }
+
+    @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.debilitatingStrikeI, x, y, null);
     }
 
     @Override
@@ -42,11 +47,6 @@ public class FrostJabAbility extends Ability implements Serializable {
                 g.setTransform(old);
             }
         }
-    }
-
-    @Override
-    public void renderIcon(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.frostJabI, x, y, null);
     }
 
     @Override
@@ -89,10 +89,10 @@ public class FrostJabAbility extends Ability implements Serializable {
                 if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, caster, this);
 
-                    // 10% Chance of chilling
-                    int rnd = Handler.get().getRandomNumber(1, 10);
-                    if (rnd == 1) {
-                        e.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                    // 25% Chance of bleeding
+                    int rnd = Handler.get().getRandomNumber(1, 100);
+                    if (rnd <= 25) {
+                        e.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
                     }
                     // Break because we only hit 1 target
                     break;
@@ -103,10 +103,10 @@ public class FrostJabAbility extends Ability implements Serializable {
             if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
                 player.damage(DamageType.STR, caster, this);
 
-                // 10% Chance of chilling
-                int rnd = Handler.get().getRandomNumber(1, 10);
-                if (rnd == 1) {
-                    player.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                // 25% Chance of bleeding
+                int rnd = Handler.get().getRandomNumber(1, 100);
+                if (rnd <= 25) {
+                    player.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
                 }
             }
         }

@@ -123,7 +123,7 @@ public class Hedgehog extends Creature {
                     if (e.equals(this))
                         continue;
                     if (e.equals(Handler.get().getPlayer()))
-                        e.damage(DamageType.STR, this, e);
+                        e.damage(DamageType.STR, this);
 
                     stopRolling();
                     attackTimer = -500; // Add extra .5 second attacking delay on hit

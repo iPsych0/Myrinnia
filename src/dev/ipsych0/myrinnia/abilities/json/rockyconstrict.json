@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 12.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Rocky Constrict",
+  "description": "Rocks emerge from the ground near your foes that constrict, damage and cripple them.",
+  "abilityType": "StandardAbility",
+  "element": "Earth",
+  "combatStyle": "Magic",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 8,
+  "activated": false,
+  "channeling": false,
+  "selectable": true,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.RockyConstrictAbility"
+}

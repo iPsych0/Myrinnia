@@ -50,7 +50,7 @@ public class NimbleFeetAbility extends Ability {
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
             Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
-            caster.addBuff(caster, caster, b);
+            caster.addBuff(caster, b);
         }
 
         animation.tick();

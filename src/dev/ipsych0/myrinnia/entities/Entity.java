@@ -261,15 +261,15 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DamageType damageType, Entity dealer, Entity receiver) {
+    public void damage(DamageType damageType, Entity dealer) {
         damageDealer = dealer;
-        damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver);
+        damageReceiver = this;
+        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, this);
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().addHitSplat(receiver, damageDealer, damageType);
+        Handler.get().addHitSplat(this, damageDealer, damageType);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -281,7 +281,7 @@ public abstract class Entity implements Serializable {
             clearActiveAbilities();
         }
 
-        EffectManager.get().applyOnHitEffect(dealer, receiver);
+        EffectManager.get().applyOnHitEffect(dealer, this);
     }
 
     /*
@@ -289,17 +289,17 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
+    public void damage(DamageType damageType, Entity dealer, Ability ability) {
         damageDealer = dealer;
-        damageReceiver = receiver;
+        damageReceiver = this;
         if (ability.getBaseDamage() > 0) {
-            damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);
+            damageReceiver.health -= damageDealer.getDamage(damageType, dealer, this, ability);
         }
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().addHitSplat(receiver, damageDealer, damageType, ability);
+        Handler.get().addHitSplat(this, damageDealer, damageType, ability);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -311,18 +311,20 @@ public abstract class Entity implements Serializable {
             clearActiveAbilities();
         }
 
-        EffectManager.get().applyOnHitEffect(dealer, receiver);
+        EffectManager.get().applyOnHitEffect(dealer, this);
     }
 
     private void clearActiveAbilities() {
-        Handler.get().getAbilityManager().getActiveAbilities().removeIf(a -> (a.getCaster().equals(this)));
+        if (!this.equals(Handler.get().getPlayer())) {
+            Handler.get().getAbilityManager().getActiveAbilities().removeIf(a -> (a.getCaster().equals(this)));
+        }
     }
 
-    public void addBuff(Entity dealer, Entity receiver, Buff buff) {
+    public void addBuff(Entity dealer, Buff buff) {
         damageDealer = dealer;
-        damageReceiver = receiver;
+        damageReceiver = this;
 
-        Creature r = ((Creature) receiver);
+        Creature r = ((Creature) this);
 
         boolean hasBuff = false;
         for (Buff b : r.getBuffs()) {
@@ -340,8 +342,8 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void addResistance(Entity receiver, Resistance resistance) {
-        Creature r = ((Creature) receiver);
+    public void addResistance(Resistance resistance) {
+        Creature r = ((Creature) this);
         for (Resistance i : r.getImmunities()) {
             if (i.getType() == resistance.getType()) {
                 // If the new resistance is better than or same as previous
@@ -362,16 +364,16 @@ public abstract class Entity implements Serializable {
         r.getImmunities().add(resistance);
     }
 
-    public void addCondition(Entity dealer, Entity receiver, Condition condition) {
+    public void addCondition(Entity dealer, Condition condition) {
         damageDealer = dealer;
-        damageReceiver = receiver;
+        damageReceiver = this;
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
 
-        Creature r = ((Creature) receiver);
-        condition.setReceiver(receiver);
+        Creature r = ((Creature) this);
+        condition.setReceiver(this);
 
         boolean hasCondition = false;
         double multiplier = 1.0;

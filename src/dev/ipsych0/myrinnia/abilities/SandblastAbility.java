@@ -11,8 +11,10 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class EruptionAbility extends Ability {
+
+public class SandblastAbility extends Ability implements Serializable {
 
     private Rectangle hitBox;
     private boolean initDone;
@@ -20,7 +22,7 @@ public class EruptionAbility extends Ability {
     private int displayTime;
     private Animation animation;
 
-    public EruptionAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
+    public SandblastAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
                            double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
@@ -38,7 +40,7 @@ public class EruptionAbility extends Ability {
 
     @Override
     public void renderIcon(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.eruptionI, x, y, null);
+        g.drawImage(Assets.sandblastI, x, y, null);
     }
 
     @Override
@@ -59,16 +61,16 @@ public class EruptionAbility extends Ability {
                         if (!e.isAttackable())
                             continue;
                         if (!e.equals(caster)) {
-                            e.damage(DamageType.INT, caster, this);
-                            e.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
+                            e.damage(DamageType.STR, caster, this);
+                            e.addCondition(caster, new Condition(Condition.Type.BLINDED, 3));
                         }
                     }
                 }
             } else {
                 Player player = Handler.get().getPlayer();
                 if (player.getVerticality() == caster.getVerticality() && hitBox.intersects(player.getCollisionBounds(0, 0))) {
-                    player.damage(DamageType.INT, caster, this);
-                    player.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
+                    player.damage(DamageType.STR, caster, this);
+                    player.addCondition(caster, new Condition(Condition.Type.BLINDED, 3));
                 }
             }
         }

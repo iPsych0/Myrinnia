@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 15.0,
+  "castingTime": 0.75,
+  "overcastTime": 0.0,
+  "name": "Acid Bomb",
+  "description": "An acid bomb drops at your opponent\u0027s location, damaging and poisoning foes in the area.",
+  "abilityType": "StandardAbility",
+  "element": "Earth",
+  "combatStyle": "Magic",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": true,
+  "selected": false,
+  "unlocked": false,
+  "price": 2,
+  "className": "dev.ipsych0.myrinnia.abilities.AcidBombAbility"
+}

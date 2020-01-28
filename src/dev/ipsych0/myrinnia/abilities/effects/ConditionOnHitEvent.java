@@ -35,7 +35,7 @@ public class ConditionOnHitEvent implements OnHit {
     public void apply(Entity caster, Entity receiver) {
         this.caster = caster;
         this.receiver = receiver;
-        receiver.addCondition(caster, receiver, new Condition(condition, condiDuration, condiDamage));
+        receiver.addCondition(caster, new Condition(condition, condiDuration, condiDamage));
         if (!infiniteCount) {
             count--;
             if (count == 0) {

@@ -75,7 +75,7 @@ public class GlacialShotAbility extends Ability implements Serializable {
                 .withAbility(this)
                 .withVelocity(7.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->
-                        receiver.addCondition(caster, receiver, new Condition(Condition.Type.CHILL, 3)))
+                        receiver.addCondition(caster, new Condition(Condition.Type.CHILL, 3)))
                 .build();
 
         setCasting(false);

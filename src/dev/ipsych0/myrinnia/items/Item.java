@@ -493,15 +493,15 @@ public class Item implements Serializable {
     // Potions
     private static void initPotions() {
         weakAntidote = Utils.loadItem("24_weak_antidote.json", Assets.weakAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
             Handler.get().removeItem(Item.weakAntidote, 1);
         });
         antidote = Utils.loadItem("25_antidote.json", Assets.antidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
             Handler.get().removeItem(Item.antidote, 1);
         });
         strongAntidote = Utils.loadItem("26_strong_antidote.json", Assets.strongAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
             Handler.get().removeItem(Item.strongAntidote, 1);
         });
 

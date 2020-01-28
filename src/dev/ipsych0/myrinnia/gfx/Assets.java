@@ -49,7 +49,8 @@ public class Assets {
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
-            glacialShotI, healingSpringI, arcaneRenewalI;
+            glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
+            rockyConstrictI, sandblastI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -903,6 +904,12 @@ public class Assets {
         healingSpringI = ability_icons.imageCrop(8, 0);
         arcaneRenewalI = ability_icons.imageCrop(9, 0);
         poisonDartI = ability_icons.imageCrop(10, 0);
+        acidBombI = ability_icons.imageCrop(11, 0);
+        cripplingImpactI = ability_icons.imageCrop(12, 0);
+        debilitatingShotI = ability_icons.imageCrop(13, 0);
+        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
+        rockyConstrictI = ability_icons.imageCrop(15, 0);
+        sandblastI = ability_icons.imageCrop(0, 1);
 
 
         /*
