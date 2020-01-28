@@ -45,7 +45,8 @@ public class Assets {
     public static BufferedImage[] hedgeHogRoll;
 
     // Ability animations
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned;
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
+            rockyConstrict;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -957,6 +958,23 @@ public class Assets {
         glacialShot1[0] = ability_animations.imageCrop(0, 8);
         glacialShot1[1] = ability_animations.imageCrop(1, 8);
         glacialShot1[2] = ability_animations.imageCrop(2, 8);
+
+        acidBomb = new BufferedImage[8];
+        acidBomb[0] = ability_animations.imageCrop(0, 9);
+        acidBomb[1] = ability_animations.imageCrop(1, 9);
+        acidBomb[2] = ability_animations.imageCrop(2, 9);
+        acidBomb[3] = ability_animations.imageCrop(3, 9);
+        acidBomb[4] = ability_animations.imageCrop(4, 9);
+        acidBomb[5] = ability_animations.imageCrop(5, 9);
+        acidBomb[6] = ability_animations.imageCrop(6, 9);
+        acidBomb[7] = ability_animations.imageCrop(7, 9);
+
+        rockyConstrict = new BufferedImage[5];
+        rockyConstrict[0] = ability_animations.imageCrop(0, 10);
+        rockyConstrict[1] = ability_animations.imageCrop(1, 10);
+        rockyConstrict[2] = ability_animations.imageCrop(2, 10);
+        rockyConstrict[3] = ability_animations.imageCrop(3, 10);
+        rockyConstrict[4] = ability_animations.imageCrop(4, 10);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

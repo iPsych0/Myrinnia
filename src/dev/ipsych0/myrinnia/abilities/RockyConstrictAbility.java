@@ -14,11 +14,14 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RockyConstrictAbility extends Ability implements Serializable {
 
     private Animation animation;
+    private List<Entity> hitEnemies;
     private boolean initialized;
     private static Color aoeColor = new Color(0, 192, 0, 96);
     private AoECircle circle;
@@ -43,14 +46,20 @@ public class RockyConstrictAbility extends Ability implements Serializable {
     @Override
     public void render(Graphics2D g, int x, int y) {
         if (animation != null) {
+            animation.tick();
+        } else {
+            return;
+        }
+        for (Entity e : hitEnemies) {
             if (animation.isTickDone()) {
                 animation = null;
+                break;
             } else {
-                animation.tick();
-                g.drawImage(animation.getCurrentFrame(), (int) (circle.getX() - Handler.get().getGameCamera().getxOffset()),
-                        (int) (circle.getY() - Handler.get().getGameCamera().getyOffset()), AOE_SIZE, AOE_SIZE, null);
+                g.drawImage(animation.getCurrentFrame(), (int) (e.getX() + e.getWidth() / 2f - AOE_SIZE / 2f - Handler.get().getGameCamera().getxOffset()),
+                        (int) (e.getY() + e.getHeight() / 2f - AOE_SIZE / 2f - Handler.get().getGameCamera().getyOffset()), AOE_SIZE, AOE_SIZE, null);
             }
         }
+
     }
 
     @Override
@@ -68,6 +77,7 @@ public class RockyConstrictAbility extends Ability implements Serializable {
 
         if (!initialized) {
             initialized = true;
+            hitEnemies = new ArrayList<>();
             if (caster.equals(player)) {
                 circle.x = (float) Handler.get().getMouse().x - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getxOffset();
                 circle.y = (float) Handler.get().getMouse().y - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getyOffset();
@@ -75,26 +85,29 @@ public class RockyConstrictAbility extends Ability implements Serializable {
                 circle.x = (float) player.getX() + player.getWidth() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getxOffset();
                 circle.y = (float) player.getY() + player.getHeight() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getyOffset();
             }
-            animation = new Animation(1000 / 8, Assets.eruption1, true);
+            animation = new Animation(1000 / 6, Assets.rockyConstrict, true, true);
         }
-
 
         // Player logic
         if (caster.equals(player)) {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (e.getCollisionBounds(0, 0).intersects(circle.getBounds())) {
-                    if(!e.isAttackable() || e.equals(player))
+                    if (!e.isAttackable() || e.equals(player))
                         continue;
                     e.damage(DamageType.INT, caster, this);
                     e.addCondition(player, new Condition(Condition.Type.CRIPPLED, 3));
+                    hitEnemies.add(e);
                 }
             }
         } else {
             // Enemy logic
             if (circle.getBounds().intersects(player.getCollisionBounds(0, 0))) {
                 player.damage(DamageType.INT, caster, this);
+                hitEnemies.add(player);
             }
         }
+
+        Handler.get().playEffect("abilities/rocky_constrict.ogg", 0.1f);
 
         setCasting(false);
     }
@@ -111,6 +124,7 @@ public class RockyConstrictAbility extends Ability implements Serializable {
             initialized = false;
             circle = null;
             animation = null;
+            hitEnemies.clear();
         }
     }
 

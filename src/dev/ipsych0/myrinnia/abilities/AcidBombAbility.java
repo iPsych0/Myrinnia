@@ -75,7 +75,7 @@ public class AcidBombAbility extends Ability implements Serializable {
                 circle.x = (float) player.getX() + player.getWidth() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getxOffset();
                 circle.y = (float) player.getY() + player.getHeight() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getyOffset();
             }
-            animation = new Animation(1000 / 8, Assets.eruption1, true);
+            animation = new Animation(1000 / 8, Assets.acidBomb, true);
         }
 
         // Player logic
@@ -94,6 +94,8 @@ public class AcidBombAbility extends Ability implements Serializable {
                 player.damage(DamageType.INT, caster, this);
             }
         }
+
+        Handler.get().playEffect("abilities/acid_bomb.ogg", 0.1f);
 
         setCasting(false);
     }
