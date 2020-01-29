@@ -37,7 +37,7 @@ public class Assets {
      */
     public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] regularArrow, regularMagic, regularMelee;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
@@ -46,7 +46,7 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict;
+            rockyConstrict, sandBlast;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -975,6 +975,19 @@ public class Assets {
         rockyConstrict[2] = ability_animations.imageCrop(2, 10);
         rockyConstrict[3] = ability_animations.imageCrop(3, 10);
         rockyConstrict[4] = ability_animations.imageCrop(4, 10);
+
+        arrow2 = new BufferedImage[1];
+        arrow2[0] = ability_animations.imageCrop(0, 11);
+
+        sandBlast = new BufferedImage[8];
+        sandBlast[0] = ability_animations.imageCrop(0, 12);
+        sandBlast[1] = ability_animations.imageCrop(1, 12);
+        sandBlast[2] = ability_animations.imageCrop(2, 12);
+        sandBlast[3] = ability_animations.imageCrop(3, 12);
+        sandBlast[4] = ability_animations.imageCrop(4, 12);
+        sandBlast[5] = ability_animations.imageCrop(5, 12);
+        sandBlast[6] = ability_animations.imageCrop(6, 12);
+        sandBlast[7] = ability_animations.imageCrop(7, 12);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

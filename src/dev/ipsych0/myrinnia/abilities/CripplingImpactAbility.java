@@ -46,7 +46,7 @@ public class CripplingImpactAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialized) {
-            animation = new Animation(600 / Assets.glacialShot1.length, Assets.glacialShot1, true);
+            animation = new Animation(1000, Assets.arrow2, true);
             initialized = true;
         }
 
@@ -75,11 +75,11 @@ public class CripplingImpactAbility extends Ability implements Serializable {
             targetY = (int) (direction.getY());
         }
 
-        Handler.get().playEffect("abilities/glacial_shot.ogg", 0.1f);
+        Handler.get().playEffect("abilities/ranged_shot.ogg", 0.2f);
         new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
-                .withImpactSound("abilities/ice_projectile_impact.ogg")
+                .withImpactSound("abilities/impact_flesh.ogg", 0.35f)
                 .withAbility(this)
-                .withVelocity(7.0f)
+                .withVelocity(9.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->
                         receiver.addCondition(caster, new Condition(Condition.Type.CRIPPLED, 4)))
                 .build();

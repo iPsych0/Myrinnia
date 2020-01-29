@@ -33,7 +33,7 @@ public class SandblastAbility extends Ability implements Serializable {
         if (animation != null) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (hitBox.x - Handler.get().getGameCamera().getxOffset()),
-                    (int) (hitBox.y - Handler.get().getGameCamera().getyOffset()),
+                    (int) (hitBox.y - 24 - Handler.get().getGameCamera().getyOffset()),
                     hitBox.width, hitBox.height, null);
         }
     }
@@ -53,7 +53,7 @@ public class SandblastAbility extends Ability implements Serializable {
 
             Handler.get().playEffect("abilities/eruption.ogg", 0.1f);
 
-            animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
+            animation = new Animation(1000 / Assets.sandBlast.length, Assets.sandBlast, true);
 
             if (caster.equals(Handler.get().getPlayer())) {
                 for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {

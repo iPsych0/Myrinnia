@@ -20,9 +20,11 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
     private boolean initialized = false;
     private Animation meleeAnimation;
     private double rotation, xPos, yPos;
+    private boolean hasHitEnemy, hasPlayedSound;
+    private int timer, soundDelay = 45;
 
     public DebilitatingStrikeAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                                     double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
@@ -60,13 +62,22 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
                 direction = new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1);
             }
 
+            Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+
             setMeleeSwing(direction);
             meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-            Handler.get().playEffect("abilities/frost_jab.ogg", 0.1f);
             initialized = true;
 
             checkHitBox(direction);
+        }
+
+        if (hasHitEnemy) {
+            timer++;
+            if (!hasPlayedSound && timer >= soundDelay) {
+                hasPlayedSound = true;
+                Handler.get().playEffect("abilities/impact_medium.ogg", 0.1f);
+            }
         }
     }
 
@@ -88,6 +99,8 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
                     continue;
                 if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, caster, this);
+
+                    hasHitEnemy = true;
 
                     // 25% Chance of bleeding
                     int rnd = Handler.get().getRandomNumber(1, 100);
@@ -122,6 +135,9 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
             castingTimeTimer = 0;
             cooldownTimer = 0;
             initialized = false;
+            hasHitEnemy = false;
+            hasPlayedSound = false;
+            timer = 0;
         }
     }
 
