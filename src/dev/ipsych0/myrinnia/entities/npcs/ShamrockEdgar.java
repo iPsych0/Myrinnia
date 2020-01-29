@@ -68,7 +68,7 @@ public class ShamrockEdgar extends Creature {
                 }
                 break;
             case 5:
-                Handler.get().giveItem(Item.copperPickaxe, 1);
+                Handler.get().giveItem(Item.debilitatingStrikeScroll, 1);
                 Handler.get().removeItem(Item.miningEquipment, 1);
                 Handler.get().removeItem(Item.bountyContract, 1);
 

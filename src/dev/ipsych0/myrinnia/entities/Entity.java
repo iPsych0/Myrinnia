@@ -316,7 +316,11 @@ public abstract class Entity implements Serializable {
 
     private void clearActiveAbilities() {
         if (!this.equals(Handler.get().getPlayer())) {
-            Handler.get().getAbilityManager().getActiveAbilities().removeIf(a -> (a.getCaster().equals(this)));
+            for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+                if (a.getCaster().equals(this)) {
+                    a.setActivated(false);
+                }
+            }
         }
     }
 

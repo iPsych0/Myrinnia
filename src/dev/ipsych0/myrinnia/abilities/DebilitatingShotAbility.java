@@ -77,7 +77,7 @@ public class DebilitatingShotAbility extends Ability implements Serializable {
 
         Handler.get().playEffect("abilities/ranged_shot.ogg", 0.2f);
         new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
-                .withImpactSound("abilities/ranged_shot_impact2.ogg", 0.2f)
+                .withImpactSound("abilities/ranged_shot_impact2.ogg", 1.1f)
                 .withAbility(this)
                 .withVelocity(9.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->

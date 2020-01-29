@@ -65,10 +65,11 @@ public class Assets {
     // Item images
     public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
             simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-            copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
+            copperOre, malachite, miningEquipment, abilityScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
             lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
-            wateringCan;
+            wateringCan, softLeather, stripOfCloth, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
+            malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -435,7 +436,7 @@ public class Assets {
         copperOre = item_sheet.imageCrop(0, 18);
         malachite = item_sheet.imageCrop(0, 19);
         miningEquipment = item_sheet.imageCrop(0, 20);
-        dustyScroll = item_sheet.imageCrop(0, 21);
+        abilityScroll = item_sheet.imageCrop(0, 21);
         azuriteNecklace = item_sheet.imageCrop(0, 22);
         azureBatWing = item_sheet.imageCrop(0, 23);
         crablingClaw = item_sheet.imageCrop(0, 24);
@@ -465,6 +466,20 @@ public class Assets {
         tomato = item_sheet.imageCrop(1, 18);
         cabbage = item_sheet.imageCrop(1, 19);
         wateringCan = item_sheet.imageCrop(1, 20);
+        softLeather = item_sheet.imageCrop(1, 21);
+        stripOfCloth = item_sheet.imageCrop(1, 22);
+        lapisLazuli = item_sheet.imageCrop(1, 23);
+        azuriteEarrings = item_sheet.imageCrop(1, 24);
+        azuriteRingL = item_sheet.imageCrop(1, 25);
+        azuriteRingR = item_sheet.imageCrop(1, 26);
+        copperFishingRod = item_sheet.imageCrop(1, 27);
+        malachiteEarrings = item_sheet.imageCrop(1, 28);
+        malachiteAmulet = item_sheet.imageCrop(1, 29);
+        malachiteRingL = item_sheet.imageCrop(2, 1);
+        malachiteRingR = item_sheet.imageCrop(2, 2);
+        ironAxe = item_sheet.imageCrop(2, 3);
+        ironPickaxe = item_sheet.imageCrop(2, 4);
+        ironFishingRod = item_sheet.imageCrop(2, 5);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

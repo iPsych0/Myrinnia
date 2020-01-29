@@ -77,7 +77,7 @@ public class CripplingImpactAbility extends Ability implements Serializable {
 
         Handler.get().playEffect("abilities/ranged_shot.ogg", 0.2f);
         new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
-                .withImpactSound("abilities/impact_flesh.ogg", 0.35f)
+                .withImpactSound("abilities/impact_flesh.ogg", 1.3f)
                 .withAbility(this)
                 .withVelocity(9.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->

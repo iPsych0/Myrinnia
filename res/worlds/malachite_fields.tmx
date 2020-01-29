@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="28">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="31">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -224,7 +224,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="3" name="Venovine" type="npc" x="1280" y="1504" width="32" height="32">
+  <object id="3" name="Venovine" type="npc" x="1280" y="1312" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -233,7 +233,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="4" name="Venovine" type="npc" x="1056" y="352" width="32" height="32">
+  <object id="4" name="Venovine" type="npc" x="608" y="448" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -242,7 +242,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="5" name="Venovine" type="npc" x="2560" y="416" width="32" height="32">
+  <object id="5" name="Venovine" type="npc" x="2464" y="480" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -251,7 +251,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="6" name="Venovine" type="npc" x="1792" y="800" width="32" height="32">
+  <object id="6" name="Venovine" type="npc" x="1664" y="672" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -260,7 +260,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="7" name="Venovine" type="npc" x="3200" y="1024" width="32" height="32">
+  <object id="7" name="Venovine" type="npc" x="3456" y="608" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -269,7 +269,7 @@
     <property name="npcClass" value="Venovine"/>
    </properties>
   </object>
-  <object id="8" name="Venovine" type="npc" x="3328" y="352" width="32" height="32">
+  <object id="8" name="Venovine" type="npc" x="3360" y="352" width="32" height="32">
    <properties>
     <property name="animation" value="venovine"/>
     <property name="dropTable" value="venovine.json"/>
@@ -386,13 +386,33 @@
     <property name="npcClass" value="Tree"/>
    </properties>
   </object>
-  <object id="27" name="Megan" type="npc" x="1536" y="2272" width="32" height="32">
+  <object id="27" name="Megan" type="npc" x="1032" y="1708" width="32" height="32">
    <properties>
     <property name="animation" value="genericFemale15"/>
+    <property name="direction" value="RIGHT"/>
     <property name="jsonFile" value="malachite_megan.json"/>
     <property name="name" value="Megan"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
+  <object id="28" name="Venovine" type="npc" x="1440" y="2208" width="32" height="32">
+   <properties>
+    <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
+    <property name="level" value="5"/>
+    <property name="name" value="Venovine"/>
+    <property name="npcClass" value="Venovine"/>
+   </properties>
+  </object>
+  <object id="29" name="Venovine" type="npc" x="2880" y="960" width="32" height="32">
+   <properties>
+    <property name="animation" value="venovine"/>
+    <property name="dropTable" value="venovine.json"/>
+    <property name="level" value="5"/>
+    <property name="name" value="Venovine"/>
+    <property name="npcClass" value="Venovine"/>
+   </properties>
+  </object>
+  <object id="30" name="An item" type="item" x="1536" y="1280" width="32" height="32"/>
  </objectgroup>
 </map>

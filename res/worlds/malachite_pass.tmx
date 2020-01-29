@@ -721,7 +721,7 @@
     <property name="animation" value="genericMale15"/>
     <property name="direction" value="DOWN"/>
     <property name="jsonFile" value="malachite_marnix.json"/>
-    <property name="name" value="Camper 1"/>
+    <property name="name" value="Marnix"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
@@ -729,14 +729,15 @@
    <properties>
     <property name="animation" value="genericMale11"/>
     <property name="jsonFile" value="malachite_todd.json"/>
-    <property name="name" value="Camper 2"/>
+    <property name="name" value="Todd"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
   <object id="20" name="Tom" type="npc" x="2720" y="2912" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale6"/>
-    <property name="name" value="Camper 3"/>
+    <property name="jsonFile" value="malachite_tom.json"/>
+    <property name="name" value="Tom"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
@@ -928,8 +929,18 @@
     <property name="npcClass" value="Tree"/>
    </properties>
   </object>
-  <object id="48" name="An item" type="item" x="1632" y="608" width="32" height="32"/>
-  <object id="49" name="An item" type="item" x="736" y="3744" width="32" height="32"/>
+  <object id="48" name="Malachite" type="item" x="1632" y="608" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="21"/>
+   </properties>
+  </object>
+  <object id="49" name="Crippling Impact Scroll" type="item" x="736" y="3744" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="70"/>
+   </properties>
+  </object>
   <object id="50" name="Celenor Forest Edge" type="zone_tile" x="992" y="0" width="192" height="32"/>
  </objectgroup>
 </map>

@@ -474,8 +474,13 @@ public class MapLoader implements Serializable {
 
     private static void loadItem(World world, int x, int y, int itemId, int amount) {
         try {
-            Item i = Item.items[itemId];
-            world.getItemManager().addItem(i.createItem(x, y, amount), true);
+            Item orig = Item.items[itemId];
+            Item i = Item.items[itemId].createItem(x, y, amount);
+            if (orig.getUse() != null) {
+                i.setUse(orig.getUse());
+                i.setUseCooldown(orig.getUseCooldown());
+            }
+            world.getItemManager().addItem(i, true);
         } catch (Exception e) {
             e.printStackTrace();
         }

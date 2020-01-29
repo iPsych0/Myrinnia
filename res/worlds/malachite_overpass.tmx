@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="17">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="25">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -387,7 +387,53 @@
     <property name="zone" value="MalachiteHills"/>
    </properties>
   </object>
-  <object id="15" name="An item" type="item" x="1248" y="1088" width="32" height="32"/>
-  <object id="16" name="An item" type="item" x="480" y="2144" width="32" height="32"/>
+  <object id="15" name="Rocky Constrict Scroll" type="item" x="1248" y="1088" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="69"/>
+   </properties>
+  </object>
+  <object id="16" name="Malachite" type="item" x="480" y="2144" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="21"/>
+   </properties>
+  </object>
+  <object id="17" name="Copper Ore" type="npc" x="32" y="2144" width="32" height="32">
+   <properties>
+    <property name="name" value="Copper Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="20" name="Copper Ore" type="npc" x="1696" y="2240" width="32" height="32">
+   <properties>
+    <property name="name" value="Copper Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="21" name="Copper Ore" type="npc" x="1536" y="128" width="32" height="32">
+   <properties>
+    <property name="name" value="Copper Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="22" name="Iron Ore" type="npc" x="256" y="480" width="32" height="32">
+   <properties>
+    <property name="name" value="Iron Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="23" name="Iron Ore" type="npc" x="1664" y="1696" width="32" height="32">
+   <properties>
+    <property name="name" value="Iron Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="24" name="Iron Ore" type="npc" x="1536" y="1600" width="32" height="32">
+   <properties>
+    <property name="name" value="Iron Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

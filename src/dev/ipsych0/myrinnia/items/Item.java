@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.CripplingImpactAbility;
+import dev.ipsych0.myrinnia.abilities.DebilitatingStrikeAbility;
+import dev.ipsych0.myrinnia.abilities.RockyConstrictAbility;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Resistance;
@@ -52,7 +56,7 @@ public class Item implements Serializable {
     public static Item copperOre = Utils.loadItem("19_copper_ore.json", Assets.copperOre);
     public static Item miningEquipment = Utils.loadItem("20_mining_equipment.json", Assets.miningEquipment);
     public static Item malachite = Utils.loadItem("21_malachite.json", Assets.malachite);
-    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.dustyScroll, 0, (Use & Serializable) (i) -> {
+    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
         Handler.get().sendMsg("TODO: You unlocked [Earth Ability].");
         Handler.get().removeItem(Item.dustyScroll, 1);
     });
@@ -90,6 +94,33 @@ public class Item implements Serializable {
     public static Item tomato = Utils.loadItem("66_tomato.json", Assets.tomato);
     public static Item cabbage = Utils.loadItem("67_cabbage.json", Assets.cabbage);
     public static Item wateringCan = Utils.loadItem("68_watering_can.json", Assets.wateringCan);
+    public static Item rockyConstrictScroll = Utils.loadItem("69_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(RockyConstrictAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.rockyConstrictScroll, 1);
+    });
+    public static Item cripplingImpactScroll = Utils.loadItem("70_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(CripplingImpactAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.cripplingImpactScroll, 1);
+    });
+    public static Item debilitatingStrikeScroll = Utils.loadItem("71_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(DebilitatingStrikeAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.debilitatingStrikeScroll, 1);
+    });
+    public static Item softLeather = Utils.loadItem("72_soft_leather.json", Assets.softLeather);
+    public static Item stripOfCloth = Utils.loadItem("73_strip_of_cloth.json", Assets.stripOfCloth);
+    public static Item lapisLazuli = Utils.loadItem("74_lapis_lazuli.json", Assets.lapisLazuli);
+    public static Item azuriteEarrings = Utils.loadItem("75_azurite_earrings.json", Assets.azuriteEarrings);
+    public static Item azuriteRingL = Utils.loadItem("76_azurite_ring_(l).json", Assets.azuriteRingL);
+    public static Item azuriteRingR = Utils.loadItem("77_azurite_ring_(r).json", Assets.azuriteRingR);
+    public static Item copperFishingRod = Utils.loadItem("78_copper_fishing_rod.json", Assets.copperFishingRod);
+    public static Item malachiteEarrings = Utils.loadItem("79_malachite_earrings.json", Assets.malachiteEarrings);
+    public static Item malachiteRingL = Utils.loadItem("80_malachite_ring_(l).json", Assets.malachiteRingL);
+    public static Item malachiteRingR = Utils.loadItem("81_malachite_ring_(r).json", Assets.malachiteRingR);
+    public static Item malachiteAmulet = Utils.loadItem("82_malachite_amulet.json", Assets.malachiteAmulet);
+    public static Item ironAxe = Utils.loadItem("83_iron_axe.json", Assets.ironAxe);
+    public static Item ironPickaxe = Utils.loadItem("84_iron_pickaxe.json", Assets.ironPickaxe);
+    public static Item ironFishingRod = Utils.loadItem("85_iron_fishing_rod.json", Assets.ironFishingRod);
+
 
     static {
         initPotions();
