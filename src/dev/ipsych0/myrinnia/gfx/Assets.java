@@ -69,7 +69,10 @@ public class Assets {
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
             lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
             wateringCan, softLeather, stripOfCloth, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
-            malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod;
+            malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
+            studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
+            softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
+            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -480,6 +483,33 @@ public class Assets {
         ironAxe = item_sheet.imageCrop(2, 3);
         ironPickaxe = item_sheet.imageCrop(2, 4);
         ironFishingRod = item_sheet.imageCrop(2, 5);
+
+        ironChainMail = item_sheet.imageCrop(2, 6);
+        studdedShield = item_sheet.imageCrop(2, 7);
+        ironSword = item_sheet.imageCrop(2, 8);
+        ironLegs = item_sheet.imageCrop(2, 9);
+        squiresCloak = item_sheet.imageCrop(2, 10);
+        ironHelm = item_sheet.imageCrop(2, 11);
+        ironBoots = item_sheet.imageCrop(2, 12);
+        ironGloves = item_sheet.imageCrop(2, 13);
+
+        woolenRobeTop = item_sheet.imageCrop(2, 14);
+        leatherSpellbook = item_sheet.imageCrop(2, 15);
+        hardwoodStaff = item_sheet.imageCrop(2, 16);
+        woolenRobeBottom = item_sheet.imageCrop(2, 17);
+        apprenticesCloak = item_sheet.imageCrop(2, 18);
+        woolenHat = item_sheet.imageCrop(2, 19);
+        woolenBoots = item_sheet.imageCrop(2, 20);
+        woolenGloves = item_sheet.imageCrop(2, 21);
+
+        ironFishingRod = item_sheet.imageCrop(2, 22);
+        ironFishingRod = item_sheet.imageCrop(2, 23);
+        ironFishingRod = item_sheet.imageCrop(2, 24);
+        ironFishingRod = item_sheet.imageCrop(2, 25);
+        ironFishingRod = item_sheet.imageCrop(2, 26);
+        ironFishingRod = item_sheet.imageCrop(2, 27);
+        ironFishingRod = item_sheet.imageCrop(2, 28);
+        ironFishingRod = item_sheet.imageCrop(2, 29);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

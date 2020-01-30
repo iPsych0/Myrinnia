@@ -121,6 +121,33 @@ public class Item implements Serializable {
     public static Item ironPickaxe = Utils.loadItem("84_iron_pickaxe.json", Assets.ironPickaxe);
     public static Item ironFishingRod = Utils.loadItem("85_iron_fishing_rod.json", Assets.ironFishingRod);
 
+    public static Item ironChainMail = Utils.loadItem("86_iron_chainmail.json", Assets.ironChainMail);
+    public static Item studdedShield = Utils.loadItem("87_studded_shield.json", Assets.studdedShield);
+    public static Item ironSword = Utils.loadItem("88_iron_sword.json", Assets.ironSword);
+    public static Item ironLegs = Utils.loadItem("89_iron_legs.json", Assets.ironLegs);
+    public static Item squiresCloak = Utils.loadItem("90_squire's_cloak.json", Assets.squiresCloak);
+    public static Item ironHelm = Utils.loadItem("91_iron_helm.json", Assets.ironHelm);
+    public static Item ironBoots = Utils.loadItem("92_iron_boots.json", Assets.ironBoots);
+    public static Item ironGloves = Utils.loadItem("93_iron_gloves.json", Assets.ironGloves);
+
+    public static Item softLeatherBody = Utils.loadItem("94_soft_leather_body.json", Assets.softLeatherBody);
+    public static Item ironQuiver = Utils.loadItem("95_iron_quiver.json", Assets.ironQuiver);
+    public static Item hardwoodBow = Utils.loadItem("96_hardwood_bow.json", Assets.hardwoodBow);
+    public static Item softLeatherLeggings = Utils.loadItem("97_soft_leather_leggings.json", Assets.softLeatherLeggings);
+    public static Item scoutsCloak = Utils.loadItem("98_scout's_cloak.json", Assets.scoutsCloak);
+    public static Item softLeatherCowl = Utils.loadItem("99_soft_leather_cowl.json", Assets.softLeatherCowl);
+    public static Item softLeatherBoots = Utils.loadItem("100_soft_leather_boots.json", Assets.softLeatherBoots);
+    public static Item softLeatherGloves = Utils.loadItem("101_soft_leather_gloves.json", Assets.softLeatherGloves);
+
+    public static Item woolenRobeTop = Utils.loadItem("102_woolen_robe_top.json", Assets.woolenRobeTop);
+    public static Item leatherSpellbook = Utils.loadItem("103_leather_spellbook.json", Assets.leatherSpellbook);
+    public static Item hardwoodStaff = Utils.loadItem("104_hardwood_staff.json", Assets.hardwoodStaff);
+    public static Item woolenRobeBottom = Utils.loadItem("105_woolen_robe_bottom.json", Assets.woolenRobeBottom);
+    public static Item apprenticesCloak = Utils.loadItem("106_apprentice's_cloak.json", Assets.apprenticesCloak);
+    public static Item woolenHat = Utils.loadItem("107_woolen_hat.json", Assets.woolenHat);
+    public static Item woolenBoots = Utils.loadItem("108_woolen_boots.json", Assets.woolenBoots);
+    public static Item woolenGloves = Utils.loadItem("109_woolen_gloves.json", Assets.woolenGloves);
+
 
     static {
         initPotions();
