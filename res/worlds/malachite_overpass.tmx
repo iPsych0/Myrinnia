@@ -359,6 +359,7 @@
   <object id="10" name="Hedgehog" type="npc" x="1312" y="192" width="32" height="32">
    <properties>
     <property name="animation" value="hedgehog"/>
+    <property name="dropTable" value="hedgehog.json"/>
     <property name="level" value="9"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>
@@ -367,6 +368,7 @@
   <object id="12" name="Hedgehog" type="npc" x="736" y="1152" width="32" height="32">
    <properties>
     <property name="animation" value="hedgehog"/>
+    <property name="dropTable" value="hedgehog.json"/>
     <property name="level" value="9"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>
@@ -375,6 +377,7 @@
   <object id="13" name="Hedgehog" type="npc" x="1600" y="1824" width="32" height="32">
    <properties>
     <property name="animation" value="hedgehog"/>
+    <property name="dropTable" value="hedgehog.json"/>
     <property name="level" value="9"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>

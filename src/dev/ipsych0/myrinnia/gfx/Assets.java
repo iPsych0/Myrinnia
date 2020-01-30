@@ -493,23 +493,23 @@ public class Assets {
         ironBoots = item_sheet.imageCrop(2, 12);
         ironGloves = item_sheet.imageCrop(2, 13);
 
-        woolenRobeTop = item_sheet.imageCrop(2, 14);
-        leatherSpellbook = item_sheet.imageCrop(2, 15);
-        hardwoodStaff = item_sheet.imageCrop(2, 16);
-        woolenRobeBottom = item_sheet.imageCrop(2, 17);
-        apprenticesCloak = item_sheet.imageCrop(2, 18);
-        woolenHat = item_sheet.imageCrop(2, 19);
-        woolenBoots = item_sheet.imageCrop(2, 20);
-        woolenGloves = item_sheet.imageCrop(2, 21);
+        softLeatherBody = item_sheet.imageCrop(2, 14);
+        ironQuiver = item_sheet.imageCrop(2, 15);
+        hardwoodBow = item_sheet.imageCrop(2, 16);
+        softLeatherLeggings = item_sheet.imageCrop(2, 17);
+        scoutsCloak = item_sheet.imageCrop(2, 18);
+        softLeatherCowl = item_sheet.imageCrop(2, 19);
+        softLeatherBoots = item_sheet.imageCrop(2, 20);
+        softLeatherGloves = item_sheet.imageCrop(2, 21);
 
-        ironFishingRod = item_sheet.imageCrop(2, 22);
-        ironFishingRod = item_sheet.imageCrop(2, 23);
-        ironFishingRod = item_sheet.imageCrop(2, 24);
-        ironFishingRod = item_sheet.imageCrop(2, 25);
-        ironFishingRod = item_sheet.imageCrop(2, 26);
-        ironFishingRod = item_sheet.imageCrop(2, 27);
-        ironFishingRod = item_sheet.imageCrop(2, 28);
-        ironFishingRod = item_sheet.imageCrop(2, 29);
+        woolenRobeTop = item_sheet.imageCrop(2, 22);
+        leatherSpellbook = item_sheet.imageCrop(2, 23);
+        hardwoodStaff = item_sheet.imageCrop(2, 24);
+        woolenRobeBottom = item_sheet.imageCrop(2, 25);
+        apprenticesCloak = item_sheet.imageCrop(2, 26);
+        woolenHat = item_sheet.imageCrop(2, 27);
+        woolenBoots = item_sheet.imageCrop(2, 28);
+        woolenGloves = item_sheet.imageCrop(2, 29);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

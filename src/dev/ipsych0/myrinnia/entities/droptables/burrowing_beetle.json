@@ -33,5 +33,15 @@
     "itemId": 4,
     "amount": 5,
     "weight": 6
+  },
+  {
+    "itemId": 46,
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": -1,
+    "amount": 0,
+    "weight": 2
   }
 ]

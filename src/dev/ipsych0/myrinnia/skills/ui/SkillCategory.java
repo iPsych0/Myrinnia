@@ -4,6 +4,8 @@ public enum SkillCategory {
 
     CraftingOther("Other"),
     Weapons("Weapons"),
+    Tools("Tools"),
+    Recipes("Recipes"),
     Armor("Armor"),
     Trinkets("Trinkets"),
     Materials("Materials"),

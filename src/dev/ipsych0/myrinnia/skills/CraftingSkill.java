@@ -16,8 +16,10 @@ public class CraftingSkill extends Skill {
         categories.add(SkillCategory.Weapons);
         categories.add(SkillCategory.Armor);
         categories.add(SkillCategory.Trinkets);
+        categories.add(SkillCategory.Tools);
         categories.add(SkillCategory.Materials);
         categories.add(SkillCategory.Potions);
+        categories.add(SkillCategory.Recipes);
         categories.add(SkillCategory.CraftingOther);
 
     }
