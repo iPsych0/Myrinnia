@@ -31,10 +31,10 @@ public class Venovine extends Creature {
 
         // Creature stats
         strength = 0;
-        dexterity = 5;
+        dexterity = 13;
         intelligence = 0;
-        vitality = 30;
-        defence = 24;
+        vitality = 35;
+        defence = 25;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -67,7 +67,7 @@ public class Venovine extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
         getDroptableItem();
     }
 

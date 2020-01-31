@@ -26,8 +26,8 @@ public class AzureBat extends Creature {
         strength = 0;
         dexterity = 0;
         intelligence = 7;
-        vitality = 13;
-        defence = 5;
+        vitality = 16;
+        defence = 8;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -86,7 +86,7 @@ public class AzureBat extends Creature {
 
     @Override
     protected void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         getDroptableItem();
     }
 

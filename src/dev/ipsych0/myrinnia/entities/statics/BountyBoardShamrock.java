@@ -1,7 +1,5 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.worlds.Zone;
 

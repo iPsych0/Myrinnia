@@ -84,7 +84,7 @@ public class AzureCrab extends Creature {
                 firstKill = false;
             }
             getDroptableItem();
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(5);
         }
     }
 

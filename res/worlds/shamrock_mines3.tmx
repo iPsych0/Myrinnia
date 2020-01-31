@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="80" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="17">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="19">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -211,7 +211,7 @@
    <properties>
     <property name="animation" value="burrowingBeetle"/>
     <property name="dropTable" value="burrowing_beetle.json"/>
-    <property name="level" value="5"/>
+    <property name="level" value="6"/>
     <property name="name" value="Burrowing Beetle"/>
     <property name="npcClass" value="BurrowingBeetle"/>
    </properties>
@@ -220,7 +220,7 @@
    <properties>
     <property name="animation" value="burrowingBeetle"/>
     <property name="dropTable" value="burrowing_beetle.json"/>
-    <property name="level" value="5"/>
+    <property name="level" value="6"/>
     <property name="name" value="Burrowing Beetle"/>
     <property name="npcClass" value="BurrowingBeetle"/>
    </properties>
@@ -269,6 +269,24 @@
     <property name="direction" value="LEFT"/>
     <property name="name" value="Miner Albert"/>
     <property name="npcClass" value="GenericNPC"/>
+   </properties>
+  </object>
+  <object id="17" name="Burrowing Beetle" type="npc" x="1024" y="1632" width="32" height="32">
+   <properties>
+    <property name="animation" value="burrowingBeetle"/>
+    <property name="dropTable" value="burrowing_beetle.json"/>
+    <property name="level" value="6"/>
+    <property name="name" value="Burrowing Beetle"/>
+    <property name="npcClass" value="BurrowingBeetle"/>
+   </properties>
+  </object>
+  <object id="18" name="Burrowing Beetle" type="npc" x="1440" y="512" width="32" height="32">
+   <properties>
+    <property name="animation" value="burrowingBeetle"/>
+    <property name="dropTable" value="burrowing_beetle.json"/>
+    <property name="level" value="5"/>
+    <property name="name" value="Burrowing Beetle"/>
+    <property name="npcClass" value="BurrowingBeetle"/>
    </properties>
   </object>
  </objectgroup>

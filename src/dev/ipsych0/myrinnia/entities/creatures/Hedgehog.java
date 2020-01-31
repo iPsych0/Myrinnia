@@ -43,8 +43,8 @@ public class Hedgehog extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 24;
-        dexterity = 12;
+        strength = 40;
+        dexterity = 20;
         intelligence = 0;
         vitality = 52;
         defence = 40;

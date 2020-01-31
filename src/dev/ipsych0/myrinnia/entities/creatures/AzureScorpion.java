@@ -27,7 +27,7 @@ public class AzureScorpion extends Creature {
         attackable = true;
 
         // Creature stats
-        strength =  0;
+        strength = 0;
         dexterity = 0;
         intelligence = 3;
         vitality = 7;
@@ -67,7 +67,7 @@ public class AzureScorpion extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(6);
         getDroptableItem();
     }
 

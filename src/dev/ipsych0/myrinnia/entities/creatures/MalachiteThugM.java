@@ -32,10 +32,10 @@ public class MalachiteThugM extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 13;
+        strength = 16;
         dexterity = 0;
         intelligence = 0;
-        vitality = 24;
+        vitality = 30;
         defence = 30;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
@@ -79,7 +79,7 @@ public class MalachiteThugM extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
     }
 
     /*

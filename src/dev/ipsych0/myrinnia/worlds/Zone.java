@@ -4,8 +4,8 @@ public enum Zone {
 
     PortAzure("Port Azure", "port_azure.ogg"), PortAzureInside("Port Azure", "port_azure.ogg"),
     Myrinnia("Myrinnia", "DUMMY"),
-    SunsetCove("Sunset Cove", "sunsetsunrise.ogg"),
-    SunriseSands("Sunrise Sands", "sunsetsunrise.ogg"),
+    SunsetCove("Sunset Cove", "sunshinecoast.ogg"),
+    SunriseSands("Sunrise Sands", "sunshinecoast.ogg"),
     LakeAzure("Lake Azure", "lake_azure.ogg"),
     MtAzure1("Mt. Azure", "lake_azure.ogg"), MtAzure2("Mt. Azure", "lake_azure.ogg"), MtAzure3("Mt. Azure", "lake_azure.ogg"),
     SunshineCoast("Sunshine Coast", "sunshinecoast.ogg"),

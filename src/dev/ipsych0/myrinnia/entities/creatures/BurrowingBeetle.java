@@ -46,18 +46,19 @@ public class BurrowingBeetle extends Creature {
         originalUp = aUp;
 
         // Creature stats
-        strength = 5;
+        strength = 8;
         dexterity = 0;
         intelligence = 0;
-        if (level == 5) {
-            vitality = 30;
+        if (level == 6) {
+            strength = 10;
+            vitality = 35;
             defence = 45;
-        } else if (level == 6) {
-            strength = 8;
-            vitality = 38;
+        } else if (level == 7) {
+            strength = 14;
+            vitality = 45;
             defence = 50;
         } else {
-            vitality = 25;
+            vitality = 30;
             defence = 40;
         }
         maxHealth = DEFAULT_HEALTH + vitality * 4;
@@ -130,8 +131,10 @@ public class BurrowingBeetle extends Creature {
     @Override
     public void die() {
         if (combatLevel == 5) {
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
         } else if (combatLevel == 6) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        } else if (combatLevel == 7) {
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(30);
             if (!hasDroppedDynamite) {
                 hasDroppedDynamite = true;

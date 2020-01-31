@@ -25,18 +25,18 @@ public class MalachiteThugR extends Creature {
         attackable = true;
 
         // Creature stats
-        strength =  0;
+        strength = 0;
         dexterity = 10;
         intelligence = 0;
-        vitality = 22;
-        defence = 25;
+        vitality = 26;
+        defence = 20;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
         if ("Devon's associate".equalsIgnoreCase(name)) {
-            dexterity = 6;
-            vitality = 12;
+            dexterity = 9;
+            vitality = 20;
             defence = 12;
             maxHealth = DEFAULT_HEALTH + vitality * 4;
             health = maxHealth;
@@ -62,8 +62,9 @@ public class MalachiteThugR extends Creature {
     public void die() {
         if ("Devon's associate".equalsIgnoreCase(name)) {
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        } else {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
         }
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
     /*
