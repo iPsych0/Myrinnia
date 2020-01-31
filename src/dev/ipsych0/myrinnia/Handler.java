@@ -46,11 +46,12 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.*;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.Random;
 
@@ -339,6 +340,34 @@ public class Handler implements Serializable {
         World w = worldHandler.getWorldsMap().get(zone);
         w.init();
         setWorld(w);
+
+        if (getWorld().hasPermissionsLayer()) {
+            Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);
+            if (t == null) {
+                player.setVerticality(0);
+                player.setCurrentTile(Tile.tiles[23780]);
+                player.setPreviousTile(Tile.tiles[23780]);
+            } else {
+                if (t.getPermission().equalsIgnoreCase("C")) {
+                    player.setVerticality(0);
+                    player.setCurrentTile(Tile.tiles[23780]);
+                    player.setPreviousTile(Tile.tiles[23780]);
+                }
+                else if (t.getPermission().equalsIgnoreCase("10")) {
+                    player.setVerticality(1);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                } else if (t.getPermission().equalsIgnoreCase("14")) {
+                    player.setVerticality(2);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                }
+            }
+        } else {
+            player.setVerticality(0);
+            player.setCurrentTile(Tile.tiles[23780]);
+            player.setPreviousTile(Tile.tiles[23780]);
+        }
 
         ZoneTransitionState transitionState = new ZoneTransitionState(zone, customName);
         State.setState(transitionState);

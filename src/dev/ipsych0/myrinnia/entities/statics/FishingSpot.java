@@ -6,10 +6,16 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 public class FishingSpot extends StaticEntity {
 
@@ -21,13 +27,32 @@ public class FishingSpot extends StaticEntity {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
     private Animation spinning;
-    private boolean isFishing = false;
+    private boolean isFishing;
     private int fishingTimer = 0;
     private int minAttempts = 4, maxAttempts = 9;
     private int random = 0;
     private int attempts = 0;
     private Item fish;
+    private Item rareMaterial;
+    private Item rodUsed;
+    private int timeToFish = 180;
+    private int originalTimeToFish = 180;
+    private int chanceToFish = 700; // 700/1000 = 70% chance to successfully get an ore
+    private int originalChanceToFish = 700;
+    private int chanceOfRareMaterial = 30; // 30/1000 = 3% chance
+    private int originalChanceOfRareMaterial;
     private int experience;
+    private int originalExperience;
+    private static Map<Item, Double> chanceToFishMap = Map.ofEntries(
+            entry(Item.simpleFishingRod, 1.0),
+            entry(Item.copperFishingRod, 1.05),
+            entry(Item.ironFishingRod, 1.1)
+    );
+    private static Map<Item, Double> timeToFishMap = Map.ofEntries(
+            entry(Item.simpleFishingRod, 1.0),
+            entry(Item.copperFishingRod, 0.95),
+            entry(Item.ironFishingRod, 0.9)
+    );
 
     public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -38,12 +63,28 @@ public class FishingSpot extends StaticEntity {
 
         if (name.equalsIgnoreCase("Mackerel Fishing Spot")) {
             fish = Item.mackerelFish;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
             experience = 10;
+            timeToFish = 150;
+            chanceToFish = 750; // 75%
+            chanceOfRareMaterial = 100; // 10% Chance
         }
-        if (name.equalsIgnoreCase("Trout Fishing Spot")) {
+        else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
             fish = Item.trout;
             experience = 15;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
+            timeToFish = 180;
+            chanceToFish = 700; // 70%
+            chanceOfRareMaterial = 80; // 8% Chance
+        } else {
+            throw new IllegalArgumentException("Fishing Spot name not found: " + name);
         }
+
+        // Store the original values
+        originalChanceOfRareMaterial = chanceOfRareMaterial;
+        originalChanceToFish = chanceToFish;
+        originalExperience = experience;
+        originalTimeToFish = timeToFish;
     }
 
     @Override
@@ -54,19 +95,19 @@ public class FishingSpot extends StaticEntity {
                 fishingTimer = 0;
                 speakingTurn = -1;
                 interact();
-                isFishing = false;
+                setFishing(false);
             }
             if (Player.isMoving || Handler.get().getMouseManager().isLeftPressed() &&
                     !Handler.get().getPlayer().hasLeftClickedUI(Handler.get().getMouse())) {
                 fishingTimer = 0;
                 speakingTurn = 0;
-                isFishing = false;
+                setFishing(false);
                 return;
             }
             if (random != 0) {
                 if (attempts == random) {
                     attempts = 0;
-                    isFishing = false;
+                    setFishing(false);
                     this.active = false;
                     this.die();
                 }
@@ -74,12 +115,16 @@ public class FishingSpot extends StaticEntity {
 
             fishingTimer++;
 
-            if (fishingTimer >= 180) {
-                int roll = Handler.get().getRandomNumber(1, 100);
-                if (roll < 70) {
+            if (fishingTimer >= timeToFish) {
+                int roll = Handler.get().getRandomNumber(1, 1000);
+                if (roll < chanceToFish) {
                     Handler.get().giveItem(fish, 1);
                     Handler.get().sendMsg("You caught something!");
                     Handler.get().getSkillsUI().getSkill(SkillsList.FISHING).addExperience(experience);
+                    if (rareMaterial != null && roll < chanceOfRareMaterial) {
+                        Handler.get().giveItem(rareMaterial, 1);
+                        Handler.get().sendMsg("You found a " + rareMaterial.getName() + "!");
+                    }
                     attempts++;
                 } else {
                     Handler.get().sendMsg("The fish got away...");
@@ -116,6 +161,26 @@ public class FishingSpot extends StaticEntity {
         if (this.speakingTurn == 0) {
             if (Handler.get().playerHasSkillLevel(SkillsList.FISHING, fish)) {
                 if (Handler.get().playerHasItemType(ItemType.FISHING_ROD)) {
+
+                    List<Item> rods = new ArrayList<>();
+                    for (ItemSlot is : Handler.get().getInventory().getItemSlots()) {
+                        if (is.getItemStack() != null) {
+                            if (is.getItemStack().getItem().isType(ItemType.FISHING_ROD)) {
+                                rods.add(is.getItemStack().getItem());
+                            }
+                        }
+                    }
+
+                    // Get the best pickaxe we have in our inventory
+                    rodUsed = rods.stream().max((o1, o2) -> {
+                        Integer i1 = o1.getPrice();
+                        Integer i2 = o2.getPrice();
+                        return i1.compareTo(i2);
+                    }).get();
+
+                    // Update chances and time to mine based on pickaxe
+                    chanceToFish *= chanceToFishMap.get(rodUsed);
+                    timeToFish *= timeToFishMap.get(rodUsed);
                     Handler.get().sendMsg("Fishing...");
                     speakingTurn = 1;
                     isFishing = true;
@@ -151,5 +216,13 @@ public class FishingSpot extends StaticEntity {
     @Override
     protected void updateDialogue() {
 
+    }
+
+    public boolean isFishing() {
+        return isFishing;
+    }
+
+    public void setFishing(boolean fishing) {
+        isFishing = fishing;
     }
 }

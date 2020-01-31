@@ -39,7 +39,7 @@ public class Rock extends StaticEntity {
     private int chanceToMine = 700; // 700/1000 = 70% chance to successfully get an ore
     private int originalChanceToMine = 700;
     private int chanceOfRareMaterial = 30; // 30/1000 = 3% chance
-    private int originalChanceOfRareMaterial = 30;
+    private int originalChanceOfRareMaterial;
     private int experience;
     private int originalExperience;
 

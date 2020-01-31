@@ -229,7 +229,7 @@
    <properties>
     <property name="animation" value="burrowingBeetle"/>
     <property name="dropTable" value="burrowing_beetle.json"/>
-    <property name="level" value="6"/>
+    <property name="level" value="7"/>
     <property name="name" value="Burrowing Beetle"/>
     <property name="npcClass" value="BurrowingBeetle"/>
    </properties>

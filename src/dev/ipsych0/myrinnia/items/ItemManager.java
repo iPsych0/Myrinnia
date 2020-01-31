@@ -114,7 +114,7 @@ public class ItemManager implements Serializable {
         }
 
         if (lastHovered != null && count > 1) {
-            Text.drawString(g, "+" + count, lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
+            Text.drawString(g, "+" + (count - 1), lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
                     lastHovered.getY() - (int) Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
         }
     }

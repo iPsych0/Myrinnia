@@ -134,12 +134,19 @@ public class SkillsUI implements Serializable {
         SkillsOverviewUI.isOpen = true;
         overviewUI.setSelectedSkill(getSkill(skill));
         overviewUI.setSelectedCategory(category);
+
         if (overviewUI.getSelectedButton() != null) {
             overviewUI.setSelectedButton(overviewUI.getCategories().get(0));
         }
+
         overviewUI.getScrollBar().setIndex(0);
-        overviewUI.getScrollBar().setListSize(getSkill(skill).getListByCategory(category).size());
-        overviewUI.getScrollBar().setScrollMaximum(getSkill(skill).getListByCategory(category).size());
+        if(skill == SkillsList.CRAFTING){
+            overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
+            overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
+        } else {
+            overviewUI.getScrollBar().setListSize(getSkill(skill).getListByCategory(category).size());
+            overviewUI.getScrollBar().setScrollMaximum(getSkill(skill).getListByCategory(category).size());
+        }
         overviewUI.getCategories().clear();
         for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
             overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
