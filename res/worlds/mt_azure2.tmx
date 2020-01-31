@@ -222,10 +222,10 @@
     <property name="npcClass" value="AzureBat"/>
    </properties>
   </object>
-  <object id="8" name="Azurite Necklace" type="item" x="320" y="1248" width="32" height="32">
+  <object id="8" name="Lapis Lazuli" type="item" x="320" y="1248" width="32" height="32">
    <properties>
     <property name="amount" value="1"/>
-    <property name="itemId" value="23"/>
+    <property name="itemId" value="74"/>
    </properties>
   </object>
   <object id="9" name="Azure Bat" type="npc" x="256" y="768" width="32" height="32">
