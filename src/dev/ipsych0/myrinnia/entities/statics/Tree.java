@@ -46,15 +46,15 @@ public class Tree extends StaticEntity {
             entry("Weak Palm Tree", Assets.weakPalmTree),
             entry("Elm Tree", Assets.elmTree)
     );
-    private static Map<Item, Double> chanceToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe, 1.0),
-            entry(Item.copperAxe, 1.05),
-            entry(Item.ironAxe, 1.1)
+    private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
+            entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.copperAxe.getId(), 1.05),
+            entry(Item.ironAxe.getId(), 1.1)
     );
-    private static Map<Item, Double> timeToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe, 1.0),
-            entry(Item.copperAxe, 0.95),
-            entry(Item.ironAxe, 0.9)
+    private static Map<Integer, Double> timeToCutMap = Map.ofEntries(
+            entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.copperAxe.getId(), 0.95),
+            entry(Item.ironAxe.getId(), 0.9)
     );
 
     public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
@@ -186,8 +186,8 @@ public class Tree extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToCut *= chanceToCutMap.get(axeUsed);
-                    timeToCut *= timeToCutMap.get(axeUsed);
+                    chanceToCut *= chanceToCutMap.get(axeUsed.getId());
+                    timeToCut *= timeToCutMap.get(axeUsed.getId());
 
                     Handler.get().sendMsg("Chop chop...");
                     speakingTurn = 1;

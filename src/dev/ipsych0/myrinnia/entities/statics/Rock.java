@@ -48,15 +48,15 @@ public class Rock extends StaticEntity {
             entry("Copper Rock", Assets.copperRock),
             entry("Iron Rock", Assets.ironRock)
     );
-    private static Map<Item, Double> chanceToMineMap = Map.ofEntries(
-            entry(Item.simplePickaxe, 1.0),
-            entry(Item.copperPickaxe, 1.05),
-            entry(Item.ironPickaxe, 1.1)
+    private static Map<Integer, Double> chanceToMineMap = Map.ofEntries(
+            entry(Item.simplePickaxe.getId(), 1.0),
+            entry(Item.copperPickaxe.getId(), 1.05),
+            entry(Item.ironPickaxe.getId(), 1.1)
     );
-    private static Map<Item, Double> timeToMineMap = Map.ofEntries(
-            entry(Item.simplePickaxe, 1.0),
-            entry(Item.copperPickaxe, 0.95),
-            entry(Item.ironPickaxe, 0.9)
+    private static Map<Integer, Double> timeToMineMap = Map.ofEntries(
+            entry(Item.simplePickaxe.getId(), 1.0),
+            entry(Item.copperPickaxe.getId(), 0.95),
+            entry(Item.ironPickaxe.getId(), 0.9)
     );
 
     public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
@@ -186,8 +186,8 @@ public class Rock extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToMine *= chanceToMineMap.get(pickaxeUsed);
-                    timeToMine *= timeToMineMap.get(pickaxeUsed);
+                    chanceToMine *= chanceToMineMap.get(pickaxeUsed.getId());
+                    timeToMine *= timeToMineMap.get(pickaxeUsed.getId());
 
                     Handler.get().sendMsg("Mining...");
                     speakingTurn = 1;

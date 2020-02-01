@@ -33,7 +33,7 @@ public class FarmingUI implements Serializable {
     private FarmingPatch farmingPatch;
     private boolean open;
     public static boolean escapePressed;
-    private List<Item> categoryItems;
+    private List<Integer> categoryItems;
     public static boolean hasBeenPressed;
 
 
@@ -44,7 +44,7 @@ public class FarmingUI implements Serializable {
         categoryItems = new ArrayList<>();
         List<SkillResource> resources = Handler.get().getSkill(SkillsList.FARMING).getListByCategory(category);
         for (SkillResource res : resources) {
-            categoryItems.add(((FarmingResource) res).getSeed());
+            categoryItems.add(((FarmingResource) res).getSeed().getId());
         }
 
         farmingSlots = new ArrayList<>();
@@ -71,7 +71,7 @@ public class FarmingUI implements Serializable {
 
         if (selectedButton != null && plantButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             hasBeenPressed = false;
-            if (!categoryItems.contains(selectedButton.getSeed().getItem())) {
+            if (!categoryItems.contains(selectedButton.getSeed().getItem().getId())) {
                 Handler.get().sendMsg("You can't plant that type of seed in a " + farmingPatch.getName() + ".");
                 return;
             }
@@ -92,7 +92,7 @@ public class FarmingUI implements Serializable {
         uiManager.render(g);
 
         for (FarmingSlot fs : farmingSlots) {
-            if (!categoryItems.contains(fs.getSeed().getItem()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeed().getItem())) {
+            if (!categoryItems.contains(fs.getSeed().getItem().getId()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeed().getItem())) {
                 g.setColor(Colors.insufficientAmountColor);
                 g.fillRoundRect(fs.x, fs.y, fs.width, fs.height, 4, 4);
             }

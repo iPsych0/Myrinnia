@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.skills.Skill;
@@ -14,6 +15,7 @@ public class Celebration implements Serializable {
     private Skill skill;
     private Quest quest;
     private Ability ability;
+    private CraftingRecipe recipe;
     private String description;
     private boolean pressedNext;
 
@@ -32,6 +34,11 @@ public class Celebration implements Serializable {
         this.description = description;
     }
 
+    public Celebration(CraftingRecipe recipe, String description) {
+        this.recipe = recipe;
+        this.description = description;
+    }
+
     public boolean hasPressedNext() {
         return pressedNext;
     }
@@ -47,6 +54,10 @@ public class Celebration implements Serializable {
 
         if (skill != null) {
             return skill.getImg();
+        }
+
+        if (recipe != null) {
+            return recipe.getResult().getItem().getTexture();
         }
 
         return null;
@@ -82,5 +93,13 @@ public class Celebration implements Serializable {
 
     public void setAbility(Ability ability) {
         this.ability = ability;
+    }
+
+    public CraftingRecipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(CraftingRecipe recipe) {
+        this.recipe = recipe;
     }
 }

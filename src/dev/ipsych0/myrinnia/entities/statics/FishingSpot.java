@@ -43,15 +43,15 @@ public class FishingSpot extends StaticEntity {
     private int originalChanceOfRareMaterial;
     private int experience;
     private int originalExperience;
-    private static Map<Item, Double> chanceToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod, 1.0),
-            entry(Item.copperFishingRod, 1.05),
-            entry(Item.ironFishingRod, 1.1)
+    private static Map<Integer, Double> chanceToFishMap = Map.ofEntries(
+            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.copperFishingRod.getId(), 1.05),
+            entry(Item.ironFishingRod.getId(), 1.1)
     );
-    private static Map<Item, Double> timeToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod, 1.0),
-            entry(Item.copperFishingRod, 0.95),
-            entry(Item.ironFishingRod, 0.9)
+    private static Map<Integer, Double> timeToFishMap = Map.ofEntries(
+            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.copperFishingRod.getId(), 0.95),
+            entry(Item.ironFishingRod.getId(), 0.9)
     );
 
     public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
@@ -179,8 +179,8 @@ public class FishingSpot extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToFish *= chanceToFishMap.get(rodUsed);
-                    timeToFish *= timeToFishMap.get(rodUsed);
+                    chanceToFish *= chanceToFishMap.get(rodUsed.getId());
+                    timeToFish *= timeToFishMap.get(rodUsed.getId());
                     Handler.get().sendMsg("Fishing...");
                     speakingTurn = 1;
                     isFishing = true;

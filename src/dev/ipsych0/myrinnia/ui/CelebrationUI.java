@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -24,6 +25,7 @@ public class CelebrationUI implements Serializable {
     private Rectangle bounds;
     public static boolean escapePressed;
     private AbilityTooltip abilityTooltip;
+    private ItemTooltip itemTooltip;
 
     public CelebrationUI() {
         width = 384;
@@ -32,6 +34,7 @@ public class CelebrationUI implements Serializable {
         y = Handler.get().getHeight() / 2 - height / 2;
 
         abilityTooltip = new AbilityTooltip(x + width, y);
+        itemTooltip = new ItemTooltip(x + width, y);
 
         events = new LinkedList<>();
 
@@ -104,6 +107,10 @@ public class CelebrationUI implements Serializable {
                 currentEvent.getAbility().renderIcon(g, x + width / 2 - 16, y + 64);
                 if (new Rectangle(x + width / 2 - 16, y + 64, 32, 32).contains(Handler.get().getMouse())) {
                     abilityTooltip.render(g, currentEvent.getAbility());
+                }
+            } else if (currentEvent.getRecipe() != null) {
+                if (new Rectangle(x + width / 2 - 16, y + 64, 32, 32).contains(Handler.get().getMouse())) {
+                    itemTooltip.render(currentEvent.getRecipe().getResult().getItem(), g);
                 }
             } else {
                 g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);

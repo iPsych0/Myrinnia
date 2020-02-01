@@ -42,7 +42,7 @@ public class CraftingManager implements Serializable {
 
         recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 8), new ItemStack(Item.softLeatherBody, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 2), new ItemStack(Item.softLeather, 4), new ItemStack(Item.ironQuiver, 1)));
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 6), new ItemStack(Item.softLeatherLeggings, 1)));
+        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 6), new ItemStack(Item.softLeatherLeggings, 1)));
         recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 5), new ItemStack(Item.scoutsCloak, 1)));
         recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 4), new ItemStack(Item.softLeatherCowl, 1)));
         recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 3), new ItemStack(Item.softLeatherBoots, 1)));
