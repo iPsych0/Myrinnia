@@ -369,7 +369,7 @@
    <properties>
     <property name="animation" value="hedgehog"/>
     <property name="dropTable" value="hedgehog.json"/>
-    <property name="level" value="9"/>
+    <property name="level" value="10"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>
    </properties>
@@ -378,7 +378,7 @@
    <properties>
     <property name="animation" value="hedgehog"/>
     <property name="dropTable" value="hedgehog.json"/>
-    <property name="level" value="9"/>
+    <property name="level" value="10"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>
    </properties>

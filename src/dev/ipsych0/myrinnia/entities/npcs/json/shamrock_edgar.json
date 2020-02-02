@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "My mining equipment was stolen. Please, help me get it back!",
+      "text": "See that cart? It had my mining equipment in it, but someone stole it!",
       "nextId": 1,
       "choiceCondition": {
         "condition": "bountyAccepted",
@@ -43,7 +43,7 @@
     },
     {
       "id": 5,
-      "text": "Please, take this pickaxe as a reward.",
+      "text": "It ain't much, but I found this scroll a while ago. You can have it.",
       "nextId": -1
     },
     {

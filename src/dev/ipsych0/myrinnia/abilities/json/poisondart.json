@@ -3,7 +3,7 @@
   "castingTime": 0.75,
   "overcastTime": 0.0,
   "name": "Poison Dart",
-  "description": "Fire a dart that has a 100% chance of poisoning your opponent.",
+  "description": "Fire a dart that is guaranteed to poison your opponent.",
   "abilityType": "StandardAbility",
   "element": "Earth",
   "combatStyle": "Ranged",

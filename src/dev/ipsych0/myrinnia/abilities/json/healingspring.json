@@ -3,7 +3,7 @@
   "castingTime": 0.5,
   "overcastTime": 0.0,
   "name": "Healing Spring",
-  "description": "The restorative properties of the spring heal X HP and an additional Y HP per second you stand in it.",
+  "description": "The restorative properties of the spring provide an initial heal and then heals you per second you stand in it.",
   "abilityType": "HealingAbility",
   "element": "Water",
   "combatStyle": "Melee",

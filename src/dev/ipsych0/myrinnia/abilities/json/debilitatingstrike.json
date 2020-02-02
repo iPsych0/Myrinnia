@@ -3,7 +3,7 @@
   "castingTime": 0.25,
   "overcastTime": 0.0,
   "name": "Debilitating Strike",
-  "description": "Strike your foe with a 25% chance of inflicting bleeding.",
+  "description": "Strike your foe with a 50% chance of inflicting bleeding.",
   "abilityType": "StandardAbility",
   "element": "Earth",
   "combatStyle": "Melee",

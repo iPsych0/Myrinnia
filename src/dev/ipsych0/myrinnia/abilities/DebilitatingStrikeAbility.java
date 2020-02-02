@@ -102,13 +102,11 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
 
                     hasHitEnemy = true;
 
-                    // 25% Chance of bleeding
+                    // 50% Chance of bleeding
                     int rnd = Handler.get().getRandomNumber(1, 100);
-                    if (rnd <= 25) {
+                    if (rnd <= 50) {
                         e.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
                     }
-                    // Break because we only hit 1 target
-                    break;
                 }
             }
         } else {
@@ -116,9 +114,9 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
             if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
                 player.damage(DamageType.STR, caster, this);
 
-                // 25% Chance of bleeding
+                // 50% Chance of bleeding
                 int rnd = Handler.get().getRandomNumber(1, 100);
-                if (rnd <= 25) {
+                if (rnd <= 50) {
                     player.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
                 }
             }

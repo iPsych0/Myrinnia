@@ -32,7 +32,7 @@ public class MalachiteThugM extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 16;
+        strength = 14;
         dexterity = 0;
         intelligence = 0;
         vitality = 30;

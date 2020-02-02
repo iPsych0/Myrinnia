@@ -3,7 +3,7 @@
   "castingTime": 1.5,
   "overcastTime": 0.0,
   "name": "Eruption",
-  "description": "A strong earthquake",
+  "description": "An explosive force that deals damage to foes adjacent to you.",
   "abilityType": "StandardAbility",
   "element": "Fire",
   "combatStyle": "Magic",

@@ -210,7 +210,10 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage();
+
+        // Get the defence ratio (double the defence effectiveness)
+        double defenceRatio = DIVISION_QUOTIENT / (DIVISION_QUOTIENT + (double) (r.getDefence() * 2));
+        return (int) Math.ceil((defenceRatio * (double) power) + (d.getBaseDamage() * defenceRatio));
     }
 
     /*
@@ -252,8 +255,8 @@ public abstract class Entity implements Serializable {
             health = maxHealth;
         } else {
             health += heal;
-            Handler.get().addHealSplat(this, heal);
         }
+        Handler.get().addHealSplat(this, heal);
     }
 
     /*

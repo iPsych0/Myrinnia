@@ -1029,8 +1029,6 @@ public abstract class Creature extends Entity {
                     continue;
                 if (e.getVerticality() == Handler.get().getPlayer().getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
                     e.damage(DamageType.STR, this);
-                    // Break because we only hit 1 target
-                    break;
                 }
             }
         } else {

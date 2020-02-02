@@ -3,7 +3,7 @@
   "castingTime": 0.75,
   "overcastTime": 0.0,
   "name": "Mend Wounds",
-  "description": "Restores X health and gives regeneration for Y seconds.",
+  "description": "Splash water over your wounds, healing you initially whilst also providing regeneration.",
   "abilityType": "HealingAbility",
   "element": "Water",
   "combatStyle": "Ranged",

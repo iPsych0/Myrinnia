@@ -7,7 +7,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import org.lwjgl.system.CallbackI;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -48,6 +47,14 @@ public class Hedgehog extends Creature {
         intelligence = 0;
         vitality = 52;
         defence = 40;
+
+        if (level == 10) {
+            strength = 44;
+            dexterity = 22;
+            vitality = 55;
+            defence = 42;
+        }
+
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;

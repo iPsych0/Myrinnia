@@ -35,8 +35,8 @@ public class MalachiteThugR extends Creature {
         attackRange = Tile.TILEWIDTH * 5;
 
         if ("Devon's associate".equalsIgnoreCase(name)) {
-            dexterity = 9;
-            vitality = 20;
+            dexterity = 7;
+            vitality = 18;
             defence = 12;
             maxHealth = DEFAULT_HEALTH + vitality * 4;
             health = maxHealth;

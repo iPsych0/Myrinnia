@@ -1,12 +1,14 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -24,6 +26,7 @@ public class MalachiteThugL extends Creature {
     private Animation meleeAnimation;
     private boolean hasSpawnedFirstAlly, hasSpawnedSecondAlly;
     private int firstTextTimer, secondTextTimer;
+    private Ability debilitatingStrike = Utils.loadAbility("debilitatingstrike.json");
 
     public MalachiteThugL(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -31,10 +34,10 @@ public class MalachiteThugL extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 16;
+        strength = 15;
         dexterity = 0;
         intelligence = 0;
-        vitality = 40;
+        vitality = 45;
         defence = 30;
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
@@ -58,7 +61,7 @@ public class MalachiteThugL extends Creature {
             Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(53 * 32, 17 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
             hasSpawnedFirstAlly = true;
             // If below 40% health, spawn second ally
-        } else if (health <= (maxHealth * 0.50d) && !hasSpawnedSecondAlly) {
+        } else if (health <= (maxHealth * 0.40d) && !hasSpawnedSecondAlly) {
             Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(48 * 32, 23 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
             hasSpawnedSecondAlly = true;
         }
@@ -118,13 +121,17 @@ public class MalachiteThugL extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+        if (!debilitatingStrike.isOnCooldown()) {
+            castAbility(debilitatingStrike);
+        } else {
+            meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+            setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
 
-        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+            Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
-        checkMeleeHitboxes();
+            checkMeleeHitboxes();
+        }
 
     }
 
