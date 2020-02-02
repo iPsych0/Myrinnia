@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.cutscenes.Cutscene;
 import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.creatures.CaveTroll;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.states.CutsceneState;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -16,6 +18,8 @@ import java.awt.*;
 public class ShamrockSinkhole extends StaticEntity {
 
     private boolean cutsceneStarted;
+    private boolean hasSpawnedTrolls;
+    private Entity robert, albert, aaron;
 
     public ShamrockSinkhole(double x, double y, int width, int height) {
         super(x, y, width, height, null, 1, null, null, null, null);
@@ -27,11 +31,16 @@ public class ShamrockSinkhole extends StaticEntity {
         this.name = "Sinkhole";
         this.script = Utils.loadScript("shamrock_sinkhole.json");
 
-        remove("Miner Robert");
-        remove("Miner Albert");
-        remove("Miner Aaron");
+        robert = getEntity("Miner Robert");
+        albert = getEntity("Miner Albert");
+        aaron = getEntity("Miner Aaron");
+
+        robert.setActive(false);
+        albert.setActive(false);
+        aaron.setActive(false);
 
         Handler.get().getQuest(QuestList.WeDelvedTooDeep).nextStep();
+        Handler.get().getQuest(QuestList.WeDelvedTooDeep).addNewCheck("trollDefeated", false);
 
     }
 
@@ -39,20 +48,20 @@ public class ShamrockSinkhole extends StaticEntity {
     public void tick() {
         if (!cutsceneStarted) {
             State.setState(new CutsceneState(new Cutscene(
-                    new MoveCameraEvent(Handler.get().getPlayer().getCollisionBounds(0,0), getCollisionBounds(0,0))
+                    new MoveCameraEvent(Handler.get().getPlayer().getCollisionBounds(0, 0), getCollisionBounds(0, 0))
             )));
 
             cutsceneStarted = true;
         }
     }
 
-    private void remove(String miner) {
+    private Entity getEntity(String miner) {
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
             if (e.getName() != null && e.getName().equalsIgnoreCase(miner)) {
-                e.setActive(false);
-                break;
+                return e;
             }
         }
+        return null;
     }
 
     @Override
@@ -83,12 +92,23 @@ public class ShamrockSinkhole extends StaticEntity {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "jump":
-                Handler.get().goToWorld(Zone.ShamrockMinesBasin, 76, 31);
+                Handler.get().goToWorld(Zone.ShamrockMinesBasin, 84, 20);
+                if (!hasSpawnedTrolls && Handler.get().questCompleted(QuestList.WeDelvedTooDeep)) {
+                    hasSpawnedTrolls = true;
+                    addTroll(2080, 800);
+                    addTroll(960, 1216);
+                    addTroll(1568, 1824);
+                }
                 return true;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
                 return false;
         }
+    }
+
+    private void addTroll(double x, double y){
+        World basin = Handler.get().getWorldHandler().getWorldsMap().get(Zone.ShamrockMinesBasin);
+        basin.getEntityManager().addRuntimeEntity(new CaveTroll(x, y, 64, 96, "Cave Troll", 9, null, null, "caveTroll", null, null));
     }
 
     @Override

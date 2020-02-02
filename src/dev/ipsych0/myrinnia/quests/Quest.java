@@ -153,7 +153,7 @@ public class Quest implements Serializable {
     public Object getCheckValue(String key) {
         key = key.toLowerCase();
         if (!customChecks.containsKey(key)) {
-            throw new IllegalArgumentException("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
+            System.err.println("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
         }
         return customChecks.get(key);
     }

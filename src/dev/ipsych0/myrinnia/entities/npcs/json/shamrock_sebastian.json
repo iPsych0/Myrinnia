@@ -49,7 +49,7 @@
     },
     {
       "id": 7,
-      "text": "Thank you! Next to the town hall, you will find the entrance to the Shamrock Mines. I expect them to be at least 1 level below the entrance level.",
+      "text": "Thank you! Next to the town hall, you will find the entrance to the Shamrock Mines. I expect them to be somewhat deep down.",
       "nextId": 8
     },
     {
@@ -87,7 +87,7 @@
     },
     {
       "id": 13,
-      "text": "Hi! The crew is already on their next expedition, but I have instructed them to be more careful this time.",
+      "text": "Hi! Thanks again for helping my crew.",
       "nextId": -1
     }
   ]

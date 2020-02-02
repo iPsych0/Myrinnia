@@ -147,6 +147,7 @@ public class Item implements Serializable {
     public static Item woolenHat = Utils.loadItem("107_woolen_hat.json", Assets.woolenHat);
     public static Item woolenBoots = Utils.loadItem("108_woolen_boots.json", Assets.woolenBoots);
     public static Item woolenGloves = Utils.loadItem("109_woolen_gloves.json", Assets.woolenGloves);
+    public static Item rope = Utils.loadItem("110_rope.json", Assets.rope);
 
 
     static {

@@ -31,7 +31,7 @@ public class Assets {
     public static BufferedImage weakPalmTree, elmTree, azuriteRock, copperRock, ironRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
-
+    public static BufferedImage ropeLadderMapTile;
     /*
      * Creature Animations
      */
@@ -72,7 +72,7 @@ public class Assets {
             malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
-            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves;
+            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -89,6 +89,7 @@ public class Assets {
     public static BufferedImage[] venovineUp, venovineDown, venovineLeft, venovineRight;
     public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
     public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
+    public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -264,6 +265,8 @@ public class Assets {
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
         SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
+
+        SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
 
         /*
          * Ability Animations
@@ -511,6 +514,8 @@ public class Assets {
         woolenBoots = item_sheet.imageCrop(2, 28);
         woolenGloves = item_sheet.imageCrop(2, 29);
 
+        rope = item_sheet.imageCrop(3, 1);
+
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
 
@@ -579,6 +584,13 @@ public class Assets {
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
         venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        // Bosses
+
+        caveTrollDown = boss_sheet1.npcCrop(6, 0, WIDTH * 2, HEIGHT * 3);
+        caveTrollLeft = boss_sheet1.npcCrop(6, 3, WIDTH * 2, HEIGHT * 3);
+        caveTrollRight = boss_sheet1.npcCrop(6, 6, WIDTH * 2, HEIGHT * 3);
+        caveTrollUp = boss_sheet1.npcCrop(6, 9, WIDTH * 2, HEIGHT * 3);
 
         // NPC Sprites
 //
@@ -1063,15 +1075,16 @@ public class Assets {
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
-        shamrockSinkholeTL = dungeon.imageCrop(7,9);
-        shamrockSinkholeTM = dungeon.imageCrop(4,9);
-        shamrockSinkholeTR = dungeon.imageCrop(10,9);
-        shamrockSinkholeML = dungeon.imageCrop(6,9);
-        shamrockSinkholeMM = dungeon.imageCrop(1,9);
-        shamrockSinkholeMR = dungeon.imageCrop(11,9);
-        shamrockSinkholeBL = dungeon.imageCrop(14,9);
-        shamrockSinkholeBM = dungeon.imageCrop(13,9);
-        shamrockSinkholeBR = dungeon.imageCrop(15,9);
+        shamrockSinkholeTL = dungeon.imageCrop(7, 9);
+        shamrockSinkholeTM = dungeon.imageCrop(4, 9);
+        shamrockSinkholeTR = dungeon.imageCrop(10, 9);
+        shamrockSinkholeML = dungeon.imageCrop(6, 9);
+        shamrockSinkholeMM = dungeon.imageCrop(1, 9);
+        shamrockSinkholeMR = dungeon.imageCrop(11, 9);
+        shamrockSinkholeBL = dungeon.imageCrop(14, 9);
+        shamrockSinkholeBM = dungeon.imageCrop(13, 9);
+        shamrockSinkholeBR = dungeon.imageCrop(15, 9);
+        ropeLadderMapTile = dungeon.imageCrop(40, 26, WIDTH, HEIGHT * 3);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);

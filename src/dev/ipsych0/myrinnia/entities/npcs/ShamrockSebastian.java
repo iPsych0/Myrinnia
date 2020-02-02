@@ -64,7 +64,7 @@ public class ShamrockSebastian extends Creature {
                 }
 
                 // If we located and returned them, go to dialogue 10
-                if (quest.getQuestSteps().get(0).isFinished() && quest.getQuestSteps().get(1).isFinished()) {
+                if (quest.getQuestSteps().get(4).isFinished()) {
                     speakingTurn = 10;
                     speakingCheckpoint = 10;
                 }

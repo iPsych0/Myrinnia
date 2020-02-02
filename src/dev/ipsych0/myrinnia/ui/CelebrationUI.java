@@ -116,7 +116,7 @@ public class CelebrationUI implements Serializable {
                 g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
             }
 
-            String[] text = Text.splitIntoLine(currentEvent.getDescription(), 40);
+            String[] text = Text.splitIntoLine(currentEvent.getDescription(), 38);
             for (int i = 0; i < text.length; i++) {
                 Text.drawString(g, text[i], x + width / 2, y + 120 + (i * 22), true, Color.YELLOW, Assets.font20);
             }

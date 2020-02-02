@@ -50,10 +50,11 @@ public class MoveCameraEvent implements CutsceneEvent, Serializable {
         this.yEnd = end.getY() - Handler.get().getHeight() / 2d + end.getHeight() / 2d;
         this.reverse = reverse;
 
+        camera = Handler.get().getGameCamera();
+
         correctCoordinates();
         getDirections();
 
-        camera = Handler.get().getGameCamera();
     }
 
     public MoveCameraEvent(Rectangle start, Rectangle end) {
@@ -63,13 +64,13 @@ public class MoveCameraEvent implements CutsceneEvent, Serializable {
     private void correctCoordinates() {
         if (xEnd < 0) {
             xEnd = 0;
-        } else if (xEnd > Handler.get().getWidth()) {
+        } else if (xEnd > camera.getxOffset() + Handler.get().getWidth()) {
             xEnd = Handler.get().getWidth();
         }
 
         if (yEnd < 0) {
             yEnd = 0;
-        } else if (yEnd > Handler.get().getHeight()) {
+        } else if (yEnd > camera.getyOffset() + Handler.get().getHeight()) {
             yEnd = Handler.get().getHeight();
         }
     }

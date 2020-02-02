@@ -84,6 +84,8 @@ public class QuestManager implements Serializable {
         shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 8)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(150);
                 }));
 
         // Test Quests

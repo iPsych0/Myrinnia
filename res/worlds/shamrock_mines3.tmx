@@ -251,14 +251,16 @@
    <properties>
     <property name="animation" value="genericMale4"/>
     <property name="direction" value="RIGHT"/>
+    <property name="jsonFile" value="shamrock_robert.json"/>
     <property name="name" value="Miner Robert"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
   <object id="14" name="Miner Aaron" type="npc" x="1312" y="1248" width="32" height="32">
    <properties>
-    <property name="animation" value="genericMale11"/>
+    <property name="animation" value="genericMale1"/>
     <property name="direction" value="UP"/>
+    <property name="jsonFile" value="shamrock_aaron.json"/>
     <property name="name" value="Miner Aaron"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -267,6 +269,7 @@
    <properties>
     <property name="animation" value="genericMale7"/>
     <property name="direction" value="LEFT"/>
+    <property name="jsonFile" value="shamrock_albert.json"/>
     <property name="name" value="Miner Albert"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>

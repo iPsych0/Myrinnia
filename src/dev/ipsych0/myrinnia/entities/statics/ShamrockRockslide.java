@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -51,6 +52,18 @@ public class ShamrockRockslide extends StaticEntity {
                 active = false;
                 die();
                 Handler.get().getWorld().getEntityManager().addRuntimeEntity(new ShamrockSinkhole(1248, 1248, 5 * 32, 3 * 32));
+                remove("Miner Aaron");
+                remove("Miner Robert");
+                remove("Miner Albert");
+            }
+        }
+    }
+
+    private void remove(String name) {
+        for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+            if (e.getName() != null && e.getName().equalsIgnoreCase(name)) {
+                e.setActive(false);
+                break;
             }
         }
     }

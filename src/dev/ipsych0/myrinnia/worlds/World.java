@@ -78,6 +78,7 @@ public class World implements Serializable {
     private BountyContractUI contractUI;
     private CelebrationUI celebrationUI;
     private List<ZoneTile> zoneTiles;
+    private List<ZoneTile> toBeAddedZoneTiles;
     private Zone zone;
     private List<Weather> weatherEffects;
     private boolean dayNightCycle;
@@ -125,6 +126,7 @@ public class World implements Serializable {
         entityManager = new EntityManager(player);
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
+        toBeAddedZoneTiles = new ArrayList<>();
 
         // Only initialize the starting world on start-up
         if (worldPath.equalsIgnoreCase(Handler.initialWorldPath)) {
@@ -166,6 +168,11 @@ public class World implements Serializable {
 
     public void tick() {
         if (Handler.get().getWorld().equals(this)) {
+
+            if (zoneTiles.addAll(toBeAddedZoneTiles)) {
+                toBeAddedZoneTiles.clear();
+            }
+
             itemManager.tick();
             entityManager.tick();
             inventory.tick();
@@ -421,6 +428,10 @@ public class World implements Serializable {
                 }
             }
         }
+    }
+
+    public void addRuntimeZoneTile(ZoneTile zoneTile) {
+        toBeAddedZoneTiles.add(zoneTile);
     }
 
     public int getWidth() {
