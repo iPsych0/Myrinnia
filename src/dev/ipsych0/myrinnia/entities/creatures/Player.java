@@ -103,7 +103,7 @@ public class Player extends Creature {
     private int abilityPoints;
 
     public Player(double x, double y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
+        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
 
         xSpawn = x;
         ySpawn = y;
@@ -373,7 +373,7 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }
@@ -468,10 +468,15 @@ public class Player extends Creature {
 //		g.drawRect((int)(itemPickupRadius().x - Handler.get().getGameCamera().getxOffset()), (int) (itemPickupRadius().y - Handler.get().getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
 
 //		UNCOMMENT THIS TO SEE MELEE HITBOX
-//		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 40, 40);
-//		g.setColor(Color.MAGENTA);
-//		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
+//        double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+//        Rectangle ar;
+//        if (width > 32 && height > 32) {
+//            ar = new Rectangle((int) ((width - width / 2) * Math.cos(angle) + (int) this.x + width / 4), (int) ((height - height / 2) * Math.sin(angle) + (int) this.y + height / 2), 40, 44);
+//        } else {
+//            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 40, 40);
+//        }
+//        g.setColor(Color.MAGENTA);
+//        g.drawRect((int) (ar.x - Handler.get().getGameCamera().getxOffset()), (int) (ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
         if (projectiles.size() > 0) {
             for (Projectile p : projectiles) {

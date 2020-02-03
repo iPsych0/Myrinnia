@@ -388,7 +388,7 @@ public abstract class Creature extends Entity {
                         hasSwitchedTile = false;
                         previousTile = oldTile;
                         if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("C") ||
-                            currentTile.getPermission().equalsIgnoreCase("10") && previousTile.getPermission().equalsIgnoreCase("0")) {
+                                currentTile.getPermission().equalsIgnoreCase("10") && previousTile.getPermission().equalsIgnoreCase("0")) {
                             verticality = 1;
                         }
                         if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("10") ||
@@ -1014,12 +1014,22 @@ public abstract class Creature extends Entity {
     }
 
     protected void checkMeleeHitboxes() {
-        checkMeleeHitboxes(40, 40);
+        if (width > 32 && height > 32) {
+            checkMeleeHitboxes(40, 44);
+        } else {
+            checkMeleeHitboxes(40, 40);
+        }
     }
 
-    protected void checkMeleeHitboxes(int width, int height) {
+
+    protected void checkMeleeHitboxes(int boxWidth, int boxHeight) {
         double angle = getAngle();
-        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.getX()), (int) (32 * Math.sin(angle) + (int) this.getY()), width, height);
+        Rectangle ar;
+        if (width > 32 && height > 32) {
+            ar = new Rectangle((int) ((width - width / 2) * Math.cos(angle) + (int) this.x + width / 4), (int) ((height - height / 2) * Math.sin(angle) + (int) this.y + height / 2), boxWidth, boxHeight);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), boxWidth, boxHeight);
+        }
 
         if (this.equals(Handler.get().getPlayer())) {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -1059,18 +1069,18 @@ public abstract class Creature extends Entity {
 
         // meleeXOffset change RIGHT
         if (meleeDirection >= 270 || meleeDirection < 90) {
-            meleeXOffset = 20d * xOffset;
+            meleeXOffset = (20d + (32d * (width / 32d - 1))) * xOffset;
             // meleeXOffset change LEFT
         } else if (meleeDirection >= 90 || meleeDirection < 270) {
-            meleeXOffset = 20d * xOffset;
+            meleeXOffset = (20d + (32d * (width / 32d - 1))) * xOffset;
         }
 
-        // meleeXOffset change RIGHT
+        // meleeXOffset change UP
         if (meleeDirection >= 180 || meleeDirection <= 360) {
-            meleeYOffset = 20d * yOffset;
-            // meleeXOffset change LEFT
+            meleeYOffset = (20d + (32d * (height / 32d - 1))) * yOffset;
+            // meleeXOffset change DOWN
         } else if (meleeDirection >= 0 || meleeDirection < 180) {
-            meleeYOffset = 20d * yOffset;
+            meleeYOffset = (20d + (32d * (height / 32d - 1))) * yOffset;
         }
     }
 

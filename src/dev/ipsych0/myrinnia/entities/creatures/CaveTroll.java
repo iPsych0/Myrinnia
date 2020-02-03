@@ -10,8 +10,6 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.states.CutsceneState;
 import dev.ipsych0.myrinnia.states.State;
-import dev.ipsych0.myrinnia.worlds.Zone;
-import dev.ipsych0.myrinnia.worlds.ZoneTile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -27,7 +25,7 @@ public class CaveTroll extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
-    private boolean cutsceneShown;
+    private static boolean cutsceneShown;
     private Rectangle cutsceneTrigger = new Rectangle(77 * 32, 17 * 32, 32, 384);
 
     public CaveTroll(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
@@ -41,6 +39,13 @@ public class CaveTroll extends Creature {
         intelligence = 0;
         vitality = 75;
         defence = 60;
+
+        if (level == 9) {
+            strength = 20;
+            vitality = 55;
+            defence = 50;
+        }
+
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
 
@@ -98,8 +103,12 @@ public class CaveTroll extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(50);
-        Handler.get().getQuest(QuestList.WeDelvedTooDeep).addNewCheck("trollDefeated", true);
+        if (combatLevel == 9) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        } else {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(50);
+            Handler.get().getQuest(QuestList.WeDelvedTooDeep).addNewCheck("trollDefeated", true);
+        }
     }
 
     /*
@@ -126,7 +135,9 @@ public class CaveTroll extends Creature {
 
     @Override
     public void respawn() {
-
+        if (combatLevel == 9) {
+            Handler.get().getWorld().getEntityManager().addEntity(new CaveTroll(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        }
     }
 
     @Override

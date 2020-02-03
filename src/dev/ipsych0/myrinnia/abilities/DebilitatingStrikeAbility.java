@@ -89,8 +89,12 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
             angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
         }
 
-        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
-
+        Rectangle ar;
+        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
+            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
+        }
         if (caster.equals(Handler.get().getPlayer())) {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (e.equals(Handler.get().getPlayer()))
@@ -156,21 +160,20 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
         double xOffset = 1.0f * Math.cos(angle);
         double yOffset = 1.0f * Math.sin(angle);
 
-
-        // xPos change RIGHT
+        // meleeXOffset change RIGHT
         if (rotation >= 270 || rotation < 90) {
-            xPos = 20d * xOffset;
-            // xPos change LEFT
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
+            // meleeXOffset change LEFT
         } else if (rotation >= 90 || rotation < 270) {
-            xPos = 20d * xOffset;
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
         }
 
-        // xPos change RIGHT
+        // meleeXOffset change UP
         if (rotation >= 180 || rotation <= 360) {
-            yPos = 20d * yOffset;
-            // xPos change LEFT
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
+            // meleeXOffset change DOWN
         } else if (rotation >= 0 || rotation < 180) {
-            yPos = 20d * yOffset;
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
         }
     }
 

@@ -98,7 +98,7 @@ public class CraftingRecipe implements Serializable {
     public void setDiscovered(boolean discovered) {
         if (!this.discovered && discovered) {
             Handler.get().sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
-            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "Discovered recipe:\n" + this.getResult().getItem().getName() + "."));
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "Discovered recipe:\n" + this.getResult().getItem().getName()));
         }
         this.discovered = discovered;
     }

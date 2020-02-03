@@ -111,6 +111,7 @@ public class CelebrationUI implements Serializable {
             } else if (currentEvent.getRecipe() != null) {
                 if (new Rectangle(x + width / 2 - 16, y + 64, 32, 32).contains(Handler.get().getMouse())) {
                     itemTooltip.render(currentEvent.getRecipe().getResult().getItem(), g);
+                    g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
                 }
             } else {
                 g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
