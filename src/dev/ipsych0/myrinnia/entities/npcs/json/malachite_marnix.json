@@ -20,8 +20,13 @@
     },
     {
       "id": 2,
-      "text": "We're heading north towards Celenor Forest. [Add more dialogue]",
-      "nextId": -1
+      "text": "We're heading north towards Celewynn, a small settlement north-west of here.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "It's a good place to prepare for the journey through Celenor Forest. Just head west before the forest entrance.",
+      "nextId": 4
     }
   ]
 }

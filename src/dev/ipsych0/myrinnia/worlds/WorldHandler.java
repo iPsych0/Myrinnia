@@ -34,21 +34,26 @@ public class WorldHandler implements Serializable {
         addWorld(new World(Zone.MtAzure2, false, "/worlds/mt_azure2.tmx"));
         addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
         addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
+
         addWorld(new World(Zone.ShamrockHarbour, "/worlds/shamrock_harbour.tmx"));
         addWorld(new World(Zone.ShamrockTown, "/worlds/shamrock_town.tmx"));
         addWorld(new World(Zone.ShamrockTownInside, false,"/worlds/shamrock_town_inside.tmx"));
-        addWorld(new World(Zone.MalachiteHills,"/worlds/malachite_hills.tmx"));
-        addWorld(new World(Zone.MalachiteHideout, false,"/worlds/malachite_hideout.tmx"));
         addWorld(new World(Zone.ShamrockMines1, false,"/worlds/shamrock_mines1.tmx"));
         addWorld(new World(Zone.ShamrockMines2, false,"/worlds/shamrock_mines2.tmx"));
         addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
         addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
-        addWorld(new World(Zone.MalachiteFields,"/worlds/malachite_fields.tmx"));
-        addWorld(new World(Zone.MalachiteSlopes,"/worlds/malachite_slopes.tmx"));
-        addWorld(new World(Zone.MalachiteInside, false,"/worlds/malachite_inside.tmx"));
         addWorld(new World(Zone.ShamrockMinesBasin, Collections.singletonList(new Cave()), false, "/worlds/shamrock_mines4.tmx"));
+
+        addWorld(new World(Zone.MalachiteHills,"/worlds/malachite_hills.tmx"));
+        addWorld(new World(Zone.MalachiteHideout, false,"/worlds/malachite_hideout.tmx"));
+        addWorld(new World(Zone.MalachiteFields,"/worlds/malachite_fields.tmx"));
+        addWorld(new World(Zone.MalachiteInside, false,"/worlds/malachite_inside.tmx"));
+        addWorld(new World(Zone.MalachiteSlopes,"/worlds/malachite_slopes.tmx"));
         addWorld(new World(Zone.MalachitePass, "/worlds/malachite_pass.tmx"));
         addWorld(new World(Zone.MalachiteOverpass, "/worlds/malachite_overpass.tmx"));
+
+        addWorld(new World(Zone.CelenorForestEdge, "/worlds/celenor_forest_edge.tmx"));
+        addWorld(new World(Zone.Celewynn, "/worlds/celewynn.tmx"));
     }
 
     public void tick() {

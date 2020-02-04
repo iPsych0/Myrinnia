@@ -954,7 +954,13 @@
     <property name="itemId" value="70"/>
    </properties>
   </object>
-  <object id="50" name="Celenor Forest Edge" type="zone_tile" x="992" y="0" width="192" height="32"/>
+  <object id="50" name="Celenor Forest Edge" type="zone_tile" x="992" y="0" width="192" height="16">
+   <properties>
+    <property name="goToX" value="34"/>
+    <property name="goToY" value="68"/>
+    <property name="zone" value="CelenorForestEdge"/>
+   </properties>
+  </object>
   <object id="51" name="Hedgehog" type="npc" x="1856" y="3840" width="32" height="32">
    <properties>
     <property name="animation" value="hedgehog"/>

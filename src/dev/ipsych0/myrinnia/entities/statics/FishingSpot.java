@@ -76,6 +76,13 @@ public class FishingSpot extends StaticEntity {
             timeToFish = 180;
             chanceToFish = 700; // 70%
             chanceOfRareMaterial = 80; // 8% Chance
+        } else if (name.equalsIgnoreCase("Snakehead Fishing Spot")) {
+            fish = Item.snakehead;
+            experience = 20;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
+            timeToFish = 210;
+            chanceToFish = 650; // 65%
+            chanceOfRareMaterial = 75; // 7,5% Chance
         } else {
             throw new IllegalArgumentException("Fishing Spot name not found: " + name);
         }
