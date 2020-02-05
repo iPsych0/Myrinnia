@@ -72,7 +72,7 @@ public class Assets {
             malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
-            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead;
+            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -173,6 +173,10 @@ public class Assets {
     public static BufferedImage[] malachiteThug2Down, malachiteThug2Left, malachiteThug2Right, malachiteThug2Up;
     public static BufferedImage[] malachiteThugLeaderDown, malachiteThugLeaderLeft, malachiteThugLeaderRight, malachiteThugLeaderUp;
     public static BufferedImage[] malachiteTonyDown, malachiteTonyLeft, malachiteTonyRight, malachiteTonyUp;
+
+    // Celenor
+    public static BufferedImage[] celenorElenthirDown, celenorElenthirLeft, celenorElenthirRight, celenorElenthirUp;
+    public static BufferedImage[] celenorNyvolasDown, celenorNyvolasLeft, celenorNyvolasRight, celenorNyvolasUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -534,6 +538,8 @@ public class Assets {
 
         rope = item_sheet.imageCrop(3, 1);
         snakehead = item_sheet.imageCrop(3, 2);
+        clam = item_sheet.imageCrop(3, 3);
+        rake = item_sheet.imageCrop(3, 4);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -966,6 +972,16 @@ public class Assets {
         malachiteTonyLeft = malachite_npcs.npcCrop(9, 1);
         malachiteTonyRight = malachite_npcs.npcCrop(9, 2);
         malachiteTonyUp = malachite_npcs.npcCrop(9, 3);
+
+        celenorElenthirDown = celenor_npcs.npcCrop(0, 0);
+        celenorElenthirLeft = celenor_npcs.npcCrop(0, 1);
+        celenorElenthirRight = celenor_npcs.npcCrop(0, 2);
+        celenorElenthirUp = celenor_npcs.npcCrop(0, 3);
+
+        celenorNyvolasDown = celenor_npcs.npcCrop(3, 0);
+        celenorNyvolasLeft = celenor_npcs.npcCrop(3, 1);
+        celenorNyvolasRight = celenor_npcs.npcCrop(3, 2);
+        celenorNyvolasUp = celenor_npcs.npcCrop(3, 3);
 
         /*
          * Player Animations

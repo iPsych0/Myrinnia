@@ -83,6 +83,15 @@ public class FishingSpot extends StaticEntity {
             timeToFish = 210;
             chanceToFish = 650; // 65%
             chanceOfRareMaterial = 75; // 7,5% Chance
+        } else if (name.equalsIgnoreCase("Clam Digging Spot")) {
+            fish = Item.clam;
+            experience = 25;
+            minAttempts = 1;
+            maxAttempts = 1;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
+            timeToFish = 300;
+            chanceToFish = 50; // 50%
+            chanceOfRareMaterial = 75; // 7,5% Chance
         } else {
             throw new IllegalArgumentException("Fishing Spot name not found: " + name);
         }
@@ -140,7 +149,7 @@ public class FishingSpot extends StaticEntity {
                 speakingTurn = 1;
                 fishingTimer = 0;
 
-                if (attempts == minAttempts - 1) {
+                if (attempts == minAttempts) {
                     random = Handler.get().getRandomNumber(minAttempts, maxAttempts);
                 }
             }

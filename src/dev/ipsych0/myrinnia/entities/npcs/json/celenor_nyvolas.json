@@ -1,0 +1,47 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Oh, hello traveller. Did you notice the clam digging spots near the shoreline?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "You won't be able to catch clams using your normal fishing rod. You may find a clam by raking the sand in the water.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Next to clams, you may find other items that have washed ashore or have been left by people on the beach.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Would you like to give it a try?",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "I'll try my luck!",
+          "nextId": 5
+        },
+        {
+          "text": "Another time perhaps.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "That's the spirit! You may use this spare rake I have to try it out.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "Best of luck, traveller!",
+      "nextId": -1
+    }
+  ]
+}

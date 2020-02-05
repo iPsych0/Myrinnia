@@ -31,6 +31,7 @@ public class FishingSkill extends Skill {
         resources.add(new SkillResource(1, Item.mackerelFish, SkillCategory.Fish));
         resources.add(new SkillResource(5, Item.trout, SkillCategory.Fish));
         resources.add(new SkillResource(7, Item.snakehead, SkillCategory.Fish));
+        resources.add(new SkillResource(10, Item.clam, SkillCategory.Fish));
     }
 
     @Override
