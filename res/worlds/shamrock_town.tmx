@@ -330,7 +330,7 @@
     <property name="zone" value="MalachiteHills"/>
    </properties>
   </object>
-  <object id="6" name="To be determined" type="zone_tile" x="96" y="0" width="160" height="16"/>
+  <object id="6" name="Shamrock Cliffs" type="zone_tile" x="96" y="0" width="160" height="16"/>
   <object id="7" name="Shamrock Mines" type="zone_tile" x="576" y="32" width="32" height="32">
    <properties>
     <property name="goToX" value="6"/>

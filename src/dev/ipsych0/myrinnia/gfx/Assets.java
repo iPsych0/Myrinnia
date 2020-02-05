@@ -140,6 +140,22 @@ public class Assets {
     public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
     public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
 
+    // Male elves
+    public static BufferedImage[] genericElfMale1Down, genericElfMale1Left, genericElfMale1Right, genericElfMale1Up;
+    public static BufferedImage[] genericElfMale2Down, genericElfMale2Left, genericElfMale2Right, genericElfMale2Up;
+    public static BufferedImage[] genericElfMale3Down, genericElfMale3Left, genericElfMale3Right, genericElfMale3Up;
+    public static BufferedImage[] genericElfMale4Down, genericElfMale4Left, genericElfMale4Right, genericElfMale4Up;
+    public static BufferedImage[] genericElfMale5Down, genericElfMale5Left, genericElfMale5Right, genericElfMale5Up;
+    public static BufferedImage[] genericElfMale6Down, genericElfMale6Left, genericElfMale6Right, genericElfMale6Up;
+
+    // Female elves
+    public static BufferedImage[] genericElfFemale1Down, genericElfFemale1Left, genericElfFemale1Right, genericElfFemale1Up;
+    public static BufferedImage[] genericElfFemale2Down, genericElfFemale2Left, genericElfFemale2Right, genericElfFemale2Up;
+    public static BufferedImage[] genericElfFemale3Down, genericElfFemale3Left, genericElfFemale3Right, genericElfFemale3Up;
+    public static BufferedImage[] genericElfFemale4Down, genericElfFemale4Left, genericElfFemale4Right, genericElfFemale4Up;
+    public static BufferedImage[] genericElfFemale5Down, genericElfFemale5Left, genericElfFemale5Right, genericElfFemale5Up;
+    public static BufferedImage[] genericElfFemale6Down, genericElfFemale6Left, genericElfFemale6Right, genericElfFemale6Up;
+
     // Port Azure
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
@@ -253,8 +269,10 @@ public class Assets {
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
         SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
+        SpriteSheet celenor_npcs = new SpriteSheet("/textures/npc_sprites/celenor_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
+        SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
         SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
 
         /*
@@ -824,6 +842,70 @@ public class Assets {
         genericMale18Left = generic_males1.npcCrop(15, 9);
         genericMale18Right = generic_males1.npcCrop(15, 10);
         genericMale18Up = generic_males1.npcCrop(15, 11);
+
+        // Elves
+
+        genericElfMale1Down = generic_elves1.npcCrop(0, 0);
+        genericElfMale1Left = generic_elves1.npcCrop(0, 1);
+        genericElfMale1Right = generic_elves1.npcCrop(0, 2);
+        genericElfMale1Up = generic_elves1.npcCrop(0, 3);
+
+        genericElfMale2Down = generic_elves1.npcCrop(3, 0);
+        genericElfMale2Left = generic_elves1.npcCrop(3, 1);
+        genericElfMale2Right = generic_elves1.npcCrop(3, 2);
+        genericElfMale2Up = generic_elves1.npcCrop(3, 3);
+
+        genericElfMale3Down = generic_elves1.npcCrop(6, 0);
+        genericElfMale3Left = generic_elves1.npcCrop(6, 1);
+        genericElfMale3Right = generic_elves1.npcCrop(6, 2);
+        genericElfMale3Up = generic_elves1.npcCrop(6, 3);
+
+        genericElfMale4Down = generic_elves1.npcCrop(9, 0);
+        genericElfMale4Left = generic_elves1.npcCrop(9, 1);
+        genericElfMale4Right = generic_elves1.npcCrop(9, 2);
+        genericElfMale4Up = generic_elves1.npcCrop(9, 3);
+
+        genericElfMale5Down = generic_elves1.npcCrop(12, 0);
+        genericElfMale5Left = generic_elves1.npcCrop(12, 1);
+        genericElfMale5Right = generic_elves1.npcCrop(12, 2);
+        genericElfMale5Up = generic_elves1.npcCrop(12, 3);
+
+        genericElfMale6Down = generic_elves1.npcCrop(15, 0);
+        genericElfMale6Left = generic_elves1.npcCrop(15, 1);
+        genericElfMale6Right = generic_elves1.npcCrop(15, 2);
+        genericElfMale6Up = generic_elves1.npcCrop(15, 3);
+
+        genericElfFemale1Down = generic_elves1.npcCrop(0, 4);
+        genericElfFemale1Left = generic_elves1.npcCrop(0, 5);
+        genericElfFemale1Right = generic_elves1.npcCrop(0, 6);
+        genericElfFemale1Up = generic_elves1.npcCrop(0, 7);
+
+        genericElfFemale2Down = generic_elves1.npcCrop(3, 4);
+        genericElfFemale2Left = generic_elves1.npcCrop(3, 5);
+        genericElfFemale2Right = generic_elves1.npcCrop(3, 6);
+        genericElfFemale2Up = generic_elves1.npcCrop(3, 7);
+
+        genericElfFemale3Down = generic_elves1.npcCrop(6, 4);
+        genericElfFemale3Left = generic_elves1.npcCrop(6, 5);
+        genericElfFemale3Right = generic_elves1.npcCrop(6, 6);
+        genericElfFemale3Up = generic_elves1.npcCrop(6, 7);
+
+        genericElfFemale4Down = generic_elves1.npcCrop(9, 4);
+        genericElfFemale4Left = generic_elves1.npcCrop(9, 5);
+        genericElfFemale4Right = generic_elves1.npcCrop(9, 6);
+        genericElfFemale4Up = generic_elves1.npcCrop(9, 7);
+
+        genericElfFemale5Down = generic_elves1.npcCrop(12, 4);
+        genericElfFemale5Left = generic_elves1.npcCrop(12, 5);
+        genericElfFemale5Right = generic_elves1.npcCrop(12, 6);
+        genericElfFemale5Up = generic_elves1.npcCrop(12, 7);
+
+        genericElfFemale6Down = generic_elves1.npcCrop(15, 4);
+        genericElfFemale6Left = generic_elves1.npcCrop(15, 5);
+        genericElfFemale6Right = generic_elves1.npcCrop(15, 6);
+        genericElfFemale6Up = generic_elves1.npcCrop(15, 7);
+
+        // Zone specific NPCs
 
         portAzureRyanDown = azureal_island_npcs.npcCrop(0, 4);
         portAzureRyanLeft = azureal_island_npcs.npcCrop(0, 5);
