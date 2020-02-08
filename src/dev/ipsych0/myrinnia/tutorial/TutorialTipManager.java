@@ -47,7 +47,7 @@ public class TutorialTipManager implements Serializable {
 
     public void addTip(TutorialTip tip) {
         if (!tips.contains(tip)) {
-            Handler.get().playEffect("ui/tutorialtip.wav");
+            Handler.get().playEffect("ui/tutorialtip.ogg");
         }
         tips.add(tip);
     }

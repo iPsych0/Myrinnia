@@ -16,7 +16,7 @@
     },
     {
       "id": 2,
-      "text": "Come see me once you have learnt the other skills. I can help you master your first Ability.",
+      "text": "Come see me once you have completed the other quests. I can help you master combat abilities.",
       "nextId": -1
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "id": 5,
-      "text": "Alright. I can teach you your first ability based on your choice of first weapon.",
+      "text": "Alright. This first ability I'll give you is a healing ability.",
       "nextId": 6
     },
     {
@@ -58,7 +58,7 @@
     },
     {
       "id": 8,
-      "text": "You must first drag this ability in your active slots. You can find it under '{CombatStyle}' and 'Water' in the Ability Overview.",
+      "text": "Try dragging this ability in your active slots. You can find it under '{CombatStyle}' and 'Water' in the Ability Overview.",
       "nextId": -1
     },
     {
@@ -96,7 +96,7 @@
     },
     {
       "id": 14,
-      "text": "Alright, you will have to do some exploration for this one and learn naturally.",
+      "text": "Alright. First, I'll unlock the healing abilities for the other combat styles for you as well to experiment with. For the new ability, you'll have to do some exploration and learn naturally.",
       "nextId": 15
     },
     {

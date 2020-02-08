@@ -28,19 +28,14 @@ public class AzureCrab extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence += 1;
-        vitality += 5;
-        defence += 5;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength =  0;
+        dexterity = 0;
+        intelligence = 1;
+        vitality = 2;
+        defence = 5;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
-
-//        bounds.x = 2;
-//        bounds.y = 2;
-//        bounds.width = 28;
-//        bounds.height = 28;
 
         // Animations
         aDown = new Animation(333, Assets.blueCrabDown);
@@ -59,8 +54,11 @@ public class AzureCrab extends Creature {
         }
 
         if (name.equalsIgnoreCase("King Azure Crab")) {
-            intelligence += 1;
-            vitality += 2;
+            intelligence = 3;
+            defence = 5;
+            vitality = 9;
+            maxHealth = DEFAULT_HEALTH + vitality * 4;
+            health = maxHealth;
         }
     }
 
@@ -86,7 +84,7 @@ public class AzureCrab extends Creature {
                 firstKill = false;
             }
             getDroptableItem();
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(5);
         }
     }
 
@@ -109,7 +107,7 @@ public class AzureCrab extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         new Projectile.Builder(DamageType.INT, Assets.waterProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 public class IceBallAbility extends Ability implements Serializable {
 
     public IceBallAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                          double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
@@ -57,12 +58,13 @@ public class IceBallAbility extends Ability implements Serializable {
             targetY = (int) (direction.getY());
         }
 
-        Handler.get().playEffect("abilities/ice_ball.wav", 0.1f);
+        Handler.get().playEffect("abilities/ice_ball.ogg", 0.1f);
         new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, targetX, targetY)
                 .withVelocity(7.0f)
-                .withImpactSound("abilities/ice_projectile_impact.wav")
+                .withAbility(this)
+                .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withImpact((c) -> {
-                    c.addCondition(caster, c, new Condition(Condition.Type.CHILL, c, 3));
+                    c.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
                 }).build();
 
         setCasting(false);

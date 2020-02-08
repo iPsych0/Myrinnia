@@ -1,7 +1,11 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.*;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
+import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
+import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -9,7 +13,6 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
@@ -77,7 +80,6 @@ public class ElderSelwyn extends Creature {
             case 5:
                 if (quest.getState() == QuestState.NOT_STARTED) {
                     quest.setState(QuestState.IN_PROGRESS);
-                    quest.addStep("Get your first Ability from Selwyn.");
                     speakingCheckpoint = 5;
                 }
                 break;
@@ -85,11 +87,11 @@ public class ElderSelwyn extends Creature {
                 if (speakingCheckpoint != 6) {
                     speakingCheckpoint = 7;
                     Item chosenItem = (Item) quest.getCheckValue("chosenItem");
-                    Class abilityClass;
-                    if (chosenItem == Item.beginnersSword) {
+                    Class<? extends Ability> abilityClass;
+                    if (chosenItem == Item.beginnersBow) {
                         abilityClass = MendWoundsAbility.class;
                         AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
-                    } else if (chosenItem == Item.beginnersBow) {
+                    } else if (chosenItem == Item.beginnersSword) {
                         AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
                         abilityClass = HealingSpringAbility.class;
                     } else {
@@ -117,13 +119,15 @@ public class ElderSelwyn extends Creature {
             case 14:
                 if (speakingCheckpoint != 14) {
                     speakingCheckpoint = 14;
+                    AbilityManager.abilityMap.get(ArcaneRenewalAbility.class).setUnlocked(true);
+                    AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
+                    AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
                 }
                 break;
             case 15:
                 if (speakingCheckpoint != 15) {
                     speakingCheckpoint = 15;
                     quest.nextStep();
-                    quest.addStep("Ascend Mt. Azure and drink water from the source.");
                     quest.addNewCheck("hasDrunkWater", false);
                 } else {
                     if ((Boolean) quest.getCheckValue("hasDrunkWater")) {
@@ -144,7 +148,7 @@ public class ElderSelwyn extends Creature {
                 if (Handler.get().getQuest(QuestList.WaveGoodbye).getState() == QuestState.IN_PROGRESS) {
                     quest.nextStep();
                     quest.setState(QuestState.COMPLETED);
-                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                    Handler.get().addTip(new TutorialTip("Captain Isaac should be ready for department. He's waiting on the southern docks."));
                 }
                 break;
         }

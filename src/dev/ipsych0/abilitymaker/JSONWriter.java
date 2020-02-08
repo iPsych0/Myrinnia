@@ -1,7 +1,7 @@
 package dev.ipsych0.abilitymaker;
 
 import com.google.gson.Gson;
-import dev.ipsych0.myrinnia.abilities.AbilityType;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.utils.Utils;
 

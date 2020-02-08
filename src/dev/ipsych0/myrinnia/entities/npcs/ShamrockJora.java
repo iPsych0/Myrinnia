@@ -26,21 +26,6 @@ public class ShamrockJora extends Creature {
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
     }
 
-//    @Override
-//    protected boolean choiceConditionMet(String condition) {
-//        switch (condition) {
-//            case "bountyAccepted":
-//                if (bounty.isAccepted()) {
-//                    return true;
-//                }
-//                break;
-//            default:
-//                System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
-//                return false;
-//        }
-//        return false;
-//    }
-
     @Override
     protected void die() {
 

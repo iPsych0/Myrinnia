@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -8,17 +9,11 @@ import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 
 public class EruptionAbility extends Ability {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4028579023728693627L;
-    private Color ability;
     private Rectangle hitBox;
     private boolean initDone;
     private int renderTimer;
@@ -54,26 +49,26 @@ public class EruptionAbility extends Ability {
                     caster.getWidth() + 96, caster.getHeight() + 96);
             initDone = true;
 
-            Handler.get().playEffect("abilities/eruption.wav", 0.1f);
+            Handler.get().playEffect("abilities/eruption.ogg", 0.1f);
 
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
             if (caster.equals(Handler.get().getPlayer())) {
                 for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                    if (hitBox.intersects(e.getCollisionBounds(0, 0))) {
+                    if (e.getVerticality() == caster.getVerticality() && hitBox.intersects(e.getCollisionBounds(0, 0))) {
                         if (!e.isAttackable())
                             continue;
                         if (!e.equals(caster)) {
-                            e.damage(DamageType.INT, caster, e, this);
-                            e.addCondition(caster, e, new Condition(Condition.Type.BURNING, e, 5, 3));
+                            e.damage(DamageType.INT, caster, this);
+                            e.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
                         }
                     }
                 }
             } else {
                 Player player = Handler.get().getPlayer();
-                if (hitBox.intersects(player.getCollisionBounds(0, 0))) {
-                    player.damage(DamageType.INT, caster, player, this);
-                    player.addCondition(caster, player, new Condition(Condition.Type.BURNING, player, 5, 3));
+                if (player.getVerticality() == caster.getVerticality() && hitBox.intersects(player.getCollisionBounds(0, 0))) {
+                    player.damage(DamageType.INT, caster, this);
+                    player.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
                 }
             }
         }

@@ -45,7 +45,7 @@ public class ItemManager implements Serializable {
                     if (i.pickUpItem(i)) {
                         if (i.isPickedUp()) {
                             if (!soundPlayed) {
-                                Handler.get().playEffect("ui/pickup.wav");
+                                Handler.get().playEffect("ui/pickup.ogg");
                                 soundPlayed = true;
                             }
                             deleted.add(i);
@@ -67,18 +67,20 @@ public class ItemManager implements Serializable {
 
         // If non-worldspawn Items are dropped, start timer for despawning
         Iterator<Item> addedIt = added.iterator();
+        long currentTime = System.currentTimeMillis();
+
         while (addedIt.hasNext()) {
             Item i = addedIt.next();
-            i.startRespawnTimer();
 
             // If item is picked up, reset the timer
             if (i.isPickedUp()) {
-                i.setRespawnTimer(10800);
+                i.setRespawnTimer(i.getRespawnTime());
                 deleted.add(i);
                 addedIt.remove();
             }
+
             // If the timer expires, remove the item
-            else if (i.getRespawnTimer() == 0) {
+            if (((currentTime - i.getTimeDropped()) / 1000L) >= i.getRespawnTime()) {
                 deleted.add(i);
                 addedIt.remove();
             }
@@ -112,7 +114,7 @@ public class ItemManager implements Serializable {
         }
 
         if (lastHovered != null && count > 1) {
-            Text.drawString(g, "+" + count, lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
+            Text.drawString(g, "+" + (count - 1), lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
                     lastHovered.getY() - (int) Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
         }
     }

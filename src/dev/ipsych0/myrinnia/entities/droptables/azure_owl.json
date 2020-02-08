@@ -2,21 +2,26 @@
   {
     "itemId": 4,
     "amount": 3,
-    "weight": 8
+    "weight": 10
   },
   {
     "itemId": 4,
     "amount": 5,
-    "weight": 3
+    "weight": 4
   },
   {
     "itemId": 48,
     "amount": 1,
-    "weight": 2
+    "weight": 3
+  },
+  {
+    "itemId": 73,
+    "amount": 1,
+    "weight": 1
   },
   {
     "itemId": -1,
     "amount": 0,
-    "weight": 3
+    "weight": 4
   }
 ]

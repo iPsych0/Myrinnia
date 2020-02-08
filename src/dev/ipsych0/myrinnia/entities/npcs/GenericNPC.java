@@ -12,6 +12,7 @@ public class GenericNPC extends Creature {
         solid = true;
         attackable = false;
         isNpc = true;
+        speed = 1.0;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class GenericNPC extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new GenericNPC(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+
     }
 
     @Override

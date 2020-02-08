@@ -101,7 +101,6 @@ public class PortAzureRyan extends Creature {
                     bounty.setCompleted(true);
                     Handler.get().getQuest(QuestList.GettingStarted).nextStep();
                     Handler.get().getQuest(QuestList.GettingStarted).setState(QuestState.COMPLETED);
-                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
                     Handler.get().removeItem(Item.bountyContract, 1);
                     Handler.get().addTip(new TutorialTip("Press L to open your Skills Menu."));
                 }

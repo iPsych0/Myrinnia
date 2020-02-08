@@ -193,7 +193,7 @@ public class Display implements Serializable {
         frame.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent e) {
                 // Maximize window
-                if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
+                if (initialized && (e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
                     setFullScreen();
                 }
             }

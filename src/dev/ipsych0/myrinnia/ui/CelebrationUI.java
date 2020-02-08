@@ -1,9 +1,11 @@
 package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -22,12 +24,17 @@ public class CelebrationUI implements Serializable {
     public static boolean hasBeenPressed;
     private Rectangle bounds;
     public static boolean escapePressed;
+    private AbilityTooltip abilityTooltip;
+    private ItemTooltip itemTooltip;
 
     public CelebrationUI() {
         width = 384;
         height = 256;
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
+
+        abilityTooltip = new AbilityTooltip(x + width, y);
+        itemTooltip = new ItemTooltip(x + width, y);
 
         events = new LinkedList<>();
 
@@ -36,7 +43,6 @@ public class CelebrationUI implements Serializable {
         closeAllButton = new UIImageButton(x + width / 2 - ItemSlot.SLOTSIZE, y + height - 48, ItemSlot.SLOTSIZE * 2, ItemSlot.SLOTSIZE, Assets.genericButton);
 
         uiManager.addObject(nextButton);
-        uiManager.addObject(closeAllButton);
 
         bounds = new Rectangle(x, y, width, height);
     }
@@ -60,6 +66,7 @@ public class CelebrationUI implements Serializable {
             // Remove first element in the queue of events
             if (currentEvent.hasPressedNext()) {
                 events.removeFirst();
+                hasBeenPressed = false;
             }
 
             if (closeAllButton.contains(Handler.get().getMouse()) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -68,11 +75,11 @@ public class CelebrationUI implements Serializable {
                 MouseManager.justClosedUI = true;
             }
 
-            if (escapePressed) {
-                events.clear();
-                hasBeenPressed = false;
-                escapePressed = false;
-            }
+//            if (escapePressed) {
+//                events.clear();
+//                hasBeenPressed = false;
+//                escapePressed = false;
+//            }
         }
     }
 
@@ -86,15 +93,31 @@ public class CelebrationUI implements Serializable {
                 Text.drawString(g, "Next", nextButton.x + nextButton.width / 2, nextButton.y + nextButton.height / 2, true, Color.YELLOW, Assets.font14);
             }
 
-            Text.drawString(g, "Close all", closeAllButton.x + closeAllButton.width / 2, closeAllButton.y + closeAllButton.height / 2, true, Color.YELLOW, Assets.font14);
+            if (events.size() > 1) {
+                closeAllButton.tick();
+                closeAllButton.render(g);
+                Text.drawString(g, "Close all", closeAllButton.x + closeAllButton.width / 2, closeAllButton.y + closeAllButton.height / 2, true, Color.YELLOW, Assets.font14);
+            }
 
             Text.drawString(g, "Congratulations!", x + width / 2, y + 32, true, Color.YELLOW, Assets.font24);
 
             Celebration currentEvent = events.getFirst();
 
-            g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
+            if (currentEvent.getAbility() != null) {
+                currentEvent.getAbility().renderIcon(g, x + width / 2 - 16, y + 64);
+                if (new Rectangle(x + width / 2 - 16, y + 64, 32, 32).contains(Handler.get().getMouse())) {
+                    abilityTooltip.render(g, currentEvent.getAbility());
+                }
+            } else if (currentEvent.getRecipe() != null) {
+                g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
+                if (new Rectangle(x + width / 2 - 16, y + 64, 32, 32).contains(Handler.get().getMouse())) {
+                    itemTooltip.render(currentEvent.getRecipe().getResult().getItem(), g);
+                }
+            } else {
+                g.drawImage(currentEvent.getImg(), x + width / 2 - 16, y + 64, null);
+            }
 
-            String[] text = Text.splitIntoLine(currentEvent.getDescription(), 40);
+            String[] text = Text.splitIntoLine(currentEvent.getDescription(), 38);
             for (int i = 0; i < text.length; i++) {
                 Text.drawString(g, text[i], x + width / 2, y + 120 + (i * 22), true, Color.YELLOW, Assets.font20);
             }

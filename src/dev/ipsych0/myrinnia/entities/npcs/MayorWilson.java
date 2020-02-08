@@ -75,13 +75,11 @@ public class MayorWilson extends Creature {
                 if (!Handler.get().questCompleted(QuestList.GettingStarted) && !Handler.get().questStarted(QuestList.GettingStarted)) {
                     Handler.get().addTip(new TutorialTip("Press Q to open your Quest Journal."));
                     Handler.get().getQuest(QuestList.GettingStarted).setState(QuestState.IN_PROGRESS);
-                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose your first weapon from the store.");
                 }
                 break;
             case 6:
                 if (Handler.get().questInProgress(QuestList.GettingStarted) && !Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps().get(1).isFinished()) {
                     Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-                    Handler.get().addQuestStep(QuestList.GettingStarted, "Choose a bounty target from the board right outside the Town Hall.");
                 }
                 break;
             case 7:

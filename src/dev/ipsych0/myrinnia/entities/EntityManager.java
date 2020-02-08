@@ -23,6 +23,7 @@ public class EntityManager implements Serializable {
     private Player player;
     private List<Entity> entities;
     private Collection<Entity> deadEntities;
+    private List<Entity> toBeAddedEntities;
     private Entity selectedEntity;
     public static boolean isPressed = false;
     private List<HitSplat> hitSplats;
@@ -33,6 +34,7 @@ public class EntityManager implements Serializable {
         this.player = player;
         entities = new ArrayList<>();
         deadEntities = new ArrayList<>();
+        toBeAddedEntities = new ArrayList<>();
         hitSplats = new ArrayList<>();
         addEntity(player);
     }
@@ -40,6 +42,10 @@ public class EntityManager implements Serializable {
     public void tick() {
         oocCounter = 0;
         creatureCounter = 0;
+
+        if (entities.addAll(toBeAddedEntities)) {
+            toBeAddedEntities.clear();
+        }
 
         // Iterate over all Entities and remove inactive ones
         Iterator<Entity> it = entities.iterator();
@@ -175,7 +181,14 @@ public class EntityManager implements Serializable {
                         p.render(g);
                     }
                 }
+
+                // Render post render tiles for this creature
+                for (Tile t : ((Creature) e).getPostRenderTiles().keySet()) {
+                    Point point = ((Creature) e).getPostRenderTiles().get(t);
+                    t.render(g, (int) (point.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (point.getY() * 32 - Handler.get().getGameCamera().getyOffset()));
+                }
             }
+
 
 //            if (!e.equals(Handler.get().getPlayer())) {
 //                e.postRender(g);
@@ -218,9 +231,6 @@ public class EntityManager implements Serializable {
     }
 
     public void postRender(Graphics2D g) {
-        // Post renders for entities for additional
-        player.postRender(g);
-
         // Keep rendering the selected Entity
         if (selectedEntity != null) {
             if (selectedEntity.active) {
@@ -308,6 +318,10 @@ public class EntityManager implements Serializable {
 
     public void addEntity(Entity e) {
         entities.add(e);
+    }
+
+    public void addRuntimeEntity(Entity e) {
+        toBeAddedEntities.add(e);
     }
 
     // Getters & Setters

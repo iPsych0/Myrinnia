@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.skills.ui;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.ui.Celebration;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -50,6 +53,9 @@ public class Bounty extends UIImageButton implements Serializable {
     }
 
     public void setCompleted(boolean completed) {
+        if (completed) {
+            Handler.get().getCelebrationUI().addEvent(new Celebration(Handler.get().getSkill(SkillsList.BOUNTYHUNTER), "You completed the '" + getTask() + "' bounty!"));
+        }
         this.completed = completed;
     }
 

@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -36,9 +37,9 @@ public class XPBar implements Serializable {
         double nextLvl = Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp();
         double offset = xp / nextLvl;
         int yDiff = (int) (height * offset);
-        g.setColor(HPOverlay.xpColor);
+        g.setColor(Colors.xpColor);
         g.fillRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3);
-        g.setColor(HPOverlay.xpColorOutline);
+        g.setColor(Colors.xpColorOutline);
         g.drawRect(x + 1, y + 1 + height - yDiff, width - 3, yDiff - 3);
 //		
 //		Text.drawString(g, Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getExperience()+"/"+Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(),

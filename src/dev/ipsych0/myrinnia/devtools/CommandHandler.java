@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -116,7 +117,7 @@ class CommandHandler implements Serializable {
                             Handler.get().getPlayer().setSpeed(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("atkspd")) {
                             Handler.get().getPlayer().setAttackSpeed(Integer.parseInt(commands[2]));
-                        } else if (commands[1].equalsIgnoreCase("maxhp")) {
+                        } else if (commands[1].equalsIgnoreCase("hp")) {
                             Handler.get().getPlayer().setMaxHealth(Integer.parseInt(commands[2]));
                             Handler.get().getPlayer().setHealth(Handler.get().getPlayer().getMaxHealth());
                         } else {

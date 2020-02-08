@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
@@ -47,9 +48,9 @@ public class NimbleFeetAbility extends Ability {
             baseMovementBoost = 1.0;
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
-            Handler.get().playEffect("abilities/nimble_feet.wav", 0.1f);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
             Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
-            caster.addBuff(caster, caster, b);
+            caster.addBuff(caster, b);
         }
 
         animation.tick();

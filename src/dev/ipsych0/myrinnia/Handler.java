@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
@@ -26,7 +26,10 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
-import dev.ipsych0.myrinnia.quests.*;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestManager;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
@@ -148,7 +151,7 @@ public class Handler implements Serializable {
         random = new Random();
 
         // Instantiate the player
-        player = new Player(2816, 1472);
+        player = new Player(77*32, 51*32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -264,22 +267,22 @@ public class Handler implements Serializable {
             return true;
         }
 
-        for (int i = 0; i < q.getRequirements().length; i++) {
+        for (int i = 0; i < q.getRequirements().size(); i++) {
             // Check skill requirements
-            if (q.getRequirements()[i].getSkill() != null) {
-                if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
+            if (q.getRequirements().get(i).getSkill() != null) {
+                if (getSkill(q.getRequirements().get(i).getSkill()).getLevel() < q.getRequirements().get(i).getLevel()) {
                     hasAllRequirements = false;
                     break;
                 }
             }
             // Check quest requirements
-            else if (q.getRequirements()[i].getQuest() != null) {
-                if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
+            else if (q.getRequirements().get(i).getQuest() != null) {
+                if (getQuest(q.getRequirements().get(i).getQuest()).getState() != QuestState.COMPLETED) {
                     hasAllRequirements = false;
                     break;
                 }
                 // Check miscellaneous requirements
-            } else if (!q.getRequirements()[i].isTaskDone()) {
+            } else if (!q.getRequirements().get(i).isTaskDone()) {
                 hasAllRequirements = false;
                 break;
             }
@@ -338,6 +341,34 @@ public class Handler implements Serializable {
         w.init();
         setWorld(w);
 
+        if (getWorld().hasPermissionsLayer()) {
+            Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);
+            if (t == null) {
+                player.setVerticality(0);
+                player.setCurrentTile(Tile.tiles[23780]);
+                player.setPreviousTile(Tile.tiles[23780]);
+            } else {
+                if (t.getPermission().equalsIgnoreCase("C")) {
+                    player.setVerticality(0);
+                    player.setCurrentTile(Tile.tiles[23780]);
+                    player.setPreviousTile(Tile.tiles[23780]);
+                }
+                else if (t.getPermission().equalsIgnoreCase("10")) {
+                    player.setVerticality(1);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                } else if (t.getPermission().equalsIgnoreCase("14")) {
+                    player.setVerticality(2);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                }
+            }
+        } else {
+            player.setVerticality(0);
+            player.setCurrentTile(Tile.tiles[23780]);
+            player.setPreviousTile(Tile.tiles[23780]);
+        }
+
         ZoneTransitionState transitionState = new ZoneTransitionState(zone, customName);
         State.setState(transitionState);
 
@@ -393,17 +424,6 @@ public class Handler implements Serializable {
         return questManager.getQuestMap().get(quest);
     }
 
-    public void addQuestStep(QuestList quest, String objective) {
-        for (QuestStep steps : getQuest(quest).getQuestSteps()) {
-            if (steps.getObjective().equalsIgnoreCase(objective)) {
-                System.err.println("Duplicate quest step added! Please check the implementation!");
-                System.err.println(quest.getName() + ": " + objective);
-                return;
-            }
-        }
-        getQuest(quest).getQuestSteps().add(new QuestStep(objective));
-    }
-
     /**
      * @param min INCLUSIVE minimum value
      * @param max INCLUSIVE maximum value
@@ -442,6 +462,7 @@ public class Handler implements Serializable {
 
     private void dropItem(Item item, int amount, int x, int y, boolean isWorldSpawn) {
         Item i = item.createItem(x, y, amount);
+        i.setTimeDropped(System.currentTimeMillis());
         if (item.getUse() != null) {
             i.setUse(item.getUse());
             i.setUseCooldown(item.getUseCooldown());

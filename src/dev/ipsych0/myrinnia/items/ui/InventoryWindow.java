@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingSlot;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -94,6 +95,12 @@ public class InventoryWindow implements Serializable {
                 is.tick();
 
                 Rectangle slot = is.getBounds();
+
+                if (is.getItemStack() != null) {
+                    if (is.getItemStack().getAmount() <= 0) {
+                        is.setItemStack(null);
+                    }
+                }
 
                 // If an item is dragged
                 if (Handler.get().getMouseManager().isDragged()) {
@@ -280,7 +287,7 @@ public class InventoryWindow implements Serializable {
                             }
 
                             // Play the equip sound
-                            Handler.get().playEffect("ui/equip.wav");
+                            Handler.get().playEffect("ui/equip.ogg");
 
                             // If we have no item equipped in that slot
                             if (Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).equipItem(is.getItemStack().getItem())) {
@@ -612,6 +619,18 @@ public class InventoryWindow implements Serializable {
         for (ItemSlot slot : itemSlots) {
 
             ItemStack is = slot.getItemStack();
+
+            if (is == null || is.getItem().getItemTypes() == null)
+                continue;
+
+            if (is.getItem().isType(type)) {
+                return true;
+            }
+        }
+
+        for (EquipmentSlot slot : Handler.get().getEquipment().getEquipmentSlots()) {
+
+            ItemStack is = slot.getEquipmentStack();
 
             if (is == null || is.getItem().getItemTypes() == null)
                 continue;

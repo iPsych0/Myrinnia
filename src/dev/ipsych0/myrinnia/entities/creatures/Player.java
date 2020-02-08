@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
@@ -29,6 +30,7 @@ import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
@@ -75,6 +77,7 @@ public class Player extends Creature {
     private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
 
     private double levelExponent = 1.1;
+    private int baseHP = 100;
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
@@ -82,7 +85,6 @@ public class Player extends Creature {
     private int levelUpTimer, xpGainedTimer;
     public static boolean expEffectPlayed;
 
-    private boolean movementAllowed = true;
     public static boolean isMoving, hasMoved;
 
     public static boolean mouseMoved;
@@ -99,11 +101,9 @@ public class Player extends Creature {
     private Rectangle itemPickupRadius;
 
     private int abilityPoints;
-    private double rotation;
-    private double xPos, yPos;
 
     public Player(double x, double y) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
+        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
 
         xSpawn = x;
         ySpawn = y;
@@ -111,7 +111,7 @@ public class Player extends Creature {
 
         // Player combat/movement settings:
 
-        maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+        maxHealth = baseHP + vitality * 4;
         health = maxHealth;
         speed = DEFAULT_SPEED + 0.5;
 
@@ -165,6 +165,10 @@ public class Player extends Creature {
             attRight.tick();
         }
 
+        if (Handler.get().getGameCamera().getFocusedEntity().equals(this)) {
+            Handler.get().getGameCamera().centerOnEntity(this);
+        }
+
         if (inCombat) {
             combatTimer++;
         }
@@ -212,7 +216,7 @@ public class Player extends Creature {
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
-                        Handler.get().playEffect("ui/ui_button_click.wav");
+                        Handler.get().playEffect("ui/ui_button_click.ogg");
 
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
@@ -230,7 +234,7 @@ public class Player extends Creature {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
                             closestEntity.interact();
                             hasInteracted = true;
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                         }
                     }
                 }
@@ -260,7 +264,7 @@ public class Player extends Creature {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
                             closestEntity.interact();
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                             hasInteracted = true;
                         }
                     }
@@ -340,7 +344,7 @@ public class Player extends Creature {
         }
 
         if (isXpGained && !expEffectPlayed) {
-            Handler.get().playEffect("ui/exp_gain.wav");
+            Handler.get().playEffect("ui/exp_gain.ogg");
             expEffectPlayed = true;
         }
 
@@ -369,27 +373,38 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        if (p.getAbility() != null) {
-                            e.damage(p.getDamageType(), this, e, p.getAbility());
-                        } else {
-                            e.damage(p.getDamageType(), this, e);
+                        if (!p.getHitCreatures().contains((Creature) e)) {
+                            if (p.getAbility() != null) {
+                                e.damage(p.getDamageType(), this, p.getAbility());
+                            } else {
+                                e.damage(p.getDamageType(), this);
+                            }
+
+                            if (p.getImpactSound() != null) {
+                                Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
+                            }
                         }
 
-                        if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
-                        }
                         p.setHitCreature((Creature) e);
-                        p.setActive(false);
 
                         // Apply special effect if has one
                         if (p.getOnImpact() != null) {
-                            p.getOnImpact().impact(p.getHitCreature());
+                            if (!p.getHitCreatures().contains(p.getHitCreature())) {
+                                p.getOnImpact().impact(p.getHitCreature());
+                            }
                         }
+
+                        if (!p.isPiercing()) {
+                            p.setActive(false);
+                            break;
+                        }
+
+                        p.getHitCreatures().add((Creature) e);
                     }
                 }
             }
@@ -426,8 +441,6 @@ public class Player extends Creature {
     public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
-        Handler.get().getGameCamera().centerOnEntity(this);
-
         if (isLevelUp && leveledSkill instanceof CombatSkill) {
             combatUpBack.tick();
             g.drawImage(combatUpBack.getCurrentFrame(), (int) (x - 16 - Handler.get().getGameCamera().getxOffset()),
@@ -455,10 +468,15 @@ public class Player extends Creature {
 //		g.drawRect((int)(itemPickupRadius().x - Handler.get().getGameCamera().getxOffset()), (int) (itemPickupRadius().y - Handler.get().getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
 
 //		UNCOMMENT THIS TO SEE MELEE HITBOX
-//		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 40, 40);
-//		g.setColor(Color.MAGENTA);
-//		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
+//        double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+//        Rectangle ar;
+//        if (width > 32 && height > 32) {
+//            ar = new Rectangle((int) ((width - width / 2) * Math.cos(angle) + (int) this.x + width / 4), (int) ((height - height / 2) * Math.sin(angle) + (int) this.y + height / 2), 40, 44);
+//        } else {
+//            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 40, 40);
+//        }
+//        g.setColor(Color.MAGENTA);
+//        g.drawRect((int) (ar.x - Handler.get().getGameCamera().getxOffset()), (int) (ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
         if (projectiles.size() > 0) {
             for (Projectile p : projectiles) {
@@ -474,9 +492,9 @@ public class Player extends Creature {
                 meleeAnimation.tick();
 
                 AffineTransform old = g.getTransform();
-                g.rotate(Math.toRadians(rotation), (int) (x + xPos + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + yPos + height / 2 - Handler.get().getGameCamera().getyOffset()));
-                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + xPos - Handler.get().getGameCamera().getxOffset()),
-                        (int) (y + yPos - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
+                g.rotate(Math.toRadians(meleeDirection), (int) (x + meleeXOffset + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + meleeYOffset + height / 2 - Handler.get().getGameCamera().getyOffset()));
+                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
                 g.setTransform(old);
             }
         }
@@ -486,13 +504,27 @@ public class Player extends Creature {
     public void levelUp() {
         isLevelUp = true;
 
-        this.levelExponent *= LEVEL_EXPONENT;
+        levelExponent *= LEVEL_EXPONENT;
 
         // Change base damage and restore to full health
-        this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-        this.maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+        baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
+        baseHP = getNewBaseHP();
+        maxHealth = baseHP + vitality * 4;
 
-        this.health = maxHealth;
+        health = maxHealth;
+    }
+
+    private int getNewBaseHP() {
+        // Logicistic regression formula
+        // f\left(x\right)=\left(\frac{L}{1+e^{-k\left(x-x_{0}+20\right)}}-57\right)\cdot10
+        double L = 300d;
+        double x0 = 50d;
+        double x = Handler.get().getSkill(SkillsList.COMBAT).getLevel();
+        double k = 0.05d;
+
+
+        // Return new base HP
+        return (DEFAULT_HEALTH * 2) + (int) ((L / (1d + Math.exp(-1 * k * (x - x0 + 20d))) - 57d) * 10d);
     }
 
     /*
@@ -518,7 +550,7 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+            maxHealth = baseHP + vitality * 4;
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
@@ -604,7 +636,7 @@ public class Player extends Creature {
 
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
-            maxHealth = (int) (DEFAULT_HEALTH * 2 + Math.round(vitality * 1.5));
+            maxHealth = baseHP + vitality * 4;
             if (health >= maxHealth) {
                 health = maxHealth;
             }
@@ -756,7 +788,7 @@ public class Player extends Creature {
 
         rangedTimer = 0;
 
-        Handler.get().playEffect("abilities/ranged_shot.wav", 0.35f);
+        Handler.get().playEffect("abilities/ranged_shot.ogg", 0.35f);
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
 
             new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -783,7 +815,7 @@ public class Player extends Creature {
 
         magicTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
 
             new Projectile.Builder(DamageType.INT, Assets.regularMagic, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
@@ -815,53 +847,9 @@ public class Player extends Creature {
 
         setMeleeSwing(mouse);
 
-        Handler.get().playEffect("abilities/sword_swing.wav", -0.05f);
+        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
-        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-            Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 40, 40);
-
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (e.equals(this))
-                    continue;
-                if (!e.isAttackable())
-                    continue;
-                if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, this, e);
-                }
-            }
-        }
-    }
-
-    private void setMeleeSwing(Rectangle mouse) {
-        // The angle and speed of the projectile
-        double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-
-        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
-        rotation = Math.toDegrees(angle);
-        if (rotation < 0) {
-            rotation += 360d;
-        }
-
-        double xOffset = 1.0f * Math.cos(angle);
-        double yOffset = 1.0f * Math.sin(angle);
-
-
-        // xPos change RIGHT
-        if (rotation >= 270 || rotation < 90) {
-            xPos = 20d * xOffset;
-            // xPos change LEFT
-        } else if (rotation >= 90 || rotation < 270) {
-            xPos = 20d * xOffset;
-        }
-
-        // xPos change RIGHT
-        if (rotation >= 180 || rotation <= 360) {
-            yPos = 20d * yOffset;
-            // xPos change LEFT
-        } else if (rotation >= 0 || rotation < 180) {
-            yPos = 20d * yOffset;
-        }
+        checkMeleeHitboxes();
     }
 
     @Override
@@ -885,6 +873,11 @@ public class Player extends Creature {
         setHealth(maxHealth);
         setDamaged(false);
         setActive(true);
+    }
+
+    @Override
+    public int getLevelByElement(CharacterStats element) {
+        return element.getLevel();
     }
 
     @Override
@@ -1186,14 +1179,6 @@ public class Player extends Creature {
         return Handler.get().getWorld();
     }
 
-    public boolean isMovementAllowed() {
-        return movementAllowed;
-    }
-
-    public void setMovementAllowed(boolean movementAllowed) {
-        this.movementAllowed = movementAllowed;
-    }
-
     public Direction getLastFaced() {
         return lastFaced;
     }
@@ -1253,5 +1238,13 @@ public class Player extends Creature {
 
     public void addAbilityPoints() {
         this.abilityPoints++;
+    }
+
+    public int getBaseHP() {
+        return baseHP;
+    }
+
+    public void setBaseHP(int baseHP) {
+        this.baseHP = baseHP;
     }
 }

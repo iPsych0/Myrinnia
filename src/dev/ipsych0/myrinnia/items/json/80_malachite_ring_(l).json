@@ -1,0 +1,37 @@
+{
+  "itemTypes": [
+    "ACCESSORY"
+  ],
+  "itemRarity": "Common",
+  "name": "Malachite ring (l)",
+  "id": 80,
+  "equipSlot": "Ring_Left",
+  "strength": 2,
+  "dexterity": 2,
+  "intelligence": 2,
+  "defence": 1,
+  "vitality": 1,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 60,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

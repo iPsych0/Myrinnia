@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -29,8 +30,6 @@ public class HPOverlay implements Serializable {
     private Rectangle bounds;
     private Rectangle combatBar, hpBar, xpBar;
     private UIImageButton skillsButton, characterButton, abilitiesButton, questsButton, mapButton;
-    public static Color hpColorRed, hpColorGreen, xpColor;
-    public static Color hpColorRedOutline, hpColorGreenOutline, xpColorOutline;
     public static boolean hasBeenPressed = false;
     private UIManager uiManager;
     public static boolean isOpen = true;
@@ -47,15 +46,6 @@ public class HPOverlay implements Serializable {
         bounds = new Rectangle(8, 8, 208, 128);
 
         combatBar = new Rectangle(8, 10, 208, 32);
-
-        // Colors
-        hpColorRed = new Color(148, 8, 0);
-        hpColorGreen = new Color(58, 143, 0);
-        xpColor = new Color(188, 143, 5);
-
-        hpColorRedOutline = new Color(198, 8, 0);
-        hpColorGreenOutline = new Color(58, 188, 0);
-        xpColorOutline = new Color(248, 168, 5);
 
         // Buttons
         questsButton = new UIImageButton(bounds.x + bounds.width / 2 - 80, bounds.y + bounds.height - 40, 32, 32, Assets.genericButton);
@@ -81,6 +71,11 @@ public class HPOverlay implements Serializable {
     public void render(Graphics2D g) {
         if (isOpen) {
 
+            Composite current = g.getComposite();
+            if (Handler.get().getGameCamera().isAtLeftBound() && Handler.get().getGameCamera().isAtTopBound()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
+
             Rectangle mouse = Handler.get().getMouse();
 
             // Draw the bars
@@ -98,7 +93,7 @@ public class HPOverlay implements Serializable {
             // Quests UI button
             if (questsButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     SkillsUI.isOpen = false;
                     SkillsOverviewUI.isOpen = false;
@@ -112,7 +107,7 @@ public class HPOverlay implements Serializable {
             // Skills UI button
             if (skillsButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     CharacterUI.isOpen = false;
                     QuestUI.isOpen = false;
@@ -125,7 +120,7 @@ public class HPOverlay implements Serializable {
             // Character UI button
             if (characterButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     SkillsUI.isOpen = false;
                     SkillsOverviewUI.isOpen = false;
@@ -139,7 +134,7 @@ public class HPOverlay implements Serializable {
             // Abilities UI button
             if (abilitiesButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     hasBeenPressed = false;
                     if (ShopWindow.lastOpenedWindow != null) {
                         ShopWindow.lastOpenedWindow.exit();
@@ -166,7 +161,7 @@ public class HPOverlay implements Serializable {
                     Handler.get().getBankUI().exit();
                     Handler.get().getCraftingUI().exit();
                     // TODO: OPEN THE MAP HERE ONCE IT'S CREATED
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     Handler.get().sendMsg("Map coming soon!");
                 }
             }
@@ -183,30 +178,30 @@ public class HPOverlay implements Serializable {
             Text.drawString(g, "XP", xpBar.x - 16, xpBar.y + xpBar.height / 2, true, Color.YELLOW, Assets.font14);
 
             // HP Bar
-            g.setColor(hpColorRed);
+            g.setColor(Colors.hpColorRed);
             g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
-            g.setColor(hpColorRedOutline);
+            g.setColor(Colors.hpColorRedOutline);
             g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
-            g.setColor(hpColorGreen);
+            g.setColor(Colors.hpColorGreen);
             if (Handler.get().getPlayer().getHealth() >= Handler.get().getPlayer().getMaxHealth()) {
                 g.fillRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
 
-                g.setColor(hpColorGreenOutline);
+                g.setColor(Colors.hpColorGreenOutline);
                 g.drawRect(hpBar.x + 2, hpBar.y + 1, hpBar.width - 4, hpBar.height - 3);
             } else {
                 g.fillRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
                         (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
 
-                g.setColor(hpColorGreenOutline);
+                g.setColor(Colors.hpColorGreenOutline);
                 g.drawRect(hpBar.x + 2, hpBar.y + 1, (int) (hpBar.width * (double) Handler.get().getPlayer().getHealth() /
                         (double) Handler.get().getPlayer().getMaxHealth()) - 4, hpBar.height - 3);
             }
 
             // XP bar
-            g.setColor(xpColor);
+            g.setColor(Colors.xpColor);
             g.fillRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
-            g.setColor(xpColorOutline);
+            g.setColor(Colors.xpColorOutline);
             g.drawRect(xpBar.x + 2, xpBar.y + 1, xpBar.width * Handler.get().getSkill(SkillsList.COMBAT).getExperience() / Handler.get().getSkill(SkillsList.COMBAT).getNextLevelXp() - 2, xpBar.height - 4);
 
             Text.drawString(g, "Combat level: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(),
@@ -238,6 +233,8 @@ public class HPOverlay implements Serializable {
             if (Handler.get().getChatWindow().getFilters().contains(Filter.DRAWFPS)) {
                 Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
             }
+
+            g.setComposite(current);
         }
     }
 

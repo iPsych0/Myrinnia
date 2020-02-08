@@ -3,7 +3,7 @@
   "castingTime": 0.0,
   "overcastTime": 0.0,
   "name": "Nimble Feet",
-  "description": "Increases movement speed by X for Y seconds.",
+  "description": "Become light as a feather. Increases movement speed.",
   "abilityType": "StandardAbility",
   "element": "Air",
   "combatStyle": "Ranged",

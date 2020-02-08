@@ -22,8 +22,8 @@ public class Game implements Runnable, Serializable {
      */
     private static final long serialVersionUID = 1320270378451615572L;
 
-    public static final String CURRENT_VERSION = "v0.0.9";
-    public static final String TITLE_BAR = "Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION;
+    public static final String CURRENT_VERSION = "v0.0.92";
+    public static final String TITLE_BAR = "Elements of Myrinnia Alpha " + CURRENT_VERSION;
     private Display display;
     private int width, height;
     private String title;
@@ -82,6 +82,9 @@ public class Game implements Runnable, Serializable {
         // Add fractional metrics so text will be rendered with more accurate position
         renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,
                 RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+//        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+//                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
     }
 
     private void init() {

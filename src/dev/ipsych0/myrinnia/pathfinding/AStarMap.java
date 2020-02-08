@@ -3,7 +3,9 @@ package dev.ipsych0.myrinnia.pathfinding;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.statics.StaticEntity;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -20,7 +22,6 @@ public class AStarMap implements Serializable {
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
-    public static Color unwalkableColour = new Color(255, 0, 0, 127);
     private Rectangle mapBounds;
     private Creature creature;
 
@@ -33,32 +34,59 @@ public class AStarMap implements Serializable {
         this.xSpawn = creature.getxSpawn();
         this.ySpawn = creature.getySpawn();
 
-        // Aantal nodes aanpassen dan?
-        nodes = new Node[(int) (Math.floor(width / 32)) + 1][(int) (Math.floor(height / 32)) + 1];
+        nodes = new Node[(int) (Math.floor(width / 32f)) + 1][(int) (Math.floor(height / 32f)) + 1];
         mapBounds = new Rectangle(x, y, width, height);
     }
 
     public void init() {
-        mapBounds = new Rectangle(x, y, width, height);
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
                 nodes[i][j] = new Node(((i * 32) + x) / 32, ((j * 32) + y) / 32, true);
             }
         }
+
+        // Check for Tile collisions
+        boolean on3CTile = false;
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
                 if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
                     nodes[i][j].setWalkable(false);
                 }
+
+                if (Handler.get().getWorld().hasPermissionsLayer()) {
+                    Player player = Handler.get().getPlayer();
+                    int topLayer = Handler.get().getWorld().getLayers().length - 1;
+
+                    if (!on3CTile) {
+                        // Check if player is not on C or 0 tile, he is on a higher layer 3C, which means we cannot navigate
+                        if (creature.getCurrentTile().getPermission().equalsIgnoreCase("C") || creature.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
+                                !player.getCurrentTile().getPermission().equalsIgnoreCase("C") || !player.getCurrentTile().getPermission().equalsIgnoreCase("0")) {
+                            on3CTile = true;
+                        }
+                    }
+
+                    if (on3CTile) {
+                        Tile permissionsTile = Handler.get().getWorld().getTile(topLayer, nodes[i][j].getX(), nodes[i][j].getY());
+                        // If we are on a 3C tile, and we're not on the same vertical level, we can't navigate
+                        if (permissionsTile != Tile.tiles[0] && creature.getVerticality() != player.getVerticality() && permissionsTile.getPermission().equalsIgnoreCase("3C")) {
+                            nodes[i][j].setWalkable(false);
+                        }
+                    }
+                }
+
             }
         }
 
+        // Cannot move through enemies, so mark those tiles as unavailable to avoid getting stuck
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-            if (e instanceof StaticEntity) {
-                if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
-                    nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
-                }
+            if (e.equals(Handler.get().getPlayer()) || e.equals(creature))
+                continue;
+            if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
+                nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
             }
+//            else if (mapBounds.contains(e.getCollisionBounds(0, 0))) {
+//                nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
+//            }
         }
 
     }
@@ -77,7 +105,7 @@ public class AStarMap implements Serializable {
                     g.setColor(Color.RED);
                     g.drawRect((int) (nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 } else {
-                    g.setColor(unwalkableColour);
+                    g.setColor(Colors.unwalkableColour);
                     g.fillRect((int) (nodes[i][j].getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (nodes[i][j].getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 }
             }

@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -32,9 +33,6 @@ public class BountyBoardUI implements Serializable {
     private UIManager uiManager;
     private int currentYPanel = 0;
     private static final int PANEL_WIDTH = 400, PANEL_HEIGHT = 64;
-    private static Color selectedColor = new Color(0, 255, 255, 62);
-    private static Color completedColor = new Color(44, 255, 12, 62);
-    private static Color acceptedColor = new Color(196, 204, 17, 62);
     private Bounty selectedPanel;
     public static boolean isOpen;
     public static boolean escapePressed;
@@ -119,7 +117,6 @@ public class BountyBoardUI implements Serializable {
                 if (Handler.get().playerHasSkillLevel(SkillsList.BOUNTYHUNTER, bounty.getLevelRequirement())) {
                     if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
                         Handler.get().getQuest(QuestList.GettingStarted).nextStep();
-                        Handler.get().addQuestStep(QuestList.GettingStarted, "Complete the bounty contract and claim your reward from Ryan in Port Azure.");
                         Handler.get().addTip(new TutorialTip("Right-click on items in your inventory to 'use' them. Click on the contract to open it."));
                         Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
                     }
@@ -140,10 +137,10 @@ public class BountyBoardUI implements Serializable {
                 }
 
                 selectedPanel = null;
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 dialogueBox.close();
             } else if ("Leave".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 dialogueBox.close();
                 selectedPanel = null;
             }
@@ -168,16 +165,16 @@ public class BountyBoardUI implements Serializable {
 
         for (Bounty panel : panels) {
             if (panel.isCompleted()) {
-                g.setColor(completedColor);
+                g.setColor(Colors.completedColor);
                 g.fillRoundRect(panel.getBounds().x, panel.getBounds().y, panel.getBounds().width, panel.getBounds().height, 18, 18);
             } else if (panel.isAccepted()) {
-                g.setColor(acceptedColor);
+                g.setColor(Colors.acceptedColor);
                 g.fillRoundRect(panel.getBounds().x, panel.getBounds().y, panel.getBounds().width, panel.getBounds().height, 18, 18);
             }
         }
 
         if (selectedPanel != null) {
-            g.setColor(selectedColor);
+            g.setColor(Colors.selectedColor);
             g.fillRoundRect(selectedPanel.getBounds().x, selectedPanel.getBounds().y, selectedPanel.getBounds().width, selectedPanel.getBounds().height, 18, 18);
         }
 

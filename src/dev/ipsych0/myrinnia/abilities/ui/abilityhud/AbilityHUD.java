@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -34,10 +35,6 @@ public class AbilityHUD implements Serializable {
     private static Ability selectedAbility;
     private static AbilitySlot oldSlot;
     private UIImageButton lockButton, unlockButton;
-    private static Color lockedColor = new Color(192, 8, 0, 192),
-            unlockedColor = new Color(8, 148, 0, 192),
-            hoverLockedColor = new Color(250, 8, 0, 192),
-            hoverUnlockedColor = new Color(8, 192, 0, 192);
     private Rectangle bounds;
     private UIManager uiManager;
     private StatusTooltip statusTooltip;
@@ -57,7 +54,7 @@ public class AbilityHUD implements Serializable {
         // Add XP Bar after HP Bar
 //		xpBar = new XPBar(Handler.get(), hpBar.getX() + hpBar.getWidth(), y);
 
-        abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2, 160, 224);
+        abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2 - 64);
 
         lockButton = new UIImageButton(x + width + 1, y, 16, 16, Assets.genericButton);
         unlockButton = new UIImageButton(x + width + 1, y + 16, 16, 16, Assets.genericButton);
@@ -284,17 +281,17 @@ public class AbilityHUD implements Serializable {
         }
 
         if (lockButton.contains(mouse)) {
-            g.setColor(hoverLockedColor);
+            g.setColor(Colors.hoverLockedColor);
         } else {
-            g.setColor(lockedColor);
+            g.setColor(Colors.lockedColor);
         }
         g.fillRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height);
         g.drawImage(Assets.locked, lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
 
         if (unlockButton.contains(mouse)) {
-            g.setColor(hoverUnlockedColor);
+            g.setColor(Colors.hoverUnlockedColor);
         } else {
-            g.setColor(unlockedColor);
+            g.setColor(Colors.unlockedColor);
         }
         g.fillRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
         g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);

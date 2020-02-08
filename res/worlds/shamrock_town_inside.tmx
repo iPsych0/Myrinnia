@@ -18,6 +18,7 @@
  <tileset firstgid="18856" source="outside4.tsx"/>
  <tileset firstgid="19720" source="ruindungeons_sheet_full.tsx"/>
  <tileset firstgid="22268" source="ship_tileset.tsx"/>
+ <tileset firstgid="23780" source="z_tile_marker.tsx"/>
  <layer id="7" name="Tile Layer 1" width="60" height="80">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -436,43 +437,48 @@
     <property name="npcClass" value="ShamrockStatue"/>
    </properties>
   </object>
-  <object id="30" name="NPC" type="npc" x="896" y="384" width="32" height="32">
+  <object id="30" name="Glenn" type="npc" x="896" y="384" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale1"/>
     <property name="direction" value="RIGHT"/>
-    <property name="name" value="NPC"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
+    <property name="name" value="Glenn"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="31" name="NPC" type="npc" x="1024" y="448" width="32" height="32">
+  <object id="31" name="Faye" type="npc" x="1024" y="448" width="32" height="32">
    <properties>
     <property name="animation" value="genericFemale13"/>
     <property name="direction" value="LEFT"/>
-    <property name="name" value="NPC"/>
+    <property name="jsonFile" value="shamrock_townhall_npc2.json"/>
+    <property name="name" value="Faye"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="32" name="NPC" type="npc" x="1280" y="448" width="32" height="32">
+  <object id="32" name="Terry" type="npc" x="1280" y="448" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale10"/>
     <property name="direction" value="LEFT"/>
-    <property name="name" value="NPC"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
+    <property name="name" value="Terry"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="33" name="NPC" type="npc" x="1152" y="384" width="32" height="32">
+  <object id="33" name="Jonas" type="npc" x="1152" y="384" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale4"/>
     <property name="direction" value="RIGHT"/>
-    <property name="name" value="NPC"/>
+    <property name="jsonFile" value="shamrock_townhall_npc2.json"/>
+    <property name="name" value="Jonas"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="34" name="NPC" type="npc" x="1280" y="384" width="32" height="32">
+  <object id="34" name="Josie" type="npc" x="1280" y="384" width="32" height="32">
    <properties>
     <property name="animation" value="genericFemale7"/>
     <property name="direction" value="LEFT"/>
-    <property name="name" value="NPC"/>
+    <property name="jsonFile" value="shamrock_townhall_npc1.json"/>
+    <property name="name" value="Josie"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>

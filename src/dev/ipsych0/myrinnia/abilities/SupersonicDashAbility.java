@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.Serializable;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -21,7 +22,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
     private Animation animation;
 
     public SupersonicDashAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                             double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                                 double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
 
     }
@@ -61,7 +62,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             double framesPerSecond = dashTime / 60.0; // Percentage of time traveled per tick (0.4)
             double animationSpeed = (1000 / Assets.airCloud1.length) * framesPerSecond; // 7 frames per second (1000)
             animation = new Animation((int)animationSpeed, Assets.airCloud1, true);
-            Handler.get().playEffect("abilities/supersonic_dash.wav", 0.1f);
+            Handler.get().playEffect("abilities/supersonic_dash.ogg", 0.1f);
         }
 
         animation.tick();

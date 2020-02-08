@@ -14,10 +14,12 @@ public class GameCamera implements Serializable {
      */
     private static final long serialVersionUID = 6890827040135434870L;
     private double xOffset, yOffset;
+    private Entity focusedEntity;
 
     public GameCamera(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.focusedEntity = Handler.get().getPlayer();
     }
 
     private void checkBlankSpace() {
@@ -39,15 +41,45 @@ public class GameCamera implements Serializable {
         }
     }
 
+    public boolean isAtAnyBound() {
+        return isAtRightBound() || isAtBottomBound() || isAtLeftBound() || isAtTopBound();
+    }
+
+    public boolean isAtRightBound() {
+        if(Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
+            return false;
+        return xOffset >= Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth();
+    }
+
+    public boolean isAtLeftBound() {
+        return xOffset <= 0;
+    }
+
+    public boolean isAtBottomBound() {
+        if(Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()){
+            return false;
+        }
+        return yOffset >= Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight();
+    }
+
+    public boolean isAtTopBound() {
+        return yOffset <= 0;
+    }
+
     public void centerOnEntity(Entity e) {
+        this.focusedEntity = e;
         xOffset = e.getX() - Handler.get().getWidth() / 2f + e.getWidth() / 2f;
         yOffset = e.getY() - Handler.get().getHeight() / 2f + e.getHeight() / 2f;
         checkBlankSpace();
     }
 
-    public void move(double xAmount, double yAmount) {
-        xOffset += xAmount;
-        yOffset += yAmount;
+    public void moveX(double xMove) {
+        xOffset += xMove;
+        checkBlankSpace();
+    }
+
+    public void moveY(double yMove) {
+        yOffset += yMove;
         checkBlankSpace();
     }
 
@@ -67,4 +99,11 @@ public class GameCamera implements Serializable {
         this.yOffset = yOffset;
     }
 
+    public Entity getFocusedEntity() {
+        return focusedEntity;
+    }
+
+    public void setFocusedEntity(Entity focusedEntity) {
+        this.focusedEntity = focusedEntity;
+    }
 }

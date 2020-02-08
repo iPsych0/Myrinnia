@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "East: Farnor Abbey.\nThis road is closed off at the moment. Please keep an eye out for future updates.",
+      "nextId": -1
+    }
+  ]
+}

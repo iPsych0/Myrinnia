@@ -1,15 +1,16 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.OnImpact;
-import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.PoisonDartAbility;
+import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
-import java.io.Serializable;
 
 public class Venovine extends Creature {
 
@@ -21,6 +22,7 @@ public class Venovine extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private Ability poisonDartAbility = Utils.loadAbility("poisondart.json");
 
     public Venovine(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -28,12 +30,12 @@ public class Venovine extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence -= 3;
-        vitality += 12;
-        defence += 24;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength = 0;
+        dexterity = 13;
+        intelligence = 0;
+        vitality = 35;
+        defence = 25;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
@@ -65,7 +67,8 @@ public class Venovine extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        getDroptableItem();
     }
 
     /*
@@ -80,15 +83,17 @@ public class Venovine extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
-        int targetX = (int) Handler.get().getPlayer().getX();
-        int targetY = (int) Handler.get().getPlayer().getY();
+        if (!poisonDartAbility.isOnCooldown()) {
+            castAbility(poisonDartAbility);
+        } else {
+            Handler.get().playEffect("abilities/magic_strike.ogg");
+            int targetX = (int) Handler.get().getPlayer().getX();
+            int targetY = (int) Handler.get().getPlayer().getY();
 
-        new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, targetX, targetY)
-                .withImpactSound("abilities/magic_strike_impact.wav")
-                .withImpact((Serializable & OnImpact) (receiver) -> {
-                    receiver.addCondition(this, receiver, new Condition(Condition.Type.POISON, receiver, 4, 5));
-                }).build();
+            new Projectile.Builder(DamageType.DEX, Assets.earthProjectile, this, targetX, targetY)
+                    .withImpactSound("abilities/magic_strike_impact.ogg").build();
+        }
+
     }
 
     @Override

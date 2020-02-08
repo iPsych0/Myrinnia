@@ -20,6 +20,7 @@ public class Tile {
     private Polygon polyBounds;
     private boolean initialized, reset;
     private int lastX = -1, lastY = -1;
+    private String permission;
 
     public Tile(BufferedImage texture, int id, boolean solid) {
         this.texture = texture;
@@ -95,6 +96,10 @@ public class Tile {
         return solid;
     }
 
+    public void setSolid(boolean solid) {
+        this.solid = solid;
+    }
+
     public int getId() {
         return id;
     }
@@ -153,5 +158,11 @@ public class Tile {
         this.polyBounds = bounds;
     }
 
+    public String getPermission() {
+        return permission;
+    }
 
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
 }

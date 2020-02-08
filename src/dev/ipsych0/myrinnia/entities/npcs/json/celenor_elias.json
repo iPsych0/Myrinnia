@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, traveler.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "What happened to that house over there?",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "The Warden of Celenor Forest used to live there. Ever since that fog has been shrouding Celenor Forest, he retired.",
+      "nextId": -1
+    }
+  ]
+}

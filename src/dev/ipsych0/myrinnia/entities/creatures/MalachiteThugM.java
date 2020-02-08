@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -9,6 +11,8 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 public class MalachiteThugM extends Creature {
 
@@ -20,6 +24,7 @@ public class MalachiteThugM extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private Animation meleeAnimation;
 
     public MalachiteThugM(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -27,14 +32,13 @@ public class MalachiteThugM extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 1;
-        dexterity += 0;
-        intelligence += 0;
-        vitality += 12;
-        defence += 12;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength = 14;
+        dexterity = 0;
+        intelligence = 0;
+        vitality = 30;
+        defence = 30;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 5;
 
         bounds.x = 2;
         bounds.y = 2;
@@ -50,11 +54,32 @@ public class MalachiteThugM extends Creature {
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
+
+//        // Uncomment to see hitbox
+//        double angle = getAngle();
+//        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.getX() - Handler.get().getGameCamera().getxOffset()), (int) (32 * Math.sin(angle) + (int) this.getY() - Handler.get().getGameCamera().getyOffset()), width, height);
+//
+//        g.setColor(Color.RED);
+//        g.drawRect(ar.x, ar.y, ar.width, ar.height);
+
+        if (meleeAnimation != null) {
+            if (meleeAnimation.isTickDone()) {
+                meleeAnimation = null;
+            } else {
+                meleeAnimation.tick();
+
+                AffineTransform old = g.getTransform();
+                g.rotate(Math.toRadians(meleeDirection), (int) (x + meleeXOffset + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + meleeYOffset + height / 2 - Handler.get().getGameCamera().getyOffset()));
+                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
+                g.setTransform(old);
+            }
+        }
     }
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
     }
 
     /*
@@ -67,17 +92,15 @@ public class MalachiteThugM extends Creature {
         if (attackTimer < attackCooldown)
             return;
 
-//		// Set attack-box
-//		Rectangle cb = getCollisionBounds(0,0);
-//		Rectangle ar = new Rectangle();
-//		int arSize = Creature.DEFAULT_CREATURE_HEIGHT;
-//		ar.width = arSize;
-//		ar.height = arSize;
-
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/sword_swing.wav");
-        new Projectile.Builder(DamageType.STR, Assets.waterProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
+        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+
+        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+
+        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+
+        checkMeleeHitboxes();
 
     }
 

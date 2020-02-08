@@ -1,0 +1,32 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hi there. We set our camp out here to rest. We're quite worn down from the route from Shamrock Town.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Where are you heading?",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "We're heading north towards Celewynn, a small settlement north-west of here.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "It's a good place to prepare for the journey through Celenor Forest. Just head west before the forest entrance.",
+      "nextId": 4
+    }
+  ]
+}

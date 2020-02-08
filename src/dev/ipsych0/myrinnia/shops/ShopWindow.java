@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -33,7 +34,6 @@ public class ShopWindow implements Serializable {
     private static final int NUM_COLS = 5;
     private static final int NUM_ROWS = 6;
     private List<ItemSlot> shopSlots, invSlots;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private ItemStack selectedShopItem;
     private ItemStack selectedInvItem;
     public static boolean isOpen = false;
@@ -234,7 +234,7 @@ public class ShopWindow implements Serializable {
                 Text.drawString(g, selectedShopItem.getAmount() + " " + selectedShopItem.getItem().getName() + " will cost you: " + selectedShopItem.getItem().getPrice() * selectedShopItem.getAmount() + " coins. (" + selectedShopItem.getItem().getPrice() + " each)", x + (width / 2), y + (height / 2) + 112, true, Color.YELLOW, Assets.font14);
 
             if (selectedSlot != null) {
-                g.setColor(selectedColor);
+                g.setColor(Colors.selectedColor);
                 g.fillRect(selectedSlot.getX(), selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
 
@@ -383,26 +383,26 @@ public class ShopWindow implements Serializable {
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-                    Handler.get().playEffect("ui/shop_trade.wav");
+                    Handler.get().playEffect("ui/shop_trade.ogg");
                 }
                 // If the user has typed in an amount and confirmed the trade per button, sell the item
                 else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-                    Handler.get().playEffect("ui/shop_trade.wav");
+                    Handler.get().playEffect("ui/shop_trade.ogg");
                 }
             }
             // If the user has typed in an amount and confirmed the trade per button, buy the item
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                     "BuyAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                 buyAllItem();
-                Handler.get().playEffect("ui/shop_trade.wav");
+                Handler.get().playEffect("ui/shop_trade.ogg");
             }
             // If the user has typed in an amount and confirmed the trade per button, sell the item
             else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                     "SellAll".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                 sellAllItem();
-                Handler.get().playEffect("ui/shop_trade.wav");
+                Handler.get().playEffect("ui/shop_trade.ogg");
             }
 
             dBox.close();
@@ -420,13 +420,13 @@ public class ShopWindow implements Serializable {
                 if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "BuyX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     buyXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-                    Handler.get().playEffect("ui/shop_trade.wav");
+                    Handler.get().playEffect("ui/shop_trade.ogg");
                 }
                 // If the user has typed in an amount and confirmed the trade per button, sell the item
                 else if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0]) &&
                         "SellX".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[1])) {
                     sellXItem(Integer.parseInt(dBox.getTextBox().getCharactersTyped()));
-                    Handler.get().playEffect("ui/shop_trade.wav");
+                    Handler.get().playEffect("ui/shop_trade.ogg");
                 }
             }
 
@@ -494,7 +494,7 @@ public class ShopWindow implements Serializable {
 
             if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed && !dBox.isMakingChoice()) {
                 if (is.getItemStack() != null) {
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     // If the price = -1, item cannot be sold
                     if (is.getItemStack().getItem().getPrice() <= -1) {
                         Handler.get().sendMsg("You cannot sell this item.");
@@ -571,7 +571,7 @@ public class ShopWindow implements Serializable {
                 Handler.get().sendMsg("This item is out of stock.");
             }
             if (Handler.get().playerHasItem(Item.coins, (tradeSlot.getItemStack().getItem().getPrice()))) {
-                Handler.get().playEffect("ui/shop_trade.wav");
+                Handler.get().playEffect("ui/shop_trade.ogg");
                 if (!Handler.get().invIsFull(tradeSlot.getItemStack().getItem()) && selectedSlot.getItemStack().getAmount() > 0) {
                     Handler.get().removeItem(Item.coins, (1 * tradeSlot.getItemStack().getItem().getPrice()));
                     Handler.get().giveItem(tradeSlot.getItemStack().getItem(), 1);
@@ -609,7 +609,7 @@ public class ShopWindow implements Serializable {
                 return;
             }
             if (Handler.get().playerHasItem(tradeSlot.getItemStack().getItem(), 1)) {
-                Handler.get().playEffect("ui/shop_trade.wav");
+                Handler.get().playEffect("ui/shop_trade.ogg");
                 if (findFreeSlot(tradeSlot.getItemStack().getItem()) != -1) {
                     Handler.get().removeItem(tradeSlot.getItemStack().getItem(), 1);
                     Handler.get().giveItem(Item.coins, (int) (Math.floor((tradeSlot.getItemStack().getItem().getPrice() * COMMISSION)) * 1));

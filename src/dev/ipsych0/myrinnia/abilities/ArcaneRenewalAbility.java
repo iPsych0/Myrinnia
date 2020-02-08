@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -16,7 +17,7 @@ public class ArcaneRenewalAbility extends Ability implements Serializable {
     private Animation animation;
 
     public ArcaneRenewalAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,
-                       double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
+                                double cooldownTime, double castingTime, double overcastTime, int baseDamage, int price, String description) {
         super(element, combatStyle, name, abilityType, selectable, cooldownTime, castingTime, overcastTime, baseDamage, price, description);
     }
 
@@ -44,7 +45,7 @@ public class ArcaneRenewalAbility extends Ability implements Serializable {
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
 
             initialHealDone = true;
-            Handler.get().playEffect("abilities/arcane_renewal.wav", 0.1f);
+            Handler.get().playEffect("abilities/arcane_renewal.ogg", 0.1f);
 
             // Remove the first applied condition
             if (!caster.getConditions().isEmpty()) {

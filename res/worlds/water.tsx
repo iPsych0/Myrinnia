@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.0" name="water" tilewidth="32" tileheight="32" tilecount="2805" columns="51">
+<tileset version="1.2" tiledversion="1.2.4" name="water" tilewidth="32" tileheight="32" tilecount="2805" columns="51">
  <image source="../textures/tiles/water.png" trans="000000" width="1632" height="1760"/>
  <terraintypes>
   <terrain name="DarkGrassWater" tile="766"/>
   <terrain name="MountainWater" tile="1684"/>
   <terrain name="LightGrassWater" tile="460"/>
+  <terrain name="DarkDirtWater" tile="1092"/>
  </terraintypes>
  <tile id="0">
   <properties>
@@ -1182,9 +1183,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="195" duration="500"/>
-   <frame tileid="198" duration="500"/>
-   <frame tileid="201" duration="500"/>
+   <frame tileid="195" duration="250"/>
+   <frame tileid="198" duration="250"/>
+   <frame tileid="201" duration="250"/>
+   <frame tileid="198" duration="250"/>
   </animation>
  </tile>
  <tile id="196">
@@ -1493,9 +1495,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="246" duration="500"/>
-   <frame tileid="249" duration="500"/>
-   <frame tileid="252" duration="500"/>
+   <frame tileid="246" duration="250"/>
+   <frame tileid="249" duration="250"/>
+   <frame tileid="252" duration="250"/>
+   <frame tileid="249" duration="250"/>
   </animation>
  </tile>
  <tile id="247">
@@ -1804,9 +1807,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="297" duration="500"/>
-   <frame tileid="300" duration="500"/>
-   <frame tileid="303" duration="500"/>
+   <frame tileid="297" duration="250"/>
+   <frame tileid="300" duration="250"/>
+   <frame tileid="303" duration="250"/>
+   <frame tileid="300" duration="250"/>
   </animation>
  </tile>
  <tile id="298">
@@ -2115,9 +2119,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="348" duration="500"/>
-   <frame tileid="351" duration="500"/>
-   <frame tileid="354" duration="500"/>
+   <frame tileid="348" duration="250"/>
+   <frame tileid="351" duration="250"/>
+   <frame tileid="354" duration="250"/>
+   <frame tileid="351" duration="250"/>
   </animation>
  </tile>
  <tile id="349">
@@ -2189,6 +2194,7 @@
    <frame tileid="359" duration="500"/>
    <frame tileid="362" duration="500"/>
    <frame tileid="365" duration="500"/>
+   <frame tileid="362" duration="500"/>
   </animation>
  </tile>
  <tile id="360" terrain="2,,2,2">
@@ -2200,6 +2206,7 @@
    <frame tileid="360" duration="500"/>
    <frame tileid="363" duration="500"/>
    <frame tileid="366" duration="500"/>
+   <frame tileid="363" duration="500"/>
   </animation>
  </tile>
  <tile id="361">
@@ -2505,6 +2512,7 @@
    <frame tileid="410" duration="500"/>
    <frame tileid="413" duration="500"/>
    <frame tileid="416" duration="500"/>
+   <frame tileid="413" duration="500"/>
   </animation>
  </tile>
  <tile id="411" terrain="2,2,2,">
@@ -2516,6 +2524,7 @@
    <frame tileid="411" duration="500"/>
    <frame tileid="414" duration="500"/>
    <frame tileid="417" duration="500"/>
+   <frame tileid="414" duration="500"/>
   </animation>
  </tile>
  <tile id="412">
@@ -2815,6 +2824,7 @@
    <frame tileid="460" duration="500"/>
    <frame tileid="463" duration="500"/>
    <frame tileid="466" duration="500"/>
+   <frame tileid="463" duration="500"/>
   </animation>
  </tile>
  <tile id="461" terrain=",,2,2">
@@ -2826,6 +2836,7 @@
    <frame tileid="461" duration="500"/>
    <frame tileid="464" duration="500"/>
    <frame tileid="467" duration="500"/>
+   <frame tileid="464" duration="500"/>
   </animation>
  </tile>
  <tile id="462" terrain=",,2,">
@@ -2837,6 +2848,7 @@
    <frame tileid="462" duration="500"/>
    <frame tileid="465" duration="500"/>
    <frame tileid="468" duration="500"/>
+   <frame tileid="465" duration="500"/>
   </animation>
  </tile>
  <tile id="463">
@@ -3136,6 +3148,7 @@
    <frame tileid="511" duration="500"/>
    <frame tileid="514" duration="500"/>
    <frame tileid="517" duration="500"/>
+   <frame tileid="514" duration="500"/>
   </animation>
  </tile>
  <tile id="512" terrain="2,2,2,2">
@@ -3147,6 +3160,7 @@
    <frame tileid="512" duration="500"/>
    <frame tileid="515" duration="500"/>
    <frame tileid="518" duration="500"/>
+   <frame tileid="515" duration="500"/>
   </animation>
  </tile>
  <tile id="513" terrain="2,,2,">
@@ -3158,6 +3172,7 @@
    <frame tileid="513" duration="500"/>
    <frame tileid="516" duration="500"/>
    <frame tileid="519" duration="500"/>
+   <frame tileid="516" duration="500"/>
   </animation>
  </tile>
  <tile id="514">
@@ -3457,6 +3472,7 @@
    <frame tileid="562" duration="500"/>
    <frame tileid="565" duration="500"/>
    <frame tileid="568" duration="500"/>
+   <frame tileid="562" duration="500"/>
   </animation>
  </tile>
  <tile id="563" terrain="2,2,,">
@@ -3468,6 +3484,7 @@
    <frame tileid="563" duration="500"/>
    <frame tileid="566" duration="500"/>
    <frame tileid="569" duration="500"/>
+   <frame tileid="566" duration="500"/>
   </animation>
  </tile>
  <tile id="564" terrain="2,,,">
@@ -3479,6 +3496,7 @@
    <frame tileid="564" duration="500"/>
    <frame tileid="567" duration="500"/>
    <frame tileid="570" duration="500"/>
+   <frame tileid="567" duration="500"/>
   </animation>
  </tile>
  <tile id="565">
@@ -4090,6 +4108,7 @@
    <frame tileid="665" duration="500"/>
    <frame tileid="668" duration="500"/>
    <frame tileid="671" duration="500"/>
+   <frame tileid="668" duration="500"/>
   </animation>
  </tile>
  <tile id="666" terrain="0,,0,0">
@@ -4101,6 +4120,7 @@
    <frame tileid="666" duration="500"/>
    <frame tileid="669" duration="500"/>
    <frame tileid="672" duration="500"/>
+   <frame tileid="669" duration="500"/>
   </animation>
  </tile>
  <tile id="667">
@@ -4406,6 +4426,7 @@
    <frame tileid="716" duration="500"/>
    <frame tileid="719" duration="500"/>
    <frame tileid="722" duration="500"/>
+   <frame tileid="719" duration="500"/>
   </animation>
  </tile>
  <tile id="717" terrain="0,0,0,">
@@ -4417,6 +4438,7 @@
    <frame tileid="717" duration="500"/>
    <frame tileid="720" duration="500"/>
    <frame tileid="723" duration="500"/>
+   <frame tileid="720" duration="500"/>
   </animation>
  </tile>
  <tile id="718">
@@ -4716,6 +4738,7 @@
    <frame tileid="766" duration="500"/>
    <frame tileid="769" duration="500"/>
    <frame tileid="772" duration="500"/>
+   <frame tileid="769" duration="500"/>
   </animation>
  </tile>
  <tile id="767" terrain=",,0,0">
@@ -4727,6 +4750,7 @@
    <frame tileid="767" duration="500"/>
    <frame tileid="770" duration="500"/>
    <frame tileid="773" duration="500"/>
+   <frame tileid="770" duration="500"/>
   </animation>
  </tile>
  <tile id="768" terrain=",,0,">
@@ -4738,6 +4762,7 @@
    <frame tileid="768" duration="500"/>
    <frame tileid="771" duration="500"/>
    <frame tileid="774" duration="500"/>
+   <frame tileid="768" duration="500"/>
   </animation>
  </tile>
  <tile id="769">
@@ -5037,6 +5062,7 @@
    <frame tileid="817" duration="500"/>
    <frame tileid="820" duration="500"/>
    <frame tileid="823" duration="500"/>
+   <frame tileid="820" duration="500"/>
   </animation>
  </tile>
  <tile id="818" terrain="0,0,0,0">
@@ -5048,6 +5074,7 @@
    <frame tileid="818" duration="500"/>
    <frame tileid="821" duration="500"/>
    <frame tileid="824" duration="500"/>
+   <frame tileid="821" duration="500"/>
   </animation>
  </tile>
  <tile id="819" terrain="0,,0,">
@@ -5059,6 +5086,7 @@
    <frame tileid="819" duration="500"/>
    <frame tileid="822" duration="500"/>
    <frame tileid="825" duration="500"/>
+   <frame tileid="822" duration="500"/>
   </animation>
  </tile>
  <tile id="820">
@@ -5357,6 +5385,7 @@
   <animation>
    <frame tileid="868" duration="500"/>
    <frame tileid="871" duration="500"/>
+   <frame tileid="871" duration="500"/>
   </animation>
  </tile>
  <tile id="869" terrain="0,0,,">
@@ -5368,6 +5397,7 @@
    <frame tileid="869" duration="500"/>
    <frame tileid="872" duration="500"/>
    <frame tileid="875" duration="500"/>
+   <frame tileid="872" duration="500"/>
   </animation>
  </tile>
  <tile id="870" terrain="0,,,">
@@ -5379,6 +5409,7 @@
    <frame tileid="870" duration="500"/>
    <frame tileid="873" duration="500"/>
    <frame tileid="876" duration="500"/>
+   <frame tileid="873" duration="500"/>
   </animation>
  </tile>
  <tile id="871">
@@ -6101,17 +6132,29 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="991">
+ <tile id="991" terrain=",3,3,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="991" duration="500"/>
+   <frame tileid="994" duration="500"/>
+   <frame tileid="997" duration="500"/>
+   <frame tileid="994" duration="500"/>
+  </animation>
  </tile>
- <tile id="992">
+ <tile id="992" terrain="3,,3,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="992" duration="500"/>
+   <frame tileid="995" duration="500"/>
+   <frame tileid="998" duration="500"/>
+   <frame tileid="995" duration="500"/>
+  </animation>
  </tile>
  <tile id="993">
   <properties>
@@ -6407,17 +6450,29 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1042">
+ <tile id="1042" terrain="3,3,,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1042" duration="500"/>
+   <frame tileid="1045" duration="500"/>
+   <frame tileid="1048" duration="500"/>
+   <frame tileid="1045" duration="500"/>
+  </animation>
  </tile>
- <tile id="1043">
+ <tile id="1043" terrain="3,3,3,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1043" duration="500"/>
+   <frame tileid="1046" duration="500"/>
+   <frame tileid="1049" duration="500"/>
+   <frame tileid="1046" duration="500"/>
+  </animation>
  </tile>
  <tile id="1044">
   <properties>
@@ -6707,23 +6762,41 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1092">
+ <tile id="1092" terrain=",,,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1092" duration="500"/>
+   <frame tileid="1095" duration="500"/>
+   <frame tileid="1098" duration="500"/>
+   <frame tileid="1095" duration="500"/>
+  </animation>
  </tile>
- <tile id="1093">
+ <tile id="1093" terrain=",,3,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1093" duration="500"/>
+   <frame tileid="1096" duration="500"/>
+   <frame tileid="1099" duration="500"/>
+   <frame tileid="1096" duration="500"/>
+  </animation>
  </tile>
- <tile id="1094">
+ <tile id="1094" terrain=",,3,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1094" duration="500"/>
+   <frame tileid="1097" duration="500"/>
+   <frame tileid="1100" duration="500"/>
+   <frame tileid="1097" duration="500"/>
+  </animation>
  </tile>
  <tile id="1095">
   <properties>
@@ -7013,23 +7086,41 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1143">
+ <tile id="1143" terrain=",3,,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1143" duration="500"/>
+   <frame tileid="1146" duration="500"/>
+   <frame tileid="1149" duration="500"/>
+   <frame tileid="1146" duration="500"/>
+  </animation>
  </tile>
- <tile id="1144">
+ <tile id="1144" terrain="3,3,3,3">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1144" duration="500"/>
+   <frame tileid="1147" duration="500"/>
+   <frame tileid="1150" duration="500"/>
+   <frame tileid="1147" duration="500"/>
+  </animation>
  </tile>
- <tile id="1145">
+ <tile id="1145" terrain="3,,3,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1145" duration="500"/>
+   <frame tileid="1148" duration="500"/>
+   <frame tileid="1151" duration="500"/>
+   <frame tileid="1148" duration="500"/>
+  </animation>
  </tile>
  <tile id="1146">
   <properties>
@@ -7319,23 +7410,41 @@
    <property name="solid" value="true"/>
   </properties>
  </tile>
- <tile id="1194">
+ <tile id="1194" terrain=",3,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1194" duration="500"/>
+   <frame tileid="1197" duration="500"/>
+   <frame tileid="1200" duration="500"/>
+   <frame tileid="1197" duration="500"/>
+  </animation>
  </tile>
- <tile id="1195">
+ <tile id="1195" terrain="3,3,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1195" duration="500"/>
+   <frame tileid="1198" duration="500"/>
+   <frame tileid="1201" duration="500"/>
+   <frame tileid="1198" duration="500"/>
+  </animation>
  </tile>
- <tile id="1196">
+ <tile id="1196" terrain="3,,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <animation>
+   <frame tileid="1196" duration="500"/>
+   <frame tileid="1199" duration="500"/>
+   <frame tileid="1202" duration="500"/>
+   <frame tileid="1199" duration="500"/>
+  </animation>
  </tile>
  <tile id="1197">
   <properties>
@@ -9662,6 +9771,7 @@
    <frame tileid="1583" duration="500"/>
    <frame tileid="1586" duration="500"/>
    <frame tileid="1589" duration="500"/>
+   <frame tileid="1586" duration="500"/>
   </animation>
  </tile>
  <tile id="1584" terrain="1,,1,1">
@@ -9673,6 +9783,7 @@
    <frame tileid="1584" duration="500"/>
    <frame tileid="1587" duration="500"/>
    <frame tileid="1590" duration="500"/>
+   <frame tileid="1587" duration="500"/>
   </animation>
  </tile>
  <tile id="1585">
@@ -9978,6 +10089,7 @@
    <frame tileid="1634" duration="500"/>
    <frame tileid="1637" duration="500"/>
    <frame tileid="1640" duration="500"/>
+   <frame tileid="1637" duration="500"/>
   </animation>
  </tile>
  <tile id="1635" terrain="1,1,1,">
@@ -9989,6 +10101,7 @@
    <frame tileid="1635" duration="500"/>
    <frame tileid="1638" duration="500"/>
    <frame tileid="1641" duration="500"/>
+   <frame tileid="1638" duration="500"/>
   </animation>
  </tile>
  <tile id="1636">
@@ -10288,6 +10401,7 @@
    <frame tileid="1684" duration="500"/>
    <frame tileid="1687" duration="500"/>
    <frame tileid="1690" duration="500"/>
+   <frame tileid="1687" duration="500"/>
   </animation>
  </tile>
  <tile id="1685" terrain=",,1,1">
@@ -10299,6 +10413,7 @@
    <frame tileid="1685" duration="500"/>
    <frame tileid="1688" duration="500"/>
    <frame tileid="1691" duration="500"/>
+   <frame tileid="1688" duration="500"/>
   </animation>
  </tile>
  <tile id="1686" terrain=",,1,">
@@ -10310,6 +10425,7 @@
    <frame tileid="1686" duration="500"/>
    <frame tileid="1689" duration="500"/>
    <frame tileid="1692" duration="500"/>
+   <frame tileid="1689" duration="500"/>
   </animation>
  </tile>
  <tile id="1687">
@@ -10609,6 +10725,7 @@
    <frame tileid="1735" duration="500"/>
    <frame tileid="1738" duration="500"/>
    <frame tileid="1741" duration="500"/>
+   <frame tileid="1738" duration="500"/>
   </animation>
  </tile>
  <tile id="1736" terrain="1,1,1,1">
@@ -10620,6 +10737,7 @@
    <frame tileid="1736" duration="500"/>
    <frame tileid="1739" duration="500"/>
    <frame tileid="1742" duration="500"/>
+   <frame tileid="1739" duration="500"/>
   </animation>
  </tile>
  <tile id="1737" terrain="1,,1,">
@@ -10631,6 +10749,7 @@
    <frame tileid="1737" duration="500"/>
    <frame tileid="1740" duration="500"/>
    <frame tileid="1743" duration="500"/>
+   <frame tileid="1740" duration="500"/>
   </animation>
  </tile>
  <tile id="1738">
@@ -10930,6 +11049,7 @@
    <frame tileid="1786" duration="500"/>
    <frame tileid="1789" duration="500"/>
    <frame tileid="1792" duration="500"/>
+   <frame tileid="1789" duration="500"/>
   </animation>
  </tile>
  <tile id="1787" terrain="1,1,,">
@@ -10941,6 +11061,7 @@
    <frame tileid="1787" duration="500"/>
    <frame tileid="1790" duration="500"/>
    <frame tileid="1793" duration="500"/>
+   <frame tileid="1790" duration="500"/>
   </animation>
  </tile>
  <tile id="1788" terrain="1,,,">
@@ -10952,6 +11073,7 @@
    <frame tileid="1788" duration="500"/>
    <frame tileid="1791" duration="500"/>
    <frame tileid="1794" duration="500"/>
+   <frame tileid="1791" duration="500"/>
   </animation>
  </tile>
  <tile id="1789">
@@ -11440,9 +11562,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1359" duration="250"/>
-   <frame tileid="1362" duration="250"/>
-   <frame tileid="1365" duration="250"/>
+   <frame tileid="1359" duration="500"/>
+   <frame tileid="1362" duration="500"/>
+   <frame tileid="1365" duration="500"/>
+   <frame tileid="1872" duration="500"/>
   </animation>
  </tile>
  <tile id="1870">
@@ -11751,9 +11874,10 @@
    <property name="solid" value="false"/>
   </properties>
   <animation>
-   <frame tileid="1920" duration="250"/>
-   <frame tileid="1923" duration="250"/>
-   <frame tileid="1926" duration="250"/>
+   <frame tileid="1920" duration="500"/>
+   <frame tileid="1923" duration="500"/>
+   <frame tileid="1926" duration="500"/>
+   <frame tileid="1923" duration="500"/>
   </animation>
  </tile>
  <tile id="1921">
@@ -12062,9 +12186,10 @@
    <property name="solid" value="true"/>
   </properties>
   <animation>
-   <frame tileid="1971" duration="250"/>
-   <frame tileid="1974" duration="250"/>
-   <frame tileid="1977" duration="250"/>
+   <frame tileid="1971" duration="500"/>
+   <frame tileid="1974" duration="500"/>
+   <frame tileid="1977" duration="500"/>
+   <frame tileid="1974" duration="500"/>
   </animation>
  </tile>
  <tile id="1972">
@@ -12376,6 +12501,7 @@
    <frame tileid="2022" duration="500"/>
    <frame tileid="2025" duration="500"/>
    <frame tileid="2028" duration="500"/>
+   <frame tileid="2025" duration="500"/>
   </animation>
  </tile>
  <tile id="2023">

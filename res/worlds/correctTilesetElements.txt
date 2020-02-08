@@ -16,3 +16,4 @@
  <tileset firstgid="18856" source="outside4.tsx"/>
  <tileset firstgid="19720" source="ruindungeons_sheet_full.tsx"/>
  <tileset firstgid="22268" source="ship_tileset.tsx"/>
+ <tileset firstgid="23780" source="z_tile_marker.tsx"/>

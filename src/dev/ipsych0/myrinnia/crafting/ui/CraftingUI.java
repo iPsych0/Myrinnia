@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
+import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestUI;
@@ -21,6 +22,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -53,8 +55,6 @@ public class CraftingUI implements Serializable {
     private List<CraftingRecipe> results;
     private List<CraftSelectSlot> selectSlots;
     private CraftSelectSlot selectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
-    private Color insufficientAmountColor = new Color(255, 0, 0, 62);
 
     public CraftingUI() {
         this.width = 242;
@@ -401,17 +401,17 @@ public class CraftingUI implements Serializable {
             for (CraftSelectSlot slot : selectSlots) {
                 if (slot.getRecipe().isDiscovered()) {
                     if (!Handler.get().playerHasSkillLevel(SkillsList.CRAFTING, slot.getRecipe().getRequiredLevel())) {
-                        g.setColor(insufficientAmountColor);
+                        g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
                     } else if (!hasEnoughQuantity(slot)) {
-                        g.setColor(insufficientAmountColor);
+                        g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
                     }
                 }
             }
 
             if (selectedSlot != null) {
-                g.setColor(selectedColor);
+                g.setColor(Colors.selectedColor);
                 g.fillRoundRect(selectedSlot.x, selectedSlot.y, selectedSlot.width, selectedSlot.height, 4, 4);
                 drawRequirementAmounts(g);
             }
@@ -431,9 +431,9 @@ public class CraftingUI implements Serializable {
                 if (currentSelectedSlot != null) {
                     g.drawImage(currentSelectedSlot.getItem().getTexture(), Handler.get().getMouseManager().getMouseX(),
                             Handler.get().getMouseManager().getMouseY(), null);
-                    g.setFont(Assets.font14);
-                    g.setColor(Color.YELLOW);
-                    g.drawString(Integer.toString(currentSelectedSlot.getAmount()), Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16);
+
+                    Text.drawString(g, String.valueOf(currentSelectedSlot.getAmount()),
+                            Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
                 }
             }
         }
@@ -580,13 +580,12 @@ public class CraftingUI implements Serializable {
     private void updateTutorial(ItemStack result) {
         // For tutorial quest
         if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
+            Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
             if (result.getItem() == Item.beginnersSword ||
                     result.getItem() == Item.beginnersBow ||
                     result.getItem() == Item.beginnersStaff) {
-                if (Handler.get().questInProgress(QuestList.PreparingYourJourney) && Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(0).isFinished() &&
-                        Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(1).isFinished() && !Handler.get().getQuest(QuestList.PreparingYourJourney).getQuestSteps().get(2).isFinished()) {
-                    Handler.get().getQuest(QuestList.PreparingYourJourney).nextStep();
-                    Handler.get().getQuest(QuestList.PreparingYourJourney).addStep("Report back to Duncan.");
+                if (!quest.getQuestSteps().get(2).isFinished()) {
+                    quest.nextStep();
                 }
             }
         }

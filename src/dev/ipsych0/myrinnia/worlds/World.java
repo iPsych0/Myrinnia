@@ -2,7 +2,8 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
@@ -15,7 +16,6 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
-import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.quests.QuestManager;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
@@ -26,6 +26,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -51,6 +52,8 @@ public class World implements Serializable {
     private static boolean nightTime = false;
     private static int timeChecker = 60 * 60;
     private boolean initialized;
+    private boolean hasPermissionsLayer;
+    private int renderLayers;
 
     // Entities
 
@@ -75,17 +78,18 @@ public class World implements Serializable {
     private BountyContractUI contractUI;
     private CelebrationUI celebrationUI;
     private List<ZoneTile> zoneTiles;
+    private List<ZoneTile> toBeAddedZoneTiles;
     private Zone zone;
-    private WeatherEffect weatherEffect;
+    private List<Weather> weatherEffects;
     private boolean dayNightCycle;
 
     private static final int radius = 800;
     private static final float[] fractions = {0.0f, 1.0f};
-    private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 236)};
-    private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
-            getHeight() / 2, radius, fractions, colors);
+    private static final Color[] colors = {new Color(0, 13, 35, 96), new Color(0, 13, 35, 232)};
+    private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
+            getHeight() / 2f, radius, fractions, colors);
 
-    public World(Zone zone, WeatherEffect weatherEffect, boolean dayNightCycle, String path) {
+    public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             String fixedFile;
@@ -99,7 +103,7 @@ public class World implements Serializable {
             this.worldPath = path;
         }
         this.zone = zone;
-        this.weatherEffect = weatherEffect;
+        this.weatherEffects = weatherEffects;
         this.dayNightCycle = dayNightCycle;
 
         // World-specific classes
@@ -122,6 +126,7 @@ public class World implements Serializable {
         entityManager = new EntityManager(player);
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
+        toBeAddedZoneTiles = new ArrayList<>();
 
         // Only initialize the starting world on start-up
         if (worldPath.equalsIgnoreCase(Handler.initialWorldPath)) {
@@ -131,11 +136,15 @@ public class World implements Serializable {
     }
 
     public World(Zone zone, String path) {
-        this(zone, WeatherEffect.NONE, true, path);
+        this(zone, new ArrayList<>(), true, path);
     }
 
     public World(Zone zone, boolean dayNightCycle, String path) {
-        this(zone, WeatherEffect.NONE, dayNightCycle, path);
+        this(zone, new ArrayList<>(), dayNightCycle, path);
+    }
+
+    public World(Zone zone, List<Weather> weatherEffects, String path) {
+        this(zone, weatherEffects, true, path);
     }
 
     public void init() {
@@ -145,7 +154,10 @@ public class World implements Serializable {
             width = MapLoader.getMapWidth();
             height = MapLoader.getMapHeight();
 
-            loadWorld(worldPath);
+            loadWorld();
+
+            // Render all but the top layer if we have a permissionsLayer
+            renderLayers = hasPermissionsLayer ? (layers.length - 1) : (layers.length);
 
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
@@ -156,6 +168,11 @@ public class World implements Serializable {
 
     public void tick() {
         if (Handler.get().getWorld().equals(this)) {
+
+            if (zoneTiles.addAll(toBeAddedZoneTiles)) {
+                toBeAddedZoneTiles.clear();
+            }
+
             itemManager.tick();
             entityManager.tick();
             inventory.tick();
@@ -182,6 +199,8 @@ public class World implements Serializable {
             if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
                 player.getBountyBoard().getBountyBoardUI().tick();
             }
+
+            EffectManager.get().tick();
 
             // Check for night-time every minute
             if (dayNightCycle && timeChecker++ >= 60 * 60) {
@@ -222,8 +241,8 @@ public class World implements Serializable {
             List<Tile> renderOverTiles = new ArrayList<>();
             List<Integer> xCoords = new ArrayList<>();
             List<Integer> yCoords = new ArrayList<>();
-//        boolean standingUnderPostRenderTile = false;
-            for (int i = 0; i < layers.length; i++) {
+
+            for (int i = 0; i < renderLayers; i++) {
                 for (int y = yStart; y < yEnd; y++) {
                     for (int x = xStart; x < xEnd; x++) {
                         Tile t = getTile(i, x, y);
@@ -231,9 +250,14 @@ public class World implements Serializable {
                             int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
                             int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
                             if (t.isPostRendered()) {
-//                            if(Handler.get().getPlayer().getCollisionBounds(0,0).intersects(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT, Tile.TILEWIDTH, Tile.TILEHEIGHT)){
-//                                standingUnderPostRenderTile = true;
-//                            }
+                                if (Handler.debugCollision && hasPermissionsLayer && i == (renderLayers - 1)) {
+                                    Tile permission = getTile(i + 1, x, y);
+                                    if (permission != Tile.tiles[0]) {
+                                        renderOverTiles.add(permission);
+                                        xCoords.add(xPos);
+                                        yCoords.add(yPos);
+                                    }
+                                }
                                 renderOverTiles.add(t);
                                 xCoords.add(xPos);
                                 yCoords.add(yPos);
@@ -242,10 +266,23 @@ public class World implements Serializable {
                             t.tick();
                             t.render(g, xPos, yPos);
                             if (Handler.debugCollision) {
-                                g.setColor(AStarMap.unwalkableColour);
+                                g.setColor(Colors.unwalkableColour);
                                 g.drawRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
                                 if (t.isSolid()) {
                                     g.fillRect(xPos, yPos, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+                                }
+                            }
+                        }
+
+                        // Render permission tiles
+                        if (Handler.debugCollision) {
+                            if (hasPermissionsLayer && i == (renderLayers - 1)) {
+                                int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                                int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
+
+                                Tile permission = getTile(i + 1, x, y);
+                                if (permission != Tile.tiles[0]) {
+                                    permission.render(g, xPos, yPos);
                                 }
                             }
                         }
@@ -264,6 +301,8 @@ public class World implements Serializable {
             // Entities
             entityManager.render(g);
 
+            EffectManager.get().render(g);
+
 //        Composite composite = g.getComposite();
             for (int i = 0; i < renderOverTiles.size(); i++) {
                 renderOverTiles.get(i).tick();
@@ -271,23 +310,49 @@ public class World implements Serializable {
 //                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
 //                g.setComposite(ac);
 //            }
-                renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                if (renderOverTiles.get(i).getPermission() != null) {
+                    if (Handler.debugCollision) {
+                        renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                    }
+                } else {
+                    renderOverTiles.get(i).render(g, xCoords.get(i), yCoords.get(i));
+                }
             }
 //        g.setComposite(composite);
+
+            for (Weather weather : weatherEffects) {
+                weather.tick();
+                weather.render(g);
+            }
 
             if (dayNightCycle && nightTime) {
                 renderNight(g);
             }
 
-            craftingUI.render(g);
 
-            // Inventory & Equipment
-            equipment.render(g);
-            inventory.render(g);
+            for (Weather weather : weatherEffects) {
+                if (weather instanceof Rain) {
+                    ((Rain) weather).renderThunder(g);
+                }
+            }
 
             itemManager.postRender(g);
             entityManager.postRender(g);
 
+            craftingUI.render(g);
+
+            // Inventory & Equipment
+            Composite current = g.getComposite();
+            if (Handler.get().getGameCamera().isAtRightBound()) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
+            equipment.render(g);
+            inventory.render(g);
+            if (Handler.get().getGameCamera().isAtRightBound()) {
+                g.setComposite(current);
+            }
+
+            player.postRender(g);
 
             // Chat
             chatWindow.render(g);
@@ -322,10 +387,8 @@ public class World implements Serializable {
 
             celebrationUI.render(g);
 
-            if (Handler.debugZones) {
-                for (ZoneTile zt : zoneTiles) {
-                    zt.render(g);
-                }
+            for (ZoneTile zt : zoneTiles) {
+                zt.render(g);
             }
 
             tipManager.render(g);
@@ -349,8 +412,8 @@ public class World implements Serializable {
         g.setPaint(originalPaint);
     }
 
-    private void loadWorld(String path) {
-        layers = MapLoader.getMapTiles(path);
+    private void loadWorld() {
+        layers = MapLoader.getMapTiles(this);
         tiles = new int[layers.length][width][height];
 
         for (int i = 0; i < layers.length; i++) {
@@ -365,7 +428,10 @@ public class World implements Serializable {
                 }
             }
         }
+    }
 
+    public void addRuntimeZoneTile(ZoneTile zoneTile) {
+        toBeAddedZoneTiles.add(zoneTile);
     }
 
     public int getWidth() {
@@ -464,12 +530,12 @@ public class World implements Serializable {
         this.zone = zone;
     }
 
-    public WeatherEffect getWeatherEffect() {
-        return weatherEffect;
+    public List<Weather> getWeatherEffects() {
+        return weatherEffects;
     }
 
-    public void setWeatherEffect(WeatherEffect weatherEffect) {
-        this.weatherEffect = weatherEffect;
+    public void setWeatherEffects(List<Weather> weatherEffects) {
+        this.weatherEffects = weatherEffects;
     }
 
     public boolean isDayNightCycle() {
@@ -478,5 +544,13 @@ public class World implements Serializable {
 
     public void setDayNightCycle(boolean dayNightCycle) {
         this.dayNightCycle = dayNightCycle;
+    }
+
+    public boolean hasPermissionsLayer() {
+        return hasPermissionsLayer;
+    }
+
+    public void setHasPermissionsLayer(boolean hasPermissionsLayer) {
+        this.hasPermissionsLayer = hasPermissionsLayer;
     }
 }

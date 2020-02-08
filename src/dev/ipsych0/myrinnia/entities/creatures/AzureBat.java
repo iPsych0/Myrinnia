@@ -3,10 +3,10 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
@@ -14,6 +14,7 @@ public class AzureBat extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
+    private static boolean tipShown = false;
 
     public AzureBat(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -22,14 +23,14 @@ public class AzureBat extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence += 1;
-        vitality += 10;
-        defence += 5;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength = 0;
+        dexterity = 0;
+        intelligence = 7;
+        vitality = 16;
+        defence = 8;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 6;
+        attackRange = Tile.TILEWIDTH * 5;
 
         bounds.x = 2;
         bounds.y = 2;
@@ -46,6 +47,11 @@ public class AzureBat extends Creature {
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
         map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+
+        if (!tipShown) {
+            tipShown = true;
+            Handler.get().addTip(new TutorialTip("You can lock in an enemy's or object's hover info by right-clicking on it."));
+        }
     }
 
     @Override
@@ -73,14 +79,14 @@ public class AzureBat extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         new Projectile.Builder(DamageType.INT, Assets.waterProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }
 
     @Override
     protected void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         getDroptableItem();
     }
 

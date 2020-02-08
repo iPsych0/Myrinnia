@@ -1,9 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -27,14 +25,22 @@ public class MalachiteThugR extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 1;
-        intelligence += 0;
-        vitality += 12;
-        defence += 10;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength = 0;
+        dexterity = 10;
+        intelligence = 0;
+        vitality = 26;
+        defence = 20;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
+
+        if ("Devon's associate".equalsIgnoreCase(name)) {
+            dexterity = 7;
+            vitality = 18;
+            defence = 12;
+            maxHealth = DEFAULT_HEALTH + vitality * 4;
+            health = maxHealth;
+        }
 
         bounds.x = 2;
         bounds.y = 2;
@@ -54,7 +60,11 @@ public class MalachiteThugR extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
+        if ("Devon's associate".equalsIgnoreCase(name)) {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        } else {
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        }
     }
 
     /*
@@ -76,14 +86,16 @@ public class MalachiteThugR extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/ranged_shot.wav");
+        Handler.get().playEffect("abilities/ranged_shot.ogg");
         new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugR(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        if (!"Devon's associate".equalsIgnoreCase(name)) {
+            Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugR(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        }
     }
 
     @Override

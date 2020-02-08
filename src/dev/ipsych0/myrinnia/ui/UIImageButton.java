@@ -41,11 +41,11 @@ public class UIImageButton extends UIObject {
     public void render(Graphics2D g) {
         if (hovering) {
             if (!hasHovered) {
-                Handler.get().playEffect("ui/ui_button_hover.wav");
+                Handler.get().playEffect("ui/ui_button_hover.ogg");
                 hasHovered = true;
             }
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 hasBeenPressed = false;
             }
             g.drawImage(images[1], x, y, width, height, null);

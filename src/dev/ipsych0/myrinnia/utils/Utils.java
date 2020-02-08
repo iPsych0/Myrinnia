@@ -3,11 +3,12 @@ package dev.ipsych0.myrinnia.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
+import dev.ipsych0.myrinnia.quests.QuestVO;
 import dev.ipsych0.myrinnia.shops.Stock;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
 
@@ -49,6 +50,9 @@ public class Utils {
     }
 
     private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
+        if (jsonFile == null) {
+            throw new IllegalArgumentException("JSON file cannot be null/empty.");
+        }
         InputStream inputStream = null;
         jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
         inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
@@ -152,6 +156,11 @@ public class Utils {
     public static Monologue loadMonologue(String path) {
         Monologue m = loadObjectFromJsonFile(path, "states/monologues/", Monologue.class);
         return m;
+    }
+
+    public static QuestVO loadQuest(String path) {
+        QuestVO q = loadObjectFromJsonFile(path, "quests/json/", QuestVO.class);
+        return q;
     }
 
 }

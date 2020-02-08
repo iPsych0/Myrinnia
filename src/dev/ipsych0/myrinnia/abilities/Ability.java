@@ -1,9 +1,11 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -117,7 +119,7 @@ public abstract class Ability implements Serializable {
             if (!Handler.get().getPlayer().hasLeftClickedUI(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                 setSelected(false);
                 for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
-                    if (as.getAbility() != null) {
+                    if (as.getAbility() != null && as.getAbility() != this) {
                         if (as.getAbility().isChanneling()) {
                             this.setActivated(false);
                             return;
@@ -300,6 +302,10 @@ public abstract class Ability implements Serializable {
     }
 
     public void setUnlocked(boolean unlocked) {
+        if (!this.unlocked && unlocked) {
+            // Only show the first time we unlock to prevent erroneous message if we accidentally add an already available ability
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "You unlocked the '" + getName() + "' ability."));
+        }
         this.unlocked = unlocked;
     }
 

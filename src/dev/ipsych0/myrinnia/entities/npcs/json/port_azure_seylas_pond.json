@@ -29,7 +29,7 @@
     },
     {
       "id": 3,
-      "text": "[You learned {AbilityName} ability]",
+      "text": "[You have learned 3 new abilities]",
       "nextId": 4
     },
     {

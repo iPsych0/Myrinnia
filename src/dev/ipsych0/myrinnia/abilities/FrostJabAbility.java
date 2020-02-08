@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -62,7 +63,7 @@ public class FrostJabAbility extends Ability implements Serializable {
             setMeleeSwing(direction);
             meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-            Handler.get().playEffect("abilities/frost_jab.wav", 0.1f);
+            Handler.get().playEffect("abilities/frost_jab.ogg", 0.1f);
             initialized = true;
 
             checkHitBox(direction);
@@ -77,7 +78,12 @@ public class FrostJabAbility extends Ability implements Serializable {
             angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
         }
 
-        Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
+        Rectangle ar;
+        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
+            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
+        }
 
         if (caster.equals(Handler.get().getPlayer())) {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -85,27 +91,25 @@ public class FrostJabAbility extends Ability implements Serializable {
                     continue;
                 if (!e.isAttackable())
                     continue;
-                if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, caster, e, this);
+                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
+                    e.damage(DamageType.STR, caster, this);
 
-                    // 10% Chance of chilling
+                    // 20% Chance of chilling
                     int rnd = Handler.get().getRandomNumber(1, 10);
-                    if (rnd == 1) {
-                        e.addCondition(caster, e, new Condition(Condition.Type.CHILL, e, 3));
+                    if (rnd <= 2) {
+                        e.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
                     }
-                    // Break because we only hit 1 target
-                    break;
                 }
             }
         } else {
             Player player = Handler.get().getPlayer();
-            if (player.getCollisionBounds(0, 0).intersects(ar)) {
-                player.damage(DamageType.STR, caster, player, this);
+            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
+                player.damage(DamageType.STR, caster, this);
 
-                // 10% Chance of chilling
+                // 20% Chance of chilling
                 int rnd = Handler.get().getRandomNumber(1, 10);
-                if (rnd == 1) {
-                    player.addCondition(caster, player, new Condition(Condition.Type.CHILL, player, 3));
+                if (rnd <= 2) {
+                    player.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
                 }
             }
         }
@@ -142,20 +146,20 @@ public class FrostJabAbility extends Ability implements Serializable {
         double yOffset = 1.0f * Math.sin(angle);
 
 
-        // xPos change RIGHT
+        // meleeXOffset change RIGHT
         if (rotation >= 270 || rotation < 90) {
-            xPos = 20d * xOffset;
-            // xPos change LEFT
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
+            // meleeXOffset change LEFT
         } else if (rotation >= 90 || rotation < 270) {
-            xPos = 20d * xOffset;
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
         }
 
-        // xPos change RIGHT
+        // meleeXOffset change UP
         if (rotation >= 180 || rotation <= 360) {
-            yPos = 20d * yOffset;
-            // xPos change LEFT
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
+            // meleeXOffset change DOWN
         } else if (rotation >= 0 || rotation < 180) {
-            yPos = 20d * yOffset;
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
         }
     }
 

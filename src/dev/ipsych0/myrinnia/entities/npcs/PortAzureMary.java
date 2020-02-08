@@ -57,23 +57,21 @@ public class PortAzureMary extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && quest.getQuestSteps().get(0).isFinished() && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     speakingTurn = 5;
                     break;
                 }
             case 6:
-                if (!hasRemovedFish && Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
+                if (quest.getQuestSteps().get(0).isFinished() && !hasRemovedFish && Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.mackerelFish, 5)) {
                     Handler.get().removeItem(Item.mackerelFish, 5);
-                    quest.nextStep();
                     speakingCheckpoint = 6;
                     hasRemovedFish = true;
                 }
                 break;
             case 7:
                 Handler.get().giveItem(Item.coins, 50);
+                quest.nextStep();
                 quest.setState(QuestState.COMPLETED);
-                Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
-                Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 Handler.get().addTip(new TutorialTip("Press P to pause the game. Here, you can save your game or change settings."));
                 speakingCheckpoint = 0;
                 break;

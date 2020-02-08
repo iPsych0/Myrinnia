@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.entities;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -21,22 +20,21 @@ public class Condition implements Serializable {
     private int conditionDamage;
     private transient BufferedImage img;
     private double initialSpeedDecrease;
-    private static final double CHILL_MOVSPD = 0.66;
+    private static final double CHILL_MOVSPD = 0.5;
+    private static final double CRIPPLE_MOVSPD = 0.66;
     private Type type;
 
-    public Condition(Type type, Entity receiver, int durationSeconds) {
+    public Condition(Type type, int durationSeconds) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
+        this.initialDuration = durationSeconds * 60;
         this.currentDuration = durationSeconds * 60;
-        this.initialDuration = currentDuration;
         this.active = true;
     }
 
-    public Condition(Type type, Entity receiver, int durationSeconds, int conditionDamage) {
+    public Condition(Type type, int durationSeconds, int conditionDamage) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
         this.currentDuration = durationSeconds * 60;
         this.initialDuration = currentDuration;
         this.conditionDamage = conditionDamage;
@@ -82,12 +80,20 @@ public class Condition implements Serializable {
 
     private void apply() {
         receiver.tickCondition(receiver, this);
-        if (type == Type.CHILL) {
-            Creature r = ((Creature) receiver);
-            double currMovSpd = r.getSpeed();
-            double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
-            initialSpeedDecrease = currMovSpd - newMovSpd;
-            r.setSpeed(newMovSpd);
+        Creature r = ((Creature) receiver);
+        switch (type) {
+            case CHILL:
+                double currMovSpd = r.getSpeed();
+                double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
+                initialSpeedDecrease = currMovSpd - newMovSpd;
+                r.setSpeed(newMovSpd);
+                break;
+            case CRIPPLED:
+                double currMovSpd2 = r.getSpeed();
+                double newMovSpd2 = (r.getSpeed() * CRIPPLE_MOVSPD);
+                initialSpeedDecrease = currMovSpd2 - newMovSpd2;
+                r.setSpeed(newMovSpd2);
+                break;
         }
     }
 
@@ -102,7 +108,7 @@ public class Condition implements Serializable {
         tickTimer = 0;
         this.setActive(false);
 
-        if (type == Type.CHILL) {
+        if (type == Type.CHILL || type == Type.CRIPPLED) {
             Creature r = ((Creature) receiver);
             r.setSpeed(r.getSpeed() + initialSpeedDecrease);
         }
@@ -140,12 +146,31 @@ public class Condition implements Serializable {
         return type;
     }
 
+    public Entity getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Entity receiver) {
+        this.receiver = receiver;
+    }
+
+    public int getInitialDuration() {
+        return initialDuration;
+    }
+
+    public void setInitialDuration(int initialDuration) {
+        this.initialDuration = initialDuration;
+    }
+
     public enum Type {
         BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
-        CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 33%."),
+        CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 50%."),
+        CRIPPLED(Assets.exclamationIcon, "'Crippled' decreases the receiver's movement speed by 33%."),
         BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),
-        STUN(Assets.stunIcon, "'Stun' stops movement and stops the receiver from attacking.");
+        ROOTED(Assets.exclamationIcon, "'Rooted' renders the receiver immobilized."),
+        BLINDED(Assets.exclamationIcon, "'Blinded' makes the next attack miss."),
+        STUN(Assets.stunIcon, "'Stun' immobilizes and stops the receiver from attacking.");
 
         Type(BufferedImage img, String description) {
             this.img = img;

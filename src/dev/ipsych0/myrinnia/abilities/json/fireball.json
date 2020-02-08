@@ -4,7 +4,7 @@
   "overcastTime": 0.0,
   "name": "Fireball",
   "description": "Shoot a powerful fireball at your enemy.",
-  "abilityType": "AutoAttack",
+  "abilityType": "StandardAbility",
   "element": "Fire",
   "combatStyle": "Magic",
   "onCooldown": false,

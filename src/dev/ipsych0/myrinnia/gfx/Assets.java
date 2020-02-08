@@ -24,23 +24,34 @@ public class Assets {
     public static Font font48;
     public static Font font64;
 
-    // Map item images (trees, rocks, etc)
-    public static BufferedImage weakPalmTree, azuriteRock;
-    public static BufferedImage bountyBoard1, bountyBoard2;
-    public static BufferedImage rockSlide;
+    // Weather effects
+    public static BufferedImage rain, snow, sandStorm, fog;
 
+    // Map item images (trees, rocks, etc)
+    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, tungstenRock;
+    public static BufferedImage bountyBoard1, bountyBoard2;
+    public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
+    public static BufferedImage ropeLadderMapTile;
     /*
      * Creature Animations
      */
     public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] regularArrow, regularMagic, regularMelee;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
     public static BufferedImage[] airProjectile;
-    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, glacialShot1;
-    public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, glacialShotI, healingSpringI, arcaneRenewalI;
+    public static BufferedImage[] hedgeHogRoll;
+
+    // Ability animations
+    public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
+            rockyConstrict, sandBlast;
+
+    // Ability icons
+    public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
+            glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
+            rockyConstrictI, sandblastI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -52,15 +63,24 @@ public class Assets {
     public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
-    public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
-                                simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
-                                copperOre, malachite, miningEquipment, dustyScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
-                                chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
-                                lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal;
+    public static BufferedImage palmWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
+            simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
+            copperOre, malachite, miningEquipment, abilityScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
+            chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
+            lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
+            wateringCan, softLeather, stripOfCloth, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
+            malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
+            studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
+            softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
+            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
+            tungstenOre, aspenwood, lightwood;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+
+    // Farming icons
+    public static BufferedImage cropsPlanted1;
 
     // Enemy images
     public static BufferedImage[] blueScorpionUp, blueScorpionDown, blueScorpionLeft, blueScorpionRight;
@@ -68,6 +88,9 @@ public class Assets {
     public static BufferedImage[] azureBatUp, azureBatDown, azureBatLeft, azureBatRight;
     public static BufferedImage[] angryOwl, angryFlower;
     public static BufferedImage[] venovineUp, venovineDown, venovineLeft, venovineRight;
+    public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
+    public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
+    public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -118,11 +141,29 @@ public class Assets {
     public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
     public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
 
+    // Male elves
+    public static BufferedImage[] genericElfMale1Down, genericElfMale1Left, genericElfMale1Right, genericElfMale1Up;
+    public static BufferedImage[] genericElfMale2Down, genericElfMale2Left, genericElfMale2Right, genericElfMale2Up;
+    public static BufferedImage[] genericElfMale3Down, genericElfMale3Left, genericElfMale3Right, genericElfMale3Up;
+    public static BufferedImage[] genericElfMale4Down, genericElfMale4Left, genericElfMale4Right, genericElfMale4Up;
+    public static BufferedImage[] genericElfMale5Down, genericElfMale5Left, genericElfMale5Right, genericElfMale5Up;
+    public static BufferedImage[] genericElfMale6Down, genericElfMale6Left, genericElfMale6Right, genericElfMale6Up;
+
+    // Female elves
+    public static BufferedImage[] genericElfFemale1Down, genericElfFemale1Left, genericElfFemale1Right, genericElfFemale1Up;
+    public static BufferedImage[] genericElfFemale2Down, genericElfFemale2Left, genericElfFemale2Right, genericElfFemale2Up;
+    public static BufferedImage[] genericElfFemale3Down, genericElfFemale3Left, genericElfFemale3Right, genericElfFemale3Up;
+    public static BufferedImage[] genericElfFemale4Down, genericElfFemale4Left, genericElfFemale4Right, genericElfFemale4Up;
+    public static BufferedImage[] genericElfFemale5Down, genericElfFemale5Left, genericElfFemale5Right, genericElfFemale5Up;
+    public static BufferedImage[] genericElfFemale6Down, genericElfFemale6Left, genericElfFemale6Right, genericElfFemale6Up;
+
     // Port Azure
     public static BufferedImage[] portAzureRyanDown, portAzureRyanLeft, portAzureRyanRight, portAzureRyanUp;
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
     public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
     public static BufferedImage[] portAzureCooperDown, portAzureCooperLeft, portAzureCooperRight, portAzureCooperUp;
+    public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
+    public static BufferedImage portAzureMayor, elderSelwyn;
 
     // Shamrock
     public static BufferedImage[] shamrockEdgarDown, shamrockEdgarLeft, shamrockEdgarRight, shamrockEdgarUp;
@@ -134,6 +175,11 @@ public class Assets {
     public static BufferedImage[] malachiteThug1Down, malachiteThug1Left, malachiteThug1Right, malachiteThug1Up;
     public static BufferedImage[] malachiteThug2Down, malachiteThug2Left, malachiteThug2Right, malachiteThug2Up;
     public static BufferedImage[] malachiteThugLeaderDown, malachiteThugLeaderLeft, malachiteThugLeaderRight, malachiteThugLeaderUp;
+    public static BufferedImage[] malachiteTonyDown, malachiteTonyLeft, malachiteTonyRight, malachiteTonyUp;
+
+    // Celenor
+    public static BufferedImage[] celenorElenthirDown, celenorElenthirLeft, celenorElenthirRight, celenorElenthirUp;
+    public static BufferedImage[] celenorNyvolasDown, celenorNyvolasLeft, celenorNyvolasRight, celenorNyvolasUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -160,7 +206,7 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
@@ -170,10 +216,6 @@ public class Assets {
     public static BufferedImage uiWindow;
 
     public static BufferedImage[][] puzzlePieces;
-
-    // Port Azure
-    public static BufferedImage portAzureMayor, elderSelwyn;
-    public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
 
     public static BufferedImage mainBackground;
 
@@ -208,6 +250,19 @@ public class Assets {
         SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
         SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
         SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
+        SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
+
+        /*
+         * Weather sprites
+         */
+        SpriteSheet rain_sheet = new SpriteSheet("/textures/weather/wsheet_rain1_1.png");
+        rain = rain_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet snow_sheet = new SpriteSheet("/textures/weather/wsheet_snow_1.png");
+        snow = snow_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet sand_sheet = new SpriteSheet("/textures/weather/wsheet_sand_1.png");
+        sandStorm = sand_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet fog_sheet = new SpriteSheet("/textures/weather/wsheet_fog_1.png");
+        fog = fog_sheet.imageCrop(0, 0, 128, 32);
 
         /*
          * Player/NPCs
@@ -217,8 +272,10 @@ public class Assets {
         SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
         SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
+        SpriteSheet celenor_npcs = new SpriteSheet("/textures/npc_sprites/celenor_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
+        SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
         SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
 
         /*
@@ -229,6 +286,8 @@ public class Assets {
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
         SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
+
+        SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
 
         /*
          * Ability Animations
@@ -259,6 +318,7 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/outside4.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/z_tile_marker.png", true));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
@@ -323,6 +383,7 @@ public class Assets {
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
         bountyHunterIcon = ui_sheet.imageCrop(5, 1);
+        farmingIcon = ui_sheet.imageCrop(7, 1);
 
         // Condition icons
         chillIcon = ui_sheet.imageCrop(0, 2);
@@ -332,8 +393,8 @@ public class Assets {
         stunIcon = ui_sheet.imageCrop(4, 2);
 
         // Weakness & Resistance icons
-        resistanceIcon = ui_sheet.imageCrop(4,1);
-        weaknessIcon = ui_sheet.imageCrop(6,1);
+        resistanceIcon = ui_sheet.imageCrop(4, 1);
+        weaknessIcon = ui_sheet.imageCrop(6, 1);
 
         // Buff icons
         strBuffIcon = ui_sheet.imageCrop(0, 3);
@@ -353,7 +414,7 @@ public class Assets {
 
         // Crafting UI sprites
         undiscovered = ui_sheet.imageCrop(0, 0);
-        exclamationIcon = ui_sheet.imageCrop(3,1);
+        exclamationIcon = ui_sheet.imageCrop(3, 1);
 
         /*
          * Generic Button Sprites
@@ -377,7 +438,7 @@ public class Assets {
         /*
          * Item Sprites
          */
-        lightWood = item_sheet.imageCrop(0, 0);
+        palmWood = item_sheet.imageCrop(0, 0);
         azuriteOre = item_sheet.imageCrop(0, 1);
         coins = new BufferedImage[4];
         coins[0] = item_sheet.imageCrop(0, 2);
@@ -402,7 +463,7 @@ public class Assets {
         copperOre = item_sheet.imageCrop(0, 18);
         malachite = item_sheet.imageCrop(0, 19);
         miningEquipment = item_sheet.imageCrop(0, 20);
-        dustyScroll = item_sheet.imageCrop(0, 21);
+        abilityScroll = item_sheet.imageCrop(0, 21);
         azuriteNecklace = item_sheet.imageCrop(0, 22);
         azureBatWing = item_sheet.imageCrop(0, 23);
         crablingClaw = item_sheet.imageCrop(0, 24);
@@ -426,6 +487,64 @@ public class Assets {
         ironOre = item_sheet.imageCrop(1, 12);
         trout = item_sheet.imageCrop(1, 13);
         boneMeal = item_sheet.imageCrop(1, 14);
+        rockyShell = item_sheet.imageCrop(1, 15);
+        tomatoSeeds = item_sheet.imageCrop(1, 16);
+        cabbageSeeds = item_sheet.imageCrop(1, 17);
+        tomato = item_sheet.imageCrop(1, 18);
+        cabbage = item_sheet.imageCrop(1, 19);
+        wateringCan = item_sheet.imageCrop(1, 20);
+        softLeather = item_sheet.imageCrop(1, 21);
+        stripOfCloth = item_sheet.imageCrop(1, 22);
+        lapisLazuli = item_sheet.imageCrop(1, 23);
+        azuriteEarrings = item_sheet.imageCrop(1, 24);
+        azuriteRingL = item_sheet.imageCrop(1, 25);
+        azuriteRingR = item_sheet.imageCrop(1, 26);
+        copperFishingRod = item_sheet.imageCrop(1, 27);
+        malachiteEarrings = item_sheet.imageCrop(1, 28);
+        malachiteAmulet = item_sheet.imageCrop(1, 29);
+        malachiteRingL = item_sheet.imageCrop(2, 1);
+        malachiteRingR = item_sheet.imageCrop(2, 2);
+        ironAxe = item_sheet.imageCrop(2, 3);
+        ironPickaxe = item_sheet.imageCrop(2, 4);
+        ironFishingRod = item_sheet.imageCrop(2, 5);
+
+        ironChainMail = item_sheet.imageCrop(2, 6);
+        studdedShield = item_sheet.imageCrop(2, 7);
+        ironSword = item_sheet.imageCrop(2, 8);
+        ironLegs = item_sheet.imageCrop(2, 9);
+        squiresCloak = item_sheet.imageCrop(2, 10);
+        ironHelm = item_sheet.imageCrop(2, 11);
+        ironBoots = item_sheet.imageCrop(2, 12);
+        ironGloves = item_sheet.imageCrop(2, 13);
+
+        softLeatherBody = item_sheet.imageCrop(2, 14);
+        ironQuiver = item_sheet.imageCrop(2, 15);
+        hardwoodBow = item_sheet.imageCrop(2, 16);
+        softLeatherLeggings = item_sheet.imageCrop(2, 17);
+        scoutsCloak = item_sheet.imageCrop(2, 18);
+        softLeatherCowl = item_sheet.imageCrop(2, 19);
+        softLeatherBoots = item_sheet.imageCrop(2, 20);
+        softLeatherGloves = item_sheet.imageCrop(2, 21);
+
+        woolenRobeTop = item_sheet.imageCrop(2, 22);
+        leatherSpellbook = item_sheet.imageCrop(2, 23);
+        hardwoodStaff = item_sheet.imageCrop(2, 24);
+        woolenRobeBottom = item_sheet.imageCrop(2, 25);
+        apprenticesCloak = item_sheet.imageCrop(2, 26);
+        woolenHat = item_sheet.imageCrop(2, 27);
+        woolenBoots = item_sheet.imageCrop(2, 28);
+        woolenGloves = item_sheet.imageCrop(2, 29);
+
+        rope = item_sheet.imageCrop(3, 1);
+        snakehead = item_sheet.imageCrop(3, 2);
+        clam = item_sheet.imageCrop(3, 3);
+        rake = item_sheet.imageCrop(3, 4);
+        tungstenOre = item_sheet.imageCrop(3, 5);
+        aspenwood = item_sheet.imageCrop(3, 6);
+        lightwood = item_sheet.imageCrop(3, 7);
+
+        // Farming sprites
+        cropsPlanted1 = farming_sheet.imageCrop(0, 0);
 
         // Potions
         weakAntidote = item_sheet.imageCrop(15, 15);
@@ -444,9 +563,9 @@ public class Assets {
         potionOfWisdom = item_sheet.imageCrop(22, 14);
         strongPotionOfWisdom = item_sheet.imageCrop(22, 13);
 
-        weakPotionOfProtection = item_sheet.imageCrop(20, 15);
-        potionOfProtection = item_sheet.imageCrop(20, 14);
-        strongPotionOfProtection = item_sheet.imageCrop(20, 13);
+        weakPotionofFortitude = item_sheet.imageCrop(20, 15);
+        potionofFortitude = item_sheet.imageCrop(20, 14);
+        strongPotionofFortitude = item_sheet.imageCrop(20, 13);
 
         weakPotionOfVigor = item_sheet.imageCrop(23, 15);
         potionOfVigor = item_sheet.imageCrop(23, 14);
@@ -468,6 +587,16 @@ public class Assets {
         blueScorpionRight = enemy_sheet1.npcCrop(9, 2, WIDTH, HEIGHT);
         blueScorpionUp = enemy_sheet1.npcCrop(9, 3, WIDTH, HEIGHT);
 
+        burrowingBeetleDown = enemy_sheet1.npcCrop(12, 0, WIDTH, HEIGHT);
+        burrowingBeetleLeft = enemy_sheet1.npcCrop(12, 1, WIDTH, HEIGHT);
+        burrowingBeetleRight = enemy_sheet1.npcCrop(12, 2, WIDTH, HEIGHT);
+        burrowingBeetleUp = enemy_sheet1.npcCrop(12, 3, WIDTH, HEIGHT);
+
+        hedgehogDown = enemy_sheet2.npcCrop(9, 4, WIDTH, HEIGHT);
+        hedgehogLeft = enemy_sheet2.npcCrop(9, 5, WIDTH, HEIGHT);
+        hedgehogRight = enemy_sheet2.npcCrop(9, 6, WIDTH, HEIGHT);
+        hedgehogUp = enemy_sheet2.npcCrop(9, 7, WIDTH, HEIGHT);
+
         blueCrabDown = enemy_sheet2.npcCrop(0, 0, WIDTH, HEIGHT);
         blueCrabLeft = enemy_sheet2.npcCrop(0, 1, WIDTH, HEIGHT);
         blueCrabRight = enemy_sheet2.npcCrop(0, 2, WIDTH, HEIGHT);
@@ -480,8 +609,15 @@ public class Assets {
 
         venovineDown = enemy_sheet3.npcCrop(0, 0, WIDTH, HEIGHT);
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
-        venovineRight= enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
+        venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        // Bosses
+
+        caveTrollDown = boss_sheet1.npcCrop(6, 0, WIDTH * 2, HEIGHT * 3);
+        caveTrollLeft = boss_sheet1.npcCrop(6, 3, WIDTH * 2, HEIGHT * 3);
+        caveTrollRight = boss_sheet1.npcCrop(6, 6, WIDTH * 2, HEIGHT * 3);
+        caveTrollUp = boss_sheet1.npcCrop(6, 9, WIDTH * 2, HEIGHT * 3);
 
         // NPC Sprites
 //
@@ -715,6 +851,70 @@ public class Assets {
         genericMale18Right = generic_males1.npcCrop(15, 10);
         genericMale18Up = generic_males1.npcCrop(15, 11);
 
+        // Elves
+
+        genericElfMale1Down = generic_elves1.npcCrop(0, 0);
+        genericElfMale1Left = generic_elves1.npcCrop(0, 1);
+        genericElfMale1Right = generic_elves1.npcCrop(0, 2);
+        genericElfMale1Up = generic_elves1.npcCrop(0, 3);
+
+        genericElfMale2Down = generic_elves1.npcCrop(3, 0);
+        genericElfMale2Left = generic_elves1.npcCrop(3, 1);
+        genericElfMale2Right = generic_elves1.npcCrop(3, 2);
+        genericElfMale2Up = generic_elves1.npcCrop(3, 3);
+
+        genericElfMale3Down = generic_elves1.npcCrop(6, 0);
+        genericElfMale3Left = generic_elves1.npcCrop(6, 1);
+        genericElfMale3Right = generic_elves1.npcCrop(6, 2);
+        genericElfMale3Up = generic_elves1.npcCrop(6, 3);
+
+        genericElfMale4Down = generic_elves1.npcCrop(9, 0);
+        genericElfMale4Left = generic_elves1.npcCrop(9, 1);
+        genericElfMale4Right = generic_elves1.npcCrop(9, 2);
+        genericElfMale4Up = generic_elves1.npcCrop(9, 3);
+
+        genericElfMale5Down = generic_elves1.npcCrop(12, 0);
+        genericElfMale5Left = generic_elves1.npcCrop(12, 1);
+        genericElfMale5Right = generic_elves1.npcCrop(12, 2);
+        genericElfMale5Up = generic_elves1.npcCrop(12, 3);
+
+        genericElfMale6Down = generic_elves1.npcCrop(15, 0);
+        genericElfMale6Left = generic_elves1.npcCrop(15, 1);
+        genericElfMale6Right = generic_elves1.npcCrop(15, 2);
+        genericElfMale6Up = generic_elves1.npcCrop(15, 3);
+
+        genericElfFemale1Down = generic_elves1.npcCrop(0, 4);
+        genericElfFemale1Left = generic_elves1.npcCrop(0, 5);
+        genericElfFemale1Right = generic_elves1.npcCrop(0, 6);
+        genericElfFemale1Up = generic_elves1.npcCrop(0, 7);
+
+        genericElfFemale2Down = generic_elves1.npcCrop(3, 4);
+        genericElfFemale2Left = generic_elves1.npcCrop(3, 5);
+        genericElfFemale2Right = generic_elves1.npcCrop(3, 6);
+        genericElfFemale2Up = generic_elves1.npcCrop(3, 7);
+
+        genericElfFemale3Down = generic_elves1.npcCrop(6, 4);
+        genericElfFemale3Left = generic_elves1.npcCrop(6, 5);
+        genericElfFemale3Right = generic_elves1.npcCrop(6, 6);
+        genericElfFemale3Up = generic_elves1.npcCrop(6, 7);
+
+        genericElfFemale4Down = generic_elves1.npcCrop(9, 4);
+        genericElfFemale4Left = generic_elves1.npcCrop(9, 5);
+        genericElfFemale4Right = generic_elves1.npcCrop(9, 6);
+        genericElfFemale4Up = generic_elves1.npcCrop(9, 7);
+
+        genericElfFemale5Down = generic_elves1.npcCrop(12, 4);
+        genericElfFemale5Left = generic_elves1.npcCrop(12, 5);
+        genericElfFemale5Right = generic_elves1.npcCrop(12, 6);
+        genericElfFemale5Up = generic_elves1.npcCrop(12, 7);
+
+        genericElfFemale6Down = generic_elves1.npcCrop(15, 4);
+        genericElfFemale6Left = generic_elves1.npcCrop(15, 5);
+        genericElfFemale6Right = generic_elves1.npcCrop(15, 6);
+        genericElfFemale6Up = generic_elves1.npcCrop(15, 7);
+
+        // Zone specific NPCs
+
         portAzureRyanDown = azureal_island_npcs.npcCrop(0, 4);
         portAzureRyanLeft = azureal_island_npcs.npcCrop(0, 5);
         portAzureRyanRight = azureal_island_npcs.npcCrop(0, 6);
@@ -736,39 +936,54 @@ public class Assets {
         portAzureCooperUp = azureal_island_npcs.npcCrop(9, 7);
 
         shamrockEdgarDown = shamrock_npcs.npcCrop(0, 0);
-        shamrockEdgarLeft= shamrock_npcs.npcCrop(0, 1);
+        shamrockEdgarLeft = shamrock_npcs.npcCrop(0, 1);
         shamrockEdgarRight = shamrock_npcs.npcCrop(0, 2);
         shamrockEdgarUp = shamrock_npcs.npcCrop(0, 3);
 
         shamrockEdvardDown = shamrock_npcs.npcCrop(3, 0);
-        shamrockEdvardLeft= shamrock_npcs.npcCrop(3, 1);
+        shamrockEdvardLeft = shamrock_npcs.npcCrop(3, 1);
         shamrockEdvardRight = shamrock_npcs.npcCrop(3, 2);
         shamrockEdvardUp = shamrock_npcs.npcCrop(3, 3);
 
         shamrockEsmundDown = shamrock_npcs.npcCrop(6, 0);
-        shamrockEsmundLeft= shamrock_npcs.npcCrop(6, 1);
+        shamrockEsmundLeft = shamrock_npcs.npcCrop(6, 1);
         shamrockEsmundRight = shamrock_npcs.npcCrop(6, 2);
         shamrockEsmundUp = shamrock_npcs.npcCrop(6, 3);
 
         shamrockJoraDown = shamrock_npcs.npcCrop(9, 0);
-        shamrockJoraLeft= shamrock_npcs.npcCrop(9, 1);
+        shamrockJoraLeft = shamrock_npcs.npcCrop(9, 1);
         shamrockJoraRight = shamrock_npcs.npcCrop(9, 2);
         shamrockJoraUp = shamrock_npcs.npcCrop(9, 3);
 
         malachiteThug1Down = malachite_npcs.npcCrop(0, 0);
-        malachiteThug1Left= malachite_npcs.npcCrop(0, 1);
+        malachiteThug1Left = malachite_npcs.npcCrop(0, 1);
         malachiteThug1Right = malachite_npcs.npcCrop(0, 2);
         malachiteThug1Up = malachite_npcs.npcCrop(0, 3);
 
         malachiteThug2Down = malachite_npcs.npcCrop(3, 0);
-        malachiteThug2Left= malachite_npcs.npcCrop(3, 1);
+        malachiteThug2Left = malachite_npcs.npcCrop(3, 1);
         malachiteThug2Right = malachite_npcs.npcCrop(3, 2);
         malachiteThug2Up = malachite_npcs.npcCrop(3, 3);
 
         malachiteThugLeaderDown = malachite_npcs.npcCrop(6, 0);
-        malachiteThugLeaderLeft= malachite_npcs.npcCrop(6, 1);
+        malachiteThugLeaderLeft = malachite_npcs.npcCrop(6, 1);
         malachiteThugLeaderRight = malachite_npcs.npcCrop(6, 2);
         malachiteThugLeaderUp = malachite_npcs.npcCrop(6, 3);
+
+        malachiteTonyDown = malachite_npcs.npcCrop(9, 0);
+        malachiteTonyLeft = malachite_npcs.npcCrop(9, 1);
+        malachiteTonyRight = malachite_npcs.npcCrop(9, 2);
+        malachiteTonyUp = malachite_npcs.npcCrop(9, 3);
+
+        celenorElenthirDown = celenor_npcs.npcCrop(0, 0);
+        celenorElenthirLeft = celenor_npcs.npcCrop(0, 1);
+        celenorElenthirRight = celenor_npcs.npcCrop(0, 2);
+        celenorElenthirUp = celenor_npcs.npcCrop(0, 3);
+
+        celenorNyvolasDown = celenor_npcs.npcCrop(3, 0);
+        celenorNyvolasLeft = celenor_npcs.npcCrop(3, 1);
+        celenorNyvolasRight = celenor_npcs.npcCrop(3, 2);
+        celenorNyvolasUp = celenor_npcs.npcCrop(3, 3);
 
         /*
          * Player Animations
@@ -847,6 +1062,13 @@ public class Assets {
         glacialShotI = ability_icons.imageCrop(7, 0);
         healingSpringI = ability_icons.imageCrop(8, 0);
         arcaneRenewalI = ability_icons.imageCrop(9, 0);
+        poisonDartI = ability_icons.imageCrop(10, 0);
+        acidBombI = ability_icons.imageCrop(11, 0);
+        cripplingImpactI = ability_icons.imageCrop(12, 0);
+        debilitatingShotI = ability_icons.imageCrop(13, 0);
+        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
+        rockyConstrictI = ability_icons.imageCrop(15, 0);
+        sandblastI = ability_icons.imageCrop(0, 1);
 
 
         /*
@@ -872,10 +1094,58 @@ public class Assets {
         iceBall1 = new BufferedImage[1];
         iceBall1[0] = ability_animations.imageCrop(0, 7);
 
+        poisonDart = new BufferedImage[1];
+        poisonDart[0] = ability_animations.imageCrop(1, 7);
+
+        burrowMound = new BufferedImage[2];
+        burrowMound[0] = ability_animations.imageCrop(2, 7);
+        burrowMound[1] = ability_animations.imageCrop(3, 7);
+
+        stunned = new BufferedImage[5];
+        stunned[0] = ability_animations.imageCrop(3, 8);
+        stunned[1] = ability_animations.imageCrop(4, 8);
+        stunned[2] = ability_animations.imageCrop(5, 8);
+        stunned[3] = ability_animations.imageCrop(6, 8);
+        stunned[4] = ability_animations.imageCrop(7, 8);
+
+        hedgeHogRoll = new BufferedImage[2];
+        hedgeHogRoll[0] = ability_animations.imageCrop(4, 7);
+        hedgeHogRoll[1] = ability_animations.imageCrop(5, 7);
+
         glacialShot1 = new BufferedImage[3];
         glacialShot1[0] = ability_animations.imageCrop(0, 8);
         glacialShot1[1] = ability_animations.imageCrop(1, 8);
         glacialShot1[2] = ability_animations.imageCrop(2, 8);
+
+        acidBomb = new BufferedImage[8];
+        acidBomb[0] = ability_animations.imageCrop(0, 9);
+        acidBomb[1] = ability_animations.imageCrop(1, 9);
+        acidBomb[2] = ability_animations.imageCrop(2, 9);
+        acidBomb[3] = ability_animations.imageCrop(3, 9);
+        acidBomb[4] = ability_animations.imageCrop(4, 9);
+        acidBomb[5] = ability_animations.imageCrop(5, 9);
+        acidBomb[6] = ability_animations.imageCrop(6, 9);
+        acidBomb[7] = ability_animations.imageCrop(7, 9);
+
+        rockyConstrict = new BufferedImage[5];
+        rockyConstrict[0] = ability_animations.imageCrop(0, 10);
+        rockyConstrict[1] = ability_animations.imageCrop(1, 10);
+        rockyConstrict[2] = ability_animations.imageCrop(2, 10);
+        rockyConstrict[3] = ability_animations.imageCrop(3, 10);
+        rockyConstrict[4] = ability_animations.imageCrop(4, 10);
+
+        arrow2 = new BufferedImage[1];
+        arrow2[0] = ability_animations.imageCrop(0, 11);
+
+        sandBlast = new BufferedImage[8];
+        sandBlast[0] = ability_animations.imageCrop(0, 12);
+        sandBlast[1] = ability_animations.imageCrop(1, 12);
+        sandBlast[2] = ability_animations.imageCrop(2, 12);
+        sandBlast[3] = ability_animations.imageCrop(3, 12);
+        sandBlast[4] = ability_animations.imageCrop(4, 12);
+        sandBlast[5] = ability_animations.imageCrop(5, 12);
+        sandBlast[6] = ability_animations.imageCrop(6, 12);
+        sandBlast[7] = ability_animations.imageCrop(7, 12);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);
@@ -897,10 +1167,28 @@ public class Assets {
 
         // Skilling objects
         weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);
+        elmTree = woodcutting_trees.imageCrop(3, 0, WIDTH * 2, HEIGHT * 3);
+        oakTree = woodcutting_trees.imageCrop(5, 0, WIDTH * 3, HEIGHT * 3);
+        aspenTree = woodcutting_trees.imageCrop(8, 0, WIDTH * 2, HEIGHT * 3);
         azuriteRock = mining_rocks.imageCrop(1, 0);
+        copperRock = mining_rocks.imageCrop(2, 0);
+        ironRock = mining_rocks.imageCrop(3, 0);
+        tungstenRock = mining_rocks.imageCrop(4, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
+
+        SpriteSheet dungeon = getSheetByFilename("dungeon.png");
+        shamrockSinkholeTL = dungeon.imageCrop(7, 9);
+        shamrockSinkholeTM = dungeon.imageCrop(4, 9);
+        shamrockSinkholeTR = dungeon.imageCrop(10, 9);
+        shamrockSinkholeML = dungeon.imageCrop(6, 9);
+        shamrockSinkholeMM = dungeon.imageCrop(1, 9);
+        shamrockSinkholeMR = dungeon.imageCrop(11, 9);
+        shamrockSinkholeBL = dungeon.imageCrop(14, 9);
+        shamrockSinkholeBM = dungeon.imageCrop(13, 9);
+        shamrockSinkholeBR = dungeon.imageCrop(15, 9);
+        ropeLadderMapTile = dungeon.imageCrop(40, 26, WIDTH, HEIGHT * 3);
 
         whirlpool = new BufferedImage[8];
         whirlpool[0] = whirlPool.imageCrop(0, 0);

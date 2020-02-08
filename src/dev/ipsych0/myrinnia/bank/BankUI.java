@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -38,7 +39,6 @@ public class BankUI implements Serializable {
     private Rectangle bounds;
     private boolean itemSelected;
     private ItemStack currentSelectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private UIImageButton exit;
     public static BankUI lastOpenedWindow;
     private ItemTooltip itemTooltip;
@@ -345,7 +345,7 @@ public class BankUI implements Serializable {
             for (BankTab tab : tabs) {
                 tab.render(g);
                 if (tab.isOpen()) {
-                    g.setColor(selectedColor);
+                    g.setColor(Colors.selectedColor);
                     g.fillRect(tab.x, tab.y, tab.width, tab.height);
                     for(ItemSlot is : tab.getBankSlots()){
                         if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){

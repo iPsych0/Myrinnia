@@ -27,12 +27,12 @@ public class AngryOwl extends Creature {
         attackable = true;
 
         // Creature stats
-        strength += 0;
-        dexterity += 0;
-        intelligence += 0;
-        vitality += 8;
-        defence += 5;
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        strength =  0;
+        dexterity = 0;
+        intelligence = 5;
+        vitality = 8;
+        defence = 5;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
@@ -67,7 +67,7 @@ public class AngryOwl extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         getDroptableItem();
     }
 
@@ -90,7 +90,7 @@ public class AngryOwl extends Creature {
 
         attackTimer = 0;
 
-        Handler.get().playEffect("abilities/magic_strike.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 
     }

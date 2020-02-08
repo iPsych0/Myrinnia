@@ -196,10 +196,10 @@ public class ControlsState extends State {
     private void confirmDefaultKeyBinds() {
         if (defaultDBox.isMakingChoice() && defaultDBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
                 setDefaultKeys();
             } else if ("No".equalsIgnoreCase(defaultDBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
             defaultDBox.close();
             hasBeenPressed = false;
@@ -277,7 +277,7 @@ public class ControlsState extends State {
             } else if ("Cancel".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
                 closeTextBox();
             }
-            Handler.get().playEffect("ui/ui_button_click.wav");
+            Handler.get().playEffect("ui/ui_button_click.ogg");
         }
     }
 

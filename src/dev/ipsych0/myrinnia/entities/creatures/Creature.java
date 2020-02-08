@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -16,15 +17,14 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public abstract class Creature extends Entity {
 
@@ -48,20 +48,22 @@ public abstract class Creature extends Entity {
     private static final int DEFAULT_INTELLIGENCE = 0;
     private static final int DEFAULT_DEFENCE = 0;
     private static final int DEFAULT_VITALITY = 0;
-    int baseDamage;
-    int strength;
-    int dexterity;
-    int intelligence;
-    int defence;
-    int vitality;
-    double attackSpeed;
+    protected int baseDamage;
+    protected int strength;
+    protected int dexterity;
+    protected int intelligence;
+    protected int defence;
+    protected int vitality;
+    protected double attackSpeed;
+    protected int waterLevel = 1, fireLevel = 1, airLevel = 1, earthLevel = 1;
     protected int combatLevel;
     static final double LEVEL_EXPONENT = 0.998;
-    int attackRange = Tile.TILEWIDTH * 2;
+    protected int attackRange = Tile.TILEWIDTH + 16;
     List<Projectile> projectiles = new ArrayList<>();
+    protected double meleeDirection, meleeXOffset, meleeYOffset;
 
     // Walking timer
-    private int time = 0;
+    private int walkingTimer = 0;
 
     // Radius variables:
     protected int xSpawn = (int) getX();
@@ -71,18 +73,16 @@ public abstract class Creature extends Entity {
     Rectangle radius;
 
     // A* stuff
-    private CombatState state;
-    private List<Node> nodes;
-    int pathFindRadiusX = 1024;
-    int pathFindRadiusY = 1024;
+    protected CombatState state;
+    protected List<Node> nodes;
+    int pathFindRadiusX = 768;
+    int pathFindRadiusY = 768;
     AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
-    private boolean aStarInitialized;
-    private static Color pathColour = new Color(44, 255, 12, 127);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
-    private static final int TIMES_PER_SECOND = 4;
-    private static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
-    private int pathTimer = 0;
+    protected static final int TIMES_PER_SECOND = 4;
+    protected static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
+    protected int pathTimer = 0;
     protected List<Condition> conditions = new ArrayList<>();
     protected List<Buff> buffs = new ArrayList<>();
     protected List<Resistance> immunities = new ArrayList<>();
@@ -92,6 +92,11 @@ public abstract class Creature extends Entity {
     protected Animation aDown;
     protected Animation aDefault;
     protected double baseDmgExponent = 1.1;
+    protected boolean movementAllowed = true;
+    protected Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
+    protected boolean hasSwitchedTile;
+    protected Map<Tile, Point> postRenderTiles = new HashMap<>();
+    private boolean initialTileSetup;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -148,7 +153,7 @@ public abstract class Creature extends Entity {
         vitality = (DEFAULT_VITALITY);
         speed = (DEFAULT_SPEED);
         attackSpeed = (DEFAULT_ATTACKSPEED);
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         setCombatLevel();
 
@@ -162,10 +167,6 @@ public abstract class Creature extends Entity {
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
             baseDmgExponent *= LEVEL_EXPONENT;
-            // Only add defence and HP per level up by default
-            defence += 2;
-            vitality += 3;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
             health = maxHealth;
         }
     }
@@ -197,22 +198,18 @@ public abstract class Creature extends Entity {
     }
 
     /*
-     * The default damage formula (see Entity::getDamage() function)
-     * NOTE: USE THIS METHOD WITH @Override IN SPECIFIC ENTITIES TO CREATE PERSONAL DAMAGE FORMULA!
-     */
-    @Override
-    public int getDamage(DamageType damageType, Entity dealer, Entity receiver) {
-        return super.getDamage(damageType, dealer, receiver);
-    }
-
-    /*
      * Moves on the X or Y axis, keeping in mind the collision detection
      */
     public void move() {
+        if (!initialTileSetup) {
+            setupInitialPermission((int) x / 32, (int) y / 32);
+            initialTileSetup = true;
+        }
         if (!checkEntityCollisions(xMove, 0))
             moveX();
         if (!checkEntityCollisions(0, yMove))
             moveY();
+
     }
 
     /*
@@ -246,6 +243,8 @@ public abstract class Creature extends Entity {
         } else if (xMove == 0) {
             direction = lastFaced;
         }
+
+
     }
 
     /*
@@ -357,10 +356,117 @@ public abstract class Creature extends Entity {
         return x < 0 || y < 0 || x >= width || y >= height;
     }
 
+    private void setupInitialPermission(int x, int y) {
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            if (currentTile != Tile.tiles[0]) {
+                if (currentTile.getPermission().equalsIgnoreCase("C")) {
+                    verticality = 0;
+                } else if (currentTile.getPermission().equalsIgnoreCase("10")) {
+                    verticality = 1;
+                } else if (currentTile.getPermission().equalsIgnoreCase("14")) {
+                    verticality = 2;
+                }
+            } else {
+                currentTile = Tile.tiles[23780];
+            }
+
+            previousTile = currentTile;
+        }
+    }
+
+    private void checkPermissionTiles(int x, int y) {
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            Tile oldTile = currentTile;
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            if (currentTile != Tile.tiles[0]) {
+                if (currentTile != oldTile) {
+                    hasSwitchedTile = true;
+                }
+                if (hasSwitchedTile) {
+                    if (currentTile != null) {
+                        hasSwitchedTile = false;
+                        previousTile = oldTile;
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("C") ||
+                                currentTile.getPermission().equalsIgnoreCase("10") && previousTile.getPermission().equalsIgnoreCase("0")) {
+                            verticality = 1;
+                        }
+                        if (currentTile.getPermission().equalsIgnoreCase("0") && previousTile.getPermission().equalsIgnoreCase("10") ||
+                                currentTile.getPermission().equalsIgnoreCase("C") && previousTile.getPermission().equalsIgnoreCase("0")) {
+                            verticality = 0;
+                        }
+                    }
+
+                    if (this.equals(Handler.get().getPlayer())) {
+                        if (previousTile != null) {
+                            System.out.println("Previous: " + previousTile.getPermission());
+                        }
+                        if (currentTile != null) {
+                            System.out.println("Current: " + currentTile.getPermission());
+                        }
+                        System.out.println("Verticality: " + verticality);
+                        System.out.println("--------------");
+                    }
+                }
+            } else {
+                currentTile = Tile.tiles[23780];
+                previousTile = currentTile;
+            }
+        } else {
+            currentTile = Tile.tiles[23780];
+            previousTile = currentTile;
+        }
+    }
+
+    private boolean isAllowedToMove(int topLayer, int x, int y) {
+        Tile target = Handler.get().getWorld().getTile(topLayer, x, y);
+        if (target != Tile.tiles[0]) {
+            if (target.getPermission() != null && previousTile != null && currentTile != null) {
+                return hasRightPrivileges(previousTile, currentTile, target, topLayer, x, y);
+            }
+        }
+        return true;
+    }
+
+    private boolean hasRightPrivileges(Tile previousTile, Tile currentTile, Tile target, int topLayer, int x, int y) {
+        switch (target.getPermission()) {
+            case "C":
+                postRenderTiles.clear();
+                return currentTile.getPermission().equalsIgnoreCase("C") || currentTile.getPermission().equalsIgnoreCase("0") || currentTile.getPermission().equalsIgnoreCase("3C") && previousTile.getPermission().equalsIgnoreCase("C");
+            case "0":
+                return true;
+            case "8":
+                return currentTile.getPermission().equalsIgnoreCase("8") || currentTile.getPermission().equalsIgnoreCase("3C") || currentTile.getPermission().equalsIgnoreCase("0");
+            case "10":
+                return currentTile.getPermission().equalsIgnoreCase("10") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 1 || currentTile.getPermission().equalsIgnoreCase("0");
+            case "14":
+                return currentTile.getPermission().equalsIgnoreCase("14") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 2 || currentTile.getPermission().equalsIgnoreCase("0");
+            case "18":
+                return currentTile.getPermission().equalsIgnoreCase("18") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 3 || currentTile.getPermission().equalsIgnoreCase("0");
+            case "22":
+                return currentTile.getPermission().equalsIgnoreCase("22") || currentTile.getPermission().equalsIgnoreCase("3C") && verticality == 4 || currentTile.getPermission().equalsIgnoreCase("0");
+            case "3C":
+                if (verticality == 0) {
+                    Tile postRender;
+                    for (int i = topLayer - 1; i >= 0; i--) {
+                        postRender = Handler.get().getWorld().getTile(i, x, y);
+                        if (postRender != Tile.tiles[0]) {
+                            postRenderTiles.put(postRender, new Point(x, y));
+                            break;
+                        }
+                    }
+                }
+                return true;
+            default:
+                return true;
+
+        }
+    }
+
     /*
      * Handles collision detection with Tiles
      */
-    boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
+    public boolean collisionWithTile(int x, int y, boolean horizontalDirection) {
         // Debug
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
@@ -369,10 +475,30 @@ public abstract class Creature extends Entity {
             return true;
         }
 
+        int topLayer;
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            boolean allowed = isAllowedToMove(topLayer, x, y);
+            if (!allowed) {
+                return true;
+            }
+        } else {
+            topLayer = Handler.get().getWorld().getLayers().length;
+        }
+
+        checkPermissionTiles(x, y);
+
+        // Special exclusion for 3C tiles when walking underneath (allow all movement)
+        if (currentTile != null && currentTile.getPermission() != null && currentTile.getPermission().equalsIgnoreCase("3C")) {
+            if (verticality == 0) {
+                return false;
+            }
+        }
+
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+        for (int i = 0; i < topLayer; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 if (horizontalDirection) {
@@ -405,10 +531,35 @@ public abstract class Creature extends Entity {
      * Handles collision detection for A*, which does not take polygon bounds into consideration
      */
     public boolean collisionWithTile(int x, int y) {
+        if (isOutsideMap(x, y)) {
+            return true;
+        }
+
         boolean walkableOnTop = false;
         boolean solidTileUnderPostRendered = false;
         boolean hasPostRenderedTile = false;
-        for (int i = 0; i < Handler.get().getWorld().getLayers().length; i++) {
+
+        int topLayer;
+        if (Handler.get().getWorld().hasPermissionsLayer()) {
+            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            boolean allowed = isAllowedToMove(topLayer, x, y);
+            if (!allowed) {
+                return true;
+            }
+        } else {
+            topLayer = Handler.get().getWorld().getLayers().length;
+        }
+//
+//        checkPermissionTiles(x, y);
+
+        // Special exclusion for 3C tiles when walking underneath (allow all movement)
+        if (currentTile != null && currentTile.getPermission() != null && currentTile.getPermission().equalsIgnoreCase("3C")) {
+            if (verticality == 0) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < topLayer; i++) {
             Tile t = Handler.get().getWorld().getTile(i, x, y);
             if (t != null && t.isSolid()) {
                 walkableOnTop = false;
@@ -426,6 +577,7 @@ public abstract class Creature extends Entity {
         if (hasPostRenderedTile && solidTileUnderPostRendered) {
             return true;
         }
+
         return !walkableOnTop;
     }
 
@@ -496,7 +648,7 @@ public abstract class Creature extends Entity {
 
             if (nodes != null) {
                 for (Node n : nodes) {
-                    g.setColor(pathColour);
+                    g.setColor(Colors.pathFindingColor);
                     g.fillRect((int) (n.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (n.getY() * 32 - Handler.get().getGameCamera().getyOffset()), 32, 32);
                 }
             }
@@ -509,37 +661,41 @@ public abstract class Creature extends Entity {
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
+        Player player = Handler.get().getPlayer();
         while (it.hasNext()) {
             Projectile p = it.next();
             p.tick();
             if (!p.isActive()) {
                 deleted.add(p);
             }
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
-                    if (e.equals(Handler.get().getPlayer())) {
-                        if (p.getAbility() != null) {
-                            e.damage(p.getDamageType(), this, e, p.getAbility());
-                        } else {
-                            e.damage(p.getDamageType(), this, e);
-                        }
-
-                        if (p.getImpactSound() != null) {
-                            Handler.get().playEffect(p.getImpactSound(), 0.1f);
-                        }
-
-                        p.setHitCreature((Creature) e);
-                        p.setActive(false);
-
-                        // Apply special effect if has one
-                        if (p.getOnImpact() != null) {
-                            p.getOnImpact().impact(p.getHitCreature());
-                        }
+            if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (!p.getHitCreatures().contains(player)) {
+                    if (p.getAbility() != null) {
+                        player.damage(p.getDamageType(), this, p.getAbility());
+                    } else {
+                        player.damage(p.getDamageType(), this);
                     }
-                    if (!e.isAttackable()) {
-                        p.setActive(false);
+
+                    if (p.getImpactSound() != null) {
+                        Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
                     }
                 }
+
+
+                p.setHitCreature(player);
+
+                if (!p.isPiercing()) {
+                    p.setActive(false);
+                }
+
+                // Apply special effect if has one
+                if (p.getOnImpact() != null) {
+                    if (!p.getHitCreatures().contains(player)) {
+                        p.getOnImpact().impact(player);
+                    }
+                }
+
+                p.getHitCreatures().add(player);
             }
         }
 
@@ -565,10 +721,6 @@ public abstract class Creature extends Entity {
         }
 
         if (attackable) {
-            if (!aStarInitialized) {
-                map.init();
-                aStarInitialized = true;
-            }
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
@@ -581,9 +733,9 @@ public abstract class Creature extends Entity {
      * Walks into random directions at given intervals
      */
     protected void randomWalk() {
-        time++;
+        walkingTimer++;
         int i = (Handler.get().getRandomNumber(60, 90));
-        if (time % i == 0) {
+        if (walkingTimer % i == 0) {
             xMove = 0;
             yMove = 0;
 
@@ -606,7 +758,7 @@ public abstract class Creature extends Entity {
             if (direction == 4) {
                 yMove = +speed;
             }
-            time = 0;
+            walkingTimer = 0;
         }
 
         if (getX() > (xSpawn + xRadius)) {
@@ -622,7 +774,7 @@ public abstract class Creature extends Entity {
 
     }
 
-    private void findPath() {
+    protected void findPath() {
         if (state == CombatState.BACKTRACK) {
             nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                     ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
@@ -649,10 +801,17 @@ public abstract class Creature extends Entity {
             state = CombatState.PATHFINDING;
         }
 
+        Player player = Handler.get().getPlayer();
+
         // If the player is within the A* map AND moves within the aggro range, state = pathfinding (walk towards goal)
-        if (Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+        if (player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.PATHFINDING;
         }
+
+        if (player.verticality != this.verticality) {
+            state = CombatState.IDLE;
+        }
+
         // If the Creature was not following or attacking the player, move around randomly.
         if (state == CombatState.IDLE) {
             randomWalk();
@@ -660,35 +819,35 @@ public abstract class Creature extends Entity {
         }
 
         // If the player has moved out of the initial aggro box, but is still within the A* map, keep following
-        else if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-                !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.PATHFINDING;
         }
 
         // If the player has moved out of the aggro box and out of the A* map,
-        else if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
-                !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
+        else if (!player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING ||
+                !player.getCollisionBounds(0, 0).intersects(getRadius()) && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.ATTACK) {
             state = CombatState.BACKTRACK;
         }
 
 
         // If the player is <= X * TileWidth away from the Creature, attack him.
-        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2),
-                ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= attackRange &&
-                Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) &&
-                Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
-            state = CombatState.ATTACK;
-            checkAttacks();
+        if (attackable && state != CombatState.BACKTRACK) {
+            if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                checkAttacks();
+                state = CombatState.ATTACK;
+            } else {
+                state = CombatState.PATHFINDING;
+            }
         }
 
-        // If the Creature was attacking, but the player moved out of aggro range or out of the A* map bounds, backtrack to spawn.
-        if (state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(getRadius()) || state == CombatState.ATTACK && !Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+        // If the Creature was attacking, but the player moved out of the A* map bounds, backtrack to spawn.
+        if (state == CombatState.ATTACK && !player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
             state = CombatState.BACKTRACK;
         }
 
         // If the Creature was following the player but he moved out of the A* map, backtrack.
-        if (!Handler.get().getPlayer().getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING || state == CombatState.BACKTRACK) {
+        if (!player.getCollisionBounds(0, 0).intersects(map.getMapBounds()) && state == CombatState.PATHFINDING) {
             state = CombatState.BACKTRACK;
         }
 
@@ -696,6 +855,7 @@ public abstract class Creature extends Entity {
             // Control the number of times we check for new path
             pathTimer++;
             if (pathTimer >= TIME_PER_PATH_CHECK) {
+                map.init();
                 findPath();
                 pathTimer = 0;
             }
@@ -703,17 +863,82 @@ public abstract class Creature extends Entity {
         }
     }
 
+    protected boolean isInAttackRange(Player player) {
+        if (distanceToEntity(((int) this.getX() + this.getWidth() / 2), ((int) this.getY() + this.getHeight() / 2),
+                ((int) player.getX() + player.getWidth() / 2),
+                ((int) player.getY() + player.getHeight() / 2)) <= attackRange &&
+                player.getCollisionBounds(0, 0).intersects(getRadius()) &&
+                player.getCollisionBounds(0, 0).intersects(map.getMapBounds())) {
+
+            return hasLineOfSight(this.x + this.width / 2d, this.y + this.height / 2d, player.x + 16, player.y + 16);
+        }
+
+        return false;
+    }
+
+    protected boolean hasLineOfSight(double x1, double y1, double x2, double y2) {
+        double m = ((double) (y2 - y1)) / ((double) (x2 - x1));//slope
+        double b = y1 - (m * ((double) x1));//vertical shift
+
+        //Takes care of the domain we will loop between.
+        //min and max will be assigned minX and maxX if the line is not vertical.
+        //minY and maxY are assigned to min and max otherwise.
+        int minX = (int) Math.min(x1, x2);//minimum x value we should consider
+        int maxX = (int) Math.max(x1, x2);//maximum x value we should consider
+        int minY = (int) Math.min(y1, y2);//minimum y value we should consider
+        int maxY = (int) Math.max(y1, y2);//maximum y value we should consider
+        int min = 0;
+        int max = 0;
+        boolean plugX = true; //if true, the line is not vertical.
+        List<Point> points = new ArrayList<>(); //Store all points here
+
+        if (x1 == x2) {//plug the y value instead the x, this is a vertical line.
+            plugX = false;
+            min = minY;
+            max = maxY;
+        } else {//dont change and plug x values.
+            min = minX;
+            max = maxX;
+        }
+
+        for (int i = min; i <= max; i++) {
+            int obtained = 0;
+            if (plugX) {//not a vertical line
+                obtained = (int) Math.round((m * i + b));
+//                System.out.println("x = " + i + "  ,  y = " + obtained);
+                points.add(new Point(i, obtained));
+                //Uncomment to see the full blue line.
+//                g.drawLine(i, obtained, i, obtained);
+            } else {//vertical line
+                obtained = (int) Math.round((double) (i - b) / (double) m);
+//                System.out.println("x = " + x1 + "  ,  y = " + i);
+//                g.drawLine(x1, i, x1, i);//Uncomment to see the full blue line.
+                points.add(new Point((int) x1, i));
+            }
+        }
+
+        for (Point point : points) {
+            double xPos = point.getX();
+            double yPos = point.getY();
+            if (collisionWithTile((int) (xPos / 32d), (int) (yPos / 32d))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Override this method in the creature's class
      */
-    void checkAttacks() {
+    protected void checkAttacks() {
 
     }
 
     /**
      * Movement logic for following each node in the List nodes
      */
-    private void followAStar() {
+    protected void followAStar() {
         if (nodes == null) {
             return;
         }
@@ -788,6 +1013,100 @@ public abstract class Creature extends Entity {
         }
     }
 
+    protected void checkMeleeHitboxes() {
+        if (width > 32 && height > 32) {
+            checkMeleeHitboxes(40, 44);
+        } else {
+            checkMeleeHitboxes(40, 40);
+        }
+    }
+
+
+    protected void checkMeleeHitboxes(int boxWidth, int boxHeight) {
+        double angle = getAngle();
+        Rectangle ar;
+        if (width > 32 && height > 32) {
+            ar = new Rectangle((int) ((width - width / 2) * Math.cos(angle) + (int) this.x + width / 4), (int) ((height - height / 2) * Math.sin(angle) + (int) this.y + height / 2), boxWidth, boxHeight);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), boxWidth, boxHeight);
+        }
+
+        if (this.equals(Handler.get().getPlayer())) {
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (e.equals(Handler.get().getPlayer()))
+                    continue;
+                if (!e.isAttackable())
+                    continue;
+                if (e.getVerticality() == Handler.get().getPlayer().getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
+                    e.damage(DamageType.STR, this);
+                }
+            }
+        } else {
+            Player player = Handler.get().getPlayer();
+            if (player.getVerticality() == this.getVerticality() && player.getFullBounds(0, 0).intersects(ar)) {
+                player.damage(DamageType.STR, this);
+            }
+        }
+    }
+
+    protected void setMeleeSwing(Rectangle direction) {
+        // The angle and speed of the projectile
+        double angle;
+        if (this.equals(Handler.get().getPlayer())) {
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - this.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - this.getX());
+        } else {
+            angle = Math.atan2((direction.getY() - 16) - this.getY(), (direction.getX() - 16) - this.getX());
+        }
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        meleeDirection = Math.toDegrees(angle);
+        if (meleeDirection < 0) {
+            meleeDirection += 360d;
+        }
+
+        double xOffset = 1.0f * Math.cos(angle);
+        double yOffset = 1.0f * Math.sin(angle);
+
+
+        // meleeXOffset change RIGHT
+        if (meleeDirection >= 270 || meleeDirection < 90) {
+            meleeXOffset = (20d + (32d * (width / 32d - 1))) * xOffset;
+            // meleeXOffset change LEFT
+        } else if (meleeDirection >= 90 || meleeDirection < 270) {
+            meleeXOffset = (20d + (32d * (width / 32d - 1))) * xOffset;
+        }
+
+        // meleeXOffset change UP
+        if (meleeDirection >= 180 || meleeDirection <= 360) {
+            meleeYOffset = (20d + (32d * (height / 32d - 1))) * yOffset;
+            // meleeXOffset change DOWN
+        } else if (meleeDirection >= 0 || meleeDirection < 180) {
+            meleeYOffset = (20d + (32d * (height / 32d - 1))) * yOffset;
+        }
+    }
+
+    protected double getRotation() {
+        double angle = getAngle();
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        double rotation = Math.toDegrees(angle);
+        if (rotation < 0) {
+            rotation += 360d;
+        }
+
+        return rotation;
+    }
+
+    protected double getAngle() {
+        double angle;
+        if (this.equals(Handler.get().getPlayer())) {
+            Rectangle direction = Handler.get().getMouse();
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - this.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - this.getX());
+        } else {
+            Rectangle direction = new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1);
+            angle = Math.atan2((direction.getY() - 16) - this.getY(), (direction.getX() - 16) - this.getX());
+        }
+        return angle;
+    }
+
     /*
      * Regenerates health
      */
@@ -819,7 +1138,7 @@ public abstract class Creature extends Entity {
     }
 
     public void castAbility(Ability ability) {
-        if(ability.isOnCooldown() || ability.isChanneling()){
+        if (ability.isOnCooldown() || ability.isChanneling()) {
             return;
         }
         if (ability.isSelectable()) {
@@ -941,7 +1260,7 @@ public abstract class Creature extends Entity {
         this.state = state;
     }
 
-    private Rectangle getRadius() {
+    protected Rectangle getRadius() {
         return radius;
     }
 
@@ -1021,5 +1340,82 @@ public abstract class Creature extends Entity {
         return ySpawn;
     }
 
+    public int getLevelByElement(CharacterStats element) {
+        switch (element) {
+            case Water:
+                return waterLevel;
+            case Air:
+                return airLevel;
+            case Fire:
+                return fireLevel;
+            case Earth:
+                return earthLevel;
+            default:
+                throw new IllegalArgumentException("Enter an element, not a combat style.");
+        }
+    }
 
+    public int getWaterLevel() {
+        return waterLevel;
+    }
+
+    public void setWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
+    }
+
+    public int getFireLevel() {
+        return fireLevel;
+    }
+
+    public void setFireLevel(int fireLevel) {
+        this.fireLevel = fireLevel;
+    }
+
+    public int getAirLevel() {
+        return airLevel;
+    }
+
+    public void setAirLevel(int airLevel) {
+        this.airLevel = airLevel;
+    }
+
+    public int getEarthLevel() {
+        return earthLevel;
+    }
+
+    public void setEarthLevel(int earthLevel) {
+        this.earthLevel = earthLevel;
+    }
+
+    public boolean isMovementAllowed() {
+        return movementAllowed;
+    }
+
+    public void setMovementAllowed(boolean movementAllowed) {
+        this.movementAllowed = movementAllowed;
+    }
+
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+
+    public Tile getPreviousTile() {
+        return previousTile;
+    }
+
+    public void setPreviousTile(Tile previousTile) {
+        this.previousTile = previousTile;
+    }
+
+    public Map<Tile, Point> getPostRenderTiles() {
+        return postRenderTiles;
+    }
+
+    public void setPostRenderTiles(Map<Tile, Point> postRenderTiles) {
+        this.postRenderTiles = postRenderTiles;
+    }
 }

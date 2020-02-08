@@ -1,18 +1,24 @@
 package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.CripplingImpactAbility;
+import dev.ipsych0.myrinnia.abilities.DebilitatingStrikeAbility;
+import dev.ipsych0.myrinnia.abilities.RockyConstrictAbility;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Resistance;
+import dev.ipsych0.myrinnia.entities.statics.ShamrockRockslide;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Objects;
 
 public class Item implements Serializable {
 
@@ -28,18 +34,18 @@ public class Item implements Serializable {
     /*
      * Items
      */
-    public static Item lightWood = Utils.loadItem("0_lightwood.json", Assets.lightWood);
+    public static Item palmWood = Utils.loadItem("0_palm_wood.json", Assets.palmWood);
     public static Item azuriteOre = Utils.loadItem("1_azurite_ore.json", Assets.azuriteOre);
     public static Item magicSword = Utils.loadItem("2_magic_sword.json", Assets.undiscovered);
-    public static Item beginnersSword = Utils.loadItem("3_beginners_sword.json", Assets.beginnersSword);
+    public static Item beginnersSword = Utils.loadItem("3_simple_sword.json", Assets.beginnersSword);
     public static Item coins = Utils.loadItem("4_coins.json", Assets.coins[0]);
     public static Item mackerelFish = Utils.loadItem("5_mackerel.json", Assets.mackerelFish);
     public static Item ryansAxe = Utils.loadItem("6_ryans_axe.json", Assets.ryansAxe);
     public static Item simplePickaxe = Utils.loadItem("7_simple_pickaxe.json", Assets.simplePickaxe);
-    public static Item beginnersStaff = Utils.loadItem("8_beginners_staff.json", Assets.beginnersStaff);
+    public static Item beginnersStaff = Utils.loadItem("8_simple_staff.json", Assets.beginnersStaff);
     public static Item bountyContract = Utils.loadItem("9_bounty_contract.json", Assets.bountyContract);
     public static Item simpleAxe = Utils.loadItem("10_simple_axe.json", Assets.simpleAxe);
-    public static Item beginnersBow = Utils.loadItem("11_beginner's_bow.json", Assets.beginnersBow);
+    public static Item beginnersBow = Utils.loadItem("11_simple_bow.json", Assets.beginnersBow);
     public static Item simpleFishingRod = Utils.loadItem("12_simple_fishing_rod.json", Assets.simpleFishingRod);
     public static Item simpleSpellBook = Utils.loadItem("13_simple_spellbook.json", Assets.simpleSpellBook);
     public static Item simpleShield = Utils.loadItem("14_simple_shield.json", Assets.simpleShield);
@@ -50,14 +56,14 @@ public class Item implements Serializable {
     public static Item copperOre = Utils.loadItem("19_copper_ore.json", Assets.copperOre);
     public static Item miningEquipment = Utils.loadItem("20_mining_equipment.json", Assets.miningEquipment);
     public static Item malachite = Utils.loadItem("21_malachite.json", Assets.malachite);
-    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.dustyScroll, 0, (Use & Serializable) (i) -> {
+    public static Item dustyScroll = Utils.loadItem("22_dusty_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
         Handler.get().sendMsg("TODO: You unlocked [Earth Ability].");
         Handler.get().removeItem(Item.dustyScroll, 1);
     });
     public static Item azuriteNecklace = Utils.loadItem("23_azurite_necklace.json", Assets.azuriteNecklace);
     public static Item weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionOfProtection, potionOfProtection, strongPotionOfProtection, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
     public static Item azureBatWing = Utils.loadItem("42_azure_bat_wing.json", Assets.azureBatWing);
     public static Item crablingClaw = Utils.loadItem("43_crabling_claw.json", Assets.crablingClaw);
     public static Item simpleGloves = Utils.loadItem("44_simple_gloves.json", Assets.simpleGloves);
@@ -67,7 +73,9 @@ public class Item implements Serializable {
     public static Item scorpionTail = Utils.loadItem("47_scorpion_tail.json", Assets.scorpionTail);
     public static Item owlFeather = Utils.loadItem("48_owl_feather.json", Assets.owlFeather);
     public static Item dynamite = Utils.loadItem("49_dynamite.json", Assets.dynamite);
-    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator);
+    public static Item detonator = Utils.loadItem("50_detonator.json", Assets.detonator, 0, (Use & Serializable) (i) -> {
+        detonatorLogic();
+    });
     public static Item vineRoot = Utils.loadItem("51_vine_root.json", Assets.vineRoot);
     public static Item simpleVest = Utils.loadItem("52_simple_vest.json", Assets.simpleVest);
     public static Item simpleTrousers = Utils.loadItem("53_simple_trousers.json", Assets.simpleTrousers);
@@ -80,6 +88,73 @@ public class Item implements Serializable {
     public static Item ironOre = Utils.loadItem("60_iron_ore.json", Assets.ironOre);
     public static Item trout = Utils.loadItem("61_trout.json", Assets.trout);
     public static Item boneMeal = Utils.loadItem("62_bonemeal.json", Assets.boneMeal);
+    public static Item rockyShell = Utils.loadItem("63_rocky_shell.json", Assets.rockyShell);
+    public static Item tomatoSeeds = Utils.loadItem("64_tomato_seeds.json", Assets.tomatoSeeds);
+    public static Item cabbageSeeds = Utils.loadItem("65_cabbage_seeds.json", Assets.cabbageSeeds);
+    public static Item tomato = Utils.loadItem("66_tomato.json", Assets.tomato);
+    public static Item cabbage = Utils.loadItem("67_cabbage.json", Assets.cabbage);
+    public static Item wateringCan = Utils.loadItem("68_watering_can.json", Assets.wateringCan);
+    public static Item rockyConstrictScroll = Utils.loadItem("69_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(RockyConstrictAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.rockyConstrictScroll, 1);
+    });
+    public static Item cripplingImpactScroll = Utils.loadItem("70_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(CripplingImpactAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.cripplingImpactScroll, 1);
+    });
+    public static Item debilitatingStrikeScroll = Utils.loadItem("71_ability_scroll.json", Assets.abilityScroll, 0, (Use & Serializable) (i) -> {
+        AbilityManager.abilityMap.get(DebilitatingStrikeAbility.class).setUnlocked(true);
+        Handler.get().removeItem(Item.debilitatingStrikeScroll, 1);
+    });
+    public static Item softLeather = Utils.loadItem("72_soft_leather.json", Assets.softLeather);
+    public static Item stripOfCloth = Utils.loadItem("73_strip_of_cloth.json", Assets.stripOfCloth);
+    public static Item lapisLazuli = Utils.loadItem("74_lapis_lazuli.json", Assets.lapisLazuli);
+    public static Item azuriteEarrings = Utils.loadItem("75_azurite_earrings.json", Assets.azuriteEarrings);
+    public static Item azuriteRingL = Utils.loadItem("76_azurite_ring_(l).json", Assets.azuriteRingL);
+    public static Item azuriteRingR = Utils.loadItem("77_azurite_ring_(r).json", Assets.azuriteRingR);
+    public static Item copperFishingRod = Utils.loadItem("78_copper_fishing_rod.json", Assets.copperFishingRod);
+    public static Item malachiteEarrings = Utils.loadItem("79_malachite_earrings.json", Assets.malachiteEarrings);
+    public static Item malachiteRingL = Utils.loadItem("80_malachite_ring_(l).json", Assets.malachiteRingL);
+    public static Item malachiteRingR = Utils.loadItem("81_malachite_ring_(r).json", Assets.malachiteRingR);
+    public static Item malachiteAmulet = Utils.loadItem("82_malachite_amulet.json", Assets.malachiteAmulet);
+    public static Item ironAxe = Utils.loadItem("83_iron_axe.json", Assets.ironAxe);
+    public static Item ironPickaxe = Utils.loadItem("84_iron_pickaxe.json", Assets.ironPickaxe);
+    public static Item ironFishingRod = Utils.loadItem("85_iron_fishing_rod.json", Assets.ironFishingRod);
+
+    public static Item ironChainMail = Utils.loadItem("86_iron_chainmail.json", Assets.ironChainMail);
+    public static Item studdedShield = Utils.loadItem("87_studded_shield.json", Assets.studdedShield);
+    public static Item ironSword = Utils.loadItem("88_iron_sword.json", Assets.ironSword);
+    public static Item ironLegs = Utils.loadItem("89_iron_legs.json", Assets.ironLegs);
+    public static Item squiresCloak = Utils.loadItem("90_squire's_cloak.json", Assets.squiresCloak);
+    public static Item ironHelm = Utils.loadItem("91_iron_helm.json", Assets.ironHelm);
+    public static Item ironBoots = Utils.loadItem("92_iron_boots.json", Assets.ironBoots);
+    public static Item ironGloves = Utils.loadItem("93_iron_gloves.json", Assets.ironGloves);
+
+    public static Item softLeatherBody = Utils.loadItem("94_soft_leather_body.json", Assets.softLeatherBody);
+    public static Item ironQuiver = Utils.loadItem("95_iron_quiver.json", Assets.ironQuiver);
+    public static Item hardwoodBow = Utils.loadItem("96_hardwood_bow.json", Assets.hardwoodBow);
+    public static Item softLeatherLeggings = Utils.loadItem("97_soft_leather_leggings.json", Assets.softLeatherLeggings);
+    public static Item scoutsCloak = Utils.loadItem("98_scout's_cloak.json", Assets.scoutsCloak);
+    public static Item softLeatherCowl = Utils.loadItem("99_soft_leather_cowl.json", Assets.softLeatherCowl);
+    public static Item softLeatherBoots = Utils.loadItem("100_soft_leather_boots.json", Assets.softLeatherBoots);
+    public static Item softLeatherGloves = Utils.loadItem("101_soft_leather_gloves.json", Assets.softLeatherGloves);
+
+    public static Item woolenRobeTop = Utils.loadItem("102_woolen_robe_top.json", Assets.woolenRobeTop);
+    public static Item leatherSpellbook = Utils.loadItem("103_leather_spellbook.json", Assets.leatherSpellbook);
+    public static Item hardwoodStaff = Utils.loadItem("104_hardwood_staff.json", Assets.hardwoodStaff);
+    public static Item woolenRobeBottom = Utils.loadItem("105_woolen_robe_bottom.json", Assets.woolenRobeBottom);
+    public static Item apprenticesCloak = Utils.loadItem("106_apprentice's_cloak.json", Assets.apprenticesCloak);
+    public static Item woolenHat = Utils.loadItem("107_woolen_hat.json", Assets.woolenHat);
+    public static Item woolenBoots = Utils.loadItem("108_woolen_boots.json", Assets.woolenBoots);
+    public static Item woolenGloves = Utils.loadItem("109_woolen_gloves.json", Assets.woolenGloves);
+    public static Item rope = Utils.loadItem("110_rope.json", Assets.rope);
+    public static Item snakehead = Utils.loadItem("111_snakehead.json", Assets.snakehead);
+    public static Item clam = Utils.loadItem("112_clam.json", Assets.clam);
+    public static Item rake = Utils.loadItem("113_rake.json", Assets.rake);
+    public static Item tungstenOre = Utils.loadItem("114_tungsten_ore.json", Assets.tungstenOre);
+    public static Item aspenwood = Utils.loadItem("115_aspenwood.json", Assets.aspenwood);
+    public static Item lightwood = Utils.loadItem("116_lightwood.json", Assets.lightwood);
+
 
     static {
         initPotions();
@@ -112,7 +187,8 @@ public class Item implements Serializable {
     public static boolean pickUpKeyPressed = false;
     private int price;
     private boolean stackable;
-    private int respawnTimer = 10800;
+    private long respawnTime = 180L;
+    private long timeDropped;
     private boolean equippable;
     private boolean hovering;
     private Use use;
@@ -380,16 +456,20 @@ public class Item implements Serializable {
         this.requirements = requirements;
     }
 
-    public void startRespawnTimer() {
-        this.respawnTimer--;
+    public long getRespawnTime() {
+        return respawnTime;
     }
 
-    public int getRespawnTimer() {
-        return respawnTimer;
+    public void setRespawnTimer(long respawnTime) {
+        this.respawnTime = respawnTime;
     }
 
-    public void setRespawnTimer(int respawnTimer) {
-        this.respawnTimer = respawnTimer;
+    public long getTimeDropped() {
+        return timeDropped;
+    }
+
+    public void setTimeDropped(long timeDropped) {
+        this.timeDropped = timeDropped;
     }
 
     public Rectangle getPosition() {
@@ -478,15 +558,15 @@ public class Item implements Serializable {
     // Potions
     private static void initPotions() {
         weakAntidote = Utils.loadItem("24_weak_antidote.json", Assets.weakAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
             Handler.get().removeItem(Item.weakAntidote, 1);
         });
         antidote = Utils.loadItem("25_antidote.json", Assets.antidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
             Handler.get().removeItem(Item.antidote, 1);
         });
         strongAntidote = Utils.loadItem("26_strong_antidote.json", Assets.strongAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(Handler.get().getPlayer(), new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
             Handler.get().removeItem(Item.strongAntidote, 1);
         });
 
@@ -529,17 +609,17 @@ public class Item implements Serializable {
             Handler.get().removeItem(Item.strongPotionOfWisdom, 1);
         });
 
-        weakPotionOfProtection = Utils.loadItem("36_weak_potion_of_protection.json", Assets.weakPotionOfProtection, 0, (Use & Serializable) (i) -> {
+        weakPotionofFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.weakPotionOfProtection, 1);
+            Handler.get().removeItem(Item.weakPotionofFortitude, 1);
         });
-        potionOfProtection = Utils.loadItem("37_potion_of_protection.json", Assets.potionOfProtection, 0, (Use & Serializable) (i) -> {
+        potionofFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.potionOfProtection, 1);
+            Handler.get().removeItem(Item.potionofFortitude, 1);
         });
-        strongPotionOfProtection = Utils.loadItem("38_strong_potion_of_protection.json", Assets.strongPotionOfProtection, 0, (Use & Serializable) (i) -> {
+        strongPotionofFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionofFortitude, 0, (Use & Serializable) (i) -> {
             Handler.get().sendMsg("This potion has not been implemented yet.");
-            Handler.get().removeItem(Item.strongPotionOfProtection, 1);
+            Handler.get().removeItem(Item.strongPotionofFortitude, 1);
         });
 
         weakPotionOfVigor = Utils.loadItem("39_weak_potion_of_vigor.json", Assets.weakPotionOfVigor, 0, (Use & Serializable) (i) -> {
@@ -554,5 +634,22 @@ public class Item implements Serializable {
             Handler.get().sendMsg("This potion has not been implemented yet.");
             Handler.get().removeItem(Item.strongPotionOfVigor, 1);
         });
+    }
+
+    private static void detonatorLogic() {
+        if (!ShamrockRockslide.hasDetonated) {
+            if (Handler.get().getPlayer().getZone() != Zone.ShamrockMines3) {
+                Handler.get().sendMsg("You must use this detonator in Shamrock Mines B3");
+                return;
+            }
+            if ((Integer) Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValue("dynamitePlaced") < 3) {
+                Handler.get().sendMsg("You should place a dynamite stick north, east and west of the rock slide before using the detonator.");
+            } else {
+                Handler.get().sendMsg("You press the button and the dynamite explodes.");
+                ShamrockRockslide.hasDetonated = true;
+            }
+        } else {
+            Handler.get().sendMsg("There's no use for this anymore.");
+        }
     }
 }

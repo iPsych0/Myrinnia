@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.crafting;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -95,7 +96,10 @@ public class CraftingRecipe implements Serializable {
     }
 
     public void setDiscovered(boolean discovered) {
-        Handler.get().sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
+        if (!this.discovered && discovered) {
+            Handler.get().sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "Discovered recipe:\n" + this.getResult().getItem().getName()));
+        }
         this.discovered = discovered;
     }
 

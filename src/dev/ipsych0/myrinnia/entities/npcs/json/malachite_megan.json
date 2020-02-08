@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "If you follow the Farnor river north-east long enough, you will eventually reach Mt. Farnor, a very dangerous area.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I've heard that even the road towards Mt. Farnor has enemies starting from level 20!",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "I'm only level 8, so those enemies are no match for me... I'm heading north through the Malachite Pass instead.",
+      "nextId": -1
+    }
+  ]
+}

@@ -17,8 +17,8 @@ public abstract class ShopKeeper extends Creature {
      *
      */
     private static final long serialVersionUID = 3802705595380640443L;
-    ShopWindow shopWindow;
-    String shopName;
+    protected ShopWindow shopWindow;
+    protected String shopName;
     protected List<Stock> itemStacks;
 
     ShopKeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
@@ -31,8 +31,10 @@ public abstract class ShopKeeper extends Creature {
         isNpc = true;
 
         List<ItemStack> items = new ArrayList<>();
-        for (Stock s : itemStacks) {
-            items.add(new ItemStack(Item.items[s.getId()], s.getAmount()));
+        if (itemStacks != null) {
+            for (Stock s : itemStacks) {
+                items.add(new ItemStack(Item.items[s.getId()], s.getAmount()));
+            }
         }
         shopWindow = new ShopWindow(items);
         shopName = name + "'s Store";

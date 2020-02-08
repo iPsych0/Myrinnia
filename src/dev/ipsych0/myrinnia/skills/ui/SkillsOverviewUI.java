@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -35,7 +36,6 @@ public class SkillsOverviewUI implements Serializable {
     private Rectangle bounds;
     private UIImageButton exit;
     private UIManager uiManager;
-    private Color selectedColor = new Color(0, 255, 255, 62);
 
     public SkillsOverviewUI() {
 
@@ -131,7 +131,7 @@ public class SkillsOverviewUI implements Serializable {
                 int yPos = 0;
 
                 if (selectedButton != null) {
-                    g.setColor(selectedColor);
+                    g.setColor(Colors.selectedColor);
                     g.fillRoundRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height, 4, 4);
                 }
 

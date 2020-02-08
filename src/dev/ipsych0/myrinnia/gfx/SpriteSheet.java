@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
+import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 
@@ -77,7 +78,7 @@ public class SpriteSheet {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if(isTileTransparent(img)){
+                if (isTileTransparent(img)) {
                     return null;
                 }
                 Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
@@ -87,11 +88,16 @@ public class SpriteSheet {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if(isTileTransparent(img)){
+                if (isTileTransparent(img)) {
                     return null;
                 }
                 Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
             }
+        }
+
+        // If we're loading a movement permission tile, set the right permission
+        if (MovePermission.map.get(tileId) != null) {
+            Tile.tiles[tileId].setPermission(MovePermission.map.get(tileId));
         }
 
         return sheet.getSubimage(x, y, width, height);
@@ -153,16 +159,17 @@ public class SpriteSheet {
 
     /**
      * Crop out an array of NPC animations with custom x/y & width/height
-     * @param x absolute xPos
-     * @param y absolute yPos
-     * @param width absolute width
+     *
+     * @param x      absolute xPos
+     * @param y      absolute yPos
+     * @param width  absolute width
      * @param height absolute height
      * @return array of NPC animations
      */
     public BufferedImage[] npcCrop(int x, int y, int width, int height, int frames) {
         BufferedImage[] imgs = new BufferedImage[frames];
-        for(int i = 0; i < imgs.length; i++) {
-            imgs[i] = sheet.getSubimage(x + (i * Creature.DEFAULT_CREATURE_WIDTH), y, width, height);
+        for (int i = 0; i < imgs.length; i++) {
+            imgs[i] = sheet.getSubimage(x + (i * width), y, width, height);
         }
         return imgs;
     }
@@ -183,7 +190,7 @@ public class SpriteSheet {
                 Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, frames);
     }
 
-    public BufferedImage singleNpcCrop(int x, int y){
+    public BufferedImage singleNpcCrop(int x, int y) {
         // Crop out a 32x32 NPC
         return singleNpcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
                 Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -191,9 +198,10 @@ public class SpriteSheet {
 
     /**
      * Crop out a single NPC frame with custom x/y & width/height
-     * @param x absolute xPos
-     * @param y absolute yPos
-     * @param width absolute width
+     *
+     * @param x      absolute xPos
+     * @param y      absolute yPos
+     * @param width  absolute width
      * @param height absolute height
      * @return cropped NPC image
      */

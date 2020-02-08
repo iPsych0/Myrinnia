@@ -3,7 +3,7 @@
   "castingTime": 0.25,
   "overcastTime": 0.0,
   "name": "Arcane Renewal",
-  "description": "Heal yourself for X amount and shed 1 condition.",
+  "description": "Refresh yourself and shed 1 condition.",
   "abilityType": "HealingAbility",
   "element": "Water",
   "combatStyle": "Magic",

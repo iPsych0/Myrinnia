@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.OnImpact;
+import dev.ipsych0.myrinnia.abilities.data.OnImpact;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Projectile extends Creature implements Serializable {
 
@@ -20,6 +22,8 @@ public class Projectile extends Creature implements Serializable {
         private Animation animation;
         private float velocity = 6.0f;
         private String impactSound;
+        private float impactVolume = 0.1f;
+        private boolean piercing;
         private DamageType damageType;
         private Ability ability;
         private OnImpact onImpact;
@@ -36,10 +40,10 @@ public class Projectile extends Creature implements Serializable {
 
             switch (damageType) {
                 case INT:
-                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    this.impactSound = "abilities/magic_strike_impact.ogg";
                     break;
                 case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    this.impactSound = "abilities/ranged_shot_impact.ogg";
                     break;
             }
         }
@@ -55,16 +59,27 @@ public class Projectile extends Creature implements Serializable {
 
             switch (damageType) {
                 case INT:
-                    this.impactSound = "abilities/magic_strike_impact.wav";
+                    this.impactSound = "abilities/magic_strike_impact.ogg";
                     break;
                 case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.wav";
+                    this.impactSound = "abilities/ranged_shot_impact.ogg";
                     break;
             }
         }
 
         public Builder withVelocity(float velocity) {
             this.velocity = velocity;
+            return this;
+        }
+
+        public Builder withPiercing(boolean piercing) {
+            this.piercing = piercing;
+            return this;
+        }
+
+        public Builder withImpactSound(String sound, float impactVolume) {
+            this.impactSound = sound;
+            this.impactVolume = impactVolume;
             return this;
         }
 
@@ -94,7 +109,10 @@ public class Projectile extends Creature implements Serializable {
         }
 
         public Projectile build() {
-            return new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, damageType, ability, animation, frames, onImpact);
+            Projectile p = new Projectile(caster, x, y, targetX, targetY, velocity, impactSound, impactVolume, damageType, ability, animation, frames, onImpact, piercing);
+            p.setCurrentTile(caster.getCurrentTile());
+            p.setPreviousTile(caster.getPreviousTile());
+            return p;
         }
 
     }
@@ -115,16 +133,21 @@ public class Projectile extends Creature implements Serializable {
     private Creature hitCreature;
     private double rotation;
     private String impactSound;
+    private float impactVolume;
     private OnImpact onImpact;
+    private boolean piercing;
+    private Set<Creature> hitCreatures = new HashSet<>();
 
-    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact) {
+    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact, boolean piercing) {
         super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
 
         this.caster = caster;
         this.impactSound = impactSound;
+        this.impactVolume = impactVolume;
         this.damageType = damageType;
         this.ability = ability;
         this.onImpact = onImpact;
+        this.piercing = piercing;
 
         bounds = new Rectangle((int) x, (int) y, width, height);
         bounds.x = 10;
@@ -167,8 +190,8 @@ public class Projectile extends Creature implements Serializable {
         if (active) {
             animation.tick();
 
-            double ty = (y + yVelocity + bounds.y + (bounds.height / 2)) / Tile.TILEHEIGHT;
-            double tx = (x + xVelocity + bounds.x + (bounds.width / 2)) / Tile.TILEWIDTH;
+            double ty = (y + yVelocity + bounds.y + (bounds.height / 2d)) / Tile.TILEHEIGHT;
+            double tx = (x + xVelocity + bounds.x + (bounds.width / 2d)) / Tile.TILEWIDTH;
             if (collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, (int) ty, true) ||
                     collisionWithTile((int) tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, false) ||
@@ -249,5 +272,29 @@ public class Projectile extends Creature implements Serializable {
 
     public void setOnImpact(OnImpact onImpact) {
         this.onImpact = onImpact;
+    }
+
+    public float getImpactVolume() {
+        return impactVolume;
+    }
+
+    public void setImpactVolume(float impactVolume) {
+        this.impactVolume = impactVolume;
+    }
+
+    public boolean isPiercing() {
+        return piercing;
+    }
+
+    public void setPiercing(boolean piercing) {
+        this.piercing = piercing;
+    }
+
+    public Set<Creature> getHitCreatures() {
+        return hitCreatures;
+    }
+
+    public void setHitCreatures(Set<Creature> hitCreatures) {
+        this.hitCreatures = hitCreatures;
     }
 }

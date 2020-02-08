@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="9">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="13">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -18,6 +18,7 @@
  <tileset firstgid="18856" source="outside4.tsx"/>
  <tileset firstgid="19720" source="ruindungeons_sheet_full.tsx"/>
  <tileset firstgid="22268" source="ship_tileset.tsx"/>
+ <tileset firstgid="23780" source="z_tile_marker.tsx"/>
  <layer id="3" name="Tile Layer 1" width="50" height="25">
   <data encoding="csv">
 12925,12925,12925,12925,12925,12925,12925,12925,12925,23307,23307,23307,23307,23307,23307,23307,23307,23307,23307,23307,23307,23307,23307,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12925,12927,13141,13114,13115,13115,13109,13115,13115,13115,
@@ -87,9 +88,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6829,6830,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,23501,22408,0,23494,23495,0,23496,0,0,0,0,0,0,0,23497,0,0,23494,23495,0,0,0,0,0,0,0,0,0,0,0,0,6881,6882,15144,15145,15145,15146,15145,15145,15146,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13116,13117,13118,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13152,13153,13154,0,0,0,6829,6830,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,23501,22408,0,23494,23495,0,23496,0,0,0,0,0,0,0,23497,0,0,23494,23495,0,0,0,0,0,0,13188,13189,13190,0,0,0,6881,6882,15144,15145,15145,15146,15145,15145,15146,
 0,0,0,0,0,0,0,0,0,23497,23555,0,0,23548,23549,0,23550,0,0,0,0,0,0,0,23550,0,0,23548,23549,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,23550,0,0,0,0,0,0,0,0,0,0,0,22843,22844,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,23499,23500,0,23495,0,0,0,0,0,0,0,0,22897,22898,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -143,6 +144,24 @@
     <property name="goToX" value="1"/>
     <property name="goToY" value="58"/>
     <property name="zone" value="ShamrockTown"/>
+   </properties>
+  </object>
+  <object id="9" name="Mackerel" type="npc" x="1240" y="576" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
+   </properties>
+  </object>
+  <object id="10" name="Mackerel" type="npc" x="1240" y="672" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
+   </properties>
+  </object>
+  <object id="12" name="Mackerel" type="npc" x="1152" y="258" width="32" height="32">
+   <properties>
+    <property name="name" value="Mackerel Fishing Spot"/>
+    <property name="npcClass" value="FishingSpot"/>
    </properties>
   </object>
  </objectgroup>
