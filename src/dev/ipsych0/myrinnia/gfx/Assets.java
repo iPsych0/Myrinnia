@@ -28,7 +28,7 @@ public class Assets {
     public static BufferedImage rain, snow, sandStorm, fog;
 
     // Map item images (trees, rocks, etc)
-    public static BufferedImage weakPalmTree, elmTree, azuriteRock, copperRock, ironRock;
+    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, tungstenRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
@@ -63,7 +63,7 @@ public class Assets {
     public static BufferedImage[] scrollUpButton, scrollDownButton;
 
     // Item images
-    public static BufferedImage lightWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
+    public static BufferedImage palmWood, azuriteOre, beginnersSword, beginnersStaff, ryansAxe, simplePickaxe, simpleAxe, bountyContract, beginnersBow,
             simpleFishingRod, mackerelFish, simpleSpellBook, simpleShield, simpleQuiver, simpleSandals, copperPickaxe, copperAxe,
             copperOre, malachite, miningEquipment, abilityScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
@@ -72,7 +72,8 @@ public class Assets {
             malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
-            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake;
+            hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
+            tungstenOre, aspenwood, lightwood;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -161,6 +162,8 @@ public class Assets {
     public static BufferedImage[] portAzureDouglasDown, portAzureDouglasLeft, portAzureDouglasRight, portAzureDouglasUp;
     public static BufferedImage[] portAzureDuncanDown, portAzureDuncanLeft, portAzureDuncanRight, portAzureDuncanUp;
     public static BufferedImage[] portAzureCooperDown, portAzureCooperLeft, portAzureCooperRight, portAzureCooperUp;
+    public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
+    public static BufferedImage portAzureMayor, elderSelwyn;
 
     // Shamrock
     public static BufferedImage[] shamrockEdgarDown, shamrockEdgarLeft, shamrockEdgarRight, shamrockEdgarUp;
@@ -213,10 +216,6 @@ public class Assets {
     public static BufferedImage uiWindow;
 
     public static BufferedImage[][] puzzlePieces;
-
-    // Port Azure
-    public static BufferedImage portAzureMayor, elderSelwyn;
-    public static BufferedImage[] portAzureSailorDown, portAzureSailorLeft, portAzureSailorRight, portAzureSailorUp;
 
     public static BufferedImage mainBackground;
 
@@ -439,7 +438,7 @@ public class Assets {
         /*
          * Item Sprites
          */
-        lightWood = item_sheet.imageCrop(0, 0);
+        palmWood = item_sheet.imageCrop(0, 0);
         azuriteOre = item_sheet.imageCrop(0, 1);
         coins = new BufferedImage[4];
         coins[0] = item_sheet.imageCrop(0, 2);
@@ -540,6 +539,9 @@ public class Assets {
         snakehead = item_sheet.imageCrop(3, 2);
         clam = item_sheet.imageCrop(3, 3);
         rake = item_sheet.imageCrop(3, 4);
+        tungstenOre = item_sheet.imageCrop(3, 5);
+        aspenwood = item_sheet.imageCrop(3, 6);
+        lightwood = item_sheet.imageCrop(3, 7);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -1166,9 +1168,12 @@ public class Assets {
         // Skilling objects
         weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);
         elmTree = woodcutting_trees.imageCrop(3, 0, WIDTH * 2, HEIGHT * 3);
+        oakTree = woodcutting_trees.imageCrop(5, 0, WIDTH * 3, HEIGHT * 3);
+        aspenTree = woodcutting_trees.imageCrop(8, 0, WIDTH * 2, HEIGHT * 3);
         azuriteRock = mining_rocks.imageCrop(1, 0);
         copperRock = mining_rocks.imageCrop(2, 0);
         ironRock = mining_rocks.imageCrop(3, 0);
+        tungstenRock = mining_rocks.imageCrop(4, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);

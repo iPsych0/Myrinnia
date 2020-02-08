@@ -44,7 +44,9 @@ public class Tree extends StaticEntity {
     private int originalExperience;
     private static Map<String, BufferedImage> textureMap = Map.ofEntries(
             entry("Weak Palm Tree", Assets.weakPalmTree),
-            entry("Elm Tree", Assets.elmTree)
+            entry("Elm Tree", Assets.elmTree),
+            entry("Oak Tree", Assets.oakTree),
+            entry("Aspen Tree", Assets.aspenTree)
     );
     private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
             entry(Item.simpleAxe.getId(), 1.0),
@@ -64,7 +66,7 @@ public class Tree extends StaticEntity {
         attackable = false;
 
         if (name.equalsIgnoreCase("Weak Palm Tree")) {
-            logs = Item.lightWood;
+            logs = Item.palmWood;
             rareMaterial = null; // TODO: ADD COCONUT
             experience = 10;
             timeToCut = 150;
@@ -75,12 +77,34 @@ public class Tree extends StaticEntity {
             bounds.width = 32;
             bounds.height = 16;
         } else if (name.equalsIgnoreCase("Elm Tree")) {
-            logs = Item.lightWood;
+            logs = Item.lightwood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
-            experience = 10;
-            timeToCut = 150;
-            chanceToCut = 750; // 75%
-            chanceOfRareMaterial = 100; // 10% Chance
+            experience = 15;
+            timeToCut = 180;
+            chanceToCut = 700; // 70%
+            chanceOfRareMaterial = 80; // 8% Chance
+            bounds.x = 17;
+            bounds.y = 83;
+            bounds.width = 29;
+            bounds.height = 13;
+        } else if (name.equalsIgnoreCase("Oak Tree")) {
+            logs = Item.hardWood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 20;
+            timeToCut = 210;
+            chanceToCut = 650; // 65%
+            chanceOfRareMaterial = 80; // 8% Chance
+            bounds.x = 17;
+            bounds.y = 83;
+            bounds.width = 29;
+            bounds.height = 13;
+        } else if (name.equalsIgnoreCase("Aspen Tree")) {
+            logs = Item.aspenwood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 25;
+            timeToCut = 300;
+            chanceToCut = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% Chance
             bounds.x = 17;
             bounds.y = 83;
             bounds.width = 29;

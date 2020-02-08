@@ -25,9 +25,9 @@ public class CraftingManager implements Serializable {
 
         recipes = new ArrayList<>();
 
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersSword, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersBow, 1)));
+        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.beginnersStaff, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.ironOre, 5), new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironSword, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.softLeather, 2), new ItemStack(Item.hardWood, 5), new ItemStack(Item.hardwoodBow, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.ironOre, 2), new ItemStack(Item.hardWood, 5), new ItemStack(Item.hardwoodStaff, 1)));
@@ -56,12 +56,12 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 3), new ItemStack(Item.woolenBoots, 1)));
         recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 2), new ItemStack(Item.woolenGloves, 1)));
 
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simpleAxe, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simplePickaxe, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 3), new ItemStack(Item.azuriteOre, 2), new ItemStack(Item.simpleFishingRod, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperAxe, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperPickaxe, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightWood, 3), new ItemStack(Item.copperOre, 2), new ItemStack(Item.copperFishingRod, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simpleAxe, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simplePickaxe, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 3), new ItemStack(Item.azuriteOre, 2), new ItemStack(Item.simpleFishingRod, 1)));
+        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperAxe, 1)));
+        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperPickaxe, 1)));
+        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 3), new ItemStack(Item.copperOre, 2), new ItemStack(Item.copperFishingRod, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironAxe, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironPickaxe, 1)));
         recipes.add(new CraftingRecipe(6, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 3), new ItemStack(Item.ironOre, 2), new ItemStack(Item.ironFishingRod, 1)));
@@ -75,9 +75,13 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(5, 25, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 3), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteRingR, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 5), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteAmulet, 1)));
 
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightWood, 1), new ItemStack(Item.pileOfAshes, 2)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.palmWood, 1), new ItemStack(Item.pileOfAshes, 2)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 1), new ItemStack(Item.pileOfAshes, 3)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 1), new ItemStack(Item.pileOfAshes, 4)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.aspenwood, 1), new ItemStack(Item.pileOfAshes, 5)));
+
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.pileOfAshes, 1), new ItemStack(Item.pileOfSand, 1), new ItemStack(Item.glass, 1)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightWood, 2), new ItemStack(Item.lightWoodPlank, 1)));
+        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 2), new ItemStack(Item.lightWoodPlank, 1)));
         recipes.add(new CraftingRecipe(5, 1, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
 

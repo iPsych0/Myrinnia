@@ -84,6 +84,13 @@ public class Rock extends StaticEntity {
             experience = 20;
             timeToMine = 240;
             chanceToMine = 650; // 65%
+            chanceOfRareMaterial = 80; // 8% chance
+        } else if (name.equalsIgnoreCase("Tungsten Rock")) {
+            ore = Item.tungstenOre;
+            experience = 25;
+            timeToMine = 300;
+            chanceToMine = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% chance
         } else {
             throw new IllegalArgumentException("Rock name not found: " + name);
         }

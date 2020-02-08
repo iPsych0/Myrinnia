@@ -104,7 +104,7 @@
     },
     {
       "id": 14,
-      "text": "Alright, we will need resources first. 5 Azurite Ore and 2 Lightwood should do.",
+      "text": "Alright, we will need resources first. 5 Azurite Ore and 2 Palm Wood should do.",
       "nextId": 19,
       "choiceCondition": {
         "condition": "hasMaterials",
@@ -144,7 +144,7 @@
     },
     {
       "id": 18,
-      "text": "You can find some trees with Lightwood bark in Sunrise Sands. Look for the Weak Palm Trees.",
+      "text": "You can find some Palm Wood trees in Sunrise Sands. Look for the Weak Palm Trees.",
       "nextId": 15
     },
     {

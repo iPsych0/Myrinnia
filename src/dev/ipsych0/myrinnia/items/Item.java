@@ -34,7 +34,7 @@ public class Item implements Serializable {
     /*
      * Items
      */
-    public static Item lightWood = Utils.loadItem("0_lightwood.json", Assets.lightWood);
+    public static Item palmWood = Utils.loadItem("0_palm_wood.json", Assets.palmWood);
     public static Item azuriteOre = Utils.loadItem("1_azurite_ore.json", Assets.azuriteOre);
     public static Item magicSword = Utils.loadItem("2_magic_sword.json", Assets.undiscovered);
     public static Item beginnersSword = Utils.loadItem("3_simple_sword.json", Assets.beginnersSword);
@@ -151,6 +151,9 @@ public class Item implements Serializable {
     public static Item snakehead = Utils.loadItem("111_snakehead.json", Assets.snakehead);
     public static Item clam = Utils.loadItem("112_clam.json", Assets.clam);
     public static Item rake = Utils.loadItem("113_rake.json", Assets.rake);
+    public static Item tungstenOre = Utils.loadItem("114_tungsten_ore.json", Assets.tungstenOre);
+    public static Item aspenwood = Utils.loadItem("115_aspenwood.json", Assets.aspenwood);
+    public static Item lightwood = Utils.loadItem("116_lightwood.json", Assets.lightwood);
 
 
     static {

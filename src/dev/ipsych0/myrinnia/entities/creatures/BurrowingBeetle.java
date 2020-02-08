@@ -131,11 +131,11 @@ public class BurrowingBeetle extends Creature {
     @Override
     public void die() {
         if (combatLevel == 5) {
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
         } else if (combatLevel == 6) {
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(15);
         } else if (combatLevel == 7) {
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(30);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
             if (!hasDroppedDynamite) {
                 hasDroppedDynamite = true;
                 Handler.get().dropItem(Item.dynamite, 1, (int) x, (int) y);
@@ -310,6 +310,15 @@ public class BurrowingBeetle extends Creature {
                 pathTimer = 0;
             }
             followAStar();
+        }
+    }
+
+    @Override
+    public Rectangle getFullBounds(double xOffset, double yOffset) {
+        if (digging) {
+            return new Rectangle(-100, -100, 0, 0);
+        } else {
+            return super.getCollisionBounds(xOffset, yOffset);
         }
     }
 

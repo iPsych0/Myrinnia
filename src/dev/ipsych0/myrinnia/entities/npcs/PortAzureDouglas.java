@@ -53,7 +53,7 @@ public class PortAzureDouglas extends Creature {
                 }
                 break;
             case "has5logs":
-                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.lightWood, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.palmWood, 5)) {
                     return true;
                 }
                 break;
@@ -92,9 +92,9 @@ public class PortAzureDouglas extends Creature {
                     break;
                 }
                 speakingCheckpoint = 7;
-                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.lightWood, 5)) {
+                if (Handler.get().questInProgress(QuestList.GatheringYourStuff) && Handler.get().playerHasItem(Item.palmWood, 5)) {
                     Handler.get().giveItem(Item.simpleFishingRod, 1);
-                    Handler.get().removeItem(Item.lightWood, 5);
+                    Handler.get().removeItem(Item.palmWood, 5);
                     quest.nextStep();
                 }
                 break;

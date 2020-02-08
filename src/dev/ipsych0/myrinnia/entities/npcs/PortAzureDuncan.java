@@ -9,7 +9,6 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 
@@ -52,7 +51,7 @@ public class PortAzureDuncan extends Creature {
                 }
                 break;
             case "hasMaterials":
-                if (Handler.get().playerHasItem(Item.azuriteOre, 5) && Handler.get().playerHasItem(Item.lightWood, 2)) {
+                if (Handler.get().playerHasItem(Item.azuriteOre, 5) && Handler.get().playerHasItem(Item.palmWood, 2)) {
                     return true;
                 }
                 break;

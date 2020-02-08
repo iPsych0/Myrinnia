@@ -28,7 +28,7 @@ public class BountyBoardAzure extends BountyBoard {
         isNpc = true;
 
         bountyBoardUI = new BountyBoardUI(Zone.PortAzure);
-        bountyBoardUI.addPanel(1, "Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded. I will be waiting north-west of Port Azure.\n\n- Ryan");
+        bountyBoardUI.addPanel(1, "Cut the Crab", "A giant crab attacked me in Sunset Cove! I lost my axe. Someone please help!", "I was attacked by a giant crab in Sunset Cove, north-west of Port Azure! When I fled, I left behind my axe. Someone please retrieve my axe, you will be rewarded. I will be waiting just north-west of Port Azure.\n\n- Ryan");
     }
 
     @Override

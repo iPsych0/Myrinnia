@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="110" height="160" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="52">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="110" height="160" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="55">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -759,12 +759,6 @@
     <property name="npcClass" value="Tree"/>
    </properties>
   </object>
-  <object id="24" name="Elm Tree" type="npc" x="320" y="896" width="64" height="96">
-   <properties>
-    <property name="name" value="Elm Tree"/>
-    <property name="npcClass" value="Tree"/>
-   </properties>
-  </object>
   <object id="25" name="Copper Ore" type="npc" x="224" y="384" width="32" height="32">
    <properties>
     <property name="name" value="Copper Rock"/>
@@ -784,12 +778,6 @@
    </properties>
   </object>
   <object id="28" name="Elm Tree" type="npc" x="544" y="1088" width="64" height="96">
-   <properties>
-    <property name="name" value="Elm Tree"/>
-    <property name="npcClass" value="Tree"/>
-   </properties>
-  </object>
-  <object id="29" name="Elm Tree" type="npc" x="2400" y="2624" width="64" height="96">
    <properties>
     <property name="name" value="Elm Tree"/>
     <property name="npcClass" value="Tree"/>
@@ -936,12 +924,6 @@
     <property name="npcClass" value="Hedgehog"/>
    </properties>
   </object>
-  <object id="47" name="Elm Tree" type="npc" x="352" y="480" width="64" height="96">
-   <properties>
-    <property name="name" value="Elm Tree"/>
-    <property name="npcClass" value="Tree"/>
-   </properties>
-  </object>
   <object id="48" name="Malachite" type="item" x="1632" y="608" width="32" height="32">
    <properties>
     <property name="amount" value="1"/>
@@ -968,6 +950,24 @@
     <property name="level" value="9"/>
     <property name="name" value="Hedgehog"/>
     <property name="npcClass" value="Hedgehog"/>
+   </properties>
+  </object>
+  <object id="52" name="Oak Tree" type="npc" x="352" y="480" width="96" height="96">
+   <properties>
+    <property name="name" value="Oak Tree"/>
+    <property name="npcClass" value="Tree"/>
+   </properties>
+  </object>
+  <object id="53" name="Oak Tree" type="npc" x="352" y="896" width="96" height="96">
+   <properties>
+    <property name="name" value="Oak Tree"/>
+    <property name="npcClass" value="Tree"/>
+   </properties>
+  </object>
+  <object id="54" name="Oak Tree" type="npc" x="2464" y="2624" width="96" height="96">
+   <properties>
+    <property name="name" value="Oak Tree"/>
+    <property name="npcClass" value="Tree"/>
    </properties>
   </object>
  </objectgroup>
