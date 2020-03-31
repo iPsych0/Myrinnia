@@ -155,6 +155,20 @@ public class Item implements Serializable {
     public static Item aspenwood = Utils.loadItem("115_aspenwood.json", Assets.aspenwood);
     public static Item lightwood = Utils.loadItem("116_lightwood.json", Assets.lightwood);
 
+    public static Item strawberrySeeds = Utils.loadItem("117_strawberry_seeds.json", Assets.strawberrySeeds);
+    public static Item raspberrySeeds = Utils.loadItem("118_raspberry_seeds.json", Assets.raspberrySeeds);
+    public static Item blackberrySeeds = Utils.loadItem("119_blackberry_seeds.json", Assets.blackberrySeeds);
+    public static Item blueberrySeeds = Utils.loadItem("120_blueberry_seeds.json", Assets.blueberrySeeds);
+
+    public static Item appleTreeSeeds = Utils.loadItem("121_apple_tree_seeds.json", Assets.appleTreeSeeds);
+    public static Item bananaTreeSeeds = Utils.loadItem("122_banana_tree_seeds.json", Assets.bananaTreeSeeds);
+    public static Item orangeTreeSeeds = Utils.loadItem("123_orange_tree_seeds.json", Assets.orangeTreeSeeds);
+    public static Item apricotTreeSeeds = Utils.loadItem("124_apricot_tree_seed.json", Assets.apricotTreeSeeds);
+    public static Item peachTreeSeeds = Utils.loadItem("125_peach_tree_seeds.json", Assets.peachTreeSeeds);
+    public static Item papayaTreeSeeds = Utils.loadItem("126_papaya_tree_seeds.json", Assets.papayaTreeSeeds);
+    public static Item starfruitTreeSeeds = Utils.loadItem("127_starfruit_tree_seeds.json", Assets.starfruitTreeSeeds);
+    public static Item dragonfruitTreeSeeds = Utils.loadItem("128_dragonfruit_tree_seeds.json", Assets.dragonfruitTreeSeeds);
+
 
     static {
         initPotions();

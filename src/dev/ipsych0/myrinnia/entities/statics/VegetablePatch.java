@@ -218,7 +218,7 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         // Create new resource object based on the original model to have unique instances of planted seeds
         resource = new FarmingResource(resource.getLevelRequirement(), resource.getSeed(), resource.getQuantity(),
                 resource.getCategory(), resource.getTimeToGrow() / 60L,
-                resource.getHarvest(), resource.getHarvestQuantity(), resource.getExperience());
+                resource.getHarvest(), resource.getHarvestQuantity(), resource.getExperience(), resource.getDescription());
 
         finished = false;
 

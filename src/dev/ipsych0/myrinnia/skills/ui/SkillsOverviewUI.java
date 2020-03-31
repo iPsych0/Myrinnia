@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -14,6 +15,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SkillsOverviewUI implements Serializable {
 
@@ -106,8 +108,10 @@ public class SkillsOverviewUI implements Serializable {
 
                         Rectangle slot = new Rectangle(categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32);
 
+                        // Print the resource description when clicked
                         if (slot.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                            Handler.get().sendMsg("You can find this resource in: [Zones]");
+                            List<SkillResource> resourceList = selectedSkill.getListByCategory(selectedCategory);
+                            Handler.get().sendMsg(resourceList.get(i).toString());
                             hasBeenPressed = false;
                         }
 

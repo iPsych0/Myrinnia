@@ -14,8 +14,8 @@ public class FarmingResource extends SkillResource{
     private int harvestQuantity;
     private int experience;
 
-    public FarmingResource(int requirement, Item seed, int quantity, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience) {
-        super(requirement, harvest, category);
+    public FarmingResource(int requirement, Item seed, int quantity, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience, String description) {
+        super(requirement, harvest, category, description);
 
         if (!seed.isType(ItemType.SEED)) {
             throw new IllegalArgumentException("Farming resources must use seeds. '" + seed.getName() + "' is not a seed.");
@@ -29,8 +29,8 @@ public class FarmingResource extends SkillResource{
         this.experience = experience;
     }
 
-    public FarmingResource(int requirement, Item seed, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience) {
-        super(requirement, harvest, category);
+    public FarmingResource(int requirement, Item seed, SkillCategory category, long minutesToGrow, Item harvest, int harvestQuantity, int experience, String description) {
+        super(requirement, harvest, category, description);
 
         if (!seed.isType(ItemType.SEED)) {
             throw new IllegalArgumentException("Farming resources must use seeds. '" + seed.getName() + "' is not a seed.");

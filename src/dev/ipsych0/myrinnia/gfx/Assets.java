@@ -73,7 +73,8 @@ public class Assets {
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
             hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
-            tungstenOre, aspenwood, lightwood;
+            tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
+            bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -542,6 +543,19 @@ public class Assets {
         tungstenOre = item_sheet.imageCrop(3, 5);
         aspenwood = item_sheet.imageCrop(3, 6);
         lightwood = item_sheet.imageCrop(3, 7);
+
+        strawberrySeeds = item_sheet.imageCrop(3, 8);
+        raspberrySeeds = item_sheet.imageCrop(3, 9);
+        blackberrySeeds = item_sheet.imageCrop(3, 10);
+        blueberrySeeds = item_sheet.imageCrop(3, 11);
+        appleTreeSeeds = item_sheet.imageCrop(3, 12);
+        bananaTreeSeeds = item_sheet.imageCrop(3, 13);
+        orangeTreeSeeds = item_sheet.imageCrop(3, 14);
+        apricotTreeSeeds = item_sheet.imageCrop(3, 15);
+        peachTreeSeeds = item_sheet.imageCrop(3, 16);
+        papayaTreeSeeds = item_sheet.imageCrop(3, 17);
+        starfruitTreeSeeds = item_sheet.imageCrop(3, 18);
+        dragonfruitTreeSeeds = item_sheet.imageCrop(3, 19);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

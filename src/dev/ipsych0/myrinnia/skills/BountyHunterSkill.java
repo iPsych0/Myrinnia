@@ -27,7 +27,7 @@ public class BountyHunterSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.coins, SkillCategory.BountyTargets));
+        resources.add(new SkillResource(1, Item.bountyContract, SkillCategory.BountyTargets, "Talk to [...] for this bounty."));
     }
 
     @Override

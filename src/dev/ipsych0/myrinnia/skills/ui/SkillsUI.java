@@ -99,7 +99,7 @@ public class SkillsUI implements Serializable {
                 }
             } else if (farming.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    changeTab(SkillsList.FARMING, SkillCategory.Fruits);
+                    changeTab(SkillsList.FARMING, SkillCategory.Vegetables);
                 }
             } else if (fishing.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {

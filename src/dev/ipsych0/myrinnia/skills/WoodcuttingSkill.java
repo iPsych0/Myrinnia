@@ -26,9 +26,10 @@ public class WoodcuttingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.palmWood, SkillCategory.Trees));
-        resources.add(new SkillResource(2, Item.lightwood, SkillCategory.Trees));
-        resources.add(new SkillResource(5, Item.hardWood, SkillCategory.Trees));
+        resources.add(new SkillResource(1, Item.palmWood, SkillCategory.Trees, "Obtained by cutting Weak Palm Trees."));
+        resources.add(new SkillResource(2, Item.lightwood, SkillCategory.Trees, "Obtained by cutting Elm Trees."));
+        resources.add(new SkillResource(5, Item.hardWood, SkillCategory.Trees, "Obtained by cutting Oak Trees."));
+        resources.add(new SkillResource(10, Item.aspenwood, SkillCategory.Trees, "Obtained by cutting Aspenwood Trees."));
     }
 
     @Override

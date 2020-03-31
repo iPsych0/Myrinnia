@@ -14,7 +14,8 @@ public enum SkillCategory {
     Ores("Ores"),
     Trees("Trees"),
     Vegetables("Vegetables"),
-    Fruits("Fruits"),
+    Bush("Bush"),
+    FarmingTrees("Fruit Trees"),
     BountyTargets("Targets");
 
     private String name;

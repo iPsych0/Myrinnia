@@ -18,8 +18,9 @@ public class FarmingSkill extends Skill {
 
         initResources();
 
-        categories.add(SkillCategory.Fruits);
         categories.add(SkillCategory.Vegetables);
+        categories.add(SkillCategory.Bush);
+        categories.add(SkillCategory.FarmingTrees);
 
     }
 
@@ -29,8 +30,26 @@ public class FarmingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new FarmingResource(1, Item.tomatoSeeds, 2, SkillCategory.Vegetables, 1L, Item.tomato, 4, 50));
-        resources.add(new FarmingResource(1, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 1L, Item.cabbage, 4, 50));
+        // TODO: DETERMINE TIME TO GROW FOR ALL!
+        // Vegetables
+        resources.add(new FarmingResource(1, Item.tomatoSeeds, 2, SkillCategory.Vegetables, 1L, Item.tomato, 4, 35, "Harvesting yields tomatoes."));
+        resources.add(new FarmingResource(1, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 1L, Item.cabbage, 4, 35, "Harvesting yields cabbages."));
+
+        // Berries
+        resources.add(new FarmingResource(2, Item.strawberrySeeds, 2, SkillCategory.Bush, 1L, Item.coins, 4, 45, "Harvesting yields strawberries."));
+        resources.add(new FarmingResource(7, Item.raspberrySeeds, 2, SkillCategory.Bush, 1L, Item.coins, 4, 75, "Harvesting yields raspberries."));
+        resources.add(new FarmingResource(14, Item.blackberrySeeds, 2, SkillCategory.Bush, 1L, Item.coins, 4, 135, "Harvesting yields blackberries."));
+        resources.add(new FarmingResource(19, Item.blueberrySeeds, 2, SkillCategory.Bush, 1L, Item.coins, 4, 225, "Harvesting yields blueberries."));
+
+        // Fruit trees
+        resources.add(new FarmingResource(15, Item.appleTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 250, "Harvesting yields apples."));
+        resources.add(new FarmingResource(18, Item.bananaTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 400, "Harvesting yields bananas."));
+        resources.add(new FarmingResource(22, Item.orangeTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 800, "Harvesting yields oranges."));
+        resources.add(new FarmingResource(25, Item.apricotTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 1300, "Harvesting yields apricots."));
+        resources.add(new FarmingResource(29, Item.peachTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 2500, "Harvesting yields peaches."));
+        resources.add(new FarmingResource(32, Item.papayaTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 3400, "Harvesting yields papayas."));
+        resources.add(new FarmingResource(36, Item.starfruitTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 5200, "Harvesting yields starfruits."));
+        resources.add(new FarmingResource(39, Item.dragonfruitTreeSeeds, 2, SkillCategory.FarmingTrees, 1L, Item.coins, 4, 7100, "Harvesting yields dragonfruits."));
     }
 
     @Override

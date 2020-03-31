@@ -14,11 +14,13 @@ public class SkillResource implements Serializable {
     protected int levelRequirement;
     protected Item item;
     protected SkillCategory category;
+    protected String description;
 
-    public SkillResource(int requirement, Item item, SkillCategory category) {
+    public SkillResource(int requirement, Item item, SkillCategory category, String description) {
         this.levelRequirement = requirement;
         this.item = item;
         this.category = category;
+        this.description = description;
     }
 
     public int getLevelRequirement() {
@@ -45,4 +47,16 @@ public class SkillResource implements Serializable {
         this.category = category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }
