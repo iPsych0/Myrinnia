@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Fog implements Weather, Serializable {
@@ -19,6 +20,19 @@ public class Fog implements Weather, Serializable {
     private static final Color[] colors = {new Color(139, 170, 184, 53), new Color(167, 233, 243, 107)};
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
             getHeight() / 2, radius, fractions, colors);
+    private Intensity intensity;
+
+    public enum Intensity {
+        NORMAL, HEAVY
+    }
+
+    public Fog() {
+        this.intensity = Intensity.NORMAL;
+    }
+
+    public Fog(Intensity intensity) {
+        this.intensity = intensity;
+    }
 
     @Override
     public void tick() {
@@ -46,8 +60,19 @@ public class Fog implements Weather, Serializable {
 
         for (int y = 0; y < HEIGHT; y += FOG_H) {
             for (int x = -FOG_W; x < WIDTH + FOG_W; x += FOG_W) {
-                g.drawImage(Assets.fog, x + xOffset, y, null);
+                g.drawImage(getFogIntensityImg(), x + xOffset, y, null);
             }
+        }
+    }
+
+    private BufferedImage getFogIntensityImg() {
+        switch (intensity) {
+            case NORMAL:
+                return Assets.fogNormal;
+            case HEAVY:
+                return Assets.fogHeavy;
+            default:
+                return Assets.fogNormal;
         }
     }
 }

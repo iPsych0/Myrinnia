@@ -46,7 +46,8 @@ public class Rock extends StaticEntity {
     private static Map<String, BufferedImage> textureMap = Map.ofEntries(
             entry("Azurite Rock", Assets.azuriteRock),
             entry("Copper Rock", Assets.copperRock),
-            entry("Iron Rock", Assets.ironRock)
+            entry("Iron Rock", Assets.ironRock),
+            entry("Tungsten Rock", Assets.tungstenRock)
     );
     private static Map<Integer, Double> chanceToMineMap = Map.ofEntries(
             entry(Item.simplePickaxe.getId(), 1.0),

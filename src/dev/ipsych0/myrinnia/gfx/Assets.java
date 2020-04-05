@@ -25,7 +25,7 @@ public class Assets {
     public static Font font64;
 
     // Weather effects
-    public static BufferedImage rain, snow, sandStorm, fog;
+    public static BufferedImage rain, snow, sandStorm, fogNormal, fogHeavy;
 
     // Map item images (trees, rocks, etc)
     public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, tungstenRock;
@@ -74,7 +74,8 @@ public class Assets {
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
             hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
             tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
-            bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds;
+            bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
+            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -263,7 +264,9 @@ public class Assets {
         SpriteSheet sand_sheet = new SpriteSheet("/textures/weather/wsheet_sand_1.png");
         sandStorm = sand_sheet.imageCrop(0, 0, 128, 32);
         SpriteSheet fog_sheet = new SpriteSheet("/textures/weather/wsheet_fog_1.png");
-        fog = fog_sheet.imageCrop(0, 0, 128, 32);
+        fogNormal = fog_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet fog_sheet2 = new SpriteSheet("/textures/weather/wsheet_fog_2.png");
+        fogHeavy = fog_sheet2.imageCrop(0, 0, 128, 32);
 
         /*
          * Player/NPCs
@@ -556,6 +559,19 @@ public class Assets {
         papayaTreeSeeds = item_sheet.imageCrop(3, 17);
         starfruitTreeSeeds = item_sheet.imageCrop(3, 18);
         dragonfruitTreeSeeds = item_sheet.imageCrop(3, 19);
+        strawberry = item_sheet.imageCrop(3, 20);
+        raspberry = item_sheet.imageCrop(3, 21);
+        blackberry = item_sheet.imageCrop(3, 22);
+        blueberry = item_sheet.imageCrop(3, 23);
+        apple = item_sheet.imageCrop(3, 24);
+        banana = item_sheet.imageCrop(3, 25);
+        orange = item_sheet.imageCrop(3, 26);
+        apricot = item_sheet.imageCrop(3, 27);
+        peach = item_sheet.imageCrop(3, 28);
+        papaya = item_sheet.imageCrop(3, 29);
+
+        starfruit = item_sheet.imageCrop(4, 0);
+        dragonfruit = item_sheet.imageCrop(4, 1);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

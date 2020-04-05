@@ -169,6 +169,20 @@ public class Item implements Serializable {
     public static Item starfruitTreeSeeds = Utils.loadItem("127_starfruit_tree_seeds.json", Assets.starfruitTreeSeeds);
     public static Item dragonfruitTreeSeeds = Utils.loadItem("128_dragonfruit_tree_seeds.json", Assets.dragonfruitTreeSeeds);
 
+    public static Item strawberry = Utils.loadItem("129_strawberry.json", Assets.strawberry);
+    public static Item raspberry = Utils.loadItem("130_raspberry.json", Assets.raspberry);
+    public static Item blackberry = Utils.loadItem("131_blackberry.json", Assets.blackberry);
+    public static Item blueberry = Utils.loadItem("132_blueberry.json", Assets.blueberry);
+
+    public static Item apple = Utils.loadItem("133_apple.json", Assets.apple);
+    public static Item banana = Utils.loadItem("134_banana.json", Assets.banana);
+    public static Item orange = Utils.loadItem("135_orange.json", Assets.orange);
+    public static Item apricot = Utils.loadItem("136_apricot.json", Assets.apricot);
+    public static Item peach = Utils.loadItem("137_peach.json", Assets.peach);
+    public static Item papaya = Utils.loadItem("138_papaya.json", Assets.papaya);
+    public static Item starfruit = Utils.loadItem("139_starfruit.json", Assets.starfruit);
+    public static Item dragonfruit = Utils.loadItem("140_dragonfruit.json", Assets.dragonfruit);
+
 
     static {
         initPotions();

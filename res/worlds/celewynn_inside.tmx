@@ -302,7 +302,11 @@
   <object id="7" name="NPC" type="npc" x="352" y="2112" width="32" height="32"/>
   <object id="8" name="Elenthir" type="npc" x="1184" y="1152" width="32" height="32">
    <properties>
+    <property name="animation" value="celenorElenthir"/>
     <property name="direction" value="UP"/>
+    <property name="jsonFile" value="celenor_elenthir.json"/>
+    <property name="name" value="Elenthir"/>
+    <property name="npcClass" value="CelenorElenthir"/>
    </properties>
   </object>
   <object id="9" name="NPC" type="npc" x="1312" y="1472" width="32" height="32"/>

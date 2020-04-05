@@ -1,0 +1,92 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello stranger, you visit us in troubling times.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Sorry to bother, I am looking for the Forest Warden.",
+          "nextId": 2
+        },
+        {
+          "text": "I'll leave you to it.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "If you're looking for the Forest Warden, I'm afraid I can't help you. The fog has taken him...",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "I sent some scouts into the forest to look for him, but they haven't returned. I fear the worst...",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "What do you mean 'the fog has taken him'?",
+          "nextId": 5
+        },
+        {
+          "text": "When did the fog appear?",
+          "nextId": 6
+        },
+        {
+          "text": "Good luck with that...",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "People around Celewynn have been disappearing lately. None have returned. I fear the same thing happened to the Warden.",
+      "nextId": 4
+    },
+    {
+      "id": 6,
+      "text": "A few weeks ago, the Aemir river started washing in polluted water.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "I suspect that the pollution of this sacred source of water has angered the forest spirits, who conjured this fog in retaliation.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "options": [
+        {
+          "text": "I'd like to offer my help.",
+          "nextId": 9
+        },
+        {
+          "text": "This sounds too scary, bye.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Thank you, stranger. My name is Elenthir, by the way. I'm glad you wish to help us.",
+      "nextId": 10
+    },
+    {
+      "id": 10,
+      "text": "I suggest you follow the Aemir river upstream. Look for the rocky scaffolds east of the pond.",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "These scaffolds will take you up the mountain slopes. After that, follow the river north. Good luck!",
+      "nextId": -1
+    }
+  ]
+}

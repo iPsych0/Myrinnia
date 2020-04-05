@@ -35,6 +35,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 public class World implements Serializable {
@@ -82,6 +83,8 @@ public class World implements Serializable {
     private Zone zone;
     private List<Weather> weatherEffects;
     private boolean dayNightCycle;
+    private static boolean isFadingInWeather, isFadingOutWeather;
+    private static float fadeInAlpha = 0.0f, fadeOutAlpha = 1.0f;
 
     private static final int radius = 800;
     private static final float[] fractions = {0.0f, 1.0f};
@@ -320,9 +323,17 @@ public class World implements Serializable {
             }
 //        g.setComposite(composite);
 
-            for (Weather weather : weatherEffects) {
+            Iterator<Weather> it = weatherEffects.iterator();
+            while (it.hasNext()){
+                Weather weather = it.next();
+
                 weather.tick();
+                // Do fades
+                Composite orig = g.getComposite();
+                handleFadings(g, it);
+                // Draw weather and reset comps
                 weather.render(g);
+                g.setComposite(orig);
             }
 
             if (dayNightCycle && nightTime) {
@@ -395,6 +406,30 @@ public class World implements Serializable {
         }
     }
 
+    private void handleFadings(Graphics2D g, Iterator<Weather> it) {
+        if (isFadingInWeather) {
+            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeInAlpha);
+            g.setComposite(ac);
+            fadeInAlpha += 0.01f;
+            // Done fading in
+            if (fadeInAlpha >= 1.0f) {
+                isFadingInWeather = false;
+                fadeInAlpha = 0.0f;
+            }
+        } else if (isFadingOutWeather) {
+            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeOutAlpha);
+            g.setComposite(ac);
+            fadeOutAlpha -= 0.01f;
+            // Done fading out
+            if (fadeOutAlpha <= 0.0f) {
+                isFadingOutWeather = false;
+                fadeOutAlpha = 1.0f;
+                // Remove the weather effect
+                it.remove();
+            }
+        }
+    }
+
     public Tile getTile(int layer, int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height)
             return null;
@@ -427,6 +462,19 @@ public class World implements Serializable {
                     tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
                 }
             }
+        }
+    }
+
+    public void fadeInWeatherEffect(Weather weather) {
+        if (!weatherEffects.contains(weather)) {
+            weatherEffects.add(weather);
+            isFadingInWeather = true;
+        }
+    }
+
+    public void fadeOutWeatherEffect(Weather weather) {
+        if (weatherEffects.contains(weather)) {
+            isFadingOutWeather = true;
         }
     }
 

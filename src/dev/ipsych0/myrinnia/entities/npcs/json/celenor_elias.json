@@ -20,7 +20,44 @@
     },
     {
       "id": 2,
-      "text": "The Warden of Celenor Forest used to live there. Ever since that fog has been shrouding Celenor Forest, he retired.",
+      "text": "The Warden of Celenor Forest used to live there. Ever since that fog appeared around Celenor Forest, he has been missing.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "options": [
+        {
+          "text": "Where did the fog come from?",
+          "nextId": 4
+        },
+        {
+          "text": "I will look for the Warden.",
+          "nextId": 5
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "I don't know. The fog just appeared out of nowhere. It's impossible to see anything and it has blocked entrance to the forest completely.",
+      "nextId": 3
+    },
+    {
+      "id": 5,
+      "text": "The world needs more heroes like you, traveler! I suggest you talk to Elenthir in Celewynn. He is the leader of the elven establishment west of here.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "The elves in Celewynn are closely connected to the forest. They might be able to tell you more about the origin of the fog.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "Good luck, traveler!",
       "nextId": -1
     }
   ]

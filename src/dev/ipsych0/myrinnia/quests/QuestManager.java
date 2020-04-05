@@ -24,8 +24,9 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> azurealIslandQuests = new ArrayList<>();
-    private ArrayList<Quest> shamrockTownQuests = new ArrayList<>();
+    private List<Quest> azurealIslandQuests = new ArrayList<>();
+    private List<Quest> shamrockTownQuests = new ArrayList<>();
+    private List<Quest> celenorQuests = new ArrayList<>();
 //    private ArrayList<Quest> testQuests = new ArrayList<>();
 //    private ArrayList<Quest> mainQuests = new ArrayList<>();
 
@@ -33,10 +34,10 @@ public class QuestManager implements Serializable {
     private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
 
     // Put all Quest Lists per zone into a List of all Quest Lists
-    private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
+    private List<List<Quest>> allQuestLists = new ArrayList<>();
 
     // Map Zones to Quest Lists
-    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<>(Zone.class);
+    private EnumMap<Zone, List<Quest>> zoneMap = new EnumMap<>(Zone.class);
 
     public QuestManager() {
         questUI = new QuestUI();
@@ -56,6 +57,7 @@ public class QuestManager implements Serializable {
         // Filling allQuestLists with ALL lists of quests
         allQuestLists.add(azurealIslandQuests);
         allQuestLists.add(shamrockTownQuests);
+        allQuestLists.add(celenorQuests);
     }
 
     private void fillLists() {
@@ -86,6 +88,11 @@ public class QuestManager implements Serializable {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(150);
+                }));
+
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json",
+                (OnCompletion & Serializable) () -> {
+                    //TODO: ADD REWARD
                 }));
 
         // Test Quests
@@ -168,19 +175,19 @@ public class QuestManager implements Serializable {
         this.questUI = questUI;
     }
 
-    public ArrayList<ArrayList<Quest>> getAllQuestLists() {
+    public List<List<Quest>> getAllQuestLists() {
         return allQuestLists;
     }
 
-    public void setAllQuestLists(ArrayList<ArrayList<Quest>> allQuestLists) {
+    public void setAllQuestLists(List<List<Quest>> allQuestLists) {
         this.allQuestLists = allQuestLists;
     }
 
-    public EnumMap<Zone, ArrayList<Quest>> getZoneMap() {
+    public EnumMap<Zone, List<Quest>> getZoneMap() {
         return zoneMap;
     }
 
-    public void setZoneMap(EnumMap<Zone, ArrayList<Quest>> zoneMap) {
+    public void setZoneMap(EnumMap<Zone, List<Quest>> zoneMap) {
         this.zoneMap = zoneMap;
     }
 
