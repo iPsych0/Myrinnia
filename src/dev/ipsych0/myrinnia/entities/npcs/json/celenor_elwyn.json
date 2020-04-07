@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "My house is next to the forest edge... I'm not coming out until I'm sure the danger is gone!",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I stacked up on provisions, so I can last for weeks if necessary!",
+      "nextId": -1
+    }
+  ]
+}

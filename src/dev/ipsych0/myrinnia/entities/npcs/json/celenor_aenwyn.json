@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Celewynn is a fully autonomous settlement. We have a forest to the east, mines to the north, and the ocean to the west.",
+      "nextId": -1
+    }
+  ]
+}

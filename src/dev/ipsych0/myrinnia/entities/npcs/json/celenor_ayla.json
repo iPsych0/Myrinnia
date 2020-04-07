@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The Aemir river is a very ancient river that has provided Celewynn with fresh water for centuries.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "The soil beneath the pond absorbs the water and transports it back to the river origin, creating an infinite flow of water.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "You may make offerings to the pond and it will reward you with a temporary boost in your fishing skill.",
+      "nextId": -1
+    }
+  ]
+}

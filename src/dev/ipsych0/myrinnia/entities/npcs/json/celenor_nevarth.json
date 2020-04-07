@@ -1,0 +1,36 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Deeper down the cave, there are more minerals to be mined.",
+      "nextId": 2,
+      "choiceCondition": {
+        "condition": "hasPermission",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "text": "I'm sorry, but this part of the cave is off limits, unless you have Elenthir's permission.",
+      "nextId": -1
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "I'm cleared by Elenthir. Can I pass?",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Feel free to use the mines!",
+      "nextId": -1
+    }
+  ]
+}

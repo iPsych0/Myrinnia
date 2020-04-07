@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "There is a strange cave north of Celenor Seaboard. There have been reports of people entering the cave, but not returning.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "The cave is a dead end, though. Where could they have gone?",
+      "nextId": -1
+    }
+  ]
+}
