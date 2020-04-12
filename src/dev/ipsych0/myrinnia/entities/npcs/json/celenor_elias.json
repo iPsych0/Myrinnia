@@ -47,17 +47,22 @@
     },
     {
       "id": 5,
-      "text": "The world needs more heroes like you, traveler! I suggest you talk to Elenthir in Celewynn. He is the leader of the elven establishment west of here.",
+      "text": "I suggest you talk to Elenthir in Celewynn. He is the leader of the elven establishment west of here.",
       "nextId": 6
     },
     {
       "id": 6,
-      "text": "The elves in Celewynn are closely connected to the forest. They might be able to tell you more about the origin of the fog.",
+      "text": "The elves in Celewynn are closely connected to the forest. They might be able to tell you more about what's going on.",
       "nextId": 7
     },
     {
       "id": 7,
       "text": "Good luck, traveler!",
+      "nextId": -1
+    },
+    {
+      "id": 8,
+      "text": "I heard the Warden was responsible for the fog... That's crazy, to fake one's own disappearance.",
       "nextId": -1
     }
   ]

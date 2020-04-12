@@ -22,6 +22,11 @@
       "id": 2,
       "text": "{PLACEHOLDER FOR ACTION}",
       "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "As you approach the scaffolds, you get some nasty stares from the elves. Probably best to leave this alone for now...",
+      "nextId": -1
     }
   ]
 }

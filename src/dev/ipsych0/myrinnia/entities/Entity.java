@@ -894,4 +894,12 @@ public abstract class Entity implements Serializable {
     public void setVerticality(int verticality) {
         this.verticality = verticality;
     }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
+    }
 }

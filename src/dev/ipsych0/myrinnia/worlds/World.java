@@ -601,4 +601,8 @@ public class World implements Serializable {
     public void setHasPermissionsLayer(boolean hasPermissionsLayer) {
         this.hasPermissionsLayer = hasPermissionsLayer;
     }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
 }

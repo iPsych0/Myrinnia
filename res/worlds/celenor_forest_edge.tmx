@@ -248,7 +248,7 @@
     <property name="animation" value="genericMale13"/>
     <property name="jsonFile" value="celenor_elias.json"/>
     <property name="name" value="Elias"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="CelenorElias"/>
    </properties>
   </object>
   <object id="4" name="Malachite Pass" type="zone_tile" x="992" y="2224" width="224" height="16">

@@ -8,7 +8,8 @@ public enum QuestList {
     GatheringYourStuff("Gathering Your Stuff", Zone.PortAzure),
     PreparingYourJourney("Preparing Your Journey", Zone.PortAzure),
     WaveGoodbye("Wave Goodbye", Zone.PortAzure),
-    WeDelvedTooDeep("We Delved Too Deep", Zone.ShamrockTown);
+    WeDelvedTooDeep("We Delved Too Deep", Zone.ShamrockTown),
+    ExtrememistBeliefs("Extrememist Beliefs", Zone.Celewynn);
 
     private Zone zone;
     private String name;

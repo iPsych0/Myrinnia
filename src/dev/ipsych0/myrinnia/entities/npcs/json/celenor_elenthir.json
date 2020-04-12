@@ -9,10 +9,6 @@
       "id": 1,
       "options": [
         {
-          "text": "Sorry to bother, I am looking for the Forest Warden.",
-          "nextId": 2
-        },
-        {
           "text": "I'll leave you to it.",
           "nextId": -1
         }

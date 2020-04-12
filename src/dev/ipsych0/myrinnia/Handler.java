@@ -151,7 +151,7 @@ public class Handler implements Serializable {
         random = new Random();
 
         // Instantiate the player
-        player = new Player(77*32, 51*32);
+        player = new Player(77 * 32, 51 * 32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -352,8 +352,7 @@ public class Handler implements Serializable {
                     player.setVerticality(0);
                     player.setCurrentTile(Tile.tiles[23780]);
                     player.setPreviousTile(Tile.tiles[23780]);
-                }
-                else if (t.getPermission().equalsIgnoreCase("10")) {
+                } else if (t.getPermission().equalsIgnoreCase("10")) {
                     player.setVerticality(1);
                     player.setCurrentTile(t);
                     player.setPreviousTile(t);
@@ -377,6 +376,28 @@ public class Handler implements Serializable {
         } else {
             playMusic(customMusicName);
         }
+    }
+
+    /**
+     * Gets an Entity by the Zone it's in and its name.
+     * @param zone Zone the Entity is in
+     * @param name Name of the Entity
+     * @return The Entity found, null if not found
+     */
+    public Entity getEntityByZoneAndName(Zone zone, String name) {
+        // Make sure the world is initialized before accessing, to avoid nullpointers
+        World world = Handler.get().getWorldHandler().getWorldsMap().get(zone);
+        if (!world.isInitialized()) {
+            world.init();
+        }
+
+        // Find Entity by name
+        for (Entity e : world.getEntityManager().getEntities()) {
+            if (e.getName() != null && e.getName().equalsIgnoreCase(name)) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {

@@ -3,6 +3,9 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
@@ -11,6 +14,7 @@ public class RockClimb extends StaticEntity {
 
     private Creature.Direction direction;
     private Player player;
+    private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
     public RockClimb(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -63,6 +67,11 @@ public class RockClimb extends StaticEntity {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
+            case 0:
+                if(!quest.getQuestSteps().get(0).isFinished()){
+                    speakingTurn = 3;
+                }
+                break;
             case 2:
                 if (player.getY() <= this.y) {
                     direction = Creature.Direction.DOWN;
