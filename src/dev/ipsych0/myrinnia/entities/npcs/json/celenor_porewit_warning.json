@@ -1,0 +1,60 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Halt!",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "You are trespassing sacred grounds. What business have you here? Speak up.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "I'm looking for the origin of the Aemir river.",
+          "nextId": 3
+        },
+        {
+          "text": "I'm sorry, I'll leave!",
+          "nextId": 7
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Gah. And why would I tell you? So you can pollute the river even more?",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "I want to help and understand why the river was polluted.",
+          "nextId": 5
+        },
+        {
+          "text": "Actually, never mind.",
+          "nextId": 7
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Do you now? If you are serious about this, speak to me at the river's origin.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "I warn you, human. Do not trick me or I will personally turn you into a mushroom.",
+      "nextId": -1
+    },
+    {
+      "id": 7,
+      "text": "{PLACEHOLDER FOR ACTION!}",
+      "nextId": -1
+    }
+  ]
+}

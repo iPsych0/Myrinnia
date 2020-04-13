@@ -182,6 +182,7 @@ public class Assets {
     // Celenor
     public static BufferedImage[] celenorElenthirDown, celenorElenthirLeft, celenorElenthirRight, celenorElenthirUp;
     public static BufferedImage[] celenorNyvolasDown, celenorNyvolasLeft, celenorNyvolasRight, celenorNyvolasUp;
+    public static BufferedImage[] celenorPorewitDown, celenorPorewitLeft, celenorPorewitRight, celenorPorewitUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -1014,6 +1015,11 @@ public class Assets {
         celenorNyvolasLeft = celenor_npcs.npcCrop(3, 1);
         celenorNyvolasRight = celenor_npcs.npcCrop(3, 2);
         celenorNyvolasUp = celenor_npcs.npcCrop(3, 3);
+
+        celenorPorewitDown = celenor_npcs.npcCrop(6, 0);
+        celenorPorewitLeft = celenor_npcs.npcCrop(6, 1);
+        celenorPorewitRight = celenor_npcs.npcCrop(6, 2);
+        celenorPorewitUp = celenor_npcs.npcCrop(6, 3);
 
         /*
          * Player Animations

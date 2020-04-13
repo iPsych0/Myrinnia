@@ -1,0 +1,68 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Human, I admire your persistence. Tell me, why were you seeking the origin of the Aemir?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Who are you?",
+          "nextId": 2
+        },
+        {
+          "text": "Why is the river polluted?",
+          "nextId": 3
+        },
+        {
+          "text": "I am looking for some missing people.",
+          "nextId": 4
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "My name is Porewit, nature spirit guardian of the Celenor woods. I have been protecting this area against defilers for centuries.",
+      "nextId": 1
+    },
+    {
+      "id": 3,
+      "text": "I don't know the 'why'. The river has been polluted by someone intentionally. In order to protect the forest from further damage, I shrouded it in a very dense mist.",
+      "nextId": 1
+    },
+    {
+      "id": 4,
+      "text": "Missing people? I am sorry, but I know not what you speak of, human.",
+      "nextId": 1
+    },
+    {
+      "id": 5,
+      "text": "I can, but I will not do so until the river has been restored back to its purified state.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "options": [
+        {
+          "text": "What can I do to help?",
+          "nextId": 7
+        },
+        {
+          "text": "Good luck with that then!",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "text": "If you wish to help, you should find out who polluted the Aemir and how. Good luck!",
+      "nextId": -1
+    }
+  ]
+}

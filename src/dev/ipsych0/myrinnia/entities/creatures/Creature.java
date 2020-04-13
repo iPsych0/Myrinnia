@@ -1392,6 +1392,7 @@ public abstract class Creature extends Entity {
     }
 
     public void setMovementAllowed(boolean movementAllowed) {
+        Player.isMoving = false;
         this.movementAllowed = movementAllowed;
     }
 

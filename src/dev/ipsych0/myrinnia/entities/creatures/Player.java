@@ -1247,4 +1247,8 @@ public class Player extends Creature {
     public void setBaseHP(int baseHP) {
         this.baseHP = baseHP;
     }
+
+    public void setClosestEntity(Entity closestEntity) {
+        this.closestEntity = closestEntity;
+    }
 }
