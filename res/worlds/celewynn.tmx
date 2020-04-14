@@ -342,7 +342,7 @@
     <property name="animation" value="genericElfFemale4"/>
     <property name="jsonFile" value="celenor_ayla.json"/>
     <property name="name" value="Ayla"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="CelenorAyla"/>
    </properties>
   </object>
   <object id="15" name="Aemir Pond" type="npc" x="992" y="576" width="288" height="160">

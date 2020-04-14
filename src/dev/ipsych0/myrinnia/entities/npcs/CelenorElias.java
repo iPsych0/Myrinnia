@@ -59,6 +59,9 @@ public class CelenorElias extends Creature {
                 if (quest.getState() == QuestState.NOT_STARTED) {
                     quest.setState(QuestState.IN_PROGRESS);
 
+                    quest.addNewCheck("clue1", false);
+                    quest.addNewCheck("clue2", false);
+
                     // Add the choice option to progress the quest to Elenthir
                     Entity elenthir = Handler.get().getEntityByZoneAndName(Zone.CelewynnInside, "Elenthir");
                     Script script = elenthir.getScript();

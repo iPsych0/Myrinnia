@@ -7,12 +7,89 @@
     },
     {
       "id": 1,
-      "text": "The soil beneath the pond absorbs the water and transports it back to the river origin, creating an infinite flow of water.",
+      "text": "The soil beneath the pond absorbs the water and magically transports it back to the river origin, creating an infinite flow of water.",
       "nextId": 2
     },
     {
       "id": 2,
       "text": "You may make offerings to the pond and it will reward you with a temporary boost in your fishing skill.",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "Hi there!",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Where does the water from the Aemir pond go?",
+          "nextId": 1
+        },
+        {
+          "text": "Have you witnessed anything unusual lately?",
+          "nextId": 5
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Oh... I don't want to get in trouble.. I... I shouldn't, I can't.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "options": [
+        {
+          "text": "It's okay, I'm here to help. Don't worry.",
+          "nextId": 7
+        },
+        {
+          "text": "Tell me or you will be in much more trouble!",
+          "nextId": 7
+        },
+        {
+          "text": "Well, never mind then.",
+          "nextId": 4
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "text": "O-oh.. Okay... Well, for a few weeks now, I've noticed someone sneaking around town using the scaffolds and headed towards the Aemir Riverflank.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "text": "I bumped into him once by accident, and he signed at me to be quiet about it. Something about his aura seemed very threatening...",
+      "nextId": 9
+    },
+    {
+      "id": 9,
+      "text": "I did not dare speak up, I was afraid he might have hurt me if I told anyone. Though, he has not returned from his last venture into the mountains.",
+      "nextId": 10
+    },
+    {
+      "id": 10,
+      "options": [
+        {
+          "text": "Thank you for telling me. I am going to take care of this.",
+          "nextId": 11
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Brave traveler! Thank you and Terra be with you!",
       "nextId": -1
     }
   ]

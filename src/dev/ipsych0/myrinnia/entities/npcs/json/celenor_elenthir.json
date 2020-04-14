@@ -83,6 +83,107 @@
       "id": 11,
       "text": "These scaffolds will take you up the mountain slopes. After that, follow the river north. Good luck!",
       "nextId": -1
+    },
+    {
+      "id": 12,
+      "text": "Hello, traveler. Have you discovered anything?",
+      "nextId": 13
+    },
+    {
+      "id": 13,
+      "options": [
+        {
+          "text": "I followed the river upstream.",
+          "nextId": 14
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "text": "I see. And what did you find out?",
+      "nextId": 15
+    },
+    {
+      "id": 15,
+      "options": [
+        {
+          "text": "A spirit named Porewit summoned the fog to protect the forest.",
+          "nextId": 16
+        },
+        {
+          "text": "The river was polluted by someone, not something.",
+          "nextId": 17
+        },
+        {
+          "text": "The spirit did not take the missing people.",
+          "nextId": 18
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Porewit?! My goodness. Porewit is a very rigid protector of these woods. If he was angered, it must be trouble.",
+      "nextId": 15
+    },
+    {
+      "id": 17,
+      "text": "This is dire news. If a person was responsible for this, we must find out who did this, traveler!",
+      "nextId": 15
+    },
+    {
+      "id": 18,
+      "text": "Interesting... So if not the spirit, then who or what is responsible for these disappearances?",
+      "nextId": 15
+    },
+    {
+      "id": 19,
+      "text": "You should ask people in Celewynn if they have seen anything suspicious lately. Please see me again when you have some leads.",
+      "nextId": -1
+    },
+    {
+      "id": 20,
+      "text": "What news have you, traveler?",
+      "nextId": 21
+    },
+    {
+      "id": 21,
+      "options": [
+        {
+          "text": "A man was looking for suspicious ingredients for a potion.",
+          "nextId": 22
+        },
+        {
+          "text": "A man was seen climbing the slopes, but has not returned.",
+          "nextId": 23
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "text": "Those are some very strange ingredients indeed. If a magical potion was used to pollute the river, I fear this might be a targeted move...",
+      "nextId": 21
+    },
+    {
+      "id": 23,
+      "text": "The fact that he has not yet returned suggests that he is still out there. He must still be somewhere in the Aemir Riverflank.",
+      "nextId": 21
+    },
+    {
+      "id": 24,
+      "text": "You should look for the suspect in the Aemir Riverflank and confront him. He might be connected to the missing people...",
+      "nextId": -1
     }
   ]
 }

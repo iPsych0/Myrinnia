@@ -301,9 +301,9 @@
    <properties>
     <property name="animation" value="shopKeeper3"/>
     <property name="direction" value="RIGHT"/>
-    <property name="jsonFile" value="generic_shopkeeper.json"/>
+    <property name="jsonFile" value="celenor_quest_generic_shopkeeper.json"/>
     <property name="name" value="Craftsman"/>
-    <property name="npcClass" value="GenericShopkeeper"/>
+    <property name="npcClass" value="CelenorCraftsman"/>
    </properties>
   </object>
   <object id="6" name="Crafting Station" type="npc" x="484" y="1864" width="152" height="80">
