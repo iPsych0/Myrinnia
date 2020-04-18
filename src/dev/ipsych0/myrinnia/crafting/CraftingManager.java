@@ -84,6 +84,8 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 2), new ItemStack(Item.lightWoodPlank, 1)));
         recipes.add(new CraftingRecipe(5, 1, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
         recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
+        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.wool, 2), new ItemStack(Item.rope, 1)));
+        recipes.add(new CraftingRecipe(3, 8, true, SkillCategory.Materials, new ItemStack(Item.wool, 4), new ItemStack(Item.stripOfCloth, 1)));
 
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.scorpionTail, 1), new ItemStack(Item.weakAntidote, 1)));
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.crablingClaw, 1), new ItemStack(Item.weakPotionOfMight, 1)));

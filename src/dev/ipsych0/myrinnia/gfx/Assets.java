@@ -75,7 +75,7 @@ public class Assets {
             hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
             tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
-            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit;
+            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -142,6 +142,9 @@ public class Assets {
     public static BufferedImage[] genericMale16Down, genericMale16Left, genericMale16Right, genericMale16Up;
     public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
     public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
+
+    public static BufferedImage[] sheep1Down, sheep1Left, sheep1Right, sheep1Up;
+    public static BufferedImage[] shavedSheep1Down, shavedSheep1Left, shavedSheep1Right, shavedSheep1Up;
 
     // Male elves
     public static BufferedImage[] genericElfMale1Down, genericElfMale1Left, genericElfMale1Right, genericElfMale1Up;
@@ -282,6 +285,7 @@ public class Assets {
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
         SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
         SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
+        SpriteSheet animals_sheet = new SpriteSheet("/textures/npc_sprites/animals.png");
 
         /*
          * Add items to this
@@ -573,6 +577,8 @@ public class Assets {
 
         starfruit = item_sheet.imageCrop(4, 0);
         dragonfruit = item_sheet.imageCrop(4, 1);
+        shears = item_sheet.imageCrop(4, 2);
+        wool = item_sheet.imageCrop(4, 3);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -881,6 +887,17 @@ public class Assets {
         genericMale18Left = generic_males1.npcCrop(15, 9);
         genericMale18Right = generic_males1.npcCrop(15, 10);
         genericMale18Up = generic_males1.npcCrop(15, 11);
+
+        // Animals
+        sheep1Down = animals_sheet.npcCrop(0, 0);
+        sheep1Left = animals_sheet.npcCrop(0, 1);
+        sheep1Right = animals_sheet.npcCrop(0, 2);
+        sheep1Up = animals_sheet.npcCrop(0, 3);
+
+        shavedSheep1Down = animals_sheet.npcCrop(3, 0);
+        shavedSheep1Left = animals_sheet.npcCrop(3, 1);
+        shavedSheep1Right = animals_sheet.npcCrop(3, 2);
+        shavedSheep1Up = animals_sheet.npcCrop(3, 3);
 
         // Elves
 

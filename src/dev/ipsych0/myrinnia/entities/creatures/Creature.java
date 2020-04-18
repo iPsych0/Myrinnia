@@ -73,16 +73,18 @@ public abstract class Creature extends Entity {
     Rectangle radius;
 
     // A* stuff
+    protected boolean aggressive;
     protected CombatState state;
     protected List<Node> nodes;
-    int pathFindRadiusX = 768;
-    int pathFindRadiusY = 768;
-    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+    protected int pathFindRadiusX = 768;
+    protected int pathFindRadiusY = 768;
+    protected AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     protected static final int TIMES_PER_SECOND = 4;
     protected static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
     protected int pathTimer = 0;
+
     protected List<Condition> conditions = new ArrayList<>();
     protected List<Buff> buffs = new ArrayList<>();
     protected List<Resistance> immunities = new ArrayList<>();
@@ -581,6 +583,7 @@ public abstract class Creature extends Entity {
         return !walkableOnTop;
     }
 
+
     /**
      * If the Entity is an NPC, this function returns only the name, else it returns name + combat info.
      */
@@ -796,6 +799,14 @@ public abstract class Creature extends Entity {
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
     protected void combatStateManager() {
+
+        // For non-aggressive monsters, stay idle walk until attacked
+        if (!aggressive) {
+            if(!isAggroed()){
+                randomWalk();
+                return;
+            }
+        }
 
         if (damaged) {
             state = CombatState.PATHFINDING;
@@ -1160,6 +1171,10 @@ public abstract class Creature extends Entity {
         for (Buff b : buffs) {
             b.setActive(false);
         }
+    }
+
+    public boolean isAggroed() {
+        return damaged || inCombat || state != CombatState.IDLE;
     }
 
     // GETTERS + SETTERS

@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.states.*;
+import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -170,6 +171,7 @@ public class Game implements Runnable, Serializable {
         mouseManager.tick();
         keyManager.tick();
         AudioManager.tick();
+        TimerHandler.get().tick();
         if (State.getState() != null) {
             State.getState().tick();
         }

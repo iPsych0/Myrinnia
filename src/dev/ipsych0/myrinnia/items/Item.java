@@ -183,6 +183,9 @@ public class Item implements Serializable {
     public static Item starfruit = Utils.loadItem("139_starfruit.json", Assets.starfruit);
     public static Item dragonfruit = Utils.loadItem("140_dragonfruit.json", Assets.dragonfruit);
 
+    public static Item shears = Utils.loadItem("141_shears.json", Assets.shears);
+    public static Item wool = Utils.loadItem("142_wool.json", Assets.wool);
+
 
     static {
         initPotions();

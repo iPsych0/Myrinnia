@@ -1,0 +1,31 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "This sheep is peacefully eating some grass.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasShears",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Shear the sheep.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave it be.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    }
+  ]
+}
