@@ -539,7 +539,11 @@ public abstract class Entity implements Serializable {
 
         g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
 
-        if (hoveringEntity.isAttackable()) {
+        if (hoveringEntity.isAttackable() && hoveringEntity.isNpc()) {
+            if(isInCombat() && damaged){
+                drawHPinOverlay(g, hoveringEntity, titleBounds);
+            }
+        } else if (hoveringEntity.isAttackable()) {
             drawHPinOverlay(g, hoveringEntity, titleBounds);
         }
 

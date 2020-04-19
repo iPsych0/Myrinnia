@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="19">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="32">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -431,7 +431,7 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
    </properties>
   </object>
   <object id="13" name="Sheep" type="npc" x="832" y="480" width="32" height="32">
@@ -440,16 +440,7 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
-   </properties>
-  </object>
-  <object id="14" name="Sheep" type="npc" x="640" y="832" width="32" height="32">
-   <properties>
-    <property name="animation" value="sheep1"/>
-    <property name="jsonFile" value="sheep.json"/>
-    <property name="level" value="5"/>
-    <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
    </properties>
   </object>
   <object id="15" name="Sheep" type="npc" x="928" y="928" width="32" height="32">
@@ -458,7 +449,7 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
    </properties>
   </object>
   <object id="16" name="Sheep" type="npc" x="1728" y="416" width="32" height="32">
@@ -467,7 +458,7 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
    </properties>
   </object>
   <object id="17" name="Sheep" type="npc" x="1632" y="512" width="32" height="32">
@@ -476,7 +467,7 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
    </properties>
   </object>
   <object id="18" name="Sheep" type="npc" x="704" y="1536" width="32" height="32">
@@ -485,7 +476,87 @@
     <property name="jsonFile" value="sheep.json"/>
     <property name="level" value="5"/>
     <property name="name" value="Sheep"/>
-    <property name="npcClass" value="Sheep1"/>
+    <property name="npcClass" value="Sheep"/>
+   </properties>
+  </object>
+  <object id="19" name="Goat" type="npc" x="1664" y="3072" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="22" name="Goat" type="npc" x="1600" y="2528" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="23" name="Goat" type="npc" x="1504" y="2048" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="24" name="Goat" type="npc" x="1760" y="1536" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="25" name="Goat" type="npc" x="2080" y="2688" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="26" name="Goat" type="npc" x="512" y="3520" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="28" name="Goat" type="npc" x="608" y="2976" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="29" name="Goat" type="npc" x="736" y="2432" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="30" name="Goat" type="npc" x="768" y="1952" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
+   </properties>
+  </object>
+  <object id="31" name="Goat" type="npc" x="480" y="832" width="32" height="32">
+   <properties>
+    <property name="animation" value="goat1"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Goat"/>
+    <property name="npcClass" value="Goat"/>
    </properties>
   </object>
  </objectgroup>

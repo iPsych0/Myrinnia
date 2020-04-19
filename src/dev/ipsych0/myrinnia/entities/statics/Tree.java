@@ -50,11 +50,13 @@ public class Tree extends StaticEntity {
     );
     private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
             entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.ryansAxe.getId(), 1.0),
             entry(Item.copperAxe.getId(), 1.05),
             entry(Item.ironAxe.getId(), 1.1)
     );
     private static Map<Integer, Double> timeToCutMap = Map.ofEntries(
             entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.ryansAxe.getId(), 1.0),
             entry(Item.copperAxe.getId(), 0.95),
             entry(Item.ironAxe.getId(), 0.9)
     );

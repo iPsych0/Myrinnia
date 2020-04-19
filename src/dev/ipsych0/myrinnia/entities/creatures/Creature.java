@@ -73,7 +73,7 @@ public abstract class Creature extends Entity {
     Rectangle radius;
 
     // A* stuff
-    protected boolean aggressive;
+    protected boolean aggressive = true;
     protected CombatState state;
     protected List<Node> nodes;
     protected int pathFindRadiusX = 768;
@@ -589,11 +589,20 @@ public abstract class Creature extends Entity {
      */
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (script != null) {
+        if (isNpc()) {
             String[] name = new String[2];
-            name[0] = hoveringEntity.getName();
-            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
-            name[1] = "Press '" + interactKey + "' to interact";
+            if (attackable) {
+                name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
+            } else {
+                name[0] = hoveringEntity.getName();
+            }
+
+            if (isAggroed()) {
+                name[1] = "HP: " + health + "/" + maxHealth;
+            } else {
+                String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+                name[1] = "Press '" + interactKey + "' to interact";
+            }
             return name;
         }
         String[] name = new String[2];
@@ -723,7 +732,8 @@ public abstract class Creature extends Entity {
             combatTimer = 0;
         }
 
-        if (attackable) {
+        // If we're interacting (chatdialogue = null), don't do movement logic
+        if (attackable && chatDialogue == null) {
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
@@ -802,7 +812,7 @@ public abstract class Creature extends Entity {
 
         // For non-aggressive monsters, stay idle walk until attacked
         if (!aggressive) {
-            if(!isAggroed()){
+            if (!isAggroed()) {
                 randomWalk();
                 return;
             }

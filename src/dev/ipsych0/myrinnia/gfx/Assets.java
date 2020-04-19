@@ -145,6 +145,11 @@ public class Assets {
 
     public static BufferedImage[] sheep1Down, sheep1Left, sheep1Right, sheep1Up;
     public static BufferedImage[] shavedSheep1Down, shavedSheep1Left, shavedSheep1Right, shavedSheep1Up;
+    public static BufferedImage[] sheep2Down, sheep2Left, sheep2Right, sheep2Up;
+    public static BufferedImage[] shavedsheep2Down, shavedsheep2Left, shavedsheep2Right, shavedsheep2Up;
+
+    public static BufferedImage[] goat1Down, goat1Left, goat1Right, goat1Up;
+    public static BufferedImage[] goat2Down, goat2Left, goat2Right, goat2Up;
 
     // Male elves
     public static BufferedImage[] genericElfMale1Down, genericElfMale1Left, genericElfMale1Right, genericElfMale1Up;
@@ -898,6 +903,26 @@ public class Assets {
         shavedSheep1Left = animals_sheet.npcCrop(3, 1);
         shavedSheep1Right = animals_sheet.npcCrop(3, 2);
         shavedSheep1Up = animals_sheet.npcCrop(3, 3);
+
+        sheep2Down = animals_sheet.npcCrop(6, 0);
+        sheep2Left = animals_sheet.npcCrop(6, 1);
+        sheep2Right = animals_sheet.npcCrop(6, 2);
+        sheep2Up = animals_sheet.npcCrop(6, 3);
+
+        shavedsheep2Down = animals_sheet.npcCrop(9, 0);
+        shavedsheep2Left = animals_sheet.npcCrop(9, 1);
+        shavedsheep2Right = animals_sheet.npcCrop(9, 2);
+        shavedsheep2Up = animals_sheet.npcCrop(9, 3);
+
+        goat1Down = animals_sheet.npcCrop(12, 0);
+        goat1Left = animals_sheet.npcCrop(12, 1);
+        goat1Right = animals_sheet.npcCrop(12, 2);
+        goat1Up = animals_sheet.npcCrop(12, 3);
+
+        goat2Down = animals_sheet.npcCrop(15, 0);
+        goat2Left = animals_sheet.npcCrop(15, 1);
+        goat2Right = animals_sheet.npcCrop(15, 2);
+        goat2Up = animals_sheet.npcCrop(15, 3);
 
         // Elves
 
