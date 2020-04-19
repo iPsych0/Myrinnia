@@ -2,7 +2,9 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
@@ -19,6 +21,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
     private static final long serialVersionUID = -3340636213278064668L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
+    private Quest quest = Handler.get().getQuest(QuestList.GettingStarted);
 
     public PortAzureShopkeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -45,8 +48,8 @@ public class PortAzureShopkeeper extends ShopKeeper {
     protected boolean choiceConditionMet(String condition) {
         switch (condition) {
             case "mayorQuest":
-                List<QuestStep> steps = Handler.get().getQuest(QuestList.GettingStarted).getQuestSteps();
-                if (!steps.isEmpty() && !steps.get(0).isFinished()) {
+                List<QuestStep> steps = quest.getQuestSteps();
+                if (quest.getState() == QuestState.IN_PROGRESS && !steps.get(0).isFinished()) {
                     return true;
                 }
                 break;

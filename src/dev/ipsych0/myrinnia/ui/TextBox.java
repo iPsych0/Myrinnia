@@ -178,9 +178,8 @@ public class TextBox implements KeyListener, Serializable {
 
                 // If numbersOnly is true, only digits allowed
                 if (numbersOnly) {
-                    if (!Character.isDigit(e.getKeyChar())) {
-                    } else {
-                        if (index < 10) {
+                    if (Character.isDigit(e.getKeyChar())) {
+                        if (index < MAX_CHARACTERS) {
                             sb.append(e.getKeyChar());
                             index++;
                             charactersTyped = sb.toString();
