@@ -1,0 +1,53 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "This rock looks quite sturdy.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "questStep",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "text": "If I used a rope here, I would be able to climb down.",
+      "nextId": 2,
+      "choiceCondition": {
+        "condition": "hasRope",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Attach the rope and climb down.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "Climb down.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

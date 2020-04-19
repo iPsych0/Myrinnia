@@ -184,7 +184,9 @@ public class Item implements Serializable {
     public static Item dragonfruit = Utils.loadItem("140_dragonfruit.json", Assets.dragonfruit);
 
     public static Item shears = Utils.loadItem("141_shears.json", Assets.shears);
-    public static Item wool = Utils.loadItem("142_wool.json", Assets.wool);
+    public static Item wool = Utils.loadItem("142_wool.json", Assets.wool, 0, (Use & Serializable) (i) -> {
+        Handler.get().sendMsg("I can probably craft something useful out of this.");
+    });
 
 
     static {

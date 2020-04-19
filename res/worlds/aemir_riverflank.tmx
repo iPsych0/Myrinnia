@@ -414,7 +414,13 @@
     <property name="zone" value="CelenorCaves"/>
    </properties>
   </object>
-  <object id="5" name="Rope Rock" type="npc" x="1792" y="160" width="32" height="32"/>
+  <object id="5" name="Rope Rock" type="npc" x="1792" y="160" width="32" height="32">
+   <properties>
+    <property name="jsonFile" value="celenor_rope_rock.json"/>
+    <property name="name" value="Sturdy Rock"/>
+    <property name="npcClass" value="CelenorRopeRock"/>
+   </properties>
+  </object>
   <object id="6" name="Warden's Hidden House" type="zone_tile" x="2400" y="96" width="32" height="48"/>
   <object id="9" name="Porewit" type="npc" x="1568" y="3648" width="32" height="32">
    <properties>

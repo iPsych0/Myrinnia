@@ -32,6 +32,7 @@ public class Assets {
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
+    public static BufferedImage celenorRopeRock;
     /*
      * Creature Animations
      */
@@ -262,6 +263,11 @@ public class Assets {
         SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
         SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
         SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
+
+        /*
+         * World objects
+         */
+        SpriteSheet world_objects = new SpriteSheet("/textures/world_objects/world_objects.png");
 
         /*
          * Weather sprites
@@ -1255,6 +1261,8 @@ public class Assets {
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
+
+        celenorRopeRock = world_objects.imageCrop(0, 0, WIDTH * 3, HEIGHT * 2);
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
         shamrockSinkholeTL = dungeon.imageCrop(7, 9);
