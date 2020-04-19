@@ -194,8 +194,8 @@ public class Rock extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToMine *= chanceToMineMap.get(pickaxeUsed.getId());
-                    timeToMine *= timeToMineMap.get(pickaxeUsed.getId());
+                    chanceToMine *= chanceToMineMap.getOrDefault(pickaxeUsed.getId(), 1.0);
+                    timeToMine *= timeToMineMap.getOrDefault(pickaxeUsed.getId(), 1.0);
 
                     Handler.get().sendMsg("Mining...");
                     speakingTurn = 1;

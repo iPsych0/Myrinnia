@@ -195,8 +195,8 @@ public class FishingSpot extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToFish *= chanceToFishMap.get(rodUsed.getId());
-                    timeToFish *= timeToFishMap.get(rodUsed.getId());
+                    chanceToFish *= chanceToFishMap.getOrDefault(rodUsed.getId(), 1.0);
+                    timeToFish *= timeToFishMap.getOrDefault(rodUsed.getId(), 1.0);
                     Handler.get().sendMsg("Fishing...");
                     speakingTurn = 1;
                     isFishing = true;

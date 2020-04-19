@@ -212,8 +212,8 @@ public class Tree extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToCut *= chanceToCutMap.get(axeUsed.getId());
-                    timeToCut *= timeToCutMap.get(axeUsed.getId());
+                    chanceToCut *= chanceToCutMap.getOrDefault(axeUsed.getId(), 1.0);
+                    timeToCut *= timeToCutMap.getOrDefault(axeUsed.getId(), 1.0);
 
                     Handler.get().sendMsg("Chop chop...");
                     speakingTurn = 1;
