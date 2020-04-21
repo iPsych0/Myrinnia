@@ -24,6 +24,10 @@ public class CelenorElenthir extends Creature {
         solid = true;
         attackable = false;
         isNpc = true;
+
+        quest.addNewCheck("book1", false);
+        quest.addNewCheck("book2", false);
+        quest.addNewCheck("book3", false);
     }
 
     @Override

@@ -59,6 +59,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World(Zone.CelenorSeaboard, "/worlds/celenor_seaboard.tmx"));
         addWorld(new World(Zone.CelenorCaves, "/worlds/celenor_caves.tmx"));
         addWorld(new World(Zone.AemirRiverflank, "/worlds/aemir_riverflank.tmx"));
+        addWorld(new World(Zone.WardensCabin, "/worlds/wardens_cabin.tmx"));
     }
 
     public void tick() {

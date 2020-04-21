@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "On the ground, your find a book called '{name}'.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Read it.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    }
+  ]
+}

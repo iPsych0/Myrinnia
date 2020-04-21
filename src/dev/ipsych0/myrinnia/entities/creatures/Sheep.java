@@ -55,7 +55,7 @@ public class Sheep extends Creature {
 
     @Override
     public void tick() {
-        super.tick();
+         super.tick();
     }
 
     @Override

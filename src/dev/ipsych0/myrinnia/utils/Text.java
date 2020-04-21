@@ -32,6 +32,19 @@ public class Text {
         g.drawString(text, xPos, yPos);
     }
 
+    public static void drawStringInBox(Graphics2D g, String text, Rectangle box, Color color, Font font) {
+
+        FontMetrics fm = g.getFontMetrics(font);
+        int xPos = (box.x + box.width / 2) - fm.stringWidth(text) / 2;
+        int yPos = ((box.y + box.height / 2) - fm.getHeight() / 2) + fm.getAscent();
+
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.drawString(text, xPos + 1, yPos + 1);
+        g.setColor(color);
+        g.drawString(text, xPos, yPos);
+    }
+
     /*
      * Draws a String to the screen with specified font, colour and centred/not centred
      */

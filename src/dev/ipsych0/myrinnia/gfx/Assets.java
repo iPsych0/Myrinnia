@@ -33,6 +33,8 @@ public class Assets {
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
     public static BufferedImage celenorRopeRock;
+    public static BufferedImage celenorPotionCabinetTop, celenorPotionCabinetShelves;
+
     /*
      * Creature Animations
      */
@@ -230,6 +232,7 @@ public class Assets {
     public static BufferedImage[][] puzzlePieces;
 
     public static BufferedImage mainBackground;
+    public static BufferedImage fullBookUI, singlePageBookUI;
 
     public static void init() {
 
@@ -254,6 +257,7 @@ public class Assets {
         mainBackground = main_background.imageCrop(0, 0, 1366, 768);
 
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
+        SpriteSheet book_sheet = new SpriteSheet("/textures/custom_ui/book.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
         /*
@@ -376,6 +380,9 @@ public class Assets {
         equipmentPlaceHolders[11] = ringSlot2 = equipSlots.imageCrop(2, 3);
 
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
+
+        fullBookUI = book_sheet.imageCrop(0, 0, WIDTH * 12, HEIGHT * 9);
+        singlePageBookUI = book_sheet.imageCrop(12, 0, WIDTH * 5, HEIGHT * 7);
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);
@@ -1263,6 +1270,8 @@ public class Assets {
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
 
         celenorRopeRock = world_objects.imageCrop(0, 0, WIDTH * 3, HEIGHT * 2);
+        celenorPotionCabinetTop = getSheetByFilename("inside2.png").imageCrop(11, 0, WIDTH * 3, HEIGHT);
+        celenorPotionCabinetShelves = getSheetByFilename("inside2.png").imageCrop(11, 3, WIDTH * 3, HEIGHT * 2);
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
         shamrockSinkholeTL = dungeon.imageCrop(7, 9);

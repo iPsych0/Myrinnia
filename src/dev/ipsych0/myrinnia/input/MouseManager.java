@@ -20,6 +20,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.ui.*;
+import dev.ipsych0.myrinnia.ui.custom.BookUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -100,6 +101,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             DialogueBox.hasBeenPressed = true;
             CelebrationUI.hasBeenPressed = true;
             FarmingUI.hasBeenPressed = true;
+            BookUI.hasPressed = true;
         }
 
         // Right Click

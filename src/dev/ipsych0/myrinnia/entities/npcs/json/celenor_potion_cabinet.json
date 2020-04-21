@@ -1,0 +1,41 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "It's a cabinet full of potions.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasReadAllBooks",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "text": "That's odd... These potions seem to form some sort of mechanism...",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Try to solve the puzzle.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "The cabinet slides to the left, revealing a hidden set of stairs.",
+      "nextId": -1
+    }
+  ]
+}
