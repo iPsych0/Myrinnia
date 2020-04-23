@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -102,6 +103,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             CelebrationUI.hasBeenPressed = true;
             FarmingUI.hasBeenPressed = true;
             BookUI.hasPressed = true;
+            PotionSort.hasBeenPressed = true;
         }
 
         // Right Click

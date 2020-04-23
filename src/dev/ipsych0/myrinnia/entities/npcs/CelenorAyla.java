@@ -53,7 +53,7 @@ public class CelenorAyla extends Creature {
                 quest.addNewCheck("clue2", true);
 
                 // If we have also received clue 2, then advance to next step
-                if (quest.getQuestSteps().get(2).isFinished() && !quest.getQuestSteps().get(3).isFinished() && (Boolean) quest.getCheckValue("clue1")) {
+                if (quest.getQuestSteps().get(2).isFinished() && !quest.getQuestSteps().get(3).isFinished() && (Boolean) quest.getCheckValueWithDefault("clue1", false)) {
                     quest.nextStep();
                     Handler.get().sendMsg("You should return to Elenthir with these clues.");
                 }

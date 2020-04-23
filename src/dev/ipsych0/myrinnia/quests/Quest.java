@@ -150,10 +150,11 @@ public class Quest implements Serializable {
         customChecks.put(key, o);
     }
 
-    public Object getCheckValue(String key) {
+    public Object getCheckValueWithDefault(String key, Object defaultObj) {
         key = key.toLowerCase();
         if (!customChecks.containsKey(key)) {
             System.err.println("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
+            customChecks.put(key, defaultObj);
         }
         return customChecks.get(key);
     }

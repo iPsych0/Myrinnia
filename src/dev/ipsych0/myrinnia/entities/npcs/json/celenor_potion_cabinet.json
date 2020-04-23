@@ -36,6 +36,11 @@
       "id": 4,
       "text": "The cabinet slides to the left, revealing a hidden set of stairs.",
       "nextId": -1
+    },
+    {
+      "id": 5,
+      "text": "Hmmm... Perhaps I can have a look around the cabin to help me find something about a possible combination...",
+      "nextId": -1
     }
   ]
 }

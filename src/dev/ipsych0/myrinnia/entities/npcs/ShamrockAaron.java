@@ -4,10 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.statics.RopeLadderTile;
-import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
 
@@ -52,7 +50,7 @@ public class ShamrockAaron extends Creature {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                Object defeated = Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValue("trollDefeated");
+                Object defeated = Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValueWithDefault("trollDefeated", false);
                 if (defeated != null && (Boolean) defeated) {
                     speakingTurn = 1;
                     speakingCheckpoint = 1;

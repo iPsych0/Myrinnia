@@ -86,7 +86,7 @@ public class ElderSelwyn extends Creature {
             case 6:
                 if (speakingCheckpoint != 6) {
                     speakingCheckpoint = 7;
-                    Item chosenItem = (Item) quest.getCheckValue("chosenItem");
+                    Item chosenItem = (Item) quest.getCheckValueWithDefault("chosenItem", null);
                     Class<? extends Ability> abilityClass;
                     if (chosenItem == Item.beginnersBow) {
                         abilityClass = MendWoundsAbility.class;
@@ -130,7 +130,7 @@ public class ElderSelwyn extends Creature {
                     quest.nextStep();
                     quest.addNewCheck("hasDrunkWater", false);
                 } else {
-                    if ((Boolean) quest.getCheckValue("hasDrunkWater")) {
+                    if ((Boolean) quest.getCheckValueWithDefault("hasDrunkWater", false)) {
                         speakingTurn = 19;
                         speakingCheckpoint = 19;
                     }

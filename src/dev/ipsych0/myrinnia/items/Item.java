@@ -675,7 +675,7 @@ public class Item implements Serializable {
                 Handler.get().sendMsg("You must use this detonator in Shamrock Mines B3");
                 return;
             }
-            if ((Integer) Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValue("dynamitePlaced") < 3) {
+            if ((Integer) Handler.get().getQuest(QuestList.WeDelvedTooDeep).getCheckValueWithDefault("dynamitePlaced", 0) < 3) {
                 Handler.get().sendMsg("You should place a dynamite stick north, east and west of the rock slide before using the detonator.");
             } else {
                 Handler.get().sendMsg("You press the button and the dynamite explodes.");

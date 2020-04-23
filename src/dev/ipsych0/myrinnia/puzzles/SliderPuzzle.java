@@ -243,4 +243,8 @@ public class SliderPuzzle extends Puzzle {
     }
 
 
+    @Override
+    public void onComplete() {
+
+    }
 }

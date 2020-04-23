@@ -1,7 +1,9 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -13,12 +15,27 @@ public class CelenorPotionCabinet extends StaticEntity {
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private boolean hasMovedLeft, isMovingLeft;
     private int slideTimer;
+    private PotionSort potionSort;
+    private Player player;
+    private int hintMsgWalkTimer = 0;
+    private boolean showHint = true;
 
     public CelenorPotionCabinet(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
         solid = true;
         attackable = false;
         isNpc = true;
+
+        player = Handler.get().getPlayer();
+        potionSort = new PotionSort(() -> {
+            potionSort.setOpen(false);
+            isMovingLeft = true;
+
+            speakingTurn = 4;
+            player.setMovementAllowed(false);
+            player.setClosestEntity(this);
+            interact();
+        });
     }
 
     @Override
@@ -33,7 +50,30 @@ public class CelenorPotionCabinet extends StaticEntity {
                     this.x = 21d * Tile.TILEWIDTH;
                     isMovingLeft = false;
                     hasMovedLeft = true;
+                    player.setMovementAllowed(true);
+                    player.setClosestEntity(null);
                 }
+            }
+        }
+
+        if (potionSort.isOpen()) {
+            potionSort.tick();
+        }
+
+        if (potionSort.isOpen() && Player.isMoving || potionSort.isOpen() && potionSort.hasExited()) {
+            speakingTurn = 5;
+            player.setMovementAllowed(false);
+            player.setClosestEntity(this);
+            interact();
+            showHint = true;
+        }
+
+        if (showHint) {
+            hintMsgWalkTimer++;
+            if (hintMsgWalkTimer >= 30) {
+                showHint = false;
+                hintMsgWalkTimer = 0;
+                player.setMovementAllowed(true);
             }
         }
     }
@@ -43,12 +83,14 @@ public class CelenorPotionCabinet extends StaticEntity {
         g.drawImage(Assets.celenorPotionCabinetTop, (int) (x - Handler.get().getGameCamera().getxOffset()),
                 (int) (y - Handler.get().getGameCamera().getyOffset()), null);
         g.drawImage(Assets.celenorPotionCabinetShelves, (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - Handler.get().getGameCamera().getyOffset()), null);
+                (int) (y + 32 - Handler.get().getGameCamera().getyOffset()), null);
     }
 
     @Override
     public void postRender(Graphics2D g) {
-
+        if (potionSort.isOpen()) {
+            potionSort.render(g);
+        }
     }
 
     @Override
@@ -66,9 +108,9 @@ public class CelenorPotionCabinet extends StaticEntity {
         switch (condition) {
             // Check if all books are read and only do puzzle when it hasn't moved left yet
             case "hasReadAllBooks":
-                return (Boolean) quest.getCheckValue("book1") &&
-                        (Boolean) quest.getCheckValue("book2") &&
-                        (Boolean) quest.getCheckValue("book3") &&
+                return (Boolean) quest.getCheckValueWithDefault("book1", false) &&
+                        (Boolean) quest.getCheckValueWithDefault("book2", false) &&
+                        (Boolean) quest.getCheckValueWithDefault("book3", false) &&
                         !hasMovedLeft;
             default:
                 System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
@@ -80,7 +122,7 @@ public class CelenorPotionCabinet extends StaticEntity {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 3:
-                // TODO: OPEN PUZZLE SCREEN
+                potionSort.setOpen(true);
                 speakingTurn = -1;
                 break;
             case 4:

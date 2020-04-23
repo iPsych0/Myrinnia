@@ -232,7 +232,9 @@ public class Assets {
     public static BufferedImage[][] puzzlePieces;
 
     public static BufferedImage mainBackground;
-    public static BufferedImage fullBookUI, singlePageBookUI;
+    public static BufferedImage fullBookUI, singlePageBookUI, celenorPotionCabinetBg, celenorPotionCabinetSlot,
+                                celenorPotionCabinetSlotSelected, celenorPotionRed, celenorPotionYellow,
+                                celenorPotionBlue, celenorPotionGreen;
 
     public static void init() {
 
@@ -258,6 +260,7 @@ public class Assets {
 
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet book_sheet = new SpriteSheet("/textures/custom_ui/book.png");
+        SpriteSheet celenor_potion_cabinet_sheet = new SpriteSheet("/textures/custom_ui/potion_cabinet.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
         /*
@@ -383,6 +386,15 @@ public class Assets {
 
         fullBookUI = book_sheet.imageCrop(0, 0, WIDTH * 12, HEIGHT * 9);
         singlePageBookUI = book_sheet.imageCrop(12, 0, WIDTH * 5, HEIGHT * 7);
+
+        celenorPotionCabinetBg = celenor_potion_cabinet_sheet.imageCrop(0, 0, WIDTH * 16, HEIGHT * 15);
+        celenorPotionCabinetSlot = celenor_potion_cabinet_sheet.imageCrop(16, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionCabinetSlotSelected = celenor_potion_cabinet_sheet.imageCrop(16, 2, WIDTH * 2, HEIGHT * 2);
+
+        celenorPotionRed = celenor_potion_cabinet_sheet.imageCrop(18, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionYellow = celenor_potion_cabinet_sheet.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionGreen = celenor_potion_cabinet_sheet.imageCrop(18, 2, WIDTH * 2, HEIGHT * 2);
+        celenorPotionBlue = celenor_potion_cabinet_sheet.imageCrop(20, 2, WIDTH * 2, HEIGHT * 2);
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);

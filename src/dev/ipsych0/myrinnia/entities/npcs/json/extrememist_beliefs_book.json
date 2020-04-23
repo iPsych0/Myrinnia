@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "On the ground, your find a book called '{name}'.",
+      "text": "On the ground, you find a book called '{name}'.",
       "nextId": 1
     },
     {
