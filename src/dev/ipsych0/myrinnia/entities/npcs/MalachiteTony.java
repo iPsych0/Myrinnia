@@ -2,7 +2,7 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.entities.statics.VegetablePatch;
+import dev.ipsych0.myrinnia.entities.statics.FarmingPatch;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -66,7 +66,7 @@ public class MalachiteTony extends Creature {
                 }
                 break;
             case 12:
-                if (VegetablePatch.tutorialDone) {
+                if (FarmingPatch.tutorialDone) {
                     script = Utils.loadScript("malachite_tony2.json");
                     speakingCheckpoint = 0;
                     speakingTurn = -1;

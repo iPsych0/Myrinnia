@@ -2,6 +2,10 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 public enum SkillCategory {
 
+    // Bounty hunter
+    BountyTargets("Targets"),
+
+    // Crafting
     CraftingOther("Other"),
     Weapons("Weapons"),
     Tools("Tools"),
@@ -10,13 +14,20 @@ public enum SkillCategory {
     Trinkets("Trinkets"),
     Materials("Materials"),
     Potions("Potions"),
+
+    // Fishing
     Fish("Fish"),
+
+    // Mining
     Ores("Ores"),
+
+    // Woodcutting
     Trees("Trees"),
+
+    // Farming
     Vegetables("Vegetables"),
     Bush("Bush"),
-    FarmingTrees("Fruit Trees"),
-    BountyTargets("Targets");
+    FarmingTrees("Fruit Trees");
 
     private String name;
 

@@ -7,7 +7,6 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.skills.FarmingResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.skills.ui.FarmingPatch;
 import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
@@ -16,7 +15,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
-public class VegetablePatch extends StaticEntity implements FarmingPatch {
+public class FarmingPatch extends StaticEntity {
 
     /**
      *
@@ -33,14 +32,15 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
     private Rectangle progressBar;
     private Rectangle totalBar;
 
-    public VegetablePatch(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+    public FarmingPatch(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+
 
         totalBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 64, 16);
         progressBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 0, 16);
-        plantableScript = Utils.loadScript(jsonFile);
+        plantableScript = script;
 
-        farmingUI = new FarmingUI(SkillCategory.Vegetables, this);
+        farmingUI = getUIForCategory();
 
         bounds.x = 0;
         bounds.y = 0;
@@ -50,6 +50,19 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         solid = false;
         attackable = false;
         isNpc = true;
+    }
+
+    private FarmingUI getUIForCategory() {
+        if (name.contains("Vegetable")) {
+            return new FarmingUI(SkillCategory.Vegetables, this);
+        } else if (name.contains("Bush")) {
+            return new FarmingUI(SkillCategory.Bush, this);
+        } else if (name.contains("Tree")) {
+            return new FarmingUI(SkillCategory.FarmingTrees, this);
+        }
+
+        System.err.println("No skill category available for: " + name);
+        return null;
     }
 
     @Override
@@ -87,7 +100,6 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         }
     }
 
-    @Override
     public void drawProgressBar(Graphics2D g) {
         long currentTime = System.currentTimeMillis();
         double percentDone = ((currentTime - resource.getTimePlanted()) / 1000D / (double) resource.getTimeToGrow());
@@ -195,7 +207,6 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
 
     }
 
-    @Override
     public void plant(ItemStack seeds) {
         if (resource != null) {
             Handler.get().sendMsg("You have already planted " + resource.getSeed().getName() + " here.");
@@ -211,6 +222,13 @@ public class VegetablePatch extends StaticEntity implements FarmingPatch {
         // Check if we have enough seeds to plant.
         if (!Handler.get().playerHasItem(seeds.getItem(), resource.getQuantity())) {
             Handler.get().sendMsg("You need " + resource.getQuantity() + " " + seeds.getItem().getName() + " to plant that crop.");
+            resource = null;
+            return;
+        }
+
+        // If we don't have the farming level to plant, return
+        if (!Handler.get().playerHasSkillLevel(SkillsList.FARMING, resource.getLevelRequirement())) {
+            Handler.get().sendMsg("You need a farming level of " + resource.getLevelRequirement() + " to plant " + seeds.getItem().getName() + ".");
             resource = null;
             return;
         }
