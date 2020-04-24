@@ -24,6 +24,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -705,6 +706,10 @@ public class Player extends Creature {
             return true;
         }
 
+        if (PotionSort.isOpen) {
+            return true;
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
     }
@@ -767,6 +772,10 @@ public class Player extends Creature {
 
         CelebrationUI celebrationUI = Handler.get().getCelebrationUI();
         if (!celebrationUI.getEvents().isEmpty() && celebrationUI.getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed()) {
+            return true;
+        }
+
+        if (PotionSort.isOpen) {
             return true;
         }
 

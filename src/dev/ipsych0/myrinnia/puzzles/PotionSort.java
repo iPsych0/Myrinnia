@@ -26,8 +26,7 @@ public class PotionSort extends Puzzle {
     private static int START_X, START_Y;
     private static int X_OFFSET = 128;
     public static boolean hasBeenPressed;
-    private boolean open;
-
+    public static boolean isOpen;
 
     public PotionSort(OnTaskCompleted task) {
         this.task = task;
@@ -70,12 +69,14 @@ public class PotionSort extends Puzzle {
                             Collections.swap(potionSlots, selectedIndex, index);
                             checkCompletion();
                             selectedSlot = null;
+                            Handler.get().playEffect("misc/cabinet_potion_swap.ogg");
                         }
                     } else {
                         // If selected slot is null, select it.
                         selectedSlot = potionSlots.get(index);
                         selectedIndex = index;
                         selectedSlot.setSelected(true);
+                        Handler.get().playEffect("misc/cabinet_potion_swap.ogg");
                     }
                 }
 
@@ -93,7 +94,7 @@ public class PotionSort extends Puzzle {
         // Return true when exit button is pressed.
         if (Handler.get().getKeyManager().escape || exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             hasBeenPressed = false;
-            open = false;
+            isOpen = false;
             if (selectedSlot != null) {
                 selectedSlot.setSelected(false);
             }
@@ -163,13 +164,5 @@ public class PotionSort extends Puzzle {
         for (int i = 0; i < amount; i++) {
             potionSlots.add(new PotionSlot(color, value));
         }
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 }

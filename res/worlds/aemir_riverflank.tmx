@@ -423,8 +423,8 @@
   </object>
   <object id="6" name="Warden's Hidden House" type="zone_tile" x="2400" y="96" width="32" height="48">
    <properties>
-    <property name="goToX" value="25"/>
-    <property name="goToY" value="68"/>
+    <property name="goToX" value="50"/>
+    <property name="goToY" value="88"/>
     <property name="zone" value="WardensCabin"/>
    </properties>
   </object>

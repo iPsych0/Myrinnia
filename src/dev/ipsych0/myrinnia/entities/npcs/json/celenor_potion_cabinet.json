@@ -11,7 +11,7 @@
     },
     {
       "id": 1,
-      "text": "That's odd... These potions seem to form some sort of mechanism...",
+      "text": "That's odd... The shelves aren't dusty. These potions look like they have been moved recently.",
       "nextId": 2
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "id": 5,
-      "text": "Hmmm... Perhaps I can have a look around the cabin to help me find something about a possible combination...",
+      "text": "Hmmm... Perhaps I can have a look around the cabin to find something about a possible combination...",
       "nextId": -1
     }
   ]

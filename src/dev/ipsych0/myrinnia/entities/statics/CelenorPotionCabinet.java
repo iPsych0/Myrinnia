@@ -28,13 +28,14 @@ public class CelenorPotionCabinet extends StaticEntity {
 
         player = Handler.get().getPlayer();
         potionSort = new PotionSort(() -> {
-            potionSort.setOpen(false);
+            PotionSort.isOpen = false;
             isMovingLeft = true;
 
             speakingTurn = 4;
             player.setMovementAllowed(false);
             player.setClosestEntity(this);
             interact();
+            Handler.get().playEffect("misc/cabinet_sliding.ogg");
         });
     }
 
@@ -56,11 +57,11 @@ public class CelenorPotionCabinet extends StaticEntity {
             }
         }
 
-        if (potionSort.isOpen()) {
+        if (PotionSort.isOpen) {
             potionSort.tick();
         }
 
-        if (potionSort.isOpen() && Player.isMoving || potionSort.isOpen() && potionSort.hasExited()) {
+        if (PotionSort.isOpen && Player.isMoving || PotionSort.isOpen && potionSort.hasExited()) {
             speakingTurn = 5;
             player.setMovementAllowed(false);
             player.setClosestEntity(this);
@@ -88,7 +89,7 @@ public class CelenorPotionCabinet extends StaticEntity {
 
     @Override
     public void postRender(Graphics2D g) {
-        if (potionSort.isOpen()) {
+        if (PotionSort.isOpen) {
             potionSort.render(g);
         }
     }
@@ -122,7 +123,7 @@ public class CelenorPotionCabinet extends StaticEntity {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 3:
-                potionSort.setOpen(true);
+                PotionSort.isOpen = true;
                 speakingTurn = -1;
                 break;
             case 4:
