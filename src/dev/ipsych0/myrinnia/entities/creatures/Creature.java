@@ -714,7 +714,7 @@ public abstract class Creature extends Entity {
         projectiles.removeAll(deleted);
     }
 
-    public void tick() {
+    public void tickAnimation(){
         if (chatDialogue == null && aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();
@@ -722,6 +722,10 @@ public abstract class Creature extends Entity {
             aLeft.tick();
             aRight.tick();
         }
+    }
+
+    public void tick() {
+        tickAnimation();
 
         if (inCombat) {
             combatTimer++;
@@ -787,7 +791,7 @@ public abstract class Creature extends Entity {
 
     }
 
-    protected void findPath() {
+    public void findPath() {
         if (state == CombatState.BACKTRACK) {
             nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                     ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
@@ -959,7 +963,7 @@ public abstract class Creature extends Entity {
     /**
      * Movement logic for following each node in the List nodes
      */
-    protected void followAStar() {
+    public void followAStar() {
         if (nodes == null) {
             return;
         }

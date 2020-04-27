@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.cutscenes.Cutscene;
 import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
+import dev.ipsych0.myrinnia.cutscenes.MoveEntityEvent;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -64,9 +65,8 @@ public class CaveTroll extends Creature {
         if (!cutsceneShown) {
             if (cutsceneTrigger.contains(Handler.get().getPlayer().getCollisionBounds(0, 0))) {
                 State.setState(new CutsceneState(new Cutscene(
-                        new MoveCameraEvent(
-                                Handler.get().getPlayer().getCollisionBounds(0, 0),
-                                getCollisionBounds(0, 0)))));
+
+                        new MoveEntityEvent(this, (this.x) + 8*32, (this.y) - 2*32, false))));
                 cutsceneShown = true;
             }
         } else {

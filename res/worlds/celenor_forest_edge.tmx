@@ -281,7 +281,7 @@
   <object id="14" name="Fog line" type="npc" x="0" y="192" width="3520" height="32">
    <properties>
     <property name="name" value="Fog"/>
-    <property name="npcClass" value="CelenorFogTile"/>
+    <property name="npcClass" value="ExtrememistTriggerTile"/>
    </properties>
   </object>
  </objectgroup>
