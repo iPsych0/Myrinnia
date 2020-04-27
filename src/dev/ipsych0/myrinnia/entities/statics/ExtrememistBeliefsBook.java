@@ -10,24 +10,27 @@ import java.awt.*;
 
 public class ExtrememistBeliefsBook extends StaticEntity {
 
-    private static final String book1 = "Book of Exhaustion";
-    private static final String book2 = "Book of Depletion";
-    private static final String book3 = "Book of Exploitation";
+    private static final String book1 = "Halogwyr Manifest";
+    private static final String book2 = "Book of Alchemy";
+    private static final String book3 = "Research notes";
 
     private static final String[] book1content = new String[]{
-            "This is the content on page 1. Make sure that this fits on 1 page. Otherwise split the string and continue on the next page.",
-            "This is the next page. On page 2 the story continues. This is to make sure that the reading remains pleasing to the eye.",
-            "This is the third page, for which we had to press the next-button. This should be enough content for now.",
-            "Just to be sure, we need to fill this page as well, as the next page-flip will contain only 1 page for testing.",
-            "If you see only the left-page here, it worked."
+            "We are the exiled elves from the Celenor group, the Halogwyr. We gathered our loyalists and went into hiding for years after our banishment.",
+            "Here, we were able to practice the darker magics without disturbance and it is finally time to unite and strike back. The Celenor elves are both conservative and religious.",
+            "It would only make sense that if we intend to immobilize them, we should strike at the heart of their ethics. If we anger their spirits, they will turn against them.",
+            "Join us! The time has come to settle the score!\n\nSum of row 3: 20\nSum of row 4: 14"
     };
     private static final String[] book2content = new String[]{
-            "There is only 1 page in this book, so no back or forward button."
+            "Alchemy is a forbidden magic. During our hiatus, we have studied the properties of alchemical magic and have seen some promising breakthroughs.",
+            "We managed to successfully create a potion that will pollute the Aemir river. This will hopefully anger their spirits, who will hold them responsible.",
+            "To recreate it, the following enumeration lists the value properties of each potion:\n\nRed potion: 1\n" +
+                    "Yellow potion: 3\n" +
+                    "Green potion: 5\n" +
+                    "Blue potion: 7\n"
     };
     private static final String[] book3content = new String[]{
-            "This book has 2 pages. This is the first one.",
-            "And this is the second. Also here there should be no back or forward button.",
-            "What about 3 pages?"
+            "This hidden cabin should buy us enough time to lay low. It’s hard to remember the sequence for the potion cabinet. I should probably write it down.",
+            "The first row should create a sum of 8… The second row was… 10. Now what was the third and fourth row? I should check my other notes."
     };
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
