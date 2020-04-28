@@ -40,6 +40,7 @@ import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.ui.custom.BookUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -706,7 +707,7 @@ public class Player extends Creature {
             return true;
         }
 
-        if (PotionSort.isOpen) {
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
             return true;
         }
 
@@ -775,7 +776,7 @@ public class Player extends Creature {
             return true;
         }
 
-        if (PotionSort.isOpen) {
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
             return true;
         }
 

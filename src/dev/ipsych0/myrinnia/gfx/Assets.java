@@ -40,7 +40,7 @@ public class Assets {
      */
     public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2, meleeBlunt, meleeBluntImpact;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
@@ -49,7 +49,7 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast;
+            rockyConstrict, sandBlast, warpTeleport;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -96,6 +96,7 @@ public class Assets {
     public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
     public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
+    public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -194,6 +195,7 @@ public class Assets {
     public static BufferedImage[] celenorElenthirDown, celenorElenthirLeft, celenorElenthirRight, celenorElenthirUp;
     public static BufferedImage[] celenorNyvolasDown, celenorNyvolasLeft, celenorNyvolasRight, celenorNyvolasUp;
     public static BufferedImage[] celenorPorewitDown, celenorPorewitLeft, celenorPorewitRight, celenorPorewitUp;
+    public static BufferedImage[] celenorWardenDown, celenorWardenLeft, celenorWardenRight, celenorWardenUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -321,7 +323,8 @@ public class Assets {
          */
         SpriteSheet ability_icons = new SpriteSheet("/textures/animations/abilitysheet.png");
         SpriteSheet ability_animations = new SpriteSheet("/textures/animations/ability_animations.png");
-        SpriteSheet regular_attacks = new SpriteSheet("/textures/regular_attacks.png");
+        SpriteSheet regular_attacks = new SpriteSheet("/textures/animations/regular_attacks.png");
+        SpriteSheet npc_attacks = new SpriteSheet("/textures/animations/npc_attacks.png");
 
         /*
          * All Tiled Sprites
@@ -678,6 +681,11 @@ public class Assets {
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
         venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        alchemicalExperimentDown = enemy_sheet1.npcCrop(12, 4, WIDTH, HEIGHT);
+        alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);
+        alchemicalExperimentRight = enemy_sheet1.npcCrop(12, 6, WIDTH, HEIGHT);
+        alchemicalExperimentUp = enemy_sheet1.npcCrop(12, 7, WIDTH, HEIGHT);
 
         // Bosses
 
@@ -1088,6 +1096,11 @@ public class Assets {
         celenorPorewitRight = celenor_npcs.npcCrop(6, 2);
         celenorPorewitUp = celenor_npcs.npcCrop(6, 3);
 
+        celenorWardenDown = celenor_npcs.npcCrop(9, 0);
+        celenorWardenLeft = celenor_npcs.npcCrop(9, 1);
+        celenorWardenRight = celenor_npcs.npcCrop(9, 2);
+        celenorWardenUp = celenor_npcs.npcCrop(9, 3);
+
         /*
          * Player Animations
          */
@@ -1139,12 +1152,25 @@ public class Assets {
         regularMelee = new BufferedImage[5];
         regularArrow = new BufferedImage[1];
         regularMagic = new BufferedImage[3];
+        meleeBlunt = new BufferedImage[6];
+        meleeBluntImpact = new BufferedImage[3];
 
         regularMelee[0] = regular_attacks.imageCrop(4, 0);
         regularMelee[1] = regular_attacks.imageCrop(5, 0);
         regularMelee[2] = regular_attacks.imageCrop(6, 0);
         regularMelee[3] = regular_attacks.imageCrop(7, 0);
         regularMelee[4] = regular_attacks.imageCrop(8, 0);
+
+        meleeBlunt[0] = npc_attacks.imageCrop(0, 1);
+        meleeBlunt[1] = npc_attacks.imageCrop(1, 1);
+        meleeBlunt[2] = npc_attacks.imageCrop(2, 1);
+        meleeBlunt[3] = npc_attacks.imageCrop(3, 1);
+        meleeBlunt[4] = npc_attacks.imageCrop(4, 1);
+        meleeBlunt[5] = npc_attacks.imageCrop(5, 1);
+
+        meleeBluntImpact[0] = npc_attacks.imageCrop(0, 0);
+        meleeBluntImpact[1] = npc_attacks.imageCrop(1, 0);
+        meleeBluntImpact[2] = npc_attacks.imageCrop(2, 0);
 
         regularArrow[0] = regular_attacks.imageCrop(0, 0);
 
@@ -1249,6 +1275,16 @@ public class Assets {
         sandBlast[5] = ability_animations.imageCrop(5, 12);
         sandBlast[6] = ability_animations.imageCrop(6, 12);
         sandBlast[7] = ability_animations.imageCrop(7, 12);
+
+        warpTeleport = new BufferedImage[8];
+        warpTeleport[0] = ability_animations.imageCrop(0, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[1] = ability_animations.imageCrop(1, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[2] = ability_animations.imageCrop(2, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[3] = ability_animations.imageCrop(3, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[4] = ability_animations.imageCrop(4, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[5] = ability_animations.imageCrop(5, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[6] = ability_animations.imageCrop(6, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[7] = ability_animations.imageCrop(7, 13, WIDTH, HEIGHT * 2);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

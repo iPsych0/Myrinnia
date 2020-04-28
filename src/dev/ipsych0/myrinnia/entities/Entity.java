@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
 import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
+import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -82,7 +83,14 @@ public abstract class Entity implements Serializable {
             // TODO: LOAD DROP TABLE FROM JSON FILE!
         }
         if (jsonFile != null) {
-            script = Utils.loadScript(jsonFile);
+            if (jsonFile.endsWith(".json")) {
+                script = Utils.loadScript(jsonFile);
+            } else {
+                // If we provide a single string, use that as single dialogue option via Tiled
+                List<Dialogue> dialogues = new ArrayList<>();
+                dialogues.add(new Dialogue(0, -1, jsonFile, null, null));
+                script = new Script(dialogues);
+            }
         }
 
         bounds = new Rectangle(0, 0, width, height);
@@ -540,7 +548,7 @@ public abstract class Entity implements Serializable {
         g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
 
         if (hoveringEntity.isAttackable() && hoveringEntity.isNpc()) {
-            if(isInCombat() && damaged){
+            if (isInCombat() && damaged) {
                 drawHPinOverlay(g, hoveringEntity, titleBounds);
             }
         } else if (hoveringEntity.isAttackable()) {

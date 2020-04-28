@@ -36,6 +36,7 @@ public class CelenorPotionCabinet extends StaticEntity {
             player.setClosestEntity(this);
             interact();
             Handler.get().playEffect("misc/cabinet_sliding.ogg");
+            quest.nextStep();
         });
     }
 
@@ -47,8 +48,8 @@ public class CelenorPotionCabinet extends StaticEntity {
             if (slideTimer % 2 == 0) {
                 this.x -= 1;
                 // When reached left wall, stop sliding
-                if (this.x <= 21 * Tile.TILEWIDTH) {
-                    this.x = 21d * Tile.TILEWIDTH;
+                if (this.x <= 46 * Tile.TILEWIDTH) {
+                    this.x = 46 * Tile.TILEWIDTH;
                     isMovingLeft = false;
                     hasMovedLeft = true;
                     player.setMovementAllowed(true);

@@ -651,6 +651,27 @@ public abstract class Creature extends Entity {
     }
 
     @Override
+    public void interact() {
+        super.interact();
+        Player player = Handler.get().getPlayer();
+        // If more than half a tile left or right of this NPC, look that direction
+        if (player.getX() - this.x < -Tile.TILEWIDTH/2d) {
+            lastFaced = Direction.LEFT;
+        } else if (player.getX() - this.x > Tile.TILEWIDTH/2d) {
+            lastFaced = Direction.RIGHT;
+        }
+
+        // If more than half a tile up or down of this NPC, look that direction
+        if (player.getY() - this.y < -Tile.TILEWIDTH/2d) {
+            lastFaced = Direction.UP;
+        } else if (player.getY() - this.y > Tile.TILEWIDTH/2d) {
+            lastFaced = Direction.DOWN;
+        }
+
+        direction = lastFaced;
+    }
+
+    @Override
     public void postRender(Graphics2D g) {
         if (Handler.debugAStar) {
             g.setColor(Color.BLACK);
@@ -714,7 +735,7 @@ public abstract class Creature extends Entity {
         projectiles.removeAll(deleted);
     }
 
-    public void tickAnimation(){
+    public void tickAnimation() {
         if (chatDialogue == null && aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();

@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.utils.Colors;
+import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
 
 import java.awt.*;
 import java.util.List;
@@ -20,15 +21,17 @@ public class MoveEntityEvent implements CutsceneEvent {
     private Creature creature;
     private List<Node> nodes;
     private int lastX, lastY;
-    private int stuckTimerX = 0, stuckTimerY = 0;
+    private int stuckTimer;
     private double originalMovSpd;
     private double movSpd;
+    private OnTaskCompleted onTaskCompleted;
 
-    public MoveEntityEvent(Entity entity, double goalX, double goalY, boolean instantly) {
+    public MoveEntityEvent(Entity entity, double goalX, double goalY, boolean instantly, OnTaskCompleted onTaskCompleted) {
         this.entity = entity;
         this.goalX = goalX;
         this.goalY = goalY;
         this.instantly = instantly;
+        this.onTaskCompleted = onTaskCompleted;
 
         this.startX = entity.getX();
         this.startY = entity.getY();
@@ -53,6 +56,10 @@ public class MoveEntityEvent implements CutsceneEvent {
 
         lastX = (int) entity.getX();
         lastY = (int) entity.getY();
+    }
+
+    public MoveEntityEvent(Entity entity, double goalX, double goalY, boolean instantly) {
+        this(entity, goalX, goalY, instantly, null);
     }
 
     @Override
@@ -114,6 +121,23 @@ public class MoveEntityEvent implements CutsceneEvent {
         int nextX = next.getX() * 32;
         int nextY = next.getY() * 32;
 
+        if (lastX == x && lastY == y) {
+            stuckTimer++;
+        }
+        lastX = (int) entity.getX();
+        lastY = (int) entity.getY();
+
+        if (stuckTimer >= 10) {
+            creature.setX(nextX);
+            creature.setY(nextY);
+            creature.setxMove(0);
+            creature.setyMove(0);
+            if (!nodes.isEmpty())
+                nodes.remove(0);
+            stuckTimer = 0;
+            return;
+        }
+
         if (x < nextX) {
             // Move right
             creature.setxMove(speed);
@@ -174,6 +198,9 @@ public class MoveEntityEvent implements CutsceneEvent {
 
     @Override
     public boolean isFinished() {
+        if (finished && onTaskCompleted != null) {
+            onTaskCompleted.onComplete();
+        }
         return finished;
     }
 }

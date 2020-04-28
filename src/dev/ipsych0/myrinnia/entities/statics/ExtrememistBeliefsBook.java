@@ -17,8 +17,8 @@ public class ExtrememistBeliefsBook extends StaticEntity {
     private static final String[] book1content = new String[]{
             "We are the exiled elves from the Celenor group, the Halogwyr. We gathered our loyalists and went into hiding for years after our banishment.",
             "Here, we were able to practice the darker magics without disturbance and it is finally time to unite and strike back. The Celenor elves are both conservative and religious.",
-            "It would only make sense that if we intend to immobilize them, we should strike at the heart of their ethics. If we anger their spirits, they will turn against them.",
-            "Join us! The time has come to settle the score!\n\nSum of row 3: 20\nSum of row 4: 14"
+            "We will use this to immobilize them, by striking at the heart of their beliefs. If we anger their spirits, they will turn against them.",
+            "Join us! The time has come to settle the score!\n\nNote to self:\n\nSum of row 3: 20\nSum of row 4: 14"
     };
     private static final String[] book2content = new String[]{
             "Alchemy is a forbidden magic. During our hiatus, we have studied the properties of alchemical magic and have seen some promising breakthroughs.",

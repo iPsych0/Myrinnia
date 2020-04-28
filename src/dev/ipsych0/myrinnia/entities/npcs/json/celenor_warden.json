@@ -1,0 +1,34 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "I see you have found my little hideout. I must say I am impressed.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I heard someone was investigating the pollution, so I assume that must be you. I did not expect you here so fast, to be honest.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Alas, I'm afraid I can't stay here for chit-chat. I have to attend other business. There is much to do.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "You probably have lots of questions right now, he he. They will have to wait.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "We will meet again. Farewell.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    }
+  ]
+}

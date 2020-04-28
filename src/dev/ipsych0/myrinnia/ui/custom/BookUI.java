@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 public class BookUI {
 
     private boolean open;
+    public static boolean anyInterfaceOpen;
     public static boolean hasPressed;
     private int x, y, width, height;
     private PageType pageType;
@@ -56,16 +57,15 @@ public class BookUI {
     public void tick() {
         uiManager.tick();
 
-        // Close when moving
-        if (Player.isMoving) {
-            open = false;
+        // Close when moving / escape pressed
+        if (Player.isMoving || Handler.get().getKeyManager().escape) {
+            close();
         }
 
         // Close when exit clicked
         Rectangle mouse = Handler.get().getMouse();
         if (exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasPressed) {
-            hasPressed = false;
-            open = false;
+            close();
         }
 
         if (pageNumbers > 2) {
@@ -83,6 +83,21 @@ public class BookUI {
                 returnLastPage();
             }
         }
+    }
+
+    private void close() {
+        open = false;
+        hasPressed = false;
+        currentPage = 0;
+        // If the back button was pressed, add the forward button again
+        if (pageNumbers > 2 && !uiManager.getObjects().contains(forwardButton)) {
+            uiManager.addObject(forwardButton);
+        }
+        if (pageNumbers > 2 && uiManager.getObjects().contains(backButton)) {
+            uiManager.removeObject(backButton);
+        }
+
+        anyInterfaceOpen = false;
     }
 
     private void returnLastPage() {
@@ -108,7 +123,7 @@ public class BookUI {
         }
 
         // If we've reached the last page, remove the forward button
-        if (currentPage + 1 == pageNumbers) {
+        if (currentPage == pageNumbers - 1 || currentPage == pageNumbers - 2) {
             uiManager.removeObject(forwardButton);
         }
     }
@@ -131,20 +146,15 @@ public class BookUI {
             Text.drawStringInBox(g, "Next", forwardButton, Color.YELLOW, Assets.font20);
         }
 
-        // Check if the last page is odd or even (if we have 7 pages, in the last screen, the right-page should be blank
-        int endOfPage = (currentPage + 2 > (pageNumbers - 1)) ? (currentPage + 1) : (currentPage + 2);
-        if (pageNumbers == 2) {
-            endOfPage = 2;
-        }
-
         // Arrange the lines for page 1 and/or 2
         String[] page1 = null, page2 = null;
-        if (endOfPage % 2 == 0) {
+        try {
             page1 = Text.splitIntoLine(content[currentPage], 20);
             page2 = Text.splitIntoLine(content[currentPage + 1], 20);
-        } else {
+        } catch (IndexOutOfBoundsException e) {
             page1 = Text.splitIntoLine(content[currentPage], 20);
         }
+
         for (int i = 0; i < page1.length; i++) {
             Text.drawString(g, page1[i], x + 32, y + 64 + (i * 16), false, Color.YELLOW, Assets.font14);
         }
@@ -160,6 +170,9 @@ public class BookUI {
     }
 
     public void setOpen(boolean open) {
+        if (open) {
+            BookUI.anyInterfaceOpen = true;
+        }
         this.open = open;
     }
 

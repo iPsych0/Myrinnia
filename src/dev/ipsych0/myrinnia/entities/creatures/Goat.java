@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,6 +20,7 @@ public class Goat extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
+    private Animation bluntImpact;
 
     public Goat(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -65,11 +67,22 @@ public class Goat extends Creature {
                 g.setTransform(old);
             }
         }
+
+        if (bluntImpact != null) {
+            if (bluntImpact.isTickDone()) {
+                bluntImpact = null;
+            } else {
+                bluntImpact.tick();
+                g.drawImage(bluntImpact.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), width, height, null);
+            }
+        }
     }
 
     @Override
     public void die() {
         getDroptableItem();
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
     }
 
     /*
@@ -84,11 +97,12 @@ public class Goat extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+        meleeAnimation = new Animation(32, Assets.meleeBlunt, true);
+        bluntImpact = new Animation(32, Assets.meleeBluntImpact, true);
 
-        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX() + 16, (int) Handler.get().getPlayer().getY() + 16, 1, 1));
 
-        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+        Handler.get().playEffect("abilities/impact_blunt.ogg");
 
         checkMeleeHitboxes();
 

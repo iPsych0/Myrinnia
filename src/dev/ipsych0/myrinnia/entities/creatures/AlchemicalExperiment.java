@@ -3,17 +3,13 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.utils.Timer;
-import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.concurrent.TimeUnit;
 
-public class Sheep extends Creature {
+public class AlchemicalExperiment extends Creature {
 
 
     /**
@@ -24,27 +20,20 @@ public class Sheep extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
-    private Animation originalDown, originalLeft, originalRight, originalUp;
     private Animation bluntImpact;
-    private boolean sheared;
 
-    public Sheep(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+    public AlchemicalExperiment(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
-        isNpc = true;
+        isNpc = false;
         attackable = true;
-        aggressive = false;
-
-        originalDown = aDown;
-        originalLeft = aLeft;
-        originalRight = aRight;
-        originalUp = aUp;
+        aggressive = true;
 
         // Creature stats
-        strength = 10;
+        strength = 20;
         dexterity = 0;
         intelligence = 0;
-        vitality = 25;
-        defence = 10;
+        vitality = 70;
+        defence = 55;
         speed = 1.0f;
 
         maxHealth = DEFAULT_HEALTH + vitality * 4;
@@ -57,7 +46,7 @@ public class Sheep extends Creature {
 
     @Override
     public void tick() {
-         super.tick();
+        super.tick();
     }
 
     @Override
@@ -92,10 +81,8 @@ public class Sheep extends Creature {
 
     @Override
     public void die() {
-        if (!sheared) {
-            Handler.get().dropItem(Item.wool, 1, (int) x, (int) y);
-        }
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(10);
+        getDroptableItem();
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(30);
     }
 
     /*
@@ -123,44 +110,11 @@ public class Sheep extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Sheep(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
-    }
-
-    @Override
-    protected boolean choiceConditionMet(String condition) {
-        if ("hasShears".equals(condition)) {
-            return !sheared && Handler.get().playerHasItem(Item.shears, 1);
-        }
-        System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
-        return false;
+        Handler.get().getWorld().getEntityManager().addEntity(new AlchemicalExperiment(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
     }
 
     @Override
     protected void updateDialogue() {
-        switch (speakingTurn) {
-            case 2:
-                sheared = true;
 
-                // Change animation to shaved version
-                aDown = new Animation(250, Assets.shavedSheep1Down);
-                aLeft = new Animation(250, Assets.shavedSheep1Left);
-                aRight = new Animation(250, Assets.shavedSheep1Right);
-                aUp = new Animation(250, Assets.shavedSheep1Up);
-
-                // Give wool
-                Handler.get().giveItem(Item.wool, 1);
-                speakingTurn = -1;
-
-                // Set timer to revert to 'unshaved' form after a minute
-                TimerHandler.get().addTimer(new Timer(1L, TimeUnit.MINUTES, () -> {
-                    this.sheared = false;
-
-                    aDown = originalDown;
-                    aLeft = originalLeft;
-                    aRight = originalRight;
-                    aUp = originalUp;
-                }));
-                break;
-        }
     }
 }

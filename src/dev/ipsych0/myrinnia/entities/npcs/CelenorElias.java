@@ -3,10 +3,10 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -42,6 +42,14 @@ public class CelenorElias extends Creature {
     @Override
     public void respawn() {
 
+    }
+
+    @Override
+    public void postRender(Graphics2D g) {
+        if (Handler.get().hasQuestReqs(QuestList.ExtrememistBeliefs) && quest.getState() == QuestState.NOT_STARTED) {
+            g.drawImage(Assets.exclamationIcon, (int) (x - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 32 - Handler.get().getGameCamera().getyOffset()), null);
+        }
     }
 
     @Override

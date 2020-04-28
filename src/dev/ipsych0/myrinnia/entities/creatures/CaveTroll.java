@@ -26,6 +26,7 @@ public class CaveTroll extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
+    private Animation bluntImpact;
     private static boolean cutsceneShown;
     private Rectangle cutsceneTrigger = new Rectangle(77 * 32, 17 * 32, 32, 384);
 
@@ -64,9 +65,9 @@ public class CaveTroll extends Creature {
     public void tick() {
         if (!cutsceneShown) {
             if (cutsceneTrigger.contains(Handler.get().getPlayer().getCollisionBounds(0, 0))) {
-                State.setState(new CutsceneState(new Cutscene(
-
-                        new MoveEntityEvent(this, (this.x) + 8*32, (this.y) - 2*32, false))));
+                State.setState(new CutsceneState(new Cutscene(new MoveCameraEvent(
+                        Handler.get().getPlayer().getFullBounds(0,0),
+                        this.getFullBounds(0,0)))));
                 cutsceneShown = true;
             }
         } else {
@@ -99,6 +100,16 @@ public class CaveTroll extends Creature {
                 g.setTransform(old);
             }
         }
+
+        if (bluntImpact != null) {
+            if (bluntImpact.isTickDone()) {
+                bluntImpact = null;
+            } else {
+                bluntImpact.tick();
+                g.drawImage(bluntImpact.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
+            }
+        }
     }
 
     @Override
@@ -123,11 +134,12 @@ public class CaveTroll extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+        meleeAnimation = new Animation(32, Assets.meleeBlunt, true);
+        bluntImpact = new Animation(32, Assets.meleeBluntImpact, true);
 
-        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX() + 16, (int) Handler.get().getPlayer().getY() + 16, 1, 1));
 
-        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+        Handler.get().playEffect("abilities/impact_blunt.ogg");
 
         checkMeleeHitboxes();
 
