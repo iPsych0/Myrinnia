@@ -22,7 +22,9 @@ public class CelenorPorewit extends Creature {
     private static boolean hasWarned;
     private Zone zone;
     private Map<Integer, Boolean> questionsAskedMap = new HashMap<>();
+    private Map<Integer, Boolean> questionsAskedMap2 = new HashMap<>();
     private static boolean questionsAsked;
+    private static boolean questionsAsked2;
 
     public CelenorPorewit(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -101,6 +103,12 @@ public class CelenorPorewit extends Creature {
                     if (quest.getQuestSteps().get(1).isFinished()) {
                         speakingTurn = 7;
                     }
+                    if (quest.getQuestSteps().get(6).isFinished()) {
+                        speakingTurn = 8;
+                    }
+                    if (quest.getQuestSteps().get(7).isFinished()) {
+                        speakingTurn = 15;
+                    }
                     break;
                 case 2:
                 case 3:
@@ -111,6 +119,17 @@ public class CelenorPorewit extends Creature {
                     break;
                 case 7:
                     if (!quest.getQuestSteps().get(1).isFinished()) {
+                        quest.nextStep();
+                    }
+                    break;
+                case 10:
+                case 13:
+                    if (!questionsAsked2) {
+                        checkAllQuestionsAsked2();
+                    }
+                    break;
+                case 15:
+                    if (!quest.getQuestSteps().get(7).isFinished()) {
                         quest.nextStep();
                     }
                     break;
@@ -126,6 +145,17 @@ public class CelenorPorewit extends Creature {
             questionsAsked = true;
             // Add option to progress the quest
             script.getDialogues().get(1).getOptions().add(0, new Choice("Can you remove the fog?", 5, null));
+        }
+    }
+
+    private void checkAllQuestionsAsked2() {
+        questionsAskedMap2.put(speakingTurn, true);
+
+        // Check if all questions are asked
+        if (!questionsAsked2 && questionsAskedMap2.size() == 2) {
+            questionsAsked2 = true;
+            // Add option to progress the quest
+            script.getDialogues().get(9).getOptions().add(0, new Choice("How can we purify the river?", 15, null));
         }
     }
 }

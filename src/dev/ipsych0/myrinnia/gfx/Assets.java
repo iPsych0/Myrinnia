@@ -78,7 +78,8 @@ public class Assets {
             hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
             tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
-            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool;
+            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
+            bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -612,6 +613,10 @@ public class Assets {
         dragonfruit = item_sheet.imageCrop(4, 1);
         shears = item_sheet.imageCrop(4, 2);
         wool = item_sheet.imageCrop(4, 3);
+        bucket = item_sheet.imageCrop(4, 4);
+        pollutedBucket = item_sheet.imageCrop(4, 5);
+        amanitaMushroom = item_sheet.imageCrop(4, 6);
+        potionOfDecontamination = item_sheet.imageCrop(4, 7);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

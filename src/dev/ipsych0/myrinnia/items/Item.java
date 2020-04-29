@@ -187,6 +187,10 @@ public class Item implements Serializable {
     public static Item wool = Utils.loadItem("142_wool.json", Assets.wool, 0, (Use & Serializable) (i) -> {
         Handler.get().sendMsg("I can probably craft something useful out of this.");
     });
+    public static Item bucket = Utils.loadItem("143_empty_bucket.json", Assets.bucket);
+    public static Item pollutedBucket = Utils.loadItem("144_bucket_of_polluted_water.json", Assets.pollutedBucket);
+    public static Item amanitaMushroom = Utils.loadItem("145_amanita_mushroom.json", Assets.amanitaMushroom);
+    public static Item potionOfDecontamination = Utils.loadItem("146_potion_of_decontamination.json", Assets.potionOfDecontamination);
 
 
     static {

@@ -63,6 +63,76 @@
       "id": 7,
       "text": "If you wish to help, you should find out who polluted the Aemir and how. Good luck!",
       "nextId": -1
+    },
+    {
+      "id": 8,
+      "text": "Welcome back, human.",
+      "nextId": 9
+    },
+    {
+      "id": 9,
+      "options": [
+        {
+          "text": "I found out the 'Halogwyr' polluted the Aemir!",
+          "nextId": 10
+        },
+        {
+          "text": "The Aemir was polluted with a potion.",
+          "nextId": 13
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "text": "The Halogwyr?! Human, I am shocked. The Halogwyr are an ancient cult of elves, who were banished from the Celenor clan centuries ago.",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "The Halogwyr were once Celenor elves, but they did not respect our most important rule: To respect and preserve nature, they exhausted the environment for personal gain.",
+      "nextId": 12
+    },
+    {
+      "id": 12,
+      "text": "The Halogwyr supposedly studied darker forms of magic, such as Alchemy and Necromancy. For this reason they were exiled.",
+      "nextId": 9
+    },
+    {
+      "id": 13,
+      "text": "A potion you say? Given your evidence, I fear they have brewed a Potion of Defilement. This potion was banned centuries ago...",
+      "nextId": 14
+    },
+    {
+      "id": 14,
+      "text": "Someone has used very ancient magics to create this. We must do the same and create a potion that will reverse the effects and purify the river.",
+      "nextId": 9
+    },
+    {
+      "id": 15,
+      "text": "Please bring me an Amanita mushroom and a sample of the polluted water.",
+      "nextId": 16
+    },
+    {
+      "id": 16,
+      "options": [
+        {
+          "text": "Where can I find an Amanita mushroom?",
+          "nextId": 17
+        },
+        {
+          "text": "I'll get the ingredients for you.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "text": "Amanita mushrooms are rare. I have not left the Riverflank lately, but I recall some growing in Celenor Forest Edge.",
+      "nextId": 16
     }
   ]
 }
