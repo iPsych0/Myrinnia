@@ -92,7 +92,7 @@ public class QuestManager implements Serializable {
 
         celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json",
                 (OnCompletion & Serializable) () -> {
-                    //TODO: ADD REWARD
+
                 }));
 
         // Test Quests

@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.ui.custom;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
@@ -66,6 +67,7 @@ public class BookUI {
         Rectangle mouse = Handler.get().getMouse();
         if (exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasPressed) {
             close();
+            MouseManager.justClosedUI = true;
         }
 
         if (pageNumbers > 2) {
@@ -112,6 +114,8 @@ public class BookUI {
         if (!uiManager.getObjects().contains(forwardButton)) {
             uiManager.addObject(forwardButton);
         }
+
+        Handler.get().playEffect("ui/turn_page.ogg", 0.65f);
     }
 
     private void goToNextPage() {
@@ -126,6 +130,8 @@ public class BookUI {
         if (currentPage == pageNumbers - 1 || currentPage == pageNumbers - 2) {
             uiManager.removeObject(forwardButton);
         }
+
+        Handler.get().playEffect("ui/turn_page.ogg", 0.65f);
     }
 
     public void render(Graphics2D g) {

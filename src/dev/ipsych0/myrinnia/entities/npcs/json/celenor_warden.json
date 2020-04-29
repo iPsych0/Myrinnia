@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "I see you have found my little hideout. I must say I am impressed.",
+      "text": "Well, well. I see you have found our little hideout. I must say I am impressed.",
       "nextId": 1
     },
     {
@@ -12,21 +12,36 @@
     },
     {
       "id": 2,
-      "text": "Alas, I'm afraid I can't stay here for chit-chat. I have to attend other business. There is much to do.",
+      "text": "No matter. Sooner or later, the Celenor elves would have found out either way.",
       "nextId": 3
     },
     {
       "id": 3,
-      "text": "You probably have lots of questions right now, he he. They will have to wait.",
+      "text": "The Halogwyr has been busy as of late, I'm sure you've noticed. While I'd love to stick around and tell you our plans, I think that would be too easy.",
       "nextId": 4
     },
     {
       "id": 4,
-      "text": "We will meet again. Farewell.",
+      "text": "What's the fun in spoiling it? Besides, it is much more fun to find out on your own, right? Go ahead and search the lab, we are finished here.",
       "nextId": 5
     },
     {
       "id": 5,
+      "text": "Alas, I'm afraid I can't stay here for chit-chat. I have other business to attend to. There is still much to do.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "text": "You probably have lots of questions right now, he he. They will have to wait. Something tells me we shall meet again.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "For now, farewell.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
       "text": "{PLACEHOLDER FOR ACTION}",
       "nextId": -1
     }

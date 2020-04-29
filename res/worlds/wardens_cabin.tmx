@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="75" height="95" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="44">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="75" height="95" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="48">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -377,7 +377,7 @@
   </object>
   <object id="20" name="Strange brew" type="npc" x="1952" y="1184" width="32" height="32">
    <properties>
-    <property name="jsonFile" value="There is a putrid odour coming from this brew. It seems likely this was used to pollute the Aemir river."/>
+    <property name="jsonFile" value="There is a putrid odor coming from this brew. It seems likely this was used to pollute the Aemir river."/>
     <property name="name" value="Strange brew"/>
     <property name="npcClass" value="GenericObject"/>
    </properties>
@@ -414,21 +414,21 @@
   </object>
   <object id="35" name="Desk" type="npc" x="1472" y="260" width="96" height="48">
    <properties>
-    <property name="jsonFile" value="There are several desks here, indicating that the Warden was not working alone."/>
+    <property name="jsonFile" value="There are several desks here, but no signs of forced labour. These people have helped the Warden."/>
     <property name="name" value="Desk"/>
     <property name="npcClass" value="GenericObject"/>
    </properties>
   </object>
   <object id="36" name="Desk" type="npc" x="1696" y="260" width="96" height="48">
    <properties>
-    <property name="jsonFile" value="There are several desks here, indicating that the Warden was not working alone."/>
+    <property name="jsonFile" value="There are several desks here, but no signs of forced labour. These people have helped the Warden."/>
     <property name="name" value="Desk"/>
     <property name="npcClass" value="GenericObject"/>
    </properties>
   </object>
   <object id="37" name="Desk" type="npc" x="1888" y="260" width="96" height="48">
    <properties>
-    <property name="jsonFile" value="There are several desks here, indicating that the Warden was not working alone."/>
+    <property name="jsonFile" value="There are several desks here, but no signs of forced labour. These people have helped the Warden."/>
     <property name="name" value="Desk"/>
     <property name="npcClass" value="GenericObject"/>
    </properties>
@@ -476,6 +476,33 @@
    <properties>
     <property name="amount" value="1"/>
     <property name="itemId" value="143"/>
+   </properties>
+  </object>
+  <object id="45" name="Elf 2" type="npc" x="1824" y="1088" width="32" height="32">
+   <properties>
+    <property name="animation" value="genericElfMale3"/>
+    <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="One line"/>
+    <property name="name" value="Halogwyr Collaborator"/>
+    <property name="npcClass" value="CelenorCollaborator"/>
+   </properties>
+  </object>
+  <object id="46" name="Elf 2" type="npc" x="1696" y="1088" width="32" height="32">
+   <properties>
+    <property name="animation" value="genericElfMale3"/>
+    <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="One line"/>
+    <property name="name" value="Halogwyr Collaborator"/>
+    <property name="npcClass" value="CelenorCollaborator"/>
+   </properties>
+  </object>
+  <object id="47" name="Elf 2" type="npc" x="1760" y="1024" width="32" height="32">
+   <properties>
+    <property name="animation" value="genericElfFemale3"/>
+    <property name="direction" value="DOWN"/>
+    <property name="jsonFile" value="One line"/>
+    <property name="name" value="Halogwyr Collaborator"/>
+    <property name="npcClass" value="CelenorCollaborator"/>
    </properties>
   </object>
  </objectgroup>

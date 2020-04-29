@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -16,8 +17,10 @@ public class CelenorElenthir extends Creature {
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private Map<Integer, Boolean> questionsAskedMap = new HashMap<>();
     private Map<Integer, Boolean> questionsAskedMap2 = new HashMap<>();
+    private Map<Integer, Boolean> questionsAskedMap3 = new HashMap<>();
     private static boolean questionsAsked;
     private static boolean questionsAsked2;
+    private static boolean questionsAsked3;
 
     public CelenorElenthir(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -68,6 +71,12 @@ public class CelenorElenthir extends Creature {
                 if (quest.getQuestSteps().get(3).isFinished()) {
                     speakingTurn = 20;
                 }
+                if (quest.getQuestSteps().get(9).isFinished()) {
+                    speakingTurn = 25;
+                }
+                if (quest.getState() == QuestState.COMPLETED) {
+                    speakingTurn = 38;
+                }
                 break;
             case 9:
                 if (!quest.getQuestSteps().get(0).isFinished()) {
@@ -105,6 +114,19 @@ public class CelenorElenthir extends Creature {
                     quest.nextStep();
                 }
                 break;
+            case 27:
+            case 32:
+                if (!questionsAsked3) {
+                    checkAllQuestionsAsked3();
+                }
+                break;
+            case 37:
+                if (quest.getState() != QuestState.COMPLETED) {
+                    quest.nextStep();
+                    quest.setState(QuestState.COMPLETED);
+                }
+                speakingTurn = -1;
+                break;
         }
     }
 
@@ -127,6 +149,17 @@ public class CelenorElenthir extends Creature {
             questionsAsked2 = true;
             // Add option to progress the quest
             script.getDialogues().get(21).getOptions().add(0, new Choice("What's our next move?", 24, null));
+        }
+    }
+
+    private void checkAllQuestionsAsked3() {
+        questionsAskedMap3.put(speakingTurn, true);
+
+        // Check if all questions are asked
+        if (!questionsAsked3 && questionsAskedMap3.size() == 2) {
+            questionsAsked3 = true;
+            // Add option to progress the quest
+            script.getDialogues().get(26).getOptions().add(0, new Choice("What will you do next?", 35, null));
         }
     }
 }

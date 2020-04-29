@@ -1,0 +1,31 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The water of the Aemir river originates from this source.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasPotion",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Purify the river.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    }
+  ]
+}

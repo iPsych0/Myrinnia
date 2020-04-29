@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.puzzles;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
@@ -93,6 +94,7 @@ public class PotionSort extends Puzzle {
 
         // Return true when exit button is pressed.
         if (Handler.get().getKeyManager().escape || exitButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+            MouseManager.justClosedUI = true;
             hasBeenPressed = false;
             isOpen = false;
             if (selectedSlot != null) {

@@ -77,9 +77,11 @@ public class CelenorWarden extends Creature {
     @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
-            case 5:
+            case 8:
                 teleportAnim = new Animation(1000 / (Assets.warpTeleport.length * 2), Assets.warpTeleport, true, true);
                 speakingTurn = -1;
+                CelenorCollaborator.isTeleporting = true;
+                Handler.get().playEffect("abilities/teleport1.ogg", 0.1f);
                 break;
         }
     }

@@ -20,6 +20,7 @@ public class CelenorElias extends Creature {
         solid = true;
         attackable = false;
         isNpc = true;
+        speed = 1.0;
     }
 
     @Override

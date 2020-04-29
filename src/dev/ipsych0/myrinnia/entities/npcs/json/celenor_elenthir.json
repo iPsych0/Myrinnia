@@ -32,7 +32,7 @@
           "nextId": 5
         },
         {
-          "text": "When did the fog appear?",
+          "text": "When did the fog first appear?",
           "nextId": 6
         },
         {
@@ -43,7 +43,7 @@
     },
     {
       "id": 5,
-      "text": "People around Celewynn have been disappearing lately. None have returned. I fear the same thing happened to the Warden.",
+      "text": "The Warden has gone missing, as have other people. I fear they might suffer the same fate as him.",
       "nextId": 4
     },
     {
@@ -53,14 +53,14 @@
     },
     {
       "id": 7,
-      "text": "I suspect that the pollution of this sacred source of water has angered the forest spirits, who conjured this fog in retaliation.",
+      "text": "I suspect that the pollution of this sacred source of water has angered the forest spirits, who summoned this fog in retaliation.",
       "nextId": 8
     },
     {
       "id": 8,
       "options": [
         {
-          "text": "I'd like to offer my help.",
+          "text": "I'd like to help.",
           "nextId": 9
         },
         {
@@ -76,7 +76,7 @@
     },
     {
       "id": 10,
-      "text": "I suggest you follow the Aemir river upstream. Look for the rocky scaffolds east of the pond.",
+      "text": "I suggest you follow the Aemir river upstream and look for the origin of the river. First, look for the rocky scaffolds east of the pond.",
       "nextId": 11
     },
     {
@@ -130,7 +130,7 @@
     },
     {
       "id": 16,
-      "text": "Porewit?! My goodness. Porewit is a very stern protector of these woods. If he was angered, there must be trouble.",
+      "text": "Porewit?! He is an ancient protector of these woods and was one of the first Celenor elves that settled here. If he was angered, there must be trouble.",
       "nextId": 15
     },
     {
@@ -140,7 +140,7 @@
     },
     {
       "id": 18,
-      "text": "Interesting... So if not the spirit, then who or what is responsible for these disappearances?",
+      "text": "Interesting... So if not Porewit, then who or what is responsible for these disappearances?",
       "nextId": 15
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "id": 22,
-      "text": "Those are some very strange ingredients indeed. If a magical potion was used to pollute the river, I fear this might be a targeted move...",
+      "text": "Those are some very strange ingredients indeed. If a magical potion was used to pollute the river, I fear this might be a targeted move... But why?",
       "nextId": 21
     },
     {
@@ -182,7 +182,97 @@
     },
     {
       "id": 24,
-      "text": "You should look for the suspect in the Aemir Riverflank and confront him. He might be connected to the missing people...",
+      "text": "You should look for our suspect in the Aemir Riverflank. Try to find evidence of what happened!",
+      "nextId": -1
+    },
+    {
+      "id": 25,
+      "text": "Greetings, traveler. How goes your investigation?",
+      "nextId": 26
+    },
+    {
+      "id": 26,
+      "options": [
+        {
+          "text": "Tell about the Halogwyr.",
+          "nextId": 27
+        },
+        {
+          "text": "Tell about the Aemir river.",
+          "nextId": 32
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "text": "The Halogwyr! My goodness, traveller. If this is true, then I must inform the council immediately.",
+      "nextId": 28
+    },
+    {
+      "id": 28,
+      "options": [
+        {
+          "text": "It gets even better...",
+          "nextId": 29
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "text": "What? The Warden himself was responsible for all of this? How is that possible. How come we had not noticed?",
+      "nextId": 30
+    },
+    {
+      "id": 30,
+      "text": "Furthermore, the missing elves have sworn allegiance to the Halogwyr? This is worrying...",
+      "nextId": 31
+    },
+    {
+      "id": 31,
+      "text": "If the Halogwyr are recruiting actively, I fear they are an immediate threat. Thank you for sharing this, traveler.",
+      "nextId": 26
+    },
+    {
+      "id": 32,
+      "text": "You did it! You managed to purify the Aemir river and get rid of the fog! Thank you, traveler! This means a great deal to us.",
+      "nextId": 33
+    },
+    {
+      "id": 33,
+      "text": "The Aemir pond has magical properties. You can pay homage to nature at this divine location for a temporary boost in fishing and water magic.",
+      "nextId": 34
+    },
+    {
+      "id": 34,
+      "text": "Feel free to use the pond whenever you like, traveler. I will also grant you access to the advanced area of our mines.",
+      "nextId": 26
+    },
+    {
+      "id": 35,
+      "text": "I will have to seek consult with the council for a course of action. Until then, you have our deepest appreciation, traveler.",
+      "nextId": 36
+    },
+    {
+      "id": 36,
+      "text": "Allow me to reward you.",
+      "nextId": 37
+    },
+    {
+      "id": 37,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 38,
+      "text": "Hello, traveler. Thank you for restoring peace to Celewynn. We may require your help again in the future, when the council has decided.",
       "nextId": -1
     }
   ]

@@ -266,7 +266,13 @@
    </properties>
   </object>
   <object id="6" name="Celenor Forest" type="zone_tile" x="896" y="0" width="224" height="16"/>
-  <object id="7" name="An Item" type="item" x="3200" y="1888" width="32" height="32"/>
+  <object id="7" name="Amanita Mushroom" type="npc" x="3200" y="1888" width="32" height="32">
+   <properties>
+    <property name="jsonFile" value="celenor_mushroom.json"/>
+    <property name="name" value="Amanita mushroom"/>
+    <property name="npcClass" value="CelenorMushroom"/>
+   </properties>
+  </object>
   <object id="8" name="Sturdy Rock" type="npc" x="928" y="2048" width="32" height="32"/>
   <object id="9" name="Sturdy Rock" type="npc" x="1248" y="2048" width="32" height="32"/>
   <object id="10" name="Grapple across" x="960" y="2048" width="288" height="32"/>

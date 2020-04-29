@@ -1,8 +1,11 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -25,6 +28,7 @@ public class CelenorPorewit extends Creature {
     private Map<Integer, Boolean> questionsAskedMap2 = new HashMap<>();
     private static boolean questionsAsked;
     private static boolean questionsAsked2;
+    private boolean removedFog;
 
     public CelenorPorewit(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -109,6 +113,18 @@ public class CelenorPorewit extends Creature {
                     if (quest.getQuestSteps().get(7).isFinished()) {
                         speakingTurn = 15;
                     }
+                    if (!quest.getQuestSteps().get(8).isFinished() &&
+                            Handler.get().playerHasItem(Item.amanitaMushroom, 1) &&
+                            Handler.get().playerHasItem(Item.pollutedBucket, 1)) {
+                        speakingTurn = 18;
+                    }
+                    if (quest.getQuestSteps().get(8).isFinished() &&
+                            Handler.get().playerHasItem(Item.potionOfDecontamination, 1)) {
+                        speakingTurn = 19;
+                    }
+                    if (CelenorGrottoWater.potionUsed) {
+                        speakingTurn = 20;
+                    }
                     break;
                 case 2:
                 case 3:
@@ -130,6 +146,26 @@ public class CelenorPorewit extends Creature {
                     break;
                 case 15:
                     if (!quest.getQuestSteps().get(7).isFinished()) {
+                        quest.nextStep();
+                    }
+                    break;
+                case 19:
+                    if (!quest.getQuestSteps().get(8).isFinished()) {
+                        quest.nextStep();
+                        Handler.get().removeItem(Item.amanitaMushroom, 1);
+                        Handler.get().removeItem(Item.pollutedBucket, 1);
+                        Handler.get().giveItem(Item.potionOfDecontamination, 1);
+                    }
+                    break;
+                case 21:
+                    if (!removedFog) {
+                        Entity fog = Handler.get().getEntityByZoneAndName(Zone.CelenorForestEdge, "Fog");
+                        fog.setActive(false);
+                        removedFog = true;
+                    }
+                    break;
+                case 23:
+                    if (!quest.getQuestSteps().get(9).isFinished()) {
                         quest.nextStep();
                     }
                     break;

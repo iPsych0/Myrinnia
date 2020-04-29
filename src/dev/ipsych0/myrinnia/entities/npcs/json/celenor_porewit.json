@@ -38,7 +38,7 @@
     },
     {
       "id": 4,
-      "text": "Missing people? I am sorry, but I know not what you speak of, human.",
+      "text": "Missing people? I am sorry, but I know not what you mean, human.",
       "nextId": 1
     },
     {
@@ -93,7 +93,7 @@
     },
     {
       "id": 11,
-      "text": "The Halogwyr were once Celenor elves, but they did not respect our most important rule: To respect and preserve nature, they exhausted the environment for personal gain.",
+      "text": "The Halogwyr were once Celenor elves, but they did not respect our most important rule: To respect and preserve nature. They exhausted the environment for personal gain.",
       "nextId": 12
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "id": 13,
-      "text": "A potion you say? Given your evidence, I fear they have brewed a Potion of Defilement. This potion was banned centuries ago...",
+      "text": "A potion you say? Given your evidence, I suspect they have created a Potion of Defilement then. The potion was banned centuries ago.",
       "nextId": 14
     },
     {
       "id": 14,
-      "text": "Someone has used very ancient magics to create this. We must do the same and create a potion that will reverse the effects and purify the river.",
+      "text": "This is no good... Someone used very ancient magics to create this. We must create a potion that will reverse the effects and purify the river.",
       "nextId": 9
     },
     {
@@ -133,6 +133,36 @@
       "id": 17,
       "text": "Amanita mushrooms are rare. I have not left the Riverflank lately, but I recall some growing in Celenor Forest Edge.",
       "nextId": 16
+    },
+    {
+      "id": 18,
+      "text": "I see you have found the ingredients, human!",
+      "nextId": 19
+    },
+    {
+      "id": 19,
+      "text": "Please use this potion on the water next to me to purify the Aemir river!",
+      "nextId": -1
+    },
+    {
+      "id": 20,
+      "text": "Well done, human! The Aemir river has been purified and restored to its sanctified state!",
+      "nextId": 21
+    },
+    {
+      "id": 21,
+      "text": "I have lifted the fog so the Celenor elves may once again use the forest. Do give them my apologies.",
+      "nextId": 22
+    },
+    {
+      "id": 22,
+      "text": "I don't think this is the last we will be hearing from the Halogwyr. For now, I think you should return to Celewynn and inform the other elves what happened.",
+      "nextId": 23
+    },
+    {
+      "id": 23,
+      "text": "Farewell, human.",
+      "nextId": -1
     }
   ]
 }
