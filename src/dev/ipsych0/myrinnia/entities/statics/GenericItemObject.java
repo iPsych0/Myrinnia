@@ -19,6 +19,7 @@ public class GenericItemObject extends StaticEntity {
         solid = false;
         attackable = false;
         isNpc = true;
+        collision = new Rectangle();
 
         if (itemsShop == null) {
             throw new IllegalArgumentException("Provide item IDs and quantities in comma-separated K,V pairs.");

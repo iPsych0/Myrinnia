@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
-public class CelenorGrottoWater extends StaticEntity {
+public class CelenorGrottoWater extends GenericObject {
 
     public static boolean potionUsed;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);

@@ -15,7 +15,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
-public class FarmingPatch extends StaticEntity {
+public class FarmingPatch extends GenericObject {
 
     /**
      *

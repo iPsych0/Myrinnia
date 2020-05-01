@@ -117,6 +117,16 @@ public class Utils {
         return a;
     }
 
+    public static <T> T loadAbility(String path, Class<? extends Ability> clazz) {
+        T t = loadObjectFromJsonFile(path, "abilities/json/", clazz);
+        Ability a = ((Ability) t);
+        a.setId(abilityCounter++);
+        if (!AbilityManager.abilityMap.containsKey(a.getClass())) {
+            AbilityManager.abilityMap.put(a.getClass(), a);
+        }
+        return t;
+    }
+
     public static Item loadItem(String path, BufferedImage sprite) {
         Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
         Item.items[i.getId()] = i;

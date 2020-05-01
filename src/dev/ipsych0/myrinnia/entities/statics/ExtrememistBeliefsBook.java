@@ -8,7 +8,7 @@ import dev.ipsych0.myrinnia.ui.custom.BookUI;
 
 import java.awt.*;
 
-public class ExtrememistBeliefsBook extends StaticEntity {
+public class ExtrememistBeliefsBook extends GenericObject {
 
     private static final String book1 = "Halogwyr Manifest";
     private static final String book2 = "Book of Alchemy";

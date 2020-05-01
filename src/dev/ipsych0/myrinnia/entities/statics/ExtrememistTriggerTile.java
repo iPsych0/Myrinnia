@@ -14,7 +14,7 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
-public class ExtrememistTriggerTile extends StaticEntity {
+public class ExtrememistTriggerTile extends GenericObject {
 
     private Player player;
     private Fog fog = new Fog(Fog.Intensity.HEAVY);
@@ -55,7 +55,7 @@ public class ExtrememistTriggerTile extends StaticEntity {
                 if (cutsceneTrigger.contains(player.getCollisionBounds(0, 0))) {
                     Entity warden = Handler.get().getEntityByZoneAndName(Zone.WardensCabin, "Warden of Celenor");
                     State.setState(new CutsceneState(new Cutscene(
-                            new MoveEntityEvent(warden, player.getX(), player.getY() - 16d, false, () -> {
+                            new MoveEntityEvent(warden, player.getX() + 16, player.getY() - 16d, false, () -> {
                                 player.setClosestEntity(warden);
                                 warden.interact();
                             }))));

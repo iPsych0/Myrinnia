@@ -32,7 +32,7 @@ public class Goat extends Creature {
         strength = 24;
         dexterity = 0;
         intelligence = 0;
-        vitality = 35;
+        vitality = 52;
         defence = 25;
         speed = 1.5f;
 

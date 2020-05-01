@@ -98,6 +98,7 @@ public class Assets {
     public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
     public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
+    public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -686,6 +687,11 @@ public class Assets {
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
         venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        toxiblossomDown = enemy_sheet3.npcCrop(6, 0, WIDTH, HEIGHT);
+        toxiblossomLeft = enemy_sheet3.npcCrop(6, 1, WIDTH, HEIGHT);
+        toxiblossomRight = enemy_sheet3.npcCrop(6, 2, WIDTH, HEIGHT);
+        toxiblossomUp = enemy_sheet3.npcCrop(6, 3, WIDTH, HEIGHT);
 
         alchemicalExperimentDown = enemy_sheet1.npcCrop(12, 4, WIDTH, HEIGHT);
         alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);

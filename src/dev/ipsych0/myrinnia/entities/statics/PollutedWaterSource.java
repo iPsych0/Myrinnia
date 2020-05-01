@@ -8,7 +8,7 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 
 import java.awt.*;
 
-public class PollutedWaterSource extends StaticEntity {
+public class PollutedWaterSource extends GenericObject {
 
     private final Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private boolean questProgressed;

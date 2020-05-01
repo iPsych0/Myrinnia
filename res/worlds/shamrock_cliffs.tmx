@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="30">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -516,6 +516,62 @@
    <properties>
     <property name="name" value="Clam Digging Spot"/>
     <property name="npcClass" value="ClamFishingSpot"/>
+   </properties>
+  </object>
+  <object id="23" name="Toxiblossom" type="npc" x="864" y="544" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="24" name="Toxiblossom" type="npc" x="864" y="1376" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="25" name="Toxiblossom" type="npc" x="1760" y="864" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="26" name="Toxiblossom" type="npc" x="1664" y="1760" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="27" name="Toxiblossom" type="npc" x="1120" y="1920" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="28" name="Toxiblossom" type="npc" x="1728" y="2656" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
+   </properties>
+  </object>
+  <object id="29" name="Toxiblossom" type="npc" x="800" y="2528" width="32" height="32">
+   <properties>
+    <property name="animation" value="toxiblossom"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Toxiblossom"/>
+    <property name="npcClass" value="Toxiblossom"/>
    </properties>
   </object>
  </objectgroup>

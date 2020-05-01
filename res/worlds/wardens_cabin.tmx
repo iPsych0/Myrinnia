@@ -472,13 +472,13 @@
     <property name="npcClass" value="AlchemicalExperiment"/>
    </properties>
   </object>
-  <object id="43" name="Bucket" type="item" x="320" y="1984" width="32" height="32">
+  <object id="43" name="Bucket" type="item" x="1472" y="832" width="32" height="32">
    <properties>
     <property name="amount" value="1"/>
     <property name="itemId" value="143"/>
    </properties>
   </object>
-  <object id="45" name="Elf 2" type="npc" x="1824" y="1088" width="32" height="32">
+  <object id="45" name="Elf 2" type="npc" x="1824" y="1120" width="32" height="32">
    <properties>
     <property name="animation" value="genericElfMale3"/>
     <property name="direction" value="DOWN"/>
@@ -487,7 +487,7 @@
     <property name="npcClass" value="CelenorCollaborator"/>
    </properties>
   </object>
-  <object id="46" name="Elf 2" type="npc" x="1696" y="1088" width="32" height="32">
+  <object id="46" name="Elf 2" type="npc" x="1696" y="1120" width="32" height="32">
    <properties>
     <property name="animation" value="genericElfMale3"/>
     <property name="direction" value="DOWN"/>
@@ -496,7 +496,7 @@
     <property name="npcClass" value="CelenorCollaborator"/>
    </properties>
   </object>
-  <object id="47" name="Elf 2" type="npc" x="1760" y="1024" width="32" height="32">
+  <object id="47" name="Elf 2" type="npc" x="1760" y="1056" width="32" height="32">
    <properties>
     <property name="animation" value="genericElfFemale3"/>
     <property name="direction" value="DOWN"/>
