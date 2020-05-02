@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 
 public class CombatSkill extends Skill {
 
+    private boolean tooltipShown;
+
     /**
      *
      */
@@ -35,7 +37,8 @@ public class CombatSkill extends Skill {
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();
 
-        if (this.level == 5) {
+        if (!tooltipShown && this.level == 5) {
+            tooltipShown = true;
             Handler.get().addTip(new TutorialTip("Press K to open your Character Stats.\n\nIncreasing an Elemental Stat will increase the effectiveness of abilities of that Element type."));
             Handler.get().addTip(new TutorialTip("You may customize your Stats to create a build you like. Some equipment have level requirements to be equipped."));
             Handler.get().addTip(new TutorialTip("If you wish to reset your points, you should see an Ability Master. It will cost more gold depending on your Combat level."));

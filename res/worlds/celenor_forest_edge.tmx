@@ -242,7 +242,15 @@
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="1" name="Spider Trigger Tree" type="npc" x="1952" y="1408" width="128" height="128"/>
+  <object id="1" name="Spider Trigger Tree" type="npc" x="1888" y="1344" width="256" height="256">
+   <properties>
+    <property name="animation" value="poisonSpider"/>
+    <property name="itemsShop" value="10,10"/>
+    <property name="jsonFile" value="59,46,32,32,65,43,32,32"/>
+    <property name="name" value="PoisonSpider"/>
+    <property name="npcClass" value="NPCSpawnTile"/>
+   </properties>
+  </object>
   <object id="2" name="Elias" type="npc" x="960" y="1184" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale13"/>

@@ -2,7 +2,12 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Until that mysterious fog has disappeared, I'm staying inside... Who knows what happened to the others!",
+      "text": "The Celenor Forest is an important traveling route for people who want to venture further north. The way through the forest is perilous.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "There is a small elven settlement in the woods. They don't see many visitors. I'm sure they would appreciate you stopping by!",
       "nextId": -1
     }
   ]

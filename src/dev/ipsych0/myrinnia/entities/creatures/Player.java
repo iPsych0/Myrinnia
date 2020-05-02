@@ -1261,4 +1261,12 @@ public class Player extends Creature {
     public void setClosestEntity(Entity closestEntity) {
         this.closestEntity = closestEntity;
     }
+
+    public double getLevelExponent() {
+        return levelExponent;
+    }
+
+    public void setLevelExponent(double levelExponent) {
+        this.levelExponent = levelExponent;
+    }
 }

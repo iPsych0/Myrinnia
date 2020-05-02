@@ -55,6 +55,7 @@ public abstract class Entity implements Serializable {
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
+    protected boolean respawner = true;
     protected long respawnTime = 30L; // 30 seconds
     protected long timeOfDeath;
     protected Rectangle collision;
@@ -913,5 +914,13 @@ public abstract class Entity implements Serializable {
 
     public void setScript(Script script) {
         this.script = script;
+    }
+
+    public boolean isRespawner() {
+        return respawner;
+    }
+
+    public void setRespawner(boolean respawner) {
+        this.respawner = respawner;
     }
 }

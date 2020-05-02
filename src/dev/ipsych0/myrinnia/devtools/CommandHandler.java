@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -92,6 +91,11 @@ class CommandHandler implements Serializable {
                         s.setLevel(1);
                         s.setNextLevelXp(100);
                         s.setExperience(0);
+                        // If we are resetting combat, make sure we also reset the base damage and damage exponent
+                        if (s.toString().equalsIgnoreCase("Combat")) {
+                            Handler.get().getPlayer().setBaseDamage(1);
+                            Handler.get().getPlayer().setLevelExponent(1.1);
+                        }
 
                         // Set the levels
                         for (int i = 0; i < level; i++) {
@@ -133,9 +137,9 @@ class CommandHandler implements Serializable {
                 if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
                         Handler.debugAStar = !Handler.debugAStar;
-                    } else if(commands[1].equalsIgnoreCase("collision")){
+                    } else if (commands[1].equalsIgnoreCase("collision")) {
                         Handler.debugCollision = !Handler.debugCollision;
-                    } else if(commands[1].equalsIgnoreCase("zonetiles")){
+                    } else if (commands[1].equalsIgnoreCase("zonetiles")) {
                         Handler.debugZones = !Handler.debugZones;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
@@ -152,8 +156,8 @@ class CommandHandler implements Serializable {
                             a.setUnlocked(true);
                         }
                         Handler.get().sendMsg("Unlocked all abilities.");
-                        for(int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
-                            if(i == 10)
+                        for (int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
+                            if (i == 10)
                                 break;
                             Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities().get(i).setAbility(Handler.get().getAbilityManager().getAllAbilities().get(i));
                         }

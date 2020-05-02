@@ -49,7 +49,7 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast, warpTeleport;
+            rockyConstrict, sandBlast, warpTeleport, monsterBite;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
@@ -99,6 +99,8 @@ public class Assets {
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
     public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
     public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
+    public static BufferedImage[] whiteWolfUp, whiteWolfDown, whiteWolfLeft, whiteWolfRight;
+    public static BufferedImage[] poisonSpiderUp, poisonSpiderDown, poisonSpiderLeft, poisonSpiderRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -237,8 +239,8 @@ public class Assets {
 
     public static BufferedImage mainBackground;
     public static BufferedImage fullBookUI, singlePageBookUI, celenorPotionCabinetBg, celenorPotionCabinetSlot,
-                                celenorPotionCabinetSlotSelected, celenorPotionRed, celenorPotionYellow,
-                                celenorPotionBlue, celenorPotionGreen;
+            celenorPotionCabinetSlotSelected, celenorPotionRed, celenorPotionYellow,
+            celenorPotionBlue, celenorPotionGreen;
 
     public static void init() {
 
@@ -317,6 +319,8 @@ public class Assets {
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
         SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
+
+        SpriteSheet enemy_sheet4 = new SpriteSheet("/textures/enemy_sprites/monsters2x2_1.png");
 
         SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
 
@@ -683,6 +687,11 @@ public class Assets {
         azureBatRight = enemy_sheet1.npcCrop(9, 6, WIDTH, HEIGHT);
         azureBatUp = enemy_sheet1.npcCrop(9, 7, WIDTH, HEIGHT);
 
+        poisonSpiderDown = enemy_sheet1.npcCrop(6, 0, WIDTH, HEIGHT);
+        poisonSpiderLeft = enemy_sheet1.npcCrop(6, 1, WIDTH, HEIGHT);
+        poisonSpiderRight = enemy_sheet1.npcCrop(6, 2, WIDTH, HEIGHT);
+        poisonSpiderUp = enemy_sheet1.npcCrop(6, 3, WIDTH, HEIGHT);
+
         venovineDown = enemy_sheet3.npcCrop(0, 0, WIDTH, HEIGHT);
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
         venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
@@ -692,6 +701,11 @@ public class Assets {
         toxiblossomLeft = enemy_sheet3.npcCrop(6, 1, WIDTH, HEIGHT);
         toxiblossomRight = enemy_sheet3.npcCrop(6, 2, WIDTH, HEIGHT);
         toxiblossomUp = enemy_sheet3.npcCrop(6, 3, WIDTH, HEIGHT);
+
+        whiteWolfDown = enemy_sheet4.npcCrop(0, 0, WIDTH * 2, HEIGHT * 2);
+        whiteWolfLeft = enemy_sheet4.npcCrop(0, 2, WIDTH * 2, HEIGHT * 2);
+        whiteWolfRight = enemy_sheet4.npcCrop(0, 4, WIDTH * 2, HEIGHT * 2);
+        whiteWolfUp = enemy_sheet4.npcCrop(0, 6, WIDTH * 2, HEIGHT * 2);
 
         alchemicalExperimentDown = enemy_sheet1.npcCrop(12, 4, WIDTH, HEIGHT);
         alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);
@@ -1296,6 +1310,13 @@ public class Assets {
         warpTeleport[5] = ability_animations.imageCrop(5, 13, WIDTH, HEIGHT * 2);
         warpTeleport[6] = ability_animations.imageCrop(6, 13, WIDTH, HEIGHT * 2);
         warpTeleport[7] = ability_animations.imageCrop(7, 13, WIDTH, HEIGHT * 2);
+
+        monsterBite = new BufferedImage[5];
+        monsterBite[0] = ability_animations.imageCrop(0, 17, WIDTH, HEIGHT * 2);
+        monsterBite[1] = ability_animations.imageCrop(1, 17, WIDTH, HEIGHT * 2);
+        monsterBite[2] = ability_animations.imageCrop(2, 17, WIDTH, HEIGHT * 2);
+        monsterBite[3] = ability_animations.imageCrop(3, 17, WIDTH, HEIGHT * 2);
+        monsterBite[4] = ability_animations.imageCrop(4, 17, WIDTH, HEIGHT * 2);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

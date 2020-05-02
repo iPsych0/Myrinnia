@@ -69,8 +69,10 @@ public class CelenorCraftsman extends ShopKeeper {
             case 4:
                 quest.addNewCheck("clue1", true);
 
-                // If we have also received clue 2, then advance to next step
-                if (quest.getQuestSteps().get(2).isFinished() && !quest.getQuestSteps().get(3).isFinished() && (Boolean) quest.getCheckValueWithDefault("clue2", false)) {
+                // If we have also received the other clues, then advance to next step
+                if (quest.getQuestSteps().get(2).isFinished() && !quest.getQuestSteps().get(3).isFinished() &&
+                        (Boolean) quest.getCheckValueWithDefault("clue2", false) &&
+                        (Boolean) quest.getCheckValueWithDefault("clue3", false)) {
                     quest.nextStep();
                     Handler.get().sendMsg("You should return to Elenthir with these clues.");
                 }

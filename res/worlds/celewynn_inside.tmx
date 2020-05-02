@@ -277,7 +277,7 @@
     <property name="animation" value="genericElfMale2"/>
     <property name="jsonFile" value="celenor_elwyn.json"/>
     <property name="name" value="Elwyn"/>
-    <property name="npcClass" value="GenericNPC"/>
+    <property name="npcClass" value="CelenorElwyn"/>
    </properties>
   </object>
   <object id="2" name="Miriya" type="npc" x="448" y="672" width="32" height="32">
