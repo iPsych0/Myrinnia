@@ -26,6 +26,8 @@ public class PoisonSpider extends Creature {
         isNpc = false;
         attackable = true;
 
+        this.name = "Poison Spider";
+
         // Creature stats
         strength = 0;
         dexterity = 24;

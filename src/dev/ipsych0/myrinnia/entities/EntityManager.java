@@ -54,9 +54,7 @@ public class EntityManager implements Serializable {
             Entity e = it.next();
             if (!e.isActive()) {
                 e.setTimeOfDeath(System.currentTimeMillis());
-                if (e.isRespawner()) {
-                    deadEntities.add(e);
-                }
+                deadEntities.add(e);
             }
 
             Rectangle mouse = Handler.get().getMouse();
@@ -125,6 +123,9 @@ public class EntityManager implements Serializable {
                 Entity e = dltd.next();
                 if (e.isRespawner() && ((currentTime - e.getTimeOfDeath()) / 1000L) >= e.getRespawnTime()) {
                     e.respawn();
+                    dltd.remove();
+                } else if (!e.isRespawner()) {
+                    // If the enemy doesn't respawn, stop checking
                     dltd.remove();
                 }
             }

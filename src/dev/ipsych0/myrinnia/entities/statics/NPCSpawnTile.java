@@ -8,13 +8,16 @@ import dev.ipsych0.myrinnia.worlds.World;
 
 import java.awt.*;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-import java.util.*;
 
 public class NPCSpawnTile extends StaticEntity {
 
     private List<Entity> entitiesToSpawn = new ArrayList<>();
-    private Map<Entity, Long> spawnTimes = new HashMap<>();
+    private long timeAllKilled;
+    private boolean respawnTimerStarted;
     private Player player;
     private boolean hasSpawned;
     private List<String> names;
@@ -36,9 +39,6 @@ public class NPCSpawnTile extends StaticEntity {
         levels = new ArrayList<>();
         animations = new ArrayList<>();
 
-        String[] anims = animation.split(",");
-        animations.addAll(Arrays.asList(anims));
-
         if (jsonFile == null) {
             System.err.println("Please enter [X,Y,W,H] in jsonFile field.");
             return;
@@ -58,6 +58,13 @@ public class NPCSpawnTile extends StaticEntity {
             ));
         }
 
+        // If we entered only 1 anim, but more sets of coordinates, we can assume that we should duplicate the anims
+        String[] anims = animation.split(",");
+        animations.addAll(Arrays.asList(anims));
+        for (int i = animations.size(); i < coords.size(); i++) {
+            animations.add(animations.get(0));
+        }
+
         if (itemsShop == null) {
             System.err.println("Please enter the combat levels in the itemsShop field, comma separated: [11,12,13,14].");
             return;
@@ -69,32 +76,23 @@ public class NPCSpawnTile extends StaticEntity {
             levels.add(Integer.parseInt(lvl));
         }
 
-        // If we entered only 1 level, but two sets of coordinats, we can assume that we should duplicate the level
+        // If we entered only 1 level, but more sets of coordinates, we can assume that we should duplicate the levels
         for (int i = levels.size(); i < coords.size(); i++) {
             levels.add(levels.get(0));
         }
 
         // Get the names & classes
         String[] namesSplit = name.split(",");
-        List<String> names = new ArrayList<>(Arrays.asList(namesSplit));
+        names = new ArrayList<>(Arrays.asList(namesSplit));
         clazzez = getClazzes(namesSplit);
         if (clazzez.isEmpty()) {
             System.err.println("Could not load Entity: " + name + " - in NPCSpawnTile.");
         }
 
-        // If we entered only 1 name, but two levels or two sets of coordinats, we can assume that we should duplicate
-        // the type of monster
+        // If we entered only 1 name, but more sets of coordinates, we can assume that we should duplicate the type of monster
         for (int i = names.size(); i < coords.size(); i++) {
             names.add(names.get(0));
             clazzez.add(clazzez.get(0));
-        }
-
-        try {
-            for (int i = 0; i < (split.length / 4); i++) {
-                initEnemy(names.get(i), clazzez.get(i), coords.get(i), levels.get(i), animation, itemsShop, null);
-            }
-        } catch (Exception e) {
-            System.err.println("Could not init: " + name + " - in NPCSpawnTile.");
         }
 
         player = Handler.get().getPlayer();
@@ -161,50 +159,52 @@ public class NPCSpawnTile extends StaticEntity {
     @Override
     public void tick() {
         long currentTime = System.currentTimeMillis();
+        int deadCount = 0;
+
         if (!hasSpawned && this.getFullBounds(0, 0).contains(player.getCollisionBounds(0, 0))) {
             hasSpawned = true;
+            respawnAll();
+        }
 
-            World w = Handler.get().getWorld();
+        if (hasSpawned) {
             Iterator<Entity> entities = entitiesToSpawn.iterator();
             while (entities.hasNext()) {
                 Entity e = entities.next();
-                // First time add entities to the world plus respawn timers
-                if (spawnTimes.size() != entitiesToSpawn.size()) {
-                    w.getEntityManager().addRuntimeEntity(e, false);
-                    spawnTimes.put(e, System.currentTimeMillis());
-                } else {
-                    // If the Entity died and it's time to respawn, make it available again if we trigger the tile.
-                    if (((currentTime - e.getTimeOfDeath()) / 1000L) >= e.getRespawnTime()) {
-
-                        // First check which index Entity is available for respawn
-                        int index = 0;
-                        for (int i = 0; i < entitiesToSpawn.size(); i++) {
-                            Entity e2 = entitiesToSpawn.get(i);
-                            if (e2.equals(e)) {
-                                index = i;
-                                break;
-                            }
-                        }
-
-                        try {
-                            // Init a new instance of that enemy
-                            initEnemy(names.get(index), clazzez.get(index), coords.get(index), levels.get(index), animations.get(index), itemsShop, null);
-                            // Add it to the world
-                            w.getEntityManager().addRuntimeEntity(entitiesToSpawn.get(entitiesToSpawn.size() - 1), false);
-                            spawnTimes.put(e, System.currentTimeMillis());
-                        } catch (Exception exc) {
-                            System.err.println("Could not init entity: " + names.get(index));
-                            exc.printStackTrace();
-                        }
-
-                        // Remove the Entity from the current list of actively maintained
-                        entities.remove();
-
-                        w.getEntityManager().addRuntimeEntity(e, false);
-                        spawnTimes.put(e, System.currentTimeMillis());
-                    }
+                // Keep track if all of them have died
+                if (!e.isActive()) {
+                    deadCount++;
                 }
             }
+        }
+
+        // When all have died, clear the current managed Entities and re-init them
+        if (hasSpawned && !respawnTimerStarted && deadCount == entitiesToSpawn.size()) {
+            timeAllKilled = System.currentTimeMillis();
+            respawnTimerStarted = true;
+        }
+
+        if (respawnTimerStarted) {
+            // Assume respawn time of the first Entity provided (use default of 30s anyway)
+            if (((currentTime - timeAllKilled) / 1000L) >= entitiesToSpawn.get(0).getRespawnTime()) {
+                respawnTimerStarted = false;
+                hasSpawned = false;
+            }
+        }
+    }
+
+    private void respawnAll() {
+        World w = Handler.get().getWorld();
+
+        entitiesToSpawn.clear();
+        try {
+            // Init a new instance of all enemies
+            for (int i = 0; i < coords.size(); i++) {
+                initEnemy(names.get(i), clazzez.get(i), coords.get(i), levels.get(i), animations.get(i), itemsShop, null);
+                w.getEntityManager().addRuntimeEntity(entitiesToSpawn.get(i), false);
+            }
+        } catch (Exception exc) {
+            System.err.println("Could not init entity.");
+            exc.printStackTrace();
         }
     }
 

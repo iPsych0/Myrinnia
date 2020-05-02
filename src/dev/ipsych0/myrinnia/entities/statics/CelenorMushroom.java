@@ -49,7 +49,8 @@ public class CelenorMushroom extends StaticEntity {
     @Override
     protected boolean choiceConditionMet(String condition) {
         if ("isAtQuestStep".equals(condition)) {
-            return !Handler.get().playerHasItem(Item.amanitaMushroom, 1) && !quest.getQuestSteps().get(8).isFinished();
+            return !Handler.get().playerHasItem(Item.amanitaMushroom, 1) &&
+                    quest.getQuestSteps().get(7).isFinished() && !quest.getQuestSteps().get(8).isFinished();
         }
         return false;
     }
