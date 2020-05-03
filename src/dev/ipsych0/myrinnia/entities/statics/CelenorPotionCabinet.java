@@ -7,8 +7,10 @@ import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
 
 import java.awt.*;
+import java.io.Serializable;
 
 public class CelenorPotionCabinet extends StaticEntity {
 
@@ -27,7 +29,7 @@ public class CelenorPotionCabinet extends StaticEntity {
         isNpc = true;
 
         player = Handler.get().getPlayer();
-        potionSort = new PotionSort(() -> {
+        potionSort = new PotionSort((OnTaskCompleted & Serializable) () -> {
             PotionSort.isOpen = false;
             isMovingLeft = true;
 

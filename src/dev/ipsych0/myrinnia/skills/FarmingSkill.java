@@ -32,7 +32,7 @@ public class FarmingSkill extends Skill {
     private void initResources() {
         // Vegetables
         resources.add(new FarmingResource(1, Item.tomatoSeeds, 2, SkillCategory.Vegetables, 20L, Item.tomato, 4, 35, "Harvesting yields tomatoes."));
-        resources.add(new FarmingResource(1, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 20L, Item.cabbage, 4, 35, "Harvesting yields cabbages."));
+        resources.add(new FarmingResource(2, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 25L, Item.cabbage, 4, 45, "Harvesting yields cabbages."));
 
         // Bush
         resources.add(new FarmingResource(2, Item.strawberrySeeds, 2, SkillCategory.Bush, 40L, Item.strawberry, 4, 45, "Harvesting yields strawberries."));

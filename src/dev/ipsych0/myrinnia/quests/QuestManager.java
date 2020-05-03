@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
 import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.entities.npcs.CelenorPorewit;
+import dev.ipsych0.myrinnia.entities.npcs.PortAzureDuncan;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -76,6 +77,7 @@ public class QuestManager implements Serializable {
                 }));
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
                 (OnCompletion & Serializable) () -> {
+                    PortAzureDuncan.unlockRecipes();
                     Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(80);
                 }));
@@ -91,9 +93,9 @@ public class QuestManager implements Serializable {
                     Handler.get().getSkill(SkillsList.MINING).addExperience(150);
                 }));
 
-        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8), new QuestRequirement(SkillsList.BOUNTYHUNTER, 3)),
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8)),
                 (OnCompletion & Serializable) () -> {
-                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(150);
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
                     Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(200);
                     CelenorPorewit.removeFog();
                 }));

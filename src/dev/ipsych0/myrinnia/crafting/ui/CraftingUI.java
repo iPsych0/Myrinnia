@@ -581,9 +581,9 @@ public class CraftingUI implements Serializable {
         // For tutorial quest
         if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
             Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
-            if (result.getItem() == Item.beginnersSword ||
-                    result.getItem() == Item.beginnersBow ||
-                    result.getItem() == Item.beginnersStaff) {
+            if (result.getItem() == Item.simpleSword ||
+                    result.getItem() == Item.simpleBow ||
+                    result.getItem() == Item.simpleStaff) {
                 if (!quest.getQuestSteps().get(2).isFinished()) {
                     quest.nextStep();
                 }

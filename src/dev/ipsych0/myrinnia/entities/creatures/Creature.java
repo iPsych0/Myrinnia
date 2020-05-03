@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -23,6 +24,9 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.*;
 
@@ -95,10 +99,10 @@ public abstract class Creature extends Entity {
     protected Animation aDefault;
     protected double baseDmgExponent = 1.1;
     protected boolean movementAllowed = true;
-    protected Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
+    protected transient Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
     protected boolean hasSwitchedTile;
-    protected Map<Tile, Point> postRenderTiles = new HashMap<>();
-    private boolean initialTileSetup;
+    protected transient Map<Tile, Point> postRenderTiles = new HashMap<>();
+    protected boolean initialTileSetup;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -655,16 +659,16 @@ public abstract class Creature extends Entity {
         super.interact();
         Player player = Handler.get().getPlayer();
         // If more than half a tile left or right of this NPC, look that direction
-        if (player.getX() - this.x < -Tile.TILEWIDTH/2d) {
+        if (player.getX() - this.x < -Tile.TILEWIDTH / 2d) {
             lastFaced = Direction.LEFT;
-        } else if (player.getX() - this.x > Tile.TILEWIDTH/2d) {
+        } else if (player.getX() - this.x > Tile.TILEWIDTH / 2d) {
             lastFaced = Direction.RIGHT;
         }
 
         // If more than half a tile up or down of this NPC, look that direction
-        if (player.getY() - this.y < -Tile.TILEWIDTH/2d) {
+        if (player.getY() - this.y < -Tile.TILEWIDTH / 2d) {
             lastFaced = Direction.UP;
-        } else if (player.getY() - this.y > Tile.TILEWIDTH/2d) {
+        } else if (player.getY() - this.y > Tile.TILEWIDTH / 2d) {
             lastFaced = Direction.DOWN;
         }
 
@@ -1284,6 +1288,7 @@ public abstract class Creature extends Entity {
 
     public void setAttackSpeed(double attackSpeed) {
         this.attackSpeed = attackSpeed;
+
     }
 
     public int getBaseDamage() {
@@ -1470,5 +1475,18 @@ public abstract class Creature extends Entity {
 
     public void setPostRenderTiles(Map<Tile, Point> postRenderTiles) {
         this.postRenderTiles = postRenderTiles;
+    }
+
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+        serialized.defaultReadObject();
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
     }
 }

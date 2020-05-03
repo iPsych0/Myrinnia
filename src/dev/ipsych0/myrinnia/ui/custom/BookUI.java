@@ -11,9 +11,11 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class BookUI {
+public class BookUI implements Serializable {
 
+    private static final long serialVersionUID = 2641915235186461330L;
     private boolean open;
     public static boolean anyInterfaceOpen;
     public static boolean hasPressed;

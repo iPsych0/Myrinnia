@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
@@ -48,8 +49,12 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Player extends Creature {
@@ -1276,5 +1281,29 @@ public class Player extends Creature {
 
     public void setLevelExponent(double levelExponent) {
         this.levelExponent = levelExponent;
+    }
+
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+        stream.defaultWriteObject();
+        stream.writeObject(Handler.get().getGameCamera());
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+        serialized.defaultReadObject();
+        Handler.get().setGameCamera((GameCamera) serialized.readObject());
+        Handler.get().getGameCamera().setFocusedEntity(this);
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+    }
+
+    @Override
+    public void setAttackSpeed(double attackSpeed) {
+        super.setAttackSpeed(attackSpeed);
+        attackCooldown = (long) (600 / attackSpeed);
+        magicCooldown = (long) (600 / attackSpeed);
+        rangedCooldown = (long) (600 / attackSpeed);
     }
 }

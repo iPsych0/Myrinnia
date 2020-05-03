@@ -1,9 +1,11 @@
 package dev.ipsych0.myrinnia.utils;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-public class Timer {
+public class Timer implements Serializable {
 
+    private static final long serialVersionUID = -746649186843836217L;
     private long startTime, duration;
     private TimeUnit timeUnit;
     private OnTaskCompleted onTaskCompleted;

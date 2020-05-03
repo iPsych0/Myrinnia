@@ -15,6 +15,7 @@ import java.awt.*;
 public class PortAzureDuncan extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
+    private static boolean hasDiscoveredRecipes;
 
     public PortAzureDuncan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -104,9 +105,7 @@ public class PortAzureDuncan extends Creature {
                     speakingCheckpoint = 20;
                 }
                 if (!quest.getQuestSteps().get(1).isFinished()) {
-                    Handler.get().discoverRecipe(Item.beginnersSword);
-                    Handler.get().discoverRecipe(Item.beginnersBow);
-                    Handler.get().discoverRecipe(Item.beginnersStaff);
+                    unlockRecipes();
                     quest.nextStep();
                 }
                 break;
@@ -119,6 +118,15 @@ public class PortAzureDuncan extends Creature {
                     quest.setState(QuestState.COMPLETED);
                 }
                 break;
+        }
+    }
+
+    public static void unlockRecipes() {
+        if (!hasDiscoveredRecipes) {
+            Handler.get().discoverRecipe(Item.simpleSword);
+            Handler.get().discoverRecipe(Item.simpleBow);
+            Handler.get().discoverRecipe(Item.simpleStaff);
+            hasDiscoveredRecipes = true;
         }
     }
 

@@ -631,6 +631,10 @@ public class Handler implements Serializable {
         return game.getGameCamera();
     }
 
+    public void setGameCamera(GameCamera camera) {
+        game.setGameCamera(camera);
+    }
+
     public Game getGame() {
         return game;
     }

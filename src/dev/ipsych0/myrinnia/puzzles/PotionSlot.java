@@ -3,8 +3,11 @@ package dev.ipsych0.myrinnia.puzzles;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class PotionSlot {
+public class PotionSlot implements Serializable {
+
+    private static final long serialVersionUID = 4796866133601907618L;
     private Color potionColor;
     private int value;
     private boolean selected;

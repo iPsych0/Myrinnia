@@ -90,7 +90,7 @@ public class DevToolUI implements Serializable {
             return;
         }
         try {
-            commandHandler.handle(commands, firstCommand);
+            commandHandler.handle(firstCommand, commands);
         } catch (Exception e){
             e.getStackTrace();
             Handler.get().sendMsg("Something went wrong submitting this command.");

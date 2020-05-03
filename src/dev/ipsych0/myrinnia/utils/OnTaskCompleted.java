@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.utils;
 
-public interface OnTaskCompleted {
+import java.io.Serializable;
+
+public interface OnTaskCompleted extends Serializable {
     void onComplete();
 }

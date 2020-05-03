@@ -12,12 +12,12 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
 
-class CommandHandler implements Serializable {
+public class CommandHandler implements Serializable {
 
 
     private static final long serialVersionUID = 1908102828227319857L;
 
-    void handle(String[] commands, Commands firstCommand) {
+    public void handle(Commands firstCommand, String... commands) {
         switch (firstCommand) {
             // Command to give items to the player
             case GIVE:
@@ -118,9 +118,9 @@ class CommandHandler implements Serializable {
                         } else if (commands[1].equalsIgnoreCase("def")) {
                             Handler.get().getPlayer().setDefence(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("movspd")) {
-                            Handler.get().getPlayer().setSpeed(Integer.parseInt(commands[2]));
+                            Handler.get().getPlayer().setSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("atkspd")) {
-                            Handler.get().getPlayer().setAttackSpeed(Integer.parseInt(commands[2]));
+                            Handler.get().getPlayer().setAttackSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("hp")) {
                             Handler.get().getPlayer().setMaxHealth(Integer.parseInt(commands[2]));
                             Handler.get().getPlayer().setHealth(Handler.get().getPlayer().getMaxHealth());

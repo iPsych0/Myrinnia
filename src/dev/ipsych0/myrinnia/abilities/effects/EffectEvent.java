@@ -3,8 +3,9 @@ package dev.ipsych0.myrinnia.abilities.effects;
 import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public interface EffectEvent {
+public interface EffectEvent extends Serializable {
     void apply(Entity caster, Entity receiver);
 
     void tick();

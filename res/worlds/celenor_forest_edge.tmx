@@ -291,7 +291,7 @@
     <property name="zone" value="Celewynn"/>
    </properties>
   </object>
-  <object id="12" name="Secret Map!" type="zone_tile" x="3504" y="1994" width="16" height="120">
+  <object id="12" name="Celenor Forest Thicket" type="zone_tile" x="3504" y="1994" width="16" height="120">
    <properties>
     <property name="goToX" value="1"/>
     <property name="goToY" value="54"/>

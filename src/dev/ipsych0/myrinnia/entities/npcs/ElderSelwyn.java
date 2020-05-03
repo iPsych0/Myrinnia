@@ -88,10 +88,10 @@ public class ElderSelwyn extends Creature {
                     speakingCheckpoint = 7;
                     Item chosenItem = (Item) quest.getCheckValueWithDefault("chosenItem", null);
                     Class<? extends Ability> abilityClass;
-                    if (chosenItem == Item.beginnersBow) {
+                    if (chosenItem == Item.simpleBow) {
                         abilityClass = MendWoundsAbility.class;
                         AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
-                    } else if (chosenItem == Item.beginnersSword) {
+                    } else if (chosenItem == Item.simpleSword) {
                         AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
                         abilityClass = HealingSpringAbility.class;
                     } else {

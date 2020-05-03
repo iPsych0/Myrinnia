@@ -2,8 +2,11 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
 
-public class TextWriter {
+import java.io.Serializable;
 
+public class TextWriter implements Serializable {
+
+    private static final long serialVersionUID = 1004544037335045018L;
     private String[] text;
     private StringBuilder sb;
     private static final int CHARS_PER_SECOND = 20;

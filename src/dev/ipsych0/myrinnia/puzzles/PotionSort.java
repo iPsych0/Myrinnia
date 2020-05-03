@@ -9,12 +9,14 @@ import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PotionSort extends Puzzle {
+public class PotionSort extends Puzzle implements Serializable {
 
+    private static final long serialVersionUID = -1470531938871434451L;
     private OnTaskCompleted task;
     private UIManager uiManager;
     private UIImageButton exitButton;

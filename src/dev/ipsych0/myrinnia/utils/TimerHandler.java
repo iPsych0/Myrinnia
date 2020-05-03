@@ -1,11 +1,13 @@
 package dev.ipsych0.myrinnia.utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class TimerHandler {
+public class TimerHandler implements Serializable {
 
+    private static final long serialVersionUID = 2275149946122389085L;
     private List<Timer> timers = new ArrayList<>();
     private List<Timer> toBeAdded = new ArrayList<>();
     private static TimerHandler instance;

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.devtools.Bootstrapper;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
@@ -121,6 +122,9 @@ public class Game implements Runnable, Serializable {
         State.setState(menuState);
 
         display.setInitialized(true);
+
+        // Use bootstrapper to set variables to desired state
+        new Bootstrapper().skipTutorialIsland();
     }
 
     public void addListeners() {
@@ -132,7 +136,7 @@ public class Game implements Runnable, Serializable {
         display.getCanvas().addMouseWheelListener(mouseManager);
     }
 
-    private void loadSettings(){
+    private void loadSettings() {
         keyManager.loadKeybinds();
     }
 
@@ -184,7 +188,7 @@ public class Game implements Runnable, Serializable {
             return;
         }
         g = bs.getDrawGraphics();
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
 
         // Add user's default text rendering settings for prettier fonts
         if (desktopHints != null) {

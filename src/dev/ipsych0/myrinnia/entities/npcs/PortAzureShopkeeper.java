@@ -80,14 +80,14 @@ public class PortAzureShopkeeper extends ShopKeeper {
         switch (speakingTurn) {
             case 5:
                 if (chatDialogue.getChosenOption().getOptionID() == 0) {
-                    Handler.get().giveItem(Item.beginnersStaff, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersStaff);
+                    Handler.get().giveItem(Item.simpleStaff, 1);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleStaff);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 1) {
-                    Handler.get().giveItem(Item.beginnersBow, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersBow);
+                    Handler.get().giveItem(Item.simpleBow, 1);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleBow);
                 } else if (chatDialogue.getChosenOption().getOptionID() == 2) {
-                    Handler.get().giveItem(Item.beginnersSword, 1);
-                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.beginnersSword);
+                    Handler.get().giveItem(Item.simpleSword, 1);
+                    Handler.get().getQuest(QuestList.WaveGoodbye).addNewCheck("chosenItem", Item.simpleSword);
                 }
                 Handler.get().addTip(new TutorialTip("Right-click an item in your inventory to equip it."));
                 Handler.get().getQuest(QuestList.GettingStarted).nextStep();
