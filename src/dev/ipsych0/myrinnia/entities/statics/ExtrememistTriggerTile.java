@@ -19,7 +19,7 @@ public class ExtrememistTriggerTile extends GenericObject {
     private Player player;
     private Fog fog = new Fog(Fog.Intensity.HEAVY);
     private World world;
-    private World celenorForestEdge, wardensCabin;
+    private World celenorForestEdge, wardensCabin, celenorThicket;
     private boolean cutsceneShown;
     private Rectangle cutsceneTrigger;
 
@@ -33,6 +33,7 @@ public class ExtrememistTriggerTile extends GenericObject {
 
         celenorForestEdge = Handler.get().getWorldHandler().getWorldsMap().get(Zone.CelenorForestEdge);
         wardensCabin = Handler.get().getWorldHandler().getWorldsMap().get(Zone.WardensCabin);
+        celenorThicket = Handler.get().getWorldHandler().getWorldsMap().get(Zone.CelenorForestThicket);
         cutsceneTrigger = new Rectangle((int) x, (int) y, width, height);
     }
 
@@ -45,7 +46,7 @@ public class ExtrememistTriggerTile extends GenericObject {
                 interact();
                 Handler.get().sendMsg("The fog is too thick to see anything. It's not safe to enter the forest like this.");
             }
-            if (player.getY() < (21 * 32)) {
+            if (player.getY() <= (21 * 32)) {
                 Handler.get().getWorld().fadeInWeatherEffect(fog);
             } else if (player.getY() > (21 * 32)) {
                 Handler.get().getWorld().fadeOutWeatherEffect(fog);
@@ -62,6 +63,17 @@ public class ExtrememistTriggerTile extends GenericObject {
                     cutsceneShown = true;
                     player.setMovementAllowed(false);
                 }
+            }
+        } else if (celenorThicket.equals(world)) {
+            if (player.getY() < this.getY()) {
+                player.setY(this.y + Tile.TILEHEIGHT);
+                interact();
+                Handler.get().sendMsg("The fog is too thick to see anything. It's not safe to proceed.");
+            }
+            if (player.getY() <= (37 * 32)) {
+                Handler.get().getWorld().fadeInWeatherEffect(fog);
+            } else if (player.getY() > (37 * 32)) {
+                Handler.get().getWorld().fadeOutWeatherEffect(fog);
             }
         }
     }

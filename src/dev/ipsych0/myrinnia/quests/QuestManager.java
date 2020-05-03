@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
 import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
 import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.entities.npcs.CelenorPorewit;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -83,16 +84,18 @@ public class QuestManager implements Serializable {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                 }));
 
-        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 8)),
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 7)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(150);
                 }));
 
-        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json",
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8), new QuestRequirement(SkillsList.BOUNTYHUNTER, 3)),
                 (OnCompletion & Serializable) () -> {
-
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(150);
+                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(200);
+                    CelenorPorewit.removeFog();
                 }));
 
         // Test Quests

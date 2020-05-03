@@ -28,7 +28,7 @@ public class CelenorPorewit extends Creature {
     private Map<Integer, Boolean> questionsAskedMap2 = new HashMap<>();
     private static boolean questionsAsked;
     private static boolean questionsAsked2;
-    private boolean removedFog;
+    public static boolean removedFog;
 
     public CelenorPorewit(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -158,11 +158,7 @@ public class CelenorPorewit extends Creature {
                     }
                     break;
                 case 21:
-                    if (!removedFog) {
-                        Entity fog = Handler.get().getEntityByZoneAndName(Zone.CelenorForestEdge, "Fog");
-                        fog.setActive(false);
-                        removedFog = true;
-                    }
+                    removeFog();
                     break;
                 case 23:
                     if (!quest.getQuestSteps().get(9).isFinished()) {
@@ -170,6 +166,16 @@ public class CelenorPorewit extends Creature {
                     }
                     break;
             }
+        }
+    }
+
+    public static void removeFog() {
+        if (!removedFog) {
+            Entity fog = Handler.get().getEntityByZoneAndName(Zone.CelenorForestEdge, "Fog");
+            Entity fog2 = Handler.get().getEntityByZoneAndName(Zone.CelenorForestThicket, "Fog");
+            fog.setActive(false);
+            fog2.setActive(false);
+            removedFog = true;
         }
     }
 

@@ -212,9 +212,17 @@ public class Player extends Creature {
         // If space button is pressed
         if (Handler.get().getKeyManager().talk) {
             if (!hasInteracted) {
+                // And we're close to an NPC interact with it
                 if (playerIsNearNpc()) {
-                    // And we're close to an NPC interact with it
-                    closestEntity = getClosestEntity();
+
+                    // If we have selected an Entity and we're close to that entity, interact with the selected one
+                    Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+                    if (selected != null && isNear(selected)) {
+                        closestEntity = selected;
+                    } else {
+                        closestEntity = getClosestEntity();
+                    }
+
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;

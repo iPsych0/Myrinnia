@@ -144,7 +144,14 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
-        Entity closest = getClosestEntity();
+        Entity closest;
+        Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+        if (selected != null && isNear(selected)) {
+            closest = selected;
+        } else {
+            closest = getClosestEntity();
+        }
+
         if (closest == null) {
             isCloseToNPC = false;
             return false;
@@ -161,7 +168,7 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    private boolean isNear(Entity closest) {
+    public boolean isNear(Entity closest) {
         return closest.getInteractionBounds(-40, -40, 80, 80)
                 .intersects(Handler.get().getPlayer().getCollisionBounds(0, 0));
     }
