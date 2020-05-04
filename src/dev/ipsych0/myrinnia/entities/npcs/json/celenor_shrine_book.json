@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Interesting. The book has been damaged, though the pages are still readable.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Read the book.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    }
+  ]
+}

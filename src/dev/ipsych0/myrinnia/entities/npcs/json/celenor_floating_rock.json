@@ -1,0 +1,50 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The rock seems to be floating somehow.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Push the rock.",
+          "nextId": 2
+        },
+        {
+          "text": "Push the rock harder.",
+          "nextId": 3
+        },
+        {
+          "text": "Reset this rock.",
+          "nextId": 4
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 5,
+      "text": "You can't push the rock in this direction from your current angle.",
+      "nextId": -1
+    }
+  ]
+}

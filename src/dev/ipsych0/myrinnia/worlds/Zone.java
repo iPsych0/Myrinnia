@@ -36,6 +36,7 @@ public enum Zone {
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg"),
     CelenorForestEdge("Celenor Forest Edge", "celenor_forest_edge.ogg"),
     CelenorForestThicket("Celenor Forest Thicket", "celenor_forest_edge.ogg"),
+    CelenorForestShrine("Old Shrine", "celenor_forest_edge.ogg"),
     CelenorSeaboard("Celenor Seaboard", "celenor_coast.ogg"),
     ShamrockCliffs("Shamrock Cliffs", "celenor_coast.ogg");
 

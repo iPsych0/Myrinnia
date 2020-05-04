@@ -55,6 +55,7 @@ public class WorldHandler implements Serializable {
 
         addWorld(new World(Zone.CelenorForestEdge, "/worlds/celenor_forest_edge.tmx"));
         addWorld(new World(Zone.CelenorForestThicket, "/worlds/celenor_forest_thicket.tmx"));
+        addWorld(new World(Zone.CelenorForestShrine, false, "/worlds/celenor_shrine.tmx"));
         addWorld(new World(Zone.Celewynn, "/worlds/celewynn.tmx"));
         addWorld(new World(Zone.CelewynnInside, false, "/worlds/celewynn_inside.tmx"));
         addWorld(new World(Zone.CelenorSeaboard, "/worlds/celenor_seaboard.tmx"));

@@ -225,7 +225,13 @@
     <property name="zone" value="CelenorForestEdge"/>
    </properties>
   </object>
-  <object id="3" name="Forest Shrine" type="zone_tile" x="1408" y="512" width="32" height="48"/>
+  <object id="3" name="Forest Shrine" type="zone_tile" x="1408" y="512" width="32" height="48">
+   <properties>
+    <property name="goToX" value="25"/>
+    <property name="goToY" value="42"/>
+    <property name="zone" value="CelenorForestShrine"/>
+   </properties>
+  </object>
   <object id="4" name="Sheep" type="npc" x="1024" y="1504" width="32" height="32">
    <properties>
     <property name="animation" value="sheep1"/>

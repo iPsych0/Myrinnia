@@ -34,6 +34,7 @@ public class Assets {
     public static BufferedImage ropeLadderMapTile;
     public static BufferedImage celenorRopeRock;
     public static BufferedImage celenorPotionCabinetTop, celenorPotionCabinetShelves;
+    public static BufferedImage floatingRock[], celenorUnchargedCrystal;
 
     /*
      * Creature Animations
@@ -1352,6 +1353,14 @@ public class Assets {
         celenorRopeRock = world_objects.imageCrop(0, 0, WIDTH * 3, HEIGHT * 2);
         celenorPotionCabinetTop = getSheetByFilename("inside2.png").imageCrop(11, 0, WIDTH * 3, HEIGHT);
         celenorPotionCabinetShelves = getSheetByFilename("inside2.png").imageCrop(11, 3, WIDTH * 3, HEIGHT * 2);
+
+        floatingRock = new BufferedImage[3];
+
+        floatingRock[0] = getSheetByFilename("dark_dimension.png").imageCrop(25, 11, WIDTH, HEIGHT * 2);
+        floatingRock[1] = getSheetByFilename("dark_dimension.png").imageCrop(26, 11, WIDTH, HEIGHT * 2);
+        floatingRock[2] = getSheetByFilename("dark_dimension.png").imageCrop(27, 11, WIDTH, HEIGHT * 2);
+
+        celenorUnchargedCrystal = getSheetByFilename("dark_dimension.png").imageCrop(25, 16, WIDTH, HEIGHT * 2);
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
         shamrockSinkholeTL = dungeon.imageCrop(7, 9);

@@ -1,0 +1,45 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Upon approaching the crystal, you can feel the remnants of some very old magic.",
+      "nextId": 2,
+      "choiceCondition": {
+        "condition": "hasCompletedPuzzle",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "text": "It looks like it is inactive right now. Maybe I can charge it again somehow?",
+      "nextId": -1
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Touch the crystal.",
+          "nextId": 4,
+          "choiceCondition": {
+            "condition": "hasReceivedAbilities",
+            "falseId": 3
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "The crystal lights up and a green brimming light enters your mind. When your sight returns, you feel closer to nature.",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "The crystal is unresponsive to the touch. There is no more knowledge to be gained from it.",
+      "nextId": -1
+    }
+  ]
+}

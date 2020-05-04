@@ -17,6 +17,7 @@ public class GeneralSettingsState extends State {
     private UIManager uiManager;
     private UIImageButton infoButton, criticalButton, combatButton, lootButton, skillButton, timeStampButton;
     private UIImageButton drawFpsButton;
+    private UIImageButton tutorialTipsButton;
     private Set<Integer> activeButtons;
 
     public GeneralSettingsState() {
@@ -30,13 +31,15 @@ public class GeneralSettingsState extends State {
             activeButtons.add(i);
         }
 
+
         infoButton = new UIImageButton(overlay.x + 96, overlay.y + 82, 16, 16, Assets.genericButton);
         criticalButton = new UIImageButton(overlay.x + 96, overlay.y + 98, 16, 16, Assets.genericButton);
         combatButton = new UIImageButton(overlay.x + 96, overlay.y + 114, 16, 16, Assets.genericButton);
         lootButton = new UIImageButton(overlay.x + 96, overlay.y + 130, 16, 16, Assets.genericButton);
         skillButton = new UIImageButton(overlay.x + 96, overlay.y + 146, 16, 16, Assets.genericButton);
         timeStampButton = new UIImageButton(overlay.x + 96, overlay.y + 162, 16, 16, Assets.genericButton);
-        drawFpsButton = new UIImageButton(overlay.x + 96, timeStampButton.y + 50, 16, 16, Assets.genericButton);
+        drawFpsButton = new UIImageButton(overlay.x + 96, timeStampButton.y + 48, 16, 16, Assets.genericButton);
+        tutorialTipsButton = new UIImageButton(overlay.x + 96, timeStampButton.y + 64, 16, 16, Assets.genericButton);
 
         uiManager.addObject(infoButton);
         uiManager.addObject(criticalButton);
@@ -45,6 +48,7 @@ public class GeneralSettingsState extends State {
         uiManager.addObject(skillButton);
         uiManager.addObject(timeStampButton);
         uiManager.addObject(drawFpsButton);
+        uiManager.addObject(tutorialTipsButton);
 
     }
 
@@ -70,10 +74,14 @@ public class GeneralSettingsState extends State {
         Text.drawString(g, "Skill:", overlay.x + 8, overlay.y + 160, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Timestamp:", overlay.x + 8, overlay.y + 176, false, Color.YELLOW, Assets.font14);
         Text.drawString(g, "Draw FPS:", overlay.x + 8, timeStampButton.y + 64, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, "Show tips:", overlay.x + 8, timeStampButton.y + 80, false, Color.YELLOW, Assets.font14);
 
         for (Integer i : activeButtons) {
             // FPS Button
             if (i == 6) {
+                g.setColor(Color.GREEN);
+                Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16 + 32, true, Color.GREEN, Assets.font14);
+            } else if (i == 7) {
                 g.setColor(Color.GREEN);
                 Text.drawString(g, "X", overlay.x + 96 + 8, overlay.y + 82 + 8 + i * 16 + 32, true, Color.GREEN, Assets.font14);
             } else {
@@ -163,6 +171,22 @@ public class GeneralSettingsState extends State {
                 }
             }
         }
+
+        if (tutorialTipsButton.contains(mouse)) {
+            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                if (filters.contains(Filter.SHOWTIPS)) {
+                    filters.remove(Filter.SHOWTIPS);
+                    activeButtons.remove(7);
+                } else {
+                    filters.add(Filter.SHOWTIPS);
+                    activeButtons.add(7);
+                }
+            }
+        }
         hasBeenPressed = false;
+    }
+
+    public Set<Integer> getActiveButtons() {
+        return activeButtons;
     }
 }

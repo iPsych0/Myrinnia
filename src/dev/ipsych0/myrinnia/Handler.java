@@ -246,7 +246,9 @@ public class Handler implements Serializable {
     }
 
     public void addTip(TutorialTip tip) {
-        tutorialTipManager.addTip(tip);
+        if (chatWindow.getFilters().contains(Filter.SHOWTIPS)) {
+            tutorialTipManager.addTip(tip);
+        }
     }
 
     public void addRecapEvent(String description) {
@@ -380,6 +382,7 @@ public class Handler implements Serializable {
 
     /**
      * Gets an Entity by the Zone it's in and its name.
+     *
      * @param zone Zone the Entity is in
      * @param name Name of the Entity
      * @return The Entity found, null if not found

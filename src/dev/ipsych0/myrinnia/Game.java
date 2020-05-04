@@ -374,4 +374,8 @@ public class Game implements Runnable, Serializable {
     public boolean isRunning() {
         return running;
     }
+
+    public GeneralSettingsState getGeneralSettingsState() {
+        return (GeneralSettingsState) generalSettingsState;
+    }
 }
