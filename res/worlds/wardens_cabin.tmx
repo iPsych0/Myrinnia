@@ -382,14 +382,6 @@
     <property name="npcClass" value="GenericObject"/>
    </properties>
   </object>
-  <object id="28" name="Alchemical Experiment" type="npc" x="608" y="480" width="32" height="32">
-   <properties>
-    <property name="animation" value="alchemicalExperiment"/>
-    <property name="level" value="13"/>
-    <property name="name" value="Alchemical Experiment"/>
-    <property name="npcClass" value="AlchemicalExperiment"/>
-   </properties>
-  </object>
   <object id="32" name="Warden trigger tile" type="npc" x="1568" y="1312" width="320" height="32">
    <properties>
     <property name="name" value="Extrememist Trigger Tile"/>
@@ -440,7 +432,7 @@
     <property name="npcClass" value="GenericObject"/>
    </properties>
   </object>
-  <object id="39" name="Alchemical Experiment" type="npc" x="512" y="864" width="32" height="32">
+  <object id="39" name="Alchemical Experiment" type="npc" x="448" y="1120" width="32" height="32">
    <properties>
     <property name="animation" value="alchemicalExperiment"/>
     <property name="level" value="13"/>
@@ -448,23 +440,7 @@
     <property name="npcClass" value="AlchemicalExperiment"/>
    </properties>
   </object>
-  <object id="40" name="Alchemical Experiment" type="npc" x="736" y="1280" width="32" height="32">
-   <properties>
-    <property name="animation" value="alchemicalExperiment"/>
-    <property name="level" value="13"/>
-    <property name="name" value="Alchemical Experiment"/>
-    <property name="npcClass" value="AlchemicalExperiment"/>
-   </properties>
-  </object>
-  <object id="41" name="Alchemical Experiment" type="npc" x="416" y="1600" width="32" height="32">
-   <properties>
-    <property name="animation" value="alchemicalExperiment"/>
-    <property name="level" value="13"/>
-    <property name="name" value="Alchemical Experiment"/>
-    <property name="npcClass" value="AlchemicalExperiment"/>
-   </properties>
-  </object>
-  <object id="42" name="Alchemical Experiment" type="npc" x="736" y="2016" width="32" height="32">
+  <object id="40" name="Alchemical Experiment" type="npc" x="768" y="1344" width="32" height="32">
    <properties>
     <property name="animation" value="alchemicalExperiment"/>
     <property name="level" value="13"/>

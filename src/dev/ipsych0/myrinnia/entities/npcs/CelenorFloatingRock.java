@@ -71,6 +71,9 @@ public class CelenorFloatingRock extends Creature {
     }
 
     private void stopMovement() {
+        // Round off to nearest int value
+        this.x = (int) (this.x + 0.5);
+        this.y = (int) (this.y + 0.5);
         moving = false;
         pxMoved = 0;
         xMove = 0;

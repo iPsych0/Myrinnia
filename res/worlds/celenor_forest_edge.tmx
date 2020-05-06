@@ -294,7 +294,12 @@
     <property name="npcClass" value="ExtrememistTriggerTile"/>
    </properties>
   </object>
-  <object id="15" name="An Item!" type="item" x="832" y="1984" width="32" height="32"/>
+  <object id="15" name="Iron Axe" type="item" x="832" y="1984" width="32" height="32">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="itemId" value="83"/>
+   </properties>
+  </object>
   <object id="16" name="Amanita Mushroom" type="npc" x="2848" y="1728" width="32" height="32">
    <properties>
     <property name="jsonFile" value="celenor_mushroom.json"/>

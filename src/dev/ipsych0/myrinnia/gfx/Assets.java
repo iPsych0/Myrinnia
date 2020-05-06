@@ -35,6 +35,7 @@ public class Assets {
     public static BufferedImage celenorRopeRock;
     public static BufferedImage celenorPotionCabinetTop, celenorPotionCabinetShelves;
     public static BufferedImage floatingRock[], celenorUnchargedCrystal;
+    public static BufferedImage[] airCharge, earthCharge, waterCharge, fireCharge;
 
     /*
      * Creature Animations
@@ -282,6 +283,7 @@ public class Assets {
          * World objects
          */
         SpriteSheet world_objects = new SpriteSheet("/textures/world_objects/world_objects.png");
+        SpriteSheet charge_animations = new SpriteSheet("/textures/animations/element_charge.png");
 
         /*
          * Weather sprites
@@ -1361,6 +1363,25 @@ public class Assets {
         floatingRock[2] = getSheetByFilename("dark_dimension.png").imageCrop(27, 11, WIDTH, HEIGHT * 2);
 
         celenorUnchargedCrystal = getSheetByFilename("dark_dimension.png").imageCrop(25, 16, WIDTH, HEIGHT * 2);
+
+        airCharge = new BufferedImage[9];
+        earthCharge = new BufferedImage[9];
+        waterCharge = new BufferedImage[9];
+        fireCharge = new BufferedImage[9];
+
+        for (int i = 0; i < airCharge.length; i++) {
+            airCharge[i] = charge_animations.imageCrop(i, 0, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < earthCharge.length; i++) {
+            earthCharge[i] = charge_animations.imageCrop(i + (airCharge.length - 1), 0, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < waterCharge.length; i++) {
+            waterCharge[i] = charge_animations.imageCrop(i, 3, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < fireCharge.length; i++) {
+            fireCharge[i] = charge_animations.imageCrop(i + (waterCharge.length - 1), 3, WIDTH, HEIGHT * 3);
+        }
+
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
         shamrockSinkholeTL = dungeon.imageCrop(7, 9);

@@ -10,7 +10,9 @@ public class CelenorShrineBook extends GenericObject {
 
 
     private static final String[] content = new String[]{
-            "TODO: Add content of book."
+            "Yea. ...,\n\nThis shr.ne is .n hon.r of T.rra, God.ess .f Earth.\n. . .. .. .\n. . . ... .. ... .",
+            "We h.ve b..lt th.s sh..ne clos. to t.. for.st to .ommune m.re clos.ly .ith h.r. Th.s cr.st.l se.ms to poss..s m.gic.l pr.pe.ties.",
+            "By mov.n. t.. ro.ks ont. the p.tch.s, yo. c.n act..ate it. On.e a..ivate., Ter.a wi.l sh.re s.m. of h.r w.sd.m wi.h .ou."
     };
 
     private final BookUI bookUI;

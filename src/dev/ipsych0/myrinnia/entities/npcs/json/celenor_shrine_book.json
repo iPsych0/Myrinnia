@@ -2,7 +2,7 @@
   "dialogues": [
     {
       "id": 0,
-      "text": "Interesting. The book has been damaged, though the pages are still readable.",
+      "text": "The book has been damaged, though still somewhat readable.",
       "nextId": 1
     },
     {

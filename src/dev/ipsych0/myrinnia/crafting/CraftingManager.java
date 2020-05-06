@@ -75,24 +75,24 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(5, 25, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 3), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteRingR, 1)));
         recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 5), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteAmulet, 1)));
 
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.palmWood, 1), new ItemStack(Item.pileOfAshes, 2)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 1), new ItemStack(Item.pileOfAshes, 3)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 1), new ItemStack(Item.pileOfAshes, 4)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.aspenwood, 1), new ItemStack(Item.pileOfAshes, 5)));
+        recipes.add(new CraftingRecipe(1, 2, true, SkillCategory.Materials, new ItemStack(Item.palmWood, 1), new ItemStack(Item.pileOfAshes, 2)));
+        recipes.add(new CraftingRecipe(1, 3, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 1), new ItemStack(Item.pileOfAshes, 3)));
+        recipes.add(new CraftingRecipe(1, 4, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 1), new ItemStack(Item.pileOfAshes, 4)));
+        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.aspenwood, 1), new ItemStack(Item.pileOfAshes, 5)));
 
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.pileOfAshes, 1), new ItemStack(Item.pileOfSand, 1), new ItemStack(Item.glass, 1)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 2), new ItemStack(Item.lightWoodPlank, 1)));
-        recipes.add(new CraftingRecipe(5, 1, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
-        recipes.add(new CraftingRecipe(1, 1, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
+        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.pileOfAshes, 1), new ItemStack(Item.pileOfSand, 1), new ItemStack(Item.glass, 1)));
+        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 2), new ItemStack(Item.lightWoodPlank, 1)));
+        recipes.add(new CraftingRecipe(5, 10, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
+        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.wool, 2), new ItemStack(Item.rope, 1)));
         recipes.add(new CraftingRecipe(3, 8, true, SkillCategory.Materials, new ItemStack(Item.wool, 4), new ItemStack(Item.stripOfCloth, 1)));
 
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.scorpionTail, 1), new ItemStack(Item.weakAntidote, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.crablingClaw, 1), new ItemStack(Item.weakPotionOfMight, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.owlFeather, 1), new ItemStack(Item.weakPotionOfPrecision, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.azureBatWing, 1), new ItemStack(Item.weakPotionOfWisdom, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.vineRoot, 1), new ItemStack(Item.weakPotionOfVigor, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.rockyShell, 1), new ItemStack(Item.weakPotionofFortitude, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.scorpionTail, 1), new ItemStack(Item.weakAntidote, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.crablingClaw, 1), new ItemStack(Item.weakPotionOfMight, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.owlFeather, 1), new ItemStack(Item.weakPotionOfPrecision, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.azureBatWing, 1), new ItemStack(Item.weakPotionOfWisdom, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.vineRoot, 1), new ItemStack(Item.weakPotionOfVigor, 1)));
+        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.rockyShell, 1), new ItemStack(Item.weakPotionofFortitude, 1)));
 
         recipes.sort((o1, o2) -> {
             Integer a = o1.getRequiredLevel();
