@@ -355,8 +355,9 @@ public abstract class Entity implements Serializable {
             if (b.equals(buff)) {
                 hasBuff = true;
 
-                // If that's the case, reapply the effect
+                // If we have a buff with longer duration, then only change the duration.
                 b.setEffectApplied(false);
+                b.setIncomingBuff(buff);
                 break;
             }
         }

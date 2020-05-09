@@ -1280,6 +1280,13 @@ public abstract class Creature extends Entity {
 
     public void setVitality(int vitality) {
         this.vitality = vitality;
+
+        // Change max HP as well
+        int previousMaxHP = maxHealth;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
+        if (health >= previousMaxHP) {
+            health = maxHealth;
+        }
     }
 
     public double getAttackSpeed() {

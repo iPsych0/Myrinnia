@@ -8,6 +8,8 @@ import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Resistance;
+import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.statics.ShamrockRockslide;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -594,81 +596,83 @@ public class Item implements Serializable {
 
     // Potions
     private static void initPotions() {
+        Player player = Handler.get().getPlayer();
+
         weakAntidote = Utils.loadItem("24_weak_antidote.json", Assets.weakAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.1));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 5, 0.2));
             Handler.get().removeItem(Item.weakAntidote, 1);
         });
         antidote = Utils.loadItem("25_antidote.json", Assets.antidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.2));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 10, 0.4));
             Handler.get().removeItem(Item.antidote, 1);
         });
         strongAntidote = Utils.loadItem("26_strong_antidote.json", Assets.strongAntidote, 0, (Use & Serializable) (i) -> {
-            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 30, 0.3));
+            Handler.get().getPlayer().addResistance(new Resistance(Condition.Type.POISON, 60 * 60 * 15, 0.6));
             Handler.get().removeItem(Item.strongAntidote, 1);
         });
 
         weakPotionOfMight = Utils.loadItem("27_weak_potion_of_might.json", Assets.weakPotionOfMight, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.STR, player, 60.0, 6.0));
             Handler.get().removeItem(Item.weakPotionOfMight, 1);
         });
         potionOfMight = Utils.loadItem("28_potion_of_might.json", Assets.potionOfMight, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.STR, player, 120.0, 30.0));
             Handler.get().removeItem(Item.potionOfMight, 1);
         });
         strongPotionOfMight = Utils.loadItem("29_strong_potion_of_might.json", Assets.strongPotionOfMight, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.STR, player, 180.0, 60.0));
             Handler.get().removeItem(Item.strongPotionOfMight, 1);
         });
 
         weakPotionOfPrecision = Utils.loadItem("30_weak_potion_of_precision.json", Assets.weakPotionOfPrecision, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEX, player, 60.0, 6.0));
             Handler.get().removeItem(Item.weakPotionOfPrecision, 1);
         });
         potionOfPrecision = Utils.loadItem("31_potion_of_precision.json", Assets.potionOfPrecision, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEX, player, 120.0, 30.0));
             Handler.get().removeItem(Item.potionOfPrecision, 1);
         });
         strongPotionOfPrecision = Utils.loadItem("32_strong_potion_of_precision.json", Assets.strongPotionOfPrecision, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEX, player, 180.0, 60.0));
             Handler.get().removeItem(Item.strongPotionOfPrecision, 1);
         });
 
         weakPotionOfWisdom = Utils.loadItem("33_weak_potion_of_wisdom.json", Assets.weakPotionOfWisdom, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.INT, player, 60.0, 6.0));
             Handler.get().removeItem(Item.weakPotionOfWisdom, 1);
         });
         potionOfWisdom = Utils.loadItem("34_potion_of_wisdom.json", Assets.potionOfWisdom, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.INT, player, 120.0, 30.0));
             Handler.get().removeItem(Item.potionOfWisdom, 1);
         });
         strongPotionOfWisdom = Utils.loadItem("35_strong_potion_of_wisdom.json", Assets.strongPotionOfWisdom, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.INT, player, 180.0, 60.0));
             Handler.get().removeItem(Item.strongPotionOfWisdom, 1);
         });
 
-        weakPotionofFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionofFortitude, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+        weakPotionofFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionOfFortitude, 0, (Use & Serializable) (i) -> {
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 60.0, 10.0));
             Handler.get().removeItem(Item.weakPotionofFortitude, 1);
         });
-        potionofFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionofFortitude, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+        potionofFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionOfFortitude, 0, (Use & Serializable) (i) -> {
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 120.0, 30.0));
             Handler.get().removeItem(Item.potionofFortitude, 1);
         });
-        strongPotionofFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionofFortitude, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+        strongPotionofFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionOfFortitude, 0, (Use & Serializable) (i) -> {
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 180.0, 80.0));
             Handler.get().removeItem(Item.strongPotionofFortitude, 1);
         });
 
         weakPotionOfVigor = Utils.loadItem("39_weak_potion_of_vigor.json", Assets.weakPotionOfVigor, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.VIT, player, 60.0, 5.0));
             Handler.get().removeItem(Item.weakPotionOfVigor, 1);
         });
         potionOfVigor = Utils.loadItem("40_potion_of_vigor.json", Assets.potionOfVigor, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.VIT, player, 120.0, 25.0));
             Handler.get().removeItem(Item.potionOfVigor, 1);
         });
         strongPotionOfVigor = Utils.loadItem("41_strong_potion_of_vigor.json", Assets.strongPotionOfVigor, 0, (Use & Serializable) (i) -> {
-            Handler.get().sendMsg("This potion has not been implemented yet.");
+            player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.VIT, player, 180.0, 100.0));
             Handler.get().removeItem(Item.strongPotionOfVigor, 1);
         });
     }

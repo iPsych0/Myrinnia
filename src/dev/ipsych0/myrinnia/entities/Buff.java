@@ -7,19 +7,22 @@ import java.util.Set;
 
 public abstract class Buff {
 
+    protected Buff incomingBuff;
     protected Entity receiver;
     protected int timeLeft;
-    private final double effectDuration;
+    protected double effectDuration;
     private boolean active;
     private boolean effectApplied;
     private int buffId = -1;
     private static Set<Integer> ids = new HashSet<>();
     private int timesStacked = 0;
+    private boolean additive;
 
-    protected Buff(Entity receiver, double durationSeconds) {
+    protected Buff(Entity receiver, double durationSeconds, boolean isAdditive) {
         this.receiver = receiver;
         this.effectDuration = durationSeconds * 60;
         this.active = true;
+        this.additive = isAdditive;
     }
 
     public void tick() {
@@ -31,11 +34,7 @@ public abstract class Buff {
             }
 
             if (!effectApplied) {
-                timeLeft = timeLeft + (int) effectDuration;
-                apply();
-                effectApplied = true;
-                timeLeft--;
-                timesStacked++;
+                applyEffect();
                 return;
             }
 
@@ -52,6 +51,13 @@ public abstract class Buff {
         }
     }
 
+    private void applyEffect() {
+        apply();
+        effectApplied = true;
+        timeLeft--;
+        timesStacked++;
+    }
+
     protected abstract void apply();
 
     protected abstract void update();
@@ -66,6 +72,10 @@ public abstract class Buff {
 
     public int getTimesStacked() {
         return timesStacked;
+    }
+
+    public void setTimesStacked(int timesStacked) {
+        this.timesStacked = timesStacked;
     }
 
     public boolean isEffectApplied() {
@@ -108,6 +118,22 @@ public abstract class Buff {
         ids.add(buffId);
     }
 
+    public Buff getIncomingBuff() {
+        return incomingBuff;
+    }
+
+    public void setIncomingBuff(Buff incomingBuff) {
+        this.incomingBuff = incomingBuff;
+    }
+
+    public boolean isAdditive() {
+        return additive;
+    }
+
+    public void setAdditive(boolean additive) {
+        this.additive = additive;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(buffId);
@@ -120,4 +146,5 @@ public abstract class Buff {
         Buff b = (Buff) obj;
         return buffId == b.getBuffId();
     }
+
 }

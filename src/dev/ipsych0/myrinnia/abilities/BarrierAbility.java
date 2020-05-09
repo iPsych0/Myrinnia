@@ -47,7 +47,7 @@ public class BarrierAbility extends Ability implements Serializable {
             double statLevelBoost = ((double) caster.getEarthLevel() * 5);
             double durationLevelBoost = ((double) caster.getEarthLevel() * 0.3);
 
-            caster.addBuff(caster, new AttributeBuff(AttributeBuff.Attribute.DEF, caster, 6.0 + durationLevelBoost, 12.0 + statLevelBoost));
+            caster.addBuff(caster, new AttributeBuff(AttributeBuff.Attribute.DEF, caster, 6.0 + durationLevelBoost, 12.0 + statLevelBoost, true));
             animation = new Animation(1500 / Assets.bulkBarrierResilience.length, Assets.bulkBarrierResilience, true);
             boostApplied = true;
 

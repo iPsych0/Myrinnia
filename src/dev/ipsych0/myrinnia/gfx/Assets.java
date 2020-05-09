@@ -85,7 +85,7 @@ public class Assets {
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionOfFortitude, potionOfFortitude, strongPotionOfFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
 
     // Farming icons
     public static BufferedImage cropsPlanted1;
@@ -646,9 +646,9 @@ public class Assets {
         potionOfWisdom = item_sheet.imageCrop(22, 14);
         strongPotionOfWisdom = item_sheet.imageCrop(22, 13);
 
-        weakPotionofFortitude = item_sheet.imageCrop(20, 15);
-        potionofFortitude = item_sheet.imageCrop(20, 14);
-        strongPotionofFortitude = item_sheet.imageCrop(20, 13);
+        weakPotionOfFortitude = item_sheet.imageCrop(20, 15);
+        potionOfFortitude = item_sheet.imageCrop(20, 14);
+        strongPotionOfFortitude = item_sheet.imageCrop(20, 13);
 
         weakPotionOfVigor = item_sheet.imageCrop(23, 15);
         potionOfVigor = item_sheet.imageCrop(23, 14);

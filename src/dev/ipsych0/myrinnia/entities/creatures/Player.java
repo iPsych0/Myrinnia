@@ -1288,6 +1288,18 @@ public class Player extends Creature {
         this.levelExponent = levelExponent;
     }
 
+    @Override
+    public void setVitality(int vitality) {
+        this.vitality = vitality;
+
+        // Change max HP as well
+        int previousMaxHP = maxHealth;
+        maxHealth = baseHP + vitality * 4;
+        if (health >= previousMaxHP) {
+            health = maxHealth;
+        }
+    }
+
     private void writeObject(ObjectOutputStream stream)
             throws IOException {
         this.postRenderTiles = new HashMap<>();

@@ -6,13 +6,17 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Timer;
+import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.TimeUnit;
 
 public class AttributeBuff extends Buff {
 
     private double statBuff;
+    private double oldStatBuff;
     private boolean percentageIncrease;
     private int totalIncrease;
     private double totalIncreaseDecimal;
@@ -53,11 +57,15 @@ public class AttributeBuff extends Buff {
     }
 
     public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff) {
-        this(attribute, receiver, durationSeconds, statBuff, false);
+        this(attribute, receiver, durationSeconds, statBuff, false, false);
     }
 
-    public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff, boolean percentageIncrease) {
-        super(receiver, durationSeconds);
+    public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff, boolean isAdditive) {
+        this(attribute, receiver, durationSeconds, statBuff, false, isAdditive);
+    }
+
+    public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff, boolean percentageIncrease, boolean isAdditive) {
+        super(receiver, durationSeconds, isAdditive);
         this.attribute = attribute;
         this.percentageIncrease = percentageIncrease;
         this.statBuff = statBuff;
@@ -68,7 +76,55 @@ public class AttributeBuff extends Buff {
     @Override
     public void apply() {
         Creature r = ((Creature) receiver);
-        addStat(r);
+        // If we already have a buff, first remove the current stat buff then apply the new one
+        if (getTimesStacked() >= 1) {
+            removeStat(r, statBuff);
+            setTimesStacked(0);
+            // If the time on the current buff is lower, we set the time to the newer buff
+        } else {
+            timeLeft = timeLeft + (int) effectDuration;
+        }
+
+        if (incomingBuff != null) {
+            AttributeBuff inc = ((AttributeBuff) incomingBuff);
+            // If additive, then stack the buffs and remove them independently after
+            if (incomingBuff.isAdditive()) {
+                this.statBuff += inc.statBuff;
+                Timer timer = new Timer((long) (inc.effectDuration / 60), TimeUnit.SECONDS, () -> {
+                    // Upon finishing, remove this additive buff.
+                    removeStat(r, inc.statBuff);
+                    this.statBuff -= inc.statBuff;
+                });
+                timeLeft += (int) incomingBuff.getEffectDuration();
+                effectDuration += (int) incomingBuff.getEffectDuration();
+                TimerHandler.get().addTimer(timer);
+            } else if (this.isAdditive()) {
+                oldStatBuff = this.statBuff;
+                Timer timer = new Timer((this.timeLeft / 60L), TimeUnit.SECONDS, () -> {
+                    // Upon finishing, remove this additive buff.
+                    removeStat(r, this.oldStatBuff);
+                    this.statBuff -= this.oldStatBuff;
+                });
+                this.statBuff += inc.statBuff;
+                TimerHandler.get().addTimer(timer);
+                // If the incoming buff has more time than the previous, make it better
+                if (timeLeft < inc.effectDuration) {
+                    this.effectDuration = (int) inc.effectDuration;
+                    timeLeft = (int) effectDuration;
+                }
+                if (!incomingBuff.isAdditive()) {
+                    this.setAdditive(false);
+                }
+            } else if (inc.statBuff >= statBuff) {
+                this.statBuff = inc.statBuff;
+                // If the incoming buff has more time than the previous, make it better
+                if (timeLeft < inc.effectDuration) {
+                    this.effectDuration = (int) inc.effectDuration;
+                    timeLeft = (int) effectDuration;
+                }
+            }
+        }
+        addStat(r, statBuff);
     }
 
     @Override
@@ -79,10 +135,10 @@ public class AttributeBuff extends Buff {
     @Override
     public void clear() {
         Creature r = ((Creature) receiver);
-        removeStat(r);
+        removeStat(r, statBuff);
     }
 
-    private void addStat(Creature r) {
+    private void addStat(Creature r, double statBuff) {
         // Get percentage increase
         double percentage = statBuff / 100d;
         int statIncreaseInt;
@@ -162,55 +218,55 @@ public class AttributeBuff extends Buff {
         }
     }
 
-    private void removeStat(Creature r) {
+    private void removeStat(Creature r, double statBuff) {
         switch (attribute) {
             case MOVSPD:
                 if (percentageIncrease) {
                     r.setSpeed((r.getSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setSpeed(r.getSpeed() - (int) statBuff * getTimesStacked());
+                    r.setSpeed(r.getSpeed() - (int) statBuff);
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
                     r.setAttackSpeed((r.getAttackSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff * getTimesStacked());
+                    r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff);
                 }
                 break;
             case VIT:
                 if (percentageIncrease) {
                     r.setVitality(r.getVitality() - totalIncrease);
                 } else {
-                    r.setVitality(r.getVitality() - (int) statBuff * getTimesStacked());
+                    r.setVitality(r.getVitality() - (int) statBuff);
                 }
                 break;
             case INT:
                 if (percentageIncrease) {
                     r.setIntelligence(r.getIntelligence() - totalIncrease);
                 } else {
-                    r.setIntelligence(r.getIntelligence() - (int) statBuff * getTimesStacked());
+                    r.setIntelligence(r.getIntelligence() - (int) statBuff);
                 }
                 break;
             case DEX:
                 if (percentageIncrease) {
                     r.setDexterity(r.getDexterity() - totalIncrease);
                 } else {
-                    r.setDexterity(r.getDexterity() - (int) statBuff * getTimesStacked());
+                    r.setDexterity(r.getDexterity() - (int) statBuff);
                 }
                 break;
             case DEF:
                 if (percentageIncrease) {
                     r.setDefence(r.getDefence() - totalIncrease);
                 } else {
-                    r.setDefence(r.getDefence() - (int) statBuff * getTimesStacked());
+                    r.setDefence(r.getDefence() - (int) statBuff);
                 }
                 break;
             case STR:
                 if (percentageIncrease) {
                     r.setStrength(r.getStrength() - totalIncrease);
                 } else {
-                    r.setStrength(r.getStrength() - (int) statBuff * getTimesStacked());
+                    r.setStrength(r.getStrength() - (int) statBuff);
                 }
                 break;
         }
@@ -232,49 +288,49 @@ public class AttributeBuff extends Buff {
                 if (percentageIncrease) {
                     text = "Increases Strength by " + totalIncrease + ".";
                 } else {
-                    text = "Increases Strength by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Strength by " + statBuff + ".";
                 }
                 break;
             case INT:
                 if (percentageIncrease) {
                     text = "Increases Intelligence by " + totalIncrease + ".";
                 } else {
-                    text = "Increases Intelligence by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Intelligence by " + statBuff + ".";
                 }
                 break;
             case DEF:
                 if (percentageIncrease) {
                     text = "Increases Defence by " + totalIncrease + ".";
                 } else {
-                    text = "Increases Defence by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Defence by " + statBuff + ".";
                 }
                 break;
             case DEX:
                 if (percentageIncrease) {
                     text = "Increases Dexterity by " + totalIncrease + ".";
                 } else {
-                    text = "Increases Dexterity by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Dexterity by " + statBuff + ".";
                 }
                 break;
             case VIT:
                 if (percentageIncrease) {
                     text = "Increases Vitality by " + totalIncrease + ".";
                 } else {
-                    text = "Increases Vitality by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Vitality by " + statBuff + ".";
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
                     text = "Increases Attack Speed by " + totalIncreaseDecimal + ".";
                 } else {
-                    text = "Increases Attack Speed by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Attack Speed by " + statBuff + ".";
                 }
                 break;
             case MOVSPD:
                 if (percentageIncrease) {
                     text = "Increases Movement Speed by " + totalIncreaseDecimal + ".";
                 } else {
-                    text = "Increases Movement Speed by " + statBuff * getTimesStacked() + ".";
+                    text = "Increases Movement Speed by " + statBuff + ".";
                 }
                 break;
         }
