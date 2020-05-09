@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.entities;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -13,8 +14,7 @@ public class Condition implements Serializable {
 
     private static final long serialVersionUID = -6491027693312163146L;
     private Entity receiver;
-    private int currentDuration;
-    private int initialDuration;
+    private double duration;
     private int tickTimer;
     private boolean active;
     private int conditionDamage;
@@ -24,19 +24,17 @@ public class Condition implements Serializable {
     private static final double CRIPPLE_MOVSPD = 0.66;
     private Type type;
 
-    public Condition(Type type, int durationSeconds) {
+    public Condition(Type type, double durationSeconds) {
         this.type = type;
         this.img = type.getImg();
-        this.initialDuration = durationSeconds * 60;
-        this.currentDuration = durationSeconds * 60;
+        this.duration = durationSeconds * 60d;
         this.active = true;
     }
 
-    public Condition(Type type, int durationSeconds, int conditionDamage) {
+    public Condition(Type type, double durationSeconds, int conditionDamage) {
         this.type = type;
         this.img = type.getImg();
-        this.currentDuration = durationSeconds * 60;
-        this.initialDuration = currentDuration;
+        this.duration = durationSeconds * 60d;
         this.conditionDamage = conditionDamage;
         this.active = true;
     }
@@ -53,16 +51,15 @@ public class Condition implements Serializable {
             }
 
             // If the timeLeft is greater than 0 at any given time
-            if (tickTimer <= currentDuration) {
+            if (tickTimer <= duration) {
                 // Tick the condition effect
                 if (tickTimer == 0) {
-                    currentDuration -= 60;
                     apply();
                 } else if (tickTimer % 60 == 0) {
                     update();
                 }
                 // If the condition timeLeft is 0, don't tick anymore, but let the last hitsplat disappear
-            } else if (currentDuration <= 0) {
+            } else {
                 if (tickTimer % 60 == 0) {
                     clear();
                 }
@@ -74,7 +71,7 @@ public class Condition implements Serializable {
     public void render(Graphics2D g, int x, int y) {
         if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf(currentDuration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, String.valueOf(Handler.get().roundOff(((duration - tickTimer) / 60d) + 1.0)), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 
@@ -99,8 +96,6 @@ public class Condition implements Serializable {
 
     private void update() {
         // After 1 second, recreate the damage splat
-        tickTimer = 0;
-        currentDuration -= 60;
         receiver.tickCondition(receiver, this);
     }
 
@@ -114,12 +109,12 @@ public class Condition implements Serializable {
         }
     }
 
-    public int getCurrentDuration() {
-        return currentDuration;
+    public double getDuration() {
+        return duration;
     }
 
-    public void setCurrentDuration(int currentDuration) {
-        this.currentDuration = currentDuration;
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
     public boolean isActive() {
@@ -154,14 +149,6 @@ public class Condition implements Serializable {
         this.receiver = receiver;
     }
 
-    public int getInitialDuration() {
-        return initialDuration;
-    }
-
-    public void setInitialDuration(int initialDuration) {
-        this.initialDuration = initialDuration;
-    }
-
     public enum Type {
         BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
         CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 50%."),
@@ -187,5 +174,13 @@ public class Condition implements Serializable {
         public String getDescription() {
             return description;
         }
+    }
+
+    public int getTickTimer() {
+        return tickTimer;
+    }
+
+    public void setTickTimer(int tickTimer) {
+        this.tickTimer = tickTimer;
     }
 }

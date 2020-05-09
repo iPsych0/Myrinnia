@@ -56,9 +56,9 @@ public class AbilityOverviewUI implements Serializable {
         uiManager = new UIManager();
         abilityUIManager = new UIManager();
 
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 32, CharacterStats.Melee));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 32, y + 32, CharacterStats.Ranged));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + (width / 4) - 32, y + 32, CharacterStats.Magic));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 40, CharacterStats.Melee));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 32, y + 40, CharacterStats.Ranged));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + (width / 4) - 32, y + 40, CharacterStats.Magic));
 
         uiButtons.add(new AbilityOverviewUIButton(x + width, y + 32, CharacterStats.Fire));
         uiButtons.add(new AbilityOverviewUIButton(x + width, y + 64, CharacterStats.Air));
@@ -197,7 +197,7 @@ public class AbilityOverviewUI implements Serializable {
     }
 
     public static void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         escapePressed = false;
@@ -209,7 +209,7 @@ public class AbilityOverviewUI implements Serializable {
         if (isOpen) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
             g.drawImage(Assets.uiWindow, innerUI.x, innerUI.y, innerUI.width, innerUI.height, null);
-            Text.drawString(g, "Ability Overview", x + width / 2, y + 16, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Ability Overview (" + Handler.get().getPlayer().getAbilityPoints() + " points)", x + width / 2, y + 16, true, Color.YELLOW, Assets.font14);
 
             Rectangle mouse = Handler.get().getMouse();
 

@@ -458,10 +458,14 @@ public class Handler implements Serializable {
     }
 
     /*
-     * Rounds off a number to two digits.
+     * Rounds off a number to specified number of digits, default = .00 (2 digits)
      */
+    public double roundOff(double value, int digits) {
+        return Math.round(value * Math.pow(10.0d, (digits - 1))) / Math.pow(10.0d, (digits - 1));
+    }
+
     public double roundOff(double value) {
-        return Math.round(value * 10d) / 10d;
+        return roundOff(value, 2);
     }
 
     public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType) {

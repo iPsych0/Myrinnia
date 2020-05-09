@@ -52,11 +52,11 @@ public class AttributeBuff extends Buff {
         }
     }
 
-    public AttributeBuff(Attribute attribute, Entity receiver, int durationSeconds, double statBuff) {
+    public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff) {
         this(attribute, receiver, durationSeconds, statBuff, false);
     }
 
-    public AttributeBuff(Attribute attribute, Entity receiver, int durationSeconds, double statBuff, boolean percentageIncrease) {
+    public AttributeBuff(Attribute attribute, Entity receiver, double durationSeconds, double statBuff, boolean percentageIncrease) {
         super(receiver, durationSeconds);
         this.attribute = attribute;
         this.percentageIncrease = percentageIncrease;

@@ -85,6 +85,10 @@ public class FrostJabAbility extends Ability implements Serializable {
             ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
         }
 
+
+        // 0.07 seconds chill extra per water level
+        double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.07);
+
         if (caster.equals(Handler.get().getPlayer())) {
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
                 if (e.equals(Handler.get().getPlayer()))
@@ -97,7 +101,7 @@ public class FrostJabAbility extends Ability implements Serializable {
                     // 20% Chance of chilling
                     int rnd = Handler.get().getRandomNumber(1, 10);
                     if (rnd <= 2) {
-                        e.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                        e.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
                     }
                 }
             }
@@ -109,7 +113,7 @@ public class FrostJabAbility extends Ability implements Serializable {
                 // 20% Chance of chilling
                 int rnd = Handler.get().getRandomNumber(1, 10);
                 if (rnd <= 2) {
-                    player.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                    player.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
                 }
             }
         }

@@ -3,10 +3,7 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.data.PBAoECircle;
-import dev.ipsych0.myrinnia.abilities.effects.ConditionOnHitEvent;
-import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -20,9 +17,9 @@ public class HealingSpringAbility extends Ability implements Serializable {
     private boolean springActive;
     private boolean standingOn;
     private int springTimer;
-    private int springTimeActive;
+    private double springTimeActive;
     private int regenTimer;
-    private int regenSeconds;
+    private double regenSeconds;
     private int baseHeal;
     private int regenHeal;
     private Animation animation;
@@ -64,10 +61,15 @@ public class HealingSpringAbility extends Ability implements Serializable {
             springActive = true;
             pbAoECircle = new PBAoECircle(caster, 80);
 
-            regenSeconds = 5 * 60;
-            baseHeal = 35;
-            regenHeal = 3;
-            springTimeActive = 5 * 60;
+            double baseHealLevelBoost = ((double) caster.getWaterLevel() * 5);
+            double durationLevelBoost = ((double) caster.getWaterLevel() * 0.05);
+            double regenLevelBoost = ((double) caster.getWaterLevel() * 1.5);
+
+            // Round the seconds up
+            regenSeconds = Math.ceil(5.0 + durationLevelBoost) * 60.0;
+            baseHeal = 35 + (int) baseHealLevelBoost;
+            regenHeal = 3 + (int) regenLevelBoost;
+            springTimeActive = Math.ceil(5.0 + durationLevelBoost) * 60.0;
 
             caster.heal(baseHeal);
 

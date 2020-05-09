@@ -9,14 +9,14 @@ public abstract class Buff {
 
     protected Entity receiver;
     protected int timeLeft;
-    private final int effectDuration;
+    private final double effectDuration;
     private boolean active;
     private boolean effectApplied;
     private int buffId = -1;
     private static Set<Integer> ids = new HashSet<>();
     private int timesStacked = 0;
 
-    protected Buff(Entity receiver, int durationSeconds) {
+    protected Buff(Entity receiver, double durationSeconds) {
         this.receiver = receiver;
         this.effectDuration = durationSeconds * 60;
         this.active = true;
@@ -31,7 +31,7 @@ public abstract class Buff {
             }
 
             if (!effectApplied) {
-                timeLeft = timeLeft + effectDuration;
+                timeLeft = timeLeft + (int) effectDuration;
                 apply();
                 effectApplied = true;
                 timeLeft--;
@@ -99,7 +99,7 @@ public abstract class Buff {
         return buffId;
     }
 
-    public int getEffectDuration() {
+    public double getEffectDuration() {
         return effectDuration;
     }
 

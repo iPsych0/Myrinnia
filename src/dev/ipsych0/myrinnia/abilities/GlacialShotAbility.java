@@ -69,13 +69,16 @@ public class GlacialShotAbility extends Ability implements Serializable {
             targetY = (int) (direction.getY());
         }
 
+        // 0.075 seconds chill extra per water level
+        double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.075);
+
         Handler.get().playEffect("abilities/glacial_shot.ogg", 0.1f);
         new Projectile.Builder(DamageType.DEX, animation, caster, targetX, targetY)
                 .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withAbility(this)
                 .withVelocity(7.0f)
                 .withImpact((Serializable & OnImpact) (receiver) ->
-                        receiver.addCondition(caster, new Condition(Condition.Type.CHILL, 3)))
+                        receiver.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost))))
                 .build();
 
         setCasting(false);

@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 20.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Barrier",
+  "description": "Enclose yourself in a rocky barrier that increases your defense.",
+  "abilityType": "StandardAbility",
+  "element": "Earth",
+  "combatStyle": "Magic",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 0,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.BarrierAbility"
+}

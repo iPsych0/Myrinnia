@@ -116,6 +116,11 @@ public class Player extends Creature {
         ySpawn = y;
         attackable = true;
 
+        waterLevel = 0;
+        fireLevel = 0;
+        airLevel = 0;
+        earthLevel = 0;
+
         // Player combat/movement settings:
 
         maxHealth = baseHP + vitality * 4;

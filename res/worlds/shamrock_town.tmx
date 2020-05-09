@@ -363,6 +363,7 @@
    <properties>
     <property name="animation" value="shopKeeper4"/>
     <property name="direction" value="DOWN"/>
+    <property name="itemsShop" value="barrier.json, bulkup.json, naturalresilience.json"/>
     <property name="jsonFile" value="ability_master.json"/>
     <property name="name" value="Ability Master"/>
     <property name="npcClass" value="AbilityMaster"/>

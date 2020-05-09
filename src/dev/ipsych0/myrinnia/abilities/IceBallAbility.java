@@ -58,13 +58,16 @@ public class IceBallAbility extends Ability implements Serializable {
             targetY = (int) (direction.getY());
         }
 
+        // 0.08 seconds chill extra per water level
+        double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.08);
+
         Handler.get().playEffect("abilities/ice_ball.ogg", 0.1f);
         new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, targetX, targetY)
                 .withVelocity(7.0f)
                 .withAbility(this)
                 .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withImpact((c) -> {
-                    c.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                    c.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
                 }).build();
 
         setCasting(false);

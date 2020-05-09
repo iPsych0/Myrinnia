@@ -410,22 +410,22 @@ public abstract class Entity implements Serializable {
                     Resistance i = getResistance(r, c.getType());
                     if (i != null) {
                         multiplier -= i.getEffectiveness();
-                        c.setCurrentDuration(c.getCurrentDuration() + (int) (condition.getInitialDuration() * multiplier));
+                        c.setDuration(c.getDuration() + (int) (condition.getDuration() * multiplier));
                     } else {
                         // Otherwise stack normal duration
-                        c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
+                        c.setDuration(c.getDuration() + condition.getDuration());
                     }
                 } else {
                     Resistance i = getResistance(r, c.getType());
                     if (i != null) {
                         // If we have a resistance, decrease the condition damage applied.
                         multiplier -= i.getEffectiveness();
-                        c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
+                        c.setDuration(c.getDuration() + condition.getDuration());
                         c.setConditionDamage((int) Math.floor(condition.getConditionDamage() * multiplier));
                     } else {
                         // If the new ability has a higher condition damage than the current one, increase the damage and duration
                         if (condition.getConditionDamage() >= c.getConditionDamage()) {
-                            c.setCurrentDuration(c.getCurrentDuration() + condition.getInitialDuration());
+                            c.setDuration(c.getDuration() + condition.getDuration());
                             c.setConditionDamage((int) Math.floor(condition.getConditionDamage()));
                         }
                     }
@@ -441,7 +441,7 @@ public abstract class Entity implements Serializable {
                 if (i != null) {
                     multiplier -= i.getEffectiveness();
                 }
-                condition.setCurrentDuration((int) (condition.getInitialDuration() * multiplier));
+                condition.setDuration((int) (condition.getDuration() * multiplier));
                 r.getConditions().add(condition);
             } else {
                 Resistance i = getResistance(r, condition.getType());

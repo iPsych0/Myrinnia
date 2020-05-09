@@ -16,7 +16,7 @@ public class MendWoundsAbility extends Ability {
      */
     private static final long serialVersionUID = -7613939541331724237L;
     private int regenTimer;
-    private int regenSeconds;
+    private double regenSeconds;
     private int baseHeal;
     private int regenHeal;
     private boolean initialHealDone = false;
@@ -48,9 +48,14 @@ public class MendWoundsAbility extends Ability {
     public void cast() {
         // Heal to max HP if current HP + baseHeal >= max HP already, otherwise add baseHeal
         if (!initialHealDone) {
-            regenSeconds = 5 * 60;
-            baseHeal = 30;
-            regenHeal = 3;
+            double baseHealLevelBoost = ((double) caster.getWaterLevel() * 5);
+            double durationLevelBoost = ((double) caster.getWaterLevel() * 0.05);
+            double regenLevelBoost = ((double) caster.getWaterLevel() * 1.33);
+
+            // Round the seconds up
+            regenSeconds = Math.ceil(5.0 + durationLevelBoost) * 60.0;
+            baseHeal = 35 + (int) baseHealLevelBoost;
+            regenHeal = 3 + (int) Math.round(regenLevelBoost);
 
             caster.heal(baseHeal);
 
@@ -71,12 +76,13 @@ public class MendWoundsAbility extends Ability {
 
         // Regen
         regenTimer++;
+        if (regenTimer == regenSeconds) {
+            this.setCasting(false);
+            animation = null;
+        }
+
         if (regenTimer % 60 == 0) {
             // When we've reached the regen timer limit, the spell is done, set casting to false.
-            if (regenTimer == regenSeconds) {
-                this.setCasting(false);
-                animation = null;
-            }
             caster.heal(regenHeal);
         }
     }

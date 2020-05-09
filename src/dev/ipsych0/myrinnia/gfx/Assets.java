@@ -51,12 +51,12 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast, warpTeleport, monsterBite;
+            rockyConstrict, sandBlast, bulkBarrierResilience, warpTeleport, monsterBite;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
-            rockyConstrictI, sandblastI;
+            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -1226,6 +1226,9 @@ public class Assets {
         debilitatingStrikeI = ability_icons.imageCrop(14, 0);
         rockyConstrictI = ability_icons.imageCrop(15, 0);
         sandblastI = ability_icons.imageCrop(0, 1);
+        barrierI = ability_icons.imageCrop(1, 1);
+        naturalResilienceI = ability_icons.imageCrop(2, 1);
+        bulkUpI = ability_icons.imageCrop(3, 1);
 
 
         /*
@@ -1320,6 +1323,16 @@ public class Assets {
         monsterBite[2] = ability_animations.imageCrop(2, 17, WIDTH, HEIGHT * 2);
         monsterBite[3] = ability_animations.imageCrop(3, 17, WIDTH, HEIGHT * 2);
         monsterBite[4] = ability_animations.imageCrop(4, 17, WIDTH, HEIGHT * 2);
+
+        bulkBarrierResilience = new BufferedImage[8];
+        bulkBarrierResilience[0] = ability_animations.imageCrop(0, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[1] = ability_animations.imageCrop(2, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[2] = ability_animations.imageCrop(4, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[3] = ability_animations.imageCrop(6, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[4] = ability_animations.imageCrop(8, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[5] = ability_animations.imageCrop(10, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[6] = ability_animations.imageCrop(12, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[7] = ability_animations.imageCrop(14, 19, WIDTH * 2, HEIGHT * 2);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);
