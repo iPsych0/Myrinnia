@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
+import java.util.List;
 
 public class EruptionAbility extends Ability {
 
@@ -53,22 +54,11 @@ public class EruptionAbility extends Ability {
 
             animation = new Animation(1000 / Assets.eruption1.length, Assets.eruption1, true);
 
-            if (caster.equals(Handler.get().getPlayer())) {
-                for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                    if (e.getVerticality() == caster.getVerticality() && hitBox.intersects(e.getCollisionBounds(0, 0))) {
-                        if (!e.isAttackable())
-                            continue;
-                        if (!e.equals(caster)) {
-                            e.damage(DamageType.INT, caster, this);
-                            e.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
-                        }
-                    }
-                }
-            } else {
-                Player player = Handler.get().getPlayer();
-                if (player.getVerticality() == caster.getVerticality() && hitBox.intersects(player.getCollisionBounds(0, 0))) {
-                    player.damage(DamageType.INT, caster, this);
-                    player.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
+            List<Entity> entities = getAllEntitiesInShape(hitBox);
+            if (!entities.isEmpty()) {
+                for (Entity e : entities) {
+                    e.damage(DamageType.INT, caster, this);
+                    e.addCondition(caster, new Condition(Condition.Type.BURNING, 5, 3));
                 }
             }
         }

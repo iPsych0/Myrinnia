@@ -312,9 +312,7 @@ public class Player extends Creature {
         }
 
         // If there are projectiles, tick them
-        if (projectiles.size() > 0) {
-            tickProjectiles();
-        }
+        tickProjectiles();
 
         // If the mouse is not moved, use the WASD-keys to determine the direction
         if (!mouseMoved) {
@@ -375,8 +373,15 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
-        if (projectiles.size() < 1)
-            return;
+        if (projectiles.size() < 1) {
+            if (toBeAdded.size() < 1) {
+                return;
+            }
+        }
+
+        if (projectiles.addAll(toBeAdded)) {
+            toBeAdded.clear();
+        }
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
@@ -399,10 +404,12 @@ public class Player extends Creature {
                     }
                     if (e.isAttackable()) {
                         if (!p.getHitCreatures().contains((Creature) e)) {
-                            if (p.getAbility() != null) {
-                                e.damage(p.getDamageType(), this, p.getAbility());
-                            } else {
-                                e.damage(p.getDamageType(), this);
+                            if (p.getDamageType() != null) {
+                                if (p.getAbility() != null) {
+                                    e.damage(p.getDamageType(), this, p.getAbility());
+                                } else {
+                                    e.damage(p.getDamageType(), this);
+                                }
                             }
 
                             if (p.getImpactSound() != null) {

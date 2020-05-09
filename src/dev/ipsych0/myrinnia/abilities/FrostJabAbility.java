@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
-import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -66,58 +65,23 @@ public class FrostJabAbility extends Ability implements Serializable {
             Handler.get().playEffect("abilities/frost_jab.ogg", 0.1f);
             initialized = true;
 
-            checkHitBox(direction);
-        }
-    }
+            // Get the hit Entity
+            Entity hit = getSingleMeleeHitEntity(direction);
+            if (hit != null) {
+                hit.damage(DamageType.STR, caster, this);
 
-    private void checkHitBox(Rectangle direction) {
-        double angle;
-        if (caster.equals(Handler.get().getPlayer())) {
-            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
-        } else {
-            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
-        }
-
-        Rectangle ar;
-        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
-            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
-        } else {
-            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
-        }
-
-
-        // 0.07 seconds chill extra per water level
-        double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.07);
-
-        if (caster.equals(Handler.get().getPlayer())) {
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (e.equals(Handler.get().getPlayer()))
-                    continue;
-                if (!e.isAttackable())
-                    continue;
-                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, caster, this);
-
-                    // 20% Chance of chilling
-                    int rnd = Handler.get().getRandomNumber(1, 10);
-                    if (rnd <= 2) {
-                        e.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
-                    }
-                }
-            }
-        } else {
-            Player player = Handler.get().getPlayer();
-            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
-                player.damage(DamageType.STR, caster, this);
+                // 0.07 seconds chill extra per water level
+                double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.07);
 
                 // 20% Chance of chilling
                 int rnd = Handler.get().getRandomNumber(1, 10);
                 if (rnd <= 2) {
-                    player.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
+                    hit.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
                 }
             }
         }
     }
+
 
     @Override
     protected void countDown() {

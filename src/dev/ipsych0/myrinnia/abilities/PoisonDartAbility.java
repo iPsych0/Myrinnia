@@ -37,28 +37,12 @@ public class PoisonDartAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
-        Player player = Handler.get().getPlayer();
-        Rectangle direction;
-        if (caster.equals(player)) {
-            direction = Handler.get().getMouse();
-            if (player.hasLeftClickedUI(direction))
-                return;
-
-            // Change attacking animation depending on which weapon type
-            player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
-        } else {
-            direction = new Rectangle((int) player.getX(), (int) player.getY(), 1, 1);
+        Point target = getRangedTarget();
+        if (target == null) {
+            return;
         }
-
-        int targetX, targetY;
-        if (caster.equals(player)) {
-            targetX = (int) (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16);
-            targetY = (int) (direction.getY() + Handler.get().getGameCamera().getyOffset() - 16);
-            setSelected(false);
-        } else {
-            targetX = (int) (direction.getX());
-            targetY = (int) (direction.getY());
-        }
+        int targetX = target.x;
+        int targetY = target.y;
 
         Handler.get().playEffect("abilities/ranged_shot.ogg", 0.2f);
         new Projectile.Builder(DamageType.DEX, Assets.poisonDart, caster, targetX, targetY)

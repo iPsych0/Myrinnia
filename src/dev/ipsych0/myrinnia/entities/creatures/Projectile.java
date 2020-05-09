@@ -38,13 +38,15 @@ public class Projectile extends Creature implements Serializable {
             this.targetX = targetX;
             this.targetY = targetY;
 
-            switch (damageType) {
-                case INT:
-                    this.impactSound = "abilities/magic_strike_impact.ogg";
-                    break;
-                case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.ogg";
-                    break;
+            if (damageType != null) {
+                switch (damageType) {
+                    case INT:
+                        this.impactSound = "abilities/magic_strike_impact.ogg";
+                        break;
+                    case DEX:
+                        this.impactSound = "abilities/ranged_shot_impact.ogg";
+                        break;
+                }
             }
         }
 
@@ -57,13 +59,15 @@ public class Projectile extends Creature implements Serializable {
             this.targetX = targetX;
             this.targetY = targetY;
 
-            switch (damageType) {
-                case INT:
-                    this.impactSound = "abilities/magic_strike_impact.ogg";
-                    break;
-                case DEX:
-                    this.impactSound = "abilities/ranged_shot_impact.ogg";
-                    break;
+            if (damageType != null) {
+                switch (damageType) {
+                    case INT:
+                        this.impactSound = "abilities/magic_strike_impact.ogg";
+                        break;
+                    case DEX:
+                        this.impactSound = "abilities/ranged_shot_impact.ogg";
+                        break;
+                }
             }
         }
 
@@ -183,7 +187,7 @@ public class Projectile extends Creature implements Serializable {
 
         active = true;
 
-        caster.getProjectiles().add(this);
+        caster.addRuntimeProjectile(this);
     }
 
     public void tick() {

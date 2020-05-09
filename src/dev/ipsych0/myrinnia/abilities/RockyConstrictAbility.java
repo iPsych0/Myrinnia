@@ -78,6 +78,7 @@ public class RockyConstrictAbility extends Ability implements Serializable {
         if (!initialized) {
             initialized = true;
             hitEnemies = new ArrayList<>();
+
             if (caster.equals(player)) {
                 circle.x = (float) Handler.get().getMouse().x - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getxOffset();
                 circle.y = (float) Handler.get().getMouse().y - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getyOffset();
@@ -85,25 +86,15 @@ public class RockyConstrictAbility extends Ability implements Serializable {
                 circle.x = (float) player.getX() + player.getWidth() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getxOffset();
                 circle.y = (float) player.getY() + player.getHeight() / 2f - AOE_SIZE / 2f + (float) Handler.get().getGameCamera().getyOffset();
             }
-            animation = new Animation(1000 / 6, Assets.rockyConstrict, true, true);
-        }
 
-        // Player logic
-        if (caster.equals(player)) {
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (e.getCollisionBounds(0, 0).intersects(circle.getBounds())) {
-                    if (!e.isAttackable() || e.equals(player))
-                        continue;
+            animation = new Animation(1000 / 6, Assets.rockyConstrict, true, true);
+
+            hitEnemies = getAllEntitiesInShape(circle);
+            if (!hitEnemies.isEmpty()) {
+                for (Entity e : hitEnemies) {
                     e.damage(DamageType.INT, caster, this);
                     e.addCondition(player, new Condition(Condition.Type.CRIPPLED, 3));
-                    hitEnemies.add(e);
                 }
-            }
-        } else {
-            // Enemy logic
-            if (circle.getBounds().intersects(player.getCollisionBounds(0, 0))) {
-                player.damage(DamageType.INT, caster, this);
-                hitEnemies.add(player);
             }
         }
 

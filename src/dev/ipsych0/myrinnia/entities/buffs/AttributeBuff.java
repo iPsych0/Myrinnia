@@ -275,8 +275,17 @@ public class AttributeBuff extends Buff {
     @Override
     public void render(Graphics2D g, int x, int y) {
         if (this.isActive()) {
+
+            int timeLeft = (this.timeLeft / 60) + 1;
+            String text = String.valueOf(timeLeft);
+
+            // Draw minutes left if time left is greater than 60 seconds
+            if (timeLeft >= 60) {
+                text = timeLeft / 60 + "m";
+            }
+
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf((timeLeft / 60) + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, text, x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 

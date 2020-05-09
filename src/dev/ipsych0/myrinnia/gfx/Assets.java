@@ -42,7 +42,7 @@ public class Assets {
      */
     public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2, meleeBlunt, meleeBluntImpact;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee, debilitatingShotArrow, meleeBlunt, meleeBluntImpact;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
@@ -51,12 +51,12 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast, bulkBarrierResilience, warpTeleport, monsterBite;
+            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
-            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI;
+            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -229,7 +229,7 @@ public class Assets {
 
     // Icons
     public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
-    public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
+    public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon, crippledIcon, blindedIcon, rootedIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
             movSpdBuffIcon;
@@ -442,6 +442,9 @@ public class Assets {
         burnIcon = ui_sheet.imageCrop(2, 2);
         bleedIcon = ui_sheet.imageCrop(3, 2);
         stunIcon = ui_sheet.imageCrop(4, 2);
+        blindedIcon = ui_sheet.imageCrop(5, 2);
+        crippledIcon = ui_sheet.imageCrop(6, 2);
+        rootedIcon = ui_sheet.imageCrop(7, 2);
 
         // Weakness & Resistance icons
         resistanceIcon = ui_sheet.imageCrop(4, 1);
@@ -1229,6 +1232,9 @@ public class Assets {
         barrierI = ability_icons.imageCrop(1, 1);
         naturalResilienceI = ability_icons.imageCrop(2, 1);
         bulkUpI = ability_icons.imageCrop(3, 1);
+        aquaticReversalI = ability_icons.imageCrop(4, 1);
+        invigoratingBlowI = ability_icons.imageCrop(5, 1);
+        siphoningShotI = ability_icons.imageCrop(6, 1);
 
 
         /*
@@ -1294,8 +1300,8 @@ public class Assets {
         rockyConstrict[3] = ability_animations.imageCrop(3, 10);
         rockyConstrict[4] = ability_animations.imageCrop(4, 10);
 
-        arrow2 = new BufferedImage[1];
-        arrow2[0] = ability_animations.imageCrop(0, 11);
+        debilitatingShotArrow = new BufferedImage[1];
+        debilitatingShotArrow[0] = ability_animations.imageCrop(0, 11);
 
         sandBlast = new BufferedImage[8];
         sandBlast[0] = ability_animations.imageCrop(0, 12);
@@ -1333,6 +1339,27 @@ public class Assets {
         bulkBarrierResilience[5] = ability_animations.imageCrop(10, 19, WIDTH * 2, HEIGHT * 2);
         bulkBarrierResilience[6] = ability_animations.imageCrop(12, 19, WIDTH * 2, HEIGHT * 2);
         bulkBarrierResilience[7] = ability_animations.imageCrop(14, 19, WIDTH * 2, HEIGHT * 2);
+
+        siphoningShot = new BufferedImage[2];
+        siphoningShot[0] = ability_animations.imageCrop(1, 11);
+        siphoningShot[1] = ability_animations.imageCrop(2, 11);
+
+        aquaticReversal = new BufferedImage[3];
+        aquaticReversal[0] = ability_animations.imageCrop(0, 21);
+        aquaticReversal[1] = ability_animations.imageCrop(1, 21);
+        aquaticReversal[2] = ability_animations.imageCrop(2, 21);
+
+        invigoratingBlow = new BufferedImage[10];
+        invigoratingBlow[0] = ability_animations.imageCrop(0, 22);
+        invigoratingBlow[1] = ability_animations.imageCrop(1, 22);
+        invigoratingBlow[2] = ability_animations.imageCrop(2, 22);
+        invigoratingBlow[3] = ability_animations.imageCrop(3, 22);
+        invigoratingBlow[4] = ability_animations.imageCrop(4, 22);
+        invigoratingBlow[5] = ability_animations.imageCrop(5, 22);
+        invigoratingBlow[6] = ability_animations.imageCrop(6, 22);
+        invigoratingBlow[7] = ability_animations.imageCrop(7, 22);
+        invigoratingBlow[8] = ability_animations.imageCrop(8, 22);
+        invigoratingBlow[9] = ability_animations.imageCrop(9, 22);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

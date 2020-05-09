@@ -152,11 +152,11 @@ public class Condition implements Serializable {
     public enum Type {
         BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
         CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 50%."),
-        CRIPPLED(Assets.exclamationIcon, "'Crippled' decreases the receiver's movement speed by 33%."),
+        CRIPPLED(Assets.crippledIcon, "'Crippled' decreases the receiver's movement speed by 33%."),
         BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),
-        ROOTED(Assets.exclamationIcon, "'Rooted' renders the receiver immobilized."),
-        BLINDED(Assets.exclamationIcon, "'Blinded' makes the next attack miss."),
+        ROOTED(Assets.rootedIcon, "'Rooted' renders the receiver immobilized."),
+        BLINDED(Assets.blindedIcon, "'Blinded' makes the next attack miss."),
         STUN(Assets.stunIcon, "'Stun' immobilizes and stops the receiver from attacking.");
 
         Type(BufferedImage img, String description) {

@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 10.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Aquatic Reversal",
+  "description": "Launch a bolt of water that deals damage to your opponent and heals you.",
+  "abilityType": "StandardAbility",
+  "element": "Water",
+  "combatStyle": "Magic",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": true,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.AquaticReversalAbility"
+}

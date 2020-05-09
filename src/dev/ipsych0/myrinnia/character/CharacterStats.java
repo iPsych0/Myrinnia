@@ -32,12 +32,16 @@ public enum CharacterStats {
         switch (element) {
             case Water:
                 player.setWaterLevel(this.getLevel());
+                break;
             case Air:
                 player.setAirLevel(this.getLevel());
+                break;
             case Fire:
                 player.setFireLevel(this.getLevel());
+                break;
             case Earth:
                 player.setEarthLevel(this.getLevel());
+                break;
             default:
                 return;
         }

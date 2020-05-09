@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 10.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Invigorating Blow",
+  "description": "Deliver an invigorating blow that deals damage to your opponent and heals yourself slightly.",
+  "abilityType": "StandardAbility",
+  "element": "Water",
+  "combatStyle": "Melee",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.InvigoratingBlowAbility"
+}

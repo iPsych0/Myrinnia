@@ -10,7 +10,6 @@ import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
@@ -61,9 +60,10 @@ public abstract class Creature extends Entity {
     protected double attackSpeed;
     protected int waterLevel = 1, fireLevel = 1, airLevel = 1, earthLevel = 1;
     protected int combatLevel;
-    static final double LEVEL_EXPONENT = 0.998;
+    protected static final double LEVEL_EXPONENT = 0.998;
     protected int attackRange = Tile.TILEWIDTH + 16;
-    List<Projectile> projectiles = new ArrayList<>();
+    protected List<Projectile> projectiles = new ArrayList<>();
+    protected List<Projectile> toBeAdded = new ArrayList<>();
     protected double meleeDirection, meleeXOffset, meleeYOffset;
 
     // Walking timer
@@ -692,9 +692,20 @@ public abstract class Creature extends Entity {
         }
     }
 
-    void tickProjectiles() {
-        if (projectiles.size() < 1)
-            return;
+    public void addRuntimeProjectile(Projectile p) {
+        toBeAdded.add(p);
+    }
+
+    protected void tickProjectiles() {
+        if (projectiles.size() < 1) {
+            if (toBeAdded.size() < 1) {
+                return;
+            }
+        }
+
+        if (projectiles.addAll(toBeAdded)) {
+            toBeAdded.clear();
+        }
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
@@ -707,10 +718,13 @@ public abstract class Creature extends Entity {
             }
             if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
                 if (!p.getHitCreatures().contains(player)) {
-                    if (p.getAbility() != null) {
-                        player.damage(p.getDamageType(), this, p.getAbility());
-                    } else {
-                        player.damage(p.getDamageType(), this);
+                    // If damageType is null, then we don't deal damage
+                    if (p.getDamageType() != null) {
+                        if (p.getAbility() != null) {
+                            player.damage(p.getDamageType(), this, p.getAbility());
+                        } else {
+                            player.damage(p.getDamageType(), this);
+                        }
                     }
 
                     if (p.getImpactSound() != null) {

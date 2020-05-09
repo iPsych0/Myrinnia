@@ -25,7 +25,7 @@ public class StatusTooltip implements Serializable {
         String[] text = Text.splitIntoLine(b.getDescription(), 20);
         g.drawImage(Assets.uiWindow, x, y, 176, 48 + (text.length * 16), null);
         b.render(g, x + 4, y + 4);
-        Text.drawString(g, b.toString(), x + 40, y + 22, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, b.toString(), x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
             Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
@@ -37,7 +37,7 @@ public class StatusTooltip implements Serializable {
         String[] text = Text.splitIntoLine(i.getDescription(), 20);
         g.drawImage(Assets.uiWindow, x, y, 176, 48 + (text.length * 16), null);
         i.render(g, x + 4, y + 4);
-        Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase() + " resistance", x + 40, y + 22, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase() + " resistance", x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
             Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
@@ -49,7 +49,7 @@ public class StatusTooltip implements Serializable {
         g.drawImage(Assets.uiWindow, x, y, 176, 48 + (text.length * 16), null);
         c.render(g, x + 4, y + 4);
         String condition = c.getType().toString();
-        Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase(), x + 40, y + 22, false, Color.YELLOW, Assets.font14);
+        Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase(), x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
             Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);

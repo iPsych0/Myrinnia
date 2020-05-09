@@ -2,13 +2,19 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
+import dev.ipsych0.myrinnia.abilities.data.MeleeDirection;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Ability implements Serializable {
 
@@ -64,6 +70,168 @@ public abstract class Ability implements Serializable {
         // TODO: OVERRIDE IN SUBCLASS IMPLEMENTATION FOR RENDERING ABILITY EFFECTS UNDER PLAYER
     }
 
+    protected Point getRangedTarget() {
+        Rectangle direction;
+        Player player = Handler.get().getPlayer();
+        if (caster.equals(player)) {
+
+            direction = Handler.get().getMouse();
+
+            if (player.hasLeftClickedUI(direction))
+                return null;
+
+            // Change attacking animation depending on which weapon type
+            player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+        } else {
+            direction = new Rectangle((int) player.getX(), (int) player.getY(), 1, 1);
+        }
+
+        int targetX, targetY;
+        if (caster.equals(player)) {
+            targetX = (int) (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16);
+            targetY = (int) (direction.getY() + Handler.get().getGameCamera().getyOffset() - 16);
+            setSelected(false);
+        } else {
+            targetX = (int) (direction.getX());
+            targetY = (int) (direction.getY());
+        }
+        return new Point(targetX, targetY);
+    }
+
+    protected MeleeDirection getMeleeSwing(Rectangle direction) {
+        // The angle and speed of the projectile
+        double angle, rotation = 0, xPos = 0, yPos = 0;
+        if (caster.equals(Handler.get().getPlayer())) {
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
+        } else {
+            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
+        }
+        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
+        rotation = Math.toDegrees(angle);
+        if (rotation < 0) {
+            rotation += 360d;
+        }
+
+        double xOffset = 1.0f * Math.cos(angle);
+        double yOffset = 1.0f * Math.sin(angle);
+
+
+        // meleeXOffset change RIGHT
+        if (rotation >= 270 || rotation < 90) {
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
+            // meleeXOffset change LEFT
+        } else if (rotation >= 90 || rotation < 270) {
+            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
+        }
+
+        // meleeXOffset change UP
+        if (rotation >= 180 || rotation <= 360) {
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
+            // meleeXOffset change DOWN
+        } else if (rotation >= 0 || rotation < 180) {
+            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
+        }
+
+        return new MeleeDirection(rotation, xPos, yPos);
+    }
+
+    protected Entity getSingleMeleeHitEntity(Rectangle direction) {
+        double angle;
+        if (caster.equals(Handler.get().getPlayer())) {
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
+        } else {
+            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
+        }
+
+        Rectangle ar;
+        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
+            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
+        }
+
+        if (caster.equals(Handler.get().getPlayer())) {
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (e.equals(Handler.get().getPlayer()))
+                    continue;
+                if (!e.isAttackable())
+                    continue;
+                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
+                    return e;
+                }
+            }
+        } else {
+            Player player = Handler.get().getPlayer();
+            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
+    protected List<Entity> getAllMeleeHitEntities(Rectangle direction) {
+        List<Entity> entities = new ArrayList<>();
+        double angle;
+        if (caster.equals(Handler.get().getPlayer())) {
+            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
+        } else {
+            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
+        }
+
+        Rectangle ar;
+        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
+            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
+        } else {
+            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
+        }
+
+        if (caster.equals(Handler.get().getPlayer())) {
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (e.equals(Handler.get().getPlayer()))
+                    continue;
+                if (!e.isAttackable())
+                    continue;
+                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
+                    entities.add(e);
+                }
+            }
+        } else {
+            Player player = Handler.get().getPlayer();
+            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
+                entities.add(player);
+            }
+        }
+
+        if (entities.isEmpty()) {
+            return null;
+        }
+
+        return entities;
+    }
+
+    protected List<Entity> getAllEntitiesInShape(Shape shape) {
+        List<Entity> entities = new ArrayList<>();
+        Player player = Handler.get().getPlayer();
+        // Player logic
+        if (caster.equals(player)) {
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (!e.isAttackable() || e.equals(player))
+                    continue;
+                if (e.getCollisionBounds(0, 0).intersects(shape.getBounds())) {
+                    entities.add(e);
+                }
+            }
+        } else {
+            // Enemy logic
+            if (shape.getBounds().intersects(player.getCollisionBounds(0, 0))) {
+                entities.add(player);
+            }
+        }
+
+        return entities;
+    }
+
     public void setCaster(Creature c) {
         this.caster = c;
         this.setActivated(true);
@@ -95,7 +263,7 @@ public abstract class Ability implements Serializable {
             setSelected(false);
             for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
                 // Skip current casting ability
-                if(a.equals(this))
+                if (a.equals(this))
                     continue;
                 if (a.getCaster().equals(caster) && a.isChanneling()) {
                     this.setActivated(false);

@@ -27,9 +27,15 @@ public class FireBallAbility extends Ability {
 
     @Override
     public void cast() {
-        Handler.get().getMouseManager().setLeftPressed(true);
+        Point target = getRangedTarget();
+        if (target == null) {
+            return;
+        }
+        int targetX = target.x;
+        int targetY = target.y;
+
+        // TODO: IMPLEMENT
         Handler.get().getPlayer().checkMagic(Handler.get().getMouse());
-        Handler.get().getMouseManager().setLeftPressed(false);
         setCasting(false);
     }
 
