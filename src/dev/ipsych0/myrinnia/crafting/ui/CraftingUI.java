@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
+import dev.ipsych0.myrinnia.publishers.CraftingPublisher;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -544,7 +545,9 @@ public class CraftingUI implements Serializable {
             crs.addItem(result.getItem(), result.getAmount());
 
             removeComponentsFromSlots();
-            updateTutorial(result);
+
+            CraftingPublisher.get().setCraftedItem(result);
+            CraftingPublisher.get().notifySubscribers();
 
             Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(selectedSlot.getRecipe().getCraftingXP());
         } else {
@@ -575,20 +578,6 @@ public class CraftingUI implements Serializable {
             }
         }
         return true;
-    }
-
-    private void updateTutorial(ItemStack result) {
-        // For tutorial quest
-        if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
-            Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
-            if (result.getItem() == Item.simpleSword ||
-                    result.getItem() == Item.simpleBow ||
-                    result.getItem() == Item.simpleStaff) {
-                if (!quest.getQuestSteps().get(2).isFinished()) {
-                    quest.nextStep();
-                }
-            }
-        }
     }
 
     private void removeComponentsFromSlots() {

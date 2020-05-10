@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.skills;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.publishers.SkillPublisher;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.ui.Celebration;
 
@@ -46,6 +47,8 @@ public abstract class Skill implements Serializable {
 
     void addLevel() {
         this.level++;
+        SkillPublisher.get().setData(this);
+        SkillPublisher.get().notifySubscribers();
     }
 
     void checkNextLevel() {

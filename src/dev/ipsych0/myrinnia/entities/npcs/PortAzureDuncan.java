@@ -6,9 +6,12 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.publishers.CraftingPublisher;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
+import dev.ipsych0.myrinnia.subscribers.CraftingSubscriber;
 
 import java.awt.*;
 
@@ -29,6 +32,24 @@ public class PortAzureDuncan extends Creature {
         aRight = new Animation(250, Assets.portAzureDuncanRight);
         aUp = new Animation(250, Assets.portAzureDuncanUp);
         aDefault = aDown;
+
+        new CraftingSubscriber(CraftingPublisher.get(), (craftedItem) -> {
+            updateTutorial((ItemStack) craftedItem);
+        });
+    }
+
+    private void updateTutorial(ItemStack result) {
+        // For tutorial quest
+        if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
+            Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
+            if (result.getItem() == Item.simpleSword ||
+                    result.getItem() == Item.simpleBow ||
+                    result.getItem() == Item.simpleStaff) {
+                if (!quest.getQuestSteps().get(2).isFinished()) {
+                    quest.nextStep();
+                }
+            }
+        }
     }
 
     @Override
