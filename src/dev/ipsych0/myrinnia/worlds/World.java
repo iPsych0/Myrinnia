@@ -33,10 +33,8 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public class World implements Serializable {
 
@@ -55,6 +53,7 @@ public class World implements Serializable {
     private boolean initialized;
     private boolean hasPermissionsLayer;
     private int renderLayers;
+    private boolean town;
 
     // Entities
 
@@ -92,7 +91,7 @@ public class World implements Serializable {
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
             getHeight() / 2f, radius, fractions, colors);
 
-    public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, String path) {
+    public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, boolean isTown, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             String fixedFile;
@@ -108,6 +107,7 @@ public class World implements Serializable {
         this.zone = zone;
         this.weatherEffects = weatherEffects;
         this.dayNightCycle = dayNightCycle;
+        this.town = isTown;
 
         // World-specific classes
         this.player = Handler.get().getPlayer();
@@ -136,18 +136,6 @@ public class World implements Serializable {
             init();
         }
 
-    }
-
-    public World(Zone zone, String path) {
-        this(zone, new ArrayList<>(), true, path);
-    }
-
-    public World(Zone zone, boolean dayNightCycle, String path) {
-        this(zone, new ArrayList<>(), dayNightCycle, path);
-    }
-
-    public World(Zone zone, List<Weather> weatherEffects, String path) {
-        this(zone, weatherEffects, true, path);
     }
 
     public void init() {
@@ -324,7 +312,7 @@ public class World implements Serializable {
 //        g.setComposite(composite);
 
             Iterator<Weather> it = weatherEffects.iterator();
-            while (it.hasNext()){
+            while (it.hasNext()) {
                 Weather weather = it.next();
 
                 weather.tick();
@@ -604,5 +592,45 @@ public class World implements Serializable {
 
     public boolean isInitialized() {
         return initialized;
+    }
+
+    public boolean isTown() {
+        return town;
+    }
+
+    public void setTown(boolean town) {
+        this.town = town;
+    }
+
+    public static class Builder implements Serializable {
+        private Zone zone;
+        private String path;
+        private boolean isTown;
+        private boolean dayNightCycle = true;
+        private List<Weather> weatherEffects = new ArrayList<>();
+
+        public Builder(Zone zone, String path) {
+            this.zone = zone;
+            this.path = path;
+        }
+
+        public Builder withTown() {
+            this.isTown = true;
+            return this;
+        }
+
+        public Builder withoutDayNightCycle() {
+            this.dayNightCycle = false;
+            return this;
+        }
+
+        public Builder withWeather(Weather... weather) {
+            this.weatherEffects = Arrays.asList(weather);
+            return this;
+        }
+
+        public World build() {
+            return new World(zone, weatherEffects, dayNightCycle, isTown, path);
+        }
     }
 }

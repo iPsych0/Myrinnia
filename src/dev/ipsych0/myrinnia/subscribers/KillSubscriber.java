@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.subscribers;
 
-import dev.ipsych0.myrinnia.publishers.CraftingPublisher;
+import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.publishers.Publisher;
 
-public class CraftingSubscriber implements Subscriber {
+public class KillSubscriber implements Subscriber {
 
     private final SubscriptionListener subscriptionListener;
     private final boolean oneTimeEvent;
 
-    public CraftingSubscriber(Publisher publisher, boolean oneTimeEvent, SubscriptionListener subscriptionListener) {
+    public KillSubscriber(Publisher publisher, boolean oneTimeEvent, SubscriptionListener subscriptionListener) {
         this.oneTimeEvent = oneTimeEvent;
         this.subscriptionListener = subscriptionListener;
 
@@ -17,11 +17,11 @@ public class CraftingSubscriber implements Subscriber {
 
     @Override
     public void update(Publisher publisher) {
-        if (publisher instanceof CraftingPublisher) {
-            CraftingPublisher craftingPublisher = (CraftingPublisher) publisher;
+        if (publisher instanceof KillPublisher) {
+            KillPublisher killPublisher = (KillPublisher) publisher;
 
-            // Update logic calls for Crafting events
-            subscriptionListener.onMessageReceived(craftingPublisher.getCraftedItem());
+            // Update logic of leveling up a skill
+            subscriptionListener.onMessageReceived(killPublisher.getKilledEntity());
 
             if (oneTimeEvent) {
                 publisher.unsubscribe(this);

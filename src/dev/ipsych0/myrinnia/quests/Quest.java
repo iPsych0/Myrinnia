@@ -79,8 +79,12 @@ public class Quest implements Serializable {
     }
 
     public void nextStep() {
-        this.getQuestSteps().get(step).setFinished(true);
-        this.step++;
+        questSteps.get(step).setFinished(true);
+
+        // Make sure we never go out of bounds
+        if ((step + 1) < questSteps.size()) {
+            this.step++;
+        }
     }
 
     public ArrayList<QuestStep> getQuestSteps() {

@@ -1,25 +1,25 @@
 package dev.ipsych0.myrinnia.publishers;
 
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.subscribers.Subscriber;
-import dev.ipsych0.myrinnia.skills.Skill;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class CraftingPublisher implements Publisher {
+public class KillPublisher implements Publisher {
 
-    private static CraftingPublisher instance;
+    private static KillPublisher instance;
     private final Set<Subscriber> subscribers;
-    private ItemStack craftedItem;
+    private Entity killedEntity;
 
-    private CraftingPublisher() {
+    private KillPublisher() {
         subscribers = new HashSet<>();
     }
 
-    public static CraftingPublisher get() {
+    public static KillPublisher get() {
         if (instance == null) {
-            instance = new CraftingPublisher();
+            instance = new KillPublisher();
         }
         return instance;
     }
@@ -41,12 +41,12 @@ public class CraftingPublisher implements Publisher {
         }
     }
 
-    public ItemStack getCraftedItem() {
-        return craftedItem;
+    public Entity getKilledEntity() {
+        return killedEntity;
     }
 
-    public void publish(ItemStack craftedItem) {
-        this.craftedItem = craftedItem;
+    public void publish(Entity killedEntity) {
+        this.killedEntity = killedEntity;
         notifySubscribers();
     }
 }

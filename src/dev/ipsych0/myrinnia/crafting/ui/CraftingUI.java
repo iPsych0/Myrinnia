@@ -14,9 +14,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.publishers.CraftingPublisher;
-import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
-import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
@@ -546,8 +544,7 @@ public class CraftingUI implements Serializable {
 
             removeComponentsFromSlots();
 
-            CraftingPublisher.get().setCraftedItem(result);
-            CraftingPublisher.get().notifySubscribers();
+            CraftingPublisher.get().publish(result);
 
             Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(selectedSlot.getRecipe().getCraftingXP());
         } else {

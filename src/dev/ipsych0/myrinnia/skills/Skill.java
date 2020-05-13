@@ -47,7 +47,7 @@ public abstract class Skill implements Serializable {
 
     void addLevel() {
         this.level++;
-        SkillPublisher.get().setData(this);
+        SkillPublisher.get().publish(this);
         SkillPublisher.get().notifySubscribers();
     }
 

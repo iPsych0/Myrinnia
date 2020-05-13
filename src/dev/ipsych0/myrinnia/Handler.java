@@ -172,7 +172,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World(Zone.PortAzure, initialWorldPath);
+        portAzure = new World.Builder(Zone.PortAzure, initialWorldPath).withTown().build();
         worldHandler = new WorldHandler(portAzure);
     }
 
@@ -340,6 +340,14 @@ public class Handler implements Serializable {
         }
 
         World w = worldHandler.getWorldsMap().get(zone);
+
+        // Check if the world we're going to is a town, if so set a new spawnpoint here in case we die
+        if (w.isTown()) {
+            player.setLastSpawnPoint(w.getZone());
+            player.setLastXSpawn(x);
+            player.setLastYSpawn(y);
+        }
+
         w.init();
         setWorld(w);
 

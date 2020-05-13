@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
@@ -298,6 +299,7 @@ public abstract class Entity implements Serializable {
             damageReceiver.active = false;
             damageReceiver.die();
             clearActiveAbilities();
+            KillPublisher.get().publish(damageReceiver);
         }
 
         EffectManager.get().applyOnHitEffect(dealer, this);
@@ -328,6 +330,7 @@ public abstract class Entity implements Serializable {
             damageReceiver.active = false;
             damageReceiver.die();
             clearActiveAbilities();
+            KillPublisher.get().publish(damageReceiver);
         }
 
         EffectManager.get().applyOnHitEffect(dealer, this);
@@ -482,6 +485,7 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            KillPublisher.get().publish(damageReceiver);
         }
     }
 

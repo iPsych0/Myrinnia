@@ -9,7 +9,7 @@ import java.util.Set;
 public class SkillPublisher implements Publisher {
 
     private static SkillPublisher instance;
-    private Set<Subscriber> subscribers;
+    private final Set<Subscriber> subscribers;
     private Skill skill;
 
     private SkillPublisher() {
@@ -40,8 +40,9 @@ public class SkillPublisher implements Publisher {
         }
     }
 
-    public void setData(Skill skill) {
+    public void publish(Skill skill) {
         this.skill = skill;
+        notifySubscribers();
     }
 
     public Skill getSkill() {

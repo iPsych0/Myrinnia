@@ -1,16 +1,18 @@
 package dev.ipsych0.myrinnia.subscribers;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.publishers.Publisher;
 import dev.ipsych0.myrinnia.publishers.SkillPublisher;
 
 public class SkillSubscriber implements Subscriber {
 
     private final SubscriptionListener subscriptionListener;
+    private boolean oneTimeEvent;
 
-    public SkillSubscriber(Publisher publisher, SubscriptionListener subscriptionListener) {
-        publisher.subscribe(this);
+    public SkillSubscriber(Publisher publisher, boolean oneTimeEvent, SubscriptionListener subscriptionListener) {
+        this.oneTimeEvent = oneTimeEvent;
         this.subscriptionListener = subscriptionListener;
+
+        publisher.subscribe(this);
     }
 
     @Override
@@ -20,6 +22,10 @@ public class SkillSubscriber implements Subscriber {
 
             // Update logic of leveling up a skill
             subscriptionListener.onMessageReceived(skillPublisher.getSkill());
+
+            if (oneTimeEvent) {
+                publisher.unsubscribe(this);
+            }
         }
     }
 }

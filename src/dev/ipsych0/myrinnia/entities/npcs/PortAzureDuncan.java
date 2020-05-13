@@ -33,7 +33,7 @@ public class PortAzureDuncan extends Creature {
         aUp = new Animation(250, Assets.portAzureDuncanUp);
         aDefault = aDown;
 
-        new CraftingSubscriber(CraftingPublisher.get(), (craftedItem) -> {
+        new CraftingSubscriber(CraftingPublisher.get(), true, (craftedItem) -> {
             updateTutorial((ItemStack) craftedItem);
         });
     }

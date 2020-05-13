@@ -23,45 +23,45 @@ public class WorldHandler implements Serializable {
     }
 
     private void initWorlds() {
-        // Add new worlds here
-        addWorld(new World(Zone.Myrinnia, "/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
-        addWorld(new World(Zone.LakeAzure, "/worlds/lake_azure.tmx"));
-        addWorld(new World(Zone.SunriseSands, "/worlds/sunrise_sands.tmx"));
-        addWorld(new World(Zone.SunsetCove, "/worlds/sunset_cove.tmx"));
-        addWorld(new World(Zone.SunshineCoast, "/worlds/sunshine_coast.tmx"));
-        addWorld(new World(Zone.PortAzureInside, false, "/worlds/port_azure_inside.tmx"));
-        addWorld(new World(Zone.MtAzure1, false, "/worlds/mt_azure1.tmx"));
-        addWorld(new World(Zone.MtAzure2, false, "/worlds/mt_azure2.tmx"));
-        addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
-        addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
+        // Add new World.Builders here
+        addWorld(new World.Builder(Zone.Myrinnia, "/worlds/myrinnia_DUMMY_MAP.tmx").build()); // DUMMY WORLD, NO FUNCTIONALITY
+        addWorld(new World.Builder(Zone.LakeAzure, "/worlds/lake_azure.tmx").build());
+        addWorld(new World.Builder(Zone.SunriseSands, "/worlds/sunrise_sands.tmx").build());
+        addWorld(new World.Builder(Zone.SunsetCove, "/worlds/sunset_cove.tmx").build());
+        addWorld(new World.Builder(Zone.SunshineCoast, "/worlds/sunshine_coast.tmx").build());
+        addWorld(new World.Builder(Zone.PortAzureInside, "/worlds/port_azure_inside.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure1, "/worlds/mt_azure1.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure2, "/worlds/mt_azure2.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure3, "/worlds/mt_azure3.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure3, "/worlds/mt_azure3.tmx").withoutDayNightCycle().build());
 
-        addWorld(new World(Zone.ShamrockHarbour, "/worlds/shamrock_harbour.tmx"));
-        addWorld(new World(Zone.ShamrockTown, "/worlds/shamrock_town.tmx"));
-        addWorld(new World(Zone.ShamrockTownInside, false, "/worlds/shamrock_town_inside.tmx"));
-        addWorld(new World(Zone.ShamrockMines1, false, "/worlds/shamrock_mines1.tmx"));
-        addWorld(new World(Zone.ShamrockMines2, false, "/worlds/shamrock_mines2.tmx"));
-        addWorld(new World(Zone.ShamrockMines3, false, "/worlds/shamrock_mines3.tmx"));
-        addWorld(new World(Zone.ShamrockMines3, false, "/worlds/shamrock_mines3.tmx"));
-        addWorld(new World(Zone.ShamrockMinesBasin, Collections.singletonList(new Cave()), false, "/worlds/shamrock_mines4.tmx"));
-        addWorld(new World(Zone.ShamrockCliffs, "/worlds/shamrock_cliffs.tmx"));
+        addWorld(new World.Builder(Zone.ShamrockHarbour, "/worlds/shamrock_harbour.tmx").build());
+        addWorld(new World.Builder(Zone.ShamrockTown, "/worlds/shamrock_town.tmx").withTown().build());
+        addWorld(new World.Builder(Zone.ShamrockTownInside, "/worlds/shamrock_town_inside.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines1, "/worlds/shamrock_mines1.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines2, "/worlds/shamrock_mines2.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines3, "/worlds/shamrock_mines3.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines3, "/worlds/shamrock_mines3.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMinesBasin, "/worlds/shamrock_mines4.tmx").withoutDayNightCycle().withWeather(new Cave()).build());
+        addWorld(new World.Builder(Zone.ShamrockCliffs, "/worlds/shamrock_cliffs.tmx").build());
 
-        addWorld(new World(Zone.MalachiteHills, "/worlds/malachite_hills.tmx"));
-        addWorld(new World(Zone.MalachiteHideout, false, "/worlds/malachite_hideout.tmx"));
-        addWorld(new World(Zone.MalachiteFields, "/worlds/malachite_fields.tmx"));
-        addWorld(new World(Zone.MalachiteInside, false, "/worlds/malachite_inside.tmx"));
-        addWorld(new World(Zone.MalachiteSlopes, "/worlds/malachite_slopes.tmx"));
-        addWorld(new World(Zone.MalachitePass, "/worlds/malachite_pass.tmx"));
-        addWorld(new World(Zone.MalachiteOverpass, "/worlds/malachite_overpass.tmx"));
+        addWorld(new World.Builder(Zone.MalachiteHills, "/worlds/malachite_hills.tmx").build());
+        addWorld(new World.Builder(Zone.MalachiteHideout,"/worlds/malachite_hideout.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MalachiteFields, "/worlds/malachite_fields.tmx").build());
+        addWorld(new World.Builder(Zone.MalachiteInside, "/worlds/malachite_inside.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MalachiteSlopes, "/worlds/malachite_slopes.tmx").build());
+        addWorld(new World.Builder(Zone.MalachitePass, "/worlds/malachite_pass.tmx").build());
+        addWorld(new World.Builder(Zone.MalachiteOverpass, "/worlds/malachite_overpass.tmx").build());
 
-        addWorld(new World(Zone.CelenorForestEdge, "/worlds/celenor_forest_edge.tmx"));
-        addWorld(new World(Zone.CelenorForestThicket, "/worlds/celenor_forest_thicket.tmx"));
-        addWorld(new World(Zone.CelenorForestShrine, false, "/worlds/celenor_shrine.tmx"));
-        addWorld(new World(Zone.Celewynn, "/worlds/celewynn.tmx"));
-        addWorld(new World(Zone.CelewynnInside, false, "/worlds/celewynn_inside.tmx"));
-        addWorld(new World(Zone.CelenorSeaboard, "/worlds/celenor_seaboard.tmx"));
-        addWorld(new World(Zone.CelenorCaves, false, "/worlds/celenor_caves.tmx"));
-        addWorld(new World(Zone.AemirRiverflank, "/worlds/aemir_riverflank.tmx"));
-        addWorld(new World(Zone.WardensCabin, false, "/worlds/wardens_cabin.tmx"));
+        addWorld(new World.Builder(Zone.CelenorForestEdge, "/worlds/celenor_forest_edge.tmx").build());
+        addWorld(new World.Builder(Zone.CelenorForestThicket, "/worlds/celenor_forest_thicket.tmx").build());
+        addWorld(new World.Builder(Zone.CelenorForestShrine, "/worlds/celenor_shrine.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.Celewynn, "/worlds/celewynn.tmx").withTown().build());
+        addWorld(new World.Builder(Zone.CelewynnInside, "/worlds/celewynn_inside.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.CelenorSeaboard, "/worlds/celenor_seaboard.tmx").build());
+        addWorld(new World.Builder(Zone.CelenorCaves, "/worlds/celenor_caves.tmx").withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.AemirRiverflank, "/worlds/aemir_riverflank.tmx").build());
+        addWorld(new World.Builder(Zone.WardensCabin, "/worlds/wardens_cabin.tmx").withoutDayNightCycle().build());
     }
 
     public void tick() {

@@ -96,6 +96,8 @@ public class Player extends Creature {
 
     public static boolean mouseMoved;
     private double xSpawn, ySpawn;
+    private Zone lastSpawnPoint;
+    private double lastXSpawn, lastYSpawn;
 
     // Entities we can interact with, with different functions
     private Entity closestEntity;
@@ -157,6 +159,9 @@ public class Player extends Creature {
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 
+        lastSpawnPoint = zone;
+        lastXSpawn = xSpawn / 32;
+        lastYSpawn = ySpawn / 32;
     }
 
     @Override
@@ -899,8 +904,7 @@ public class Player extends Creature {
 
     @Override
     public void respawn() {
-        // TODO: Go to last saved location!
-        Handler.get().goToWorld(Zone.PortAzure, (int) xSpawn / 32, (int) ySpawn / 32);
+        Handler.get().goToWorld(lastSpawnPoint, (int) lastXSpawn, (int) lastYSpawn);
 
         // Clear buffs & condis & reset HP
         clearBuffs();
@@ -1293,6 +1297,30 @@ public class Player extends Creature {
 
     public void setLevelExponent(double levelExponent) {
         this.levelExponent = levelExponent;
+    }
+
+    public Zone getLastSpawnPoint() {
+        return lastSpawnPoint;
+    }
+
+    public void setLastSpawnPoint(Zone lastSpawnPoint) {
+        this.lastSpawnPoint = lastSpawnPoint;
+    }
+
+    public double getLastXSpawn() {
+        return lastXSpawn;
+    }
+
+    public void setLastXSpawn(double lastXSpawn) {
+        this.lastXSpawn = lastXSpawn;
+    }
+
+    public double getLastYSpawn() {
+        return lastYSpawn;
+    }
+
+    public void setLastYSpawn(double lastYSpawn) {
+        this.lastYSpawn = lastYSpawn;
     }
 
     @Override
