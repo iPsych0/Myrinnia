@@ -172,7 +172,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World.Builder(Zone.PortAzure, initialWorldPath).withTown().build();
+        portAzure = new World.Builder(Zone.PortAzure).withTown().build();
         worldHandler = new WorldHandler(portAzure);
     }
 

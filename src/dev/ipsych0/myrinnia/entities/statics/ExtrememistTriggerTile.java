@@ -8,7 +8,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.states.CutsceneState;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.worlds.Fog;
+import dev.ipsych0.myrinnia.worlds.weather.Fog;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="10">
- <tileset firstgid="1" source="castle.tsx"/>
+<tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
  <tileset firstgid="2472" source="house.tsx"/>
@@ -19,6 +19,14 @@
  <tileset firstgid="19720" source="ruindungeons_sheet_full.tsx"/>
  <tileset firstgid="22268" source="ship_tileset.tsx"/>
  <tileset firstgid="23780" source="z_tile_marker.tsx"/>
+ <tileset firstgid="23812" source="underwater.tsx"/>
+ <tileset firstgid="25002" source="giant_tree.tsx"/>
+ <tileset firstgid="26226" source="eastern.tsx"/>
+ <tileset firstgid="29642" source="sewer.tsx"/>
+ <tileset firstgid="30650" source="winter1.tsx"/>
+ <tileset firstgid="31530" source="winter2.tsx"/>
+ <tileset firstgid="31786" source="winter3.tsx"/>
+ <tileset firstgid="32042" source="winter4.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="csv">
 1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,1525,

@@ -30,6 +30,8 @@ import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.worlds.weather.Rain;
+import dev.ipsych0.myrinnia.worlds.weather.Weather;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -609,9 +611,9 @@ public class World implements Serializable {
         private boolean dayNightCycle = true;
         private List<Weather> weatherEffects = new ArrayList<>();
 
-        public Builder(Zone zone, String path) {
+        public Builder(Zone zone) {
             this.zone = zone;
-            this.path = path;
+            this.path = zone.getPath();
         }
 
         public Builder withTown() {
@@ -625,7 +627,9 @@ public class World implements Serializable {
         }
 
         public Builder withWeather(Weather... weather) {
-            this.weatherEffects = Arrays.asList(weather);
+            if (weather != null) {
+                this.weatherEffects = Arrays.asList(weather);
+            }
             return this;
         }
 

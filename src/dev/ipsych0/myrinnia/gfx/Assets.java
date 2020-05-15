@@ -358,6 +358,14 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/z_tile_marker.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/underwater.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/giant_tree.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/eastern.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/sewer.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter1.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 

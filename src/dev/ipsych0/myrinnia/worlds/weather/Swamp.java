@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.worlds;
+package dev.ipsych0.myrinnia.worlds.weather;
 
 import dev.ipsych0.myrinnia.Handler;
 
