@@ -36,4 +36,13 @@ public class Colors {
     // Bounty
     public static Color completedColor = new Color(44, 255, 12, 62);
     public static Color acceptedColor = new Color(196, 204, 17, 62);
+
+    // Level difference
+    public static Color lowestLvlcolor = new Color(0, 255, 0);
+    public static Color lowerLvlcolor = new Color(64, 255, 0);
+    public static Color lowLvlcolor = new Color(128, 255, 0);
+    public static Color sameLvlcolor = new Color(255, 255, 0);
+    public static Color highLvlcolor = new Color(255, 128, 0);
+    public static Color higherLvlcolor = new Color(255, 64, 0);
+    public static Color highestLvlcolor = new Color(255, 0, 0);
 }

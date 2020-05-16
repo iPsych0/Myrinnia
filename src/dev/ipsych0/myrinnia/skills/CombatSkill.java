@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
-import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 
@@ -33,6 +32,8 @@ public class CombatSkill extends Skill {
     public void addLevel() {
         this.level++;
         CharacterStats.Combat.addLevel();
+        Handler.get().getPlayer().setCombatLevel(level);
+
         // Add base
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();
@@ -70,6 +71,12 @@ public class CombatSkill extends Skill {
                 Handler.get().sendMsg(toString() + " level rose to level " + this.getLevel() + "!");
             }
         }
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        Handler.get().getPlayer().setCombatLevel(level);
     }
 
 }
