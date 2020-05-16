@@ -40,7 +40,7 @@ public enum Zone {
     AemirRiverflank("Aemir Riverflank", "celenor_forest_edge.ogg", "/worlds/aemir_riverflank.tmx"),
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
-    FarnorRiverMeander("Farnor River Meander", "malachite_hills.ogg", "/worlds/farnor_river_meander.tmx");
+    StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx");
 
 
     private String musicFile;

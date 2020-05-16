@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "It's a statue of a very tall human, holding a rock above his head. There is something scribbled into the stones.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Read the description.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "\"Behold Stozar, The Last Giant of the Midlands.",
+      "nextId": 1
+    }
+  ]
+}

@@ -63,7 +63,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.AemirRiverflank).build());
         addWorld(new World.Builder(Zone.WardensCabin).withoutDayNightCycle().build());
 
-        addWorld(new World.Builder(Zone.FarnorRiverMeander).build());
+        addWorld(new World.Builder(Zone.StozarsDescent).build());
     }
 
     public void tick() {
