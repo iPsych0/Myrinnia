@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
+import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -32,13 +33,24 @@ public class WhiteWolf extends Creature {
         vitality = 88;
         defence = 15;
 
-        maxHealth = DEFAULT_HEALTH + vitality * 4;
-        health = maxHealth;
-
         bounds.x = 24;
         bounds.y = 24;
         bounds.width = 24;
         bounds.height = 24;
+
+        if (name.equalsIgnoreCase("Alpha Wolf")) {
+            strength = 52;
+            vitality = 108;
+            defence = 35;
+            bounds.x = 32;
+            bounds.y = 32;
+            bounds.width = 32;
+            bounds.height = 40;
+        }
+
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
+        health = maxHealth;
+
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
 
@@ -78,6 +90,11 @@ public class WhiteWolf extends Creature {
 
     @Override
     public void die() {
+        int exp = 20;
+        if (name.equalsIgnoreCase("Alpha Wolf")) {
+            exp = 35;
+        }
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience(exp);
         getDroptableItem();
     }
 
@@ -105,6 +122,20 @@ public class WhiteWolf extends Creature {
 
     @Override
     public void respawn() {
+        // When we've killed the alpha wolf, respawn a normal white wolf in its place.
+        if (name.equalsIgnoreCase("Alpha Wolf")) {
+            name = "White Wolf";
+            width = 64;
+            height = 64;
+            combatLevel = 13;
+            strength = 42;
+            vitality = 88;
+            defence = 15;
+            bounds.x = 24;
+            bounds.y = 24;
+            bounds.width = 24;
+            bounds.height = 24;
+        }
         Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 

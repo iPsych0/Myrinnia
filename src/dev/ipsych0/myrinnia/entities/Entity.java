@@ -81,9 +81,6 @@ public abstract class Entity implements Serializable {
         this.animationTag = animation;
         health = DEFAULT_HEALTH;
 
-        if (dropTable != null) {
-            // TODO: LOAD DROP TABLE FROM JSON FILE!
-        }
         if (jsonFile != null) {
             if (jsonFile.endsWith(".json")) {
                 script = Utils.loadScript(jsonFile);

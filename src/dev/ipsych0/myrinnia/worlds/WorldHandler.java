@@ -44,6 +44,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.ShamrockMines3).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMinesBasin).withoutDayNightCycle().withWeather(new Cave()).build());
         addWorld(new World.Builder(Zone.ShamrockCliffs).build());
+        addWorld(new World.Builder(Zone.ShamrockWolfDen).withoutDayNightCycle().withWeather(new Cave()).build());
 
         addWorld(new World.Builder(Zone.MalachiteHills).build());
         addWorld(new World.Builder(Zone.MalachiteHideout).withoutDayNightCycle().build());
