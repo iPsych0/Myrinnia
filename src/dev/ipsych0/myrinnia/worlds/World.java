@@ -26,17 +26,19 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
-import dev.ipsych0.myrinnia.utils.Colors;
-import dev.ipsych0.myrinnia.utils.MapLoader;
-import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.utils.*;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.Rain;
+import dev.ipsych0.myrinnia.worlds.weather.Sunny;
 import dev.ipsych0.myrinnia.worlds.weather.Weather;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
-import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class World implements Serializable {
 
@@ -82,7 +84,10 @@ public class World implements Serializable {
     private List<ZoneTile> zoneTiles;
     private List<ZoneTile> toBeAddedZoneTiles;
     private Zone zone;
-    private List<Weather> weatherEffects;
+    private List<Weather> weatherEffects = new ArrayList<>();
+    private Climate climate;
+    private Weather currentWeather;
+    private Weather oldWeather;
     private boolean dayNightCycle;
     private static boolean isFadingInWeather, isFadingOutWeather;
     private static float fadeInAlpha = 0.0f, fadeOutAlpha = 1.0f;
@@ -93,7 +98,7 @@ public class World implements Serializable {
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
             getHeight() / 2f, radius, fractions, colors);
 
-    public World(Zone zone, List<Weather> weatherEffects, boolean dayNightCycle, boolean isTown, String path) {
+    public World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             String fixedFile;
@@ -107,9 +112,14 @@ public class World implements Serializable {
             this.worldPath = path;
         }
         this.zone = zone;
-        this.weatherEffects = weatherEffects;
         this.dayNightCycle = dayNightCycle;
         this.town = isTown;
+        this.climate = climate;
+
+        // If we didn't specify a climate, assume always sunny (no weather condition)
+        if (climate.getWeathers().isEmpty()) {
+            this.climate.getWeathers().add(new Sunny());
+        }
 
         // World-specific classes
         this.player = Handler.get().getPlayer();
@@ -140,6 +150,40 @@ public class World implements Serializable {
 
     }
 
+    public void checkForNewWeather() {
+        // If we leave the world, only re-check when we enter it again
+        TimerHandler.get().addTimer(new Timer(15, TimeUnit.MINUTES, this::checkForNewWeather));
+        if (initialized && Handler.get().getWorld().equals(this)) {
+            oldWeather = currentWeather;
+            currentWeather = getRolledWeather();
+            System.out.println("Rolled: " + currentWeather.getClass().getSimpleName());
+            if (oldWeather != currentWeather) {
+                fadeOutWeatherEffect(oldWeather);
+                // No need to fade in 'sunny' weather, as it has no condition
+                if (!(currentWeather instanceof Sunny)) {
+                    fadeInWeatherEffect(currentWeather);
+                }
+            }
+        }
+    }
+
+    private Weather getRolledWeather() {
+        // Roll number between 1 and 100
+        int roll = Handler.get().getRandomNumber(1, 100);
+        int current = 0;
+        int index = 0;
+        for (Double chance : climate.getProbabilities()) {
+            current += chance * 100; // Multiply by 100 so it becomes a scale of 1-100 instead of 0-1
+            if (roll <= current && roll > (current - chance * 100)) {
+                return climate.getWeathers().get(index);
+            }
+            index++;
+        }
+
+        // Else return default, Sunny (no) weather
+        return climate.getWeathers().get(0);
+    }
+
     public void init() {
         if (!initialized) {
             MapLoader.setWorldDoc(worldPath);
@@ -154,6 +198,8 @@ public class World implements Serializable {
 
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
+
+            checkForNewWeather();
 
             initialized = true;
         }
@@ -397,16 +443,7 @@ public class World implements Serializable {
     }
 
     private void handleFadings(Graphics2D g, Iterator<Weather> it) {
-        if (isFadingInWeather) {
-            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeInAlpha);
-            g.setComposite(ac);
-            fadeInAlpha += 0.01f;
-            // Done fading in
-            if (fadeInAlpha >= 1.0f) {
-                isFadingInWeather = false;
-                fadeInAlpha = 0.0f;
-            }
-        } else if (isFadingOutWeather) {
+        if (isFadingOutWeather) {
             AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeOutAlpha);
             g.setComposite(ac);
             fadeOutAlpha -= 0.01f;
@@ -416,6 +453,16 @@ public class World implements Serializable {
                 fadeOutAlpha = 1.0f;
                 // Remove the weather effect
                 it.remove();
+            }
+        }
+        if (isFadingInWeather) {
+            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeInAlpha);
+            g.setComposite(ac);
+            fadeInAlpha += 0.01f;
+            // Done fading in
+            if (fadeInAlpha >= 1.0f) {
+                isFadingInWeather = false;
+                fadeInAlpha = 0.0f;
             }
         }
     }
@@ -605,11 +652,11 @@ public class World implements Serializable {
     }
 
     public static class Builder implements Serializable {
-        private Zone zone;
-        private String path;
+        private final Zone zone;
+        private final String path;
         private boolean isTown;
         private boolean dayNightCycle = true;
-        private List<Weather> weatherEffects = new ArrayList<>();
+        private Climate climate = new Climate();
 
         public Builder(Zone zone) {
             this.zone = zone;
@@ -626,15 +673,22 @@ public class World implements Serializable {
             return this;
         }
 
-        public Builder withWeather(Weather... weather) {
-            if (weather != null) {
-                this.weatherEffects = Arrays.asList(weather);
-            }
+        public Builder withClimate(int weatherID, double probability) {
+            climate.with(weatherID, probability);
+            return this;
+        }
+
+        public Builder withClimate(int weatherID) {
+            return withClimate(weatherID, 1.0);
+        }
+
+        public Builder withClimate(Climate climate) {
+            this.climate = climate;
             return this;
         }
 
         public World build() {
-            return new World(zone, weatherEffects, dayNightCycle, isTown, path);
+            return new World(zone, climate, dayNightCycle, isTown, path);
         }
     }
 }

@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.worlds.weather.Cave;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -42,7 +43,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.ShamrockMines1).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMines2).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMines3).withoutDayNightCycle().build());
-        addWorld(new World.Builder(Zone.ShamrockMinesBasin).withoutDayNightCycle().withWeather(new Cave()).build());
+        addWorld(new World.Builder(Zone.ShamrockMinesBasin).withoutDayNightCycle().withClimate(Climate.CAVE).build());
         addWorld(new World.Builder(Zone.ShamrockCliffs).build());
 
         addWorld(new World.Builder(Zone.MalachiteHills).build());

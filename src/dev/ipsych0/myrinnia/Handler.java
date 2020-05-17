@@ -49,6 +49,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
 
 import java.awt.*;
 import java.io.*;
@@ -172,7 +173,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World.Builder(Zone.PortAzure).withTown().build();
+        portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new Climate(Climate.TEMPERATE_CLIMATE)).build();
         worldHandler = new WorldHandler(portAzure);
     }
 
