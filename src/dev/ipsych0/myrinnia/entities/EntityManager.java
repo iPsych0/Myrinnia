@@ -4,8 +4,11 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Colors;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -256,6 +259,7 @@ public class EntityManager implements Serializable {
 
             if (!e.equals(player)) {
                 e.postRender(g);
+                drawLevel(g, e);
             }
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.isOverlayDrawn() && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
@@ -316,6 +320,41 @@ public class EntityManager implements Serializable {
             Double b = o2.getY() + o2.getHeight();
             return a.compareTo(b);
         });
+    }
+
+    private void drawLevel(Graphics2D g, Entity e) {
+        if (!e.isAttackable() || !(e instanceof Creature)) {
+            return;
+        }
+
+        Creature c = (Creature) e;
+        int level = c.getCombatLevel();
+        int playerLvl = Handler.get().getPlayer().getCombatLevel();
+        int levelDiff = (playerLvl - level);
+        Color color = getColorByLvlDiff(levelDiff);
+
+        Text.drawString(g, "Lv. " + level,
+                (int) (e.getX() + e.getWidth() / 2d - Handler.get().getGameCamera().getxOffset()),
+                (int) (e.getY() + e.getHeight() + 8 - Handler.get().getGameCamera().getyOffset()),
+                true, color, Assets.font14);
+    }
+
+    private Color getColorByLvlDiff(int levelDiff) {
+        if (levelDiff <= -5) {
+            return Colors.highestLvlcolor;
+        } else if (levelDiff <= -3) {
+            return Colors.higherLvlcolor;
+        } else if (levelDiff <= -1) {
+            return Colors.highLvlcolor;
+        } else if (levelDiff == 0) {
+            return Colors.sameLvlcolor;
+        } else if (levelDiff >= 5) {
+            return Colors.lowestLvlcolor;
+        } else if (levelDiff >= 3) {
+            return Colors.lowerLvlcolor;
+        } else {
+            return Colors.lowLvlcolor;
+        }
     }
 
     public void addEntity(Entity e) {

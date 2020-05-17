@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.devtools;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
@@ -95,6 +96,7 @@ public class CommandHandler implements Serializable {
                         if (s.toString().equalsIgnoreCase("Combat")) {
                             Handler.get().getPlayer().setBaseDamage(1);
                             Handler.get().getPlayer().setLevelExponent(1.1);
+                            resetSkillPoints();
                         }
 
                         // Set the levels
@@ -210,6 +212,20 @@ public class CommandHandler implements Serializable {
             default:
                 Handler.get().sendMsg("Could not parse command.");
                 break;
+        }
+    }
+
+
+    private void resetSkillPoints() {
+        for (CharacterStats stat : CharacterStats.values()) {
+            if (stat == CharacterStats.Combat)
+                continue;
+            if (stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
+                Handler.get().getCharacterUI().addBaseStatPoints(stat.getLevel());
+            } else {
+                Handler.get().getCharacterUI().addElementalStatPoints(stat.getLevel());
+            }
+            stat.setLevel(0);
         }
     }
 }

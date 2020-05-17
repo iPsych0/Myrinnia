@@ -21,6 +21,7 @@ public enum Zone {
     ShamrockMines3("Shamrock Mines B3", "shamrock_mines.ogg", "/worlds/shamrock_mines3.tmx"),
     ShamrockMinesBasin("Shamrock Mines Basin", "shamrock_mines.ogg", "/worlds/shamrock_mines4.tmx"),
     ShamrockCliffs("Shamrock Cliffs", "celenor_coast.ogg", "/worlds/shamrock_cliffs.tmx"),
+    ShamrockWolfDen("Wolf Den", "celenor_coast.ogg", "/worlds/wolfs_den.tmx"),
 
     MalachiteHills("Malachite Hills", "malachite_hills.ogg", "/worlds/malachite_hills.tmx"),
     MalachiteHideout("Malachite Hideout", "malachite_hideout.ogg", "/worlds/malachite_hideout.tmx"),

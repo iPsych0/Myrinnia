@@ -67,7 +67,7 @@ public abstract class Ability implements Serializable {
     protected abstract void cast();
 
     public void renderUnderEntity(Graphics2D g) {
-        // TODO: OVERRIDE IN SUBCLASS IMPLEMENTATION FOR RENDERING ABILITY EFFECTS UNDER PLAYER
+        // OVERRIDE IN SUBCLASS IMPLEMENTATION FOR RENDERING ABILITY EFFECTS UNDER PLAYER
     }
 
     protected Point getRangedTarget() {

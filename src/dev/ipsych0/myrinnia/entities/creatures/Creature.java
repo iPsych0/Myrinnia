@@ -1320,7 +1320,7 @@ public abstract class Creature extends Entity {
         this.baseDamage = baseDamage;
     }
 
-    private int getCombatLevel() {
+    public int getCombatLevel() {
         return combatLevel;
     }
 
