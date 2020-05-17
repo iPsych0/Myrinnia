@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.worlds.weather.Cave;
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.TemperateClimate;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -28,43 +29,43 @@ public class WorldHandler implements Serializable {
     private void initWorlds() {
         // Add new World.Builders here
         addWorld(new World.Builder(Zone.Myrinnia).build()); // DUMMY WORLD, NO FUNCTIONALITY
-        addWorld(new World.Builder(Zone.LakeAzure).build());
-        addWorld(new World.Builder(Zone.SunriseSands).build());
-        addWorld(new World.Builder(Zone.SunsetCove).build());
-        addWorld(new World.Builder(Zone.SunshineCoast).build());
+        addWorld(new World.Builder(Zone.LakeAzure).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunriseSands).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunsetCove).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunshineCoast).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.PortAzureInside).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.MtAzure1).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.MtAzure2).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.MtAzure3).withoutDayNightCycle().withoutDayNightCycle().build());
 
-        addWorld(new World.Builder(Zone.ShamrockHarbour).build());
-        addWorld(new World.Builder(Zone.ShamrockTown).withTown().build());
+        addWorld(new World.Builder(Zone.ShamrockHarbour).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.ShamrockTown).withClimate(new TemperateClimate()).withTown().build());
         addWorld(new World.Builder(Zone.ShamrockTownInside).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMines1).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMines2).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMines3).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.ShamrockMinesBasin).withoutDayNightCycle().withClimate(Climate.CAVE).build());
-        addWorld(new World.Builder(Zone.ShamrockCliffs).build());
+        addWorld(new World.Builder(Zone.ShamrockCliffs).withClimate(new TemperateClimate()).build());
 
-        addWorld(new World.Builder(Zone.MalachiteHills).build());
+        addWorld(new World.Builder(Zone.MalachiteHills).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.MalachiteHideout).withoutDayNightCycle().build());
-        addWorld(new World.Builder(Zone.MalachiteFields).build());
+        addWorld(new World.Builder(Zone.MalachiteFields).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.MalachiteInside).withoutDayNightCycle().build());
-        addWorld(new World.Builder(Zone.MalachiteSlopes).build());
-        addWorld(new World.Builder(Zone.MalachitePass).build());
-        addWorld(new World.Builder(Zone.MalachiteOverpass).build());
+        addWorld(new World.Builder(Zone.MalachiteSlopes).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachitePass).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachiteOverpass).withClimate(new TemperateClimate()).build());
 
         addWorld(new World.Builder(Zone.CelenorForestEdge).build());
         addWorld(new World.Builder(Zone.CelenorForestThicket).build());
         addWorld(new World.Builder(Zone.CelenorForestShrine).withoutDayNightCycle().build());
         addWorld(new World.Builder(Zone.Celewynn).withTown().build());
         addWorld(new World.Builder(Zone.CelewynnInside).withoutDayNightCycle().build());
-        addWorld(new World.Builder(Zone.CelenorSeaboard).build());
+        addWorld(new World.Builder(Zone.CelenorSeaboard).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.CelenorCaves).withoutDayNightCycle().build());
-        addWorld(new World.Builder(Zone.AemirRiverflank).build());
+        addWorld(new World.Builder(Zone.AemirRiverflank).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.WardensCabin).withoutDayNightCycle().build());
 
-        addWorld(new World.Builder(Zone.StozarsDescent).build());
+        addWorld(new World.Builder(Zone.StozarsDescent).withClimate(new TemperateClimate()).build());
     }
 
     public void tick() {

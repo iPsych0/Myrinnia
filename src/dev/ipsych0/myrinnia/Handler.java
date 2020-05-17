@@ -50,6 +50,7 @@ import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.TemperateClimate;
 
 import java.awt.*;
 import java.io.*;
@@ -173,7 +174,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new Climate(Climate.TEMPERATE_CLIMATE)).build();
+        portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new TemperateClimate()).build();
         worldHandler = new WorldHandler(portAzure);
     }
 
@@ -349,8 +350,9 @@ public class Handler implements Serializable {
             player.setLastYSpawn(y);
         }
 
-        w.init();
+        // v----- order matters like this
         setWorld(w);
+        w.init();
 
         if (getWorld().hasPermissionsLayer()) {
             Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);

@@ -15,12 +15,8 @@ public class Climate {
     public static final int SUNNY = 8;
     public static final int SWAMP = 9;
 
-    public static final int TEMPERATE_CLIMATE = 10;
-    public static final int COLD_CLIMATE = 11;
-    public static final int HOT_CLIMATE = 12;
-
-    private List<Weather> weathers = new ArrayList<>();
-    private List<Double> probabilities = new ArrayList<>();
+    protected List<Weather> weathers = new ArrayList<>();
+    protected List<Double> probabilities = new ArrayList<>();
 
     /**
      * Constructor for custom climate control
@@ -31,15 +27,6 @@ public class Climate {
     public Climate(int weatherID, double probability) {
         this.weathers.add(getWeatherByID(weatherID));
         this.probabilities.add(probability);
-    }
-
-    /**
-     * Constructor for setting climates:
-     *
-     * @param weatherID
-     */
-    public Climate(int weatherID) {
-        setClimateProbabilities(weatherID);
     }
 
     public Climate() {
@@ -90,44 +77,6 @@ public class Climate {
                 return new Swamp();
             default:
                 return new Sunny();
-        }
-    }
-
-    private void setClimateProbabilities(int id) {
-        switch (id) {
-            case COLD_CLIMATE:
-                weathers.add(new Snow());
-                weathers.add(new Rain());
-                weathers.add(new Rain(true));
-                weathers.add(new Fog());
-                weathers.add(new Sunny());
-
-                probabilities.add(0.35);
-                probabilities.add(0.2);
-                probabilities.add(0.05);
-                probabilities.add(0.05);
-                probabilities.add(0.35);
-                break;
-            case HOT_CLIMATE:
-                weathers.add(new Drought());
-                weathers.add(new SandStorm());
-                weathers.add(new Sunny());
-
-                probabilities.add(0.65);
-                probabilities.add(0.15);
-                probabilities.add(0.2);
-                break;
-            default:
-                // Temperate climate
-                weathers.add(new Rain());
-                weathers.add(new Rain(true));
-                weathers.add(new Sunny());
-
-                probabilities.add(0.25);
-                probabilities.add(0.15);
-                probabilities.add(0.6);
-                break;
-
         }
     }
 }

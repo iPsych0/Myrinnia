@@ -143,26 +143,32 @@ public class World implements Serializable {
         zoneTiles = new ArrayList<>();
         toBeAddedZoneTiles = new ArrayList<>();
 
-        // Only initialize the starting world on start-up
-        if (worldPath.equalsIgnoreCase(Handler.initialWorldPath)) {
-            init();
-        }
-
     }
 
     public void checkForNewWeather() {
-        // If we leave the world, only re-check when we enter it again
+        // Check for weather updates
         TimerHandler.get().addTimer(new Timer(15, TimeUnit.MINUTES, this::checkForNewWeather));
-        if (initialized && Handler.get().getWorld().equals(this)) {
-            oldWeather = currentWeather;
-            currentWeather = getRolledWeather();
-            System.out.println("Rolled: " + currentWeather.getClass().getSimpleName());
-            if (oldWeather != currentWeather) {
-                fadeOutWeatherEffect(oldWeather);
-                // No need to fade in 'sunny' weather, as it has no condition
-                if (!(currentWeather instanceof Sunny)) {
-                    fadeInWeatherEffect(currentWeather);
+
+        if (initialized) {
+            // If we're currently in this world
+            if (Handler.get().getWorld().equals(this)) {
+
+                // Update the weather
+                oldWeather = currentWeather;
+                currentWeather = getRolledWeather();
+
+                // If the weather changed, fade out the old, fade in the new
+                if (oldWeather != currentWeather) {
+                    fadeOutWeatherEffect(oldWeather);
+                    // No need to fade in 'sunny' weather, as it has no visual effect
+                    if (!(currentWeather instanceof Sunny)) {
+                        fadeInWeatherEffect(currentWeather);
+                    }
                 }
+            } else {
+                // We don't need to fade in/out weather when not in that world currently, just change it.
+                weatherEffects.clear();
+                weatherEffects.add(getRolledWeather());
             }
         }
     }
@@ -199,9 +205,9 @@ public class World implements Serializable {
             // Load in the enemies, items and zone tiles from Tiled editor
             MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
 
-            checkForNewWeather();
-
             initialized = true;
+
+            checkForNewWeather();
         }
     }
 
