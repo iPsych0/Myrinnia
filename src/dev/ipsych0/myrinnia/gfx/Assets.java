@@ -34,7 +34,8 @@ public class Assets {
     public static BufferedImage ropeLadderMapTile;
     public static BufferedImage celenorRopeRock;
     public static BufferedImage celenorPotionCabinetTop, celenorPotionCabinetShelves;
-    public static BufferedImage floatingRock[], celenorUnchargedCrystal;
+    public static BufferedImage[] floatingRock;
+    public static BufferedImage celenorUnchargedCrystal;
     public static BufferedImage[] airCharge, earthCharge, waterCharge, fireCharge;
 
     /*
@@ -203,6 +204,9 @@ public class Assets {
     public static BufferedImage[] celenorPorewitDown, celenorPorewitLeft, celenorPorewitRight, celenorPorewitUp;
     public static BufferedImage[] celenorWardenDown, celenorWardenLeft, celenorWardenRight, celenorWardenUp;
 
+    // Stozar
+    public static BufferedImage[] stozarCuratorDown, stozarCuratorLeft, stozarCuratorRight, stozarCuratorUp;
+
     // Equipment UI
     public static BufferedImage earringSlot;
     public static BufferedImage mainhandSlot;
@@ -308,6 +312,7 @@ public class Assets {
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
         SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
         SpriteSheet celenor_npcs = new SpriteSheet("/textures/npc_sprites/celenor_npcs.png");
+        SpriteSheet stozar_npcs = new SpriteSheet("/textures/npc_sprites/stozar_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
         SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
@@ -1139,6 +1144,11 @@ public class Assets {
         celenorWardenLeft = celenor_npcs.npcCrop(9, 1);
         celenorWardenRight = celenor_npcs.npcCrop(9, 2);
         celenorWardenUp = celenor_npcs.npcCrop(9, 3);
+
+        stozarCuratorDown = stozar_npcs.npcCrop(0, 0);
+        stozarCuratorLeft = stozar_npcs.npcCrop(0, 1);
+        stozarCuratorRight = stozar_npcs.npcCrop(0, 2);
+        stozarCuratorUp = stozar_npcs.npcCrop(0, 3);
 
         /*
          * Player Animations

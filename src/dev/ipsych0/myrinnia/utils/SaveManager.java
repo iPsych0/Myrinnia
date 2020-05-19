@@ -20,9 +20,9 @@ public class SaveManager {
         ObjectOutputStream o;
         boolean success = false;
         try {
-            if(Handler.isJar){
+            if (Handler.isJar) {
                 f = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
-            }else {
+            } else {
                 f = new FileOutputStream(Handler.resourcePath + "savegames/save.dat");
             }
 
@@ -42,7 +42,7 @@ public class SaveManager {
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
 
-        if(success){
+        if (success) {
             Handler.get().sendMsg("Game successfully saved!");
         }
     }
@@ -56,9 +56,9 @@ public class SaveManager {
         try {
 
             FileInputStream fis;
-            if(Handler.isJar){
+            if (Handler.isJar) {
                 fis = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
-            }else {
+            } else {
                 fis = new FileInputStream(Handler.resourcePath + "savegames/save.dat");
             }
             oin = new ObjectInputStream(fis);

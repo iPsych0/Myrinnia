@@ -68,7 +68,7 @@ public class TextWriter implements Serializable {
         }
     }
 
-    public void nextDialogue(){
+    public void nextDialogue() {
         // If we press continue while still appending, render the whole string immediately
         if (sb.length() != text[currentText].length()) {
             sb.delete(0, text[currentText].length());

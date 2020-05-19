@@ -490,7 +490,7 @@ public class World implements Serializable {
         g.setPaint(originalPaint);
     }
 
-    private void loadWorld() {
+    public void loadWorld() {
         layers = MapLoader.getMapTiles(this);
         tiles = new int[layers.length][width][height];
 

@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.display;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.states.GraphicsState;
-import dev.ipsych0.myrinnia.states.State;
 
 import javax.swing.*;
 import java.awt.*;
@@ -137,8 +136,8 @@ public class Display implements Serializable {
         }
     }
 
-    public void setWindowedScreen(){
-        if(fullScreen) {
+    public void setWindowedScreen() {
+        if (fullScreen) {
             // Switch to windowed mode
             frame.dispose();
             frame.setVisible(false);
@@ -166,7 +165,7 @@ public class Display implements Serializable {
         }
     }
 
-    private void addFrameListeners(){
+    private void addFrameListeners() {
         // To save the window dimensions if the window has been moved or resized
         frame.addComponentListener(new ComponentAdapter() {
             @Override

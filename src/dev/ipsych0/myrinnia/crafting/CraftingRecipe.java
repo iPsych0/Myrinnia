@@ -37,16 +37,16 @@ public class CraftingRecipe implements Serializable {
 
         components = new ArrayList<>();
 
-        if(item1 != null){
+        if (item1 != null) {
             components.add(item1);
         }
-        if(item2 != null){
+        if (item2 != null) {
             components.add(item2);
         }
-        if(item3 != null){
+        if (item3 != null) {
             components.add(item3);
         }
-        if(item4 != null){
+        if (item4 != null) {
             components.add(item4);
         }
 

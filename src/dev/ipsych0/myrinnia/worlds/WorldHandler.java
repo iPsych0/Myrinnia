@@ -66,6 +66,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.WardensCabin).withoutDayNightCycle().build());
 
         addWorld(new World.Builder(Zone.StozarsDescent).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.StozarInside).withoutDayNightCycle().build());
     }
 
     public void tick() {

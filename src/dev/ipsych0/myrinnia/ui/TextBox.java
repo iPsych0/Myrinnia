@@ -162,7 +162,7 @@ public class TextBox implements KeyListener, Serializable {
                     sb.setLength(0);
                     index = 0;
                     return;
-                }else{
+                } else {
                     Handler.get().playEffect("ui/textbox_type.ogg");
                 }
 

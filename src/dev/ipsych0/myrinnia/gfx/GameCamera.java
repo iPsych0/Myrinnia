@@ -46,7 +46,7 @@ public class GameCamera implements Serializable {
     }
 
     public boolean isAtRightBound() {
-        if(Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
+        if (Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
             return false;
         return xOffset >= Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth();
     }
@@ -56,7 +56,7 @@ public class GameCamera implements Serializable {
     }
 
     public boolean isAtBottomBound() {
-        if(Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()){
+        if (Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()) {
             return false;
         }
         return yOffset >= Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight();

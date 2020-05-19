@@ -140,7 +140,7 @@ public class SkillsUI implements Serializable {
         }
 
         overviewUI.getScrollBar().setIndex(0);
-        if(skill == SkillsList.CRAFTING){
+        if (skill == SkillsList.CRAFTING) {
             overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
             overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
         } else {

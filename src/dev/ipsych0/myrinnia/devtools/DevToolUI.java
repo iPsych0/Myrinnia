@@ -1,13 +1,9 @@
 package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.utils.Text;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -35,7 +31,7 @@ public class DevToolUI implements Serializable {
     public void tick() {
         if (isOpen) {
 
-            if(!textBox.isOpen()){
+            if (!textBox.isOpen()) {
                 textBox.open();
             }
 
@@ -49,7 +45,7 @@ public class DevToolUI implements Serializable {
 
             if (TextBox.enterPressed) {
 
-                if(!textBox.getCharactersTyped().isEmpty()){
+                if (!textBox.getCharactersTyped().isEmpty()) {
                     // Perform the typed command
                     performAction(textBox.getCharactersTyped());
                 }
@@ -78,7 +74,7 @@ public class DevToolUI implements Serializable {
      * @param command - the command written in the command line in-game
      */
     private void performAction(String command) {
-        if(command.trim().isEmpty()){
+        if (command.trim().isEmpty()) {
             return;
         }
         String[] commands = command.split(" ");
@@ -91,7 +87,7 @@ public class DevToolUI implements Serializable {
         }
         try {
             commandHandler.handle(firstCommand, commands);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
             Handler.get().sendMsg("Something went wrong submitting this command.");
         }

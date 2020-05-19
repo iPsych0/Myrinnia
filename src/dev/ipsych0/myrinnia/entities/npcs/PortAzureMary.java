@@ -8,7 +8,6 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;

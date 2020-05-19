@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
@@ -68,7 +67,7 @@ public class RockClimb extends StaticEntity {
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 0:
-                if(!quest.getQuestSteps().get(0).isFinished()){
+                if (!quest.getQuestSteps().get(0).isFinished()) {
                     speakingTurn = 3;
                 }
                 break;

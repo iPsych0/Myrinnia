@@ -68,8 +68,7 @@ public class FishingSpot extends StaticEntity {
             timeToFish = 150;
             chanceToFish = 750; // 75%
             chanceOfRareMaterial = 100; // 10% Chance
-        }
-        else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
+        } else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
             fish = Item.trout;
             experience = 15;
             rareMaterial = null; // TODO: ADD RARE MATERIAL

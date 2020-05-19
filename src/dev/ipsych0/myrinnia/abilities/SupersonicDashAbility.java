@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.abilities;
 
-import java.awt.Graphics2D;
-import java.io.Serializable;
-
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+
+import java.awt.*;
+import java.io.Serializable;
 
 
 public class SupersonicDashAbility extends Ability implements Serializable {
@@ -29,7 +29,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        if(animation != null && !animation.isTickDone()){
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
@@ -61,7 +61,7 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             // Animation speed
             double framesPerSecond = dashTime / 60.0; // Percentage of time traveled per tick (0.4)
             double animationSpeed = (1000 / Assets.airCloud1.length) * framesPerSecond; // 7 frames per second (1000)
-            animation = new Animation((int)animationSpeed, Assets.airCloud1, true);
+            animation = new Animation((int) animationSpeed, Assets.airCloud1, true);
             Handler.get().playEffect("abilities/supersonic_dash.ogg", 0.1f);
         }
 

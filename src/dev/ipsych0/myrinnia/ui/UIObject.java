@@ -13,7 +13,7 @@ public abstract class UIObject extends Rectangle implements Serializable {
     boolean hovering = false;
 
     UIObject(int x, int y, int width, int height) {
-        super(x,y,width,height);
+        super(x, y, width, height);
     }
 
     public abstract void tick();

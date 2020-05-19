@@ -305,7 +305,7 @@ public class BankUI implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         Handler.get().getPlayer().setBankEntity(null);
@@ -337,7 +337,7 @@ public class BankUI implements Serializable {
             for (ItemSlot is : invSlots) {
                 is.render(g);
 
-                if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                if (is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())) {
                     itemTooltip.render(is.getItemStack().getItem(), g);
                 }
             }
@@ -347,8 +347,8 @@ public class BankUI implements Serializable {
                 if (tab.isOpen()) {
                     g.setColor(Colors.selectedColor);
                     g.fillRect(tab.x, tab.y, tab.width, tab.height);
-                    for(ItemSlot is : tab.getBankSlots()){
-                        if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                    for (ItemSlot is : tab.getBankSlots()) {
+                        if (is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())) {
                             itemTooltip.render(is.getItemStack().getItem(), g);
                         }
                     }

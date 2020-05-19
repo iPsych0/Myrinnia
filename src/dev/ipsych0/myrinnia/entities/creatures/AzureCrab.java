@@ -28,7 +28,7 @@ public class AzureCrab extends Creature {
         attackable = true;
 
         // Creature stats
-        strength =  0;
+        strength = 0;
         dexterity = 0;
         intelligence = 1;
         vitality = 2;

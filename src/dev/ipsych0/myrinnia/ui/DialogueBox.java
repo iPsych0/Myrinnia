@@ -43,7 +43,7 @@ public class DialogueBox implements Serializable {
             uiManager.addObject(buttons.get(i));
         }
 
-        if(numbersOnly) {
+        if (numbersOnly) {
             // Limit the number to 6 digits (999,999 max) to prevent users from entering digits above Integer.MAX_VALUE
             tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, true, 6);
         } else {

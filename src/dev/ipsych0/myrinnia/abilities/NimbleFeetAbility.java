@@ -29,7 +29,7 @@ public class NimbleFeetAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        if(animation != null && !animation.isTickDone()){
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),

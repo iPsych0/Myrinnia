@@ -35,9 +35,9 @@ public class ControlsState extends State {
     public static boolean escapePressed;
 
     private static final String UP_SHORTCUT = "w", LEFT_SHORTCUT = "a", RIGHT_SHORTCUT = "d", DOWN_SHORTCUT = "s",
-                                INV_SHORTCUT = "i", INTERACT_SHORTCUT = " ", QUEST_SHORTCUT = "q", MAP_SHORTCUT = "m",
-                                SKILL_SHORTCUT = "l", STATS_SHORTCUT = "k", PAUSE_SHORTCUT = "p", ABILITY_SHORTCUT = "b",
-                                CHAT_SHORTCUT = "c", HUD_SHORTCUT = "h";
+            INV_SHORTCUT = "i", INTERACT_SHORTCUT = " ", QUEST_SHORTCUT = "q", MAP_SHORTCUT = "m",
+            SKILL_SHORTCUT = "l", STATS_SHORTCUT = "k", PAUSE_SHORTCUT = "p", ABILITY_SHORTCUT = "b",
+            CHAT_SHORTCUT = "c", HUD_SHORTCUT = "h";
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -146,8 +146,8 @@ public class ControlsState extends State {
 
         Rectangle mouse = Handler.get().getMouse();
 
-        if(Handler.get().getKeyManager().escape && escapePressed && keysDBox.isOpen() ||
-                Handler.get().getKeyManager().escape && escapePressed && defaultDBox.isOpen()){
+        if (Handler.get().getKeyManager().escape && escapePressed && keysDBox.isOpen() ||
+                Handler.get().getKeyManager().escape && escapePressed && defaultDBox.isOpen()) {
             escapePressed = false;
             closeTextBox();
             return;
@@ -164,7 +164,7 @@ public class ControlsState extends State {
             }
         }
 
-        if(defaultButton.contains(mouse)) {
+        if (defaultButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed && !defaultDBox.isMakingChoice()) {
                 hasBeenPressed = false;
                 defaultDBox.open();
@@ -224,7 +224,7 @@ public class ControlsState extends State {
                 }
                 selectedButton.width = 64;
                 setKeys();
-            }else{
+            } else {
                 keys.clear();
                 for (UIObject o : uiManager.getObjects()) {
                     if (!o.equals(defaultButton)) {
@@ -270,7 +270,7 @@ public class ControlsState extends State {
         closeTextBox();
     }
 
-    private void checkSubmit(){
+    private void checkSubmit() {
         if (keysDBox.isMakingChoice() && keysDBox.getPressedButton() != null) {
             if ("Set".equalsIgnoreCase(keysDBox.getPressedButton().getButtonParam()[0])) {
                 checkKeys();
@@ -295,9 +295,9 @@ public class ControlsState extends State {
 
         for (UIObject o : uiManager.getObjects()) {
             if (!o.equals(defaultButton)) {
-                if(" ".equalsIgnoreCase(keys.get(o))){
+                if (" ".equalsIgnoreCase(keys.get(o))) {
                     Text.drawString(g, "Space", o.x + o.width / 2, o.y + 16, true, Color.YELLOW, Assets.font14);
-                }else {
+                } else {
                     Text.drawString(g, keys.get(o).toUpperCase(), o.x + o.width / 2, o.y + 16, true, Color.YELLOW, Assets.font14);
                 }
             }

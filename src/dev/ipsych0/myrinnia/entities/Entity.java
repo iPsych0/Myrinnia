@@ -144,7 +144,7 @@ public abstract class Entity implements Serializable {
         // Looks for the closest entity and returns that entity
         Entity closest;
         Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
-        if (selected != null && isNear(selected)) {
+        if (selected != null && selected.isNear(selected)) {
             closest = selected;
         } else {
             closest = getClosestEntity();
@@ -155,7 +155,7 @@ public abstract class Entity implements Serializable {
             return false;
         }
 
-        if (isNear(closest)) {
+        if (closest.isNear(closest)) {
             // Interact with the respective speaking turn
             isCloseToNPC = true;
             return true;
@@ -189,8 +189,9 @@ public abstract class Entity implements Serializable {
 
             int dx = (int) ((Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2) - (e.getX() + e.getWidth() / 2));
             int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
-            hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
-            pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+            double sqrt = Math.sqrt(dx * dx + dy * dy);
+            hashMap.put(sqrt, e);
+            pythagoras.add(sqrt);
         }
         if (pythagoras.isEmpty()) {
             return null;

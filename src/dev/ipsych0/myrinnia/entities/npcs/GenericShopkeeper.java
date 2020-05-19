@@ -1,14 +1,9 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
-import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
-import java.util.List;
 
 public class GenericShopkeeper extends ShopKeeper {
 

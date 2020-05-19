@@ -114,7 +114,7 @@ public class AbilityShopWindow implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         isOpen = false;
@@ -290,9 +290,9 @@ public class AbilityShopWindow implements Serializable {
         }
     }
 
-    private void resetUIManager(){
+    private void resetUIManager() {
         allManager.getObjects().clear();
-        for(AbilityShopSlot as : currentSlots){
+        for (AbilityShopSlot as : currentSlots) {
             allManager.addObject(as);
         }
     }

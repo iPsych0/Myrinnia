@@ -55,7 +55,7 @@ public class FarmingSkill extends Skill {
     public SkillResource getResourceByItem(Item item) {
         return resources
                 .stream()
-                .filter(x -> ((FarmingResource)x).getSeed().getId() == item.getId())
+                .filter(x -> ((FarmingResource) x).getSeed().getId() == item.getId())
                 .findAny()
                 .orElse(null);
     }

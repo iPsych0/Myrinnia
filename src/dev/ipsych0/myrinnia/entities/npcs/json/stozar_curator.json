@@ -1,0 +1,84 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, traveler. What can I do for you?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Can I leave?",
+          "nextId": 2
+        },
+        {
+          "text": "Look around some more.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Absolutely. I hope to see you back another time!",
+      "nextId": 5
+    },
+    {
+      "id": 3,
+      "options": [
+        {
+          "text": "Can I enter?",
+          "nextId": 4
+        },
+        {
+          "text": "What is this place?",
+          "nextId": 6
+        },
+        {
+          "text": "Look around some more.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Do come in! Please, don't touch any of the items on display.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 6,
+      "text": "This is a museum built in honor of Stozar, one of the last Giants of the Midlands.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "Centuries ago, the Giants aided the people of the Midlands in building impressive dams or fortresses in the mountains.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "text": "At the end of the First Age, mankind started using the Giants in warfare. This led to a severe decline of the population.",
+      "nextId": 9
+    },
+    {
+      "id": 9,
+      "text": "Only a few Giants remained. One of them was Stozar. The people of our tribe, south of here, were strongly opposed to using Giants for warfare. ",
+      "nextId": 10
+    },
+    {
+      "id": 10,
+      "text": "Stozar was grateful for this and remained by our side, while the other Giants deserted mankind and sadly went extinct in solitude...",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "The statue outside this museum pays homage to the loyalty and friendship between Giants and humankind and this museum was established to make sure history will not repeat itself.",
+      "nextId": 3
+    }
+  ]
+}

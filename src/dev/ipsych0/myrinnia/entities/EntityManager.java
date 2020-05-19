@@ -195,6 +195,10 @@ public class EntityManager implements Serializable {
                 }
             }
 
+            // Draw the interaction bounds
+//            Rectangle bounds = e.getInteractionBounds(-40, -40, 80, 128);
+//            g.drawRect(bounds.x - (int) Handler.get().getGameCamera().getxOffset(), bounds.y - (int) Handler.get().getGameCamera().getyOffset(), bounds.width, bounds.height);
+
 
 //            if (!e.equals(Handler.get().getPlayer())) {
 //                e.postRender(g);

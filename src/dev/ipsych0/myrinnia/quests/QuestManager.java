@@ -1,12 +1,9 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
-import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
-import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
-import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.entities.npcs.CelenorPorewit;
 import dev.ipsych0.myrinnia.entities.npcs.PortAzureDuncan;
+import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -97,6 +94,7 @@ public class QuestManager implements Serializable {
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
                     Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(200);
+                    CelenorGrottoWater.cleanse();
                     CelenorPorewit.removeFog();
                 }));
 

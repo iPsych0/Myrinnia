@@ -232,7 +232,7 @@ public class Player extends Creature {
 
                     // If we have selected an Entity and we're close to that entity, interact with the selected one
                     Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
-                    if (selected != null && isNear(selected)) {
+                    if (selected != null && selected.isNear(selected)) {
                         closestEntity = selected;
                     } else {
                         closestEntity = getClosestEntity();

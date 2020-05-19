@@ -4,7 +4,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 
-public class FarmingResource extends SkillResource{
+public class FarmingResource extends SkillResource {
 
     private Item seed;
     private int quantity;

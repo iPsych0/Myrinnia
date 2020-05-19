@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.publishers;
 
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.subscribers.Subscriber;
 
 import java.util.HashSet;

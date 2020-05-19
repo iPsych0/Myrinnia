@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.publishers;
 
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.subscribers.Subscriber;
-import dev.ipsych0.myrinnia.skills.Skill;
 
 import java.util.HashSet;
 import java.util.Set;

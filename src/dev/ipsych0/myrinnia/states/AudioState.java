@@ -24,9 +24,9 @@ public class AudioState extends State {
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
-        try{
+        try {
             loadAudioSettings();
-        } catch (Exception e){
+        } catch (Exception e) {
             musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, 100);
             sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, 100);
         }
@@ -42,7 +42,7 @@ public class AudioState extends State {
 
     }
 
-    private void loadAudioSettings(){
+    private void loadAudioSettings() {
         // Read audio properties from file
         String sfxVolume = Handler.get().loadProperty("sfxVolume");
         String soundVolume = Handler.get().loadProperty("musicVolume");
@@ -62,8 +62,8 @@ public class AudioState extends State {
         // Get volume float values
         double sfxVolumeD = Double.parseDouble(sfxVolume);
         double soundVolumeD = Double.parseDouble(soundVolume);
-        float sfxRatio = (float)(sfxVolumeD / 100.0);
-        float soundRatio = (float)(soundVolumeD / 100.0);
+        float sfxRatio = (float) (sfxVolumeD / 100.0);
+        float soundRatio = (float) (soundVolumeD / 100.0);
 
         // Set volumes
         AudioManager.sfxVolume = AudioManager.sfxVolume * sfxRatio;

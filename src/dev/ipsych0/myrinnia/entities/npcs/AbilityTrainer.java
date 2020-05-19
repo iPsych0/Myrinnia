@@ -35,7 +35,7 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
         if (Handler.get().playerHasItem(Item.coins, resetCost)) {
             Handler.get().removeItem(Item.coins, resetCost);
             for (CharacterStats stat : CharacterStats.values()) {
-                if(stat == CharacterStats.Combat)
+                if (stat == CharacterStats.Combat)
                     continue;
                 if (stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
                     Handler.get().getCharacterUI().addBaseStatPoints(stat.getLevel());

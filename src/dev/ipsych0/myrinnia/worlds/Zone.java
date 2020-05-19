@@ -34,14 +34,15 @@ public enum Zone {
     CelenorForestEdge("Celenor Forest Edge", "celenor_forest_edge.ogg", "/worlds/celenor_forest_edge.tmx"),
     CelenorForestThicket("Celenor Forest Thicket", "celenor_forest_edge.ogg", "/worlds/celenor_forest_thicket.tmx"),
     CelenorForestShrine("Old Shrine", "celenor_forest_edge.ogg", "/worlds/celenor_shrine.tmx"),
-    Celewynn("Celewynn", "celewynn.ogg", "/worlds/celewynn.tmx"),
+    Celewynn("Celewynn", "celewynn.ogg", "/worlds/celewynn_polluted.tmx"),
     CelewynnInside("Celewynn", "celewynn.ogg", "/worlds/celewynn_inside.tmx"),
     CelenorSeaboard("Celenor Seaboard", "celenor_coast.ogg", "/worlds/celenor_seaboard.tmx"),
-    CelenorCaves("Celenor Caves", "celenor_forest_edge.ogg", "/worlds/celenor_caves.tmx"),
-    AemirRiverflank("Aemir Riverflank", "celenor_forest_edge.ogg", "/worlds/aemir_riverflank.tmx"),
+    CelenorCaves("Celenor Caves", "celenor_forest_edge.ogg", "/worlds/celenor_caves_polluted.tmx"),
+    AemirRiverflank("Aemir Riverflank", "celenor_forest_edge.ogg", "/worlds/aemir_riverflank_polluted.tmx"),
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
-    StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx");
+    StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
+    StozarInside("Stozar's Museum", "malachite_hills.ogg", "/worlds/stozar_inside.tmx");
 
 
     private String musicFile;

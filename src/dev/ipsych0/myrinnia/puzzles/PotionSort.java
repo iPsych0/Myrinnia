@@ -91,7 +91,7 @@ public class PotionSort extends Puzzle implements Serializable {
 
     }
 
-    public boolean hasExited(){
+    public boolean hasExited() {
         Rectangle mouse = Handler.get().getMouse();
 
         // Return true when exit button is pressed.

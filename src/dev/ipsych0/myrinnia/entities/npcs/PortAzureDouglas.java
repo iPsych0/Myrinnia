@@ -99,7 +99,7 @@ public class PortAzureDouglas extends Creature {
                 }
                 break;
             case 8:
-                if(!tipDisplayed){
+                if (!tipDisplayed) {
                     Handler.get().addTip(new TutorialTip("You can use fish and other ingredients to craft food. Food provides long term buffs that can be used to make your character stronger."));
                     tipDisplayed = true;
                 }

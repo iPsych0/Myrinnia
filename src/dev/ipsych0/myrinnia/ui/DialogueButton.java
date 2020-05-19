@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

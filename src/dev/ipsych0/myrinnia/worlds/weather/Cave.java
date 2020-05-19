@@ -17,9 +17,9 @@ public class Cave implements Weather, Serializable {
 
     @Override
     public void tick() {
-         paint = new RadialGradientPaint((int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()),
-                 (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset()),
-                 radius, fractions, colors);
+        paint = new RadialGradientPaint((int) (Handler.get().getPlayer().getX() - Handler.get().getGameCamera().getxOffset()),
+                (int) (Handler.get().getPlayer().getY() - Handler.get().getGameCamera().getyOffset()),
+                radius, fractions, colors);
     }
 
     @Override
