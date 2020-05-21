@@ -85,9 +85,16 @@ public abstract class Entity implements Serializable {
             if (jsonFile.endsWith(".json")) {
                 script = Utils.loadScript(jsonFile);
             } else {
-                // If we provide a single string, use that as single dialogue option via Tiled
+                // When we provide comma-separated dialogue without any conditionals or choices
+                // create a flow ourselves without the need of reading from file
+                String[] split = jsonFile.split("~");
                 List<Dialogue> dialogues = new ArrayList<>();
-                dialogues.add(new Dialogue(0, -1, jsonFile, null, null));
+                for (int i = 0; i < split.length; i++) {
+                    String text = split[i];
+                    // Automatically go to the next ID, unless we're at the last index, then go to -1
+                    int nextId = (i == split.length - 1) ? -1 : (i + 1);
+                    dialogues.add(new Dialogue(i, nextId, text.trim(), null, null));
+                }
                 script = new Script(dialogues);
             }
         }

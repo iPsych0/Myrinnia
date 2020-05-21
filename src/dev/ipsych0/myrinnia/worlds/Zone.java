@@ -42,6 +42,7 @@ public enum Zone {
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
     StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
+    StozarsCauseway("Stozar's Causeway", "malachite_hills.ogg", "/worlds/stozars_causeway.tmx"),
     StozarInside("Stozar's Museum", "malachite_hills.ogg", "/worlds/stozar_inside.tmx");
 
 
