@@ -209,7 +209,15 @@ public class Handler implements Serializable {
     }
 
     public void playEffect(String effect) {
-        playEffect(effect, 0.0f);
+        playEffect(effect, 0.0f, false);
+    }
+
+    public void playEffect(String effect, boolean looping) {
+        playEffect(effect, 0.0f, looping);
+    }
+
+    public void playEffect(String effect, float volume) {
+        playEffect(effect, volume, false);
     }
 
     /**
@@ -218,7 +226,7 @@ public class Handler implements Serializable {
      * @param effect Name of the audio file
      * @param volume Additional volume. Default max volume is 0.15.
      */
-    public void playEffect(String effect, float volume) {
+    public void playEffect(String effect, float volume, boolean looping) {
         if (!AudioManager.sfxMuted) {
             if (volume < -AudioManager.sfxVolume) {
                 volume = -AudioManager.sfxVolume;
@@ -231,18 +239,16 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
 
+            Source s;
             if (AudioManager.soundfxFiles.containsKey(buffer)) {
-                Source s = AudioManager.soundfxFiles.get(buffer);
-                s.setVolume(AudioManager.sfxVolume + volume);
-                s.setLooping(false);
-                s.playEffect(buffer);
+                s = AudioManager.soundfxFiles.get(buffer);
             } else {
-                Source s = new Source();
+                s = new Source();
                 AudioManager.soundfxFiles.put(buffer, s);
-                s.setVolume(AudioManager.sfxVolume + volume);
-                s.setLooping(false);
-                s.playEffect(buffer);
             }
+            s.setVolume(AudioManager.sfxVolume + volume);
+            s.setLooping(looping);
+            s.playEffect(buffer);
         }
     }
 
@@ -388,6 +394,9 @@ public class Handler implements Serializable {
         } else {
             playMusic(customMusicName);
         }
+
+        world.handleBackgroundSound();
+
     }
 
     /**

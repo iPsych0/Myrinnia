@@ -5,6 +5,8 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
@@ -91,6 +93,7 @@ public class World implements Serializable {
     private boolean dayNightCycle;
     private static boolean isFadingInWeather, isFadingOutWeather;
     private static float fadeInAlpha = 0.0f, fadeOutAlpha = 1.0f;
+    private static Source currentBackgroundSound;
 
     private static final int radius = 800;
     private static final float[] fractions = {0.0f, 1.0f};
@@ -164,12 +167,37 @@ public class World implements Serializable {
                     if (!(currentWeather instanceof Sunny)) {
                         fadeInWeatherEffect(currentWeather);
                     }
+                    handleBackgroundSound();
                 }
             } else {
                 // We don't need to fade in/out weather when not in that world currently, just change it.
                 weatherEffects.clear();
                 weatherEffects.add(getRolledWeather());
             }
+        }
+    }
+
+    public void handleBackgroundSound() {
+        if (currentBackgroundSound != null)
+            currentBackgroundSound.pause();
+
+        if (currentWeather.getWeatherSoundEffect() == null)
+            return;
+
+        try {
+            int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
+            if (AudioManager.soundfxFiles.containsKey(buffer)) {
+                currentBackgroundSound = AudioManager.soundfxFiles.get(buffer);
+                currentBackgroundSound.continuePlaying();
+            } else {
+                currentBackgroundSound = new Source();
+                AudioManager.soundfxFiles.put(buffer, currentBackgroundSound);
+            }
+            currentBackgroundSound.setLooping(true);
+            currentBackgroundSound.setVolume(AudioManager.sfxVolume + 0.05f);
+            currentBackgroundSound.playEffect(buffer);
+        } catch (Exception e) {
+            System.err.println("Could not load weather sound in world " + zone.getName() + ".");
         }
     }
 

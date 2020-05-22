@@ -16,4 +16,9 @@ public class Sunny implements Weather {
     public void render(Graphics2D g) {
 
     }
+
+    @Override
+    public String getWeatherSoundEffect() {
+        return null;
+    }
 }

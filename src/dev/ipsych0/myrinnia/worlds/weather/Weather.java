@@ -7,4 +7,6 @@ public interface Weather extends Serializable {
     void tick();
 
     void render(Graphics2D g);
+
+    String getWeatherSoundEffect();
 }

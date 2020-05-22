@@ -30,4 +30,9 @@ public class Swamp implements Weather, Serializable {
         g.setComposite(originalComposite);
         g.setPaint(originalPaint);
     }
+
+    @Override
+    public String getWeatherSoundEffect() {
+        return null;
+    }
 }

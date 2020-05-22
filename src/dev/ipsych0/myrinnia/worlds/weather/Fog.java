@@ -65,6 +65,11 @@ public class Fog implements Weather, Serializable {
         }
     }
 
+    @Override
+    public String getWeatherSoundEffect() {
+        return null;
+    }
+
     private BufferedImage getFogIntensityImg() {
         switch (intensity) {
             case NORMAL:

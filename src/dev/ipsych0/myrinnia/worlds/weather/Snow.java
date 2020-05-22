@@ -55,4 +55,9 @@ public class Snow implements Weather, Serializable {
             }
         }
     }
+
+    @Override
+    public String getWeatherSoundEffect() {
+        return null;
+    }
 }

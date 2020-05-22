@@ -33,6 +33,7 @@ public class Rain implements Weather, Serializable {
     private boolean renderingThunder;
     private int thunderTimer, thunderTime = 180;
     private boolean doubleThunderRolled;
+    private boolean playedThunderSound;
 
     public Rain(boolean withThunder) {
         this.withThunder = withThunder;
@@ -92,8 +93,17 @@ public class Rain implements Weather, Serializable {
         }
     }
 
+    @Override
+    public String getWeatherSoundEffect() {
+        return "misc/rain_loop.ogg";
+    }
+
     public void renderThunder(Graphics2D g) {
         if (withThunder && renderingThunder) {
+            if (!playedThunderSound) {
+                Handler.get().playEffect("misc/thunder_impact.ogg", -0.1f);
+                playedThunderSound = true;
+            }
             Paint originalPaint = g.getPaint();
             Composite originalComposite = g.getComposite();
 
@@ -136,6 +146,7 @@ public class Rain implements Weather, Serializable {
                 centerThunderAlpha = 255;
                 outerThunderAlpha = 85;
                 doubleThunderRolled = false;
+                playedThunderSound = false;
             }
         }
     }

@@ -48,4 +48,9 @@ public class SandStorm implements Weather, Serializable {
             }
         }
     }
+
+    @Override
+    public String getWeatherSoundEffect() {
+        return null;
+    }
 }
