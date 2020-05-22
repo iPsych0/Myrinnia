@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -616,7 +617,7 @@ public abstract class Entity implements Serializable {
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
+    public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
     }
@@ -629,7 +630,7 @@ public abstract class Entity implements Serializable {
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getFullBounds(double xOffset, double yOffset) {
+    public Rectangle2D getFullBounds(double xOffset, double yOffset) {
         fullBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), width, height);
         return fullBounds;
     }

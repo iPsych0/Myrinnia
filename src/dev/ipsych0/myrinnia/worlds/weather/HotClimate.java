@@ -7,8 +7,8 @@ public class HotClimate extends Climate {
         weathers.add(new SandStorm());
         weathers.add(new Sunny());
 
-        probabilities.add(0.65);
-        probabilities.add(0.15);
-        probabilities.add(0.2);
+        probabilities.add(0.3);
+        probabilities.add(0.1);
+        probabilities.add(0.6);
     }
 }

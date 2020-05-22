@@ -7,8 +7,8 @@ public class TemperateClimate extends Climate {
         weathers.add(new Rain(true));
         weathers.add(new Sunny());
 
-        probabilities.add(0.25);
         probabilities.add(0.15);
-        probabilities.add(0.6);
+        probabilities.add(0.05);
+        probabilities.add(0.8);
     }
 }

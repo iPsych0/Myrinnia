@@ -1,0 +1,28 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "These ancient rocks emit a mysterious aura... There's a note next to it.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "\"These rocks are the ruins of an ancient city whose inhabitants worshipped the Giants of the Midlands. They were uncovered during an excavation in the Badlands.\"",
+      "nextId": -1,
+      "choiceCondition": {
+        "condition": "hasLearntAbility",
+        "falseId": 2
+      }
+    },
+    {
+      "id": 2,
+      "text": "The presence of the aura becomes stronger and seemingly enters your mind. You catch a glimpse of what the walls of this stronghold might have looked like.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Your mind is inspired by this architectural feat!",
+      "nextId": -1
+    }
+  ]
+}

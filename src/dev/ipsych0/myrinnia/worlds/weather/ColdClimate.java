@@ -9,10 +9,10 @@ public class ColdClimate extends Climate {
         weathers.add(new Fog());
         weathers.add(new Sunny());
 
-        probabilities.add(0.35);
-        probabilities.add(0.2);
+        probabilities.add(0.3);
+        probabilities.add(0.1);
         probabilities.add(0.05);
         probabilities.add(0.05);
-        probabilities.add(0.35);
+        probabilities.add(0.5);
     }
 }

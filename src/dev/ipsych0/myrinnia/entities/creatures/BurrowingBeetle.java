@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public class BurrowingBeetle extends Creature {
 
@@ -326,7 +327,7 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public Rectangle getFullBounds(double xOffset, double yOffset) {
+    public Rectangle2D getFullBounds(double xOffset, double yOffset) {
         if (digging) {
             return new Rectangle(-100, -100, 0, 0);
         } else {
@@ -335,7 +336,7 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
+    public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
         if (digging) {
             return new Rectangle(-100, -100, 0, 0);
         } else {
