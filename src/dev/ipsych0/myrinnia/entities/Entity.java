@@ -33,6 +33,8 @@ public abstract class Entity implements Serializable {
     private static final long serialVersionUID = -6319447656301966908L;
     protected double x, y;
     protected int width, height;
+    protected Polygon polyBounds;
+    protected boolean hasPolyBounds = false;
     protected Rectangle bounds;
     protected Rectangle fullBounds;
     protected Rectangle interactionBounds;
@@ -138,8 +140,18 @@ public abstract class Entity implements Serializable {
                 continue;
             if (!e.solid)
                 continue;
-            if (e.getVerticality() == this.verticality && e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
-                return true;
+            if (e.getVerticality() == this.verticality) {
+                if (!e.hasPolyBounds) {
+                    if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+                        return true;
+                    }
+                } else {
+                    if (e.getPolyBounds().intersects(getCollisionBounds(xOffset, yOffset))) {
+                        return true;
+                    }
+                }
+
+            }
         }
         return false;
     }
@@ -612,6 +624,10 @@ public abstract class Entity implements Serializable {
         int dx = x2 - x1;
         int dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public Polygon getPolyBounds() {
+        return polyBounds;
     }
 
     /*

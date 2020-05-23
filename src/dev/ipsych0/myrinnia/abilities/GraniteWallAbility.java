@@ -27,7 +27,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
 
     @Override
     public void renderIcon(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.rockSlide, x, y, 32, 32,null);
+        g.drawImage(Assets.graniteWallI, x, y, 32, 32,null);
     }
 
     @Override
@@ -63,10 +63,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
         Player player = Handler.get().getPlayer();
 
 
-        if (caster.equals(player)) {
-            wallBounds.x += Handler.get().getGameCamera().getxOffset();
-            wallBounds.y += Handler.get().getGameCamera().getyOffset();
-        } else {
+        if (!caster.equals(player)) {
 
             // First get player pos
             double xPos = player.getX() + player.getWidth() / 2d;
@@ -79,9 +76,9 @@ public class GraniteWallAbility extends Ability implements Serializable {
             wallBounds.x = (int) (xPos - casterX / 2d + casterX);
             wallBounds.y = (int) (yPos - casterY / 2d / 2d + casterY);
 
-            wallBounds.x += Handler.get().getGameCamera().getxOffset();
-            wallBounds.y += Handler.get().getGameCamera().getyOffset();
         }
+        wallBounds.x += Handler.get().getGameCamera().getxOffset();
+        wallBounds.y += Handler.get().getGameCamera().getyOffset();
 
         int earthLevel = caster.getEarthLevel();
         int despawnTimer = 3000 + (earthLevel * 120);
@@ -90,9 +87,10 @@ public class GraniteWallAbility extends Ability implements Serializable {
         wall.setDegrees(getTheta());
         wall.setTransformedShape(transformedShape);
         wall.addDespawnTimer(despawnTimer);
+        wall.setCaster(caster);
         Handler.get().getWorld().getEntityManager().addRuntimeEntity(wall, false);
 
-        Handler.get().playEffect("abilities/acid_bomb.ogg", 0.1f);
+        Handler.get().playEffect("abilities/granite_wall.ogg", 0.1f);
 
         setCasting(false);
     }

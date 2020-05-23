@@ -716,37 +716,50 @@ public abstract class Creature extends Entity {
             if (!p.isActive()) {
                 deleted.add(p);
             }
-            if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
-                if (!p.getHitCreatures().contains(player)) {
-                    // If damageType is null, then we don't deal damage
-                    if (p.getDamageType() != null) {
-                        if (p.getAbility() != null) {
-                            player.damage(p.getDamageType(), this, p.getAbility());
-                        } else {
-                            player.damage(p.getDamageType(), this);
+
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (p.verticality == player.verticality && p.getCollisionBounds(0,0).intersects(e.getCollisionBounds(0,0)) && p.isActive()) {
+                    if(e.equals(this))
+                        continue;
+                    if (!e.equals(player)) {
+                        if(!p.isPiercing()){
+                            p.setActive(false);
+                            return;
+                        }
+                        continue;
+                    }
+
+                    if (!p.getHitCreatures().contains(player)) {
+                        // If damageType is null, then we don't deal damage
+                        if (p.getDamageType() != null) {
+                            if (p.getAbility() != null) {
+                                player.damage(p.getDamageType(), this, p.getAbility());
+                            } else {
+                                player.damage(p.getDamageType(), this);
+                            }
+                        }
+
+                        if (p.getImpactSound() != null) {
+                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
                         }
                     }
 
-                    if (p.getImpactSound() != null) {
-                        Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
+
+                    p.setHitCreature(player);
+
+                    if (!p.isPiercing()) {
+                        p.setActive(false);
                     }
-                }
 
-
-                p.setHitCreature(player);
-
-                if (!p.isPiercing()) {
-                    p.setActive(false);
-                }
-
-                // Apply special effect if has one
-                if (p.getOnImpact() != null) {
-                    if (!p.getHitCreatures().contains(player)) {
-                        p.getOnImpact().impact(player);
+                    // Apply special effect if has one
+                    if (p.getOnImpact() != null) {
+                        if (!p.getHitCreatures().contains(player)) {
+                            p.getOnImpact().impact(player);
+                        }
                     }
-                }
 
-                p.getHitCreatures().add(player);
+                    p.getHitCreatures().add(player);
+                }
             }
         }
 

@@ -52,12 +52,13 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite;
+            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
-            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI;
+            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI,
+            graniteWallI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -1253,6 +1254,7 @@ public class Assets {
         aquaticReversalI = ability_icons.imageCrop(4, 1);
         invigoratingBlowI = ability_icons.imageCrop(5, 1);
         siphoningShotI = ability_icons.imageCrop(6, 1);
+        graniteWallI = ability_icons.imageCrop(7, 1);
 
 
         /*
@@ -1378,6 +1380,15 @@ public class Assets {
         invigoratingBlow[7] = ability_animations.imageCrop(7, 22);
         invigoratingBlow[8] = ability_animations.imageCrop(8, 22);
         invigoratingBlow[9] = ability_animations.imageCrop(9, 22);
+
+        graniteWall = new BufferedImage[7];
+        graniteWall[0] = ability_animations.imageCrop(7, 6, WIDTH * 3, HEIGHT);
+        graniteWall[1] = ability_animations.imageCrop(7, 5, WIDTH * 3, HEIGHT);
+        graniteWall[2] = ability_animations.imageCrop(7, 4, WIDTH * 3, HEIGHT);
+        graniteWall[3] = ability_animations.imageCrop(7, 3, WIDTH * 3, HEIGHT);
+        graniteWall[4] = ability_animations.imageCrop(7, 2, WIDTH * 3, HEIGHT);
+        graniteWall[5] = ability_animations.imageCrop(7, 1, WIDTH * 3, HEIGHT);
+        graniteWall[6] = ability_animations.imageCrop(7, 0, WIDTH * 3, HEIGHT);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

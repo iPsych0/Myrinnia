@@ -178,26 +178,28 @@ public class World implements Serializable {
     }
 
     public void handleBackgroundSound() {
-        if (currentBackgroundSound != null)
-            currentBackgroundSound.pause();
+        if (!AudioManager.sfxMuted) {
+            if (currentBackgroundSound != null)
+                currentBackgroundSound.pause();
 
-        if (currentWeather.getWeatherSoundEffect() == null)
-            return;
+            if (currentWeather.getWeatherSoundEffect() == null)
+                return;
 
-        try {
-            int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
-            if (AudioManager.soundfxFiles.containsKey(buffer)) {
-                currentBackgroundSound = AudioManager.soundfxFiles.get(buffer);
-                currentBackgroundSound.continuePlaying();
-            } else {
-                currentBackgroundSound = new Source();
-                AudioManager.soundfxFiles.put(buffer, currentBackgroundSound);
+            try {
+                int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
+                if (AudioManager.soundfxFiles.containsKey(buffer)) {
+                    currentBackgroundSound = AudioManager.soundfxFiles.get(buffer);
+                    currentBackgroundSound.continuePlaying();
+                } else {
+                    currentBackgroundSound = new Source();
+                    AudioManager.soundfxFiles.put(buffer, currentBackgroundSound);
+                }
+                currentBackgroundSound.setLooping(true);
+                currentBackgroundSound.setVolume(AudioManager.sfxVolume + 0.05f);
+                currentBackgroundSound.playEffect(buffer);
+            } catch (Exception e) {
+                System.err.println("Could not load weather sound in world " + zone.getName() + ".");
             }
-            currentBackgroundSound.setLooping(true);
-            currentBackgroundSound.setVolume(AudioManager.sfxVolume + 0.05f);
-            currentBackgroundSound.playEffect(buffer);
-        } catch (Exception e) {
-            System.err.println("Could not load weather sound in world " + zone.getName() + ".");
         }
     }
 
