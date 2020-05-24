@@ -321,6 +321,12 @@ public abstract class Entity implements Serializable {
         }
 
         EffectManager.get().applyOnHitEffect(dealer, this);
+
+        damageReceiver.applyOnHitReceivedEffect(dealer);
+    }
+
+    public void applyOnHitReceivedEffect(Entity dealer) {
+        EffectManager.get().applyOnHitReceivedEffect(dealer, this);
     }
 
     /*
@@ -352,6 +358,8 @@ public abstract class Entity implements Serializable {
         }
 
         EffectManager.get().applyOnHitEffect(dealer, this);
+
+        damageReceiver.applyOnHitReceivedEffect(dealer);
     }
 
     private void clearActiveAbilities() {

@@ -37,6 +37,7 @@ public class Assets {
     public static BufferedImage[] floatingRock;
     public static BufferedImage celenorUnchargedCrystal;
     public static BufferedImage[] airCharge, earthCharge, waterCharge, fireCharge;
+    public static BufferedImage[] torchFlame;
 
     /*
      * Creature Animations
@@ -52,13 +53,14 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall;
+            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall,
+            burningHaste;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
             rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI,
-            graniteWallI;
+            graniteWallI, burningHasteI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -83,7 +85,8 @@ public class Assets {
             tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
             strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
-            bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination;
+            bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination, litTorch, unlitTorch, unlitLantern, litLantern, unlitCandle, litCandle,
+            matchbox;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -642,6 +645,14 @@ public class Assets {
         pollutedBucket = item_sheet.imageCrop(4, 5);
         amanitaMushroom = item_sheet.imageCrop(4, 6);
         potionOfDecontamination = item_sheet.imageCrop(4, 7);
+
+        litTorch = item_sheet.imageCrop(4, 8);
+        unlitTorch = item_sheet.imageCrop(4, 9);
+        unlitLantern = item_sheet.imageCrop(4, 10);
+        litLantern = item_sheet.imageCrop(4, 11);
+        unlitCandle = item_sheet.imageCrop(4, 12);
+        litCandle = item_sheet.imageCrop(4, 13);
+        matchbox = item_sheet.imageCrop(4, 14);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -1255,6 +1266,7 @@ public class Assets {
         invigoratingBlowI = ability_icons.imageCrop(5, 1);
         siphoningShotI = ability_icons.imageCrop(6, 1);
         graniteWallI = ability_icons.imageCrop(7, 1);
+        burningHasteI = ability_icons.imageCrop(8, 1);
 
 
         /*
@@ -1381,6 +1393,15 @@ public class Assets {
         invigoratingBlow[8] = ability_animations.imageCrop(8, 22);
         invigoratingBlow[9] = ability_animations.imageCrop(9, 22);
 
+        burningHaste = new BufferedImage[7];
+        burningHaste[0] = ability_animations.imageCrop(0, 4, WIDTH, HEIGHT);
+        burningHaste[1] = ability_animations.imageCrop(1, 4, WIDTH, HEIGHT);
+        burningHaste[2] = ability_animations.imageCrop(2, 4, WIDTH, HEIGHT);
+        burningHaste[3] = ability_animations.imageCrop(3, 4, WIDTH, HEIGHT);
+        burningHaste[4] = ability_animations.imageCrop(4, 4, WIDTH, HEIGHT);
+        burningHaste[5] = ability_animations.imageCrop(5, 4, WIDTH, HEIGHT);
+        burningHaste[6] = ability_animations.imageCrop(6, 4, WIDTH, HEIGHT);
+
         graniteWall = new BufferedImage[7];
         graniteWall[0] = ability_animations.imageCrop(7, 6, WIDTH * 3, HEIGHT);
         graniteWall[1] = ability_animations.imageCrop(7, 5, WIDTH * 3, HEIGHT);
@@ -1432,6 +1453,12 @@ public class Assets {
         floatingRock[2] = getSheetByFilename("dark_dimension.png").imageCrop(27, 11, WIDTH, HEIGHT * 2);
 
         celenorUnchargedCrystal = getSheetByFilename("dark_dimension.png").imageCrop(25, 16, WIDTH, HEIGHT * 2);
+
+        torchFlame = new BufferedImage[4];
+        torchFlame[0] = getSheetByFilename("dungeon.png").imageCrop(30, 5, WIDTH, HEIGHT);
+        torchFlame[1] = getSheetByFilename("dungeon.png").imageCrop(31, 5, WIDTH, HEIGHT);
+        torchFlame[2] = getSheetByFilename("dungeon.png").imageCrop(32, 5, WIDTH, HEIGHT);
+        torchFlame[3] = getSheetByFilename("dungeon.png").imageCrop(33, 5, WIDTH, HEIGHT);
 
         airCharge = new BufferedImage[9];
         earthCharge = new BufferedImage[9];

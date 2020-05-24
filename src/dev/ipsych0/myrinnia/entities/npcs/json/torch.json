@@ -1,0 +1,46 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The torch is unlit.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Light the torch.",
+          "nextId": 2,
+          "choiceCondition": {
+            "condition": "hasFireSource",
+            "falseId": 5
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "You wouldn't want to touch these without Phyrrus' permission.",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "The torch is burning brightly.",
+      "nextId": -1
+    },
+    {
+      "id": 5,
+      "text": "You don't have anything to light the torch with.",
+      "nextId": -1
+    }
+  ]
+}

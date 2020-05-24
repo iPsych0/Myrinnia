@@ -1,0 +1,70 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Oh, hi. I'm Phyrrus, watcher of the Beacon. A storm extinguished most of the torches last night. Do you think you could help me out here?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Sure, what do I need to do?",
+          "nextId": 2
+        },
+        {
+          "text": "Not now.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Well, you see, the torches use each others' heat to stay lit. It means that for them to stay lit, you must light all of them at the same time.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Each torch will extinguish after 15 seconds. So, you must light all torches in the room within 15 seconds. Did you get that?",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "I'm ready.",
+          "nextId": 5
+        },
+        {
+          "text": "Could you repeat once more?",
+          "nextId": 2
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Great! Take this candle and matchbox. To light unlit sources, you can right-click on the unlit item while having an ignition source in your inventory. Good luck!",
+      "nextId": -1
+    },
+    {
+      "id": 6,
+      "text": "Thanks! The Beacon is now fully lit again!",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "text": "I would like to share an ability with you that may help you get around faster!",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "text": "'Burning Haste' will increase your movement speed, while also burning enemies that hit you!",
+      "nextId": 9
+    },
+    {
+      "id": 9,
+      "text": "You're most welcome here, traveler. I hope to see you again soon!",
+      "nextId": -1
+    }
+  ]
+}

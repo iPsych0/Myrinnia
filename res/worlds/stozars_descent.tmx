@@ -285,6 +285,7 @@
   <object id="13" name="Canyon map" type="zone_tile" x="2656" y="1584" width="224" height="16"/>
   <object id="15" name="Sort of museum?" type="zone_tile" x="1824" y="360" width="32" height="40">
    <properties>
+    <property name="customZoneName" value="Stozar's Museum"/>
     <property name="goToX" value="15"/>
     <property name="goToY" value="18"/>
     <property name="zone" value="StozarInside"/>

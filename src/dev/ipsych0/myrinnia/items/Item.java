@@ -194,6 +194,50 @@ public class Item implements Serializable {
     public static Item amanitaMushroom = Utils.loadItem("145_amanita_mushroom.json", Assets.amanitaMushroom);
     public static Item potionOfDecontamination = Utils.loadItem("146_potion_of_decontamination.json", Assets.potionOfDecontamination);
 
+    public static Item litTorch = Utils.loadItem("147_lit_torch.json", Assets.litTorch, 0, (i) -> {
+        Handler.get().removeItem(Item.litTorch, 1);
+        Handler.get().giveItem(Item.unlitTorch, 1);
+        Handler.get().sendMsg("You extinguish the torch.");
+    });
+    public static Item unlitTorch = Utils.loadItem("148_unlit_torch.json", Assets.unlitTorch, 0, (i) -> {
+        if (Handler.get().playerHasItemType(ItemType.FIRE_SOURCE)) {
+            Handler.get().removeItem(Item.unlitTorch, 1);
+            Handler.get().giveItem(Item.litTorch, 1);
+            Handler.get().sendMsg("You light the torch.");
+        } else {
+            Handler.get().sendMsg("You don't have anything to light the torch with.");
+        }
+    });
+    public static Item unlitLantern = Utils.loadItem("149_unlit_lantern.json", Assets.unlitLantern, 0, (i) -> {
+        if (Handler.get().playerHasItemType(ItemType.FIRE_SOURCE)) {
+            Handler.get().removeItem(Item.unlitLantern, 1);
+            Handler.get().giveItem(Item.litLantern, 1);
+            Handler.get().sendMsg("You light the lantern.");
+        } else {
+            Handler.get().sendMsg("You don't have anything to light the lantern with.");
+        }
+    });
+    public static Item litLantern = Utils.loadItem("150_lit_lantern.json", Assets.litLantern, 0, (i) -> {
+        Handler.get().removeItem(Item.litLantern, 1);
+        Handler.get().giveItem(Item.unlitLantern, 1);
+        Handler.get().sendMsg("You extinguish the lantern.");
+    });
+    public static Item unlitCandle = Utils.loadItem("151_unlit_candle.json", Assets.unlitCandle, 0, (i) -> {
+        if (Handler.get().playerHasItemType(ItemType.FIRE_SOURCE)) {
+            Handler.get().removeItem(Item.unlitCandle, 1);
+            Handler.get().giveItem(Item.litCandle, 1);
+            Handler.get().sendMsg("You light the candle.");
+        } else {
+            Handler.get().sendMsg("You don't have anything to light the candle with.");
+        }
+    });
+    public static Item litCandle = Utils.loadItem("152_lit_candle.json", Assets.litCandle, 0, (i) -> {
+        Handler.get().removeItem(Item.litCandle, 1);
+        Handler.get().giveItem(Item.unlitCandle, 1);
+        Handler.get().sendMsg("You extinguish the candle.");
+    });
+    public static Item matchbox = Utils.loadItem("153_matchbox.json", Assets.matchbox);
+
 
     static {
         initPotions();

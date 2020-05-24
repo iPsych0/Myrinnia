@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 20.0,
+  "castingTime": 0.25,
+  "overcastTime": 0.0,
+  "name": "Burning Haste",
+  "description": "Embers set your feet ablaze, increasing your movement speed and burning enemies that hit you.",
+  "abilityType": "StandardAbility",
+  "element": "Fire",
+  "combatStyle": "Melee",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 0,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 3,
+  "className": "dev.ipsych0.myrinnia.abilities.BurningHasteAbility"
+}

@@ -5,7 +5,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 
-public class ConditionOnHitEvent implements OnHit {
+public class ConditionOnHitReceivedEvent implements OnHitReceived {
 
     private Condition.Type condition;
     private Entity caster, receiver;
@@ -15,14 +15,14 @@ public class ConditionOnHitEvent implements OnHit {
     private boolean finished;
     private boolean infiniteCount = true;
 
-    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks) {
+    public ConditionOnHitReceivedEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks) {
         this.condiDamage = condiDamage;
         this.condiDuration = condiDuration;
         this.condition = condition;
         this.expiryTicks = expiryTicks;
     }
 
-    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks, int count) {
+    public ConditionOnHitReceivedEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks, int count) {
         this.condition = condition;
         this.condiDamage = condiDamage;
         this.condiDuration = condiDuration;
