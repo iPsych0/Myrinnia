@@ -111,6 +111,7 @@ public abstract class Creature extends Entity {
     protected Direction direction;
     // Last faced direction
     protected Direction lastFaced;
+    protected Direction originalDirection;
 
     protected double speed;
     protected double xMove;
@@ -135,6 +136,8 @@ public abstract class Creature extends Entity {
 
         if (direction != null) {
             lastFaced = direction;
+            this.direction = direction;
+            this.originalDirection = direction;
             walker = false;
         }
 
@@ -1379,6 +1382,7 @@ public abstract class Creature extends Entity {
 
     public void setLastFaced(Direction lastFaced) {
         this.lastFaced = lastFaced;
+        this.direction = lastFaced;
     }
 
     public List<Condition> getConditions() {
@@ -1509,6 +1513,14 @@ public abstract class Creature extends Entity {
 
     public void setPostRenderTiles(Map<Tile, Point> postRenderTiles) {
         this.postRenderTiles = postRenderTiles;
+    }
+
+    public Direction getOriginalDirection() {
+        return originalDirection;
+    }
+
+    public void setOriginalDirection(Direction originalDirection) {
+        this.originalDirection = originalDirection;
     }
 
     private void writeObject(ObjectOutputStream stream)

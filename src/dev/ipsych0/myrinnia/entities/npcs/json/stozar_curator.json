@@ -57,12 +57,12 @@
     },
     {
       "id": 7,
-      "text": "Centuries ago, the Giants aided the people of the Midlands in building impressive dams or fortresses in the mountains.",
+      "text": "Centuries ago, the Giants aided the people of the Midlands in building impressive strongholds and fortresses.",
       "nextId": 8
     },
     {
       "id": 8,
-      "text": "At the end of the First Age, mankind started using the Giants in warfare. This led to a severe decline of the population.",
+      "text": "At the end of the First Age, humans started using the Giants in warfare. This led to a severe decline in the population of Giants.",
       "nextId": 9
     },
     {
@@ -77,7 +77,7 @@
     },
     {
       "id": 11,
-      "text": "The statue outside this museum pays homage to the loyalty and friendship between Giants and humankind and this museum was established to make sure history will not repeat itself.",
+      "text": "The statue outside this museum pays homage to the loyalty and friendship between Giants and mankind and this museum was established to make sure history will not repeat itself.",
       "nextId": 3
     }
   ]

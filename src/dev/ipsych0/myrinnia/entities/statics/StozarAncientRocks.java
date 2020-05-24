@@ -1,6 +1,9 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.GraniteWallAbility;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.items.ItemType;
 
 import java.awt.*;
 
@@ -36,7 +39,17 @@ public class StozarAncientRocks extends GenericObject {
     }
 
     @Override
-    protected void updateDialogue() {
+    protected boolean choiceConditionMet(String condition) {
+        if ("hasLearntAbility".equals(condition)) {
+            return AbilityManager.abilityMap.get(GraniteWallAbility.class).isUnlocked();
+        }
+        return false;
+    }
 
+    @Override
+    protected void updateDialogue() {
+        if (speakingTurn == 3) {
+            AbilityManager.abilityMap.get(GraniteWallAbility.class).setUnlocked(true);
+        }
     }
 }

@@ -329,20 +329,27 @@ public class Handler implements Serializable {
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
 
-        // Reset all NPCs to their spawn location
+        // Reset all NPCs to their spawn location and let them face the original way
         for (Entity e : world.getEntityManager().getEntities()) {
-            if (e instanceof Creature && e.isAttackable() && !e.equals(player)) {
+            if (e instanceof Creature) {
                 Creature c = ((Creature) e);
-                // Reset A* aggro
-                c.setState(CombatState.BACKTRACK);
-                e.setDamaged(false);
-                // Clear buffs & condis & reset HP
-                c.clearBuffs();
-                c.clearConditions();
-                c.setHealth(c.getMaxHealth());
-                // Reset position
-                e.setX(c.getxSpawn());
-                e.setY(c.getySpawn());
+                if (e.isAttackable() && !e.equals(player)) {
+
+                    // Reset A* aggro
+                    c.setState(CombatState.BACKTRACK);
+                    e.setDamaged(false);
+                    // Clear buffs & condis & reset HP
+                    c.clearBuffs();
+                    c.clearConditions();
+                    c.setHealth(c.getMaxHealth());
+                    // Reset position
+                    e.setX(c.getxSpawn());
+                    e.setY(c.getySpawn());
+                }
+                if (c.getOriginalDirection() != null && !e.equals(player)) {
+                    c.setLastFaced(c.getOriginalDirection());
+                }
+
             }
         }
 
