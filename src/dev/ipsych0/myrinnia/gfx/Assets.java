@@ -28,7 +28,7 @@ public class Assets {
     public static BufferedImage rain, snow, sandStorm, fogNormal, fogHeavy;
 
     // Map item images (trees, rocks, etc)
-    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, tungstenRock;
+    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, clayRock, tungstenRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
@@ -86,7 +86,7 @@ public class Assets {
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
             strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
             bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination, litTorch, unlitTorch, unlitLantern, litLantern, unlitCandle, litCandle,
-            matchbox;
+            matchbox, clay;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -653,6 +653,7 @@ public class Assets {
         unlitCandle = item_sheet.imageCrop(4, 12);
         litCandle = item_sheet.imageCrop(4, 13);
         matchbox = item_sheet.imageCrop(4, 14);
+        clay = item_sheet.imageCrop(4, 15);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -1437,6 +1438,7 @@ public class Assets {
         azuriteRock = mining_rocks.imageCrop(1, 0);
         copperRock = mining_rocks.imageCrop(2, 0);
         ironRock = mining_rocks.imageCrop(3, 0);
+        clayRock = mining_rocks.imageCrop(6, 0);
         tungstenRock = mining_rocks.imageCrop(4, 0);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);

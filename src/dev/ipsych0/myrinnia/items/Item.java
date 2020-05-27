@@ -237,6 +237,7 @@ public class Item implements Serializable {
         Handler.get().sendMsg("You extinguish the candle.");
     });
     public static Item matchbox = Utils.loadItem("153_matchbox.json", Assets.matchbox);
+    public static Item clay = Utils.loadItem("154_clay.json", Assets.clay);
 
 
     static {

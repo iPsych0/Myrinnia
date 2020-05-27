@@ -47,6 +47,7 @@ public class Rock extends StaticEntity {
             entry("Azurite Rock", Assets.azuriteRock),
             entry("Copper Rock", Assets.copperRock),
             entry("Iron Rock", Assets.ironRock),
+            entry("Clay Rock", Assets.clayRock),
             entry("Tungsten Rock", Assets.tungstenRock)
     );
     private static Map<Integer, Double> chanceToMineMap = Map.ofEntries(
@@ -86,7 +87,13 @@ public class Rock extends StaticEntity {
             timeToMine = 240;
             chanceToMine = 650; // 65%
             chanceOfRareMaterial = 80; // 8% chance
-        } else if (name.equalsIgnoreCase("Tungsten Rock")) {
+        } else if (name.equalsIgnoreCase("Clay Rock")) {
+            ore = Item.clay;
+            experience = 15;
+            timeToMine = 150;
+            chanceToMine = 700; // 70%
+            chanceOfRareMaterial = 50; // 5% chance
+        }else if (name.equalsIgnoreCase("Tungsten Rock")) {
             ore = Item.tungstenOre;
             experience = 25;
             timeToMine = 300;

@@ -29,6 +29,7 @@ public class MiningSkill extends Skill {
         resources.add(new SkillResource(1, Item.azuriteOre, SkillCategory.Ores, "Obtained by mining Azurite Rocks."));
         resources.add(new SkillResource(2, Item.copperOre, SkillCategory.Ores, "Obtained by mining Copper Rocks."));
         resources.add(new SkillResource(5, Item.ironOre, SkillCategory.Ores, "Obtained by mining Iron Rocks."));
+        resources.add(new SkillResource(7, Item.clay, SkillCategory.Ores, "Obtained by mining Clay Rocks."));
         resources.add(new SkillResource(10, Item.tungstenOre, SkillCategory.Ores, "Obtained by mining Tungsten Rocks."));
     }
 
