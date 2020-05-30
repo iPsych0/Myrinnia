@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,6 +13,8 @@ class ImageLoader {
 
     public static BufferedImage loadImage(String path) {
         try {
+            SplashScreen.addLoadedElement();
+
             InputStream input;
 
             String fixedFile;

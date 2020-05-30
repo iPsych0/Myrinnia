@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -64,6 +65,7 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
+        SplashScreen.addLoadedElement();
 
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
@@ -154,6 +156,8 @@ public class SpriteSheet {
             y *= 32;
         }
 
+        SplashScreen.addLoadedElement();
+
         return sheet.getSubimage(x, y, width, height);
     }
 
@@ -170,6 +174,7 @@ public class SpriteSheet {
         BufferedImage[] imgs = new BufferedImage[frames];
         for (int i = 0; i < imgs.length; i++) {
             imgs[i] = sheet.getSubimage(x + (i * width), y, width, height);
+            SplashScreen.addLoadedElement();
         }
         return imgs;
     }

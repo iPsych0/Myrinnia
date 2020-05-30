@@ -95,8 +95,6 @@ public class Game implements Runnable, Serializable {
             addListeners();
         });
 
-        Assets.init();
-
         handler = Handler.get();
         loadSettings();
 

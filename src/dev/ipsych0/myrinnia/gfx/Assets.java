@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -259,6 +260,7 @@ public class Assets {
         /*
          * Fonts
          */
+        SplashScreen.setMessage("Loading fonts...");
         font14 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 14);
         font20 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 20);
         font24 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 24);
@@ -267,6 +269,8 @@ public class Assets {
         font48 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 48);
         font64 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 64);
 
+
+        SplashScreen.setMessage("Loading spritesheets...");
 
         /*
          * Sprite Sheets
@@ -378,6 +382,8 @@ public class Assets {
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
+        SplashScreen.setMessage("Loading tiles...");
+
         for (SpriteSheet tileSheet : tileSheets) {
             for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
                 for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
@@ -392,6 +398,8 @@ public class Assets {
 //                puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x, y);
 //            }
 //        }
+
+        SplashScreen.setMessage("Loading UI images...");
 
         /*
          * Game UI Sprites
@@ -424,6 +432,8 @@ public class Assets {
         celenorPotionYellow = celenor_potion_cabinet_sheet.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
         celenorPotionGreen = celenor_potion_cabinet_sheet.imageCrop(18, 2, WIDTH * 2, HEIGHT * 2);
         celenorPotionBlue = celenor_potion_cabinet_sheet.imageCrop(20, 2, WIDTH * 2, HEIGHT * 2);
+
+        SplashScreen.setMessage("Loading UI icons...");
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);
@@ -505,6 +515,8 @@ public class Assets {
 
         locked = ui_sheet.imageCrop(0, 1, 16, 16);
         unlocked = ui_sheet.imageCrop(1, 1, 16, 16);
+
+        SplashScreen.setMessage("Loading item sprites...");
 
         /*
          * Item Sprites
@@ -682,6 +694,8 @@ public class Assets {
         weakPotionOfVigor = item_sheet.imageCrop(23, 15);
         potionOfVigor = item_sheet.imageCrop(23, 14);
         strongPotionOfVigor = item_sheet.imageCrop(23, 13);
+
+        SplashScreen.setMessage("Loading animations...");
 
         /*
          * Enemy Animations
@@ -1187,6 +1201,39 @@ public class Assets {
         player_right = player_sheet.npcCrop(0, 2);
         player_up = player_sheet.npcCrop(0, 3);
 
+        SplashScreen.setMessage("Loading ability icons...");
+
+        /*
+         * Ability Icons
+         */
+        eruptionI = ability_icons.imageCrop(0, 0);
+        fireballI = ability_icons.imageCrop(1, 0);
+        mendWoundsI = ability_icons.imageCrop(2, 0);
+        nimbleFeetI = ability_icons.imageCrop(3, 0);
+        supersonicDashI = ability_icons.imageCrop(4, 0);
+        frostJabI = ability_icons.imageCrop(5, 0);
+        iceBallI = ability_icons.imageCrop(6, 0);
+        glacialShotI = ability_icons.imageCrop(7, 0);
+        healingSpringI = ability_icons.imageCrop(8, 0);
+        arcaneRenewalI = ability_icons.imageCrop(9, 0);
+        poisonDartI = ability_icons.imageCrop(10, 0);
+        acidBombI = ability_icons.imageCrop(11, 0);
+        cripplingImpactI = ability_icons.imageCrop(12, 0);
+        debilitatingShotI = ability_icons.imageCrop(13, 0);
+        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
+        rockyConstrictI = ability_icons.imageCrop(15, 0);
+        sandblastI = ability_icons.imageCrop(0, 1);
+        barrierI = ability_icons.imageCrop(1, 1);
+        naturalResilienceI = ability_icons.imageCrop(2, 1);
+        bulkUpI = ability_icons.imageCrop(3, 1);
+        aquaticReversalI = ability_icons.imageCrop(4, 1);
+        invigoratingBlowI = ability_icons.imageCrop(5, 1);
+        siphoningShotI = ability_icons.imageCrop(6, 1);
+        graniteWallI = ability_icons.imageCrop(7, 1);
+        burningHasteI = ability_icons.imageCrop(8, 1);
+
+        SplashScreen.setMessage("Loading ability animations...");
+
         combatUpFront = new BufferedImage[10];
         combatUpFront[0] = level_up.imageCrop(0, 0, 64, 64);
         combatUpFront[1] = level_up.imageCrop(2, 0, 64, 64);
@@ -1239,40 +1286,6 @@ public class Assets {
         regularMagic[0] = regular_attacks.imageCrop(1, 0);
         regularMagic[1] = regular_attacks.imageCrop(2, 0);
         regularMagic[2] = regular_attacks.imageCrop(3, 0);
-
-        /*
-         * Ability Icons
-         */
-        eruptionI = ability_icons.imageCrop(0, 0);
-        fireballI = ability_icons.imageCrop(1, 0);
-        mendWoundsI = ability_icons.imageCrop(2, 0);
-        nimbleFeetI = ability_icons.imageCrop(3, 0);
-        supersonicDashI = ability_icons.imageCrop(4, 0);
-        frostJabI = ability_icons.imageCrop(5, 0);
-        iceBallI = ability_icons.imageCrop(6, 0);
-        glacialShotI = ability_icons.imageCrop(7, 0);
-        healingSpringI = ability_icons.imageCrop(8, 0);
-        arcaneRenewalI = ability_icons.imageCrop(9, 0);
-        poisonDartI = ability_icons.imageCrop(10, 0);
-        acidBombI = ability_icons.imageCrop(11, 0);
-        cripplingImpactI = ability_icons.imageCrop(12, 0);
-        debilitatingShotI = ability_icons.imageCrop(13, 0);
-        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
-        rockyConstrictI = ability_icons.imageCrop(15, 0);
-        sandblastI = ability_icons.imageCrop(0, 1);
-        barrierI = ability_icons.imageCrop(1, 1);
-        naturalResilienceI = ability_icons.imageCrop(2, 1);
-        bulkUpI = ability_icons.imageCrop(3, 1);
-        aquaticReversalI = ability_icons.imageCrop(4, 1);
-        invigoratingBlowI = ability_icons.imageCrop(5, 1);
-        siphoningShotI = ability_icons.imageCrop(6, 1);
-        graniteWallI = ability_icons.imageCrop(7, 1);
-        burningHasteI = ability_icons.imageCrop(8, 1);
-
-
-        /*
-         * Creature Animations
-         */
 
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);
@@ -1429,6 +1442,8 @@ public class Assets {
         eruption1[4] = ability_animations.imageCrop(4, 1);
         eruption1[5] = ability_animations.imageCrop(5, 1);
         eruption1[6] = ability_animations.imageCrop(6, 1);
+
+        SplashScreen.setMessage("Loading map icons...");
 
         // Skilling objects
         weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);

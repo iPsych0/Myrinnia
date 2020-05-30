@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ class FontLoader {
 
     public static Font loadFont(String path, float size) {
         try {
+            SplashScreen.addLoadedElement();
             InputStream input;
 
             String fixedFile;

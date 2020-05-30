@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
+import dev.ipsych0.splashscreen.SplashScreen;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -115,6 +116,8 @@ public class MapLoader implements Serializable {
                     if (qName.equalsIgnoreCase("tile")) {
                         // Always increment tile ID by 1, as every next TileSet starts at ID 0 again
                         currentId = 1 + lastId;
+
+                        SplashScreen.addLoadedElement();
 
                         // If new tile checked, clear old data
                         if (currentId != lastId) {
