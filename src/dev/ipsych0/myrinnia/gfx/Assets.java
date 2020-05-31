@@ -227,6 +227,9 @@ public class Assets {
     public static BufferedImage ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
+    // Ability slots
+    public static BufferedImage aFireSlot, aWaterSlot, aAirSlot, aEarthSlot, aHealingSlot, aEliteSlot, aEmptySlot;
+
     // Crafting UI
     public static BufferedImage undiscovered;
 
@@ -418,6 +421,14 @@ public class Assets {
         equipmentPlaceHolders[9] = offhandSlot = equipSlots.imageCrop(2, 1);
         equipmentPlaceHolders[10] = capeSlot = equipSlots.imageCrop(2, 2);
         equipmentPlaceHolders[11] = ringSlot2 = equipSlots.imageCrop(2, 3);
+
+        aWaterSlot = ui_sheet.imageCrop(9, 0, WIDTH, HEIGHT);
+        aFireSlot = ui_sheet.imageCrop(10, 0, WIDTH, HEIGHT);
+        aAirSlot = ui_sheet.imageCrop(11, 0, WIDTH, HEIGHT);
+        aEarthSlot = ui_sheet.imageCrop(12, 0, WIDTH, HEIGHT);
+        aHealingSlot = ui_sheet.imageCrop(13, 0, WIDTH, HEIGHT);
+        aEliteSlot = ui_sheet.imageCrop(14, 0, WIDTH, HEIGHT);
+        aEmptySlot = ui_sheet.imageCrop(15, 0, WIDTH, HEIGHT);
 
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
 

@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class AbilitySlot extends UIImageButton implements Serializable {
@@ -36,7 +37,6 @@ public class AbilitySlot extends UIImageButton implements Serializable {
 
     public void render(Graphics2D g, int slotNum) {
         super.render(g);
-        g.drawImage(Assets.genericButton[0], x, y, width, height, null);
         if (ability != null) {
             ability.renderIcon(g, x, y);
             if (!Handler.get().getAbilityManager().getAbilityHUD().compatibleWeaponType(ability, false)) {
@@ -52,7 +52,36 @@ public class AbilitySlot extends UIImageButton implements Serializable {
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
             }
         }
+        g.drawImage(getBorderByType(), x - 3, y - 3, width + 6, height + 6, null);
         Text.drawString(g, Integer.toString(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
+    }
+
+    private BufferedImage getBorderByType() {
+        // If slot has no ability, return empty slot sprite
+        if (ability == null) {
+            return Assets.aEmptySlot;
+        }
+
+        switch (ability.getAbilityType()) {
+            case HealingAbility:
+                return Assets.aHealingSlot;
+            case EliteAbility:
+                return Assets.aEliteSlot;
+        }
+
+        switch (ability.getElement()) {
+            case Water:
+                return Assets.aWaterSlot;
+            case Fire:
+                return Assets.aFireSlot;
+            case Air:
+                return Assets.aAirSlot;
+            case Earth:
+                return Assets.aEarthSlot;
+        }
+
+        // If no matches found, return empty slot sprite
+        return Assets.aEmptySlot;
     }
 
     public void render(Graphics2D g) {

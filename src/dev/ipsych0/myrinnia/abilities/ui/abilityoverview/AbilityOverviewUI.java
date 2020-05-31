@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilities.ui.abilityoverview;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
@@ -144,17 +145,46 @@ public class AbilityOverviewUI implements Serializable {
                         }
                         if (hudSlot.getAbility() != null && hudSlot.getAbility() == currentSelectedAbility) {
                             alreadyHasAbility = true;
+                            Handler.get().sendMsg("You already have that ability slotted.");
                             break;
                         }
                     }
-                    if (!alreadyHasAbility && foundSlot != null) {
-                        foundSlot.setAbility(currentSelectedAbility);
+
+                    if (foundSlot != null) {
+                        if (!alreadyHasAbility) {
+                            // For non-standard abilities, check if we already have one of them.
+                            if (currentSelectedAbility.getAbilityType() != AbilityType.StandardAbility) {
+                                if (containsAbility(currentSelectedAbility.getAbilityType())) {
+                                    // If we already have this ability type, check if we're swapping with the same type
+                                    if (foundSlot.getAbility() == null || foundSlot.getAbility().getAbilityType() != currentSelectedAbility.getAbilityType()) {
+                                        Handler.get().sendMsg("You can only have 1 " + currentSelectedAbility.getAbilityType().getName().toLowerCase() + " ability at a time.");
+                                        currentSelectedAbility = null;
+                                        hasBeenPressed = false;
+                                        return;
+                                    }
+                                }
+                            }
+                            foundSlot.setAbility(currentSelectedAbility);
+                        }
                     }
                     currentSelectedAbility = null;
                     hasBeenPressed = false;
                 }
             }
         }
+    }
+
+    private boolean containsAbility(AbilityType type) {
+        for (AbilitySlot hudSlot : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+            if (hudSlot.getAbility() != null) {
+                if (hudSlot.getAbility() == currentSelectedAbility) {
+                    return true;
+                } else if (type != null && hudSlot.getAbility().getAbilityType() == type) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void updateSlots() {

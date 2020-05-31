@@ -56,11 +56,6 @@ public class SplashScreen {
         // Finish the splash screen
         setProgress(100);
         setMessage("Done!");
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // Close the splash screen and start the game!
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

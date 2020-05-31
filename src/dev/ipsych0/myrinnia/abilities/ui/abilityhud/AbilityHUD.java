@@ -23,6 +23,7 @@ public class AbilityHUD implements Serializable {
      */
     private static final long serialVersionUID = 2357471540127327333L;
     private static final int MAX_SLOTS = 10;
+    private static final int SLOT_PADDING = 8;
     private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<>();
     private HPBar hpBar;
     private XPBar xpBar;
@@ -40,13 +41,13 @@ public class AbilityHUD implements Serializable {
     private StatusTooltip statusTooltip;
 
     public AbilityHUD() {
-        width = x + ItemSlot.SLOTSIZE * MAX_SLOTS;
+        width = x + ItemSlot.SLOTSIZE * MAX_SLOTS + ((MAX_SLOTS - 1) * SLOT_PADDING);
         height = y + ItemSlot.SLOTSIZE;
         x = Handler.get().getWidth() / 2 - (width / 2);
         y = Handler.get().getHeight() - ItemSlot.SLOTSIZE - 8;
 
         for (int i = 0; i < MAX_SLOTS; i++) {
-            slottedAbilities.add(new AbilitySlot(null, x + (i * 32), y));
+            slottedAbilities.add(new AbilitySlot(null, x + (i * 32) + (i * SLOT_PADDING), y));
         }
 
         // Add HP Bar after the last abilitySlot
@@ -56,8 +57,8 @@ public class AbilityHUD implements Serializable {
 
         abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2 - 64);
 
-        lockButton = new UIImageButton(x + width + 1, y, 16, 16, Assets.genericButton);
-        unlockButton = new UIImageButton(x + width + 1, y + 16, 16, 16, Assets.genericButton);
+        lockButton = new UIImageButton(x + width + 8, y, 16, 16, Assets.genericButton);
+        unlockButton = new UIImageButton(x + width + 8, y + 16, 16, 16, Assets.genericButton);
         bounds = new Rectangle(x, y, width + 16, height);
 
         uiManager = new UIManager();
@@ -272,7 +273,7 @@ public class AbilityHUD implements Serializable {
             }
             if (!locked) {
                 g.setColor(Color.YELLOW);
-                g.drawRect(as.getBounds().x, as.getBounds().y, as.getBounds().width, as.getBounds().height);
+                g.drawRect(as.getBounds().x + 1, as.getBounds().y + 1, as.getBounds().width - 4, as.getBounds().height - 3);
             }
         }
 
@@ -287,6 +288,8 @@ public class AbilityHUD implements Serializable {
         }
         g.fillRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height);
         g.drawImage(Assets.locked, lockButton.x, lockButton.y, lockButton.width, lockButton.height, null);
+        g.setColor(Color.BLACK);
+        g.drawRect(lockButton.x, lockButton.y, lockButton.width, lockButton.height);
 
         if (unlockButton.contains(mouse)) {
             g.setColor(Colors.hoverUnlockedColor);
@@ -295,6 +298,8 @@ public class AbilityHUD implements Serializable {
         }
         g.fillRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
         g.drawImage(Assets.unlocked, unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height, null);
+        g.setColor(Color.BLACK);
+        g.drawRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
 
 //      hpBar.render(g);
 //		xpBar.render(g);

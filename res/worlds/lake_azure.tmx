@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="33"><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="33">
+ <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
  <tileset firstgid="2472" source="house.tsx"/>
@@ -778,6 +779,7 @@
   </object>
   <object id="32" name="Angry Owl" type="npc" x="2848" y="288" width="32" height="32">
    <properties>
+    <property name="dropTable" value="azure_owl.json"/>
     <property name="level" value="3"/>
     <property name="name" value="Angry Owl"/>
     <property name="npcClass" value="AngryOwl"/>
