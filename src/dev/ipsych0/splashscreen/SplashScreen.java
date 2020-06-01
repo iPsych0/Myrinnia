@@ -1,23 +1,38 @@
 package dev.ipsych0.splashscreen;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class SplashScreen {
 
     private JFrame frame;
     private static JProgressBar progressBar;
     private static JLabel loadingMsg;
+    private static JLabel animLabel;
     private static double loadedCount;
     private static final double APPROX_MAX_COUNT = 67149d;
+    private static final int WIDTH = 600, HEIGHT = 400;
+    private static boolean initialized;
+
+    private Timer timer;
+    private static int index;
+    private static BufferedImage[] images;
 
     public SplashScreen() {
         createGUI();
+        addHeader();
         addProgressBar();
         addMessage();
+        addAnimation();
         loadGame();
     }
 
@@ -25,10 +40,19 @@ public class SplashScreen {
         frame = new JFrame();
         frame.getContentPane().setLayout(null);
         frame.setUndecorated(true);
-        frame.setSize(600, 400);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(Color.CYAN);
+        frame.getContentPane().setBackground(Color.BLACK);
         frame.setVisible(true);
+    }
+
+    private void addHeader() {
+        JLabel header = new JLabel();
+        header.setText("Launching Elements of Myrinnia...");
+        header.setBounds(148, 40, 400, 40);
+        header.setForeground(Color.YELLOW);//Setting foreground Color
+        header.setFont(new Font("arial", Font.BOLD, 20));//Setting font properties
+        frame.add(header);//adding label to the frame
     }
 
     private void addProgressBar() {
@@ -36,21 +60,51 @@ public class SplashScreen {
         progressBar.setBounds(100, 280, 400, 30);
         progressBar.setBorderPainted(true);
         progressBar.setStringPainted(true);
-        progressBar.setBackground(Color.WHITE);
-        progressBar.setForeground(Color.BLACK);
+        progressBar.setBackground(Color.BLACK);
+        progressBar.setForeground(Color.YELLOW);
         progressBar.setValue(0);
-        frame.add(progressBar);
+        frame.add(progressBar, BorderLayout.CENTER);
     }
 
     private void addMessage() {
-        loadingMsg = new JLabel();
-        loadingMsg.setBounds(220, 320, 200, 40);//Setting the size and location of the label
-        loadingMsg.setForeground(Color.black);//Setting foreground Color
-        loadingMsg.setFont(new Font("arial", Font.BOLD, 15));//Setting font properties
-        frame.add(loadingMsg);//adding label to the frame
+        loadingMsg = new JLabel("<html><div style='text-align: center;'>" + "Loading fonts..." + "</div></html>", SwingConstants.CENTER);
+        loadingMsg.setBounds(200, 320, 200, 40);//Setting the size and location of the label
+        loadingMsg.setForeground(Color.YELLOW);//Setting foreground Color
+        loadingMsg.setFont(new Font("arial", Font.BOLD, 14));//Setting font properties
+        frame.add(loadingMsg, BorderLayout.CENTER);//adding label to the frame
+    }
+
+    private void addAnimation() {
+        animLabel = new JLabel(new ImageIcon(images[index]));
+        animLabel.setBounds(200, 88, 200, 160);
+        animLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(animLabel, BorderLayout.CENTER);
+
+        SwingUtilities.invokeLater(() -> {
+            ActionListener animate = e -> {
+                if (progressBar.getValue() < 100) {
+                    updateFrames();
+                } else {
+                    timer.stop();
+                }
+            };
+
+            timer = new Timer(125, animate);
+            timer.start();
+        });
+    }
+
+    private void updateFrames() {
+        index++;
+        if (index >= images.length) {
+            index = 0;
+        }
+        animLabel.setIcon(new ImageIcon(images[index]));
     }
 
     private void loadGame() {
+        initialized = true;
+
         Assets.init();
 
         // Finish the splash screen
@@ -62,9 +116,11 @@ public class SplashScreen {
     }
 
     public static void addLoadedElement() {
-        loadedCount++;
-        // Update the progress bar
-        setProgress((int) (loadedCount / APPROX_MAX_COUNT * 100d));
+        if (initialized) {
+            loadedCount++;
+            // Update the progress bar
+            setProgress((int) (loadedCount / APPROX_MAX_COUNT * 100d));
+        }
     }
 
     public static void setProgress(int percent) {
@@ -72,6 +128,45 @@ public class SplashScreen {
     }
 
     public static void setMessage(String msg) {
-        loadingMsg.setText(msg);
+        loadingMsg.setText("<html><div style='text-align: center;'>" + msg + "</div></html>");
+        loadingMsg.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+
+    /*
+     * Load the images at the start
+     */
+    static {
+        BufferedImage animSheet = null;
+        String fixedFile;
+        InputStream input;
+        String path = "/textures/animations/ability_animations.png";
+
+        try {
+            if (Handler.isJar) {
+                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
+                input = new FileInputStream(fixedFile);
+            } else {
+                fixedFile = path.replaceFirst("/", Handler.resourcePath);
+                input = new FileInputStream(fixedFile);
+            }
+
+            animSheet = ImageIO.read(input);
+            animSheet.setAccelerationPriority(1);
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        images = new BufferedImage[]{
+                animSheet.getSubimage(0 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(2 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(4 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(6 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(8 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(10 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(12 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2),
+                animSheet.getSubimage(14 * Assets.WIDTH, 19 * Assets.HEIGHT, Assets.WIDTH * 2, Assets.HEIGHT * 2)
+        };
     }
 }

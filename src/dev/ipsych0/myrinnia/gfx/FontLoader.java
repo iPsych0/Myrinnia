@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class FontLoader {
+public class FontLoader {
 
     public static Font loadFont(String path, float size) {
         try {

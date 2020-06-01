@@ -13,7 +13,9 @@ import dev.ipsych0.myrinnia.utils.Colors;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AbilityHUD implements Serializable {
 
@@ -24,9 +26,7 @@ public class AbilityHUD implements Serializable {
     private static final long serialVersionUID = 2357471540127327333L;
     private static final int MAX_SLOTS = 10;
     private static final int SLOT_PADDING = 8;
-    private ArrayList<AbilitySlot> slottedAbilities = new ArrayList<>();
-    private HPBar hpBar;
-    private XPBar xpBar;
+    private List<AbilitySlot> slottedAbilities = new ArrayList<>();
     private static int x, y, width, height;
     private AbilityTooltip abilityTooltip;
     public static boolean hasBeenPressed;
@@ -40,6 +40,20 @@ public class AbilityHUD implements Serializable {
     private UIManager uiManager;
     private StatusTooltip statusTooltip;
 
+    // Initialize default keys
+    private Map<Character, Integer> keyBindMap = new LinkedHashMap<>(){{
+        put('0', 9);
+        put('1', 0);
+        put('2', 1);
+        put('3', 2);
+        put('4', 3);
+        put('5', 4);
+        put('6', 5);
+        put('7', 6);
+        put('8', 7);
+        put('9', 8);
+    }};
+
     public AbilityHUD() {
         width = x + ItemSlot.SLOTSIZE * MAX_SLOTS + ((MAX_SLOTS - 1) * SLOT_PADDING);
         height = y + ItemSlot.SLOTSIZE;
@@ -49,11 +63,6 @@ public class AbilityHUD implements Serializable {
         for (int i = 0; i < MAX_SLOTS; i++) {
             slottedAbilities.add(new AbilitySlot(null, x + (i * 32) + (i * SLOT_PADDING), y));
         }
-
-        // Add HP Bar after the last abilitySlot
-//		hpBar = new HPBar(Handler.get(), slottedAbilities.get(slottedAbilities.size()-1).getX() + ItemSlot.SLOTSIZE, y);
-        // Add XP Bar after HP Bar
-//		xpBar = new XPBar(Handler.get(), hpBar.getX() + hpBar.getWidth(), y);
 
         abilityTooltip = new AbilityTooltip(0, Handler.get().getHeight() / 2 - 64);
 
@@ -65,8 +74,7 @@ public class AbilityHUD implements Serializable {
 
         uiManager.addObject(lockButton);
         uiManager.addObject(unlockButton);
-//		this.width = x + xpBar.getX() + xpBar.getWidth();
-//		this.height = y + ItemSlot.SLOTSIZE;
+
         statusTooltip = new StatusTooltip(0, Handler.get().getHeight() / 2 - 32);
     }
 
@@ -109,7 +117,10 @@ public class AbilityHUD implements Serializable {
     private void handleKeyEvent() {
         // Get the right index in the ability slots
         // Funky calculation. If 0 is pressed, it should be the last slot instead of first, otherwise the slot is 1-9 pressed -1 by index
-        Ability selectedAbility = slottedAbilities.get(pressedKey == 48 ? slottedAbilities.size() - 1 : (pressedKey - 49)).getAbility();
+        Integer index = keyBindMap.get(pressedKey);
+        if(index == null)
+            return;
+        Ability selectedAbility = slottedAbilities.get(index).getAbility();
         if (selectedAbility != null) {
 
             if (!compatibleWeaponType(selectedAbility, true)) {
@@ -248,8 +259,6 @@ public class AbilityHUD implements Serializable {
             }
         }
 
-//		hpBar.tick();
-//		xpBar.tick();
     }
 
     public void render(Graphics2D g) {
@@ -258,13 +267,9 @@ public class AbilityHUD implements Serializable {
         uiManager.render(g);
 
         int index = 0;
+        List<Character> chars = new ArrayList<>(keyBindMap.keySet());
         for (AbilitySlot as : slottedAbilities) {
-            // Render the slots from 1-9, with the final slot 0
-            if (index++ == 9) {
-                as.render(g, 0);
-            } else {
-                as.render(g, index);
-            }
+            as.render(g, chars.get(index++));
             // Render the tooltip when hovering over an ability
             if (as.getBounds().contains(mouse)) {
                 if (as.getAbility() != null) {
@@ -301,32 +306,14 @@ public class AbilityHUD implements Serializable {
         g.setColor(Color.BLACK);
         g.drawRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
 
-//      hpBar.render(g);
-//		xpBar.render(g);
     }
 
-    public ArrayList<AbilitySlot> getSlottedAbilities() {
+    public List<AbilitySlot> getSlottedAbilities() {
         return slottedAbilities;
     }
 
-    public void setSlottedAbilities(ArrayList<AbilitySlot> slottedAbilities) {
+    public void setSlottedAbilities(List<AbilitySlot> slottedAbilities) {
         this.slottedAbilities = slottedAbilities;
-    }
-
-    public HPBar getHpBar() {
-        return hpBar;
-    }
-
-    public void setHpBar(HPBar hpBar) {
-        this.hpBar = hpBar;
-    }
-
-    public XPBar getXpBar() {
-        return xpBar;
-    }
-
-    public void setXpBar(XPBar xpBar) {
-        this.xpBar = xpBar;
     }
 
     public Rectangle getBounds() {
@@ -335,5 +322,13 @@ public class AbilityHUD implements Serializable {
 
     public StatusTooltip getStatusTooltip() {
         return statusTooltip;
+    }
+
+    public Map<Character, Integer> getKeyBindMap() {
+        return keyBindMap;
+    }
+
+    public void setKeyBindMap(Map<Character, Integer> keyBindMap) {
+        this.keyBindMap = keyBindMap;
     }
 }

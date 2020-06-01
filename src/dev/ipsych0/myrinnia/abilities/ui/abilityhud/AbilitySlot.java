@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.abilities.ui.abilityhud;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -35,7 +36,7 @@ public class AbilitySlot extends UIImageButton implements Serializable {
         super.tick();
     }
 
-    public void render(Graphics2D g, int slotNum) {
+    public void render(Graphics2D g, char slotKey) {
         super.render(g);
         if (ability != null) {
             ability.renderIcon(g, x, y);
@@ -49,24 +50,30 @@ public class AbilitySlot extends UIImageButton implements Serializable {
             } else if (ability.isOnCooldown()) {
                 g.setColor(Colors.cooldownColor);
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
+            }
+        }
+
+        g.drawImage(getBorderByType(), x - 3, y - 3, width + 6, height + 6, null);
+
+        if (ability != null) {
+            if (ability.getAbilityType() == AbilityType.EliteAbility) {
+                g.drawImage(Assets.aEliteSlot, x - 3, y - 3, width + 6, height + 6, null);
+            } else if (ability.getAbilityType() == AbilityType.HealingAbility) {
+                g.drawImage(Assets.aHealingSlot, x - 3, y - 3, width + 6, height + 6, null);
+            }
+
+            if (ability.isOnCooldown()) {
                 Text.drawString(g, String.valueOf((int) ability.getRemainingCooldown()), x + 16, y, true, Color.YELLOW, Assets.font14);
             }
         }
-        g.drawImage(getBorderByType(), x - 3, y - 3, width + 6, height + 6, null);
-        Text.drawString(g, Integer.toString(slotNum), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
+
+        Text.drawString(g, String.valueOf(slotKey), x + ItemSlot.SLOTSIZE - 10, y + ItemSlot.SLOTSIZE - 4, false, Color.YELLOW, Assets.font14);
     }
 
     private BufferedImage getBorderByType() {
         // If slot has no ability, return empty slot sprite
         if (ability == null) {
             return Assets.aEmptySlot;
-        }
-
-        switch (ability.getAbilityType()) {
-            case HealingAbility:
-                return Assets.aHealingSlot;
-            case EliteAbility:
-                return Assets.aEliteSlot;
         }
 
         switch (ability.getElement()) {

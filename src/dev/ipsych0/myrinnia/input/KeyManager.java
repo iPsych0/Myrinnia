@@ -68,6 +68,12 @@ public class KeyManager implements KeyListener, Serializable {
         pauseKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("pauseKey").charAt(0));
         abilityWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("abilitiesKey").charAt(0));
         hudKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("hudKey").charAt(0));
+
+        AbilityHUD hud = Handler.get().getAbilityManager().getAbilityHUD();
+        hud.getKeyBindMap().clear();
+        for (int i = 0; i < hud.getSlottedAbilities().size(); i++) {
+            hud.getKeyBindMap().put(Handler.get().loadProperty("slot" + (i + 1)).charAt(0), i);
+        }
     }
 
     public void tick() {
@@ -224,20 +230,19 @@ public class KeyManager implements KeyListener, Serializable {
     @Override
     public void keyTyped(KeyEvent e) {
         if (!typingFocus) {
-            if (Character.isDigit(e.getKeyChar())) {
-                // Invalidate input while channeling
-                for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
-                    if (as.getAbility() != null) {
-                        if (as.getAbility().isChanneling()) {
-                            return;
-                        }
+            // Invalidate input while channeling
+            for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+                if (as.getAbility() != null) {
+                    if (as.getAbility().isChanneling()) {
+                        return;
                     }
                 }
-
-                // Set the pressed key for the ability bar
-                AbilityHUD.hasBeenTyped = true;
-                AbilityHUD.pressedKey = e.getKeyChar();
             }
+
+            // Set the pressed key for the ability bar
+            AbilityHUD.hasBeenTyped = true;
+            AbilityHUD.pressedKey = e.getKeyChar();
+
             if (e.getKeyChar() == interactKey && Entity.isCloseToNPC) {
                 Player.hasInteracted = false;
             }

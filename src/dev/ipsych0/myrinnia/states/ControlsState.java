@@ -1,12 +1,17 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.*;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ControlsState extends State {
 
@@ -37,7 +42,15 @@ public class ControlsState extends State {
     private static final String UP_SHORTCUT = "w", LEFT_SHORTCUT = "a", RIGHT_SHORTCUT = "d", DOWN_SHORTCUT = "s",
             INV_SHORTCUT = "i", INTERACT_SHORTCUT = " ", QUEST_SHORTCUT = "q", MAP_SHORTCUT = "m",
             SKILL_SHORTCUT = "l", STATS_SHORTCUT = "k", PAUSE_SHORTCUT = "p", ABILITY_SHORTCUT = "b",
-            CHAT_SHORTCUT = "c", HUD_SHORTCUT = "h";
+            CHAT_SHORTCUT = "c", HUD_SHORTCUT = "h",
+            SLOT1 = "1", SLOT2 = "2", SLOT3 = "3", SLOT4 = "4", SLOT5 = "5",
+            SLOT6 = "6", SLOT7 = "7", SLOT8 = "8", SLOT9 = "9", SLOT10 = "0";
+    private List<UIImageButton> abilitySlots = new ArrayList<>();
+
+    private BufferedImage[] aSlotIcons = new BufferedImage[]{
+            Assets.aEmptySlot,
+            Assets.aEmptySlot
+    };
 
     public ControlsState() {
         this.uiManager = new UIManager();
@@ -78,6 +91,14 @@ public class ControlsState extends State {
         uiManager.addObject(rightKey);
         uiManager.addObject(interactKey);
 
+        // Init ability slots
+        AbilityHUD abilityHUD = Handler.get().getAbilityManager().getAbilityHUD();
+        for (int i = 0; i < abilityHUD.getSlottedAbilities().size(); i++) {
+            abilitySlots.add(new UIImageButton(interactKey.x + (i * 32) + (i * 8), interactKey.y + interactKey.height + 48, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, aSlotIcons));
+        }
+
+        uiManager.addAllObjects(abilitySlots);
+
         setKeys();
 
         // DefaultButton to reset all keybinds
@@ -87,7 +108,6 @@ public class ControlsState extends State {
         tb = new TextBox(overlay.x + overlay.width / 2 - 48, overlay.y + overlay.height / 2 - 16, 96, 32, false, 1);
         keysDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, keysAnswers, keysMessage, tb);
         defaultDBox = new DialogueBox(tb.x - 96, tb.y - 64, tb.width + 192, tb.height + 128, confirmAnswers, defaultConfirmMessage, null);
-
     }
 
     private void setKeys() {
@@ -105,6 +125,12 @@ public class ControlsState extends State {
         keys.put(rightKey, Handler.get().loadProperty("rightKey"));
         keys.put(interactKey, Handler.get().loadProperty("interactKey"));
         keys.put(hudKey, Handler.get().loadProperty("hudKey"));
+
+
+        for (int i = 0; i < abilitySlots.size(); i++) {
+            UIImageButton btn = abilitySlots.get(i);
+            keys.put(btn, Handler.get().loadProperty("slot" + (i + 1)));
+        }
     }
 
     private void setDefaultKeys() {
@@ -122,6 +148,16 @@ public class ControlsState extends State {
         keys.put(rightKey, RIGHT_SHORTCUT);
         keys.put(interactKey, INTERACT_SHORTCUT);
         keys.put(hudKey, HUD_SHORTCUT);
+        keys.put(abilitySlots.get(0), SLOT1);
+        keys.put(abilitySlots.get(1), SLOT2);
+        keys.put(abilitySlots.get(2), SLOT3);
+        keys.put(abilitySlots.get(3), SLOT4);
+        keys.put(abilitySlots.get(4), SLOT5);
+        keys.put(abilitySlots.get(5), SLOT6);
+        keys.put(abilitySlots.get(6), SLOT7);
+        keys.put(abilitySlots.get(7), SLOT8);
+        keys.put(abilitySlots.get(8), SLOT9);
+        keys.put(abilitySlots.get(9), SLOT10);
 
         Handler.get().saveProperty("inventoryKey", INV_SHORTCUT);
         Handler.get().saveProperty("chatWindowKey", CHAT_SHORTCUT);
@@ -137,6 +173,17 @@ public class ControlsState extends State {
         Handler.get().saveProperty("downKey", DOWN_SHORTCUT);
         Handler.get().saveProperty("rightKey", RIGHT_SHORTCUT);
         Handler.get().saveProperty("hudKey", HUD_SHORTCUT);
+
+        Handler.get().saveProperty("slot1", SLOT1);
+        Handler.get().saveProperty("slot2", SLOT2);
+        Handler.get().saveProperty("slot3", SLOT3);
+        Handler.get().saveProperty("slot4", SLOT4);
+        Handler.get().saveProperty("slot5", SLOT5);
+        Handler.get().saveProperty("slot6", SLOT6);
+        Handler.get().saveProperty("slot7", SLOT7);
+        Handler.get().saveProperty("slot8", SLOT8);
+        Handler.get().saveProperty("slot9", SLOT9);
+        Handler.get().saveProperty("slot10", SLOT10);
 
         Handler.get().getKeyManager().loadKeybinds();
     }
@@ -262,6 +309,13 @@ public class ControlsState extends State {
                 Handler.get().saveProperty("rightKey", tb.getCharactersTyped().toLowerCase());
             }
 
+            for (int i = 0; i < abilitySlots.size(); i++) {
+                UIImageButton btn = abilitySlots.get(i);
+                if (selectedButton == btn) {
+                    Handler.get().saveProperty("slot" + (i + 1), tb.getCharactersTyped().toLowerCase());
+                }
+            }
+
             keys.replace(selectedButton, tb.getCharactersTyped().toLowerCase());
 
             Handler.get().getKeyManager().loadKeybinds();
@@ -317,6 +371,7 @@ public class ControlsState extends State {
 
         Text.drawString(g, "Interact", interactKey.x + interactKey.width + 16, interactKey.y + 20, false, Color.YELLOW, Assets.font14);
 
+        Text.drawString(g, "Ability keybinds:", interactKey.x, interactKey.y + interactKey.height + 36, false, Color.YELLOW, Assets.font14);
 
         // UI Keys
 

@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class ImageLoader {
+public class ImageLoader {
 
     public static BufferedImage loadImage(String path) {
         try {
