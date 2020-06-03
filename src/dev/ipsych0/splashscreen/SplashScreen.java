@@ -18,10 +18,13 @@ public class SplashScreen {
     private static JProgressBar progressBar;
     private static JLabel loadingMsg;
     private static JLabel animLabel;
-    private static double loadedCount;
-    private static final double APPROX_MAX_COUNT = 67149d;
-    private static final int WIDTH = 600, HEIGHT = 400;
     private static boolean initialized;
+    private static final int WIDTH = 600, HEIGHT = 400;
+
+    // Estimation, because the actual number of operations may differ.
+    // See: loadedCount for a rough estimation of the total
+    private static final double APPROX_MAX_COUNT = 67149d;
+    private static double loadedCount;
 
     private Timer timer;
     private static int index;
@@ -105,7 +108,11 @@ public class SplashScreen {
     private void loadGame() {
         initialized = true;
 
+        long before = System.currentTimeMillis();
         Assets.init();
+        long now = (System.currentTimeMillis() - before);
+
+        System.out.println("Total startup time: " + ((double) now / 1000d));
 
         // Finish the splash screen
         setProgress(100);

@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Assets {
 
@@ -258,8 +261,13 @@ public class Assets {
 
     public static void init() {
 
+        long before = System.currentTimeMillis();
+        System.out.println("Loading world doc:");
+
         MapLoader.setWorldDoc(Handler.initialWorldPath);
 
+        long now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of world doc: " + ((double) now / 1000d));
         /*
          * Fonts
          */
@@ -274,6 +282,9 @@ public class Assets {
 
 
         SplashScreen.setMessage("Loading spritesheets...");
+
+        before = System.currentTimeMillis();
+        System.out.println("Normal spritesheets:");
 
         /*
          * Sprite Sheets
@@ -351,6 +362,12 @@ public class Assets {
         SpriteSheet regular_attacks = new SpriteSheet("/textures/animations/regular_attacks.png");
         SpriteSheet npc_attacks = new SpriteSheet("/textures/animations/npc_attacks.png");
 
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of normal spritesheets: " + ((double) now / 1000d));
+
+        before = System.currentTimeMillis();
+        System.out.println("Tiled spritesheets:");
+
         /*
          * All Tiled Sprites
          */
@@ -383,17 +400,33 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
 
+        MapLoader.clearTsxCache();
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of tiled spritesheets: " + ((double) now / 1000d));
+
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
         SplashScreen.setMessage("Loading tiles...");
 
+        before = System.currentTimeMillis();
+        System.out.println("Cropping tiles:");
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (SpriteSheet tileSheet : tileSheets) {
-            for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
-                for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
-                    tileSheet.tileCrop(x, y);
+            executorService.execute(() -> {
+                for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
+                    for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
+                        tileSheet.tileCrop(x, y);
+                    }
                 }
-            }
+            });
         }
+
+        executorService.shutdown();
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of tile cropping and property settings: " + ((double) now / 1000d));
 
 //        puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
 //        for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
@@ -401,6 +434,9 @@ public class Assets {
 //                puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x, y);
 //            }
 //        }
+
+        before = System.currentTimeMillis();
+        System.out.println("Cropping images:");
 
         SplashScreen.setMessage("Loading UI images...");
 
@@ -1528,6 +1564,9 @@ public class Assets {
         whirlpool[5] = whirlPool.imageCrop(2, 1);
         whirlpool[6] = whirlPool.imageCrop(1, 1);
         whirlpool[7] = whirlPool.imageCrop(3, 1);
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of image cropping: " + ((double) now / 1000d));
     }
 
     public static BufferedImage[][] getAnimationByTag(String tag) {

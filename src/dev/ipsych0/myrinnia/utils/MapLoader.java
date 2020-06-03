@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
@@ -23,10 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapLoader implements Serializable {
 
@@ -39,8 +36,9 @@ public class MapLoader implements Serializable {
     public static Map<Integer, Boolean> solidTiles = new HashMap<>();
     public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
     public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
-    public static Map<Integer, MovePermission> movePermissions = new HashMap<>();
     public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
+    private static Map<String, Document> tsxMap = new HashMap<>();
+    private static Set<String> readFiles = new HashSet<>();
     private static Document doc, tsxDoc;
     private static int tileCount, lastId;
 
@@ -80,6 +78,7 @@ public class MapLoader implements Serializable {
             input = new FileInputStream(path);
             tsxDoc = builder.parse(input);
             tsxDoc.normalize();
+            tsxMap.put(path, tsxDoc);
             input.close();
         } catch (SAXException | IOException e) {
             e.printStackTrace();
@@ -91,8 +90,14 @@ public class MapLoader implements Serializable {
      * @params: String path in OS
      */
     public static void loadTiles(String path) {
+        // If we've already loaded the tile properties for this tsx file, return
+        if (readFiles.contains(path)) {
+            return;
+        }
         try {
+            // Read file and add to list of read files
             InputStream is = new FileInputStream(path);
+            readFiles.add(path);
             DefaultHandler handler = new DefaultHandler() {
 
                 private boolean solidPropertyFound = false;
@@ -509,6 +514,10 @@ public class MapLoader implements Serializable {
         return null;
     }
 
+    public static void clearTsxCache() {
+        tsxMap.clear();
+    }
+
     public static int getImageIndex(String worldPath, String imagePath) {
         String imageSource = null;
 
@@ -534,7 +543,12 @@ public class MapLoader implements Serializable {
                     fixedDoc = tsxFile.replaceFirst("/", Handler.resourcePath);
                 }
 
-                setTsxDoc(fixedDoc);
+                // Only reload the document if we don't have a reference anymore.
+                if (tsxMap.get(fixedDoc) == null) {
+                    setTsxDoc(fixedDoc);
+                } else {
+                    tsxDoc = tsxMap.get(fixedDoc);
+                }
 
                 NodeList tileset = tsxDoc.getElementsByTagName("tileset");
 
