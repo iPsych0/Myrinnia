@@ -20,11 +20,8 @@ public class SaveManager {
         ObjectOutputStream o;
         boolean success = false;
         try {
-            if (Handler.isJar) {
-                f = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
-            } else {
-                f = new FileOutputStream(Handler.resourcePath + "savegames/save.dat");
-            }
+            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            f = new FileOutputStream(path);
 
             // Disable the left-click that was pressed when selecting 'save'
             Game.get().getMouseManager().setLeftPressed(false);
@@ -56,11 +53,8 @@ public class SaveManager {
         try {
 
             FileInputStream fis;
-            if (Handler.isJar) {
-                fis = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
-            } else {
-                fis = new FileInputStream(Handler.resourcePath + "savegames/save.dat");
-            }
+            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            fis = new FileInputStream(path);
             oin = new ObjectInputStream(fis);
 
             // Load in the Handler object

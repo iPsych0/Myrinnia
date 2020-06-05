@@ -536,12 +536,7 @@ public class MapLoader implements Serializable {
                 tsxFile = "/worlds/" + tsxFile;
 
 
-                String fixedDoc;
-                if (Handler.isJar) {
-                    fixedDoc = Handler.jarFile.getParentFile().getAbsolutePath() + tsxFile;
-                } else {
-                    fixedDoc = tsxFile.replaceFirst("/", Handler.resourcePath);
-                }
+                String fixedDoc = FileUtils.getResourcePath(tsxFile);
 
                 // Only reload the document if we don't have a reference anymore.
                 if (tsxMap.get(fixedDoc) == null) {
@@ -558,12 +553,7 @@ public class MapLoader implements Serializable {
                 // Get the source path and remove the first two dots
                 imageSource = "/textures/tiles/" + imageSource + ".png";
 
-                String fixedImg;
-                if (Handler.isJar) {
-                    fixedImg = Handler.jarFile.getParentFile().getAbsolutePath() + imageSource;
-                } else {
-                    fixedImg = imageSource.replaceFirst("/", Handler.resourcePath);
-                }
+                String fixedImg = FileUtils.getResourcePath(imageSource);
 
                 if (fixedImg.contains(imagePath)) {
                     loadTiles(fixedDoc);

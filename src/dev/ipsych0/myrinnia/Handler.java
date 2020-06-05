@@ -45,6 +45,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
@@ -81,18 +82,7 @@ public class Handler implements Serializable {
         }
     }
 
-    public static String initialWorldPath = "/worlds/port_azure.tmx";
-
-    static {
-        String fixedFile;
-        if (Handler.isJar) {
-            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + initialWorldPath;
-        } else {
-            fixedFile = initialWorldPath.replaceFirst("/", Handler.resourcePath);
-        }
-
-        initialWorldPath = fixedFile;
-    }
+    public static String initialWorldPath = FileUtils.getResourcePath("/worlds/port_azure.tmx");
 
 
     /**

@@ -104,13 +104,7 @@ public class World implements Serializable {
     public World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
-            String fixedFile;
-            if (Handler.isJar) {
-                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
-            } else {
-                fixedFile = path.replaceFirst("/", Handler.resourcePath);
-            }
-            this.worldPath = fixedFile;
+            this.worldPath = FileUtils.getResourcePath(path);
         } else {
             this.worldPath = path;
         }

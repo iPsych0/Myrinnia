@@ -2,6 +2,7 @@ package dev.ipsych0.splashscreen;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class SplashScreen {
 
     // Estimation, because the actual number of operations may differ.
     // See: loadedCount for a rough estimation of the total
-    private static final double APPROX_MAX_COUNT = 67149d;
+    private static final double APPROX_MAX_COUNT = 34852d;
     private static double loadedCount;
 
     private Timer timer;
@@ -150,13 +151,8 @@ public class SplashScreen {
         String path = "/textures/animations/ability_animations.png";
 
         try {
-            if (Handler.isJar) {
-                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
-                input = new FileInputStream(fixedFile);
-            } else {
-                fixedFile = path.replaceFirst("/", Handler.resourcePath);
-                input = new FileInputStream(fixedFile);
-            }
+            fixedFile = FileUtils.getResourcePath(path);
+            input = new FileInputStream(fixedFile);
 
             animSheet = ImageIO.read(input);
             animSheet.setAccelerationPriority(1);

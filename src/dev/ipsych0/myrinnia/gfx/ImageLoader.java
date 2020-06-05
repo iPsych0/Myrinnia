@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.splashscreen.SplashScreen;
 
 import javax.imageio.ImageIO;
@@ -17,14 +18,8 @@ public class ImageLoader {
 
             InputStream input;
 
-            String fixedFile;
-            if (Handler.isJar) {
-                fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + path;
-                input = new FileInputStream(fixedFile);
-            } else {
-                fixedFile = path.replaceFirst("/", Handler.resourcePath);
-                input = new FileInputStream(fixedFile);
-            }
+            String fixedFile = FileUtils.getResourcePath(path);
+            input = new FileInputStream(fixedFile);
 
             BufferedImage img = ImageIO.read(input);
             img.setAccelerationPriority(1);

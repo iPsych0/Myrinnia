@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -70,18 +71,9 @@ public class CelenorGrottoWater extends GenericObject {
 
     public static void cleanse() {
         // Get the right paths
-        String aemirRiverflankPath;
-        String celewynnPath;
-        String celenorCavesPath;
-        if (Handler.isJar) {
-            aemirRiverflankPath = Handler.jarFile.getParentFile().getAbsolutePath() + "/worlds/aemir_riverflank.tmx";
-            celewynnPath = Handler.jarFile.getParentFile().getAbsolutePath() + "/worlds/celewynn.tmx";
-            celenorCavesPath = Handler.jarFile.getParentFile().getAbsolutePath() + "/worlds/celenor_caves.tmx";
-        } else {
-            aemirRiverflankPath = "/worlds/aemir_riverflank.tmx".replaceFirst("/", Handler.resourcePath);
-            celewynnPath = "/worlds/celewynn.tmx".replaceFirst("/", Handler.resourcePath);
-            celenorCavesPath = "/worlds/celenor_caves.tmx".replaceFirst("/", Handler.resourcePath);
-        }
+        String aemirRiverflankPath = FileUtils.getResourcePath("/worlds/aemir_riverflank.tmx");
+        String celewynnPath = FileUtils.getResourcePath("/worlds/celewynn.tmx");
+        String celenorCavesPath = FileUtils.getResourcePath("/worlds/celenor_caves.tmx");
 
         // Reset the water to normal state
         MapLoader.setWorldDoc(aemirRiverflankPath);
