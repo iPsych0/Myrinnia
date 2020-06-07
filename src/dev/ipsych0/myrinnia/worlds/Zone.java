@@ -44,7 +44,8 @@ public enum Zone {
     StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
     StozarsCauseway("Stozar's Causeway", "malachite_hills.ogg", "/worlds/stozars_causeway.tmx"),
     StozarInside("Stozar Inside", "malachite_hills.ogg", "/worlds/stozar_inside.tmx"),
-    StozarsQuarry("Stozar's Quarry", "malachite_hills.ogg", "/worlds/stozars_quarry.tmx");
+    StozarsQuarry("Stozar's Quarry", "malachite_hills.ogg", "/worlds/stozars_quarry.tmx"),
+    BonebladeBadlands("Boneblade Badlands", "malachite_hills.ogg", "/worlds/boneblade_badlands.tmx");
 
 
     private String musicFile;
