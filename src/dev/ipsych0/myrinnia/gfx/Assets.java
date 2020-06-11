@@ -57,13 +57,13 @@ public class Assets {
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
             rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall,
-            burningHaste;
+            burningHaste, septicBlast;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
             rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI,
-            graniteWallI, burningHasteI;
+            graniteWallI, burningHasteI, septicBlastI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -1296,6 +1296,7 @@ public class Assets {
         siphoningShotI = ability_icons.imageCrop(6, 1);
         graniteWallI = ability_icons.imageCrop(7, 1);
         burningHasteI = ability_icons.imageCrop(8, 1);
+        septicBlastI = ability_icons.imageCrop(9, 1);
 
         SplashScreen.setMessage("Loading ability animations...");
 
@@ -1489,6 +1490,18 @@ public class Assets {
         graniteWall[4] = ability_animations.imageCrop(7, 2, WIDTH * 3, HEIGHT);
         graniteWall[5] = ability_animations.imageCrop(7, 1, WIDTH * 3, HEIGHT);
         graniteWall[6] = ability_animations.imageCrop(7, 0, WIDTH * 3, HEIGHT);
+
+        septicBlast = new BufferedImage[10];
+        septicBlast[0] = ability_animations.imageCrop(10, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[1] = ability_animations.imageCrop(12, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[2] = ability_animations.imageCrop(14, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[3] = ability_animations.imageCrop(16, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[4] = ability_animations.imageCrop(18, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[5] = ability_animations.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[6] = ability_animations.imageCrop(22, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[7] = ability_animations.imageCrop(24, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[8] = ability_animations.imageCrop(26, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[9] = ability_animations.imageCrop(28, 0, WIDTH * 2, HEIGHT * 2);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.PoisonDartAbility;
+import dev.ipsych0.myrinnia.abilities.SepticBlastAbility;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -20,7 +21,7 @@ public class Toxiblossom extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
-    private PoisonDartAbility poisonDartAbility = Utils.loadAbility("poisondart.json", PoisonDartAbility.class);
+    private SepticBlastAbility septicBlastAbility = Utils.loadAbility("septicblast.json", SepticBlastAbility.class);
 
     public Toxiblossom(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -28,7 +29,7 @@ public class Toxiblossom extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 0;
+        strength = 25;
         dexterity = 31;
         intelligence = 0;
         vitality = 88;
@@ -37,9 +38,11 @@ public class Toxiblossom extends Creature {
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
 
-        poisonDartAbility.setCondiDamage(14);
-        poisonDartAbility.setDuration(6);
-        poisonDartAbility.setVelocity(8.0f);
+        earthLevel = 6;
+
+//        septicBlastAbility.setCondiDamage(14);
+//        septicBlastAbility.setDuration(6);
+//        septicBlastAbility.setVelocity(8.0f);
 
         bounds.x = 2;
         bounds.y = 2;
@@ -85,8 +88,8 @@ public class Toxiblossom extends Creature {
 
         attackTimer = 0;
 
-        if (!poisonDartAbility.isOnCooldown()) {
-            castAbility(poisonDartAbility);
+        if (!septicBlastAbility.isOnCooldown()) {
+            castAbility(septicBlastAbility);
         } else {
             Handler.get().playEffect("abilities/magic_strike.ogg");
             int targetX = (int) Handler.get().getPlayer().getX();
