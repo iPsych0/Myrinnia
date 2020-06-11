@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class Assets {
 
@@ -112,6 +111,9 @@ public class Assets {
     public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
     public static BufferedImage[] whiteWolfUp, whiteWolfDown, whiteWolfLeft, whiteWolfRight;
     public static BufferedImage[] poisonSpiderUp, poisonSpiderDown, poisonSpiderLeft, poisonSpiderRight;
+    public static BufferedImage[] goblinoGreenUp, goblinoGreenDown, goblinoGreenLeft, goblinoGreenRight;
+    public static BufferedImage[] goblinoRedUp, goblinoRedDown, goblinoRedLeft, goblinoRedRight;
+    public static BufferedImage[] goblinoPurpleUp, goblinoPurpleDown, goblinoPurpleLeft, goblinoPurpleRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -349,8 +351,9 @@ public class Assets {
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
         SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
+        SpriteSheet enemy_sheet4 = new SpriteSheet("/textures/enemy_sprites/monster4.png");
 
-        SpriteSheet enemy_sheet4 = new SpriteSheet("/textures/enemy_sprites/monsters2x2_1.png");
+        SpriteSheet enemy_sheet5 = new SpriteSheet("/textures/enemy_sprites/monsters2x2_1.png");
 
         SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
 
@@ -795,10 +798,25 @@ public class Assets {
         toxiblossomRight = enemy_sheet3.npcCrop(6, 2, WIDTH, HEIGHT);
         toxiblossomUp = enemy_sheet3.npcCrop(6, 3, WIDTH, HEIGHT);
 
-        whiteWolfDown = enemy_sheet4.npcCrop(0, 0, WIDTH * 2, HEIGHT * 2);
-        whiteWolfLeft = enemy_sheet4.npcCrop(0, 2, WIDTH * 2, HEIGHT * 2);
-        whiteWolfRight = enemy_sheet4.npcCrop(0, 4, WIDTH * 2, HEIGHT * 2);
-        whiteWolfUp = enemy_sheet4.npcCrop(0, 6, WIDTH * 2, HEIGHT * 2);
+        goblinoGreenDown = enemy_sheet4.npcCrop(0, 0, WIDTH, HEIGHT * 2);
+        goblinoGreenLeft = enemy_sheet4.npcCrop(0, 2, WIDTH, HEIGHT * 2);
+        goblinoGreenRight = enemy_sheet4.npcCrop(0, 4, WIDTH, HEIGHT * 2);
+        goblinoGreenUp = enemy_sheet4.npcCrop(0, 6, WIDTH, HEIGHT * 2);
+
+        goblinoRedDown = enemy_sheet4.npcCrop(9, 0, WIDTH, HEIGHT * 2);
+        goblinoRedLeft = enemy_sheet4.npcCrop(9, 2, WIDTH, HEIGHT * 2);
+        goblinoRedRight = enemy_sheet4.npcCrop(9, 4, WIDTH, HEIGHT * 2);
+        goblinoRedUp = enemy_sheet4.npcCrop(9, 6, WIDTH, HEIGHT * 2);
+
+        goblinoPurpleDown = enemy_sheet4.npcCrop(0, 8, WIDTH, HEIGHT * 2);
+        goblinoPurpleLeft = enemy_sheet4.npcCrop(0, 10, WIDTH, HEIGHT * 2);
+        goblinoPurpleRight = enemy_sheet4.npcCrop(0, 12, WIDTH, HEIGHT * 2);
+        goblinoPurpleUp = enemy_sheet4.npcCrop(0, 14, WIDTH, HEIGHT * 2);
+
+        whiteWolfDown = enemy_sheet5.npcCrop(0, 0, WIDTH * 2, HEIGHT * 2);
+        whiteWolfLeft = enemy_sheet5.npcCrop(0, 2, WIDTH * 2, HEIGHT * 2);
+        whiteWolfRight = enemy_sheet5.npcCrop(0, 4, WIDTH * 2, HEIGHT * 2);
+        whiteWolfUp = enemy_sheet5.npcCrop(0, 6, WIDTH * 2, HEIGHT * 2);
 
         alchemicalExperimentDown = enemy_sheet1.npcCrop(12, 4, WIDTH, HEIGHT);
         alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);

@@ -721,11 +721,11 @@ public abstract class Creature extends Entity {
             }
 
             for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (p.verticality == player.verticality && p.getCollisionBounds(0,0).intersects(e.getCollisionBounds(0,0)) && p.isActive()) {
-                    if(e.equals(this))
+                if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                    if (e.equals(this))
                         continue;
                     if (!e.equals(player)) {
-                        if(!p.isPiercing()){
+                        if (!p.isPiercing()) {
                             p.setActive(false);
                             return;
                         }
@@ -1269,6 +1269,8 @@ public abstract class Creature extends Entity {
     }
 
     public void setSpeed(double speed) {
+        if (speed < 0.0)
+            speed = 0.0;
         this.speed = speed;
     }
 
