@@ -40,10 +40,6 @@ public class Toxiblossom extends Creature {
 
         earthLevel = 6;
 
-//        septicBlastAbility.setCondiDamage(14);
-//        septicBlastAbility.setDuration(6);
-//        septicBlastAbility.setVelocity(8.0f);
-
         bounds.x = 2;
         bounds.y = 2;
         bounds.width = 28;
@@ -62,12 +58,6 @@ public class Toxiblossom extends Creature {
     public void render(Graphics2D g) {
         g.drawImage(getAnimationByLastFaced(), (int) (x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset())
                 , width, height, null);
-
-        // Draw HP above head
-//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth, (int) (x - Handler.get().getGameCamera().getxOffset() - 6),
-//				(int) (y - Handler.get().getGameCamera().getyOffset() - 8), false, Color.YELLOW, Creature.hpFont);
-
-
     }
 
     @Override
