@@ -19,6 +19,15 @@ public class SandStorm implements Weather, Serializable {
     private static final Color[] colors = {new Color(177, 184, 94, 56), new Color(240, 243, 127, 140)};
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2, Handler.get().
             getHeight() / 2, radius, fractions, colors);
+    private Intensity intensity;
+
+    public SandStorm() {
+        this.intensity = Intensity.NORMAL;
+    }
+
+    public SandStorm(Intensity intensity) {
+        this.intensity = intensity;
+    }
 
     @Override
     public void tick() {
@@ -33,14 +42,16 @@ public class SandStorm implements Weather, Serializable {
 
     @Override
     public void render(Graphics2D g) {
-        Paint originalPaint = g.getPaint();
-        Composite originalComposite = g.getComposite();
+        if (intensity == Intensity.HEAVY) {
+            Paint originalPaint = g.getPaint();
+            Composite originalComposite = g.getComposite();
 
-        g.setPaint(paint);
-        g.fillOval(Handler.get().getWidth() / 2 - radius, Handler.get().getHeight() / 2 - radius, radius * 2, radius * 2);
+            g.setPaint(paint);
+            g.fillOval(Handler.get().getWidth() / 2 - radius, Handler.get().getHeight() / 2 - radius, radius * 2, radius * 2);
 
-        g.setComposite(originalComposite);
-        g.setPaint(originalPaint);
+            g.setComposite(originalComposite);
+            g.setPaint(originalPaint);
+        }
 
         for (int y = 0; y < HEIGHT; y += SAND_H) {
             for (int x = -SAND_W; x < WIDTH + SAND_W; x += SAND_W) {

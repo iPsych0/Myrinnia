@@ -22,10 +22,6 @@ public class Fog implements Weather, Serializable {
             getHeight() / 2, radius, fractions, colors);
     private Intensity intensity;
 
-    public enum Intensity {
-        NORMAL, HEAVY
-    }
-
     public Fog() {
         this.intensity = Intensity.NORMAL;
     }

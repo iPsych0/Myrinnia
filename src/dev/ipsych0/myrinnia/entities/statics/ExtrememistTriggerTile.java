@@ -11,13 +11,14 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.weather.Fog;
+import dev.ipsych0.myrinnia.worlds.weather.Intensity;
 
 import java.awt.*;
 
 public class ExtrememistTriggerTile extends GenericObject {
 
     private Player player;
-    private Fog fog = new Fog(Fog.Intensity.HEAVY);
+    private Fog fog = new Fog(Intensity.HEAVY);
     private World world;
     private World celenorForestEdge, wardensCabin, celenorThicket;
     private boolean cutsceneShown;
