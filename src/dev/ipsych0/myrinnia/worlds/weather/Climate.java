@@ -63,7 +63,7 @@ public class Climate {
             case DROUGHT:
                 return new Drought();
             case FOG:
-                return new Fog();
+                return new Fog(Intensity.NORMAL);
             case HEAVY_FOG:
                 return new Fog(Intensity.HEAVY);
             case RAIN:
@@ -71,7 +71,7 @@ public class Climate {
             case RAIN_THUNDER:
                 return new Rain(true);
             case SANDSTORM:
-                return new SandStorm();
+                return new SandStorm(Intensity.NORMAL);
             case HEAVY_SANDSTORM:
                 return new SandStorm(Intensity.HEAVY);
             case SNOW:

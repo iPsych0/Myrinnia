@@ -72,6 +72,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.BonebladeBadlands).withClimate(Climate.SUNNY, 0.9).withClimate(Climate.SANDSTORM, 0.1).build());
         addWorld(new World.Builder(Zone.LakeClayfall).withClimate(Climate.SUNNY, 0.9).withClimate(Climate.SANDSTORM, 0.1).build());
         addWorld(new World.Builder(Zone.RuinsOfTheForgotten).withClimate(Climate.HEAVY_SANDSTORM).build());
+        addWorld(new World.Builder(Zone.ForgottenShore).withClimate(Climate.SANDSTORM).build());
     }
 
     public void tick() {

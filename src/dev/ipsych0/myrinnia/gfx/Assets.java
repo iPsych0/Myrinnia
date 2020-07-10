@@ -107,6 +107,7 @@ public class Assets {
     public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
     public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
+    public static BufferedImage[] ogreUp, ogreDown, ogreLeft, ogreRight;
     public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
     public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
     public static BufferedImage[] whiteWolfUp, whiteWolfDown, whiteWolfLeft, whiteWolfRight;
@@ -402,6 +403,7 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/winter2.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/beach2.png", true));
 
         MapLoader.clearTsxCache();
 
@@ -829,6 +831,11 @@ public class Assets {
         caveTrollLeft = boss_sheet1.npcCrop(6, 3, WIDTH * 2, HEIGHT * 3);
         caveTrollRight = boss_sheet1.npcCrop(6, 6, WIDTH * 2, HEIGHT * 3);
         caveTrollUp = boss_sheet1.npcCrop(6, 9, WIDTH * 2, HEIGHT * 3);
+
+        ogreDown = boss_sheet1.npcCrop(0, 0, WIDTH * 2, HEIGHT * 3);
+        ogreLeft = boss_sheet1.npcCrop(0, 3, WIDTH * 2, HEIGHT * 3);
+        ogreRight = boss_sheet1.npcCrop(0, 6, WIDTH * 2, HEIGHT * 3);
+        ogreUp = boss_sheet1.npcCrop(0, 9, WIDTH * 2, HEIGHT * 3);
 
         // NPC Sprites
 //
