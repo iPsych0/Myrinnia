@@ -31,8 +31,8 @@ public class Ogre extends Creature {
         strength = 55;
         dexterity = 0;
         intelligence = 0;
-        vitality = 120;
-        defence = 70;
+        vitality = 144;
+        defence = 80;
 
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;

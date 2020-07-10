@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="35" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="6"><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/>
+ <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
  <tileset firstgid="2472" source="house.tsx"/>
@@ -26,6 +27,7 @@
  <tileset firstgid="31530" source="winter2.tsx"/>
  <tileset firstgid="31786" source="winter3.tsx"/>
  <tileset firstgid="32042" source="winter4.tsx"/>
+ <tileset firstgid="32724" source="beach2.tsx"/>
  <layer id="1" name="Tile Layer 1" width="90" height="35">
   <data encoding="csv">
 10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,10484,
