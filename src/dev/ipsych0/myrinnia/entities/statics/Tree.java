@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -200,6 +201,14 @@ public class Tree extends StaticEntity {
                         if (is.getItemStack() != null) {
                             if (is.getItemStack().getItem().isType(ItemType.AXE)) {
                                 axes.add(is.getItemStack().getItem());
+                            }
+                        }
+                    }
+
+                    for (EquipmentSlot is : Handler.get().getEquipment().getEquipmentSlots()) {
+                        if (is.getEquipmentStack() != null) {
+                            if (is.getEquipmentStack().getItem().isType(ItemType.PICKAXE)) {
+                                axes.add(is.getEquipmentStack().getItem());
                             }
                         }
                     }

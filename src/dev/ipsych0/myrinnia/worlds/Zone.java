@@ -48,7 +48,9 @@ public enum Zone {
     BonebladeBadlands("Boneblade Badlands", "malachite_hills.ogg", "/worlds/boneblade_badlands.tmx"),
     LakeClayfall("Lake Clayfall", "malachite_hills.ogg", "/worlds/lake_clayfall.tmx"),
     RuinsOfTheForgotten("Ruins of the Forgotten", "malachite_hills.ogg", "/worlds/ruins_of_the_forgotten.tmx"),
-    ForgottenShore("The Forgotten Shore", "malachite_hills.ogg", "/worlds/forgotten_shore.tmx");
+    ForgottenShore("The Forgotten Shore", "malachite_hills.ogg", "/worlds/forgotten_shore.tmx"),
+    RedrockOutpost("Redrock Outpost", "malachite_hills.ogg", "/worlds/redrock_outpost.tmx"),
+    RedrockInside("Redrock Outpost", "malachite_hills.ogg", "/worlds/redrock_inside.tmx");
 
 
     private String musicFile;

@@ -66,9 +66,6 @@ public class WaveData {
         }
 
         try (InputStream in = new FileInputStream(fixedFile)) {
-            if (in == null) {
-                throw new FileNotFoundException("File not found: " + file);
-            }
             InputStream bufferedIn = new BufferedInputStream(in);
             try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn)) {
                 wavStream = new WaveData(audioIn);

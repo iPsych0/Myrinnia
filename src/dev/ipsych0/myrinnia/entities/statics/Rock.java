@@ -2,6 +2,8 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.equipment.EquipSlot;
+import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
@@ -189,6 +191,14 @@ public class Rock extends StaticEntity {
                         if (is.getItemStack() != null) {
                             if (is.getItemStack().getItem().isType(ItemType.PICKAXE)) {
                                 pickaxes.add(is.getItemStack().getItem());
+                            }
+                        }
+                    }
+
+                    for (EquipmentSlot is : Handler.get().getEquipment().getEquipmentSlots()) {
+                        if (is.getEquipmentStack() != null) {
+                            if (is.getEquipmentStack().getItem().isType(ItemType.PICKAXE)) {
+                                pickaxes.add(is.getEquipmentStack().getItem());
                             }
                         }
                     }

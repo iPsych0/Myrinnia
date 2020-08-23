@@ -3172,7 +3172,7 @@
  <tile id="528">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="529">
@@ -3196,7 +3196,7 @@
  <tile id="532">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="533">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="45">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="46">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -179,7 +179,7 @@
 8259,8259,8259,8259,8257,8257,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8258,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8257,8257,8257,8257,8257,8257,8612,8259,8259,8259,8259,8259,8259,8259,8258,8258,8258,8258,8258,8259,8259,8259,8259,8259,8259,8259,8259,8257,8257,8259,8259,8259,8259,8259,8259,
 8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8258,8258,8258,8258,8259,8259,8259,8259,8259,8259,8259,8259,8259,8257,8257,8257,8257,8259,8259,8259,8259,8259,8259,
 8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8257,8257,8257,8259,8259,8259,8259,8259,8259,8259,
-8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8803,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8306,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8652
+8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8803,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8306,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259
 </data>
  </layer>
  <layer id="2" name="Tile Layer 2" width="110" height="150">
@@ -333,7 +333,7 @@
 0,0,0,0,0,0,8572,8573,8573,8573,8573,8573,8574,0,0,0,0,0,0,8650,8259,8259,8259,8259,8259,8307,8259,8259,8259,8259,8259,8611,0,0,0,0,0,0,0,0,8650,8259,8259,8259,8259,8259,8652,8690,8690,8690,8690,8651,8259,8259,8259,8259,8259,8259,8259,8613,8573,8612,7011,7012,8259,8259,8259,8613,8574,0,0,0,0,0,0,8573,8573,8573,8573,8573,8573,0,0,0,0,0,0,0,0,0,0,0,0,8572,8573,8612,8259,8259,8259,8259,8257,8259,8259,8259,8259,8259,8259,8259,8259,8306,
 0,0,0,8572,8573,8573,8612,8259,8259,8259,8306,8259,8613,8573,8574,0,8299,0,0,8689,8690,8651,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8573,8574,0,0,0,0,8572,8573,8612,8259,8259,8259,8259,8259,8611,8726,8726,8726,8726,8689,8690,8651,8259,8259,8259,8259,8259,8259,8259,8259,7063,7064,8259,8259,8259,8259,8613,8574,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8572,8573,8573,8612,8259,8259,8259,8259,8259,8257,8257,8257,8257,8259,8299,8259,8259,8259,8259,8259,
 8573,8573,8573,8612,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8573,8573,8573,8574,8725,8726,8689,8651,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8573,8573,8573,8573,8612,8259,8259,8259,7011,7012,8652,8690,8691,8804,8804,8804,8804,8725,8726,8650,8259,8259,8259,8259,8259,8259,8259,8259,7115,7116,8259,8259,8259,8259,8259,8613,8573,8574,0,8832,8836,8836,8836,8836,8836,8836,8836,8836,8836,8828,0,0,8572,8573,8573,8573,8612,8259,8259,8259,8259,8259,8259,8259,8257,8257,8257,8257,8259,8259,8259,8259,8259,8259,8259,8259,
-8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8574,8804,8725,8689,8651,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,7063,7064,8611,8726,8727,0,0,0,0,8803,8804,8650,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8611,0,8834,8839,8839,8839,8839,8839,8839,8839,8839,8839,8829,0,8572,8612,8259,8259,8259,8259,7011,7012,8306,8259,8259,8259,8257,8257,8257,8257,8259,8259,8259,8259,8259,8259,8259,8259,8652
+8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8613,8574,8804,8725,8689,8651,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,7063,7064,8611,8726,8727,0,0,0,0,8803,8804,8650,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8259,8611,0,8834,8839,8839,8839,8839,8839,8839,8839,8839,8839,8829,0,8572,8612,8259,8259,8259,8259,7011,7012,8306,8259,8259,8259,8257,8257,8257,8257,8259,8259,8259,8259,8259,8259,8259,8259,8259
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
@@ -365,9 +365,15 @@
     <property name="zone" value="RuinsOfTheForgotten"/>
    </properties>
   </object>
-  <object id="7" name="Redrock Outpost" type="zone_tile" x="2304" y="4784" width="416" height="16"/>
+  <object id="7" name="Redrock Outpost" type="zone_tile" x="2304" y="4784" width="416" height="16">
+   <properties>
+    <property name="goToX" value="33"/>
+    <property name="goToY" value="1"/>
+    <property name="zone" value="RedrockOutpost"/>
+   </properties>
+  </object>
   <object id="8" name="Rubblerock Plateau" type="zone_tile" x="3506" y="1856" width="16" height="288"/>
-  <object id="9" name="Cave entrance" type="zone_tile" x="1600" y="1152" width="96" height="48"/>
+  <object id="9" name="Boneblade Caverns" type="zone_tile" x="1600" y="1152" width="96" height="48"/>
   <object id="10" name="Goblino Ranger" type="npc" x="800" y="480" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
@@ -378,7 +384,7 @@
   </object>
   <object id="11" name="Goblino Melee" type="npc" x="1920" y="416" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -402,7 +408,7 @@
   </object>
   <object id="14" name="Goblino Melee" type="npc" x="672" y="416" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -410,7 +416,7 @@
   </object>
   <object id="15" name="Goblino Melee" type="npc" x="2944" y="1664" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -424,17 +430,9 @@
     <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
-  <object id="17" name="Goblino Melee" type="npc" x="2976" y="3040" width="32" height="64">
-   <properties>
-    <property name="animation" value="goblinoRed"/>
-    <property name="level" value="12"/>
-    <property name="name" value="Goblino Bruiser"/>
-    <property name="npcClass" value="GoblinoBruiser"/>
-   </properties>
-  </object>
   <object id="18" name="Goblino Melee" type="npc" x="1952" y="3200" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -450,7 +448,7 @@
   </object>
   <object id="20" name="Goblino Melee" type="npc" x="2208" y="4192" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -458,7 +456,7 @@
   </object>
   <object id="21" name="Goblino Melee" type="npc" x="1536" y="4000" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -482,7 +480,7 @@
   </object>
   <object id="24" name="Goblino Melee" type="npc" x="704" y="2112" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -490,7 +488,7 @@
   </object>
   <object id="25" name="Goblino Melee" type="npc" x="1216" y="1984" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -522,7 +520,7 @@
   </object>
   <object id="29" name="Goblino Melee" type="npc" x="1952" y="1472" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -538,7 +536,7 @@
   </object>
   <object id="31" name="Goblino Melee" type="npc" x="736" y="2944" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -546,7 +544,7 @@
   </object>
   <object id="32" name="Goblino Melee" type="npc" x="1216" y="3616" width="32" height="64">
    <properties>
-    <property name="animation" value="goblinoRed"/>
+    <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -557,14 +555,6 @@
     <property name="goToX" value="118"/>
     <property name="goToY" value="68"/>
     <property name="zone" value="RuinsOfTheForgotten"/>
-   </properties>
-  </object>
-  <object id="34" name="Goblino Mage" type="npc" x="3328" y="4224" width="32" height="64">
-   <properties>
-    <property name="animation" value="goblinoPurple"/>
-    <property name="level" value="12"/>
-    <property name="name" value="Goblino Shaman"/>
-    <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
   <object id="35" name="Clay Ore" type="npc" x="2496" y="4608" width="32" height="32">
@@ -625,6 +615,14 @@
    <properties>
     <property name="name" value="Clay Rock"/>
     <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="45" name="Goblino Mage" type="npc" x="2880" y="3040" width="32" height="64">
+   <properties>
+    <property name="animation" value="goblinoPurple"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Goblino Shaman"/>
+    <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
  </objectgroup>

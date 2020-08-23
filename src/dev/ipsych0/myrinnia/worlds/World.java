@@ -101,7 +101,7 @@ public class World implements Serializable {
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
             getHeight() / 2f, radius, fractions, colors);
 
-    public World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path) {
+    private World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             this.worldPath = FileUtils.getResourcePath(path);
@@ -173,13 +173,13 @@ public class World implements Serializable {
 
     public void handleBackgroundSound() {
         if (!AudioManager.sfxMuted) {
-            if (currentBackgroundSound != null)
+            if (currentBackgroundSound != null) {
                 currentBackgroundSound.pause();
-
-            if (currentWeather.getWeatherSoundEffect() == null)
-                return;
+            }
 
             try {
+                if (currentWeather.getWeatherSoundEffect() == null)
+                    return;
                 int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
                 if (AudioManager.soundfxFiles.containsKey(buffer)) {
                     currentBackgroundSound = AudioManager.soundfxFiles.get(buffer);
@@ -396,7 +396,7 @@ public class World implements Serializable {
                 weather.tick();
                 // Do fades
                 Composite orig = g.getComposite();
-                handleFadings(g, it);
+                handleWeatherFades(g, it);
                 // Draw weather and reset comps
                 weather.render(g);
                 g.setComposite(orig);
@@ -472,7 +472,7 @@ public class World implements Serializable {
         }
     }
 
-    private void handleFadings(Graphics2D g, Iterator<Weather> it) {
+    private void handleWeatherFades(Graphics2D g, Iterator<Weather> it) {
         if (isFadingOutWeather) {
             AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeOutAlpha);
             g.setComposite(ac);

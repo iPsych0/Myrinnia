@@ -114,6 +114,7 @@ public class Assets {
     public static BufferedImage[] poisonSpiderUp, poisonSpiderDown, poisonSpiderLeft, poisonSpiderRight;
     public static BufferedImage[] goblinoGreenUp, goblinoGreenDown, goblinoGreenLeft, goblinoGreenRight;
     public static BufferedImage[] goblinoRedUp, goblinoRedDown, goblinoRedLeft, goblinoRedRight;
+    public static BufferedImage[] goblinoBrownUp, goblinoBrownDown, goblinoBrownLeft, goblinoBrownRight;
     public static BufferedImage[] goblinoPurpleUp, goblinoPurpleDown, goblinoPurpleLeft, goblinoPurpleRight;
 
     // Generic Util NPC images
@@ -420,8 +421,8 @@ public class Assets {
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (SpriteSheet tileSheet : tileSheets) {
             executorService.execute(() -> {
-                for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
-                    for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
+                for (int y = 0; y < tileSheet.getSheet().getHeight() / Tile.TILEHEIGHT; y++) {
+                    for (int x = 0; x < tileSheet.getSheet().getWidth() / Tile.TILEWIDTH; x++) {
                         tileSheet.tileCrop(x, y);
                     }
                 }
@@ -814,6 +815,11 @@ public class Assets {
         goblinoPurpleLeft = enemy_sheet4.npcCrop(0, 10, WIDTH, HEIGHT * 2);
         goblinoPurpleRight = enemy_sheet4.npcCrop(0, 12, WIDTH, HEIGHT * 2);
         goblinoPurpleUp = enemy_sheet4.npcCrop(0, 14, WIDTH, HEIGHT * 2);
+
+        goblinoBrownDown = enemy_sheet4.npcCrop(3, 8, WIDTH, HEIGHT * 2);
+        goblinoBrownLeft = enemy_sheet4.npcCrop(3, 10, WIDTH, HEIGHT * 2);
+        goblinoBrownRight = enemy_sheet4.npcCrop(3, 12, WIDTH, HEIGHT * 2);
+        goblinoBrownUp = enemy_sheet4.npcCrop(3, 14, WIDTH, HEIGHT * 2);
 
         whiteWolfDown = enemy_sheet5.npcCrop(0, 0, WIDTH * 2, HEIGHT * 2);
         whiteWolfLeft = enemy_sheet5.npcCrop(0, 2, WIDTH * 2, HEIGHT * 2);
