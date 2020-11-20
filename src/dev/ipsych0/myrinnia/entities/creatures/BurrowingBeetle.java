@@ -297,6 +297,7 @@ public class BurrowingBeetle extends Creature {
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                lookAtPlayer();
                 checkAttacks();
                 state = CombatState.ATTACK;
             } else {

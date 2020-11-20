@@ -1,8 +1,5 @@
 package dev.ipsych0.myrinnia;
 
-import dev.ipsych0.network.MyrinniaClient;
-import dev.ipsych0.network.MyrinniaServer;
-import dev.ipsych0.network.config.KryoConfig;
 import dev.ipsych0.splashscreen.SplashScreen;
 
 public class Launcher {
@@ -21,8 +18,6 @@ public class Launcher {
         // Starts the game
         Game game = Game.get();
         game.start();
-
-        MyrinniaClient.init();
     }
 
 }

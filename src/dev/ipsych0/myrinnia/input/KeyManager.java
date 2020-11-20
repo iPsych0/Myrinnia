@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
@@ -115,6 +116,10 @@ public class KeyManager implements KeyListener, Serializable {
 
             if (e.getKeyCode() == pauseKey) {
                 Player.debugButtonPressed = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                EntityManager.shiftPressed = true;
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -224,6 +229,9 @@ public class KeyManager implements KeyListener, Serializable {
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             escape = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            EntityManager.shiftPressed = false;
         }
     }
 

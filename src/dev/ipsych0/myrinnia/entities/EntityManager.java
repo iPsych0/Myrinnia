@@ -32,6 +32,7 @@ public class EntityManager implements Serializable {
     private List<HitSplat> hitSplats;
     private int oocCounter; // Out-of-combat counter
     private int creatureCounter;
+    public static boolean shiftPressed;
 
     public EntityManager(Player player) {
         this.player = player;
@@ -265,9 +266,21 @@ public class EntityManager implements Serializable {
                 e.postRender(g);
                 drawLevel(g, e);
             }
+
+            if (shiftPressed) {
+                if (e.equals(player)) continue;
+                if (e.isNpc()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                } else if (e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.RED);
+                }
+                continue;
+            }
+
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.isOverlayDrawn() && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
-
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc()) {
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);

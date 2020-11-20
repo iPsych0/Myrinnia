@@ -660,6 +660,10 @@ public abstract class Creature extends Entity {
     @Override
     public void interact() {
         super.interact();
+        lookAtPlayer();
+    }
+
+    public void lookAtPlayer(){
         Player player = Handler.get().getPlayer();
         // If more than half a tile left or right of this NPC, look that direction
         if (player.getX() - this.x < -Tile.TILEWIDTH / 2d) {
@@ -914,6 +918,7 @@ public abstract class Creature extends Entity {
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                lookAtPlayer();
                 checkAttacks();
                 state = CombatState.ATTACK;
             } else {
