@@ -157,7 +157,7 @@ public class Condition implements Serializable {
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),
         ROOTED(Assets.rootedIcon, "'Rooted' renders the receiver immobilized."),
         BLINDED(Assets.blindedIcon, "'Blinded' makes the next attack miss."),
-        STUN(Assets.stunIcon, "'Stun' immobilizes and stops the receiver from attacking.");
+        STUN(Assets.stunIcon, "'Stun' immobilizes and prevents the receiver from fighting back.");
 
         Type(BufferedImage img, String description) {
             this.img = img;
