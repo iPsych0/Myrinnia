@@ -109,7 +109,7 @@ public class PotionSort extends Puzzle implements Serializable {
         return false;
     }
 
-    private void checkCompletion() {
+    private boolean checkCompletion() {
         int sumRow1 = getSum(0, 3);
         int sumRow2 = getSum(4, 7);
         int sumRow3 = getSum(8, 11);
@@ -117,7 +117,10 @@ public class PotionSort extends Puzzle implements Serializable {
 
         if (sumRow1 == 8 && sumRow2 == 10 && sumRow3 == 20 && sumRow4 == 14) {
             onComplete();
+            return true;
         }
+
+        return false;
     }
 
     private int getSum(int startIndex, int endIndex) {
@@ -160,7 +163,10 @@ public class PotionSort extends Puzzle implements Serializable {
         addPotions(NUM_GRN_POTS, Color.GREEN, 5);
         addPotions(NUM_BLU_POTS, Color.BLUE, 7);
 
-        Collections.shuffle(potionSlots);
+        // Reshuffle until we have a list that is not already completed
+        while (checkCompletion()) {
+            Collections.shuffle(potionSlots);
+        }
 
     }
 

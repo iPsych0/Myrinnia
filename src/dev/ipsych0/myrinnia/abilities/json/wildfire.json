@@ -1,10 +1,10 @@
 {
-  "cooldownTime": 10.0,
+  "cooldownTime": 60.0,
   "castingTime": 1.5,
   "overcastTime": 0.0,
-  "name": "Eruption",
-  "description": "An explosive force that deals damage to foes adjacent to you.",
-  "abilityType": "StandardAbility",
+  "name": "Wildfire",
+  "description": "Call down a rain of inferno on your enemies, dealing damage per second.",
+  "abilityType": "EliteAbility",
   "element": "Fire",
   "combatStyle": "Melee",
   "onCooldown": false,
@@ -12,12 +12,12 @@
   "inOvercast": false,
   "castingTimeTimer": 0,
   "cooldownTimer": 0,
-  "baseDamage": 20,
+  "baseDamage": 8,
   "activated": false,
   "channeling": false,
   "selectable": false,
   "selected": false,
   "unlocked": false,
-  "price": 5,
-  "className": "dev.ipsych0.myrinnia.abilities.EruptionAbility"
+  "price": 10,
+  "className": "dev.ipsych0.myrinnia.abilities.WildfireAbility"
 }

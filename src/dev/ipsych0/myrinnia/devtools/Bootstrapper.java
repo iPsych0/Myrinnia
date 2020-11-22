@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
@@ -10,6 +11,13 @@ public class Bootstrapper {
     private Handler handler;
     private Player player;
     private CommandHandler commandHandler;
+
+    public void master() {
+        skipTutorialIsland();
+        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
+            a.setUnlocked(true);
+        }
+    }
 
     public void skipTutorialIsland() {
         handler = Handler.get();

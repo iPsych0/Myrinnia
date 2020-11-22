@@ -57,13 +57,13 @@ public class Assets {
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
             rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall,
-            burningHaste, septicBlast;
+            burningHaste, septicBlast, dragonsBreath, wildfire, nimbleFingers, healingBreeze;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
             rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI,
-            graniteWallI, burningHasteI, septicBlastI;
+            graniteWallI, burningHasteI, septicBlastI, dragonsBreathI, wildfireI, nimbleFingersI, healingBreezeI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -1310,6 +1310,10 @@ public class Assets {
         graniteWallI = ability_icons.imageCrop(7, 1);
         burningHasteI = ability_icons.imageCrop(8, 1);
         septicBlastI = ability_icons.imageCrop(9, 1);
+        dragonsBreathI = ability_icons.imageCrop(10, 1);
+        wildfireI = ability_icons.imageCrop(11, 1);
+        nimbleFingersI = ability_icons.imageCrop(12, 1);
+        healingBreezeI = ability_icons.imageCrop(13, 1);
 
         SplashScreen.setMessage("Loading ability animations...");
 
@@ -1515,6 +1519,15 @@ public class Assets {
         septicBlast[7] = ability_animations.imageCrop(24, 0, WIDTH * 2, HEIGHT * 2);
         septicBlast[8] = ability_animations.imageCrop(26, 0, WIDTH * 2, HEIGHT * 2);
         septicBlast[9] = ability_animations.imageCrop(28, 0, WIDTH * 2, HEIGHT * 2);
+
+        SpriteSheet dragonsBreathSheet = new SpriteSheet("/textures/animations/dragonsbreath.png");
+        SpriteSheet wildfireSheet = new SpriteSheet("/textures/animations/wildfire.png");
+        SpriteSheet nimbleFingersSheet = new SpriteSheet("/textures/animations/nimble_fingers.png");
+        SpriteSheet healingBreezeSheet = new SpriteSheet("/textures/animations/healing_breeze.png");
+        dragonsBreath = dragonsBreathSheet.animationCrop(80, 100);
+        wildfire = wildfireSheet.animationCrop(100, 100);
+        nimbleFingers = nimbleFingersSheet.animationCrop(81, 93);
+        healingBreeze = healingBreezeSheet.animationCrop(100, 100);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);

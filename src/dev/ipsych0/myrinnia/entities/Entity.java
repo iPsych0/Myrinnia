@@ -634,6 +634,12 @@ public abstract class Entity implements Serializable {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    protected double distanceToEntity(Entity from, Entity to) {
+        int dx = (int) ((to.x + to.width / 2) - (from.x + from.width / 2));
+        int dy = (int) ((to.y + to.height / 2) - (from.y + from.height / 2));
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public Polygon getPolyBounds() {
         return polyBounds;
     }

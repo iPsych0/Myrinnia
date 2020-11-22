@@ -78,7 +78,8 @@ public class Toxiblossom extends Creature {
 
         attackTimer = 0;
 
-        if (!septicBlastAbility.isOnCooldown()) {
+        // If player is in melee range, cast septic blast.
+        if (!septicBlastAbility.isOnCooldown() && distanceToEntity(this, Handler.get().getPlayer()) <= Tile.TILEWIDTH * 2) {
             castAbility(septicBlastAbility);
         } else {
             Handler.get().playEffect("abilities/magic_strike.ogg");

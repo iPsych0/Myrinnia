@@ -122,7 +122,7 @@ public class Game implements Runnable, Serializable {
         display.setInitialized(true);
 
         // Use bootstrapper to set variables to desired state
-        new Bootstrapper().skipTutorialIsland();
+        new Bootstrapper().master();
     }
 
     public void addListeners() {

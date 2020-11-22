@@ -267,18 +267,6 @@ public class EntityManager implements Serializable {
                 drawLevel(g, e);
             }
 
-            if (shiftPressed) {
-                if (e.equals(player)) continue;
-                if (e.isNpc()) {
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
-                } else if (e.isAttackable()) {
-                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
-                    drawHoverCorners(g, e, 0, 0, Color.RED);
-                }
-                continue;
-            }
-
             // If the mouse is hovered over an Entity, draw the overlay
             if (!e.equals(Handler.get().getPlayer()) && e.isOverlayDrawn() && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
                 // If Entity can be interacted with, show corner pieces on hovering
@@ -317,6 +305,17 @@ public class EntityManager implements Serializable {
                         drawHoverCorners(g, e, 1, 1, Color.BLACK);
                         drawHoverCorners(g, e, 0, 0, Color.RED);
                     }
+                }
+            }
+
+            if (shiftPressed) {
+                if (e.equals(player)) continue;
+                if (e.isNpc()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                } else if (e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.RED);
                 }
             }
         }

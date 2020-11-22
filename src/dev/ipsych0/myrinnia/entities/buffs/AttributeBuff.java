@@ -224,14 +224,14 @@ public class AttributeBuff extends Buff {
                 if (percentageIncrease) {
                     r.setSpeed((r.getSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setSpeed(r.getSpeed() - (int) statBuff);
+                    r.setSpeed(r.getSpeed() - statBuff);
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
                     r.setAttackSpeed((r.getAttackSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setAttackSpeed(r.getAttackSpeed() - (int) statBuff);
+                    r.setAttackSpeed(r.getAttackSpeed() - statBuff);
                 }
                 break;
             case VIT:
