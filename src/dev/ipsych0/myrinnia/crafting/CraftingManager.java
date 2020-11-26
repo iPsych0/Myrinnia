@@ -48,13 +48,13 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 3), new ItemStack(Item.softLeatherBoots, 1)));
         recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 3), new ItemStack(Item.softLeatherGloves, 1)));
 
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 8), new ItemStack(Item.woolenRobeTop, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 2), new ItemStack(Item.stripOfCloth, 4), new ItemStack(Item.leatherSpellbook, 1)));
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 6), new ItemStack(Item.woolenRobeBottom, 1)));
+        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 8), new ItemStack(Item.woolenRobeTop, 1)));
+        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 2), new ItemStack(Item.stripOfWool, 4), new ItemStack(Item.leatherSpellbook, 1)));
+        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 6), new ItemStack(Item.woolenRobeBottom, 1)));
         recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 5), new ItemStack(Item.apprenticesCloak, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 4), new ItemStack(Item.woolenHat, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 3), new ItemStack(Item.woolenBoots, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfCloth, 2), new ItemStack(Item.woolenGloves, 1)));
+        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 4), new ItemStack(Item.woolenHat, 1)));
+        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 3), new ItemStack(Item.woolenBoots, 1)));
+        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 2), new ItemStack(Item.woolenGloves, 1)));
 
         recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simpleAxe, 1)));
         recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simplePickaxe, 1)));
@@ -85,7 +85,7 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(5, 10, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
         recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.wool, 2), new ItemStack(Item.rope, 1)));
-        recipes.add(new CraftingRecipe(3, 8, true, SkillCategory.Materials, new ItemStack(Item.wool, 4), new ItemStack(Item.stripOfCloth, 1)));
+        recipes.add(new CraftingRecipe(3, 8, true, SkillCategory.Materials, new ItemStack(Item.wool, 4), new ItemStack(Item.stripOfWool, 1)));
 
         recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.scorpionTail, 1), new ItemStack(Item.weakAntidote, 1)));
         recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.crablingClaw, 1), new ItemStack(Item.weakPotionOfMight, 1)));

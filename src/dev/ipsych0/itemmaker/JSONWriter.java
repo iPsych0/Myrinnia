@@ -7,8 +7,10 @@ import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.utils.Utils;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -34,6 +36,13 @@ class JSONWriter {
         // Write the JSON file
         try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.replaceAll(" ", "_") + ".json")) {
             fileWriter.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Write the code ready to copy-paste insert into the Item class
+        try (Writer fileWriter = new BufferedWriter(new FileWriter("src/dev/ipsych0/myrinnia/items/json/0_all_items.txt", true))) {
+            fileWriter.write("public static Item " + name.replaceAll(" ", "") + " = Utils.loadItem(\"" + + item.id + "_" + name.replaceAll(" ", "_") + "\", Assets." + name.replaceAll(" ", "") + ");");
         } catch (IOException e) {
             e.printStackTrace();
         }

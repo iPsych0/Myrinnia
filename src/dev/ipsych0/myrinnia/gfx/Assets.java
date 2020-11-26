@@ -80,7 +80,7 @@ public class Assets {
             copperOre, malachite, miningEquipment, abilityScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
             lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
-            wateringCan, softLeather, stripOfCloth, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
+            wateringCan, softLeather, stripOfWool, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
             malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
@@ -89,7 +89,15 @@ public class Assets {
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
             strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
             bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination, litTorch, unlitTorch, unlitLantern, litLantern, unlitCandle, litCandle,
-            matchbox, clay, coalOre, hardLeather, stripOfLinen, flaxSeeds, flax;
+            matchbox, clay, coalOre, hardLeather, stripOfLinen, flaxSeeds, flax, topaz, pearl, amethyst, diamond, onyx, silverOre, goldOre,
+            palladiumOre, cobaltOre, platinumOre, titaniumOre, obsidian, obsidianShard, titaniumPlating, steelPlating, yakHair, highQualityYakFibre,
+            primordialCrystal, celenorianThread, arcaneThread, topazEarrings, topazRingL, topazRingR, topazAmulet, pearlEarrings, pearlRingL,
+            pearlRingR, pearlAmulet, amethystEarrings, amethystRingL, amethystRingR, amethystAmulet, diamondEarrings, diamondRingL, diamondRingR,
+            diamondAmulet, onyxEarrings, onyxRingL, onyxRingR, onyxAmulet, steelAxe, steelPickaxe, steelFishingRod, platinumAxe, platinumPickaxe,
+            platinumFishingRod, titaniumAxe, titaniumPickaxe, titaniumFishingRod, obsidianAxe, obsidianPickaxe, obsidianFishingRod,
+            primordialAxe, primordialPickaxe, primordialFishingRod, teakWood, mahoganyWood, elderWood, ancientWood, reinforcedLeather,
+            studdedLeather, armoredLeather, celenorianLeather, stripOfSilk, stripOfDamask, stripOfIntricateCloth, stripOfFarnorCloth,
+            primordialIngot;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -630,7 +638,7 @@ public class Assets {
         cabbage = item_sheet.imageCrop(1, 19);
         wateringCan = item_sheet.imageCrop(1, 20);
         softLeather = item_sheet.imageCrop(1, 21);
-        stripOfCloth = item_sheet.imageCrop(1, 22);
+        stripOfWool = item_sheet.imageCrop(1, 22);
         lapisLazuli = item_sheet.imageCrop(1, 23);
         azuriteEarrings = item_sheet.imageCrop(1, 24);
         azuriteRingL = item_sheet.imageCrop(1, 25);
@@ -638,12 +646,12 @@ public class Assets {
         copperFishingRod = item_sheet.imageCrop(1, 27);
         malachiteEarrings = item_sheet.imageCrop(1, 28);
         malachiteAmulet = item_sheet.imageCrop(1, 29);
+
         malachiteRingL = item_sheet.imageCrop(2, 1);
         malachiteRingR = item_sheet.imageCrop(2, 2);
         ironAxe = item_sheet.imageCrop(2, 3);
         ironPickaxe = item_sheet.imageCrop(2, 4);
         ironFishingRod = item_sheet.imageCrop(2, 5);
-
         ironChainMail = item_sheet.imageCrop(2, 6);
         studdedShield = item_sheet.imageCrop(2, 7);
         ironSword = item_sheet.imageCrop(2, 8);
@@ -652,7 +660,6 @@ public class Assets {
         ironHelm = item_sheet.imageCrop(2, 11);
         ironBoots = item_sheet.imageCrop(2, 12);
         ironGloves = item_sheet.imageCrop(2, 13);
-
         softLeatherBody = item_sheet.imageCrop(2, 14);
         ironQuiver = item_sheet.imageCrop(2, 15);
         hardwoodBow = item_sheet.imageCrop(2, 16);
@@ -661,7 +668,6 @@ public class Assets {
         softLeatherCowl = item_sheet.imageCrop(2, 19);
         softLeatherBoots = item_sheet.imageCrop(2, 20);
         softLeatherGloves = item_sheet.imageCrop(2, 21);
-
         woolenRobeTop = item_sheet.imageCrop(2, 22);
         leatherSpellbook = item_sheet.imageCrop(2, 23);
         hardwoodStaff = item_sheet.imageCrop(2, 24);
@@ -678,7 +684,6 @@ public class Assets {
         tungstenOre = item_sheet.imageCrop(3, 5);
         aspenwood = item_sheet.imageCrop(3, 6);
         lightwood = item_sheet.imageCrop(3, 7);
-
         strawberrySeeds = item_sheet.imageCrop(3, 8);
         raspberrySeeds = item_sheet.imageCrop(3, 9);
         blackberrySeeds = item_sheet.imageCrop(3, 10);
@@ -724,6 +729,76 @@ public class Assets {
         stripOfLinen = item_sheet.imageCrop(4, 18);
         flaxSeeds = item_sheet.imageCrop(4, 19);
         flax = item_sheet.imageCrop(4, 20);
+        topaz = item_sheet.imageCrop(4, 21);
+        pearl = item_sheet.imageCrop(4, 22);
+        amethyst = item_sheet.imageCrop(4, 23);
+        diamond = item_sheet.imageCrop(4, 24);
+        onyx = item_sheet.imageCrop(4, 25);
+        silverOre = item_sheet.imageCrop(4, 26);
+        goldOre = item_sheet.imageCrop(4, 27);
+        palladiumOre = item_sheet.imageCrop(4, 28);
+        cobaltOre = item_sheet.imageCrop(4, 29);
+
+        platinumOre = item_sheet.imageCrop(5, 0);
+        titaniumOre = item_sheet.imageCrop(5, 1);
+        obsidian = item_sheet.imageCrop(5, 2);
+        obsidianShard = item_sheet.imageCrop(5, 3);
+        titaniumPlating = item_sheet.imageCrop(5, 4);
+        steelPlating = item_sheet.imageCrop(5, 5);
+        yakHair = item_sheet.imageCrop(5, 6);
+        highQualityYakFibre = item_sheet.imageCrop(5, 7);
+        primordialCrystal = item_sheet.imageCrop(5, 8);
+        celenorianThread = item_sheet.imageCrop(5, 9);
+        arcaneThread = item_sheet.imageCrop(5, 10);
+        topazEarrings = item_sheet.imageCrop(5, 11);
+        topazRingL = item_sheet.imageCrop(5, 12);
+        topazRingR = item_sheet.imageCrop(5, 13);
+        topazAmulet = item_sheet.imageCrop(5, 14);
+        pearlEarrings = item_sheet.imageCrop(5, 15);
+        pearlRingL = item_sheet.imageCrop(5, 16);
+        pearlRingR = item_sheet.imageCrop(5, 17);
+        pearlAmulet = item_sheet.imageCrop(5, 18);
+        amethystEarrings = item_sheet.imageCrop(5, 19);
+        amethystRingL = item_sheet.imageCrop(5, 20);
+        amethystRingR = item_sheet.imageCrop(5, 21);
+        amethystAmulet = item_sheet.imageCrop(5, 22);
+        diamondEarrings = item_sheet.imageCrop(5, 23);
+        diamondRingL = item_sheet.imageCrop(5, 24);
+        diamondRingR = item_sheet.imageCrop(5, 25);
+        diamondAmulet = item_sheet.imageCrop(5, 26);
+        onyxEarrings = item_sheet.imageCrop(5, 27);
+        onyxRingL = item_sheet.imageCrop(5, 28);
+        onyxRingR = item_sheet.imageCrop(5, 29);
+
+        onyxAmulet = item_sheet.imageCrop(6, 0);
+        steelAxe = item_sheet.imageCrop(6, 1);
+        steelPickaxe = item_sheet.imageCrop(6, 2);
+        steelFishingRod = item_sheet.imageCrop(6, 3);
+        platinumAxe = item_sheet.imageCrop(6, 4);
+        platinumPickaxe = item_sheet.imageCrop(6, 5);
+        platinumFishingRod = item_sheet.imageCrop(6, 6);
+        titaniumAxe = item_sheet.imageCrop(6, 7);
+        titaniumPickaxe = item_sheet.imageCrop(6, 8);
+        titaniumFishingRod = item_sheet.imageCrop(6, 9);
+        obsidianAxe = item_sheet.imageCrop(6, 10);
+        obsidianPickaxe = item_sheet.imageCrop(6, 11);
+        obsidianFishingRod = item_sheet.imageCrop(6, 12);
+        primordialAxe = item_sheet.imageCrop(6, 13);
+        primordialPickaxe = item_sheet.imageCrop(6, 14);
+        primordialFishingRod = item_sheet.imageCrop(6, 15);
+        teakWood = item_sheet.imageCrop(6, 16);
+        mahoganyWood = item_sheet.imageCrop(6, 17);
+        elderWood = item_sheet.imageCrop(6, 18);
+        ancientWood = item_sheet.imageCrop(6, 19);
+        reinforcedLeather = item_sheet.imageCrop(6, 20);
+        studdedLeather = item_sheet.imageCrop(6, 21);
+        armoredLeather = item_sheet.imageCrop(6, 22);
+        celenorianLeather = item_sheet.imageCrop(6, 23);
+        stripOfSilk = item_sheet.imageCrop(6, 24);
+        stripOfDamask = item_sheet.imageCrop(6, 25);
+        stripOfIntricateCloth = item_sheet.imageCrop(6, 26);
+        stripOfFarnorCloth = item_sheet.imageCrop(6, 27);
+        primordialIngot = item_sheet.imageCrop(6, 28);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

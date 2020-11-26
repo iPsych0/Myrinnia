@@ -109,7 +109,7 @@ public class Item implements Serializable {
         Handler.get().removeItem(Item.debilitatingStrikeScroll, 1);
     });
     public static Item softLeather = Utils.loadItem("72_soft_leather.json", Assets.softLeather);
-    public static Item stripOfCloth = Utils.loadItem("73_strip_of_cloth.json", Assets.stripOfCloth);
+    public static Item stripOfWool = Utils.loadItem("73_strip_of_wool.json", Assets.stripOfWool);
     public static Item lapisLazuli = Utils.loadItem("74_lapis_lazuli.json", Assets.lapisLazuli);
     public static Item azuriteEarrings = Utils.loadItem("75_azurite_earrings.json", Assets.azuriteEarrings);
     public static Item azuriteRingL = Utils.loadItem("76_azurite_ring_(l).json", Assets.azuriteRingL);
@@ -243,6 +243,85 @@ public class Item implements Serializable {
     public static Item stipOfLinen = Utils.loadItem("157_strip_of_linen.json", Assets.stripOfLinen);
     public static Item flaxSeeds = Utils.loadItem("158_flax_seeds.json", Assets.flaxSeeds);
     public static Item flax = Utils.loadItem("159_flax.json", Assets.flax);
+    public static Item topaz = Utils.loadItem("160_topaz.json", Assets.topaz);
+    public static Item pearl = Utils.loadItem("161_pearl.json", Assets.pearl);
+    public static Item amethyst = Utils.loadItem("162_amethyst.json", Assets.amethyst);
+    public static Item diamond = Utils.loadItem("163_diamond.json", Assets.diamond);
+    public static Item onyx = Utils.loadItem("164_onyx.json", Assets.onyx);
+    public static Item silverOre = Utils.loadItem("165_silver_ore.json", Assets.silverOre);
+    public static Item goldOre = Utils.loadItem("166_gold_ore.json", Assets.goldOre);
+    public static Item palladiumOre = Utils.loadItem("167_palladium_ore.json", Assets.palladiumOre);
+    public static Item cobaltOre = Utils.loadItem("168_cobalt_ore.json", Assets.cobaltOre);
+    public static Item platinumOre = Utils.loadItem("169_platinum_ore.json", Assets.platinumOre);
+    public static Item titaniumOre = Utils.loadItem("170_titanium_ore.json", Assets.titaniumOre);
+    public static Item obsidian = Utils.loadItem("171_obsidian.json", Assets.obsidian);
+    public static Item obsidianShard = Utils.loadItem("172_obsidian_shard.json", Assets.obsidianShard);
+    public static Item titaniumPlating = Utils.loadItem("173_titanium_plating.json", Assets.titaniumPlating);
+    public static Item steelPlating = Utils.loadItem("174_steel_plating.json", Assets.steelPlating);
+    public static Item yakHair = Utils.loadItem("175_yak_hair.json", Assets.yakHair);
+    public static Item highQualityYakFibre = Utils.loadItem("176_high_quality_yak_fibre.json", Assets.highQualityYakFibre);
+    public static Item primordialCrystal = Utils.loadItem("177_primordial_crystal.json", Assets.primordialCrystal);
+    public static Item celenorianThread = Utils.loadItem("178_celenorian_thread.json", Assets.celenorianThread);
+    public static Item arcaneThread = Utils.loadItem("179_arcane_thread.json", Assets.arcaneThread);
+
+    public static Item topazEarrings = Utils.loadItem("180_topaz_earrings.json", Assets.topazEarrings);
+    public static Item topazRingL = Utils.loadItem("181_topaz_ring_(l).json", Assets.topazRingL);
+    public static Item topazRingR = Utils.loadItem("182_topaz_ring_(r).json", Assets.topazRingR);
+    public static Item topazAmulet = Utils.loadItem("183_topaz_amulet.json", Assets.topazAmulet);
+
+    public static Item pearlEarrings = Utils.loadItem("184_pearl_earrings.json", Assets.pearlEarrings);
+    public static Item pearlRingL = Utils.loadItem("185_pearl_ring_(l).json", Assets.pearlRingL);
+    public static Item pearlRingR = Utils.loadItem("186_pearl_ring_(r).json", Assets.pearlRingR);
+    public static Item pearlAmulet = Utils.loadItem("187_pearl_amulet.json", Assets.pearlAmulet);
+
+    public static Item amethystEarrings = Utils.loadItem("188_amethyst_earrings.json", Assets.amethystEarrings);
+    public static Item amethystRingL = Utils.loadItem("189_amethyst_ring_(l).json", Assets.amethystRingL);
+    public static Item amethystRingR = Utils.loadItem("190_amethyst_ring_(r).json", Assets.amethystRingR);
+    public static Item amethystAmulet = Utils.loadItem("191_amethyst_amulet.json", Assets.amethystAmulet);
+
+    public static Item diamondEarrings = Utils.loadItem("192_diamond_earrings.json", Assets.diamondEarrings);
+    public static Item diamondRingL = Utils.loadItem("193_diamond_ring_(l).json", Assets.diamondRingL);
+    public static Item diamondRingR = Utils.loadItem("194_diamond_ring_(r).json", Assets.diamondRingR);
+    public static Item diamondAmulet = Utils.loadItem("195_diamond_amulet.json", Assets.diamondAmulet);
+
+    public static Item onyxEarrings = Utils.loadItem("196_onyx_earrings.json", Assets.onyxEarrings);
+    public static Item onyxRingL = Utils.loadItem("197_onyx_ring_(l).json", Assets.onyxRingL);
+    public static Item onyxRingR = Utils.loadItem("198_onyx_ring_(r).json", Assets.onyxRingR);
+    public static Item onyxAmulet = Utils.loadItem("199_onyx_amulet.json", Assets.onyxAmulet);
+
+    public static Item steelAxe = Utils.loadItem("200_steel_axe.json", Assets.steelAxe);
+    public static Item steelPickaxe = Utils.loadItem("201_steel_pickaxe.json", Assets.steelPickaxe);
+    public static Item steelFishingRod = Utils.loadItem("202_steel_fishing_rod.json", Assets.steelFishingRod);
+
+    public static Item platinumAxe = Utils.loadItem("203_platinum_axe.json", Assets.platinumAxe);
+    public static Item platinumPickaxe = Utils.loadItem("204_platinum_pickaxe.json", Assets.platinumPickaxe);
+    public static Item platinumFishingRod = Utils.loadItem("205_platinum_fishing_rod.json", Assets.platinumFishingRod);
+
+    public static Item titaniumAxe = Utils.loadItem("206_titanium_axe.json", Assets.titaniumAxe);
+    public static Item titaniumPickaxe = Utils.loadItem("207_titanium_pickaxe.json", Assets.titaniumPickaxe);
+    public static Item titaniumFishingRod = Utils.loadItem("208_titanium_fishing_rod.json", Assets.titaniumFishingRod);
+
+    public static Item obsidianAxe = Utils.loadItem("209_obsidian_axe.json", Assets.obsidianAxe);
+    public static Item obsidianPickaxe = Utils.loadItem("210_obsidian_pickaxe.json", Assets.obsidianPickaxe);
+    public static Item obsidianFishingRod = Utils.loadItem("211_obsidian_fishing_rod.json", Assets.obsidianFishingRod);
+
+    public static Item primordialAxe = Utils.loadItem("212_primordial_axe.json", Assets.primordialAxe);
+    public static Item primordialPickaxe = Utils.loadItem("213_primordial_pickaxe.json", Assets.primordialPickaxe);
+    public static Item primordialFishingRod = Utils.loadItem("214_primordial_fishing_rod.json", Assets.primordialFishingRod);
+
+    public static Item teakWood = Utils.loadItem("215_teak_wood.json", Assets.teakWood);
+    public static Item mahoganyWood = Utils.loadItem("216_mahogany_wood.json", Assets.mahoganyWood);
+    public static Item elderWood = Utils.loadItem("217_elder_wood.json", Assets.elderWood);
+    public static Item ancientWood = Utils.loadItem("218_ancient_wood.json", Assets.ancientWood);
+    public static Item reinforcedLeather = Utils.loadItem("219_reinforced_leather.json", Assets.reinforcedLeather);
+    public static Item studdedLeather = Utils.loadItem("220_studded_leather.json", Assets.studdedLeather);
+    public static Item armoredLeather = Utils.loadItem("221_armored_leather.json", Assets.armoredLeather);
+    public static Item celenorianLeather = Utils.loadItem("222_celenorian_leather.json", Assets.celenorianLeather);
+    public static Item stripOfSilk = Utils.loadItem("223_strip_of_silk.json", Assets.stripOfSilk);
+    public static Item stripOfDamask = Utils.loadItem("224_strip_of_damask.json", Assets.stripOfDamask);
+    public static Item stripOfIntricateCloth = Utils.loadItem("225_strip_of_intricate_cloth.json", Assets.stripOfIntricateCloth);
+    public static Item stripOfFarnorCloth = Utils.loadItem("226_strip_of_farnor_cloth.json", Assets.stripOfFarnorCloth);
+    public static Item primordialIngot = Utils.loadItem("227_primordial_ingot.json", Assets.primordialIngot);
 
 
     static {
