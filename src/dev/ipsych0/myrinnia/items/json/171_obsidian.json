@@ -2,9 +2,9 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
+  "itemRarity": "Rare",
+  "name": "Obsidian",
+  "id": 171,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,7 +29,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
+  "price": 950,
   "stackable": true,
   "equippable": false,
   "respawnTimer": 10800,

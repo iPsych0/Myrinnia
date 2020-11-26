@@ -2,9 +2,9 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
+  "itemRarity": "Rare",
+  "name": "Diamond",
+  "id": 163,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,8 +29,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
-  "stackable": true,
+  "price": 450,
+  "stackable": false,
   "equippable": false,
   "respawnTimer": 10800,
   "useCooldown": 60

@@ -2,9 +2,9 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
+  "itemRarity": "Uncommon",
+  "name": "Platinum ore",
+  "id": 169,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,7 +29,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
+  "price": 160,
   "stackable": true,
   "equippable": false,
   "respawnTimer": 10800,

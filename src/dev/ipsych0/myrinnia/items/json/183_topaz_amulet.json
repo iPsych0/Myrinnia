@@ -1,16 +1,22 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "ACCESSORY"
   ],
   "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
-  "equipSlot": "None",
-  "strength": 0,
-  "dexterity": 0,
-  "intelligence": 0,
-  "defence": 0,
-  "vitality": 0,
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 7
+    }
+  ],
+  "name": "Topaz amulet",
+  "id": 183,
+  "equipSlot": "Amulet",
+  "strength": 5,
+  "dexterity": 5,
+  "intelligence": 5,
+  "defence": 3,
+  "vitality": 3,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -29,9 +35,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
-  "stackable": true,
-  "equippable": false,
+  "price": 180,
+  "stackable": false,
+  "equippable": true,
   "respawnTimer": 10800,
   "useCooldown": 60
 }

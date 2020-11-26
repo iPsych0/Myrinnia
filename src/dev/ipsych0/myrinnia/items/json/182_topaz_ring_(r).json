@@ -1,16 +1,22 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "ACCESSORY"
   ],
   "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
-  "equipSlot": "None",
-  "strength": 0,
-  "dexterity": 0,
-  "intelligence": 0,
-  "defence": 0,
-  "vitality": 0,
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 7
+    }
+  ],
+  "name": "Topaz ring (r)",
+  "id": 182,
+  "equipSlot": "Ring_Right",
+  "strength": 3,
+  "dexterity": 3,
+  "intelligence": 3,
+  "defence": 2,
+  "vitality": 2,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -29,9 +35,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
-  "stackable": true,
-  "equippable": false,
+  "price": 140,
+  "stackable": false,
+  "equippable": true,
   "respawnTimer": 10800,
   "useCooldown": 60
 }

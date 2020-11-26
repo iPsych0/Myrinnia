@@ -1,14 +1,20 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "ACCESSORY"
   ],
   "itemRarity": "Common",
-  "name": "Coal ore",
-  "id": 155,
-  "equipSlot": "None",
-  "strength": 0,
-  "dexterity": 0,
-  "intelligence": 0,
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 7
+    }
+  ],
+  "name": "Topaz earrings",
+  "id": 180,
+  "equipSlot": "Earrings",
+  "strength": 3,
+  "dexterity": 3,
+  "intelligence": 3,
   "defence": 0,
   "vitality": 0,
   "attackSpeed": 0.0,
@@ -29,9 +35,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 75,
-  "stackable": true,
-  "equippable": false,
+  "price": 120,
+  "stackable": false,
+  "equippable": true,
   "respawnTimer": 10800,
   "useCooldown": 60
 }
