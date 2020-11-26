@@ -89,7 +89,7 @@ public class Assets {
             bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
             strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
             bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination, litTorch, unlitTorch, unlitLantern, litLantern, unlitCandle, litCandle,
-            matchbox, clay;
+            matchbox, clay, coalOre, hardLeather, stripOfLinen, flaxSeeds, flax;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -719,6 +719,11 @@ public class Assets {
         litCandle = item_sheet.imageCrop(4, 13);
         matchbox = item_sheet.imageCrop(4, 14);
         clay = item_sheet.imageCrop(4, 15);
+        coalOre = item_sheet.imageCrop(4, 16);
+        hardLeather = item_sheet.imageCrop(4, 17);
+        stripOfLinen = item_sheet.imageCrop(4, 18);
+        flaxSeeds = item_sheet.imageCrop(4, 19);
+        flax = item_sheet.imageCrop(4, 20);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

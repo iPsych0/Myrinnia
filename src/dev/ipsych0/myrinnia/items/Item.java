@@ -238,6 +238,11 @@ public class Item implements Serializable {
     });
     public static Item matchbox = Utils.loadItem("153_matchbox.json", Assets.matchbox);
     public static Item clay = Utils.loadItem("154_clay.json", Assets.clay);
+    public static Item coalOre = Utils.loadItem("155_coal_ore.json", Assets.coalOre);
+    public static Item hardLeather = Utils.loadItem("156_hard_leather.json", Assets.hardLeather);
+    public static Item stipOfLinen = Utils.loadItem("157_strip_of_linen.json", Assets.stripOfLinen);
+    public static Item flaxSeeds = Utils.loadItem("158_flax_seeds.json", Assets.flaxSeeds);
+    public static Item flax = Utils.loadItem("159_flax.json", Assets.flax);
 
 
     static {

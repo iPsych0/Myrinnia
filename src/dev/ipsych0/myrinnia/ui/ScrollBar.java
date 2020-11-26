@@ -92,10 +92,6 @@ public class ScrollBar implements Serializable {
                         scrolledDown = false;
                     }
                 }
-            } else {
-                // If we're not scrolling in the window, ignore scroll events
-                scrolledUp = false;
-                scrolledDown = false;
             }
         }
     }
