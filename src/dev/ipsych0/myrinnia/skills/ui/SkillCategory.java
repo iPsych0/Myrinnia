@@ -26,7 +26,7 @@ public enum SkillCategory {
 
     // Farming
     Vegetables("Vegetables"),
-    Bush("Bush"),
+    BushPlants("Bush/Plants"),
     FarmingTrees("Fruit Trees");
 
     private String name;

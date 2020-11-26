@@ -209,7 +209,7 @@ public class SkillsOverviewUI implements Serializable {
                 } else {
                     if (selectedSkill.getListByCategory(selectedCategory).size() > maxPerScreen) {
                         for (int i = scrollBar.getIndex(); i < scrollBar.getIndex() + maxPerScreen; i++) {
-                            Rectangle slot = new Rectangle(x + categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32);
+                            Rectangle slot = new Rectangle(categories.get(0).x + categories.get(0).width + 32 + 8, (y + 40) + (yPos * 32), 32, 32);
 
                             g.drawImage(Assets.genericButton[1], categories.get(0).x + categories.get(0).width + 8, (y + 40) + (yPos * 32), 32, 32, null);
                             if (slot.contains(mouse)) {

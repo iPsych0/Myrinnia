@@ -14,12 +14,10 @@ public class FarmingSkill extends Skill {
     private static final long serialVersionUID = 6524654729089699242L;
 
     public FarmingSkill() {
-        super();
-
         initResources();
 
         categories.add(SkillCategory.Vegetables);
-        categories.add(SkillCategory.Bush);
+        categories.add(SkillCategory.BushPlants);
         categories.add(SkillCategory.FarmingTrees);
 
     }
@@ -35,10 +33,11 @@ public class FarmingSkill extends Skill {
         resources.add(new FarmingResource(2, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 25L, Item.cabbage, 4, 45, "Harvesting yields cabbages."));
 
         // Bush
-        resources.add(new FarmingResource(2, Item.strawberrySeeds, 2, SkillCategory.Bush, 40L, Item.strawberry, 4, 45, "Harvesting yields strawberries."));
-        resources.add(new FarmingResource(7, Item.raspberrySeeds, 2, SkillCategory.Bush, 80L, Item.raspberry, 4, 75, "Harvesting yields raspberries."));
-        resources.add(new FarmingResource(14, Item.blackberrySeeds, 2, SkillCategory.Bush, 140L, Item.blackberry, 4, 135, "Harvesting yields blackberries."));
-        resources.add(new FarmingResource(19, Item.blueberrySeeds, 2, SkillCategory.Bush, 240L, Item.blueberry, 4, 225, "Harvesting yields blueberries."));
+        resources.add(new FarmingResource(2, Item.strawberrySeeds, 2, SkillCategory.BushPlants, 40L, Item.strawberry, 4, 45, "Harvesting yields strawberries."));
+        resources.add(new FarmingResource(5, Item.flaxSeeds, 2, SkillCategory.BushPlants, 20L, Item.flax, 10, 50, "Flax is used to create linen clothing."));
+        resources.add(new FarmingResource(7, Item.raspberrySeeds, 2, SkillCategory.BushPlants, 80L, Item.raspberry, 4, 75, "Harvesting yields raspberries."));
+        resources.add(new FarmingResource(14, Item.blackberrySeeds, 2, SkillCategory.BushPlants, 140L, Item.blackberry, 4, 135, "Harvesting yields blackberries."));
+        resources.add(new FarmingResource(19, Item.blueberrySeeds, 2, SkillCategory.BushPlants, 240L, Item.blueberry, 4, 225, "Harvesting yields blueberries."));
 
         // Fruit trees
         resources.add(new FarmingResource(15, Item.appleTreeSeeds, 2, SkillCategory.FarmingTrees, 300L, Item.apple, 4, 250, "Harvesting yields apples."));

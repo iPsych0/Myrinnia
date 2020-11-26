@@ -56,7 +56,7 @@ public class FarmingPatch extends GenericObject {
         if (name.contains("Vegetable")) {
             return new FarmingUI(SkillCategory.Vegetables, this);
         } else if (name.contains("Bush")) {
-            return new FarmingUI(SkillCategory.Bush, this);
+            return new FarmingUI(SkillCategory.BushPlants, this);
         } else if (name.contains("Tree")) {
             return new FarmingUI(SkillCategory.FarmingTrees, this);
         }
