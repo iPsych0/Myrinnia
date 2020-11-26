@@ -3,8 +3,8 @@
     "CRAFTING_MATERIAL"
   ],
   "itemRarity": "Rare",
-  "name": "Primordial crystal",
-  "id": 177,
+  "name": "Primordial ingot",
+  "id": 227,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,8 +29,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 500,
-  "stackable": false,
+  "price": 875,
+  "stackable": true,
   "equippable": false,
   "respawnTimer": 10800,
   "useCooldown": 60

@@ -2,9 +2,9 @@
   "itemTypes": [
     "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Rare",
-  "name": "Primordial crystal",
-  "id": 177,
+  "itemRarity": "Uncommon",
+  "name": "Studded leather",
+  "id": 220,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,8 +29,8 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 500,
-  "stackable": false,
+  "price": 195,
+  "stackable": true,
   "equippable": false,
   "respawnTimer": 10800,
   "useCooldown": 60

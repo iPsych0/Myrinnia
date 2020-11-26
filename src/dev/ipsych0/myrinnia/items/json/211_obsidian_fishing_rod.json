@@ -1,10 +1,10 @@
 {
   "itemTypes": [
-    "CRAFTING_MATERIAL"
+    "FISHING_ROD"
   ],
   "itemRarity": "Rare",
-  "name": "Primordial crystal",
-  "id": 177,
+  "name": "Obsidian fishing rod",
+  "id": 211,
   "equipSlot": "None",
   "strength": 0,
   "dexterity": 0,
@@ -29,7 +29,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 500,
+  "price": 675,
   "stackable": false,
   "equippable": false,
   "respawnTimer": 10800,
