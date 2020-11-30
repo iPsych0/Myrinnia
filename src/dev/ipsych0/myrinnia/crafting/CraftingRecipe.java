@@ -106,4 +106,11 @@ public class CraftingRecipe implements Serializable {
         this.category = category;
     }
 
+    public int getTimeToCraft() {
+        return timeToCraft;
+    }
+
+    public void setTimeToCraft(int timeToCraft) {
+        this.timeToCraft = timeToCraft;
+    }
 }
