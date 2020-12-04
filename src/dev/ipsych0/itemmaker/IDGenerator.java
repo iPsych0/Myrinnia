@@ -10,7 +10,7 @@ public class IDGenerator implements Serializable {
     private static final long serialVersionUID = 3518540320277197237L;
     private static final int MAX_IDS = 1024;
 
-    Set<Integer> uniqueIds = new HashSet<>();
+    private Set<Integer> uniqueIds = new HashSet<>();
 
     private static IDGenerator idGenerator;
 
@@ -26,9 +26,6 @@ public class IDGenerator implements Serializable {
     }
 
     int getNextId() {
-        uniqueIds = IDSerializer.loadIDs();
-
-
         // First ID is always 0
         if (uniqueIds.size() == 0) {
             uniqueIds.add(0);

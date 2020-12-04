@@ -41,8 +41,8 @@ class JSONWriter {
         }
 
         // Write the code ready to copy-paste insert into the Item class
-        try (Writer fileWriter = new BufferedWriter(new FileWriter("src/dev/ipsych0/myrinnia/items/json/0_all_items.txt", true))) {
-            fileWriter.write("public static Item " + name.replaceAll(" ", "") + " = Utils.loadItem(\"" + + item.id + "_" + name.replaceAll(" ", "_") + "\", Assets." + name.replaceAll(" ", "") + ");");
+        try (Writer fileWriter = new BufferedWriter(new FileWriter("src/dev/ipsych0/myrinnia/items/all_items.txt", true))) {
+            fileWriter.write("public static Item " + name.replaceAll(" ", "") + " = Utils.loadItem(\"" + + item.id + "_" + name.replaceAll(" ", "_") + ".json\", Assets." + name.replaceAll(" ", "") + ");\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

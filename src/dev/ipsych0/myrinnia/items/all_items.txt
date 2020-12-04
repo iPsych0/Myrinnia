@@ -1,0 +1,17 @@
+public static Item steelchainmail = Utils.loadItem("228_steel_chainmail.json", Assets.steelchainmail);
+public static Item spikedshield = Utils.loadItem("229_spiked_shield.json", Assets.spikedshield);
+public static Item steelsword = Utils.loadItem("230_steel_sword.json", Assets.steelsword);
+public static Item steellegs = Utils.loadItem("230_steel_legs.json", Assets.steellegs);
+public static Item steellegs = Utils.loadItem("231_steel_legs.json", Assets.steellegs);
+public static Item knight'scloak = Utils.loadItem("232_knight's_cloak.json", Assets.knight'scloak);
+public static Item steelhelm = Utils.loadItem("233_steel_helm.json", Assets.steelhelm);
+public static Item steelboots = Utils.loadItem("234_steel_boots.json", Assets.steelboots);
+public static Item steelgloves = Utils.loadItem("235_steel_gloves.json", Assets.steelgloves);
+public static Item hardleatherbody = Utils.loadItem("236_hard_leather_body.json", Assets.hardleatherbody);
+public static Item steelquiver = Utils.loadItem("237_steel_quiver.json", Assets.steelquiver);
+public static Item aspenwoodbow = Utils.loadItem("238_aspenwood_bow.json", Assets.aspenwoodbow);
+public static Item hardleatherleggings = Utils.loadItem("239_hard_leather_leggings.json", Assets.hardleatherleggings);
+public static Item warden'scloak = Utils.loadItem("240_warden's_cloak.json", Assets.warden'scloak);
+public static Item hardleathercowl = Utils.loadItem("241_hard_leather_cowl.json", Assets.hardleathercowl);
+public static Item hardleatherboots = Utils.loadItem("242_hard_leather_boots.json", Assets.hardleatherboots);
+public static Item hardleathergloves = Utils.loadItem("243_hard_leather_gloves.json", Assets.hardleathergloves);

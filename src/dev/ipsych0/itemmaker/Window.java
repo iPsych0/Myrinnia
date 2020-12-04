@@ -153,10 +153,15 @@ class Window extends JFrame {
                         }
                     }
                     if (equippable) {
+                        List<ItemType> typeList = Arrays.asList(itemTypes);
                         if (equipSlot == EquipSlot.Mainhand) {
-                            List<ItemType> typeList = Arrays.asList(itemTypes);
                             if (!typeList.contains(ItemType.MELEE_WEAPON) && !typeList.contains(ItemType.MAGIC_WEAPON) && !typeList.contains(ItemType.RANGED_WEAPON)) {
                                 System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                                return;
+                            }
+                        } else {
+                            if (typeList.contains(ItemType.MELEE_WEAPON) || typeList.contains(ItemType.MAGIC_WEAPON) || typeList.contains(ItemType.RANGED_WEAPON)) {
+                                System.err.println("Armour cannot have a weapon-type as ItemType.");
                                 return;
                             }
                         }
