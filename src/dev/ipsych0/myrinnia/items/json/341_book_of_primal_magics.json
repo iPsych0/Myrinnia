@@ -1,0 +1,43 @@
+{
+  "itemTypes": [
+    "ARMOUR"
+  ],
+  "itemRarity": "Rare",
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 30
+    }
+  ],
+  "name": "Book of primal magics",
+  "id": 341,
+  "equipSlot": "Offhand",
+  "strength": 0,
+  "dexterity": 0,
+  "intelligence": 30,
+  "defence": 20,
+  "vitality": 24,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.25,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 4800,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

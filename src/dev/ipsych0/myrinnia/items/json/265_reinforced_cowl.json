@@ -1,0 +1,43 @@
+{
+  "itemTypes": [
+    "ARMOUR"
+  ],
+  "itemRarity": "Uncommon",
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 15
+    }
+  ],
+  "name": "Reinforced cowl",
+  "id": 265,
+  "equipSlot": "Helm",
+  "strength": 0,
+  "dexterity": 3,
+  "intelligence": 0,
+  "defence": 7,
+  "vitality": 4,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 800,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

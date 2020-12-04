@@ -1,0 +1,43 @@
+{
+  "itemTypes": [
+    "ARMOUR"
+  ],
+  "itemRarity": "Rare",
+  "requirements": [
+    {
+      "stat": "Combat",
+      "level": 30
+    }
+  ],
+  "name": "Primordial cuirass",
+  "id": 324,
+  "equipSlot": "Body",
+  "strength": 60,
+  "dexterity": 0,
+  "intelligence": 0,
+  "defence": 120,
+  "vitality": 65,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 5000,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}
