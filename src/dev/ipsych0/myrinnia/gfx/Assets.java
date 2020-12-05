@@ -97,7 +97,21 @@ public class Assets {
             platinumFishingRod, titaniumAxe, titaniumPickaxe, titaniumFishingRod, obsidianAxe, obsidianPickaxe, obsidianFishingRod,
             primordialAxe, primordialPickaxe, primordialFishingRod, teakWood, mahoganyWood, elderWood, ancientWood, reinforcedLeather,
             studdedLeather, armoredLeather, celenorianLeather, stripOfSilk, stripOfDamask, stripOfIntricateCloth, stripOfFarnorCloth,
-            primordialIngot;
+            primordialIngot, steelChainmail, spikedShield, steelSword, steelLegs, knightsCloak, steelHelm, steelBoots, steelGloves,
+            hardLeatherBody, steelQuiver, aspenwoodBow, hardLeatherLeggings, wardensCloak, hardLeatherCowl, hardLeatherBoots, hardLeatherGloves,
+            linenRobeTop, hardLeatherSpellbook, aspenwoodStaff, linenRobeBottom, wizardsCloak, linenHat, linenBoots, linenGloves,
+            platinumPlatemail, reinforcedShield, reinforcedSword, reinforcedLegs, championsCloak, platinumHelm, platinumBoots, platinumGloves,
+            reinforcedBody, platinumQuiver, teakBow, reinforcedLeggings, markmansCloak, reinforcedCowl, reinforcedBoots, reinforcedGloves,
+            silkRobeTop, sorcerersSpellbook, teakStaff, silkRobeBottom, sorcerersCloak, silkHat, silkBoots, silkGloves, titaniumPlatemail,
+            towerShield, titaniumSword, titaniumLegs, warchiefsCloak, titaniumHelm, titaniumBoots, titaniumGloves, studdedLeatherBody,
+            titaniumQuiver, mahoganyBow, studdedLeatherLeggings, sharpshootersCloak, studdedLeatherCowl, studdedLeatherBoots, studdedLeatherGloves,
+            damaskRobeTop, warlocksSpellbook, mahoganyStaff, damaskRobeBottom, warlocksCloak, damaskHat, damaskBoots, damaskGloves, obsidianCuirass,
+            obsidianBuckler, obsidianBlade, obsidianLegs, gladiatorsCloak, obsidianHelm, obsidianBoots, obsidianGauntlets, deadeyesTorso,
+            obsidianQuiver, deadeyesFlatbow, deadeyesLeggings, deadeyesCloak, deadeyesCowl, deadeyesBoots, deadeyesGloves, seersGarb,
+            seersBook, seersSpire, seersGown, seersCloak, seersHat, seersBoots, seersGloves, primordialCuirass, primordialKiteshield,
+            primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
+            primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
+            primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -799,6 +813,130 @@ public class Assets {
         stripOfIntricateCloth = item_sheet.imageCrop(6, 26);
         stripOfFarnorCloth = item_sheet.imageCrop(6, 27);
         primordialIngot = item_sheet.imageCrop(6, 28);
+        steelChainmail = item_sheet.imageCrop(6, 29);
+
+        spikedShield = item_sheet.imageCrop(7, 0);
+        steelSword = item_sheet.imageCrop(7, 1);
+        steelLegs = item_sheet.imageCrop(7, 2);
+        knightsCloak = item_sheet.imageCrop(7, 3);
+        steelHelm = item_sheet.imageCrop(7, 4);
+        steelBoots = item_sheet.imageCrop(7, 5);
+        steelGloves = item_sheet.imageCrop(7, 6);
+        hardLeatherBody = item_sheet.imageCrop(7, 7);
+        steelQuiver = item_sheet.imageCrop(7, 8);
+        aspenwoodBow = item_sheet.imageCrop(7, 9);
+        hardLeatherLeggings = item_sheet.imageCrop(7, 10);
+        wardensCloak = item_sheet.imageCrop(7, 11);
+        hardLeatherCowl = item_sheet.imageCrop(7, 12);
+        hardLeatherBoots = item_sheet.imageCrop(7, 13);
+        hardLeatherGloves = item_sheet.imageCrop(7, 14);
+        linenRobeTop = item_sheet.imageCrop(7, 15);
+        hardLeatherSpellbook = item_sheet.imageCrop(7, 16);
+        aspenwoodStaff = item_sheet.imageCrop(7, 17);
+        linenRobeBottom = item_sheet.imageCrop(7, 18);
+        wizardsCloak = item_sheet.imageCrop(7, 19);
+        linenHat = item_sheet.imageCrop(7, 20);
+        linenBoots = item_sheet.imageCrop(7, 21);
+        linenGloves = item_sheet.imageCrop(7, 22);
+        platinumPlatemail = item_sheet.imageCrop(7, 23);
+        reinforcedShield = item_sheet.imageCrop(7, 24);
+        reinforcedSword = item_sheet.imageCrop(7, 25);
+        reinforcedLegs = item_sheet.imageCrop(7, 26);
+        championsCloak = item_sheet.imageCrop(7, 27);
+        platinumHelm = item_sheet.imageCrop(7, 28);
+        platinumBoots = item_sheet.imageCrop(7, 29);
+
+        platinumGloves = item_sheet.imageCrop(8, 0);
+        reinforcedBody = item_sheet.imageCrop(8, 1);
+        platinumQuiver = item_sheet.imageCrop(8, 2);
+        teakBow = item_sheet.imageCrop(8, 3);
+        reinforcedLeggings = item_sheet.imageCrop(8, 4);
+        markmansCloak = item_sheet.imageCrop(8, 5);
+        reinforcedCowl = item_sheet.imageCrop(8, 6);
+        reinforcedBoots = item_sheet.imageCrop(8, 7);
+        reinforcedGloves = item_sheet.imageCrop(8, 8);
+        silkRobeTop = item_sheet.imageCrop(8, 9);
+        sorcerersSpellbook = item_sheet.imageCrop(8, 10);
+        teakStaff = item_sheet.imageCrop(8, 11);
+        silkRobeBottom = item_sheet.imageCrop(8, 12);
+        sorcerersCloak = item_sheet.imageCrop(8, 13);
+        silkHat = item_sheet.imageCrop(8, 14);
+        silkBoots = item_sheet.imageCrop(8, 15);
+        silkGloves = item_sheet.imageCrop(8, 16);
+        titaniumPlatemail = item_sheet.imageCrop(8, 17);
+        towerShield = item_sheet.imageCrop(8, 18);
+        titaniumSword = item_sheet.imageCrop(8, 19);
+        titaniumLegs = item_sheet.imageCrop(8, 20);
+        warchiefsCloak = item_sheet.imageCrop(8, 21);
+        titaniumHelm = item_sheet.imageCrop(8, 22);
+        titaniumBoots = item_sheet.imageCrop(8, 23);
+        titaniumGloves = item_sheet.imageCrop(8, 24);
+        studdedLeatherBody = item_sheet.imageCrop(8, 25);
+        titaniumQuiver = item_sheet.imageCrop(8, 26);
+        mahoganyBow = item_sheet.imageCrop(8, 27);
+        studdedLeatherLeggings = item_sheet.imageCrop(8, 28);
+        sharpshootersCloak = item_sheet.imageCrop(8, 29);
+
+        studdedLeatherCowl = item_sheet.imageCrop(9, 0);
+        studdedLeatherBoots = item_sheet.imageCrop(9, 1);
+        studdedLeatherGloves = item_sheet.imageCrop(9, 2);
+        damaskRobeTop = item_sheet.imageCrop(9, 3);
+        warlocksSpellbook = item_sheet.imageCrop(9, 4);
+        mahoganyStaff = item_sheet.imageCrop(9, 5);
+        damaskRobeBottom = item_sheet.imageCrop(9, 6);
+        warlocksCloak = item_sheet.imageCrop(9, 7);
+        damaskHat = item_sheet.imageCrop(9, 8);
+        damaskBoots = item_sheet.imageCrop(9, 9);
+        damaskGloves = item_sheet.imageCrop(9, 10);
+        obsidianCuirass = item_sheet.imageCrop(9, 11);
+        obsidianBuckler = item_sheet.imageCrop(9, 12);
+        obsidianBlade = item_sheet.imageCrop(9, 13);
+        obsidianLegs = item_sheet.imageCrop(9, 14);
+        gladiatorsCloak = item_sheet.imageCrop(9, 15);
+        obsidianHelm = item_sheet.imageCrop(9, 16);
+        obsidianBoots = item_sheet.imageCrop(9, 17);
+        obsidianGauntlets = item_sheet.imageCrop(9, 18);
+        deadeyesTorso = item_sheet.imageCrop(9, 19);
+        obsidianQuiver = item_sheet.imageCrop(9, 20);
+        deadeyesFlatbow = item_sheet.imageCrop(9, 21);
+        deadeyesLeggings = item_sheet.imageCrop(9, 22);
+        deadeyesCloak = item_sheet.imageCrop(9, 23);
+        deadeyesCowl = item_sheet.imageCrop(9, 24);
+        deadeyesBoots = item_sheet.imageCrop(9, 25);
+        deadeyesGloves = item_sheet.imageCrop(9, 26);
+        seersGarb = item_sheet.imageCrop(9, 27);
+        seersBook = item_sheet.imageCrop(9, 28);
+        seersSpire = item_sheet.imageCrop(9, 29);
+
+        seersGown = item_sheet.imageCrop(10, 0);
+        seersCloak = item_sheet.imageCrop(10, 1);
+        seersHat = item_sheet.imageCrop(10, 2);
+        seersBoots = item_sheet.imageCrop(10, 3);
+        seersGloves = item_sheet.imageCrop(10, 4);
+        primordialCuirass = item_sheet.imageCrop(10, 5);
+        primordialKiteshield = item_sheet.imageCrop(10, 6);
+        primordialBlade = item_sheet.imageCrop(10, 7);
+        primordialPlatelegs = item_sheet.imageCrop(10, 8);
+        primordialCloak = item_sheet.imageCrop(10, 9);
+        primordialGreathelm = item_sheet.imageCrop(10, 10);
+        primordialGreaves = item_sheet.imageCrop(10, 11);
+        primordialGauntlets = item_sheet.imageCrop(10, 12);
+        primevalTorso = item_sheet.imageCrop(10, 13);
+        primevalQuiver = item_sheet.imageCrop(10, 14);
+        primevalRecurveBow = item_sheet.imageCrop(10, 15);
+        primevalLeggings = item_sheet.imageCrop(10, 16);
+        primevalCloak = item_sheet.imageCrop(10, 17);
+        primevalCowl = item_sheet.imageCrop(10, 18);
+        primevalBoots = item_sheet.imageCrop(10, 19);
+        primevalGloves = item_sheet.imageCrop(10, 20);
+        primalGownTop = item_sheet.imageCrop(10, 21);
+        bookOfPrimalMagics = item_sheet.imageCrop(10, 22);
+        primalSceptre = item_sheet.imageCrop(10, 23);
+        primalGownBottoms = item_sheet.imageCrop(10, 24);
+        primalCloak = item_sheet.imageCrop(10, 25);
+        primalHood = item_sheet.imageCrop(10, 26);
+        primalFootgear = item_sheet.imageCrop(10, 27);
+        primalGloves = item_sheet.imageCrop(10, 28);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
