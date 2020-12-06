@@ -50,16 +50,26 @@ public class Tree extends StaticEntity {
             entry("Aspen Tree", Assets.aspenTree)
     );
     private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe.getId(), 1.0),
-            entry(Item.ryansAxe.getId(), 1.0),
+            entry(Item.simpleAxe.getId(), 1.00),
+            entry(Item.ryansAxe.getId(), 1.00),
             entry(Item.copperAxe.getId(), 1.05),
-            entry(Item.ironAxe.getId(), 1.1)
+            entry(Item.ironAxe.getId(), 1.10),
+            entry(Item.steelAxe.getId(), 1.15),
+            entry(Item.platinumAxe.getId(), 1.20),
+            entry(Item.titaniumAxe.getId(), 1.25),
+            entry(Item.obsidianAxe.getId(), 1.30),
+            entry(Item.primordialAxe.getId(), 1.35)
     );
     private static Map<Integer, Double> timeToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe.getId(), 1.0),
-            entry(Item.ryansAxe.getId(), 1.0),
+            entry(Item.simpleAxe.getId(), 1.00),
+            entry(Item.ryansAxe.getId(), 1.00),
             entry(Item.copperAxe.getId(), 0.95),
-            entry(Item.ironAxe.getId(), 0.9)
+            entry(Item.ironAxe.getId(), 0.90),
+            entry(Item.steelAxe.getId(), 0.85),
+            entry(Item.platinumAxe.getId(), 0.80),
+            entry(Item.titaniumAxe.getId(), 0.75),
+            entry(Item.obsidianAxe.getId(), 0.70),
+            entry(Item.primordialAxe.getId(), 0.65)
     );
 
     public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {

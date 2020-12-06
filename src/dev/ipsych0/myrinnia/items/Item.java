@@ -240,7 +240,7 @@ public class Item implements Serializable {
     public static Item clay = Utils.loadItem("154_clay.json", Assets.clay);
     public static Item coalOre = Utils.loadItem("155_coal_ore.json", Assets.coalOre);
     public static Item hardLeather = Utils.loadItem("156_hard_leather.json", Assets.hardLeather);
-    public static Item stipOfLinen = Utils.loadItem("157_strip_of_linen.json", Assets.stripOfLinen);
+    public static Item stripOfLinen = Utils.loadItem("157_strip_of_linen.json", Assets.stripOfLinen);
     public static Item flaxSeeds = Utils.loadItem("158_flax_seeds.json", Assets.flaxSeeds);
     public static Item flax = Utils.loadItem("159_flax.json", Assets.flax);
     public static Item topaz = Utils.loadItem("160_topaz.json", Assets.topaz);
@@ -349,8 +349,8 @@ public class Item implements Serializable {
     public static Item linenGloves = Utils.loadItem("251_linen_gloves.json", Assets.linenGloves);
     public static Item platinumPlatemail = Utils.loadItem("252_platinum_platemail.json", Assets.platinumPlatemail);
     public static Item reinforcedShield = Utils.loadItem("253_reinforced_shield.json", Assets.reinforcedShield);
-    public static Item reinforcedSword = Utils.loadItem("254_reinforced_sword.json", Assets.reinforcedSword);
-    public static Item reinforcedLegs = Utils.loadItem("255_reinforced_legs.json", Assets.reinforcedLegs);
+    public static Item platinumSword = Utils.loadItem("254_platinum_sword.json", Assets.platinumSword);
+    public static Item platinumLegs = Utils.loadItem("255_platinum_legs.json", Assets.platinumLegs);
     public static Item championsCloak = Utils.loadItem("256_champion's_cloak.json", Assets.championsCloak);
     public static Item platinumHelm = Utils.loadItem("257_platinum_helm.json", Assets.platinumHelm);
     public static Item platinumBoots = Utils.loadItem("258_platinum_boots.json", Assets.platinumBoots);
@@ -401,7 +401,7 @@ public class Item implements Serializable {
     public static Item obsidianLegs = Utils.loadItem("303_obsidian_legs.json", Assets.obsidianLegs);
     public static Item gladiatorsCloak = Utils.loadItem("304_gladiator's_cloak.json", Assets.gladiatorsCloak);
     public static Item obsidianHelm = Utils.loadItem("305_obsidian_helm.json", Assets.obsidianHelm);
-    public static Item obsidianBoots = Utils.loadItem("306_obsidian_boots.json", Assets.obsidianBoots);
+    public static Item obsidianGreaves = Utils.loadItem("306_obsidian_greaves.json", Assets.obsidianGreaves);
     public static Item obsidianGauntlets = Utils.loadItem("307_obsidian_gauntlets.json", Assets.obsidianGauntlets);
     public static Item deadeyesTorso = Utils.loadItem("308_deadeye's_torso.json", Assets.deadeyesTorso);
     public static Item obsidianQuiver = Utils.loadItem("309_obsidian_quiver.json", Assets.obsidianQuiver);
@@ -443,6 +443,8 @@ public class Item implements Serializable {
     public static Item primalHood = Utils.loadItem("345_primal_hood.json", Assets.primalHood);
     public static Item primalFootgear = Utils.loadItem("346_primal_footgear.json", Assets.primalFootgear);
     public static Item primalGloves = Utils.loadItem("347_primal_gloves.json", Assets.primalGloves);
+    public static Item spiderSilk = Utils.loadItem("348_spider_silk.json", Assets.spiderSilk);
+
 
     static {
         initPotions();

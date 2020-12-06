@@ -1,22 +1,16 @@
 {
   "itemTypes": [
-    "ARMOUR"
+    "CRAFTING_MATERIAL"
   ],
-  "itemRarity": "Rare",
-  "requirements": [
-    {
-      "stat": "Combat",
-      "level": 25
-    }
-  ],
-  "name": "Obsidian boots",
-  "id": 306,
-  "equipSlot": "Boots",
-  "strength": 10,
+  "itemRarity": "Common",
+  "name": "Spider silk",
+  "id": 348,
+  "equipSlot": "None",
+  "strength": 0,
   "dexterity": 0,
   "intelligence": 0,
-  "defence": 22,
-  "vitality": 7,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -35,9 +29,9 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 1800,
-  "stackable": false,
-  "equippable": true,
+  "price": 45,
+  "stackable": true,
+  "equippable": false,
   "respawnTimer": 10800,
   "useCooldown": 60
 }

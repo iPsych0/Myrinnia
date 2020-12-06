@@ -1,0 +1,1 @@
+public static Item spiderSilk = Utils.loadItem("348_spider_silk.json", Assets.spiderSilk);

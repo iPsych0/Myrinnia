@@ -53,14 +53,24 @@ public class Rock extends StaticEntity {
             entry("Tungsten Rock", Assets.tungstenRock)
     );
     private static Map<Integer, Double> chanceToMineMap = Map.ofEntries(
-            entry(Item.simplePickaxe.getId(), 1.0),
+            entry(Item.simplePickaxe.getId(), 1.00),
             entry(Item.copperPickaxe.getId(), 1.05),
-            entry(Item.ironPickaxe.getId(), 1.1)
+            entry(Item.ironPickaxe.getId(), 1.10),
+            entry(Item.steelPickaxe.getId(), 1.15),
+            entry(Item.platinumPickaxe.getId(), 1.20),
+            entry(Item.titaniumPickaxe.getId(), 1.25),
+            entry(Item.obsidianPickaxe.getId(), 1.30),
+            entry(Item.primordialPickaxe.getId(), 1.35)
     );
     private static Map<Integer, Double> timeToMineMap = Map.ofEntries(
-            entry(Item.simplePickaxe.getId(), 1.0),
+            entry(Item.simplePickaxe.getId(), 1.00),
             entry(Item.copperPickaxe.getId(), 0.95),
-            entry(Item.ironPickaxe.getId(), 0.9)
+            entry(Item.ironPickaxe.getId(), 0.90),
+            entry(Item.steelPickaxe.getId(), 0.85),
+            entry(Item.platinumPickaxe.getId(), 0.80),
+            entry(Item.titaniumPickaxe.getId(), 0.75),
+            entry(Item.obsidianPickaxe.getId(), 0.70),
+            entry(Item.primordialPickaxe.getId(), 0.65)
     );
 
     public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {

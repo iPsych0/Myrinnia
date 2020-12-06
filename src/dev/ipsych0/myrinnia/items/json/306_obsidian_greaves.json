@@ -1,22 +1,22 @@
 {
   "itemTypes": [
-    "MELEE_WEAPON"
+    "ARMOUR"
   ],
-  "itemRarity": "Uncommon",
+  "itemRarity": "Rare",
   "requirements": [
     {
       "stat": "Combat",
-      "level": 15
+      "level": 25
     }
   ],
-  "name": "Reinforced sword",
-  "id": 254,
-  "equipSlot": "Mainhand",
-  "strength": 32,
+  "name": "Obsidian greaves",
+  "id": 306,
+  "equipSlot": "Boots",
+  "strength": 10,
   "dexterity": 0,
   "intelligence": 0,
-  "defence": 0,
-  "vitality": 0,
+  "defence": 22,
+  "vitality": 7,
   "attackSpeed": 0.0,
   "movementSpeed": 0.0,
   "x": 0,
@@ -35,7 +35,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 1150,
+  "price": 1800,
   "stackable": false,
   "equippable": true,
   "respawnTimer": 10800,

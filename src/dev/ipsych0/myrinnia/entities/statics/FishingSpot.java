@@ -44,14 +44,24 @@ public class FishingSpot extends StaticEntity {
     private int experience;
     private int originalExperience;
     private static Map<Integer, Double> chanceToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.simpleFishingRod.getId(), 1.00),
             entry(Item.copperFishingRod.getId(), 1.05),
-            entry(Item.ironFishingRod.getId(), 1.1)
+            entry(Item.ironFishingRod.getId(), 1.10),
+            entry(Item.steelFishingRod.getId(), 1.15),
+            entry(Item.platinumFishingRod.getId(), 1.20),
+            entry(Item.titaniumFishingRod.getId(), 1.25),
+            entry(Item.obsidianFishingRod.getId(), 1.30),
+            entry(Item.primordialFishingRod.getId(), 1.35)
     );
     private static Map<Integer, Double> timeToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.simpleFishingRod.getId(), 1.00),
             entry(Item.copperFishingRod.getId(), 0.95),
-            entry(Item.ironFishingRod.getId(), 0.9)
+            entry(Item.ironFishingRod.getId(), 0.90),
+            entry(Item.steelFishingRod.getId(), 0.85),
+            entry(Item.platinumFishingRod.getId(), 0.80),
+            entry(Item.titaniumFishingRod.getId(), 0.75),
+            entry(Item.obsidianFishingRod.getId(), 0.70),
+            entry(Item.primordialFishingRod.getId(), 0.65)
     );
 
     public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {

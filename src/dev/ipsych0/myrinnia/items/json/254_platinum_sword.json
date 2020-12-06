@@ -1,24 +1,24 @@
 {
   "itemTypes": [
-    "ARMOUR"
+    "MELEE_WEAPON"
   ],
-  "itemRarity": "Rare",
+  "itemRarity": "Uncommon",
   "requirements": [
     {
       "stat": "Combat",
-      "level": 30
+      "level": 15
     }
   ],
-  "name": "Book of primal magics",
-  "id": 341,
-  "equipSlot": "Offhand",
-  "strength": 0,
+  "name": "Platinum sword",
+  "id": 254,
+  "equipSlot": "Mainhand",
+  "strength": 32,
   "dexterity": 0,
-  "intelligence": 30,
-  "defence": 20,
-  "vitality": 24,
+  "intelligence": 0,
+  "defence": 0,
+  "vitality": 0,
   "attackSpeed": 0.0,
-  "movementSpeed": 0.2,
+  "movementSpeed": 0.0,
   "x": 0,
   "y": 0,
   "bounds": {
@@ -35,7 +35,7 @@
   },
   "count": 0,
   "pickedUp": false,
-  "price": 4800,
+  "price": 1150,
   "stackable": false,
   "equippable": true,
   "respawnTimer": 10800,

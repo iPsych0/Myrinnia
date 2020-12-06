@@ -100,18 +100,19 @@ public class Assets {
             primordialIngot, steelChainmail, spikedShield, steelSword, steelLegs, knightsCloak, steelHelm, steelBoots, steelGloves,
             hardLeatherBody, steelQuiver, aspenwoodBow, hardLeatherLeggings, wardensCloak, hardLeatherCowl, hardLeatherBoots, hardLeatherGloves,
             linenRobeTop, hardLeatherSpellbook, aspenwoodStaff, linenRobeBottom, wizardsCloak, linenHat, linenBoots, linenGloves,
-            platinumPlatemail, reinforcedShield, reinforcedSword, reinforcedLegs, championsCloak, platinumHelm, platinumBoots, platinumGloves,
+            platinumPlatemail, reinforcedShield, platinumSword, platinumLegs, championsCloak, platinumHelm, platinumBoots, platinumGloves,
             reinforcedBody, platinumQuiver, teakBow, reinforcedLeggings, markmansCloak, reinforcedCowl, reinforcedBoots, reinforcedGloves,
             silkRobeTop, sorcerersSpellbook, teakStaff, silkRobeBottom, sorcerersCloak, silkHat, silkBoots, silkGloves, titaniumPlatemail,
             towerShield, titaniumSword, titaniumLegs, warchiefsCloak, titaniumHelm, titaniumBoots, titaniumGloves, studdedLeatherBody,
             titaniumQuiver, mahoganyBow, studdedLeatherLeggings, sharpshootersCloak, studdedLeatherCowl, studdedLeatherBoots, studdedLeatherGloves,
             damaskRobeTop, warlocksSpellbook, mahoganyStaff, damaskRobeBottom, warlocksCloak, damaskHat, damaskBoots, damaskGloves, obsidianCuirass,
-            obsidianBuckler, obsidianBlade, obsidianLegs, gladiatorsCloak, obsidianHelm, obsidianBoots, obsidianGauntlets, deadeyesTorso,
+            obsidianBuckler, obsidianBlade, obsidianLegs, gladiatorsCloak, obsidianHelm, obsidianGreaves, obsidianGauntlets, deadeyesTorso,
             obsidianQuiver, deadeyesFlatbow, deadeyesLeggings, deadeyesCloak, deadeyesCowl, deadeyesBoots, deadeyesGloves, seersGarb,
             seersBook, seersSpire, seersGown, seersCloak, seersHat, seersBoots, seersGloves, primordialCuirass, primordialKiteshield,
             primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
             primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
-            primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves;
+            primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves,
+            spiderSilk;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -815,8 +816,8 @@ public class Assets {
         primordialIngot = item_sheet.imageCrop(6, 28);
         steelChainmail = item_sheet.imageCrop(6, 29);
 
-        spikedShield = item_sheet.imageCrop(7, 0);
-        steelSword = item_sheet.imageCrop(7, 1);
+        steelSword = item_sheet.imageCrop(7, 0);
+        spikedShield = item_sheet.imageCrop(7, 1);
         steelLegs = item_sheet.imageCrop(7, 2);
         knightsCloak = item_sheet.imageCrop(7, 3);
         steelHelm = item_sheet.imageCrop(7, 4);
@@ -840,8 +841,8 @@ public class Assets {
         linenGloves = item_sheet.imageCrop(7, 22);
         platinumPlatemail = item_sheet.imageCrop(7, 23);
         reinforcedShield = item_sheet.imageCrop(7, 24);
-        reinforcedSword = item_sheet.imageCrop(7, 25);
-        reinforcedLegs = item_sheet.imageCrop(7, 26);
+        platinumSword = item_sheet.imageCrop(7, 25);
+        platinumLegs = item_sheet.imageCrop(7, 26);
         championsCloak = item_sheet.imageCrop(7, 27);
         platinumHelm = item_sheet.imageCrop(7, 28);
         platinumBoots = item_sheet.imageCrop(7, 29);
@@ -894,7 +895,7 @@ public class Assets {
         obsidianLegs = item_sheet.imageCrop(9, 14);
         gladiatorsCloak = item_sheet.imageCrop(9, 15);
         obsidianHelm = item_sheet.imageCrop(9, 16);
-        obsidianBoots = item_sheet.imageCrop(9, 17);
+        obsidianGreaves = item_sheet.imageCrop(9, 17);
         obsidianGauntlets = item_sheet.imageCrop(9, 18);
         deadeyesTorso = item_sheet.imageCrop(9, 19);
         obsidianQuiver = item_sheet.imageCrop(9, 20);
@@ -937,6 +938,7 @@ public class Assets {
         primalHood = item_sheet.imageCrop(10, 26);
         primalFootgear = item_sheet.imageCrop(10, 27);
         primalGloves = item_sheet.imageCrop(10, 28);
+        spiderSilk = item_sheet.imageCrop(10, 29);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
