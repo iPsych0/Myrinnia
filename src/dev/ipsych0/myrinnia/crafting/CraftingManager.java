@@ -25,74 +25,74 @@ public class CraftingManager implements Serializable {
 
         recipes = new ArrayList<>();
 
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.simpleSword, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.simpleBow, 1)));
-        recipes.add(new CraftingRecipe(1, 10, false, SkillCategory.Weapons, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.simpleStaff, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.ironOre, 5), new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironSword, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.softLeather, 2), new ItemStack(Item.hardWood, 5), new ItemStack(Item.hardwoodBow, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Weapons, new ItemStack(Item.ironOre, 2), new ItemStack(Item.hardWood, 5), new ItemStack(Item.hardwoodStaff, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simpleSword, 1), 1, 10, 30, false, SkillCategory.Weapons, ItemStack.of(Item.palmWood, 2), ItemStack.of(Item.azuriteOre, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simpleBow, 1), 1, 10, 30, false, SkillCategory.Weapons, ItemStack.of(Item.palmWood, 2), ItemStack.of(Item.azuriteOre, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simpleStaff, 1), 1, 10, 30, false, SkillCategory.Weapons, ItemStack.of(Item.palmWood, 2), ItemStack.of(Item.azuriteOre, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironSword, 1), 5, 30, 30, true, SkillCategory.Weapons, ItemStack.of(Item.ironOre, 5), ItemStack.of(Item.hardWood, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.hardwoodBow, 1), 5, 30, 30, true, SkillCategory.Weapons, ItemStack.of(Item.softLeather, 2), ItemStack.of(Item.hardWood, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.hardwoodStaff, 1), 5, 30, 30, true, SkillCategory.Weapons, ItemStack.of(Item.ironOre, 2), ItemStack.of(Item.hardWood, 5)));
 
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 8), new ItemStack(Item.ironChainMail, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 2), new ItemStack(Item.hardWood, 4), new ItemStack(Item.studdedShield, 1)));
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 6), new ItemStack(Item.ironLegs, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 5), new ItemStack(Item.squiresCloak, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 4), new ItemStack(Item.ironHelm, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironBoots, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironGloves, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironChainMail, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 8)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.studdedShield, 1), 5, 30, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 2), ItemStack.of(Item.hardWood, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironLegs, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 6)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.squiresCloak, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironHelm, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironBoots, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironGloves, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 3)));
 
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 8), new ItemStack(Item.softLeatherBody, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.ironOre, 2), new ItemStack(Item.softLeather, 4), new ItemStack(Item.ironQuiver, 1)));
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 6), new ItemStack(Item.softLeatherLeggings, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 5), new ItemStack(Item.scoutsCloak, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 4), new ItemStack(Item.softLeatherCowl, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 3), new ItemStack(Item.softLeatherBoots, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 3), new ItemStack(Item.softLeatherGloves, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.softLeatherBody, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 8)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironQuiver, 1), 5, 30, 35, true, SkillCategory.Armor, ItemStack.of(Item.ironOre, 2), ItemStack.of(Item.softLeather, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.softLeatherLeggings, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 6)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.scoutsCloak, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.softLeatherCowl, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.softLeatherBoots, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.softLeatherGloves, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 3)));
 
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 8), new ItemStack(Item.woolenRobeTop, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 2), new ItemStack(Item.stripOfWool, 4), new ItemStack(Item.leatherSpellbook, 1)));
-        recipes.add(new CraftingRecipe(8, 45, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 6), new ItemStack(Item.woolenRobeBottom, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.softLeather, 5), new ItemStack(Item.apprenticesCloak, 1)));
-        recipes.add(new CraftingRecipe(7, 40, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 4), new ItemStack(Item.woolenHat, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 3), new ItemStack(Item.woolenBoots, 1)));
-        recipes.add(new CraftingRecipe(6, 35, true, SkillCategory.Armor, new ItemStack(Item.stripOfWool, 2), new ItemStack(Item.woolenGloves, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.woolenRobeTop, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.stripOfWool, 8)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.leatherSpellbook, 1), 5, 30, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 2), ItemStack.of(Item.stripOfWool, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.woolenRobeBottom, 1), 8, 45, 35, true, SkillCategory.Armor, ItemStack.of(Item.stripOfWool, 6)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.apprenticesCloak, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.softLeather, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.woolenHat, 1), 7, 40, 35, true, SkillCategory.Armor, ItemStack.of(Item.stripOfWool, 4)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.woolenBoots, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.stripOfWool, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.woolenGloves, 1), 6, 35, 35, true, SkillCategory.Armor, ItemStack.of(Item.stripOfWool, 2)));
 
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simpleAxe, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 2), new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.simplePickaxe, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Tools, new ItemStack(Item.palmWood, 3), new ItemStack(Item.azuriteOre, 2), new ItemStack(Item.simpleFishingRod, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperAxe, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 2), new ItemStack(Item.copperOre, 3), new ItemStack(Item.copperPickaxe, 1)));
-        recipes.add(new CraftingRecipe(2, 20, true, SkillCategory.Tools, new ItemStack(Item.lightwood, 3), new ItemStack(Item.copperOre, 2), new ItemStack(Item.copperFishingRod, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironAxe, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 2), new ItemStack(Item.ironOre, 3), new ItemStack(Item.ironPickaxe, 1)));
-        recipes.add(new CraftingRecipe(6, 30, true, SkillCategory.Tools, new ItemStack(Item.hardWood, 3), new ItemStack(Item.ironOre, 2), new ItemStack(Item.ironFishingRod, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simpleAxe, 1), 1, 10, 30, true, SkillCategory.Tools, ItemStack.of(Item.palmWood, 2), ItemStack.of(Item.azuriteOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simplePickaxe, 1), 1, 10, 30, true, SkillCategory.Tools, ItemStack.of(Item.palmWood, 2), ItemStack.of(Item.azuriteOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.simpleFishingRod, 1), 1, 10, 30, true, SkillCategory.Tools, ItemStack.of(Item.palmWood, 3), ItemStack.of(Item.azuriteOre, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.copperAxe, 1), 2, 20, 30, true, SkillCategory.Tools, ItemStack.of(Item.lightwood, 2), ItemStack.of(Item.copperOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.copperPickaxe, 1), 2, 20, 30, true, SkillCategory.Tools, ItemStack.of(Item.lightwood, 2), ItemStack.of(Item.copperOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.copperFishingRod, 1), 2, 20, 30, true, SkillCategory.Tools, ItemStack.of(Item.lightwood, 3), ItemStack.of(Item.copperOre, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironAxe, 1), 5, 30, 35, true, SkillCategory.Tools, ItemStack.of(Item.hardWood, 2), ItemStack.of(Item.ironOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironPickaxe, 1), 5, 30, 35, true, SkillCategory.Tools, ItemStack.of(Item.hardWood, 2), ItemStack.of(Item.ironOre, 3)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.ironFishingRod, 1), 6, 30, 35, true, SkillCategory.Tools, ItemStack.of(Item.hardWood, 3), ItemStack.of(Item.ironOre, 2)));
 
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Trinkets, new ItemStack(Item.azuriteOre, 2), new ItemStack(Item.lapisLazuli, 1), new ItemStack(Item.azuriteEarrings, 1)));
-        recipes.add(new CraftingRecipe(2, 15, true, SkillCategory.Trinkets, new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.lapisLazuli, 1), new ItemStack(Item.azuriteRingL, 1)));
-        recipes.add(new CraftingRecipe(2, 15, true, SkillCategory.Trinkets, new ItemStack(Item.azuriteOre, 3), new ItemStack(Item.lapisLazuli, 1), new ItemStack(Item.azuriteRingR, 1)));
-        recipes.add(new CraftingRecipe(3, 20, true, SkillCategory.Trinkets, new ItemStack(Item.azuriteOre, 5), new ItemStack(Item.lapisLazuli, 1), new ItemStack(Item.azuriteNecklace, 1)));
-        recipes.add(new CraftingRecipe(3, 20, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 2), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteEarrings, 1)));
-        recipes.add(new CraftingRecipe(4, 25, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 3), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteRingL, 1)));
-        recipes.add(new CraftingRecipe(5, 25, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 3), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteRingR, 1)));
-        recipes.add(new CraftingRecipe(5, 30, true, SkillCategory.Trinkets, new ItemStack(Item.copperOre, 5), new ItemStack(Item.malachite, 1), new ItemStack(Item.malachiteAmulet, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.azuriteEarrings, 1), 1, 10, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.azuriteOre, 2), ItemStack.of(Item.lapisLazuli, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.azuriteRingL, 1), 2, 15, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.azuriteOre, 3), ItemStack.of(Item.lapisLazuli, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.azuriteRingR, 1), 2, 15, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.azuriteOre, 3), ItemStack.of(Item.lapisLazuli, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.azuriteNecklace, 1), 3, 20, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.azuriteOre, 5), ItemStack.of(Item.lapisLazuli, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.malachiteEarrings, 1), 3, 20, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.copperOre, 2), ItemStack.of(Item.malachite, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.malachiteRingL, 1), 4, 25, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.copperOre, 3), ItemStack.of(Item.malachite, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.malachiteRingR, 1), 5, 25, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.copperOre, 3), ItemStack.of(Item.malachite, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.malachiteAmulet, 1), 5, 30, 30, true, SkillCategory.Trinkets, ItemStack.of(Item.copperOre, 5), ItemStack.of(Item.malachite, 1)));
 
-        recipes.add(new CraftingRecipe(1, 2, true, SkillCategory.Materials, new ItemStack(Item.palmWood, 1), new ItemStack(Item.pileOfAshes, 2)));
-        recipes.add(new CraftingRecipe(1, 3, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 1), new ItemStack(Item.pileOfAshes, 3)));
-        recipes.add(new CraftingRecipe(1, 4, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 1), new ItemStack(Item.pileOfAshes, 4)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.aspenwood, 1), new ItemStack(Item.pileOfAshes, 5)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.pileOfAshes, 2), 1, 2, 15, true, SkillCategory.Materials, ItemStack.of(Item.palmWood, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.pileOfAshes, 3), 1, 3, 15, true, SkillCategory.Materials, ItemStack.of(Item.lightwood, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.pileOfAshes, 4), 1, 4, 15, true, SkillCategory.Materials, ItemStack.of(Item.hardWood, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.pileOfAshes, 5), 1, 5, 15, true, SkillCategory.Materials, ItemStack.of(Item.aspenwood, 1)));
 
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.pileOfAshes, 1), new ItemStack(Item.pileOfSand, 1), new ItemStack(Item.glass, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.lightwood, 2), new ItemStack(Item.lightWoodPlank, 1)));
-        recipes.add(new CraftingRecipe(5, 10, true, SkillCategory.Materials, new ItemStack(Item.hardWood, 2), new ItemStack(Item.hardWoodPlank, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.chitin, 1), new ItemStack(Item.boneMeal, 1)));
-        recipes.add(new CraftingRecipe(1, 5, true, SkillCategory.Materials, new ItemStack(Item.wool, 2), new ItemStack(Item.rope, 1)));
-        recipes.add(new CraftingRecipe(3, 8, true, SkillCategory.Materials, new ItemStack(Item.wool, 4), new ItemStack(Item.stripOfWool, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.glass, 1), 1, 5, 15, true, SkillCategory.Materials, ItemStack.of(Item.pileOfAshes, 1), ItemStack.of(Item.pileOfSand, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.lightWoodPlank, 1), 1, 5, 10, true, SkillCategory.Materials, ItemStack.of(Item.lightwood, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.hardWoodPlank, 1), 5, 10, 10, true, SkillCategory.Materials, ItemStack.of(Item.hardWood, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.boneMeal, 1), 1, 5, 10, true, SkillCategory.Materials, ItemStack.of(Item.chitin, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.rope, 1), 1, 5, 15, true, SkillCategory.Materials, ItemStack.of(Item.wool, 2)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.stripOfWool, 1), 3, 8, 15, true, SkillCategory.Materials, ItemStack.of(Item.wool, 4)));
 
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.scorpionTail, 1), new ItemStack(Item.weakAntidote, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.crablingClaw, 1), new ItemStack(Item.weakPotionOfMight, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.owlFeather, 1), new ItemStack(Item.weakPotionOfPrecision, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.azureBatWing, 1), new ItemStack(Item.weakPotionOfWisdom, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.vineRoot, 1), new ItemStack(Item.weakPotionOfVigor, 1)));
-        recipes.add(new CraftingRecipe(1, 10, true, SkillCategory.Potions, new ItemStack(Item.glass, 1), new ItemStack(Item.rockyShell, 1), new ItemStack(Item.weakPotionofFortitude, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakAntidote, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.scorpionTail, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakPotionOfMight, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.crablingClaw, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakPotionOfPrecision, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.owlFeather, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakPotionOfWisdom, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.azureBatWing, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakPotionOfVigor, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.vineRoot, 1)));
+        recipes.add(new CraftingRecipe(ItemStack.of(Item.weakPotionofFortitude, 1), 1, 10, 10, true, SkillCategory.Potions, ItemStack.of(Item.glass, 1), ItemStack.of(Item.rockyShell, 1)));
 
         recipes.sort((o1, o2) -> {
             Integer a = o1.getRequiredLevel();

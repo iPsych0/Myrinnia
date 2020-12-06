@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CraftingRecipe implements Serializable {
 
@@ -21,58 +22,22 @@ public class CraftingRecipe implements Serializable {
     private int craftingXP;
     private int requiredLevel;
     private boolean discovered;
+    private int timeToCraft;
     private SkillCategory category;
 
-    /*
-     * Use this constructor for a recipe with 4 components
-     */
-    public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack item4, ItemStack result) {
-        this.item1 = item1;
-        this.item2 = item2;
-        this.item3 = item3;
-        this.item4 = item4;
+    public CraftingRecipe(ItemStack result, int requiredLevel, int craftingXP, int timeToCraft, boolean discovered, SkillCategory category, ItemStack... items) {
+        if(items == null || items.length < 1 || items.length > 4)
+            throw new IllegalArgumentException("A crafting recipe must consist of 1 to 4 components.");
+
         this.result = result;
         this.requiredLevel = requiredLevel;
         this.category = category;
+        this.craftingXP = craftingXP;
+        this.timeToCraft = timeToCraft;
+        this.discovered = discovered;
 
         components = new ArrayList<>();
-
-        if (item1 != null) {
-            components.add(item1);
-        }
-        if (item2 != null) {
-            components.add(item2);
-        }
-        if (item3 != null) {
-            components.add(item3);
-        }
-        if (item4 != null) {
-            components.add(item4);
-        }
-
-        this.craftingXP = craftingXP;
-        this.discovered = discovered;
-    }
-
-    /*
-     * Use this constructor for a recipe with 3 components
-     */
-    public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack item2, ItemStack item3, ItemStack result) {
-        this(requiredLevel, craftingXP, discovered, category, item1, item2, item3, null, result);
-    }
-
-    /*
-     * Use this constructor for a recipe with 2 components
-     */
-    public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack item2, ItemStack result) {
-        this(requiredLevel, craftingXP, discovered, category, item1, item2, null, null, result);
-    }
-
-    /*
-     * Use this constructor for a recipe with 1 components
-     */
-    public CraftingRecipe(int requiredLevel, int craftingXP, boolean discovered, SkillCategory category, ItemStack item1, ItemStack result) {
-        this(requiredLevel, craftingXP, discovered, category, item1, null, null, null, result);
+        components.addAll(Arrays.asList(items));
     }
 
     public ArrayList<ItemStack> getComponents() {
@@ -141,4 +106,11 @@ public class CraftingRecipe implements Serializable {
         this.category = category;
     }
 
+    public int getTimeToCraft() {
+        return timeToCraft;
+    }
+
+    public void setTimeToCraft(int timeToCraft) {
+        this.timeToCraft = timeToCraft;
+    }
 }
