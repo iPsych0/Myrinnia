@@ -19,7 +19,7 @@ public class CraftingManager implements Serializable {
      *
      */
     private static final long serialVersionUID = 5224910817694774668L;
-    private List<CraftingRecipe> recipes;
+    private final List<CraftingRecipe> recipes;
 
     /*
      * Puts all recipes in the list
@@ -143,7 +143,7 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(deadeyesBoots, 1), 26, 220, 170, true, Armor, of(armoredLeather, 3)));
         recipes.add(new CraftingRecipe(of(deadeyesGloves, 1), 26, 220, 170, true, Armor, of(armoredLeather, 3)));
 
-        // Tier 25 ranged
+        // Tier 30 ranged
         recipes.add(new CraftingRecipe(of(primevalTorso, 1), 33, 430, 300, true, Armor, of(celenorianLeather, 8)));
         recipes.add(new CraftingRecipe(of(primevalQuiver, 1), 30, 325, 300, true, Armor, of(primordialIngot, 3), of(celenorianLeather, 5)));
         recipes.add(new CraftingRecipe(of(primevalRecurveBow, 1), 30, 325, 300, true, Weapons, of(celenorianLeather, 2), of(ancientWood, 5)));
@@ -203,7 +203,7 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(seersBoots, 1), 26, 220, 170, true, Armor, of(stripOfIntricateCloth, 3)));
         recipes.add(new CraftingRecipe(of(seersGloves, 1), 26, 220, 170, true, Armor, of(stripOfIntricateCloth, 3)));
 
-        // Tier 25 magic
+        // Tier 30 magic
         recipes.add(new CraftingRecipe(of(primalGownTop, 1), 33, 430, 300, true, Armor, of(stripOfFarnorCloth, 8)));
         recipes.add(new CraftingRecipe(of(bookOfPrimalMagics, 1), 30, 325, 300, true, Armor, of(celenorianLeather, 4), of(stripOfFarnorCloth, 4)));
         recipes.add(new CraftingRecipe(of(primalSceptre, 1), 30, 325, 300, true, Weapons, of(primordialIngot, 2), of(ancientWood, 5)));
@@ -321,6 +321,9 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(primordialIngot, 1), 30, 50, 30, true, Materials, of(obsidian, 1), of(primordialCrystal, 1)));
 
         // Potions
+        /** Blur heeft ingebroken mwahaha
+         * Leuk hoor Djaan, wauw
+         * */
         recipes.add(new CraftingRecipe(of(weakAntidote, 1), 1, 10, 10, true, Potions, of(glass, 1), of(scorpionTail, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionOfMight, 1), 1, 10, 10, true, Potions, of(glass, 1), of(crablingClaw, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionOfPrecision, 1), 1, 10, 10, true, Potions, of(glass, 1), of(owlFeather, 1)));

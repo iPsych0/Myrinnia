@@ -11,6 +11,8 @@ public abstract class UIObject extends Rectangle implements Serializable {
      */
     private static final long serialVersionUID = 5668099551677326216L;
     boolean hovering = false;
+    boolean visible = true;
+
 
     UIObject(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -28,4 +30,11 @@ public abstract class UIObject extends Rectangle implements Serializable {
         this.hovering = hovering;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 }

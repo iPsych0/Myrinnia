@@ -30,28 +30,32 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void tick() {
-        if (getBounds().contains(Handler.get().getMouse())) {
-            setHovering(true);
-        } else {
-            setHovering(false);
+        if(visible) {
+            if (getBounds().contains(Handler.get().getMouse())) {
+                setHovering(true);
+            } else {
+                setHovering(false);
+            }
         }
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (hovering) {
-            if (!hasHovered) {
-                Handler.get().playEffect("ui/ui_button_hover.ogg");
-                hasHovered = true;
+        if(visible) {
+            if (hovering) {
+                if (!hasHovered) {
+                    Handler.get().playEffect("ui/ui_button_hover.ogg");
+                    hasHovered = true;
+                }
+                if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
+                    hasBeenPressed = false;
+                }
+                g.drawImage(images[1], x, y, width, height, null);
+            } else {
+                g.drawImage(images[0], x, y, width, height, null);
+                hasHovered = false;
             }
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().playEffect("ui/ui_button_click.ogg");
-                hasBeenPressed = false;
-            }
-            g.drawImage(images[1], x, y, width, height, null);
-        } else {
-            g.drawImage(images[0], x, y, width, height, null);
-            hasHovered = false;
         }
     }
 
@@ -59,5 +63,7 @@ public class UIImageButton extends UIObject {
         in.defaultReadObject();
         this.images = Assets.genericButton;
     }
+
+
 
 }
