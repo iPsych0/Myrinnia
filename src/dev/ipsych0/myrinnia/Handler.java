@@ -26,6 +26,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
+import dev.ipsych0.myrinnia.publishers.WorldPublisher;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestManager;
@@ -393,7 +394,7 @@ public class Handler implements Serializable {
         }
 
         world.handleBackgroundSound();
-
+        WorldPublisher.get().publish(world);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="72"><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/><tileset firstgid="1" source="castle.tsx"/> <tileset firstgid="1" source="castle.tsx"/>
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="72">
+ <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
  <tileset firstgid="2472" source="house.tsx"/>
@@ -373,13 +374,6 @@
     <property name="npcClass" value="BountyBoardAzure"/>
    </properties>
   </object>
-  <object id="61" name="Ryan" type="npc" x="512" y="768" width="32" height="32">
-   <properties>
-    <property name="jsonFile" value="port_azure_ryan.json"/>
-    <property name="name" value="Ryan"/>
-    <property name="npcClass" value="PortAzureRyan"/>
-   </properties>
-  </object>
   <object id="62" name="Leon" type="npc" x="1536" y="1824" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale4"/>
@@ -388,7 +382,7 @@
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="63" name="Daisy" type="npc" x="960" y="1184" width="32" height="32">
+  <object id="63" name="Daisy" type="npc" x="768" y="1120" width="32" height="32">
    <properties>
     <property name="animation" value="genericFemale11"/>
     <property name="jsonFile" value="port_azure_daisy.json"/>
@@ -396,7 +390,7 @@
     <property name="npcClass" value="GenericNPC"/>
    </properties>
   </object>
-  <object id="64" name="Adam" type="npc" x="1696" y="1120" width="32" height="32">
+  <object id="64" name="Adam" type="npc" x="1696" y="1152" width="32" height="32">
    <properties>
     <property name="animation" value="genericMale7"/>
     <property name="jsonFile" value="port_azure_adam.json"/>

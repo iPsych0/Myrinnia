@@ -284,7 +284,7 @@ public class Assets {
     public static BufferedImage mainBackground;
     public static BufferedImage fullBookUI, singlePageBookUI, celenorPotionCabinetBg, celenorPotionCabinetSlot,
             celenorPotionCabinetSlotSelected, celenorPotionRed, celenorPotionYellow,
-            celenorPotionBlue, celenorPotionGreen;
+            celenorPotionBlue, celenorPotionGreen, bountyBackground;
 
     public static void init() {
 
@@ -322,6 +322,7 @@ public class Assets {
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
         SpriteSheet book_sheet = new SpriteSheet("/textures/custom_ui/book.png");
         SpriteSheet celenor_potion_cabinet_sheet = new SpriteSheet("/textures/custom_ui/potion_cabinet.png");
+        SpriteSheet bounty_ui_sheet = new SpriteSheet("/textures/custom_ui/bounty_bg.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
         /*
@@ -508,6 +509,8 @@ public class Assets {
         celenorPotionYellow = celenor_potion_cabinet_sheet.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
         celenorPotionGreen = celenor_potion_cabinet_sheet.imageCrop(18, 2, WIDTH * 2, HEIGHT * 2);
         celenorPotionBlue = celenor_potion_cabinet_sheet.imageCrop(20, 2, WIDTH * 2, HEIGHT * 2);
+
+        bountyBackground = bounty_ui_sheet.imageCrop(0, 0, 300, 400);
 
         SplashScreen.setMessage("Loading UI icons...");
 
