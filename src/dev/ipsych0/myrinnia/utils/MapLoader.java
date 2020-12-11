@@ -331,7 +331,8 @@ public class MapLoader implements Serializable {
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
                                 className = attributes.getValue("value");
-                                loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                                Entity e = loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                                addToWorld(world, e);
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("name")) {
                             if (TiledObjectType.NPC == objectType) {
@@ -426,7 +427,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
+    public static Entity loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
@@ -472,12 +473,17 @@ public class MapLoader implements Serializable {
             } else {
                 e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
             }
-            // Add the NPC to the world
-            world.getEntityManager().addEntity(e);
+            return e;
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Could not create Entity '" + className + "' in world: " + world.getWorldPath());
         }
+        return null;
+    }
+
+    private static void addToWorld(World world, Entity e){
+        // Add the NPC to the world
+        world.getEntityManager().addEntity(e);
     }
 
     private static void loadItem(World world, int x, int y, int itemId, int amount) {

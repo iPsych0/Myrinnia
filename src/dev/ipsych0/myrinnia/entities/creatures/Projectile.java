@@ -76,8 +76,8 @@ public class Projectile extends Creature implements Serializable {
             return this;
         }
 
-        public Builder withPiercing(boolean piercing) {
-            this.piercing = piercing;
+        public Builder withPiercing() {
+            this.piercing = true;
             return this;
         }
 

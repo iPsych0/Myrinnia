@@ -30,19 +30,17 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void tick() {
-        if(visible) {
-            if (getBounds().contains(Handler.get().getMouse())) {
-                setHovering(true);
-            } else {
-                setHovering(false);
+        if (visible) {
+            if (hoverable) {
+                setHovering(getBounds().contains(Handler.get().getMouse()));
             }
         }
     }
 
     @Override
     public void render(Graphics2D g) {
-        if(visible) {
-            if (hovering) {
+        if (visible) {
+            if (hoverable && hovering) {
                 if (!hasHovered) {
                     Handler.get().playEffect("ui/ui_button_hover.ogg");
                     hasHovered = true;
@@ -63,7 +61,6 @@ public class UIImageButton extends UIObject {
         in.defaultReadObject();
         this.images = Assets.genericButton;
     }
-
 
 
 }

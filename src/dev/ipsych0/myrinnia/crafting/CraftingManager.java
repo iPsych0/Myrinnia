@@ -1,7 +1,9 @@
 package dev.ipsych0.myrinnia.crafting;
 
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.skills.ui.SkillResourceSlot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -364,6 +366,16 @@ public class CraftingManager implements Serializable {
                 .stream()
                 .filter(x -> x.getCategory() == category)
                 .collect(Collectors.toList());
+    }
+
+    public List<SkillResourceSlot> getSlotsByCategory(SkillCategory category, int startX, int startY) {
+        List<SkillResourceSlot> slots = new ArrayList<>();
+        List<CraftingRecipe> recipes = getListByCategory(category);
+        for (int i = 0; i < recipes.size(); i++) {
+            CraftingRecipe recipe = recipes.get(i);
+            slots.add(new SkillResourceSlot(recipe, startX, startY + (i * ItemSlot.SLOTSIZE), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE));
+        }
+        return slots;
     }
 
     public List<CraftingRecipe> getRecipes() {

@@ -4,11 +4,13 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
@@ -40,6 +42,62 @@ public class CommandHandler implements Serializable {
                     Handler.get().sendMsg("Item with ID: '" + commands[1] + "' does not exist.");
                 } catch (Exception e) {
                     Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
+                }
+                break;
+            case SEARCH:
+                try {
+                    if (commands.length < 1) {
+                        throw new Exception();
+                    }
+
+                    // Append any spaces in the command search
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 1; i < commands.length; i++) {
+                        sb.append(commands[i]);
+                    }
+
+                    // Find matching items
+                    boolean found = false;
+                    for (Item i : Item.items) {
+                        try {
+                            if (i.getName().toLowerCase().contains(sb.toString().toLowerCase())) {
+                                found = true;
+                                Handler.get().sendMsg(i.getName() + ": " + i.getId() + ".");
+                            }
+                        } catch (Exception ignored) {
+                        }
+                    }
+
+                    // If no results found, show user
+                    if (!found) {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (IllegalArgumentException e) {
+                    Handler.get().sendMsg("No item with that name could be found.");
+                } catch (Exception e) {
+                    Handler.get().sendMsg("Error. Syntax: 'search {partial-item-name}'.");
+                }
+                break;
+            case SPAWN:
+                try {
+                    if (commands.length < 1) {
+                        throw new Exception();
+                    }
+
+                    if (commands.length == 5) {
+                        String className = commands[1];
+                        int level = Integer.parseInt(commands[2]);
+                        int x = Integer.parseInt(commands[3]) * 32;
+                        int y = Integer.parseInt(commands[4]) * 32;
+                        Entity e = MapLoader.loadEntity(Handler.get().getWorld(), className, x, y, 32, 32, className, level, null, null, "malachiteThug1", null, null);
+                        if (e != null) {
+                            Handler.get().getWorld().getEntityManager().addRuntimeEntity(e, false);
+                        }
+                    }
+                } catch (IllegalArgumentException e) {
+                    Handler.get().sendMsg("Item with ID: '" + commands[1] + "' does not exist.");
+                } catch (Exception e) {
+                    Handler.get().sendMsg("Error. Syntax: 'spawn {monsterClass} {level} {x} {y} '.");
                 }
                 break;
             // Command for teleporting around different maps

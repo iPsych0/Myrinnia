@@ -1,10 +1,13 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.publishers.SkillPublisher;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.skills.ui.SkillResourceSlot;
 import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
@@ -116,5 +119,15 @@ public abstract class Skill implements Serializable {
                 .stream()
                 .filter(x -> x.getCategory() == category)
                 .collect(Collectors.toList());
+    }
+
+    public List<SkillResourceSlot> getSlotsByCategory(SkillCategory category, int startX, int startY) {
+        List<SkillResourceSlot> slots = new ArrayList<>();
+        List<SkillResource> recipes = getListByCategory(category);
+        for (int i = 0; i < recipes.size(); i++) {
+            SkillResource recipe = recipes.get(i);
+            slots.add(new SkillResourceSlot(recipe, startX, startY + (i * ItemSlot.SLOTSIZE), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE));
+        }
+        return slots;
     }
 }

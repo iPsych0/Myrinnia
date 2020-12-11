@@ -124,11 +124,7 @@ public class AbilityOverviewUI implements Serializable {
 
             for (AbilitySlot as : abilitySlots) {
                 // Check for dragging an ability
-                if (as.getBounds().contains(mouse)) {
-                    as.setHovering(true);
-                } else {
-                    as.setHovering(false);
-                }
+                as.setHovering(as.getBounds().contains(mouse));
 
                 if (as.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && currentSelectedAbility == null) {
                     hasBeenPressed = false;
@@ -150,6 +146,7 @@ public class AbilityOverviewUI implements Serializable {
                         }
                     }
 
+                    // foundSlot is the slot we released our drag on
                     if (foundSlot != null) {
                         if (!alreadyHasAbility) {
                             // For non-standard abilities, check if we already have one of them.

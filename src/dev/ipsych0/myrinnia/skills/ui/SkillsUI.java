@@ -53,7 +53,7 @@ public class SkillsUI implements Serializable {
 
         // Sort the Enums
         List<SkillsList> skillsEnum = Arrays.asList(SkillsList.values());
-        skillsEnum.sort((o1, o2) -> o1.toString().compareTo(o2.toString()));
+        skillsEnum.sort(Comparator.comparing(Enum::toString));
 
         // Map the skills to the enums
         for (int i = 0; i < skillsList.size(); i++) {
@@ -135,23 +135,30 @@ public class SkillsUI implements Serializable {
         overviewUI.setSelectedSkill(getSkill(skill));
         overviewUI.setSelectedCategory(category);
 
-        if (overviewUI.getSelectedButton() != null) {
-            overviewUI.setSelectedButton(overviewUI.getCategories().get(0));
-        }
-
-        overviewUI.getScrollBar().setIndex(0);
-        if (skill == SkillsList.CRAFTING) {
-            overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
-            overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(category).size());
-        } else {
-            overviewUI.getScrollBar().setListSize(getSkill(skill).getListByCategory(category).size());
-            overviewUI.getScrollBar().setScrollMaximum(getSkill(skill).getListByCategory(category).size());
-        }
         overviewUI.getCategories().clear();
         for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
             overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
                     overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
         }
+
+        if (overviewUI.getSelectedButton() != null) {
+            overviewUI.setSelectedButton(overviewUI.getCategories().get(0));
+        }
+
+        overviewUI.getView().getScrollBar().setIndex(0);
+        if (skill == SkillsList.CRAFTING) {
+            overviewUI.getView().updateContents(
+                    Handler.get().getCraftingUI().getCraftingManager().getSlotsByCategory(
+                            category,
+                            overviewUI.getCategories().get(0).x + overviewUI.getCategories().get(0).width + 32 + 8,
+                            (y + 40))
+            );
+        } else {
+            overviewUI.getView().updateContents(getSkill(skill).getSlotsByCategory(category,
+                    overviewUI.getCategories().get(0).x + overviewUI.getCategories().get(0).width + 32 + 8,
+                    (y + 40)));
+        }
+
     }
 
     public void render(Graphics2D g) {

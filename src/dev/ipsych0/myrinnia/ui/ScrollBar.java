@@ -6,8 +6,9 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.List;
 
-public class ScrollBar implements Serializable {
+public class ScrollBar<T extends UIObject> implements Serializable {
 
     /**
      *
@@ -21,6 +22,7 @@ public class ScrollBar implements Serializable {
     private int scrollMinimum, scrollMaximum;
     private int index;
     private int itemsPerWindow;
+    private List<T> elements;
     private int listSize;
     public static int clickTimer;
     public static int scrollTimer;
@@ -31,12 +33,13 @@ public class ScrollBar implements Serializable {
     private Font fontSize;
     private boolean hasScrolledUp, hasScrolledDown;
 
-    public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow, Rectangle windowToScrollIn, boolean reversedScroll) {
+    public ScrollBar(int x, int y, int width, int height, List<T> elements, int itemsPerWindow, Rectangle windowToScrollIn, boolean reversedScroll) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.listSize = listSize;
+        this.listSize = elements.size();
+        this.elements = elements;
         this.itemsPerWindow = itemsPerWindow;
         this.windowToScrollIn = windowToScrollIn;
         this.reversedScroll = reversedScroll;
@@ -49,10 +52,12 @@ public class ScrollBar implements Serializable {
         } else {
             fontSize = Assets.font14;
         }
+
+        updateContents(elements);
     }
 
-    public ScrollBar(int x, int y, int width, int height, int listSize, int itemsPerWindow, Rectangle windowToScrollIn) {
-        this(x, y, width, height, listSize, itemsPerWindow, windowToScrollIn, false);
+    public ScrollBar(int x, int y, int width, int height, List<T> elements, int itemsPerWindow, Rectangle windowToScrollIn) {
+        this(x, y, width, height, elements, itemsPerWindow, windowToScrollIn, false);
     }
 
     public void tick() {
@@ -99,6 +104,7 @@ public class ScrollBar implements Serializable {
     private void scrollUp() {
         // Move up once per scroll
         if (index > scrollMinimum && listSize > itemsPerWindow) {
+            updateUpPos();
             index--;
             hasScrolledUp = true;
         }
@@ -107,6 +113,7 @@ public class ScrollBar implements Serializable {
     private void scrollDown() {
         // Move down once per scroll
         if (index < (scrollMaximum - itemsPerWindow) && listSize > itemsPerWindow) {
+            updateDownPos();
             index++;
             hasScrolledDown = true;
         }
@@ -122,6 +129,7 @@ public class ScrollBar implements Serializable {
             if (index == scrollMinimum) {
                 return;
             } else {
+                updateUpPos();
                 index--;
                 hasScrolledUp = true;
                 Handler.get().playEffect("ui/ui_button_click.ogg");
@@ -139,6 +147,7 @@ public class ScrollBar implements Serializable {
                 if (index == scrollMinimum) {
                     return;
                 } else {
+                    updateUpPos();
                     index--;
                     hasScrolledUp = true;
                     Handler.get().playEffect("ui/ui_button_click.ogg");
@@ -178,6 +187,7 @@ public class ScrollBar implements Serializable {
             if (index == scrollMaximum - itemsPerWindow) {
                 return;
             } else {
+                updateDownPos();
                 index++;
                 hasScrolledDown = true;
                 Handler.get().playEffect("ui/ui_button_click.ogg");
@@ -192,14 +202,77 @@ public class ScrollBar implements Serializable {
                 if (listSize < itemsPerWindow) {
                     return;
                 }
-                if (index == scrollMaximum - itemsPerWindow) {
-                } else {
+                if (index != (scrollMaximum - itemsPerWindow)) {
+                    updateDownPos();
                     index++;
                     hasScrolledDown = true;
                     Handler.get().playEffect("ui/ui_button_click.ogg");
                 }
             }
         }
+    }
+
+    private void updateDownPos(){
+        for (T t : elements) {
+            // Shift up/down the position of the element depending on the index
+            double y = t.getY();
+            if (reversedScroll) {
+                t.setLocation((int) t.getX(), (int) (y + (t.getHeight())));
+            } else {
+                t.setLocation((int) t.getX(), (int) (y - (t.getHeight())));
+            }
+        }
+    }
+
+    private void updateUpPos(){
+        for (T t : elements) {
+            // Shift up/down the position of the element depending on the index
+            double y = t.getY();
+            if (reversedScroll) {
+                t.setLocation((int) t.getX(), (int) (y - (t.getHeight())));
+            } else {
+                t.setLocation((int) t.getX(), (int) (y + (t.getHeight())));
+            }
+        }
+    }
+
+    void updateContents(List<T> elements) {
+        this.elements = elements;
+        listSize = elements.size();
+        scrollMaximum = listSize;
+        open = listSize > itemsPerWindow;
+    }
+
+    public void setScrollMaximum(int scrollMaximum) {
+        this.scrollMaximum = scrollMaximum;
+    }
+
+    public void setListSize(int listSize) {
+        this.listSize = listSize;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public List<T> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<T> elements) {
+        this.elements = elements;
+    }
+
+    public int getItemsPerWindow() {
+        return itemsPerWindow;
+    }
+
+    public void setItemsPerWindow(int itemsPerWindow) {
+        this.itemsPerWindow = itemsPerWindow;
     }
 
     public boolean hasScrolledUp() {
@@ -230,11 +303,6 @@ public class ScrollBar implements Serializable {
         return scrollMaximum;
     }
 
-    public void setScrollMaximum(int scrollMaximum) {
-        open = listSize > itemsPerWindow;
-        this.scrollMaximum = scrollMaximum;
-    }
-
     public int getIndex() {
         return index;
     }
@@ -245,11 +313,6 @@ public class ScrollBar implements Serializable {
 
     public int getListSize() {
         return listSize;
-    }
-
-    public void setListSize(int listSize) {
-        open = listSize > itemsPerWindow;
-        this.listSize = listSize;
     }
 
 }
