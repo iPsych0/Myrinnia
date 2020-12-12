@@ -22,6 +22,7 @@ public class CharacterUI implements Serializable {
     private int baseStatPoints;
     private int elementalStatPoints;
     private UIImageButton meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
+    private UIImageButton meleeIcon, rangedIcon, magicIcon, fireIcon, airIcon, waterIcon, earthIcon;
     public static boolean hasBeenPressed = false;
     private Rectangle bounds;
     public static boolean escapePressed = false;
@@ -29,18 +30,28 @@ public class CharacterUI implements Serializable {
     private UIManager uiManager, baseStatManager, elementalStatManager;
 
     public CharacterUI() {
-        width = 272;
-        height = 320;
+        width = 288;
+        height = 384;
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
-        meleeUp = new UIImageButton(x + 112, y + 136, 16, 16, Assets.genericButton);
-        rangedUp = new UIImageButton(x + 112, y + 152, 16, 16, Assets.genericButton);
-        magicUp = new UIImageButton(x + 112, y + 168, 16, 16, Assets.genericButton);
 
-        fireUp = new UIImageButton(x + 112, y + 217, 16, 16, Assets.genericButton);
-        airUp = new UIImageButton(x + 112, y + 233, 16, 16, Assets.genericButton);
-        waterUp = new UIImageButton(x + 112, y + 249, 16, 16, Assets.genericButton);
-        earthUp = new UIImageButton(x + 112, y + 265, 16, 16, Assets.genericButton);
+        meleeIcon = new UIImageButton(x + 16, y + 128, 32, 32, Assets.genericButton);
+        rangedIcon = new UIImageButton(x + width / 2 - 16, y + 128, 32, 32, Assets.genericButton);
+        magicIcon = new UIImageButton(x + width - 48, y + 128, 32, 32, Assets.genericButton);
+
+        fireIcon = new UIImageButton(x + 16, y + 256, 32, 32, Assets.genericButton);
+        airIcon = new UIImageButton(x + width / 2 - 52, y + 256, 32, 32, Assets.genericButton);
+        waterIcon = new UIImageButton(x + width / 2 + 20 , y + 256, 32, 32, Assets.genericButton);
+        earthIcon = new UIImageButton(x + width - 48, y + 256, 32, 32, Assets.genericButton);
+
+        meleeUp = new UIImageButton(meleeIcon.x + 8, meleeIcon.y - 24, 16, 16, Assets.genericButton);
+        rangedUp = new UIImageButton(rangedIcon.x + 8, rangedIcon.y - 24, 16, 16, Assets.genericButton);
+        magicUp = new UIImageButton(magicIcon.x + 8, magicIcon.y - 24, 16, 16, Assets.genericButton);
+
+        fireUp = new UIImageButton(fireIcon.x + 8, fireIcon.y - 24, 16, 16, Assets.genericButton);
+        airUp = new UIImageButton(airIcon.x + 8, airIcon.y - 24, 16, 16, Assets.genericButton);
+        waterUp = new UIImageButton(waterIcon.x + 8, waterIcon.y - 24, 16, 16, Assets.genericButton);
+        earthUp = new UIImageButton(earthIcon.x + 8, earthIcon.y - 24, 16, 16, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -59,6 +70,13 @@ public class CharacterUI implements Serializable {
         elementalStatManager.addObject(waterUp);
         elementalStatManager.addObject(earthUp);
 
+        uiManager.addObject(meleeIcon);
+        uiManager.addObject(rangedIcon);
+        uiManager.addObject(magicIcon);
+        uiManager.addObject(fireIcon);
+        uiManager.addObject(airIcon);
+        uiManager.addObject(waterIcon);
+        uiManager.addObject(earthIcon);
         uiManager.addObject(exit);
 
         addBaseStatPoints();
@@ -132,52 +150,47 @@ public class CharacterUI implements Serializable {
         if (isOpen) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
-            Text.drawString(g, "Character stats", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Character stats", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 
-            Text.drawString(g, "Combat lvl: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getLevel(), x + 16, y + 64, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "HP: " + Handler.get().getPlayer().getHealth() + "/" + Handler.get().getPlayer().getMaxHealth(), x + 16, y + 80, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "XP: " + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getExperience() + "/" + Handler.get().getSkillsUI().getSkill(SkillsList.COMBAT).getNextLevelXp(), x + 16, y + 96, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Combat stat points: " + baseStatPoints, x + width / 2, y + 48, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Elemental stat points: " + baseStatPoints, x + + width / 2, y + 64, true, Color.YELLOW, Assets.font14);
+
+            uiManager.render(g);
+
+            g.drawImage(Assets.meleeElement, meleeIcon.x, meleeIcon.y, null);
+            g.drawImage(Assets.rangedElement, rangedIcon.x, rangedIcon.y, null);
+            g.drawImage(Assets.magicElement, magicIcon.x, magicIcon.y, null);
+
+            g.drawImage(Assets.fireElement, fireIcon.x, fireIcon.y, null);
+            g.drawImage(Assets.airElement, airIcon.x, airIcon.y, null);
+            g.drawImage(Assets.waterElement, waterIcon.x, waterIcon.y, null);
+            g.drawImage(Assets.earthElement, earthIcon.x, earthIcon.y, null);
+
+            Text.drawString(g, String.valueOf(CharacterStats.Melee.getLevel()), meleeIcon.x + meleeIcon.width / 2, meleeIcon.y + meleeIcon.height + 16, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, String.valueOf(CharacterStats.Ranged.getLevel()), rangedIcon.x + rangedIcon.width / 2, rangedIcon.y + rangedIcon.height + 16, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, String.valueOf(CharacterStats.Magic.getLevel()), magicIcon.x + magicIcon.width / 2, magicIcon.y + magicIcon.height + 16, true, Color.YELLOW, Assets.font20);
+
+            Text.drawString(g, String.valueOf(CharacterStats.Fire.getLevel()), fireIcon.x + fireIcon.width / 2, fireIcon.y + fireIcon.height + 16, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, String.valueOf(CharacterStats.Air.getLevel()), airIcon.x + airIcon.width / 2, airIcon.y + airIcon.height + 16, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, String.valueOf(CharacterStats.Water.getLevel()), waterIcon.x + waterIcon.width / 2, waterIcon.y + waterIcon.height + 16, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, String.valueOf(CharacterStats.Earth.getLevel()), earthIcon.x + earthIcon.width / 2, earthIcon.y + earthIcon.height + 16, true, Color.YELLOW, Assets.font20);
 
             // If we have points available, draw the
             if (baseStatPoints >= 1) {
                 baseStatManager.render(g);
-                Text.drawString(g, "+", x + 120, y + 144, true, Color.GREEN, Assets.font14);
-                Text.drawString(g, "+", x + 120, y + 160, true, Color.GREEN, Assets.font14);
-                Text.drawString(g, "+", x + 120, y + 176, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", meleeUp.x + meleeUp.width / 2, meleeUp.y + meleeUp.height / 2, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", rangedUp.x + rangedUp.width / 2, rangedUp.y + rangedUp.height / 2, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", magicUp.x + magicUp.width / 2, magicUp.y + magicUp.height / 2, true, Color.GREEN, Assets.font14);
             }
-
-            Text.drawString(g, "Combat stats:", x + 16, y + 128, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "(" + baseStatPoints + " points)", x + 119, y + 128, false, Color.YELLOW, Assets.font14);
-
-            Text.drawString(g, "Melee:", x + 16, y + 148, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Melee.getLevel()), x + 82, y + 148, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Ranged:", x + 16, y + 164, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Ranged.getLevel()), x + 82, y + 164, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Magic:", x + 16, y + 180, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Magic.getLevel()), x + 82, y + 180, false, Color.YELLOW, Assets.font14);
 
             if (elementalStatPoints >= 1) {
                 elementalStatManager.render(g);
-                Text.drawString(g, "+", x + 120, y + 224, true, Color.GREEN, Assets.font14);
-                Text.drawString(g, "+", x + 120, y + 240, true, Color.GREEN, Assets.font14);
-                Text.drawString(g, "+", x + 120, y + 256, true, Color.GREEN, Assets.font14);
-                Text.drawString(g, "+", x + 120, y + 272, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", fireUp.x + fireUp.width / 2, fireUp.y + fireUp.height / 2, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", airUp.x + airUp.width / 2, airUp.y + airUp.height / 2, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", waterUp.x + waterUp.width / 2, waterUp.y + waterUp.height / 2, true, Color.GREEN, Assets.font14);
+                Text.drawString(g, "+", earthUp.x + earthUp.width / 2, earthUp.y + earthUp.height / 2, true, Color.GREEN, Assets.font14);
             }
 
-            Text.drawString(g, "Elemental stats: ", x + 16, y + 208, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "(" + elementalStatPoints + " points)", x + 136, y + 208, false, Color.YELLOW, Assets.font14);
-
-            Text.drawString(g, "Fire:", x + 16, y + 230, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Fire.getLevel()), x + 82, y + 230, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Air:", x + 16, y + 246, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Air.getLevel()), x + 82, y + 246, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Water:", x + 16, y + 262, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Water.getLevel()), x + 82, y + 262, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Earth:", x + 16, y + 278, false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, String.valueOf(CharacterStats.Earth.getLevel()), x + 82, y + 278, false, Color.YELLOW, Assets.font14);
-
-
-            uiManager.render(g);
             Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
         }
     }
