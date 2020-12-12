@@ -499,12 +499,19 @@ public class Assets {
         aEliteSlot = ui_sheet.imageCrop(14, 0, WIDTH, HEIGHT);
         aEmptySlot = ui_sheet.imageCrop(15, 0, WIDTH, HEIGHT);
 
-
-
         normalCursor = ui_sheet.imageCrop(8, 1, WIDTH, HEIGHT);
         normalCursorHighlight = ui_sheet.imageCrop(9, 1, WIDTH, HEIGHT);
         attackCursorHighlight = ui_sheet.imageCrop(10, 1, WIDTH, HEIGHT);
         chatBubble = ui_sheet.imageCrop(11, 1, WIDTH, HEIGHT);
+
+        fireElement = ui_sheet.imageCrop(12, 1, WIDTH, HEIGHT);
+        airElement = ui_sheet.imageCrop(13, 1, WIDTH, HEIGHT);
+        waterElement = ui_sheet.imageCrop(14, 1, WIDTH, HEIGHT);
+        earthElement = ui_sheet.imageCrop(15, 1, WIDTH, HEIGHT);
+
+        meleeElement = ui_sheet.imageCrop(8, 2, WIDTH, HEIGHT);
+        rangedElement = ui_sheet.imageCrop(9, 2, WIDTH, HEIGHT);
+        magicElement = ui_sheet.imageCrop(10, 2, WIDTH, HEIGHT);
 
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
 
