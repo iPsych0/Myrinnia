@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.ui;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -17,6 +18,8 @@ public class UIImageButton extends UIObject {
     private transient BufferedImage[] images;
     private boolean hasHovered;
     public static boolean hasBeenPressed = false;
+    private static UIImageButton hoveringButton;
+    private static long lastUpdated;
 
     public UIImageButton(int x, int y, int width, int height, BufferedImage[] images) {
         super(x, y, width, height);
@@ -41,6 +44,11 @@ public class UIImageButton extends UIObject {
     public void render(Graphics2D g) {
         if (visible) {
             if (hoverable && hovering) {
+                hoveringButton = this;
+                lastUpdated = System.currentTimeMillis();
+                if (!Handler.get().getCursor().equals(Game.normalCursorHighlight)) {
+                    Handler.get().changeCursor(Game.normalCursorHighlight);
+                }
                 if (!hasHovered) {
                     Handler.get().playEffect("ui/ui_button_hover.ogg");
                     hasHovered = true;
@@ -51,6 +59,10 @@ public class UIImageButton extends UIObject {
                 }
                 g.drawImage(images[1], x, y, width, height, null);
             } else {
+                if (hoveringButton != null && hoveringButton.equals(this) || hoveringButton != null && (System.currentTimeMillis() - lastUpdated) >= 100) {
+                    hoveringButton = null;
+                    Handler.get().changeCursor(Game.normalCursor);
+                }
                 g.drawImage(images[0], x, y, width, height, null);
                 hasHovered = false;
             }

@@ -64,6 +64,8 @@ public class Game implements Runnable, Serializable {
     private Map<RenderingHints.Key, Object> renderHintMap;
     private Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
+    public static Cursor normalCursor, normalCursorHighlight, attackCursor;
+
     public static Game get() {
         if (game == null) {
             game = new Game(TITLE_BAR, MIN_RES_WIDTH, MIN_RES_HEIGHT);
@@ -121,6 +123,12 @@ public class Game implements Runnable, Serializable {
 
         display.setInitialized(true);
 
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        normalCursor = toolkit.createCustomCursor(Assets.normalCursor, new Point(1, 1), "normal");
+        normalCursorHighlight = toolkit.createCustomCursor(Assets.normalCursorHighlight, new Point(1, 1), "normal_highlight");
+        attackCursor = toolkit.createCustomCursor(Assets.attackCursorHighlight, new Point(1, 1), "attack");
+        changeCursor(normalCursor);
+
         // Use bootstrapper to set variables to desired state
         new Bootstrapper().skipTutorialIsland();
     }
@@ -136,6 +144,14 @@ public class Game implements Runnable, Serializable {
 
     private void loadSettings() {
         keyManager.loadKeybinds();
+    }
+
+    public void changeCursor(Cursor cursor) {
+        display.getFrame().getRootPane().setCursor(cursor);
+    }
+
+    public Cursor getCursor() {
+        return display.getFrame().getCursor();
     }
 
     public void setRenderingHint(RenderingHints.Key key, Object value) {
@@ -174,6 +190,7 @@ public class Game implements Runnable, Serializable {
         keyManager.tick();
         AudioManager.tick();
         TimerHandler.get().tick();
+
         if (State.getState() != null) {
             State.getState().tick();
         }

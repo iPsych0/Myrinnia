@@ -32,10 +32,24 @@ public class CommandHandler implements Serializable {
                         Handler.get().sendMsg("Must request at least 1 item.");
                         break;
                     }
-                    if (Item.items[Integer.parseInt(commands[1])] == null) {
-                        throw new IllegalArgumentException();
+
+                    String ids = commands[1];
+                    if (ids.contains("-")) {
+                        String[] bounds = ids.split("-");
+                        int lowerBound = Integer.parseInt(bounds[0]);
+                        int upperBound = Integer.parseInt(bounds[1]);
+                        for (int i = lowerBound; i <= upperBound; i++) {
+                            if (Item.items[i] == null) {
+                                throw new IllegalArgumentException();
+                            }
+                            Handler.get().giveItem(Item.items[i], Integer.parseInt(commands[2]));
+                        }
+                    } else {
+                        if (Item.items[Integer.parseInt(commands[1])] == null) {
+                            throw new IllegalArgumentException();
+                        }
+                        Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
                     }
-                    Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
                 } catch (NumberFormatException e) {
                     Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
                 } catch (IllegalArgumentException e) {

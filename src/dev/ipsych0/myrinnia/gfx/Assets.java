@@ -27,6 +27,8 @@ public class Assets {
     public static Font font48;
     public static Font font64;
 
+    public static BufferedImage normalCursor, normalCursorHighlight, attackCursorHighlight, chatBubble;
+
     // Weather effects
     public static BufferedImage rain, snow, sandStorm, fogNormal, fogHeavy;
 
@@ -259,6 +261,7 @@ public class Assets {
 
     // Ability slots
     public static BufferedImage aFireSlot, aWaterSlot, aAirSlot, aEarthSlot, aHealingSlot, aEliteSlot, aEmptySlot;
+    public static BufferedImage fireElement, airElement, waterElement, earthElement, meleeElement, magicElement, rangedElement;
 
     // Crafting UI
     public static BufferedImage undiscovered;
@@ -495,6 +498,13 @@ public class Assets {
         aHealingSlot = ui_sheet.imageCrop(13, 0, WIDTH, HEIGHT);
         aEliteSlot = ui_sheet.imageCrop(14, 0, WIDTH, HEIGHT);
         aEmptySlot = ui_sheet.imageCrop(15, 0, WIDTH, HEIGHT);
+
+
+
+        normalCursor = ui_sheet.imageCrop(8, 1, WIDTH, HEIGHT);
+        normalCursorHighlight = ui_sheet.imageCrop(9, 1, WIDTH, HEIGHT);
+        attackCursorHighlight = ui_sheet.imageCrop(10, 1, WIDTH, HEIGHT);
+        chatBubble = ui_sheet.imageCrop(11, 1, WIDTH, HEIGHT);
 
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
 

@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.items.ui;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
@@ -43,6 +44,7 @@ public class InventoryWindow implements Serializable {
     private Rectangle windowBounds;
     private ItemTooltip itemTooltip;
     private Set<Item> usedItems;
+    private static ItemSlot hoveringSlot;
 
     public InventoryWindow() {
         width = numCols * (ItemSlot.SLOTSIZE + 11) + 3;
@@ -95,6 +97,17 @@ public class InventoryWindow implements Serializable {
                 is.tick();
 
                 Rectangle slot = is.getBounds();
+
+                // Change cursor
+                if (slot.contains(mouse) && is.getItemStack() != null) {
+                    hoveringSlot = is;
+                    if (!Handler.get().getCursor().equals(Game.normalCursorHighlight)) {
+                        Handler.get().changeCursor(Game.normalCursorHighlight);
+                    }
+                } else if (hoveringSlot != null && hoveringSlot.equals(is)) {
+                    hoveringSlot = null;
+                    Handler.get().changeCursor(Game.normalCursor);
+                }
 
                 if (is.getItemStack() != null) {
                     if (is.getItemStack().getAmount() <= 0) {

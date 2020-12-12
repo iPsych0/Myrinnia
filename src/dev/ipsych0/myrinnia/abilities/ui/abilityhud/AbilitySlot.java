@@ -21,15 +21,12 @@ public class AbilitySlot extends UIImageButton implements Serializable {
      */
     private static final long serialVersionUID = 4376752517769900190L;
     private Ability ability;
-    private int x, y;
-    private Rectangle bounds;
 
     public AbilitySlot(Ability ability, int x, int y) {
         super(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
         this.ability = ability;
         this.x = x;
         this.y = y;
-        this.bounds = new Rectangle(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
     }
 
     public void tick() {
@@ -108,10 +105,6 @@ public class AbilitySlot extends UIImageButton implements Serializable {
 
     public void setAbility(Ability ability) {
         this.ability = ability;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
     }
 
 

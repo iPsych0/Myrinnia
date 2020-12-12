@@ -273,6 +273,8 @@ public class AbilityHUD implements Serializable {
             // Render the tooltip when hovering over an ability
             if (as.getBounds().contains(mouse)) {
                 if (as.getAbility() != null) {
+                    abilityTooltip.setX(as.x);
+                    abilityTooltip.setY(as.y - abilityTooltip.getHeight() - 8);
                     abilityTooltip.render(g, as.getAbility());
                 }
             }

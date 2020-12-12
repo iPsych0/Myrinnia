@@ -81,7 +81,7 @@ public class AbilityShopWindow implements Serializable {
         }
         currentSlots = allSlots;
 
-        abilityTooltip = new AbilityTooltip(x - 160, y);
+        abilityTooltip = new AbilityTooltip(x - AbilityTooltip.BASE_WIDTH, y);
 
         buyButton = new UIImageButton(x + width / 2 - 32, y + height - 64, 64, 32, Assets.genericButton);
         exitButton = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);

@@ -15,12 +15,13 @@ public class AbilityTooltip implements Serializable {
      */
     private static final long serialVersionUID = -8419146815388425820L;
     private int x, y, width, height;
+    public static final int BASE_HEIGHT = 128 + 4, BASE_WIDTH = 256 + 16;
 
     public AbilityTooltip(int x, int y) {
         this.x = x;
         this.y = y;
-        this.width = 160;
-        this.height = 160;
+        this.width = BASE_WIDTH;
+        this.height = BASE_HEIGHT;
     }
 
     public void tick() {
@@ -28,16 +29,16 @@ public class AbilityTooltip implements Serializable {
     }
 
     public void render(Graphics2D g, Ability ability) {
-        String[] description = Text.splitIntoLine("Description: " + ability.getDescription(), 22);
+        String[] description = Text.splitIntoLine(ability.getDescription(), 38);
         int heightOffset = 0;
-        if (description.length > 1) {
-            heightOffset = 16 * (description.length - 1);
-        }
-        g.drawImage(Assets.uiWindow, x, y, width, height + heightOffset, null);
-        ability.renderIcon(g, x + 4, y + 16);
-        Text.drawString(g, ability.getName(), x + 40, y + 32, false, Color.YELLOW, Assets.font14);
+        heightOffset = 16 * (description.length) + 8;
 
-        int yPosText = 64;
+        this.height = BASE_HEIGHT + heightOffset;
+        g.drawImage(Assets.uiWindow, x, y, width, height, null);
+        ability.renderIcon(g, x + 4, y + 8);
+        Text.drawString(g, ability.getName(), x + 40, y + 24, false, Color.YELLOW, Assets.font14);
+
+        int yPosText = 56;
         int yOffset = 16;
         int index = 0;
 
@@ -49,8 +50,39 @@ public class AbilityTooltip implements Serializable {
         Text.drawString(g, "Cooldown: " + (int) ability.getCooldownTimer() + "s", x + 4, y + yPosText + (index++ * yOffset), false, Color.YELLOW, Assets.font14);
 
         for (int i = 0; i < description.length; i++) {
-            Text.drawString(g, description[i], x + 4, y + yPosText + (index * yOffset) + (i * 16), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, description[i], x + 4, y + yPosText + (index * yOffset) + (i * 16) + 8, false, Color.WHITE, Assets.font14);
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

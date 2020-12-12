@@ -1,9 +1,13 @@
 package dev.ipsych0.myrinnia.entities;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
+import dev.ipsych0.myrinnia.entities.statics.FishingSpot;
+import dev.ipsych0.myrinnia.entities.statics.Rock;
+import dev.ipsych0.myrinnia.entities.statics.Tree;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -11,6 +15,7 @@ import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +38,7 @@ public class EntityManager implements Serializable {
     private int oocCounter; // Out-of-combat counter
     private int creatureCounter;
     public static boolean shiftPressed;
+    private static Entity hoveringEntity;
 
     public EntityManager(Player player) {
         this.player = player;
@@ -271,16 +277,28 @@ public class EntityManager implements Serializable {
             if (!e.equals(Handler.get().getPlayer()) && e.isOverlayDrawn() && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc()) {
+                    hoveringEntity = e;
+                    if (!Handler.get().getCursor().equals(Game.normalCursorHighlight)) {
+                        Handler.get().changeCursor(Game.normalCursorHighlight);
+                    }
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                    drawChatBubble(g, e);
                 } else if (e.isAttackable()) {
+                    hoveringEntity = e;
+                    if (!Handler.get().getCursor().equals(Game.attackCursor)) {
+                        Handler.get().changeCursor(Game.attackCursor);
+                    }
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.RED);
                 }
                 e.drawEntityOverlay(e, g);
 
             } else {
-
+                if (hoveringEntity != null && hoveringEntity.equals(e)) {
+                    hoveringEntity = null;
+                    Handler.get().changeCursor(Game.normalCursor);
+                }
                 // Skip the player
                 if (e.equals(player)) {
                     continue;
@@ -336,6 +354,43 @@ public class EntityManager implements Serializable {
             Double b = o2.getY() + o2.getHeight();
             return a.compareTo(b);
         });
+    }
+
+    private void drawChatBubble(Graphics2D g, Entity e) {
+        if (e instanceof Rock || e instanceof Tree || e instanceof FishingSpot)
+            return;
+
+        int xPos = (e.width == Creature.DEFAULT_CREATURE_WIDTH) ? (int) e.x : (int) e.x + (e.width / 32) * 16 - 16;
+        g.drawImage(Assets.chatBubble, (int) (xPos - Handler.get().getGameCamera().getxOffset()),
+                (int) (e.y - 32 - Handler.get().getGameCamera().getyOffset()),
+                32, 32, null);
+    }
+
+    /**
+     * Changes all pixels of an old color into a new color, preserving the
+     * alpha channel.
+     */
+    private static void changeColor(
+            BufferedImage imgBuf,
+            int oldRed, int oldGreen, int oldBlue,
+            int newRed, int newGreen, int newBlue) {
+
+        int RGB_MASK = 0x00ffffff;
+        int ALPHA_MASK = 0xff000000;
+
+        int oldRGB = oldRed << 16 | oldGreen << 8 | oldBlue;
+        int toggleRGB = oldRGB ^ (newRed << 16 | newGreen << 8 | newBlue);
+
+        int w = imgBuf.getWidth();
+        int h = imgBuf.getHeight();
+
+        int[] rgb = imgBuf.getRGB(0, 0, w, h, null, 0, w);
+        for (int i = 0; i < rgb.length; i++) {
+            if ((rgb[i] & RGB_MASK) == oldRGB) {
+                rgb[i] ^= toggleRGB;
+            }
+        }
+        imgBuf.setRGB(0, 0, w, h, rgb, 0, w);
     }
 
     private void drawLevel(Graphics2D g, Entity e) {

@@ -243,6 +243,14 @@ public class Handler implements Serializable {
         }
     }
 
+    public void changeCursor(Cursor cursor) {
+        game.changeCursor(cursor);
+    }
+
+    public Cursor getCursor(){
+        return game.getCursor();
+    }
+
     public void addTip(TutorialTip tip) {
         if (chatWindow.getFilters().contains(Filter.SHOWTIPS)) {
             tutorialTipManager.addTip(tip);
