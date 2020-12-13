@@ -6,10 +6,13 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CharacterUI implements Serializable {
 
@@ -28,21 +31,29 @@ public class CharacterUI implements Serializable {
     public static boolean escapePressed = false;
     private UIImageButton exit;
     private UIManager uiManager, baseStatManager, elementalStatManager;
+    private StatTooltip statTooltip;
+    private Map<UIImageButton, CharacterStats> btnMap;
 
     public CharacterUI() {
         width = 288;
-        height = 384;
+        height = 432;
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
 
-        meleeIcon = new UIImageButton(x + 16, y + 128, 32, 32, Assets.genericButton);
-        rangedIcon = new UIImageButton(x + width / 2 - 16, y + 128, 32, 32, Assets.genericButton);
-        magicIcon = new UIImageButton(x + width - 48, y + 128, 32, 32, Assets.genericButton);
+        for (CharacterStats cs : CharacterStats.values()) {
+            cs.setDescription();
+        }
 
-        fireIcon = new UIImageButton(x + 16, y + 256, 32, 32, Assets.genericButton);
-        airIcon = new UIImageButton(x + width / 2 - 52, y + 256, 32, 32, Assets.genericButton);
-        waterIcon = new UIImageButton(x + width / 2 + 20 , y + 256, 32, 32, Assets.genericButton);
-        earthIcon = new UIImageButton(x + width - 48, y + 256, 32, 32, Assets.genericButton);
+        btnMap = new HashMap<>();
+
+        meleeIcon = new UIImageButton(x + 16, y + 160, 32, 32, Assets.genericButton);
+        rangedIcon = new UIImageButton(x + width / 2 - 16, y + 160, 32, 32, Assets.genericButton);
+        magicIcon = new UIImageButton(x + width - 48, y + 160, 32, 32, Assets.genericButton);
+
+        fireIcon = new UIImageButton(x + 16, y + 320, 32, 32, Assets.genericButton);
+        airIcon = new UIImageButton(x + width / 2 - 52, y + 320, 32, 32, Assets.genericButton);
+        waterIcon = new UIImageButton(x + width / 2 + 20, y + 320, 32, 32, Assets.genericButton);
+        earthIcon = new UIImageButton(x + width - 48, y + 320, 32, 32, Assets.genericButton);
 
         meleeUp = new UIImageButton(meleeIcon.x + 8, meleeIcon.y - 24, 16, 16, Assets.genericButton);
         rangedUp = new UIImageButton(rangedIcon.x + 8, rangedIcon.y - 24, 16, 16, Assets.genericButton);
@@ -79,8 +90,18 @@ public class CharacterUI implements Serializable {
         uiManager.addObject(earthIcon);
         uiManager.addObject(exit);
 
+        btnMap.put(meleeIcon, CharacterStats.Melee);
+        btnMap.put(rangedIcon, CharacterStats.Ranged);
+        btnMap.put(magicIcon, CharacterStats.Magic);
+        btnMap.put(fireIcon, CharacterStats.Fire);
+        btnMap.put(airIcon, CharacterStats.Air);
+        btnMap.put(waterIcon, CharacterStats.Water);
+        btnMap.put(earthIcon, CharacterStats.Earth);
+
         addBaseStatPoints();
         addElementalStatPoints();
+
+        statTooltip = new StatTooltip();
 
     }
 
@@ -152,10 +173,17 @@ public class CharacterUI implements Serializable {
 
             Text.drawString(g, "Character stats", x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
 
-            Text.drawString(g, "Combat stat points: " + baseStatPoints, x + width / 2, y + 48, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Elemental stat points: " + baseStatPoints, x + + width / 2, y + 64, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Combat points: " + baseStatPoints, x + width / 2, y + 48, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Elemental points: " + baseStatPoints, x + +width / 2, y + 64, true, Color.YELLOW, Assets.font14);
 
             uiManager.render(g);
+
+            g.setColor(Color.YELLOW);
+            g.drawRect(meleeIcon.x - 4, meleeUp.y - 4, (magicIcon.x + magicIcon.width) - meleeIcon.x + 8, 96);
+            g.drawRect(fireIcon.x - 4, fireUp.y - 4, (earthIcon.x + earthIcon.width) - fireIcon.x + 8, 96);
+
+            Text.drawString(g, "Combat stats:", x + width / 2, meleeUp.y - 32, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Elemental stats:", x + width / 2, fireUp.y - 32, true, Color.YELLOW, Assets.font20);
 
             g.drawImage(Assets.meleeElement, meleeIcon.x, meleeIcon.y, null);
             g.drawImage(Assets.rangedElement, rangedIcon.x, rangedIcon.y, null);
@@ -192,6 +220,14 @@ public class CharacterUI implements Serializable {
             }
 
             Text.drawString(g, "Exit", x + (width / 2), y + height - 16, true, Color.YELLOW, Assets.font14);
+
+            for (UIObject btn : uiManager.getObjects()) {
+                if (btn.equals(exit))
+                    continue;
+                if (btn.isHovering()) {
+                    statTooltip.render(g, btnMap.get(btn), x - StatTooltip.WIDTH, btn.y - 32);
+                }
+            }
         }
     }
 

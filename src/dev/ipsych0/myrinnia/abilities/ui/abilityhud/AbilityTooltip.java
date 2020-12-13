@@ -30,7 +30,7 @@ public class AbilityTooltip implements Serializable {
 
     public void render(Graphics2D g, Ability ability) {
         String[] description = Text.splitIntoLine(ability.getDescription(), 38);
-        int heightOffset = 0;
+        int heightOffset;
         heightOffset = 16 * (description.length) + 8;
 
         this.height = BASE_HEIGHT + heightOffset;

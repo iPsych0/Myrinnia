@@ -8,6 +8,7 @@ public enum CharacterStats {
     Combat, Melee, Ranged, Magic, Fire, Air, Earth, Water;
 
     private int level;
+    private String description;
 
     CharacterStats() {
         this.level = 0;
@@ -30,21 +31,28 @@ public enum CharacterStats {
     private void setCharacterPoints(CharacterStats element) {
         Player player = Handler.get().getPlayer();
         switch (element) {
-            case Water:
-                player.setWaterLevel(this.getLevel());
-                break;
-            case Air:
-                player.setAirLevel(this.getLevel());
-                break;
-            case Fire:
-                player.setFireLevel(this.getLevel());
-                break;
-            case Earth:
-                player.setEarthLevel(this.getLevel());
-                break;
-            default:
-                return;
+            case Water -> player.setWaterLevel(this.getLevel());
+            case Air -> player.setAirLevel(this.getLevel());
+            case Fire -> player.setFireLevel(this.getLevel());
+            case Earth -> player.setEarthLevel(this.getLevel());
         }
+    }
+
+    public void setDescription(){
+        this.description = switch (this) {
+            case Fire -> "The Fire element focuses on high damage, with moderate mobility, at the expense of sustainability and survivability.";
+            case Air -> "The Air element provides high mobility and crowd control, with moderate damage, at the expensive of survivability.";
+            case Water -> "The Water element grants high sustainability through healing, with moderate survivability, at the expense of damage and mobility.";
+            case Earth -> "The Earth element gives high survivability through defensive utility, with moderate sustainability, at the expense of damage and mobility.";
+            case Melee -> "Melee combat arts allow you to wield higher-leveled, better warrior's equipment.";
+            case Ranged -> "Ranged combat arts allow you to wield higher-leveled, better ranger's equipment.";
+            case Magic -> "Magic combat arts allow you to wield higher-leveled, better mage's equipment.";
+            case Combat -> "Combat level gives an indication of battle-proficiency and also increases your base damage and health.";
+        };
+    }
+
+    public String getDescription(){
+        return description;
     }
 
 }
