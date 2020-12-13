@@ -53,6 +53,17 @@ public class ConeArea extends Arc2D.Double {
         g.setTransform(old);
     }
 
+    public Shape getArea(){
+        double theta = getTheta();
+        this.setArcByCenter(caster.getX() + caster.getWidth() / 2,
+                caster.getY() + caster.getHeight() / 2,
+                radius, -45 + xOffset, -90 + yOffset, Arc2D.PIE);
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(theta), super.getCenterX(), super.getCenterY());
+        transformedShape = transform.createTransformedShape(this);
+        return transformedShape;
+    }
+
     public double getTheta() {
         double angle;
         double casterX = caster.getX() + caster.getWidth() / 2d;

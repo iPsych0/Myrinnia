@@ -5,13 +5,17 @@ import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.data.ConeArea;
 import dev.ipsych0.myrinnia.abilities.data.MeleeDirection;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Condition;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.Serializable;
+import java.util.List;
 
 
 public class DragonsBreathAbility extends Ability implements Serializable {
@@ -64,6 +68,12 @@ public class DragonsBreathAbility extends Ability implements Serializable {
         setDirection();
         // TODO: Add sound effect
         animation = new Animation(250 / Assets.dragonsBreath.length, Assets.dragonsBreath, true);
+        List<Entity> entities = getAllEntitiesInShape(cone.getArea());
+        if (!entities.isEmpty()) {
+            for (Entity e : entities) {
+                e.damage(DamageType.INT, caster, this);
+            }
+        }
         setCasting(false);
     }
 
@@ -78,7 +88,7 @@ public class DragonsBreathAbility extends Ability implements Serializable {
         MeleeDirection meleeDirection = getMeleeSwing(direction);
         this.rotation = meleeDirection.getRotation();
         this.rotation += 90.0;
-        if(rotation > 360.0)
+        if (rotation > 360.0)
             rotation -= 360;
         this.xPos = meleeDirection.getxPos();
         this.yPos = meleeDirection.getyPos();

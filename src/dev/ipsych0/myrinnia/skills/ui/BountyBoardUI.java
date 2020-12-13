@@ -53,7 +53,7 @@ public class BountyBoardUI implements Serializable {
             this.panels = new ArrayList<>();
         }
 
-        exitButton = new UIImageButton(x + width - 32, y + 16, 16, 16, Assets.genericButton);
+        exitButton = new UIImageButton(x + width - 40, y + 8, 32, 32, Assets.genericButton);
         acceptButton = new UIImageButton(x + width / 2 - 48, y + height - 48, 96, 32, Assets.genericButton);
 
         dialogueBox = new DialogueBox(x + width / 2 - 100, y + height / 2 - 100, 200, 200, new String[]{"Accept", "Leave"}, "Do you want to accept this bounty?", null);

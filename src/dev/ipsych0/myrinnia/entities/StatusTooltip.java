@@ -28,7 +28,7 @@ public class StatusTooltip implements Serializable {
         Text.drawString(g, b.toString(), x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
-            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.WHITE, Assets.font14);
         }
     }
 
@@ -40,7 +40,7 @@ public class StatusTooltip implements Serializable {
         Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase() + " resistance", x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
-            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.WHITE, Assets.font14);
         }
     }
 
@@ -52,7 +52,7 @@ public class StatusTooltip implements Serializable {
         Text.drawString(g, condition.substring(0, 1).toUpperCase() + condition.substring(1).toLowerCase(), x + 52, y + 22, false, Color.YELLOW, Assets.font14);
         int index = 0;
         for (String s : text) {
-            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, s, x + 4, y + 48 + (16 * index++), false, Color.WHITE, Assets.font14);
         }
     }
 }
