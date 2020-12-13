@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.character;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.ui.UIObject;
@@ -179,8 +178,8 @@ public class CharacterUI implements Serializable {
             uiManager.render(g);
 
             g.setColor(Color.YELLOW);
-            g.drawRect(meleeIcon.x - 4, meleeUp.y - 4, (magicIcon.x + magicIcon.width) - meleeIcon.x + 8, 96);
-            g.drawRect(fireIcon.x - 4, fireUp.y - 4, (earthIcon.x + earthIcon.width) - fireIcon.x + 8, 96);
+            g.drawRoundRect(meleeIcon.x - 4, meleeUp.y - 4, (magicIcon.x + magicIcon.width) - meleeIcon.x + 8, 96, 8, 8);
+            g.drawRoundRect(fireIcon.x - 4, fireUp.y - 4, (earthIcon.x + earthIcon.width) - fireIcon.x + 8, 96, 8, 8);
 
             Text.drawString(g, "Combat stats:", x + width / 2, meleeUp.y - 32, true, Color.YELLOW, Assets.font20);
             Text.drawString(g, "Elemental stats:", x + width / 2, fireUp.y - 32, true, Color.YELLOW, Assets.font20);

@@ -12,10 +12,6 @@ public class StatTooltip {
     public StatTooltip() {
     }
 
-    public void tick() {
-
-    }
-
     public void render(Graphics2D g, CharacterStats stat, int x, int y) {
         g.drawImage(Assets.uiWindow, x, y, WIDTH, HEIGHT, null);
         Text.drawString(g, stat.toString() + ":", x + 4, y + 20, false, Color.YELLOW, Assets.font20);

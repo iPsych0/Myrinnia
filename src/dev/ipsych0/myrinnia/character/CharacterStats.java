@@ -2,6 +2,9 @@ package dev.ipsych0.myrinnia.character;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.gfx.Assets;
+
+import java.awt.image.BufferedImage;
 
 public enum CharacterStats {
 
@@ -38,7 +41,7 @@ public enum CharacterStats {
         }
     }
 
-    public void setDescription(){
+    public void setDescription() {
         this.description = switch (this) {
             case Fire -> "The Fire element focuses on high damage, with moderate mobility, at the expense of sustainability and survivability.";
             case Air -> "The Air element provides high mobility and crowd control, with moderate damage, at the expensive of survivability.";
@@ -51,7 +54,20 @@ public enum CharacterStats {
         };
     }
 
-    public String getDescription(){
+    public BufferedImage getIcon() {
+        return switch (this) {
+            case Fire -> Assets.fireElement;
+            case Air -> Assets.airElement;
+            case Water -> Assets.waterElement;
+            case Earth -> Assets.earthElement;
+            case Melee -> Assets.meleeElement;
+            case Ranged -> Assets.rangedElement;
+            case Magic -> Assets.magicElement;
+            case Combat -> Assets.meleeIcon;
+        };
+    }
+
+    public String getDescription() {
         return description;
     }
 

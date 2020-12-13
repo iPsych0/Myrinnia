@@ -29,6 +29,10 @@ public class AbilityTooltip implements Serializable {
     }
 
     public void render(Graphics2D g, Ability ability) {
+        render(g, ability, this.x, this.y);
+    }
+
+    public void render(Graphics2D g, Ability ability, int x, int y) {
         String[] description = Text.splitIntoLine(ability.getDescription(), 38);
         int heightOffset;
         heightOffset = 16 * (description.length) + 8;

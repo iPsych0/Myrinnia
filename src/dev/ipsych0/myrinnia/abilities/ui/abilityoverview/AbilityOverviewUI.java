@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.character.StatTooltip;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
@@ -16,7 +17,9 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AbilityOverviewUI implements Serializable {
 
@@ -32,11 +35,11 @@ public class AbilityOverviewUI implements Serializable {
     public static boolean hasBeenPressed;
 
     private Rectangle innerUI;
-    private UIImageButton exit;
+    private UIImageButton exit, help;
     private List<AbilitySlot> abilitySlots;
     private List<Ability> displayedAbilities;
     private Ability currentSelectedAbility;
-    private static final int MAX_SLOTS_VERTICAL = 9;
+    private static final int MAX_SLOTS_VERTICAL = 8;
 
     private AbilityOverviewUIButton lastCombatTab;
     private AbilityOverviewUIButton lastElementTab;
@@ -45,34 +48,37 @@ public class AbilityOverviewUI implements Serializable {
 
     private UIManager uiManager;
     private UIManager abilityUIManager;
+    private StatTooltip statTooltip;
+    private Map<UIImageButton, CharacterStats> btnMap;
 
     public AbilityOverviewUI() {
-        this.width = 460;
-        this.height = 460;
+        this.width = 320;
+        this.height = 384;
         this.x = Handler.get().getWidth() / 2 - width / 2;
         this.y = Handler.get().getHeight() / 2 - height / 2;
         this.bounds = new Rectangle(x, y, width, height);
         this.clickableArea = new Rectangle(bounds.x - 64, bounds.y - 64, width + 128, height + 128);
 
+        btnMap = new HashMap<>();
         uiManager = new UIManager();
         abilityUIManager = new UIManager();
 
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - (width / 4) - 32, y + 40, CharacterStats.Melee));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 32, y + 40, CharacterStats.Ranged));
-        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + (width / 4) - 32, y + 40, CharacterStats.Magic));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 48, y + 32, CharacterStats.Melee));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 - 16, y + 32, CharacterStats.Ranged));
+        uiButtons.add(new AbilityOverviewUIButton(x + width / 2 + 16, y + 32, CharacterStats.Magic));
 
-        uiButtons.add(new AbilityOverviewUIButton(x + width, y + 32, CharacterStats.Fire));
-        uiButtons.add(new AbilityOverviewUIButton(x + width, y + 64, CharacterStats.Air));
-        uiButtons.add(new AbilityOverviewUIButton(x + width, y + 96, CharacterStats.Water));
-        uiButtons.add(new AbilityOverviewUIButton(x + width, y + 128, CharacterStats.Earth));
+        uiButtons.add(new AbilityOverviewUIButton(x + width - 48, y + 64, CharacterStats.Fire));
+        uiButtons.add(new AbilityOverviewUIButton(x + width - 48, y + 96, CharacterStats.Air));
+        uiButtons.add(new AbilityOverviewUIButton(x + width - 48, y + 128, CharacterStats.Water));
+        uiButtons.add(new AbilityOverviewUIButton(x + width - 48, y + 160, CharacterStats.Earth));
 
-        innerUI = new Rectangle(x + 32, y + 96, width - 64, height - 128);
-        exit = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);
+        innerUI = new Rectangle(x + 16, y + 64, width - 64, height - 80);
+        exit = new UIImageButton(x + width - 32, y + 8, 24, 24, Assets.genericButton);
+        help = new UIImageButton(x + width - 56, y + 8, 24, 24, Assets.genericButton);
 
-        for (AbilityOverviewUIButton button : uiButtons) {
-            uiManager.addObject(button);
-        }
+        uiManager.addAllObjects(uiButtons);
         uiManager.addObject(exit);
+        uiManager.addObject(help);
 
         // Initially fill the list with Melee+Fire abilities by default
         displayedAbilities = Handler.get().getAbilityManager().getAbilityByStyleAndElement(CharacterStats.Melee, CharacterStats.Fire);
@@ -84,6 +90,7 @@ public class AbilityOverviewUI implements Serializable {
         updateSlots();
 
         abilityTooltip = new AbilityTooltip(x - AbilityTooltip.BASE_WIDTH, y);
+        statTooltip = new StatTooltip();
     }
 
     public void tick() {
@@ -97,6 +104,11 @@ public class AbilityOverviewUI implements Serializable {
             if (Handler.get().getKeyManager().escape && escapePressed || exit.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 exit();
                 return;
+            }
+
+            if (help.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                hasBeenPressed = false;
+                Handler.get().sendMsg("Help button coming soon.");
             }
 
             for (AbilityOverviewUIButton uiButton : uiButtons) {
@@ -203,18 +215,18 @@ public class AbilityOverviewUI implements Serializable {
                 // If we have less than the max number of slots for that column, only fill the remaining ones
                 if (displayedAbilities.size() % MAX_SLOTS_VERTICAL != 0) {
                     for (int j = 0; j < displayedAbilities.size() % MAX_SLOTS_VERTICAL; j++) {
-                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 32 + (i * 32), y + 88 + (j * 32)));
                     }
                     // Otherwise, fill to the vertical max
                 } else {
                     for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
-                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                        abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 32 + (i * 32), y + 88 + (j * 32)));
                     }
                 }
                 // For the other columns, fill them to the vertical max
             } else {
                 for (int j = 0; j < MAX_SLOTS_VERTICAL; j++) {
-                    abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 56 + (i * 32), y + 120 + (j * 32)));
+                    abilitySlots.add(new AbilitySlot(displayedAbilities.get(index++), x + 32 + (i * 32), y + 88 + (j * 32)));
                 }
             }
         }
@@ -240,14 +252,11 @@ public class AbilityOverviewUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            for (AbilityOverviewUIButton btn : uiButtons) {
-                btn.renderBackground(g);
-            }
-
             uiManager.render(g);
             abilityUIManager.render(g);
 
             Text.drawString(g, "X", exit.x + 11, exit.y + 11, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "?", help.x + 11, help.y + 11, true, Color.YELLOW, Assets.font20);
 
             for (AbilitySlot as : abilitySlots) {
                 as.render(g);
@@ -263,6 +272,16 @@ public class AbilityOverviewUI implements Serializable {
             g.setColor(Colors.selectedColor);
             g.fillRect(lastCombatTab.getBounds().x, lastCombatTab.getBounds().y, lastCombatTab.getBounds().width, lastCombatTab.getBounds().height);
             g.fillRect(lastElementTab.getBounds().x, lastElementTab.getBounds().y, lastElementTab.getBounds().width, lastElementTab.getBounds().height);
+
+            for (AbilityOverviewUIButton btn : uiButtons) {
+                if (btn.isHovering()) {
+                    if (btn.getStat() != CharacterStats.Melee && btn.getStat() != CharacterStats.Ranged && btn.getStat() != CharacterStats.Magic) {
+                        statTooltip.render(g, btn.getStat(), x + width, btn.y);
+                    } else {
+                        statTooltip.render(g, btn.getStat(), x + width / 2 - StatTooltip.WIDTH / 2, y - StatTooltip.HEIGHT);
+                    }
+                }
+            }
         }
     }
 
