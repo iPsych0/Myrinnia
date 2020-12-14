@@ -60,6 +60,11 @@ public class PoisonDartAbility extends Ability implements Serializable {
         this.setActivated(true);
     }
 
+    @Override
+    void reset() {
+
+    }
+
     public float getVelocity() {
         return velocity;
     }

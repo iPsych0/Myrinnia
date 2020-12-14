@@ -130,7 +130,9 @@ public class Game implements Runnable, Serializable {
         changeCursor(normalCursor);
 
         // Use bootstrapper to set variables to desired state
-        new Bootstrapper().skipTutorialIsland();
+        new Bootstrapper().
+                skipTutorialIsland()
+                .setup_lvl_15();
     }
 
     public void addListeners() {

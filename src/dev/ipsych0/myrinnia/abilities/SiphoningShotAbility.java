@@ -27,6 +27,11 @@ public class SiphoningShotAbility extends Ability implements Serializable {
     }
 
     @Override
+    void reset() {
+
+    }
+
+    @Override
     public void renderIcon(Graphics2D g, int x, int y) {
         g.drawImage(Assets.siphoningShotI, x, y, null);
     }

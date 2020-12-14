@@ -1,7 +1,7 @@
 {
   "cooldownTime": 60.0,
   "castingTime": 1.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.75,
   "name": "Wildfire",
   "description": "Call down a rain of inferno on your enemies, dealing damage per second.",
   "abilityType": "EliteAbility",

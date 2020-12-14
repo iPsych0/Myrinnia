@@ -76,19 +76,11 @@ public class BurningHasteAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialBoostDone = false;
-            maxTime = 0;
-            timer = 0;
-            animation = null;
-        }
+    void reset() {
+        initialBoostDone = false;
+        maxTime = 0;
+        timer = 0;
+        animation = null;
     }
 
 }

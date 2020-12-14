@@ -1,7 +1,7 @@
 {
   "cooldownTime": 15.0,
   "castingTime": 0.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.75,
   "name": "Sandblast",
   "description": "A wave of force deals damage to adjacent foes and blinds them.",
   "abilityType": "StandardAbility",

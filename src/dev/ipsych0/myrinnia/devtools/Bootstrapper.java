@@ -12,14 +12,44 @@ public class Bootstrapper {
     private Player player;
     private CommandHandler commandHandler;
 
-    public void master() {
+    public Bootstrapper setup_lvl_15() {
         skipTutorialIsland();
-        for (Ability a : Handler.get().getAbilityManager().getAllAbilities()) {
-            a.setUnlocked(true);
-        }
+        commandHandler = new CommandHandler();
+        commandHandler.handle(Commands.SET, "set", "combat", "15");
+        commandHandler.handle(Commands.UNLOCK, "unlock", "all");
+
+        // Give lvl 15 gear sets
+        handler.giveItem(Item.coins, 1000);
+
+        handler.giveItem(Item.platinumSword, 1);
+        handler.giveItem(Item.teakBow, 1);
+        handler.giveItem(Item.teakStaff, 1);
+
+        handler.giveItem(Item.platinumPlatemail, 1);
+        handler.giveItem(Item.platinumLegs, 1);
+        handler.giveItem(Item.platinumHelm, 1);
+        handler.giveItem(Item.reinforcedShield, 1);
+
+        handler.giveItem(Item.reinforcedBody, 1);
+        handler.giveItem(Item.reinforcedLeggings, 1);
+        handler.giveItem(Item.reinforcedCowl, 1);
+        handler.giveItem(Item.platinumQuiver, 1);
+
+        handler.giveItem(Item.silkRobeTop, 1);
+        handler.giveItem(Item.silkRobeBottom, 1);
+        handler.giveItem(Item.silkHat, 1);
+        handler.giveItem(Item.sorcerersSpellbook, 1);
+
+        handler.giveItem(Item.pearlAmulet, 1);
+        handler.giveItem(Item.pearlEarrings, 1);
+
+        handler.giveItem(Item.platinumAxe, 1);
+        handler.giveItem(Item.platinumPickaxe, 1);
+        handler.giveItem(Item.platinumFishingRod, 1);
+        return this;
     }
 
-    public void skipTutorialIsland() {
+    public Bootstrapper skipTutorialIsland() {
         handler = Handler.get();
 
         commandHandler = new CommandHandler();
@@ -48,7 +78,10 @@ public class Bootstrapper {
         commandHandler.handle(Commands.UNLOCK, "unlock", "Frost_Jab");
         commandHandler.handle(Commands.UNLOCK, "unlock", "Mend_Wounds");
         commandHandler.handle(Commands.UNLOCK, "unlock", "Glacial_Shot");
+        return this;
+    }
 
+    public Bootstrapper giveStarterItems(){
         // Give starter items
         handler.giveItem(Item.coins, 100);
 
@@ -70,5 +103,7 @@ public class Bootstrapper {
         handler.giveItem(Item.azuriteOre, 5);
         handler.giveItem(Item.mackerelFish, 5);
         handler.giveItem(Item.lapisLazuli, 1);
+
+        return this;
     }
 }

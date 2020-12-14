@@ -65,9 +65,11 @@ public class DragonsBreathAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
+        if(cone == null)
+            cone = new ConeArea(caster, 90, 135);
         setDirection();
         // TODO: Add sound effect
-        animation = new Animation(250 / Assets.dragonsBreath.length, Assets.dragonsBreath, true);
+        animation = new Animation(375 / Assets.dragonsBreath.length, Assets.dragonsBreath, true);
         List<Entity> entities = getAllEntitiesInShape(cone.getArea());
         if (!entities.isEmpty()) {
             for (Entity e : entities) {
@@ -95,16 +97,8 @@ public class DragonsBreathAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            cone = null;
-        }
+    void reset() {
+        cone = null;
     }
 
 }

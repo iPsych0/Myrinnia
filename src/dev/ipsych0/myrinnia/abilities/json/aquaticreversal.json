@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Aquatic Reversal",
   "description": "Launch a bolt of water that deals damage to your opponent and heals you.",
   "abilityType": "StandardAbility",

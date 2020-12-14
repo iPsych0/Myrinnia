@@ -57,6 +57,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.Properties;
 import java.util.Random;
+import java.util.List;
 
 public class Handler implements Serializable {
 
@@ -247,7 +248,7 @@ public class Handler implements Serializable {
         game.changeCursor(cursor);
     }
 
-    public Cursor getCursor(){
+    public Cursor getCursor() {
         return game.getCursor();
     }
 

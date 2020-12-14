@@ -1,7 +1,7 @@
 {
   "cooldownTime": 25.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Nimble Fingers",
   "description": "Temporarily increases your attack speed.",
   "abilityType": "StandardAbility",

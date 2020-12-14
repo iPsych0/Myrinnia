@@ -79,15 +79,7 @@ public class AquaticReversalAbility extends Ability implements Serializable {
     }
 
     @Override
-    public void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialized = false;
-        }
+    void reset() {
+        initialized = false;
     }
 }

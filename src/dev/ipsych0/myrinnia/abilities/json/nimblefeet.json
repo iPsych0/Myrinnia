@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.0,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Nimble Feet",
   "description": "Become light as a feather. Increases movement speed.",
   "abilityType": "StandardAbility",

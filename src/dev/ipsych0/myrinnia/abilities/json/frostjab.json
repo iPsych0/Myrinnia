@@ -1,7 +1,7 @@
 {
   "cooldownTime": 6.0,
   "castingTime": 0.0,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Frost Jab",
   "description": "Lunge at your opponent with an icy swing. 20% chance to inflict Chill.",
   "abilityType": "StandardAbility",

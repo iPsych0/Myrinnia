@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Burning Haste",
   "description": "Embers set your feet ablaze, increasing your movement speed and burning enemies that hit you.",
   "abilityType": "StandardAbility",

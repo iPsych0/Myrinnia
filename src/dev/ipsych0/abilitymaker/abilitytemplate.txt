@@ -30,4 +30,9 @@ public class TestAbility extends Ability implements Serializable {
         System.out.println("TODO: Implement " + this.getClass().getSimpleName());
     }
 
+    @Override
+    public void reset() {
+
+    }
+
 }

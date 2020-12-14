@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -814,6 +815,17 @@ public class Player extends Creature {
         return false;
     }
 
+    public boolean isNotOnOvercast() {
+        for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+            if (a.getCaster().equals(this)) {
+                if (a.isInOvercast()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void checkRanged(Rectangle mouse) {
         rangedTimer += System.currentTimeMillis() - lastRangedTimer;
         lastRangedTimer = System.currentTimeMillis();
@@ -821,6 +833,9 @@ public class Player extends Creature {
             return;
 
         if (hasLeftClickedUI(mouse))
+            return;
+
+        if (isNotOnOvercast())
             return;
 
         // Change attacking animation depending on which weapon type
@@ -850,6 +865,9 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
+        if (isNotOnOvercast())
+            return;
+
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
@@ -876,6 +894,9 @@ public class Player extends Creature {
             return;
 
         if (hasLeftClickedUI(mouse))
+            return;
+
+        if (isNotOnOvercast())
             return;
 
         // Change attacking animation depending on which weapon type

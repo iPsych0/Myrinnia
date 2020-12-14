@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Barrier",
   "description": "Enclose yourself in a rocky barrier that increases your defense.",
   "abilityType": "StandardAbility",

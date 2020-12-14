@@ -1,7 +1,7 @@
 {
   "cooldownTime": 15.0,
-  "castingTime": 0.0,
-  "overcastTime": 0.0,
+  "castingTime": 0.25,
+  "overcastTime": 1.0,
   "name": "Dragon\u0027s Breath",
   "description": "Spit a cone of dragonfire towards your opponents.",
   "abilityType": "StandardAbility",

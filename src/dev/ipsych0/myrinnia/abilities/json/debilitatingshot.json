@@ -1,7 +1,7 @@
 {
   "cooldownTime": 15.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Debilitating Shot",
   "description": "Exploit your opponent\u0027s weak spot, dealing damage and stunning them.",
   "abilityType": "StandardAbility",

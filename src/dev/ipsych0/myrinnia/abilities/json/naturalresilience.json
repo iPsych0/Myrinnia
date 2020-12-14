@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Natural Resilience",
   "description": "Tap into your natural resilience and gain a defensive boost.",
   "abilityType": "StandardAbility",

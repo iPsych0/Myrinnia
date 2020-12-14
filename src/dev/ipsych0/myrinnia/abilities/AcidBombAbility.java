@@ -65,6 +65,9 @@ public class AcidBombAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
+        if (circle == null)
+            circle = new AoECircle((float) Handler.get().getMouse().x - AOE_SIZE / 2f, (float) Handler.get().getMouse().y - AOE_SIZE / 2f, AOE_SIZE, AOE_SIZE);
+
         Player player = Handler.get().getPlayer();
 
         if (!initialized) {
@@ -93,18 +96,10 @@ public class AcidBombAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialized = false;
-            circle = null;
-            animation = null;
-        }
+    void reset() {
+        initialized = false;
+        circle = null;
+        animation = null;
     }
 
 }

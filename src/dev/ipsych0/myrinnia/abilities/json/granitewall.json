@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.75,
   "name": "Granite Wall",
   "description": "Summon an impressive sturdy wall that prevents enemies from passing.",
   "abilityType": "StandardAbility",

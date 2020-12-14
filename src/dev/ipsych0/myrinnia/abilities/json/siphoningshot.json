@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Siphoning Shot",
   "description": "Shoot an arrow that siphons some health from your opponent.",
   "abilityType": "StandardAbility",

@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 1.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.75,
   "name": "Eruption",
   "description": "An explosive force that deals damage to foes adjacent to you.",
   "abilityType": "StandardAbility",

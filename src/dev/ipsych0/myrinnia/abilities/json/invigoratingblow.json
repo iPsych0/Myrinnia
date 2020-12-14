@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Invigorating Blow",
   "description": "Deliver an invigorating blow that deals damage to your opponent and heals yourself slightly.",
   "abilityType": "StandardAbility",

@@ -45,4 +45,9 @@ public class FireBallAbility extends Ability {
         this.setActivated(true);
     }
 
+    @Override
+    void reset() {
+
+    }
+
 }

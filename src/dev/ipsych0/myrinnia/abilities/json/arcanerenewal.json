@@ -1,7 +1,7 @@
 {
   "cooldownTime": 25.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Arcane Renewal",
   "description": "Refresh yourself and shed 1 condition.",
   "abilityType": "HealingAbility",

@@ -97,21 +97,12 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
         }
     }
 
-
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialized = false;
-            hasHitEnemy = false;
-            hasPlayedSound = false;
-            timer = 0;
-        }
+    void reset() {
+        initialized = false;
+        hasHitEnemy = false;
+        hasPlayedSound = false;
+        timer = 0;
     }
 
 }

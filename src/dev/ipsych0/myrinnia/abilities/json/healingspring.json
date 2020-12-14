@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Healing Spring",
   "description": "The restorative properties of the spring provide an initial heal and then heals you per second you stand in it.",
   "abilityType": "HealingAbility",

@@ -1,7 +1,7 @@
 {
   "cooldownTime": 30.0,
   "castingTime": 0.5,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Healing Breeze",
   "description": "A soft, rejuvenating breeze that restores your health and temporarily increases your movement speed.",
   "abilityType": "HealingAbility",

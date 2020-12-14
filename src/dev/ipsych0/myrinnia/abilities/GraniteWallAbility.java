@@ -27,7 +27,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
 
     @Override
     public void renderIcon(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.graniteWallI, x, y, 32, 32,null);
+        g.drawImage(Assets.graniteWallI, x, y, 32, 32, null);
     }
 
     @Override
@@ -60,6 +60,14 @@ public class GraniteWallAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
+        if (transformedShape == null || wallBounds == null) {
+            double theta = getTheta();
+            wallBounds = new Rectangle(Handler.get().getMouse().x - WALL_WIDTH / 2, Handler.get().getMouse().y - WALL_HEIGHT / 2, WALL_WIDTH, WALL_HEIGHT);
+            AffineTransform transform = new AffineTransform();
+            transform.rotate(Math.toRadians(theta), wallBounds.x + wallBounds.width / 2, wallBounds.y + wallBounds.height / 2);
+            transformedShape = transform.createTransformedShape(wallBounds);
+        }
+
         Player player = Handler.get().getPlayer();
 
 
@@ -124,16 +132,8 @@ public class GraniteWallAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            wallBounds = null;
-        }
+    void reset() {
+        wallBounds = null;
     }
 
 }

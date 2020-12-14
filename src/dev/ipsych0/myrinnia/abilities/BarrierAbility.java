@@ -57,16 +57,8 @@ public class BarrierAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            boostApplied = false;
-        }
+    void reset() {
+        boostApplied = false;
     }
 
 }

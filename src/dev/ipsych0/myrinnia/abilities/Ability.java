@@ -37,6 +37,7 @@ public abstract class Ability implements Serializable {
     private boolean inOvercast;
     int castingTimeTimer = 0;
     int cooldownTimer = 0;
+    int overcastTimer = 0;
     private int baseDamage;
     private boolean activated;
     private boolean channeling;
@@ -308,15 +309,25 @@ public abstract class Ability implements Serializable {
     }
 
     void countDown() {
+        if (inOvercast) {
+            overcastTimer++;
+        }
         cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
+        if (overcastTimer / 60d >= overcastTime) {
+            setInOvercast(false);
+            overcastTimer = 0;
+        }
+        if (cooldownTimer / 60d >= cooldownTime) {
             this.setOnCooldown(false);
             this.setActivated(false);
             this.setCasting(false);
             castingTimeTimer = 0;
             cooldownTimer = 0;
+            reset();
         }
     }
+
+    abstract void reset();
 
 
     // Getters & Setters
@@ -391,6 +402,7 @@ public abstract class Ability implements Serializable {
 
     void setCasting(boolean casting) {
         this.casting = casting;
+        this.setInOvercast(true);
     }
 
     public boolean isInOvercast() {

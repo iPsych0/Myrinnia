@@ -1,7 +1,7 @@
 {
   "cooldownTime": 5.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Fireball",
   "description": "Shoot a powerful fireball at your enemy.",
   "abilityType": "StandardAbility",

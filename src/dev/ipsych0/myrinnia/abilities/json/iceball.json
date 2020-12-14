@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Ice Ball",
   "description": "Hurl an ice ball that chills an enemy on impact.",
   "abilityType": "StandardAbility",

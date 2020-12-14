@@ -1,7 +1,7 @@
 {
   "cooldownTime": 20.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Bulk Up",
   "description": "Toughen your defenses and gain a defensive boost.",
   "abilityType": "StandardAbility",
