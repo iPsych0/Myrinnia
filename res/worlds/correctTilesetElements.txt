@@ -26,3 +26,5 @@
  <tileset firstgid="31786" source="winter3.tsx"/>
  <tileset firstgid="32042" source="winter4.tsx"/>
  <tileset firstgid="32724" source="beach2.tsx"/>
+ <tileset firstgid="33192" source="steampunk.tsx"/>
+ <tileset firstgid="37962" source="fairy_forest.tsx"/>

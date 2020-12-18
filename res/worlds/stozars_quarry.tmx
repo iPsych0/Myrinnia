@@ -27,6 +27,8 @@
  <tileset firstgid="31786" source="winter3.tsx"/>
  <tileset firstgid="32042" source="winter4.tsx"/>
  <tileset firstgid="32724" source="beach2.tsx"/>
+ <tileset firstgid="33192" source="steampunk.tsx"/>
+ <tileset firstgid="37962" source="fairy_forest.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="35">
   <data encoding="csv">
 8686,8687,8687,8687,8687,8687,8687,8687,8648,8063,8063,8107,8063,8063,8063,8063,8063,8063,8063,8063,8063,8063,8649,8687,8687,8687,8687,8688,8726,8726,8726,8686,8648,8064,8725,8726,8726,8727,8106,8649,8688,8726,8726,8726,8726,8726,8726,8726,8726,8726,

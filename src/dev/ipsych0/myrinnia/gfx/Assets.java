@@ -432,6 +432,8 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/beach2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/steampunk.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/fairy_forest.png", true));
 
         MapLoader.clearTsxCache();
 
