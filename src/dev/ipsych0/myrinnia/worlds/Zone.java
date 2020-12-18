@@ -41,6 +41,8 @@ public enum Zone {
     AemirRiverflank("Aemir Riverflank", "celenor_forest_edge.ogg", "/worlds/aemir_riverflank_polluted.tmx"),
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
+    CelenorForestCreek("Celenor Forest Creek", "celenor_forest_edge.ogg", "/worlds/celenor_forest_creek.tmx"),
+
     StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
     StozarsCauseway("Stozar's Causeway", "malachite_hills.ogg", "/worlds/stozars_causeway.tmx"),
     StozarInside("Stozar Inside", "malachite_hills.ogg", "/worlds/stozar_inside.tmx"),

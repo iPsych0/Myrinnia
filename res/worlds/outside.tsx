@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.0" name="outside" tilewidth="32" tileheight="32" tilecount="1248" columns="52">
+<tileset version="1.4" tiledversion="1.4.3" name="outside" tilewidth="32" tileheight="32" tilecount="1248" columns="52">
  <image source="../textures/tiles/outside.png" trans="000000" width="1664" height="768"/>
  <tile id="0">
   <properties>
