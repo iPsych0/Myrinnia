@@ -15,6 +15,7 @@ public class Climate {
     public static final int SNOW = 8;
     public static final int SUNNY = 9;
     public static final int SWAMP = 10;
+    public static final int CELENOR_FOREST = 11;
 
     protected List<Weather> weathers = new ArrayList<>();
     protected List<Double> probabilities = new ArrayList<>();
@@ -57,29 +58,19 @@ public class Climate {
     }
 
     private Weather getWeatherByID(int id) {
-        switch (id) {
-            case CAVE:
-                return new Cave();
-            case DROUGHT:
-                return new Drought();
-            case FOG:
-                return new Fog(Intensity.NORMAL);
-            case HEAVY_FOG:
-                return new Fog(Intensity.HEAVY);
-            case RAIN:
-                return new Rain();
-            case RAIN_THUNDER:
-                return new Rain(true);
-            case SANDSTORM:
-                return new SandStorm(Intensity.NORMAL);
-            case HEAVY_SANDSTORM:
-                return new SandStorm(Intensity.HEAVY);
-            case SNOW:
-                return new Snow();
-            case SWAMP:
-                return new Swamp();
-            default:
-                return new Sunny();
-        }
+        return switch (id) {
+            case CAVE -> new Cave();
+            case DROUGHT -> new Drought();
+            case FOG -> new Fog(Intensity.NORMAL);
+            case HEAVY_FOG -> new Fog(Intensity.HEAVY);
+            case RAIN -> new Rain();
+            case RAIN_THUNDER -> new Rain(true);
+            case SANDSTORM -> new SandStorm(Intensity.NORMAL);
+            case HEAVY_SANDSTORM -> new SandStorm(Intensity.HEAVY);
+            case SNOW -> new Snow();
+            case SWAMP -> new Swamp();
+            case CELENOR_FOREST -> new CelenorForest();
+            default -> new Sunny();
+        };
     }
 }

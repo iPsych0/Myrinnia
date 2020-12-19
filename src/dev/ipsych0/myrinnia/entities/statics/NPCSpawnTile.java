@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.worlds.World;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,7 +97,11 @@ public class NPCSpawnTile extends StaticEntity {
         }
 
         player = Handler.get().getPlayer();
+    }
 
+    @Override
+    public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
+        return super.getCollisionBounds(-Handler.get().getWorld().getWidth(), -Handler.get().getWorld().getHeight());
     }
 
     private void initEnemy(String name, Class<?> c, Rectangle coords, Integer level, String animation, String itemsShop, String direction) throws Exception {
@@ -131,6 +136,16 @@ public class NPCSpawnTile extends StaticEntity {
         }
 
         entitiesToSpawn.add(e);
+
+        // Publish a message that the NPC was spawned
+        String article;
+        name = e.getName();
+        if (name.startsWith("A") || name.startsWith("E") || name.startsWith("I") || name.startsWith("O") || name.startsWith("U")) {
+            article = "An ";
+        } else {
+            article = "A ";
+        }
+        Handler.get().sendMsg(article + name + " appeared!");
     }
 
     private List<Class<?>> getClazzes(String[] classNames) {

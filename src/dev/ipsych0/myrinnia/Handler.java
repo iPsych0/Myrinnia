@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.HitSplat;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -57,7 +58,6 @@ import java.awt.*;
 import java.io.*;
 import java.util.Properties;
 import java.util.Random;
-import java.util.List;
 
 public class Handler implements Serializable {
 
@@ -260,6 +260,15 @@ public class Handler implements Serializable {
 
     public void addRecapEvent(String description) {
         this.recapManager.addEvent(new RecapEvent(description));
+    }
+
+    public boolean hasCondition(Creature c, Condition.Type type) {
+        for (Condition condi : c.getConditions()) {
+            if (condi.getType() == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

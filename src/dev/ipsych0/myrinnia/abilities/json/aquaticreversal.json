@@ -3,7 +3,7 @@
   "castingTime": 0.25,
   "overcastTime": 0.5,
   "name": "Aquatic Reversal",
-  "description": "Launch a bolt of water that deals damage to your opponent and heals you.",
+  "description": "Launch a bolt of water that deals damage to your opponent, then bounces back in your direction. If you manage to catch the bolt, it heals you.",
   "abilityType": "StandardAbility",
   "element": "Water",
   "combatStyle": "Magic",

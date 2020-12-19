@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -28,10 +29,10 @@ public class PoisonSpider extends Creature {
 
         // Creature stats
         strength = 0;
-        dexterity = 24;
+        dexterity = 24 + (3 * (level - 10));
         intelligence = 0;
-        vitality = 64;
-        defence = 14;
+        vitality = 64 + (4 * (level - 10));
+        defence = 14 + (3 * (level - 10));
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -60,7 +61,7 @@ public class PoisonSpider extends Creature {
 
     @Override
     public void die() {
-        Handler.get().getSkill(SkillsList.COMBAT).addExperience(20);
+        Handler.get().getSkill(SkillsList.COMBAT).addExperience((int) (20 + (2.5 * (combatLevel - 10))));
         getDroptableItem();
     }
 
@@ -84,7 +85,17 @@ public class PoisonSpider extends Creature {
         attackTimer = 0;
 
         Handler.get().playEffect("abilities/magic_strike.ogg");
-        new Projectile.Builder(DamageType.DEX, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
+
+        new Projectile.Builder(DamageType.DEX, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY())
+                .withImpact((receiver) -> {
+                    // 30% chance to poison for 4 seconds, but only apply it if the enemy is not already poisoned (to prevent massive stacking)
+                    int rnd = Handler.get().getRandomNumber(1, 100);
+                    if (rnd <= 30) {
+                        if (!Handler.get().hasCondition(receiver, Condition.Type.POISON)) {
+                            receiver.addCondition(this, new Condition(Condition.Type.POISON, 4, 6 + (combatLevel - 10)));
+                        }
+                    }
+                }).build();
 
     }
 

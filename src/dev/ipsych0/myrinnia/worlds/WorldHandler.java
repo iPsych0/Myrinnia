@@ -65,7 +65,7 @@ public class WorldHandler implements Serializable {
         addWorld(new World.Builder(Zone.AemirRiverflank).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.WardensCabin).withoutDayNightCycle().build());
 
-        addWorld(new World.Builder(Zone.CelenorForestCreek).withoutDayNightCycle().withClimate(Climate.SWAMP).build());
+        addWorld(new World.Builder(Zone.CelenorForestCreek).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
 
         addWorld(new World.Builder(Zone.StozarsDescent).withClimate(new TemperateClimate()).build());
         addWorld(new World.Builder(Zone.StozarsCauseway).withClimate(new TemperateClimate()).build());
