@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.4" tiledversion="1.4.3" name="fairy_forest" tilewidth="32" tileheight="32" tilecount="2310" columns="66">
+<tileset version="1.2" tiledversion="1.3.0" name="fairy_forest" tilewidth="32" tileheight="32" tilecount="2310" columns="66">
  <image source="../textures/tiles/fairy_forest.png" trans="000000" width="2112" height="1120"/>
  <terraintypes>
   <terrain name="DarkGrassDarkWater" tile="331"/>
+  <terrain name="DarkGrassDirtPath" tile="284"/>
+  <terrain name="DarkGrassSandPath" tile="482"/>
  </terraintypes>
  <tile id="0">
   <properties>
@@ -1708,49 +1710,49 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="284">
+ <tile id="284" terrain=",,,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="285">
+ <tile id="285" terrain=",,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="286">
+ <tile id="286" terrain=",,1,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="287">
+ <tile id="287" terrain=",1,1,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="288">
+ <tile id="288" terrain="1,,,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="289">
+ <tile id="289" terrain="1,1,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="290">
+ <tile id="290" terrain="1,1,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="291">
+ <tile id="291" terrain="1,1,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -2134,31 +2136,31 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="350">
+ <tile id="350" terrain=",1,,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="351">
+ <tile id="351" terrain="1,1,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="352">
+ <tile id="352" terrain="1,,1,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="353">
+ <tile id="353" terrain=",1,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="354">
+ <tile id="354" terrain="1,,1,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -2560,31 +2562,31 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="416">
+ <tile id="416" terrain=",1,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="417">
+ <tile id="417" terrain="1,1,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="418">
+ <tile id="418" terrain="1,,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="419">
+ <tile id="419" terrain="1,1,,1">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="420">
+ <tile id="420" terrain="1,1,1,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -2986,49 +2988,49 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="482">
+ <tile id="482" terrain=",,,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="483">
+ <tile id="483" terrain=",,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="484">
+ <tile id="484" terrain=",,2,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="485">
+ <tile id="485" terrain=",2,2,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="486">
+ <tile id="486" terrain="2,,,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="487">
+ <tile id="487" terrain="2,2,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="488">
+ <tile id="488" terrain="2,2,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="489">
+ <tile id="489" terrain="2,2,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -3382,7 +3384,7 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="548">
+ <tile id="548" terrain=",2,,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -3394,19 +3396,19 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="550">
+ <tile id="550" terrain="2,,2,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="551">
+ <tile id="551" terrain=",2,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="552">
+ <tile id="552" terrain="2,,2,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
@@ -3778,31 +3780,31 @@
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="614">
+ <tile id="614" terrain=",2,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="615">
+ <tile id="615" terrain="2,2,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="616">
+ <tile id="616" terrain="2,,,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="617">
+ <tile id="617" terrain="2,2,,2">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
- <tile id="618">
+ <tile id="618" terrain="2,2,2,">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>

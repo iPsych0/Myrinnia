@@ -42,6 +42,7 @@ public enum Zone {
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
     CelenorForestCreek("Celenor Forest Creek", "celenor_forest_edge.ogg", "/worlds/celenor_forest_creek.tmx"),
+    CelenorForestLandslide("Celenor Forest Landslide", "celenor_forest_edge.ogg", "/worlds/celenor_forest_landslide.tmx"),
 
     StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
     StozarsCauseway("Stozar's Causeway", "malachite_hills.ogg", "/worlds/stozars_causeway.tmx"),
