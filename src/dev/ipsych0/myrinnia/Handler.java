@@ -52,7 +52,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
-import dev.ipsych0.myrinnia.worlds.weather.TemperateClimate;
+import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
 
 import java.awt.*;
 import java.io.*;

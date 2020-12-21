@@ -16,6 +16,7 @@ public class Climate {
     public static final int SUNNY = 9;
     public static final int SWAMP = 10;
     public static final int CELENOR_FOREST = 11;
+    public static final int FYDDNYMED = 12;
 
     protected List<Weather> weathers = new ArrayList<>();
     protected List<Double> probabilities = new ArrayList<>();

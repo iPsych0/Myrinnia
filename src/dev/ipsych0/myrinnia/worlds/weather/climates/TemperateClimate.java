@@ -1,4 +1,8 @@
-package dev.ipsych0.myrinnia.worlds.weather;
+package dev.ipsych0.myrinnia.worlds.weather.climates;
+
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.Rain;
+import dev.ipsych0.myrinnia.worlds.weather.Sunny;
 
 public class TemperateClimate extends Climate {
 

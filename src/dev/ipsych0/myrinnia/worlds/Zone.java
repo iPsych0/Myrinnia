@@ -43,6 +43,7 @@ public enum Zone {
 
     CelenorForestCreek("Celenor Forest Creek", "celenor_forest_edge.ogg", "/worlds/celenor_forest_creek.tmx"),
     CelenorForestLandslide("Celenor Forest Landslide", "celenor_forest_edge.ogg", "/worlds/celenor_forest_landslide.tmx"),
+    Fyddnymed("Fyddnymed", "celenor_forest_edge.ogg", "/worlds/fyddnymed.tmx"),
 
     StozarsDescent("Stozar's Descent", "malachite_hills.ogg", "/worlds/stozars_descent.tmx"),
     StozarsCauseway("Stozar's Causeway", "malachite_hills.ogg", "/worlds/stozars_causeway.tmx"),
