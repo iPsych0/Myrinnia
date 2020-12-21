@@ -39,7 +39,7 @@ public abstract class Entity implements Serializable {
     protected Rectangle fullBounds;
     protected Rectangle interactionBounds;
     public static boolean isCloseToNPC = false;
-    protected int health;
+    protected double health;
     protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
@@ -797,10 +797,10 @@ public abstract class Entity implements Serializable {
     }
 
     public int getHealth() {
-        return health;
+        return (int) health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 

@@ -134,6 +134,7 @@ public class Assets {
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
     public static BufferedImage[] ogreUp, ogreDown, ogreLeft, ogreRight;
     public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
+    public static BufferedImage[] hornettaUp, hornettaDown, hornettaLeft, hornettaRight;
     public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
     public static BufferedImage[] whiteWolfUp, whiteWolfDown, whiteWolfLeft, whiteWolfRight;
     public static BufferedImage[] poisonSpiderUp, poisonSpiderDown, poisonSpiderLeft, poisonSpiderRight;
@@ -1072,6 +1073,11 @@ public class Assets {
         alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);
         alchemicalExperimentRight = enemy_sheet1.npcCrop(12, 6, WIDTH, HEIGHT);
         alchemicalExperimentUp = enemy_sheet1.npcCrop(12, 7, WIDTH, HEIGHT);
+
+        hornettaDown = enemy_sheet1.npcCrop(6, 4, WIDTH, HEIGHT);
+        hornettaLeft = enemy_sheet1.npcCrop(6, 5, WIDTH, HEIGHT);
+        hornettaRight = enemy_sheet1.npcCrop(6, 6, WIDTH, HEIGHT);
+        hornettaUp = enemy_sheet1.npcCrop(6, 7, WIDTH, HEIGHT);
 
         // Bosses
 

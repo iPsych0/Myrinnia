@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.PoisonDartAbility;
 import dev.ipsych0.myrinnia.abilities.SepticBlastAbility;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;

@@ -86,11 +86,6 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            // If all creatures are out of combat, regen health
-            if (!player.isInCombat() && (creatureCounter - 1) == oocCounter) {
-                player.regenHealth();
-            }
-
             e.tick();
 
             // Update combat timers
@@ -122,6 +117,11 @@ public class EntityManager implements Serializable {
                     }
                 }
             }
+        }
+
+        // If all creatures are out of combat, regen health
+        if (!player.isInCombat() && (creatureCounter - 1) == oocCounter) {
+            player.regenHealth();
         }
 
         // If enemies are dead, update the respawn timers

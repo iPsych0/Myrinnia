@@ -1200,11 +1200,15 @@ public abstract class Creature extends Entity {
             return;
         }
 
+        double percentageHealthPerSec = 0.1; // Regen 10% health per second
+        double frames = 60.0;
+        double regen = (double) maxHealth * percentageHealthPerSec / frames;
+
         // If current health is higher than your max health value, degenerate health
         if (health > maxHealth) {
 
-            if (health - (int) Math.ceil(0.00005d * (double) maxHealth) > maxHealth) {
-                health -= (int) Math.ceil(0.00005d * (double) maxHealth);
+            if (health - regen > maxHealth) {
+                health -= regen;
             } else {
                 health = maxHealth;
             }
@@ -1213,8 +1217,8 @@ public abstract class Creature extends Entity {
         // If current health is lower than your max health value, regenerate health
         if (health < maxHealth) {
 
-            if (health + (int) Math.ceil(0.00005d * (double) maxHealth) < maxHealth) {
-                health += (int) Math.ceil(0.00005d * (double) maxHealth);
+            if (health + regen < maxHealth) {
+                health += regen;
             } else {
                 health = maxHealth;
             }
