@@ -605,7 +605,7 @@ public abstract class Creature extends Entity {
             }
 
             if (isAggroed()) {
-                name[1] = "HP: " + health + "/" + maxHealth;
+                name[1] = "HP: " + (int) health + "/" + maxHealth;
             } else {
                 String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
                 name[1] = "Press '" + interactKey + "' to interact";
@@ -614,7 +614,7 @@ public abstract class Creature extends Entity {
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "HP: " + health + "/" + maxHealth;
+        name[1] = "HP: " + (int) health + "/" + maxHealth;
         return name;
     }
 
@@ -663,7 +663,7 @@ public abstract class Creature extends Entity {
         lookAtPlayer();
     }
 
-    public void lookAtPlayer(){
+    public void lookAtPlayer() {
         Player player = Handler.get().getPlayer();
         // If more than half a tile left or right of this NPC, look that direction
         if (player.getX() - this.x < -Tile.TILEWIDTH / 2d) {

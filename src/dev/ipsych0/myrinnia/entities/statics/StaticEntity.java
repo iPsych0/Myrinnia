@@ -31,7 +31,7 @@ public abstract class StaticEntity extends Entity {
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName();
-        name[1] = "Health: " + health + "/" + maxHealth;
+        name[1] = "Health: " + (int) health + "/" + maxHealth;
         return name;
     }
 

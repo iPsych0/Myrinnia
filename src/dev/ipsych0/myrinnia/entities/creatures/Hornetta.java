@@ -19,7 +19,7 @@ public class Hornetta extends Creature {
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer
-    private long lastAttackTimer, attackCooldown = 500, attackTimer = attackCooldown;
+    private long lastAttackTimer, attackCooldown = 450, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
     public Hornetta(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
@@ -28,7 +28,7 @@ public class Hornetta extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 10;
+        strength = 0;
         dexterity = 0;
         intelligence = 0;
         vitality = 108;
