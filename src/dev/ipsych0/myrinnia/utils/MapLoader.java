@@ -326,6 +326,12 @@ public class MapLoader implements Serializable {
                         } catch (Exception e) {
                             System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
                         }
+
+                        if (TiledObjectType.COLLISION == objectType) {
+                            className = "CollisionTile";
+                            Entity e = loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                            addToWorld(world, e);
+                        }
                     } else if (qName.equalsIgnoreCase("property")) {
                         // Get the class name for the NPC
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {

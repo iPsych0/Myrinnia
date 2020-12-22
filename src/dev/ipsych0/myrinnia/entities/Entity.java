@@ -55,7 +55,7 @@ public abstract class Entity implements Serializable {
     protected int speakingTurn = 0;
     protected int speakingCheckpoint = 0;
     protected transient ChatDialogue chatDialogue;
-    private boolean overlayDrawn = true;
+    protected boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;

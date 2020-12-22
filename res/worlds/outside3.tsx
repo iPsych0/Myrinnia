@@ -3289,25 +3289,25 @@
  </tile>
  <tile id="536">
   <properties>
-   <property name="postRendered" value="tru"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="537">
   <properties>
-   <property name="postRendered" value="tru"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="538">
   <properties>
-   <property name="postRendered" value="tru"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="539">
   <properties>
-   <property name="postRendered" value="tru"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>

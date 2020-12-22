@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -131,8 +132,8 @@ public class CommandHandler implements Serializable {
                     } else if (commands.length == 3) {
                         Integer xPos = Integer.parseInt(commands[1]);
                         Integer yPos = Integer.parseInt(commands[2]);
-                        Handler.get().getPlayer().setX(xPos);
-                        Handler.get().getPlayer().setY(yPos);
+                        Handler.get().getPlayer().setX(xPos * Tile.TILEWIDTH);
+                        Handler.get().getPlayer().setY(yPos * Tile.TILEHEIGHT);
                     } else {
                         throw new Exception();
                     }

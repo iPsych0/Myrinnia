@@ -18,6 +18,7 @@ public abstract class StaticEntity extends Entity {
 
         staticNpc = true;
         solid = true;
+        walker = false;
     }
 
     @Override
