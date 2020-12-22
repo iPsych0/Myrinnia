@@ -2819,25 +2819,25 @@
  </tile>
  <tile id="461">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="462">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="463">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="464">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -2969,25 +2969,25 @@
  </tile>
  <tile id="486">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="487">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="488">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="489">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -3122,24 +3122,44 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="2" x="28.7273" y="0">
+    <polygon points="0,0 0.909091,28.1818 2.90909,28.1818 3.27273,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="512">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,27.8182 5.27273,25.0909 4.90909,0.363636"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="513">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="32" y="0">
+    <polygon points="0,0 -3.27273,0.181818 -2.18182,28.1818 -0.363636,28.1818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="514">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,28 4.54545,26 3.81818,0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="515">
   <properties>
@@ -3149,8 +3169,8 @@
  </tile>
  <tile id="516">
   <properties>
-   <property name="postRendered" value="false"/>
-   <property name="solid" value="true"/>
+   <property name="postRendered" value="true"/>
+   <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="517">
@@ -3269,25 +3289,25 @@
  </tile>
  <tile id="536">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="tru"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="537">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="tru"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="538">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="tru"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="539">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="tru"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -3296,12 +3316,22 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="11.2727" y="-0.545455">
+    <polygon points="0,0 -2.36364,6.54545 -2.18182,20.1818 5.09091,24.5455 11.6364,20 11.4545,4 8.18182,0.545455"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="541">
   <properties>
    <property name="postRendered" value="false"/>
    <property name="solid" value="true"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="12.1818" y="-0.181818">
+    <polygon points="0,0 -3.27273,4.72727 -2.90909,19.4545 3.63636,23.4545 10.7273,17.4545 10.5455,3.63636 5.81818,0.181818"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="542">
   <properties>
@@ -3426,7 +3456,7 @@
  <tile id="562">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="563">
@@ -3438,66 +3468,66 @@
  <tile id="564">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="565">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="566">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="567">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="568">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="569">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="570">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="571">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="572">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="573">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="574">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -3593,61 +3623,61 @@
  </tile>
  <tile id="590">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="591">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="592">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="593">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="594">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="595">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="596">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="597">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="598">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="599">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
@@ -3720,7 +3750,7 @@
  <tile id="611">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="612">
@@ -3732,7 +3762,7 @@
  <tile id="613">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="614">
@@ -3744,13 +3774,13 @@
  <tile id="615">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="616">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="617">
@@ -3762,42 +3792,42 @@
  <tile id="618">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="619">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="620">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="621">
   <properties>
    <property name="postRendered" value="false"/>
-   <property name="solid" value="false"/>
+   <property name="solid" value="true"/>
   </properties>
  </tile>
  <tile id="622">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="623">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
  <tile id="624">
   <properties>
-   <property name="postRendered" value="false"/>
+   <property name="postRendered" value="true"/>
    <property name="solid" value="false"/>
   </properties>
  </tile>
