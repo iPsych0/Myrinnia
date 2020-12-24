@@ -137,10 +137,10 @@ public class Player extends Creature {
         bounds.height = 16;
 
         // Animations
-        aDown = new Animation(250, Assets.player_down);
-        aUp = new Animation(250, Assets.player_up);
-        aLeft = new Animation(250, Assets.player_left);
-        aRight = new Animation(250, Assets.player_right);
+        aDown = new Animation(166, Assets.player_down);
+        aUp = new Animation(166, Assets.player_up);
+        aLeft = new Animation(166, Assets.player_left);
+        aRight = new Animation(166, Assets.player_right);
 
         attDown = new Animation(333, Assets.player_melee_down);
         attUp = new Animation(333, Assets.player_melee_up);

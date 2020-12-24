@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="26">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="26">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -410,7 +410,13 @@
     <property name="zone" value="CelenorForestCreek"/>
    </properties>
   </object>
-  <object id="2" name="Fyddnymed" type="zone_tile" x="2336" y="0" width="1504" height="32"/>
+  <object id="2" name="Fyddnymed" type="zone_tile" x="2336" y="0" width="1504" height="16">
+   <properties>
+    <property name="goToX" value="67"/>
+    <property name="goToY" value="118"/>
+    <property name="zone" value="Fyddnymed"/>
+   </properties>
+  </object>
   <object id="3" name="Hornetta" type="npc" x="672" y="576" width="32" height="32">
    <properties>
     <property name="animation" value="hornetta"/>
