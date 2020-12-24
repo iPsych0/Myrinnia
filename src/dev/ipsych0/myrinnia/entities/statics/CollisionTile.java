@@ -14,6 +14,7 @@ public class CollisionTile extends StaticEntity {
         respawnTime = 1L;
         overlayDrawn = false;
     }
+// dit is een vogelhuis. Daar woont dus een vogel
 
     @Override
     public void tick() {
