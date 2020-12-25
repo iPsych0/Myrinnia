@@ -27,6 +27,7 @@ public class Assets {
     public static Font font48;
     public static Font font64;
 
+
     public static BufferedImage normalCursor, normalCursorHighlight, attackCursorHighlight, chatBubble;
 
     // Weather effects

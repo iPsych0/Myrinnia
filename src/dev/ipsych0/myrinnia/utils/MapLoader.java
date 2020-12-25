@@ -253,6 +253,10 @@ public class MapLoader implements Serializable {
                     world.setHasPermissionsLayer(true);
                     break;
                 }
+                if ("Shadows".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
+                    world.setHasShadowsLayer(true);
+                    break;
+                }
                 layer++;
             }
 

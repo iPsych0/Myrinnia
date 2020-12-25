@@ -495,6 +495,14 @@ public abstract class Creature extends Entity {
             topLayer = Handler.get().getWorld().getLayers().length;
         }
 
+        if (Handler.get().getWorld().hasShadowsLayer()) {
+            if (Handler.get().getWorld().hasPermissionsLayer()) {
+                topLayer = Handler.get().getWorld().getLayers().length - 2;
+            } else {
+                topLayer = Handler.get().getWorld().getLayers().length - 1;
+            }
+        }
+
         checkPermissionTiles(x, y);
 
         // Special exclusion for 3C tiles when walking underneath (allow all movement)
@@ -557,6 +565,14 @@ public abstract class Creature extends Entity {
             }
         } else {
             topLayer = Handler.get().getWorld().getLayers().length;
+        }
+
+        if (Handler.get().getWorld().hasShadowsLayer()) {
+            if (Handler.get().getWorld().hasPermissionsLayer()) {
+                topLayer = Handler.get().getWorld().getLayers().length - 2;
+            } else {
+                topLayer = Handler.get().getWorld().getLayers().length - 1;
+            }
         }
 //
 //        checkPermissionTiles(x, y);

@@ -57,7 +57,7 @@ public class World implements Serializable {
     private static boolean nightTime = false;
     private static int timeChecker = 60 * 60;
     private boolean initialized;
-    private boolean hasPermissionsLayer;
+    private boolean hasPermissionsLayer, hasShadowsLayer;
     private int renderLayers;
     private boolean town;
 
@@ -101,7 +101,9 @@ public class World implements Serializable {
     private static final RadialGradientPaint paint = new RadialGradientPaint(Handler.get().getWidth() / 2f, Handler.get().
             getHeight() / 2f, radius, fractions, colors);
 
-    private World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path) {
+    private World backgroundWorld;
+
+    private World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path, World backgroundWorld) {
         // First world path is already corrected per IDE/JAR
         if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
             this.worldPath = FileUtils.getResourcePath(path);
@@ -112,6 +114,7 @@ public class World implements Serializable {
         this.dayNightCycle = dayNightCycle;
         this.town = isTown;
         this.climate = climate;
+        this.backgroundWorld = backgroundWorld;
 
         // If we didn't specify a climate, assume always sunny (no weather condition)
         if (climate.getWeathers().isEmpty()) {
@@ -294,6 +297,7 @@ public class World implements Serializable {
 
     public void render(Graphics2D g) {
         if (Handler.get().getWorld().equals(this)) {
+
             // Get the dimension once at the start
             int screenWidth = Handler.get().getWidth();
             int screenheight = Handler.get().getHeight();
@@ -305,6 +309,12 @@ public class World implements Serializable {
             int xEnd = (int) Math.min(width, (xOffset + screenWidth) / Tile.TILEWIDTH + 1);
             int yStart = (int) Math.max(0, yOffset / Tile.TILEHEIGHT);
             int yEnd = (int) Math.min(height, (yOffset + screenheight) / Tile.TILEHEIGHT + 1);
+
+            if (backgroundWorld != null) {
+                if (!backgroundWorld.isInitialized())
+                    backgroundWorld.init();
+                backgroundWorld.renderBackgroundWorld(g, xStart, yStart, xEnd, yEnd, (int) xOffset, (int) yOffset);
+            }
 
             // Render the tiles
             List<Tile> renderOverTiles = new ArrayList<>();
@@ -469,6 +479,22 @@ public class World implements Serializable {
             }
 
             tipManager.render(g);
+        }
+    }
+
+    private void renderBackgroundWorld(Graphics2D g, int xStart, int yStart, int xEnd, int yEnd, int xOffset, int yOffset) {
+        for (int i = 0; i < renderLayers; i++) {
+            for (int y = yStart; y < yEnd; y++) {
+                for (int x = xStart; x < xEnd; x++) {
+                    Tile t = getTile(i, x, y);
+                    if (t != Tile.tiles[0]) {
+                        int xPos = (int) (x * Tile.TILEWIDTH - xOffset);
+                        int yPos = (int) (y * Tile.TILEHEIGHT - yOffset);
+                        t.tick();
+                        t.render(g, xPos, yPos);
+                    }
+                }
+            }
         }
     }
 
@@ -669,6 +695,14 @@ public class World implements Serializable {
         this.hasPermissionsLayer = hasPermissionsLayer;
     }
 
+    public boolean hasShadowsLayer() {
+        return hasShadowsLayer;
+    }
+
+    public void setHasShadowsLayer(boolean hasShadowsLayer) {
+        this.hasShadowsLayer = hasShadowsLayer;
+    }
+
     public boolean isInitialized() {
         return initialized;
     }
@@ -687,6 +721,7 @@ public class World implements Serializable {
         private boolean isTown;
         private boolean dayNightCycle = true;
         private Climate climate = new Climate();
+        private World backgroundWorld;
 
         public Builder(Zone zone) {
             this.zone = zone;
@@ -700,6 +735,11 @@ public class World implements Serializable {
 
         public Builder withoutDayNightCycle() {
             this.dayNightCycle = false;
+            return this;
+        }
+
+        public Builder withBackground(World backgroundWorld) {
+            this.backgroundWorld = backgroundWorld;
             return this;
         }
 
@@ -718,7 +758,7 @@ public class World implements Serializable {
         }
 
         public World build() {
-            return new World(zone, climate, dayNightCycle, isTown, path);
+            return new World(zone, climate, dayNightCycle, isTown, path, backgroundWorld);
         }
     }
 }
