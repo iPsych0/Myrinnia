@@ -240,12 +240,6 @@ public class InventoryWindow implements Serializable {
                             equipPressed = false;
                             return;
                         }
-                        if (Handler.get().getPlayer().isInCombat()) {
-                            Handler.get().sendMsg("You cannot equip items while in combat.");
-                            hasBeenPressed = false;
-                            equipPressed = false;
-                            return;
-                        }
                         if (is.getItemStack().getItem().getEquipSlot() == EquipSlot.None.getSlotId()) {
                             // If the item's equipmentslot = 12, that means it's unequippable, so return
                             Handler.get().sendMsg("You cannot use " + is.getItemStack().getItem().getName() + ".");

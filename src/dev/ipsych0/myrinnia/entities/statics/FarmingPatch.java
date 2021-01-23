@@ -23,7 +23,7 @@ public class FarmingPatch extends GenericObject {
     private static final long serialVersionUID = -8804679431303966524L;
     private FarmingResource resource;
     private FarmingUI farmingUI;
-    private ItemStack yield;
+    private ItemStack harvest;
     private boolean composted, watered;
     private Script finishedScript = Utils.loadScript("farming_patch_done.json");
     private Script plantableScript;
@@ -72,10 +72,10 @@ public class FarmingPatch extends GenericObject {
         }
 
         // If we've planted the seeds, but the yield is not finished, update timer
-        if (resource != null && !finished && yield == null) {
+        if (resource != null && !finished && harvest == null) {
             long currentTime = System.currentTimeMillis();
             if (((currentTime - resource.getTimePlanted()) / 1000L) >= resource.getTimeToGrow()) {
-                yield = new ItemStack(resource.getItem(), resource.getHarvestQuantity());
+                harvest = new ItemStack(resource.getItem(), resource.getHarvestQuantity());
                 finished = true;
                 script = finishedScript;
             }
@@ -91,10 +91,10 @@ public class FarmingPatch extends GenericObject {
                 }
             }
         }
-        if (yield != null) {
+        if (harvest != null) {
             for (int x = 0; x < width; x += 32) {
                 for (int y = 0; y < height; y += 32) {
-                    g.drawImage(yield.getItem().getTexture(), (int) (this.x + x - Handler.get().getGameCamera().getxOffset()), (int) (this.y + y - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
+                    g.drawImage(harvest.getItem().getTexture(), (int) (this.x + x - Handler.get().getGameCamera().getxOffset()), (int) (this.y + y - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
                 }
             }
         }
@@ -123,7 +123,7 @@ public class FarmingPatch extends GenericObject {
             farmingUI.render(g);
         } else {
             // If nothing planted yet, draw the farming icon
-            if (resource == null && yield == null) {
+            if (resource == null && harvest == null) {
                 g.drawImage(Assets.farmingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
             }
             if (resource != null && !finished) {
@@ -170,10 +170,10 @@ public class FarmingPatch extends GenericObject {
                 return true;
             case "yieldFinished":
                 if (finished) {
-                    Handler.get().giveItem(yield.getItem(), yield.getAmount());
+                    Handler.get().giveItem(harvest.getItem(), harvest.getAmount());
                     Handler.get().getSkill(SkillsList.FARMING).addExperience(resource.getExperience());
                     script = plantableScript;
-                    yield = null;
+                    harvest = null;
                     resource = null;
                     composted = false;
                     watered = false;

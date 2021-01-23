@@ -297,7 +297,7 @@
    <properties>
     <property name="animation" value="goblinoRed"/>
     <property name="direction" value="DOWN"/>
-    <property name="jsonFile" value="Add dialogue."/>
+    <property name="jsonFile" value="Hello, human. If you came to visit the outpost, I'm afraid you can't.~In the future, we may require your assistance here. Please come back another time."/>
     <property name="name" value="Aztog"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -307,7 +307,7 @@
    <properties>
     <property name="animation" value="goblinoRed"/>
     <property name="direction" value="UP"/>
-    <property name="jsonFile" value="Add dialogue."/>
+    <property name="jsonFile" value="Stop, human. You may not enter the outpost without permission."/>
     <property name="name" value="Crimsonclaw Guard"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>
@@ -316,7 +316,7 @@
    <properties>
     <property name="animation" value="goblinoRed"/>
     <property name="direction" value="UP"/>
-    <property name="jsonFile" value="Add dialogue."/>
+    <property name="jsonFile" value="Stop, human. You may not enter the outpost without permission."/>
     <property name="name" value="Crimsonclaw Guard"/>
     <property name="npcClass" value="GenericNPC"/>
    </properties>

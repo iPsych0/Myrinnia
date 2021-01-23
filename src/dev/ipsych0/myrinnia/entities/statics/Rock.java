@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -50,7 +49,15 @@ public class Rock extends StaticEntity {
             entry("Copper Rock", Assets.copperRock),
             entry("Iron Rock", Assets.ironRock),
             entry("Clay Rock", Assets.clayRock),
-            entry("Tungsten Rock", Assets.tungstenRock)
+            entry("Tungsten Rock", Assets.tungstenRock),
+            entry("Coal Rock", Assets.coalRock),
+            entry("Silver Rock", Assets.silverRock),
+            entry("Platinum Rock", Assets.platinumRock),
+            entry("Gold Rock", Assets.goldRock),
+            entry("Titanium Rock", Assets.titaniumRock),
+            entry("Palladium Rock", Assets.palladiumRock),
+            entry("Obsidian Rock", Assets.obsidianRock),
+            entry("Cobalt Rock", Assets.cobaltRock)
     );
     private static Map<Integer, Double> chanceToMineMap = Map.ofEntries(
             entry(Item.simplePickaxe.getId(), 1.00),
@@ -83,34 +90,87 @@ public class Rock extends StaticEntity {
             ore = Item.azuriteOre;
             rareMaterial = Item.lapisLazuli;
             experience = 10;
-            timeToMine = 150;
-            chanceToMine = 750; // 75%
+            timeToMine = 120;
+            chanceToMine = 850; // 85%
             chanceOfRareMaterial = 100; // 10% Chance
         } else if (name.equalsIgnoreCase("Copper Rock")) {
             ore = Item.copperOre;
             rareMaterial = Item.malachite;
             experience = 15;
-            timeToMine = 180;
-            chanceToMine = 700; // 70%
+            timeToMine = 150;
+            chanceToMine = 825; // 82,5%
             chanceOfRareMaterial = 80; // 8% chance
         } else if (name.equalsIgnoreCase("Iron Rock")) {
             ore = Item.ironOre;
             experience = 20;
-            timeToMine = 240;
-            chanceToMine = 650; // 65%
+            timeToMine = 180;
+            chanceToMine = 800; // 80%
             chanceOfRareMaterial = 80; // 8% chance
         } else if (name.equalsIgnoreCase("Clay Rock")) {
             ore = Item.clay;
             experience = 15;
             timeToMine = 150;
-            chanceToMine = 700; // 70%
+            chanceToMine = 775; // 77,5%
             chanceOfRareMaterial = 50; // 5% chance
-        }else if (name.equalsIgnoreCase("Tungsten Rock")) {
+        } else if (name.equalsIgnoreCase("Tungsten Rock")) {
             ore = Item.tungstenOre;
+            rareMaterial = Item.topaz;
             experience = 25;
-            timeToMine = 300;
-            chanceToMine = 600; // 60%
+            timeToMine = 210;
+            chanceToMine = 750; // 75%
             chanceOfRareMaterial = 75; // 7,5% chance
+        } else if (name.equalsIgnoreCase("Coal Rock")) {
+            ore = Item.coalOre;
+            experience = 35;
+            timeToMine = 240;
+            chanceToMine = 725; // 72,5%
+            chanceOfRareMaterial = 65; // 6,5% chance
+        } else if (name.equalsIgnoreCase("Silver Rock")) {
+            ore = Item.silverOre;
+            rareMaterial = Item.pearl;
+            experience = 40;
+            timeToMine = 270;
+            chanceToMine = 700; // 70%
+            chanceOfRareMaterial = 60; // 6% chance
+        } else if (name.equalsIgnoreCase("Platinum Rock")) {
+            ore = Item.platinumOre;
+            experience = 45;
+            timeToMine = 300;
+            chanceToMine = 675; // 67,5%
+            chanceOfRareMaterial = 55; // 5,5% chance
+        } else if (name.equalsIgnoreCase("Gold Rock")) {
+            ore = Item.goldOre;
+            rareMaterial = Item.amethyst;
+            experience = 55;
+            timeToMine = 330;
+            chanceToMine = 650; // 65%
+            chanceOfRareMaterial = 50; // 5% chance
+        } else if (name.equalsIgnoreCase("Titanium Rock")) {
+            ore = Item.titaniumOre;
+            experience = 70;
+            timeToMine = 360;
+            chanceToMine = 625; // 62,5%
+            chanceOfRareMaterial = 45; // 4,5% chance
+        } else if (name.equalsIgnoreCase("Palladium Rock")) {
+            ore = Item.palladiumOre;
+            rareMaterial = Item.diamond;
+            experience = 90;
+            timeToMine = 390;
+            chanceToMine = 600; // 60%
+            chanceOfRareMaterial = 40; // 4% chance
+        } else if (name.equalsIgnoreCase("Obsidian Rock")) {
+            ore = Item.obsidianShard;
+            experience = 115;
+            timeToMine = 420;
+            chanceToMine = 575; // 57,5%
+            chanceOfRareMaterial = 35; // 3,5% chance
+        } else if (name.equalsIgnoreCase("Cobalt Rock")) {
+            ore = Item.cobaltOre;
+            rareMaterial = Item.onyx;
+            experience = 140;
+            timeToMine = 450;
+            chanceToMine = 550; // 55%
+            chanceOfRareMaterial = 30; // 3% chance
         } else {
             throw new IllegalArgumentException("Rock name not found: " + name);
         }

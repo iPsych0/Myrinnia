@@ -46,8 +46,11 @@ public class Tree extends StaticEntity {
     private static Map<String, BufferedImage> textureMap = Map.ofEntries(
             entry("Weak Palm Tree", Assets.weakPalmTree),
             entry("Elm Tree", Assets.elmTree),
+            entry("Dead Tree", Assets.deadTree),
             entry("Oak Tree", Assets.oakTree),
-            entry("Aspen Tree", Assets.aspenTree)
+            entry("Aspen Tree", Assets.aspenTree),
+            entry("Teak Tree", Assets.teakTree),
+            entry("Mahogany Tree", Assets.mahoganyTree)
     );
     private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
             entry(Item.simpleAxe.getId(), 1.00),
@@ -82,7 +85,7 @@ public class Tree extends StaticEntity {
             logs = Item.palmWood;
             rareMaterial = null; // TODO: ADD COCONUT
             experience = 10;
-            timeToCut = 150;
+            timeToCut = 120;
             chanceToCut = 750; // 75%
             chanceOfRareMaterial = 100; // 10% Chance
             bounds.x = 32;
@@ -93,18 +96,29 @@ public class Tree extends StaticEntity {
             logs = Item.lightwood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 15;
-            timeToCut = 180;
+            timeToCut = 150;
             chanceToCut = 700; // 70%
             chanceOfRareMaterial = 80; // 8% Chance
             bounds.x = 17;
             bounds.y = 83;
             bounds.width = 29;
             bounds.height = 13;
+        }else if (name.equalsIgnoreCase("Dead Tree")) {
+            logs = Item.lightwood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 15;
+            timeToCut = 150;
+            chanceToCut = 700; // 70%
+            chanceOfRareMaterial = 80; // 8% Chance
+            bounds.x = 17;
+            bounds.y = 80;
+            bounds.width = 29;
+            bounds.height = 14;
         } else if (name.equalsIgnoreCase("Oak Tree")) {
             logs = Item.hardWood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 20;
-            timeToCut = 210;
+            timeToCut = 180;
             chanceToCut = 650; // 65%
             chanceOfRareMaterial = 80; // 8% Chance
             bounds.x = 17;
@@ -115,13 +129,35 @@ public class Tree extends StaticEntity {
             logs = Item.aspenwood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 25;
-            timeToCut = 300;
+            timeToCut = 210;
             chanceToCut = 600; // 60%
             chanceOfRareMaterial = 75; // 7,5% Chance
             bounds.x = 17;
             bounds.y = 83;
             bounds.width = 29;
             bounds.height = 13;
+        }else if (name.equalsIgnoreCase("Teak Tree")) {
+            logs = Item.teakWood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 35;
+            timeToCut = 240;
+            chanceToCut = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+            bounds.x = 30;
+            bounds.y = 104;
+            bounds.width = 20;
+            bounds.height = 16;
+        }else if (name.equalsIgnoreCase("Mahogany Tree")) {
+            logs = Item.mahoganyWood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 50;
+            timeToCut = 270;
+            chanceToCut = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+            bounds.x = 28;
+            bounds.y = 104;
+            bounds.width = 42;
+            bounds.height = 20;
         } else {
             throw new IllegalArgumentException("Tree name not found: " + name);
         }

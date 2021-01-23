@@ -3,11 +3,14 @@ package dev.ipsych0.myrinnia.display;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.states.GraphicsState;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Display implements Serializable {
@@ -102,6 +105,11 @@ public class Display implements Serializable {
         windowedY = frame.getY();
         windowedWidth = frame.getWidth();
         windowedHeight = frame.getHeight();
+
+        List<Image> icons = new ArrayList<>();
+        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
+        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
+        frame.setIconImages(icons);
     }
 
     public void setFullScreen() {

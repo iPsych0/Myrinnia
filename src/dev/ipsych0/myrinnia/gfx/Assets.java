@@ -34,7 +34,9 @@ public class Assets {
     public static BufferedImage rain, snow, sandStorm, fogNormal, fogHeavy;
 
     // Map item images (trees, rocks, etc)
-    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, clayRock, tungstenRock;
+    public static BufferedImage weakPalmTree, elmTree, deadTree, oakTree, aspenTree, teakTree, mahoganyTree, elderTree, ancientTree;
+    public static BufferedImage azuriteRock, copperRock, ironRock, tungstenRock, clayRock, coalRock, silverRock,
+            platinumRock, goldRock, titaniumRock, palladiumRock, obsidianRock, cobaltRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
@@ -143,6 +145,8 @@ public class Assets {
     public static BufferedImage[] goblinoRedUp, goblinoRedDown, goblinoRedLeft, goblinoRedRight;
     public static BufferedImage[] goblinoBrownUp, goblinoBrownDown, goblinoBrownLeft, goblinoBrownRight;
     public static BufferedImage[] goblinoPurpleUp, goblinoPurpleDown, goblinoPurpleLeft, goblinoPurpleRight;
+    public static BufferedImage[] clayGolemUp, clayGolemDown, clayGolemLeft, clayGolemRight;
+    public static BufferedImage[] forgottenGhostUp, forgottenGhostDown, forgottenGhostLeft, forgottenGhostRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -1060,6 +1064,16 @@ public class Assets {
         goblinoPurpleRight = enemy_sheet4.npcCrop(0, 12, WIDTH, HEIGHT * 2);
         goblinoPurpleUp = enemy_sheet4.npcCrop(0, 14, WIDTH, HEIGHT * 2);
 
+        clayGolemDown = enemy_sheet4.npcCrop(9, 8, WIDTH, HEIGHT * 2);
+        clayGolemLeft = enemy_sheet4.npcCrop(9, 10, WIDTH, HEIGHT * 2);
+        clayGolemRight = enemy_sheet4.npcCrop(9, 12, WIDTH, HEIGHT * 2);
+        clayGolemUp = enemy_sheet4.npcCrop(9, 14, WIDTH, HEIGHT * 2);
+
+        forgottenGhostDown = enemy_sheet3.npcCrop(9, 0, WIDTH, HEIGHT);
+        forgottenGhostLeft = enemy_sheet3.npcCrop(9, 1, WIDTH, HEIGHT);
+        forgottenGhostRight = enemy_sheet3.npcCrop(9, 2, WIDTH, HEIGHT);
+        forgottenGhostUp = enemy_sheet3.npcCrop(9, 3, WIDTH, HEIGHT);
+
         goblinoBrownDown = enemy_sheet4.npcCrop(3, 8, WIDTH, HEIGHT * 2);
         goblinoBrownLeft = enemy_sheet4.npcCrop(3, 10, WIDTH, HEIGHT * 2);
         goblinoBrownRight = enemy_sheet4.npcCrop(3, 12, WIDTH, HEIGHT * 2);
@@ -1801,13 +1815,24 @@ public class Assets {
         // Skilling objects
         weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);
         elmTree = woodcutting_trees.imageCrop(3, 0, WIDTH * 2, HEIGHT * 3);
+        deadTree = woodcutting_trees.imageCrop(8, 3, WIDTH * 2, HEIGHT * 3);
         oakTree = woodcutting_trees.imageCrop(5, 0, WIDTH * 3, HEIGHT * 3);
         aspenTree = woodcutting_trees.imageCrop(8, 0, WIDTH * 2, HEIGHT * 3);
+        teakTree = woodcutting_trees.imageCrop(3, 3, WIDTH * 2, HEIGHT * 4);
+        mahoganyTree = woodcutting_trees.imageCrop(5, 3, WIDTH * 3, HEIGHT * 4);
         azuriteRock = mining_rocks.imageCrop(1, 0);
         copperRock = mining_rocks.imageCrop(2, 0);
         ironRock = mining_rocks.imageCrop(3, 0);
-        clayRock = mining_rocks.imageCrop(6, 0);
         tungstenRock = mining_rocks.imageCrop(4, 0);
+        clayRock = mining_rocks.imageCrop(5, 0);
+        coalRock = mining_rocks.imageCrop(6, 0);
+        silverRock = mining_rocks.imageCrop(7, 0);
+        platinumRock = mining_rocks.imageCrop(8, 0);
+        goldRock = mining_rocks.imageCrop(9, 0);
+        titaniumRock = mining_rocks.imageCrop(0, 1);
+        palladiumRock = mining_rocks.imageCrop(1, 1);
+        obsidianRock = mining_rocks.imageCrop(2, 1);
+        cobaltRock = mining_rocks.imageCrop(3, 1);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
