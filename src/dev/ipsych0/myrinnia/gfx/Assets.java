@@ -117,7 +117,7 @@ public class Assets {
             primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
             primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
             primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves,
-            spiderSilk;
+            spiderSilk, eel;
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -967,6 +967,7 @@ public class Assets {
         primalFootgear = item_sheet.imageCrop(10, 27);
         primalGloves = item_sheet.imageCrop(10, 28);
         spiderSilk = item_sheet.imageCrop(10, 29);
+        eel = item_sheet.imageCrop(11, 0);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

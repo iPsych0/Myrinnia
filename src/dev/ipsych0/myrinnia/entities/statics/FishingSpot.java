@@ -75,31 +75,38 @@ public class FishingSpot extends StaticEntity {
             fish = Item.mackerelFish;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
             experience = 10;
-            timeToFish = 150;
-            chanceToFish = 750; // 75%
+            timeToFish = 120;
+            chanceToFish = 850; // 85%
             chanceOfRareMaterial = 100; // 10% Chance
         } else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
             fish = Item.trout;
             experience = 15;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
-            timeToFish = 180;
-            chanceToFish = 700; // 70%
+            timeToFish = 150;
+            chanceToFish = 825; // 82,5%
             chanceOfRareMaterial = 80; // 8% Chance
         } else if (name.equalsIgnoreCase("Snakehead Fishing Spot")) {
             fish = Item.snakehead;
             experience = 20;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
-            timeToFish = 210;
-            chanceToFish = 650; // 65%
+            timeToFish = 180;
+            chanceToFish = 800; // 80%
             chanceOfRareMaterial = 75; // 7,5% Chance
         } else if (name.equalsIgnoreCase("Clam Digging Spot")) {
             fish = Item.clam;
-            experience = 25;
+            experience = 50;
             minAttempts = 1;
             maxAttempts = 1;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
             timeToFish = 300;
-            chanceToFish = 50; // 50%
+            chanceToFish = 775; // 77,5%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+        } else if (name.equalsIgnoreCase("Eel Fishing Spot")) {
+            fish = Item.eel;
+            experience = 30;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
+            timeToFish = 210;
+            chanceToFish = 750; // 75%
             chanceOfRareMaterial = 75; // 7,5% Chance
         } else {
             throw new IllegalArgumentException("Fishing Spot name not found: " + name);
@@ -150,11 +157,10 @@ public class FishingSpot extends StaticEntity {
                         Handler.get().giveItem(rareMaterial, 1);
                         Handler.get().sendMsg("You found a " + rareMaterial.getName() + "!");
                     }
-                    attempts++;
                 } else {
                     Handler.get().sendMsg("The fish got away...");
-                    attempts++;
                 }
+                attempts++;
                 speakingTurn = 1;
                 fishingTimer = 0;
 

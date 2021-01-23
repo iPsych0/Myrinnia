@@ -32,6 +32,7 @@ public class FishingSkill extends Skill {
         resources.add(new SkillResource(5, Item.trout, SkillCategory.Fish, "Can be caught in fresh waters."));
         resources.add(new SkillResource(7, Item.snakehead, SkillCategory.Fish, "Can be caught in subterranean waters."));
         resources.add(new SkillResource(10, Item.clam, SkillCategory.Fish, "Can be raked near coastlines."));
+        resources.add(new SkillResource(12, Item.eel, SkillCategory.Fish, "Can be caught in both fresh and salt waters."));
     }
 
     @Override

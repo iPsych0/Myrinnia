@@ -28,11 +28,12 @@ public class Ogre extends Creature {
         attackable = true;
 
         // Creature stats
-        strength = 55;
+        strength = 50;
         dexterity = 0;
         intelligence = 0;
-        vitality = 144;
-        defence = 80;
+        vitality = 140;
+        defence = 64;
+        speed = 1.2;
 
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;

@@ -35,6 +35,13 @@ public class PoisonDartAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
+        // Initialize default values if none were set
+        if (velocity == 0) {
+            velocity = 8.0f;
+            duration = 5;
+            condiDamage = 5;
+        }
+
         Point target = getRangedTarget();
         if (target == null) {
             return;

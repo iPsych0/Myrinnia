@@ -444,6 +444,8 @@ public class Item implements Serializable {
     public static Item primalFootgear = Utils.loadItem("346_primal_footgear.json", Assets.primalFootgear);
     public static Item primalGloves = Utils.loadItem("347_primal_gloves.json", Assets.primalGloves);
     public static Item spiderSilk = Utils.loadItem("348_spider_silk.json", Assets.spiderSilk);
+    public static Item eel = Utils.loadItem("349_eel.json", Assets.eel);
+
 
 
     static {

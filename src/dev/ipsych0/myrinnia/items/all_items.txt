@@ -1,1 +1,2 @@
 public static Item spiderSilk = Utils.loadItem("348_spider_silk.json", Assets.spiderSilk);
+public static Item eel = Utils.loadItem("349_eel.json", Assets.eel);

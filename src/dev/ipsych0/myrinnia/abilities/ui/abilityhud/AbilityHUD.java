@@ -134,6 +134,7 @@ public class AbilityHUD implements Serializable {
                     } else if (as.getAbility().isSelectable() && as.getAbility().isSelected()) {
                         as.getAbility().setSelected(false);
                         as.getAbility().setActivated(false);
+                        return;
                     }
                 }
             }
@@ -163,6 +164,10 @@ public class AbilityHUD implements Serializable {
                 for (AbilitySlot as : slottedAbilities) {
                     if (as.getAbility() != null) {
                         if (as.getAbility().isChanneling()) {
+                            return;
+                        } else if (as.getAbility().isSelectable() && as.getAbility().isSelected()) {
+                            as.getAbility().setSelected(false);
+                            as.getAbility().setActivated(false);
                             return;
                         }
                     }

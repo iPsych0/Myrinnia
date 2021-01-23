@@ -1,10 +1,12 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.BarrierAbility;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,6 +23,7 @@ public class ClayGolem extends Creature {
     private long lastAttackTimer, attackCooldown = 900, attackTimer = attackCooldown;
     private Animation meleeAnimation;
     private Animation bluntImpact;
+    private BarrierAbility barrierAbility = Utils.loadAbility("barrier.json", BarrierAbility.class);
 
     public ClayGolem(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -39,6 +42,8 @@ public class ClayGolem extends Creature {
         bounds.y = 32;
         bounds.width = 28;
         bounds.height = 24;
+
+        earthLevel = 8;
 
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
@@ -101,14 +106,18 @@ public class ClayGolem extends Creature {
 
         attackTimer = 0;
 
-        meleeAnimation = new Animation(32, Assets.meleeBlunt, true);
-        bluntImpact = new Animation(32, Assets.meleeBluntImpact, true);
+        if (!barrierAbility.isOnCooldown()) {
+            castAbility(barrierAbility);
+        } else {
+            meleeAnimation = new Animation(32, Assets.meleeBlunt, true);
+            bluntImpact = new Animation(32, Assets.meleeBluntImpact, true);
 
-        setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX() + 16, (int) Handler.get().getPlayer().getY() + 16, 1, 1));
+            setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX() + 16, (int) Handler.get().getPlayer().getY() + 16, 1, 1));
 
-        Handler.get().playEffect("abilities/impact_blunt.ogg");
+            Handler.get().playEffect("abilities/impact_blunt.ogg");
 
-        checkMeleeHitboxes();
+            checkMeleeHitboxes();
+        }
 
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="62">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="66">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -480,7 +480,7 @@
     <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
-  <object id="24" name="Goblino Melee" type="npc" x="704" y="2112" width="32" height="64">
+  <object id="24" name="Goblino Melee" type="npc" x="640" y="2144" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
@@ -488,7 +488,7 @@
     <property name="npcClass" value="GoblinoBruiser"/>
    </properties>
   </object>
-  <object id="25" name="Goblino Melee" type="npc" x="1216" y="1984" width="32" height="64">
+  <object id="25" name="Goblino Melee" type="npc" x="1248" y="1920" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
     <property name="level" value="12"/>
@@ -504,7 +504,7 @@
     <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
-  <object id="27" name="Goblino Ranger" type="npc" x="1856" y="2176" width="32" height="64">
+  <object id="27" name="Goblino Ranger" type="npc" x="1728" y="2080" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
     <property name="level" value="12"/>
@@ -709,6 +709,22 @@
    <properties>
     <property name="name" value="Dead Tree"/>
     <property name="npcClass" value="Tree"/>
+   </properties>
+  </object>
+  <object id="62" name="Goblino Ranger" type="npc" x="1088" y="2432" width="32" height="64">
+   <properties>
+    <property name="animation" value="goblinoGreen"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Goblino Archer"/>
+    <property name="npcClass" value="GoblinoArcher"/>
+   </properties>
+  </object>
+  <object id="63" name="Goblino Mage" type="npc" x="2144" y="2272" width="32" height="64">
+   <properties>
+    <property name="animation" value="goblinoPurple"/>
+    <property name="level" value="12"/>
+    <property name="name" value="Goblino Shaman"/>
+    <property name="npcClass" value="GoblinoShaman"/>
    </properties>
   </object>
  </objectgroup>
