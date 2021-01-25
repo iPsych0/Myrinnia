@@ -48,14 +48,18 @@ public class Rain implements Weather, Serializable {
         xOffset += 1;
         yOffset += 1;
 
-        if (Handler.get().getPlayer().getxMove() > 0) {
-            xOffset += Handler.get().getPlayer().getSpeed();
+        if (!Handler.get().getGameCamera().isAtAnyBound()) {
+            if (Handler.get().getPlayer().getxMove() > 0) {
+                xOffset += (Handler.get().getPlayer().getSpeed());
+            }
         }
-        if (Handler.get().getPlayer().getyMove() < 0) {
-            yOffset += Handler.get().getPlayer().getSpeed();
+        if (!Handler.get().getGameCamera().isAtAnyBound()) {
+            if (Handler.get().getPlayer().getyMove() < 0) {
+                yOffset += (Handler.get().getPlayer().getSpeed());
+            }
         }
 
-        if (xOffset >= 32 || yOffset >= 32) {
+        if (xOffset >= Handler.get().getWidth() || yOffset >= Handler.get().getHeight()) {
             xOffset = 0;
             yOffset = 0;
         }
@@ -86,8 +90,8 @@ public class Rain implements Weather, Serializable {
         g.setComposite(originalComposite);
         g.setPaint(originalPaint);
 
-        for (int y = -RAIN_H; y < HEIGHT + RAIN_H; y += RAIN_H) {
-            for (int x = -RAIN_W; x < WIDTH + RAIN_W; x += RAIN_W) {
+        for (int y = -Handler.get().getWidth(); y < HEIGHT + RAIN_H; y += RAIN_H) {
+            for (int x = Handler.get().getWidth() * 2; x > 0; x -= RAIN_W) {
                 g.drawImage(Assets.rain, x - xOffset, y + yOffset, null);
             }
         }

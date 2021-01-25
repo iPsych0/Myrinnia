@@ -32,10 +32,13 @@ public class SandStorm implements Weather, Serializable {
     @Override
     public void tick() {
         xOffset += 2;
-        if (Handler.get().getPlayer().getxMove() > 0) {
-            xOffset += Handler.get().getPlayer().getSpeed();
+        if (!Handler.get().getGameCamera().isAtAnyBound()) {
+            if (Handler.get().getPlayer().getxMove() > 0) {
+                xOffset += (Handler.get().getPlayer().getSpeed());
+            }
         }
-        if (xOffset >= 32) {
+
+        if (xOffset >= Handler.get().getWidth()) {
             xOffset = 0;
         }
     }
@@ -54,7 +57,7 @@ public class SandStorm implements Weather, Serializable {
         }
 
         for (int y = 0; y < HEIGHT; y += SAND_H) {
-            for (int x = -SAND_W; x < WIDTH + SAND_W; x += SAND_W) {
+            for (int x = Handler.get().getWidth() * 2; x > 0; x -= SAND_W) {
                 g.drawImage(Assets.sandStorm, x - xOffset, y, null);
             }
         }

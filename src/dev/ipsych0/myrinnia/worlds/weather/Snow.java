@@ -25,14 +25,18 @@ public class Snow implements Weather, Serializable {
         xOffset += 1;
         yOffset += 1;
 
-        if (Handler.get().getPlayer().getxMove() > 0) {
-            xOffset += Handler.get().getPlayer().getSpeed();
+        if (!Handler.get().getGameCamera().isAtAnyBound()) {
+            if (Handler.get().getPlayer().getxMove() > 0) {
+                xOffset += (Handler.get().getPlayer().getSpeed());
+            }
         }
-        if (Handler.get().getPlayer().getyMove() < 0) {
-            yOffset += Handler.get().getPlayer().getSpeed();
+        if (!Handler.get().getGameCamera().isAtAnyBound()) {
+            if (Handler.get().getPlayer().getyMove() < 0) {
+                yOffset += (Handler.get().getPlayer().getSpeed());
+            }
         }
 
-        if (xOffset >= 32 || yOffset >= 32) {
+        if (xOffset >= Handler.get().getWidth() || yOffset >= Handler.get().getHeight()) {
             xOffset = 0;
             yOffset = 0;
         }
@@ -49,8 +53,8 @@ public class Snow implements Weather, Serializable {
         g.setComposite(originalComposite);
         g.setPaint(originalPaint);
 
-        for (int y = -SNOW_H; y < HEIGHT + SNOW_H; y += SNOW_H) {
-            for (int x = -SNOW_W; x < WIDTH + SNOW_W; x += SNOW_W) {
+        for (int y = -Handler.get().getWidth(); y < HEIGHT + SNOW_H; y += SNOW_H) {
+            for (int x = Handler.get().getWidth() * 2; x > 0; x -= SNOW_W) {
                 g.drawImage(Assets.snow, x - xOffset, y + yOffset, null);
             }
         }
