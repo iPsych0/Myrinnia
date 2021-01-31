@@ -31,6 +31,15 @@ public class FarmingSkill extends Skill {
         // Vegetables
         resources.add(new FarmingResource(1, Item.tomatoSeeds, 2, SkillCategory.Vegetables, 20L, Item.tomato, 4, 35, "Harvesting yields tomatoes."));
         resources.add(new FarmingResource(2, Item.cabbageSeeds, 2, SkillCategory.Vegetables, 25L, Item.cabbage, 4, 45, "Harvesting yields cabbages."));
+        resources.add(new FarmingResource(5, Item.onionSeeds, 2, SkillCategory.Vegetables, 30L, Item.onion, 4, 55, "Harvesting yields onions."));
+        resources.add(new FarmingResource(8, Item.carrotSeeds, 2, SkillCategory.Vegetables, 35L, Item.carrot, 4, 65, "Harvesting yields carrots."));
+        resources.add(new FarmingResource(10, Item.potatoSeeds, 2, SkillCategory.Vegetables, 40L, Item.potato, 4, 75, "Harvesting yields potatoes."));
+        resources.add(new FarmingResource(13, Item.cauliflowerSeeds, 2, SkillCategory.Vegetables, 45L, Item.cauliflower, 4, 85, "Harvesting yields cauliflowers."));
+        resources.add(new FarmingResource(16, Item.kaleSeeds, 2, SkillCategory.Vegetables, 60L, Item.kale, 4, 100, "Harvesting yields kale leaves."));
+        resources.add(new FarmingResource(19, Item.broccoliSeeds, 2, SkillCategory.Vegetables, 70L, Item.broccoli, 4, 120, "Harvesting yields broccoli."));
+        resources.add(new FarmingResource(23, Item.spinachSeeds, 2, SkillCategory.Vegetables, 80L, Item.spinach, 4, 140, "Harvesting yields spinach leaves."));
+        resources.add(new FarmingResource(28, Item.sweetPotatoSeeds, 2, SkillCategory.Vegetables, 95L, Item.sweetPotato, 4, 165, "Harvesting yields sweet potatoes."));
+        resources.add(new FarmingResource(33, Item.pumpkinSeeds, 2, SkillCategory.Vegetables, 110L, Item.pumpkin, 4, 200, "Harvesting yields pumpkins."));
 
         // Bush
         resources.add(new FarmingResource(2, Item.strawberrySeeds, 2, SkillCategory.BushPlants, 40L, Item.strawberry, 4, 45, "Harvesting yields strawberries."));

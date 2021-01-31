@@ -5,11 +5,13 @@ import java.io.Serializable;
 public class DropTableEntry implements Serializable {
 
     private int itemId;
+    private String itemName;
     private int amount;
     private int weight;
 
-    public DropTableEntry(int itemId, int amount, int weight) {
+    public DropTableEntry(int itemId, String itemName, int amount, int weight) {
         this.itemId = itemId;
+        this.itemName = itemName;
         this.amount = amount;
         this.weight = weight;
     }
@@ -20,6 +22,14 @@ public class DropTableEntry implements Serializable {
 
     public void setItemId(int itemId) {
         this.itemId = itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public int getAmount() {

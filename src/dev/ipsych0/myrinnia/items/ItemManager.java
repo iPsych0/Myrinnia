@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.items;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.ui.PickupMenu;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Text;
 
@@ -21,37 +22,48 @@ public class ItemManager implements Serializable {
     private List<Item> items;
     private Collection<Item> deleted;
     private Collection<Item> added;
-    private static boolean soundPlayed = false;
+    public static boolean soundPlayed = false;
     private static int lastPlayed = 0;
     private transient Item lastHovered;
+    private static List<Item> hovered;
+    private static PickupMenu pickupMenu;
+    public static boolean pickUpPressed;
+    public static boolean pickUpClicked;
 
     public ItemManager() {
         items = new ArrayList<>();
         deleted = new ArrayList<>();
         added = new ArrayList<>();
+
+        pickupMenu = new PickupMenu(0, 0);
+        hovered = new ArrayList<>();
     }
 
     public void tick() {
         Iterator<Item> it = items.iterator();
+        hovered.clear();
         while (it.hasNext()) {
             Item i = it.next();
 
             // Check if we're hovering over the item
             i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
 
-            // Checks player's pause for any items nearby to pick up
-            if (Handler.get().getMouseManager().isRightPressed() && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
-                if (!Handler.get().getPlayer().hasRightClickedUI(Handler.get().getMouse())) {
-                    if (i.pickUpItem(i)) {
-                        if (i.isPickedUp()) {
-                            if (!soundPlayed) {
-                                Handler.get().playEffect("ui/pickup.ogg");
-                                soundPlayed = true;
-                            }
-                            deleted.add(i);
+            // Checks player's positoin and loot all
+            if (pickUpPressed && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
+                if (i.pickUpItem(i)) {
+                    if (i.isPickedUp()) {
+                        if (!soundPlayed) {
+                            Handler.get().playEffect("ui/pickup.ogg");
+                            soundPlayed = true;
                         }
+                        deleted.add(i);
                     }
                 }
+                pickUpPressed = false;
+            }
+
+            if (i.isHovering()) {
+                hovered.add(i);
             }
 
             // Adds small delay to sounds to prevent them from stacking when picking up multiple items at once
@@ -64,6 +76,25 @@ public class ItemManager implements Serializable {
             }
             i.tick();
         }
+
+        // If we're hovering over any items and we right-click, display the pickup menu
+        if (!hovered.isEmpty()) {
+            if (pickUpClicked) {
+
+                Rectangle mouse = Handler.get().getMouse();
+                pickupMenu.setX(mouse.x);
+                pickupMenu.setY(mouse.y);
+                pickupMenu.setItems(hovered);
+                pickupMenu.setOpen(true);
+            }
+        }
+
+        pickUpClicked = false;
+
+        if (pickupMenu.isOpen()) {
+            pickupMenu.tick();
+        }
+
 
         // If non-worldspawn Items are dropped, start timer for despawning
         Iterator<Item> addedIt = added.iterator();
@@ -116,6 +147,10 @@ public class ItemManager implements Serializable {
         if (lastHovered != null && count > 1) {
             Text.drawString(g, "+" + (count - 1), lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
                     lastHovered.getY() - (int) Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
+        }
+
+        if (pickupMenu.isOpen()) {
+            pickupMenu.render(g);
         }
     }
 
@@ -194,4 +229,7 @@ public class ItemManager implements Serializable {
         this.items = items;
     }
 
+    public Collection<Item> getDeleted() {
+        return deleted;
+    }
 }

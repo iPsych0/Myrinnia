@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
@@ -43,6 +44,7 @@ public class KeyManager implements KeyListener, Serializable {
     public boolean pause;
     public boolean talk;
     public boolean escape;
+    public boolean pickUp;
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
     public static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
@@ -113,6 +115,10 @@ public class KeyManager implements KeyListener, Serializable {
             }
 
             keys[e.getKeyCode()] = true;
+
+            if (e.getKeyCode() == KeyEvent.VK_F) {
+                ItemManager.pickUpPressed = true;
+            }
 
             if (e.getKeyCode() == pauseKey) {
                 Player.debugButtonPressed = true;

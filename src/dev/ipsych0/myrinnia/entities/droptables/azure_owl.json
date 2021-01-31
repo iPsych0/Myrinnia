@@ -1,26 +1,31 @@
 [
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 3,
     "weight": 10
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 5,
     "weight": 4
   },
   {
     "itemId": 48,
+    "itemName": "Owl feather",
     "amount": 1,
     "weight": 3
   },
   {
     "itemId": 73,
+    "itemName": "Strip of wool",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": -1,
+    "itemName": "Nothing",
     "amount": 0,
     "weight": 4
   }

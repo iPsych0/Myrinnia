@@ -3,7 +3,8 @@ package dev.ipsych0.myrinnia.skills.ui;
 public enum SkillCategory {
 
     // Bounty hunter
-    BountyTargets("Targets"),
+    Souls("Souls"),
+    Incense("Incense"),
 
     // Crafting
     CraftingOther("Other"),

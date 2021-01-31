@@ -114,7 +114,7 @@ public class BountyBoardUI implements Serializable {
     private void confirmBounty(Bounty bounty) {
         if (dialogueBox.isMakingChoice() && dialogueBox.getPressedButton() != null) {
             if ("Accept".equalsIgnoreCase(dialogueBox.getPressedButton().getButtonParam()[0])) {
-                if (Handler.get().playerHasSkillLevel(SkillsList.BOUNTYHUNTER, bounty.getLevelRequirement())) {
+                if (Handler.get().playerHasSkillLevel(SkillsList.SOUL_REAPING, bounty.getLevelRequirement())) {
                     if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
                         Handler.get().getQuest(QuestList.GettingStarted).nextStep();
                         Handler.get().addTip(new TutorialTip("Right-click on items in your inventory to 'use' them. Click on the contract to open it."));

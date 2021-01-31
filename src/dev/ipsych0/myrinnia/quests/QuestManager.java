@@ -64,7 +64,7 @@ public class QuestManager implements Serializable {
         // Island Quests
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gettingstarted.json",
                 (OnCompletion & Serializable) () -> {
-                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(150);
                 }));
 
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
@@ -93,7 +93,7 @@ public class QuestManager implements Serializable {
         celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
-                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(200);
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(200);
                     CelenorGrottoWater.cleanse();
                     CelenorPorewit.removeFog();
                 }));

@@ -1,46 +1,55 @@
 [
   {
     "itemId": 72,
+    "itemName": "Soft leather",
     "amount": 1,
     "weight": 5
   },
   {
     "itemId": 21,
+    "itemName": "Malachite",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 83,
+    "itemName": "Iron axe",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 5,
     "weight": 7
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 10,
     "weight": 4
   },
   {
     "itemId": 24,
+    "itemName": "Weak antidote",
     "amount": 1,
     "weight": 2
   },
   {
     "itemId": 54,
+    "itemName": "Pile of sand",
     "amount": 2,
     "weight": 2
   },
   {
     "itemId": 67,
+    "itemName": "Cabbage",
     "amount": 2,
     "weight": 1
   },
   {
     "itemId": -1,
+    "itemName": "Nothing",
     "amount": 0,
     "weight": 3
   }

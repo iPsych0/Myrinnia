@@ -316,10 +316,10 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(celenorianLeather, 1), 30, 50, 30, true, Materials, of(armoredLeather, 1), of(celenorianThread, 1)));
 
         // Metals
-        recipes.add(new CraftingRecipe(of(steelPlating, 1), 20, 30, 20, true, Materials, of(obsidianShard, 1), of(titaniumPlating, 1)));
+        recipes.add(new CraftingRecipe(of(steelPlating, 1), 20, 30, 20, true, Materials, of(coalOre, 3), of(ironOre, 2)));
         recipes.add(new CraftingRecipe(of(highQualityYakFibre, 1), 20, 30, 20, true, Materials, of(yakHair, 5)));
         recipes.add(new CraftingRecipe(of(obsidian, 1), 25, 45, 20, true, Materials, of(obsidianShard, 1), of(titaniumPlating, 1)));
-        recipes.add(new CraftingRecipe(of(titaniumPlating, 1), 25, 40, 20, true, Materials, of(obsidianShard, 1), of(titaniumPlating, 1)));
+        recipes.add(new CraftingRecipe(of(titaniumPlating, 1), 25, 40, 20, true, Materials, of(titaniumOre, 3), of(coalOre, 2)));
         recipes.add(new CraftingRecipe(of(primordialIngot, 1), 30, 50, 30, true, Materials, of(obsidian, 1), of(primordialCrystal, 1)));
 
         // Potions
@@ -332,6 +332,15 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(weakPotionOfWisdom, 1), 1, 10, 10, true, Potions, of(glass, 1), of(azureBatWing, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionOfVigor, 1), 1, 10, 10, true, Potions, of(glass, 1), of(vineRoot, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionofFortitude, 1), 1, 10, 10, true, Potions, of(glass, 1), of(rockyShell, 1)));
+
+        recipes.add(new CraftingRecipe(of(antidote, 1), 8, 20, 20, true, Potions, of(weakAntidote, 1), of(venomSac, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfMight, 1), 8, 20, 20, true, Potions, of(weakPotionOfMight, 1), of(sharpTooth, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfPrecision, 1), 8, 20, 20, true, Potions, of(weakPotionOfPrecision, 1), of(pointySpine, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfWisdom, 1), 8, 20, 20, true, Potions, of(weakPotionOfWisdom, 1), of(incenseBurner, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfVigor, 1), 8, 20, 20, true, Potions, of(weakPotionOfVigor, 1), of(potentLeaves, 1)));
+        recipes.add(new CraftingRecipe(of(potionofFortitude, 1), 8, 20, 20, true, Potions, of(weakPotionofFortitude, 1), of(graniteChunk, 1)));
+
+        recipes.add(new CraftingRecipe(of(dough, 1), 1, 1, 20, true, Recipes, of(jugOfWater, 1), of(potOfFlour, 1)));
 
         recipes.sort((o1, o2) -> {
             Integer a = o1.getRequiredLevel();

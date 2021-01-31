@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
@@ -136,7 +137,7 @@ public class AbilityShopWindow implements Serializable {
                         selectedSlot = slot;
                     else if (selectedSlot == slot)
                         selectedSlot = null;
-                    else if (selectedSlot != slot)
+                    else
                         selectedSlot = slot;
 
                     hasBeenPressed = false;
@@ -170,7 +171,7 @@ public class AbilityShopWindow implements Serializable {
             }
             slot.render(g);
 
-            if (slot.getAbility().isUnlocked()) {
+            if (AbilityManager.abilityMap.get(slot.getAbility().getClass()).isUnlocked()) {
                 Text.drawString(g, "✓", (int) slot.getX() + 24, (int) slot.getY() + 28, true, Color.GREEN, Assets.font14);
             }
         }
@@ -196,7 +197,7 @@ public class AbilityShopWindow implements Serializable {
     }
 
     private void buyAbility(Ability ability) {
-        if (ability.isUnlocked()) {
+        if (AbilityManager.abilityMap.get(ability.getClass()).isUnlocked()) {
             Handler.get().sendMsg("You have already unlocked " + ability.getName() + ".");
             return;
         }
@@ -205,7 +206,7 @@ public class AbilityShopWindow implements Serializable {
 
         if (abilityPoints >= price) {
             Handler.get().getPlayer().setAbilityPoints(abilityPoints - price);
-            Handler.get().getAbilityManager().getAllAbilities().get(ability.getId()).setUnlocked(true);
+            AbilityManager.abilityMap.get(ability.getClass()).setUnlocked(true);
             Handler.get().sendMsg("Unlocked '" + ability.getName() + "'!");
             Handler.get().playEffect("ui/shop_trade.ogg");
             selectedSlot = null;

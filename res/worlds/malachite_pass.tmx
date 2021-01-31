@@ -694,12 +694,13 @@
     <property name="zone" value="MalachiteFields"/>
    </properties>
   </object>
-  <object id="13" name="Merchant" type="npc" x="2480" y="4216" width="32" height="32">
+  <object id="13" name="Tobias (merchant)" type="npc" x="2480" y="4216" width="32" height="32">
    <properties>
     <property name="animation" value="shopKeeper1"/>
     <property name="direction" value="DOWN"/>
+    <property name="itemsShop" value="malachite_pass_tobias.json"/>
     <property name="jsonFile" value="generic_shopkeeper.json"/>
-    <property name="name" value="Merchant"/>
+    <property name="name" value="Tobias"/>
     <property name="npcClass" value="GenericShopkeeper"/>
    </properties>
   </object>

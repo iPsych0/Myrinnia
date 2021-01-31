@@ -38,7 +38,7 @@ public class Bounty extends UIImageButton implements Serializable {
 
     public void render(Graphics2D g) {
         super.render(g);
-        g.drawImage(Assets.bountyHunterIcon, x + 10, y + 16, 32, 32, null);
+        g.drawImage(Assets.soulReapingIcon, x + 10, y + 16, 32, 32, null);
         Text.drawString(g, task, x + 48, y + 20, false, Color.YELLOW, Assets.font20);
         Rectangle stringBounds = Text.getStringBounds(g, task, Assets.font20);
         Text.drawString(g, " (Lv. " + levelRequirement + ")", x + 48 + stringBounds.x + stringBounds.width + 2, y + 20, false, Color.YELLOW, Assets.font14);
@@ -54,7 +54,7 @@ public class Bounty extends UIImageButton implements Serializable {
 
     public void setCompleted(boolean completed) {
         if (completed) {
-            Handler.get().getCelebrationUI().addEvent(new Celebration(Handler.get().getSkill(SkillsList.BOUNTYHUNTER), "You completed the '" + getTask() + "' bounty!"));
+            Handler.get().getCelebrationUI().addEvent(new Celebration(Handler.get().getSkill(SkillsList.SOUL_REAPING), "You completed the '" + getTask() + "' bounty!"));
         }
         this.completed = completed;
     }

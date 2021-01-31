@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
+import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -110,7 +112,8 @@ public class DropTableTool extends JFrame {
                         id = Integer.parseInt(itemInput.getText());
                         amount = Integer.parseInt(amountInput.getText());
                         weight = Integer.parseInt(weightInput.getText());
-                        entries.add(new DropTableEntry(id, amount, weight));
+                        String itemName = getItemName(id);
+                        entries.add(new DropTableEntry(id, itemName, amount, weight));
                     } catch (NumberFormatException exc) {
                         System.err.println("Could not parse ID, amount or weight to number.");
                     }
@@ -126,9 +129,51 @@ public class DropTableTool extends JFrame {
         load.addActionListener(new OpenL());
     }
 
+    private String getItemName(int id) {
+        if(id == -1)
+            return "Nothing";
+
+        File itemsDir = new File("src/dev/ipsych0/myrinnia/items/json/");
+
+        for (File f : itemsDir.listFiles()) {
+            if (f.getName().endsWith(".json")) {
+                String[] tokens = f.getName().split("_");
+                String fileId = tokens[0];
+                // If we match the ID
+                if (fileId.equalsIgnoreCase(String.valueOf(id))) {
+                    JSONItem jsonItem = loadItem(f.getName());
+                    if (jsonItem != null) {
+                        return jsonItem.getName();
+                    }
+                }
+            }
+        }
+        return "UNDEFINED";
+    }
+
+    private JSONItem loadItem(String jsonFile) {
+        jsonFile = "dev/ipsych0/myrinnia/" + "items/json/" + jsonFile.toLowerCase();
+        InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
+        if (inputStream == null) {
+            throw new IllegalArgumentException(jsonFile + " could not be found.");
+        }
+        try {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            JSONItem t = gson.fromJson(reader, JSONItem.class);
+            reader.close();
+            inputStream.close();
+            return t;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.err.println("Json file could not be loaded.");
+            System.exit(1);
+        }
+        return null;
+    }
+
     private void addNumbersOnlyInput() {
         ((AbstractDocument) itemInput.getDocument()).setDocumentFilter(new DocumentFilter() {
-            Pattern regex = Pattern.compile("\\d*");
+            Pattern regex = Pattern.compile("^(-)?(\\d*)$");
 
             @Override
             public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
@@ -254,7 +299,7 @@ public class DropTableTool extends JFrame {
             if (rVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     // Load the file in
-                    String file = c.getCurrentDirectory() + "\\" +  c.getSelectedFile().getName();
+                    String file = c.getCurrentDirectory() + "\\" + c.getSelectedFile().getName();
                     InputStream is = new FileInputStream(file);
                     BufferedReader buf = new BufferedReader(new InputStreamReader(is));
                     String line = buf.readLine();

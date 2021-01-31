@@ -380,13 +380,13 @@
     <property name="npcClass" value="AbilityMaster"/>
    </properties>
   </object>
-  <object id="11" name="Shop 2" type="npc" x="672" y="1632" width="32" height="32">
+  <object id="11" name="Ulrich (shop)" type="npc" x="672" y="1632" width="32" height="32">
    <properties>
     <property name="animation" value="shopKeeper3"/>
     <property name="direction" value="DOWN"/>
-    <property name="itemsShop" value="shamrock2_stock.json"/>
+    <property name="itemsShop" value="shamrock_general.json"/>
     <property name="jsonFile" value="generic_shopkeeper.json"/>
-    <property name="name" value="Shopkeeper"/>
+    <property name="name" value="Ulrich"/>
     <property name="npcClass" value="GenericShopkeeper"/>
    </properties>
   </object>

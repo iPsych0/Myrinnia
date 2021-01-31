@@ -500,7 +500,7 @@
    <properties>
     <property name="animation" value="shopKeeper1"/>
     <property name="direction" value="DOWN"/>
-    <property name="itemsShop" value="azure_stock.json"/>
+    <property name="itemsShop" value="azure_general.json"/>
     <property name="jsonFile" value="port_azure_shopkeeper.json"/>
     <property name="name" value="Shopkeeper"/>
     <property name="npcClass" value="PortAzureShopkeeper"/>

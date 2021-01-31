@@ -1,61 +1,73 @@
 [
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 3,
     "weight": 10
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 5,
     "weight": 6
   },
   {
     "itemId": 51,
+    "itemName": "Vine root",
     "amount": 1,
     "weight": 5
   },
   {
     "itemId": 10,
+    "itemName": "Simple Axe",
     "amount": 1,
     "weight": 4
   },
   {
     "itemId": 53,
+    "itemName": "Simple trousers",
     "amount": 1,
     "weight": 2
   },
   {
     "itemId": 116,
+    "itemName": "Lightwood",
     "amount": 1,
     "weight": 2
   },
   {
     "itemId": 11,
+    "itemName": "Simple Bow",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 65,
+    "itemName": "Cabbage seeds",
     "amount": 1,
     "weight": 3
   },
   {
     "itemId": 64,
+    "itemName": "Tomato seeds",
     "amount": 1,
     "weight": 3
   },
   {
     "itemId": 68,
+    "itemName": "Watering can",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 73,
+    "itemName": "Strip of wool",
     "amount": 1,
     "weight": 5
   },
   {
     "itemId": -1,
+    "itemName": "Nothing",
     "amount": 0,
     "weight": 2
   }

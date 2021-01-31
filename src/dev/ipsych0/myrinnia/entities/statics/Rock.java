@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -43,6 +44,7 @@ public class Rock extends StaticEntity {
     private int originalChanceOfRareMaterial;
     private int experience;
     private int originalExperience;
+    private Rectangle progressBar, totalBar;
 
     private static Map<String, BufferedImage> textureMap = Map.ofEntries(
             entry("Azurite Rock", Assets.azuriteRock),
@@ -180,6 +182,9 @@ public class Rock extends StaticEntity {
         originalChanceToMine = chanceToMine;
         originalExperience = experience;
         originalTimeToMine = timeToMine;
+
+        totalBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 64, 16);
+        progressBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 0, 16);
     }
 
     @Override
@@ -300,16 +305,22 @@ public class Rock extends StaticEntity {
     public void postRender(Graphics2D g) {
         g.drawImage(Assets.miningIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isMining) {
-            StringBuilder pending = new StringBuilder();
-            int dots = (int) Math.ceil(miningTimer / 30d);
-            for (int i = 0; i < dots; i++) {
-                pending.append(".");
-            }
-
-            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + 16 - Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
+            drawProgressBar(g);
         }
 
+    }
+
+    public void drawProgressBar(Graphics2D g) {
+        double percentDone = (double) miningTimer / (double) timeToMine;
+
+        progressBar.setSize((int) (totalBar.width * percentDone), 16);
+        g.drawImage(Assets.uiWindow, (int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, null);
+
+        g.setColor(Colors.progressBarColor);
+        g.fillRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
+
+        g.setColor(Colors.progressBarOutlineColor);
+        g.drawRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
     }
 
     @Override

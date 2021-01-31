@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
@@ -113,6 +114,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             CraftingUI.craftResultPressed = true;
             EntityManager.isPressed = false;
             BankUI.hasBeenPressed = true;
+            ItemManager.pickUpClicked = true;
         }
     }
 

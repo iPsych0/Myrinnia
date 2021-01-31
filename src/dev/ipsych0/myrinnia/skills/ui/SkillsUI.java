@@ -44,7 +44,7 @@ public class SkillsUI implements Serializable {
         skillsList.add(new FishingSkill());
         skillsList.add(new MiningSkill());
         skillsList.add(new CombatSkill());
-        skillsList.add(new BountyHunterSkill());
+        skillsList.add(new SoulReapingSkill());
         skillsList.add(new FarmingSkill());
 
 
@@ -91,7 +91,7 @@ public class SkillsUI implements Serializable {
 
             if (bountyHunter.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    changeTab(SkillsList.BOUNTYHUNTER, SkillCategory.BountyTargets);
+                    changeTab(SkillsList.SOUL_REAPING, SkillCategory.Souls);
                 }
             } else if (crafting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
@@ -173,14 +173,14 @@ public class SkillsUI implements Serializable {
 
             Text.drawString(g, "Skills", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 
-            drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
+            drawXpProgress(g, bountyHunter, SkillsList.SOUL_REAPING);
             drawXpProgress(g, crafting, SkillsList.CRAFTING);
             drawXpProgress(g, farming, SkillsList.FARMING);
             drawXpProgress(g, fishing, SkillsList.FISHING);
             drawXpProgress(g, mining, SkillsList.MINING);
             drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
 
-            Text.drawString(g, "Bounty Hunter lvl: " + getSkill(SkillsList.BOUNTYHUNTER).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Soul Reaping lvl: " + getSkill(SkillsList.SOUL_REAPING).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Farming lvl: " + getSkill(SkillsList.FARMING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
@@ -189,7 +189,7 @@ public class SkillsUI implements Serializable {
 
             if (bountyHunter.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
-                Text.drawString(g, String.valueOf(getSkill(SkillsList.BOUNTYHUNTER).getExperience()) + "/" + getSkill(SkillsList.BOUNTYHUNTER).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+                Text.drawString(g, String.valueOf(getSkill(SkillsList.SOUL_REAPING).getExperience()) + "/" + getSkill(SkillsList.SOUL_REAPING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
             }
             if (crafting.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);

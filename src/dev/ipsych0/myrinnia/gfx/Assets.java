@@ -117,7 +117,12 @@ public class Assets {
             primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
             primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
             primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves,
-            spiderSilk, eel;
+            spiderSilk, eel, venomSac, sharpTooth, pointySpine, incenseBurner, potentLeaves, graniteChunk, onionSeeds, onion,
+            carrotSeeds, carrot, potatoSeeds, potato, cauliflowerSeeds, cauliflower, kaleSeeds, kale, broccoliSeeds, broccoli,
+            spinachSeeds, spinach, sweetPotatoSeeds, sweetPotato, pumpkinSeeds, pumpkin, egg, jugOfWater, potOfFlour, dough,
+            bowl, cakeTin, emptyPlate, bucketOfMilk, bucketOfWater, hammer, shovel, lesserLumberjacksSoul, lesserMineworkersSoul,
+            lesserGardenersSoul, lesserFishermansSoul;
+
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
@@ -279,7 +284,7 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, soulReapingIcon, farmingIcon;
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon, crippledIcon, blindedIcon, rootedIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
@@ -564,7 +569,7 @@ public class Assets {
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
-        bountyHunterIcon = ui_sheet.imageCrop(5, 1);
+        soulReapingIcon = ui_sheet.imageCrop(5, 1);
         farmingIcon = ui_sheet.imageCrop(7, 1);
 
         // Condition icons
@@ -968,6 +973,47 @@ public class Assets {
         primalGloves = item_sheet.imageCrop(10, 28);
         spiderSilk = item_sheet.imageCrop(10, 29);
         eel = item_sheet.imageCrop(11, 0);
+        venomSac = item_sheet.imageCrop(11, 1);
+        sharpTooth = item_sheet.imageCrop(11, 2);
+        pointySpine = item_sheet.imageCrop(11, 3);
+        incenseBurner = item_sheet.imageCrop(11, 4);
+        potentLeaves = item_sheet.imageCrop(11, 5);
+        graniteChunk = item_sheet.imageCrop(11, 6);
+
+        // Food
+        onionSeeds = item_sheet.imageCrop(11, 7);
+        onion = item_sheet.imageCrop(11, 8);
+        carrotSeeds = item_sheet.imageCrop(11, 9);
+        carrot = item_sheet.imageCrop(11, 10);
+        potatoSeeds = item_sheet.imageCrop(11, 11);
+        potato = item_sheet.imageCrop(11, 12);
+        cauliflowerSeeds = item_sheet.imageCrop(11, 13);
+        cauliflower = item_sheet.imageCrop(11, 14);
+        kaleSeeds = item_sheet.imageCrop(11, 15);
+        kale = item_sheet.imageCrop(11, 16);
+        broccoliSeeds = item_sheet.imageCrop(11, 17);
+        broccoli = item_sheet.imageCrop(11, 18);
+        spinachSeeds = item_sheet.imageCrop(11, 19);
+        spinach = item_sheet.imageCrop(11, 20);
+        sweetPotatoSeeds = item_sheet.imageCrop(11, 21);
+        sweetPotato = item_sheet.imageCrop(11, 22);
+        pumpkinSeeds = item_sheet.imageCrop(11, 23);
+        pumpkin = item_sheet.imageCrop(11, 24);
+        egg = item_sheet.imageCrop(11, 25);
+        jugOfWater = item_sheet.imageCrop(11, 26);
+        potOfFlour = item_sheet.imageCrop(11, 27);
+        dough = item_sheet.imageCrop(11, 28);
+        bowl = item_sheet.imageCrop(11, 29);
+        cakeTin = item_sheet.imageCrop(12, 0);
+        emptyPlate = item_sheet.imageCrop(12, 1);
+        bucketOfMilk = item_sheet.imageCrop(12, 2);
+        bucketOfWater = item_sheet.imageCrop(12, 3);
+        hammer = item_sheet.imageCrop(12, 4);
+        shovel = item_sheet.imageCrop(12, 5);
+        lesserLumberjacksSoul = item_sheet.imageCrop(12, 6);
+        lesserMineworkersSoul = item_sheet.imageCrop(12, 7);
+        lesserGardenersSoul = item_sheet.imageCrop(12, 8);
+        lesserFishermansSoul = item_sheet.imageCrop(12, 9);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);

@@ -1,0 +1,37 @@
+{
+  "itemTypes": [
+    "CRAFTING_MATERIAL"
+  ],
+  "itemRarity": "Common",
+  "name": "Potent leaves",
+  "id": 354,
+  "equipSlot": "None",
+  "strength": 0,
+  "dexterity": 0,
+  "intelligence": 0,
+  "defence": 0,
+  "vitality": 0,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 40,
+  "stackable": true,
+  "equippable": false,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

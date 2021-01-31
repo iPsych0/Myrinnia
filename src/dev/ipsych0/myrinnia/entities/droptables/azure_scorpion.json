@@ -1,41 +1,49 @@
 [
   {
     "itemId": 44,
+    "itemName": "Simple gloves",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 46,
+    "itemName": "Chitin",
     "amount": 1,
     "weight": 2
   },
   {
     "itemId": 47,
+    "itemName": "Scorpion tail",
     "amount": 1,
     "weight": 2
   },
   {
     "itemId": 54,
+    "itemName": "Pile of sand",
     "amount": 1,
     "weight": 1
   },
   {
     "itemId": 54,
+    "itemName": "Pile of sand",
     "amount": 2,
     "weight": 1
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 3,
     "weight": 8
   },
   {
     "itemId": 4,
+    "itemName": "Coins",
     "amount": 5,
     "weight": 4
   },
   {
     "itemId": -1,
+    "itemName": "Nothing",
     "amount": 0,
     "weight": 3
   }
