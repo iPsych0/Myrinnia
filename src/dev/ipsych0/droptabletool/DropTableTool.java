@@ -44,6 +44,7 @@ public class DropTableTool extends JFrame {
     private JMenu fileMenu;
     private JMenuItem save;
     private JMenuItem load;
+    private JMenuItem newFile;
 
     public static void main(String[] args) throws Exception {
         DropTableTool window = new DropTableTool();
@@ -61,8 +62,10 @@ public class DropTableTool extends JFrame {
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(Color.BLACK, 1));
         fileMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         fileMenu.setFont(new Font("myFont", Font.BOLD, 14));
-        save = new JMenuItem("Export to JSON file");
+        newFile = new JMenuItem("New JSON file");
+        save = new JMenuItem("Save JSON file");
         load = new JMenuItem("Load JSON file");
+        fileMenu.add(newFile);
         fileMenu.add(save);
         fileMenu.add(load);
         menuBar.add(fileMenu);
@@ -125,6 +128,10 @@ public class DropTableTool extends JFrame {
         });
 
         // Action listeners for saving/loading file from menu
+        newFile.addActionListener((l) -> {
+            previewText.setText("");
+            entries.clear();
+        });
         save.addActionListener(new SaveL());
         load.addActionListener(new OpenL());
     }

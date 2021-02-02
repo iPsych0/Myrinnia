@@ -21,13 +21,13 @@
     "itemId": 4,
     "itemName": "Coins",
     "amount": 5,
-    "weight": 7
+    "weight": 5
   },
   {
     "itemId": 4,
     "itemName": "Coins",
     "amount": 10,
-    "weight": 4
+    "weight": 3
   },
   {
     "itemId": 24,
@@ -46,6 +46,12 @@
     "itemName": "Cabbage",
     "amount": 2,
     "weight": 1
+  },
+  {
+    "itemId": 352,
+    "itemName": "Pointy Spine",
+    "amount": 1,
+    "weight": 3
   },
   {
     "itemId": -1,

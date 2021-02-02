@@ -331,14 +331,14 @@ public class CraftingManager implements Serializable {
         recipes.add(new CraftingRecipe(of(weakPotionOfPrecision, 1), 1, 10, 10, true, Potions, of(glass, 1), of(owlFeather, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionOfWisdom, 1), 1, 10, 10, true, Potions, of(glass, 1), of(azureBatWing, 1)));
         recipes.add(new CraftingRecipe(of(weakPotionOfVigor, 1), 1, 10, 10, true, Potions, of(glass, 1), of(vineRoot, 1)));
-        recipes.add(new CraftingRecipe(of(weakPotionofFortitude, 1), 1, 10, 10, true, Potions, of(glass, 1), of(rockyShell, 1)));
+        recipes.add(new CraftingRecipe(of(weakPotionOfFortitude, 1), 1, 10, 10, true, Potions, of(glass, 1), of(rockyShell, 1)));
 
         recipes.add(new CraftingRecipe(of(antidote, 1), 8, 20, 20, true, Potions, of(weakAntidote, 1), of(venomSac, 1)));
         recipes.add(new CraftingRecipe(of(potionOfMight, 1), 8, 20, 20, true, Potions, of(weakPotionOfMight, 1), of(sharpTooth, 1)));
         recipes.add(new CraftingRecipe(of(potionOfPrecision, 1), 8, 20, 20, true, Potions, of(weakPotionOfPrecision, 1), of(pointySpine, 1)));
-        recipes.add(new CraftingRecipe(of(potionOfWisdom, 1), 8, 20, 20, true, Potions, of(weakPotionOfWisdom, 1), of(incenseBurner, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfWisdom, 1), 8, 20, 20, true, Potions, of(weakPotionOfWisdom, 1), of(hauntedRag, 1)));
         recipes.add(new CraftingRecipe(of(potionOfVigor, 1), 8, 20, 20, true, Potions, of(weakPotionOfVigor, 1), of(potentLeaves, 1)));
-        recipes.add(new CraftingRecipe(of(potionofFortitude, 1), 8, 20, 20, true, Potions, of(weakPotionofFortitude, 1), of(graniteChunk, 1)));
+        recipes.add(new CraftingRecipe(of(potionOfFortitude, 1), 8, 20, 20, true, Potions, of(weakPotionOfFortitude, 1), of(graniteChunk, 1)));
 
         recipes.add(new CraftingRecipe(of(dough, 1), 1, 1, 20, true, Recipes, of(jugOfWater, 1), of(potOfFlour, 1)));
 

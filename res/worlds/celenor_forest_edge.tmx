@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="17">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="19">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -256,6 +256,7 @@
   <object id="1" name="Spider Trigger Tree" type="npc" x="1856" y="1312" width="288" height="320">
    <properties>
     <property name="animation" value="poisonSpider"/>
+    <property name="dropTable" value="poison_spider.json"/>
     <property name="itemsShop" value="10,10"/>
     <property name="jsonFile" value="59,46,32,32,65,43,32,32"/>
     <property name="name" value="PoisonSpider"/>
@@ -322,6 +323,24 @@
     <property name="jsonFile" value="celenor_mushroom.json"/>
     <property name="name" value="Amanita mushroom"/>
     <property name="npcClass" value="CelenorMushroom"/>
+   </properties>
+  </object>
+  <object id="17" name="Poison Spider" type="npc" x="2528" y="1472" width="32" height="32">
+   <properties>
+    <property name="animation" value="poisonSpider"/>
+    <property name="dropTable" value="poison_spider.json"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Poison Spider"/>
+    <property name="npcClass" value="PoisonSpider"/>
+   </properties>
+  </object>
+  <object id="18" name="Poison Spider" type="npc" x="1568" y="1696" width="32" height="32">
+   <properties>
+    <property name="animation" value="poisonSpider"/>
+    <property name="dropTable" value="poison_spider.json"/>
+    <property name="level" value="11"/>
+    <property name="name" value="Poison Spider"/>
+    <property name="npcClass" value="PoisonSpider"/>
    </properties>
   </object>
  </objectgroup>

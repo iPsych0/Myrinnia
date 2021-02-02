@@ -117,7 +117,7 @@ public class Assets {
             primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
             primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
             primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves,
-            spiderSilk, eel, venomSac, sharpTooth, pointySpine, incenseBurner, potentLeaves, graniteChunk, onionSeeds, onion,
+            spiderSilk, eel, venomSac, sharpTooth, pointySpine, hauntedRag, potentLeaves, graniteChunk, onionSeeds, onion,
             carrotSeeds, carrot, potatoSeeds, potato, cauliflowerSeeds, cauliflower, kaleSeeds, kale, broccoliSeeds, broccoli,
             spinachSeeds, spinach, sweetPotatoSeeds, sweetPotato, pumpkinSeeds, pumpkin, egg, jugOfWater, potOfFlour, dough,
             bowl, cakeTin, emptyPlate, bucketOfMilk, bucketOfWater, hammer, shovel, lesserLumberjacksSoul, lesserMineworkersSoul,
@@ -976,7 +976,7 @@ public class Assets {
         venomSac = item_sheet.imageCrop(11, 1);
         sharpTooth = item_sheet.imageCrop(11, 2);
         pointySpine = item_sheet.imageCrop(11, 3);
-        incenseBurner = item_sheet.imageCrop(11, 4);
+        hauntedRag = item_sheet.imageCrop(11, 4);
         potentLeaves = item_sheet.imageCrop(11, 5);
         graniteChunk = item_sheet.imageCrop(11, 6);
 

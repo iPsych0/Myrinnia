@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="80" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="37">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="37">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -506,6 +506,7 @@
   <object id="19" name="Goat" type="npc" x="1664" y="3072" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -514,6 +515,7 @@
   <object id="22" name="Goat" type="npc" x="1600" y="2528" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -522,6 +524,7 @@
   <object id="23" name="Goat" type="npc" x="1504" y="2048" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -530,6 +533,7 @@
   <object id="24" name="Goat" type="npc" x="1760" y="1536" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -538,6 +542,7 @@
   <object id="25" name="Goat" type="npc" x="2080" y="2688" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -546,6 +551,7 @@
   <object id="26" name="Goat" type="npc" x="512" y="3520" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -554,6 +560,7 @@
   <object id="28" name="Goat" type="npc" x="608" y="2976" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -562,6 +569,7 @@
   <object id="29" name="Goat" type="npc" x="736" y="2432" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -570,6 +578,7 @@
   <object id="30" name="Goat" type="npc" x="768" y="1952" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>
@@ -578,6 +587,7 @@
   <object id="31" name="Goat" type="npc" x="480" y="832" width="32" height="32">
    <properties>
     <property name="animation" value="goat1"/>
+    <property name="dropTable" value="aemir_goat.json"/>
     <property name="level" value="11"/>
     <property name="name" value="Goat"/>
     <property name="npcClass" value="Goat"/>

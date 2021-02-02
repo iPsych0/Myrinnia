@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.items.ItemManager;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class PickupMenu {
@@ -28,17 +27,21 @@ public class PickupMenu {
             for (PickupEntry entry : entries) {
                 entry.tick();
                 Rectangle mouse = Handler.get().getMouse();
-                if (entry.getBounds().contains(mouse)) {
+                // If the mouse contains the bounds + padding, don't close the window yet
+                if (entry.getBounds(-12, -12).contains(mouse)) {
                     hovering = true;
-                    if (Handler.get().getMouseManager().isLeftPressed()) {
+                    // If we contain the real bounds of an entry and left-press, pick up item
+                    if (entry.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                         Item i = entry.getItem();
-                        if (i.pickUpItem(i)) {
-                            if (i.isPickedUp()) {
-                                if (!ItemManager.soundPlayed) {
-                                    Handler.get().playEffect("ui/pickup.ogg");
-                                    ItemManager.soundPlayed = true;
+                        if (isStillInWorld(i)) {
+                            if (i.pickUpItem(i)) {
+                                if (i.isPickedUp()) {
+                                    if (!ItemManager.soundPlayed) {
+                                        Handler.get().playEffect("ui/pickup.ogg");
+                                        ItemManager.soundPlayed = true;
+                                    }
+                                    Handler.get().getWorld().getItemManager().getDeleted().add(i);
                                 }
-                                Handler.get().getWorld().getItemManager().getDeleted().add(i);
                             }
                         }
                         open = false;
@@ -55,8 +58,22 @@ public class PickupMenu {
         }
     }
 
+    private boolean isStillInWorld(Item i) {
+        ItemManager manager = Handler.get().getWorld().getItemManager();
+        return manager.getItems().contains(i);
+    }
+
     public void render(Graphics2D g) {
         if (open) {
+            int highestWidth = 0;
+            for (PickupEntry entry : entries) {
+                int width = entry.getStrWidth(g);
+                if (width > highestWidth) {
+                    highestWidth = width;
+                }
+            }
+
+            PickupEntry.WIDTH = highestWidth;
             for (PickupEntry entry : entries) {
                 entry.render(g);
             }
@@ -88,7 +105,15 @@ public class PickupMenu {
         entries.clear();
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
-            entries.add(new PickupEntry(item, x, y + (i * 16)));
+            entries.add(new PickupEntry(item, x, y + (i * PickupEntry.HEIGHT)));
+        }
+
+        int yOffset = entries.get(entries.size() - 1).getY() - (Handler.get().getHeight() - PickupEntry.HEIGHT * 3);
+        if (yOffset > 0) {
+            for (int i = 0; i < items.size(); i++) {
+                PickupEntry entry = entries.get(i);
+                entry.setY(entry.getY() - ((int) Math.ceil((double) yOffset / (double) PickupEntry.HEIGHT) * PickupEntry.HEIGHT));
+            }
         }
     }
 

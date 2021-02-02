@@ -1,0 +1,62 @@
+[
+  {
+    "itemId": 155,
+    "itemName": "Coal ore",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 154,
+    "itemName": "Clay",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 156,
+    "itemName": "Hard leather",
+    "amount": 1,
+    "weight": 5
+  },
+  {
+    "itemId": 92,
+    "itemName": "Iron boots",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 93,
+    "itemName": "Iron gloves",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 72,
+    "itemName": "Soft leather",
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 10,
+    "weight": 5
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 15,
+    "weight": 4
+  },
+  {
+    "itemId": 383,
+    "itemName": "Hammer",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 2
+  }
+]

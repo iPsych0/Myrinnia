@@ -15,7 +15,7 @@
     "itemId": 47,
     "itemName": "Scorpion tail",
     "amount": 1,
-    "weight": 2
+    "weight": 4
   },
   {
     "itemId": 54,
@@ -33,18 +33,18 @@
     "itemId": 4,
     "itemName": "Coins",
     "amount": 3,
-    "weight": 8
+    "weight": 7
   },
   {
     "itemId": 4,
     "itemName": "Coins",
     "amount": 5,
-    "weight": 4
+    "weight": 3
   },
   {
     "itemId": -1,
     "itemName": "Nothing",
     "amount": 0,
-    "weight": 3
+    "weight": 2
   }
 ]

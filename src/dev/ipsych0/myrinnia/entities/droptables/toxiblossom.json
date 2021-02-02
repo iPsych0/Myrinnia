@@ -1,0 +1,62 @@
+[
+  {
+    "itemId": 64,
+    "itemName": "Tomato seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 65,
+    "itemName": "Cabbage seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 51,
+    "itemName": "Vine root",
+    "amount": 1,
+    "weight": 4
+  },
+  {
+    "itemId": 58,
+    "itemName": "Hardwood",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 73,
+    "itemName": "Strip of wool",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 158,
+    "itemName": "Flax seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 159,
+    "itemName": "Flax",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 356,
+    "itemName": "Onion seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 357,
+    "itemName": "Onion",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 354,
+    "itemName": "Potent leaves",
+    "amount": 1,
+    "weight": 3
+  }
+]

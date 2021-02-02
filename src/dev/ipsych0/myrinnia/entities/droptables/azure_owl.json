@@ -3,19 +3,19 @@
     "itemId": 4,
     "itemName": "Coins",
     "amount": 3,
-    "weight": 10
+    "weight": 7
   },
   {
     "itemId": 4,
     "itemName": "Coins",
     "amount": 5,
-    "weight": 4
+    "weight": 3
   },
   {
     "itemId": 48,
     "itemName": "Owl feather",
     "amount": 1,
-    "weight": 3
+    "weight": 5
   },
   {
     "itemId": 73,
@@ -27,6 +27,6 @@
     "itemId": -1,
     "itemName": "Nothing",
     "amount": 0,
-    "weight": 4
+    "weight": 2
   }
 ]

@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class NPCSpawnTile extends StaticEntity {
+public class NPCSpawnTile extends Creature {
 
     private List<Entity> entitiesToSpawn = new ArrayList<>();
     private long timeAllKilled;
@@ -27,12 +27,14 @@ public class NPCSpawnTile extends StaticEntity {
     private List<Integer> levels;
     private List<String> animations;
     private String itemsShop;
+    private Rectangle spawnBounds;
 
-    public NPCSpawnTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public NPCSpawnTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
         solid = false;
         attackable = false;
         isNpc = false;
+        walker = false;
         setOverlayDrawn(false);
 
         coords = new ArrayList<>();
@@ -97,11 +99,18 @@ public class NPCSpawnTile extends StaticEntity {
         }
 
         player = Handler.get().getPlayer();
+
+        spawnBounds = new Rectangle((int) x, (int) y, width, height);
     }
 
     @Override
     public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
-        return super.getCollisionBounds(-Handler.get().getWorld().getWidth(), -Handler.get().getWorld().getHeight());
+        return super.getCollisionBounds(-10000, -10000);
+    }
+
+    @Override
+    public Rectangle2D getFullBounds(double xOffset, double yOffset) {
+        return super.getCollisionBounds(-10000, -10000);
     }
 
     private void initEnemy(String name, Class<?> c, Rectangle coords, Integer level, String animation, String itemsShop, String direction) throws Exception {
@@ -176,7 +185,7 @@ public class NPCSpawnTile extends StaticEntity {
         long currentTime = System.currentTimeMillis();
         int deadCount = 0;
 
-        if (!hasSpawned && this.getFullBounds(0, 0).contains(player.getCollisionBounds(0, 0))) {
+        if (!hasSpawned && spawnBounds.contains(player.getCollisionBounds(0, 0))) {
             hasSpawned = true;
             respawnAll();
         }

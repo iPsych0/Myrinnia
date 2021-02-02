@@ -1,8 +1,10 @@
 package dev.ipsych0.myrinnia.items.ui;
 
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemRarity;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -11,32 +13,43 @@ public class PickupEntry {
 
     private Item item;
     private int x, y;
-    private int width, height;
+    public static final int HEIGHT = 24;
+    public static int WIDTH = 64;
     private Rectangle bounds;
 
     public PickupEntry(Item item, int x, int y) {
         this.item = item;
         this.x = x;
         this.y = y;
-        width = 64;
-        height = ItemSlot.SLOTSIZE / 2;
-        bounds = new Rectangle(x, y, width, height);
+        bounds = new Rectangle(x, y, WIDTH, HEIGHT);
     }
 
     public void tick() {
 
     }
 
-    public void render(Graphics2D g) {
+    public int getStrWidth(Graphics2D g){
         // Get string width
         Rectangle strBounds = Text.getStringBounds(g, item.getCount() + "x " + item.getName(), Assets.font14);
-        width = strBounds.width;
-        g.drawRect(x, y, width + 8, ItemSlot.SLOTSIZE / 2);
+        return strBounds.width;
+    }
+
+    public void render(Graphics2D g) {
+        Rectangle mouse = Handler.get().getMouse();
+        if (bounds.contains(mouse)) {
+            g.drawImage(Assets.uiWindow, x, y, WIDTH + 4, HEIGHT, null);
+            g.setColor(Colors.selectedColor);
+            g.fillRoundRect(x, y, WIDTH + 4, HEIGHT, 4, 4);
+        } else {
+            g.drawImage(Assets.uiWindow, x, y, WIDTH + 4, HEIGHT, null);
+        }
+
+
         Text.drawString(g, item.getCount() + "x " + item.getName(),
-                x + 2, y + 14, false,
+                x + 2, y + 17, false,
                 ItemRarity.getColor(item), Assets.font14);
 
-        bounds.setBounds(x, y, width, height);
+        bounds.setBounds(x, y, WIDTH, HEIGHT);
     }
 
     public Item getItem() {
@@ -64,14 +77,19 @@ public class PickupEntry {
     }
 
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public Rectangle getBounds(int xOffset, int yOffset) {
+        return new Rectangle(bounds.x + xOffset, bounds.y + yOffset,
+                WIDTH + (Math.abs(xOffset) * 2), HEIGHT + (Math.abs(yOffset) * 2));
     }
 }

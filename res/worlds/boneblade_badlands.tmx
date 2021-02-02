@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="66">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="68">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="579" source="desert.tsx"/>
  <tileset firstgid="993" source="dungeon.tsx"/>
@@ -379,6 +379,7 @@
   <object id="10" name="Goblino Ranger" type="npc" x="800" y="480" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -387,6 +388,7 @@
   <object id="11" name="Goblino Melee" type="npc" x="1920" y="416" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -395,6 +397,7 @@
   <object id="12" name="Goblino Mage" type="npc" x="704" y="1152" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -403,6 +406,7 @@
   <object id="13" name="Goblino Ranger" type="npc" x="3072" y="800" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -411,6 +415,7 @@
   <object id="14" name="Goblino Melee" type="npc" x="672" y="416" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -419,6 +424,7 @@
   <object id="15" name="Goblino Melee" type="npc" x="2944" y="1664" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -427,6 +433,7 @@
   <object id="16" name="Goblino Mage" type="npc" x="3136" y="2208" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -435,6 +442,7 @@
   <object id="18" name="Goblino Melee" type="npc" x="1952" y="3200" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -443,6 +451,7 @@
   <object id="19" name="Goblino Ranger" type="npc" x="2368" y="3648" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -451,6 +460,7 @@
   <object id="20" name="Goblino Melee" type="npc" x="2208" y="4192" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -459,6 +469,7 @@
   <object id="21" name="Goblino Melee" type="npc" x="1536" y="4000" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -467,6 +478,7 @@
   <object id="22" name="Goblino Ranger" type="npc" x="1152" y="4192" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -475,6 +487,7 @@
   <object id="23" name="Goblino Mage" type="npc" x="448" y="3744" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -483,6 +496,7 @@
   <object id="24" name="Goblino Melee" type="npc" x="640" y="2144" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -491,6 +505,7 @@
   <object id="25" name="Goblino Melee" type="npc" x="1248" y="1920" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -499,6 +514,7 @@
   <object id="26" name="Goblino Mage" type="npc" x="1344" y="2816" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -507,6 +523,7 @@
   <object id="27" name="Goblino Ranger" type="npc" x="1728" y="2080" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -515,6 +532,7 @@
   <object id="28" name="Goblino Ranger" type="npc" x="2176" y="2624" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -523,6 +541,7 @@
   <object id="29" name="Goblino Melee" type="npc" x="1952" y="1472" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -531,6 +550,7 @@
   <object id="30" name="Goblino Mage" type="npc" x="2336" y="1664" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -539,6 +559,7 @@
   <object id="31" name="Goblino Melee" type="npc" x="736" y="2944" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -547,6 +568,7 @@
   <object id="32" name="Goblino Melee" type="npc" x="1216" y="3616" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoBrown"/>
+    <property name="dropTable" value="goblino_bruiser.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Bruiser"/>
     <property name="npcClass" value="GoblinoBruiser"/>
@@ -571,21 +593,9 @@
     <property name="npcClass" value="Rock"/>
    </properties>
   </object>
-  <object id="37" name="Clay Ore" type="npc" x="1408" y="3680" width="32" height="32">
+  <object id="37" name="Coal Ore" type="npc" x="1408" y="3680" width="32" height="32">
    <properties>
-    <property name="name" value="Clay Rock"/>
-    <property name="npcClass" value="Rock"/>
-   </properties>
-  </object>
-  <object id="38" name="Clay Ore" type="npc" x="1152" y="3552" width="32" height="32">
-   <properties>
-    <property name="name" value="Clay Rock"/>
-    <property name="npcClass" value="Rock"/>
-   </properties>
-  </object>
-  <object id="39" name="Clay Ore" type="npc" x="1568" y="3456" width="32" height="32">
-   <properties>
-    <property name="name" value="Clay Rock"/>
+    <property name="name" value="Coal Rock"/>
     <property name="npcClass" value="Rock"/>
    </properties>
   </object>
@@ -622,6 +632,7 @@
   <object id="45" name="Goblino Mage" type="npc" x="2880" y="3040" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
@@ -714,6 +725,7 @@
   <object id="62" name="Goblino Ranger" type="npc" x="1088" y="2432" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoGreen"/>
+    <property name="dropTable" value="goblino_archer.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Archer"/>
     <property name="npcClass" value="GoblinoArcher"/>
@@ -722,9 +734,22 @@
   <object id="63" name="Goblino Mage" type="npc" x="2144" y="2272" width="32" height="64">
    <properties>
     <property name="animation" value="goblinoPurple"/>
+    <property name="dropTable" value="goblino_shaman.json"/>
     <property name="level" value="12"/>
     <property name="name" value="Goblino Shaman"/>
     <property name="npcClass" value="GoblinoShaman"/>
+   </properties>
+  </object>
+  <object id="66" name="Coal Ore" type="npc" x="1152" y="3552" width="32" height="32">
+   <properties>
+    <property name="name" value="Coal Rock"/>
+    <property name="npcClass" value="Rock"/>
+   </properties>
+  </object>
+  <object id="67" name="Coal Ore" type="npc" x="1568" y="3456" width="32" height="32">
+   <properties>
+    <property name="name" value="Coal Rock"/>
+    <property name="npcClass" value="Rock"/>
    </properties>
   </object>
  </objectgroup>

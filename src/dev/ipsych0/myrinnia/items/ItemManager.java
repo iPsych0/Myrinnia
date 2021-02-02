@@ -59,7 +59,6 @@ public class ItemManager implements Serializable {
                         deleted.add(i);
                     }
                 }
-                pickUpPressed = false;
             }
 
             if (i.isHovering()) {
@@ -76,6 +75,8 @@ public class ItemManager implements Serializable {
             }
             i.tick();
         }
+
+        pickUpPressed = false;
 
         // If we're hovering over any items and we right-click, display the pickup menu
         if (!hovered.isEmpty()) {
@@ -148,10 +149,6 @@ public class ItemManager implements Serializable {
             Text.drawString(g, "+" + (count - 1), lastHovered.getX() + Item.ITEMWIDTH - (int) Handler.get().getGameCamera().getxOffset(),
                     lastHovered.getY() - (int) Handler.get().getGameCamera().getyOffset(), false, Color.GREEN, Assets.font20);
         }
-
-        if (pickupMenu.isOpen()) {
-            pickupMenu.render(g);
-        }
     }
 
     public void postRender(Graphics2D g) {
@@ -177,6 +174,10 @@ public class ItemManager implements Serializable {
                 drawHoverCorners(g, item, 1, 1, Color.BLACK);
                 drawHoverCorners(g, item);
             }
+        }
+
+        if (pickupMenu.isOpen()) {
+            pickupMenu.render(g);
         }
     }
 

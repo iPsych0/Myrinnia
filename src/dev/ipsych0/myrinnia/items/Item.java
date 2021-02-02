@@ -65,7 +65,7 @@ public class Item implements Serializable {
     public static Item azuriteNecklace = Utils.loadItem("23_azurite_necklace.json", Assets.azuriteNecklace);
     public static Item weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionOfFortitude, potionOfFortitude, strongPotionOfFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
     public static Item azureBatWing = Utils.loadItem("42_azure_bat_wing.json", Assets.azureBatWing);
     public static Item crablingClaw = Utils.loadItem("43_crabling_claw.json", Assets.crablingClaw);
     public static Item simpleGloves = Utils.loadItem("44_simple_gloves.json", Assets.simpleGloves);
@@ -448,7 +448,7 @@ public class Item implements Serializable {
     public static Item venomSac = Utils.loadItem("350_venom_sac.json", Assets.venomSac);
     public static Item sharpTooth = Utils.loadItem("351_sharp_tooth.json", Assets.sharpTooth);
     public static Item pointySpine = Utils.loadItem("352_pointy_spine.json", Assets.pointySpine);
-    public static Item incenseBurner = Utils.loadItem("353_incense_burner.json", Assets.incenseBurner);
+    public static Item hauntedRag = Utils.loadItem("353_haunted_rag.json", Assets.hauntedRag);
     public static Item potentLeaves = Utils.loadItem("354_potent_leaves.json", Assets.potentLeaves);
     public static Item graniteChunk = Utils.loadItem("355_granite_chunk.json", Assets.graniteChunk);
 
@@ -943,17 +943,17 @@ public class Item implements Serializable {
             Handler.get().removeItem(Item.strongPotionOfWisdom, 1);
         });
 
-        weakPotionofFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionOfFortitude, 0, (Use & Serializable) (i) -> {
+        weakPotionOfFortitude = Utils.loadItem("36_weak_potion_of_fortitude.json", Assets.weakPotionOfFortitude, 0, (Use & Serializable) (i) -> {
             player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 60.0, 10.0));
-            Handler.get().removeItem(Item.weakPotionofFortitude, 1);
+            Handler.get().removeItem(Item.weakPotionOfFortitude, 1);
         });
-        potionofFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionOfFortitude, 0, (Use & Serializable) (i) -> {
+        potionOfFortitude = Utils.loadItem("37_potion_of_fortitude.json", Assets.potionOfFortitude, 0, (Use & Serializable) (i) -> {
             player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 120.0, 30.0));
-            Handler.get().removeItem(Item.potionofFortitude, 1);
+            Handler.get().removeItem(Item.potionOfFortitude, 1);
         });
-        strongPotionofFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionOfFortitude, 0, (Use & Serializable) (i) -> {
+        strongPotionOfFortitude = Utils.loadItem("38_strong_potion_of_fortitude.json", Assets.strongPotionOfFortitude, 0, (Use & Serializable) (i) -> {
             player.addBuff(player, new AttributeBuff(AttributeBuff.Attribute.DEF, player, 180.0, 80.0));
-            Handler.get().removeItem(Item.strongPotionofFortitude, 1);
+            Handler.get().removeItem(Item.strongPotionOfFortitude, 1);
         });
 
         weakPotionOfVigor = Utils.loadItem("39_weak_potion_of_vigor.json", Assets.weakPotionOfVigor, 0, (Use & Serializable) (i) -> {

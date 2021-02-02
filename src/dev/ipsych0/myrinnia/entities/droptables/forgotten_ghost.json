@@ -1,0 +1,32 @@
+[
+  {
+    "itemId": 353,
+    "itemName": "Haunted rag",
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 5,
+    "weight": 5
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 10,
+    "weight": 3
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 15,
+    "weight": 2
+  },
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 3
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "itemId": 356,
+    "itemName": "Onion seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 358,
+    "itemName": "Carrot seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 158,
+    "itemName": "Flax seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 159,
+    "itemName": "Flax",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 117,
+    "itemName": "Strawberry seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 118,
+    "itemName": "Raspberry seeds",
+    "amount": 2,
+    "weight": 1
+  },
+  {
+    "itemId": 115,
+    "itemName": "Aspenwood",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 10,
+    "weight": 2
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 8,
+    "weight": 3
+  },
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 2
+  }
+]
