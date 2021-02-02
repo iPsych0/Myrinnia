@@ -73,11 +73,11 @@ public class Bootstrapper {
 
         // Unlock Abilities
         commandHandler.handle(Commands.UNLOCK, "unlock", "Arcane_Renewal");
-        commandHandler.handle(Commands.UNLOCK, "unlock", "Ice_Ball");
-        commandHandler.handle(Commands.UNLOCK, "unlock", "Healing_Spring");
         commandHandler.handle(Commands.UNLOCK, "unlock", "Frost_Jab");
-        commandHandler.handle(Commands.UNLOCK, "unlock", "Mend_Wounds");
         commandHandler.handle(Commands.UNLOCK, "unlock", "Glacial_Shot");
+        commandHandler.handle(Commands.UNLOCK, "unlock", "Healing_Spring");
+        commandHandler.handle(Commands.UNLOCK, "unlock", "Ice_Ball");
+        commandHandler.handle(Commands.UNLOCK, "unlock", "Mend_Wounds");
         return this;
     }
 

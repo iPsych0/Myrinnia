@@ -18,6 +18,6 @@
   "selectable": true,
   "selected": false,
   "unlocked": false,
-  "price": 1,
+  "price": 2,
   "className": "dev.ipsych0.myrinnia.abilities.SiphoningShotAbility"
 }

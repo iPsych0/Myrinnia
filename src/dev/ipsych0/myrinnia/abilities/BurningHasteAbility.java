@@ -58,7 +58,7 @@ public class BurningHasteAbility extends Ability implements Serializable {
             double levelDuration = baseDuration + (caster.getFireLevel() * 6);
 
             double baseCondiDmg = 3d;
-            double levelCondiDmg = baseCondiDmg + (caster.getFireLevel() * 2);
+            double levelCondiDmg = baseCondiDmg + (caster.getFireLevel() * 1.5);
 
             double baseCondiDuration = 1d;
             double levelCondiDuration = baseCondiDuration + (caster.getFireLevel() * 0.05);

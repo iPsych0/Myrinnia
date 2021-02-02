@@ -421,7 +421,13 @@
     <property name="npcClass" value="Tree"/>
    </properties>
   </object>
-  <object id="44" name="TODO: Platinum ore cave" type="zone_tile" x="1120" y="352" width="64" height="64"/>
+  <object id="44" name="Forgotten Cave" type="zone_tile" x="1120" y="352" width="64" height="48">
+   <properties>
+    <property name="goToX" value="25"/>
+    <property name="goToY" value="60"/>
+    <property name="zone" value="ForgottenCave"/>
+   </properties>
+  </object>
   <object id="45" name="Clay Ore" type="npc" x="1248" y="1856" width="32" height="32">
    <properties>
     <property name="name" value="Clay Rock"/>
