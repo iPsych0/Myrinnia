@@ -30,6 +30,7 @@ public abstract class Buff {
             // If the receiver died, stop ticking
             if (!receiver.isActive()) {
                 this.setActive(false);
+                clear();
                 return;
             }
 

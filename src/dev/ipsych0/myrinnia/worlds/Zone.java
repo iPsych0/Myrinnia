@@ -42,6 +42,8 @@ public enum Zone {
     WardensCabin("Warden's Cabin", "wardens_cabin.ogg", "/worlds/wardens_cabin.tmx"),
 
     CelenorForestCreek("Celenor Forest Creek", "celenor_forest_edge.ogg", "/worlds/celenor_forest_creek.tmx"),
+    CelenorForestBog("Celenor Forest Bog", "celenor_forest_edge.ogg", "/worlds/celenor_forest_bog.tmx"),
+    CelenorForestMeadows("Celenor Forest Meadows", "celenor_forest_edge.ogg", "/worlds/celenor_forest_meadows.tmx"),
     CelenorForestLandslide("Celenor Forest Landslide", "celenor_forest_edge.ogg", "/worlds/celenor_forest_landslide.tmx"),
     Fyddnymed("Fyddnymed", "celenor_forest_edge.ogg", "/worlds/fyddnymed.tmx"),
     FyddnymedCanopy("Fyddnymed Canopy", "celenor_forest_edge.ogg", "/worlds/fyddnymed_canopy.tmx"),

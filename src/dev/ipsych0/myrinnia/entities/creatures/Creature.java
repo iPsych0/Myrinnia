@@ -1257,14 +1257,16 @@ public abstract class Creature extends Entity {
 
     public void clearConditions() {
         for (Condition c : conditions) {
-            c.setActive(false);
+            c.clear();
         }
+        conditions.clear();
     }
 
     public void clearBuffs() {
         for (Buff b : buffs) {
-            b.setActive(false);
+            b.clear();
         }
+        buffs.clear();
     }
 
     public boolean isAggroed() {
