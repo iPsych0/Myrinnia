@@ -1,10 +1,11 @@
 package dev.ipsych0.myrinnia.ui;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewContainer<T extends UIObject> {
+public class ViewContainer<T extends UIObject> implements Serializable {
 
     public static final int HORIZONTAL = 0, VERTICAL = 1;
 

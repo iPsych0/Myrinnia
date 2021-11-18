@@ -4,8 +4,9 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class StatTooltip {
+public class StatTooltip implements Serializable {
 
     public static final int WIDTH = 224, HEIGHT = 112;
 

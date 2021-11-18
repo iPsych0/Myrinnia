@@ -1,9 +1,10 @@
 package dev.ipsych0.myrinnia.worlds.weather;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Climate {
+public class Climate implements Serializable {
     public static final int CAVE = 0;
     public static final int DROUGHT = 1;
     public static final int FOG = 2;
