@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="collision" color="#aa0000">
+  <property name="npcClass" type="string" default="CollisionTile"/>
+ </objecttype>
+ <objecttype name="item" color="#00aa00">
+  <property name="amount" type="string"/>
+  <property name="itemId" type="string"/>
+ </objecttype>
+ <objecttype name="npc" color="#0000ff">
+  <property name="animation" type="string"/>
+  <property name="direction" type="string"/>
+  <property name="dropTable" type="string"/>
+  <property name="itemsShop" type="string"/>
+  <property name="jsonFile" type="string"/>
+  <property name="level" type="string"/>
+  <property name="name" type="string"/>
+  <property name="npcClass" type="string"/>
+ </objecttype>
+ <objecttype name="zone_tile" color="#ff55ff">
+  <property name="customMusicName" type="string"/>
+  <property name="customZoneName" type="string"/>
+  <property name="goToX" type="string"/>
+  <property name="goToY" type="string"/>
+  <property name="zone" type="string"/>
+ </objecttype>
+</objecttypes>
