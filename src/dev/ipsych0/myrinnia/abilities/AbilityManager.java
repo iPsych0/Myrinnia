@@ -36,13 +36,13 @@ public class AbilityManager implements Serializable {
      */
     public AbilityManager() {
         this.abilityHUD = new AbilityHUD();
-
-        try {
-            init();
-        } catch (Exception e) {
-            System.err.println("Failed to load abilities!");
-            System.exit(1);
-        }
+//
+//        try {
+//            init();
+//        } catch (Exception e) {
+//            System.err.println("Failed to load abilities!");
+//            System.exit(1);
+//        }
     }
 
     private void init() throws IOException {

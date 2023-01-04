@@ -1,0 +1,94 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, adventurer. I'm looking for someone with some mining experience to help me out.",
+      "nextId": 2,
+      "choiceCondition": {
+        "condition": "hasQuestReqs",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "text": "I don't think you're experienced enough yet to help me. Level 5 mining would do.",
+      "nextId": -1
+    },
+    {
+      "id": 2,
+      "text": "One of our mining crews has not returned from their last expedition. I would look for them myself, but I'm afraid I'm not so skilled at combat.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "You will find some enemies down the mines, so you should come prepared.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "Do you think you could help them out?",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "options": [
+        {
+          "text": "I sure can. Where should I look for them?",
+          "nextId": 7
+        },
+        {
+          "text": "Maybe later.",
+          "nextId": 6
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Please come back soon!",
+      "nextId": -1
+    },
+    {
+      "id": 7,
+      "text": "Thank you! Next to the town hall, you will find the entrance to the Shamrock Mines. I expect them to be at least 1 level below the entrance level.",
+      "nextId": 8
+    },
+    {
+      "id": 8,
+      "options": [
+        {
+          "text": "Should I bring anything down there?",
+          "nextId": 9
+        },
+        {
+          "text": "I will look for them.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "text": "You will definitely need a pickaxe down there. You better be prepared for some combat action as well.",
+      "nextId": 8
+    },
+    {
+      "id": 10,
+      "text": "The crew has returned! Thank you for all your efforts, traveler! I'm glad to see them returned safely.",
+      "nextId": 11
+    },
+    {
+      "id": 11,
+      "text": "My crew told me they found this scroll in the mines. Perhaps you could use it.",
+      "nextId": 12
+    },
+    {
+      "id": 12,
+      "text": "[Received 1x Dusty Scroll]",
+      "nextId": -1
+    },
+    {
+      "id": 13,
+      "text": "Hi! The crew is already on their next expedition, but I have instructed them to be more careful this time.",
+      "nextId": -1
+    }
+  ]
+}

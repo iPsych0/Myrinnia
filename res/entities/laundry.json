@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Ik heb geen idee hoe ze hier terecht zijn gekomen, maar ik heb mijn sleutels gevonden!",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "{DUMMY}",
+      "nextId": -1
+    }
+  ]
+}

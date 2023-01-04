@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Greetings, traveler. My name is Jora. I am the mayor of this town and ancestor of Jotar, one of the original settlers of Shamrock Town. How can I help you?",
+      "nextId": -1
+    }
+  ]
+}

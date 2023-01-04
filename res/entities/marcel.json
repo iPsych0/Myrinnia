@@ -1,0 +1,42 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hallo, ik ben Marcel. Welkom in mijn luxe taxi, Blur.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Ik heb een ritje voor je geregeld naar Schiphol. Ben je klaar voor de rit?",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Mijn harses zijn klaar om hun oren te verliezen.",
+          "nextId": 3
+        },
+        {
+          "text": "Mijn oren zijn nog niet klaar om afgeluld te worden.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Nou, stap maar in. Dan gaan we er vandoor! Zeg heb ik je al verteld over...",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "NEEEEEEE MARCEL.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "text": "{DUMMY}",
+      "nextId": -1
+    }
+  ]
+}

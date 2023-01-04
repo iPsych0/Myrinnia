@@ -1,0 +1,26 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "You may craft items at this crafting station.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "I would like craft some items.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openCraftingWindow",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hallo, welkom bij Schiphol. Waar gaat uw reis heen?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "KAN IEMAND ME DAT EINDELIJK VERTELLEN?",
+          "nextId": 3
+        },
+        {
+          "text": "Nergens.",
+          "nextId": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Oh, tot ziens.",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "Om uw reis te onthullen, open ik nu uw browser!",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "VEEL PLEZIER! Fijne verjaardag liefje, ik hou van jou!",
+      "nextId": -1
+    }
+  ]
+}

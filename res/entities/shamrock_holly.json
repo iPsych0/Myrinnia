@@ -1,0 +1,24 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hey, are you heading east towards the Malachite Hills? Watch out for poisonous enemies.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Poison decreases your HP over time. Some abilities are able to cleanse conditions.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "If you don't have these abilities yet, you could maybe buy an Antidote Potion from one of the stalls in this town.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Potions such as Antidotes will grant you some resistance to Poison damage. Stronger potions will grant better resistance.",
+      "nextId": -1
+    }
+  ]
+}

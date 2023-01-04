@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "In honour of {name}, first settler of Shamrock Town.",
+      "nextId": -1
+    }
+  ]
+}

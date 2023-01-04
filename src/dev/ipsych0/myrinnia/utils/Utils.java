@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.AbilityManager;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
@@ -49,8 +50,8 @@ public class Utils {
 
     private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
         InputStream inputStream = null;
-        jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
-        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
+        jsonFile = packageName + jsonFile.toLowerCase();
+        inputStream = Handler.class.getClassLoader().getResourceAsStream(jsonFile);
         if (inputStream == null) {
             throw new IllegalArgumentException(jsonFile + " could not be found.");
         }
@@ -73,7 +74,7 @@ public class Utils {
         BufferedReader reader = null;
         String name = null;
         jsonFile = "dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
-        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
+        inputStream = Handler.class.getClassLoader().getResourceAsStream(jsonFile);
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
@@ -111,14 +112,14 @@ public class Utils {
     }
 
     public static Item loadItem(String path, BufferedImage sprite) {
-        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
+        Item i = loadObjectFromJsonFile(path, "items/", Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         return i;
     }
 
     public static Item loadItem(String path, BufferedImage sprite, int cooldown, Use use) {
-        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
+        Item i = loadObjectFromJsonFile(path, "items/", Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         i.setUse(use);
@@ -127,7 +128,7 @@ public class Utils {
     }
 
     public static Script loadScript(String path) {
-        Script s = loadObjectFromJsonFile(path, "entities/npcs/json/", Script.class);
+        Script s = loadObjectFromJsonFile(path, "entities/", Script.class);
         s.getDialogues().sort((o1, o2) -> {
             Integer i1 = o1.getId();
             Integer i2 = o2.getId();
@@ -142,7 +143,7 @@ public class Utils {
     }
 
     public static Monologue loadMonologue(String path) {
-        Monologue m = loadObjectFromJsonFile(path, "states/monologues/", Monologue.class);
+        Monologue m = loadObjectFromJsonFile(path, "monologues/", Monologue.class);
         return m;
     }
 

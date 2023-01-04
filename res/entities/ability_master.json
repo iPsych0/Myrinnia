@@ -1,0 +1,52 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "options": [
+        {
+          "text": "I would like to learn new abilities.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openShop",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Could you reset my skill points for me?",
+          "nextId": 1
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "text": "I can reset your Skill Points for a fee of 1000 gold.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Reset points (1000 gold).",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "has1000gold",
+            "falseId": 3
+          }
+        },
+        {
+          "text": "Never mind.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Sorry, you don't have enough gold.",
+      "nextId": -1
+    }
+  ]
+}
