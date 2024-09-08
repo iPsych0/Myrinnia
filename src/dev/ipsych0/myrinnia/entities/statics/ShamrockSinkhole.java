@@ -106,7 +106,7 @@ public class ShamrockSinkhole extends StaticEntity {
         }
     }
 
-    private void addTroll(double x, double y){
+    private void addTroll(double x, double y) {
         World basin = Handler.get().getWorldHandler().getWorldsMap().get(Zone.ShamrockMinesBasin);
         basin.getEntityManager().addRuntimeEntity(new CaveTroll(x, y, 64, 96, "Cave Troll", 9, null, null, "caveTroll", null, null));
     }

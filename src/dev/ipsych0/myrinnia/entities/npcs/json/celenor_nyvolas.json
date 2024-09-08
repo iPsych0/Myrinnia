@@ -13,7 +13,11 @@
     {
       "id": 2,
       "text": "Next to clams, you may find other items that have washed ashore or have been left by people on the beach.",
-      "nextId": 3
+      "nextId": 3,
+      "choiceCondition": {
+        "condition": "hasRake",
+        "falseId": -1
+      }
     },
     {
       "id": 3,

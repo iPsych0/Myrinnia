@@ -39,8 +39,8 @@ public class EffectManager {
 
     public void applyOnHitReceivedEffect(Entity dealer, Entity receiver) {
         for (EffectEvent event : events) {
-            if (event instanceof OnHitReceived && dealer.equals(event.getCaster())) {
-                event.apply(dealer, receiver);
+            if (event instanceof OnHitReceived && receiver.equals(event.getCaster())) {
+                event.apply(receiver, dealer);
             }
         }
     }

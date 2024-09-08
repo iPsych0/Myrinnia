@@ -33,8 +33,8 @@ public class CelebrationUI implements Serializable {
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
 
-        abilityTooltip = new AbilityTooltip(x + width, y);
-        itemTooltip = new ItemTooltip(x + width, y);
+        abilityTooltip = new AbilityTooltip(x - AbilityTooltip.BASE_WIDTH, y);
+        itemTooltip = new ItemTooltip(x - 160, y);
 
         events = new LinkedList<>();
 

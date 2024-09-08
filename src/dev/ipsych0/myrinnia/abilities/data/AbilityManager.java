@@ -4,8 +4,10 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Colors;
+import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
@@ -50,21 +52,21 @@ public class AbilityManager implements Serializable {
         final String path = "dev/ipsych0/myrinnia/abilities/json/";
 
         // Run with JAR file
-        if(Handler.isJar) {
+        if (Handler.isJar) {
             final JarFile jar = new JarFile(Handler.jarFile);
             // Get all files and folders in the jar
             final Enumeration<JarEntry> entries = jar.entries();
-            while(entries.hasMoreElements()) {
+            while (entries.hasMoreElements()) {
                 final String entry = entries.nextElement().getName();
                 // Look for the abilities/json folder for files that end with .json
                 if (entry.startsWith(path) && entry.endsWith(".json")) {
                     // Get the json filename and load it
-                    String jsonFile = entry.substring(entry.lastIndexOf("/")+1, entry.length());
+                    String jsonFile = entry.substring(entry.lastIndexOf("/") + 1, entry.length());
                     allAbilities.add(Utils.loadAbility(jsonFile));
                 }
             }
             jar.close();
-        // Run with IDE
+            // Run with IDE
         } else {
             for (File f : abilitiesJsonDirectory.listFiles()) {
                 allAbilities.add(Utils.loadAbility(f.getName()));
@@ -95,19 +97,41 @@ public class AbilityManager implements Serializable {
                     float timer = a.getCastingTimeTimer();
                     double castTime = a.getCastingTime() * 60;
                     double timeLeft = timer / castTime;
+                    Creature caster = a.getCaster();
+                    int casterWidth = caster.getWidth();
+                    int casterHeight = caster.getHeight();
 
-                    g.drawImage(Assets.uiWindow, (int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
-                            a.getCaster().getWidth() + 4, 8, null);
+                    g.drawImage(Assets.uiWindow, (int) (caster.getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (caster.getY() + casterHeight - Handler.get().getGameCamera().getyOffset()),
+                            casterWidth + 4, 8, null);
 
                     g.setColor(Colors.progressBarColor);
-                    g.fillRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
-                            (int) (timeLeft * (a.getCaster().getWidth() + 4)), 8, 2, 2);
+                    g.fillRoundRect((int) (caster.getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (caster.getY() + casterHeight - Handler.get().getGameCamera().getyOffset()),
+                            (int) (timeLeft * (casterWidth + 4)), 8, 2, 2);
 
                     g.setColor(Colors.progressBarOutlineColor);
-                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - Handler.get().getGameCamera().getyOffset()),
-                            a.getCaster().getWidth() + 4, 8, 2, 2);
+                    g.drawRoundRect((int) (caster.getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (caster.getY() + casterHeight - Handler.get().getGameCamera().getyOffset()),
+                            casterWidth + 4, 8, 2, 2);
+
+                    Font font;
+                    int yOffset;
+                    if (casterWidth <= 32) {
+                        font = Assets.font14;
+                        yOffset = 16;
+                    } else if (casterWidth <= 64) {
+                        font = Assets.font20;
+                        yOffset = 24;
+                    } else {
+                        font = Assets.font24;
+                        yOffset = 32;
+                    }
+
+                    // Draw ability name under progress bar
+                    Text.drawString(g, a.getName(),
+                            (int) (caster.getX() + casterWidth / 2 - Handler.get().getGameCamera().getxOffset()),
+                            (int) (caster.getY() + casterHeight + yOffset - Handler.get().getGameCamera().getyOffset()),
+                            true, Color.YELLOW, font);
 //                    g.setColor(Color.BLACK);
-//                    g.drawRoundRect((int) (a.getCaster().getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (a.getCaster().getY() + a.getCaster().getHeight() - 4 - Handler.get().getGameCamera().getyOffset()),
+//                    g.drawRoundRect((int) (caster.getX() - Handler.get().getGameCamera().getxOffset() - 4), (int) (caster.getY() + casterHeight - 4 - Handler.get().getGameCamera().getyOffset()),
 //                            a.getCaster().getWidth() + 4, 8, 2, 2);
                 }
             }

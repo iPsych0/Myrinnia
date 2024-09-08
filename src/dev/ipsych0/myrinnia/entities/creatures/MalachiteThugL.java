@@ -92,9 +92,7 @@ public class MalachiteThugL extends Creature {
                     (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - 16 - Handler.get().getGameCamera().getyOffset()),
                     true, Color.YELLOW, Assets.font14);
-        }
-
-        else if (hasSpawnedSecondAlly && secondTextTimer <= 120) {
+        } else if (hasSpawnedSecondAlly && secondTextTimer <= 120) {
             secondTextTimer++;
             Text.drawString(g, "Argh, get her!",
                     (int) (x + width / 2 - Handler.get().getGameCamera().getxOffset()),

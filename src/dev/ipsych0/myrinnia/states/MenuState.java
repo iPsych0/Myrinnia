@@ -68,6 +68,7 @@ public class MenuState extends State {
 
         if (newGameButton.contains(mouse)) {
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                Handler.get().getWorldHandler().getWorldsMap().get(Zone.PortAzure).init();
                 State.setState(new UITransitionState(Handler.get().getGame().gameState));
                 Handler.get().addTip(new TutorialTip("Use WASD keys to move around."));
                 Handler.get().playMusic(Zone.PortAzure);

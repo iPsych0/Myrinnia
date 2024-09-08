@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.HitSplat;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
@@ -26,6 +27,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
+import dev.ipsych0.myrinnia.publishers.WorldPublisher;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestManager;
@@ -45,10 +47,13 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
 
 import java.awt.*;
 import java.io.*;
@@ -80,18 +85,7 @@ public class Handler implements Serializable {
         }
     }
 
-    public static String initialWorldPath = "/worlds/port_azure.tmx";
-
-    static {
-        String fixedFile;
-        if (Handler.isJar) {
-            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + initialWorldPath;
-        } else {
-            fixedFile = initialWorldPath.replaceFirst("/", Handler.resourcePath);
-        }
-
-        initialWorldPath = fixedFile;
-    }
+    public static String initialWorldPath = FileUtils.getResourcePath("/worlds/port_azure.tmx");
 
 
     /**
@@ -151,7 +145,7 @@ public class Handler implements Serializable {
         random = new Random();
 
         // Instantiate the player
-        player = new Player(77*32, 51*32);
+        player = new Player(77 * 32, 51 * 32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -172,7 +166,7 @@ public class Handler implements Serializable {
         celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new World(Zone.PortAzure, initialWorldPath);
+        portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new TemperateClimate()).build();
         worldHandler = new WorldHandler(portAzure);
     }
 
@@ -208,7 +202,15 @@ public class Handler implements Serializable {
     }
 
     public void playEffect(String effect) {
-        playEffect(effect, 0.0f);
+        playEffect(effect, 0.0f, false);
+    }
+
+    public void playEffect(String effect, boolean looping) {
+        playEffect(effect, 0.0f, looping);
+    }
+
+    public void playEffect(String effect, float volume) {
+        playEffect(effect, volume, false);
     }
 
     /**
@@ -217,7 +219,7 @@ public class Handler implements Serializable {
      * @param effect Name of the audio file
      * @param volume Additional volume. Default max volume is 0.15.
      */
-    public void playEffect(String effect, float volume) {
+    public void playEffect(String effect, float volume, boolean looping) {
         if (!AudioManager.sfxMuted) {
             if (volume < -AudioManager.sfxVolume) {
                 volume = -AudioManager.sfxVolume;
@@ -230,27 +232,44 @@ public class Handler implements Serializable {
                 e.printStackTrace();
             }
 
+            Source s;
             if (AudioManager.soundfxFiles.containsKey(buffer)) {
-                Source s = AudioManager.soundfxFiles.get(buffer);
-                s.setVolume(AudioManager.sfxVolume + volume);
-                s.setLooping(false);
-                s.playEffect(buffer);
+                s = AudioManager.soundfxFiles.get(buffer);
             } else {
-                Source s = new Source();
+                s = new Source();
                 AudioManager.soundfxFiles.put(buffer, s);
-                s.setVolume(AudioManager.sfxVolume + volume);
-                s.setLooping(false);
-                s.playEffect(buffer);
             }
+            s.setVolume(AudioManager.sfxVolume + volume);
+            s.setLooping(looping);
+            s.playEffect(buffer);
         }
     }
 
+    public void changeCursor(Cursor cursor) {
+        game.changeCursor(cursor);
+    }
+
+    public Cursor getCursor() {
+        return game.getCursor();
+    }
+
     public void addTip(TutorialTip tip) {
-        tutorialTipManager.addTip(tip);
+        if (chatWindow.getFilters().contains(Filter.SHOWTIPS)) {
+            tutorialTipManager.addTip(tip);
+        }
     }
 
     public void addRecapEvent(String description) {
         this.recapManager.addEvent(new RecapEvent(description));
+    }
+
+    public boolean hasCondition(Creature c, Condition.Type type) {
+        for (Condition condi : c.getConditions()) {
+            if (condi.getType() == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -320,26 +339,42 @@ public class Handler implements Serializable {
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
 
-        // Reset all NPCs to their spawn location
+        // Reset all NPCs to their spawn location and let them face the original way
         for (Entity e : world.getEntityManager().getEntities()) {
-            if (e instanceof Creature && e.isAttackable() && !e.equals(player)) {
+            if (e instanceof Creature) {
                 Creature c = ((Creature) e);
-                // Reset A* aggro
-                c.setState(CombatState.BACKTRACK);
-                e.setDamaged(false);
-                // Clear buffs & condis & reset HP
-                c.clearBuffs();
-                c.clearConditions();
-                c.setHealth(c.getMaxHealth());
-                // Reset position
-                e.setX(c.getxSpawn());
-                e.setY(c.getySpawn());
+                if (e.isAttackable() && !e.equals(player)) {
+
+                    // Reset A* aggro
+                    c.setState(CombatState.BACKTRACK);
+                    e.setDamaged(false);
+                    // Clear buffs & condis & reset HP
+                    c.clearBuffs();
+                    c.clearConditions();
+                    c.setHealth(c.getMaxHealth());
+                    // Reset position
+                    e.setX(c.getxSpawn());
+                    e.setY(c.getySpawn());
+                }
+                if (c.getOriginalDirection() != null && !e.equals(player)) {
+                    c.setLastFaced(c.getOriginalDirection());
+                }
+
             }
         }
 
         World w = worldHandler.getWorldsMap().get(zone);
-        w.init();
+
+        // Check if the world we're going to is a town, if so set a new spawnpoint here in case we die
+        if (w.isTown()) {
+            player.setLastSpawnPoint(w.getZone());
+            player.setLastXSpawn(x);
+            player.setLastYSpawn(y);
+        }
+
+        // v----- order matters like this
         setWorld(w);
+        w.init();
 
         if (getWorld().hasPermissionsLayer()) {
             Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);
@@ -352,8 +387,7 @@ public class Handler implements Serializable {
                     player.setVerticality(0);
                     player.setCurrentTile(Tile.tiles[23780]);
                     player.setPreviousTile(Tile.tiles[23780]);
-                }
-                else if (t.getPermission().equalsIgnoreCase("10")) {
+                } else if (t.getPermission().equalsIgnoreCase("10")) {
                     player.setVerticality(1);
                     player.setCurrentTile(t);
                     player.setPreviousTile(t);
@@ -377,6 +411,32 @@ public class Handler implements Serializable {
         } else {
             playMusic(customMusicName);
         }
+
+        world.handleBackgroundSound();
+        WorldPublisher.get().publish(world);
+    }
+
+    /**
+     * Gets an Entity by the Zone it's in and its name.
+     *
+     * @param zone Zone the Entity is in
+     * @param name Name of the Entity
+     * @return The Entity found, null if not found
+     */
+    public Entity getEntityByZoneAndName(Zone zone, String name) {
+        // Make sure the world is initialized before accessing, to avoid nullpointers
+        World world = Handler.get().getWorldHandler().getWorldsMap().get(zone);
+        if (!world.isInitialized()) {
+            world.init();
+        }
+
+        // Find Entity by name
+        for (Entity e : world.getEntityManager().getEntities()) {
+            if (e.getName() != null && e.getName().equalsIgnoreCase(name)) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {
@@ -434,10 +494,14 @@ public class Handler implements Serializable {
     }
 
     /*
-     * Rounds off a number to two digits.
+     * Rounds off a number to specified number of digits, default = .00 (2 digits)
      */
+    public double roundOff(double value, int digits) {
+        return Math.round(value * Math.pow(10.0d, (digits - 1))) / Math.pow(10.0d, (digits - 1));
+    }
+
     public double roundOff(double value) {
-        return Math.round(value * 10d) / 10d;
+        return roundOff(value, 2);
     }
 
     public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType) {
@@ -608,6 +672,10 @@ public class Handler implements Serializable {
 
     public GameCamera getGameCamera() {
         return game.getGameCamera();
+    }
+
+    public void setGameCamera(GameCamera camera) {
+        game.setGameCamera(camera);
     }
 
     public Game getGame() {

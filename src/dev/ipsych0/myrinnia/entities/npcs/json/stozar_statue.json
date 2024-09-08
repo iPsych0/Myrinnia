@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "It's a statue of a very tall... human? He's holding a rock above his head. There is something scribbled into the stones.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "\"Behold, Stozar, one of the last Giants of the Midlands.\"",
+      "nextId": -1
+    }
+  ]
+}

@@ -86,12 +86,12 @@ public class ElderSelwyn extends Creature {
             case 6:
                 if (speakingCheckpoint != 6) {
                     speakingCheckpoint = 7;
-                    Item chosenItem = (Item) quest.getCheckValue("chosenItem");
+                    Item chosenItem = (Item) quest.getCheckValueWithDefault("chosenItem", null);
                     Class<? extends Ability> abilityClass;
-                    if (chosenItem == Item.beginnersBow) {
+                    if (chosenItem == Item.simpleBow) {
                         abilityClass = MendWoundsAbility.class;
                         AbilityManager.abilityMap.get(MendWoundsAbility.class).setUnlocked(true);
-                    } else if (chosenItem == Item.beginnersSword) {
+                    } else if (chosenItem == Item.simpleSword) {
                         AbilityManager.abilityMap.get(HealingSpringAbility.class).setUnlocked(true);
                         abilityClass = HealingSpringAbility.class;
                     } else {
@@ -130,7 +130,7 @@ public class ElderSelwyn extends Creature {
                     quest.nextStep();
                     quest.addNewCheck("hasDrunkWater", false);
                 } else {
-                    if ((Boolean) quest.getCheckValue("hasDrunkWater")) {
+                    if ((Boolean) quest.getCheckValueWithDefault("hasDrunkWater", false)) {
                         speakingTurn = 19;
                         speakingCheckpoint = 19;
                     }

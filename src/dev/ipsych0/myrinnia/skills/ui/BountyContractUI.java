@@ -22,7 +22,7 @@ public class BountyContractUI implements Serializable {
 
     public BountyContractUI() {
         width = 300;
-        height = 300;
+        height = 400;
         x = Handler.get().getWidth() / 2 - width / 2;
         y = Handler.get().getHeight() / 2 - height / 2;
         bounds = new Rectangle(x, y, width, height);
@@ -43,13 +43,13 @@ public class BountyContractUI implements Serializable {
 
     public void render(Graphics2D g) {
         if (isOpen) {
-            g.drawImage(Assets.uiWindow, x, y, width, height, null);
+            g.drawImage(Assets.bountyBackground, x, y, width, height, null);
             uiManager.render(g);
 
-            Text.drawString(g, bounty.getTask(), x + width / 2, y + 20, true, Color.YELLOW, Assets.font20);
-            String[] lines = Text.splitIntoLine(bounty.getFullDescription(), 44);
+            Text.drawString(g, bounty.getTask(), x + width / 2, y + 24, true, Color.YELLOW, Assets.font20);
+            String[] lines = Text.splitIntoLine(bounty.getFullDescription(), 40);
             for (int i = 0; i < lines.length; i++) {
-                Text.drawString(g, lines[i], x + width / 2, y + 48 + (i * 16), true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, lines[i], x + width / 2, y + 60 + (i * 16), true, Color.YELLOW, Assets.font14);
             }
 
             Text.drawString(g, "Close", exitButton.x + exitButton.width / 2, exitButton.y + exitButton.height / 2, true, Color.YELLOW, Assets.font14);

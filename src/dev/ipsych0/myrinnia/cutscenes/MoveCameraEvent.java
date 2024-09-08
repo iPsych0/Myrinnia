@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 public class MoveCameraEvent implements CutsceneEvent, Serializable {
@@ -43,7 +44,7 @@ public class MoveCameraEvent implements CutsceneEvent, Serializable {
 //        this(xStart, yStart, xEnd, yEnd, true);
 //    }
 
-    public MoveCameraEvent(Rectangle start, Rectangle end, boolean reverse) {
+    public MoveCameraEvent(Rectangle2D start, Rectangle2D end, boolean reverse) {
         this.xStart = start.getX() - Handler.get().getWidth() / 2d - start.getWidth() / 2d;
         this.yStart = start.getY() - Handler.get().getHeight() / 2d - start.getHeight() / 2d;
         this.xEnd = end.getX() - Handler.get().getWidth() / 2d + end.getWidth() / 2d;
@@ -57,7 +58,7 @@ public class MoveCameraEvent implements CutsceneEvent, Serializable {
 
     }
 
-    public MoveCameraEvent(Rectangle start, Rectangle end) {
+    public MoveCameraEvent(Rectangle2D start, Rectangle2D end) {
         this(start, end, true);
     }
 

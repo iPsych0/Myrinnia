@@ -48,13 +48,13 @@ public class MonologueState extends AbstractTransitionState {
             if (continueButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
                 textWriter.nextDialogue();
-                if(textWriter.isSkipRequested() && !skipButtonAdded){
+                if (textWriter.isSkipRequested() && !skipButtonAdded) {
                     uiManager.addObject(skipButton);
                     skipButtonAdded = true;
                 }
             }
 
-            if(textWriter.isSkipRequested() && skipButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed){
+            if (textWriter.isSkipRequested() && skipButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 hasBeenPressed = false;
                 textWriter.setCurrentText(monologues.length);
             }
@@ -88,7 +88,7 @@ public class MonologueState extends AbstractTransitionState {
             }
             uiManager.render(g);
             Text.drawString(g, "Continue", continueButton.x + continueButton.width / 2, continueButton.y + continueButton.height / 2, true, Color.YELLOW, Assets.font32);
-            if(skipButtonAdded){
+            if (skipButtonAdded) {
                 Text.drawString(g, "Skip", skipButton.x + skipButton.width / 2, skipButton.y + skipButton.height / 2, true, Color.YELLOW, Assets.font24);
             }
         }

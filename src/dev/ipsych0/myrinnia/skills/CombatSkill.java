@@ -5,11 +5,12 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
-import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 
 public class CombatSkill extends Skill {
+
+    private boolean tooltipShown;
 
     /**
      *
@@ -31,11 +32,14 @@ public class CombatSkill extends Skill {
     public void addLevel() {
         this.level++;
         CharacterStats.Combat.addLevel();
+        Handler.get().getPlayer().setCombatLevel(level);
+
         // Add base
         Handler.get().getCharacterUI().addBaseStatPoints();
         Handler.get().getCharacterUI().addElementalStatPoints();
 
-        if (this.level == 5) {
+        if (!tooltipShown && this.level == 5) {
+            tooltipShown = true;
             Handler.get().addTip(new TutorialTip("Press K to open your Character Stats.\n\nIncreasing an Elemental Stat will increase the effectiveness of abilities of that Element type."));
             Handler.get().addTip(new TutorialTip("You may customize your Stats to create a build you like. Some equipment have level requirements to be equipped."));
             Handler.get().addTip(new TutorialTip("If you wish to reset your points, you should see an Ability Master. It will cost more gold depending on your Combat level."));
@@ -67,6 +71,12 @@ public class CombatSkill extends Skill {
                 Handler.get().sendMsg(toString() + " level rose to level " + this.getLevel() + "!");
             }
         }
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        Handler.get().getPlayer().setCombatLevel(level);
     }
 
 }

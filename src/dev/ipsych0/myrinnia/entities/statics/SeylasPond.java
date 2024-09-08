@@ -15,7 +15,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
 
-public class SeylasPond extends StaticEntity {
+public class SeylasPond extends GenericObject {
 
     private Quest quest = Handler.get().getQuest(QuestList.WaveGoodbye);
     private boolean cutsceneShown;

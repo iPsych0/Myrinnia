@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.gfx.Animation;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class AnimatedTile extends Tile {
@@ -33,12 +32,12 @@ public class AnimatedTile extends Tile {
 
     @Override
     public void tick() {
-        if(!initialized){
+        if (!initialized) {
             BufferedImage[] tiles = new BufferedImage[animationTiles.size()];
             Iterator<Integer> animationIt = animationTiles.keySet().iterator();
             int index = 0;
             int animationSpeed = DEFAULT_ANIMATION_SPEED;
-            while (animationIt.hasNext()){
+            while (animationIt.hasNext()) {
                 Integer tileId = animationIt.next();
                 tiles[index++] = Tile.tiles[tileId].getTexture();
                 animationSpeed = animationTiles.get(tileId);
@@ -52,7 +51,7 @@ public class AnimatedTile extends Tile {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        if(animation != null) {
+        if (animation != null) {
             g.drawImage(animation.getCurrentFrame(), x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
         }
     }

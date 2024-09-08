@@ -23,6 +23,9 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.*;
 
@@ -57,9 +60,10 @@ public abstract class Creature extends Entity {
     protected double attackSpeed;
     protected int waterLevel = 1, fireLevel = 1, airLevel = 1, earthLevel = 1;
     protected int combatLevel;
-    static final double LEVEL_EXPONENT = 0.998;
+    protected static final double LEVEL_EXPONENT = 0.998;
     protected int attackRange = Tile.TILEWIDTH + 16;
-    List<Projectile> projectiles = new ArrayList<>();
+    protected List<Projectile> projectiles = new ArrayList<>();
+    protected List<Projectile> toBeAdded = new ArrayList<>();
     protected double meleeDirection, meleeXOffset, meleeYOffset;
 
     // Walking timer
@@ -73,16 +77,18 @@ public abstract class Creature extends Entity {
     Rectangle radius;
 
     // A* stuff
+    protected boolean aggressive = true;
     protected CombatState state;
     protected List<Node> nodes;
-    int pathFindRadiusX = 768;
-    int pathFindRadiusY = 768;
-    AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
+    protected int pathFindRadiusX = 768;
+    protected int pathFindRadiusY = 768;
+    protected AStarMap map = new AStarMap(this, xSpawn - pathFindRadiusX, ySpawn - pathFindRadiusY, pathFindRadiusX * 2, pathFindRadiusY * 2);
     private int stuckTimerX = 0, stuckTimerY = 0;
     private int lastX = (int) x, lastY = (int) y;
     protected static final int TIMES_PER_SECOND = 4;
     protected static final int TIME_PER_PATH_CHECK = (int) (60d / (double) TIMES_PER_SECOND); // 4 times per second.
     protected int pathTimer = 0;
+
     protected List<Condition> conditions = new ArrayList<>();
     protected List<Buff> buffs = new ArrayList<>();
     protected List<Resistance> immunities = new ArrayList<>();
@@ -93,10 +99,10 @@ public abstract class Creature extends Entity {
     protected Animation aDefault;
     protected double baseDmgExponent = 1.1;
     protected boolean movementAllowed = true;
-    protected Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
+    protected transient Tile currentTile = Tile.tiles[23780], previousTile = Tile.tiles[23780];
     protected boolean hasSwitchedTile;
-    protected Map<Tile, Point> postRenderTiles = new HashMap<>();
-    private boolean initialTileSetup;
+    protected transient Map<Tile, Point> postRenderTiles = new HashMap<>();
+    protected boolean initialTileSetup;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -105,6 +111,7 @@ public abstract class Creature extends Entity {
     protected Direction direction;
     // Last faced direction
     protected Direction lastFaced;
+    protected Direction originalDirection;
 
     protected double speed;
     protected double xMove;
@@ -129,6 +136,8 @@ public abstract class Creature extends Entity {
 
         if (direction != null) {
             lastFaced = direction;
+            this.direction = direction;
+            this.originalDirection = direction;
             walker = false;
         }
 
@@ -486,6 +495,14 @@ public abstract class Creature extends Entity {
             topLayer = Handler.get().getWorld().getLayers().length;
         }
 
+        if (Handler.get().getWorld().hasShadowsLayer()) {
+            if (Handler.get().getWorld().hasPermissionsLayer()) {
+                topLayer = Handler.get().getWorld().getLayers().length - 2;
+            } else {
+                topLayer = Handler.get().getWorld().getLayers().length - 1;
+            }
+        }
+
         checkPermissionTiles(x, y);
 
         // Special exclusion for 3C tiles when walking underneath (allow all movement)
@@ -549,6 +566,14 @@ public abstract class Creature extends Entity {
         } else {
             topLayer = Handler.get().getWorld().getLayers().length;
         }
+
+        if (Handler.get().getWorld().hasShadowsLayer()) {
+            if (Handler.get().getWorld().hasPermissionsLayer()) {
+                topLayer = Handler.get().getWorld().getLayers().length - 2;
+            } else {
+                topLayer = Handler.get().getWorld().getLayers().length - 1;
+            }
+        }
 //
 //        checkPermissionTiles(x, y);
 
@@ -581,21 +606,31 @@ public abstract class Creature extends Entity {
         return !walkableOnTop;
     }
 
+
     /**
      * If the Entity is an NPC, this function returns only the name, else it returns name + combat info.
      */
     @Override
     public String[] getEntityInfo(Entity hoveringEntity) {
-        if (script != null) {
+        if (isNpc()) {
             String[] name = new String[2];
-            name[0] = hoveringEntity.getName();
-            String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
-            name[1] = "Press '" + interactKey + "' to interact";
+            if (attackable) {
+                name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
+            } else {
+                name[0] = hoveringEntity.getName();
+            }
+
+            if (isAggroed()) {
+                name[1] = "HP: " + (int) health + "/" + maxHealth;
+            } else {
+                String interactKey = KeyManager.interactKey == 0x20 ? "Space" : KeyEvent.getKeyText(KeyManager.interactKey);
+                name[1] = "Press '" + interactKey + "' to interact";
+            }
             return name;
         }
         String[] name = new String[2];
         name[0] = hoveringEntity.getName() + " (level-" + getCombatLevel() + ")";
-        name[1] = "HP: " + health + "/" + maxHealth;
+        name[1] = "HP: " + (int) health + "/" + maxHealth;
         return name;
     }
 
@@ -639,6 +674,31 @@ public abstract class Creature extends Entity {
     }
 
     @Override
+    public void interact() {
+        super.interact();
+        lookAtPlayer();
+    }
+
+    public void lookAtPlayer() {
+        Player player = Handler.get().getPlayer();
+        // If more than half a tile left or right of this NPC, look that direction
+        if (player.getX() - this.x < -Tile.TILEWIDTH / 2d) {
+            lastFaced = Direction.LEFT;
+        } else if (player.getX() - this.x > Tile.TILEWIDTH / 2d) {
+            lastFaced = Direction.RIGHT;
+        }
+
+        // If more than half a tile up or down of this NPC, look that direction
+        if (player.getY() - this.y < -Tile.TILEWIDTH / 2d) {
+            lastFaced = Direction.UP;
+        } else if (player.getY() - this.y > Tile.TILEWIDTH / 2d) {
+            lastFaced = Direction.DOWN;
+        }
+
+        direction = lastFaced;
+    }
+
+    @Override
     public void postRender(Graphics2D g) {
         if (Handler.debugAStar) {
             g.setColor(Color.BLACK);
@@ -655,9 +715,20 @@ public abstract class Creature extends Entity {
         }
     }
 
-    void tickProjectiles() {
-        if (projectiles.size() < 1)
-            return;
+    public void addRuntimeProjectile(Projectile p) {
+        toBeAdded.add(p);
+    }
+
+    protected void tickProjectiles() {
+        if (projectiles.size() < 1) {
+            if (toBeAdded.size() < 1) {
+                return;
+            }
+        }
+
+        if (projectiles.addAll(toBeAdded)) {
+            toBeAdded.clear();
+        }
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
@@ -668,41 +739,57 @@ public abstract class Creature extends Entity {
             if (!p.isActive()) {
                 deleted.add(p);
             }
-            if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(player.getCollisionBounds(0, 0)) && p.isActive()) {
-                if (!p.getHitCreatures().contains(player)) {
-                    if (p.getAbility() != null) {
-                        player.damage(p.getDamageType(), this, p.getAbility());
-                    } else {
-                        player.damage(p.getDamageType(), this);
+
+            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
+                if (p.verticality == player.verticality && p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                    if (e.equals(this))
+                        continue;
+                    if (!e.equals(player)) {
+                        if (!p.isPiercing()) {
+                            p.setActive(false);
+                            return;
+                        }
+                        continue;
                     }
 
-                    if (p.getImpactSound() != null) {
-                        Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
-                    }
-                }
-
-
-                p.setHitCreature(player);
-
-                if (!p.isPiercing()) {
-                    p.setActive(false);
-                }
-
-                // Apply special effect if has one
-                if (p.getOnImpact() != null) {
                     if (!p.getHitCreatures().contains(player)) {
-                        p.getOnImpact().impact(player);
-                    }
-                }
+                        // If damageType is null, then we don't deal damage
+                        if (p.getDamageType() != null) {
+                            if (p.getAbility() != null) {
+                                player.damage(p.getDamageType(), this, p.getAbility());
+                            } else {
+                                player.damage(p.getDamageType(), this);
+                            }
+                        }
 
-                p.getHitCreatures().add(player);
+                        if (p.getImpactSound() != null) {
+                            Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
+                        }
+                    }
+
+
+                    p.setHitCreature(player);
+
+                    if (!p.isPiercing()) {
+                        p.setActive(false);
+                    }
+
+                    // Apply special effect if has one
+                    if (p.getOnImpact() != null) {
+                        if (!p.getHitCreatures().contains(player)) {
+                            p.getOnImpact().impact(player);
+                        }
+                    }
+
+                    p.getHitCreatures().add(player);
+                }
             }
         }
 
         projectiles.removeAll(deleted);
     }
 
-    public void tick() {
+    public void tickAnimation() {
         if (chatDialogue == null && aLeft != null && aRight != null && aDown != null && aUp != null && aDefault != null) {
             aDefault.tick();
             aDown.tick();
@@ -710,6 +797,10 @@ public abstract class Creature extends Entity {
             aLeft.tick();
             aRight.tick();
         }
+    }
+
+    public void tick() {
+        tickAnimation();
 
         if (inCombat) {
             combatTimer++;
@@ -720,7 +811,8 @@ public abstract class Creature extends Entity {
             combatTimer = 0;
         }
 
-        if (attackable) {
+        // If we're interacting (chatdialogue = null), don't do movement logic
+        if (attackable && chatDialogue == null) {
             radius.setLocation((int) x - xRadius, (int) y - yRadius);
             tickProjectiles();
             combatStateManager();
@@ -774,7 +866,7 @@ public abstract class Creature extends Entity {
 
     }
 
-    protected void findPath() {
+    public void findPath() {
         if (state == CombatState.BACKTRACK) {
             nodes = map.findPath((int) ((x + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, (int) ((y + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32,
                     ((xSpawn + width / 4) / 32) - (xSpawn - pathFindRadiusX) / 32, ((ySpawn + height / 4) / 32) - (ySpawn - pathFindRadiusY) / 32);
@@ -796,6 +888,14 @@ public abstract class Creature extends Entity {
      * Manages the different combat states of a Creature (IDLE, PATHFINDING, ATTACKING, BACKTRACKING)
      */
     protected void combatStateManager() {
+
+        // For non-aggressive monsters, stay idle walk until attacked
+        if (!aggressive) {
+            if (!isAggroed()) {
+                randomWalk();
+                return;
+            }
+        }
 
         if (damaged) {
             state = CombatState.PATHFINDING;
@@ -834,6 +934,7 @@ public abstract class Creature extends Entity {
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                lookAtPlayer();
                 checkAttacks();
                 state = CombatState.ATTACK;
             } else {
@@ -938,7 +1039,7 @@ public abstract class Creature extends Entity {
     /**
      * Movement logic for following each node in the List nodes
      */
-    protected void followAStar() {
+    public void followAStar() {
         if (nodes == null) {
             return;
         }
@@ -1115,11 +1216,15 @@ public abstract class Creature extends Entity {
             return;
         }
 
+        double percentageHealthPerSec = 0.1; // Regen 10% health per second
+        double frames = 60.0;
+        double regen = (double) maxHealth * percentageHealthPerSec / frames;
+
         // If current health is higher than your max health value, degenerate health
         if (health > maxHealth) {
 
-            if (health - (int) Math.ceil(0.00005d * (double) maxHealth) > maxHealth) {
-                health -= (int) Math.ceil(0.00005d * (double) maxHealth);
+            if (health - regen > maxHealth) {
+                health -= regen;
             } else {
                 health = maxHealth;
             }
@@ -1128,8 +1233,8 @@ public abstract class Creature extends Entity {
         // If current health is lower than your max health value, regenerate health
         if (health < maxHealth) {
 
-            if (health + (int) Math.ceil(0.00005d * (double) maxHealth) < maxHealth) {
-                health += (int) Math.ceil(0.00005d * (double) maxHealth);
+            if (health + regen < maxHealth) {
+                health += regen;
             } else {
                 health = maxHealth;
             }
@@ -1152,14 +1257,20 @@ public abstract class Creature extends Entity {
 
     public void clearConditions() {
         for (Condition c : conditions) {
-            c.setActive(false);
+            c.clear();
         }
+        conditions.clear();
     }
 
     public void clearBuffs() {
         for (Buff b : buffs) {
-            b.setActive(false);
+            b.clear();
         }
+        buffs.clear();
+    }
+
+    public boolean isAggroed() {
+        return damaged || inCombat || state != CombatState.IDLE;
     }
 
     // GETTERS + SETTERS
@@ -1185,6 +1296,8 @@ public abstract class Creature extends Entity {
     }
 
     public void setSpeed(double speed) {
+        if (speed < 0.0)
+            speed = 0.0;
         this.speed = speed;
     }
 
@@ -1226,6 +1339,13 @@ public abstract class Creature extends Entity {
 
     public void setVitality(int vitality) {
         this.vitality = vitality;
+
+        // Change max HP as well
+        int previousMaxHP = maxHealth;
+        maxHealth = DEFAULT_HEALTH + vitality * 4;
+        if (health >= previousMaxHP) {
+            health = maxHealth;
+        }
     }
 
     public double getAttackSpeed() {
@@ -1234,6 +1354,7 @@ public abstract class Creature extends Entity {
 
     public void setAttackSpeed(double attackSpeed) {
         this.attackSpeed = attackSpeed;
+
     }
 
     public int getBaseDamage() {
@@ -1244,7 +1365,7 @@ public abstract class Creature extends Entity {
         this.baseDamage = baseDamage;
     }
 
-    private int getCombatLevel() {
+    public int getCombatLevel() {
         return combatLevel;
     }
 
@@ -1290,6 +1411,7 @@ public abstract class Creature extends Entity {
 
     public void setLastFaced(Direction lastFaced) {
         this.lastFaced = lastFaced;
+        this.direction = lastFaced;
     }
 
     public List<Condition> getConditions() {
@@ -1392,6 +1514,9 @@ public abstract class Creature extends Entity {
     }
 
     public void setMovementAllowed(boolean movementAllowed) {
+        if (this instanceof Player) {
+            Player.isMoving = false;
+        }
         this.movementAllowed = movementAllowed;
     }
 
@@ -1417,5 +1542,26 @@ public abstract class Creature extends Entity {
 
     public void setPostRenderTiles(Map<Tile, Point> postRenderTiles) {
         this.postRenderTiles = postRenderTiles;
+    }
+
+    public Direction getOriginalDirection() {
+        return originalDirection;
+    }
+
+    public void setOriginalDirection(Direction originalDirection) {
+        this.originalDirection = originalDirection;
+    }
+
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+        serialized.defaultReadObject();
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
     }
 }

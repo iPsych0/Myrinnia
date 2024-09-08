@@ -162,7 +162,7 @@ public class TextBox implements KeyListener, Serializable {
                     sb.setLength(0);
                     index = 0;
                     return;
-                }else{
+                } else {
                     Handler.get().playEffect("ui/textbox_type.ogg");
                 }
 
@@ -178,9 +178,8 @@ public class TextBox implements KeyListener, Serializable {
 
                 // If numbersOnly is true, only digits allowed
                 if (numbersOnly) {
-                    if (!Character.isDigit(e.getKeyChar())) {
-                    } else {
-                        if (index < 10) {
+                    if (Character.isDigit(e.getKeyChar())) {
+                        if (index < MAX_CHARACTERS) {
                             sb.append(e.getKeyChar());
                             index++;
                             charactersTyped = sb.toString();

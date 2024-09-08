@@ -29,7 +29,7 @@ public class NimbleFeetAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        if(animation != null && !animation.isTickDone()){
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
@@ -49,7 +49,7 @@ public class NimbleFeetAbility extends Ability {
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
             Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
-            Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
+            Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost, true);
             caster.addBuff(caster, b);
         }
 
@@ -63,16 +63,8 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialBoostDone = false;
-        }
+    void reset() {
+        initialBoostDone = false;
     }
 
 }

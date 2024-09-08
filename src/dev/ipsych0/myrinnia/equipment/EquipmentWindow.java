@@ -204,8 +204,8 @@ public class EquipmentWindow implements Serializable {
             Text.drawString(g, "INT: " + player.getIntelligence(), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Defence: " + player.getDefence(), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Vitality: " + player.getVitality(), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "ATK Speed: " + Handler.get().roundOff(player.getAttackSpeed() - 1.0d), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "MOV Speed: " + Handler.get().roundOff(player.getSpeed() - 2.0d), x + (width / 6) - 8, y + height + 32 + (16 * index), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "ATK Speed: " + Handler.get().roundOff(player.getAttackSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index++), false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "MOV Speed: " + Handler.get().roundOff(player.getSpeed()), x + (width / 6) - 8, y + height + 32 + (16 * index), false, Color.YELLOW, Assets.font14);
 
             g.setComposite(current);
 

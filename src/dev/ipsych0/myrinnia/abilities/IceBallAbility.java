@@ -6,9 +6,7 @@ import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
-import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
-import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
@@ -35,28 +33,15 @@ public class IceBallAbility extends Ability implements Serializable {
     @Override
     public void cast() {
 
-        Player player = Handler.get().getPlayer();
-        Rectangle direction;
-        if (caster.equals(player)) {
-            direction = Handler.get().getMouse();
-            if (player.hasLeftClickedUI(direction))
-                return;
-
-            // Change attacking animation depending on which weapon type
-            player.setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
-        } else {
-            direction = new Rectangle((int) player.getX(), (int) player.getY(), 1, 1);
+        Point target = getRangedTarget();
+        if (target == null) {
+            return;
         }
+        int targetX = target.x;
+        int targetY = target.y;
 
-        int targetX, targetY;
-        if (caster.equals(player)) {
-            targetX = (int) (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16);
-            targetY = (int) (direction.getY() + Handler.get().getGameCamera().getyOffset() - 16);
-            setSelected(false);
-        } else {
-            targetX = (int) (direction.getX());
-            targetY = (int) (direction.getY());
-        }
+        // 0.08 seconds chill extra per water level
+        double chillDurationLevelBoost = ((double) caster.getWaterLevel() * 0.08);
 
         Handler.get().playEffect("abilities/ice_ball.ogg", 0.1f);
         new Projectile.Builder(DamageType.INT, Assets.iceBall1, caster, targetX, targetY)
@@ -64,7 +49,7 @@ public class IceBallAbility extends Ability implements Serializable {
                 .withAbility(this)
                 .withImpactSound("abilities/ice_projectile_impact.ogg")
                 .withImpact((c) -> {
-                    c.addCondition(caster, new Condition(Condition.Type.CHILL, 3));
+                    c.addCondition(caster, new Condition(Condition.Type.CHILL, (3.0 + chillDurationLevelBoost)));
                 }).build();
 
         setCasting(false);
@@ -77,15 +62,8 @@ public class IceBallAbility extends Ability implements Serializable {
     }
 
     @Override
-    public void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-        }
+    void reset() {
+
     }
 
 }

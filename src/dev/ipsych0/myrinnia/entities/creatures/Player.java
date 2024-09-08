@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -17,6 +18,7 @@ import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
@@ -24,6 +26,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
@@ -39,6 +42,7 @@ import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.ui.custom.BookUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -46,8 +50,12 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Player extends Creature {
@@ -89,6 +97,8 @@ public class Player extends Creature {
 
     public static boolean mouseMoved;
     private double xSpawn, ySpawn;
+    private Zone lastSpawnPoint;
+    private double lastXSpawn, lastYSpawn;
 
     // Entities we can interact with, with different functions
     private Entity closestEntity;
@@ -109,6 +119,11 @@ public class Player extends Creature {
         ySpawn = y;
         attackable = true;
 
+        waterLevel = 0;
+        fireLevel = 0;
+        airLevel = 0;
+        earthLevel = 0;
+
         // Player combat/movement settings:
 
         maxHealth = baseHP + vitality * 4;
@@ -122,10 +137,10 @@ public class Player extends Creature {
         bounds.height = 16;
 
         // Animations
-        aDown = new Animation(250, Assets.player_down);
-        aUp = new Animation(250, Assets.player_up);
-        aLeft = new Animation(250, Assets.player_left);
-        aRight = new Animation(250, Assets.player_right);
+        aDown = new Animation(166, Assets.player_down);
+        aUp = new Animation(166, Assets.player_up);
+        aLeft = new Animation(166, Assets.player_left);
+        aRight = new Animation(166, Assets.player_right);
 
         attDown = new Animation(333, Assets.player_melee_down);
         attUp = new Animation(333, Assets.player_melee_up);
@@ -145,6 +160,9 @@ public class Player extends Creature {
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 
+        lastSpawnPoint = zone;
+        lastXSpawn = xSpawn / 32;
+        lastYSpawn = ySpawn / 32;
     }
 
     @Override
@@ -210,9 +228,17 @@ public class Player extends Creature {
         // If space button is pressed
         if (Handler.get().getKeyManager().talk) {
             if (!hasInteracted) {
+                // And we're close to an NPC interact with it
                 if (playerIsNearNpc()) {
-                    // And we're close to an NPC interact with it
-                    closestEntity = getClosestEntity();
+
+                    // If we have selected an Entity and we're close to that entity, interact with the selected one
+                    Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+                    if (selected != null && selected.isNear(selected)) {
+                        closestEntity = selected;
+                    } else {
+                        closestEntity = getClosestEntity();
+                    }
+
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
@@ -292,9 +318,7 @@ public class Player extends Creature {
         }
 
         // If there are projectiles, tick them
-        if (projectiles.size() > 0) {
-            tickProjectiles();
-        }
+        tickProjectiles();
 
         // If the mouse is not moved, use the WASD-keys to determine the direction
         if (!mouseMoved) {
@@ -355,8 +379,15 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
-        if (projectiles.size() < 1)
-            return;
+        if (projectiles.size() < 1) {
+            if (toBeAdded.size() < 1) {
+                return;
+            }
+        }
+
+        if (projectiles.addAll(toBeAdded)) {
+            toBeAdded.clear();
+        }
 
         Iterator<Projectile> it = projectiles.iterator();
         Collection<Projectile> deleted = new ArrayList<>();
@@ -373,16 +404,18 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (e.getVerticality() == this.verticality && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && e.isSolid() && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
                         if (!p.getHitCreatures().contains((Creature) e)) {
-                            if (p.getAbility() != null) {
-                                e.damage(p.getDamageType(), this, p.getAbility());
-                            } else {
-                                e.damage(p.getDamageType(), this);
+                            if (p.getDamageType() != null) {
+                                if (p.getAbility() != null) {
+                                    e.damage(p.getDamageType(), this, p.getAbility());
+                                } else {
+                                    e.damage(p.getDamageType(), this);
+                                }
                             }
 
                             if (p.getImpactSound() != null) {
@@ -705,6 +738,10 @@ public class Player extends Creature {
             return true;
         }
 
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
+            return true;
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
     }
@@ -770,7 +807,22 @@ public class Player extends Creature {
             return true;
         }
 
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
+            return true;
+        }
+
         // If the mouse is not clicked in one of the UI windows, return false
+        return false;
+    }
+
+    public boolean isNotOnOvercast() {
+        for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+            if (a.getCaster().equals(this)) {
+                if (a.isInOvercast()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -781,6 +833,9 @@ public class Player extends Creature {
             return;
 
         if (hasLeftClickedUI(mouse))
+            return;
+
+        if (isNotOnOvercast())
             return;
 
         // Change attacking animation depending on which weapon type
@@ -808,6 +863,9 @@ public class Player extends Creature {
             return;
 
         if (hasLeftClickedUI(mouse))
+            return;
+
+        if (isNotOnOvercast())
             return;
 
         // Change attacking animation depending on which weapon type
@@ -838,6 +896,9 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
+        if (isNotOnOvercast())
+            return;
+
         // Change attacking animation depending on which weapon type
         setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
 
@@ -864,8 +925,7 @@ public class Player extends Creature {
 
     @Override
     public void respawn() {
-        // TODO: Go to last saved location!
-        Handler.get().goToWorld(Zone.PortAzure, (int) xSpawn / 32, (int) ySpawn / 32);
+        Handler.get().goToWorld(lastSpawnPoint, (int) lastXSpawn, (int) lastYSpawn);
 
         // Clear buffs & condis & reset HP
         clearBuffs();
@@ -1246,5 +1306,77 @@ public class Player extends Creature {
 
     public void setBaseHP(int baseHP) {
         this.baseHP = baseHP;
+    }
+
+    public void setClosestEntity(Entity closestEntity) {
+        this.closestEntity = closestEntity;
+    }
+
+    public double getLevelExponent() {
+        return levelExponent;
+    }
+
+    public void setLevelExponent(double levelExponent) {
+        this.levelExponent = levelExponent;
+    }
+
+    public Zone getLastSpawnPoint() {
+        return lastSpawnPoint;
+    }
+
+    public void setLastSpawnPoint(Zone lastSpawnPoint) {
+        this.lastSpawnPoint = lastSpawnPoint;
+    }
+
+    public double getLastXSpawn() {
+        return lastXSpawn;
+    }
+
+    public void setLastXSpawn(double lastXSpawn) {
+        this.lastXSpawn = lastXSpawn;
+    }
+
+    public double getLastYSpawn() {
+        return lastYSpawn;
+    }
+
+    public void setLastYSpawn(double lastYSpawn) {
+        this.lastYSpawn = lastYSpawn;
+    }
+
+    @Override
+    public void setVitality(int vitality) {
+        this.vitality = vitality;
+
+        // Change max HP as well
+        int previousMaxHP = maxHealth;
+        maxHealth = baseHP + vitality * 4;
+        if (health >= previousMaxHP) {
+            health = maxHealth;
+        }
+    }
+
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+        stream.defaultWriteObject();
+        stream.writeObject(Handler.get().getGameCamera());
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+        serialized.defaultReadObject();
+        Handler.get().setGameCamera((GameCamera) serialized.readObject());
+        Handler.get().getGameCamera().setFocusedEntity(this);
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+    }
+
+    @Override
+    public void setAttackSpeed(double attackSpeed) {
+        super.setAttackSpeed(attackSpeed);
+        attackCooldown = (long) (600 / attackSpeed);
+        magicCooldown = (long) (600 / attackSpeed);
+        rangedCooldown = (long) (600 / attackSpeed);
     }
 }

@@ -13,9 +13,8 @@ import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
-import dev.ipsych0.myrinnia.quests.Quest;
+import dev.ipsych0.myrinnia.publishers.CraftingPublisher;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
-import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
@@ -29,6 +28,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CraftingUI implements Serializable {
 
@@ -39,12 +39,11 @@ public class CraftingUI implements Serializable {
     private static final long serialVersionUID = 6741379998525736950L;
     private int x, y, width, height;
     public static boolean isOpen = false;
-    private static boolean isCreated = false;
     private static boolean hasBeenPressed = false;
     private static boolean itemSelected = false;
     private List<CraftingSlot> craftingSlots;
     private CraftResultSlot crs;
-    private UIImageButton craftButton;
+    private UIImageButton make1Button, make5Button, make10Button, makeXButton, makeAllButton;
     public static boolean craftButtonPressed = false;
     public static boolean craftResultPressed = false;
     private ItemStack currentSelectedSlot;
@@ -55,43 +54,55 @@ public class CraftingUI implements Serializable {
     private List<CraftingRecipe> results;
     private List<CraftSelectSlot> selectSlots;
     private CraftSelectSlot selectedSlot;
+    private Rectangle progressBar;
+    private int progressTimer;
+    private int craftInProgress;
+    private UIImageButton abortButton;
 
     public CraftingUI() {
         this.width = 242;
-        this.height = 320;
+        this.height = 384;
         this.x = Handler.get().getWidth() / 2 - width / 2;
         this.y = Handler.get().getHeight() / 2 - height / 2;
 
         windowBounds = new Rectangle(x, y, width, height);
 
         // First time it runs: set the window and dimensions/parameters
-        if (!isCreated) {
+        craftingSlots = new ArrayList<>();
+        craftingManager = new CraftingManager();
+        uiManager = new UIManager();
+        results = new ArrayList<>();
+        selectSlots = new ArrayList<>();
 
-            craftingSlots = new ArrayList<>();
-            craftingManager = new CraftingManager();
-            uiManager = new UIManager();
-            results = new ArrayList<>();
-            selectSlots = new ArrayList<>();
+        craftingSlots.add(new CraftingSlot(x + 32, y + 50, null));
+        craftingSlots.add(new CraftingSlot(x + 80, y + 100, null));
+        craftingSlots.add(new CraftingSlot(x + 128, y + 100, null));
+        craftingSlots.add(new CraftingSlot(x + 176, y + 50, null));
 
-            craftingSlots.add(new CraftingSlot(x + 32, y + 50, null));
-            craftingSlots.add(new CraftingSlot(x + 80, y + 100, null));
-            craftingSlots.add(new CraftingSlot(x + 128, y + 100, null));
-            craftingSlots.add(new CraftingSlot(x + 176, y + 50, null));
+        crs = new CraftResultSlot(x + width / 2 - 16, y + height - 224, null);
+        make1Button = new UIImageButton(x + 40, y + height - 160, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
+        make5Button = new UIImageButton(x + 72, y + height - 160, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
+        make10Button = new UIImageButton(x + 104, y + height - 160, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
+        makeXButton = new UIImageButton(x + 136, y + height - 160, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
+        makeAllButton = new UIImageButton(x + 168, y + height - 160, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, Assets.genericButton);
 
-            crs = new CraftResultSlot(x + width / 2 - 16, y + height - 160, null);
-            craftButton = new UIImageButton(x + width / 2 - 48, y + height - 112, ItemSlot.SLOTSIZE * 3, ItemSlot.SLOTSIZE, Assets.genericButton);
+        progressBar = new Rectangle(x + 48, make1Button.y + 64, width - 96, ItemSlot.SLOTSIZE);
+        abortButton = new UIImageButton(x + width / 2 - 32, progressBar.y + progressBar.height + 8, 64, ItemSlot.SLOTSIZE, Assets.genericButton);
+        abortButton.setVisible(false);
 
-            for (CraftingSlot cs : craftingSlots) {
-                uiManager.addObject(cs);
-            }
-            uiManager.addObject(crs);
-            uiManager.addObject(craftButton);
-
-            itemTooltip = new ItemTooltip(x - 160, y);
-
-            isCreated = true;
-
+        for (CraftingSlot cs : craftingSlots) {
+            uiManager.addObject(cs);
         }
+        uiManager.addObject(crs);
+        uiManager.addObject(make1Button);
+        uiManager.addObject(make5Button);
+        uiManager.addObject(make10Button);
+        uiManager.addObject(makeXButton);
+        uiManager.addObject(makeAllButton);
+        uiManager.addObject(abortButton);
+
+        itemTooltip = new ItemTooltip(x - 160, y);
+
     }
 
     public void tick() {
@@ -105,11 +116,7 @@ public class CraftingUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            if (crs.getBounds().contains(mouse)) {
-                crs.setHovering(true);
-            } else {
-                crs.setHovering(false);
-            }
+            crs.setHovering(crs.getBounds().contains(mouse));
 
             // If the window is closed or the player moves, re-add all items back to inventory or drop them if no space.
             if (Handler.get().getKeyManager().escape || Player.isMoving) {
@@ -118,19 +125,15 @@ public class CraftingUI implements Serializable {
 
             // If left-clicked on the "craft" button, craft the item
             if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged()) {
-                if (craftButton.getBounds().contains(mouse) && craftButtonPressed) {
-                    if (selectedSlot != null) {
-                        if (selectedSlot.getRecipe().isDiscovered()) {
-                            if (Handler.get().playerHasSkillLevel(SkillsList.CRAFTING, selectedSlot.getRecipe().getRequiredLevel())) {
-                                craftItem();
-                            } else {
-                                Handler.get().sendMsg("You need a crafting level of " + selectedSlot.getRecipe().getRequiredLevel() + " to make this item.");
-                            }
-                        } else {
-                            Handler.get().sendMsg("You haven't discovered this recipe yet.");
-                        }
-                    }
-                    craftButtonPressed = false;
+                if (abortButton.getBounds().contains(mouse) && craftButtonPressed) {
+                    abortQueue();
+                }
+                if (selectedSlot != null) {
+                    handleCraftBtnClicks(make1Button, 1, mouse);
+                    handleCraftBtnClicks(make5Button, 5, mouse);
+                    handleCraftBtnClicks(make10Button, 10, mouse);
+                    handleCraftAllBtnClicks(makeAllButton, mouse);
+                    handleCraftXBtnClicks(makeXButton, mouse);
                 }
             }
 
@@ -164,11 +167,7 @@ public class CraftingUI implements Serializable {
 
             for (CraftingSlot cs : craftingSlots) {
 
-                if (cs.getBounds().contains(mouse)) {
-                    cs.setHovering(true);
-                } else {
-                    cs.setHovering(false);
-                }
+                cs.setHovering(cs.getBounds().contains(mouse));
 
                 // If the player drags an item from a crafting slot
                 if (Handler.get().getMouseManager().isDragged()) {
@@ -232,24 +231,57 @@ public class CraftingUI implements Serializable {
                             // If the inventory is full, return
                             if (Handler.get().invIsFull(cs.getItemStack().getItem())) {
                                 hasBeenPressed = false;
-                                return;
                             } else {
                                 // Otherwise add the item to the inventory
                                 Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(cs.getItemStack().getItem())).addItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
                                 cs.setItemStack(null);
                                 hasBeenPressed = false;
                                 findRecipe();
-                                return;
                             }
                         } else {
                             hasBeenPressed = false;
-                            return;
                         }
+                        return;
                     }
 
                     checkDragging(mouse);
                 }
             }
+        }
+    }
+
+    private void handleCraftXBtnClicks(UIImageButton makeXButton, Rectangle mouse) {
+        if (makeXButton.getBounds().contains(mouse) && craftButtonPressed) {
+            Handler.get().sendMsg("Make-X coming later.");
+            craftButtonPressed = false;
+        }
+    }
+
+    private void handleCraftAllBtnClicks(UIImageButton makeAllButton, Rectangle mouse) {
+        int quantity = getNumCraftableItems(selectedSlot);
+        handleCraftBtnClicks(makeAllButton, quantity, mouse);
+    }
+
+    private void abortQueue() {
+        craftButtonPressed = false;
+        abortButton.setVisible(false);
+        craftInProgress = 0;
+        progressTimer = 0;
+    }
+
+    private void handleCraftBtnClicks(UIImageButton button, int amount, Rectangle mouse) {
+        if (button.getBounds().contains(mouse) && craftButtonPressed) {
+            if (selectedSlot.getRecipe().isDiscovered()) {
+                if (Handler.get().playerHasSkillLevel(SkillsList.CRAFTING, selectedSlot.getRecipe().getRequiredLevel())) {
+                    queueItem(amount);
+                } else {
+                    Handler.get().sendMsg("You need a crafting level of " + selectedSlot.getRecipe().getRequiredLevel() + " to make this item.");
+                }
+            } else {
+                Handler.get().sendMsg("You haven't discovered this recipe yet.");
+            }
+
+            craftButtonPressed = false;
         }
     }
 
@@ -312,7 +344,6 @@ public class CraftingUI implements Serializable {
 
     public void findRecipe() {
         // Clear previous results
-        selectedSlot = null;
         results.clear();
         uiManager.removeAllObjects(selectSlots);
         selectSlots.clear();
@@ -365,8 +396,15 @@ public class CraftingUI implements Serializable {
                 selectSlots.add(slot);
                 results.add(result);
 
+                // Select top recipe by default
+                selectedSlot = selectSlots.get(0);
+
                 uiManager.addObject(slot);
             }
+        }
+        // Clear selection when no recipe found
+        if (results.isEmpty()) {
+            selectedSlot = null;
         }
     }
 
@@ -385,11 +423,7 @@ public class CraftingUI implements Serializable {
                             itemTooltip.render(slot.getRecipe().getResult().getItem(), g);
                         }
                         if (Handler.get().getMouseManager().isLeftPressed() && craftButtonPressed) {
-                            if (slot.equals(selectedSlot)) {
-                                selectedSlot = null;
-                            } else {
-                                selectedSlot = slot;
-                            }
+                            selectedSlot = slot;
                             craftButtonPressed = false;
                         }
                     }
@@ -398,27 +432,35 @@ public class CraftingUI implements Serializable {
 
             uiManager.render(g);
 
+            if (crs.isHovering() && crs.getItemStack() != null) {
+                itemTooltip.render(crs.getItemStack().getItem(), g);
+            }
+
             for (CraftSelectSlot slot : selectSlots) {
                 if (slot.getRecipe().isDiscovered()) {
                     if (!Handler.get().playerHasSkillLevel(SkillsList.CRAFTING, slot.getRecipe().getRequiredLevel())) {
                         g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
-                    } else if (!hasEnoughQuantity(slot)) {
+                    } else if (getNumCraftableItems(slot) < 0) {
                         g.setColor(Colors.insufficientAmountColor);
                         g.fillRoundRect(slot.x, slot.y, slot.width, slot.height, 4, 4);
                     }
                 }
             }
 
-            if (selectedSlot != null) {
+            if (selectedSlot != null && !results.isEmpty()) {
                 g.setColor(Colors.selectedColor);
                 g.fillRoundRect(selectedSlot.x, selectedSlot.y, selectedSlot.width, selectedSlot.height, 4, 4);
                 drawRequirementAmounts(g);
             }
 
             Text.drawString(g, "Crafting", x + width / 2, y + 26, true, Color.YELLOW, Assets.font20);
-            int craftAmount = 1;
-            Text.drawString(g, "Craft " + craftAmount, x + width / 2, y + height - 96, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "How many do you want to make?", x + width / 2, make1Button.y - 16, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "1", make1Button.x + make1Button.width / 2, make1Button.y + make1Button.height / 2, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "5", make5Button.x + make5Button.width / 2, make5Button.y + make5Button.height / 2, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "10", make10Button.x + make10Button.width / 2, make10Button.y + make10Button.height / 2, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "X", makeXButton.x + makeXButton.width / 2, makeXButton.y + makeXButton.height / 2, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "All", makeAllButton.x + makeAllButton.width / 2, makeAllButton.y + makeAllButton.height / 2, true, Color.YELLOW, Assets.font20);
 
             Rectangle mouse = Handler.get().getMouse();
 
@@ -436,6 +478,26 @@ public class CraftingUI implements Serializable {
                             Handler.get().getMouseManager().getMouseX() + 12, Handler.get().getMouseManager().getMouseY() + 16, false, Color.YELLOW, Assets.font14);
                 }
             }
+
+            if (craftInProgress > 0 && selectedSlot != null) {
+                progressTimer++;
+                double percent = (double) progressTimer / (double) selectedSlot.getRecipe().getTimeToCraft();
+                int progress = (int) ((double) progressBar.width * percent);
+                g.setColor(Color.BLACK);
+                g.drawRect(progressBar.x, progressBar.y, progressBar.width, progressBar.height);
+                g.setColor(Colors.progressBarColor);
+                g.fillRect(progressBar.x, progressBar.y, progress, progressBar.height);
+                g.setColor(Colors.progressBarOutlineColor);
+                g.fillRect(progressBar.x, progressBar.y, progress, progressBar.height);
+                Text.drawString(g, Handler.get().roundOff(percent * 100d) + "%", progressBar.x + progressBar.width / 2, progressBar.y + progressBar.height / 2, true, Color.YELLOW, Assets.font14);
+
+                if (progressTimer >= selectedSlot.getRecipe().getTimeToCraft()) {
+                    createItem();
+                }
+
+                Text.drawString(g, "Abort", abortButton.x + abortButton.width / 2, abortButton.y + abortButton.height / 2, true, Color.YELLOW, Assets.font14);
+                Text.drawString(g, "Queue: " + craftInProgress + " left.", x + width / 2, progressBar.y - 10, true, Color.YELLOW, Assets.font14);
+            }
         }
     }
 
@@ -452,6 +514,10 @@ public class CraftingUI implements Serializable {
     }
 
     public void exit() {
+
+        abortQueue();
+
+        // Dump the dragging cursor item in the inventory
         if (currentSelectedSlot != null) {
             if (!Handler.get().invIsFull(currentSelectedSlot.getItem())) {
                 Handler.get().giveItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
@@ -463,46 +529,44 @@ public class CraftingUI implements Serializable {
             itemSelected = false;
             hasBeenPressed = false;
         }
-        if (crs.getItemStack() != null) {
-            int numItems = crs.getItemStack().getAmount();
-            for (int i = 0; i < numItems; i++) {
-                if (!Handler.get().invIsFull(crs.getItemStack().getItem())) {
-                    Handler.get().giveItem(crs.getItemStack().getItem(), 1);
-                    if (crs.getItemStack().getAmount() > 1)
-                        crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
-                    else
-                        crs.setItemStack(null);
-                    findRecipe();
-                } else {
-                    Handler.get().dropItem(crs.getItemStack().getItem(), 1,
-                            (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY());
-                    if (crs.getItemStack().getAmount() > 1)
-                        crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
-                    else
-                        crs.setItemStack(null);
-                    findRecipe();
-                }
-            }
-        }
 
+        // Dump the recipe items in the inventory
         boolean invFull = false;
         for (CraftingSlot cs : craftingSlots) {
             if (cs.getItemStack() != null) {
                 if (!Handler.get().invIsFull(cs.getItemStack().getItem())) {
                     Handler.get().giveItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount());
-                    cs.setItemStack(null);
-                    findRecipe();
                 } else {
                     invFull = true;
                     Handler.get().dropItem(cs.getItemStack().getItem(), cs.getItemStack().getAmount(), (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY());
-                    cs.setItemStack(null);
-                    findRecipe();
 
                 }
+                cs.setItemStack(null);
+                findRecipe();
             }
         }
-        if (invFull)
+        if (invFull) {
             Handler.get().sendMsg("The remaining items in the crafting slots have been dropped.");
+        }
+
+        // Dump the remainder of crafting items in the inventory where possible
+        if (crs.getItemStack() != null) {
+            int numItems = crs.getItemStack().getAmount();
+            for (int i = 0; i < numItems; i++) {
+                if (!Handler.get().invIsFull(crs.getItemStack().getItem())) {
+                    Handler.get().giveItem(crs.getItemStack().getItem(), 1);
+                } else {
+                    Handler.get().dropItem(crs.getItemStack().getItem(), 1,
+                            (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY());
+                }
+                if (crs.getItemStack().getAmount() > 1)
+                    crs.getItemStack().setAmount(crs.getItemStack().getAmount() - 1);
+                else
+                    crs.setItemStack(null);
+                findRecipe();
+            }
+        }
+
         isOpen = false;
     }
 
@@ -530,8 +594,9 @@ public class CraftingUI implements Serializable {
         return -1;
     }
 
-    private void craftItem() {
-        if (hasEnoughQuantity(selectedSlot)) {
+    private void queueItem(int amount) {
+        int craftable = getNumCraftableItems(selectedSlot);
+        if (craftable > 0) {
             ItemStack result = selectedSlot.getRecipe().getResult();
 
             // If we try to craft a new item before claiming the last one, reject
@@ -541,54 +606,81 @@ public class CraftingUI implements Serializable {
                 return;
             }
 
-            crs.addItem(result.getItem(), result.getAmount());
+            // Maximize to only the number of items we have the resources to craft
+            if (craftInProgress + amount > craftable) {
+                craftInProgress = craftable;
+            } else {
+                craftInProgress += amount;
+            }
 
-            removeComponentsFromSlots();
-            updateTutorial(result);
+            abortButton.setVisible(true);
 
-            Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(selectedSlot.getRecipe().getCraftingXP());
         } else {
             findRecipe();
             Handler.get().sendMsg("You don't have the required materials to make this item.");
         }
     }
 
-    private boolean hasEnoughQuantity(CraftSelectSlot selectedSlot) {
-        // Check the components from the slots
-        for (ItemStack c : selectedSlot.getRecipe().getComponents()) {
-            int slotMatches = 0;
-            for (CraftingSlot slot : craftingSlots) {
-                if (slot.getItemStack() != null) {
-                    slotMatches++;
-                    // If we found the slot matching the item
-                    if (slot.getItemStack().getItem().getId() == c.getItem().getId()) {
-                        int slotAmt = slot.getItemStack().getAmount();
-                        // If the amount ends up less than 0 left, we don't have enough
-                        if (slotAmt - c.getAmount() < 0) {
-                            return false;
+    private void createItem() {
+        if (getNumCraftableItems(selectedSlot) > 0) {
+            progressTimer = 0;
+            craftInProgress--;
+
+            ItemStack result = selectedSlot.getRecipe().getResult();
+
+            crs.addItem(result.getItem(), result.getAmount());
+
+            removeComponentsFromSlots();
+
+            CraftingPublisher.get().publish(result);
+
+            Handler.get().getSkillsUI().getSkill(SkillsList.CRAFTING).addExperience(selectedSlot.getRecipe().getCraftingXP());
+
+            if (craftInProgress < 1)
+                abortButton.setVisible(false);
+
+        } else {
+            abortButton.setVisible(false);
+            progressTimer = 0;
+            craftInProgress = 0;
+            selectedSlot = null;
+            Handler.get().sendMsg("You don't have enough materials to make more!");
+        }
+    }
+
+    private int getNumCraftableItems(CraftSelectSlot selectedSlot) {
+        if (selectedSlot != null) {
+            // Check the components from the slots
+            List<Integer> amounts = new ArrayList<>();
+            for (ItemStack c : selectedSlot.getRecipe().getComponents()) {
+                int slotMatches = 0;
+                for (CraftingSlot slot : craftingSlots) {
+                    if (slot.getItemStack() != null) {
+                        slotMatches++;
+                        // If we found the slot matching the item
+                        if (slot.getItemStack().getItem().getId() == c.getItem().getId()) {
+                            int slotAmt = slot.getItemStack().getAmount();
+
+                            // Calculate how many items we can make
+                            amounts.add(slotAmt / c.getAmount());
+
+                            // If the amount ends up less than 0 left, we don't have enough
+                            if (slotAmt - c.getAmount() < 0) {
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            if (slotMatches != selectedSlot.getRecipe().getComponents().size()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void updateTutorial(ItemStack result) {
-        // For tutorial quest
-        if (Handler.get().questInProgress(QuestList.PreparingYourJourney)) {
-            Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
-            if (result.getItem() == Item.beginnersSword ||
-                    result.getItem() == Item.beginnersBow ||
-                    result.getItem() == Item.beginnersStaff) {
-                if (!quest.getQuestSteps().get(2).isFinished()) {
-                    quest.nextStep();
+                if (slotMatches != selectedSlot.getRecipe().getComponents().size()) {
+                    return -1;
                 }
             }
+
+
+            Optional<Integer> lowest = amounts.stream().min(Integer::compareTo);
+            return lowest.orElse(-1);
         }
+        return -1;
     }
 
     private void removeComponentsFromSlots() {

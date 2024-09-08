@@ -6,9 +6,11 @@ import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpriteSheet {
@@ -64,6 +66,7 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
+        SplashScreen.addLoadedElement();
 
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
@@ -78,7 +81,7 @@ public class SpriteSheet {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if (isTileTransparent(img)) {
+                if (isTransparent(img)) {
                     return null;
                 }
                 Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
@@ -88,7 +91,7 @@ public class SpriteSheet {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if (isTileTransparent(img)) {
+                if (isTransparent(img)) {
                     return null;
                 }
                 Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
@@ -103,7 +106,7 @@ public class SpriteSheet {
         return sheet.getSubimage(x, y, width, height);
     }
 
-    private boolean isTileTransparent(BufferedImage img) {
+    private boolean isTransparent(BufferedImage img) {
         int transparencyCount = 0;
         for (int i = 0; i < img.getWidth(); i++) {
             for (int j = 0; j < img.getHeight(); j++) {
@@ -120,6 +123,23 @@ public class SpriteSheet {
     private boolean isPixelTransparent(BufferedImage img, int x, int y) {
         int pixel = img.getRGB(x, y);
         return (pixel >> 24) == 0x00;
+    }
+
+    public BufferedImage[] animationCrop(int animWidth, int animHeight) {
+        int imWidth = sheet.getWidth();
+        int imHeight = sheet.getHeight();
+
+        List<BufferedImage> frames = new ArrayList<>();
+        for (int y = 0; y < imHeight; y += animHeight) {
+            for (int x = 0; x < imWidth; x += animWidth) {
+                BufferedImage frame = sheet.getSubimage(x, y, animWidth, animHeight);
+                if (isTransparent(frame)) {
+                    return frames.toArray(new BufferedImage[0]);
+                }
+                frames.add(frame);
+            }
+        }
+        return frames.toArray(new BufferedImage[0]);
     }
 
     /**
@@ -154,6 +174,8 @@ public class SpriteSheet {
             y *= 32;
         }
 
+        SplashScreen.addLoadedElement();
+
         return sheet.getSubimage(x, y, width, height);
     }
 
@@ -170,6 +192,7 @@ public class SpriteSheet {
         BufferedImage[] imgs = new BufferedImage[frames];
         for (int i = 0; i < imgs.length; i++) {
             imgs[i] = sheet.getSubimage(x + (i * width), y, width, height);
+            SplashScreen.addLoadedElement();
         }
         return imgs;
     }

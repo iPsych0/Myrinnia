@@ -1,9 +1,11 @@
 package dev.ipsych0.myrinnia.puzzles;
 
+import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
+
 import java.awt.*;
 import java.io.Serializable;
 
-abstract class Puzzle implements Serializable {
+abstract class Puzzle implements Serializable, OnTaskCompleted {
 
     /**
      *

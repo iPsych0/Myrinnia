@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -44,15 +45,26 @@ public class FishingSpot extends StaticEntity {
     private int experience;
     private int originalExperience;
     private static Map<Integer, Double> chanceToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.simpleFishingRod.getId(), 1.00),
             entry(Item.copperFishingRod.getId(), 1.05),
-            entry(Item.ironFishingRod.getId(), 1.1)
+            entry(Item.ironFishingRod.getId(), 1.10),
+            entry(Item.steelFishingRod.getId(), 1.15),
+            entry(Item.platinumFishingRod.getId(), 1.20),
+            entry(Item.titaniumFishingRod.getId(), 1.25),
+            entry(Item.obsidianFishingRod.getId(), 1.30),
+            entry(Item.primordialFishingRod.getId(), 1.35)
     );
     private static Map<Integer, Double> timeToFishMap = Map.ofEntries(
-            entry(Item.simpleFishingRod.getId(), 1.0),
+            entry(Item.simpleFishingRod.getId(), 1.00),
             entry(Item.copperFishingRod.getId(), 0.95),
-            entry(Item.ironFishingRod.getId(), 0.9)
+            entry(Item.ironFishingRod.getId(), 0.90),
+            entry(Item.steelFishingRod.getId(), 0.85),
+            entry(Item.platinumFishingRod.getId(), 0.80),
+            entry(Item.titaniumFishingRod.getId(), 0.75),
+            entry(Item.obsidianFishingRod.getId(), 0.70),
+            entry(Item.primordialFishingRod.getId(), 0.65)
     );
+    private Rectangle progressBar, totalBar;
 
     public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -65,32 +77,38 @@ public class FishingSpot extends StaticEntity {
             fish = Item.mackerelFish;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
             experience = 10;
-            timeToFish = 150;
-            chanceToFish = 750; // 75%
+            timeToFish = 120;
+            chanceToFish = 850; // 85%
             chanceOfRareMaterial = 100; // 10% Chance
-        }
-        else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
+        } else if (name.equalsIgnoreCase("Trout Fishing Spot")) {
             fish = Item.trout;
             experience = 15;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
-            timeToFish = 180;
-            chanceToFish = 700; // 70%
+            timeToFish = 150;
+            chanceToFish = 825; // 82,5%
             chanceOfRareMaterial = 80; // 8% Chance
         } else if (name.equalsIgnoreCase("Snakehead Fishing Spot")) {
             fish = Item.snakehead;
             experience = 20;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
-            timeToFish = 210;
-            chanceToFish = 650; // 65%
+            timeToFish = 180;
+            chanceToFish = 800; // 80%
             chanceOfRareMaterial = 75; // 7,5% Chance
         } else if (name.equalsIgnoreCase("Clam Digging Spot")) {
             fish = Item.clam;
-            experience = 25;
+            experience = 50;
             minAttempts = 1;
             maxAttempts = 1;
             rareMaterial = null; // TODO: ADD RARE MATERIAL
             timeToFish = 300;
-            chanceToFish = 50; // 50%
+            chanceToFish = 775; // 77,5%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+        } else if (name.equalsIgnoreCase("Eel Fishing Spot")) {
+            fish = Item.eel;
+            experience = 30;
+            rareMaterial = null; // TODO: ADD RARE MATERIAL
+            timeToFish = 210;
+            chanceToFish = 750; // 75%
             chanceOfRareMaterial = 75; // 7,5% Chance
         } else {
             throw new IllegalArgumentException("Fishing Spot name not found: " + name);
@@ -101,6 +119,9 @@ public class FishingSpot extends StaticEntity {
         originalChanceToFish = chanceToFish;
         originalExperience = experience;
         originalTimeToFish = timeToFish;
+
+        totalBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 64, 16);
+        progressBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 0, 16);
     }
 
     @Override
@@ -141,11 +162,10 @@ public class FishingSpot extends StaticEntity {
                         Handler.get().giveItem(rareMaterial, 1);
                         Handler.get().sendMsg("You found a " + rareMaterial.getName() + "!");
                     }
-                    attempts++;
                 } else {
                     Handler.get().sendMsg("The fish got away...");
-                    attempts++;
                 }
+                attempts++;
                 speakingTurn = 1;
                 fishingTimer = 0;
 
@@ -195,8 +215,8 @@ public class FishingSpot extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToFish *= chanceToFishMap.get(rodUsed.getId());
-                    timeToFish *= timeToFishMap.get(rodUsed.getId());
+                    chanceToFish *= chanceToFishMap.getOrDefault(rodUsed.getId(), 1.0);
+                    timeToFish *= timeToFishMap.getOrDefault(rodUsed.getId(), 1.0);
                     Handler.get().sendMsg("Fishing...");
                     speakingTurn = 1;
                     isFishing = true;
@@ -213,15 +233,21 @@ public class FishingSpot extends StaticEntity {
     public void postRender(Graphics2D g) {
         g.drawImage(Assets.fishingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isFishing) {
-            StringBuilder pending = new StringBuilder();
-            int dots = (int) Math.ceil(fishingTimer / 30d);
-            for (int i = 0; i < dots; i++) {
-                pending.append(".");
-            }
-
-            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + 16 - Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
+            drawProgressBar(g);
         }
+    }
+
+    public void drawProgressBar(Graphics2D g) {
+        double percentDone = (double) fishingTimer / (double) timeToFish;
+
+        progressBar.setSize((int) (totalBar.width * percentDone), 16);
+        g.drawImage(Assets.uiWindow, (int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, null);
+
+        g.setColor(Colors.progressBarColor);
+        g.fillRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
+
+        g.setColor(Colors.progressBarOutlineColor);
+        g.drawRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
     }
 
     @Override

@@ -2,11 +2,11 @@ package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
+import dev.ipsych0.myrinnia.abilities.data.MeleeDirection;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
-import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -54,6 +54,7 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialized) {
+            initialized = true;
 
             Rectangle direction;
             if (caster.equals(Handler.get().getPlayer())) {
@@ -62,14 +63,29 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
                 direction = new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1);
             }
 
+            meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
             Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
-            setMeleeSwing(direction);
-            meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+            MeleeDirection meleeDirection = getMeleeSwing(direction);
+            this.rotation = meleeDirection.getRotation();
+            this.xPos = meleeDirection.getxPos();
+            this.yPos = meleeDirection.getyPos();
 
-            initialized = true;
+            Entity hit = getSingleMeleeHitEntity(direction);
 
-            checkHitBox(direction);
+            if (hit != null) {
+                hit.damage(DamageType.STR, caster, this);
+
+                hasHitEnemy = true;
+                double durationLevelBoost = ((double) caster.getEarthLevel() * 0.1);
+                double damageLevelBoost = ((double) caster.getEarthLevel() * 1.5);
+
+                // 50% Chance of bleeding
+                int rnd = Handler.get().getRandomNumber(1, 100);
+                if (rnd <= 50) {
+                    hit.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3.0 + durationLevelBoost, 5 + (int) damageLevelBoost));
+                }
+            }
         }
 
         if (hasHitEnemy) {
@@ -81,100 +97,12 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
         }
     }
 
-    private void checkHitBox(Rectangle direction) {
-        double angle;
-        if (caster.equals(Handler.get().getPlayer())) {
-            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
-        } else {
-            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
-        }
-
-        Rectangle ar;
-        if (caster.getWidth() > 32 && caster.getHeight() > 32) {
-            ar = new Rectangle((int) ((caster.getWidth() - caster.getWidth() / 2) * Math.cos(angle) + (int) caster.getX() + caster.getWidth() / 4), (int) ((caster.getHeight() - caster.getHeight() / 2) * Math.sin(angle) + (int) caster.getY() + caster.getHeight() / 2), 40, 44);
-        } else {
-            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) caster.getX()), (int) (32 * Math.sin(angle) + (int) caster.getY()), 40, 40);
-        }
-        if (caster.equals(Handler.get().getPlayer())) {
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (e.equals(Handler.get().getPlayer()))
-                    continue;
-                if (!e.isAttackable())
-                    continue;
-                if (caster.getVerticality() == e.getVerticality() && e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, caster, this);
-
-                    hasHitEnemy = true;
-
-                    // 50% Chance of bleeding
-                    int rnd = Handler.get().getRandomNumber(1, 100);
-                    if (rnd <= 50) {
-                        e.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
-                    }
-                }
-            }
-        } else {
-            Player player = Handler.get().getPlayer();
-            if (player.getVerticality() == caster.getVerticality() && player.getCollisionBounds(0, 0).intersects(ar)) {
-                player.damage(DamageType.STR, caster, this);
-
-                // 50% Chance of bleeding
-                int rnd = Handler.get().getRandomNumber(1, 100);
-                if (rnd <= 50) {
-                    player.addCondition(caster, new Condition(Condition.Type.BLEEDING, 3, 5));
-                }
-            }
-        }
-    }
-
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialized = false;
-            hasHitEnemy = false;
-            hasPlayedSound = false;
-            timer = 0;
-        }
-    }
-
-    private void setMeleeSwing(Rectangle direction) {
-        // The angle and speed of the projectile
-        double angle;
-        if (caster.equals(Handler.get().getPlayer())) {
-            angle = Math.atan2((direction.getY() + Handler.get().getGameCamera().getyOffset() - 16) - caster.getY(), (direction.getX() + Handler.get().getGameCamera().getxOffset() - 16) - caster.getX());
-        } else {
-            angle = Math.atan2((direction.getY() - 16) - caster.getY(), (direction.getX() - 16) - caster.getX());
-        }
-        // Set the rotation of the projectile in degrees (0 = RIGHT, 270 = UP, 180 = LEFT, 90 = DOWN)
-        rotation = Math.toDegrees(angle);
-        if (rotation < 0) {
-            rotation += 360d;
-        }
-
-        double xOffset = 1.0f * Math.cos(angle);
-        double yOffset = 1.0f * Math.sin(angle);
-
-        // meleeXOffset change RIGHT
-        if (rotation >= 270 || rotation < 90) {
-            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
-            // meleeXOffset change LEFT
-        } else if (rotation >= 90 || rotation < 270) {
-            xPos = (20d + (32d * (caster.getWidth() / 32d - 1))) * xOffset;
-        }
-
-        // meleeXOffset change UP
-        if (rotation >= 180 || rotation <= 360) {
-            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
-            // meleeXOffset change DOWN
-        } else if (rotation >= 0 || rotation < 180) {
-            yPos = (20d + (32d * (caster.getHeight() / 32d - 1))) * yOffset;
-        }
+    void reset() {
+        initialized = false;
+        hasHitEnemy = false;
+        hasPlayedSound = false;
+        timer = 0;
     }
 
 }

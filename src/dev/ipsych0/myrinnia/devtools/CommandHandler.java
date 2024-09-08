@@ -3,22 +3,25 @@ package dev.ipsych0.myrinnia.devtools;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.character.CharacterStats;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
-import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
 
-class CommandHandler implements Serializable {
+public class CommandHandler implements Serializable {
 
 
     private static final long serialVersionUID = 1908102828227319857L;
 
-    void handle(String[] commands, Commands firstCommand) {
+    public void handle(Commands firstCommand, String... commands) {
         switch (firstCommand) {
             // Command to give items to the player
             case GIVE:
@@ -30,16 +33,86 @@ class CommandHandler implements Serializable {
                         Handler.get().sendMsg("Must request at least 1 item.");
                         break;
                     }
-                    if (Item.items[Integer.parseInt(commands[1])] == null) {
-                        throw new IllegalArgumentException();
+
+                    String ids = commands[1];
+                    if (ids.contains("-")) {
+                        String[] bounds = ids.split("-");
+                        int lowerBound = Integer.parseInt(bounds[0]);
+                        int upperBound = Integer.parseInt(bounds[1]);
+                        for (int i = lowerBound; i <= upperBound; i++) {
+                            if (Item.items[i] == null) {
+                                throw new IllegalArgumentException();
+                            }
+                            Handler.get().giveItem(Item.items[i], Integer.parseInt(commands[2]));
+                        }
+                    } else {
+                        if (Item.items[Integer.parseInt(commands[1])] == null) {
+                            throw new IllegalArgumentException();
+                        }
+                        Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
                     }
-                    Handler.get().giveItem(Item.items[Integer.parseInt(commands[1])], Integer.parseInt(commands[2]));
                 } catch (NumberFormatException e) {
                     Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
                 } catch (IllegalArgumentException e) {
                     Handler.get().sendMsg("Item with ID: '" + commands[1] + "' does not exist.");
                 } catch (Exception e) {
                     Handler.get().sendMsg("Error. Syntax: 'give {itemID} {amount}'.");
+                }
+                break;
+            case SEARCH:
+                try {
+                    if (commands.length < 1) {
+                        throw new Exception();
+                    }
+
+                    // Append any spaces in the command search
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 1; i < commands.length; i++) {
+                        sb.append(commands[i]);
+                    }
+
+                    // Find matching items
+                    boolean found = false;
+                    for (Item i : Item.items) {
+                        try {
+                            if (i.getName().toLowerCase().contains(sb.toString().toLowerCase())) {
+                                found = true;
+                                Handler.get().sendMsg(i.getName() + ": " + i.getId() + ".");
+                            }
+                        } catch (Exception ignored) {
+                        }
+                    }
+
+                    // If no results found, show user
+                    if (!found) {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (IllegalArgumentException e) {
+                    Handler.get().sendMsg("No item with that name could be found.");
+                } catch (Exception e) {
+                    Handler.get().sendMsg("Error. Syntax: 'search {partial-item-name}'.");
+                }
+                break;
+            case SPAWN:
+                try {
+                    if (commands.length < 1) {
+                        throw new Exception();
+                    }
+
+                    if (commands.length == 5) {
+                        String className = commands[1];
+                        int level = Integer.parseInt(commands[2]);
+                        int x = Integer.parseInt(commands[3]) * 32;
+                        int y = Integer.parseInt(commands[4]) * 32;
+                        Entity e = MapLoader.loadEntity(Handler.get().getWorld(), className, x, y, 32, 32, className, level, null, null, "malachiteThug1", null, null);
+                        if (e != null) {
+                            Handler.get().getWorld().getEntityManager().addRuntimeEntity(e, false);
+                        }
+                    }
+                } catch (IllegalArgumentException e) {
+                    Handler.get().sendMsg("Item with ID: '" + commands[1] + "' does not exist.");
+                } catch (Exception e) {
+                    Handler.get().sendMsg("Error. Syntax: 'spawn {monsterClass} {level} {x} {y} '.");
                 }
                 break;
             // Command for teleporting around different maps
@@ -59,8 +132,8 @@ class CommandHandler implements Serializable {
                     } else if (commands.length == 3) {
                         Integer xPos = Integer.parseInt(commands[1]);
                         Integer yPos = Integer.parseInt(commands[2]);
-                        Handler.get().getPlayer().setX(xPos);
-                        Handler.get().getPlayer().setY(yPos);
+                        Handler.get().getPlayer().setX(xPos * Tile.TILEWIDTH);
+                        Handler.get().getPlayer().setY(yPos * Tile.TILEHEIGHT);
                     } else {
                         throw new Exception();
                     }
@@ -92,6 +165,12 @@ class CommandHandler implements Serializable {
                         s.setLevel(1);
                         s.setNextLevelXp(100);
                         s.setExperience(0);
+                        // If we are resetting combat, make sure we also reset the base damage and damage exponent
+                        if (s.toString().equalsIgnoreCase("Combat")) {
+                            Handler.get().getPlayer().setBaseDamage(1);
+                            Handler.get().getPlayer().setLevelExponent(1.1);
+                            resetSkillPoints();
+                        }
 
                         // Set the levels
                         for (int i = 0; i < level; i++) {
@@ -114,9 +193,9 @@ class CommandHandler implements Serializable {
                         } else if (commands[1].equalsIgnoreCase("def")) {
                             Handler.get().getPlayer().setDefence(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("movspd")) {
-                            Handler.get().getPlayer().setSpeed(Integer.parseInt(commands[2]));
+                            Handler.get().getPlayer().setSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("atkspd")) {
-                            Handler.get().getPlayer().setAttackSpeed(Integer.parseInt(commands[2]));
+                            Handler.get().getPlayer().setAttackSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("hp")) {
                             Handler.get().getPlayer().setMaxHealth(Integer.parseInt(commands[2]));
                             Handler.get().getPlayer().setHealth(Handler.get().getPlayer().getMaxHealth());
@@ -133,9 +212,9 @@ class CommandHandler implements Serializable {
                 if (commands.length == 2) {
                     if (commands[1].equalsIgnoreCase("a*")) {
                         Handler.debugAStar = !Handler.debugAStar;
-                    } else if(commands[1].equalsIgnoreCase("collision")){
+                    } else if (commands[1].equalsIgnoreCase("collision")) {
                         Handler.debugCollision = !Handler.debugCollision;
-                    } else if(commands[1].equalsIgnoreCase("zonetiles")){
+                    } else if (commands[1].equalsIgnoreCase("zonetiles")) {
                         Handler.debugZones = !Handler.debugZones;
                     } else {
                         Handler.get().sendMsg("Unknown command: '" + commands[1] + "'. Syntax: 'debug {target}'.");
@@ -152,8 +231,8 @@ class CommandHandler implements Serializable {
                             a.setUnlocked(true);
                         }
                         Handler.get().sendMsg("Unlocked all abilities.");
-                        for(int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
-                            if(i == 10)
+                        for (int i = 0; i < Handler.get().getAbilityManager().getAllAbilities().size(); i++) {
+                            if (i == 10)
                                 break;
                             Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities().get(i).setAbility(Handler.get().getAbilityManager().getAllAbilities().get(i));
                         }
@@ -206,6 +285,20 @@ class CommandHandler implements Serializable {
             default:
                 Handler.get().sendMsg("Could not parse command.");
                 break;
+        }
+    }
+
+
+    private void resetSkillPoints() {
+        for (CharacterStats stat : CharacterStats.values()) {
+            if (stat == CharacterStats.Combat)
+                continue;
+            if (stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
+                Handler.get().getCharacterUI().addBaseStatPoints(stat.getLevel());
+            } else {
+                Handler.get().getCharacterUI().addElementalStatPoints(stat.getLevel());
+            }
+            stat.setLevel(0);
         }
     }
 }

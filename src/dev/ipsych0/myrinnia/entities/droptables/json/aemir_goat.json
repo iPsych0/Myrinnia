@@ -1,0 +1,74 @@
+[
+  {
+    "itemId": 58,
+    "itemName": "Hardwood",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 66,
+    "itemName": "Tomato",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 67,
+    "itemName": "Cabbage",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 72,
+    "itemName": "Soft leather",
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": 73,
+    "itemName": "Strip of wool",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 110,
+    "itemName": "Rope",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 108,
+    "itemName": "Woolen boots",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 109,
+    "itemName": "Woolen gloves",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 100,
+    "itemName": "Soft leather boots",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 101,
+    "itemName": "Soft leather gloves",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 156,
+    "itemName": "Hard leather",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 2
+  }
+]

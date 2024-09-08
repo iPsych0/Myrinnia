@@ -1,7 +1,7 @@
 {
   "cooldownTime": 15.0,
   "castingTime": 0.75,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Mend Wounds",
   "description": "Splash water over your wounds, healing you initially whilst also providing regeneration.",
   "abilityType": "HealingAbility",

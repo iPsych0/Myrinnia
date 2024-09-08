@@ -1,9 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.PoisonDartAbility;
-import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
@@ -22,7 +20,7 @@ public class Venovine extends Creature {
 
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
-    private Ability poisonDartAbility = Utils.loadAbility("poisondart.json");
+    private PoisonDartAbility poisonDartAbility = Utils.loadAbility("poisondart.json", PoisonDartAbility.class);
 
     public Venovine(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
@@ -38,6 +36,10 @@ public class Venovine extends Creature {
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
+
+        poisonDartAbility.setCondiDamage(5);
+        poisonDartAbility.setDuration(5);
+        poisonDartAbility.setVelocity(8.0f);
 
         bounds.x = 2;
         bounds.y = 2;

@@ -3,12 +3,15 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Assets {
 
@@ -24,20 +27,32 @@ public class Assets {
     public static Font font48;
     public static Font font64;
 
+
+    public static BufferedImage normalCursor, normalCursorHighlight, attackCursorHighlight, chatBubble;
+
     // Weather effects
-    public static BufferedImage rain, snow, sandStorm, fog;
+    public static BufferedImage rain, snow, sandStorm, fogNormal, fogHeavy;
 
     // Map item images (trees, rocks, etc)
-    public static BufferedImage weakPalmTree, elmTree, oakTree, aspenTree, azuriteRock, copperRock, ironRock, tungstenRock;
+    public static BufferedImage weakPalmTree, elmTree, deadTree, oakTree, aspenTree, teakTree, mahoganyTree, elderTree, ancientTree;
+    public static BufferedImage azuriteRock, copperRock, ironRock, tungstenRock, clayRock, coalRock, silverRock,
+            platinumRock, goldRock, titaniumRock, palladiumRock, obsidianRock, cobaltRock;
     public static BufferedImage bountyBoard1, bountyBoard2;
     public static BufferedImage rockSlide, shamrockSinkholeTL, shamrockSinkholeTM, shamrockSinkholeTR, shamrockSinkholeML, shamrockSinkholeMM, shamrockSinkholeMR, shamrockSinkholeBL, shamrockSinkholeBM, shamrockSinkholeBR;
     public static BufferedImage ropeLadderMapTile;
+    public static BufferedImage celenorRopeRock;
+    public static BufferedImage celenorPotionCabinetTop, celenorPotionCabinetShelves;
+    public static BufferedImage[] floatingRock;
+    public static BufferedImage celenorUnchargedCrystal;
+    public static BufferedImage[] airCharge, earthCharge, waterCharge, fireCharge;
+    public static BufferedImage[] torchFlame;
+
     /*
      * Creature Animations
      */
     public static BufferedImage[] combatUpFront, combatUpBack;
     public static BufferedImage[] player_down, player_up, player_left, player_right;
-    public static BufferedImage[] regularArrow, regularMagic, regularMelee, arrow2;
+    public static BufferedImage[] regularArrow, regularMagic, regularMelee, debilitatingShotArrow, meleeBlunt, meleeBluntImpact;
     public static BufferedImage[] fireProjectile;
     public static BufferedImage[] waterProjectile;
     public static BufferedImage[] earthProjectile;
@@ -46,12 +61,14 @@ public class Assets {
 
     // Ability animations
     public static BufferedImage[] airCloud1, waterSplash1, movementBoost1, eruption1, iceBall1, poisonDart, glacialShot1, burrowMound, stunned, acidBomb,
-            rockyConstrict, sandBlast;
+            rockyConstrict, sandBlast, bulkBarrierResilience, aquaticReversal, invigoratingBlow, siphoningShot, warpTeleport, monsterBite, graniteWall,
+            burningHaste, septicBlast, dragonsBreath, wildfire, nimbleFingers, healingBreeze;
 
     // Ability icons
     public static BufferedImage eruptionI, fireballI, mendWoundsI, nimbleFeetI, supersonicDashI, frostJabI, iceBallI, poisonDartI,
             glacialShotI, healingSpringI, arcaneRenewalI, acidBombI, cripplingImpactI, debilitatingShotI, debilitatingStrikeI,
-            rockyConstrictI, sandblastI;
+            rockyConstrictI, sandblastI, bulkUpI, barrierI, naturalResilienceI, aquaticReversalI, invigoratingBlowI, siphoningShotI,
+            graniteWallI, burningHasteI, septicBlastI, dragonsBreathI, wildfireI, nimbleFingersI, healingBreezeI;
 
     // Player attack images
     public static BufferedImage[] player_melee_left, player_melee_right, player_melee_down, player_melee_up;
@@ -68,16 +85,48 @@ public class Assets {
             copperOre, malachite, miningEquipment, abilityScroll, azuriteNecklace, azureBatWing, crablingClaw, simpleGloves, simpleBandana,
             chitin, scorpionTail, owlFeather, dynamite, detonator, vineRoot, simpleVest, simpleTrousers, pileOfSand, pileOfAshes, glass,
             lightWoodPlank, hardWood, hardWoodPlank, ironOre, trout, boneMeal, rockyShell, tomatoSeeds, cabbageSeeds, tomato, cabbage,
-            wateringCan, softLeather, stripOfCloth, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
+            wateringCan, softLeather, stripOfWool, lapisLazuli, azuriteEarrings, azuriteRingL, azuriteRingR, copperFishingRod,
             malachiteEarrings, malachiteRingL, malachiteRingR, malachiteAmulet, ironAxe, ironPickaxe, ironFishingRod, ironChainMail,
             studdedShield, ironSword, ironLegs, squiresCloak, ironHelm, ironBoots, ironGloves, softLeatherBody, ironQuiver, hardwoodBow,
             softLeatherLeggings, scoutsCloak, softLeatherCowl, softLeatherBoots, softLeatherGloves, woolenRobeTop, leatherSpellbook,
             hardwoodStaff, woolenRobeBottom, apprenticesCloak, woolenHat, woolenBoots, woolenGloves, rope, snakehead, clam, rake,
-            tungstenOre, aspenwood, lightwood;
+            tungstenOre, aspenwood, lightwood, strawberrySeeds, raspberrySeeds, blackberrySeeds, blueberrySeeds, appleTreeSeeds,
+            bananaTreeSeeds, orangeTreeSeeds, apricotTreeSeeds, peachTreeSeeds, papayaTreeSeeds, starfruitTreeSeeds, dragonfruitTreeSeeds,
+            strawberry, raspberry, blackberry, blueberry, apple, banana, orange, apricot, peach, papaya, starfruit, dragonfruit, shears, wool,
+            bucket, pollutedBucket, amanitaMushroom, potionOfDecontamination, litTorch, unlitTorch, unlitLantern, litLantern, unlitCandle, litCandle,
+            matchbox, clay, coalOre, hardLeather, stripOfLinen, flaxSeeds, flax, topaz, pearl, amethyst, diamond, onyx, silverOre, goldOre,
+            palladiumOre, cobaltOre, platinumOre, titaniumOre, obsidian, obsidianShard, titaniumPlating, steelPlating, yakHair, highQualityYakFibre,
+            primordialCrystal, celenorianThread, arcaneThread, topazEarrings, topazRingL, topazRingR, topazAmulet, pearlEarrings, pearlRingL,
+            pearlRingR, pearlAmulet, amethystEarrings, amethystRingL, amethystRingR, amethystAmulet, diamondEarrings, diamondRingL, diamondRingR,
+            diamondAmulet, onyxEarrings, onyxRingL, onyxRingR, onyxAmulet, steelAxe, steelPickaxe, steelFishingRod, platinumAxe, platinumPickaxe,
+            platinumFishingRod, titaniumAxe, titaniumPickaxe, titaniumFishingRod, obsidianAxe, obsidianPickaxe, obsidianFishingRod,
+            primordialAxe, primordialPickaxe, primordialFishingRod, teakWood, mahoganyWood, elderWood, ancientWood, reinforcedLeather,
+            studdedLeather, armoredLeather, celenorianLeather, stripOfSilk, stripOfDamask, stripOfIntricateCloth, stripOfFarnorCloth,
+            primordialIngot, steelChainmail, spikedShield, steelSword, steelLegs, knightsCloak, steelHelm, steelBoots, steelGloves,
+            hardLeatherBody, steelQuiver, aspenwoodBow, hardLeatherLeggings, wardensCloak, hardLeatherCowl, hardLeatherBoots, hardLeatherGloves,
+            linenRobeTop, hardLeatherSpellbook, aspenwoodStaff, linenRobeBottom, wizardsCloak, linenHat, linenBoots, linenGloves,
+            platinumPlatemail, reinforcedShield, platinumSword, platinumLegs, championsCloak, platinumHelm, platinumBoots, platinumGloves,
+            reinforcedBody, platinumQuiver, teakBow, reinforcedLeggings, markmansCloak, reinforcedCowl, reinforcedBoots, reinforcedGloves,
+            silkRobeTop, sorcerersSpellbook, teakStaff, silkRobeBottom, sorcerersCloak, silkHat, silkBoots, silkGloves, titaniumPlatemail,
+            towerShield, titaniumSword, titaniumLegs, warchiefsCloak, titaniumHelm, titaniumBoots, titaniumGloves, studdedLeatherBody,
+            titaniumQuiver, mahoganyBow, studdedLeatherLeggings, sharpshootersCloak, studdedLeatherCowl, studdedLeatherBoots, studdedLeatherGloves,
+            damaskRobeTop, warlocksSpellbook, mahoganyStaff, damaskRobeBottom, warlocksCloak, damaskHat, damaskBoots, damaskGloves, obsidianCuirass,
+            obsidianBuckler, obsidianBlade, obsidianLegs, gladiatorsCloak, obsidianHelm, obsidianGreaves, obsidianGauntlets, deadeyesTorso,
+            obsidianQuiver, deadeyesFlatbow, deadeyesLeggings, deadeyesCloak, deadeyesCowl, deadeyesBoots, deadeyesGloves, seersGarb,
+            seersBook, seersSpire, seersGown, seersCloak, seersHat, seersBoots, seersGloves, primordialCuirass, primordialKiteshield,
+            primordialBlade, primordialPlatelegs, primordialCloak, primordialGreathelm, primordialGreaves, primordialGauntlets,
+            primevalTorso, primevalQuiver, primevalRecurveBow, primevalLeggings, primevalCloak, primevalCowl, primevalBoots, primevalGloves,
+            primalGownTop, bookOfPrimalMagics, primalSceptre, primalGownBottoms, primalCloak, primalHood, primalFootgear, primalGloves,
+            spiderSilk, eel, venomSac, sharpTooth, pointySpine, hauntedRag, potentLeaves, graniteChunk, onionSeeds, onion,
+            carrotSeeds, carrot, potatoSeeds, potato, cauliflowerSeeds, cauliflower, kaleSeeds, kale, broccoliSeeds, broccoli,
+            spinachSeeds, spinach, sweetPotatoSeeds, sweetPotato, pumpkinSeeds, pumpkin, egg, jugOfWater, potOfFlour, dough,
+            bowl, cakeTin, emptyPlate, bucketOfMilk, bucketOfWater, hammer, shovel, lesserLumberjacksSoul, lesserMineworkersSoul,
+            lesserGardenersSoul, lesserFishermansSoul;
+
     public static BufferedImage[] coins;
     public static BufferedImage weakAntidote, antidote, strongAntidote, weakPotionOfPrecision, potionOfPrecision, strongPotionOfPrecision,
             weakPotionOfMight, potionOfMight, strongPotionOfMight, weakPotionOfWisdom, potionOfWisdom, strongPotionOfWisdom,
-            weakPotionofFortitude, potionofFortitude, strongPotionofFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
+            weakPotionOfFortitude, potionOfFortitude, strongPotionOfFortitude, weakPotionOfVigor, potionOfVigor, strongPotionOfVigor;
 
     // Farming icons
     public static BufferedImage cropsPlanted1;
@@ -91,6 +140,18 @@ public class Assets {
     public static BufferedImage[] burrowingBeetleUp, burrowingBeetleDown, burrowingBeetleLeft, burrowingBeetleRight;
     public static BufferedImage[] hedgehogUp, hedgehogDown, hedgehogLeft, hedgehogRight;
     public static BufferedImage[] caveTrollUp, caveTrollDown, caveTrollLeft, caveTrollRight;
+    public static BufferedImage[] ogreUp, ogreDown, ogreLeft, ogreRight;
+    public static BufferedImage[] alchemicalExperimentUp, alchemicalExperimentDown, alchemicalExperimentLeft, alchemicalExperimentRight;
+    public static BufferedImage[] hornettaUp, hornettaDown, hornettaLeft, hornettaRight;
+    public static BufferedImage[] toxiblossomUp, toxiblossomDown, toxiblossomLeft, toxiblossomRight;
+    public static BufferedImage[] whiteWolfUp, whiteWolfDown, whiteWolfLeft, whiteWolfRight;
+    public static BufferedImage[] poisonSpiderUp, poisonSpiderDown, poisonSpiderLeft, poisonSpiderRight;
+    public static BufferedImage[] goblinoGreenUp, goblinoGreenDown, goblinoGreenLeft, goblinoGreenRight;
+    public static BufferedImage[] goblinoRedUp, goblinoRedDown, goblinoRedLeft, goblinoRedRight;
+    public static BufferedImage[] goblinoBrownUp, goblinoBrownDown, goblinoBrownLeft, goblinoBrownRight;
+    public static BufferedImage[] goblinoPurpleUp, goblinoPurpleDown, goblinoPurpleLeft, goblinoPurpleRight;
+    public static BufferedImage[] clayGolemUp, clayGolemDown, clayGolemLeft, clayGolemRight;
+    public static BufferedImage[] forgottenGhostUp, forgottenGhostDown, forgottenGhostLeft, forgottenGhostRight;
 
     // Generic Util NPC images
     public static BufferedImage[] shopKeeper1Down, shopKeeper1Left, shopKeeper1Right, shopKeeper1Up,
@@ -141,6 +202,14 @@ public class Assets {
     public static BufferedImage[] genericMale17Down, genericMale17Left, genericMale17Right, genericMale17Up;
     public static BufferedImage[] genericMale18Down, genericMale18Left, genericMale18Right, genericMale18Up;
 
+    public static BufferedImage[] sheep1Down, sheep1Left, sheep1Right, sheep1Up;
+    public static BufferedImage[] shavedSheep1Down, shavedSheep1Left, shavedSheep1Right, shavedSheep1Up;
+    public static BufferedImage[] sheep2Down, sheep2Left, sheep2Right, sheep2Up;
+    public static BufferedImage[] shavedsheep2Down, shavedsheep2Left, shavedsheep2Right, shavedsheep2Up;
+
+    public static BufferedImage[] goat1Down, goat1Left, goat1Right, goat1Up;
+    public static BufferedImage[] goat2Down, goat2Left, goat2Right, goat2Up;
+
     // Male elves
     public static BufferedImage[] genericElfMale1Down, genericElfMale1Left, genericElfMale1Right, genericElfMale1Up;
     public static BufferedImage[] genericElfMale2Down, genericElfMale2Left, genericElfMale2Right, genericElfMale2Up;
@@ -180,6 +249,11 @@ public class Assets {
     // Celenor
     public static BufferedImage[] celenorElenthirDown, celenorElenthirLeft, celenorElenthirRight, celenorElenthirUp;
     public static BufferedImage[] celenorNyvolasDown, celenorNyvolasLeft, celenorNyvolasRight, celenorNyvolasUp;
+    public static BufferedImage[] celenorPorewitDown, celenorPorewitLeft, celenorPorewitRight, celenorPorewitUp;
+    public static BufferedImage[] celenorWardenDown, celenorWardenLeft, celenorWardenRight, celenorWardenUp;
+
+    // Stozar
+    public static BufferedImage[] stozarCuratorDown, stozarCuratorLeft, stozarCuratorRight, stozarCuratorUp;
 
     // Equipment UI
     public static BufferedImage earringSlot;
@@ -196,6 +270,10 @@ public class Assets {
     public static BufferedImage ringSlot2;
     public static BufferedImage[] equipmentPlaceHolders;
 
+    // Ability slots
+    public static BufferedImage aFireSlot, aWaterSlot, aAirSlot, aEarthSlot, aHealingSlot, aEliteSlot, aEmptySlot;
+    public static BufferedImage fireElement, airElement, waterElement, earthElement, meleeElement, magicElement, rangedElement;
+
     // Crafting UI
     public static BufferedImage undiscovered;
 
@@ -206,8 +284,8 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
-    public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, soulReapingIcon, farmingIcon;
+    public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon, crippledIcon, blindedIcon, rootedIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
             movSpdBuffIcon;
@@ -218,14 +296,23 @@ public class Assets {
     public static BufferedImage[][] puzzlePieces;
 
     public static BufferedImage mainBackground;
+    public static BufferedImage fullBookUI, singlePageBookUI, celenorPotionCabinetBg, celenorPotionCabinetSlot,
+            celenorPotionCabinetSlotSelected, celenorPotionRed, celenorPotionYellow,
+            celenorPotionBlue, celenorPotionGreen, bountyBackground;
 
     public static void init() {
 
+        long before = System.currentTimeMillis();
+        System.out.println("Loading world doc:");
+
         MapLoader.setWorldDoc(Handler.initialWorldPath);
 
+        long now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of world doc: " + ((double) now / 1000d));
         /*
          * Fonts
          */
+        SplashScreen.setMessage("Loading fonts...");
         font14 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 14);
         font20 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 20);
         font24 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 24);
@@ -235,6 +322,11 @@ public class Assets {
         font64 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 64);
 
 
+        SplashScreen.setMessage("Loading spritesheets...");
+
+        before = System.currentTimeMillis();
+        System.out.println("Normal spritesheets:");
+
         /*
          * Sprite Sheets
          */
@@ -242,6 +334,9 @@ public class Assets {
         mainBackground = main_background.imageCrop(0, 0, 1366, 768);
 
         SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
+        SpriteSheet book_sheet = new SpriteSheet("/textures/custom_ui/book.png");
+        SpriteSheet celenor_potion_cabinet_sheet = new SpriteSheet("/textures/custom_ui/potion_cabinet.png");
+        SpriteSheet bounty_ui_sheet = new SpriteSheet("/textures/custom_ui/bounty_bg.png");
         SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
         SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
         /*
@@ -253,6 +348,12 @@ public class Assets {
         SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
 
         /*
+         * World objects
+         */
+        SpriteSheet world_objects = new SpriteSheet("/textures/world_objects/world_objects.png");
+        SpriteSheet charge_animations = new SpriteSheet("/textures/animations/element_charge.png");
+
+        /*
          * Weather sprites
          */
         SpriteSheet rain_sheet = new SpriteSheet("/textures/weather/wsheet_rain1_1.png");
@@ -262,7 +363,9 @@ public class Assets {
         SpriteSheet sand_sheet = new SpriteSheet("/textures/weather/wsheet_sand_1.png");
         sandStorm = sand_sheet.imageCrop(0, 0, 128, 32);
         SpriteSheet fog_sheet = new SpriteSheet("/textures/weather/wsheet_fog_1.png");
-        fog = fog_sheet.imageCrop(0, 0, 128, 32);
+        fogNormal = fog_sheet.imageCrop(0, 0, 128, 32);
+        SpriteSheet fog_sheet2 = new SpriteSheet("/textures/weather/wsheet_fog_2.png");
+        fogHeavy = fog_sheet2.imageCrop(0, 0, 128, 32);
 
         /*
          * Player/NPCs
@@ -273,10 +376,12 @@ public class Assets {
         SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
         SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
         SpriteSheet celenor_npcs = new SpriteSheet("/textures/npc_sprites/celenor_npcs.png");
+        SpriteSheet stozar_npcs = new SpriteSheet("/textures/npc_sprites/stozar_npcs.png");
         SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
         SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
         SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
         SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
+        SpriteSheet animals_sheet = new SpriteSheet("/textures/npc_sprites/animals.png");
 
         /*
          * Add items to this
@@ -286,6 +391,9 @@ public class Assets {
         SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
         SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
         SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
+        SpriteSheet enemy_sheet4 = new SpriteSheet("/textures/enemy_sprites/monster4.png");
+
+        SpriteSheet enemy_sheet5 = new SpriteSheet("/textures/enemy_sprites/monsters2x2_1.png");
 
         SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
 
@@ -294,7 +402,14 @@ public class Assets {
          */
         SpriteSheet ability_icons = new SpriteSheet("/textures/animations/abilitysheet.png");
         SpriteSheet ability_animations = new SpriteSheet("/textures/animations/ability_animations.png");
-        SpriteSheet regular_attacks = new SpriteSheet("/textures/regular_attacks.png");
+        SpriteSheet regular_attacks = new SpriteSheet("/textures/animations/regular_attacks.png");
+        SpriteSheet npc_attacks = new SpriteSheet("/textures/animations/npc_attacks.png");
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of normal spritesheets: " + ((double) now / 1000d));
+
+        before = System.currentTimeMillis();
+        System.out.println("Tiled spritesheets:");
 
         /*
          * All Tiled Sprites
@@ -319,16 +434,45 @@ public class Assets {
         tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
         tileSheets.add(new SpriteSheet("/textures/tiles/z_tile_marker.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/underwater.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/giant_tree.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/eastern.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/sewer.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter1.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/beach2.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/steampunk.png", true));
+        tileSheets.add(new SpriteSheet("/textures/tiles/fairy_forest.png", true));
+
+        MapLoader.clearTsxCache();
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of tiled spritesheets: " + ((double) now / 1000d));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
+        SplashScreen.setMessage("Loading tiles...");
+
+        before = System.currentTimeMillis();
+        System.out.println("Cropping tiles:");
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (SpriteSheet tileSheet : tileSheets) {
-            for (int y = 0; y < tileSheet.getSheet().getHeight() / 32; y++) {
-                for (int x = 0; x < tileSheet.getSheet().getWidth() / 32; x++) {
-                    tileSheet.tileCrop(x, y);
+            executorService.execute(() -> {
+                for (int y = 0; y < tileSheet.getSheet().getHeight() / Tile.TILEHEIGHT; y++) {
+                    for (int x = 0; x < tileSheet.getSheet().getWidth() / Tile.TILEWIDTH; x++) {
+                        tileSheet.tileCrop(x, y);
+                    }
                 }
-            }
+            });
         }
+
+        executorService.shutdown();
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of tile cropping and property settings: " + ((double) now / 1000d));
 
 //        puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
 //        for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
@@ -336,6 +480,11 @@ public class Assets {
 //                puzzlePieces[x][y] = rsCastlePuzzle.imageCrop(x, y);
 //            }
 //        }
+
+        before = System.currentTimeMillis();
+        System.out.println("Cropping images:");
+
+        SplashScreen.setMessage("Loading UI images...");
 
         /*
          * Game UI Sprites
@@ -355,7 +504,45 @@ public class Assets {
         equipmentPlaceHolders[10] = capeSlot = equipSlots.imageCrop(2, 2);
         equipmentPlaceHolders[11] = ringSlot2 = equipSlots.imageCrop(2, 3);
 
+        aWaterSlot = ui_sheet.imageCrop(9, 0, WIDTH, HEIGHT);
+        aFireSlot = ui_sheet.imageCrop(10, 0, WIDTH, HEIGHT);
+        aAirSlot = ui_sheet.imageCrop(11, 0, WIDTH, HEIGHT);
+        aEarthSlot = ui_sheet.imageCrop(12, 0, WIDTH, HEIGHT);
+        aHealingSlot = ui_sheet.imageCrop(13, 0, WIDTH, HEIGHT);
+        aEliteSlot = ui_sheet.imageCrop(14, 0, WIDTH, HEIGHT);
+        aEmptySlot = ui_sheet.imageCrop(15, 0, WIDTH, HEIGHT);
+
+        normalCursor = ui_sheet.imageCrop(8, 1, WIDTH, HEIGHT);
+        normalCursorHighlight = ui_sheet.imageCrop(9, 1, WIDTH, HEIGHT);
+        attackCursorHighlight = ui_sheet.imageCrop(10, 1, WIDTH, HEIGHT);
+        chatBubble = ui_sheet.imageCrop(11, 1, WIDTH, HEIGHT);
+
+        fireElement = ui_sheet.imageCrop(12, 1, WIDTH, HEIGHT);
+        airElement = ui_sheet.imageCrop(13, 1, WIDTH, HEIGHT);
+        waterElement = ui_sheet.imageCrop(14, 1, WIDTH, HEIGHT);
+        earthElement = ui_sheet.imageCrop(15, 1, WIDTH, HEIGHT);
+
+        meleeElement = ui_sheet.imageCrop(8, 2, WIDTH, HEIGHT);
+        rangedElement = ui_sheet.imageCrop(9, 2, WIDTH, HEIGHT);
+        magicElement = ui_sheet.imageCrop(10, 2, WIDTH, HEIGHT);
+
         uiWindow = ui_sheet.imageCrop(0, 4, WIDTH * 6, HEIGHT * 6);
+
+        fullBookUI = book_sheet.imageCrop(0, 0, WIDTH * 12, HEIGHT * 9);
+        singlePageBookUI = book_sheet.imageCrop(12, 0, WIDTH * 5, HEIGHT * 7);
+
+        celenorPotionCabinetBg = celenor_potion_cabinet_sheet.imageCrop(0, 0, WIDTH * 16, HEIGHT * 15);
+        celenorPotionCabinetSlot = celenor_potion_cabinet_sheet.imageCrop(16, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionCabinetSlotSelected = celenor_potion_cabinet_sheet.imageCrop(16, 2, WIDTH * 2, HEIGHT * 2);
+
+        celenorPotionRed = celenor_potion_cabinet_sheet.imageCrop(18, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionYellow = celenor_potion_cabinet_sheet.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
+        celenorPotionGreen = celenor_potion_cabinet_sheet.imageCrop(18, 2, WIDTH * 2, HEIGHT * 2);
+        celenorPotionBlue = celenor_potion_cabinet_sheet.imageCrop(20, 2, WIDTH * 2, HEIGHT * 2);
+
+        bountyBackground = bounty_ui_sheet.imageCrop(0, 0, 300, 400);
+
+        SplashScreen.setMessage("Loading UI icons...");
 
         fireProjectile = new BufferedImage[3];
         fireProjectile[0] = projectiles.imageCrop(3, 4);
@@ -382,7 +569,7 @@ public class Assets {
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
-        bountyHunterIcon = ui_sheet.imageCrop(5, 1);
+        soulReapingIcon = ui_sheet.imageCrop(5, 1);
         farmingIcon = ui_sheet.imageCrop(7, 1);
 
         // Condition icons
@@ -391,6 +578,9 @@ public class Assets {
         burnIcon = ui_sheet.imageCrop(2, 2);
         bleedIcon = ui_sheet.imageCrop(3, 2);
         stunIcon = ui_sheet.imageCrop(4, 2);
+        blindedIcon = ui_sheet.imageCrop(5, 2);
+        crippledIcon = ui_sheet.imageCrop(6, 2);
+        rootedIcon = ui_sheet.imageCrop(7, 2);
 
         // Weakness & Resistance icons
         resistanceIcon = ui_sheet.imageCrop(4, 1);
@@ -434,6 +624,8 @@ public class Assets {
 
         locked = ui_sheet.imageCrop(0, 1, 16, 16);
         unlocked = ui_sheet.imageCrop(1, 1, 16, 16);
+
+        SplashScreen.setMessage("Loading item sprites...");
 
         /*
          * Item Sprites
@@ -494,7 +686,7 @@ public class Assets {
         cabbage = item_sheet.imageCrop(1, 19);
         wateringCan = item_sheet.imageCrop(1, 20);
         softLeather = item_sheet.imageCrop(1, 21);
-        stripOfCloth = item_sheet.imageCrop(1, 22);
+        stripOfWool = item_sheet.imageCrop(1, 22);
         lapisLazuli = item_sheet.imageCrop(1, 23);
         azuriteEarrings = item_sheet.imageCrop(1, 24);
         azuriteRingL = item_sheet.imageCrop(1, 25);
@@ -502,12 +694,12 @@ public class Assets {
         copperFishingRod = item_sheet.imageCrop(1, 27);
         malachiteEarrings = item_sheet.imageCrop(1, 28);
         malachiteAmulet = item_sheet.imageCrop(1, 29);
+
         malachiteRingL = item_sheet.imageCrop(2, 1);
         malachiteRingR = item_sheet.imageCrop(2, 2);
         ironAxe = item_sheet.imageCrop(2, 3);
         ironPickaxe = item_sheet.imageCrop(2, 4);
         ironFishingRod = item_sheet.imageCrop(2, 5);
-
         ironChainMail = item_sheet.imageCrop(2, 6);
         studdedShield = item_sheet.imageCrop(2, 7);
         ironSword = item_sheet.imageCrop(2, 8);
@@ -516,7 +708,6 @@ public class Assets {
         ironHelm = item_sheet.imageCrop(2, 11);
         ironBoots = item_sheet.imageCrop(2, 12);
         ironGloves = item_sheet.imageCrop(2, 13);
-
         softLeatherBody = item_sheet.imageCrop(2, 14);
         ironQuiver = item_sheet.imageCrop(2, 15);
         hardwoodBow = item_sheet.imageCrop(2, 16);
@@ -525,7 +716,6 @@ public class Assets {
         softLeatherCowl = item_sheet.imageCrop(2, 19);
         softLeatherBoots = item_sheet.imageCrop(2, 20);
         softLeatherGloves = item_sheet.imageCrop(2, 21);
-
         woolenRobeTop = item_sheet.imageCrop(2, 22);
         leatherSpellbook = item_sheet.imageCrop(2, 23);
         hardwoodStaff = item_sheet.imageCrop(2, 24);
@@ -542,6 +732,288 @@ public class Assets {
         tungstenOre = item_sheet.imageCrop(3, 5);
         aspenwood = item_sheet.imageCrop(3, 6);
         lightwood = item_sheet.imageCrop(3, 7);
+        strawberrySeeds = item_sheet.imageCrop(3, 8);
+        raspberrySeeds = item_sheet.imageCrop(3, 9);
+        blackberrySeeds = item_sheet.imageCrop(3, 10);
+        blueberrySeeds = item_sheet.imageCrop(3, 11);
+        appleTreeSeeds = item_sheet.imageCrop(3, 12);
+        bananaTreeSeeds = item_sheet.imageCrop(3, 13);
+        orangeTreeSeeds = item_sheet.imageCrop(3, 14);
+        apricotTreeSeeds = item_sheet.imageCrop(3, 15);
+        peachTreeSeeds = item_sheet.imageCrop(3, 16);
+        papayaTreeSeeds = item_sheet.imageCrop(3, 17);
+        starfruitTreeSeeds = item_sheet.imageCrop(3, 18);
+        dragonfruitTreeSeeds = item_sheet.imageCrop(3, 19);
+        strawberry = item_sheet.imageCrop(3, 20);
+        raspberry = item_sheet.imageCrop(3, 21);
+        blackberry = item_sheet.imageCrop(3, 22);
+        blueberry = item_sheet.imageCrop(3, 23);
+        apple = item_sheet.imageCrop(3, 24);
+        banana = item_sheet.imageCrop(3, 25);
+        orange = item_sheet.imageCrop(3, 26);
+        apricot = item_sheet.imageCrop(3, 27);
+        peach = item_sheet.imageCrop(3, 28);
+        papaya = item_sheet.imageCrop(3, 29);
+
+        starfruit = item_sheet.imageCrop(4, 0);
+        dragonfruit = item_sheet.imageCrop(4, 1);
+        shears = item_sheet.imageCrop(4, 2);
+        wool = item_sheet.imageCrop(4, 3);
+        bucket = item_sheet.imageCrop(4, 4);
+        pollutedBucket = item_sheet.imageCrop(4, 5);
+        amanitaMushroom = item_sheet.imageCrop(4, 6);
+        potionOfDecontamination = item_sheet.imageCrop(4, 7);
+
+        litTorch = item_sheet.imageCrop(4, 8);
+        unlitTorch = item_sheet.imageCrop(4, 9);
+        unlitLantern = item_sheet.imageCrop(4, 10);
+        litLantern = item_sheet.imageCrop(4, 11);
+        unlitCandle = item_sheet.imageCrop(4, 12);
+        litCandle = item_sheet.imageCrop(4, 13);
+        matchbox = item_sheet.imageCrop(4, 14);
+        clay = item_sheet.imageCrop(4, 15);
+        coalOre = item_sheet.imageCrop(4, 16);
+        hardLeather = item_sheet.imageCrop(4, 17);
+        stripOfLinen = item_sheet.imageCrop(4, 18);
+        flaxSeeds = item_sheet.imageCrop(4, 19);
+        flax = item_sheet.imageCrop(4, 20);
+        topaz = item_sheet.imageCrop(4, 21);
+        pearl = item_sheet.imageCrop(4, 22);
+        amethyst = item_sheet.imageCrop(4, 23);
+        diamond = item_sheet.imageCrop(4, 24);
+        onyx = item_sheet.imageCrop(4, 25);
+        silverOre = item_sheet.imageCrop(4, 26);
+        goldOre = item_sheet.imageCrop(4, 27);
+        palladiumOre = item_sheet.imageCrop(4, 28);
+        cobaltOre = item_sheet.imageCrop(4, 29);
+
+        platinumOre = item_sheet.imageCrop(5, 0);
+        titaniumOre = item_sheet.imageCrop(5, 1);
+        obsidian = item_sheet.imageCrop(5, 2);
+        obsidianShard = item_sheet.imageCrop(5, 3);
+        titaniumPlating = item_sheet.imageCrop(5, 4);
+        steelPlating = item_sheet.imageCrop(5, 5);
+        yakHair = item_sheet.imageCrop(5, 6);
+        highQualityYakFibre = item_sheet.imageCrop(5, 7);
+        primordialCrystal = item_sheet.imageCrop(5, 8);
+        celenorianThread = item_sheet.imageCrop(5, 9);
+        arcaneThread = item_sheet.imageCrop(5, 10);
+        topazEarrings = item_sheet.imageCrop(5, 11);
+        topazRingL = item_sheet.imageCrop(5, 12);
+        topazRingR = item_sheet.imageCrop(5, 13);
+        topazAmulet = item_sheet.imageCrop(5, 14);
+        pearlEarrings = item_sheet.imageCrop(5, 15);
+        pearlRingL = item_sheet.imageCrop(5, 16);
+        pearlRingR = item_sheet.imageCrop(5, 17);
+        pearlAmulet = item_sheet.imageCrop(5, 18);
+        amethystEarrings = item_sheet.imageCrop(5, 19);
+        amethystRingL = item_sheet.imageCrop(5, 20);
+        amethystRingR = item_sheet.imageCrop(5, 21);
+        amethystAmulet = item_sheet.imageCrop(5, 22);
+        diamondEarrings = item_sheet.imageCrop(5, 23);
+        diamondRingL = item_sheet.imageCrop(5, 24);
+        diamondRingR = item_sheet.imageCrop(5, 25);
+        diamondAmulet = item_sheet.imageCrop(5, 26);
+        onyxEarrings = item_sheet.imageCrop(5, 27);
+        onyxRingL = item_sheet.imageCrop(5, 28);
+        onyxRingR = item_sheet.imageCrop(5, 29);
+
+        onyxAmulet = item_sheet.imageCrop(6, 0);
+        steelAxe = item_sheet.imageCrop(6, 1);
+        steelPickaxe = item_sheet.imageCrop(6, 2);
+        steelFishingRod = item_sheet.imageCrop(6, 3);
+        platinumAxe = item_sheet.imageCrop(6, 4);
+        platinumPickaxe = item_sheet.imageCrop(6, 5);
+        platinumFishingRod = item_sheet.imageCrop(6, 6);
+        titaniumAxe = item_sheet.imageCrop(6, 7);
+        titaniumPickaxe = item_sheet.imageCrop(6, 8);
+        titaniumFishingRod = item_sheet.imageCrop(6, 9);
+        obsidianAxe = item_sheet.imageCrop(6, 10);
+        obsidianPickaxe = item_sheet.imageCrop(6, 11);
+        obsidianFishingRod = item_sheet.imageCrop(6, 12);
+        primordialAxe = item_sheet.imageCrop(6, 13);
+        primordialPickaxe = item_sheet.imageCrop(6, 14);
+        primordialFishingRod = item_sheet.imageCrop(6, 15);
+        teakWood = item_sheet.imageCrop(6, 16);
+        mahoganyWood = item_sheet.imageCrop(6, 17);
+        elderWood = item_sheet.imageCrop(6, 18);
+        ancientWood = item_sheet.imageCrop(6, 19);
+        reinforcedLeather = item_sheet.imageCrop(6, 20);
+        studdedLeather = item_sheet.imageCrop(6, 21);
+        armoredLeather = item_sheet.imageCrop(6, 22);
+        celenorianLeather = item_sheet.imageCrop(6, 23);
+        stripOfSilk = item_sheet.imageCrop(6, 24);
+        stripOfDamask = item_sheet.imageCrop(6, 25);
+        stripOfIntricateCloth = item_sheet.imageCrop(6, 26);
+        stripOfFarnorCloth = item_sheet.imageCrop(6, 27);
+        primordialIngot = item_sheet.imageCrop(6, 28);
+        steelChainmail = item_sheet.imageCrop(6, 29);
+
+        steelSword = item_sheet.imageCrop(7, 0);
+        spikedShield = item_sheet.imageCrop(7, 1);
+        steelLegs = item_sheet.imageCrop(7, 2);
+        knightsCloak = item_sheet.imageCrop(7, 3);
+        steelHelm = item_sheet.imageCrop(7, 4);
+        steelBoots = item_sheet.imageCrop(7, 5);
+        steelGloves = item_sheet.imageCrop(7, 6);
+        hardLeatherBody = item_sheet.imageCrop(7, 7);
+        steelQuiver = item_sheet.imageCrop(7, 8);
+        aspenwoodBow = item_sheet.imageCrop(7, 9);
+        hardLeatherLeggings = item_sheet.imageCrop(7, 10);
+        wardensCloak = item_sheet.imageCrop(7, 11);
+        hardLeatherCowl = item_sheet.imageCrop(7, 12);
+        hardLeatherBoots = item_sheet.imageCrop(7, 13);
+        hardLeatherGloves = item_sheet.imageCrop(7, 14);
+        linenRobeTop = item_sheet.imageCrop(7, 15);
+        hardLeatherSpellbook = item_sheet.imageCrop(7, 16);
+        aspenwoodStaff = item_sheet.imageCrop(7, 17);
+        linenRobeBottom = item_sheet.imageCrop(7, 18);
+        wizardsCloak = item_sheet.imageCrop(7, 19);
+        linenHat = item_sheet.imageCrop(7, 20);
+        linenBoots = item_sheet.imageCrop(7, 21);
+        linenGloves = item_sheet.imageCrop(7, 22);
+        platinumPlatemail = item_sheet.imageCrop(7, 23);
+        reinforcedShield = item_sheet.imageCrop(7, 24);
+        platinumSword = item_sheet.imageCrop(7, 25);
+        platinumLegs = item_sheet.imageCrop(7, 26);
+        championsCloak = item_sheet.imageCrop(7, 27);
+        platinumHelm = item_sheet.imageCrop(7, 28);
+        platinumBoots = item_sheet.imageCrop(7, 29);
+
+        platinumGloves = item_sheet.imageCrop(8, 0);
+        reinforcedBody = item_sheet.imageCrop(8, 1);
+        platinumQuiver = item_sheet.imageCrop(8, 2);
+        teakBow = item_sheet.imageCrop(8, 3);
+        reinforcedLeggings = item_sheet.imageCrop(8, 4);
+        markmansCloak = item_sheet.imageCrop(8, 5);
+        reinforcedCowl = item_sheet.imageCrop(8, 6);
+        reinforcedBoots = item_sheet.imageCrop(8, 7);
+        reinforcedGloves = item_sheet.imageCrop(8, 8);
+        silkRobeTop = item_sheet.imageCrop(8, 9);
+        sorcerersSpellbook = item_sheet.imageCrop(8, 10);
+        teakStaff = item_sheet.imageCrop(8, 11);
+        silkRobeBottom = item_sheet.imageCrop(8, 12);
+        sorcerersCloak = item_sheet.imageCrop(8, 13);
+        silkHat = item_sheet.imageCrop(8, 14);
+        silkBoots = item_sheet.imageCrop(8, 15);
+        silkGloves = item_sheet.imageCrop(8, 16);
+        titaniumPlatemail = item_sheet.imageCrop(8, 17);
+        towerShield = item_sheet.imageCrop(8, 18);
+        titaniumSword = item_sheet.imageCrop(8, 19);
+        titaniumLegs = item_sheet.imageCrop(8, 20);
+        warchiefsCloak = item_sheet.imageCrop(8, 21);
+        titaniumHelm = item_sheet.imageCrop(8, 22);
+        titaniumBoots = item_sheet.imageCrop(8, 23);
+        titaniumGloves = item_sheet.imageCrop(8, 24);
+        studdedLeatherBody = item_sheet.imageCrop(8, 25);
+        titaniumQuiver = item_sheet.imageCrop(8, 26);
+        mahoganyBow = item_sheet.imageCrop(8, 27);
+        studdedLeatherLeggings = item_sheet.imageCrop(8, 28);
+        sharpshootersCloak = item_sheet.imageCrop(8, 29);
+
+        studdedLeatherCowl = item_sheet.imageCrop(9, 0);
+        studdedLeatherBoots = item_sheet.imageCrop(9, 1);
+        studdedLeatherGloves = item_sheet.imageCrop(9, 2);
+        damaskRobeTop = item_sheet.imageCrop(9, 3);
+        warlocksSpellbook = item_sheet.imageCrop(9, 4);
+        mahoganyStaff = item_sheet.imageCrop(9, 5);
+        damaskRobeBottom = item_sheet.imageCrop(9, 6);
+        warlocksCloak = item_sheet.imageCrop(9, 7);
+        damaskHat = item_sheet.imageCrop(9, 8);
+        damaskBoots = item_sheet.imageCrop(9, 9);
+        damaskGloves = item_sheet.imageCrop(9, 10);
+        obsidianCuirass = item_sheet.imageCrop(9, 11);
+        obsidianBuckler = item_sheet.imageCrop(9, 12);
+        obsidianBlade = item_sheet.imageCrop(9, 13);
+        obsidianLegs = item_sheet.imageCrop(9, 14);
+        gladiatorsCloak = item_sheet.imageCrop(9, 15);
+        obsidianHelm = item_sheet.imageCrop(9, 16);
+        obsidianGreaves = item_sheet.imageCrop(9, 17);
+        obsidianGauntlets = item_sheet.imageCrop(9, 18);
+        deadeyesTorso = item_sheet.imageCrop(9, 19);
+        obsidianQuiver = item_sheet.imageCrop(9, 20);
+        deadeyesFlatbow = item_sheet.imageCrop(9, 21);
+        deadeyesLeggings = item_sheet.imageCrop(9, 22);
+        deadeyesCloak = item_sheet.imageCrop(9, 23);
+        deadeyesCowl = item_sheet.imageCrop(9, 24);
+        deadeyesBoots = item_sheet.imageCrop(9, 25);
+        deadeyesGloves = item_sheet.imageCrop(9, 26);
+        seersGarb = item_sheet.imageCrop(9, 27);
+        seersBook = item_sheet.imageCrop(9, 28);
+        seersSpire = item_sheet.imageCrop(9, 29);
+
+        seersGown = item_sheet.imageCrop(10, 0);
+        seersCloak = item_sheet.imageCrop(10, 1);
+        seersHat = item_sheet.imageCrop(10, 2);
+        seersBoots = item_sheet.imageCrop(10, 3);
+        seersGloves = item_sheet.imageCrop(10, 4);
+        primordialCuirass = item_sheet.imageCrop(10, 5);
+        primordialKiteshield = item_sheet.imageCrop(10, 6);
+        primordialBlade = item_sheet.imageCrop(10, 7);
+        primordialPlatelegs = item_sheet.imageCrop(10, 8);
+        primordialCloak = item_sheet.imageCrop(10, 9);
+        primordialGreathelm = item_sheet.imageCrop(10, 10);
+        primordialGreaves = item_sheet.imageCrop(10, 11);
+        primordialGauntlets = item_sheet.imageCrop(10, 12);
+        primevalTorso = item_sheet.imageCrop(10, 13);
+        primevalQuiver = item_sheet.imageCrop(10, 14);
+        primevalRecurveBow = item_sheet.imageCrop(10, 15);
+        primevalLeggings = item_sheet.imageCrop(10, 16);
+        primevalCloak = item_sheet.imageCrop(10, 17);
+        primevalCowl = item_sheet.imageCrop(10, 18);
+        primevalBoots = item_sheet.imageCrop(10, 19);
+        primevalGloves = item_sheet.imageCrop(10, 20);
+        primalGownTop = item_sheet.imageCrop(10, 21);
+        bookOfPrimalMagics = item_sheet.imageCrop(10, 22);
+        primalSceptre = item_sheet.imageCrop(10, 23);
+        primalGownBottoms = item_sheet.imageCrop(10, 24);
+        primalCloak = item_sheet.imageCrop(10, 25);
+        primalHood = item_sheet.imageCrop(10, 26);
+        primalFootgear = item_sheet.imageCrop(10, 27);
+        primalGloves = item_sheet.imageCrop(10, 28);
+        spiderSilk = item_sheet.imageCrop(10, 29);
+        eel = item_sheet.imageCrop(11, 0);
+        venomSac = item_sheet.imageCrop(11, 1);
+        sharpTooth = item_sheet.imageCrop(11, 2);
+        pointySpine = item_sheet.imageCrop(11, 3);
+        hauntedRag = item_sheet.imageCrop(11, 4);
+        potentLeaves = item_sheet.imageCrop(11, 5);
+        graniteChunk = item_sheet.imageCrop(11, 6);
+
+        // Food
+        onionSeeds = item_sheet.imageCrop(11, 7);
+        onion = item_sheet.imageCrop(11, 8);
+        carrotSeeds = item_sheet.imageCrop(11, 9);
+        carrot = item_sheet.imageCrop(11, 10);
+        potatoSeeds = item_sheet.imageCrop(11, 11);
+        potato = item_sheet.imageCrop(11, 12);
+        cauliflowerSeeds = item_sheet.imageCrop(11, 13);
+        cauliflower = item_sheet.imageCrop(11, 14);
+        kaleSeeds = item_sheet.imageCrop(11, 15);
+        kale = item_sheet.imageCrop(11, 16);
+        broccoliSeeds = item_sheet.imageCrop(11, 17);
+        broccoli = item_sheet.imageCrop(11, 18);
+        spinachSeeds = item_sheet.imageCrop(11, 19);
+        spinach = item_sheet.imageCrop(11, 20);
+        sweetPotatoSeeds = item_sheet.imageCrop(11, 21);
+        sweetPotato = item_sheet.imageCrop(11, 22);
+        pumpkinSeeds = item_sheet.imageCrop(11, 23);
+        pumpkin = item_sheet.imageCrop(11, 24);
+        egg = item_sheet.imageCrop(11, 25);
+        jugOfWater = item_sheet.imageCrop(11, 26);
+        potOfFlour = item_sheet.imageCrop(11, 27);
+        dough = item_sheet.imageCrop(11, 28);
+        bowl = item_sheet.imageCrop(11, 29);
+        cakeTin = item_sheet.imageCrop(12, 0);
+        emptyPlate = item_sheet.imageCrop(12, 1);
+        bucketOfMilk = item_sheet.imageCrop(12, 2);
+        bucketOfWater = item_sheet.imageCrop(12, 3);
+        hammer = item_sheet.imageCrop(12, 4);
+        shovel = item_sheet.imageCrop(12, 5);
+        lesserLumberjacksSoul = item_sheet.imageCrop(12, 6);
+        lesserMineworkersSoul = item_sheet.imageCrop(12, 7);
+        lesserGardenersSoul = item_sheet.imageCrop(12, 8);
+        lesserFishermansSoul = item_sheet.imageCrop(12, 9);
 
         // Farming sprites
         cropsPlanted1 = farming_sheet.imageCrop(0, 0);
@@ -563,13 +1035,15 @@ public class Assets {
         potionOfWisdom = item_sheet.imageCrop(22, 14);
         strongPotionOfWisdom = item_sheet.imageCrop(22, 13);
 
-        weakPotionofFortitude = item_sheet.imageCrop(20, 15);
-        potionofFortitude = item_sheet.imageCrop(20, 14);
-        strongPotionofFortitude = item_sheet.imageCrop(20, 13);
+        weakPotionOfFortitude = item_sheet.imageCrop(20, 15);
+        potionOfFortitude = item_sheet.imageCrop(20, 14);
+        strongPotionOfFortitude = item_sheet.imageCrop(20, 13);
 
         weakPotionOfVigor = item_sheet.imageCrop(23, 15);
         potionOfVigor = item_sheet.imageCrop(23, 14);
         strongPotionOfVigor = item_sheet.imageCrop(23, 13);
+
+        SplashScreen.setMessage("Loading animations...");
 
         /*
          * Enemy Animations
@@ -607,10 +1081,65 @@ public class Assets {
         azureBatRight = enemy_sheet1.npcCrop(9, 6, WIDTH, HEIGHT);
         azureBatUp = enemy_sheet1.npcCrop(9, 7, WIDTH, HEIGHT);
 
+        poisonSpiderDown = enemy_sheet1.npcCrop(6, 0, WIDTH, HEIGHT);
+        poisonSpiderLeft = enemy_sheet1.npcCrop(6, 1, WIDTH, HEIGHT);
+        poisonSpiderRight = enemy_sheet1.npcCrop(6, 2, WIDTH, HEIGHT);
+        poisonSpiderUp = enemy_sheet1.npcCrop(6, 3, WIDTH, HEIGHT);
+
         venovineDown = enemy_sheet3.npcCrop(0, 0, WIDTH, HEIGHT);
         venovineLeft = enemy_sheet3.npcCrop(0, 1, WIDTH, HEIGHT);
         venovineRight = enemy_sheet3.npcCrop(0, 2, WIDTH, HEIGHT);
         venovineUp = enemy_sheet3.npcCrop(0, 3, WIDTH, HEIGHT);
+
+        toxiblossomDown = enemy_sheet3.npcCrop(6, 0, WIDTH, HEIGHT);
+        toxiblossomLeft = enemy_sheet3.npcCrop(6, 1, WIDTH, HEIGHT);
+        toxiblossomRight = enemy_sheet3.npcCrop(6, 2, WIDTH, HEIGHT);
+        toxiblossomUp = enemy_sheet3.npcCrop(6, 3, WIDTH, HEIGHT);
+
+        goblinoGreenDown = enemy_sheet4.npcCrop(0, 0, WIDTH, HEIGHT * 2);
+        goblinoGreenLeft = enemy_sheet4.npcCrop(0, 2, WIDTH, HEIGHT * 2);
+        goblinoGreenRight = enemy_sheet4.npcCrop(0, 4, WIDTH, HEIGHT * 2);
+        goblinoGreenUp = enemy_sheet4.npcCrop(0, 6, WIDTH, HEIGHT * 2);
+
+        goblinoRedDown = enemy_sheet4.npcCrop(9, 0, WIDTH, HEIGHT * 2);
+        goblinoRedLeft = enemy_sheet4.npcCrop(9, 2, WIDTH, HEIGHT * 2);
+        goblinoRedRight = enemy_sheet4.npcCrop(9, 4, WIDTH, HEIGHT * 2);
+        goblinoRedUp = enemy_sheet4.npcCrop(9, 6, WIDTH, HEIGHT * 2);
+
+        goblinoPurpleDown = enemy_sheet4.npcCrop(0, 8, WIDTH, HEIGHT * 2);
+        goblinoPurpleLeft = enemy_sheet4.npcCrop(0, 10, WIDTH, HEIGHT * 2);
+        goblinoPurpleRight = enemy_sheet4.npcCrop(0, 12, WIDTH, HEIGHT * 2);
+        goblinoPurpleUp = enemy_sheet4.npcCrop(0, 14, WIDTH, HEIGHT * 2);
+
+        clayGolemDown = enemy_sheet4.npcCrop(9, 8, WIDTH, HEIGHT * 2);
+        clayGolemLeft = enemy_sheet4.npcCrop(9, 10, WIDTH, HEIGHT * 2);
+        clayGolemRight = enemy_sheet4.npcCrop(9, 12, WIDTH, HEIGHT * 2);
+        clayGolemUp = enemy_sheet4.npcCrop(9, 14, WIDTH, HEIGHT * 2);
+
+        forgottenGhostDown = enemy_sheet3.npcCrop(9, 0, WIDTH, HEIGHT);
+        forgottenGhostLeft = enemy_sheet3.npcCrop(9, 1, WIDTH, HEIGHT);
+        forgottenGhostRight = enemy_sheet3.npcCrop(9, 2, WIDTH, HEIGHT);
+        forgottenGhostUp = enemy_sheet3.npcCrop(9, 3, WIDTH, HEIGHT);
+
+        goblinoBrownDown = enemy_sheet4.npcCrop(3, 8, WIDTH, HEIGHT * 2);
+        goblinoBrownLeft = enemy_sheet4.npcCrop(3, 10, WIDTH, HEIGHT * 2);
+        goblinoBrownRight = enemy_sheet4.npcCrop(3, 12, WIDTH, HEIGHT * 2);
+        goblinoBrownUp = enemy_sheet4.npcCrop(3, 14, WIDTH, HEIGHT * 2);
+
+        whiteWolfDown = enemy_sheet5.npcCrop(0, 0, WIDTH * 2, HEIGHT * 2);
+        whiteWolfLeft = enemy_sheet5.npcCrop(0, 2, WIDTH * 2, HEIGHT * 2);
+        whiteWolfRight = enemy_sheet5.npcCrop(0, 4, WIDTH * 2, HEIGHT * 2);
+        whiteWolfUp = enemy_sheet5.npcCrop(0, 6, WIDTH * 2, HEIGHT * 2);
+
+        alchemicalExperimentDown = enemy_sheet1.npcCrop(12, 4, WIDTH, HEIGHT);
+        alchemicalExperimentLeft = enemy_sheet1.npcCrop(12, 5, WIDTH, HEIGHT);
+        alchemicalExperimentRight = enemy_sheet1.npcCrop(12, 6, WIDTH, HEIGHT);
+        alchemicalExperimentUp = enemy_sheet1.npcCrop(12, 7, WIDTH, HEIGHT);
+
+        hornettaDown = enemy_sheet1.npcCrop(6, 4, WIDTH, HEIGHT);
+        hornettaLeft = enemy_sheet1.npcCrop(6, 5, WIDTH, HEIGHT);
+        hornettaRight = enemy_sheet1.npcCrop(6, 6, WIDTH, HEIGHT);
+        hornettaUp = enemy_sheet1.npcCrop(6, 7, WIDTH, HEIGHT);
 
         // Bosses
 
@@ -618,6 +1147,11 @@ public class Assets {
         caveTrollLeft = boss_sheet1.npcCrop(6, 3, WIDTH * 2, HEIGHT * 3);
         caveTrollRight = boss_sheet1.npcCrop(6, 6, WIDTH * 2, HEIGHT * 3);
         caveTrollUp = boss_sheet1.npcCrop(6, 9, WIDTH * 2, HEIGHT * 3);
+
+        ogreDown = boss_sheet1.npcCrop(0, 0, WIDTH * 2, HEIGHT * 3);
+        ogreLeft = boss_sheet1.npcCrop(0, 3, WIDTH * 2, HEIGHT * 3);
+        ogreRight = boss_sheet1.npcCrop(0, 6, WIDTH * 2, HEIGHT * 3);
+        ogreUp = boss_sheet1.npcCrop(0, 9, WIDTH * 2, HEIGHT * 3);
 
         // NPC Sprites
 //
@@ -851,6 +1385,37 @@ public class Assets {
         genericMale18Right = generic_males1.npcCrop(15, 10);
         genericMale18Up = generic_males1.npcCrop(15, 11);
 
+        // Animals
+        sheep1Down = animals_sheet.npcCrop(0, 0);
+        sheep1Left = animals_sheet.npcCrop(0, 1);
+        sheep1Right = animals_sheet.npcCrop(0, 2);
+        sheep1Up = animals_sheet.npcCrop(0, 3);
+
+        shavedSheep1Down = animals_sheet.npcCrop(3, 0);
+        shavedSheep1Left = animals_sheet.npcCrop(3, 1);
+        shavedSheep1Right = animals_sheet.npcCrop(3, 2);
+        shavedSheep1Up = animals_sheet.npcCrop(3, 3);
+
+        sheep2Down = animals_sheet.npcCrop(6, 0);
+        sheep2Left = animals_sheet.npcCrop(6, 1);
+        sheep2Right = animals_sheet.npcCrop(6, 2);
+        sheep2Up = animals_sheet.npcCrop(6, 3);
+
+        shavedsheep2Down = animals_sheet.npcCrop(9, 0);
+        shavedsheep2Left = animals_sheet.npcCrop(9, 1);
+        shavedsheep2Right = animals_sheet.npcCrop(9, 2);
+        shavedsheep2Up = animals_sheet.npcCrop(9, 3);
+
+        goat1Down = animals_sheet.npcCrop(12, 0);
+        goat1Left = animals_sheet.npcCrop(12, 1);
+        goat1Right = animals_sheet.npcCrop(12, 2);
+        goat1Up = animals_sheet.npcCrop(12, 3);
+
+        goat2Down = animals_sheet.npcCrop(15, 0);
+        goat2Left = animals_sheet.npcCrop(15, 1);
+        goat2Right = animals_sheet.npcCrop(15, 2);
+        goat2Up = animals_sheet.npcCrop(15, 3);
+
         // Elves
 
         genericElfMale1Down = generic_elves1.npcCrop(0, 0);
@@ -985,6 +1550,21 @@ public class Assets {
         celenorNyvolasRight = celenor_npcs.npcCrop(3, 2);
         celenorNyvolasUp = celenor_npcs.npcCrop(3, 3);
 
+        celenorPorewitDown = celenor_npcs.npcCrop(6, 0);
+        celenorPorewitLeft = celenor_npcs.npcCrop(6, 1);
+        celenorPorewitRight = celenor_npcs.npcCrop(6, 2);
+        celenorPorewitUp = celenor_npcs.npcCrop(6, 3);
+
+        celenorWardenDown = celenor_npcs.npcCrop(9, 0);
+        celenorWardenLeft = celenor_npcs.npcCrop(9, 1);
+        celenorWardenRight = celenor_npcs.npcCrop(9, 2);
+        celenorWardenUp = celenor_npcs.npcCrop(9, 3);
+
+        stozarCuratorDown = stozar_npcs.npcCrop(0, 0);
+        stozarCuratorLeft = stozar_npcs.npcCrop(0, 1);
+        stozarCuratorRight = stozar_npcs.npcCrop(0, 2);
+        stozarCuratorUp = stozar_npcs.npcCrop(0, 3);
+
         /*
          * Player Animations
          */
@@ -1008,6 +1588,44 @@ public class Assets {
         player_left = player_sheet.npcCrop(0, 1);
         player_right = player_sheet.npcCrop(0, 2);
         player_up = player_sheet.npcCrop(0, 3);
+
+        SplashScreen.setMessage("Loading ability icons...");
+
+        /*
+         * Ability Icons
+         */
+        eruptionI = ability_icons.imageCrop(0, 0);
+        fireballI = ability_icons.imageCrop(1, 0);
+        mendWoundsI = ability_icons.imageCrop(2, 0);
+        nimbleFeetI = ability_icons.imageCrop(3, 0);
+        supersonicDashI = ability_icons.imageCrop(4, 0);
+        frostJabI = ability_icons.imageCrop(5, 0);
+        iceBallI = ability_icons.imageCrop(6, 0);
+        glacialShotI = ability_icons.imageCrop(7, 0);
+        healingSpringI = ability_icons.imageCrop(8, 0);
+        arcaneRenewalI = ability_icons.imageCrop(9, 0);
+        poisonDartI = ability_icons.imageCrop(10, 0);
+        acidBombI = ability_icons.imageCrop(11, 0);
+        cripplingImpactI = ability_icons.imageCrop(12, 0);
+        debilitatingShotI = ability_icons.imageCrop(13, 0);
+        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
+        rockyConstrictI = ability_icons.imageCrop(15, 0);
+        sandblastI = ability_icons.imageCrop(0, 1);
+        barrierI = ability_icons.imageCrop(1, 1);
+        naturalResilienceI = ability_icons.imageCrop(2, 1);
+        bulkUpI = ability_icons.imageCrop(3, 1);
+        aquaticReversalI = ability_icons.imageCrop(4, 1);
+        invigoratingBlowI = ability_icons.imageCrop(5, 1);
+        siphoningShotI = ability_icons.imageCrop(6, 1);
+        graniteWallI = ability_icons.imageCrop(7, 1);
+        burningHasteI = ability_icons.imageCrop(8, 1);
+        septicBlastI = ability_icons.imageCrop(9, 1);
+        dragonsBreathI = ability_icons.imageCrop(10, 1);
+        wildfireI = ability_icons.imageCrop(11, 1);
+        nimbleFingersI = ability_icons.imageCrop(12, 1);
+        healingBreezeI = ability_icons.imageCrop(13, 1);
+
+        SplashScreen.setMessage("Loading ability animations...");
 
         combatUpFront = new BufferedImage[10];
         combatUpFront[0] = level_up.imageCrop(0, 0, 64, 64);
@@ -1036,6 +1654,8 @@ public class Assets {
         regularMelee = new BufferedImage[5];
         regularArrow = new BufferedImage[1];
         regularMagic = new BufferedImage[3];
+        meleeBlunt = new BufferedImage[6];
+        meleeBluntImpact = new BufferedImage[3];
 
         regularMelee[0] = regular_attacks.imageCrop(4, 0);
         regularMelee[1] = regular_attacks.imageCrop(5, 0);
@@ -1043,37 +1663,22 @@ public class Assets {
         regularMelee[3] = regular_attacks.imageCrop(7, 0);
         regularMelee[4] = regular_attacks.imageCrop(8, 0);
 
+        meleeBlunt[0] = npc_attacks.imageCrop(0, 1);
+        meleeBlunt[1] = npc_attacks.imageCrop(1, 1);
+        meleeBlunt[2] = npc_attacks.imageCrop(2, 1);
+        meleeBlunt[3] = npc_attacks.imageCrop(3, 1);
+        meleeBlunt[4] = npc_attacks.imageCrop(4, 1);
+        meleeBlunt[5] = npc_attacks.imageCrop(5, 1);
+
+        meleeBluntImpact[0] = npc_attacks.imageCrop(0, 0);
+        meleeBluntImpact[1] = npc_attacks.imageCrop(1, 0);
+        meleeBluntImpact[2] = npc_attacks.imageCrop(2, 0);
+
         regularArrow[0] = regular_attacks.imageCrop(0, 0);
 
         regularMagic[0] = regular_attacks.imageCrop(1, 0);
         regularMagic[1] = regular_attacks.imageCrop(2, 0);
         regularMagic[2] = regular_attacks.imageCrop(3, 0);
-
-        /*
-         * Ability Icons
-         */
-        eruptionI = ability_icons.imageCrop(0, 0);
-        fireballI = ability_icons.imageCrop(1, 0);
-        mendWoundsI = ability_icons.imageCrop(2, 0);
-        nimbleFeetI = ability_icons.imageCrop(3, 0);
-        supersonicDashI = ability_icons.imageCrop(4, 0);
-        frostJabI = ability_icons.imageCrop(5, 0);
-        iceBallI = ability_icons.imageCrop(6, 0);
-        glacialShotI = ability_icons.imageCrop(7, 0);
-        healingSpringI = ability_icons.imageCrop(8, 0);
-        arcaneRenewalI = ability_icons.imageCrop(9, 0);
-        poisonDartI = ability_icons.imageCrop(10, 0);
-        acidBombI = ability_icons.imageCrop(11, 0);
-        cripplingImpactI = ability_icons.imageCrop(12, 0);
-        debilitatingShotI = ability_icons.imageCrop(13, 0);
-        debilitatingStrikeI = ability_icons.imageCrop(14, 0);
-        rockyConstrictI = ability_icons.imageCrop(15, 0);
-        sandblastI = ability_icons.imageCrop(0, 1);
-
-
-        /*
-         * Creature Animations
-         */
 
         airCloud1 = new BufferedImage[7];
         airCloud1[0] = ability_animations.imageCrop(0, 0);
@@ -1134,8 +1739,8 @@ public class Assets {
         rockyConstrict[3] = ability_animations.imageCrop(3, 10);
         rockyConstrict[4] = ability_animations.imageCrop(4, 10);
 
-        arrow2 = new BufferedImage[1];
-        arrow2[0] = ability_animations.imageCrop(0, 11);
+        debilitatingShotArrow = new BufferedImage[1];
+        debilitatingShotArrow[0] = ability_animations.imageCrop(0, 11);
 
         sandBlast = new BufferedImage[8];
         sandBlast[0] = ability_animations.imageCrop(0, 12);
@@ -1146,6 +1751,93 @@ public class Assets {
         sandBlast[5] = ability_animations.imageCrop(5, 12);
         sandBlast[6] = ability_animations.imageCrop(6, 12);
         sandBlast[7] = ability_animations.imageCrop(7, 12);
+
+        warpTeleport = new BufferedImage[8];
+        warpTeleport[0] = ability_animations.imageCrop(0, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[1] = ability_animations.imageCrop(1, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[2] = ability_animations.imageCrop(2, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[3] = ability_animations.imageCrop(3, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[4] = ability_animations.imageCrop(4, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[5] = ability_animations.imageCrop(5, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[6] = ability_animations.imageCrop(6, 13, WIDTH, HEIGHT * 2);
+        warpTeleport[7] = ability_animations.imageCrop(7, 13, WIDTH, HEIGHT * 2);
+
+        monsterBite = new BufferedImage[5];
+        monsterBite[0] = ability_animations.imageCrop(0, 17, WIDTH, HEIGHT * 2);
+        monsterBite[1] = ability_animations.imageCrop(1, 17, WIDTH, HEIGHT * 2);
+        monsterBite[2] = ability_animations.imageCrop(2, 17, WIDTH, HEIGHT * 2);
+        monsterBite[3] = ability_animations.imageCrop(3, 17, WIDTH, HEIGHT * 2);
+        monsterBite[4] = ability_animations.imageCrop(4, 17, WIDTH, HEIGHT * 2);
+
+        bulkBarrierResilience = new BufferedImage[8];
+        bulkBarrierResilience[0] = ability_animations.imageCrop(0, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[1] = ability_animations.imageCrop(2, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[2] = ability_animations.imageCrop(4, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[3] = ability_animations.imageCrop(6, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[4] = ability_animations.imageCrop(8, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[5] = ability_animations.imageCrop(10, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[6] = ability_animations.imageCrop(12, 19, WIDTH * 2, HEIGHT * 2);
+        bulkBarrierResilience[7] = ability_animations.imageCrop(14, 19, WIDTH * 2, HEIGHT * 2);
+
+        siphoningShot = new BufferedImage[2];
+        siphoningShot[0] = ability_animations.imageCrop(1, 11);
+        siphoningShot[1] = ability_animations.imageCrop(2, 11);
+
+        aquaticReversal = new BufferedImage[3];
+        aquaticReversal[0] = ability_animations.imageCrop(0, 21);
+        aquaticReversal[1] = ability_animations.imageCrop(1, 21);
+        aquaticReversal[2] = ability_animations.imageCrop(2, 21);
+
+        invigoratingBlow = new BufferedImage[10];
+        invigoratingBlow[0] = ability_animations.imageCrop(0, 22);
+        invigoratingBlow[1] = ability_animations.imageCrop(1, 22);
+        invigoratingBlow[2] = ability_animations.imageCrop(2, 22);
+        invigoratingBlow[3] = ability_animations.imageCrop(3, 22);
+        invigoratingBlow[4] = ability_animations.imageCrop(4, 22);
+        invigoratingBlow[5] = ability_animations.imageCrop(5, 22);
+        invigoratingBlow[6] = ability_animations.imageCrop(6, 22);
+        invigoratingBlow[7] = ability_animations.imageCrop(7, 22);
+        invigoratingBlow[8] = ability_animations.imageCrop(8, 22);
+        invigoratingBlow[9] = ability_animations.imageCrop(9, 22);
+
+        burningHaste = new BufferedImage[7];
+        burningHaste[0] = ability_animations.imageCrop(0, 4, WIDTH, HEIGHT);
+        burningHaste[1] = ability_animations.imageCrop(1, 4, WIDTH, HEIGHT);
+        burningHaste[2] = ability_animations.imageCrop(2, 4, WIDTH, HEIGHT);
+        burningHaste[3] = ability_animations.imageCrop(3, 4, WIDTH, HEIGHT);
+        burningHaste[4] = ability_animations.imageCrop(4, 4, WIDTH, HEIGHT);
+        burningHaste[5] = ability_animations.imageCrop(5, 4, WIDTH, HEIGHT);
+        burningHaste[6] = ability_animations.imageCrop(6, 4, WIDTH, HEIGHT);
+
+        graniteWall = new BufferedImage[7];
+        graniteWall[0] = ability_animations.imageCrop(7, 6, WIDTH * 3, HEIGHT);
+        graniteWall[1] = ability_animations.imageCrop(7, 5, WIDTH * 3, HEIGHT);
+        graniteWall[2] = ability_animations.imageCrop(7, 4, WIDTH * 3, HEIGHT);
+        graniteWall[3] = ability_animations.imageCrop(7, 3, WIDTH * 3, HEIGHT);
+        graniteWall[4] = ability_animations.imageCrop(7, 2, WIDTH * 3, HEIGHT);
+        graniteWall[5] = ability_animations.imageCrop(7, 1, WIDTH * 3, HEIGHT);
+        graniteWall[6] = ability_animations.imageCrop(7, 0, WIDTH * 3, HEIGHT);
+
+        septicBlast = new BufferedImage[10];
+        septicBlast[0] = ability_animations.imageCrop(10, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[1] = ability_animations.imageCrop(12, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[2] = ability_animations.imageCrop(14, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[3] = ability_animations.imageCrop(16, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[4] = ability_animations.imageCrop(18, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[5] = ability_animations.imageCrop(20, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[6] = ability_animations.imageCrop(22, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[7] = ability_animations.imageCrop(24, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[8] = ability_animations.imageCrop(26, 0, WIDTH * 2, HEIGHT * 2);
+        septicBlast[9] = ability_animations.imageCrop(28, 0, WIDTH * 2, HEIGHT * 2);
+
+        SpriteSheet dragonsBreathSheet = new SpriteSheet("/textures/animations/dragonsbreath.png");
+        SpriteSheet wildfireSheet = new SpriteSheet("/textures/animations/wildfire.png");
+        SpriteSheet nimbleFingersSheet = new SpriteSheet("/textures/animations/nimble_fingers.png");
+        SpriteSheet healingBreezeSheet = new SpriteSheet("/textures/animations/healing_breeze.png");
+        dragonsBreath = dragonsBreathSheet.animationCrop(80, 100);
+        wildfire = wildfireSheet.animationCrop(100, 100);
+        nimbleFingers = nimbleFingersSheet.animationCrop(81, 93);
+        healingBreeze = healingBreezeSheet.animationCrop(100, 100);
 
         movementBoost1 = new BufferedImage[7];
         movementBoost1[0] = ability_animations.imageCrop(0, 3);
@@ -1165,18 +1857,69 @@ public class Assets {
         eruption1[5] = ability_animations.imageCrop(5, 1);
         eruption1[6] = ability_animations.imageCrop(6, 1);
 
+        SplashScreen.setMessage("Loading map icons...");
+
         // Skilling objects
         weakPalmTree = woodcutting_trees.imageCrop(0, 0, WIDTH * 3, HEIGHT * 4);
         elmTree = woodcutting_trees.imageCrop(3, 0, WIDTH * 2, HEIGHT * 3);
+        deadTree = woodcutting_trees.imageCrop(8, 3, WIDTH * 2, HEIGHT * 3);
         oakTree = woodcutting_trees.imageCrop(5, 0, WIDTH * 3, HEIGHT * 3);
         aspenTree = woodcutting_trees.imageCrop(8, 0, WIDTH * 2, HEIGHT * 3);
+        teakTree = woodcutting_trees.imageCrop(3, 3, WIDTH * 2, HEIGHT * 4);
+        mahoganyTree = woodcutting_trees.imageCrop(5, 3, WIDTH * 3, HEIGHT * 4);
         azuriteRock = mining_rocks.imageCrop(1, 0);
         copperRock = mining_rocks.imageCrop(2, 0);
         ironRock = mining_rocks.imageCrop(3, 0);
         tungstenRock = mining_rocks.imageCrop(4, 0);
+        clayRock = mining_rocks.imageCrop(5, 0);
+        coalRock = mining_rocks.imageCrop(6, 0);
+        silverRock = mining_rocks.imageCrop(7, 0);
+        platinumRock = mining_rocks.imageCrop(8, 0);
+        goldRock = mining_rocks.imageCrop(9, 0);
+        titaniumRock = mining_rocks.imageCrop(0, 1);
+        palladiumRock = mining_rocks.imageCrop(1, 1);
+        obsidianRock = mining_rocks.imageCrop(2, 1);
+        cobaltRock = mining_rocks.imageCrop(3, 1);
         bountyBoard1 = getSheetByFilename("outside3.png").imageCrop(6, 11, WIDTH * 2, HEIGHT * 2);
         bountyBoard2 = getSheetByFilename("outside3.png").imageCrop(6, 14, WIDTH * 2, HEIGHT * 2);
         rockSlide = getSheetByFilename("outside2.png").imageCrop(1, 20, WIDTH * 2, HEIGHT * 2);
+
+        celenorRopeRock = world_objects.imageCrop(0, 0, WIDTH * 3, HEIGHT * 2);
+        celenorPotionCabinetTop = getSheetByFilename("inside2.png").imageCrop(11, 0, WIDTH * 3, HEIGHT);
+        celenorPotionCabinetShelves = getSheetByFilename("inside2.png").imageCrop(11, 3, WIDTH * 3, HEIGHT * 2);
+
+        floatingRock = new BufferedImage[3];
+
+        floatingRock[0] = getSheetByFilename("dark_dimension.png").imageCrop(25, 11, WIDTH, HEIGHT * 2);
+        floatingRock[1] = getSheetByFilename("dark_dimension.png").imageCrop(26, 11, WIDTH, HEIGHT * 2);
+        floatingRock[2] = getSheetByFilename("dark_dimension.png").imageCrop(27, 11, WIDTH, HEIGHT * 2);
+
+        celenorUnchargedCrystal = getSheetByFilename("dark_dimension.png").imageCrop(25, 16, WIDTH, HEIGHT * 2);
+
+        torchFlame = new BufferedImage[4];
+        torchFlame[0] = getSheetByFilename("dungeon.png").imageCrop(30, 5, WIDTH, HEIGHT);
+        torchFlame[1] = getSheetByFilename("dungeon.png").imageCrop(31, 5, WIDTH, HEIGHT);
+        torchFlame[2] = getSheetByFilename("dungeon.png").imageCrop(32, 5, WIDTH, HEIGHT);
+        torchFlame[3] = getSheetByFilename("dungeon.png").imageCrop(33, 5, WIDTH, HEIGHT);
+
+        airCharge = new BufferedImage[9];
+        earthCharge = new BufferedImage[9];
+        waterCharge = new BufferedImage[9];
+        fireCharge = new BufferedImage[9];
+
+        for (int i = 0; i < airCharge.length; i++) {
+            airCharge[i] = charge_animations.imageCrop(i, 0, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < earthCharge.length; i++) {
+            earthCharge[i] = charge_animations.imageCrop(i + (airCharge.length - 1), 0, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < waterCharge.length; i++) {
+            waterCharge[i] = charge_animations.imageCrop(i, 3, WIDTH, HEIGHT * 3);
+        }
+        for (int i = 0; i < fireCharge.length; i++) {
+            fireCharge[i] = charge_animations.imageCrop(i + (waterCharge.length - 1), 3, WIDTH, HEIGHT * 3);
+        }
+
 
         SpriteSheet dungeon = getSheetByFilename("dungeon.png");
         shamrockSinkholeTL = dungeon.imageCrop(7, 9);
@@ -1199,6 +1942,9 @@ public class Assets {
         whirlpool[5] = whirlPool.imageCrop(2, 1);
         whirlpool[6] = whirlPool.imageCrop(1, 1);
         whirlpool[7] = whirlPool.imageCrop(3, 1);
+
+        now = (System.currentTimeMillis() - before);
+        System.out.println("Loading time of image cropping: " + ((double) now / 1000d));
     }
 
     public static BufferedImage[][] getAnimationByTag(String tag) {

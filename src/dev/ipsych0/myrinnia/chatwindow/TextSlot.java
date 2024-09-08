@@ -1,12 +1,13 @@
 package dev.ipsych0.myrinnia.chatwindow;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 
-class TextSlot implements Serializable {
+public class TextSlot extends UIObject implements Serializable {
 
 
     /**
@@ -16,13 +17,15 @@ class TextSlot implements Serializable {
     public static final int textWidth = 432;
     public static final int textHeight = 16;
 
-    private int x, y;
     private String message;
 
     public TextSlot(int x, int y, String message) {
+        super(x, y, textWidth, textHeight);
         this.x = x;
         this.y = y;
         this.message = message;
+        setVisible(false);
+        setHoverable(false);
     }
 
     public void tick() {
@@ -41,22 +44,6 @@ class TextSlot implements Serializable {
 
     public String getMessage() {
         return message;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
 

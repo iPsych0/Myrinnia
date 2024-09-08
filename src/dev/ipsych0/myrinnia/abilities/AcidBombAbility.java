@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 public class AcidBombAbility extends Ability implements Serializable {
@@ -64,6 +65,9 @@ public class AcidBombAbility extends Ability implements Serializable {
 
     @Override
     public void cast() {
+        if (circle == null)
+            circle = new AoECircle((float) Handler.get().getMouse().x - AOE_SIZE / 2f, (float) Handler.get().getMouse().y - AOE_SIZE / 2f, AOE_SIZE, AOE_SIZE);
+
         Player player = Handler.get().getPlayer();
 
         if (!initialized) {
@@ -78,20 +82,11 @@ public class AcidBombAbility extends Ability implements Serializable {
             animation = new Animation(1000 / 8, Assets.acidBomb, true);
         }
 
-        // Player logic
-        if (caster.equals(player)) {
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (!e.isAttackable() || e.equals(player))
-                    continue;
-                if (e.getCollisionBounds(0, 0).intersects(circle.getBounds())) {
-                    e.damage(DamageType.INT, caster, this);
-                    e.addCondition(player, new Condition(Condition.Type.POISON, 3, 3));
-                }
-            }
-        } else {
-            // Enemy logic
-            if (circle.getBounds().intersects(player.getCollisionBounds(0, 0))) {
-                player.damage(DamageType.INT, caster, this);
+        List<Entity> entities = getAllEntitiesInShape(circle);
+        if (!entities.isEmpty()) {
+            for (Entity e : entities) {
+                e.damage(DamageType.INT, caster, this);
+                e.addCondition(caster, new Condition(Condition.Type.POISON, 3, 3));
             }
         }
 
@@ -101,18 +96,10 @@ public class AcidBombAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialized = false;
-            circle = null;
-            animation = null;
-        }
+    void reset() {
+        initialized = false;
+        circle = null;
+        animation = null;
     }
 
 }

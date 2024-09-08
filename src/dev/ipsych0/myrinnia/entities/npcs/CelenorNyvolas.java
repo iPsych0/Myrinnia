@@ -39,18 +39,19 @@ public class CelenorNyvolas extends Creature {
     }
 
     @Override
+    protected boolean choiceConditionMet(String condition) {
+        if ("hasRake".equals(condition)) {
+            return !Handler.get().playerHasItem(Item.rake, 1);
+        }
+        return false;
+    }
+
+    @Override
     protected void updateDialogue() {
         switch (speakingTurn) {
             case 5:
                 if (!Handler.get().playerHasItem(Item.rake, 1)) {
                     Handler.get().giveItem(Item.rake, 1);
-                    speakingCheckpoint = 6;
-                }
-                break;
-            case 6:
-                if (!Handler.get().playerHasItem(Item.rake, 1)) {
-                    speakingTurn = 5;
-                    interact();
                 }
                 break;
         }

@@ -24,7 +24,7 @@ public class RopeLadderTile extends StaticEntity {
     public void render(Graphics2D g) {
         g.drawImage(Assets.ropeLadderMapTile,
                 (int) (x - Handler.get().getGameCamera().getxOffset()),
-                (int) (y - Handler.get().getGameCamera().getyOffset()), width, height,null);
+                (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
     }
 
     @Override

@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public class BurrowingBeetle extends Creature {
 
@@ -27,6 +28,7 @@ public class BurrowingBeetle extends Creature {
     private Animation diggingAnimation;
     private Animation originalDown, originalLeft, originalRight, originalUp;
     private Animation poofAnimation;
+    private Animation bluntImpact;
     private boolean digging;
     private long digTime = 4L;
     private long timeOfDigging;
@@ -126,6 +128,16 @@ public class BurrowingBeetle extends Creature {
                 g.setTransform(old);
             }
         }
+
+        if (bluntImpact != null) {
+            if (bluntImpact.isTickDone()) {
+                bluntImpact = null;
+            } else {
+                bluntImpact.tick();
+                g.drawImage(bluntImpact.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), width, height, null);
+            }
+        }
     }
 
     @Override
@@ -157,11 +169,12 @@ public class BurrowingBeetle extends Creature {
         attackTimer = 0;
 
         if (!digging) {
-            meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+            meleeAnimation = new Animation(32, Assets.meleeBlunt, true);
+            bluntImpact = new Animation(32, Assets.meleeBluntImpact, true);
 
-            setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY(), 1, 1));
+            setMeleeSwing(new Rectangle((int) Handler.get().getPlayer().getX() + 16, (int) Handler.get().getPlayer().getY() + 16, 1, 1));
 
-            Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+            Handler.get().playEffect("abilities/impact_blunt.ogg");
 
             checkMeleeHitboxes();
         }
@@ -284,6 +297,7 @@ public class BurrowingBeetle extends Creature {
         // If the player is <= X * TileWidth away from the Creature, attack him.
         if (attackable && state != CombatState.BACKTRACK) {
             if (state == CombatState.PATHFINDING && isInAttackRange(player) || state == CombatState.ATTACK && isInAttackRange(player)) {
+                lookAtPlayer();
                 checkAttacks();
                 state = CombatState.ATTACK;
             } else {
@@ -314,7 +328,7 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public Rectangle getFullBounds(double xOffset, double yOffset) {
+    public Rectangle2D getFullBounds(double xOffset, double yOffset) {
         if (digging) {
             return new Rectangle(-100, -100, 0, 0);
         } else {
@@ -323,7 +337,7 @@ public class BurrowingBeetle extends Creature {
     }
 
     @Override
-    public Rectangle getCollisionBounds(double xOffset, double yOffset) {
+    public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
         if (digging) {
             return new Rectangle(-100, -100, 0, 0);
         } else {

@@ -1,10 +1,9 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.ArcaneRenewalAbility;
-import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
-import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
-import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.entities.npcs.CelenorPorewit;
+import dev.ipsych0.myrinnia.entities.npcs.PortAzureDuncan;
+import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -24,8 +23,9 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> azurealIslandQuests = new ArrayList<>();
-    private ArrayList<Quest> shamrockTownQuests = new ArrayList<>();
+    private List<Quest> azurealIslandQuests = new ArrayList<>();
+    private List<Quest> shamrockTownQuests = new ArrayList<>();
+    private List<Quest> celenorQuests = new ArrayList<>();
 //    private ArrayList<Quest> testQuests = new ArrayList<>();
 //    private ArrayList<Quest> mainQuests = new ArrayList<>();
 
@@ -33,10 +33,10 @@ public class QuestManager implements Serializable {
     private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
 
     // Put all Quest Lists per zone into a List of all Quest Lists
-    private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
+    private List<List<Quest>> allQuestLists = new ArrayList<>();
 
     // Map Zones to Quest Lists
-    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<>(Zone.class);
+    private EnumMap<Zone, List<Quest>> zoneMap = new EnumMap<>(Zone.class);
 
     public QuestManager() {
         questUI = new QuestUI();
@@ -56,6 +56,7 @@ public class QuestManager implements Serializable {
         // Filling allQuestLists with ALL lists of quests
         allQuestLists.add(azurealIslandQuests);
         allQuestLists.add(shamrockTownQuests);
+        allQuestLists.add(celenorQuests);
     }
 
     private void fillLists() {
@@ -63,7 +64,7 @@ public class QuestManager implements Serializable {
         // Island Quests
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gettingstarted.json",
                 (OnCompletion & Serializable) () -> {
-                    Handler.get().getSkill(SkillsList.BOUNTYHUNTER).addExperience(150);
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(150);
                 }));
 
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
@@ -73,6 +74,7 @@ public class QuestManager implements Serializable {
                 }));
         azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
                 (OnCompletion & Serializable) () -> {
+                    PortAzureDuncan.unlockRecipes();
                     Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(80);
                 }));
@@ -81,11 +83,19 @@ public class QuestManager implements Serializable {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                 }));
 
-        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 8)),
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 7)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(150);
+                }));
+
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8)),
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(200);
+                    CelenorGrottoWater.cleanse();
+                    CelenorPorewit.removeFog();
                 }));
 
         // Test Quests
@@ -168,19 +178,19 @@ public class QuestManager implements Serializable {
         this.questUI = questUI;
     }
 
-    public ArrayList<ArrayList<Quest>> getAllQuestLists() {
+    public List<List<Quest>> getAllQuestLists() {
         return allQuestLists;
     }
 
-    public void setAllQuestLists(ArrayList<ArrayList<Quest>> allQuestLists) {
+    public void setAllQuestLists(List<List<Quest>> allQuestLists) {
         this.allQuestLists = allQuestLists;
     }
 
-    public EnumMap<Zone, ArrayList<Quest>> getZoneMap() {
+    public EnumMap<Zone, List<Quest>> getZoneMap() {
         return zoneMap;
     }
 
-    public void setZoneMap(EnumMap<Zone, ArrayList<Quest>> zoneMap) {
+    public void setZoneMap(EnumMap<Zone, List<Quest>> zoneMap) {
         this.zoneMap = zoneMap;
     }
 

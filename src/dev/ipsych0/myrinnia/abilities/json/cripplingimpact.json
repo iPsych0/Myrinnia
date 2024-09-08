@@ -1,7 +1,7 @@
 {
   "cooldownTime": 10.0,
   "castingTime": 0.25,
-  "overcastTime": 0.0,
+  "overcastTime": 0.5,
   "name": "Crippling Impact",
   "description": "Fire an arrow that cripples your foe on impact.",
   "abilityType": "StandardAbility",

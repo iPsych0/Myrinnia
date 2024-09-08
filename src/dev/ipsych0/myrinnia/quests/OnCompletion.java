@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.quests;
 
-public interface OnCompletion {
+import java.io.Serializable;
+
+public interface OnCompletion extends Serializable {
     void giveReward();
 }

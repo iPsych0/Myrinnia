@@ -4,10 +4,10 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
-import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
+import dev.ipsych0.splashscreen.SplashScreen;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -22,10 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapLoader implements Serializable {
 
@@ -38,8 +36,9 @@ public class MapLoader implements Serializable {
     public static Map<Integer, Boolean> solidTiles = new HashMap<>();
     public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
     public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
-    public static Map<Integer, MovePermission> movePermissions = new HashMap<>();
     public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
+    private static Map<String, Document> tsxMap = new HashMap<>();
+    private static Set<String> readFiles = new HashSet<>();
     private static Document doc, tsxDoc;
     private static int tileCount, lastId;
 
@@ -79,6 +78,7 @@ public class MapLoader implements Serializable {
             input = new FileInputStream(path);
             tsxDoc = builder.parse(input);
             tsxDoc.normalize();
+            tsxMap.put(path, tsxDoc);
             input.close();
         } catch (SAXException | IOException e) {
             e.printStackTrace();
@@ -90,8 +90,14 @@ public class MapLoader implements Serializable {
      * @params: String path in OS
      */
     public static void loadTiles(String path) {
+        // If we've already loaded the tile properties for this tsx file, return
+        if (readFiles.contains(path)) {
+            return;
+        }
         try {
+            // Read file and add to list of read files
             InputStream is = new FileInputStream(path);
+            readFiles.add(path);
             DefaultHandler handler = new DefaultHandler() {
 
                 private boolean solidPropertyFound = false;
@@ -115,6 +121,8 @@ public class MapLoader implements Serializable {
                     if (qName.equalsIgnoreCase("tile")) {
                         // Always increment tile ID by 1, as every next TileSet starts at ID 0 again
                         currentId = 1 + lastId;
+
+                        SplashScreen.addLoadedElement();
 
                         // If new tile checked, clear old data
                         if (currentId != lastId) {
@@ -245,6 +253,10 @@ public class MapLoader implements Serializable {
                     world.setHasPermissionsLayer(true);
                     break;
                 }
+                if ("Shadows".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
+                    world.setHasShadowsLayer(true);
+                    break;
+                }
                 layer++;
             }
 
@@ -318,12 +330,19 @@ public class MapLoader implements Serializable {
                         } catch (Exception e) {
                             System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
                         }
+
+                        if (TiledObjectType.COLLISION == objectType) {
+                            className = "CollisionTile";
+                            Entity e = loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                            addToWorld(world, e);
+                        }
                     } else if (qName.equalsIgnoreCase("property")) {
                         // Get the class name for the NPC
                         if (attributes.getValue("name").equalsIgnoreCase("npcClass")) {
                             if (TiledObjectType.NPC == objectType) {
                                 className = attributes.getValue("value");
-                                loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                                Entity e = loadEntity(world, className, x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+                                addToWorld(world, e);
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("name")) {
                             if (TiledObjectType.NPC == objectType) {
@@ -418,7 +437,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private static void loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
+    public static Entity loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
@@ -464,12 +483,17 @@ public class MapLoader implements Serializable {
             } else {
                 e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
             }
-            // Add the NPC to the world
-            world.getEntityManager().addEntity(e);
+            return e;
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Could not create Entity '" + className + "' in world: " + world.getWorldPath());
         }
+        return null;
+    }
+
+    private static void addToWorld(World world, Entity e){
+        // Add the NPC to the world
+        world.getEntityManager().addEntity(e);
     }
 
     private static void loadItem(World world, int x, int y, int itemId, int amount) {
@@ -506,6 +530,10 @@ public class MapLoader implements Serializable {
         return null;
     }
 
+    public static void clearTsxCache() {
+        tsxMap.clear();
+    }
+
     public static int getImageIndex(String worldPath, String imagePath) {
         String imageSource = null;
 
@@ -524,14 +552,14 @@ public class MapLoader implements Serializable {
                 tsxFile = "/worlds/" + tsxFile;
 
 
-                String fixedDoc;
-                if (Handler.isJar) {
-                    fixedDoc = Handler.jarFile.getParentFile().getAbsolutePath() + tsxFile;
-                } else {
-                    fixedDoc = tsxFile.replaceFirst("/", Handler.resourcePath);
-                }
+                String fixedDoc = FileUtils.getResourcePath(tsxFile);
 
-                setTsxDoc(fixedDoc);
+                // Only reload the document if we don't have a reference anymore.
+                if (tsxMap.get(fixedDoc) == null) {
+                    setTsxDoc(fixedDoc);
+                } else {
+                    tsxDoc = tsxMap.get(fixedDoc);
+                }
 
                 NodeList tileset = tsxDoc.getElementsByTagName("tileset");
 
@@ -541,12 +569,7 @@ public class MapLoader implements Serializable {
                 // Get the source path and remove the first two dots
                 imageSource = "/textures/tiles/" + imageSource + ".png";
 
-                String fixedImg;
-                if (Handler.isJar) {
-                    fixedImg = Handler.jarFile.getParentFile().getAbsolutePath() + imageSource;
-                } else {
-                    fixedImg = imageSource.replaceFirst("/", Handler.resourcePath);
-                }
+                String fixedImg = FileUtils.getResourcePath(imageSource);
 
                 if (fixedImg.contains(imagePath)) {
                     loadTiles(fixedDoc);

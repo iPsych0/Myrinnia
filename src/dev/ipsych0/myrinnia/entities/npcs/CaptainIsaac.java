@@ -55,14 +55,14 @@ public class CaptainIsaac extends Creature {
                 Choice option1 = script.getDialogues().get(1).getOptions().get(0);
                 if (Handler.get().getPlayer().getZone() == Zone.ShamrockHarbour) {
                     option1.setText(option1.getText().replaceFirst("Shamrock Harbour", "Port Azure"));
-                } else if(Handler.get().getPlayer().getZone() == Zone.PortAzure){
+                } else if (Handler.get().getPlayer().getZone() == Zone.PortAzure) {
                     option1.setText(option1.getText().replaceFirst("Port Azure", "Shamrock Harbour"));
                 }
                 break;
             case 4:
                 if (Handler.get().getPlayer().getZone() == Zone.ShamrockHarbour) {
                     Handler.get().goToWorld(Zone.PortAzure, 70, 65);
-                } else if(Handler.get().getPlayer().getZone() == Zone.PortAzure){
+                } else if (Handler.get().getPlayer().getZone() == Zone.PortAzure) {
                     Handler.get().goToWorld(Zone.ShamrockHarbour, 12, 13);
                 }
                 speakingTurn = -1;

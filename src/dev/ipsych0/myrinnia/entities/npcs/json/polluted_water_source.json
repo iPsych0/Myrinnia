@@ -1,0 +1,45 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "This water has the same color as the Aemir river. The water seems to be flowing upstream, against gravity. It seems like this water flows underground from the pond in Celewynn, all the way up to the grotto.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasBucket",
+        "falseId": 2
+      }
+    },
+    {
+      "id": 2,
+      "text": "I wonder if I can find something around here to collect a sample.",
+      "nextId": -1
+    },
+    {
+      "id": 0,
+      "options": [
+        {
+          "text": "Collect some water.",
+          "nextId": 3,
+          "choiceCondition": {
+            "condition": "hasNoPollutedBucket",
+            "falseId": 4
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "You collect some water from the source. Yuck, I hope this will help Porewit.",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "I don't need a sample anymore.",
+      "nextId": -1
+    }
+  ]
+}

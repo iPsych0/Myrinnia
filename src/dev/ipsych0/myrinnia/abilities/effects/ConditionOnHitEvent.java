@@ -9,24 +9,24 @@ public class ConditionOnHitEvent implements OnHit {
 
     private Condition.Type condition;
     private Entity caster, receiver;
-    private int expiryTime, activeTimer;
+    private int expiryTicks, activeTimer;
     private int condiDamage, condiDuration;
     private int count = 1;
     private boolean finished;
     private boolean infiniteCount = true;
 
-    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTimeSeconds) {
+    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks) {
         this.condiDamage = condiDamage;
         this.condiDuration = condiDuration;
         this.condition = condition;
-        this.expiryTime = expiryTimeSeconds * 60;
+        this.expiryTicks = expiryTicks;
     }
 
-    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTimeSeconds, int count) {
+    public ConditionOnHitEvent(Condition.Type condition, int condiDamage, int condiDuration, int expiryTicks, int count) {
         this.condition = condition;
         this.condiDamage = condiDamage;
         this.condiDuration = condiDuration;
-        this.expiryTime = expiryTimeSeconds * 60;
+        this.expiryTicks = expiryTicks;
         this.count = count;
         infiniteCount = false;
     }
@@ -47,7 +47,7 @@ public class ConditionOnHitEvent implements OnHit {
     @Override
     public void tick() {
         activeTimer++;
-        if (activeTimer >= expiryTime) {
+        if (activeTimer >= expiryTicks) {
             finished = true;
         }
     }

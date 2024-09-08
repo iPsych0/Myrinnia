@@ -1,0 +1,56 @@
+[
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 2
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 15,
+    "weight": 5
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 25,
+    "weight": 3
+  },
+  {
+    "itemId": 117,
+    "itemName": "Strawberry seeds",
+    "amount": 2,
+    "weight": 3
+  },
+  {
+    "itemId": 118,
+    "itemName": "Raspberry seeds",
+    "amount": 2,
+    "weight": 2
+  },
+  {
+    "itemId": 119,
+    "itemName": "Blackberry seeds",
+    "amount": 2,
+    "weight": 1
+  },
+  {
+    "itemId": 156,
+    "itemName": "Hard leather",
+    "amount": 1,
+    "weight": 3
+  },
+  {
+    "itemId": 215,
+    "itemName": "Teak wood",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 360,
+    "itemName": "Potato seeds",
+    "amount": 2,
+    "weight": 2
+  }
+]

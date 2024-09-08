@@ -28,10 +28,11 @@ public class FishingSkill extends Skill {
     }
 
     private void initResources() {
-        resources.add(new SkillResource(1, Item.mackerelFish, SkillCategory.Fish));
-        resources.add(new SkillResource(5, Item.trout, SkillCategory.Fish));
-        resources.add(new SkillResource(7, Item.snakehead, SkillCategory.Fish));
-        resources.add(new SkillResource(10, Item.clam, SkillCategory.Fish));
+        resources.add(new SkillResource(1, Item.mackerelFish, SkillCategory.Fish, "Can be caught in salt waters."));
+        resources.add(new SkillResource(5, Item.trout, SkillCategory.Fish, "Can be caught in fresh waters."));
+        resources.add(new SkillResource(7, Item.snakehead, SkillCategory.Fish, "Can be caught in subterranean waters."));
+        resources.add(new SkillResource(10, Item.clam, SkillCategory.Fish, "Can be raked near coastlines."));
+        resources.add(new SkillResource(12, Item.eel, SkillCategory.Fish, "Can be caught in both fresh and salt waters."));
     }
 
     @Override

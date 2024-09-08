@@ -1,12 +1,14 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.devtools.Bootstrapper;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.states.*;
+import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -62,6 +64,8 @@ public class Game implements Runnable, Serializable {
     private Map<RenderingHints.Key, Object> renderHintMap;
     private Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
 
+    public static Cursor normalCursor, normalCursorHighlight, attackCursor;
+
     public static Game get() {
         if (game == null) {
             game = new Game(TITLE_BAR, MIN_RES_WIDTH, MIN_RES_HEIGHT);
@@ -93,8 +97,6 @@ public class Game implements Runnable, Serializable {
             addListeners();
         });
 
-        Assets.init();
-
         handler = Handler.get();
         loadSettings();
 
@@ -120,6 +122,17 @@ public class Game implements Runnable, Serializable {
         State.setState(menuState);
 
         display.setInitialized(true);
+
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        normalCursor = toolkit.createCustomCursor(Assets.normalCursor, new Point(1, 1), "normal");
+        normalCursorHighlight = toolkit.createCustomCursor(Assets.normalCursorHighlight, new Point(1, 1), "normal_highlight");
+        attackCursor = toolkit.createCustomCursor(Assets.attackCursorHighlight, new Point(1, 1), "attack");
+        changeCursor(normalCursor);
+
+        // Use bootstrapper to set variables to desired state
+        new Bootstrapper().
+                skipTutorialIsland()
+                .setup_lvl_15();
     }
 
     public void addListeners() {
@@ -131,8 +144,16 @@ public class Game implements Runnable, Serializable {
         display.getCanvas().addMouseWheelListener(mouseManager);
     }
 
-    private void loadSettings(){
+    private void loadSettings() {
         keyManager.loadKeybinds();
+    }
+
+    public void changeCursor(Cursor cursor) {
+        display.getFrame().getRootPane().setCursor(cursor);
+    }
+
+    public Cursor getCursor() {
+        return display.getFrame().getCursor();
     }
 
     public void setRenderingHint(RenderingHints.Key key, Object value) {
@@ -170,6 +191,8 @@ public class Game implements Runnable, Serializable {
         mouseManager.tick();
         keyManager.tick();
         AudioManager.tick();
+        TimerHandler.get().tick();
+
         if (State.getState() != null) {
             State.getState().tick();
         }
@@ -182,7 +205,7 @@ public class Game implements Runnable, Serializable {
             return;
         }
         g = bs.getDrawGraphics();
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
 
         // Add user's default text rendering settings for prettier fonts
         if (desktopHints != null) {
@@ -367,5 +390,9 @@ public class Game implements Runnable, Serializable {
 
     public boolean isRunning() {
         return running;
+    }
+
+    public GeneralSettingsState getGeneralSettingsState() {
+        return (GeneralSettingsState) generalSettingsState;
     }
 }

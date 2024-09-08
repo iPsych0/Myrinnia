@@ -1,0 +1,28 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The water of the Aemir seems to fall into the pond here and then flow elsewhere underground.",
+      "nextId": 2,
+      "choiceCondition": {
+        "condition": "questCompleted",
+        "falseId": 1
+      }
+    },
+    {
+      "id": 1,
+      "text": "The pond looks very dirty. It has a murky smell to it. What could have caused this?",
+      "nextId": -1
+    },
+    {
+      "id": 2,
+      "text": "By staring into the pond, you feel mesmerized and more attuned to Water magic.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "Your fishing skill has received a temporary buff as well as your Water magic abilities. {TODO: IMPLEMENT}",
+      "nextId": -1
+    }
+  ]
+}

@@ -2,11 +2,13 @@ package dev.ipsych0.myrinnia.entities.statics;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
+import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -45,19 +47,35 @@ public class Tree extends StaticEntity {
     private static Map<String, BufferedImage> textureMap = Map.ofEntries(
             entry("Weak Palm Tree", Assets.weakPalmTree),
             entry("Elm Tree", Assets.elmTree),
+            entry("Dead Tree", Assets.deadTree),
             entry("Oak Tree", Assets.oakTree),
-            entry("Aspen Tree", Assets.aspenTree)
+            entry("Aspen Tree", Assets.aspenTree),
+            entry("Teak Tree", Assets.teakTree),
+            entry("Mahogany Tree", Assets.mahoganyTree)
     );
     private static Map<Integer, Double> chanceToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.simpleAxe.getId(), 1.00),
+            entry(Item.ryansAxe.getId(), 1.00),
             entry(Item.copperAxe.getId(), 1.05),
-            entry(Item.ironAxe.getId(), 1.1)
+            entry(Item.ironAxe.getId(), 1.10),
+            entry(Item.steelAxe.getId(), 1.15),
+            entry(Item.platinumAxe.getId(), 1.20),
+            entry(Item.titaniumAxe.getId(), 1.25),
+            entry(Item.obsidianAxe.getId(), 1.30),
+            entry(Item.primordialAxe.getId(), 1.35)
     );
     private static Map<Integer, Double> timeToCutMap = Map.ofEntries(
-            entry(Item.simpleAxe.getId(), 1.0),
+            entry(Item.simpleAxe.getId(), 1.00),
+            entry(Item.ryansAxe.getId(), 1.00),
             entry(Item.copperAxe.getId(), 0.95),
-            entry(Item.ironAxe.getId(), 0.9)
+            entry(Item.ironAxe.getId(), 0.90),
+            entry(Item.steelAxe.getId(), 0.85),
+            entry(Item.platinumAxe.getId(), 0.80),
+            entry(Item.titaniumAxe.getId(), 0.75),
+            entry(Item.obsidianAxe.getId(), 0.70),
+            entry(Item.primordialAxe.getId(), 0.65)
     );
+    private Rectangle progressBar, totalBar;
 
     public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
@@ -69,7 +87,7 @@ public class Tree extends StaticEntity {
             logs = Item.palmWood;
             rareMaterial = null; // TODO: ADD COCONUT
             experience = 10;
-            timeToCut = 150;
+            timeToCut = 120;
             chanceToCut = 750; // 75%
             chanceOfRareMaterial = 100; // 10% Chance
             bounds.x = 32;
@@ -80,18 +98,29 @@ public class Tree extends StaticEntity {
             logs = Item.lightwood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 15;
-            timeToCut = 180;
+            timeToCut = 150;
             chanceToCut = 700; // 70%
             chanceOfRareMaterial = 80; // 8% Chance
             bounds.x = 17;
             bounds.y = 83;
             bounds.width = 29;
             bounds.height = 13;
+        }else if (name.equalsIgnoreCase("Dead Tree")) {
+            logs = Item.lightwood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 15;
+            timeToCut = 150;
+            chanceToCut = 700; // 70%
+            chanceOfRareMaterial = 80; // 8% Chance
+            bounds.x = 17;
+            bounds.y = 80;
+            bounds.width = 29;
+            bounds.height = 14;
         } else if (name.equalsIgnoreCase("Oak Tree")) {
             logs = Item.hardWood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 20;
-            timeToCut = 210;
+            timeToCut = 180;
             chanceToCut = 650; // 65%
             chanceOfRareMaterial = 80; // 8% Chance
             bounds.x = 17;
@@ -102,13 +131,35 @@ public class Tree extends StaticEntity {
             logs = Item.aspenwood;
             rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
             experience = 25;
-            timeToCut = 300;
+            timeToCut = 210;
             chanceToCut = 600; // 60%
             chanceOfRareMaterial = 75; // 7,5% Chance
             bounds.x = 17;
             bounds.y = 83;
             bounds.width = 29;
             bounds.height = 13;
+        }else if (name.equalsIgnoreCase("Teak Tree")) {
+            logs = Item.teakWood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 35;
+            timeToCut = 240;
+            chanceToCut = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+            bounds.x = 30;
+            bounds.y = 104;
+            bounds.width = 20;
+            bounds.height = 16;
+        }else if (name.equalsIgnoreCase("Mahogany Tree")) {
+            logs = Item.mahoganyWood;
+            rareMaterial = null; // TODO: ADD MAYBE SEED/BERRY ITEM
+            experience = 50;
+            timeToCut = 270;
+            chanceToCut = 600; // 60%
+            chanceOfRareMaterial = 75; // 7,5% Chance
+            bounds.x = 28;
+            bounds.y = 104;
+            bounds.width = 42;
+            bounds.height = 20;
         } else {
             throw new IllegalArgumentException("Tree name not found: " + name);
         }
@@ -117,6 +168,9 @@ public class Tree extends StaticEntity {
         originalChanceToCut = chanceToCut;
         originalExperience = experience;
         originalTimeToCut = timeToCut;
+
+        totalBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 64, 16);
+        progressBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 0, 16);
     }
 
     @Override
@@ -202,6 +256,14 @@ public class Tree extends StaticEntity {
                         }
                     }
 
+                    for (EquipmentSlot is : Handler.get().getEquipment().getEquipmentSlots()) {
+                        if (is.getEquipmentStack() != null) {
+                            if (is.getEquipmentStack().getItem().isType(ItemType.PICKAXE)) {
+                                axes.add(is.getEquipmentStack().getItem());
+                            }
+                        }
+                    }
+
                     // Get the best pickaxe we have in our inventory
                     axeUsed = axes.stream().max((o1, o2) -> {
                         Integer i1 = o1.getStrength();
@@ -210,8 +272,8 @@ public class Tree extends StaticEntity {
                     }).get();
 
                     // Update chances and time to mine based on pickaxe
-                    chanceToCut *= chanceToCutMap.get(axeUsed.getId());
-                    timeToCut *= timeToCutMap.get(axeUsed.getId());
+                    chanceToCut *= chanceToCutMap.getOrDefault(axeUsed.getId(), 1.0);
+                    timeToCut *= timeToCutMap.getOrDefault(axeUsed.getId(), 1.0);
 
                     Handler.get().sendMsg("Chop chop...");
                     speakingTurn = 1;
@@ -229,16 +291,22 @@ public class Tree extends StaticEntity {
     public void postRender(Graphics2D g) {
         g.drawImage(Assets.woodcuttingIcon, (int) (x + width / 2 - 16 - Handler.get().getGameCamera().getxOffset()), (int) (y - 36 - Handler.get().getGameCamera().getyOffset()), 32, 32, null);
         if (isWoodcutting) {
-            StringBuilder pending = new StringBuilder();
-            int dots = (int) Math.ceil(woodcuttingTimer / 30d);
-            for (int i = 0; i < dots; i++) {
-                pending.append(".");
-            }
-
-            Text.drawString(g, pending.toString(), (int) (Handler.get().getPlayer().getX() + 16 - Handler.get().getGameCamera().getxOffset()),
-                    (int) (Handler.get().getPlayer().getY() - 16 - Handler.get().getGameCamera().getyOffset()), true, Color.YELLOW, Assets.font24);
+            drawProgressBar(g);
         }
 
+    }
+
+    public void drawProgressBar(Graphics2D g) {
+        double percentDone = (double) woodcuttingTimer / (double) timeToCut;
+
+        progressBar.setSize((int) (totalBar.width * percentDone), 16);
+        g.drawImage(Assets.uiWindow, (int) (totalBar.x - Handler.get().getGameCamera().getxOffset()), (int) (totalBar.y - Handler.get().getGameCamera().getyOffset()), totalBar.width, totalBar.height, null);
+
+        g.setColor(Colors.progressBarColor);
+        g.fillRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
+
+        g.setColor(Colors.progressBarOutlineColor);
+        g.drawRoundRect((int) (progressBar.x - Handler.get().getGameCamera().getxOffset()), (int) (progressBar.y - Handler.get().getGameCamera().getyOffset()), progressBar.width, progressBar.height, 4, 4);
     }
 
     @Override

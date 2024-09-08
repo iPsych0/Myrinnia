@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.4" name="dark_dimension" tilewidth="32" tileheight="32" tilecount="609" columns="29">
+<tileset version="1.2" tiledversion="1.3.0" name="dark_dimension" tilewidth="32" tileheight="32" tilecount="609" columns="29">
  <image source="../textures/tiles/dark_dimension.png" width="928" height="672"/>
  <tile id="0">
   <properties>
@@ -1548,6 +1548,12 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="257" duration="250"/>
+   <frame tileid="258" duration="250"/>
+   <frame tileid="259" duration="250"/>
+   <frame tileid="258" duration="250"/>
+  </animation>
  </tile>
  <tile id="258">
   <properties>
@@ -1722,6 +1728,12 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="286" duration="250"/>
+   <frame tileid="287" duration="250"/>
+   <frame tileid="288" duration="250"/>
+   <frame tileid="287" duration="250"/>
+  </animation>
  </tile>
  <tile id="287">
   <properties>
@@ -2070,6 +2082,12 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="344" duration="250"/>
+   <frame tileid="345" duration="250"/>
+   <frame tileid="346" duration="250"/>
+   <frame tileid="345" duration="250"/>
+  </animation>
  </tile>
  <tile id="345">
   <properties>
@@ -2244,6 +2262,12 @@
    <property name="postRendered" value="false"/>
    <property name="solid" value="false"/>
   </properties>
+  <animation>
+   <frame tileid="373" duration="250"/>
+   <frame tileid="374" duration="250"/>
+   <frame tileid="375" duration="250"/>
+   <frame tileid="374" duration="250"/>
+  </animation>
  </tile>
  <tile id="374">
   <properties>

@@ -127,6 +127,14 @@ public class Animation implements Serializable {
         return frames[1];
     }
 
+    public BufferedImage getSingleFrame(int index) {
+        if(index < 0)
+            index = 0;
+        if(index >= frames.length)
+            index = frames.length - 1;
+        return frames[index];
+    }
+
     public boolean isTickDone() {
         return tickDone;
     }

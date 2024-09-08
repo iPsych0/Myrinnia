@@ -39,7 +39,8 @@ public class ArcaneRenewalAbility extends Ability implements Serializable {
     @Override
     public void cast() {
         if (!initialHealDone) {
-            baseHeal = 40;
+            double baseHealLevelBoost = ((double) caster.getWaterLevel() * 6.5);
+            baseHeal = 40 + (int) baseHealLevelBoost;
             caster.heal(baseHeal);
 
             animation = new Animation(1000 / Assets.waterSplash1.length / 2, Assets.waterSplash1, true, true);
@@ -64,16 +65,8 @@ public class ArcaneRenewalAbility extends Ability implements Serializable {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialHealDone = false;
-        }
+    void reset() {
+        initialHealDone = false;
     }
 
 }

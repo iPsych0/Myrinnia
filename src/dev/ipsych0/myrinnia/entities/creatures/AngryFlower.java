@@ -1,13 +1,11 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
@@ -93,8 +91,8 @@ public class AngryFlower extends Creature {
 
 //        int rnd = Handler.get().getRandomNumber(0, 3);
 //        if (rnd <= 2) {
-            Handler.get().playEffect("abilities/magic_strike.ogg");
-            new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
+        Handler.get().playEffect("abilities/magic_strike.ogg");
+        new Projectile.Builder(DamageType.INT, Assets.earthProjectile, this, (int) Handler.get().getPlayer().getX(), (int) Handler.get().getPlayer().getY()).build();
 //        } else {
 //        if (!ability.isOnCooldown()) {
 //            castAbility(ability);

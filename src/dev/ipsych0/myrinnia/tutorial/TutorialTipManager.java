@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.tutorial;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.publishers.WorldPublisher;
+import dev.ipsych0.myrinnia.subscribers.WorldSubscriber;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -10,10 +14,18 @@ import java.util.List;
 public class TutorialTipManager implements Serializable {
 
     private static final long serialVersionUID = 3905401417918808389L;
-    private List<TutorialTip> tips;
+    private final List<TutorialTip> tips;
 
     public TutorialTipManager() {
         tips = new ArrayList<>();
+        new WorldSubscriber(WorldPublisher.get(), true, (obj) -> {
+            if (obj instanceof World) {
+                Zone zone = ((World) obj).getZone();
+                if (zone.equals(Zone.MalachiteHills)) {
+                    Handler.get().addTip(new TutorialTip("You can hold SHIFT to highlight nearby interactable objects."));
+                }
+            }
+        });
     }
 
     public void tick() {

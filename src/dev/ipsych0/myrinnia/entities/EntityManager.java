@@ -1,13 +1,21 @@
 package dev.ipsych0.myrinnia.entities;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.creatures.Projectile;
+import dev.ipsych0.myrinnia.entities.statics.FishingSpot;
+import dev.ipsych0.myrinnia.entities.statics.Rock;
+import dev.ipsych0.myrinnia.entities.statics.Tree;
+import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.utils.Colors;
+import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +37,8 @@ public class EntityManager implements Serializable {
     private List<HitSplat> hitSplats;
     private int oocCounter; // Out-of-combat counter
     private int creatureCounter;
+    public static boolean shiftPressed;
+    private static Entity hoveringEntity;
 
     public EntityManager(Player player) {
         this.player = player;
@@ -76,11 +86,6 @@ public class EntityManager implements Serializable {
                 }
             }
 
-            // If all creatures are out of combat, regen health
-            if (!player.isInCombat() && (creatureCounter - 1) == oocCounter) {
-                player.regenHealth();
-            }
-
             e.tick();
 
             // Update combat timers
@@ -114,6 +119,11 @@ public class EntityManager implements Serializable {
             }
         }
 
+        // If all creatures are out of combat, regen health
+        if (!player.isInCombat() && (creatureCounter - 1) == oocCounter) {
+            player.regenHealth();
+        }
+
         // If enemies are dead, update the respawn timers
         if (deadEntities.size() > 0) {
             long currentTime = System.currentTimeMillis();
@@ -121,8 +131,11 @@ public class EntityManager implements Serializable {
             Iterator<Entity> dltd = deadEntities.iterator();
             while (dltd.hasNext()) {
                 Entity e = dltd.next();
-                if (((currentTime - e.getTimeOfDeath()) / 1000L) >= e.getRespawnTime()) {
+                if (e.isRespawner() && ((currentTime - e.getTimeOfDeath()) / 1000L) >= e.getRespawnTime()) {
                     e.respawn();
+                    dltd.remove();
+                } else if (!e.isRespawner()) {
+                    // If the enemy doesn't respawn, stop checking
                     dltd.remove();
                 }
             }
@@ -189,6 +202,10 @@ public class EntityManager implements Serializable {
                 }
             }
 
+            // Draw the interaction bounds
+//            Rectangle bounds = e.getInteractionBounds(-40, -40, 80, 128);
+//            g.drawRect(bounds.x - (int) Handler.get().getGameCamera().getxOffset(), bounds.y - (int) Handler.get().getGameCamera().getyOffset(), bounds.width, bounds.height);
+
 
 //            if (!e.equals(Handler.get().getPlayer())) {
 //                e.postRender(g);
@@ -233,7 +250,7 @@ public class EntityManager implements Serializable {
     public void postRender(Graphics2D g) {
         // Keep rendering the selected Entity
         if (selectedEntity != null) {
-            if (selectedEntity.active) {
+            if (selectedEntity.active && selectedEntity.isOverlayDrawn()) {
                 if (selectedEntity.isNpc()) {
                     drawHoverCorners(g, selectedEntity, 1, 1, Color.BLACK);
                     drawHoverCorners(g, selectedEntity, 0, 0, Color.YELLOW);
@@ -253,23 +270,35 @@ public class EntityManager implements Serializable {
 
             if (!e.equals(player)) {
                 e.postRender(g);
+                drawLevel(g, e);
             }
-            // If the mouse is hovered over an Entity, draw the overlay
-            if (!e.equals(Handler.get().getPlayer()) && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
 
+            // If the mouse is hovered over an Entity, draw the overlay
+            if (!e.equals(Handler.get().getPlayer()) && e.isOverlayDrawn() && e.getFullBounds(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse())) {
                 // If Entity can be interacted with, show corner pieces on hovering
                 if (e.isNpc()) {
+                    hoveringEntity = e;
+                    if (!Handler.get().getCursor().equals(Game.normalCursorHighlight)) {
+                        Handler.get().changeCursor(Game.normalCursorHighlight);
+                    }
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                    drawChatBubble(g, e);
                 } else if (e.isAttackable()) {
+                    hoveringEntity = e;
+                    if (!Handler.get().getCursor().equals(Game.attackCursor)) {
+                        Handler.get().changeCursor(Game.attackCursor);
+                    }
                     drawHoverCorners(g, e, 1, 1, Color.BLACK);
                     drawHoverCorners(g, e, 0, 0, Color.RED);
                 }
-                if (e.isOverlayDrawn()) {
-                    e.drawEntityOverlay(e, g);
-                }
-            } else {
+                e.drawEntityOverlay(e, g);
 
+            } else {
+                if (hoveringEntity != null && hoveringEntity.equals(e)) {
+                    hoveringEntity = null;
+                    Handler.get().changeCursor(Game.normalCursor);
+                }
                 // Skip the player
                 if (e.equals(player)) {
                     continue;
@@ -296,6 +325,17 @@ public class EntityManager implements Serializable {
                     }
                 }
             }
+
+            if (shiftPressed) {
+                if (e.equals(player)) continue;
+                if (e.isNpc()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.YELLOW);
+                } else if (e.isAttackable()) {
+                    drawHoverCorners(g, e, 1, 1, Color.BLACK);
+                    drawHoverCorners(g, e, 0, 0, Color.RED);
+                }
+            }
         }
 
         Iterator<HitSplat> hitSplatIt = hitSplats.iterator();
@@ -316,11 +356,88 @@ public class EntityManager implements Serializable {
         });
     }
 
+    private void drawChatBubble(Graphics2D g, Entity e) {
+        if (e instanceof Rock || e instanceof Tree || e instanceof FishingSpot)
+            return;
+
+        int xPos = (e.width == Creature.DEFAULT_CREATURE_WIDTH) ? (int) e.x : (int) e.x + (e.width / 32) * 16 - 16;
+        g.drawImage(Assets.chatBubble, (int) (xPos - Handler.get().getGameCamera().getxOffset()),
+                (int) (e.y - 32 - Handler.get().getGameCamera().getyOffset()),
+                32, 32, null);
+    }
+
+    /**
+     * Changes all pixels of an old color into a new color, preserving the
+     * alpha channel.
+     */
+    private static void changeColor(
+            BufferedImage imgBuf,
+            int oldRed, int oldGreen, int oldBlue,
+            int newRed, int newGreen, int newBlue) {
+
+        int RGB_MASK = 0x00ffffff;
+        int ALPHA_MASK = 0xff000000;
+
+        int oldRGB = oldRed << 16 | oldGreen << 8 | oldBlue;
+        int toggleRGB = oldRGB ^ (newRed << 16 | newGreen << 8 | newBlue);
+
+        int w = imgBuf.getWidth();
+        int h = imgBuf.getHeight();
+
+        int[] rgb = imgBuf.getRGB(0, 0, w, h, null, 0, w);
+        for (int i = 0; i < rgb.length; i++) {
+            if ((rgb[i] & RGB_MASK) == oldRGB) {
+                rgb[i] ^= toggleRGB;
+            }
+        }
+        imgBuf.setRGB(0, 0, w, h, rgb, 0, w);
+    }
+
+    private void drawLevel(Graphics2D g, Entity e) {
+        if (!e.isAttackable() || !(e instanceof Creature)) {
+            return;
+        }
+
+        Creature c = (Creature) e;
+        int level = c.getCombatLevel();
+        int playerLvl = Handler.get().getPlayer().getCombatLevel();
+        int levelDiff = (playerLvl - level);
+        Color color = getColorByLvlDiff(levelDiff);
+
+        Text.drawString(g, "Lv. " + level,
+                (int) (e.getX() + e.getWidth() / 2d - Handler.get().getGameCamera().getxOffset()),
+                (int) (e.getY() + e.getHeight() + 8 - Handler.get().getGameCamera().getyOffset()),
+                true, color, Assets.font14);
+    }
+
+    private Color getColorByLvlDiff(int levelDiff) {
+        if (levelDiff <= -5) {
+            return Colors.highestLvlcolor;
+        } else if (levelDiff <= -3) {
+            return Colors.higherLvlcolor;
+        } else if (levelDiff <= -1) {
+            return Colors.highLvlcolor;
+        } else if (levelDiff == 0) {
+            return Colors.sameLvlcolor;
+        } else if (levelDiff >= 5) {
+            return Colors.lowestLvlcolor;
+        } else if (levelDiff >= 3) {
+            return Colors.lowerLvlcolor;
+        } else {
+            return Colors.lowLvlcolor;
+        }
+    }
+
     public void addEntity(Entity e) {
         entities.add(e);
     }
 
     public void addRuntimeEntity(Entity e) {
+        addRuntimeEntity(e, true);
+    }
+
+    public void addRuntimeEntity(Entity e, boolean shouldRespawn) {
+        e.setRespawner(shouldRespawn);
         toBeAddedEntities.add(e);
     }
 

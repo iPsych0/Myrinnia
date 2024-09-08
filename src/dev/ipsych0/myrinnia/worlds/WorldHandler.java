@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.worlds;
 
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.List;
@@ -23,39 +26,63 @@ public class WorldHandler implements Serializable {
     }
 
     private void initWorlds() {
-        // Add new worlds here
-        addWorld(new World(Zone.Myrinnia, "/worlds/myrinnia_DUMMY_MAP.tmx")); // DUMMY WORLD, NO FUNCTIONALITY
-        addWorld(new World(Zone.LakeAzure, "/worlds/lake_azure.tmx"));
-        addWorld(new World(Zone.SunriseSands, "/worlds/sunrise_sands.tmx"));
-        addWorld(new World(Zone.SunsetCove, "/worlds/sunset_cove.tmx"));
-        addWorld(new World(Zone.SunshineCoast, "/worlds/sunshine_coast.tmx"));
-        addWorld(new World(Zone.PortAzureInside, false, "/worlds/port_azure_inside.tmx"));
-        addWorld(new World(Zone.MtAzure1, false, "/worlds/mt_azure1.tmx"));
-        addWorld(new World(Zone.MtAzure2, false, "/worlds/mt_azure2.tmx"));
-        addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
-        addWorld(new World(Zone.MtAzure3, false, "/worlds/mt_azure3.tmx"));
+        // Add new World.Builders here
+        addWorld(new World.Builder(Zone.Myrinnia).build()); // DUMMY WORLD, NO FUNCTIONALITY
+        addWorld(new World.Builder(Zone.LakeAzure).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunriseSands).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunsetCove).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.SunshineCoast).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.PortAzureInside).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure1).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure2).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MtAzure3).withoutDayNightCycle().withoutDayNightCycle().build());
 
-        addWorld(new World(Zone.ShamrockHarbour, "/worlds/shamrock_harbour.tmx"));
-        addWorld(new World(Zone.ShamrockTown, "/worlds/shamrock_town.tmx"));
-        addWorld(new World(Zone.ShamrockTownInside, false,"/worlds/shamrock_town_inside.tmx"));
-        addWorld(new World(Zone.ShamrockMines1, false,"/worlds/shamrock_mines1.tmx"));
-        addWorld(new World(Zone.ShamrockMines2, false,"/worlds/shamrock_mines2.tmx"));
-        addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
-        addWorld(new World(Zone.ShamrockMines3, false,"/worlds/shamrock_mines3.tmx"));
-        addWorld(new World(Zone.ShamrockMinesBasin, Collections.singletonList(new Cave()), false, "/worlds/shamrock_mines4.tmx"));
+        addWorld(new World.Builder(Zone.ShamrockHarbour).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.ShamrockTown).withClimate(new TemperateClimate()).withTown().build());
+        addWorld(new World.Builder(Zone.ShamrockTownInside).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines1).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines2).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMines3).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.ShamrockMinesBasin).withoutDayNightCycle().withClimate(Climate.CAVE).build());
+        addWorld(new World.Builder(Zone.ShamrockCliffs).build());
+        addWorld(new World.Builder(Zone.ShamrockWolfDen).withoutDayNightCycle().withClimate(Climate.CAVE).build());
 
-        addWorld(new World(Zone.MalachiteHills,"/worlds/malachite_hills.tmx"));
-        addWorld(new World(Zone.MalachiteHideout, false,"/worlds/malachite_hideout.tmx"));
-        addWorld(new World(Zone.MalachiteFields,"/worlds/malachite_fields.tmx"));
-        addWorld(new World(Zone.MalachiteInside, false,"/worlds/malachite_inside.tmx"));
-        addWorld(new World(Zone.MalachiteSlopes,"/worlds/malachite_slopes.tmx"));
-        addWorld(new World(Zone.MalachitePass, "/worlds/malachite_pass.tmx"));
-        addWorld(new World(Zone.MalachiteOverpass, "/worlds/malachite_overpass.tmx"));
+        addWorld(new World.Builder(Zone.MalachiteHills).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachiteHideout).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MalachiteFields).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachiteInside).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.MalachiteSlopes).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachitePass).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.MalachiteOverpass).withClimate(new TemperateClimate()).build());
 
-        addWorld(new World(Zone.CelenorForestEdge, "/worlds/celenor_forest_edge.tmx"));
-        addWorld(new World(Zone.Celewynn, "/worlds/celewynn.tmx"));
-        addWorld(new World(Zone.CelenorSeaboard, "/worlds/celenor_seaboard.tmx"));
-        addWorld(new World(Zone.CelenorCaves, "/worlds/celenor_caves.tmx"));
+        addWorld(new World.Builder(Zone.CelenorForestEdge).build());
+        addWorld(new World.Builder(Zone.CelenorForestThicket).build());
+        addWorld(new World.Builder(Zone.CelenorForestShrine).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.Celewynn).withTown().build());
+        addWorld(new World.Builder(Zone.CelewynnInside).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.CelenorSeaboard).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.CelenorCaves).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.AemirRiverflank).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.WardensCabin).withoutDayNightCycle().build());
+
+        addWorld(new World.Builder(Zone.CelenorForestCreek).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
+        addWorld(new World.Builder(Zone.CelenorForestBog).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
+        addWorld(new World.Builder(Zone.CelenorForestMeadows).withClimate(Climate.CELENOR_FOREST).build());
+        addWorld(new World.Builder(Zone.CelenorForestLandslide).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
+        addWorld(new World.Builder(Zone.Fyddnymed).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
+        addWorld(new World.Builder(Zone.FyddnymedCanopy).withBackground(getWorldsMap().get(Zone.Fyddnymed)).withoutDayNightCycle().withClimate(Climate.CELENOR_FOREST).build());
+
+        addWorld(new World.Builder(Zone.StozarsDescent).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.StozarsCauseway).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.StozarsQuarry).withClimate(new TemperateClimate()).build());
+        addWorld(new World.Builder(Zone.StozarInside).withoutDayNightCycle().build());
+        addWorld(new World.Builder(Zone.BonebladeBadlands).withClimate(Climate.SUNNY, 0.9).withClimate(Climate.SANDSTORM, 0.1).build());
+        addWorld(new World.Builder(Zone.LakeClayfall).withClimate(Climate.SUNNY, 0.9).withClimate(Climate.SANDSTORM, 0.1).build());
+        addWorld(new World.Builder(Zone.RuinsOfTheForgotten).withClimate(Climate.HEAVY_SANDSTORM).build());
+        addWorld(new World.Builder(Zone.ForgottenShore).withClimate(Climate.SUNNY).build());
+        addWorld(new World.Builder(Zone.ForgottenCave).withoutDayNightCycle().withClimate(Climate.CAVE).build());
+        addWorld(new World.Builder(Zone.RedrockOutpost).withClimate(Climate.SUNNY, 0.9).withClimate(Climate.SANDSTORM, 0.1).build());
+        addWorld(new World.Builder(Zone.RedrockInside).withoutDayNightCycle().build());
     }
 
     public void tick() {
