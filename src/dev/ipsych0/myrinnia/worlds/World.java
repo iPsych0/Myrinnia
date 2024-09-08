@@ -181,7 +181,7 @@ public class World implements Serializable {
             }
 
             try {
-                if (currentWeather.getWeatherSoundEffect() == null)
+                if (currentWeather == null || currentWeather.getWeatherSoundEffect() == null)
                     return;
                 int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
                 if (AudioManager.soundfxFiles.containsKey(buffer)) {
@@ -195,6 +195,7 @@ public class World implements Serializable {
                 currentBackgroundSound.setVolume(AudioManager.sfxVolume + 0.05f);
                 currentBackgroundSound.playEffect(buffer);
             } catch (Exception e) {
+                System.err.println(e);
                 System.err.println("Could not load weather sound in world " + zone.getName() + ".");
             }
         }

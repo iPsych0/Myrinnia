@@ -21,7 +21,7 @@ import java.util.List;
 public class DragonsBreathAbility extends Ability implements Serializable {
 
     private Animation animation;
-    private ConeArea cone;
+    private transient ConeArea cone;
     private double rotation, xPos, yPos;
 
     public DragonsBreathAbility(CharacterStats element, CharacterStats combatStyle, String name, AbilityType abilityType, boolean selectable,

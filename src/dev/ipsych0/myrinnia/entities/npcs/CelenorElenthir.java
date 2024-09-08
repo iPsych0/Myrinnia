@@ -95,7 +95,7 @@ public class CelenorElenthir extends Creature {
                     quest.nextStep();
 
                     // Add dialogue to shopkeeper for clue
-                    Entity celenorShopkeeper = Handler.get().getEntityByZoneAndName(Zone.CelewynnInside, "Craftsman");
+                    Entity celenorShopkeeper = Handler.get().getEntityByZoneAndName(Zone.CelewynnInside, "Orrian");
                     Script script = celenorShopkeeper.getScript();
                     script.getDialogues().get(1).getOptions().add(1,
                             new Choice("Have you had any unusual orders?",
