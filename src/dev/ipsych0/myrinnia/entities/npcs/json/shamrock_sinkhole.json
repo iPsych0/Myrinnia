@@ -1,0 +1,26 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The sinkhole leads to a deeper level of the mine.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Jump down the sinkhole.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "jump",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

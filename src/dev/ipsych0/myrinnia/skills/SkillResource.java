@@ -11,14 +11,16 @@ public class SkillResource implements Serializable {
      *
      */
     private static final long serialVersionUID = 242384514442352183L;
-    private int levelRequirement;
-    private Item item;
-    private SkillCategory category;
+    protected int levelRequirement;
+    protected Item item;
+    protected SkillCategory category;
+    protected String description;
 
-    public SkillResource(int requirement, Item item, SkillCategory category) {
+    public SkillResource(int requirement, Item item, SkillCategory category, String description) {
         this.levelRequirement = requirement;
         this.item = item;
         this.category = category;
+        this.description = description;
     }
 
     public int getLevelRequirement() {
@@ -45,4 +47,16 @@ public class SkillResource implements Serializable {
         this.category = category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

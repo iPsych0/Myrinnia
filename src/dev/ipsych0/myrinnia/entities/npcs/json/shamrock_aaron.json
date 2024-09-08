@@ -1,0 +1,29 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Ugh.. That was a long drop. I don't think we're able to be of much help. You should look around for a way to get back up.",
+      "nextId": -1
+    },
+    {
+      "id": 1,
+      "text": "Did I see that right? There was a cave troll down here? Oh thank god, we would've been stew if it weren't for you...",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "Now, we should focus on finding a way out... Maybe you can find something in the cave that we can use to get back up?",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "Great, I see you managed to find some rope. Let's toss it up and get out of here...",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "We'll get back to Shamrock Town now. Many thanks, adventurer.",
+      "nextId": -1
+    }
+  ]
+}

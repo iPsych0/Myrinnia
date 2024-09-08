@@ -2,18 +2,22 @@ package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.effects.EffectManager;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
 import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
+import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
-import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.publishers.KillPublisher;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,45 +31,81 @@ public abstract class Entity implements Serializable {
      *
      */
     private static final long serialVersionUID = -6319447656301966908L;
-    protected float x, y;
+    protected double x, y;
     protected int width, height;
+    protected Polygon polyBounds;
+    protected boolean hasPolyBounds = false;
     protected Rectangle bounds;
+    protected Rectangle fullBounds;
+    protected Rectangle interactionBounds;
     public static boolean isCloseToNPC = false;
-    protected int health;
-    protected static final int DEFAULT_HEALTH = 100;
+    protected double health;
+    protected static final int DEFAULT_HEALTH = 50;
     protected int maxHealth = DEFAULT_HEALTH;
     protected boolean active = true;
-    protected boolean attackable = true;
+    protected boolean attackable = false;
     protected boolean isNpc = false;
     protected boolean drawnOnMap = false;
     protected boolean damaged = false;
     protected boolean staticNpc = false;
     protected boolean solid = true;
+    protected boolean walker = true;
     private Entity damageDealer;
     private Entity damageReceiver;
     protected int speakingTurn = 0;
-    private int speakingCheckpoint = -1;
+    protected int speakingCheckpoint = 0;
     protected transient ChatDialogue chatDialogue;
-    private boolean overlayDrawn = true;
+    protected boolean overlayDrawn = true;
     private int lastHit = 0;
     protected boolean inCombat = false;
     protected int combatTimer = 0;
-    protected int respawnTimer = 600;
+    protected boolean respawner = true;
+    protected long respawnTime = 30L; // 30 seconds
+    protected long timeOfDeath;
     protected Rectangle collision;
     protected Script script;
-    private String name;
-    private static final double DIVISION_QUOTIENT = 200.0;
-    private static final double ABILITY_DMG_COEFFICIENT = 1.08;
+    protected String name;
+    protected String dropTable;
+    protected String jsonFile;
+    protected String animationTag;
+    protected String shopItemsFile;
+    private static final double DIVISION_QUOTIENT = 150.0d;
+    protected int verticality = 0;
 
-    protected Entity(float x, float y, int width, int height) {
+    protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.shopItemsFile = itemsShop;
+        this.name = name;
+        this.dropTable = dropTable;
+        this.jsonFile = jsonFile;
+        this.animationTag = animation;
         health = DEFAULT_HEALTH;
 
+        if (jsonFile != null) {
+            if (jsonFile.endsWith(".json")) {
+                script = Utils.loadScript(jsonFile);
+            } else {
+                // When we provide comma-separated dialogue without any conditionals or choices
+                // create a flow ourselves without the need of reading from file
+                String[] split = jsonFile.split("~");
+                List<Dialogue> dialogues = new ArrayList<>();
+                for (int i = 0; i < split.length; i++) {
+                    String text = split[i];
+                    // Automatically go to the next ID, unless we're at the last index, then go to -1
+                    int nextId = (i == split.length - 1) ? -1 : (i + 1);
+                    dialogues.add(new Dialogue(i, nextId, text.trim(), null, null));
+                }
+                script = new Script(dialogues);
+            }
+        }
+
         bounds = new Rectangle(0, 0, width, height);
+        fullBounds = new Rectangle(0, 0, width, height);
         collision = new Rectangle((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+        interactionBounds = new Rectangle(0, 0, width, height);
     }
 
     // Abstract Methods (EVERY object that is an Entity, MUST HAVE these methods)
@@ -84,11 +124,15 @@ public abstract class Entity implements Serializable {
 
     protected abstract void updateDialogue();
 
+    public String getName() {
+        return name;
+    }
+
     /*
      * Checks the collision for Entities
      * @returns: true if collision, false if no collision
      */
-    protected boolean checkEntityCollisions(float xOffset, float yOffset) {
+    protected boolean checkEntityCollisions(double xOffset, double yOffset) {
         if (Handler.noclipMode && this.equals(Handler.get().getPlayer()))
             return false;
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
@@ -96,8 +140,18 @@ public abstract class Entity implements Serializable {
                 continue;
             if (!e.solid)
                 continue;
-            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
-                return true;
+            if (e.getVerticality() == this.verticality) {
+                if (!e.hasPolyBounds) {
+                    if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+                        return true;
+                    }
+                } else {
+                    if (e.getPolyBounds().intersects(getCollisionBounds(xOffset, yOffset))) {
+                        return true;
+                    }
+                }
+
+            }
         }
         return false;
     }
@@ -108,8 +162,20 @@ public abstract class Entity implements Serializable {
      */
     protected boolean playerIsNearNpc() {
         // Looks for the closest entity and returns that entity
-        if (distanceToEntity(((int) getClosestEntity().getX() + getClosestEntity().getWidth() / 2), ((int) getClosestEntity().getY() + +getClosestEntity().getHeight() / 2),
-                ((int) Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2), ((int) Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2)) <= Tile.TILEWIDTH * 2) {
+        Entity closest;
+        Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+        if (selected != null && selected.isNear(selected)) {
+            closest = selected;
+        } else {
+            closest = getClosestEntity();
+        }
+
+        if (closest == null) {
+            isCloseToNPC = false;
+            return false;
+        }
+
+        if (closest.isNear(closest)) {
             // Interact with the respective speaking turn
             isCloseToNPC = true;
             return true;
@@ -118,7 +184,11 @@ public abstract class Entity implements Serializable {
             isCloseToNPC = false;
             return false;
         }
+    }
 
+    public boolean isNear(Entity closest) {
+        return closest.getInteractionBounds(-40, -40, 80, 80)
+                .intersects(Handler.get().getPlayer().getCollisionBounds(0, 0));
     }
 
     /*
@@ -139,8 +209,12 @@ public abstract class Entity implements Serializable {
 
             int dx = (int) ((Handler.get().getPlayer().getX() + Handler.get().getPlayer().getWidth() / 2) - (e.getX() + e.getWidth() / 2));
             int dy = (int) ((Handler.get().getPlayer().getY() + Handler.get().getPlayer().getHeight() / 2) - (e.getY() + e.getHeight() / 2));
-            hashMap.put(Math.sqrt(dx * dx + dy * dy), e);
-            pythagoras.add(Math.sqrt(dx * dx + dy * dy));
+            double sqrt = Math.sqrt(dx * dx + dy * dy);
+            hashMap.put(sqrt, e);
+            pythagoras.add(sqrt);
+        }
+        if (pythagoras.isEmpty()) {
+            return null;
         }
         Collections.sort(pythagoras);
         closestDistance = pythagoras.get(0);
@@ -171,35 +245,53 @@ public abstract class Entity implements Serializable {
                 break;
 
         }
-        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage();
+
+        // Get the defence ratio (double the defence effectiveness)
+        double defenceRatio = DIVISION_QUOTIENT / (DIVISION_QUOTIENT + (double) (r.getDefence() * 2));
+        return (int) Math.ceil((defenceRatio * (double) power) + (d.getBaseDamage() * defenceRatio));
     }
 
     /*
      * Damage formula for abilities
      */
     public int getDamage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
-        // Default damage formula
         Creature d = (Creature) dealer;
-        Creature r = (Creature) receiver;
 
-        // Calculations
-        double defenceRatio = (DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence()));
-        double defaultDamage = (double) getDamage(damageType, dealer, receiver);
-        double abilityDamage = ability.getBaseDamage() * Math.pow(ABILITY_DMG_COEFFICIENT, (double) ability.getElement().getLevel());
-        double baseDamage = (double) d.getBaseDamage();
+        // Get default attack damage
+        double defaultDamage = getDamage(damageType, dealer, receiver);
 
-        // Formula
-        return (int) Math.round((defaultDamage + abilityDamage) * defenceRatio + baseDamage);
-//        return (int) Math.ceil((DIVISION_QUOTIENT / (DIVISION_QUOTIENT + r.getDefence())) * power) + d.getBaseDamage() + ability.getBaseDamage();
+        // Calculate additional ability damage
+        double abilityDamage = getAbilityDamage(ability, d);
+
+        // If the ability has 0 base damage, then don't 'hit' the opponent
+        if (ability.getBaseDamage() <= 0) {
+            defaultDamage = 0;
+            abilityDamage = 0;
+        }
+
+        return (int) Math.round((defaultDamage + abilityDamage));
     }
 
-    public void heal(int heal){
-        if(health + heal >= maxHealth){
+    private double getAbilityDamage(Ability ability, Creature dealer) {
+        // Logicistic regression formula
+        // f\left(x\right)=\frac{L}{1+e^{-k\left(x-x_{0}\right)}}-0.487
+        double L = 110d;
+        double x0 = 39d;
+        double x = dealer.getLevelByElement(ability.getElement());
+        double k = 0.11d;
+
+        double multiplication = L / (1d + Math.exp(-1 * k * (x - x0))) - 0.487d;
+
+        return ability.getBaseDamage() * multiplication;
+    }
+
+    public void heal(int heal) {
+        if (health + heal >= maxHealth) {
             health = maxHealth;
-        }else{
+        } else {
             health += heal;
-            Handler.get().addHealSplat(this, heal);
         }
+        Handler.get().addHealSplat(this, heal);
     }
 
     /*
@@ -207,15 +299,15 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DamageType damageType, Entity dealer, Entity receiver) {
+    public void damage(DamageType damageType, Entity dealer) {
         damageDealer = dealer;
-        damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver);
+        damageReceiver = this;
+        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, this);
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().addHitSplat(receiver, damageDealer, damageType);
+        Handler.get().addHitSplat(this, damageDealer, damageType);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -224,7 +316,17 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            clearActiveAbilities();
+            KillPublisher.get().publish(damageReceiver);
         }
+
+        EffectManager.get().applyOnHitEffect(dealer, this);
+
+        damageReceiver.applyOnHitReceivedEffect(dealer);
+    }
+
+    public void applyOnHitReceivedEffect(Entity dealer) {
+        EffectManager.get().applyOnHitReceivedEffect(dealer, this);
     }
 
     /*
@@ -232,15 +334,17 @@ public abstract class Entity implements Serializable {
      * @params: dealer = the Entity that deals the damage
      * 			receiver = the Entity that receives the damage
      */
-    public void damage(DamageType damageType, Entity dealer, Entity receiver, Ability ability) {
+    public void damage(DamageType damageType, Entity dealer, Ability ability) {
         damageDealer = dealer;
-        damageReceiver = receiver;
-        damageReceiver.health -= damageDealer.getDamage(damageType, dealer, receiver, ability);
+        damageReceiver = this;
+        if (ability.getBaseDamage() > 0) {
+            damageReceiver.health -= damageDealer.getDamage(damageType, dealer, this, ability);
+        }
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
-        Handler.get().addHitSplat(receiver, damageDealer, damageType, ability);
+        Handler.get().addHitSplat(this, damageDealer, damageType, ability);
         if (damageDealer.equals(Handler.get().getPlayer())) {
             damageDealer.setInCombat(true);
             damageDealer.combatTimer = 0;
@@ -249,14 +353,30 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            clearActiveAbilities();
+            KillPublisher.get().publish(damageReceiver);
+        }
+
+        EffectManager.get().applyOnHitEffect(dealer, this);
+
+        damageReceiver.applyOnHitReceivedEffect(dealer);
+    }
+
+    private void clearActiveAbilities() {
+        if (!this.equals(Handler.get().getPlayer())) {
+            for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+                if (a.getCaster().equals(this)) {
+                    a.setActivated(false);
+                }
+            }
         }
     }
 
-    public void addBuff(Entity dealer, Entity receiver, Buff buff) {
+    public void addBuff(Entity dealer, Buff buff) {
         damageDealer = dealer;
-        damageReceiver = receiver;
+        damageReceiver = this;
 
-        Creature r = ((Creature) receiver);
+        Creature r = ((Creature) this);
 
         boolean hasBuff = false;
         for (Buff b : r.getBuffs()) {
@@ -264,8 +384,9 @@ public abstract class Entity implements Serializable {
             if (b.equals(buff)) {
                 hasBuff = true;
 
-                // If that's the case, reapply the effect
+                // If we have a buff with longer duration, then only change the duration.
                 b.setEffectApplied(false);
+                b.setIncomingBuff(buff);
                 break;
             }
         }
@@ -274,34 +395,92 @@ public abstract class Entity implements Serializable {
         }
     }
 
-    public void addCondition(Entity dealer, Entity receiver, Condition condition) {
+    public void addResistance(Resistance resistance) {
+        Creature r = ((Creature) this);
+        for (Resistance i : r.getImmunities()) {
+            if (i.getType() == resistance.getType()) {
+                // If the new resistance is better than or same as previous
+                if (resistance.getExpiryTime() >= i.getExpiryTime()) {
+                    // Set time to new resistance and reset timer
+                    i.setExpiryTime(resistance.getExpiryTime());
+                    i.setTimer(0);
+                }
+                if (resistance.getEffectiveness() >= i.getEffectiveness()) {
+                    // Set effectiveness to new resistance and reset timer
+                    i.setEffectiveness(resistance.getEffectiveness());
+                    i.setTimer(0);
+                }
+                return;
+            }
+        }
+
+        r.getImmunities().add(resistance);
+    }
+
+    public void addCondition(Entity dealer, Condition condition) {
         damageDealer = dealer;
-        damageReceiver = receiver;
+        damageReceiver = this;
         damageReceiver.damaged = true;
         damageReceiver.lastHit = 0;
         damageReceiver.combatTimer = 0;
         damageReceiver.inCombat = true;
 
-        Creature r = ((Creature) receiver);
+        Creature r = ((Creature) this);
+        condition.setReceiver(this);
 
         boolean hasCondition = false;
+        double multiplier = 1.0;
         for (Condition c : r.getConditions()) {
             // Check if the condition is already on the receiver
             if (c.getType() == condition.getType()) {
                 hasCondition = true;
-                // If that's the case, increase the timeLeft
-                c.setCurrentDuration(c.getCurrentDuration() + condition.getCurrentDuration());
 
-                // If the new ability has a higher condition damage than the current one, increase the damage
-                if (condition.getConditionDamage() > c.getConditionDamage()) {
-                    c.setConditionDamage(condition.getConditionDamage());
+                // If we have a stun/chill resistance active, decrease the duration applied
+                if (c.getType() == Condition.Type.STUN || c.getType() == Condition.Type.CHILL) {
+                    Resistance i = getResistance(r, c.getType());
+                    if (i != null) {
+                        multiplier -= i.getEffectiveness();
+                        c.setDuration(c.getDuration() + (int) (condition.getDuration() * multiplier));
+                    } else {
+                        // Otherwise stack normal duration
+                        c.setDuration(c.getDuration() + condition.getDuration());
+                    }
+                } else {
+                    Resistance i = getResistance(r, c.getType());
+                    if (i != null) {
+                        // If we have a resistance, decrease the condition damage applied.
+                        multiplier -= i.getEffectiveness();
+                        c.setDuration(c.getDuration() + condition.getDuration());
+                        c.setConditionDamage((int) Math.floor(condition.getConditionDamage() * multiplier));
+                    } else {
+                        // If the new ability has a higher condition damage than the current one, increase the damage and duration
+                        if (condition.getConditionDamage() >= c.getConditionDamage()) {
+                            c.setDuration(c.getDuration() + condition.getDuration());
+                            c.setConditionDamage((int) Math.floor(condition.getConditionDamage()));
+                        }
+                    }
                 }
-                // If we don't already have a condition of this type, simply add it
             }
         }
+
+        // If we don't already have a condition of this type, simply add it
         if (!hasCondition) {
-            r.getConditions().add(condition);
-            Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
+            // Subtract duration or damage based on type of condition
+            if (condition.getType() == Condition.Type.STUN || condition.getType() == Condition.Type.CHILL) {
+                Resistance i = getResistance(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setDuration((int) (condition.getDuration() * multiplier));
+                r.getConditions().add(condition);
+            } else {
+                Resistance i = getResistance(r, condition.getType());
+                if (i != null) {
+                    multiplier -= i.getEffectiveness();
+                }
+                condition.setConditionDamage((int) (condition.getConditionDamage() * multiplier));
+                r.getConditions().add(condition);
+            }
         }
 
 
@@ -311,7 +490,17 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    public Resistance getResistance(Creature receiver, Condition.Type type) {
+        for (Resistance i : receiver.getImmunities()) {
+            if (i.getType() == type) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public void tickCondition(Entity receiver, Condition condition) {
+        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, condition, condition.getConditionDamage()));
         damageReceiver = receiver;
         damageReceiver.health -= condition.getConditionDamage();
         damageReceiver.damaged = true;
@@ -322,6 +511,7 @@ public abstract class Entity implements Serializable {
         if (damageReceiver.health <= 0) {
             damageReceiver.active = false;
             damageReceiver.die();
+            KillPublisher.get().publish(damageReceiver);
         }
     }
 
@@ -340,25 +530,25 @@ public abstract class Entity implements Serializable {
     }
 
     public void drawHP(Graphics2D g) {
-        g.setColor(HPOverlay.hpColorRed);
+        g.setColor(Colors.hpColorRed);
         g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
-        g.setColor(HPOverlay.hpColorRedOutline);
+        g.setColor(Colors.hpColorRedOutline);
         g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                 (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
 
-        g.setColor(HPOverlay.hpColorGreen);
+        g.setColor(Colors.hpColorGreen);
         if (health >= maxHealth) {
             g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), width + 12, 6);
         } else {
             g.fillRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6);
-            g.setColor(HPOverlay.hpColorGreenOutline);
+            g.setColor(Colors.hpColorGreenOutline);
             g.drawRect((int) (x - Handler.get().getGameCamera().getxOffset() - 6),
                     (int) (y - Handler.get().getGameCamera().getyOffset() - 8), (int) ((width + 12) * (double) this.getHealth() /
                             (double) this.getMaxHealth()), 6);
@@ -373,9 +563,64 @@ public abstract class Entity implements Serializable {
      */
     public void drawEntityOverlay(Entity hoveringEntity, Graphics2D g) {
         int yPos = 12;
-        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - 100, 1, 200, 50, null);
-        for (int i = 0; i < getEntityInfo(hoveringEntity).length; i++) {
-            Text.drawString(g, getEntityInfo(hoveringEntity)[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, Assets.font14);
+        Font font;
+
+        String[] text = getEntityInfo(hoveringEntity);
+        Rectangle titleBounds;
+        if (text.length == 1) {
+            yPos += 12;
+            font = Assets.font20;
+            titleBounds = Text.getStringBounds(g, text[0], font);
+        } else {
+            font = Assets.font20;
+            String longest = null;
+            for (String s : text) {
+                if (longest == null) {
+                    longest = s;
+                } else if (s.length() > longest.length()) {
+                    longest = s;
+                }
+            }
+            titleBounds = Text.getStringBounds(g, longest, font);
+        }
+
+        g.drawImage(Assets.uiWindow, Handler.get().getWidth() / 2 - titleBounds.width / 2 - 16, 1, titleBounds.width + 32, 50, null);
+
+        if (hoveringEntity.isAttackable() && hoveringEntity.isNpc()) {
+            if (isInCombat() && damaged) {
+                drawHPinOverlay(g, hoveringEntity, titleBounds);
+            }
+        } else if (hoveringEntity.isAttackable()) {
+            drawHPinOverlay(g, hoveringEntity, titleBounds);
+        }
+
+        if (script != null || isNpc) {
+            font = Assets.font20;
+        }
+        for (int i = 0; i < text.length; i++) {
+            if (i >= 1) {
+                font = Assets.font14;
+                yPos += 8;
+            }
+            Text.drawString(g, text[i], Handler.get().getWidth() / 2, yPos + (14 * i), true, Color.YELLOW, font);
+        }
+    }
+
+    public void drawHPinOverlay(Graphics2D g, Entity hoveringEntity, Rectangle titleBounds) {
+        g.setColor(Colors.hpColorRed);
+        g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        g.setColor(Colors.hpColorRedOutline);
+        g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+
+        g.setColor(Colors.hpColorGreen);
+        if (health >= maxHealth) {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+            g.setColor(Colors.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, titleBounds.width, 16);
+        } else {
+            g.fillRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
+            g.setColor(Colors.hpColorGreenOutline);
+            g.drawRect(Handler.get().getWidth() / 2 - titleBounds.width / 2, 26, (int) (titleBounds.width * ((double) hoveringEntity.getHealth() / (double) hoveringEntity.getMaxHealth())), 16);
         }
     }
 
@@ -389,12 +634,35 @@ public abstract class Entity implements Serializable {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    protected double distanceToEntity(Entity from, Entity to) {
+        int dx = (int) ((to.x + to.width / 2) - (from.x + from.width / 2));
+        int dy = (int) ((to.y + to.height / 2) - (from.y + from.height / 2));
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public Polygon getPolyBounds() {
+        return polyBounds;
+    }
+
     /*
      * Returns the collision bounds of an Entity
      */
-    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+    public Rectangle2D getCollisionBounds(double xOffset, double yOffset) {
         collision.setBounds((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
         return collision;
+    }
+
+    public Rectangle getInteractionBounds(double xOffset, double yOffset, int width, int height) {
+        interactionBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), this.width + width, this.height + height);
+        return interactionBounds;
+    }
+
+    /*
+     * Returns the collision bounds of an Entity
+     */
+    public Rectangle2D getFullBounds(double xOffset, double yOffset) {
+        fullBounds.setBounds((int) (x + xOffset), (int) (y + yOffset), width, height);
+        return fullBounds;
     }
 
     public void interact() {
@@ -405,25 +673,42 @@ public abstract class Entity implements Serializable {
         // If the conversation was reset, reinitialize the first time we interact again
         if (speakingTurn == -1) {
             chatDialogue = null;
-            speakingTurn = 0;
+            if (speakingCheckpoint != 0) {
+                speakingTurn = speakingCheckpoint;
+            } else {
+                speakingTurn = 0;
+            }
             return;
         }
+
         // If there is only text to be displayed, advance to the next conversation
         if (script.getDialogues().get(speakingTurn).getText() != null) {
+            updateDialogue();
+            if (speakingTurn == -1) {
+                chatDialogue = null;
+                if (speakingCheckpoint != 0) {
+                    speakingTurn = speakingCheckpoint;
+                } else {
+                    speakingTurn = 0;
+                }
+                return;
+            }
+            if (script.getDialogues().get(speakingTurn).getText() == null) {
+                return;
+            }
             chatDialogue = new ChatDialogue(new String[]{script.getDialogues().get(speakingTurn).getText()});
             chatDialogue.setChosenOption(null);
-            updateDialogue();
             // If there is a condition to proceed, check the condition
-            if(script.getDialogues().get(speakingTurn).getChoiceCondition() != null){
+            if (script.getDialogues().get(speakingTurn).getChoiceCondition() != null) {
                 ChoiceCondition choiceCondition = script.getDialogues().get(speakingTurn).getChoiceCondition();
                 String condition = choiceCondition.getCondition();
                 // Check if the condition is met
-                if(choiceConditionMet(condition)){
+                if (choiceConditionMet(condition)) {
                     setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
-                }else{
+                } else {
                     setSpeakingTurn(choiceCondition.getFalseId());
                 }
-            }else{
+            } else {
                 setSpeakingTurn(script.getDialogues().get(speakingTurn).getNextId());
             }
 
@@ -445,18 +730,14 @@ public abstract class Entity implements Serializable {
                         // If we don't meet the condition, return to whatever menu falseId points to
                         setSpeakingTurn(choice.getChoiceCondition().getFalseId());
                     }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
                 } else {
                     // If there is no condition, we can always proceed
                     if (chatDialogue.getMenuOptions().length > 1) {
                         setSpeakingTurn(choice.getNextId());
                     }
-                    chatDialogue.setChosenOption(null);
-                    interact();
-                    return;
                 }
+                interact();
+                return;
             }
 
             // Update the list of dialogue choices
@@ -483,19 +764,19 @@ public abstract class Entity implements Serializable {
 
 
     // Getters & Setters
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -515,11 +796,11 @@ public abstract class Entity implements Serializable {
         this.height = height;
     }
 
-    protected int getHealth() {
-        return health;
+    public int getHealth() {
+        return (int) health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 
@@ -639,19 +920,55 @@ public abstract class Entity implements Serializable {
         this.maxHealth = maxHealth;
     }
 
-    public void startRespawnTimer() {
-        this.respawnTimer--;
-    }
-
-    public int getRespawnTimer() {
-        return respawnTimer;
-    }
-
-    public String getName() {
-        return this.getClass().getSimpleName();
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isWalker() {
+        return walker;
+    }
+
+    public void setWalker(boolean walker) {
+        this.walker = walker;
+    }
+
+    public long getRespawnTime() {
+        return respawnTime;
+    }
+
+    public void setRespawnTime(long respawnTime) {
+        this.respawnTime = respawnTime;
+    }
+
+    public long getTimeOfDeath() {
+        return timeOfDeath;
+    }
+
+    public void setTimeOfDeath(long timeOfDeath) {
+        this.timeOfDeath = timeOfDeath;
+    }
+
+    public int getVerticality() {
+        return verticality;
+    }
+
+    public void setVerticality(int verticality) {
+        this.verticality = verticality;
+    }
+
+    public Script getScript() {
+        return script;
+    }
+
+    public void setScript(Script script) {
+        this.script = script;
+    }
+
+    public boolean isRespawner() {
+        return respawner;
+    }
+
+    public void setRespawner(boolean respawner) {
+        this.respawner = respawner;
     }
 }

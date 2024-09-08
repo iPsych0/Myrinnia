@@ -1,0 +1,10 @@
+{
+  "questName": "Getting Started",
+  "questStart": "Talk to Mayor Wilson in Port Azure.",
+  "objectives": [
+    "Get your first weapon from the store owner.",
+    "Report back to the mayor.",
+    "Choose a bounty target from the board right outside the Town Hall.",
+    "Complete the bounty contract and claim your reward from Ryan in Port Azure."
+  ]
+}

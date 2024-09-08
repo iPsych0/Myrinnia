@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.input;
 
-import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
@@ -10,15 +10,19 @@ import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.puzzles.SliderPuzzle;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.ui.*;
+import dev.ipsych0.myrinnia.ui.custom.BookUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -97,7 +101,10 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
             DialogueBox.hasBeenPressed = true;
-            DropDownBox.hasBeenPressed = true;
+            CelebrationUI.hasBeenPressed = true;
+            FarmingUI.hasBeenPressed = true;
+            BookUI.hasPressed = true;
+            PotionSort.hasBeenPressed = true;
         }
 
         // Right Click
@@ -107,6 +114,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             CraftingUI.craftResultPressed = true;
             EntityManager.isPressed = false;
             BankUI.hasBeenPressed = true;
+            ItemManager.pickUpClicked = true;
         }
     }
 

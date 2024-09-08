@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.ui;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
@@ -17,6 +18,8 @@ public class UIImageButton extends UIObject {
     private transient BufferedImage[] images;
     private boolean hasHovered;
     public static boolean hasBeenPressed = false;
+    private static UIImageButton hoveringButton;
+    private static long lastUpdated;
 
     public UIImageButton(int x, int y, int width, int height, BufferedImage[] images) {
         super(x, y, width, height);
@@ -30,24 +33,39 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void tick() {
-
+        if (visible) {
+            if (hoverable) {
+                setHovering(getBounds().contains(Handler.get().getMouse()));
+            }
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (hovering) {
-            if (!hasHovered) {
-                Handler.get().playEffect("ui/ui_button_hover.wav");
-                hasHovered = true;
+        if (visible) {
+            if (hoverable && hovering) {
+                hoveringButton = this;
+                lastUpdated = System.currentTimeMillis();
+                if (!Handler.get().getCursor().equals(Game.normalCursorHighlight)) {
+                    Handler.get().changeCursor(Game.normalCursorHighlight);
+                }
+                if (!hasHovered) {
+                    Handler.get().playEffect("ui/ui_button_hover.ogg");
+                    hasHovered = true;
+                }
+                if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
+                    hasBeenPressed = false;
+                }
+                g.drawImage(images[1], x, y, width, height, null);
+            } else {
+                if (hoveringButton != null && hoveringButton.equals(this) || hoveringButton != null && (System.currentTimeMillis() - lastUpdated) >= 100) {
+                    hoveringButton = null;
+                    Handler.get().changeCursor(Game.normalCursor);
+                }
+                g.drawImage(images[0], x, y, width, height, null);
+                hasHovered = false;
             }
-            if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
-                hasBeenPressed = false;
-            }
-            g.drawImage(images[0], x, y, width, height, null);
-        } else {
-            g.drawImage(images[1], x, y, width, height, null);
-            hasHovered = false;
         }
     }
 
@@ -55,5 +73,6 @@ public class UIImageButton extends UIObject {
         in.defaultReadObject();
         this.images = Assets.genericButton;
     }
+
 
 }

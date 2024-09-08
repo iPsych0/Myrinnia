@@ -13,14 +13,21 @@ public class GameCamera implements Serializable {
      *
      */
     private static final long serialVersionUID = 6890827040135434870L;
-    private float xOffset, yOffset;
+    private double xOffset, yOffset;
+    private Entity focusedEntity;
 
-    public GameCamera(float xOffset, float yOffset) {
+    public GameCamera(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.focusedEntity = Handler.get().getPlayer();
     }
 
     private void checkBlankSpace() {
+        // Don't correct outside map bounds for small maps
+        if (Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth() ||
+                Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()) {
+            return;
+        }
         if (xOffset < 0) {
             xOffset = 0;
         } else if (xOffset > Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth()) {
@@ -34,32 +41,69 @@ public class GameCamera implements Serializable {
         }
     }
 
+    public boolean isAtAnyBound() {
+        return isAtRightBound() || isAtBottomBound() || isAtLeftBound() || isAtTopBound();
+    }
+
+    public boolean isAtRightBound() {
+        if (Handler.get().getWorld().getWidth() * Tile.TILEWIDTH < Handler.get().getWidth())
+            return false;
+        return xOffset >= Handler.get().getWorld().getWidth() * Tile.TILEWIDTH - Handler.get().getWidth();
+    }
+
+    public boolean isAtLeftBound() {
+        return xOffset <= 0;
+    }
+
+    public boolean isAtBottomBound() {
+        if (Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT < Handler.get().getHeight()) {
+            return false;
+        }
+        return yOffset >= Handler.get().getWorld().getHeight() * Tile.TILEHEIGHT - Handler.get().getHeight();
+    }
+
+    public boolean isAtTopBound() {
+        return yOffset <= 0;
+    }
+
     public void centerOnEntity(Entity e) {
-        xOffset = e.getX() - Handler.get().getWidth() / 2 + e.getWidth() / 2;
-        yOffset = e.getY() - Handler.get().getHeight() / 2 + e.getHeight() / 2;
+        this.focusedEntity = e;
+        xOffset = e.getX() - Handler.get().getWidth() / 2f + e.getWidth() / 2f;
+        yOffset = e.getY() - Handler.get().getHeight() / 2f + e.getHeight() / 2f;
         checkBlankSpace();
     }
 
-    public void move(float xAmount, float yAmount) {
-        xOffset += xAmount;
-        yOffset += yAmount;
+    public void moveX(double xMove) {
+        xOffset += xMove;
         checkBlankSpace();
     }
 
-    public float getxOffset() {
+    public void moveY(double yMove) {
+        yOffset += yMove;
+        checkBlankSpace();
+    }
+
+    public double getxOffset() {
         return xOffset;
     }
 
-    public void setxOffset(float xOffset) {
+    public void setxOffset(double xOffset) {
         this.xOffset = xOffset;
     }
 
-    public float getyOffset() {
+    public double getyOffset() {
         return yOffset;
     }
 
-    public void setyOffset(float yOffset) {
+    public void setyOffset(double yOffset) {
         this.yOffset = yOffset;
     }
 
+    public Entity getFocusedEntity() {
+        return focusedEntity;
+    }
+
+    public void setFocusedEntity(Entity focusedEntity) {
+        this.focusedEntity = focusedEntity;
+    }
 }

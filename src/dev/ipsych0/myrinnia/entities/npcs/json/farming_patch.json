@@ -1,0 +1,37 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "options": [
+        {
+          "text": "Choose seeds to plant.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openFarmingUI",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Treat patch with compost.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "compostPatch",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Water the patch.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "waterPatch",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hey, bud. Good to see you made it this far. Those hedgehogs are tougher than those Venovines.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Don't let their rolling attack hit you, it deals a lot more damage.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "An effective way of killing the hedgehogs is by letting them roll into an object. You will have some time to strike when it's stunned.",
+      "nextId": -1
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.bank;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
@@ -11,12 +11,13 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 public class BankUI implements Serializable {
 
@@ -29,8 +30,8 @@ public class BankUI implements Serializable {
     public static int width;
     private static int height;
     public static boolean isOpen = false;
-    private CopyOnWriteArrayList<ItemSlot> invSlots = new CopyOnWriteArrayList<>();
-    private ArrayList<BankTab> tabs = new ArrayList<>();
+    private List<ItemSlot> invSlots = new ArrayList<>();
+    private List<BankTab> tabs = new ArrayList<>();
     private BankTab openedTab;
     private static final int MAX_TABS = 10;
     public static boolean inventoryLoaded;
@@ -38,7 +39,6 @@ public class BankUI implements Serializable {
     private Rectangle bounds;
     private boolean itemSelected;
     private ItemStack currentSelectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private UIImageButton exit;
     public static BankUI lastOpenedWindow;
     private ItemTooltip itemTooltip;
@@ -55,7 +55,6 @@ public class BankUI implements Serializable {
         // Add all the tabs
         for (int i = 0; i < MAX_TABS; i++) {
             tabs.add(new BankTab(x + (width / 2) - ((MAX_TABS * 32 / 2)) + (i * 32), y + 32, i));
-            uiManager.addObject(tabs.get(0));
         }
 
         // Add the inventory slots
@@ -97,6 +96,7 @@ public class BankUI implements Serializable {
              * BankTab mouse interaction
              */
             for (BankTab tab : tabs) {
+                tab.tick();
                 if (tab.getBounds().contains(mouse)) {
                     tab.setHovering(true);
                     if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
@@ -305,7 +305,7 @@ public class BankUI implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         Handler.get().getPlayer().setBankEntity(null);
@@ -337,7 +337,7 @@ public class BankUI implements Serializable {
             for (ItemSlot is : invSlots) {
                 is.render(g);
 
-                if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                if (is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())) {
                     itemTooltip.render(is.getItemStack().getItem(), g);
                 }
             }
@@ -345,10 +345,10 @@ public class BankUI implements Serializable {
             for (BankTab tab : tabs) {
                 tab.render(g);
                 if (tab.isOpen()) {
-                    g.setColor(selectedColor);
+                    g.setColor(Colors.selectedColor);
                     g.fillRect(tab.x, tab.y, tab.width, tab.height);
-                    for(ItemSlot is : tab.getBankSlots()){
-                        if(is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())){
+                    for (ItemSlot is : tab.getBankSlots()) {
+                        if (is.getItemStack() != null && is.getBounds().contains(Handler.get().getMouse())) {
                             itemTooltip.render(is.getItemStack().getItem(), g);
                         }
                     }

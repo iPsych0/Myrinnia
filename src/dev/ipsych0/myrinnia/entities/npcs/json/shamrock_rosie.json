@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Have you checked out the Bank near the town square? Banks are used for item storage.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "You can find Banks all across Myrinnia. Luckily, they share the same storage which means you can access your items from any Bank.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "I do wonder how that works... Do they just magically transport the items between Banks?",
+      "nextId": -1
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Very strange... My neighbor Tobias has left without saying goodbye to anyone.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Even stranger, it looks like he left with most his belongings still boxed up. Did he not bother to take his stuff with him?",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "I wonder what happened to him...",
+      "nextId": -1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 15.0,
+  "castingTime": 0.25,
+  "overcastTime": 1.0,
+  "name": "Dragon\u0027s Breath",
+  "description": "Spit a cone of dragonfire towards your opponents.",
+  "abilityType": "StandardAbility",
+  "element": "Fire",
+  "combatStyle": "Magic",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 10,
+  "activated": false,
+  "channeling": false,
+  "selectable": true,
+  "selected": false,
+  "unlocked": false,
+  "price": 5,
+  "className": "dev.ipsych0.myrinnia.abilities.DragonsBreathAbility"
+}

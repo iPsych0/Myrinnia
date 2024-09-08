@@ -2,22 +2,24 @@ package dev.ipsych0.myrinnia.shops;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilityhud.AbilityTooltip;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityTooltip;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbilityShopWindow implements Serializable {
 
@@ -26,12 +28,13 @@ public class AbilityShopWindow implements Serializable {
     public static boolean isOpen;
     private int x, y, width, height;
     private static final int MAX_HORIZONTAL_SLOTS = 10;
-    private ArrayList<AbilityShopSlot> allSlots;
-    private ArrayList<AbilityShopSlot> meleeSlots, rangedSlots, magicSlots;
-    private ArrayList<AbilityShopSlot> currentSlots;
+    private List<AbilityShopSlot> allSlots;
+    private List<AbilityShopSlot> meleeSlots;
+    private List<AbilityShopSlot> rangedSlots;
+    private List<AbilityShopSlot> magicSlots;
+    private List<AbilityShopSlot> currentSlots;
     public static boolean hasBeenPressed;
     private AbilityShopSlot selectedSlot;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     private UIImageButton buyButton;
     private UIImageButton exitButton;
     private UIImageButton allButton, meleeButton, rangedButton, magicButton;
@@ -42,7 +45,6 @@ public class AbilityShopWindow implements Serializable {
     private static final int DIALOGUE_WIDTH = 300;
     private static final int DIALOGUE_HEIGHT = 150;
     private String[] answers = {"Yes", "No"};
-    private static boolean makingChoice = false;
     public static AbilityShopWindow lastOpenedWindow;
 
     private UIManager uiManager;
@@ -51,7 +53,7 @@ public class AbilityShopWindow implements Serializable {
 
     private AbilityTooltip abilityTooltip;
 
-    public AbilityShopWindow(ArrayList<Ability> abilities) {
+    public AbilityShopWindow(List<Ability> abilities) {
         this.width = 460;
         this.height = 313;
         this.x = Handler.get().getWidth() / 2 - width / 2;
@@ -59,8 +61,7 @@ public class AbilityShopWindow implements Serializable {
         this.bounds = new Rectangle(x, y, width, height);
 
         if (abilities.isEmpty()) {
-            System.err.println("Ability shops must always have at least one ability to teach.");
-            System.exit(1);
+            System.err.println("Warning: Ability Shop in " + Handler.get().getWorld().getZone().getName() + " has 0 abilities to teach.");
         }
 
         uiManager = new UIManager();
@@ -81,7 +82,7 @@ public class AbilityShopWindow implements Serializable {
         }
         currentSlots = allSlots;
 
-        abilityTooltip = new AbilityTooltip(x - 160, y, 160, 224);
+        abilityTooltip = new AbilityTooltip(x - AbilityTooltip.BASE_WIDTH, y);
 
         buyButton = new UIImageButton(x + width / 2 - 32, y + height - 64, 64, 32, Assets.genericButton);
         exitButton = new UIImageButton(x + width - 35, y + 10, 24, 24, Assets.genericButton);
@@ -106,7 +107,7 @@ public class AbilityShopWindow implements Serializable {
         selectedButton = allButton;
 
         // Instance of the DialogueBox
-        dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "", false);
+        dBox = new DialogueBox(x + (width / 2) - (DIALOGUE_WIDTH / 2), y + (height / 2) - (DIALOGUE_HEIGHT / 2), DIALOGUE_WIDTH, DIALOGUE_HEIGHT, answers, "", null);
     }
 
     public void setLastOpenedWindow() {
@@ -114,14 +115,12 @@ public class AbilityShopWindow implements Serializable {
     }
 
     public void exit() {
-        if(Handler.get().getMouseManager().isLeftPressed()){
+        if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
         isOpen = false;
         hasBeenPressed = false;
-        dBox.setPressedButton(null);
-        makingChoice = false;
-        DialogueBox.isOpen = false;
+        dBox.close();
     }
 
     public void tick() {
@@ -138,7 +137,7 @@ public class AbilityShopWindow implements Serializable {
                         selectedSlot = slot;
                     else if (selectedSlot == slot)
                         selectedSlot = null;
-                    else if (selectedSlot != slot)
+                    else
                         selectedSlot = slot;
 
                     hasBeenPressed = false;
@@ -147,7 +146,7 @@ public class AbilityShopWindow implements Serializable {
         }
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.tick();
 
         checkSubmit();
@@ -172,7 +171,7 @@ public class AbilityShopWindow implements Serializable {
             }
             slot.render(g);
 
-            if (slot.getAbility().isUnlocked()) {
+            if (AbilityManager.abilityMap.get(slot.getAbility().getClass()).isUnlocked()) {
                 Text.drawString(g, "✓", (int) slot.getX() + 24, (int) slot.getY() + 28, true, Color.GREEN, Assets.font14);
             }
         }
@@ -183,7 +182,7 @@ public class AbilityShopWindow implements Serializable {
         // Draw selected ability information
         if (selectedSlot != null) {
             Ability a = selectedSlot.getAbility();
-            g.setColor(selectedColor);
+            g.setColor(Colors.selectedColor);
             g.fillRect((int) selectedSlot.getX(), (int) selectedSlot.getY(), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
 
             Text.drawString(g, a.getName() + " costs: " + a.getPrice() + " ability points.", x + width / 2, buyButton.y + buyButton.height + 16, true, Color.YELLOW, Assets.font14);
@@ -193,12 +192,12 @@ public class AbilityShopWindow implements Serializable {
         drawButtons(g);
 
         // If player is making a choice, show the dialoguebox
-        if (makingChoice)
+        if (dBox.isMakingChoice())
             dBox.render(g);
     }
 
     private void buyAbility(Ability ability) {
-        if (ability.isUnlocked()) {
+        if (AbilityManager.abilityMap.get(ability.getClass()).isUnlocked()) {
             Handler.get().sendMsg("You have already unlocked " + ability.getName() + ".");
             return;
         }
@@ -207,26 +206,24 @@ public class AbilityShopWindow implements Serializable {
 
         if (abilityPoints >= price) {
             Handler.get().getPlayer().setAbilityPoints(abilityPoints - price);
-            Handler.get().getAbilityManager().getAllAbilities().get(ability.getId()).setUnlocked(true);
+            AbilityManager.abilityMap.get(ability.getClass()).setUnlocked(true);
             Handler.get().sendMsg("Unlocked '" + ability.getName() + "'!");
-            Handler.get().playEffect("ui/shop_trade.wav");
+            Handler.get().playEffect("ui/shop_trade.ogg");
             selectedSlot = null;
         } else {
             Handler.get().sendMsg("You don't have enough Ability Points.");
-            Handler.get().playEffect("ui/ui_button_click.wav");
+            Handler.get().playEffect("ui/ui_button_click.ogg");
         }
     }
 
     private void checkSubmit() {
-        if (makingChoice && dBox.getPressedButton() != null) {
+        if (dBox.isMakingChoice() && dBox.getPressedButton() != null) {
             if ("Yes".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
                 buyAbility(selectedSlot.getAbility());
             } else if ("No".equalsIgnoreCase(dBox.getPressedButton().getButtonParam()[0])) {
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
-            dBox.setPressedButton(null);
-            DialogueBox.isOpen = false;
-            makingChoice = false;
+            dBox.close();
             hasBeenPressed = false;
         }
     }
@@ -240,9 +237,7 @@ public class AbilityShopWindow implements Serializable {
         // Buy button
         if (buyButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             if (selectedSlot != null) {
-                makingChoice = true;
-                DialogueBox.isOpen = true;
-                TextBox.isOpen = false;
+                dBox.open();
                 dBox.setParam("Unlock");
                 dBox.setMessage("Do you want to learn '" + selectedSlot.getAbility().getName() + "'?");
             }
@@ -296,15 +291,15 @@ public class AbilityShopWindow implements Serializable {
         }
     }
 
-    private void resetUIManager(){
+    private void resetUIManager() {
         allManager.getObjects().clear();
-        for(AbilityShopSlot as : currentSlots){
+        for (AbilityShopSlot as : currentSlots) {
             allManager.addObject(as);
         }
     }
 
     private void drawButtons(Graphics2D g) {
-        g.setColor(selectedColor);
+        g.setColor(Colors.selectedColor);
         g.fillRect(selectedButton.x, selectedButton.y, selectedButton.width, selectedButton.height);
         Text.drawString(g, "Unlock", buyButton.x + buyButton.width / 2, buyButton.y + buyButton.height / 2, true, Color.YELLOW, Assets.font14);
         Text.drawString(g, "X", exitButton.x + 11, exitButton.y + 11, true, Color.YELLOW, Assets.font20);
@@ -314,7 +309,7 @@ public class AbilityShopWindow implements Serializable {
         Text.drawString(g, "Magic", magicButton.x + magicButton.width / 2, magicButton.y + magicButton.height / 2, true, Color.YELLOW, Assets.font14);
     }
 
-    private void setSubSlots(ArrayList<AbilityShopSlot> slots) {
+    private void setSubSlots(List<AbilityShopSlot> slots) {
         int meleeXPos = 0;
         int meleeYPos = 0;
         int rangedXPos = 0;

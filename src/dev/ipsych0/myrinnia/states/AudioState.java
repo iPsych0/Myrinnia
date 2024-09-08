@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.util.Map;
 
 public class AudioState extends State {
 
@@ -23,9 +24,9 @@ public class AudioState extends State {
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
-        try{
+        try {
             loadAudioSettings();
-        } catch (Exception e){
+        } catch (Exception e) {
             musicSlider = new SliderBar(overlay.x + 12, overlay.y + 96, 101, 20, 100);
             sfxSlider = new SliderBar(overlay.x + 12, overlay.y + 224, 101, 20, 100);
         }
@@ -41,7 +42,7 @@ public class AudioState extends State {
 
     }
 
-    private void loadAudioSettings(){
+    private void loadAudioSettings() {
         // Read audio properties from file
         String sfxVolume = Handler.get().loadProperty("sfxVolume");
         String soundVolume = Handler.get().loadProperty("musicVolume");
@@ -61,8 +62,8 @@ public class AudioState extends State {
         // Get volume float values
         double sfxVolumeD = Double.parseDouble(sfxVolume);
         double soundVolumeD = Double.parseDouble(soundVolume);
-        float sfxRatio = (float)(sfxVolumeD / 100.0);
-        float soundRatio = (float)(soundVolumeD / 100.0);
+        float sfxRatio = (float) (sfxVolumeD / 100.0);
+        float soundRatio = (float) (soundVolumeD / 100.0);
 
         // Set volumes
         AudioManager.sfxVolume = AudioManager.sfxVolume * sfxRatio;
@@ -97,8 +98,10 @@ public class AudioState extends State {
                 if (!AudioManager.sfxMuted) {
                     AudioManager.sfxMuted = true;
                     Handler.get().saveProperty("sfxMuted", "true");
-                    for (Source s : AudioManager.soundfxFiles)
-                        s.delete();
+                    for (Map.Entry<Integer, Source> s : AudioManager.soundfxFiles.entrySet()) {
+                        s.getValue().delete();
+                    }
+                    AudioManager.soundfxFiles.clear();
                 } else {
                     Handler.get().saveProperty("sfxMuted", "false");
                     AudioManager.sfxMuted = false;
@@ -119,11 +122,9 @@ public class AudioState extends State {
         }
 
         if (sfxSlider.isChanged() && SliderBar.released) {
-            System.out.println("test1");
             Handler.get().saveProperty("sfxVolume", Integer.toString(sfxSlider.getSliderXPos()));
             SliderBar.released = false;
         } else if (musicSlider.isChanged() && SliderBar.released) {
-            System.out.println("test2");
             Handler.get().saveProperty("musicVolume", Integer.toString(musicSlider.getSliderXPos()));
             SliderBar.released = false;
         }
@@ -168,9 +169,9 @@ public class AudioState extends State {
         double volumeD = (double) percentage / 100.0;
         float newVolume = (float) (volumeD * 0.15);
         AudioManager.sfxVolume = newVolume;
-        for (Source s : AudioManager.soundfxFiles) {
-            s.setVolume(newVolume);
-            s.setFadeOutVolume(newVolume);
+        for (Map.Entry<Integer, Source> s : AudioManager.soundfxFiles.entrySet()) {
+            s.getValue().setVolume(newVolume);
+            s.getValue().setFadeOutVolume(newVolume);
         }
     }
 }

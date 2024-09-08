@@ -16,6 +16,7 @@ public class QuestRequirement implements Serializable {
     private QuestList quest;
     private String description;
     private boolean taskDone;
+    private boolean mandatory;
 
     public QuestRequirement(SkillsList skill, int level) {
         this.level = level;
@@ -30,9 +31,15 @@ public class QuestRequirement implements Serializable {
     }
 
     public QuestRequirement(String description) {
+        this(description, true);
+    }
+
+    public QuestRequirement(String description, boolean mandatory) {
+        this.mandatory = mandatory;
         this.requirement = description;
         this.description = description;
-        this.taskDone = false;
+        // If it's mandatory, task = not done, if it isn't mandatory, task = done.
+        this.taskDone = !mandatory;
     }
 
     public String getRequirement() {
@@ -77,5 +84,13 @@ public class QuestRequirement implements Serializable {
 
     public void setTaskDone(boolean taskDone) {
         this.taskDone = taskDone;
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 }

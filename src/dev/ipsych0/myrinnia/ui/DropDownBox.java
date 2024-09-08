@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -15,7 +16,6 @@ public class DropDownBox extends UIImageButton {
     private int scrollMin, scrollMax;
     private UIManager uiManager;
     private boolean open;
-    private Color selectedColor = new Color(0, 255, 255, 62);
     public static boolean hasScrolledUp, hasScrolledDown;
     private boolean itemChanged;
     private int initialHeight;
@@ -65,7 +65,7 @@ public class DropDownBox extends UIImageButton {
                     selectedIndex = i;
                     itemChanged = true;
                     closeDropDown();
-                    Handler.get().playEffect("ui/ui_button_click.wav");
+                    Handler.get().playEffect("ui/ui_button_click.ogg");
                     break;
                 }
             }
@@ -84,7 +84,7 @@ public class DropDownBox extends UIImageButton {
         } else {
             if (this.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                 openDropDown();
-                Handler.get().playEffect("ui/ui_button_click.wav");
+                Handler.get().playEffect("ui/ui_button_click.ogg");
             }
         }
     }
@@ -140,7 +140,7 @@ public class DropDownBox extends UIImageButton {
                 UIObject o = uiManager.getObjects().get(i);
                 o.render(g);
                 if (i == selectedIndex) {
-                    g.setColor(selectedColor);
+                    g.setColor(Colors.selectedColor);
                     Rectangle bounds = o.getBounds();
                     g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 }

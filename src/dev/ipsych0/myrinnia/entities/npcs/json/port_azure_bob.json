@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hmm, I can't figure out this recipe...",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Oh hello. I'm trying to create a sword, but I can't quite figure out how to make it yet. Turns out, you have to find some recipes out there yourself...",
+      "nextId": -1
+    }
+  ]
+}

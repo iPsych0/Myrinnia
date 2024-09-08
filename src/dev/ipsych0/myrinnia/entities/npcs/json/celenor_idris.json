@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The workshop owner here has a limited stock of basic crafting materials available. Quite handy!",
+      "nextId": -1
+    }
+  ]
+}

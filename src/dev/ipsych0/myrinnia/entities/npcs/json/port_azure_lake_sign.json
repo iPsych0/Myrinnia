@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "↑ Lake Azure \n← Deeper into the forest \n→ Towards Mt. Azure & Sunrise Sands",
+      "nextId": -1
+    }
+  ]
+}

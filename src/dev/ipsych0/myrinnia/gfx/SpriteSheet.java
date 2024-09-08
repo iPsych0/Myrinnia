@@ -1,12 +1,16 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
+import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpriteSheet {
@@ -16,9 +20,11 @@ public class SpriteSheet {
     public static int[] firstGids = MapLoader.getTiledFirstGid();
     private int imageIndex;
     private int columns;
+    private String path;
 
     public SpriteSheet(String path, boolean isTileSet) {
         this.sheet = ImageLoader.loadImage(path);
+        this.path = path;
 
         if (isTileSet) {
             imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
@@ -28,6 +34,7 @@ public class SpriteSheet {
 
     public SpriteSheet(String path) {
         this.sheet = ImageLoader.loadImage(path);
+        this.path = path;
     }
 
     /**
@@ -59,6 +66,7 @@ public class SpriteSheet {
 
         tileId = tileId + firstGids[imageIndex];
 
+        SplashScreen.addLoadedElement();
 
         if (MapLoader.polygonTiles.get(tileId) != null) {
             int size = MapLoader.polygonTiles.get(tileId).size();
@@ -72,17 +80,66 @@ public class SpriteSheet {
             if (MapLoader.animationMap.get(tileId) != null) {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
             } else {
+                BufferedImage img = sheet.getSubimage(x, y, width, height);
+                if (isTransparent(img)) {
+                    return null;
+                }
                 Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
             }
         } else {
             if (MapLoader.animationMap.get(tileId) != null) {
                 Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
             } else {
-                Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+                BufferedImage img = sheet.getSubimage(x, y, width, height);
+                if (isTransparent(img)) {
+                    return null;
+                }
+                Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
             }
         }
 
+        // If we're loading a movement permission tile, set the right permission
+        if (MovePermission.map.get(tileId) != null) {
+            Tile.tiles[tileId].setPermission(MovePermission.map.get(tileId));
+        }
+
         return sheet.getSubimage(x, y, width, height);
+    }
+
+    private boolean isTransparent(BufferedImage img) {
+        int transparencyCount = 0;
+        for (int i = 0; i < img.getWidth(); i++) {
+            for (int j = 0; j < img.getHeight(); j++) {
+                if (isPixelTransparent(img, i, j)) {
+                    transparencyCount++;
+                } else {
+                    break;
+                }
+            }
+        }
+        return transparencyCount == img.getWidth() * img.getHeight();
+    }
+
+    private boolean isPixelTransparent(BufferedImage img, int x, int y) {
+        int pixel = img.getRGB(x, y);
+        return (pixel >> 24) == 0x00;
+    }
+
+    public BufferedImage[] animationCrop(int animWidth, int animHeight) {
+        int imWidth = sheet.getWidth();
+        int imHeight = sheet.getHeight();
+
+        List<BufferedImage> frames = new ArrayList<>();
+        for (int y = 0; y < imHeight; y += animHeight) {
+            for (int x = 0; x < imWidth; x += animWidth) {
+                BufferedImage frame = sheet.getSubimage(x, y, animWidth, animHeight);
+                if (isTransparent(frame)) {
+                    return frames.toArray(new BufferedImage[0]);
+                }
+                frames.add(frame);
+            }
+        }
+        return frames.toArray(new BufferedImage[0]);
     }
 
     /**
@@ -109,7 +166,7 @@ public class SpriteSheet {
         return imageCrop(x, y, width, height, false);
     }
 
-    private BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
+    public BufferedImage imageCrop(int x, int y, int width, int height, boolean customXandY) {
 
         // Multiply by 32 pixel Tiles
         if (!customXandY) {
@@ -117,6 +174,61 @@ public class SpriteSheet {
             y *= 32;
         }
 
+        SplashScreen.addLoadedElement();
+
+        return sheet.getSubimage(x, y, width, height);
+    }
+
+    /**
+     * Crop out an array of NPC animations with custom x/y & width/height
+     *
+     * @param x      absolute xPos
+     * @param y      absolute yPos
+     * @param width  absolute width
+     * @param height absolute height
+     * @return array of NPC animations
+     */
+    public BufferedImage[] npcCrop(int x, int y, int width, int height, int frames) {
+        BufferedImage[] imgs = new BufferedImage[frames];
+        for (int i = 0; i < imgs.length; i++) {
+            imgs[i] = sheet.getSubimage(x + (i * width), y, width, height);
+            SplashScreen.addLoadedElement();
+        }
+        return imgs;
+    }
+
+    public BufferedImage[] npcCrop(int x, int y, int width, int height) {
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT, width, height, 3);
+    }
+
+    public BufferedImage[] npcCrop(int x, int y) {
+        // Crop out a 32x32 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, 3);
+    }
+
+    public BufferedImage[] npcCrop(int x, int y, int frames) {
+        // Crop out a 32x32 NPC
+        return npcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, frames);
+    }
+
+    public BufferedImage singleNpcCrop(int x, int y) {
+        // Crop out a 32x32 NPC
+        return singleNpcCrop(x * Creature.DEFAULT_CREATURE_WIDTH, y * Creature.DEFAULT_CREATURE_HEIGHT,
+                Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    }
+
+    /**
+     * Crop out a single NPC frame with custom x/y & width/height
+     *
+     * @param x      absolute xPos
+     * @param y      absolute yPos
+     * @param width  absolute width
+     * @param height absolute height
+     * @return cropped NPC image
+     */
+    public BufferedImage singleNpcCrop(int x, int y, int width, int height) {
         return sheet.getSubimage(x, y, width, height);
     }
 
@@ -128,7 +240,7 @@ public class SpriteSheet {
      * @return cropped non-tile image
      */
     public BufferedImage imageCrop(int x, int y) {
-        return imageCrop(x, y, 32, 32);
+        return imageCrop(x, y, 32, 32, false);
     }
 
     public BufferedImage getSheet() {
@@ -141,5 +253,9 @@ public class SpriteSheet {
 
     public int getImageIndex() {
         return imageIndex;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

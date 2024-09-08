@@ -1,8 +1,8 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.abilities.Ability;
-import dev.ipsych0.myrinnia.abilities.AbilityManager;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.audio.Source;
 import dev.ipsych0.myrinnia.bank.BankUI;
@@ -11,37 +11,49 @@ import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.chatwindow.Filter;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
+import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.HitSplat;
+import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
-import dev.ipsych0.myrinnia.gfx.ScreenShot;
 import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
+import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
+import dev.ipsych0.myrinnia.pathfinding.CombatState;
+import dev.ipsych0.myrinnia.publishers.WorldPublisher;
 import dev.ipsych0.myrinnia.quests.Quest;
-import dev.ipsych0.myrinnia.quests.Quest.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestManager;
-import dev.ipsych0.myrinnia.quests.QuestStep;
+import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.recap.RecapEvent;
 import dev.ipsych0.myrinnia.recap.RecapManager;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillResource;
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
+import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.PortAzure;
-import dev.ipsych0.myrinnia.worlds.data.World;
-import dev.ipsych0.myrinnia.worlds.data.WorldHandler;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.WorldHandler;
+import dev.ipsych0.myrinnia.worlds.Zone;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
 
 import java.awt.*;
 import java.io.*;
@@ -68,10 +80,12 @@ public class Handler implements Serializable {
             System.out.println(jarFile.getAbsolutePath());
             resourcePath = "";
             isJar = true;
-        }else{
+        } else {
             resourcePath = "res/";
         }
     }
+
+    public static String initialWorldPath = FileUtils.getResourcePath("/worlds/port_azure.tmx");
 
 
     /**
@@ -79,8 +93,9 @@ public class Handler implements Serializable {
      */
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
+    private Random random;
     private World world;
-    private PortAzure portAzure;
+    private World portAzure;
     private WorldHandler worldHandler;
     private Player player;
     private ChatWindow chatWindow;
@@ -96,8 +111,12 @@ public class Handler implements Serializable {
     private RecapManager recapManager;
     private DevToolUI devToolUI;
     private AbilityOverviewUI abilityOverviewUI;
-    public static String initialWorldPath = "/worlds/port_azure.tmx";
-    public static boolean debugCollision = false;
+    private TutorialTipManager tutorialTipManager;
+    private BountyContractUI contractUI;
+    private CelebrationUI celebrationUI;
+    public static boolean debugAStar;
+    public static boolean debugCollision;
+    public static boolean debugZones;
     public static boolean isJar;
 
     private static Handler handler;
@@ -123,8 +142,10 @@ public class Handler implements Serializable {
     private void init() {
         handler.setGame(Game.get());
 
+        random = new Random();
+
         // Instantiate the player
-        player = new Player(2752, 2016);
+        player = new Player(77 * 32, 51 * 32);
 
         // Instantiate all interfaces
         chatWindow = new ChatWindow();
@@ -140,9 +161,12 @@ public class Handler implements Serializable {
         devToolUI = new DevToolUI();
         abilityManager = new AbilityManager();
         abilityOverviewUI = new AbilityOverviewUI();
+        tutorialTipManager = new TutorialTipManager();
+        contractUI = new BountyContractUI();
+        celebrationUI = new CelebrationUI();
 
         // Set the starting world
-        portAzure = new PortAzure(initialWorldPath);
+        portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new TemperateClimate()).build();
         worldHandler = new WorldHandler(portAzure);
     }
 
@@ -151,7 +175,7 @@ public class Handler implements Serializable {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + songName);
+                buffer = AudioManager.loadSound("/music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -166,7 +190,7 @@ public class Handler implements Serializable {
         if (!AudioManager.soundMuted) {
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/songs/" + song);
+                buffer = AudioManager.loadSound("/music/songs/" + song);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + song);
                 e.printStackTrace();
@@ -178,7 +202,15 @@ public class Handler implements Serializable {
     }
 
     public void playEffect(String effect) {
-        playEffect(effect, 0.0f);
+        playEffect(effect, 0.0f, false);
+    }
+
+    public void playEffect(String effect, boolean looping) {
+        playEffect(effect, 0.0f, looping);
+    }
+
+    public void playEffect(String effect, float volume) {
+        playEffect(effect, volume, false);
     }
 
     /**
@@ -187,28 +219,57 @@ public class Handler implements Serializable {
      * @param effect Name of the audio file
      * @param volume Additional volume. Default max volume is 0.15.
      */
-    public void playEffect(String effect, float volume) {
+    public void playEffect(String effect, float volume, boolean looping) {
         if (!AudioManager.sfxMuted) {
             if (volume < -AudioManager.sfxVolume) {
                 volume = -AudioManager.sfxVolume;
             }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound(resourcePath + "music/sfx/" + effect);
+                buffer = AudioManager.loadSound("/music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
             }
-            AudioManager.soundfxFiles.add(new Source());
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setVolume(AudioManager.sfxVolume + volume);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).setLooping(false);
-            AudioManager.soundfxFiles.get(AudioManager.soundfxFiles.size() - 1).playEffect(buffer);
 
+            Source s;
+            if (AudioManager.soundfxFiles.containsKey(buffer)) {
+                s = AudioManager.soundfxFiles.get(buffer);
+            } else {
+                s = new Source();
+                AudioManager.soundfxFiles.put(buffer, s);
+            }
+            s.setVolume(AudioManager.sfxVolume + volume);
+            s.setLooping(looping);
+            s.playEffect(buffer);
+        }
+    }
+
+    public void changeCursor(Cursor cursor) {
+        game.changeCursor(cursor);
+    }
+
+    public Cursor getCursor() {
+        return game.getCursor();
+    }
+
+    public void addTip(TutorialTip tip) {
+        if (chatWindow.getFilters().contains(Filter.SHOWTIPS)) {
+            tutorialTipManager.addTip(tip);
         }
     }
 
     public void addRecapEvent(String description) {
-        this.recapManager.addEvent(new RecapEvent(ScreenShot.take(), description));
+        this.recapManager.addEvent(new RecapEvent(description));
+    }
+
+    public boolean hasCondition(Creature c, Condition.Type type) {
+        for (Condition condi : c.getConditions()) {
+            if (condi.getType() == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -221,26 +282,30 @@ public class Handler implements Serializable {
         Quest q = getQuest(quest);
         boolean hasAllRequirements = true;
 
-        for (int i = 0; i < q.getRequirements().length; i++) {
+        if (q.getRequirements() == null) {
+            return true;
+        }
+
+        for (int i = 0; i < q.getRequirements().size(); i++) {
             // Check skill requirements
-            if (q.getRequirements()[i].getSkill() != null) {
-                if (getSkill(q.getRequirements()[i].getSkill()).getLevel() < q.getRequirements()[i].getLevel()) {
+            if (q.getRequirements().get(i).getSkill() != null) {
+                if (getSkill(q.getRequirements().get(i).getSkill()).getLevel() < q.getRequirements().get(i).getLevel()) {
                     hasAllRequirements = false;
+                    break;
                 }
             }
             // Check quest requirements
-            else if (q.getRequirements()[i].getQuest() != null) {
-                if (getQuest(q.getRequirements()[i].getQuest()).getState() != QuestState.COMPLETED) {
+            else if (q.getRequirements().get(i).getQuest() != null) {
+                if (getQuest(q.getRequirements().get(i).getQuest()).getState() != QuestState.COMPLETED) {
                     hasAllRequirements = false;
+                    break;
                 }
                 // Check miscellaneous requirements
-            } else if (!q.getRequirements()[i].isTaskDone()) {
+            } else if (!q.getRequirements().get(i).isTaskDone()) {
                 hasAllRequirements = false;
+                break;
             }
         }
-
-        if (!hasAllRequirements)
-            sendMsg("You do not meet the requirements to start " + q.getQuestName() + ".");
 
         return hasAllRequirements;
     }
@@ -255,29 +320,123 @@ public class Handler implements Serializable {
         }
     }
 
+    public void goToWorld(Zone zone, int x, int y) {
+        goToWorld(zone, x, y, null, null);
+    }
+
     /**
      * Go from your current world to the next
      *
-     * @param zone - The new zone to enter
-     * @param x    - The X pause in the new zone
-     * @param y    - The Y pause in the new zone
+     * @param zone            - The new zone to enter
+     * @param x               - The X coord in the new zone
+     * @param y               - The Y coord in the new zone
+     * @param customName      - Override the zone name
+     * @param customMusicName - Override the music played
      */
-    public void goToWorld(Zone zone, int x, int y) {
-        player.setX(x);
-        player.setY(y);
+    public void goToWorld(Zone zone, int x, int y, String customName, String customMusicName) {
+        player.setX(x * Tile.TILEWIDTH);
+        player.setY(y * Tile.TILEHEIGHT);
         player.setZone(zone);
         getWorld().getEntityManager().setSelectedEntity(null);
 
-        World w = worldHandler.getWorldsMap().get(zone);
-        w.init();
-        setWorld(w);
+        // Reset all NPCs to their spawn location and let them face the original way
+        for (Entity e : world.getEntityManager().getEntities()) {
+            if (e instanceof Creature) {
+                Creature c = ((Creature) e);
+                if (e.isAttackable() && !e.equals(player)) {
 
-        ZoneTransitionState transitionState = new ZoneTransitionState(zone);
+                    // Reset A* aggro
+                    c.setState(CombatState.BACKTRACK);
+                    e.setDamaged(false);
+                    // Clear buffs & condis & reset HP
+                    c.clearBuffs();
+                    c.clearConditions();
+                    c.setHealth(c.getMaxHealth());
+                    // Reset position
+                    e.setX(c.getxSpawn());
+                    e.setY(c.getySpawn());
+                }
+                if (c.getOriginalDirection() != null && !e.equals(player)) {
+                    c.setLastFaced(c.getOriginalDirection());
+                }
+
+            }
+        }
+
+        World w = worldHandler.getWorldsMap().get(zone);
+
+        // Check if the world we're going to is a town, if so set a new spawnpoint here in case we die
+        if (w.isTown()) {
+            player.setLastSpawnPoint(w.getZone());
+            player.setLastXSpawn(x);
+            player.setLastYSpawn(y);
+        }
+
+        // v----- order matters like this
+        setWorld(w);
+        w.init();
+
+        if (getWorld().hasPermissionsLayer()) {
+            Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);
+            if (t == null) {
+                player.setVerticality(0);
+                player.setCurrentTile(Tile.tiles[23780]);
+                player.setPreviousTile(Tile.tiles[23780]);
+            } else {
+                if (t.getPermission().equalsIgnoreCase("C")) {
+                    player.setVerticality(0);
+                    player.setCurrentTile(Tile.tiles[23780]);
+                    player.setPreviousTile(Tile.tiles[23780]);
+                } else if (t.getPermission().equalsIgnoreCase("10")) {
+                    player.setVerticality(1);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                } else if (t.getPermission().equalsIgnoreCase("14")) {
+                    player.setVerticality(2);
+                    player.setCurrentTile(t);
+                    player.setPreviousTile(t);
+                }
+            }
+        } else {
+            player.setVerticality(0);
+            player.setCurrentTile(Tile.tiles[23780]);
+            player.setPreviousTile(Tile.tiles[23780]);
+        }
+
+        ZoneTransitionState transitionState = new ZoneTransitionState(zone, customName);
         State.setState(transitionState);
 
-        for (Source s : AudioManager.soundfxFiles)
-            s.delete();
-        playMusic(zone);
+        if (customMusicName == null) {
+            playMusic(zone);
+        } else {
+            playMusic(customMusicName);
+        }
+
+        world.handleBackgroundSound();
+        WorldPublisher.get().publish(world);
+    }
+
+    /**
+     * Gets an Entity by the Zone it's in and its name.
+     *
+     * @param zone Zone the Entity is in
+     * @param name Name of the Entity
+     * @return The Entity found, null if not found
+     */
+    public Entity getEntityByZoneAndName(Zone zone, String name) {
+        // Make sure the world is initialized before accessing, to avoid nullpointers
+        World world = Handler.get().getWorldHandler().getWorldsMap().get(zone);
+        if (!world.isInitialized()) {
+            world.init();
+        }
+
+        // Find Entity by name
+        for (Entity e : world.getEntityManager().getEntities()) {
+            if (e.getName() != null && e.getName().equalsIgnoreCase(name)) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public SkillResource getSkillResource(SkillsList skill, Item item) {
@@ -291,6 +450,14 @@ public class Handler implements Serializable {
             return skillsUI.getSkill(skill).getLevel() >= resource.getLevelRequirement();
         }
         return false;
+    }
+
+    public boolean playerHasSkillLevel(SkillsList skill, int requirement) {
+        return skillsUI.getSkill(skill).getLevel() >= requirement;
+    }
+
+    public BountyBoardUI getBountyBoardByZone(Zone zone) {
+        return BountyManager.get().getBoardByZone(zone).getBountyBoardUI();
     }
 
     public Skill getSkill(SkillsList skill) {
@@ -317,53 +484,61 @@ public class Handler implements Serializable {
         return questManager.getQuestMap().get(quest);
     }
 
-    public void addQuestStep(QuestList quest, String objective) {
-        getQuest(quest).getQuestSteps().add(new QuestStep(objective));
-    }
-
-    /*
-     * Generates a random numbers between min & max
+    /**
+     * @param min INCLUSIVE minimum value
+     * @param max INCLUSIVE maximum value
+     * @return
      */
     public int getRandomNumber(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
+        return random.nextInt((max - min) + 1) + min;
     }
 
     /*
-     * Rounds off a number to two digits.
+     * Rounds off a number to specified number of digits, default = .00 (2 digits)
      */
-    public double roundOff(double value) {
-        return Math.ceil(value * 10d) / 10d;
+    public double roundOff(double value, int digits) {
+        return Math.round(value * Math.pow(10.0d, (digits - 1))) / Math.pow(10.0d, (digits - 1));
     }
 
-    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType){
+    public double roundOff(double value) {
+        return roundOff(value, 2);
+    }
+
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver), damageType));
     }
 
-    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability){
+    public void addHitSplat(Entity receiver, Entity damageDealer, DamageType damageType, Ability ability) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, damageDealer.getDamage(damageType, damageDealer, receiver, ability), ability));
     }
 
-    public void addHealSplat(Entity receiver, int healing){
+    public void addHealSplat(Entity receiver, int healing) {
         getWorld().getEntityManager().getHitSplats().add(new HitSplat(receiver, healing));
     }
 
     /*
      * Drop an item to the world
-     * @params: An item, an amount, x + y pause in the world (usually based on the Entity or Object location)
+     * @params: An item, an amount, x + y pos in the world (usually based on the Entity or Object location)
      */
     public void dropItem(Item item, int amount, int x, int y) {
-        dropItem(item, amount, x, y, true);
+        dropItem(item, amount, x, y, false);
     }
 
-    private void dropItem(Item item, int amount, int x, int y, boolean despawn) {
-        getWorld().getItemManager().addItem((item.createItem(x, y, amount)), despawn);
+    private void dropItem(Item item, int amount, int x, int y, boolean isWorldSpawn) {
+        Item i = item.createItem(x, y, amount);
+        i.setTimeDropped(System.currentTimeMillis());
+        if (item.getUse() != null) {
+            i.setUse(item.getUse());
+            i.setUseCooldown(item.getUseCooldown());
+        }
+        getWorld().getItemManager().addItem(i, isWorldSpawn);
     }
 
     /*
      * Sends a message to the chat log
      */
     public void sendMsg(String message, Filter filter) {
-        String[] text = Text.splitIntoLine(message, 66);
+        String[] text = Text.splitIntoLine(message, 58);
         for (String s : text) {
             getChatWindow().sendMessage(s, filter);
         }
@@ -393,6 +568,19 @@ public class Handler implements Serializable {
         getInventory().giveItem(item, amount);
     }
 
+    public void giveItemWithUse(Item item, int amount, int cooldown, Use use) {
+        Item i = item.createItem(0, 0, amount);
+        i.setUse(use);
+        i.setUseCooldown(cooldown);
+        getInventory().giveItem(i, amount);
+    }
+
+    public void giveItemWithUse(Item item, int amount, Use use) {
+        Item i = item.createItem(0, 0, amount);
+        i.setUse(use);
+        getInventory().giveItem(i, amount);
+    }
+
 
     /*
      * Removes an item + quantity from the inventory.
@@ -415,9 +603,9 @@ public class Handler implements Serializable {
 
         try {
             prop.setProperty(propertyKey, propertyValue);
-            if(isJar){
+            if (isJar) {
                 output = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
-            }else {
+            } else {
                 output = new FileOutputStream(Handler.resourcePath + "settings/config.properties");
             }
             prop.store(output, null);
@@ -439,7 +627,11 @@ public class Handler implements Serializable {
 
         try {
             if (!propsLoaded) {
-                input = Handler.class.getResourceAsStream("/settings/config.properties");
+                if (isJar) {
+                    input = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
+                } else {
+                    input = new FileInputStream(Handler.resourcePath + "settings/config.properties");
+                }
                 prop.load(input);
                 propsLoaded = true;
             }
@@ -480,6 +672,10 @@ public class Handler implements Serializable {
 
     public GameCamera getGameCamera() {
         return game.getGameCamera();
+    }
+
+    public void setGameCamera(GameCamera camera) {
+        game.setGameCamera(camera);
     }
 
     public Game getGame() {
@@ -624,5 +820,29 @@ public class Handler implements Serializable {
 
     public void setAbilityOverviewUI(AbilityOverviewUI abilityOverviewUI) {
         this.abilityOverviewUI = abilityOverviewUI;
+    }
+
+    public TutorialTipManager getTutorialTipManager() {
+        return tutorialTipManager;
+    }
+
+    public void setTutorialTipManager(TutorialTipManager tutorialTipManager) {
+        this.tutorialTipManager = tutorialTipManager;
+    }
+
+    public BountyContractUI getContractUI() {
+        return contractUI;
+    }
+
+    public void setContractUI(BountyContractUI contractUI) {
+        this.contractUI = contractUI;
+    }
+
+    public CelebrationUI getCelebrationUI() {
+        return celebrationUI;
+    }
+
+    public void setCelebrationUI(CelebrationUI celebrationUI) {
+        this.celebrationUI = celebrationUI;
     }
 }

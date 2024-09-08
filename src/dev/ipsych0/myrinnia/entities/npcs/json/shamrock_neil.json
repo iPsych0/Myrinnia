@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hmm... The hull is still damaged from the last venture...",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Ah, traveler. I'm arranging repairs for my ship. Until then, I'm afraid I can't help you.",
+      "nextId": -1
+    }
+  ]
+}

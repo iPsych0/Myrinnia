@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "↑ Malachite Pass \n← Malachite Hills \n→ Malachite Slopes",
+      "nextId": -1
+    }
+  ]
+}

@@ -20,11 +20,8 @@ public class SaveManager {
         ObjectOutputStream o;
         boolean success = false;
         try {
-            if(Handler.isJar){
-                f = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/savegames/save.dat");
-            }else {
-                f = new FileOutputStream(Handler.resourcePath + "savegames/save.dat");
-            }
+            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            f = new FileOutputStream(path);
 
             // Disable the left-click that was pressed when selecting 'save'
             Game.get().getMouseManager().setLeftPressed(false);
@@ -34,14 +31,15 @@ public class SaveManager {
             o.writeObject(Handler.get());
             o.close();
             f.close();
-            Handler.get().playEffect("ui/save_game.wav");
+            Handler.get().playEffect("ui/save_game.ogg");
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
+            Handler.get().playEffect("ui/save_game_error.ogg", 0.15f);
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
 
-        if(success){
+        if (success) {
             Handler.get().sendMsg("Game successfully saved!");
         }
     }
@@ -51,18 +49,19 @@ public class SaveManager {
      */
     public static void loadHandler() {
         Handler handlerObject = null;
-        InputStream is;
         ObjectInputStream oin;
         try {
 
-            is = SaveManager.class.getResourceAsStream("/savegames/save.dat");
-            oin = new ObjectInputStream(is);
+            FileInputStream fis;
+            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            fis = new FileInputStream(path);
+            oin = new ObjectInputStream(fis);
 
             // Load in the Handler object
             handlerObject = (Handler) oin.readObject();
 
             oin.close();
-            is.close();
+            fis.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(1);

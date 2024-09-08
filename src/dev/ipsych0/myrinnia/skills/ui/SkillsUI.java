@@ -2,16 +2,17 @@ package dev.ipsych0.myrinnia.skills.ui;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.skills.*;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class SkillsUI implements Serializable {
 
@@ -25,9 +26,9 @@ public class SkillsUI implements Serializable {
     private int height = 320;
     public static boolean isOpen = false;
     public static boolean hasBeenPressed = false;
-    private HashMap<SkillsList, Skill> skills;
-    private ArrayList<Skill> skillsList;
-    private UIImageButton crafting, fishing, mining, woodcutting, bountyHunter;
+    private Map<SkillsList, Skill> skills;
+    private List<Skill> skillsList;
+    private UIImageButton crafting, fishing, farming, mining, woodcutting, bountyHunter;
     private SkillsOverviewUI overviewUI;
     public static boolean escapePressed = false;
     private Rectangle bounds;
@@ -43,7 +44,8 @@ public class SkillsUI implements Serializable {
         skillsList.add(new FishingSkill());
         skillsList.add(new MiningSkill());
         skillsList.add(new CombatSkill());
-        skillsList.add(new BountyHunterSkill());
+        skillsList.add(new SoulReapingSkill());
+        skillsList.add(new FarmingSkill());
 
 
         // Sort the Skills
@@ -51,18 +53,19 @@ public class SkillsUI implements Serializable {
 
         // Sort the Enums
         List<SkillsList> skillsEnum = Arrays.asList(SkillsList.values());
-        skillsEnum.sort((o1, o2) -> o1.toString().compareTo(o2.toString()));
+        skillsEnum.sort(Comparator.comparing(Enum::toString));
 
         // Map the skills to the enums
         for (int i = 0; i < skillsList.size(); i++) {
             skills.put(skillsEnum.get(i), skillsList.get(i));
         }
 
-        bountyHunter = new UIImageButton(x + 16, y + 40, width - 16, 32, Assets.genericButton);
-        crafting = new UIImageButton(x + 16, y + 72, width - 16, 32, Assets.genericButton);
-        fishing = new UIImageButton(x + 16, y + 104, width - 16, 32, Assets.genericButton);
-        mining = new UIImageButton(x + 16, y + 136, width - 16, 32, Assets.genericButton);
-        woodcutting = new UIImageButton(x + 16, y + 168, width - 16, 32, Assets.genericButton);
+        bountyHunter = new UIImageButton(x + 16, y + 40, width - 32, 32, Assets.genericButton);
+        crafting = new UIImageButton(x + 16, y + 72, width - 32, 32, Assets.genericButton);
+        farming = new UIImageButton(x + 16, y + 104, width - 32, 32, Assets.genericButton);
+        fishing = new UIImageButton(x + 16, y + 136, width - 32, 32, Assets.genericButton);
+        mining = new UIImageButton(x + 16, y + 168, width - 32, 32, Assets.genericButton);
+        woodcutting = new UIImageButton(x + 16, y + 200, width - 32, 32, Assets.genericButton);
 
         bounds = new Rectangle(x, y, width, height);
 
@@ -73,6 +76,7 @@ public class SkillsUI implements Serializable {
 
         uiManager.addObject(bountyHunter);
         uiManager.addObject(crafting);
+        uiManager.addObject(farming);
         uiManager.addObject(fishing);
         uiManager.addObject(mining);
         uiManager.addObject(woodcutting);
@@ -87,78 +91,27 @@ public class SkillsUI implements Serializable {
 
             if (bountyHunter.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.BOUNTYHUNTER));
-                    overviewUI.setSelectedCategory(SkillCategory.BountyTargets);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.BOUNTYHUNTER).getListByCategory(SkillCategory.BountyTargets).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.BOUNTYHUNTER).getListByCategory(SkillCategory.BountyTargets).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.SOUL_REAPING, SkillCategory.Souls);
                 }
             } else if (crafting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.CRAFTING));
-                    overviewUI.setSelectedCategory(SkillCategory.CraftingOther);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(SkillCategory.CraftingOther).size());
-                    overviewUI.getScrollBar().setScrollMaximum(Handler.get().getCraftingUI().getCraftingManager().getListByCategory(SkillCategory.CraftingOther).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.CRAFTING, SkillCategory.Weapons);
+                }
+            } else if (farming.contains(mouse)) {
+                if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
+                    changeTab(SkillsList.FARMING, SkillCategory.Vegetables);
                 }
             } else if (fishing.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.FISHING));
-                    overviewUI.setSelectedCategory(SkillCategory.Fish);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.FISHING).getListByCategory(SkillCategory.Fish).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.FISHING, SkillCategory.Fish);
                 }
             } else if (mining.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.MINING));
-                    overviewUI.setSelectedCategory(SkillCategory.Ores);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.MINING).getListByCategory(SkillCategory.Ores).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.MINING, SkillCategory.Ores);
                 }
             } else if (woodcutting.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && !Handler.get().getMouseManager().isDragged() && hasBeenPressed) {
-                    hasBeenPressed = false;
-                    SkillsOverviewUI.isOpen = true;
-                    overviewUI.setSelectedSkill(getSkill(SkillsList.WOODCUTTING));
-                    overviewUI.setSelectedCategory(SkillCategory.Trees);
-                    overviewUI.getScrollBar().setIndex(0);
-                    overviewUI.getScrollBar().setListSize(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
-                    overviewUI.getScrollBar().setScrollMaximum(getSkill(SkillsList.WOODCUTTING).getListByCategory(SkillCategory.Trees).size());
-                    overviewUI.getCategories().clear();
-                    for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
-                        overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
-                                overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
-                    }
+                    changeTab(SkillsList.WOODCUTTING, SkillCategory.Trees);
                 }
             }
 
@@ -176,6 +129,38 @@ public class SkillsUI implements Serializable {
         }
     }
 
+    private void changeTab(SkillsList skill, SkillCategory category) {
+        hasBeenPressed = false;
+        SkillsOverviewUI.isOpen = true;
+        overviewUI.setSelectedSkill(getSkill(skill));
+        overviewUI.setSelectedCategory(category);
+
+        overviewUI.getCategories().clear();
+        for (int i = 0; i < overviewUI.getSelectedSkill().getCategories().size(); i++) {
+            overviewUI.getCategories().add(new CategoryButton(overviewUI.getSelectedSkill().getCategories().get(i),
+                    overviewUI.x + 16, overviewUI.y + 40 + (i * 32), 80, 32));
+        }
+
+        if (overviewUI.getSelectedButton() != null) {
+            overviewUI.setSelectedButton(overviewUI.getCategories().get(0));
+        }
+
+        overviewUI.getView().getScrollBar().setIndex(0);
+        if (skill == SkillsList.CRAFTING) {
+            overviewUI.getView().updateContents(
+                    Handler.get().getCraftingUI().getCraftingManager().getSlotsByCategory(
+                            category,
+                            overviewUI.getCategories().get(0).x + overviewUI.getCategories().get(0).width + 32 + 8,
+                            (y + 40))
+            );
+        } else {
+            overviewUI.getView().updateContents(getSkill(skill).getSlotsByCategory(category,
+                    overviewUI.getCategories().get(0).x + overviewUI.getCategories().get(0).width + 32 + 8,
+                    (y + 40)));
+        }
+
+    }
+
     public void render(Graphics2D g) {
         if (isOpen) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
@@ -186,27 +171,33 @@ public class SkillsUI implements Serializable {
 
             Rectangle mouse = Handler.get().getMouse();
 
-            Text.drawString(g, "Skills:", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
+            Text.drawString(g, "Skills", x + width / 2, y + 21, true, Color.YELLOW, Assets.font20);
 
-            drawXpProgress(g, bountyHunter, SkillsList.BOUNTYHUNTER);
+            drawXpProgress(g, bountyHunter, SkillsList.SOUL_REAPING);
             drawXpProgress(g, crafting, SkillsList.CRAFTING);
+            drawXpProgress(g, farming, SkillsList.FARMING);
             drawXpProgress(g, fishing, SkillsList.FISHING);
             drawXpProgress(g, mining, SkillsList.MINING);
             drawXpProgress(g, woodcutting, SkillsList.WOODCUTTING);
 
-            Text.drawString(g, "Bounty Hunter lvl: " + getSkill(SkillsList.BOUNTYHUNTER).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Soul Reaping lvl: " + getSkill(SkillsList.SOUL_REAPING).getLevel(), x + width / 2, y + 56, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "Crafting lvl: " + getSkill(SkillsList.CRAFTING).getLevel(), x + width / 2, y + 88, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
-            Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 184, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Farming lvl: " + getSkill(SkillsList.FARMING).getLevel(), x + width / 2, y + 120, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Fishing lvl: " + getSkill(SkillsList.FISHING).getLevel(), x + width / 2, y + 152, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Mining lvl: " + getSkill(SkillsList.MINING).getLevel(), x + width / 2, y + 184, true, Color.YELLOW, Assets.font14);
+            Text.drawString(g, "Woodcutting lvl: " + getSkill(SkillsList.WOODCUTTING).getLevel(), x + width / 2, y + 216, true, Color.YELLOW, Assets.font14);
 
             if (bountyHunter.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
-                Text.drawString(g, String.valueOf(getSkill(SkillsList.BOUNTYHUNTER).getExperience()) + "/" + getSkill(SkillsList.BOUNTYHUNTER).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+                Text.drawString(g, String.valueOf(getSkill(SkillsList.SOUL_REAPING).getExperience()) + "/" + getSkill(SkillsList.SOUL_REAPING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
             }
             if (crafting.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
                 Text.drawString(g, String.valueOf(getSkill(SkillsList.CRAFTING).getExperience()) + "/" + getSkill(SkillsList.CRAFTING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
+            }
+            if (farming.contains(mouse)) {
+                g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
+                Text.drawString(g, String.valueOf(getSkill(SkillsList.FARMING).getExperience()) + "/" + getSkill(SkillsList.FARMING).getNextLevelXp() + " XP", mouse.x + 16, mouse.y + 30, false, Color.YELLOW, Assets.font14);
             }
             if (fishing.contains(mouse)) {
                 g.drawImage(Assets.genericButton[1], mouse.x + 8, mouse.y + 8, 112, 32, null);
@@ -223,6 +214,7 @@ public class SkillsUI implements Serializable {
 
             if (exit.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
+                    MouseManager.justClosedUI = true;
                     hasBeenPressed = false;
                     SkillsOverviewUI.isOpen = false;
                     SkillsUI.isOpen = false;
@@ -233,9 +225,9 @@ public class SkillsUI implements Serializable {
     }
 
     private void drawXpProgress(Graphics2D g, Rectangle skillRect, SkillsList skill) {
-        g.setColor(HPOverlay.xpColor);
+        g.setColor(Colors.xpColor);
         g.fillRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
-        g.setColor(HPOverlay.xpColorOutline);
+        g.setColor(Colors.xpColorOutline);
         g.drawRect(skillRect.x + 2, skillRect.y + 1, skillRect.width * Handler.get().getSkill(skill).getExperience() / Handler.get().getSkill(skill).getNextLevelXp() - 2, skillRect.height - 4);
 
         // Icon

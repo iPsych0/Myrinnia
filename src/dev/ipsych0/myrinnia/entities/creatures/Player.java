@@ -1,44 +1,62 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.Ability;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.character.CharacterUI;
 import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
-import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.npcs.AbilityTrainer;
 import dev.ipsych0.myrinnia.entities.npcs.Banker;
 import dev.ipsych0.myrinnia.entities.npcs.ShopKeeper;
+import dev.ipsych0.myrinnia.entities.statics.BountyBoard;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.gfx.GameCamera;
+import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
 import dev.ipsych0.myrinnia.input.MouseManager;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.items.ui.ItemStack;
+import dev.ipsych0.myrinnia.puzzles.PotionSort;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.CombatSkill;
 import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.UITransitionState;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.ui.custom.BookUI;
 import dev.ipsych0.myrinnia.utils.Text;
-import dev.ipsych0.myrinnia.worlds.data.World;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.World;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Creature {
 
@@ -53,52 +71,64 @@ public class Player extends Creature {
 
     // Attacking Animations
     private Animation attDown, attUp, attLeft, attRight;
-    private ArrayList<Projectile> projectiles;
+    private Animation meleeAnimation;
 
-    // Attack timer
+    private Animation combatUpFront, combatUpBack;
+
+    // Melee timer
     private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
 
     // Magic timer
     private long lastMagicTimer, magicCooldown = (long) (600 / getAttackSpeed()), magicTimer = magicCooldown;
 
-    // Regeneration timer
-    private long lastRegenTimer, regenCooldown = 1000, regenTimer = regenCooldown;
+    // Ranged timer
+    private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
 
     private double levelExponent = 1.1;
+    private int baseHP = 100;
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
     public static int xpGained;
     private int levelUpTimer, xpGainedTimer;
+    public static boolean expEffectPlayed;
 
-    private boolean movementAllowed = true;
-    public static boolean isMoving;
+    public static boolean isMoving, hasMoved;
 
     public static boolean mouseMoved;
-    private float xSpawn, ySpawn;
+    private double xSpawn, ySpawn;
+    private Zone lastSpawnPoint;
+    private double lastXSpawn, lastYSpawn;
 
     // Entities we can interact with, with different functions
     private Entity closestEntity;
     private ShopKeeper shopKeeper;
     private AbilityTrainer abilityTrainer;
     private Banker bankEntity;
+    private BountyBoard bountyBoard;
 
     private Zone zone = Zone.PortAzure;
     private Rectangle itemPickupRadius;
 
     private int abilityPoints;
 
-    public Player(float x, float y) {
-        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
+    public Player(double x, double y) {
+        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
 
         xSpawn = x;
         ySpawn = y;
+        attackable = true;
+
+        waterLevel = 0;
+        fireLevel = 0;
+        airLevel = 0;
+        earthLevel = 0;
 
         // Player combat/movement settings:
 
-        maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        maxHealth = baseHP + vitality * 4;
         health = maxHealth;
-        speed = DEFAULT_SPEED + 1.0f;
+        speed = DEFAULT_SPEED + 0.5;
 
         // Set collision boundaries on sprite
         bounds.x = 10;
@@ -107,24 +137,32 @@ public class Player extends Creature {
         bounds.height = 16;
 
         // Animations
-        aDown = new Animation(250, Assets.player_down);
-        aUp = new Animation(250, Assets.player_up);
-        aLeft = new Animation(250, Assets.player_left);
-        aRight = new Animation(250, Assets.player_right);
+        aDown = new Animation(166, Assets.player_down);
+        aUp = new Animation(166, Assets.player_up);
+        aLeft = new Animation(166, Assets.player_left);
+        aRight = new Animation(166, Assets.player_right);
 
-        attDown = new Animation(333, Assets.player_attackingDown);
-        attUp = new Animation(333, Assets.player_attackingUp);
-        attLeft = new Animation(333, Assets.player_attackingLeft);
-        attRight = new Animation(333, Assets.player_attackingRight);
+        attDown = new Animation(333, Assets.player_melee_down);
+        attUp = new Animation(333, Assets.player_melee_up);
+        attLeft = new Animation(333, Assets.player_melee_left);
+        attRight = new Animation(333, Assets.player_melee_right);
+
+        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
+
+        combatUpFront = new Animation(48, Assets.combatUpFront);
+        combatUpBack = new Animation(48, Assets.combatUpBack);
 
         aDefault = aDown;
 
         projectiles = new ArrayList<>();
 
-        respawnTimer = 1;
+        respawnTime = 1;
 
         itemPickupRadius = new Rectangle((int) (x + bounds.x - 24), (int) (y + bounds.y - 24), (bounds.width + 40), (bounds.height + 36));
 
+        lastSpawnPoint = zone;
+        lastXSpawn = xSpawn / 32;
+        lastYSpawn = ySpawn / 32;
     }
 
     @Override
@@ -145,6 +183,10 @@ public class Player extends Creature {
             attRight.tick();
         }
 
+        if (Handler.get().getGameCamera().getFocusedEntity().equals(this)) {
+            Handler.get().getGameCamera().centerOnEntity(this);
+        }
+
         if (inCombat) {
             combatTimer++;
         }
@@ -152,13 +194,6 @@ public class Player extends Creature {
         if (combatTimer >= 300) {
             inCombat = false;
             combatTimer = 0;
-        }
-
-        Handler.get().getGameCamera().centerOnEntity(this);
-
-        // Attacks
-        if (!inCombat) {
-            regenHealth();
         }
 
         // Debug button for in-game testing
@@ -184,7 +219,7 @@ public class Player extends Creature {
 
 
 //			for(int i = 0; i < Handler.get().getInventory().getItemSlots().size(); i++) {
-//				Handler.get().getInventory().getItemSlots().get(i).addItem(Item.testSword, 1);
+//				Handler.get().getInventory().getItemSlots().get(i).addItem(Item.beginnersSword, 1);
 //			}
             debugButtonPressed = false;
 
@@ -193,13 +228,21 @@ public class Player extends Creature {
         // If space button is pressed
         if (Handler.get().getKeyManager().talk) {
             if (!hasInteracted) {
+                // And we're close to an NPC interact with it
                 if (playerIsNearNpc()) {
-                    // And we're close to an NPC interact with it
-                    closestEntity = getClosestEntity();
+
+                    // If we have selected an Entity and we're close to that entity, interact with the selected one
+                    Entity selected = Handler.get().getWorld().getEntityManager().getSelectedEntity();
+                    if (selected != null && selected.isNear(selected)) {
+                        closestEntity = selected;
+                    } else {
+                        closestEntity = getClosestEntity();
+                    }
+
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
                         hasInteracted = true;
-                        Handler.get().playEffect("ui/ui_button_click.wav");
+                        Handler.get().playEffect("ui/ui_button_click.ogg");
 
                         // If the closest Entity is a shops, open the shops
                         if (closestEntity instanceof ShopKeeper) {
@@ -210,12 +253,14 @@ public class Player extends Creature {
                         } else if (closestEntity instanceof AbilityTrainer) {
                             abilityTrainer = (AbilityTrainer) getClosestEntity();
                             abilityTrainer.getAbilityShopWindow().setLastOpenedWindow();
+                        } else if (closestEntity instanceof BountyBoard) {
+                            bountyBoard = (BountyBoard) getClosestEntity();
                         }
                     } else {
                         if (closestEntity.getChatDialogue().getMenuOptions().length == 1) {
                             closestEntity.interact();
                             hasInteracted = true;
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                         }
                     }
                 }
@@ -245,7 +290,7 @@ public class Player extends Creature {
                         if (playerIsNearNpc()) {
                             // Do the logic and set it to un-pressed and interact
                             closestEntity.interact();
-                            Handler.get().playEffect("ui/ui_button_click.wav");
+                            Handler.get().playEffect("ui/ui_button_click.ogg");
                             hasInteracted = true;
                         }
                     }
@@ -263,15 +308,17 @@ public class Player extends Creature {
             hasInteracted = false;
 
             closestEntity.setChatDialogue(null);
-            closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
-            closestEntity.interact();
+            if (closestEntity.getSpeakingCheckpoint() != 0) {
+                closestEntity.setSpeakingTurn(closestEntity.getSpeakingCheckpoint());
+            } else {
+                closestEntity.setSpeakingTurn(-1);
+                closestEntity.interact();
+            }
             closestEntity = null;
         }
 
         // If there are projectiles, tick them
-        if (projectiles.size() > 0) {
-            tickProjectiles();
-        }
+        tickProjectiles();
 
         // If the mouse is not moved, use the WASD-keys to determine the direction
         if (!mouseMoved) {
@@ -320,9 +367,10 @@ public class Player extends Creature {
             }
         }
 
-    }
-
-    private void checkRanged(Rectangle mouse) {
+        if (isXpGained && !expEffectPlayed) {
+            Handler.get().playEffect("ui/exp_gain.ogg");
+            expEffectPlayed = true;
+        }
 
     }
 
@@ -331,11 +379,18 @@ public class Player extends Creature {
      */
     @Override
     protected void tickProjectiles() {
-        if(projectiles.size() < 1)
-            return;
+        if (projectiles.size() < 1) {
+            if (toBeAdded.size() < 1) {
+                return;
+            }
+        }
+
+        if (projectiles.addAll(toBeAdded)) {
+            toBeAdded.clear();
+        }
 
         Iterator<Projectile> it = projectiles.iterator();
-        Collection<Projectile> deleted = new CopyOnWriteArrayList<>();
+        Collection<Projectile> deleted = new ArrayList<>();
         while (it.hasNext()) {
             Projectile p = it.next();
 
@@ -349,14 +404,40 @@ public class Player extends Creature {
                 if (e.equals(this)) {
                     continue;
                 }
-                if (p.getCollisionBounds(0, 0).intersects(e.getCollisionBounds(0, 0)) && p.isActive()) {
+                if (e.getVerticality() == this.verticality && e.isSolid() && p.getCollisionBounds(0, 0).intersects(e.getFullBounds(0, 0)) && p.isActive()) {
                     if (!e.isAttackable()) {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        e.damage(DamageType.INT, this, e);
-                        e.addCondition(this, e, new Condition(Condition.Type.CHILL, e, 6));
-                        p.setActive(false);
+                        if (!p.getHitCreatures().contains((Creature) e)) {
+                            if (p.getDamageType() != null) {
+                                if (p.getAbility() != null) {
+                                    e.damage(p.getDamageType(), this, p.getAbility());
+                                } else {
+                                    e.damage(p.getDamageType(), this);
+                                }
+                            }
+
+                            if (p.getImpactSound() != null) {
+                                Handler.get().playEffect(p.getImpactSound(), p.getImpactVolume());
+                            }
+                        }
+
+                        p.setHitCreature((Creature) e);
+
+                        // Apply special effect if has one
+                        if (p.getOnImpact() != null) {
+                            if (!p.getHitCreatures().contains(p.getHitCreature())) {
+                                p.getOnImpact().impact(p.getHitCreature());
+                            }
+                        }
+
+                        if (!p.isPiercing()) {
+                            p.setActive(false);
+                            break;
+                        }
+
+                        p.getHitCreatures().add((Creature) e);
                     }
                 }
             }
@@ -368,7 +449,7 @@ public class Player extends Creature {
     /*
      * Sets the angle of the mouse
      */
-    private void setMouseAngle(float playerX, float playerY, int mouseX, int mouseY) {
+    private void setMouseAngle(double playerX, double playerY, int mouseX, int mouseY) {
 
         double angle = Math.atan2(mouseY - playerY, mouseX - playerX);
 
@@ -393,6 +474,12 @@ public class Player extends Creature {
     public void render(Graphics2D g) {
         Rectangle mouse = Handler.get().getMouse();
 
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
+            combatUpBack.tick();
+            g.drawImage(combatUpBack.getCurrentFrame(), (int) (x - 16 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), width * 2, height * 2, null);
+        }
+
         if (movementAllowed) {
             g.drawImage(getCurrentAnimationFrame(mouse), (int) (x - Handler.get().getGameCamera().getxOffset()),
                     (int) (y - Handler.get().getGameCamera().getyOffset()), width, height, null);
@@ -409,29 +496,20 @@ public class Player extends Creature {
                     (int) (y + bounds.y - Handler.get().getGameCamera().getyOffset()), bounds.width, bounds.height);
         }
 
-
-        // Player box
-//		g.setColor(Color.BLACK);
-//		g.drawRect((int)(x - Handler.get().getGameCamera().getxOffset()), (int) (y - Handler.get().getGameCamera().getyOffset()), width, height);
-
         // Player item pickup radius
 //		g.setColor(Color.BLACK);
 //		g.drawRect((int)(itemPickupRadius().x - Handler.get().getGameCamera().getxOffset()), (int) (itemPickupRadius().y - Handler.get().getGameCamera().getyOffset()), itemPickupRadius().width, itemPickupRadius().height);
 
-        // Draw HP above head
-//		Text.drawString(g, Integer.toString(getHealth()) + "/" + maxHealth,
-//				(int) (x - Handler.get().getGameCamera().getxOffset() - 4), (int) (y - Handler.get().getGameCamera().getyOffset() - 8 ), false, Creature.hpColor, GameState.myFont);
-
-        //System.out.println((int) ((x) - (x % 16)));
-//		
-//		g.setColor(playerBoxColour);
-//		g.fillRect((int) ((x) - Handler.get().getGameCamera().getxOffset()), (int) ((y) - Handler.get().getGameCamera().getyOffset()), 32, 32);
-
 //		UNCOMMENT THIS TO SEE MELEE HITBOX
-//		double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-//		Rectangle ar = new Rectangle((int)(32 * Math.cos(angle) + (int)this.x), (int)(32 * Math.sin(angle) + (int)this.y), 32, 32);
-//		g.setColor(Color.MAGENTA);
-//		g.drawRect((int)(ar.x - Handler.get().getGameCamera().getxOffset()), (int)(ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
+//        double angle = Math.atan2((Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
+//        Rectangle ar;
+//        if (width > 32 && height > 32) {
+//            ar = new Rectangle((int) ((width - width / 2) * Math.cos(angle) + (int) this.x + width / 4), (int) ((height - height / 2) * Math.sin(angle) + (int) this.y + height / 2), 40, 44);
+//        } else {
+//            ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 40, 40);
+//        }
+//        g.setColor(Color.MAGENTA);
+//        g.drawRect((int) (ar.x - Handler.get().getGameCamera().getxOffset()), (int) (ar.y - Handler.get().getGameCamera().getyOffset()), ar.width, ar.height);
 
         if (projectiles.size() > 0) {
             for (Projectile p : projectiles) {
@@ -440,18 +518,46 @@ public class Player extends Creature {
             }
         }
 
+        if (meleeAnimation != null) {
+            if (meleeAnimation.isTickDone()) {
+                meleeAnimation = null;
+            } else {
+                meleeAnimation.tick();
+
+                AffineTransform old = g.getTransform();
+                g.rotate(Math.toRadians(meleeDirection), (int) (x + meleeXOffset + width / 2 - Handler.get().getGameCamera().getxOffset()), (int) (y + meleeYOffset + height / 2 - Handler.get().getGameCamera().getyOffset()));
+                g.drawImage(meleeAnimation.getCurrentFrame(), (int) (x + meleeXOffset - Handler.get().getGameCamera().getxOffset()),
+                        (int) (y + meleeYOffset - Handler.get().getGameCamera().getyOffset()), (int) (width * 1.25f), (int) (height * 1.25f), null);
+                g.setTransform(old);
+            }
+        }
+
     }
 
     public void levelUp() {
         isLevelUp = true;
 
-        this.levelExponent *= LEVEL_EXPONENT;
+        levelExponent *= LEVEL_EXPONENT;
 
         // Change base damage and restore to full health
-        this.baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
-        this.maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+        baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
+        baseHP = getNewBaseHP();
+        maxHealth = baseHP + vitality * 4;
 
-        this.health = maxHealth;
+        health = maxHealth;
+    }
+
+    private int getNewBaseHP() {
+        // Logicistic regression formula
+        // f\left(x\right)=\left(\frac{L}{1+e^{-k\left(x-x_{0}+20\right)}}-57\right)\cdot10
+        double L = 300d;
+        double x0 = 50d;
+        double x = Handler.get().getSkill(SkillsList.COMBAT).getLevel();
+        double k = 0.05d;
+
+
+        // Return new base HP
+        return (DEFAULT_HEALTH * 2) + (int) ((L / (1d + Math.exp(-1 * k * (x - x0 + 20d))) - 57d) * 10d);
     }
 
     /*
@@ -463,6 +569,7 @@ public class Player extends Creature {
             // If slotnumber = 12 (unequippable) return
             return;
         }
+
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
 
             // Sets the new stats
@@ -476,10 +583,36 @@ public class Player extends Creature {
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
+            maxHealth = baseHP + vitality * 4;
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
+        }
+    }
+
+    public Item getMainHandWeapon() {
+        ItemStack is = Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack();
+        return is == null ? null : is.getItem();
+    }
+
+    public void setWeaponAnimations(int equipSlot) {
+        // Change weapon animations based on equipped weapon
+        Item equipped = Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem();
+        if (equipped.isType(ItemType.MELEE_WEAPON)) {
+            attDown.setFrames(Assets.player_melee_down);
+            attUp.setFrames(Assets.player_melee_up);
+            attLeft.setFrames(Assets.player_melee_left);
+            attRight.setFrames(Assets.player_melee_right);
+        } else if (equipped.isType(ItemType.MAGIC_WEAPON)) {
+            attDown.setFrames(Assets.player_magic_down);
+            attUp.setFrames(Assets.player_magic_up);
+            attLeft.setFrames(Assets.player_magic_left);
+            attRight.setFrames(Assets.player_magic_right);
+        } else if (equipped.isType(ItemType.RANGED_WEAPON)) {
+            attDown.setFrames(Assets.player_ranged_down);
+            attUp.setFrames(Assets.player_ranged_up);
+            attLeft.setFrames(Assets.player_ranged_left);
+            attRight.setFrames(Assets.player_ranged_right);
         }
     }
 
@@ -536,40 +669,10 @@ public class Player extends Creature {
 
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
-            int previousMaxHP = maxHealth;
-            maxHealth = (int) (DEFAULT_HEALTH + Math.round(vitality * 1.5));
-            if (health >= previousMaxHP) {
+            maxHealth = baseHP + vitality * 4;
+            if (health >= maxHealth) {
                 health = maxHealth;
             }
-        }
-    }
-
-    /*
-     * Regenerates health
-     */
-    private void regenHealth() {
-        if (health == maxHealth) {
-            return;
-        }
-
-        regenTimer += System.currentTimeMillis() - lastRegenTimer;
-        lastRegenTimer = System.currentTimeMillis();
-        if (regenTimer < regenCooldown)
-            return;
-
-        // If current health is higher than your max health value, degenerate health
-        if (health > maxHealth) {
-
-            health -= 1;
-            regenTimer = 0;
-        }
-
-        // If current health is lower than your max health value, regenerate health
-        if (health < maxHealth) {
-
-            health += 1;
-
-            regenTimer = 0;
         }
     }
 
@@ -586,7 +689,7 @@ public class Player extends Creature {
             return true;
         if (ChatWindow.chatIsOpen && Handler.get().getChatWindow().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (CraftingUI.isOpen && Handler.get().getCraftingUI().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (CraftingUI.isOpen && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (ShopWindow.isOpen && Handler.get().getMouseManager().isLeftPressed())
             return true;
@@ -602,11 +705,13 @@ public class Player extends Creature {
             return true;
         if (CharacterUI.isOpen && Handler.get().getCharacterUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
-        if (Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+        if (HPOverlay.isOpen && Handler.get().getHpOverlay().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (Handler.get().getAbilityManager().getAbilityHUD().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
+            return true;
+        if (BountyContractUI.isOpen && Handler.get().getContractUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed())
             return true;
         if (abilityTrainer != null && AbilityShopWindow.isOpen) {
             if (Handler.get().getMouseManager().isLeftPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
@@ -615,6 +720,26 @@ public class Player extends Creature {
         }
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             return Handler.get().getMouseManager().isLeftPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
+        }
+
+        TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
+        if (tip != null && Handler.get().getMouseManager().isLeftPressed() && tip.getPopup().getBounds().contains(mouse)) {
+            return true;
+        }
+
+        if (bountyBoard != null && BountyBoardUI.isOpen) {
+            if (Handler.get().getMouseManager().isLeftPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
+                return true;
+            }
+        }
+
+        CelebrationUI celebrationUI = Handler.get().getCelebrationUI();
+        if (!celebrationUI.getEvents().isEmpty() && celebrationUI.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
+            return true;
+        }
+
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
+            return true;
         }
 
         // If the mouse is not clicked in one of the UI windows, return false
@@ -634,7 +759,7 @@ public class Player extends Creature {
             return true;
         if (ChatWindow.chatIsOpen && Handler.get().getChatWindow().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
-        if (CraftingUI.isOpen && Handler.get().getCraftingUI().getWindowBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+        if (CraftingUI.isOpen && Handler.get().getMouseManager().isRightPressed())
             return true;
         if (ShopWindow.isOpen && Handler.get().getMouseManager().isRightPressed())
             return true;
@@ -656,6 +781,8 @@ public class Player extends Creature {
             return true;
         if (AbilityOverviewUI.isOpen && Handler.get().getAbilityOverviewUI().getClickableArea().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
             return true;
+        if (BountyContractUI.isOpen && Handler.get().getContractUI().getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed())
+            return true;
         if (abilityTrainer != null && AbilityShopWindow.isOpen) {
             if (Handler.get().getMouseManager().isRightPressed() && abilityTrainer.getAbilityShopWindow().getBounds().contains(mouse)) {
                 return true;
@@ -664,10 +791,65 @@ public class Player extends Creature {
         if (closestEntity != null && closestEntity.getChatDialogue() != null) {
             return Handler.get().getMouseManager().isRightPressed() && closestEntity.getChatDialogue().getBounds().contains(mouse);
         }
+        TutorialTip tip = Handler.get().getTutorialTipManager().getCurrentTip();
+        if (tip != null && Handler.get().getMouseManager().isRightPressed() && tip.getPopup().getBounds().contains(mouse)) {
+            return true;
+        }
 
+        if (bountyBoard != null && BountyBoardUI.isOpen) {
+            if (Handler.get().getMouseManager().isRightPressed() && bountyBoard.getBountyBoardUI().getBounds().contains(mouse)) {
+                return true;
+            }
+        }
+
+        CelebrationUI celebrationUI = Handler.get().getCelebrationUI();
+        if (!celebrationUI.getEvents().isEmpty() && celebrationUI.getBounds().contains(mouse) && Handler.get().getMouseManager().isRightPressed()) {
+            return true;
+        }
+
+        if (PotionSort.isOpen || BookUI.anyInterfaceOpen) {
+            return true;
+        }
 
         // If the mouse is not clicked in one of the UI windows, return false
         return false;
+    }
+
+    public boolean isNotOnOvercast() {
+        for (Ability a : Handler.get().getAbilityManager().getActiveAbilities()) {
+            if (a.getCaster().equals(this)) {
+                if (a.isInOvercast()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void checkRanged(Rectangle mouse) {
+        rangedTimer += System.currentTimeMillis() - lastRangedTimer;
+        lastRangedTimer = System.currentTimeMillis();
+        if (rangedTimer < rangedCooldown)
+            return;
+
+        if (hasLeftClickedUI(mouse))
+            return;
+
+        if (isNotOnOvercast())
+            return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+
+        rangedTimer = 0;
+
+        Handler.get().playEffect("abilities/ranged_shot.ogg", 0.35f);
+        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
+
+            new Projectile.Builder(DamageType.DEX, Assets.regularArrow, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
+                    .withVelocity(9.0f).build();
+        }
     }
 
     /*
@@ -683,14 +865,20 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
+        if (isNotOnOvercast())
+            return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+
         magicTimer = 0;
 
-        Handler.get().playEffect("abilities/fireball.wav");
+        Handler.get().playEffect("abilities/magic_strike.ogg");
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            projectiles.add(new Projectile(x, y,
-                    (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
-                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16),
-                    9.0f, Assets.fireProjectile));
+
+            new Projectile.Builder(DamageType.INT, Assets.regularMagic, this, (int) (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16),
+                    (int) (mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16))
+                    .withVelocity(9.0f).build();
         }
 
     }
@@ -708,76 +896,48 @@ public class Player extends Creature {
         if (hasLeftClickedUI(mouse))
             return;
 
+        if (isNotOnOvercast())
+            return;
+
+        // Change attacking animation depending on which weapon type
+        setWeaponAnimations(EquipSlot.Mainhand.getSlotId());
+
         attackTimer = 0;
 
-        if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isDragged()) {
-            double angle = Math.atan2((mouse.getY() + Handler.get().getGameCamera().getyOffset() - 16) - y, (mouse.getX() + Handler.get().getGameCamera().getxOffset() - 16) - x);
-            Rectangle ar = new Rectangle((int) (32 * Math.cos(angle) + (int) this.x), (int) (32 * Math.sin(angle) + (int) this.y), 32, 32);
+        meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 
-            for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-                if (e.equals(this))
-                    continue;
-                if (!e.isAttackable())
-                    continue;
-                if (e.getCollisionBounds(0, 0).intersects(ar)) {
-                    e.damage(DamageType.STR, this, e);
-                    return;
-                }
-            }
-        }
+        setMeleeSwing(mouse);
+
+        Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
+
+        checkMeleeHitboxes();
     }
 
     @Override
     public void die() {
-        System.out.println("You died!");
-        // Drop all items
-        for (int i = 0; i < Handler.get().getInventory().getItemSlots().size(); i++) {
-            if (Handler.get().getInventory().getItemSlots().get(i).getItemStack() == null) {
-                continue;
-            }
-            Handler.get().dropItem(Handler.get().getInventory().getItemSlots().get(i).getItemStack().getItem(),
-                    Handler.get().getInventory().getItemSlots().get(i).getItemStack().getAmount(), (int) x, (int) y);
-            Handler.get().getInventory().getItemSlots().get(i).setItemStack(null);
-        }
-        // If we're dragging an item from inventory while dying, drop it too!
-        if (Handler.get().getInventory().getCurrentSelectedSlot() != null) {
-            Handler.get().dropItem(Handler.get().getInventory().getCurrentSelectedSlot().getItem(), Handler.get().getInventory().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-            Handler.get().getInventory().setCurrentSelectedSlot(null);
-            InventoryWindow.hasBeenPressed = false;
-            InventoryWindow.itemSelected = false;
-        }
-        // Drop all equipment
-        for (int i = 0; i < Handler.get().getEquipment().getEquipmentSlots().size(); i++) {
-            if (Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack() == null) {
-                continue;
-            }
-            Handler.get().dropItem(Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem(),
-                    Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getAmount(), (int) x, (int) y);
-            removeEquipmentStats(Handler.get().getEquipment().getEquipmentSlots().get(i).getEquipmentStack().getItem().getEquipSlot());
-            Handler.get().getEquipment().getEquipmentSlots().get(i).setItem(null);
-        }
-        // If we're dragging an item from equipment while dying, drop it too!
-        if (Handler.get().getEquipment().getCurrentSelectedSlot() != null) {
-            Handler.get().dropItem(Handler.get().getEquipment().getCurrentSelectedSlot().getItem(), Handler.get().getEquipment().getCurrentSelectedSlot().getAmount(), (int) x, (int) y);
-            Handler.get().getEquipment().setCurrentSelectedSlot(null);
-            EquipmentWindow.hasBeenPressed = false;
-            EquipmentWindow.itemSelected = false;
-        }
+        Handler.get().sendMsg("You died!");
 
         // If we're dead, respawn
         if (!active) {
-            this.setActive(true);
-            this.setHealth(maxHealth);
-
-            Handler.get().setWorld(Zone.PortAzure);
-            this.setX(xSpawn);
-            this.setY(ySpawn);
+            respawn();
         }
     }
 
     @Override
     public void respawn() {
+        Handler.get().goToWorld(lastSpawnPoint, (int) lastXSpawn, (int) lastYSpawn);
 
+        // Clear buffs & condis & reset HP
+        clearBuffs();
+        clearConditions();
+        setHealth(maxHealth);
+        setDamaged(false);
+        setActive(true);
+    }
+
+    @Override
+    public int getLevelByElement(CharacterStats element) {
+        return element.getLevel();
     }
 
     @Override
@@ -816,6 +976,10 @@ public class Player extends Creature {
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
+        if (xMove != 0 || yMove != 0) {
+            isMoving = true;
+            hasMoved = true;
+        }
     }
 
     /*
@@ -827,15 +991,13 @@ public class Player extends Creature {
             closestEntity.getChatDialogue().render(g);
         }
 
-        Text.drawString(g, "FPS: " + Handler.get().getGame().getFramesPerSecond(), 12, 160, false, Color.YELLOW, Assets.font14);
-
         if (isXpGained) {
             xpGainedTimer++;
             g.drawImage(leveledSkill.getImg(), (int) (x - Handler.get().getGameCamera().getxOffset() - 66),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), null);
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - xpGainedTimer), 24, 24, null);
             Text.drawString(g, "+" + xpGained + " XP",
-                    (int) (x - Handler.get().getGameCamera().getxOffset() - 32),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 48 - xpGainedTimer),
+                    (int) (x - Handler.get().getGameCamera().getxOffset() - 40),
+                    (int) (y - Handler.get().getGameCamera().getyOffset() + 44 - xpGainedTimer),
                     false, Color.GREEN, Assets.font14);
             if (xpGainedTimer >= 60) {
                 xpGainedTimer = 0;
@@ -843,12 +1005,20 @@ public class Player extends Creature {
             }
         }
 
-        if (isLevelUp) {
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
+            combatUpFront.tick();
+            g.drawImage(combatUpFront.getCurrentFrame(), (int) (x - 16 - Handler.get().getGameCamera().getxOffset()),
+                    (int) (y - 16 - Handler.get().getGameCamera().getyOffset()), width * 2, height * 2, null);
+        }
+
+        if (isLevelUp && leveledSkill instanceof CombatSkill) {
             levelUpTimer++;
-            Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x - Handler.get().getGameCamera().getxOffset() + 12),
-                    (int) (y - Handler.get().getGameCamera().getyOffset() + 32 - levelUpTimer),
-                    true, Color.YELLOW, Assets.font24);
-            if (levelUpTimer >= 60) {
+            if (levelUpTimer <= 60) {
+                Text.drawString(g, leveledSkill.toString() + " level up!", (int) (x + width - Handler.get().getGameCamera().getxOffset() + 4),
+                        (int) (y - Handler.get().getGameCamera().getyOffset() + 60 - levelUpTimer),
+                        false, Color.GREEN, Assets.font24);
+            }
+            if (levelUpTimer >= 210) {
                 levelUpTimer = 0;
                 isLevelUp = false;
             }
@@ -860,20 +1030,34 @@ public class Player extends Creature {
                     32,
                     32);
             getConditions().get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getConditions().get(i), g);
             }
         }
 
         int yOffset = 0;
         if (!getConditions().isEmpty()) yOffset = 1;
-        for (int i = 0; i < getBuffs().size(); i++) {
+        // Always draw resistance buffs first on the left
+        int resistanceCount = 0;
+        for (int i = 0; i < getImmunities().size(); i++) {
+            resistanceCount += ItemSlot.SLOTSIZE;
             Rectangle slotPos = new Rectangle(Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
                     Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
                     32,
                     32);
+            getImmunities().get(i).render(g, slotPos.x, slotPos.y);
+            if (slotPos.contains(Handler.get().getMouse())) {
+                Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getImmunities().get(i), g);
+            }
+        }
+        // Draw buffs to the right of immunities
+        for (int i = 0; i < getBuffs().size(); i++) {
+            Rectangle slotPos = new Rectangle(resistanceCount + Handler.get().getAbilityManager().getAbilityHUD().getBounds().x + (i * ItemSlot.SLOTSIZE),
+                    Handler.get().getHeight() - ItemSlot.SLOTSIZE * 2 - (ItemSlot.SLOTSIZE * yOffset) - 8,
+                    32,
+                    32);
             getBuffs().get(i).render(g, slotPos.x, slotPos.y);
-            if(slotPos.contains(Handler.get().getMouse())) {
+            if (slotPos.contains(Handler.get().getMouse())) {
                 Handler.get().getAbilityManager().getAbilityHUD().getStatusTooltip().render(getBuffs().get(i), g);
             }
         }
@@ -990,22 +1174,22 @@ public class Player extends Creature {
          */
 
         if (lastFaced == Direction.LEFT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aLeft.getDefaultFrame();
             }
             return attLeft.getCurrentFrame();
         } else if (lastFaced == Direction.RIGHT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aRight.getDefaultFrame();
             }
             return attRight.getCurrentFrame();
         } else if (lastFaced == Direction.UP && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aUp.getDefaultFrame();
             }
             return attUp.getCurrentFrame();
         } else if (lastFaced == Direction.DOWN && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null){
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
                 return aDown.getDefaultFrame();
             }
             return attDown.getCurrentFrame();
@@ -1055,14 +1239,6 @@ public class Player extends Creature {
         return Handler.get().getWorld();
     }
 
-    public boolean isMovementAllowed() {
-        return movementAllowed;
-    }
-
-    public void setMovementAllowed(boolean movementAllowed) {
-        this.movementAllowed = movementAllowed;
-    }
-
     public Direction getLastFaced() {
         return lastFaced;
     }
@@ -1104,6 +1280,14 @@ public class Player extends Creature {
         this.abilityTrainer = abilityTrainer;
     }
 
+    public BountyBoard getBountyBoard() {
+        return bountyBoard;
+    }
+
+    public void setBountyBoard(BountyBoard bountyBoard) {
+        this.bountyBoard = bountyBoard;
+    }
+
     public int getAbilityPoints() {
         return abilityPoints;
     }
@@ -1114,5 +1298,85 @@ public class Player extends Creature {
 
     public void addAbilityPoints() {
         this.abilityPoints++;
+    }
+
+    public int getBaseHP() {
+        return baseHP;
+    }
+
+    public void setBaseHP(int baseHP) {
+        this.baseHP = baseHP;
+    }
+
+    public void setClosestEntity(Entity closestEntity) {
+        this.closestEntity = closestEntity;
+    }
+
+    public double getLevelExponent() {
+        return levelExponent;
+    }
+
+    public void setLevelExponent(double levelExponent) {
+        this.levelExponent = levelExponent;
+    }
+
+    public Zone getLastSpawnPoint() {
+        return lastSpawnPoint;
+    }
+
+    public void setLastSpawnPoint(Zone lastSpawnPoint) {
+        this.lastSpawnPoint = lastSpawnPoint;
+    }
+
+    public double getLastXSpawn() {
+        return lastXSpawn;
+    }
+
+    public void setLastXSpawn(double lastXSpawn) {
+        this.lastXSpawn = lastXSpawn;
+    }
+
+    public double getLastYSpawn() {
+        return lastYSpawn;
+    }
+
+    public void setLastYSpawn(double lastYSpawn) {
+        this.lastYSpawn = lastYSpawn;
+    }
+
+    @Override
+    public void setVitality(int vitality) {
+        this.vitality = vitality;
+
+        // Change max HP as well
+        int previousMaxHP = maxHealth;
+        maxHealth = baseHP + vitality * 4;
+        if (health >= previousMaxHP) {
+            health = maxHealth;
+        }
+    }
+
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+        stream.defaultWriteObject();
+        stream.writeObject(Handler.get().getGameCamera());
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+        serialized.defaultReadObject();
+        Handler.get().setGameCamera((GameCamera) serialized.readObject());
+        Handler.get().getGameCamera().setFocusedEntity(this);
+        this.postRenderTiles = new HashMap<>();
+        this.initialTileSetup = false;
+    }
+
+    @Override
+    public void setAttackSpeed(double attackSpeed) {
+        super.setAttackSpeed(attackSpeed);
+        attackCooldown = (long) (600 / attackSpeed);
+        magicCooldown = (long) (600 / attackSpeed);
+        rangedCooldown = (long) (600 / attackSpeed);
     }
 }

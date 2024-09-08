@@ -1,0 +1,36 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Greetings, traveler. We are guarding the passage between Shamrock Town and the northern route.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Can I pass?",
+          "nextId": 3,
+          "choiceCondition": {
+            "condition": "hasAccess",
+            "falseId": 2
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "I'm sorry, but we cannot let you through right now. Due to recent wolf attacks, the northern route is off limits.",
+      "nextId": -1
+    },
+    {
+      "id": 3,
+      "text": "Please take care.",
+      "nextId": -1
+    }
+  ]
+}

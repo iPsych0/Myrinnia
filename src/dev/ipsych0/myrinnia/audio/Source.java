@@ -19,7 +19,6 @@ public class Source {
     }
 
     public void playEffect(int buffer) {
-        stop();
         AL10.alSourcei(sourceId, AL10.AL_BUFFER, buffer);
         AL10.alSourcePlay(sourceId);
     }

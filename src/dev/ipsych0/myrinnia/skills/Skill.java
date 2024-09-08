@@ -1,10 +1,14 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.items.ui.ItemSlot;
+import dev.ipsych0.myrinnia.publishers.SkillPublisher;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
+import dev.ipsych0.myrinnia.skills.ui.SkillResourceSlot;
+import dev.ipsych0.myrinnia.ui.Celebration;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -46,6 +50,8 @@ public abstract class Skill implements Serializable {
 
     void addLevel() {
         this.level++;
+        SkillPublisher.get().publish(this);
+        SkillPublisher.get().notifySubscribers();
     }
 
     void checkNextLevel() {
@@ -53,10 +59,18 @@ public abstract class Skill implements Serializable {
             experience -= nextLevelXp;
             addLevel();
             nextLevelXp = (int) (nextLevelXp * 1.1);
-            checkNextLevel();
+            if (!Player.isLevelUp) {
+                Handler.get().playEffect("ui/level_up.ogg", 0.1f);
+            }
             Player.isLevelUp = true;
+            checkNextLevel();
+        } else {
+            if (Player.isLevelUp) {
+                Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));
+                Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+                Player.isLevelUp = false;
+            }
         }
-        Handler.get().playEffect("ui/level_up.wav");
     }
 
     public int getExperience() {
@@ -65,6 +79,7 @@ public abstract class Skill implements Serializable {
 
     public void addExperience(int experience) {
         Player.isXpGained = true;
+        Player.expEffectPlayed = false;
         Player.xpGained = experience;
         this.experience += experience;
         Player.leveledSkill = this;
@@ -104,5 +119,15 @@ public abstract class Skill implements Serializable {
                 .stream()
                 .filter(x -> x.getCategory() == category)
                 .collect(Collectors.toList());
+    }
+
+    public List<SkillResourceSlot> getSlotsByCategory(SkillCategory category, int startX, int startY) {
+        List<SkillResourceSlot> slots = new ArrayList<>();
+        List<SkillResource> recipes = getListByCategory(category);
+        for (int i = 0; i < recipes.size(); i++) {
+            SkillResource recipe = recipes.get(i);
+            slots.add(new SkillResourceSlot(recipe, startX, startY + (i * ItemSlot.SLOTSIZE), ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE));
+        }
+        return slots;
     }
 }

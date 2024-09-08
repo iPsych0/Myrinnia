@@ -1,12 +1,17 @@
 package dev.ipsych0.myrinnia.quests;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.npcs.CelenorPorewit;
+import dev.ipsych0.myrinnia.entities.npcs.PortAzureDuncan;
+import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class QuestManager implements Serializable {
 
@@ -18,18 +23,20 @@ public class QuestManager implements Serializable {
     private QuestUI questUI;
 
     // Quest Lists per zone
-    private ArrayList<Quest> islandQuests = new ArrayList<>();
-    private ArrayList<Quest> testQuests = new ArrayList<>();
-    private ArrayList<Quest> mainQuests = new ArrayList<>();
+    private List<Quest> azurealIslandQuests = new ArrayList<>();
+    private List<Quest> shamrockTownQuests = new ArrayList<>();
+    private List<Quest> celenorQuests = new ArrayList<>();
+//    private ArrayList<Quest> testQuests = new ArrayList<>();
+//    private ArrayList<Quest> mainQuests = new ArrayList<>();
 
     // Get Quests by Enum value
     private EnumMap<QuestList, Quest> questMap = new EnumMap<>(QuestList.class);
 
     // Put all Quest Lists per zone into a List of all Quest Lists
-    private ArrayList<ArrayList<Quest>> allQuestLists = new ArrayList<>();
+    private List<List<Quest>> allQuestLists = new ArrayList<>();
 
     // Map Zones to Quest Lists
-    private EnumMap<Zone, ArrayList<Quest>> zoneMap = new EnumMap<>(Zone.class);
+    private EnumMap<Zone, List<Quest>> zoneMap = new EnumMap<>(Zone.class);
 
     public QuestManager() {
         questUI = new QuestUI();
@@ -47,24 +54,55 @@ public class QuestManager implements Serializable {
 
     private void initLists() {
         // Filling allQuestLists with ALL lists of quests
-        allQuestLists.add(islandQuests);
-        allQuestLists.add(testQuests);
-        allQuestLists.add(mainQuests);
-
+        allQuestLists.add(azurealIslandQuests);
+        allQuestLists.add(shamrockTownQuests);
+        allQuestLists.add(celenorQuests);
     }
 
     private void fillLists() {
 
         // Island Quests
-        islandQuests.add(new Quest("The First Quest", Zone.PortAzure));
-        islandQuests.add(new Quest("The Second Quest", Zone.PortAzure, new QuestRequirement(QuestList.TheFirstQuest), new QuestRequirement(SkillsList.FISHING, 2)));
-        islandQuests.add(new Quest("The Third Quest", Zone.PortAzure));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gettingstarted.json",
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(150);
+                }));
+
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
+                }));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
+                (OnCompletion & Serializable) () -> {
+                    PortAzureDuncan.unlockRecipes();
+                    Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(80);
+                }));
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", Arrays.asList(new QuestRequirement(QuestList.PreparingYourJourney)),
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                }));
+
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 7)),
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().giveItem(Item.dustyScroll, 1);
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
+                    Handler.get().getSkill(SkillsList.MINING).addExperience(150);
+                }));
+
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8)),
+                (OnCompletion & Serializable) () -> {
+                    Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
+                    Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(200);
+                    CelenorGrottoWater.cleanse();
+                    CelenorPorewit.removeFog();
+                }));
 
         // Test Quests
-        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
+//        testQuests.add(new Quest("The Test Quest", Zone.LakeAzure));
 
         //Main Quests
-        mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
+//        mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
 
         // Sorts every list's quests by name, alphabetically
         for (int i = 0; i < allQuestLists.size(); i++) {
@@ -140,19 +178,19 @@ public class QuestManager implements Serializable {
         this.questUI = questUI;
     }
 
-    public ArrayList<ArrayList<Quest>> getAllQuestLists() {
+    public List<List<Quest>> getAllQuestLists() {
         return allQuestLists;
     }
 
-    public void setAllQuestLists(ArrayList<ArrayList<Quest>> allQuestLists) {
+    public void setAllQuestLists(List<List<Quest>> allQuestLists) {
         this.allQuestLists = allQuestLists;
     }
 
-    public EnumMap<Zone, ArrayList<Quest>> getZoneMap() {
+    public EnumMap<Zone, List<Quest>> getZoneMap() {
         return zoneMap;
     }
 
-    public void setZoneMap(EnumMap<Zone, ArrayList<Quest>> zoneMap) {
+    public void setZoneMap(EnumMap<Zone, List<Quest>> zoneMap) {
         this.zoneMap = zoneMap;
     }
 

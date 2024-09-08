@@ -1,12 +1,14 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.audio.AudioManager;
+import dev.ipsych0.myrinnia.devtools.Bootstrapper;
 import dev.ipsych0.myrinnia.display.Display;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.states.*;
+import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -22,8 +24,8 @@ public class Game implements Runnable, Serializable {
      */
     private static final long serialVersionUID = 1320270378451615572L;
 
-    public static final String CURRENT_VERSION = "v0.8";
-    public static final String TITLE_BAR = "Elements of Myrinnia Pre-Alpha Development " + CURRENT_VERSION;
+    public static final String CURRENT_VERSION = "v0.0.92";
+    public static final String TITLE_BAR = "Elements of Myrinnia Alpha " + CURRENT_VERSION;
     private Display display;
     private int width, height;
     private String title;
@@ -31,7 +33,7 @@ public class Game implements Runnable, Serializable {
     private int framesPerSecond = 0;
 
     private boolean running = false;
-    private transient Thread thread;
+    private transient Thread mainThread;
 
     private transient BufferStrategy bs;
     private transient Graphics g;
@@ -45,6 +47,7 @@ public class Game implements Runnable, Serializable {
     public State recapState;
     public State graphicsState;
     public State audioState;
+    public State generalSettingsState;
 
     // Input
     private KeyManager keyManager;
@@ -55,11 +58,13 @@ public class Game implements Runnable, Serializable {
 
     private static Game game;
     private static Handler handler;
-    private static final int MIN_RES_WIDTH = 1600;
-    private static final int MIN_RES_HEIGHT = 900;
+    private static final int MIN_RES_WIDTH = 1366;
+    private static final int MIN_RES_HEIGHT = 768;
 
     private Map<RenderingHints.Key, Object> renderHintMap;
-    private RenderingHints renderingHints;
+    private Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
+
+    public static Cursor normalCursor, normalCursorHighlight, attackCursor;
 
     public static Game get() {
         if (game == null) {
@@ -76,27 +81,21 @@ public class Game implements Runnable, Serializable {
         mouseManager = new MouseManager();
         renderHintMap = new HashMap<>();
 
-        // Default rendering settings
-        renderHintMap.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        setQualityRendering();
 
-        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        // Add fractional metrics so text will be rendered with more accurate position
+        renderHintMap.put(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
-        renderHintMap.put(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_DEFAULT);
-
-        renderHintMap.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_DEFAULT);
-
-        updateRenderingHints();
+//        renderHintMap.put(RenderingHints.KEY_INTERPOLATION,
+//                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
     }
 
     private void init() {
-        display = new Display(title, width, height);
-        addListeners();
-
-        Assets.init();
+        EventQueue.invokeLater(() -> {
+            display = new Display(title, width, height);
+            addListeners();
+        });
 
         handler = Handler.get();
         loadSettings();
@@ -113,6 +112,7 @@ public class Game implements Runnable, Serializable {
         recapState = new RecapState();
         graphicsState = new GraphicsState();
         audioState = new AudioState();
+        generalSettingsState = new GeneralSettingsState();
 
 
         AudioManager.init();
@@ -122,6 +122,17 @@ public class Game implements Runnable, Serializable {
         State.setState(menuState);
 
         display.setInitialized(true);
+
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        normalCursor = toolkit.createCustomCursor(Assets.normalCursor, new Point(1, 1), "normal");
+        normalCursorHighlight = toolkit.createCustomCursor(Assets.normalCursorHighlight, new Point(1, 1), "normal_highlight");
+        attackCursor = toolkit.createCustomCursor(Assets.attackCursorHighlight, new Point(1, 1), "attack");
+        changeCursor(normalCursor);
+
+        // Use bootstrapper to set variables to desired state
+        new Bootstrapper().
+                skipTutorialIsland()
+                .setup_lvl_15();
     }
 
     public void addListeners() {
@@ -133,13 +144,20 @@ public class Game implements Runnable, Serializable {
         display.getCanvas().addMouseWheelListener(mouseManager);
     }
 
-    private void loadSettings(){
+    private void loadSettings() {
         keyManager.loadKeybinds();
+    }
+
+    public void changeCursor(Cursor cursor) {
+        display.getFrame().getRootPane().setCursor(cursor);
+    }
+
+    public Cursor getCursor() {
+        return display.getFrame().getCursor();
     }
 
     public void setRenderingHint(RenderingHints.Key key, Object value) {
         renderHintMap.put(key, value);
-        updateRenderingHints();
     }
 
     public void setPerformanceRendering() {
@@ -149,7 +167,6 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_OFF);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_SPEED);
-        updateRenderingHints();
     }
 
     public void setQualityRendering() {
@@ -159,7 +176,6 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
-        updateRenderingHints();
     }
 
     public void setDefaultRendering() {
@@ -169,37 +185,35 @@ public class Game implements Runnable, Serializable {
                 RenderingHints.VALUE_ANTIALIAS_DEFAULT);
         renderHintMap.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_DEFAULT);
-        updateRenderingHints();
-    }
-
-    private void updateRenderingHints() {
-        renderingHints = new RenderingHints(renderHintMap);
-    }
-
-    private RenderingHints getRenderingHints() {
-        return renderingHints;
     }
 
     private void tick() {
         mouseManager.tick();
         keyManager.tick();
         AudioManager.tick();
+        TimerHandler.get().tick();
+
         if (State.getState() != null) {
             State.getState().tick();
         }
     }
 
-    private void render() {
+    public void render() {
         bs = display.getCanvas().getBufferStrategy();
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
         }
         g = bs.getDrawGraphics();
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Add user's default text rendering settings for prettier fonts
+        if (desktopHints != null) {
+            g2d.setRenderingHints(desktopHints);
+        }
 
         // Set the chosen rendering hints
-        g2d.setRenderingHints(renderingHints);
+        g2d.setRenderingHints(renderHintMap);
 
         // Scale the screen based on original size
         g2d.scale(Display.scaleX, Display.scaleY);
@@ -213,6 +227,7 @@ public class Game implements Runnable, Serializable {
 
         // End draw
         bs.show();
+        Toolkit.getDefaultToolkit().sync();
         g.dispose();
         g2d.dispose();
     }
@@ -221,36 +236,6 @@ public class Game implements Runnable, Serializable {
     public void run() {
 
         init();
-        //
-        // int fps = 60;
-        // double timePerTick = 1000000000 / fps;
-        // double delta = 0;
-        // long now;
-        // long lastTime = System.nanoTime();
-        // long timer = 0;
-        //
-        //
-        // while(running){
-        // now = System.nanoTime();
-        // delta += (now - lastTime) / timePerTick;
-        // timer += now - lastTime;
-        // lastTime = now;
-        //
-        // if(delta >= 1){
-        // tick();
-        // render();
-        // ticks++;
-        // delta--;
-        // }
-        //
-        // if(timer >= 1000000000){
-        // framesPerSecond = ticks;
-        // ticks = 0;
-        // timer = 0;
-        // }
-        // }
-        //
-        // stop();
 
         // This value would probably be stored elsewhere.
         final double GAME_HERTZ = 60.0;
@@ -263,11 +248,9 @@ public class Game implements Runnable, Serializable {
         // We will need the last update time.
         double lastUpdateTime = System.nanoTime();
         // Store the last time we rendered.
-        double lastRenderTime;
 
         // If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = 60.0;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000d / TARGET_FPS;
 
         // Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1000000000d);
@@ -292,12 +275,7 @@ public class Game implements Runnable, Serializable {
                 lastUpdateTime = now - TIME_BETWEEN_UPDATES;
             }
 
-            // Render. To do so, we need to calculate interpolation for a smooth render.
-            render();
-            lastRenderTime = now;
-
             // Update the frames we got.
-
             int thisSecond = (int) (lastUpdateTime / 1000000000d);
 
             if (thisSecond > lastSecondTime) {
@@ -306,9 +284,11 @@ public class Game implements Runnable, Serializable {
                 ticks = 0;
             }
 
+            render();
+
             // Yield until it has been at least the target time between renders. This saves
             // the CPU from hogging.
-            while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+            while (now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
                 Thread.yield();
 
                 // This stops the app from consuming all your CPU. It makes this slightly less
@@ -353,8 +333,8 @@ public class Game implements Runnable, Serializable {
             return;
 
         running = true;
-        thread = new Thread(this);
-        thread.start();
+        mainThread = new Thread(this, "Main Thread");
+        mainThread.start();
     }
 
     private synchronized void stop() {
@@ -362,7 +342,7 @@ public class Game implements Runnable, Serializable {
             return;
         running = false;
         try {
-            thread.join();
+            mainThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -406,5 +386,13 @@ public class Game implements Runnable, Serializable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public GeneralSettingsState getGeneralSettingsState() {
+        return (GeneralSettingsState) generalSettingsState;
     }
 }

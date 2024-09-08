@@ -1,0 +1,68 @@
+[
+  {
+    "itemId": 156,
+    "itemName": "Hard leather",
+    "amount": 1,
+    "weight": 5
+  },
+  {
+    "itemId": 58,
+    "itemName": "Hardwood",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 72,
+    "itemName": "Soft leather",
+    "amount": 1,
+    "weight": 4
+  },
+  {
+    "itemId": 100,
+    "itemName": "Soft leather boots",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 101,
+    "itemName": "Soft leather gloves",
+    "amount": 1,
+    "weight": 1
+  },
+  {
+    "itemId": 154,
+    "itemName": "Clay",
+    "amount": 1,
+    "weight": 2
+  },
+  {
+    "itemId": 360,
+    "itemName": "Potato seeds",
+    "amount": 2,
+    "weight": 1
+  },
+  {
+    "itemId": 358,
+    "itemName": "Carrot seeds",
+    "amount": 2,
+    "weight": 1
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 10,
+    "weight": 5
+  },
+  {
+    "itemId": 4,
+    "itemName": "Coins",
+    "amount": 15,
+    "weight": 3
+  },
+  {
+    "itemId": -1,
+    "itemName": "Nothing",
+    "amount": 0,
+    "weight": 2
+  }
+]

@@ -1,11 +1,16 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.ui.Celebration;
+import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Quest implements Serializable {
 
@@ -16,28 +21,49 @@ public class Quest implements Serializable {
     private ArrayList<QuestStep> questSteps;
     private int step = 0;
     private String questName;
+    private String questStart;
     private QuestState state;
-    private QuestRequirement[] requirements;
+    private List<QuestRequirement> requirements;
+    private Map<String, Object> customChecks;
+    private OnCompletion onCompletion;
+    private boolean finished;
 
     private Zone zone;
 
-    public enum QuestState {
-        NOT_STARTED, IN_PROGRESS, COMPLETED
-    }
-
-    public Quest(String questName, Zone zone) {
-        this.questName = questName;
+    public Quest(Zone zone, String jsonFile, OnCompletion onCompletion) {
         this.zone = zone;
+        this.onCompletion = onCompletion;
+
+        QuestVO questVO = Utils.loadQuest(jsonFile);
+        this.questStart = questVO.getQuestStart();
+        this.questName = questVO.getQuestName();
+
+        customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
+
+        for (String s : questVO.getObjectives()) {
+            questSteps.add(new QuestStep(s));
+        }
     }
 
-    public Quest(String questName, Zone zone, QuestRequirement... questRequirements) {
-        this.questName = questName;
+    public Quest(Zone zone, String jsonFile, List<QuestRequirement> requirements, OnCompletion onCompletion) {
         this.zone = zone;
-        this.requirements = questRequirements;
+        this.requirements = requirements;
+        this.onCompletion = onCompletion;
+
+        QuestVO questVO = Utils.loadQuest(jsonFile);
+
+        this.questStart = questVO.getQuestStart();
+        this.questName = questVO.getQuestName();
+
+        customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
+
+        for (String s : questVO.getObjectives()) {
+            questSteps.add(new QuestStep(s));
+        }
     }
 
     public void tick() {
@@ -53,8 +79,12 @@ public class Quest implements Serializable {
     }
 
     public void nextStep() {
-        this.getQuestSteps().get(step).setFinished(true);
-        this.step++;
+        questSteps.get(step).setFinished(true);
+
+        // Make sure we never go out of bounds
+        if ((step + 1) < questSteps.size()) {
+            this.step++;
+        }
     }
 
     public ArrayList<QuestStep> getQuestSteps() {
@@ -78,12 +108,25 @@ public class Quest implements Serializable {
     }
 
     public void setState(QuestState state) {
-        this.state = state;
-        if (state == QuestState.COMPLETED) {
-            Handler.get().playEffect("ui/quest_complete.wav", 0.1f);
-            Handler.get().sendMsg("Completed '" + this.questName + "'!");
-            Handler.get().addRecapEvent("Completed '" + this.questName + "'");
+        // Only give the reward if we haven't completed it yet.
+        if (state == QuestState.COMPLETED && !finished) {
+            for (QuestStep step : questSteps) {
+                if (!step.isFinished()) {
+                    step.setFinished(true);
+                    this.step++;
+                }
+            }
+
+            Handler.get().playEffect("ui/quest_complete.ogg", 0.1f);
+            Handler.get().sendMsg("Completed '" + questName + "'!");
+            Handler.get().addRecapEvent("Completed '" + questName + "'");
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "You have completed '" + getQuestName() + "'!"));
+
+            onCompletion.giveReward();
+            finished = true;
         }
+
+        this.state = state;
     }
 
     public Zone getZone() {
@@ -94,12 +137,37 @@ public class Quest implements Serializable {
         this.zone = zone;
     }
 
-    public QuestRequirement[] getRequirements() {
+    public List<QuestRequirement> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(QuestRequirement[] requirements) {
+    public void setRequirements(List<QuestRequirement> requirements) {
         this.requirements = requirements;
     }
 
+    public Map<String, Object> getCustomChecks() {
+        return customChecks;
+    }
+
+    public void addNewCheck(String key, Object o) {
+        key = key.toLowerCase();
+        customChecks.put(key, o);
+    }
+
+    public Object getCheckValueWithDefault(String key, Object defaultObj) {
+        key = key.toLowerCase();
+        if (!customChecks.containsKey(key)) {
+            System.err.println("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
+            customChecks.put(key, defaultObj);
+        }
+        return customChecks.get(key);
+    }
+
+    public String getQuestStart() {
+        return questStart;
+    }
+
+    public void setQuestStart(String questStart) {
+        this.questStart = questStart;
+    }
 }

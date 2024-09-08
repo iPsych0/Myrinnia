@@ -1,6 +1,6 @@
 package dev.ipsych0.abilitymaker;
 
-import dev.ipsych0.myrinnia.abilities.AbilityType;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 
 import javax.swing.*;
@@ -38,7 +38,7 @@ public class Window extends JFrame {
 
     private String[] elements = {"Fire", "Air", "Earth", "Water"};
     private String[] combatStyles = {"Melee", "Ranged", "Magic"};
-    private String[] types = {"AutoAttack", "StandardAbility", "HealingAbility", "EliteAbility"};
+    private String[] types = {"StandardAbility", "HealingAbility", "EliteAbility"};
     private String[] selectables = {"True", "False"};
 
     private JButton createButton = new JButton("Create Ability");
@@ -174,6 +174,11 @@ public class Window extends JFrame {
         createButton.setMaximumSize(new Dimension(220, 0));
         createButton.setHorizontalAlignment(SwingConstants.CENTER);
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+           System.err.println("Could not create default system UI look.");
+        }
     }
 
     /**

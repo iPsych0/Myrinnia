@@ -1,0 +1,75 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello, how may I help you?",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "mayorQuest",
+        "falseId": 6
+      }
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "The mayor told me you that you would have a weapon for me.",
+          "nextId": 2
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Ah, yes. I have a staff, a bow or a sword. Don't worry too much about which one you think is best...",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "This decision will not haunt you forever. In fact, you are free to wield any weapon type you like at any given time. So pick one you like! Isn't that fun?",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "options": [
+        {
+          "text": "I'd like to see some magic! (Staff)",
+          "nextId": 5
+        },
+        {
+          "text": "I'd like to shoot around! (Bow)",
+          "nextId": 5
+        },
+        {
+          "text": "I'd like to swing around some! (Sword)",
+          "nextId": 5
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Excellent choice! I hope you enjoy your weapon and stay safe! You should probably report back to the mayor now.",
+      "nextId": -1
+    },
+    {
+      "id": 6,
+      "options": [
+        {
+          "text": "I would like to see your shop, please.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openShop",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

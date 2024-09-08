@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.abilities;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.buffs.AttributeBuff;
@@ -28,8 +29,7 @@ public class NimbleFeetAbility extends Ability {
 
     @Override
     public void render(Graphics2D g, int x, int y) {
-        g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
-        if(animation != null && !animation.isTickDone()){
+        if (animation != null && !animation.isTickDone()) {
             g.drawImage(animation.getCurrentFrame(),
                     (int) (caster.getX() - Handler.get().getGameCamera().getxOffset()),
                     (int) (caster.getY() - Handler.get().getGameCamera().getyOffset()),
@@ -38,14 +38,19 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
+    public void renderIcon(Graphics2D g, int x, int y) {
+        g.drawImage(Assets.nimbleFeetI, x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE, null);
+    }
+
+    @Override
     public void cast() {
         if (!initialBoostDone) {
             baseMovementBoost = 1.0;
             initialBoostDone = true;
             animation = new Animation(1000 / Assets.movementBoost1.length, Assets.movementBoost1, true);
-            Handler.get().playEffect("abilities/nimble_feet.wav");
-            Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost);
-            caster.addBuff(caster, caster, b);
+            Handler.get().playEffect("abilities/nimble_feet.ogg", 0.1f);
+            Buff b = new AttributeBuff(AttributeBuff.Attribute.MOVSPD, caster, 5, baseMovementBoost, true);
+            caster.addBuff(caster, b);
         }
 
         animation.tick();
@@ -58,16 +63,8 @@ public class NimbleFeetAbility extends Ability {
     }
 
     @Override
-    protected void countDown() {
-        cooldownTimer++;
-        if (cooldownTimer / 60 == cooldownTime) {
-            this.setOnCooldown(false);
-            this.setActivated(false);
-            this.setCasting(false);
-            castingTimeTimer = 0;
-            cooldownTimer = 0;
-            initialBoostDone = false;
-        }
+    void reset() {
+        initialBoostDone = false;
     }
 
 }

@@ -7,8 +7,10 @@ import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.utils.Utils;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -37,5 +39,29 @@ class JSONWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Write the code ready to copy-paste insert into the Item class
+        try (Writer fileWriter = new BufferedWriter(new FileWriter("src/dev/ipsych0/myrinnia/items/all_items.txt", true))) {
+            fileWriter.write("public static Item " + toCamelCase(name) + " = Utils.loadItem(\"" + +item.id + "_" + name.replaceAll(" ", "_") + ".json\", Assets." + toCamelCase(name) + ");\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String toCamelCase(String original) {
+        String[] tokens = original.split(" ");
+
+        if (tokens.length == 0)
+            return original;
+
+        StringBuilder sb = new StringBuilder(tokens[0]);
+        for (int i = 1; i < tokens.length; i++) {
+            String token = tokens[i];
+            sb
+                .append(token.substring(0, 1).toUpperCase())
+                .append(token.substring(1).toLowerCase());
+        }
+
+        return sb.toString().replaceAll("'", "").replaceAll("-","");
     }
 }

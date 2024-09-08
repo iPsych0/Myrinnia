@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Welcome to Port Azure! May this tranquil island bring you happiness and calm from its water and sunshine!",
+      "nextId": -1
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 package dev.ipsych0.myrinnia.recap;
 
+import dev.ipsych0.myrinnia.gfx.ScreenShot;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,8 +16,8 @@ public class RecapEvent implements Serializable {
     private transient BufferedImage img;
     private String description;
 
-    public RecapEvent(BufferedImage img, String description) {
-        this.img = img;
+    public RecapEvent(String description) {
+        this.img = ScreenShot.take();
         this.description = description;
     }
 

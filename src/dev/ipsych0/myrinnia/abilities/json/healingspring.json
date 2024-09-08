@@ -1,0 +1,23 @@
+{
+  "cooldownTime": 20.0,
+  "castingTime": 0.5,
+  "overcastTime": 0.5,
+  "name": "Healing Spring",
+  "description": "The restorative properties of the spring provide an initial heal and then heals you per second you stand in it.",
+  "abilityType": "HealingAbility",
+  "element": "Water",
+  "combatStyle": "Melee",
+  "onCooldown": false,
+  "casting": false,
+  "inOvercast": false,
+  "castingTimeTimer": 0,
+  "cooldownTimer": 0,
+  "baseDamage": 0,
+  "activated": false,
+  "channeling": false,
+  "selectable": false,
+  "selected": false,
+  "unlocked": false,
+  "price": 1,
+  "className": "dev.ipsych0.myrinnia.abilities.HealingSpringAbility"
+}

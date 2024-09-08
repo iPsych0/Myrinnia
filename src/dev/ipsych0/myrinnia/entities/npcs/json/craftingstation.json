@@ -13,7 +13,7 @@
           "nextId": -1,
           "choiceCondition": {
             "condition": "openCraftingWindow",
-            "falseId":-1
+            "falseId": -1
           }
         },
         {

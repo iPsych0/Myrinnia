@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Directly north of here is Mt. Azure. It's where we get ore and other materials from.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "I heard one of the craftsmen in the workshop in Port Azure is looking for a brave adventurer to collect some materials.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "They're a handy lot, who knows, you might learn a thing or two from them!",
+      "nextId": -1
+    }
+  ]
+}

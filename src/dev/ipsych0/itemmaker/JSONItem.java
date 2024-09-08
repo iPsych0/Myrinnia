@@ -37,6 +37,7 @@ class JSONItem implements Serializable {
     private boolean stackable;
     private boolean equippable;
     private int respawnTimer = 10800;
+    private int useCooldown = 60;
 
     public JSONItem(BufferedImage texture, String name, ItemRarity itemRarity,
                     EquipSlot equipSlot, int strength, int dexterity, int intelligence, int defence, int vitality, float attackSpeed, float movementSpeed,

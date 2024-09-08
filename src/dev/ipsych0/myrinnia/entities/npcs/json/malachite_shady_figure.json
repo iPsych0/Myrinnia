@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "What are you looking at? Go away.",
+      "nextId": -1
+    }
+  ]
+}

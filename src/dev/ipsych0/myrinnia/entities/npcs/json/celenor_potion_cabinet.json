@@ -1,0 +1,46 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "It's a cabinet full of potions.",
+      "nextId": 1,
+      "choiceCondition": {
+        "condition": "hasReadAllBooks",
+        "falseId": -1
+      }
+    },
+    {
+      "id": 1,
+      "text": "That's odd... The shelves aren't dusty. These potions look like they have been moved recently.",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "options": [
+        {
+          "text": "Try to solve the puzzle.",
+          "nextId": 3
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "{PLACEHOLDER FOR ACTION}",
+      "nextId": -1
+    },
+    {
+      "id": 4,
+      "text": "The cabinet slides to the left, revealing a hidden set of stairs.",
+      "nextId": -1
+    },
+    {
+      "id": 5,
+      "text": "Hmmm... Perhaps I can have a look around the cabin to find something about a possible combination...",
+      "nextId": -1
+    }
+  ]
+}

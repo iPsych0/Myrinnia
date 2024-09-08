@@ -14,31 +14,27 @@ public class Condition implements Serializable {
 
     private static final long serialVersionUID = -6491027693312163146L;
     private Entity receiver;
-    private int currentDuration;
-    private int initialDuration;
+    private double duration;
     private int tickTimer;
     private boolean active;
     private int conditionDamage;
     private transient BufferedImage img;
-    private float initialSpeedDecrease;
-    private static final double CHILL_MOVSPD = 0.66;
+    private double initialSpeedDecrease;
+    private static final double CHILL_MOVSPD = 0.5;
+    private static final double CRIPPLE_MOVSPD = 0.66;
     private Type type;
 
-    public Condition(Type type, Entity receiver, int durationSeconds) {
+    public Condition(Type type, double durationSeconds) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
-        this.currentDuration = durationSeconds * 60;
-        this.initialDuration = currentDuration;
+        this.duration = durationSeconds * 60d;
         this.active = true;
     }
 
-    public Condition(Type type, Entity receiver, int durationSeconds, int conditionDamage) {
+    public Condition(Type type, double durationSeconds, int conditionDamage) {
         this.type = type;
         this.img = type.getImg();
-        this.receiver = receiver;
-        this.currentDuration = durationSeconds * 60;
-        this.initialDuration = currentDuration;
+        this.duration = durationSeconds * 60d;
         this.conditionDamage = conditionDamage;
         this.active = true;
     }
@@ -55,16 +51,15 @@ public class Condition implements Serializable {
             }
 
             // If the timeLeft is greater than 0 at any given time
-            if (tickTimer <= currentDuration) {
+            if (tickTimer <= duration) {
                 // Tick the condition effect
                 if (tickTimer == 0) {
-                    currentDuration -= 60;
                     apply();
                 } else if (tickTimer % 60 == 0) {
                     update();
                 }
                 // If the condition timeLeft is 0, don't tick anymore, but let the last hitsplat disappear
-            } else if (currentDuration <= 0) {
+            } else {
                 if (tickTimer % 60 == 0) {
                     clear();
                 }
@@ -74,54 +69,59 @@ public class Condition implements Serializable {
     }
 
     public void render(Graphics2D g, int x, int y) {
-        if (this.isActive()) {
+        if (active) {
             g.drawImage(img, x + 4, y + 4, ItemSlot.SLOTSIZE - 8, ItemSlot.SLOTSIZE - 8, null);
-            Text.drawString(g, String.valueOf(currentDuration / 60 + 1), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
+            Text.drawString(g, String.valueOf(Handler.get().roundOff(((duration - tickTimer) / 60d) + 1.0)), x + 18, y + 26, false, Color.YELLOW, Assets.font14);
         }
     }
 
     private void apply() {
         receiver.tickCondition(receiver, this);
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
-            float currMovSpd = r.getSpeed();
-            float newMovSpd = (float)(r.getSpeed() * CHILL_MOVSPD);
-            initialSpeedDecrease = currMovSpd - newMovSpd;
-            r.setSpeed(newMovSpd);
+        Creature r = ((Creature) receiver);
+        switch (type) {
+            case CHILL:
+                double currMovSpd = r.getSpeed();
+                double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
+                initialSpeedDecrease = currMovSpd - newMovSpd;
+                r.setSpeed(newMovSpd);
+                break;
+            case CRIPPLED:
+                double currMovSpd2 = r.getSpeed();
+                double newMovSpd2 = (r.getSpeed() * CRIPPLE_MOVSPD);
+                initialSpeedDecrease = currMovSpd2 - newMovSpd2;
+                r.setSpeed(newMovSpd2);
+                break;
         }
     }
 
     private void update() {
         // After 1 second, recreate the damage splat
-        tickTimer = 0;
-        currentDuration -= 60;
-        Handler.get().getWorld().getEntityManager().getHitSplats().add(new ConditionSplat(receiver, this, conditionDamage));
         receiver.tickCondition(receiver, this);
     }
 
-    private void clear() {
+    public void clear() {
         tickTimer = 0;
         this.setActive(false);
 
-        if(type == Type.CHILL){
-            Creature r = ((Creature)receiver);
+        if (type == Type.CHILL || type == Type.CRIPPLED) {
+            Creature r = ((Creature) receiver);
             r.setSpeed(r.getSpeed() + initialSpeedDecrease);
         }
     }
 
-    public int getCurrentDuration() {
-        return currentDuration;
+    public double getDuration() {
+        return duration;
     }
 
-    public void setCurrentDuration(int currentDuration) {
-        this.currentDuration = currentDuration;
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
     public boolean isActive() {
         return active;
     }
 
-    private void setActive(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -141,12 +141,23 @@ public class Condition implements Serializable {
         return type;
     }
 
+    public Entity getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Entity receiver) {
+        this.receiver = receiver;
+    }
+
     public enum Type {
-        BURNING(Assets.burnIcon,"'Burning' inflicts damage over time."),
-        CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 33%."),
+        BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
+        CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 50%."),
+        CRIPPLED(Assets.crippledIcon, "'Crippled' decreases the receiver's movement speed by 33%."),
         BLEEDING(Assets.bleedIcon, "'Bleeding' inflicts damage over time."),
         POISON(Assets.poisonIcon, "'Poison' inflicts damage over time."),
-        STUN(Assets.stunIcon, "'Stun' stops movement and stops the receiver from attacking.");
+        ROOTED(Assets.rootedIcon, "'Rooted' renders the receiver immobilized."),
+        BLINDED(Assets.blindedIcon, "'Blinded' makes the next attack miss."),
+        STUN(Assets.stunIcon, "'Stun' immobilizes and prevents the receiver from fighting back.");
 
         Type(BufferedImage img, String description) {
             this.img = img;
@@ -163,5 +174,13 @@ public class Condition implements Serializable {
         public String getDescription() {
             return description;
         }
+    }
+
+    public int getTickTimer() {
+        return tickTimer;
+    }
+
+    public void setTickTimer(int tickTimer) {
+        this.tickTimer = tickTimer;
     }
 }

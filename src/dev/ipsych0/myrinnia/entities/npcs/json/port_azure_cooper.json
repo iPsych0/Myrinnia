@@ -1,0 +1,19 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Where is knife? Cooper look for knife to cut things, slash slash. He he he...",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Slice and dice. Chop, chop, chop... he he...",
+      "nextId": 2
+    },
+    {
+      "id": 2,
+      "text": "[You decide that it's probably best for your own safety to leave him be]",
+      "nextId": -1
+    }
+  ]
+}

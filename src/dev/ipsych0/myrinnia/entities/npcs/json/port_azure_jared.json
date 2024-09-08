@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hi there! If you are new to Port Azure, you should visit the Town Hall for help. It's the building with the blue banner over here.",
+      "nextId": -1
+    }
+  ]
+}

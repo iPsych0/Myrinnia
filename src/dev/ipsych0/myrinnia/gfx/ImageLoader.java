@@ -1,18 +1,29 @@
 package dev.ipsych0.myrinnia.gfx;
 
+import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.utils.FileUtils;
+import dev.ipsych0.splashscreen.SplashScreen;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class ImageLoader {
+public class ImageLoader {
 
     public static BufferedImage loadImage(String path) {
         try {
-            InputStream is = ImageLoader.class.getResourceAsStream(path);
-            BufferedImage img = ImageIO.read(is);
+            SplashScreen.addLoadedElement();
+
+            InputStream input;
+
+            String fixedFile = FileUtils.getResourcePath(path);
+            input = new FileInputStream(fixedFile);
+
+            BufferedImage img = ImageIO.read(input);
             img.setAccelerationPriority(1);
-            is.close();
+            input.close();
             return img;
         } catch (IOException e) {
             e.printStackTrace();

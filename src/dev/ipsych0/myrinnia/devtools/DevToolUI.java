@@ -1,11 +1,11 @@
 package dev.ipsych0.myrinnia.devtools;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.ui.TextBox;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 public class DevToolUI implements Serializable {
@@ -13,9 +13,8 @@ public class DevToolUI implements Serializable {
     private static final long serialVersionUID = 518181399399230861L;
     private static int x, y, width, height;
     public static boolean isOpen;
-    private TextBox textBox;
+    private transient TextBox textBox;
     private CommandHandler commandHandler;
-    public static boolean initialized;
     public static boolean escapePressed;
 
     public DevToolUI() {
@@ -31,22 +30,22 @@ public class DevToolUI implements Serializable {
 
     public void tick() {
         if (isOpen) {
+
+            if (!textBox.isOpen()) {
+                textBox.open();
+            }
+
             if (Handler.get().getKeyManager().escape && escapePressed) {
                 escapePressed = false;
                 close();
                 return;
             }
 
-            if (!initialized) {
-                textBox.setKeyListeners();
-                initialized = true;
-            }
-
             textBox.tick();
 
             if (TextBox.enterPressed) {
 
-                if(!textBox.getCharactersTyped().isEmpty()){
+                if (!textBox.getCharactersTyped().isEmpty()) {
                     // Perform the typed command
                     performAction(textBox.getCharactersTyped());
                 }
@@ -59,16 +58,8 @@ public class DevToolUI implements Serializable {
 
     private void close() {
         isOpen = false;
-        initialized = false;
         // Reset the text box
-        textBox.getSb().setLength(0);
-        textBox.setIndex(0);
-        textBox.setCharactersTyped(textBox.getSb().toString());
-        TextBox.enterPressed = false;
-        KeyManager.typingFocus = false;
-        TextBox.focus = false;
-        TextBox.isOpen = false;
-        textBox.removeListeners();
+        textBox.close();
     }
 
     public void render(Graphics2D g) {
@@ -83,7 +74,7 @@ public class DevToolUI implements Serializable {
      * @param command - the command written in the command line in-game
      */
     private void performAction(String command) {
-        if(command.trim().isEmpty()){
+        if (command.trim().isEmpty()) {
             return;
         }
         String[] commands = command.split(" ");
@@ -95,10 +86,16 @@ public class DevToolUI implements Serializable {
             return;
         }
         try {
-            commandHandler.handle(commands, firstCommand);
-        } catch (Exception e){
+            commandHandler.handle(firstCommand, commands);
+        } catch (Exception e) {
             e.getStackTrace();
             Handler.get().sendMsg("Something went wrong submitting this command.");
         }
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        textBox = new TextBox(x, y, width, height, false);
     }
 }

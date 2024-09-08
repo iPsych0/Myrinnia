@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "My great-great grandfather was one of the first settlers in Shamrock Town.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "Back then, there was nothing but a miner's cabin here. That cabin has been transformed to the Town Hall of Shamrock, next to the entrance to the mines.",
+      "nextId": -1
+    }
+  ]
+}

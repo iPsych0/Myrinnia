@@ -12,12 +12,12 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     private static final long serialVersionUID = -7162393727931954900L;
 
-    private static int resetCost = 1000;
+    protected static int resetCost = 1000;
 
-    AbilityShopWindow abilityShopWindow;
+    protected AbilityShopWindow abilityShopWindow;
 
-    AbilityTrainer(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    AbilityTrainer(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
+        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
 
         attackable = false;
         isNpc = true;
@@ -31,10 +31,12 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
         this.abilityShopWindow = abilityShopWindow;
     }
 
-    void resetSkillPoints() {
+    public void resetSkillPoints() {
         if (Handler.get().playerHasItem(Item.coins, resetCost)) {
             Handler.get().removeItem(Item.coins, resetCost);
             for (CharacterStats stat : CharacterStats.values()) {
+                if (stat == CharacterStats.Combat)
+                    continue;
                 if (stat == CharacterStats.Magic || stat == CharacterStats.Melee || stat == CharacterStats.Ranged) {
                     Handler.get().getCharacterUI().addBaseStatPoints(stat.getLevel());
                 } else {

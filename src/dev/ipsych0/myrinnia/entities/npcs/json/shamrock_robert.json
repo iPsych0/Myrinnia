@@ -1,0 +1,9 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Argh... That was a harsh drop...",
+      "nextId": -1
+    }
+  ]
+}

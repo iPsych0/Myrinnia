@@ -1,0 +1,14 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Port Azure is quite a self-sufficient community. The people here have many different skills.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "text": "It's necessary for basic survival. I'm sure people here can teach you fishing, woodcutting, mining and crafting.",
+      "nextId": -1
+    }
+  ]
+}

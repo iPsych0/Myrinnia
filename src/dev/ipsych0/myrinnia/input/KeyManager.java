@@ -1,24 +1,30 @@
 package dev.ipsych0.myrinnia.input;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.abilityhud.AbilityHUD;
-import dev.ipsych0.myrinnia.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.abilityoverview.AbilityOverviewUI;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
+import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
+import dev.ipsych0.myrinnia.abilities.ui.abilityoverview.AbilityOverviewUI;
 import dev.ipsych0.myrinnia.character.CharacterUI;
+import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Entity;
+import dev.ipsych0.myrinnia.entities.EntityManager;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
-import dev.ipsych0.myrinnia.chatwindow.ChatWindow;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
+import dev.ipsych0.myrinnia.hpoverlay.HPOverlay;
+import dev.ipsych0.myrinnia.items.ItemManager;
 import dev.ipsych0.myrinnia.items.ui.InventoryWindow;
 import dev.ipsych0.myrinnia.quests.QuestHelpUI;
 import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
+import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.ControlsState;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.ui.TextBox;
 
 import java.awt.event.KeyEvent;
@@ -38,10 +44,11 @@ public class KeyManager implements KeyListener, Serializable {
     public boolean pause;
     public boolean talk;
     public boolean escape;
+    public boolean pickUp;
     public static boolean typingFocus = false;
     private int lastUIKeyPressed = -1;
-    private static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
-    statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey;
+    public static int upKey, downKey, leftKey, rightKey, chatWindowKey, questWindowKey, skillsWindowKey,
+            statsWindowKey, mapWindowKey, inventoryWindowKey, interactKey, pauseKey, abilityWindowKey, hudKey;
 
     public KeyManager() {
         keys = new boolean[256];
@@ -49,7 +56,7 @@ public class KeyManager implements KeyListener, Serializable {
         cantPress = new boolean[keys.length];
     }
 
-    public void loadKeybinds(){
+    public void loadKeybinds() {
         upKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("upKey").charAt(0));
         downKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("downKey").charAt(0));
         leftKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("leftKey").charAt(0));
@@ -63,19 +70,25 @@ public class KeyManager implements KeyListener, Serializable {
         interactKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("interactKey").charAt(0));
         pauseKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("pauseKey").charAt(0));
         abilityWindowKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("abilitiesKey").charAt(0));
+        hudKey = KeyEvent.getExtendedKeyCodeForChar(Handler.get().loadProperty("hudKey").charAt(0));
+
+        AbilityHUD hud = Handler.get().getAbilityManager().getAbilityHUD();
+        hud.getKeyBindMap().clear();
+        for (int i = 0; i < hud.getSlottedAbilities().size(); i++) {
+            hud.getKeyBindMap().put(Handler.get().loadProperty("slot" + (i + 1)).charAt(0), i);
+        }
     }
 
     public void tick() {
 
         if (!typingFocus) {
             // Movement keys
-            up = keys[upKey];
-            down = keys[downKey];
-            left = keys[leftKey];
-            right = keys[rightKey];
 
-            if (up || down || left || right) {
-                Player.isMoving = true;
+            if (Handler.get().getPlayer().isMovementAllowed()) {
+                up = keys[upKey];
+                down = keys[downKey];
+                left = keys[leftKey];
+                right = keys[rightKey];
             }
 
             if (!up && !down && !left && !right) {
@@ -103,8 +116,16 @@ public class KeyManager implements KeyListener, Serializable {
 
             keys[e.getKeyCode()] = true;
 
+            if (e.getKeyCode() == KeyEvent.VK_F) {
+                ItemManager.pickUpPressed = true;
+            }
+
             if (e.getKeyCode() == pauseKey) {
                 Player.debugButtonPressed = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                EntityManager.shiftPressed = true;
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -115,6 +136,9 @@ public class KeyManager implements KeyListener, Serializable {
                 ControlsState.escapePressed = true;
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
+                BountyBoardUI.escapePressed = true;
+                CelebrationUI.escapePressed = true;
+                FarmingUI.escapePressed = true;
                 escape = true;
             }
 
@@ -127,6 +151,11 @@ public class KeyManager implements KeyListener, Serializable {
             // Chat window toggle
             if (e.getKeyCode() == chatWindowKey) {
                 ChatWindow.chatIsOpen = !ChatWindow.chatIsOpen;
+            }
+
+            // Chat window toggle
+            if (e.getKeyCode() == hudKey) {
+                HPOverlay.isOpen = !HPOverlay.isOpen;
             }
 
             // QuestWindow toggle
@@ -154,8 +183,6 @@ public class KeyManager implements KeyListener, Serializable {
                     QuestHelpUI.isOpen = false;
                     QuestUI.renderingQuests = false;
                     CraftingUI.isOpen = false;
-                    SkillsUI.isOpen = false;
-                    SkillsOverviewUI.isOpen = false;
                 } else {
                     CharacterUI.isOpen = false;
                 }
@@ -166,7 +193,6 @@ public class KeyManager implements KeyListener, Serializable {
                 lastUIKeyPressed = skillsWindowKey;
                 if (!SkillsUI.isOpen) {
                     SkillsUI.isOpen = true;
-                    CharacterUI.isOpen = false;
                     QuestUI.isOpen = false;
                     QuestHelpUI.isOpen = false;
                     QuestUI.renderingQuests = false;
@@ -192,16 +218,8 @@ public class KeyManager implements KeyListener, Serializable {
             // Toggle dev tool window
             if (e.getKeyCode() == KeyEvent.VK_T) {
                 if (!DevToolUI.isOpen) {
-                    TextBox.focus = true;
-                    typingFocus = true;
-                    DevToolUI.initialized = false;
+                    TextBox.openKeyPressed = true;
                     DevToolUI.isOpen = true;
-                    TextBox.isOpen = true;
-                } else {
-                    TextBox.focus = false;
-                    typingFocus = false;
-                    DevToolUI.isOpen = false;
-                    TextBox.isOpen = false;
                 }
             }
         }
@@ -218,33 +236,31 @@ public class KeyManager implements KeyListener, Serializable {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             escape = false;
         }
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            EntityManager.shiftPressed = false;
+        }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         if (!typingFocus) {
-            if (Character.isDigit(e.getKeyChar())) {
-                // Invalidate input while channeling
-                for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
-                    if (as.getAbility() != null) {
-                        if (as.getAbility().isChanneling()) {
-                            return;
-                        }
+            // Invalidate input while channeling
+            for (AbilitySlot as : Handler.get().getAbilityManager().getAbilityHUD().getSlottedAbilities()) {
+                if (as.getAbility() != null) {
+                    if (as.getAbility().isChanneling()) {
+                        return;
                     }
                 }
-
-                // Set the pressed key for the ability bar
-                AbilityHUD.hasBeenTyped = true;
-                AbilityHUD.pressedKey = e.getKeyChar();
             }
+
+            // Set the pressed key for the ability bar
+            AbilityHUD.hasBeenTyped = true;
+            AbilityHUD.pressedKey = e.getKeyChar();
+
             if (e.getKeyChar() == interactKey && Entity.isCloseToNPC) {
                 Player.hasInteracted = false;
             }
         }
-    }
-
-    public void setTextBoxTyping(boolean textBoxTyping) {
-        KeyManager.typingFocus = textBoxTyping;
     }
 
     public int getLastUIKeyPressed() {

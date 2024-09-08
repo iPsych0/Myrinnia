@@ -1,0 +1,37 @@
+{
+  "itemTypes": [
+    "ACCESSORY"
+  ],
+  "itemRarity": "Common",
+  "name": "Azurite ring (l)",
+  "id": 76,
+  "equipSlot": "Ring_Left",
+  "strength": 1,
+  "dexterity": 1,
+  "intelligence": 1,
+  "defence": 0,
+  "vitality": 0,
+  "attackSpeed": 0.0,
+  "movementSpeed": 0.0,
+  "x": 0,
+  "y": 0,
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "width": 32,
+    "height": 32
+  },
+  "count": 0,
+  "pickedUp": false,
+  "price": 20,
+  "stackable": false,
+  "equippable": true,
+  "respawnTimer": 10800,
+  "useCooldown": 60
+}

@@ -1,0 +1,21 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "options": [
+        {
+          "text": "I would like to see your shop, please.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openShop",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

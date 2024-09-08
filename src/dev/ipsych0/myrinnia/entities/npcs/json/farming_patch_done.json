@@ -1,0 +1,26 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "The produce is ready to be harvested.",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Harvest.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "yieldFinished",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    }
+  ]
+}

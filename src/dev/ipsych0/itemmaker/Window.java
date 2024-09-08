@@ -63,6 +63,12 @@ class Window extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+            System.err.println("Could not create default system UI look.");
+        }
+
         // Show the
         equippableDropDown.addActionListener(e -> {
             if (equippableDropDown.getSelectedIndex() == 0) {
@@ -147,10 +153,15 @@ class Window extends JFrame {
                         }
                     }
                     if (equippable) {
+                        List<ItemType> typeList = Arrays.asList(itemTypes);
                         if (equipSlot == EquipSlot.Mainhand) {
-                            List<ItemType> typeList = Arrays.asList(itemTypes);
                             if (!typeList.contains(ItemType.MELEE_WEAPON) && !typeList.contains(ItemType.MAGIC_WEAPON) && !typeList.contains(ItemType.RANGED_WEAPON)) {
                                 System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                                return;
+                            }
+                        } else {
+                            if (typeList.contains(ItemType.MELEE_WEAPON) || typeList.contains(ItemType.MAGIC_WEAPON) || typeList.contains(ItemType.RANGED_WEAPON)) {
+                                System.err.println("Armour cannot have a weapon-type as ItemType.");
                                 return;
                             }
                         }

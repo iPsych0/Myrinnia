@@ -13,7 +13,7 @@
           "nextId": -1,
           "choiceCondition": {
             "condition": "openBank",
-            "falseId":-1
+            "falseId": -1
           }
         },
         {

@@ -1,0 +1,32 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Great job! Your crops grew very well. I'm sensing you will be quite the skillful farmer one day!",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "Why do you live so far outside the town?",
+          "nextId": 2
+        },
+        {
+          "text": "Thanks! See you around, Tony!",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "I found that the ground here is very fertile, the ground absorbs fresh mountain water from the Farnor River, which makes it the perfect place for growing crops.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "You may find other types of Farming Patches around Myrinnia where you can grow different kinds of fruits, vegetables or trees.",
+      "nextId": 1
+    }
+  ]
+}

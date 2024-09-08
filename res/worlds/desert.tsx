@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="desert" tilewidth="32" tileheight="32" tilecount="414" columns="18">
- <image source="../textures/desert.png" trans="000000" width="576" height="736"/>
+<tileset version="1.2" tiledversion="1.2.4" name="desert" tilewidth="32" tileheight="32" tilecount="414" columns="18">
+ <image source="../textures/tiles/desert.png" trans="000000" width="576" height="736"/>
  <tile id="0">
   <properties>
    <property name="postRendered" value="false"/>

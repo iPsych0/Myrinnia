@@ -1,0 +1,41 @@
+{
+  "dialogues": [
+    {
+      "id": 0,
+      "text": "Hello traveler, how can I help you?",
+      "nextId": 1
+    },
+    {
+      "id": 1,
+      "options": [
+        {
+          "text": "I would like to see your shop, please.",
+          "nextId": -1,
+          "choiceCondition": {
+            "condition": "openShop",
+            "falseId": -1
+          }
+        },
+        {
+          "text": "Leave.",
+          "nextId": -1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Well. A few weeks ago, someone stopped by and asked for some very peculiar ingredients to make some sort of potion.",
+      "nextId": 3
+    },
+    {
+      "id": 3,
+      "text": "He was asking for diseased hardwood tree bark and a flask of oil. I told him we sell no such items here, and he stormed off in frustration.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "text": "I didn't get a glimpse of who he was. Strange fella was wearing a hood. I hope that was helpful to you.",
+      "nextId": 1
+    }
+  ]
+}

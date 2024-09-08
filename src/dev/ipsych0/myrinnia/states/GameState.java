@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.worlds.data.Zone;
+import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
@@ -21,11 +21,19 @@ public class GameState extends State {
 
     @Override
     public void tick() {
-        Handler.get().getWorldHandler().tick();
+        try {
+            Handler.get().getWorldHandler().tick();
+        } catch (Exception e) {
+            System.err.printf("Something went wrong updating the world!\n%s", e);
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
-        Handler.get().getWorldHandler().render(g);
+        try {
+            Handler.get().getWorldHandler().render(g);
+        } catch (Exception e) {
+            System.err.printf("Something went wrong rendering the world!\n%s", e);
+        }
     }
 }
