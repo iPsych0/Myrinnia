@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.entities.droptables;
+package dev.ipsych0.myrinnia.entities;
 
 import java.io.Serializable;
 

@@ -1,13 +1,12 @@
 package dev.ipsych0.myrinnia.utils;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
-import dev.ipsych0.splashscreen.SplashScreen;
+import dev.ipsych0.myrinnia.SplashScreen;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

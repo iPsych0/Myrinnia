@@ -29,19 +29,19 @@ class JSONWriter {
         // Create the JSON String
         String json = gson.toJson(item);
 
-        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/items/json/" + name.replaceAll(" ", "_") + ".json"))) {
+        if (Files.exists(Paths.get("./res/config/items/" + name.replaceAll(" ", "_") + ".json"))) {
             System.err.println("File '" + name.replaceAll(" ", "_") + ".json' already exists.");
             return;
         }
         // Write the JSON file
-        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/items/json/" + item.id + "_" + name.replaceAll(" ", "_") + ".json")) {
+        try (FileWriter fileWriter = new FileWriter("./res/config/items/" + item.id + "_" + name.replaceAll(" ", "_") + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Write the code ready to copy-paste insert into the Item class
-        try (Writer fileWriter = new BufferedWriter(new FileWriter("src/dev/ipsych0/myrinnia/items/all_items.txt", true))) {
+        try (Writer fileWriter = new BufferedWriter(new FileWriter("./res/config/items/all_items.txt", true))) {
             fileWriter.write("public static Item " + toCamelCase(name) + " = Utils.loadItem(\"" + +item.id + "_" + name.replaceAll(" ", "_") + ".json\", Assets." + toCamelCase(name) + ");\n");
         } catch (IOException e) {
             e.printStackTrace();

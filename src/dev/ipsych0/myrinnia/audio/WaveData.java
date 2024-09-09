@@ -57,15 +57,7 @@ public class WaveData {
 
     public static WaveData create(String file) {
         WaveData wavStream;
-
-        String fixedFile;
-        if (!Handler.isJar) {
-            fixedFile = file.replaceFirst("/", Handler.resourcePath);
-        } else {
-            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + file;
-        }
-
-        try (InputStream in = new FileInputStream(fixedFile)) {
+        try (InputStream in = new FileInputStream(file)) {
             InputStream bufferedIn = new BufferedInputStream(in);
             try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn)) {
                 wavStream = new WaveData(audioIn);

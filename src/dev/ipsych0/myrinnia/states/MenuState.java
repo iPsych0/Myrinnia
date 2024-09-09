@@ -31,7 +31,7 @@ public class MenuState extends State {
 
         int yOffset = 0;
         // Hide continue button if file not found
-        Path path = Paths.get(Handler.resourcePath + "savegames/save.dat");
+        Path path = Paths.get("./res/savegames/save.dat");
         if (Files.exists(path)) {
             /*
              * Continue Button
