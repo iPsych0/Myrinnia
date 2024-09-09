@@ -62,31 +62,8 @@ import java.util.Random;
 
 public class Handler implements Serializable {
 
-    public static final String resourcePath;
-    public static final File jarFile;
     private Properties prop = new Properties();
-
-
-    static {
-        File jarFile1;
-        try {
-            jarFile1 = new File(Handler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-        } catch (Exception e) {
-            jarFile1 = null;
-        }
-        // Run with JAR file
-        jarFile = jarFile1;
-        if (jarFile != null && jarFile.isFile()) {
-            System.out.println(jarFile.getAbsolutePath());
-            resourcePath = "";
-            isJar = true;
-        } else {
-            resourcePath = "res/";
-        }
-    }
-
-    public static String initialWorldPath = FileUtils.getResourcePath("/worlds/port_azure.tmx");
-
+    public static String initialWorldPath = "./res/worlds/port_azure.tmx";
 
     /**
      *
@@ -175,7 +152,7 @@ public class Handler implements Serializable {
             int buffer = -1;
             String songName = zone.getMusicFile();
             try {
-                buffer = AudioManager.loadSound("/music/songs/" + songName);
+                buffer = AudioManager.loadSound("./res/music/songs/" + songName);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + songName);
                 e.printStackTrace();
@@ -190,7 +167,7 @@ public class Handler implements Serializable {
         if (!AudioManager.soundMuted) {
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("/music/songs/" + song);
+                buffer = AudioManager.loadSound("./res/music/songs/" + song);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + song);
                 e.printStackTrace();
@@ -226,7 +203,7 @@ public class Handler implements Serializable {
             }
             int buffer = -1;
             try {
-                buffer = AudioManager.loadSound("/music/sfx/" + effect);
+                buffer = AudioManager.loadSound("./res/music/sfx/" + effect);
             } catch (FileNotFoundException e) {
                 System.err.println("Couldn't find file: " + effect);
                 e.printStackTrace();
@@ -601,51 +578,23 @@ public class Handler implements Serializable {
     public void saveProperty(String propertyKey, String propertyValue) {
         OutputStream output = null;
 
-        try {
+        try (FileOutputStream fos = new FileOutputStream("./res/settings/config.properties")){
             prop.setProperty(propertyKey, propertyValue);
-            if (isJar) {
-                output = new FileOutputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
-            } else {
-                output = new FileOutputStream(Handler.resourcePath + "settings/config.properties");
-            }
-            prop.store(output, null);
+            prop.store(fos, null);
         } catch (IOException io) {
             io.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
     public String loadProperty(String propertyKey) {
-        InputStream input = null;
-
-        try {
+        try (FileInputStream fis = new FileInputStream("./res/settings/config.properties")) {
             if (!propsLoaded) {
-                if (isJar) {
-                    input = new FileInputStream(Handler.jarFile.getParentFile().getAbsolutePath() + "/settings/config.properties");
-                } else {
-                    input = new FileInputStream(Handler.resourcePath + "settings/config.properties");
-                }
-                prop.load(input);
+                prop.load(fis);
                 propsLoaded = true;
             }
             return prop.getProperty(propertyKey);
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return null;
     }

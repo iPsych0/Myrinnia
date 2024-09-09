@@ -71,9 +71,9 @@ public class CelenorGrottoWater extends GenericObject {
 
     public static void cleanse() {
         // Get the right paths
-        String aemirRiverflankPath = FileUtils.getResourcePath("/worlds/aemir_riverflank.tmx");
-        String celewynnPath = FileUtils.getResourcePath("/worlds/celewynn.tmx");
-        String celenorCavesPath = FileUtils.getResourcePath("/worlds/celenor_caves.tmx");
+        String aemirRiverflankPath = "./res/worlds/aemir_riverflank.tmx";
+        String celewynnPath = "./res/worlds/celewynn.tmx";
+        String celenorCavesPath = "./res/worlds/celenor_caves.tmx";
 
         // Reset the water to normal state
         MapLoader.setWorldDoc(aemirRiverflankPath);

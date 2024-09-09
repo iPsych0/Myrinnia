@@ -1,11 +1,11 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
-import dev.ipsych0.splashscreen.SplashScreen;
 
-import java.awt.*;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.ArrayList;

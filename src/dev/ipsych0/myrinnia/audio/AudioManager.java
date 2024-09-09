@@ -135,13 +135,6 @@ public class AudioManager {
     private static int loadOgg(String file) throws FileNotFoundException {
         ShortBuffer rawAudioBuffer;
 
-        String fixedFile;
-        if (!Handler.isJar) {
-            fixedFile = file.replaceFirst("/", Handler.resourcePath);
-        } else {
-            fixedFile = Handler.jarFile.getParentFile().getAbsolutePath() + file;
-        }
-
         int channels;
         int sampleRate;
 
@@ -150,7 +143,7 @@ public class AudioManager {
             IntBuffer channelsBuffer = stack.mallocInt(1);
             IntBuffer sampleRateBuffer = stack.mallocInt(1);
 
-            rawAudioBuffer = stb_vorbis_decode_filename(fixedFile, channelsBuffer, sampleRateBuffer);
+            rawAudioBuffer = stb_vorbis_decode_filename(file, channelsBuffer, sampleRateBuffer);
 
             if (rawAudioBuffer == null)
                 throw new FileNotFoundException("Could not find file: " + file);

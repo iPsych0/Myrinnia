@@ -1,12 +1,12 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
-import dev.ipsych0.splashscreen.SplashScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

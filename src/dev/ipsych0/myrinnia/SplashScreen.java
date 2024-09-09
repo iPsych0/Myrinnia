@@ -1,4 +1,4 @@
-package dev.ipsych0.splashscreen;
+package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.FileUtils;
@@ -48,8 +48,8 @@ public class SplashScreen {
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setBackground(Color.BLACK);
         java.util.List<Image> icons = new ArrayList<>();
-        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
-        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
+        icons.add(new ImageIcon("./res/settings/myrinnia.png").getImage());
+        icons.add(new ImageIcon("./res/settings/myrinnia.png").getImage());
         frame.setIconImages(icons);
         frame.setVisible(true);
     }
