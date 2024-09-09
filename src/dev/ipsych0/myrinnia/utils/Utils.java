@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
-import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
+import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
@@ -20,9 +20,9 @@ import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,22 +59,12 @@ public class Utils {
         return gson;
     }
 
-    private static <T> T loadObjectFromJsonFile(String jsonFile, String packageName, final Class<?> clazz) {
-        if (jsonFile == null) {
+    private static <T> T loadObjectFromJsonFile(String path, final Class<?> clazz) {
+        if (path == null) {
             throw new IllegalArgumentException("JSON file cannot be null/empty.");
         }
-        InputStream inputStream = null;
-        jsonFile = "dev/ipsych0/myrinnia/" + packageName + jsonFile.toLowerCase();
-        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
-        if (inputStream == null) {
-            throw new IllegalArgumentException(jsonFile + " could not be found.");
-        }
-        try {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            T t = getGson().fromJson(reader, (Type) clazz);
-            reader.close();
-            inputStream.close();
-            return t;
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))){
+            return getGson().fromJson(reader, (Type) clazz);
         } catch (final Exception e) {
             e.printStackTrace();
             System.err.println("Json file could not be loaded.");
@@ -83,43 +73,29 @@ public class Utils {
         return null;
     }
 
-    private static Class<?> getClassFromString(String jsonFile, String packageName) {
-        InputStream inputStream = null;
-        BufferedReader reader = null;
+    private static Class<?> getClassFromString(String jsonFile) {
         String name = null;
-        jsonFile = "dev/ipsych0/myrinnia/" + packageName + "/json/" + jsonFile.toLowerCase();
-        inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
-        try {
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(jsonFile))){
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains("className")) {
                     name = line.substring(16, line.length() - 1).replace(" ", "");
-                    break;
+                    return Class.forName(name);
                 }
             }
-            reader.close();
-            inputStream.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Json file could not be loaded.");
             System.exit(1);
-        }
-
-
-        Class<?> clazz = null;
-        try {
-            clazz = Class.forName(name);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
             System.err.println("Class: " + name + ", is not an existing class.");
             System.exit(1);
         }
-        return clazz;
+        return null;
     }
 
     public static Ability loadAbility(String path) {
-        Ability a = loadObjectFromJsonFile(path, "abilities/json/", getClassFromString(path, "abilities"));
+        Ability a = loadObjectFromJsonFile("./res/config/abilities/%s".formatted(path), getClassFromString("./res/config/abilities/%s".formatted(path)));
         a.setId(abilityCounter++);
         if (!AbilityManager.abilityMap.containsKey(a.getClass())) {
             AbilityManager.abilityMap.put(a.getClass(), a);
@@ -128,7 +104,7 @@ public class Utils {
     }
 
     public static <T> T loadAbility(String path, Class<? extends Ability> clazz) {
-        T t = loadObjectFromJsonFile(path, "abilities/json/", clazz);
+        T t = loadObjectFromJsonFile("./res/config/abilities/%s".formatted(path), clazz);
         Ability a = ((Ability) t);
         a.setId(abilityCounter++);
         if (!AbilityManager.abilityMap.containsKey(a.getClass())) {
@@ -138,14 +114,14 @@ public class Utils {
     }
 
     public static Item loadItem(String path, BufferedImage sprite) {
-        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
+        Item i = loadObjectFromJsonFile("./res/config/items/%s".formatted(path), Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         return i;
     }
 
     public static Item loadItem(String path, BufferedImage sprite, int cooldown, Use use) {
-        Item i = loadObjectFromJsonFile(path, "items/json/", Item.class);
+        Item i = loadObjectFromJsonFile("./res/config/items/%s".formatted(path), Item.class);
         Item.items[i.getId()] = i;
         i.setTexture(sprite);
         i.setUse(use);
@@ -154,7 +130,7 @@ public class Utils {
     }
 
     public static Script loadScript(String path) {
-        Script s = loadObjectFromJsonFile(path, "entities/npcs/json/", Script.class);
+        Script s = loadObjectFromJsonFile("./res/config/npcs/%s".formatted(path), Script.class);
         s.getDialogues().sort((o1, o2) -> {
             Integer i1 = o1.getId();
             Integer i2 = o2.getId();
@@ -164,22 +140,22 @@ public class Utils {
     }
 
     public static List<Stock> loadStocks(String path) {
-        List<Stock> s = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile(path, "shops/json/", Stock[].class)));
+        List<Stock> s = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/shops/%s".formatted(path), Stock[].class)));
         return s;
     }
 
     public static List<DropTableEntry> loadDropTable(String path) {
-        List<DropTableEntry> e = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile(path, "entities/droptables/json/", DropTableEntry[].class)));
+        List<DropTableEntry> e = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/droptables/%s".formatted(path), DropTableEntry[].class)));
         return e;
     }
 
     public static Monologue loadMonologue(String path) {
-        Monologue m = loadObjectFromJsonFile(path, "states/monologues/json/", Monologue.class);
+        Monologue m = loadObjectFromJsonFile("./res/config/monologues/%s".formatted(path), Monologue.class);
         return m;
     }
 
     public static QuestVO loadQuest(String path) {
-        QuestVO q = loadObjectFromJsonFile(path, "quests/json/", QuestVO.class);
+        QuestVO q = loadObjectFromJsonFile("./res/config/quests/%s".formatted(path), QuestVO.class);
         return q;
     }
 

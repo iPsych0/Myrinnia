@@ -3,8 +3,7 @@ package dev.ipsych0.droptabletool;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
-import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import javax.swing.*;

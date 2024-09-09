@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia;
 
-import dev.ipsych0.splashscreen.SplashScreen;
 
 public class Launcher {
 

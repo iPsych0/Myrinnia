@@ -20,7 +20,7 @@ public class SaveManager {
         ObjectOutputStream o;
         boolean success = false;
         try {
-            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            String path = "./res/savegames/save.dat";
             f = new FileOutputStream(path);
 
             // Disable the left-click that was pressed when selecting 'save'
@@ -53,7 +53,7 @@ public class SaveManager {
         try {
 
             FileInputStream fis;
-            String path = FileUtils.getResourcePath("/savegames/save.dat");
+            String path = "./res/savegames/save.dat";
             fis = new FileInputStream(path);
             oin = new ObjectInputStream(fis);
 

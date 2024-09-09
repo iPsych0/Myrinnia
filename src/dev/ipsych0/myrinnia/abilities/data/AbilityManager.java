@@ -30,7 +30,7 @@ public class AbilityManager implements Serializable {
     private List<Ability> allAbilities = new ArrayList<>();
     private List<Ability> activeAbilities = new ArrayList<>();
     private AbilityHUD abilityHUD;
-    private static File abilitiesJsonDirectory = new File("src/dev/ipsych0/myrinnia/abilities/json/");
+    private static File abilitiesJsonDirectory = new File("./res/config/abilities/");
     public static Map<Class<? extends Ability>, Ability> abilityMap = new HashMap<>();
 
 
@@ -49,28 +49,8 @@ public class AbilityManager implements Serializable {
     }
 
     private void init() throws IOException {
-        final String path = "dev/ipsych0/myrinnia/abilities/json/";
-
-        // Run with JAR file
-        if (Handler.isJar) {
-            final JarFile jar = new JarFile(Handler.jarFile);
-            // Get all files and folders in the jar
-            final Enumeration<JarEntry> entries = jar.entries();
-            while (entries.hasMoreElements()) {
-                final String entry = entries.nextElement().getName();
-                // Look for the abilities/json folder for files that end with .json
-                if (entry.startsWith(path) && entry.endsWith(".json")) {
-                    // Get the json filename and load it
-                    String jsonFile = entry.substring(entry.lastIndexOf("/") + 1, entry.length());
-                    allAbilities.add(Utils.loadAbility(jsonFile));
-                }
-            }
-            jar.close();
-            // Run with IDE
-        } else {
-            for (File f : abilitiesJsonDirectory.listFiles()) {
-                allAbilities.add(Utils.loadAbility(f.getName()));
-            }
+        for (File f : abilitiesJsonDirectory.listFiles()) {
+            allAbilities.add(Utils.loadAbility(f.getName()));
         }
     }
 

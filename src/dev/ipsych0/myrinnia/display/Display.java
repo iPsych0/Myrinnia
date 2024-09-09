@@ -107,8 +107,8 @@ public class Display implements Serializable {
         windowedHeight = frame.getHeight();
 
         List<Image> icons = new ArrayList<>();
-        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
-        icons.add(new ImageIcon(FileUtils.getResourcePath("/settings/myrinnia.png")).getImage());
+        icons.add(new ImageIcon("./res/settings/myrinnia.png").getImage());
+        icons.add(new ImageIcon("./res/settings/myrinnia.png").getImage());
         frame.setIconImages(icons);
     }
 

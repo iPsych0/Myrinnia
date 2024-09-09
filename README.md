@@ -5,14 +5,15 @@ Elements of Myrinnia is a 2D adventure action RPG that takes place in the magic-
 ### How to play  
 
 #### Building from source code
- ````
-1. git clone https://github.com/iPsych0/Myrinnia.git
-2. Elements of Myrinnia uses version >=14.0.2 of the Java SDK to compile and run.  
+
+1. `git clone https://github.com/iPsych0/Myrinnia.git`
+2. Elements of Myrinnia currently uses Java 21
 3. Download IntelliJ if you don't have it already.  
 4. Open the project in IntelliJ.  
-5. Navigate to ./src/dev/ipsych0/myrinnia/Launcher.java  
-6. Run the main method, which will boot the application and make it playable.  
-````  
+5. Build & compile: `mvn clean install`
+6. Navigate to `./src/dev/ipsych0/myrinnia/Launcher.java`
+7. Run the main method, which will boot the application and make it playable.  
+
 #### Download the latest version  
 > TODO: Create an installer that packages the Java SDK with the JAR to create a runnable .exe distribution.  
   
