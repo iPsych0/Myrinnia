@@ -183,7 +183,7 @@ public class World implements Serializable {
             try {
                 if (currentWeather == null || currentWeather.getWeatherSoundEffect() == null)
                     return;
-                int buffer = AudioManager.loadSound("/music/sfx/" + currentWeather.getWeatherSoundEffect());
+                int buffer = AudioManager.loadSound("./res/music/sfx/" + currentWeather.getWeatherSoundEffect());
                 if (AudioManager.soundfxFiles.containsKey(buffer)) {
                     currentBackgroundSound = AudioManager.soundfxFiles.get(buffer);
                     currentBackgroundSound.continuePlaying();

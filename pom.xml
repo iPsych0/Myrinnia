@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.myrinnia</groupId>
-    <artifactId>Myrinnia</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>dev.ipsych0</groupId>
+    <artifactId>myrinnia</artifactId>
+    <version>0.0.92</version>
     <packaging>jar</packaging>
     <name>Elements of Myrinnia</name>
 
@@ -125,28 +125,46 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/dev/ipsych0/myrinnia</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>src/dev/ipsych0/abilitymaker/**</exclude>
+                        <exclude>src/dev/ipsych0/droptabletool/**</exclude>
+                        <exclude>src/dev/ipsych0/itemmaker/**</exclude>
+                        <exclude>src/dev/ipsych0/questmakertool/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>dev.ipsych0.myrinnia.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/dev</directory>
-                <targetPath>dev</targetPath>
-                <includes><!-- what -->
-                    <include>**/json/*.json</include>
-                </includes>
-                <excludes>
-                    <exclude>src/dev/ipsych0/abilitymaker</exclude>
-                    <exclude>src/dev/ipsych0/droptabletool</exclude>
-                    <exclude>src/dev/ipsych0/itemmaker</exclude>
-                    <exclude>src/dev/ipsych0/questmakertool</exclude>
-                </excludes>
-            </resource>
-        </resources>
     </build>
 </project>

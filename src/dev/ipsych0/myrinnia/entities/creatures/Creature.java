@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.Resistance;
-import dev.ipsych0.myrinnia.entities.droptables.DropTableEntry;
+import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
