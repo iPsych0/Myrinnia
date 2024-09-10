@@ -19,6 +19,7 @@ import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -29,6 +30,7 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.*;
 
+@Slf4j
 public abstract class Creature extends Entity {
 
     /**
@@ -184,7 +186,7 @@ public abstract class Creature extends Entity {
         if (maxDropTableWeight == 0) {
             // The drop table must be empty
             Handler.get().sendMsg(getName() + " has an empty drop table.");
-            System.err.println("Drop table for " + getName() + " is empty in " + Handler.get().getWorld().getZone().getName() + ". Please check 'dropTable' property in Tiled.");
+            log.error("Drop table for {} is empty in {}. Please check 'dropTable' property in Tiled.", getName(), Handler.get().getWorld().getZone().getName());
             return;
         }
 
@@ -408,13 +410,13 @@ public abstract class Creature extends Entity {
 
                     if (this.equals(Handler.get().getPlayer())) {
                         if (previousTile != null) {
-                            System.out.println("Previous: " + previousTile.getPermission());
+                            log.info("Previous: {}", previousTile.getPermission());
                         }
                         if (currentTile != null) {
-                            System.out.println("Current: " + currentTile.getPermission());
+                            log.info("Current: {}", currentTile.getPermission());
                         }
-                        System.out.println("Verticality: " + verticality);
-                        System.out.println("--------------");
+                        log.info("Verticality: {}", verticality);
+                        log.info("--------------");
                     }
                 }
             } else {

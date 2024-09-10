@@ -2,9 +2,11 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class GenericShopkeeper extends ShopKeeper {
 
 

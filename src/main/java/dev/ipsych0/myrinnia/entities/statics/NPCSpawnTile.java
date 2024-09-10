@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.worlds.World;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 public class NPCSpawnTile extends Creature {
 
     private List<Entity> entitiesToSpawn = new ArrayList<>();
@@ -43,13 +45,13 @@ public class NPCSpawnTile extends Creature {
         animations = new ArrayList<>();
 
         if (jsonFile == null) {
-            System.err.println("Please enter [X,Y,W,H] in jsonFile field.");
+            log.error("Please enter [X,Y,W,H] in jsonFile field.");
             return;
         }
 
         split = jsonFile.split(",");
         if (split.length % 4 != 0) {
-            System.err.println("Please enter X,Y,W,H,X,Y,W,H. Coordinates must be 4 digits each.");
+            log.error("Please enter X,Y,W,H,X,Y,W,H. Coordinates must be 4 digits each.");
             return;
         }
         for (int i = 0; i < split.length; i += 4) {
@@ -69,7 +71,7 @@ public class NPCSpawnTile extends Creature {
         }
 
         if (itemsShop == null) {
-            System.err.println("Please enter the combat levels in the itemsShop field, comma separated: [11,12,13,14].");
+            log.error("Please enter the combat levels in the itemsShop field, comma separated: [11,12,13,14].");
             return;
         }
 
@@ -89,7 +91,7 @@ public class NPCSpawnTile extends Creature {
         names = new ArrayList<>(Arrays.asList(namesSplit));
         clazzez = getClazzes(namesSplit);
         if (clazzez.isEmpty()) {
-            System.err.println("Could not load Entity: " + name + " - in NPCSpawnTile.");
+            log.error("Could not load Entity: {} - in NPCSpawnTile.", name);
         }
 
         // If we entered only 1 name, but more sets of coordinates, we can assume that we should duplicate the type of monster
@@ -169,8 +171,8 @@ public class NPCSpawnTile extends Creature {
                 } catch (Exception e) {
                     // Only use exception when the class is in none of the 3 packages mentioned above
                     if (i == packages.length - 1) {
-                        e.printStackTrace();
-                        System.err.println("Could not find Entity '" + className + "' in any package. (World: " + Handler.get().getWorld().getWorldPath() + ")");
+                        log.error("Exception", e);
+                        log.error("Could not find Entity '{}' in any package. (World: {})", className, Handler.get().getWorld().getWorldPath());
                     }
                 }
             }
@@ -227,8 +229,7 @@ public class NPCSpawnTile extends Creature {
                 w.getEntityManager().addRuntimeEntity(entitiesToSpawn.get(i), false);
             }
         } catch (Exception exc) {
-            System.err.println("Could not init entity.");
-            exc.printStackTrace();
+            log.error("Could not init entity.", exc);
         }
     }
 

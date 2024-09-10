@@ -12,9 +12,11 @@ import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class FarmingPatch extends GenericObject {
 
     /**
@@ -61,7 +63,7 @@ public class FarmingPatch extends GenericObject {
             return new FarmingUI(SkillCategory.FarmingTrees, this);
         }
 
-        System.err.println("No skill category available for: " + name);
+        log.error("No skill category available for: {}", name);
         return null;
     }
 
@@ -215,7 +217,7 @@ public class FarmingPatch extends GenericObject {
         // Get the resource by Item
         resource = (FarmingResource) Handler.get().getSkillResource(SkillsList.FARMING, seeds.getItem());
         if (resource == null) {
-            System.err.println("Could not fetch the farming resource.");
+            log.error("Could not fetch the farming resource.");
             return;
         }
 

@@ -5,9 +5,11 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class PortAzureSam extends Creature {
 
     private boolean firstAccess = true;

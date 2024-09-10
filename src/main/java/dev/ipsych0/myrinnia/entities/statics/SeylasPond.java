@@ -12,9 +12,11 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.states.CutsceneState;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class SeylasPond extends GenericObject {
 
     private Quest quest = Handler.get().getQuest(QuestList.WaveGoodbye);

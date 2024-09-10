@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+@Slf4j
 public class SplashScreen {
 
     private JFrame frame;
@@ -117,7 +119,7 @@ public class SplashScreen {
         Assets.init();
         long now = (System.currentTimeMillis() - before);
 
-        System.out.println("Total startup time: " + ((double) now / 1000d));
+        log.info("Total startup time: {}", ((double) now / 1000d));
 
         // Finish the splash screen
         setProgress(100);
@@ -162,7 +164,7 @@ public class SplashScreen {
             animSheet.setAccelerationPriority(1);
             input.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
 
         images = new BufferedImage[]{

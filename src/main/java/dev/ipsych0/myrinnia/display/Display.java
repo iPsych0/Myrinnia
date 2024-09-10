@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.states.GraphicsState;
 import dev.ipsych0.myrinnia.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 public class Display implements Serializable {
 
 
@@ -69,7 +70,7 @@ public class Display implements Serializable {
                     // Clean up all the audio references
                     AudioManager.cleanUp();
                 } catch (Exception e) {
-                    System.err.println("Unexpected crash. Unable to close OpenAL audio context.");
+                    log.error("Unexpected crash. Unable to close OpenAL audio context.");
                 } finally {
                     System.exit(0);
                 }

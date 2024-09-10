@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class AbilityOverviewUI implements Serializable {
 
 
@@ -204,7 +206,7 @@ public class AbilityOverviewUI implements Serializable {
             try {
                 throw new Exception();
             } catch (Exception e) {
-                System.err.println("TODO: Add page browsing in Ability Window UI when there are more than 99 matches!");
+                log.error("TODO: Add page browsing in Ability Window UI when there are more than 99 matches!");
                 System.exit(1);
             }
         }

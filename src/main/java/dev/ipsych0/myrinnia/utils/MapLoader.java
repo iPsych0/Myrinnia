@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
 import dev.ipsych0.myrinnia.SplashScreen;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -24,6 +25,7 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.*;
 
+@Slf4j
 public class MapLoader implements Serializable {
 
     /**
@@ -48,7 +50,7 @@ public class MapLoader implements Serializable {
             builder = factory.newDocumentBuilder();
             saxParser = saxFactory.newSAXParser();
         } catch (ParserConfigurationException | SAXException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -65,7 +67,7 @@ public class MapLoader implements Serializable {
             doc.normalize();
             input.close();
         } catch (SAXException | IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -80,7 +82,7 @@ public class MapLoader implements Serializable {
             tsxMap.put(path, tsxDoc);
             input.close();
         } catch (SAXException | IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -193,7 +195,7 @@ public class MapLoader implements Serializable {
             is.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -327,7 +329,7 @@ public class MapLoader implements Serializable {
                         try {
                             objectType = TiledObjectType.valueOf(attributes.getValue("type").toUpperCase());
                         } catch (Exception e) {
-                            System.err.println("Object " + objectId + ": aObjectType '" + attributes.getValue("value") + "' is not a valid enum value. Typo or missing?");
+                            log.error("Object {}: aObjectType '{}' is not a valid enum value. Typo or missing?", objectId, attributes.getValue("value"));
                         }
 
                         if (TiledObjectType.COLLISION == objectType) {
@@ -371,7 +373,7 @@ public class MapLoader implements Serializable {
                             try {
                                 direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
                             } catch (Exception e) {
-                                System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
+                                log.error("Could not convert {} to NPC Direction Enum.", attributes.getValue("value"));
                             }
                         } else if (attributes.getValue("name").equalsIgnoreCase("amount")) {
                             if (TiledObjectType.ITEM == objectType) {
@@ -408,7 +410,7 @@ public class MapLoader implements Serializable {
                             try {
                                 direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
                             } catch (Exception e) {
-                                System.err.println("Could not convert " + attributes.getValue("value") + " to NPC Direction Enum.");
+                                log.error("Could not convert {} to NPC Direction Enum.", attributes.getValue("value"));
                             }
                             // Get the zone to change to
                         } else if (attributes.getValue("name").equalsIgnoreCase("zone")) {
@@ -417,7 +419,7 @@ public class MapLoader implements Serializable {
                                     zone = Zone.valueOf(attributes.getValue("value"));
                                     world.getZoneTiles().add(new ZoneTile(zone, x, y, width, height, goToX, goToY, customZoneName, customMusicName, direction));
                                 } catch (Exception e) {
-                                    System.err.println("Could not load zone_tile for '" + attributes.getValue("value") + "'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.");
+                                    log.error("Could not load zone_tile for '{}'. Perhaps a typo? The value is case-sensitive. Please check myrinnia.worlds.data.Zone for values.", attributes.getValue("value"));
                                 }
                             }
                         }
@@ -432,7 +434,7 @@ public class MapLoader implements Serializable {
             is.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -448,8 +450,8 @@ public class MapLoader implements Serializable {
                 } catch (Exception e) {
                     // Only use exception when the class is in none of the 3 packages mentioned above
                     if (i == packages.length - 1) {
-                        e.printStackTrace();
-                        System.err.println("Could not find Entity '" + className + "' in any package. (World: " + world.getWorldPath() + ")");
+                        log.error("Exception", e);
+                        log.error("Could not find Entity '{}' in any package. (World: {})", className, world.getWorldPath());
                     }
                 }
             }
@@ -484,8 +486,8 @@ public class MapLoader implements Serializable {
             }
             return e;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Could not create Entity '" + className + "' in world: " + world.getWorldPath());
+            log.error("Exception", e);
+            log.error("Could not create Entity '{}' in world: {}", className, world.getWorldPath());
         }
         return null;
     }
@@ -505,7 +507,7 @@ public class MapLoader implements Serializable {
             }
             world.getItemManager().addItem(i, true);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -525,7 +527,7 @@ public class MapLoader implements Serializable {
             return firstGids;
         }
 
-        System.out.println("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
+        log.info("Couldn't load in the Tiled firstGIDs. MapLoader::getFirstGids");
         return null;
     }
 
@@ -577,8 +579,8 @@ public class MapLoader implements Serializable {
             }
         }
 
-        System.out.println("Couldn't find the index of the image resourcePath for world: " + worldPath + " - in: MapLoader::getImageIndex");
-        System.out.println(imagePath + " - is not a tileset used in Tiled Map Editor.");
+        log.info("Couldn't find the index of the image resourcePath for world: {} - in: MapLoader::getImageIndex", worldPath);
+        log.info("{} - is not a tileset used in Tiled Map Editor.", imagePath);
         return -1;
     }
 
@@ -602,7 +604,7 @@ public class MapLoader implements Serializable {
             return columns;
         }
 
-        System.out.println("Artifact 'columns' not found for resourcePath: " + worldPath + " in: MapLoader::getTileColumns");
+        log.info("Artifact 'columns' not found for resourcePath: {} in: MapLoader::getTileColumns", worldPath);
         return columns;
     }
 }

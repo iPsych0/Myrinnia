@@ -4,9 +4,11 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class CelenorCraftsman extends ShopKeeper {
 
 

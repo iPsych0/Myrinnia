@@ -33,6 +33,7 @@ import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.Rain;
 import dev.ipsych0.myrinnia.worlds.weather.Sunny;
 import dev.ipsych0.myrinnia.worlds.weather.Weather;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -42,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class World implements Serializable {
 
     /**
@@ -196,7 +198,7 @@ public class World implements Serializable {
                 currentBackgroundSound.playEffect(buffer);
             } catch (Exception e) {
                 System.err.println(e);
-                System.err.println("Could not load weather sound in world " + zone.getName() + ".");
+                log.error("Could not load weather sound in world {}.", zone.getName());
             }
         }
     }

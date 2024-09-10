@@ -5,12 +5,14 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class AbilityMaster extends AbilityTrainer implements Serializable {
 
 

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class DropTableTool extends JFrame {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private List<DropTableEntry> entries = new ArrayList<>();
@@ -117,11 +119,11 @@ public class DropTableTool extends JFrame {
                         String itemName = getItemName(id);
                         entries.add(new DropTableEntry(id, itemName, amount, weight));
                     } catch (NumberFormatException exc) {
-                        System.err.println("Could not parse ID, amount or weight to number.");
+                        log.error("Could not parse ID, amount or weight to number.");
                     }
                     previewText.setText(gson.toJson(entries));
                 } else {
-                    System.err.println("Please fill in all three fields.");
+                    log.error("Please fill in all three fields.");
                 }
             }
         });
@@ -170,8 +172,8 @@ public class DropTableTool extends JFrame {
             inputStream.close();
             return t;
         } catch (final Exception e) {
-            e.printStackTrace();
-            System.err.println("Json file could not be loaded.");
+            log.error("Exception", e);
+            log.error("Json file could not be loaded.");
             System.exit(1);
         }
         return null;

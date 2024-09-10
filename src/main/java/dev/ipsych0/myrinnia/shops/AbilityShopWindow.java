@@ -15,12 +15,14 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class AbilityShopWindow implements Serializable {
 
     private static final long serialVersionUID = 7862013290912383006L;
@@ -61,7 +63,7 @@ public class AbilityShopWindow implements Serializable {
         this.bounds = new Rectangle(x, y, width, height);
 
         if (abilities.isEmpty()) {
-            System.err.println("Warning: Ability Shop in " + Handler.get().getWorld().getZone().getName() + " has 0 abilities to teach.");
+            log.error("Warning: Ability Shop in {} has 0 abilities to teach.", Handler.get().getWorld().getZone().getName());
         }
 
         uiManager = new UIManager();

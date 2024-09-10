@@ -16,12 +16,14 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+@Slf4j
 public class Item implements Serializable {
 
     /**
@@ -557,7 +559,7 @@ public class Item implements Serializable {
                 }
             }
         } catch (DuplicateIDException exc) {
-            exc.printStackTrace();
+            log.error("Exception", exc);
             System.exit(1);
         }
 
@@ -643,7 +645,7 @@ public class Item implements Serializable {
                     return true;
                 }
             }
-            System.out.println("Something went wrong picking up this item.");
+            log.info("Something went wrong picking up this item.");
             return false;
         }
         return false;

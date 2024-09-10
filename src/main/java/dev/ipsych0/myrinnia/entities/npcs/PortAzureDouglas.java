@@ -10,9 +10,11 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class PortAzureDouglas extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.GatheringYourStuff);

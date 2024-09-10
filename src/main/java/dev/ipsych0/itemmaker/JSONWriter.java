@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,6 +15,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Slf4j
 class JSONWriter {
 
     static boolean validate(String name, ItemRarity itemRarity, int price, EquipSlot equipSlot) {
@@ -37,14 +39,14 @@ class JSONWriter {
         try (FileWriter fileWriter = new FileWriter("./res/config/items/" + item.id + "_" + name.replaceAll(" ", "_") + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
 
         // Write the code ready to copy-paste insert into the Item class
         try (Writer fileWriter = new BufferedWriter(new FileWriter("./res/config/items/all_items.txt", true))) {
             fileWriter.write("public static Item " + toCamelCase(name) + " = Utils.loadItem(\"" + +item.id + "_" + name.replaceAll(" ", "_") + ".json\", Assets." + toCamelCase(name) + ");\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 

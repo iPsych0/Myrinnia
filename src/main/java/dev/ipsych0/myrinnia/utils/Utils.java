@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.items.Use;
 import dev.ipsych0.myrinnia.quests.QuestVO;
 import dev.ipsych0.myrinnia.shops.Stock;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 public class Utils {
 
     private static Gson gson;
@@ -42,8 +44,8 @@ public class Utils {
         try {
             return Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
-            System.out.println("Couldn't load tile with ID: " + number);
+            log.error("Exception", e);
+            log.info("Couldn't load tile with ID: {}", number);
             return 0;
         }
     }
@@ -66,8 +68,8 @@ public class Utils {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))){
             return getGson().fromJson(reader, (Type) clazz);
         } catch (final Exception e) {
-            e.printStackTrace();
-            System.err.println("Json file could not be loaded.");
+            log.error("Exception", e);
+            log.error("Json file could not be loaded.");
             System.exit(1);
         }
         return null;
@@ -84,11 +86,11 @@ public class Utils {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Json file could not be loaded.");
+            log.error("Exception", e);
+            log.error("Json file could not be loaded.");
             System.exit(1);
         } catch (ClassNotFoundException e) {
-            System.err.println("Class: " + name + ", is not an existing class.");
+            log.error("Class: {}, is not an existing class.", name);
             System.exit(1);
         }
         return null;

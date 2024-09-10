@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.Font;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class Assets {
 
     public static final int WIDTH = 32, HEIGHT = 32;
@@ -303,12 +305,12 @@ public class Assets {
     public static void init() {
 
         long before = System.currentTimeMillis();
-        System.out.println("Loading world doc:");
+        log.info("Loading world doc:");
 
         MapLoader.setWorldDoc(Handler.initialWorldPath);
 
         long now = (System.currentTimeMillis() - before);
-        System.out.println("Loading time of world doc: " + ((double) now / 1000d));
+        log.info("Loading time of world doc: {}", ((double) now / 1000d));
         /*
          * Fonts
          */
@@ -325,7 +327,7 @@ public class Assets {
         SplashScreen.setMessage("Loading spritesheets...");
 
         before = System.currentTimeMillis();
-        System.out.println("Normal spritesheets:");
+        log.info("Normal spritesheets:");
 
         /*
          * Sprite Sheets
@@ -406,10 +408,10 @@ public class Assets {
         SpriteSheet npc_attacks = new SpriteSheet("/textures/animations/npc_attacks.png");
 
         now = (System.currentTimeMillis() - before);
-        System.out.println("Loading time of normal spritesheets: " + ((double) now / 1000d));
+        log.info("Loading time of normal spritesheets: {}", ((double) now / 1000d));
 
         before = System.currentTimeMillis();
-        System.out.println("Tiled spritesheets:");
+        log.info("Tiled spritesheets:");
 
         /*
          * All Tiled Sprites
@@ -449,14 +451,14 @@ public class Assets {
         MapLoader.clearTsxCache();
 
         now = (System.currentTimeMillis() - before);
-        System.out.println("Loading time of tiled spritesheets: " + ((double) now / 1000d));
+        log.info("Loading time of tiled spritesheets: {}", ((double) now / 1000d));
 
         Tile.tiles = new Tile[MapLoader.getTileCount()];
 
         SplashScreen.setMessage("Loading tiles...");
 
         before = System.currentTimeMillis();
-        System.out.println("Cropping tiles:");
+        log.info("Cropping tiles:");
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (SpriteSheet tileSheet : tileSheets) {
@@ -472,7 +474,7 @@ public class Assets {
         executorService.shutdown();
 
         now = (System.currentTimeMillis() - before);
-        System.out.println("Loading time of tile cropping and property settings: " + ((double) now / 1000d));
+        log.info("Loading time of tile cropping and property settings: {}", ((double) now / 1000d));
 
 //        puzzlePieces = new BufferedImage[rsCastlePuzzle.getSheet().getWidth() / 32][rsCastlePuzzle.getSheet().getHeight() / 32];
 //        for (int y = 0; y < rsCastlePuzzle.getSheet().getHeight() / 32; y++) {
@@ -482,7 +484,7 @@ public class Assets {
 //        }
 
         before = System.currentTimeMillis();
-        System.out.println("Cropping images:");
+        log.info("Cropping images:");
 
         SplashScreen.setMessage("Loading UI images...");
 
@@ -1944,7 +1946,7 @@ public class Assets {
         whirlpool[7] = whirlPool.imageCrop(3, 1);
 
         now = (System.currentTimeMillis() - before);
-        System.out.println("Loading time of image cropping: " + ((double) now / 1000d));
+        log.info("Loading time of image cropping: {}", ((double) now / 1000d));
     }
 
     public static BufferedImage[][] getAnimationByTag(String tag) {
@@ -1970,7 +1972,7 @@ public class Assets {
                         return frames;
                     }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    log.error("Exception", e);
                 }
             }
         }

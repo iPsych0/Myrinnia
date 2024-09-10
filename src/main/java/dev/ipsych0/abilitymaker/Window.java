@@ -2,10 +2,12 @@ package dev.ipsych0.abilitymaker;
 
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Slf4j
 public class Window extends JFrame {
 
     // Window settings
@@ -177,7 +179,7 @@ public class Window extends JFrame {
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e){
-           System.err.println("Could not create default system UI look.");
+            log.error("Could not create default system UI look.");
         }
     }
 

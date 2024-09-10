@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 public abstract class Entity implements Serializable {
 
 
@@ -758,7 +760,7 @@ public abstract class Entity implements Serializable {
      * @return true if condition is met, false if condition is not met
      */
     protected boolean choiceConditionMet(String condition) {
-        System.err.println("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
+        log.error("SHOULD NOT APPEAR: OVERRIDE CHOICE CONDITION CHECK IN SUBCLASS!");
         return false;
     }
 

@@ -7,12 +7,14 @@ import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.*;
 
+@Slf4j
 public class QuestManager implements Serializable {
 
     /**
@@ -124,7 +126,7 @@ public class QuestManager implements Serializable {
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    System.err.println("Error mapping quests to enums. Please check if you have added the quest to 'QuestList.java'.");
+                    log.error("Error mapping quests to enums. Please check if you have added the quest to 'QuestList.java'.");
                     System.exit(1);
                 }
             }

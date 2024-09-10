@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.audio;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.openal.*;
 import org.lwjgl.system.MemoryStack;
 
@@ -15,6 +16,7 @@ import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.libc.LibCStdlib.free;
 
+@Slf4j
 public class AudioManager {
 
     private static String deviceName;
@@ -48,7 +50,7 @@ public class AudioManager {
         // Check for any audio issues with OpenAL
         int AL_ERROR = AL10.alGetError();
         if (AL_ERROR == AL_OUT_OF_MEMORY) {
-            System.err.println("OpenAL Out of Memory error.");
+            log.error("OpenAL Out of Memory error.");
             freeAllSources();
         }
 

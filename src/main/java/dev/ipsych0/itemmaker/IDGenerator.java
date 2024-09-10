@@ -1,9 +1,12 @@
 package dev.ipsych0.itemmaker;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 public class IDGenerator implements Serializable {
 
 
@@ -41,7 +44,7 @@ public class IDGenerator implements Serializable {
             }
         }
         // If no unique IDs are found, exit, because we can't proceed
-        System.err.println("No unique IDs available with range 0-1024! Please increase the range!");
+        log.error("No unique IDs available with range 0-1024! Please increase the range!");
         System.exit(1);
         return -1;
 

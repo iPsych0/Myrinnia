@@ -54,12 +54,14 @@ import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.*;
 import java.util.Properties;
 import java.util.Random;
 
+@Slf4j
 public class Handler implements Serializable {
 
     private Properties prop = new Properties();
@@ -154,8 +156,7 @@ public class Handler implements Serializable {
             try {
                 buffer = AudioManager.loadSound("./res/music/songs/" + songName);
             } catch (FileNotFoundException e) {
-                System.err.println("Couldn't find file: " + songName);
-                e.printStackTrace();
+                log.error("Couldn't find file: {}", songName, e);
             }
 
             // Fade from first song to the next
@@ -169,8 +170,7 @@ public class Handler implements Serializable {
             try {
                 buffer = AudioManager.loadSound("./res/music/songs/" + song);
             } catch (FileNotFoundException e) {
-                System.err.println("Couldn't find file: " + song);
-                e.printStackTrace();
+                log.error("Couldn't find file: {}", song, e);
             }
 
             // Fade from first song to the next
@@ -205,8 +205,7 @@ public class Handler implements Serializable {
             try {
                 buffer = AudioManager.loadSound("./res/music/sfx/" + effect);
             } catch (FileNotFoundException e) {
-                System.err.println("Couldn't find file: " + effect);
-                e.printStackTrace();
+                log.error("Couldn't find file: {}", effect, e);
             }
 
             Source s;
@@ -582,7 +581,7 @@ public class Handler implements Serializable {
             prop.setProperty(propertyKey, propertyValue);
             prop.store(fos, null);
         } catch (IOException io) {
-            io.printStackTrace();
+            log.error("Exception", io);
         }
     }
 
@@ -594,7 +593,7 @@ public class Handler implements Serializable {
             }
             return prop.getProperty(propertyKey);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error("Exception", ex);
         }
         return null;
     }

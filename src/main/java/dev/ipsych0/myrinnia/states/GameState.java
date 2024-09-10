@@ -2,9 +2,11 @@ package dev.ipsych0.myrinnia.states;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class GameState extends State {
 
     /**

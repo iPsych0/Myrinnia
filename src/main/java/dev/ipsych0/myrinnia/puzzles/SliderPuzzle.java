@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.puzzles;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 public class SliderPuzzle extends Puzzle {
 
     /**
@@ -26,7 +28,7 @@ public class SliderPuzzle extends Puzzle {
             try {
                 throw new Exception();
             } catch (Exception e) {
-                System.err.println("SliderPuzzle size must be between 3x3 and 10x10");
+                log.error("SliderPuzzle size must be between 3x3 and 10x10");
                 System.exit(1);
             }
         }

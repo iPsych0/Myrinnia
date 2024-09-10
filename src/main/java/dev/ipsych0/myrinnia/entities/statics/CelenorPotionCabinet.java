@@ -8,10 +8,12 @@ import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Slf4j
 public class CelenorPotionCabinet extends StaticEntity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);

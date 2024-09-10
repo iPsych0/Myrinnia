@@ -1,5 +1,7 @@
 package dev.ipsych0.itemmaker;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 class Launcher {
 
     public static void main(String[] args) {
@@ -22,7 +25,7 @@ class Launcher {
             int[] jsonItemIds = JSONLoader.loadIdPrefixesFromJsonFiles();
 
             if (jsonItemIds == null) {
-                System.err.println("Failed to load item id prefixes. Closing to prevent further failure.");
+                log.error("Failed to load item id prefixes. Closing to prevent further failure.");
                 System.exit(1);
             }
 

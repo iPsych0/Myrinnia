@@ -12,9 +12,11 @@ import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+@Slf4j
 public class ShamrockSinkhole extends StaticEntity {
 
     private boolean cutsceneStarted;

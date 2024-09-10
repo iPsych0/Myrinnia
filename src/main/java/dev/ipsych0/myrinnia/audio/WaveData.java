@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.audio;
 
 import dev.ipsych0.myrinnia.Handler;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 
@@ -10,6 +11,7 @@ import javax.sound.sampled.AudioSystem;
 import java.io.*;
 import java.nio.ByteBuffer;
 
+@Slf4j
 public class WaveData {
 
     final int format;
@@ -38,7 +40,7 @@ public class WaveData {
             audioStream.close();
             data.clear();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
         }
     }
 
@@ -49,8 +51,8 @@ public class WaveData {
             data.put(dataArray, 0, bytesRead);
             data.flip();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Couldn't read bytes from audio stream!");
+            log.error("Exception", e);
+            log.error("Couldn't read bytes from audio stream!");
         }
     }
 
@@ -63,7 +65,7 @@ public class WaveData {
                 wavStream = new WaveData(audioIn);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception", e);
             return null;
         }
         return wavStream;

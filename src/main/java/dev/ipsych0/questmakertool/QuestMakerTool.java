@@ -3,6 +3,7 @@ package dev.ipsych0.questmakertool;
 import com.google.gson.Gson;
 import dev.ipsych0.myrinnia.quests.QuestVO;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class QuestMakerTool extends JFrame {
     private JButton createButton;
     private JTextField questNameText;
@@ -57,7 +59,7 @@ public class QuestMakerTool extends JFrame {
 
                 jsonText.setText(Utils.getGson().toJson(questVO));
             } else {
-                System.err.println("Objectives is empty.");
+                log.error("Objectives is empty.");
             }
         });
 
@@ -74,8 +76,7 @@ public class QuestMakerTool extends JFrame {
                     objectives.clear();
                     questVO = new QuestVO();
                 } catch (Exception e) {
-                    System.err.println("JSON parsing error:\n");
-                    e.printStackTrace();
+                    log.error("JSON parsing error:\n", e);
                 }
             }
         });

@@ -8,11 +8,13 @@ import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Timer;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class Sheep extends Creature {
 
 
@@ -131,7 +133,7 @@ public class Sheep extends Creature {
         if ("hasShears".equals(condition)) {
             return !sheared && Handler.get().playerHasItem(Item.shears, 1);
         }
-        System.err.println("CHOICE CONDITION '" + condition + "' NOT PROGRAMMED!");
+        log.error("CHOICE CONDITION '{}' NOT PROGRAMMED!", condition);
         return false;
     }
 

@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Slf4j
 public class JSONWriter {
 
     public static boolean validate(CharacterStats element, CharacterStats style, String name, AbilityType type, boolean selectable, double cooldown, double castTime, double overcastTime, int baseDmg, int price, String className, String description) {
@@ -28,7 +30,7 @@ public class JSONWriter {
         // Check if ability class already exists, exit
         String fileName = name.substring(0, 1).toUpperCase() + name.substring(1).replace(" ", "");
         if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/abilities/" + fileName + "Ability.java"))) {
-            System.err.println("This class/ability already exists! Cause: " + fileName + "Ability.java");
+            log.error("This class/ability already exists! Cause: {}Ability.java", fileName);
             System.exit(1);
         }
 
@@ -39,7 +41,7 @@ public class JSONWriter {
         try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/abilities/json/" + name.toLowerCase() + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
             System.exit(1);
         }
 
@@ -57,7 +59,7 @@ public class JSONWriter {
                 fileWriter.write(s + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception", e);
             System.exit(1);
         }
     }

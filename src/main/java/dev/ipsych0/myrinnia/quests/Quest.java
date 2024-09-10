@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.ui.Celebration;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class Quest implements Serializable {
 
     /**
@@ -157,7 +159,7 @@ public class Quest implements Serializable {
     public Object getCheckValueWithDefault(String key, Object defaultObj) {
         key = key.toLowerCase();
         if (!customChecks.containsKey(key)) {
-            System.err.println("Key '" + key + "' does not exist. Please use Quest::addNewCheck method to add new keys.");
+            log.error("Key '{}' does not exist. Please use Quest::addNewCheck method to add new keys.", key);
             customChecks.put(key, defaultObj);
         }
         return customChecks.get(key);

@@ -5,12 +5,14 @@ import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;
 import dev.ipsych0.myrinnia.items.ItemType;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 class Window extends JFrame {
 
     // Window settings
@@ -66,7 +68,7 @@ class Window extends JFrame {
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e){
-            System.err.println("Could not create default system UI look.");
+            log.error("Could not create default system UI look.");
         }
 
         // Show the
@@ -85,7 +87,7 @@ class Window extends JFrame {
 //            IDSerializer.validateIDs();
 
             if (nameInput.getText().isEmpty()) {
-                System.err.println("Please fill in a name.");
+                log.error("Please fill in a name.");
                 return;
             }
             String name = nameInput.getText();
@@ -96,11 +98,11 @@ class Window extends JFrame {
                 if (!priceInput.getText().isEmpty()) {
                     price = Integer.parseInt(priceInput.getText());
                 } else {
-                    System.err.println("Price field cannot be empty.");
+                    log.error("Price field cannot be empty.");
                     return;
                 }
             } catch (NumberFormatException nfe) {
-                System.err.println("Could not parse price value '" + priceInput.getText() + "'.");
+                log.error("Could not parse price value '{}'.", priceInput.getText());
                 return;
             }
             boolean equippable = equippableDropDown.getSelectedIndex() == 0;
@@ -113,7 +115,7 @@ class Window extends JFrame {
                 if (equipSlotDropDown.getSelectedItem() == null || strengthInput.getText().isEmpty() || strengthInput.getText().isEmpty()
                         || dexterityInput.getText().isEmpty() || intelligenceInput.getText().isEmpty() || vitalityInput.getText().isEmpty() ||
                         attackSpeedInput.getText().isEmpty() || movementSpeedInput.getText().isEmpty()) {
-                    System.err.println("Please fill in -all- equipment stats.");
+                    log.error("Please fill in -all- equipment stats.");
                     return;
                 }
                 equipSlot = EquipSlot.valueOf((String) equipSlotDropDown.getSelectedItem());
@@ -148,7 +150,7 @@ class Window extends JFrame {
                         try {
                             itemTypes[i] = ItemType.valueOf(capitalized);
                         } catch (IllegalArgumentException iae) {
-                            System.err.println("'" + capitalized + "' is not a valid ItemType. See src/dev/ipsych0/myrinnia/items/ItemTypes.java for possible values.");
+                            log.error("'{}' is not a valid ItemType. See src/dev/ipsych0/myrinnia/items/ItemTypes.java for possible values.", capitalized);
                             return;
                         }
                     }
@@ -156,26 +158,26 @@ class Window extends JFrame {
                         List<ItemType> typeList = Arrays.asList(itemTypes);
                         if (equipSlot == EquipSlot.Mainhand) {
                             if (!typeList.contains(ItemType.MELEE_WEAPON) && !typeList.contains(ItemType.MAGIC_WEAPON) && !typeList.contains(ItemType.RANGED_WEAPON)) {
-                                System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                                log.error("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
                                 return;
                             }
                         } else {
                             if (typeList.contains(ItemType.MELEE_WEAPON) || typeList.contains(ItemType.MAGIC_WEAPON) || typeList.contains(ItemType.RANGED_WEAPON)) {
-                                System.err.println("Armour cannot have a weapon-type as ItemType.");
+                                log.error("Armour cannot have a weapon-type as ItemType.");
                                 return;
                             }
                         }
                     }
                 } else {
                     if (equippable && equipSlot == EquipSlot.Mainhand) {
-                        System.err.println("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
+                        log.error("Mainhand weapons must have a MAGIC_WEAPON/RANGED_WEAPON/MELEE_WEAPON ItemType specified!");
                         return;
                     }
                     itemTypes = null;
                 }
             } catch (Exception exc) {
-                exc.printStackTrace();
-                System.err.println("Could not parse one or more ItemTypes. Please check src/dev/ipsych0/myrinnia/items/ItemTypes.java for a list of possible values.");
+                log.error("Exception", exc);
+                log.error("Could not parse one or more ItemTypes. Please check src/dev/ipsych0/myrinnia/items/ItemTypes.java for a list of possible values.");
                 return;
             }
 
@@ -200,11 +202,11 @@ class Window extends JFrame {
                     itemRequirements = null;
                 }
             } catch (IllegalArgumentException iae) {
-                System.err.println("Please provide an even number of Key-Value pairs, separated by commas.");
+                log.error("Please provide an even number of Key-Value pairs, separated by commas.");
                 return;
             } catch (Exception exc) {
-                exc.printStackTrace();
-                System.err.println("Could not parse one or more ItemRequirements. Make sure you separate the values by commas using 'Stat,Level', like so: 'Melee,2,Ranged,5'. Please check myrinnia/character/CharacterStats.java for a list of possible values.");
+                log.error("Exception", exc);
+                log.error("Could not parse one or more ItemRequirements. Make sure you separate the values by commas using 'Stat,Level', like so: 'Melee,2,Ranged,5'. Please check myrinnia/character/CharacterStats.java for a list of possible values.");
                 return;
             }
 
@@ -214,12 +216,12 @@ class Window extends JFrame {
                 try {
                     JSONWriter.write(name, rarity, price, stackable, equipSlot, strength, dexterity, intelligence, defence, vitality, attackSpeed, movementSpeed, itemTypes, itemRequirements);
                 } catch (Exception exc) {
-                    exc.printStackTrace();
-                    System.err.println("Failed to write to JSON file!");
+                    log.error("Exception", exc);
+                    log.error("Failed to write to JSON file!");
                     System.exit(1);
                 }
             } else {
-                System.err.println("One or more fields are invalid. Please try again with the right format.");
+                log.error("One or more fields are invalid. Please try again with the right format.");
             }
 
         });

@@ -2,10 +2,12 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.bank.BankUI;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Slf4j
 public class BankerNPC extends Banker implements Serializable {
 
     private static final long serialVersionUID = -4843560960961688987L;

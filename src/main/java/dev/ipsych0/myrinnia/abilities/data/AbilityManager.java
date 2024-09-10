@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.File;
@@ -20,6 +21,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class AbilityManager implements Serializable {
 
 
@@ -43,7 +45,7 @@ public class AbilityManager implements Serializable {
         try {
             init();
         } catch (Exception e) {
-            System.err.println("Failed to load abilities!");
+            log.error("Failed to load abilities!");
             System.exit(1);
         }
     }

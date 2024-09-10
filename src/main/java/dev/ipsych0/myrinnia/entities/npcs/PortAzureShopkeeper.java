@@ -8,10 +8,12 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.quests.QuestStep;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.util.List;
 
+@Slf4j
 public class PortAzureShopkeeper extends ShopKeeper {
 
 

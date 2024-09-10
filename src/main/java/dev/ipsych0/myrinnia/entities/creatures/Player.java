@@ -46,6 +46,7 @@ import dev.ipsych0.myrinnia.ui.custom.BookUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -58,6 +59,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+@Slf4j
 public class Player extends Creature {
 
 
@@ -361,7 +363,7 @@ public class Player extends Creature {
                     } else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)) {
                         checkRanged(mouse);
                     } else {
-                        System.err.println("Item: '" + Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName() + "' does not have a melee/magic/ranged weapon type assigned to it.");
+                        log.error("Item: '{}' does not have a melee/magic/ranged weapon type assigned to it.", Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName());
                     }
                 }
             }
@@ -1230,7 +1232,7 @@ public class Player extends Creature {
      */
     @Override
     public void interact() {
-        System.out.println("Oops, we're interacting with ourself. That's odd!");
+        log.info("Oops, we're interacting with ourself. That's odd!");
     }
 
     // Getters & Setters

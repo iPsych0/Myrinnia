@@ -13,12 +13,14 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class BankUI implements Serializable {
 
     /**
@@ -284,7 +286,6 @@ public class BankUI implements Serializable {
                                 // If the item stack == null, we can safely add it.
                                 Handler.get().getInventory().getItemSlots().get(slotIndex)
                                         .addItem(currentSelectedSlot.getItem(), currentSelectedSlot.getAmount());
-                                System.out.println(slotIndex);
                                 currentSelectedSlot = null;
                                 itemSelected = false;
                                 hasBeenPressed = false;

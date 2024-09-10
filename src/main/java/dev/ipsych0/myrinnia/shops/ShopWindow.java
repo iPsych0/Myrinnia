@@ -15,12 +15,14 @@ import dev.ipsych0.myrinnia.ui.DialogueBox;
 import dev.ipsych0.myrinnia.ui.TextBox;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ShopWindow implements Serializable {
 
     /**
@@ -858,7 +860,7 @@ public class ShopWindow implements Serializable {
         }
         if (index != -1)
             return index;
-        System.out.println("No free inventory slot available.");
+        log.info("No free inventory slot available.");
         return -1;
     }
 

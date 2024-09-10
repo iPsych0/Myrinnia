@@ -1,10 +1,13 @@
 package dev.ipsych0.myrinnia.entities;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Slf4j
 public abstract class Buff {
 
     protected Buff incomingBuff;
@@ -105,7 +108,7 @@ public abstract class Buff {
 
     private int getBuffId() {
         if (buffId == -1) {
-            System.err.println("Forgot to set buffId for: " + this.getClass().getSimpleName());
+            log.error("Forgot to set buffId for: {}", this.getClass().getSimpleName());
         }
         return buffId;
     }
