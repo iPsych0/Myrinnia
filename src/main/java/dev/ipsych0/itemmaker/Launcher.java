@@ -3,7 +3,7 @@ package dev.ipsych0.itemmaker;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ class Launcher {
         IDGenerator idGenerator = IDGenerator.getInstance();
 
         // Check if file already exists.
-        if (Files.exists(Paths.get("src/dev/ipsych0/itemmaker/config/IDs.json"))) {
+        if (Files.exists(Path.of("src/dev/ipsych0/itemmaker/config/IDs.json"))) {
             Set<Integer> ids = IDSerializer.loadIDs();
 
             // Load all item ID prefixes from the file names

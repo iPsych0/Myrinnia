@@ -17,8 +17,7 @@ public class SkillSubscriber implements Subscriber {
 
     @Override
     public void update(Publisher publisher) {
-        if (publisher instanceof SkillPublisher) {
-            SkillPublisher skillPublisher = (SkillPublisher) publisher;
+        if (publisher instanceof SkillPublisher skillPublisher) {
 
             // Update logic of leveling up a skill
             subscriptionListener.onMessageReceived(skillPublisher.getSkill());

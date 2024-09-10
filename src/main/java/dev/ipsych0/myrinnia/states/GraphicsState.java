@@ -61,8 +61,8 @@ public class GraphicsState extends State {
         uiManager.tick();
 
         for (UIObject o : uiManager.getObjects()) {
-            if (o instanceof DropDownBox) {
-                DropDownBox ddb = ((DropDownBox) o);
+            if (o instanceof DropDownBox box) {
+                DropDownBox ddb =box;
                 if (ddb.isItemChanged()) {
                     changeGraphics(ddb);
                     ddb.setItemChanged(false);

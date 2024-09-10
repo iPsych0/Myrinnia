@@ -37,7 +37,7 @@ public class MoveEntityEvent implements CutsceneEvent {
         this.startY = entity.getY();
 
         // Only set creature if it's an instance of Creature, otherwise null
-        creature = (entity instanceof Creature) ? (Creature) entity : null;
+        creature = (entity instanceof Creature c) ? c : null;
 
         // Init A* map for creature
         if (creature != null) {

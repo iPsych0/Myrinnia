@@ -19,8 +19,8 @@ public class TutorialTipManager implements Serializable {
     public TutorialTipManager() {
         tips = new ArrayList<>();
         new WorldSubscriber(WorldPublisher.get(), true, (obj) -> {
-            if (obj instanceof World) {
-                Zone zone = ((World) obj).getZone();
+            if (obj instanceof World world) {
+                Zone zone = world.getZone();
                 if (zone.equals(Zone.MalachiteHills)) {
                     Handler.get().addTip(new TutorialTip("You can hold SHIFT to highlight nearby interactable objects."));
                 }

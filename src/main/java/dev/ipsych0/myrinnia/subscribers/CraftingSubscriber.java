@@ -17,8 +17,7 @@ public class CraftingSubscriber implements Subscriber {
 
     @Override
     public void update(Publisher publisher) {
-        if (publisher instanceof CraftingPublisher) {
-            CraftingPublisher craftingPublisher = (CraftingPublisher) publisher;
+        if (publisher instanceof CraftingPublisher craftingPublisher) {
 
             // Update logic calls for Crafting events
             subscriptionListener.onMessageReceived(craftingPublisher.getCraftedItem());

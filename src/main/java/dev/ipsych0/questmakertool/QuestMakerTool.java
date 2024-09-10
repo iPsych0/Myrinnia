@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class QuestMakerTool extends JFrame {
                 try {
                     Gson gson = Utils.getGson();
                     QuestVO questVO = gson.fromJson(jsonText.getText(), QuestVO.class);
-                    Files.write(Paths.get("src/dev/ipsych0/myrinnia/quests/json/" + questVO.getQuestName().replaceAll(" ", "").toLowerCase() + ".json"), jsonText.getText().getBytes());
+                    Files.write(Path.of("src/dev/ipsych0/myrinnia/quests/json/" + questVO.getQuestName().replaceAll(" ", "").toLowerCase() + ".json"), jsonText.getText().getBytes());
 
                     questStartText.setText("");
                     questNameText.setText("");

@@ -17,8 +17,7 @@ public class KillSubscriber implements Subscriber {
 
     @Override
     public void update(Publisher publisher) {
-        if (publisher instanceof KillPublisher) {
-            KillPublisher killPublisher = (KillPublisher) publisher;
+        if (publisher instanceof KillPublisher killPublisher) {
 
             // Update logic of leveling up a skill
             subscriptionListener.onMessageReceived(killPublisher.getKilledEntity());

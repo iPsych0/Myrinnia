@@ -23,7 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +65,7 @@ public class Utils {
         if (path == null) {
             throw new IllegalArgumentException("JSON file cannot be null/empty.");
         }
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))){
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(path))){
             return getGson().fromJson(reader, (Type) clazz);
         } catch (final Exception e) {
             log.error("Exception", e);
@@ -77,7 +77,7 @@ public class Utils {
 
     private static Class<?> getClassFromString(String jsonFile) {
         String name = null;
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(jsonFile))){
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(jsonFile))){
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains("className")) {

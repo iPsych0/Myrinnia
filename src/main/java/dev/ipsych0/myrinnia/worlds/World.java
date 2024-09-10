@@ -427,8 +427,8 @@ public class World implements Serializable {
 
 
             for (Weather weather : weatherEffects) {
-                if (weather instanceof Rain) {
-                    ((Rain) weather).renderThunder(g);
+                if (weather instanceof Rain rain) {
+                    rain.renderThunder(g);
                 }
             }
 

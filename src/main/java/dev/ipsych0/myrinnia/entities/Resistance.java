@@ -40,10 +40,10 @@ public class Resistance implements Serializable {
             case BLEEDING:
             case POISON:
                 category = "damage";
-                desc = String.format(desc, category, name, effectiveness * 100d) + "%.";
+                desc = desc.formatted(category, name, effectiveness * 100d) + "%.";
                 return desc;
             default:
-                desc = String.format(desc, category, name, effectiveness * 100d) + "%.";
+                desc = desc.formatted(category, name, effectiveness * 100d) + "%.";
                 return desc;
         }
     }

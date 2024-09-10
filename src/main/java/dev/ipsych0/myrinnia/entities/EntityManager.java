@@ -71,8 +71,8 @@ public class EntityManager implements Serializable {
 
             // Update buffs, conditions and immunities
             if (e.isActive()) {
-                if (e instanceof Creature) {
-                    Creature c = ((Creature) e);
+                if (e instanceof Creature creature) {
+                    Creature c =creature;
 
                     if (c.isAttackable()) {
                         updateBuffsCondisAndImmunities(c);
@@ -188,16 +188,16 @@ public class EntityManager implements Serializable {
 
             e.render(g);
 
-            if (e instanceof Creature) {
-                for (Projectile p : ((Creature) e).getProjectiles()) {
+            if (e instanceof Creature creature) {
+                for (Projectile p : creature.getProjectiles()) {
                     if (p.active) {
                         p.render(g);
                     }
                 }
 
                 // Render post render tiles for this creature
-                for (Tile t : ((Creature) e).getPostRenderTiles().keySet()) {
-                    Point point = ((Creature) e).getPostRenderTiles().get(t);
+                for (Tile t : creature.getPostRenderTiles().keySet()) {
+                    Point point = creature.getPostRenderTiles().get(t);
                     t.render(g, (int) (point.getX() * 32 - Handler.get().getGameCamera().getxOffset()), (int) (point.getY() * 32 - Handler.get().getGameCamera().getyOffset()));
                 }
             }

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 @Slf4j
 public class JSONWriter {
@@ -29,7 +29,7 @@ public class JSONWriter {
 
         // Check if ability class already exists, exit
         String fileName = name.substring(0, 1).toUpperCase() + name.substring(1).replace(" ", "");
-        if (Files.exists(Paths.get("src/dev/ipsych0/myrinnia/abilities/" + fileName + "Ability.java"))) {
+        if (Files.exists(Path.of("src/dev/ipsych0/myrinnia/abilities/" + fileName + "Ability.java"))) {
             log.error("This class/ability already exists! Cause: {}Ability.java", fileName);
             System.exit(1);
         }
@@ -47,7 +47,7 @@ public class JSONWriter {
 
         // Create the class from a template
         try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/abilities/" + fileName + "Ability.java")) {
-            for (String s : Files.readAllLines(Paths.get("src/dev/ipsych0/abilitymaker/abilitytemplate.txt"))) {
+            for (String s : Files.readAllLines(Path.of("src/dev/ipsych0/abilitymaker/abilitytemplate.txt"))) {
                 // Replace the Test class name with the real class name
                 if (s.contains("TestAbility")) {
                     s = s.replace("TestAbility", fileName + "Ability");

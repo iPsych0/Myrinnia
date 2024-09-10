@@ -17,8 +17,7 @@ public class WorldSubscriber implements Subscriber {
 
     @Override
     public void update(Publisher publisher) {
-        if (publisher instanceof WorldPublisher) {
-            WorldPublisher worldPublisher = (WorldPublisher) publisher;
+        if (publisher instanceof WorldPublisher worldPublisher) {
 
             // Update logic of leveling up a skill
             subscriptionListener.onMessageReceived(worldPublisher.getGoToWorld());

@@ -14,7 +14,6 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MenuState extends State {
 
@@ -31,7 +30,7 @@ public class MenuState extends State {
 
         int yOffset = 0;
         // Hide continue button if file not found
-        Path path = Paths.get("./res/savegames/save.dat");
+        Path path = Path.of("./res/savegames/save.dat");
         if (Files.exists(path)) {
             /*
              * Continue Button

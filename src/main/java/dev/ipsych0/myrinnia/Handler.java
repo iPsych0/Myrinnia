@@ -320,8 +320,8 @@ public class Handler implements Serializable {
 
         // Reset all NPCs to their spawn location and let them face the original way
         for (Entity e : world.getEntityManager().getEntities()) {
-            if (e instanceof Creature) {
-                Creature c = ((Creature) e);
+            if (e instanceof Creature creature) {
+                Creature c =creature;
                 if (e.isAttackable() && !e.equals(player)) {
 
                     // Reset A* aggro

@@ -13,7 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 @Slf4j
 class JSONWriter {
@@ -31,7 +31,7 @@ class JSONWriter {
         // Create the JSON String
         String json = gson.toJson(item);
 
-        if (Files.exists(Paths.get("./res/config/items/" + name.replaceAll(" ", "_") + ".json"))) {
+        if (Files.exists(Path.of("./res/config/items/" + name.replaceAll(" ", "_") + ".json"))) {
             System.err.println("File '" + name.replaceAll(" ", "_") + ".json' already exists.");
             return;
         }
