@@ -286,7 +286,7 @@ public class Assets {
     public static BufferedImage[] whirlpool;
 
     // Icons
-    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, soulReapingIcon, farmingIcon;
+    public static BufferedImage fishingIcon, woodcuttingIcon, miningIcon, meleeIcon, bountyHunterIcon, farmingIcon;
     public static BufferedImage chillIcon, poisonIcon, burnIcon, bleedIcon, stunIcon, crippledIcon, blindedIcon, rootedIcon;
     public static BufferedImage resistanceIcon, weaknessIcon;
     public static BufferedImage strBuffIcon, dexBuffIcon, intBuffIcon, defBuffIcon, vitBuffIcon, atkSpdBuffIcon,
@@ -571,7 +571,7 @@ public class Assets {
         woodcuttingIcon = ui_sheet.imageCrop(3, 0);
         miningIcon = ui_sheet.imageCrop(1, 0);
         meleeIcon = ui_sheet.imageCrop(2, 1);
-        soulReapingIcon = ui_sheet.imageCrop(5, 1);
+        bountyHunterIcon = ui_sheet.imageCrop(5, 1);
         farmingIcon = ui_sheet.imageCrop(7, 1);
 
         // Condition icons

@@ -180,9 +180,6 @@
                             <administratorRequired>true</administratorRequired>
                             <createZipball>true</createZipball>
                             <iconFile>res/settings/myrinnia.ico</iconFile>
-<!--                            <runnableJar>-->
-<!--                                ${project.build.directory}${file.separator}${project.artifactId}-${project.version}-jar-with-dependencies.jar-->
-<!--                            </runnableJar>-->
                             <platform>windows</platform>
                             <additionalResources>
                                 <additionalResource>res</additionalResource>

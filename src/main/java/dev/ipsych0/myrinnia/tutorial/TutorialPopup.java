@@ -19,7 +19,7 @@ public class TutorialPopup implements Serializable {
     private UIManager uiManager;
     private boolean okPressed;
     private int originalBoundX = -192, originalButtonX;
-    private Rectangle bounds = new Rectangle(originalBoundX, 144, 208, 128);
+    private Rectangle bounds = new Rectangle(originalBoundX, 144, 224, 128);
 
     public TutorialPopup(String[] lines) {
         this.lines = lines;

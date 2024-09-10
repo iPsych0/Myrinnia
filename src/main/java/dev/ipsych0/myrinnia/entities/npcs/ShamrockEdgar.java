@@ -75,7 +75,7 @@ public class ShamrockEdgar extends Creature {
                 Handler.get().removeItem(Item.bountyContract, 1);
 
                 bounty.setCompleted(true);
-                Handler.get().getSkill(SkillsList.SOUL_REAPING).addExperience(100);
+                Handler.get().getSkill(SkillsList.BOUNTY_HUNTER).addExperience(100);
                 speakingCheckpoint = 6;
                 break;
         }

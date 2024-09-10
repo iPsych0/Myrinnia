@@ -44,6 +44,7 @@ import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.states.ZoneTransitionState;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import dev.ipsych0.myrinnia.tutorial.TutorialHistoryUI;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
@@ -52,6 +53,8 @@ import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -65,6 +68,8 @@ import java.util.Properties;
 import java.util.Random;
 
 @Slf4j
+@Getter
+@Setter
 public class Handler implements Serializable {
 
     private Properties prop = new Properties();
@@ -96,6 +101,7 @@ public class Handler implements Serializable {
     private TutorialTipManager tutorialTipManager;
     private BountyContractUI contractUI;
     private CelebrationUI celebrationUI;
+    private TutorialHistoryUI tutorialHistoryUI;
     public static boolean debugAStar;
     public static boolean debugCollision;
     public static boolean debugZones;
@@ -146,6 +152,7 @@ public class Handler implements Serializable {
         tutorialTipManager = new TutorialTipManager();
         contractUI = new BountyContractUI();
         celebrationUI = new CelebrationUI();
+        tutorialHistoryUI = new TutorialHistoryUI();
 
         // Set the starting world
         portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new TemperateClimate()).build();
@@ -235,6 +242,7 @@ public class Handler implements Serializable {
     public void addTip(TutorialTip tip) {
         if (chatWindow.getFilters().contains(Filter.SHOWTIPS)) {
             tutorialTipManager.addTip(tip);
+            tutorialTipManager.addHistoricalTip(tip);
         }
     }
 
@@ -637,10 +645,6 @@ public class Handler implements Serializable {
         Handler.game = game;
     }
 
-    public World getWorld() {
-        return world;
-    }
-
     public void setWorld(World world) {
         this.world = world;
     }
@@ -649,151 +653,8 @@ public class Handler implements Serializable {
         this.world = worldHandler.getWorldsMap().get(zone);
     }
 
-    public WorldHandler getWorldHandler() {
-        return worldHandler;
-    }
-
-    public void setWorldHandler(WorldHandler worldHandler) {
-        this.worldHandler = worldHandler;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public ChatWindow getChatWindow() {
-        return chatWindow;
-    }
-
-    public void setChatWindow(ChatWindow chatWindow) {
-        this.chatWindow = chatWindow;
-    }
-
-    public InventoryWindow getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(InventoryWindow inventory) {
-        this.inventory = inventory;
-    }
-
-    public EquipmentWindow getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(EquipmentWindow equipment) {
-        this.equipment = equipment;
-    }
-
-    public QuestManager getQuestManager() {
-        return questManager;
-    }
-
-    public void setQuestManager(QuestManager questManager) {
-        this.questManager = questManager;
-    }
-
-    public CraftingUI getCraftingUI() {
-        return craftingUI;
-    }
-
-    public void setCraftingUI(CraftingUI craftingUI) {
-        this.craftingUI = craftingUI;
-    }
-
-    public CharacterUI getCharacterUI() {
-        return characterUI;
-    }
-
-    public void setCharacterUI(CharacterUI characterUI) {
-        this.characterUI = characterUI;
-    }
-
-    public SkillsUI getSkillsUI() {
-        return skillsUI;
-    }
-
-    public void setSkillsUI(SkillsUI skillsUI) {
-        this.skillsUI = skillsUI;
-    }
-
-    public HPOverlay getHpOverlay() {
-        return hpOverlay;
-    }
-
-    public void setHpOverlay(HPOverlay hpOverlay) {
-        this.hpOverlay = hpOverlay;
-    }
-
-    public BankUI getBankUI() {
-        return bankUI;
-    }
-
-    public void setBankUI(BankUI bankUI) {
-        this.bankUI = bankUI;
-    }
-
-    public AbilityManager getAbilityManager() {
-        return abilityManager;
-    }
-
-    public void setAbilityManager(AbilityManager abilityManager) {
-        this.abilityManager = abilityManager;
-    }
-
-    public RecapManager getRecapManager() {
-        return recapManager;
-    }
-
-    public void setRecapManager(RecapManager recapManager) {
-        this.recapManager = recapManager;
-    }
 
     public static void setHandler(Handler handler) {
         Handler.handler = handler;
-    }
-
-    public DevToolUI getDevToolUI() {
-        return devToolUI;
-    }
-
-    public void setDevToolUI(DevToolUI devToolUI) {
-        this.devToolUI = devToolUI;
-    }
-
-    public AbilityOverviewUI getAbilityOverviewUI() {
-        return abilityOverviewUI;
-    }
-
-    public void setAbilityOverviewUI(AbilityOverviewUI abilityOverviewUI) {
-        this.abilityOverviewUI = abilityOverviewUI;
-    }
-
-    public TutorialTipManager getTutorialTipManager() {
-        return tutorialTipManager;
-    }
-
-    public void setTutorialTipManager(TutorialTipManager tutorialTipManager) {
-        this.tutorialTipManager = tutorialTipManager;
-    }
-
-    public BountyContractUI getContractUI() {
-        return contractUI;
-    }
-
-    public void setContractUI(BountyContractUI contractUI) {
-        this.contractUI = contractUI;
-    }
-
-    public CelebrationUI getCelebrationUI() {
-        return celebrationUI;
-    }
-
-    public void setCelebrationUI(CelebrationUI celebrationUI) {
-        this.celebrationUI = celebrationUI;
     }
 }

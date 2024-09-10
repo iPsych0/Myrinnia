@@ -73,18 +73,18 @@ public class AzureCrab extends Creature {
         Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.PortAzure, "Cut the Crab");
         if (name.equalsIgnoreCase("King Azure Crab") && bounty != null && bounty.isAccepted()) {
             if (firstKill) {
-                Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
+                Handler.get().addTip(new TutorialTip("Right-click on ground items to select an item to pick up. Alternatively, press 'F' for area-loot."));
                 firstKill = false;
             }
             Handler.get().dropItem(Item.ryansAxe, 1, (int) x, (int) y);
             Handler.get().getSkill(SkillsList.COMBAT).addExperience(25);
         } else {
             if (firstKill) {
-                Handler.get().addTip(new TutorialTip("Right-click when standing on items to pick them up."));
+                Handler.get().addTip(new TutorialTip("Right-click on ground items to select an item to pick up. Alternatively, press 'F' for area-loot."));
                 firstKill = false;
             }
             getDroptableItem();
-            Handler.get().getSkill(SkillsList.COMBAT).addExperience(5);
+            Handler.get().getSkill(SkillsList.COMBAT).addExperience(8);
         }
     }
 

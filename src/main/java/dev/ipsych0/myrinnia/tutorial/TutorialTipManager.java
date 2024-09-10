@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.publishers.WorldPublisher;
 import dev.ipsych0.myrinnia.subscribers.WorldSubscriber;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -15,9 +16,12 @@ public class TutorialTipManager implements Serializable {
 
     private static final long serialVersionUID = 3905401417918808389L;
     private final List<TutorialTip> tips;
+    @Getter
+    private final List<TutorialTip> history;
 
     public TutorialTipManager() {
         tips = new ArrayList<>();
+        history = new ArrayList<>();
         new WorldSubscriber(WorldPublisher.get(), true, (obj) -> {
             if (obj instanceof World world) {
                 Zone zone = world.getZone();
@@ -29,14 +33,14 @@ public class TutorialTipManager implements Serializable {
     }
 
     public void tick() {
-        if (tips.size() > 0) {
-            TutorialTip tip = tips.get(0);
+        if (!tips.isEmpty()) {
+            TutorialTip tip = tips.getFirst();
 
             // Slide out when completed
             if (tip.isSlidingDone()) {
                 if (tip.getPopup().isOkPressed()) {
                     if (tip.getOffset() < -16) {
-                        tips.remove(0);
+                        tips.removeFirst();
                     }
                     tip.decreaseOffset();
                     return;
@@ -51,8 +55,8 @@ public class TutorialTipManager implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (tips.size() > 0) {
-            TutorialTip tip = tips.get(0);
+        if (!tips.isEmpty()) {
+            TutorialTip tip = tips.getFirst();
             tip.render(g);
         }
     }
@@ -64,9 +68,13 @@ public class TutorialTipManager implements Serializable {
         tips.add(tip);
     }
 
+    public void addHistoricalTip(TutorialTip tip) {
+        history.add(tip);
+    }
+
     public TutorialTip getCurrentTip() {
         if (!tips.isEmpty()) {
-            return tips.get(0);
+            return tips.getFirst();
         }
         return null;
     }

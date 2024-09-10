@@ -19,6 +19,7 @@ import dev.ipsych0.myrinnia.quests.QuestUI;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
+import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -58,6 +59,8 @@ public class CraftingUI implements Serializable {
     private int progressTimer;
     private int craftInProgress;
     private UIImageButton abortButton;
+
+    private boolean firstTimeOpened = false;
 
     public CraftingUI() {
         this.width = 242;
@@ -111,6 +114,13 @@ public class CraftingUI implements Serializable {
             Handler.get().getKeyManager().setLastUIKeyPressed(-1);
         }
         if (isOpen) {
+
+            if (firstTimeOpened){
+                Handler.get().addTip(
+                        new TutorialTip("Right click or drag items from your inventory to add them to the crafting slots.")
+                );
+                firstTimeOpened = false;
+            }
 
             uiManager.tick();
 
