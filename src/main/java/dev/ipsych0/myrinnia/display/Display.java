@@ -3,12 +3,15 @@ package dev.ipsych0.myrinnia.display;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.states.GraphicsState;
-import dev.ipsych0.myrinnia.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,8 +3,7 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.utils.FileUtils;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;

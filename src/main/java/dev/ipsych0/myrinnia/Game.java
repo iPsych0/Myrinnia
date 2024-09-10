@@ -7,7 +7,16 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.gfx.GameCamera;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.states.*;
+import dev.ipsych0.myrinnia.states.AudioState;
+import dev.ipsych0.myrinnia.states.ControlsState;
+import dev.ipsych0.myrinnia.states.GameState;
+import dev.ipsych0.myrinnia.states.GeneralSettingsState;
+import dev.ipsych0.myrinnia.states.GraphicsState;
+import dev.ipsych0.myrinnia.states.MenuState;
+import dev.ipsych0.myrinnia.states.PauseState;
+import dev.ipsych0.myrinnia.states.RecapState;
+import dev.ipsych0.myrinnia.states.SettingState;
+import dev.ipsych0.myrinnia.states.State;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;

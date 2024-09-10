@@ -4,7 +4,11 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilityHUD;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
-import dev.ipsych0.myrinnia.ui.*;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.ui.TextBox;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
+import dev.ipsych0.myrinnia.ui.UIManager;
+import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;

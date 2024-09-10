@@ -4,7 +4,6 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.utils.FileUtils;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 

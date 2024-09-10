@@ -9,7 +9,6 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Colors;
-import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

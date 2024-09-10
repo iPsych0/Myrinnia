@@ -3,7 +3,15 @@ package dev.ipsych0.myrinnia.skills.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
-import dev.ipsych0.myrinnia.skills.*;
+import dev.ipsych0.myrinnia.skills.CombatSkill;
+import dev.ipsych0.myrinnia.skills.CraftingSkill;
+import dev.ipsych0.myrinnia.skills.FarmingSkill;
+import dev.ipsych0.myrinnia.skills.FishingSkill;
+import dev.ipsych0.myrinnia.skills.MiningSkill;
+import dev.ipsych0.myrinnia.skills.Skill;
+import dev.ipsych0.myrinnia.skills.SkillsList;
+import dev.ipsych0.myrinnia.skills.SoulReapingSkill;
+import dev.ipsych0.myrinnia.skills.WoodcuttingSkill;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -11,8 +19,12 @@ import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 
 public class SkillsUI implements Serializable {
 

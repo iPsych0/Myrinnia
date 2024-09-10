@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.audio;
 
-import dev.ipsych0.myrinnia.Handler;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
@@ -8,7 +7,10 @@ import org.lwjgl.openal.AL10;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Slf4j

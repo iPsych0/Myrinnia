@@ -1,6 +1,10 @@
 package dev.ipsych0.myrinnia.worlds.weather.climates;
 
-import dev.ipsych0.myrinnia.worlds.weather.*;
+import dev.ipsych0.myrinnia.worlds.weather.Climate;
+import dev.ipsych0.myrinnia.worlds.weather.Fog;
+import dev.ipsych0.myrinnia.worlds.weather.Rain;
+import dev.ipsych0.myrinnia.worlds.weather.Snow;
+import dev.ipsych0.myrinnia.worlds.weather.Sunny;
 
 public class ColdClimate extends Climate {
 

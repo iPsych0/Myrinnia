@@ -21,11 +21,20 @@ import dev.ipsych0.myrinnia.skills.ui.FarmingUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsOverviewUI;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.states.State;
-import dev.ipsych0.myrinnia.ui.*;
+import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.ui.DialogueBox;
+import dev.ipsych0.myrinnia.ui.DropDownBox;
+import dev.ipsych0.myrinnia.ui.ScrollBar;
+import dev.ipsych0.myrinnia.ui.SliderBar;
+import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.custom.BookUI;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.Serializable;
 
 public class MouseManager implements MouseListener, MouseMotionListener, MouseWheelListener, Serializable {

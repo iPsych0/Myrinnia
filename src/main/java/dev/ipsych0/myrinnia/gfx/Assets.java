@@ -6,7 +6,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.ArrayList;

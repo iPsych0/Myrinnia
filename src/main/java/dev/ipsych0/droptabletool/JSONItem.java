@@ -1,6 +1,5 @@
 package dev.ipsych0.droptabletool;
 
-import dev.ipsych0.itemmaker.IDGenerator;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ItemRequirement;

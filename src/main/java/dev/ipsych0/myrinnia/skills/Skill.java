@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.skills;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.crafting.CraftingRecipe;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;

@@ -1,6 +1,5 @@
 package dev.ipsych0.myrinnia.publishers;
 
-import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.subscribers.Subscriber;
 import dev.ipsych0.myrinnia.worlds.World;
 

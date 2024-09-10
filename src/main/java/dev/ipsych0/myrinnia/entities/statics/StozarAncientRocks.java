@@ -3,7 +3,6 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.GraniteWallAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
-import dev.ipsych0.myrinnia.items.ItemType;
 
 import java.awt.*;
 

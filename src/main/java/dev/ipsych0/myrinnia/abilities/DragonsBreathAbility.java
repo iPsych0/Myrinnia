@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.abilities.data.ConeArea;
 import dev.ipsych0.myrinnia.abilities.data.MeleeDirection;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
