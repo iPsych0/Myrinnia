@@ -125,7 +125,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/dev/ipsych0/myrinnia</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -133,13 +132,14 @@
                 <version>3.13.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>src/dev/ipsych0/abilitymaker/**</exclude>
-                        <exclude>src/dev/ipsych0/droptabletool/**</exclude>
-                        <exclude>src/dev/ipsych0/itemmaker/**</exclude>
-                        <exclude>src/dev/ipsych0/questmakertool/**</exclude>
+                        <exclude>dev/ipsych0/abilitymaker/**</exclude>
+                        <exclude>dev/ipsych0/droptabletool/**</exclude>
+                        <exclude>dev/ipsych0/itemmaker/**</exclude>
+                        <exclude>dev/ipsych0/questmakertool/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -164,6 +164,27 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>5.39.2</version>
+                <configuration>
+                    <activeRecipes>
+                        <recipe>org.openrewrite.java.logging.SystemPrintToLogging</recipe>
+                        <recipe>org.openrewrite.java.logging.SystemOutToLogging</recipe>
+                        <recipe>org.openrewrite.java.logging.SystemErrToLogging</recipe>
+                        <recipe>org.openrewrite.java.logging.PrintStackTraceToLogError</recipe>
+                    </activeRecipes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-logging-frameworks</artifactId>
+                        <version>2.12.2</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
