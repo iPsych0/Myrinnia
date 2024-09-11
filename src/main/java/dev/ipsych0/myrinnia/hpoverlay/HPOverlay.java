@@ -173,9 +173,10 @@ public class HPOverlay implements Serializable {
             if (helpButton.contains(mouse)) {
                 if (Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
                     hasBeenPressed = false;
-                    // TODO: OPEN THE TIPS HERE ONCE IT'S CREATED
                     Handler.get().playEffect("ui/ui_button_click.ogg");
-                    TutorialHistoryUI.isOpen = !TutorialHistoryUI.isOpen;
+                    if (!Handler.get().getTutorialHistoryUI().isOpen()) {
+                        Handler.get().getWindowManager().pushWindow(Handler.get().getTutorialHistoryUI());
+                    }
                 }
             }
 

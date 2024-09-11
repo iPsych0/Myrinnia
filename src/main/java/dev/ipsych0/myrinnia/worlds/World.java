@@ -26,7 +26,6 @@ import dev.ipsych0.myrinnia.skills.ui.BountyContractUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.skills.ui.SkillsUI;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.tutorial.TutorialHistoryUI;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -281,7 +280,7 @@ public class World implements Serializable {
             if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
                 player.getBountyBoard().getBountyBoardUI().tick();
             }
-            if (TutorialHistoryUI.isOpen) {
+            if (Handler.get().getTutorialHistoryUI().isOpen()) {
                 Handler.get().getTutorialHistoryUI().tick();
             }
 
@@ -482,9 +481,7 @@ public class World implements Serializable {
             if (BountyBoardUI.isOpen && player.getBountyBoard() != null) {
                 player.getBountyBoard().getBountyBoardUI().render(g);
             }
-            if (TutorialHistoryUI.isOpen) {
-                Handler.get().getTutorialHistoryUI().render(g);
-            }
+            Handler.get().getWindowManager().render(g);
 
             contractUI.render(g);
 

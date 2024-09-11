@@ -143,9 +143,7 @@ public class Game implements Runnable, Serializable {
     }
 
     public void addListeners() {
-        display.getFrame().addMouseListener(mouseManager);
-        display.getFrame().addKeyListener(keyManager);
-        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addKeyListener(keyManager);
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
         display.getCanvas().addMouseWheelListener(mouseManager);

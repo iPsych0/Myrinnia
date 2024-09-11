@@ -460,18 +460,17 @@ public class Assets {
         before = System.currentTimeMillis();
         log.info("Cropping tiles:");
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-        for (SpriteSheet tileSheet : tileSheets) {
-            executorService.execute(() -> {
-                for (int y = 0; y < tileSheet.getSheet().getHeight() / Tile.TILEHEIGHT; y++) {
-                    for (int x = 0; x < tileSheet.getSheet().getWidth() / Tile.TILEWIDTH; x++) {
-                        tileSheet.tileCrop(x, y);
+        try (ExecutorService executorService = Executors.newFixedThreadPool(4)) {
+            for (SpriteSheet tileSheet : tileSheets) {
+                executorService.execute(() -> {
+                    for (int y = 0; y < tileSheet.getSheet().getHeight() / Tile.TILEHEIGHT; y++) {
+                        for (int x = 0; x < tileSheet.getSheet().getWidth() / Tile.TILEWIDTH; x++) {
+                            tileSheet.tileCrop(x, y);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-
-        executorService.shutdown();
 
         now = (System.currentTimeMillis() - before);
         log.info("Loading time of tile cropping and property settings: {}", ((double) now / 1000d));

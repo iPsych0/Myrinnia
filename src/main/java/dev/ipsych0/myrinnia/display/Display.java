@@ -87,7 +87,8 @@ public class Display implements Serializable {
 
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width, height));
-        canvas.setFocusable(false);
+        canvas.setFocusable(true);
+        canvas.requestFocus();
         canvas.setBackground(Color.BLACK);
         frame.setIgnoreRepaint(true);
 

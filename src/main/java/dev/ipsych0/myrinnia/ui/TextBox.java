@@ -86,8 +86,8 @@ public class TextBox implements KeyListener, Serializable {
     }
 
     public void setKeyListeners() {
-        Handler.get().getGame().getDisplay().getFrame().removeKeyListener(this);
-        Handler.get().getGame().getDisplay().getFrame().addKeyListener(this);
+        Handler.get().getGame().getDisplay().getCanvas().removeKeyListener(this);
+        Handler.get().getGame().getDisplay().getCanvas().addKeyListener(this);
     }
 
     public void render(Graphics2D g) {

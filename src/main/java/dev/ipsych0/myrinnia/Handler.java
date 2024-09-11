@@ -48,6 +48,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialHistoryUI;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
+import dev.ipsych0.myrinnia.ui.WindowManager;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;
@@ -102,6 +103,7 @@ public class Handler implements Serializable {
     private BountyContractUI contractUI;
     private CelebrationUI celebrationUI;
     private TutorialHistoryUI tutorialHistoryUI;
+    private WindowManager windowManager;
     public static boolean debugAStar;
     public static boolean debugCollision;
     public static boolean debugZones;
@@ -153,6 +155,7 @@ public class Handler implements Serializable {
         contractUI = new BountyContractUI();
         celebrationUI = new CelebrationUI();
         tutorialHistoryUI = new TutorialHistoryUI();
+        windowManager = new WindowManager();
 
         // Set the starting world
         portAzure = new World.Builder(Zone.PortAzure).withTown().withClimate(new TemperateClimate()).build();

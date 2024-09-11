@@ -130,7 +130,7 @@ public class Player extends Creature {
 
         maxHealth = baseHP + vitality * 4;
         health = maxHealth;
-        speed = DEFAULT_SPEED + 0.5;
+        speed = DEFAULT_SPEED + 1.0;
 
         // Set collision boundaries on sprite
         bounds.x = 10;

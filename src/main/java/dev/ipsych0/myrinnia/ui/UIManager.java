@@ -1,12 +1,16 @@
 package dev.ipsych0.myrinnia.ui;
 
 import dev.ipsych0.myrinnia.Handler;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
 public class UIManager implements Serializable {
 
     /**
@@ -22,11 +26,7 @@ public class UIManager implements Serializable {
     public void tick() {
         for (UIObject o : objects) {
             o.tick();
-            if (o.getBounds().contains(Handler.get().getMouse())) {
-                o.setHovering(true);
-            } else {
-                o.setHovering(false);
-            }
+            o.setHovering(o.getBounds().contains(Handler.get().getMouse()));
         }
     }
 
@@ -52,11 +52,4 @@ public class UIManager implements Serializable {
         this.objects.removeAll(objects);
     }
 
-    public List<UIObject> getObjects() {
-        return objects;
-    }
-
-    public void setObjects(List<UIObject> objects) {
-        this.objects = objects;
-    }
 }
