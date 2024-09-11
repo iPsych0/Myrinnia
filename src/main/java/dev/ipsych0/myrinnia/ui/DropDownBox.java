@@ -4,10 +4,14 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.util.List;
 
+@Getter
+@Setter
 public class DropDownBox extends UIImageButton {
 
     private List<String> items;
@@ -165,37 +169,5 @@ public class DropDownBox extends UIImageButton {
             Text.drawString(g, items.get(selectedIndex), x + o.width / 2, y + o.height / 2, true, Color.YELLOW, Assets.font14);
             Text.drawString(g, "v", x + width - 9, y + o.height / 2 - 2, true, Color.YELLOW, Assets.font14);
         }
-    }
-
-    public List<String> getItems() {
-        return items;
-    }
-
-    public void setItems(List<String> items) {
-        this.items = items;
-    }
-
-    public int getSelectedIndex() {
-        return selectedIndex;
-    }
-
-    public void setSelectedIndex(int selectedIndex) {
-        this.selectedIndex = selectedIndex;
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public boolean isItemChanged() {
-        return itemChanged;
-    }
-
-    public void setItemChanged(boolean itemChanged) {
-        this.itemChanged = itemChanged;
     }
 }

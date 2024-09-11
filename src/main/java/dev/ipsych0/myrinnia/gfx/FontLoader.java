@@ -2,12 +2,14 @@ package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Slf4j
 public class FontLoader {
 
     public static Font loadFont(String path, float size) {
@@ -21,7 +23,7 @@ public class FontLoader {
             input.close();
             return f;
         } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
+            log.error("Could not load font: %s".formatted(path), e);
             System.exit(1);
         }
         return null;

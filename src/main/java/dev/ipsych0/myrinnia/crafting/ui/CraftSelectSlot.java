@@ -5,10 +5,14 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class CraftSelectSlot extends UIImageButton implements Serializable {
 
     private static final long serialVersionUID = -1885672491477527797L;
@@ -32,13 +36,5 @@ public class CraftSelectSlot extends UIImageButton implements Serializable {
         } else {
             g.drawImage(Assets.undiscovered, x, y, null);
         }
-    }
-
-    public CraftingRecipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(CraftingRecipe recipe) {
-        this.recipe = recipe;
     }
 }

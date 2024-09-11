@@ -13,9 +13,6 @@ import java.awt.*;
 
 public class NimbleFeetAbility extends Ability {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6275665878660555382L;
     private double baseMovementBoost;
     private boolean initialBoostDone;

@@ -1,9 +1,13 @@
 package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Handler;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class TextWriter implements Serializable {
 
     private static final long serialVersionUID = 1004544037335045018L;
@@ -81,25 +85,5 @@ public class TextWriter implements Serializable {
             currentText++;
             charIndex = 0;
         }
-    }
-
-    public StringBuilder getSb() {
-        return sb;
-    }
-
-    public int getCurrentText() {
-        return currentText;
-    }
-
-    public void setCurrentText(int currentText) {
-        this.currentText = currentText;
-    }
-
-    public int getMonologueLength() {
-        return text.length;
-    }
-
-    public boolean isSkipRequested() {
-        return skipRequested;
     }
 }

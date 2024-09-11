@@ -16,9 +16,6 @@ import java.awt.geom.AffineTransform;
 public class MalachiteThugL extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer

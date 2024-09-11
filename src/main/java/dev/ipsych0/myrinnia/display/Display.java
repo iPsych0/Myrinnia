@@ -20,9 +20,6 @@ import java.util.List;
 public class Display implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5463768214564927571L;
     private JFrame frame;
     private Canvas canvas;

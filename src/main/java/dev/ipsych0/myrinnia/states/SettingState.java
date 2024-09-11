@@ -11,9 +11,6 @@ import java.awt.*;
 
 public class SettingState extends State {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5598711872871726397L;
     private UIManager uiManager;
     private UIImageButton generalButton, graphicsButton, controlsButton, audioButton, returnButton;

@@ -19,9 +19,6 @@ import java.awt.*;
 @Slf4j
 public class FarmingPatch extends GenericObject {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8804679431303966524L;
     private FarmingResource resource;
     private FarmingUI farmingUI;

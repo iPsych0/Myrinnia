@@ -87,7 +87,6 @@ public class AudioState extends State {
                     if (SettingState.previousState == Handler.get().getGame().pauseState) {
                         Handler.get().playMusic(Handler.get().getPlayer().getZone());
                     }
-                    hasBeenPressed = false;
                 }
             }
             hasBeenPressed = false;
@@ -105,7 +104,6 @@ public class AudioState extends State {
                 } else {
                     Handler.get().saveProperty("sfxMuted", "false");
                     AudioManager.sfxMuted = false;
-                    hasBeenPressed = false;
                 }
             }
             hasBeenPressed = false;

@@ -1,13 +1,15 @@
 package dev.ipsych0.myrinnia.recap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
+@Getter
+@Setter
 public class RecapManager implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3117488414266717174L;
     private LinkedList<RecapEvent> events;
 
@@ -22,14 +24,6 @@ public class RecapManager implements Serializable {
         } else {
             events.addLast(event);
         }
-    }
-
-    public LinkedList<RecapEvent> getEvents() {
-        return events;
-    }
-
-    public void setEvents(LinkedList<RecapEvent> events) {
-        this.events = events;
     }
 
 }

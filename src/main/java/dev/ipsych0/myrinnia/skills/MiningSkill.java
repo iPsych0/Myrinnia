@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 
 public class MiningSkill extends Skill {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3083043178984091437L;
 
     public MiningSkill() {

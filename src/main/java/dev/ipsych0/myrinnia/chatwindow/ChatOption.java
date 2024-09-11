@@ -3,20 +3,21 @@ package dev.ipsych0.myrinnia.chatwindow;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class ChatOption extends UIImageButton implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7933908780433920065L;
     private String message;
     private int optionID;
-    private boolean isPressed = false;
+    private boolean pressed = false;
     private static final int WIDTH = 400, HEIGHT = 20;
     private static final int CONTINUE_BTN_WIDTH = 100;
     private boolean onlyOneLine;
@@ -45,29 +46,5 @@ public class ChatOption extends UIImageButton implements Serializable {
         } else {
             Text.drawString(g, message, x + (width / 2), y + 11, true, Color.YELLOW, Assets.font14);
         }
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getOptionID() {
-        return optionID;
-    }
-
-    public void setOptionID(int optionID) {
-        this.optionID = optionID;
-    }
-
-    public boolean isPressed() {
-        return isPressed;
-    }
-
-    public void setPressed(boolean pressed) {
-        isPressed = pressed;
     }
 }

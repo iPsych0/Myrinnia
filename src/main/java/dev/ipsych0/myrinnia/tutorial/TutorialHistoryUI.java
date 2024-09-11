@@ -22,10 +22,10 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class TutorialHistoryUI implements Window, Serializable {
-    private Rectangle box;
-    private UIManager uiManager;
+    private final Rectangle box;
+    private final UIManager uiManager;
     private boolean open;
-    private UIImageButton exitButton;
+    private final UIImageButton exitButton;
     private final Point mouse = new Point();
     private boolean focus;
 

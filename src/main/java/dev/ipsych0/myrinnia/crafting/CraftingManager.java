@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.skills.ui.SkillResourceSlot;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,12 +15,10 @@ import static dev.ipsych0.myrinnia.items.Item.*;
 import static dev.ipsych0.myrinnia.items.ui.ItemStack.of;
 import static dev.ipsych0.myrinnia.skills.ui.SkillCategory.*;
 
+@Getter
 public class CraftingManager implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5224910817694774668L;
     private final List<CraftingRecipe> recipes;
 
@@ -387,7 +386,4 @@ public class CraftingManager implements Serializable {
         return slots;
     }
 
-    public List<CraftingRecipe> getRecipes() {
-        return recipes;
-    }
 }

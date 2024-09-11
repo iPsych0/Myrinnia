@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 
 public class WoodcuttingSkill extends Skill {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2717227467657043794L;
 
     public WoodcuttingSkill() {

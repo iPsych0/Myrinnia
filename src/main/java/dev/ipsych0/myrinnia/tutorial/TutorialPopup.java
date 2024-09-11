@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -17,8 +18,10 @@ public class TutorialPopup implements Serializable {
     private int blinkTimer;
     private UIImageButton okButton;
     private UIManager uiManager;
+    @Getter
     private boolean okPressed;
     private int originalBoundX = -192, originalButtonX;
+    @Getter
     private Rectangle bounds = new Rectangle(originalBoundX, 144, 224, 128);
 
     public TutorialPopup(String[] lines) {
@@ -69,11 +72,4 @@ public class TutorialPopup implements Serializable {
         }
     }
 
-    public boolean isOkPressed() {
-        return okPressed;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
 }

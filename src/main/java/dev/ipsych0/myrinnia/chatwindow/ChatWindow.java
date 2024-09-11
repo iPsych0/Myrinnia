@@ -5,6 +5,8 @@ import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.ui.ViewContainer;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -15,12 +17,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 public class ChatWindow implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5673402739754368073L;
 
     public static boolean chatIsOpen = true;
@@ -35,10 +36,10 @@ public class ChatWindow implements Serializable {
     private Set<Filter> filters;
 
     public ChatWindow() {
-        this.width = TextSlot.textWidth;
-        this.height = MESSAGE_PER_VIEW * TextSlot.textHeight;
+        this.width = TextSlot.WIDTH;
+        this.height = MESSAGE_PER_VIEW * TextSlot.HEIGHT;
         this.x = 8;
-        this.y = Handler.get().getHeight() - height - TextSlot.textHeight;
+        this.y = Handler.get().getHeight() - height - TextSlot.HEIGHT;
         this.filters = new HashSet<>();
 
         // Enable all chat messages
@@ -47,7 +48,7 @@ public class ChatWindow implements Serializable {
 
         windowBounds = new Rectangle(x, y, width, height);
 
-        view = new ViewContainer.Builder<>(new Rectangle(x, y, width, height), new ArrayList<TextSlot>())
+        view = new ViewContainer.Builder<>(windowBounds, new ArrayList<TextSlot>())
                 .withOrientation(ViewContainer.VERTICAL)
                 .andScrollBar(MESSAGE_PER_VIEW, new Rectangle(x + width - 24, y + 4, 16, height), true)
                 .build();
@@ -92,81 +93,32 @@ public class ChatWindow implements Serializable {
     /*
      * Sends a message to the chat log
      */
-    public boolean sendMessage(String message, Filter filter) {
+    public void sendMessage(String message, Filter filter) {
         if (filter != null && !filters.contains(filter)) {
-            return false;
+            return;
         }
         // If the chat is full, remove the first element (FIFO)
         if (view.getElements().size() == MAX_MESSAGES) {
-            view.getElements().remove(view.getElements().size() - 1);
+            view.getElements().removeLast();
         }
 
         // When a new message is added, move up all existing slots by 1 slotsize
         for (TextSlot ts : view.getElements()) {
-            ts.setLocation((int) ts.getX(), (int) ts.getY() - TextSlot.textHeight);
+            ts.setLocation((int) ts.getX(), (int) ts.getY() - TextSlot.HEIGHT);
         }
 
         int size = view.getElements().size();
-        int yPos = size == 0 ? y + height - TextSlot.textHeight : view.getElements().get(0).y + 16;
+        int yPos = size == 0 ? y + height - TextSlot.HEIGHT : view.getElements().getFirst().y + 16;
         if (filters.contains(Filter.TIMESTAMP)) {
             // Add a timestamp (HH:mm format)
             LocalDateTime ldt = LocalDateTime.now();
             String timeStamp = ldt.toLocalTime().toString().substring(0, 5);
 
-            view.getElements().add(0, new TextSlot(x, yPos,
+            view.getElements().addFirst(new TextSlot(x, yPos,
                     "[" + timeStamp + "]: " + message));
         } else {
-            view.getElements().add(0, new TextSlot(x, yPos, message));
+            view.getElements().addFirst(new TextSlot(x, yPos, message));
         }
         view.updateContents(view.getElements());
-        return true;
-    }
-
-    public Rectangle getWindowBounds() {
-        return windowBounds;
-    }
-
-    public void setWindowBounds(Rectangle windowBounds) {
-        this.windowBounds = windowBounds;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Set<Filter> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(Set<Filter> filters) {
-        this.filters = filters;
     }
 }

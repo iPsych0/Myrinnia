@@ -6,9 +6,6 @@ import java.awt.*;
 
 public class UITransitionState extends AbstractTransitionState {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8513594300991244715L;
     private State newState;
     private float timeToFade;

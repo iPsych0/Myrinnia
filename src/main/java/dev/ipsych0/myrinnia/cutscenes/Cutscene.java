@@ -1,11 +1,16 @@
 package dev.ipsych0.myrinnia.cutscenes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
+@Setter
 public class Cutscene implements Serializable {
 
     private static final long serialVersionUID = -5005782572625898350L;
@@ -17,11 +22,11 @@ public class Cutscene implements Serializable {
     }
 
     public void tick() {
-        if (events.size() > 0) {
-            CutsceneEvent currentEvent = events.get(0);
+        if (!events.isEmpty()) {
+            CutsceneEvent currentEvent = events.getFirst();
             currentEvent.tick();
             if (currentEvent.isFinished()) {
-                events.remove(0);
+                events.removeFirst();
             }
         } else {
             finished = true;
@@ -29,19 +34,11 @@ public class Cutscene implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (events.size() > 0) {
-            CutsceneEvent currentEvent = events.get(0);
+        if (!events.isEmpty()) {
+            CutsceneEvent currentEvent = events.getFirst();
             currentEvent.render(g);
         } else {
             finished = true;
         }
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
     }
 }

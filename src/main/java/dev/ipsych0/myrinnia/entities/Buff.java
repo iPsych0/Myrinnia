@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.entities;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -8,6 +11,9 @@ import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
+@EqualsAndHashCode
+@Getter
+@Setter
 public abstract class Buff {
 
     protected Buff incomingBuff;
@@ -16,7 +22,7 @@ public abstract class Buff {
     protected double effectDuration;
     private boolean active;
     private boolean effectApplied;
-    private int buffId = -1;
+    @EqualsAndHashCode.Include private int buffId = -1;
     private static Set<Integer> ids = new HashSet<>();
     private int timesStacked = 0;
     private boolean additive;
@@ -74,38 +80,6 @@ public abstract class Buff {
 
     public abstract String toString();
 
-    public int getTimesStacked() {
-        return timesStacked;
-    }
-
-    public void setTimesStacked(int timesStacked) {
-        this.timesStacked = timesStacked;
-    }
-
-    public boolean isEffectApplied() {
-        return effectApplied;
-    }
-
-    public void setEffectApplied(boolean effectApplied) {
-        this.effectApplied = effectApplied;
-    }
-
-    public int getTimeLeft() {
-        return timeLeft;
-    }
-
-    public void setTimeLeft(int timeLeft) {
-        this.timeLeft = timeLeft;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     private int getBuffId() {
         if (buffId == -1) {
             log.error("Forgot to set buffId for: {}", this.getClass().getSimpleName());
@@ -113,42 +87,9 @@ public abstract class Buff {
         return buffId;
     }
 
-    public double getEffectDuration() {
-        return effectDuration;
-    }
-
     public void setBuffId(int buffId) {
         this.buffId = buffId;
         ids.add(buffId);
-    }
-
-    public Buff getIncomingBuff() {
-        return incomingBuff;
-    }
-
-    public void setIncomingBuff(Buff incomingBuff) {
-        this.incomingBuff = incomingBuff;
-    }
-
-    public boolean isAdditive() {
-        return additive;
-    }
-
-    public void setAdditive(boolean additive) {
-        this.additive = additive;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(buffId);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof Buff)) return false;
-        Buff b = (Buff) obj;
-        return buffId == b.getBuffId();
     }
 
 }

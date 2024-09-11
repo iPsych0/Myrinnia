@@ -8,9 +8,6 @@ import java.awt.event.KeyEvent;
 public abstract class StaticEntity extends Entity {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2206779374852046145L;
 
     protected StaticEntity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {

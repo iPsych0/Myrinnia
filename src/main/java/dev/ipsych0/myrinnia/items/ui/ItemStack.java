@@ -1,14 +1,15 @@
 package dev.ipsych0.myrinnia.items.ui;
 
 import dev.ipsych0.myrinnia.items.Item;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class ItemStack implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6216487918948558086L;
     private int amount;
     private Item item;
@@ -35,22 +36,6 @@ public class ItemStack implements Serializable {
 
     public static ItemStack of(Item item) {
         return of(item, 1);
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
 }

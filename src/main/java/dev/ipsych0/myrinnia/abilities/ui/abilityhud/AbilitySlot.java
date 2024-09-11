@@ -8,17 +8,18 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+@Setter
+@Getter
 public class AbilitySlot extends UIImageButton implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4376752517769900190L;
     private Ability ability;
 
@@ -73,19 +74,14 @@ public class AbilitySlot extends UIImageButton implements Serializable {
             return Assets.aEmptySlot;
         }
 
-        switch (ability.getElement()) {
-            case Water:
-                return Assets.aWaterSlot;
-            case Fire:
-                return Assets.aFireSlot;
-            case Air:
-                return Assets.aAirSlot;
-            case Earth:
-                return Assets.aEarthSlot;
-        }
+        return switch (ability.getElement()) {
+            case Water -> Assets.aWaterSlot;
+            case Fire -> Assets.aFireSlot;
+            case Air -> Assets.aAirSlot;
+            case Earth -> Assets.aEarthSlot;
+            default -> Assets.aEmptySlot; // empty slot
+        };
 
-        // If no matches found, return empty slot sprite
-        return Assets.aEmptySlot;
     }
 
     public void render(Graphics2D g) {
@@ -97,14 +93,6 @@ public class AbilitySlot extends UIImageButton implements Serializable {
                 g.fillRect(x, y, ItemSlot.SLOTSIZE, ItemSlot.SLOTSIZE);
             }
         }
-    }
-
-    public Ability getAbility() {
-        return ability;
-    }
-
-    public void setAbility(Ability ability) {
-        this.ability = ability;
     }
 
 

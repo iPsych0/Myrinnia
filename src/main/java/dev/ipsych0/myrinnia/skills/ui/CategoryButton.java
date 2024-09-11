@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 public class CategoryButton extends UIImageButton implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5801506235295805009L;
     private SkillCategory category;
 

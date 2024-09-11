@@ -9,9 +9,6 @@ import java.io.Serializable;
 public class GameCamera implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6890827040135434870L;
     private double xOffset, yOffset;
     private Entity focusedEntity;

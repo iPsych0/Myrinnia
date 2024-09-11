@@ -3,15 +3,16 @@ package dev.ipsych0.myrinnia.quests;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class QuestHelpUI implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7088128893254827094L;
     public static boolean isOpen = false;
     private int x, y, width, height;
@@ -119,14 +120,6 @@ public class QuestHelpUI implements Serializable {
                 }
             }
         }
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }

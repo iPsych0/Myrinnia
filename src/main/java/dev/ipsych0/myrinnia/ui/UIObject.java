@@ -11,9 +11,6 @@ import java.io.Serializable;
 @Getter
 public abstract class UIObject extends Rectangle implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5668099551677326216L;
     boolean hovering = false;
     boolean hoverable = true;

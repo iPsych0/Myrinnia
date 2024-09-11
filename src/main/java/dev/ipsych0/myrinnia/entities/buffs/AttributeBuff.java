@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Timer;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
+import lombok.Getter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,7 @@ public class AttributeBuff extends Buff {
     private static final String ATKSPD_NAME = "Attack Speed";
     private static final String MOVSPD_NAME = "Movement Speed";
 
+    @Getter
     public enum Attribute {
         STR(Assets.strBuffIcon, 0),
         DEX(Assets.dexBuffIcon, 1),
@@ -39,20 +41,12 @@ public class AttributeBuff extends Buff {
         ATKSPD(Assets.atkSpdBuffIcon, 5),
         MOVSPD(Assets.movSpdBuffIcon, 6);
 
-        BufferedImage img;
-        int buffId;
+        final BufferedImage img;
+        final int buffId;
 
         Attribute(BufferedImage img, int buffId) {
             this.img = img;
             this.buffId = buffId;
-        }
-
-        BufferedImage getImg() {
-            return img;
-        }
-
-        int getBuffId() {
-            return buffId;
         }
     }
 
@@ -349,31 +343,14 @@ public class AttributeBuff extends Buff {
 
     @Override
     public String toString() {
-        String text = null;
-        switch (attribute) {
-            case STR:
-                text = STR_NAME;
-                break;
-            case INT:
-                text = INT_NAME;
-                break;
-            case DEF:
-                text = DEF_NAME;
-                break;
-            case DEX:
-                text = DEX_NAME;
-                break;
-            case VIT:
-                text = VIT_NAME;
-                break;
-            case ATKSPD:
-                text = ATKSPD_NAME;
-                break;
-            case MOVSPD:
-                text = MOVSPD_NAME;
-                break;
-        }
-
-        return text;
+        return switch (attribute) {
+            case STR -> STR_NAME;
+            case INT -> INT_NAME;
+            case DEF -> DEF_NAME;
+            case DEX -> DEX_NAME;
+            case VIT -> VIT_NAME;
+            case ATKSPD -> ATKSPD_NAME;
+            case MOVSPD -> MOVSPD_NAME;
+        };
     }
 }

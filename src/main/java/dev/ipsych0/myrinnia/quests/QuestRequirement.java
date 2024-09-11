@@ -1,14 +1,15 @@
 package dev.ipsych0.myrinnia.quests;
 
 import dev.ipsych0.myrinnia.skills.SkillsList;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class QuestRequirement implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5167302310948105649L;
     private String requirement;
     private SkillsList skill;
@@ -40,57 +41,5 @@ public class QuestRequirement implements Serializable {
         this.description = description;
         // If it's mandatory, task = not done, if it isn't mandatory, task = done.
         this.taskDone = !mandatory;
-    }
-
-    public String getRequirement() {
-        return requirement;
-    }
-
-    public SkillsList getSkill() {
-        return skill;
-    }
-
-    public void setSkill(SkillsList skill) {
-        this.skill = skill;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public QuestList getQuest() {
-        return quest;
-    }
-
-    public void setQuest(QuestList quest) {
-        this.quest = quest;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isTaskDone() {
-        return taskDone;
-    }
-
-    public void setTaskDone(boolean taskDone) {
-        this.taskDone = taskDone;
-    }
-
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
-    public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
     }
 }

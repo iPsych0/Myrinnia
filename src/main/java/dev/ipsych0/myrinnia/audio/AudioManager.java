@@ -202,7 +202,7 @@ public class AudioManager {
     }
 
     public static void fadeSongs(Zone zone, int buffer) {
-        if (musicFiles.size() > 0) {
+        if (!musicFiles.isEmpty()) {
             if (AudioManager.zone != null) {
                 if (!AudioManager.zone.getMusicFile().equals(zone.getMusicFile())) {
                     AudioManager.zone = zone;
@@ -212,12 +212,12 @@ public class AudioManager {
                             musicFiles.get(i).delete();
                         }
                     } else {
-                        musicFiles.get(0).setFadingOut(true);
+                        musicFiles.getFirst().setFadingOut(true);
                     }
-                    musicFiles.get(musicFiles.size() - 1).setVolume(0.0f);
-                    musicFiles.get(musicFiles.size() - 1).setFadingIn(true);
-                    musicFiles.get(musicFiles.size() - 1).setLooping(true);
-                    musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
+                    musicFiles.getLast().setVolume(0.0f);
+                    musicFiles.getLast().setFadingIn(true);
+                    musicFiles.getLast().setLooping(true);
+                    musicFiles.getLast().playMusic(buffer);
                 } else {
                     AudioManager.zone = zone;
                     for (int i = 0; i < musicFiles.size() - 1; i++) {
@@ -228,14 +228,14 @@ public class AudioManager {
         } else {
             AudioManager.zone = zone;
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size() - 1).setVolume(musicVolume);
-            musicFiles.get(musicFiles.size() - 1).setLooping(true);
-            musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
+            musicFiles.getLast().setVolume(musicVolume);
+            musicFiles.getLast().setLooping(true);
+            musicFiles.getLast().playMusic(buffer);
         }
     }
 
     public static void fadeSongs(String newSong, int buffer) {
-        if (musicFiles.size() > 0) {
+        if (!musicFiles.isEmpty()) {
             if (AudioManager.zone != null) {
                 if (!AudioManager.zone.getMusicFile().equals(newSong)) {
                     musicFiles.add(new Source());
@@ -244,12 +244,12 @@ public class AudioManager {
                             musicFiles.get(i).delete();
                         }
                     } else {
-                        musicFiles.get(0).setFadingOut(true);
+                        musicFiles.getFirst().setFadingOut(true);
                     }
-                    musicFiles.get(musicFiles.size() - 1).setVolume(0.0f);
-                    musicFiles.get(musicFiles.size() - 1).setFadingIn(true);
-                    musicFiles.get(musicFiles.size() - 1).setLooping(true);
-                    musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
+                    musicFiles.getLast().setVolume(0.0f);
+                    musicFiles.getLast().setFadingIn(true);
+                    musicFiles.getLast().setLooping(true);
+                    musicFiles.getLast().playMusic(buffer);
                 } else {
                     for (int i = 0; i < musicFiles.size() - 1; i++) {
                         musicFiles.get(i).setFadingOut(true);
@@ -258,9 +258,9 @@ public class AudioManager {
             }
         } else {
             musicFiles.add(new Source());
-            musicFiles.get(musicFiles.size() - 1).setVolume(musicVolume);
-            musicFiles.get(musicFiles.size() - 1).setLooping(true);
-            musicFiles.get(musicFiles.size() - 1).playMusic(buffer);
+            musicFiles.getLast().setVolume(musicVolume);
+            musicFiles.getLast().setLooping(true);
+            musicFiles.getLast().playMusic(buffer);
         }
     }
 

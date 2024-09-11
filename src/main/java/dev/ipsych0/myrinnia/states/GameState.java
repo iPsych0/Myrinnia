@@ -9,9 +9,6 @@ import java.awt.*;
 @Slf4j
 public class GameState extends State {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1598032694820560072L;
 
     public GameState() {

@@ -25,7 +25,6 @@ import java.util.Map;
 @Slf4j
 public class AbilityOverviewUI implements Serializable {
 
-
     private static final long serialVersionUID = -8142886045140646059L;
     private int x, y, width, height;
     private List<AbilityOverviewUIButton> uiButtons = new ArrayList<>();

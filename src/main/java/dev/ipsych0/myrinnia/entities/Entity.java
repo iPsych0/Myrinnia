@@ -15,6 +15,8 @@ import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -26,12 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
+@Getter
+@Setter
 public abstract class Entity implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6319447656301966908L;
     protected double x, y;
     protected int width, height;
@@ -642,10 +643,6 @@ public abstract class Entity implements Serializable {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    public Polygon getPolyBounds() {
-        return polyBounds;
-    }
-
     /*
      * Returns the collision bounds of an Entity
      */
@@ -764,213 +761,7 @@ public abstract class Entity implements Serializable {
         return false;
     }
 
-
-    // Getters & Setters
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public int getHealth() {
         return (int) health;
-    }
-
-    public void setHealth(double health) {
-        this.health = health;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isAttackable() {
-        return attackable;
-    }
-
-    public boolean isDamaged() {
-        return damaged;
-    }
-
-    public void setDamaged(boolean damaged) {
-        this.damaged = damaged;
-    }
-
-    public boolean isNpc() {
-        return isNpc;
-    }
-
-    public void setNpc(boolean isNpc) {
-        this.isNpc = isNpc;
-    }
-
-    public boolean isDrawnOnMap() {
-        return drawnOnMap;
-    }
-
-    public void setDrawnOnMap(boolean drawnOnMap) {
-        this.drawnOnMap = drawnOnMap;
-    }
-
-    public boolean isStaticNpc() {
-        return staticNpc;
-    }
-
-    public void setStaticNpc(boolean staticNpc) {
-        this.staticNpc = staticNpc;
-    }
-
-    public Entity getDamageDealer() {
-        return damageDealer;
-    }
-
-    public void setDamageDealer(Entity damageDealer) {
-        this.damageDealer = damageDealer;
-    }
-
-    public Entity getDamageReceiver() {
-        return damageReceiver;
-    }
-
-    public void setDamageReceiver(Entity damageReceiver) {
-        this.damageReceiver = damageReceiver;
-    }
-
-    public ChatDialogue getChatDialogue() {
-        return chatDialogue;
-    }
-
-    public void setChatDialogue(ChatDialogue chatDialogue) {
-        this.chatDialogue = chatDialogue;
-    }
-
-    public int getSpeakingTurn() {
-        return speakingTurn;
-    }
-
-    public void setSpeakingTurn(int speakingTurn) {
-        this.speakingTurn = speakingTurn;
-    }
-
-    public boolean isOverlayDrawn() {
-        return overlayDrawn;
-    }
-
-    public void setOverlayDrawn(boolean overlayDrawn) {
-        this.overlayDrawn = overlayDrawn;
-    }
-
-    public boolean isSolid() {
-        return solid;
-    }
-
-    public void setSolid(boolean solid) {
-        this.solid = solid;
-    }
-
-    public boolean isInCombat() {
-        return inCombat;
-    }
-
-    private void setInCombat(boolean inCombat) {
-        this.inCombat = inCombat;
-    }
-
-    public int getSpeakingCheckpoint() {
-        return speakingCheckpoint;
-    }
-
-    public void setSpeakingCheckpoint(int speakingCheckpoint) {
-        this.speakingCheckpoint = speakingCheckpoint;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isWalker() {
-        return walker;
-    }
-
-    public void setWalker(boolean walker) {
-        this.walker = walker;
-    }
-
-    public long getRespawnTime() {
-        return respawnTime;
-    }
-
-    public void setRespawnTime(long respawnTime) {
-        this.respawnTime = respawnTime;
-    }
-
-    public long getTimeOfDeath() {
-        return timeOfDeath;
-    }
-
-    public void setTimeOfDeath(long timeOfDeath) {
-        this.timeOfDeath = timeOfDeath;
-    }
-
-    public int getVerticality() {
-        return verticality;
-    }
-
-    public void setVerticality(int verticality) {
-        this.verticality = verticality;
-    }
-
-    public Script getScript() {
-        return script;
-    }
-
-    public void setScript(Script script) {
-        this.script = script;
-    }
-
-    public boolean isRespawner() {
-        return respawner;
-    }
-
-    public void setRespawner(boolean respawner) {
-        this.respawner = respawner;
     }
 }

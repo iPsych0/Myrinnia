@@ -21,9 +21,6 @@ import static java.util.Map.entry;
 public class Rock extends StaticEntity {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8123420086619425263L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
@@ -270,9 +267,9 @@ public class Rock extends StaticEntity {
                     }
 
                     for (EquipmentSlot is : Handler.get().getEquipment().getEquipmentSlots()) {
-                        if (is.getEquipmentStack() != null) {
-                            if (is.getEquipmentStack().getItem().isType(ItemType.PICKAXE)) {
-                                pickaxes.add(is.getEquipmentStack().getItem());
+                        if (is.getItemStack() != null) {
+                            if (is.getItemStack().getItem().isType(ItemType.PICKAXE)) {
+                                pickaxes.add(is.getItemStack().getItem());
                             }
                         }
                     }

@@ -4,6 +4,8 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.ui.Celebration;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -14,11 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Getter
+@Setter
 public class Quest implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3216607526116365186L;
     private ArrayList<QuestStep> questSteps;
     private int step = 0;
@@ -36,15 +37,15 @@ public class Quest implements Serializable {
         this.zone = zone;
         this.onCompletion = onCompletion;
 
-        QuestVO questVO = Utils.loadQuest(jsonFile);
-        this.questStart = questVO.getQuestStart();
-        this.questName = questVO.getQuestName();
+        QuestDTO questDTO = Utils.loadQuest(jsonFile);
+        this.questStart = questDTO.getQuestStart();
+        this.questName = questDTO.getQuestName();
 
         customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
 
-        for (String s : questVO.getObjectives()) {
+        for (String s : questDTO.getObjectives()) {
             questSteps.add(new QuestStep(s));
         }
     }
@@ -54,16 +55,16 @@ public class Quest implements Serializable {
         this.requirements = requirements;
         this.onCompletion = onCompletion;
 
-        QuestVO questVO = Utils.loadQuest(jsonFile);
+        QuestDTO questDTO = Utils.loadQuest(jsonFile);
 
-        this.questStart = questVO.getQuestStart();
-        this.questName = questVO.getQuestName();
+        this.questStart = questDTO.getQuestStart();
+        this.questName = questDTO.getQuestName();
 
         customChecks = new HashMap<>();
         questSteps = new ArrayList<>();
         state = QuestState.NOT_STARTED;
 
-        for (String s : questVO.getObjectives()) {
+        for (String s : questDTO.getObjectives()) {
             questSteps.add(new QuestStep(s));
         }
     }
@@ -76,10 +77,6 @@ public class Quest implements Serializable {
 
     }
 
-    public int getStep() {
-        return step;
-    }
-
     public void nextStep() {
         questSteps.get(step).setFinished(true);
 
@@ -87,26 +84,6 @@ public class Quest implements Serializable {
         if ((step + 1) < questSteps.size()) {
             this.step++;
         }
-    }
-
-    public ArrayList<QuestStep> getQuestSteps() {
-        return questSteps;
-    }
-
-    public void setQuestSteps(ArrayList<QuestStep> steps) {
-        this.questSteps = steps;
-    }
-
-    public String getQuestName() {
-        return questName;
-    }
-
-    public void setQuestName(String questName) {
-        this.questName = questName;
-    }
-
-    public QuestState getState() {
-        return state;
     }
 
     public void setState(QuestState state) {
@@ -131,26 +108,6 @@ public class Quest implements Serializable {
         this.state = state;
     }
 
-    public Zone getZone() {
-        return zone;
-    }
-
-    public void setZone(Zone zone) {
-        this.zone = zone;
-    }
-
-    public List<QuestRequirement> getRequirements() {
-        return requirements;
-    }
-
-    public void setRequirements(List<QuestRequirement> requirements) {
-        this.requirements = requirements;
-    }
-
-    public Map<String, Object> getCustomChecks() {
-        return customChecks;
-    }
-
     public void addNewCheck(String key, Object o) {
         key = key.toLowerCase();
         customChecks.put(key, o);
@@ -163,13 +120,5 @@ public class Quest implements Serializable {
             customChecks.put(key, defaultObj);
         }
         return customChecks.get(key);
-    }
-
-    public String getQuestStart() {
-        return questStart;
-    }
-
-    public void setQuestStart(String questStart) {
-        this.questStart = questStart;
     }
 }

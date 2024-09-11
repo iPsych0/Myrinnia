@@ -25,9 +25,6 @@ import java.util.List;
 @Slf4j
 public class ShopWindow implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5778791089622654030L;
     public int x;
     public int y;

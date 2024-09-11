@@ -13,6 +13,8 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -23,21 +25,22 @@ import java.util.List;
 @Slf4j
 public class BankUI implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1728128423147794469L;
     public static int x;
     public static int y;
     public static int width;
     private static int height;
     public static boolean isOpen = false;
-    private List<ItemSlot> invSlots = new ArrayList<>();
-    private List<BankTab> tabs = new ArrayList<>();
+    private final List<ItemSlot> invSlots = new ArrayList<>();
+    private final List<BankTab> tabs = new ArrayList<>();
+    @Setter
+    @Getter
     private BankTab openedTab;
     private static final int MAX_TABS = 10;
     public static boolean inventoryLoaded;
     public static boolean hasBeenPressed = false;
+    @Setter
+    @Getter
     private Rectangle bounds;
     private boolean itemSelected;
     private ItemStack currentSelectedSlot;
@@ -74,7 +77,7 @@ public class BankUI implements Serializable {
         itemTooltip = new ItemTooltip(x - 160, y);
 
         // Initially always open the first tab
-        openedTab = tabs.get(0);
+        openedTab = tabs.getFirst();
     }
 
     public void tick() {
@@ -397,22 +400,6 @@ public class BankUI implements Serializable {
 
         Handler.get().sendMsg("Your inventory is full.");
         return -1;
-    }
-
-    public BankTab getOpenedTab() {
-        return openedTab;
-    }
-
-    public void setOpenedTab(BankTab openedTab) {
-        this.openedTab = openedTab;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }

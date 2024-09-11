@@ -5,11 +5,15 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Condition implements Serializable {
 
     private static final long serialVersionUID = -6491027693312163146L;
@@ -109,46 +113,7 @@ public class Condition implements Serializable {
         }
     }
 
-    public double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public BufferedImage getImg() {
-        return img;
-    }
-
-    public int getConditionDamage() {
-        return conditionDamage;
-    }
-
-    public void setConditionDamage(int conditionDamage) {
-        this.conditionDamage = conditionDamage;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Entity getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(Entity receiver) {
-        this.receiver = receiver;
-    }
-
+    @Getter
     public enum Type {
         BURNING(Assets.burnIcon, "'Burning' inflicts damage over time."),
         CHILL(Assets.chillIcon, "'Chill' decreases the receiver's movement speed by 50%."),
@@ -164,23 +129,8 @@ public class Condition implements Serializable {
             this.description = description;
         }
 
-        private BufferedImage img;
-        private String description;
+        private final BufferedImage img;
+        private final String description;
 
-        public BufferedImage getImg() {
-            return img;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
-    public int getTickTimer() {
-        return tickTimer;
-    }
-
-    public void setTickTimer(int tickTimer) {
-        this.tickTimer = tickTimer;
     }
 }

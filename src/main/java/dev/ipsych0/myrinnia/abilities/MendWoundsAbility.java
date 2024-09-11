@@ -11,9 +11,6 @@ import java.awt.*;
 
 public class MendWoundsAbility extends Ability {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7613939541331724237L;
     private int regenTimer;
     private double regenSeconds;

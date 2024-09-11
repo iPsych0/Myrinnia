@@ -10,12 +10,8 @@ import java.awt.image.BufferedImage;
 
 public class CombatSkill extends Skill {
 
-    private boolean tooltipShown;
-
-    /**
-     *
-     */
     private static final long serialVersionUID = -8746462876499708037L;
+    private boolean tooltipShown;
 
     // Always start at 1 combat, so have 1 level.
     static {

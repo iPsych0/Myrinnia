@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.Use;
-import dev.ipsych0.myrinnia.quests.QuestVO;
+import dev.ipsych0.myrinnia.quests.QuestDTO;
 import dev.ipsych0.myrinnia.shops.Stock;
 import dev.ipsych0.myrinnia.states.monologues.Monologue;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class Utils {
             return Integer.parseInt(number);
         } catch (NumberFormatException e) {
             log.error("Exception", e);
-            log.info("Couldn't load tile with ID: {}", number);
+            log.info("Couldn't load tile with ID: %s".formatted(number), e);
             return 0;
         }
     }
@@ -68,8 +68,7 @@ public class Utils {
         try (BufferedReader reader = Files.newBufferedReader(Path.of(path))){
             return getGson().fromJson(reader, (Type) clazz);
         } catch (final Exception e) {
-            log.error("Exception", e);
-            log.error("Json file could not be loaded.");
+            log.error("Json file could not be loaded.", e);
             System.exit(1);
         }
         return null;
@@ -86,8 +85,7 @@ public class Utils {
                 }
             }
         } catch (IOException e) {
-            log.error("Exception", e);
-            log.error("Json file could not be loaded.");
+            log.error("Json file could not be loaded.", e);
             System.exit(1);
         } catch (ClassNotFoundException e) {
             log.error("Class: {}, is not an existing class.", name);
@@ -142,23 +140,19 @@ public class Utils {
     }
 
     public static List<Stock> loadStocks(String path) {
-        List<Stock> s = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/shops/%s".formatted(path), Stock[].class)));
-        return s;
+        return new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/shops/%s".formatted(path), Stock[].class)));
     }
 
     public static List<DropTableEntry> loadDropTable(String path) {
-        List<DropTableEntry> e = new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/droptables/%s".formatted(path), DropTableEntry[].class)));
-        return e;
+        return new ArrayList<>(Arrays.asList(loadObjectFromJsonFile("./res/config/droptables/%s".formatted(path), DropTableEntry[].class)));
     }
 
     public static Monologue loadMonologue(String path) {
-        Monologue m = loadObjectFromJsonFile("./res/config/monologues/%s".formatted(path), Monologue.class);
-        return m;
+        return loadObjectFromJsonFile("./res/config/monologues/%s".formatted(path), Monologue.class);
     }
 
-    public static QuestVO loadQuest(String path) {
-        QuestVO q = loadObjectFromJsonFile("./res/config/quests/%s".formatted(path), QuestVO.class);
-        return q;
+    public static QuestDTO loadQuest(String path) {
+        return loadObjectFromJsonFile("./res/config/quests/%s".formatted(path), QuestDTO.class);
     }
 
     public static class PolygonTypeAdapter extends TypeAdapter<Polygon> {

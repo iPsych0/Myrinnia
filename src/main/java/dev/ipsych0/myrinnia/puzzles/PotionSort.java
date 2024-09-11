@@ -5,7 +5,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
+import dev.ipsych0.myrinnia.utils.Action;
 import dev.ipsych0.myrinnia.utils.Text;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.util.List;
 public class PotionSort extends Puzzle implements Serializable {
 
     private static final long serialVersionUID = -1470531938871434451L;
-    private OnTaskCompleted task;
+    private Action action;
     private UIManager uiManager;
     private UIImageButton exitButton;
     private int x, y, width, height;
@@ -31,8 +31,8 @@ public class PotionSort extends Puzzle implements Serializable {
     public static boolean hasBeenPressed;
     public static boolean isOpen;
 
-    public PotionSort(OnTaskCompleted task) {
-        this.task = task;
+    public PotionSort(Action action) {
+        this.action = action;
 
         createRandomList();
 
@@ -151,7 +151,7 @@ public class PotionSort extends Puzzle implements Serializable {
 
     @Override
     public void onComplete() {
-        task.onComplete();
+        action.onComplete();
     }
 
     private void createRandomList() {

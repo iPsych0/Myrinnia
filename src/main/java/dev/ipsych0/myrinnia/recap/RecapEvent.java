@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.recap;
 
 import dev.ipsych0.myrinnia.gfx.ScreenShot;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,11 +14,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class RecapEvent implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6372863712369781038L;
     private transient BufferedImage img;
     private String description;
@@ -32,22 +33,6 @@ public class RecapEvent implements Serializable {
 
     public void render(Graphics2D g) {
         g.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
-    }
-
-    public BufferedImage getImg() {
-        return img;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setImg(BufferedImage img) {
-        this.img = img;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

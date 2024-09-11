@@ -18,9 +18,6 @@ import java.util.List;
 
 public class SkillsOverviewUI implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5483332963034314338L;
     public int x = 280;
     public int y = 180;

@@ -12,9 +12,6 @@ import java.awt.*;
 
 public class RecapState extends State {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1824990655259776935L;
     private UIImageButton continueButton;
     private UIManager uiManager;

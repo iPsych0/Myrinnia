@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.utils.Colors;
-import dev.ipsych0.myrinnia.utils.OnTaskCompleted;
 
 import java.awt.*;
 import java.util.List;
@@ -24,14 +23,14 @@ public class MoveEntityEvent implements CutsceneEvent {
     private int stuckTimer;
     private double originalMovSpd;
     private double movSpd;
-    private OnTaskCompleted onTaskCompleted;
+    private Runnable task;
 
-    public MoveEntityEvent(Entity entity, double goalX, double goalY, boolean instantly, OnTaskCompleted onTaskCompleted) {
+    public MoveEntityEvent(Entity entity, double goalX, double goalY, boolean instantly, Runnable task) {
         this.entity = entity;
         this.goalX = goalX;
         this.goalY = goalY;
         this.instantly = instantly;
-        this.onTaskCompleted = onTaskCompleted;
+        this.task = task;
 
         this.startX = entity.getX();
         this.startY = entity.getY();
@@ -198,8 +197,8 @@ public class MoveEntityEvent implements CutsceneEvent {
 
     @Override
     public boolean isFinished() {
-        if (finished && onTaskCompleted != null) {
-            onTaskCompleted.onComplete();
+        if (finished && task != null) {
+            task.run();
         }
         return finished;
     }

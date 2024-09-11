@@ -14,6 +14,8 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.shops.ShopWindow;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -23,11 +25,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
 public class InventoryWindow implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2445807581436976803L;
     public static boolean isOpen = true;
     public static boolean equipPressed = false;
@@ -67,10 +68,6 @@ public class InventoryWindow implements Serializable {
         itemTooltip = new ItemTooltip(x - 160, y);
 
         itemSlots.get(findFreeSlot(Item.magicSword)).addItem(Item.magicSword, 1);
-
-//        for (int i = 24; i < 42; i++) {
-//            itemSlots.get(findFreeSlot(Item.items[i])).addItem(Item.items[i], 1);
-//        }
     }
 
 
@@ -253,9 +250,9 @@ public class InventoryWindow implements Serializable {
 
                         // If the item's equipmentslot is a valid slot
                         if (is.getItemStack().getItem().getEquipSlot() != EquipSlot.None.getSlotId()) {
-                            if (Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack() != null &&
+                            if (Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getItemStack() != null &&
                                     is.getItemStack().getItem().getId() ==
-                                            Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack().getItem().getId()) {
+                                            Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getItemStack().getItem().getId()) {
                                 // If trying to equip the exact same item, return message
                                 Handler.get().sendMsg("You've already equipped this item!");
                                 equipPressed = false;
@@ -317,7 +314,7 @@ public class InventoryWindow implements Serializable {
 
                                 // Set the swaps
                                 itemSwap = is.getItemStack();
-                                equipSwap = Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getEquipmentStack();
+                                equipSwap = Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).getItemStack();
 
                                 // Remove the equipment stats
                                 Handler.get().getPlayer().removeEquipmentStats(is.getItemStack().getItem().getEquipSlot());
@@ -327,13 +324,13 @@ public class InventoryWindow implements Serializable {
                                     // Subtract one from the inventory stack and then swap
                                     is.getItemStack().setAmount(is.getItemStack().getAmount() - 1);
                                     Handler.get().giveItem(equipSwap.getItem(), equipSwap.getAmount());
-                                    Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItem(new ItemStack(itemSwap.getItem(), 1));
+                                    Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(is.getItemStack().getItem())).setItemStack(new ItemStack(itemSwap.getItem(), 1));
 
                                 } else {
                                     // Otherwise, swap the items and set the inventory stack to null
                                     is.setItemStack(null);
                                     Handler.get().giveItem(equipSwap.getItem(), equipSwap.getAmount());
-                                    Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(itemSwap.getItem())).setItem(itemSwap);
+                                    Handler.get().getEquipment().getEquipmentSlots().get(checkEquipmentSlot(itemSwap.getItem())).setItemStack(itemSwap);
 
                                 }
 
@@ -486,7 +483,7 @@ public class InventoryWindow implements Serializable {
                 }
             } else {
                 if (amount >= 1) {
-                    getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
+                    itemSlots.get(findFreeSlot(item)).addItem(item, amount);
                     giveItem(item, (amount - 1));
                 }
             }
@@ -495,7 +492,7 @@ public class InventoryWindow implements Serializable {
                 Handler.get().dropItem(item, amount, playerX, playerY);
                 Handler.get().sendMsg("The item(s) were dropped to the floor.");
             } else {
-                getItemSlots().get(findFreeSlot(item)).addItem(item, amount);
+                itemSlots.get(findFreeSlot(item)).addItem(item, amount);
             }
         }
     }
@@ -585,16 +582,13 @@ public class InventoryWindow implements Serializable {
 
     /*
      * Checks if the player has the item+quantity and removes it
-     * @returns boolean: true if successful, false if item+quantity requirement not met
      */
-    public boolean removeBankItemSlot(ItemSlot is) {
+    public void removeBankItemSlot(ItemSlot is) {
         for (ItemSlot itemSlot : itemSlots) {
             if (itemSlot.getItemStack() == is.getItemStack()) {
                 itemSlot.setItemStack(null);
-                return true;
             }
         }
-        return false;
     }
 
     /*
@@ -640,7 +634,7 @@ public class InventoryWindow implements Serializable {
 
         for (EquipmentSlot slot : Handler.get().getEquipment().getEquipmentSlots()) {
 
-            ItemStack is = slot.getEquipmentStack();
+            ItemStack is = slot.getItemStack();
 
             if (is == null || is.getItem().getItemTypes() == null)
                 continue;
@@ -661,51 +655,6 @@ public class InventoryWindow implements Serializable {
             return item.getEquipSlot();
 
         throw new IllegalArgumentException(item.getName() + " does not have an equipment slot ID.");
-    }
-
-    public List<ItemSlot> getItemSlots() {
-        return itemSlots;
-    }
-
-    public void setItemSlots(List<ItemSlot> itemSlots) {
-        this.itemSlots = itemSlots;
-    }
-
-    public Rectangle getWindowBounds() {
-        return windowBounds;
-    }
-
-    public void setWindowBounds(Rectangle windowBounds) {
-        this.windowBounds = windowBounds;
-    }
-
-    public ItemStack getCurrentSelectedSlot() {
-        return currentSelectedSlot;
-    }
-
-
-    public void setCurrentSelectedSlot(ItemStack currentSelectedSlot) {
-        this.currentSelectedSlot = currentSelectedSlot;
-    }
-
-
-    public int getWidth() {
-        return width;
-    }
-
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-
-    public int getHeight() {
-        return height;
-    }
-
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
 }

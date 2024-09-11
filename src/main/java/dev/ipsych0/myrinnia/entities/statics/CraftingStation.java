@@ -12,9 +12,6 @@ import java.awt.*;
 @Slf4j
 public class CraftingStation extends StaticEntity {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8804679431303966524L;
 
     public CraftingStation(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {

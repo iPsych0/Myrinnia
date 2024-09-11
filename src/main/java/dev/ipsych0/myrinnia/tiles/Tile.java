@@ -1,10 +1,14 @@
 package dev.ipsych0.myrinnia.tiles;
 
 import dev.ipsych0.myrinnia.Handler;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+@Getter
+@Setter
 public class Tile {
 
     // In-game Tiles
@@ -50,19 +54,6 @@ public class Tile {
         }
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public void tick() {
 
     }
@@ -82,38 +73,6 @@ public class Tile {
             g.setColor(Color.BLUE);
             g.fillPolygon(xArr, yArr, (xArr.length + yArr.length) / 2);
         }
-    }
-
-    public BufferedImage getTexture() {
-        return texture;
-    }
-
-    public void setTexture(BufferedImage texture) {
-        this.texture = texture;
-    }
-
-    public boolean isSolid() {
-        return solid;
-    }
-
-    public void setSolid(boolean solid) {
-        this.solid = solid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public boolean isPostRendered() {
-        return postRendered;
-    }
-
-    public void setPostRendered(boolean postRendered) {
-        this.postRendered = postRendered;
-    }
-
-    public Polygon getPolyBounds() {
-        return polyBounds;
     }
 
     public Polygon getPolyBounds(int xPos, int yPos) {
@@ -152,17 +111,5 @@ public class Tile {
             lastY = yPos;
         }
         return polyBounds;
-    }
-
-    public void setPolyBounds(Polygon bounds) {
-        this.polyBounds = bounds;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
     }
 }

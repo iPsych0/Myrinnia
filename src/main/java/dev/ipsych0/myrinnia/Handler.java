@@ -76,9 +76,6 @@ public class Handler implements Serializable {
     private Properties prop = new Properties();
     public static String initialWorldPath = "./res/worlds/port_azure.tmx";
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
     private Random random;

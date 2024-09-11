@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import java.io.Serializable;
 
-public interface OnTaskCompleted extends Serializable {
+@FunctionalInterface
+public interface Action extends Serializable {
     void onComplete();
 }

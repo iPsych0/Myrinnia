@@ -13,6 +13,8 @@ import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,16 +26,20 @@ import java.util.List;
 
 public class EntityManager implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4034952590793061132L;
+    @Setter
+    @Getter
     private Player player;
+    @Setter
+    @Getter
     private List<Entity> entities;
     private Collection<Entity> deadEntities;
     private List<Entity> toBeAddedEntities;
+    @Setter
+    @Getter
     private Entity selectedEntity;
     public static boolean isPressed = false;
+    @Getter
     private List<HitSplat> hitSplats;
     private int oocCounter; // Out-of-combat counter
     private int creatureCounter;
@@ -125,7 +131,7 @@ public class EntityManager implements Serializable {
         }
 
         // If enemies are dead, update the respawn timers
-        if (deadEntities.size() > 0) {
+        if (!deadEntities.isEmpty()) {
             long currentTime = System.currentTimeMillis();
             entities.removeAll(deadEntities);
             Iterator<Entity> dltd = deadEntities.iterator();
@@ -237,14 +243,6 @@ public class EntityManager implements Serializable {
         g.drawLine((int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - Handler.get().getGameCamera().getyOffset()), (int) (xOffset + e.getX() + e.getWidth() - Handler.get().getGameCamera().getxOffset()), (int) (yOffset + e.getY() + e.getHeight() - (6 * (e.getHeight() / 32)) - Handler.get().getGameCamera().getyOffset()));
 
         g.setStroke(defaultStroke);
-    }
-
-    public Entity getSelectedEntity() {
-        return selectedEntity;
-    }
-
-    public void setSelectedEntity(Entity selectedEntity) {
-        this.selectedEntity = selectedEntity;
     }
 
     public void postRender(Graphics2D g) {
@@ -439,27 +437,5 @@ public class EntityManager implements Serializable {
     public void addRuntimeEntity(Entity e, boolean shouldRespawn) {
         e.setRespawner(shouldRespawn);
         toBeAddedEntities.add(e);
-    }
-
-    // Getters & Setters
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public List<Entity> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
-    }
-
-    public List<HitSplat> getHitSplats() {
-        return hitSplats;
     }
 }

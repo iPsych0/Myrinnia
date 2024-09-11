@@ -9,6 +9,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -22,18 +24,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Setter
+@Getter
 @Slf4j
 public class AbilityManager implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1274154274799386875L;
     private List<Ability> allAbilities = new ArrayList<>();
     private List<Ability> activeAbilities = new ArrayList<>();
     private AbilityHUD abilityHUD;
-    private static File abilitiesJsonDirectory = new File("./res/config/abilities/");
+    private static final File abilitiesJsonDirectory = new File("./res/config/abilities/");
     public static Map<Class<? extends Ability>, Ability> abilityMap = new HashMap<>();
 
 
@@ -122,30 +123,6 @@ public class AbilityManager implements Serializable {
                 a.render(g, (int) a.getCaster().getX(), (int) a.getCaster().getY());
             }
         }
-    }
-
-    public List<Ability> getActiveAbilities() {
-        return activeAbilities;
-    }
-
-    public void setActiveAbilities(List<Ability> activeAbilities) {
-        this.activeAbilities = activeAbilities;
-    }
-
-    public AbilityHUD getAbilityHUD() {
-        return abilityHUD;
-    }
-
-    public void setAbilityHUD(AbilityHUD abilityHUD) {
-        this.abilityHUD = abilityHUD;
-    }
-
-    public List<Ability> getAllAbilities() {
-        return allAbilities;
-    }
-
-    public void setAllAbilities(List<Ability> allAbilities) {
-        this.allAbilities = allAbilities;
     }
 
     public List<Ability> getAbilityByStyleAndElement(CharacterStats combatStyle, CharacterStats element) {

@@ -3,9 +3,11 @@ package dev.ipsych0.myrinnia.character;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
+@Getter
 public enum CharacterStats {
 
     Combat, Melee, Ranged, Magic, Fire, Air, Earth, Water;
@@ -15,10 +17,6 @@ public enum CharacterStats {
 
     CharacterStats() {
         this.level = 0;
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public void addLevel() {
@@ -65,10 +63,6 @@ public enum CharacterStats {
             case Magic -> Assets.magicElement;
             case Combat -> Assets.meleeIcon;
         };
-    }
-
-    public String getDescription() {
-        return description;
     }
 
 }

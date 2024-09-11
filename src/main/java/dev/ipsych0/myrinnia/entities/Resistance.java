@@ -3,11 +3,15 @@ package dev.ipsych0.myrinnia.entities;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Resistance implements Serializable {
 
     private static final long serialVersionUID = 3317119477719007572L;
@@ -32,7 +36,7 @@ public class Resistance implements Serializable {
     // Set the resistance description
     private String getDescription(Condition.Type type) {
         String desc = "Reduces the %s of %s by %.1f";
-        String name = type.toString().substring(0, 1) + type.toString().substring(1).toLowerCase();
+        String name = type.toString().charAt(0) + type.toString().substring(1).toLowerCase();
         String category = "duration";
 
         switch (type) {
@@ -72,40 +76,8 @@ public class Resistance implements Serializable {
         }
     }
 
-    public Condition.Type getType() {
-        return type;
-    }
-
-    public int getExpiryTime() {
-        return expiryTime;
-    }
-
-    public void setExpiryTime(int expiryTime) {
-        this.expiryTime = expiryTime;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getEffectiveness() {
-        return effectiveness;
-    }
-
     public void setEffectiveness(double effectiveness) {
         this.effectiveness = effectiveness;
         this.description = getDescription(type);
-    }
-
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
     }
 }

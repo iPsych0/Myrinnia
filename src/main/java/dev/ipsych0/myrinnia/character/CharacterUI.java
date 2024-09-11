@@ -7,6 +7,9 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.ui.UIObject;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
+import org.lwjgl.system.linux.UIO;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -15,23 +18,24 @@ import java.util.Map;
 
 public class CharacterUI implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2534979108806910921L;
     private int x, y, width, height;
     public static boolean isOpen = false;
+    @Getter
     private int baseStatPoints;
+    @Getter
     private int elementalStatPoints;
     private UIImageButton meleeUp, rangedUp, magicUp, fireUp, airUp, waterUp, earthUp;
     private UIImageButton meleeIcon, rangedIcon, magicIcon, fireIcon, airIcon, waterIcon, earthIcon;
     public static boolean hasBeenPressed = false;
+    @Setter
+    @Getter
     private Rectangle bounds;
     public static boolean escapePressed = false;
     private UIImageButton exit;
     private UIManager uiManager, baseStatManager, elementalStatManager;
     private StatTooltip statTooltip;
-    private Map<UIImageButton, CharacterStats> btnMap;
+    private Map<UIObject, CharacterStats> btnMap;
 
     public CharacterUI() {
         width = 288;
@@ -230,10 +234,6 @@ public class CharacterUI implements Serializable {
         }
     }
 
-    public int getBaseStatPoints() {
-        return baseStatPoints;
-    }
-
     public void addBaseStatPoints() {
         this.baseStatPoints++;
     }
@@ -242,24 +242,12 @@ public class CharacterUI implements Serializable {
         this.baseStatPoints += points;
     }
 
-    public int getElementalStatPoints() {
-        return elementalStatPoints;
-    }
-
     public void addElementalStatPoints() {
         this.elementalStatPoints++;
     }
 
     public void addElementalStatPoints(int points) {
         this.elementalStatPoints += points;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }

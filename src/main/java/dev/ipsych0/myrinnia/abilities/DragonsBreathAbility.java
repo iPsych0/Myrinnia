@@ -87,12 +87,12 @@ public class DragonsBreathAbility extends Ability implements Serializable {
         }
 
         MeleeDirection meleeDirection = getMeleeSwing(direction);
-        this.rotation = meleeDirection.getRotation();
+        this.rotation = meleeDirection.rotation();
         this.rotation += 90.0;
         if (rotation > 360.0)
             rotation -= 360;
-        this.xPos = meleeDirection.getxPos();
-        this.yPos = meleeDirection.getyPos();
+        this.xPos = meleeDirection.xPos();
+        this.yPos = meleeDirection.yPos();
     }
 
     @Override

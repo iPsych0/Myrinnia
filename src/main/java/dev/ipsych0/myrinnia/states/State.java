@@ -5,9 +5,6 @@ import java.io.Serializable;
 
 public abstract class State implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5090297819542167284L;
     private static State currentState = null;
     public static boolean hasBeenPressed = false;

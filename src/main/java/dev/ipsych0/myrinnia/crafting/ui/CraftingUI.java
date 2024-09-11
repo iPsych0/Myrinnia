@@ -24,6 +24,7 @@ import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -34,20 +35,19 @@ import java.util.Optional;
 public class CraftingUI implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6741379998525736950L;
     private int x, y, width, height;
     public static boolean isOpen = false;
     private static boolean hasBeenPressed = false;
     private static boolean itemSelected = false;
+    @Getter
     private List<CraftingSlot> craftingSlots;
     private CraftResultSlot crs;
     private UIImageButton make1Button, make5Button, make10Button, makeXButton, makeAllButton;
     public static boolean craftButtonPressed = false;
     public static boolean craftResultPressed = false;
     private ItemStack currentSelectedSlot;
+    @Getter
     private CraftingManager craftingManager;
     private Rectangle windowBounds;
     private ItemTooltip itemTooltip;
@@ -407,7 +407,7 @@ public class CraftingUI implements Serializable {
                 results.add(result);
 
                 // Select top recipe by default
-                selectedSlot = selectSlots.get(0);
+                selectedSlot = selectSlots.getFirst();
 
                 uiManager.addObject(slot);
             }
@@ -599,9 +599,7 @@ public class CraftingUI implements Serializable {
                 }
             }
         }
-        if (index != -1)
-            return index;
-        return -1;
+        return index;
     }
 
     private void queueItem(int amount) {
@@ -727,50 +725,6 @@ public class CraftingUI implements Serializable {
                 }
             }
         }
-    }
-
-    public List<CraftingSlot> getCraftingSlots() {
-        return craftingSlots;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public CraftingManager getCraftingManager() {
-        return craftingManager;
-    }
-
-    public Rectangle getWindowBounds() {
-        return windowBounds;
     }
 
 }

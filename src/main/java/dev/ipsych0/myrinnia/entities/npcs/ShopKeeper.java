@@ -13,9 +13,6 @@ import java.util.List;
 public abstract class ShopKeeper extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3802705595380640443L;
     protected ShopWindow shopWindow;
     protected String shopName;

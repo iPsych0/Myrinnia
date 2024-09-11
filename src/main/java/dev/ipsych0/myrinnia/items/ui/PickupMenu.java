@@ -3,11 +3,15 @@ package dev.ipsych0.myrinnia.items.ui;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemManager;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class PickupMenu {
 
     private int x, y;
@@ -80,26 +84,6 @@ public class PickupMenu {
         }
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
     public void setItems(List<Item> items) {
         this.items = items;
         entries.clear();
@@ -108,20 +92,12 @@ public class PickupMenu {
             entries.add(new PickupEntry(item, x, y + (i * PickupEntry.HEIGHT)));
         }
 
-        int yOffset = entries.get(entries.size() - 1).getY() - (Handler.get().getHeight() - PickupEntry.HEIGHT * 3);
+        int yOffset = entries.getLast().getY() - (Handler.get().getHeight() - PickupEntry.HEIGHT * 3);
         if (yOffset > 0) {
             for (int i = 0; i < items.size(); i++) {
                 PickupEntry entry = entries.get(i);
                 entry.setY(entry.getY() - ((int) Math.ceil((double) yOffset / (double) PickupEntry.HEIGHT) * PickupEntry.HEIGHT));
             }
         }
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 }

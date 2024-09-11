@@ -16,6 +16,8 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.utils.Utils;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -29,13 +31,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 @Slf4j
+@Getter
+@Setter
 public class Item implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5417348314768685085L;
-    // ItemList
 
     public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
     public static Item[] items = new Item[1024];
@@ -521,7 +521,7 @@ public class Item implements Serializable {
     private int y;
     private Rectangle bounds;
     private Rectangle position;
-    private int count;
+    private int amount;
     private boolean pickedUp = false;
     public static boolean pickUpKeyPressed = false;
     private int price;
@@ -644,8 +644,8 @@ public class Item implements Serializable {
         if (inventoryIndex >= 0) {
             // If we have space
             if (id == item.getId()) {
-                if (Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getCount())) {
-                    Handler.get().sendMsg("Picked up " + item.getCount() + "x " + item.getName() + ".", Filter.LOOT);
+                if (Handler.get().getInventory().getItemSlots().get(inventoryIndex).addItem(item, item.getAmount())) {
+                    Handler.get().sendMsg("Picked up " + item.getAmount() + "x " + item.getName() + ".", Filter.LOOT);
                     pickedUp = true;
                     return true;
                 }
@@ -657,90 +657,8 @@ public class Item implements Serializable {
     }
 
 
-    // Getters & Setters
-
     public int getEquipSlot() {
         return equipSlot.getSlotId();
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public int getDexterity() {
-        return dexterity;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public int getDefence() {
-        return defence;
-    }
-
-    public int getVitality() {
-        return vitality;
-    }
-
-    public double getAttackSpeed() {
-        return attackSpeed;
-    }
-
-    public double getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public BufferedImage getTexture() {
-        return texture;
-    }
-
-    public void setTexture(BufferedImage texture) {
-        this.texture = texture;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    private void setAmount(int count) {
-        this.count = count;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public boolean isPickedUp() {
-        return pickedUp;
-    }
-
-    public void setPickedUp(boolean pickedUp) {
-        this.pickedUp = pickedUp;
     }
 
     public boolean isType(ItemType type) {
@@ -753,118 +671,6 @@ public class Item implements Serializable {
             }
         }
         return false;
-    }
-
-    public ItemType[] getItemTypes() {
-        return itemTypes;
-    }
-
-    public void setItemType(ItemType[] itemTypes) {
-        this.itemTypes = itemTypes;
-    }
-
-    public ItemRarity getItemRarity() {
-        return itemRarity;
-    }
-
-    public void setItemRarity(ItemRarity itemRarity) {
-        this.itemRarity = itemRarity;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public boolean isStackable() {
-        return stackable;
-    }
-
-    public void setStackable(boolean stackable) {
-        this.stackable = stackable;
-    }
-
-    public ItemRequirement[] getRequirements() {
-        return requirements;
-    }
-
-    public void setRequirements(ItemRequirement[] requirements) {
-        this.requirements = requirements;
-    }
-
-    public long getRespawnTime() {
-        return respawnTime;
-    }
-
-    public void setRespawnTimer(long respawnTime) {
-        this.respawnTime = respawnTime;
-    }
-
-    public long getTimeDropped() {
-        return timeDropped;
-    }
-
-    public void setTimeDropped(long timeDropped) {
-        this.timeDropped = timeDropped;
-    }
-
-    public Rectangle getPosition() {
-        return position;
-    }
-
-    public void setPosition(Rectangle position) {
-        this.position = position;
-    }
-
-    private boolean isEquippable() {
-        return equippable;
-    }
-
-    public void setEquippable(boolean equippable) {
-        this.equippable = equippable;
-    }
-
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
-    }
-
-    public Use getUse() {
-        return use;
-    }
-
-    public void setUse(Use use) {
-        this.use = use;
-    }
-
-    public int getUseCooldown() {
-        return useCooldown;
-    }
-
-    public void setUseCooldown(int useCooldown) {
-        this.useCooldown = useCooldown;
-    }
-
-    public boolean isUsed() {
-        return used;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
-
-    public int getUsedTimer() {
-        return usedTimer;
-    }
-
-    public void setUsedTimer(int usedTimer) {
-        this.usedTimer = usedTimer;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

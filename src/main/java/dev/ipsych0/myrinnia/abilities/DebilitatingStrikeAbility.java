@@ -67,9 +67,9 @@ public class DebilitatingStrikeAbility extends Ability implements Serializable {
             Handler.get().playEffect("abilities/sword_swing.ogg", -0.05f);
 
             MeleeDirection meleeDirection = getMeleeSwing(direction);
-            this.rotation = meleeDirection.getRotation();
-            this.xPos = meleeDirection.getxPos();
-            this.yPos = meleeDirection.getyPos();
+            this.rotation = meleeDirection.rotation();
+            this.xPos = meleeDirection.xPos();
+            this.yPos = meleeDirection.yPos();
 
             Entity hit = getSingleMeleeHitEntity(direction);
 

@@ -5,16 +5,17 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class CraftResultSlot extends UIImageButton implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 8523315261993088996L;
     private static final int SLOTSIZE = 32;
     private ItemStack itemStack;
@@ -48,7 +49,7 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
      */
     public boolean addItem(Item item, int amount) {
         if (itemStack != null && stackable) {
-            if (item.getName() == itemStack.getItem().getName()) {
+            if (item.getName().equalsIgnoreCase(itemStack.getItem().getName())) {
                 this.itemStack.setAmount(this.itemStack.getAmount() + amount);
                 stackable = true;
                 return true;
@@ -58,11 +59,11 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
             }
         } else {
             if (itemStack != null) {
-                if (item.getName() != itemStack.getItem().getName()) {
+                if (!item.getName().equalsIgnoreCase(itemStack.getItem().getName())) {
                     stackable = false;
                     return false;
                 } else {
-                    if (item.getName() == itemStack.getItem().getName()) {
+                    if (item.getName().equalsIgnoreCase(itemStack.getItem().getName())) {
                         this.itemStack.setAmount(this.itemStack.getAmount() + amount);
                         stackable = true;
                         return true;
@@ -73,22 +74,6 @@ public class CraftResultSlot extends UIImageButton implements Serializable {
             this.itemStack = new ItemStack(item, amount);
             return true;
         }
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }

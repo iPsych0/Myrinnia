@@ -12,9 +12,6 @@ import java.awt.*;
 public class CelenorCraftsman extends ShopKeeper {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3340636213278064668L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();

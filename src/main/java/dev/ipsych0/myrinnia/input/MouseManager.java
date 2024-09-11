@@ -28,6 +28,8 @@ import dev.ipsych0.myrinnia.ui.ScrollBar;
 import dev.ipsych0.myrinnia.ui.SliderBar;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.custom.BookUI;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -37,13 +39,12 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class MouseManager implements MouseListener, MouseMotionListener, MouseWheelListener, Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -98228253788414846L;
-    private boolean leftPressed, rightPressed, isDragged;
+    private boolean leftPressed, rightPressed, dragged;
     private int mouseX, mouseY;
     private int mouseMovedTimer;
     private Rectangle mouseCoords;
@@ -64,29 +65,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             Player.mouseMoved = false;
 
     }
-
-    // Getters & Setters
-
-    public boolean isLeftPressed() {
-        return leftPressed;
-    }
-
-    public boolean isRightPressed() {
-        return rightPressed;
-    }
-
-    public boolean isDragged() {
-        return isDragged;
-    }
-
-    public int getMouseX() {
-        return mouseX;
-    }
-
-    public int getMouseY() {
-        return mouseY;
-    }
-
 
     // Implemented methods
     @Override
@@ -131,13 +109,13 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             leftPressed = false;
-            isDragged = false;
+            dragged = false;
             justClosedUI = false;
             ScrollBar.clickTimer = 0;
             ScrollBar.scrollTimer = 0;
             SliderBar.released = true;
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            isDragged = false;
+            dragged = false;
             rightPressed = false;
         }
 
@@ -159,7 +137,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
         Player.mouseMoved = true;
 
         if (leftPressed) {
-            isDragged = true;
+            dragged = true;
         }
 
         // Fix hier shit
@@ -180,18 +158,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public void setLeftPressed(boolean leftPressed) {
-        this.leftPressed = leftPressed;
-    }
-
-    public Rectangle getMouseCoords() {
-        return mouseCoords;
-    }
-
-    public void setMouseCoords(Rectangle mouseCoords) {
-        this.mouseCoords = mouseCoords;
     }
 
     @Override

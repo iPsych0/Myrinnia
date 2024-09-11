@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.gfx;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -10,12 +13,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Animation implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6957117142545976181L;
     private int speed, index;
     private long lastTime, timer;
@@ -121,10 +123,6 @@ public class Animation implements Serializable {
         return frames[index];
     }
 
-    public int getIndex() {
-        return index;
-    }
-
     public int getLength() {
         return frames.length;
     }
@@ -139,10 +137,6 @@ public class Animation implements Serializable {
         if(index >= frames.length)
             index = frames.length - 1;
         return frames[index];
-    }
-
-    public boolean isTickDone() {
-        return tickDone;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -175,9 +169,4 @@ public class Animation implements Serializable {
             is.close();
         }
     }
-
-    public void setFrames(BufferedImage[] frames) {
-        this.frames = frames;
-    }
-
 }

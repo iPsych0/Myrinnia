@@ -52,9 +52,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class World implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2377316128534163815L;
 
     private int width;

@@ -122,9 +122,6 @@ public class Projectile extends Creature implements Serializable {
     }
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2796906732989163136L;
     private double xVelocity, yVelocity;
     private int maxX, maxY, minX, minY;

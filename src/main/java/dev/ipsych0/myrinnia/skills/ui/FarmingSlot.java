@@ -5,11 +5,15 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
 
+@Getter
+@Setter
 public class FarmingSlot extends UIImageButton implements Serializable {
 
     private static final long serialVersionUID = 6894810811350660833L;
@@ -28,13 +32,5 @@ public class FarmingSlot extends UIImageButton implements Serializable {
         super.render(g);
         g.drawImage(seeds.getItem().getTexture(), x, y, width, height, null);
         Text.drawString(g, String.valueOf(seeds.getAmount()), x, y + ItemSlot.SLOTSIZE - 21, false, Color.YELLOW, Assets.font14);
-    }
-
-    public ItemStack getSeed() {
-        return seeds;
-    }
-
-    public void setSeeds(ItemStack seeds) {
-        this.seeds = seeds;
     }
 }

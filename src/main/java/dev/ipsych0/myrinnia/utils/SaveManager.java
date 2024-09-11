@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.utils;
 
 import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-
+@Slf4j
 public class SaveManager {
 
     private SaveManager() {
@@ -39,7 +40,7 @@ public class SaveManager {
             Handler.get().playEffect("ui/save_game.ogg");
             success = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Something went wrong saving the game.", e);
             Handler.get().playEffect("ui/save_game_error.ogg", 0.15f);
             Handler.get().sendMsg("WARNING: Could not save your game! Please try again or contact a developer to look into your issue!");
         }
@@ -68,7 +69,7 @@ public class SaveManager {
             oin.close();
             fis.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("Something went wrong loading the game.", e);
             System.exit(1);
         }
 

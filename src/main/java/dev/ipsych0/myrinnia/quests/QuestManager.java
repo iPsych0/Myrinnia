@@ -7,6 +7,8 @@ import dev.ipsych0.myrinnia.entities.statics.CelenorGrottoWater;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -18,11 +20,10 @@ import java.util.EnumMap;
 import java.util.List;
 
 @Slf4j
+@Getter
+@Setter
 public class QuestManager implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4508062817810741935L;
 
     private QuestUI questUI;
@@ -72,30 +73,30 @@ public class QuestManager implements Serializable {
                     Handler.get().getSkill(SkillsList.BOUNTY_HUNTER).addExperience(150);
                 }));
 
-        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", Arrays.asList(new QuestRequirement(QuestList.GettingStarted)),
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "gatheringyourstuff.json", List.of(new QuestRequirement(QuestList.GettingStarted)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.WOODCUTTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.FISHING).addExperience(50);
                 }));
-        azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", Arrays.asList(new QuestRequirement(QuestList.GatheringYourStuff)),
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "preparingyourjourney.json", List.of(new QuestRequirement(QuestList.GatheringYourStuff)),
                 (OnCompletion & Serializable) () -> {
                     PortAzureDuncan.unlockRecipes();
                     Handler.get().getSkill(SkillsList.CRAFTING).addExperience(50);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(80);
                 }));
-        azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", Arrays.asList(new QuestRequirement(QuestList.PreparingYourJourney)),
+        azurealIslandQuests.add(new Quest(Zone.PortAzure, "wavegoodbye.json", List.of(new QuestRequirement(QuestList.PreparingYourJourney)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                 }));
 
-        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", Arrays.asList(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 7)),
+        shamrockTownQuests.add(new Quest(Zone.ShamrockTown, "wedelvedtoodeep.json", List.of(new QuestRequirement(SkillsList.MINING, 5), new QuestRequirement(SkillsList.COMBAT, 7)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().giveItem(Item.dustyScroll, 1);
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(100);
                     Handler.get().getSkill(SkillsList.MINING).addExperience(150);
                 }));
 
-        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", Arrays.asList(new QuestRequirement(SkillsList.COMBAT, 8)),
+        celenorQuests.add(new Quest(Zone.Celewynn, "extrememist_beliefs.json", List.of(new QuestRequirement(SkillsList.COMBAT, 8)),
                 (OnCompletion & Serializable) () -> {
                     Handler.get().getSkill(SkillsList.COMBAT).addExperience(400);
                     Handler.get().getSkill(SkillsList.BOUNTY_HUNTER).addExperience(200);
@@ -110,8 +111,8 @@ public class QuestManager implements Serializable {
 //        mainQuests.add(new Quest("A Mysterious Finding", Zone.Myrinnia, new QuestRequirement("Talk to the Ability Master to learn about the use of magic in Myrinnia.")));
 
         // Sorts every list's quests by name, alphabetically
-        for (int i = 0; i < allQuestLists.size(); i++) {
-            allQuestLists.get(i).sort(Comparator.comparing(Quest::getQuestName));
+        for (List<Quest> allQuestList : allQuestLists) {
+            allQuestList.sort(Comparator.comparing(Quest::getQuestName));
         }
 
         // Sort the enum list of quests alphabetically as well
@@ -143,13 +144,13 @@ public class QuestManager implements Serializable {
 
 
         // Sort the allQuestLists by zone as well
-        allQuestLists.sort(Comparator.comparing(o -> o.get(0).getZone().toString()));
+        allQuestLists.sort(Comparator.comparing(o -> o.getFirst().getZone().toString()));
 
         // Mapping the Zones together with the correct list of quests
         for (int i = 0; i < allQuestLists.size(); i++) {
             for (int j = 0; j < zoneEnums.size(); j++) {
                 // Only put in the map Zones that we actually have in our 'all' quests list
-                if (allQuestLists.get(i).get(0).getZone().toString().equalsIgnoreCase(zoneEnums.get(j).toString())) {
+                if (allQuestLists.get(i).getFirst().getZone().toString().equalsIgnoreCase(zoneEnums.get(j).toString())) {
                     zoneMap.put(zoneEnums.get(j), allQuestLists.get(i));
                     break;
                 }
@@ -165,38 +166,6 @@ public class QuestManager implements Serializable {
     public void render(Graphics2D g) {
         if (QuestUI.isOpen)
             questUI.render(g);
-    }
-
-    public EnumMap<QuestList, Quest> getQuestMap() {
-        return questMap;
-    }
-
-    public void setQuestMap(EnumMap<QuestList, Quest> questMap) {
-        this.questMap = questMap;
-    }
-
-    public QuestUI getQuestUI() {
-        return questUI;
-    }
-
-    public void setQuestUI(QuestUI questUI) {
-        this.questUI = questUI;
-    }
-
-    public List<List<Quest>> getAllQuestLists() {
-        return allQuestLists;
-    }
-
-    public void setAllQuestLists(List<List<Quest>> allQuestLists) {
-        this.allQuestLists = allQuestLists;
-    }
-
-    public EnumMap<Zone, List<Quest>> getZoneMap() {
-        return zoneMap;
-    }
-
-    public void setZoneMap(EnumMap<Zone, List<Quest>> zoneMap) {
-        this.zoneMap = zoneMap;
     }
 
 

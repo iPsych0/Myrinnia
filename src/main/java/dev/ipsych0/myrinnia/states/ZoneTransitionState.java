@@ -9,9 +9,6 @@ import java.awt.*;
 
 public class ZoneTransitionState extends AbstractTransitionState {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 353118389669820751L;
     private Zone zone;
     private String customZoneName;

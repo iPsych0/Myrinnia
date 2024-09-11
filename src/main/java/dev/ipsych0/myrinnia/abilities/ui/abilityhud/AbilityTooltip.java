@@ -10,9 +10,6 @@ import java.io.Serializable;
 public class AbilityTooltip implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8419146815388425820L;
     private int x, y, width, height;
     public static final int BASE_HEIGHT = 128 + 4, BASE_WIDTH = 256 + 16;

@@ -19,7 +19,6 @@ public class WaveData {
     final int format;
     final int samplerate;
     private final int totalBytes;
-    private final int bytesPerFrame;
     final ByteBuffer data;
 
     private final AudioInputStream audioStream;
@@ -30,7 +29,7 @@ public class WaveData {
         AudioFormat audioFormat = stream.getFormat();
         format = getOpenAlFormat(audioFormat.getChannels(), audioFormat.getSampleSizeInBits());
         this.samplerate = (int) audioFormat.getSampleRate();
-        this.bytesPerFrame = audioFormat.getFrameSize();
+        int bytesPerFrame = audioFormat.getFrameSize();
         this.totalBytes = (int) (stream.getFrameLength() * bytesPerFrame);
         this.data = BufferUtils.createByteBuffer(totalBytes);
         this.dataArray = new byte[totalBytes];

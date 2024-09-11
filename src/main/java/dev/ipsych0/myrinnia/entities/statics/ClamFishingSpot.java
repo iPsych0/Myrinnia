@@ -16,9 +16,6 @@ import java.util.List;
 public class ClamFishingSpot extends StaticEntity {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4511991258183891329L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();

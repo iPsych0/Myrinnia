@@ -28,9 +28,6 @@ import java.util.Map;
 
 public class SkillsUI implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7078989753242847318L;
     private int x = 8;
     private int y = 180;

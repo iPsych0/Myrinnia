@@ -6,6 +6,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -15,12 +17,11 @@ import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
+@Getter
+@Setter
 public class AStarMap implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
@@ -300,46 +301,6 @@ public class AStarMap implements Serializable {
         } else {
             return null;
         }
-    }
-
-    public Rectangle getMapBounds() {
-        return mapBounds;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Node[][] getNodes() {
-        return nodes;
     }
 
 }

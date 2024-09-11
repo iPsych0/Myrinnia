@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -16,9 +17,6 @@ import java.util.List;
 
 public class EquipmentWindow implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7002329052826588263L;
     public static boolean isOpen = true;
     private int x, y;
@@ -28,10 +26,13 @@ public class EquipmentWindow implements Serializable {
     private int numCols = 3;
     private int numRows = 4;
 
+    @Getter
     private List<EquipmentSlot> equipmentSlots;
     private ItemStack currentSelectedSlot;
     public static boolean itemSelected;
+    @Getter
     private Rectangle windowBounds;
+    @Getter
     private ItemTooltip itemTooltip;
     private Player player;
 
@@ -79,10 +80,10 @@ public class EquipmentWindow implements Serializable {
 
                         // Stick the item to the mouse
                         if (currentSelectedSlot == null) {
-                            if (es.getEquipmentStack() != null) {
-                                currentSelectedSlot = es.getEquipmentStack();
+                            if (es.getItemStack() != null) {
+                                currentSelectedSlot = es.getItemStack();
                                 player.removeEquipmentStats(currentSelectedSlot.getItem().getEquipSlot());
-                                es.setItem(null);
+                                es.setItemStack(null);
                                 itemSelected = true;
                             } else {
                                 hasBeenPressed = false;
@@ -94,10 +95,10 @@ public class EquipmentWindow implements Serializable {
 
                 // If right-clicked on an item
                 if (temp2.contains(mouse) && Handler.get().getMouseManager().isRightPressed() && !hasBeenPressed) {
-                    if (es.getEquipmentStack() != null) {
+                    if (es.getItemStack() != null) {
                         hasBeenPressed = true;
                         // Unequip the item and remove the equipment stats
-                        if (Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem()) == -1) {
+                        if (Handler.get().getInventory().findFreeSlot(es.getItemStack().getItem()) == -1) {
                             hasBeenPressed = false;
                             return;
                         }
@@ -105,9 +106,9 @@ public class EquipmentWindow implements Serializable {
                         // Play the UI sound effect
                         Handler.get().playEffect("ui/unequip.ogg");
 
-                        player.removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
-                        Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(es.getEquipmentStack().getItem())).addItem(es.getEquipmentStack().getItem(), es.getEquipmentStack().getAmount());
-                        es.setItem(null);
+                        player.removeEquipmentStats(es.getItemStack().getItem().getEquipSlot());
+                        Handler.get().getInventory().getItemSlots().get(Handler.get().getInventory().findFreeSlot(es.getItemStack().getItem())).addItem(es.getItemStack().getItem(), es.getItemStack().getAmount());
+                        es.setItemStack(null);
                         BankUI.inventoryLoaded = false;
                         hasBeenPressed = false;
                     } else {
@@ -165,31 +166,31 @@ public class EquipmentWindow implements Serializable {
                 Rectangle slot = es.getBounds();
 
                 // If hovering over an item in the inventory, draw the tooltip
-                if (slot.contains(mouse) && es.getEquipmentStack() != null) {
+                if (slot.contains(mouse) && es.getItemStack() != null) {
                     g.drawImage(Assets.uiWindow, x - 160, y, 160, 154, null);
 
-                    Text.drawString(g, es.getEquipmentStack().getItem().getName(), x - 153, y + 16, false, Color.YELLOW, Assets.font14);
+                    Text.drawString(g, es.getItemStack().getItem().getName(), x - 153, y + 16, false, Color.YELLOW, Assets.font14);
 
                     /*
                      * Draw the colour of the item's rarity
                      */
-                    g.setColor(ItemRarity.getColor(es.getEquipmentStack().getItem()));
-                    Text.drawString(g, es.getEquipmentStack().getItem().getItemRarity().toString(), x - 153, y + 32, false, g.getColor(), Assets.font14);
+                    g.setColor(ItemRarity.getColor(es.getItemStack().getItem()));
+                    Text.drawString(g, es.getItemStack().getItem().getItemRarity().toString(), x - 153, y + 32, false, g.getColor(), Assets.font14);
 
-                    if (es.getEquipmentStack().getItem().getEquipSlot() != 12) {
+                    if (es.getItemStack().getItem().getEquipSlot() != 12) {
                         // Only compare stats if an item is actually equipped
-                        if (es.getEquipmentStack() != null) {
+                        if (es.getItemStack() != null) {
                             /*
                              * Draw item stats
                              */
                             g.setColor(Color.YELLOW);
-                            Text.drawString(g, "STR: " + es.getEquipmentStack().getItem().getStrength(), x - 153, y + 48, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "DEX: " + es.getEquipmentStack().getItem().getDexterity(), x - 153, y + 64, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "INT: " + es.getEquipmentStack().getItem().getIntelligence(), x - 153, y + 80, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "DEF: " + es.getEquipmentStack().getItem().getDefence(), x - 153, y + 96, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "VIT: " + es.getEquipmentStack().getItem().getVitality(), x - 153, y + 112, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "ATK Speed: " + Handler.get().roundOff(es.getEquipmentStack().getItem().getAttackSpeed()), x - 153, y + 128, false, g.getColor(), Assets.font14);
-                            Text.drawString(g, "MOV Speed: " + Handler.get().roundOff(es.getEquipmentStack().getItem().getMovementSpeed()), x - 153, y + 144, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "STR: " + es.getItemStack().getItem().getStrength(), x - 153, y + 48, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "DEX: " + es.getItemStack().getItem().getDexterity(), x - 153, y + 64, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "INT: " + es.getItemStack().getItem().getIntelligence(), x - 153, y + 80, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "DEF: " + es.getItemStack().getItem().getDefence(), x - 153, y + 96, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "VIT: " + es.getItemStack().getItem().getVitality(), x - 153, y + 112, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "ATK Speed: " + Handler.get().roundOff(es.getItemStack().getItem().getAttackSpeed()), x - 153, y + 128, false, g.getColor(), Assets.font14);
+                            Text.drawString(g, "MOV Speed: " + Handler.get().roundOff(es.getItemStack().getItem().getMovementSpeed()), x - 153, y + 144, false, g.getColor(), Assets.font14);
                         }
                     }
                 }
@@ -218,50 +219,11 @@ public class EquipmentWindow implements Serializable {
 
     public void empty() {
         for (EquipmentSlot es : equipmentSlots) {
-            if (es.getEquipmentStack() != null) {
-                player.removeEquipmentStats(es.getEquipmentStack().getItem().getEquipSlot());
-                es.setItem(null);
+            if (es.getItemStack() != null) {
+                player.removeEquipmentStats(es.getItemStack().getItem().getEquipSlot());
+                es.setItemStack(null);
             }
         }
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public List<EquipmentSlot> getEquipmentSlots() {
-        return equipmentSlots;
-    }
-
-    public void setEquipmentSlots(List<EquipmentSlot> equipmentSlots) {
-        this.equipmentSlots = equipmentSlots;
-    }
-
-    public Rectangle getWindowBounds() {
-        return windowBounds;
-    }
-
-    public void setWindowBounds(Rectangle windowBounds) {
-        this.windowBounds = windowBounds;
-    }
-
-    public ItemStack getCurrentSelectedSlot() {
-        return currentSelectedSlot;
-    }
-
-    public void setCurrentSelectedSlot(ItemStack currentSelectedSlot) {
-        this.currentSelectedSlot = currentSelectedSlot;
-    }
 }

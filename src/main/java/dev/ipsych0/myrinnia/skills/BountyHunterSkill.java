@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 
 public class BountyHunterSkill extends Skill {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5832865985482377808L;
 
     public BountyHunterSkill() {

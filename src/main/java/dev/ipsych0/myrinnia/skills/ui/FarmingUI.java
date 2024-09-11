@@ -72,11 +72,11 @@ public class FarmingUI implements Serializable {
 
         if (selectedButton != null && plantButton.contains(mouse) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
             hasBeenPressed = false;
-            if (!categoryItems.contains(selectedButton.getSeed().getItem().getId())) {
+            if (!categoryItems.contains(selectedButton.getSeeds().getItem().getId())) {
                 Handler.get().sendMsg("You can't plant that type of seed in a " + farmingPatch.getName() + ".");
                 return;
             }
-            farmingPatch.plant(selectedButton.getSeed());
+            farmingPatch.plant(selectedButton.getSeeds());
             close();
         }
     }
@@ -93,7 +93,7 @@ public class FarmingUI implements Serializable {
         uiManager.render(g);
 
         for (FarmingSlot fs : farmingSlots) {
-            if (!categoryItems.contains(fs.getSeed().getItem().getId()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeed().getItem())) {
+            if (!categoryItems.contains(fs.getSeeds().getItem().getId()) || !Handler.get().playerHasSkillLevel(SkillsList.FARMING, fs.getSeeds().getItem())) {
                 g.setColor(Colors.insufficientAmountColor);
                 g.fillRoundRect(fs.x, fs.y, fs.width, fs.height, 4, 4);
             }

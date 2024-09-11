@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class EffectManager {
 
-    private Set<EffectEvent> events;
+    private final Set<EffectEvent> events;
     private static EffectManager instance;
 
     private EffectManager() {

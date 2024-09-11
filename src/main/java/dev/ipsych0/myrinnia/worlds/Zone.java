@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.worlds;
 
+import lombok.Getter;
+
+@Getter
 public enum Zone {
 
     PortAzure("Port Azure", "port_azure.ogg", "/worlds/port_azure.tmx"),
@@ -61,9 +64,9 @@ public enum Zone {
     RedrockInside("Redrock Outpost", "malachite_hills.ogg", "/worlds/redrock_inside.tmx");
 
 
-    private String musicFile;
-    private String name;
-    private String path;
+    private final String musicFile;
+    private final String name;
+    private final String path;
 
     Zone(String name, String musicFile, String path) {
         this.name = name;
@@ -71,27 +74,4 @@ public enum Zone {
         this.path = path;
     }
 
-    public String getMusicFile() {
-        return musicFile;
-    }
-
-    public void setMusicFile(String musicFile) {
-        this.musicFile = musicFile;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

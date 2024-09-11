@@ -4,9 +4,6 @@ import java.awt.*;
 
 public abstract class AbstractTransitionState extends State {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8450007202214676369L;
     float alpha = 1.0f;
 

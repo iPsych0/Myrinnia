@@ -13,9 +13,6 @@ import java.util.List;
 @Getter
 public class UIManager implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2791935865770773924L;
     private List<UIObject> objects;
 

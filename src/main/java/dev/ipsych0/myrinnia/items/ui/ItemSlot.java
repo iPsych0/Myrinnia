@@ -4,15 +4,16 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class ItemSlot implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6580595372033787037L;
 
     public static final int SLOTSIZE = 32;
@@ -90,33 +91,5 @@ public class ItemSlot implements Serializable {
             this.itemStack = new ItemStack(item, amount);
             return true;
         }
-    }
-
-    public void setItemStack(ItemStack item) {
-        this.itemStack = item;
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
     }
 }

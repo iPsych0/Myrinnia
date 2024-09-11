@@ -27,10 +27,6 @@ import java.util.Map;
 
 public class Game implements Runnable, Serializable {
 
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 1320270378451615572L;
 
     public static final String CURRENT_VERSION = "v0.0.92";

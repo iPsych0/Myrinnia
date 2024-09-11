@@ -8,6 +8,9 @@ import dev.ipsych0.myrinnia.publishers.SkillPublisher;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.skills.ui.SkillResourceSlot;
 import dev.ipsych0.myrinnia.ui.Celebration;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -15,19 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public abstract class Skill implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2650558782741069411L;
     int experience;
     int level;
     int nextLevelXp = 100;
-    ArrayList<SkillResource> resources;
-    ArrayList<SkillCategory> categories;
+    List<SkillResource> resources;
+    List<SkillCategory> categories;
 
-    Skill() {
+    protected Skill() {
         resources = new ArrayList<>();
         categories = new ArrayList<>();
         experience = 0;
@@ -36,16 +38,6 @@ public abstract class Skill implements Serializable {
 
     // Abstract methods
     public abstract BufferedImage getImg();
-
-    // Getter + setter logic
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
 
     void addLevel() {
         this.level++;
@@ -65,15 +57,11 @@ public abstract class Skill implements Serializable {
             checkNextLevel();
         } else {
             if (Player.isLevelUp) {
-                Handler.get().getCelebrationUI().addEvent(new Celebration(this, toString() + " skill rose to level " + this.getLevel() + "!"));
-                Handler.get().sendMsg(toString() + " skill rose to level " + this.getLevel() + "!");
+                Handler.get().getCelebrationUI().addEvent(new Celebration(this, this + " skill rose to level " + level + "!"));
+                Handler.get().sendMsg(this + " skill rose to level " + level + "!");
                 Player.isLevelUp = false;
             }
         }
-    }
-
-    public int getExperience() {
-        return experience;
     }
 
     public void addExperience(int experience) {
@@ -83,26 +71,6 @@ public abstract class Skill implements Serializable {
         this.experience += experience;
         Player.leveledSkill = this;
         checkNextLevel();
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
-    public int getNextLevelXp() {
-        return nextLevelXp;
-    }
-
-    public void setNextLevelXp(int nextLevelXp) {
-        this.nextLevelXp = nextLevelXp;
-    }
-
-    public ArrayList<SkillResource> getResources() {
-        return resources;
-    }
-
-    public ArrayList<SkillCategory> getCategories() {
-        return categories;
     }
 
     public SkillResource getResourceByItem(Item item) {

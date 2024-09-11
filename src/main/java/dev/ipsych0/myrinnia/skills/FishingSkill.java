@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 
 public class FishingSkill extends Skill {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6524654729089699242L;
 
     public FishingSkill() {

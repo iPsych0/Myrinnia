@@ -6,9 +6,13 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemRarity;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
+@Getter
+@Setter
 public class PickupEntry {
 
     private Item item;
@@ -30,7 +34,7 @@ public class PickupEntry {
 
     public int getStrWidth(Graphics2D g){
         // Get string width
-        Rectangle strBounds = Text.getStringBounds(g, item.getCount() + "x " + item.getName(), Assets.font14);
+        Rectangle strBounds = Text.getStringBounds(g, item.getAmount() + "x " + item.getName(), Assets.font14);
         return strBounds.width;
     }
 
@@ -45,47 +49,11 @@ public class PickupEntry {
         }
 
 
-        Text.drawString(g, item.getCount() + "x " + item.getName(),
+        Text.drawString(g, item.getAmount() + "x " + item.getName(),
                 x + 2, y + 17, false,
                 ItemRarity.getColor(item), Assets.font14);
 
         bounds.setBounds(x, y, WIDTH, HEIGHT);
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    public int getHeight() {
-        return HEIGHT;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
     }
 
     public Rectangle getBounds(int xOffset, int yOffset) {

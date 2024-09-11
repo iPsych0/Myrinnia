@@ -122,16 +122,16 @@ public class CommandHandler implements Serializable {
                     if (commands.length == 4) {
                         Zone zone = Zone.valueOf(commands[1]);
                         if (Handler.get().getWorldHandler().getWorldsMap().containsKey(zone)) {
-                            Integer xPos = Integer.parseInt(commands[2]);
-                            Integer yPos = Integer.parseInt(commands[3]);
+                            int xPos = Integer.parseInt(commands[2]);
+                            int yPos = Integer.parseInt(commands[3]);
                             Handler.get().goToWorld(zone, xPos, yPos);
                         } else {
                             Handler.get().sendMsg("World '" + zone.toString() + "' exists, but is not actively managed by the WorldHandler right now.");
                         }
                         // Tele command within same Zone
                     } else if (commands.length == 3) {
-                        Integer xPos = Integer.parseInt(commands[1]);
-                        Integer yPos = Integer.parseInt(commands[2]);
+                        int xPos = Integer.parseInt(commands[1]);
+                        int yPos = Integer.parseInt(commands[2]);
                         Handler.get().getPlayer().setX(xPos * Tile.TILEWIDTH);
                         Handler.get().getPlayer().setY(yPos * Tile.TILEHEIGHT);
                     } else {

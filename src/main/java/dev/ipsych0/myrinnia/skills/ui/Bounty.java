@@ -6,10 +6,14 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.ui.Celebration;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Bounty extends UIImageButton implements Serializable {
 
     private static final long serialVersionUID = -1551440676077921331L;
@@ -48,50 +52,10 @@ public class Bounty extends UIImageButton implements Serializable {
         }
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
     public void setCompleted(boolean completed) {
         if (completed) {
             Handler.get().getCelebrationUI().addEvent(new Celebration(Handler.get().getSkill(SkillsList.BOUNTY_HUNTER), "You completed the '" + getTask() + "' bounty!"));
         }
         this.completed = completed;
-    }
-
-    public boolean isAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
-    }
-
-    public String getTask() {
-        return task;
-    }
-
-    public void setTask(String task) {
-        this.task = task;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public String getFullDescription() {
-        return fullDescription;
-    }
-
-    public void setFullDescription(String fullDescription) {
-        this.fullDescription = fullDescription;
-    }
-
-    public int getLevelRequirement() {
-        return levelRequirement;
     }
 }

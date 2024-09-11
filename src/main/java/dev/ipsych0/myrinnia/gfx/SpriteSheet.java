@@ -7,12 +7,16 @@ import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.MapLoader;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class SpriteSheet {
 
 
@@ -241,21 +245,5 @@ public class SpriteSheet {
      */
     public BufferedImage imageCrop(int x, int y) {
         return imageCrop(x, y, 32, 32, false);
-    }
-
-    public BufferedImage getSheet() {
-        return sheet;
-    }
-
-    public void setSheet(BufferedImage sheet) {
-        this.sheet = sheet;
-    }
-
-    public int getImageIndex() {
-        return imageIndex;
-    }
-
-    public String getPath() {
-        return path;
     }
 }

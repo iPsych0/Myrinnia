@@ -11,9 +11,6 @@ import java.io.ObjectInputStream;
 
 public class UIImageButton extends UIObject {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -1839735101824151769L;
     private transient BufferedImage[] images;
     private boolean hasHovered;

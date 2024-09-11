@@ -8,13 +8,13 @@ public class Timer implements Serializable {
     private static final long serialVersionUID = -746649186843836217L;
     private long startTime, duration;
     private TimeUnit timeUnit;
-    private OnTaskCompleted onTaskCompleted;
+    private Action action;
     private boolean finished;
 
-    public Timer(long duration, TimeUnit timeUnit, OnTaskCompleted onTaskCompleted) {
+    public Timer(long duration, TimeUnit timeUnit, Action action) {
         this.startTime = System.currentTimeMillis();
         this.timeUnit = timeUnit;
-        this.onTaskCompleted = onTaskCompleted;
+        this.action = action;
         setTimeConversion(duration);
     }
 
@@ -22,7 +22,7 @@ public class Timer implements Serializable {
         if (!finished) {
             long currentTime = System.currentTimeMillis();
             if (((currentTime - startTime)) >= duration) {
-                onTaskCompleted.onComplete();
+                action.onComplete();
                 finished = true;
             }
         }

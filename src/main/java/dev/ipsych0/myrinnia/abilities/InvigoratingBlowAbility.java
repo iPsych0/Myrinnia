@@ -62,9 +62,9 @@ public class InvigoratingBlowAbility extends Ability implements Serializable {
             Handler.get().playEffect("abilities/invigorating_blow.ogg", 0.1f);
 
             MeleeDirection meleeDirection = getMeleeSwing(direction);
-            this.rotation = meleeDirection.getRotation();
-            this.xPos = meleeDirection.getxPos();
-            this.yPos = meleeDirection.getyPos();
+            this.rotation = meleeDirection.rotation();
+            this.xPos = meleeDirection.xPos();
+            this.yPos = meleeDirection.yPos();
 
             meleeAnimation = new Animation(48, Assets.regularMelee, true, false);
 

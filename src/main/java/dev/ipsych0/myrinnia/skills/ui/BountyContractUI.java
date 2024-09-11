@@ -6,6 +6,8 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -18,6 +20,8 @@ public class BountyContractUI implements Serializable {
     public static boolean isOpen;
     private UIManager uiManager;
     private UIImageButton exitButton;
+    @Setter
+    @Getter
     private Rectangle bounds;
 
     public BountyContractUI() {
@@ -66,13 +70,5 @@ public class BountyContractUI implements Serializable {
         if (Handler.get().getMouseManager().isLeftPressed()) {
             MouseManager.justClosedUI = true;
         }
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 }

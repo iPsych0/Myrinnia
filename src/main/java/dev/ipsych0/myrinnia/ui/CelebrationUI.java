@@ -7,11 +7,15 @@ import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+@Getter
+@Setter
 public class CelebrationUI implements Serializable {
 
     private static final long serialVersionUID = -8053693452272349138L;
@@ -58,13 +62,13 @@ public class CelebrationUI implements Serializable {
 
             // Press next/close
             if (nextButton.contains(Handler.get().getMouse()) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                currentEvent.setPressedNext(true);
+                currentEvent.setNextPressed(true);
                 hasBeenPressed = false;
                 MouseManager.justClosedUI = true;
             }
 
             // Remove first element in the queue of events
-            if (currentEvent.hasPressedNext()) {
+            if (currentEvent.isNextPressed()) {
                 events.removeFirst();
                 hasBeenPressed = false;
             }
@@ -123,21 +127,5 @@ public class CelebrationUI implements Serializable {
             }
 
         }
-    }
-
-    public LinkedList<Celebration> getEvents() {
-        return events;
-    }
-
-    public void setEvents(LinkedList<Celebration> events) {
-        this.events = events;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 }

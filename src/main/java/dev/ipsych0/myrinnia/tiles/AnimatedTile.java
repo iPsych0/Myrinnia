@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class AnimatedTile extends Tile {
 
-    private Map<Integer, Integer> animationTiles;
+    private final Map<Integer, Integer> animationTiles;
     private Animation animation;
     private boolean initialized;
     private static final int DEFAULT_ANIMATION_SPEED = 500;

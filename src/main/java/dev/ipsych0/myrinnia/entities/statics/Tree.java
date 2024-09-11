@@ -21,9 +21,6 @@ import static java.util.Map.entry;
 public class Tree extends StaticEntity {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -524381157898161854L;
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
@@ -256,9 +253,9 @@ public class Tree extends StaticEntity {
                     }
 
                     for (EquipmentSlot is : Handler.get().getEquipment().getEquipmentSlots()) {
-                        if (is.getEquipmentStack() != null) {
-                            if (is.getEquipmentStack().getItem().isType(ItemType.PICKAXE)) {
-                                axes.add(is.getEquipmentStack().getItem());
+                        if (is.getItemStack() != null) {
+                            if (is.getItemStack().getItem().isType(ItemType.PICKAXE)) {
+                                axes.add(is.getItemStack().getItem());
                             }
                         }
                     }

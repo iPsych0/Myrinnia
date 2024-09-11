@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -26,9 +27,12 @@ import java.util.List;
 public class BountyBoardUI implements Serializable {
 
     private static final long serialVersionUID = 7164283265721220038L;
+    @Getter
     private Zone zone;
     private int x, y, width, height;
+    @Getter
     private Rectangle bounds;
+    @Getter
     private List<Bounty> panels;
     private UIManager uiManager;
     private int currentYPanel = 0;
@@ -193,15 +197,4 @@ public class BountyBoardUI implements Serializable {
         uiManager.addObject(panel);
     }
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public Zone getZone() {
-        return zone;
-    }
-
-    public List<Bounty> getPanels() {
-        return panels;
-    }
 }

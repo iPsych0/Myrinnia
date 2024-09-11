@@ -14,9 +14,6 @@ import java.util.Random;
 @Slf4j
 public class SliderPuzzle extends Puzzle {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7593139421617220554L;
     private int x, y, width, height;
     private int maxSize;
@@ -57,11 +54,9 @@ public class SliderPuzzle extends Puzzle {
             }
         }
 
-        shuffle(sliderPieces, maxSize, new Random());
-
-        while (!isSolvable(getPuzzleIds())) {
+        do {
             shuffle(sliderPieces, maxSize, new Random());
-        }
+        } while (!isSolvable(getPuzzleIds()));
     }
 
     private int[] getPuzzleIds() {

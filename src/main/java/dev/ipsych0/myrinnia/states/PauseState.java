@@ -14,9 +14,6 @@ import java.awt.*;
 
 public class PauseState extends State {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4884725655029471387L;
     private UIManager uiManager;
     private Rectangle resumeButton, settingsButton, saveButton, quitButton;

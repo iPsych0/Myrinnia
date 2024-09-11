@@ -4,24 +4,25 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class DialogueBox implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5830274597655100531L;
     private int x, y, width, height;
     private ArrayList<DialogueButton> buttons;
-    private boolean isOpen = false;
+    private boolean open = false;
     private String[] answers;
     private String param = "";
     private DialogueButton pressedButton = null;
-    private TextBox tb;
+    private TextBox textBox;
     private String message;
     private UIManager uiManager;
     public static boolean hasBeenPressed;
@@ -45,9 +46,9 @@ public class DialogueBox implements Serializable {
 
         if (numbersOnly) {
             // Limit the number to 6 digits (999,999 max) to prevent users from entering digits above Integer.MAX_VALUE
-            tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, true, 6);
+            textBox = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, true, 6);
         } else {
-            tb = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, false);
+            textBox = new TextBox(x + (width / 2) - (width / 2) + 17, y + height - 96, width - 40, 32, false);
         }
     }
 
@@ -67,16 +68,16 @@ public class DialogueBox implements Serializable {
             uiManager.addObject(buttons.get(i));
         }
 
-        this.tb = textBox;
+        this.textBox = textBox;
     }
 
     public void tick() {
 
-        if (isOpen) {
+        if (open) {
 
             Rectangle mouse = Handler.get().getMouse();
-            if (tb != null) {
-                tb.tick();
+            if (textBox != null) {
+                textBox.tick();
             }
 
             uiManager.tick();
@@ -88,7 +89,7 @@ public class DialogueBox implements Serializable {
                         if (db.getText().equals(answers[i]) && pressedButton == null) {
                             pressedButton = db;
                             pressedButton.pressedButton(answers[i], param);
-                            isOpen = false;
+                            open = false;
                             hasBeenPressed = false;
                         }
                     }
@@ -99,13 +100,13 @@ public class DialogueBox implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (isOpen) {
+        if (open) {
             render(g, Color.YELLOW);
         }
     }
 
     public void render(Graphics2D g, Color color) {
-        if (isOpen) {
+        if (open) {
 
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
 
@@ -119,96 +120,36 @@ public class DialogueBox implements Serializable {
             Rectangle mouse = Handler.get().getMouse();
 
             for (DialogueButton db : buttons) {
-                if (db.getButtonBounds().contains(mouse)) {
-                    db.setHovering(true);
-                } else {
-                    db.setHovering(false);
-                }
+                db.setHovering(db.getButtonBounds().contains(mouse));
             }
 
-            if (tb != null) {
-                tb.render(g);
+            if (textBox != null) {
+                textBox.render(g);
             }
         }
     }
 
     public void open() {
         makingChoice = true;
-        isOpen = true;
+        open = true;
         hasBeenPressed = false;
-        if (tb != null) {
-            tb.open();
+        if (textBox != null) {
+            textBox.open();
         }
     }
 
     public void close() {
-        isOpen = false;
+        open = false;
         hasBeenPressed = false;
         setPressedButton(null);
         makingChoice = false;
-        if (tb != null) {
-            tb.setOpen(false);
+        if (textBox != null) {
+            textBox.setOpen(false);
             TextBox.enterPressed = false;
             KeyManager.typingFocus = false;
-            tb.getSb().setLength(0);
-            tb.setIndex(0);
-            tb.setCharactersTyped(tb.getSb().toString());
+            textBox.getSb().setLength(0);
+            textBox.setIndex(0);
+            textBox.setCharactersTyped(textBox.getSb().toString());
         }
-    }
-
-    public ArrayList<DialogueButton> getButtons() {
-        return buttons;
-    }
-
-    public void setButtons(ArrayList<DialogueButton> buttons) {
-        this.buttons = buttons;
-    }
-
-    public String getParam() {
-        return param;
-    }
-
-    public void setParam(String param) {
-        this.param = param;
-    }
-
-    public DialogueButton getPressedButton() {
-        return pressedButton;
-    }
-
-    public void setPressedButton(DialogueButton pressedButton) {
-        this.pressedButton = pressedButton;
-    }
-
-    public TextBox getTextBox() {
-        return tb;
-    }
-
-    public void setTextBox(TextBox tb) {
-        this.tb = tb;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
-    public boolean isMakingChoice() {
-        return makingChoice;
-    }
-
-    public void setMakingChoice(boolean makingChoice) {
-        this.makingChoice = makingChoice;
     }
 }

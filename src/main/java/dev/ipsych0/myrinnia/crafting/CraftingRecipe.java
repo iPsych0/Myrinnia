@@ -4,19 +4,19 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.skills.ui.SkillCategory;
 import dev.ipsych0.myrinnia.ui.Celebration;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@Getter
+@Setter
 public class CraftingRecipe implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3659085845474939235L;
-    private ItemStack item1, item2, item3, item4;
     private ItemStack result;
     private ArrayList<ItemStack> components;
     private int craftingXP;
@@ -40,48 +40,12 @@ public class CraftingRecipe implements Serializable {
         components.addAll(Arrays.asList(items));
     }
 
-    public ArrayList<ItemStack> getComponents() {
-        return components;
-    }
-
-    public void setComponents(ArrayList<ItemStack> components) {
-        this.components = components;
-    }
-
-    public int getCraftingXP() {
-        return craftingXP;
-    }
-
-    public void setCraftingXP(int craftingXP) {
-        this.craftingXP = craftingXP;
-    }
-
-    public boolean isDiscovered() {
-        return discovered;
-    }
-
     public void setDiscovered(boolean discovered) {
         if (!this.discovered && discovered) {
-            Handler.get().sendMsg("Discovered recipe for: " + this.getResult().getItem().getName() + ".");
-            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "Discovered recipe:\n" + this.getResult().getItem().getName()));
+            Handler.get().sendMsg("Discovered recipe for: " + result.getItem().getName() + ".");
+            Handler.get().getCelebrationUI().addEvent(new Celebration(this, "Discovered recipe:\n" + result.getItem().getName()));
         }
         this.discovered = discovered;
-    }
-
-    public ItemStack getResult() {
-        return result;
-    }
-
-    public void setResult(ItemStack result) {
-        this.result = result;
-    }
-
-    public int getRequiredLevel() {
-        return requiredLevel;
-    }
-
-    public void setRequiredLevel(int requiredLevel) {
-        this.requiredLevel = requiredLevel;
     }
 
     @Override
@@ -96,21 +60,5 @@ public class CraftingRecipe implements Serializable {
             }
         }
         return s.toString();
-    }
-
-    public SkillCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(SkillCategory category) {
-        this.category = category;
-    }
-
-    public int getTimeToCraft() {
-        return timeToCraft;
-    }
-
-    public void setTimeToCraft(int timeToCraft) {
-        this.timeToCraft = timeToCraft;
     }
 }

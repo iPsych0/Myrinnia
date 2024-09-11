@@ -15,13 +15,10 @@ import java.util.List;
 
 public class ItemManager implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1092891818645452920L;
     private List<Item> items;
-    private Collection<Item> deleted;
-    private Collection<Item> added;
+    private final Collection<Item> deleted;
+    private final Collection<Item> added;
     public static boolean soundPlayed = false;
     private static int lastPlayed = 0;
     private transient Item lastHovered;
@@ -106,7 +103,7 @@ public class ItemManager implements Serializable {
 
             // If item is picked up, reset the timer
             if (i.isPickedUp()) {
-                i.setRespawnTimer(i.getRespawnTime());
+                i.setRespawnTime(i.getRespawnTime());
                 deleted.add(i);
                 addedIt.remove();
             }
@@ -120,7 +117,7 @@ public class ItemManager implements Serializable {
 
 
         // If Item's timer is 0, remove the items from the world.
-        if (deleted.size() > 0) {
+        if (!deleted.isEmpty()) {
             items.removeAll(deleted);
             deleted.clear();
         }

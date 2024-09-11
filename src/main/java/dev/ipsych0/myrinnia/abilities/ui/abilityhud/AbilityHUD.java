@@ -10,6 +10,8 @@ import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Colors;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -18,12 +20,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
+@Setter
 public class AbilityHUD implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2357471540127327333L;
     private static final int MAX_SLOTS = 10;
     private static final int SLOT_PADDING = 8;
@@ -314,29 +315,5 @@ public class AbilityHUD implements Serializable {
         g.setColor(Color.BLACK);
         g.drawRect(unlockButton.x, unlockButton.y, unlockButton.width, unlockButton.height);
 
-    }
-
-    public List<AbilitySlot> getSlottedAbilities() {
-        return slottedAbilities;
-    }
-
-    public void setSlottedAbilities(List<AbilitySlot> slottedAbilities) {
-        this.slottedAbilities = slottedAbilities;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public StatusTooltip getStatusTooltip() {
-        return statusTooltip;
-    }
-
-    public Map<Character, Integer> getKeyBindMap() {
-        return keyBindMap;
-    }
-
-    public void setKeyBindMap(Map<Character, Integer> keyBindMap) {
-        this.keyBindMap = keyBindMap;
     }
 }

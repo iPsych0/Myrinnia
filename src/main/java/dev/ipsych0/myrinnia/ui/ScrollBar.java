@@ -10,9 +10,6 @@ import java.util.List;
 
 public class ScrollBar<T extends UIObject> implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 8698572954217286128L;
     private int x;
     private int y;

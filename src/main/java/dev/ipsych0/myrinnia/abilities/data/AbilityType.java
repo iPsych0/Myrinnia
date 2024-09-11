@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.abilities.data;
 
+import lombok.Getter;
+
+@Getter
 public enum AbilityType {
 
     StandardAbility("Ability"), HealingAbility("Healing"), EliteAbility("Elite");
@@ -8,10 +11,6 @@ public enum AbilityType {
 
     AbilityType(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {

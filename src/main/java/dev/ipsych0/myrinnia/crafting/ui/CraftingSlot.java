@@ -5,18 +5,19 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 
 import static dev.ipsych0.myrinnia.items.ui.ItemSlot.SLOTSIZE;
 
+@Setter
+@Getter
 public class CraftingSlot extends UIImageButton implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4758228481988705528L;
     private ItemStack itemStack;
     public static boolean stackable = true;
@@ -64,14 +65,6 @@ public class CraftingSlot extends UIImageButton implements Serializable {
             this.itemStack = new ItemStack(item, amount);
             return true;
         }
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
     }
 
 }

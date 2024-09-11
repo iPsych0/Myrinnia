@@ -13,9 +13,6 @@ import java.awt.*;
 public class Venovine extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer

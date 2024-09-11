@@ -5,26 +5,26 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Getter
+@Setter
 public class BankTab implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3186907209395979291L;
     public int x, y, width, height;
     private Rectangle bounds;
     private int tabNumber;
     public static final int ROWS = 6, COLS = 5;
     private List<ItemSlot> bankSlots;
-    private boolean isOpen = false;
+    private boolean open = false;
     private boolean hovering;
 
     public BankTab(int x, int y, int tabNumber) {
@@ -37,7 +37,7 @@ public class BankTab implements Serializable {
         bankSlots = new ArrayList<>();
 
         if (tabNumber == 0) {
-            isOpen = true;
+            open = true;
         }
 
         // Add the bank slots
@@ -55,14 +55,14 @@ public class BankTab implements Serializable {
     }
 
     public void render(Graphics2D g) {
-        if (isOpen) {
+        if (open) {
             for (ItemSlot is : bankSlots) {
                 is.render(g);
             }
         }
 
-        if (bankSlots.get(0).getItemStack() != null) {
-            g.drawImage(bankSlots.get(0).getItemStack().getItem().getTexture(), x, y, width, height, null);
+        if (bankSlots.getFirst().getItemStack() != null) {
+            g.drawImage(bankSlots.getFirst().getItemStack().getItem().getTexture(), x, y, width, height, null);
         } else {
             Text.drawString(g, "" + (tabNumber + 1), x + width / 2, y + height / 2, true, Color.YELLOW, Assets.font14);
         }
@@ -83,6 +83,7 @@ public class BankTab implements Serializable {
                     index = i;
                 }
             } else if (bankSlots.get(i).getItemStack() != null && !item.isStackable()) {
+
             } else if (bankSlots.get(i).getItemStack() != null && item.isStackable()) {
                 if (bankSlots.get(i).getItemStack().getItem().getId() == item.getId()) {
                     return i;
@@ -94,46 +95,6 @@ public class BankTab implements Serializable {
 
         Handler.get().sendMsg("This bank tab is full.");
         return -1;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
-    }
-
-    public int getTabNumber() {
-        return tabNumber;
-    }
-
-    public void setTabNumber(int tabNumber) {
-        this.tabNumber = tabNumber;
-    }
-
-    public List<ItemSlot> getBankSlots() {
-        return bankSlots;
-    }
-
-    public void setBankSlots(List<ItemSlot> bankSlots) {
-        this.bankSlots = bankSlots;
-    }
-
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    public void setHovering(boolean hovering) {
-        this.hovering = hovering;
     }
 
 }

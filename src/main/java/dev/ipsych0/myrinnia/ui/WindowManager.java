@@ -1,9 +1,10 @@
 package dev.ipsych0.myrinnia.ui;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Stack;
 
-public class WindowManager {
+public class WindowManager implements Serializable {
     private final Stack<Window> windows = new Stack<>();
 
     public void tick() {
@@ -37,10 +38,4 @@ public class WindowManager {
             }
         }
     }
-
-    public int size() {
-        return windows.size();
-    }
-
-
 }

@@ -22,7 +22,7 @@ public class MonologueState extends AbstractTransitionState {
 
     public MonologueState(State newState, Monologue monologue) {
         this.newState = newState;
-        this.monologues = monologue.getMonologues();
+        this.monologues = monologue.monologues();
         this.textWriter = new TextWriter(monologues);
 
         continueButton = new UIImageButton(Handler.get().getWidth() / 2 - 160, Handler.get().getHeight() - 128, 320, 96, Assets.genericButton);

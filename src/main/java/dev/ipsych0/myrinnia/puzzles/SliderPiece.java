@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 class SliderPiece implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2140201307399035730L;
     private int xPos, yPos;
     private int id;

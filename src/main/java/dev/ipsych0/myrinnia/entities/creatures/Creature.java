@@ -37,9 +37,6 @@ import java.util.Map;
 @Slf4j
 public abstract class Creature extends Entity {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2545797921368819194L;
 
     /*

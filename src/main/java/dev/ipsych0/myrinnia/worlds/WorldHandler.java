@@ -2,6 +2,7 @@ package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.climates.TemperateClimate;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -11,11 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 public class WorldHandler implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4805050782549865233L;
     private List<World> worlds;
     private Map<Zone, World> worldsMap;
@@ -109,19 +108,7 @@ public class WorldHandler implements Serializable {
         worldsMap.put(w.getZone(), w);
     }
 
-    public List<World> getWorlds() {
-        return worlds;
-    }
-
     public void setWorlds(ArrayList<World> worlds) {
         this.worlds = worlds;
-    }
-
-    public Map<Zone, World> getWorldsMap() {
-        return worldsMap;
-    }
-
-    public void setWorldsMap(Map<Zone, World> worldsMap) {
-        this.worldsMap = worldsMap;
     }
 }

@@ -12,9 +12,6 @@ import java.awt.geom.AffineTransform;
 public class WhiteWolf extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer

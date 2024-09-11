@@ -27,8 +27,7 @@ public class ImageLoader {
             input.close();
             return img;
         } catch (IOException e) {
-            log.error("Exception", e);
-            log.error("Could not load: {}", path);
+            log.error("Could not load: %s".formatted(path), e);
             System.exit(1);
         }
         return null;

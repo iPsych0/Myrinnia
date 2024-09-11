@@ -24,9 +24,6 @@ import java.io.Serializable;
 public class HPOverlay implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4442630766249828531L;
     private Rectangle bounds;
     private Rectangle combatBar, hpBar, xpBar;

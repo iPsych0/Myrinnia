@@ -6,17 +6,18 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIManager;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class ChatDialogue implements Serializable {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8130149340424276218L;
     private int x, y, width, height;
     private ArrayList<ChatOption> chatOptions;
@@ -88,38 +89,6 @@ public class ChatDialogue implements Serializable {
         }
 
         Text.drawString(g, Handler.get().getPlayer().getClosestEntity().getName(), x + (width / 2), y - 9, true, Color.YELLOW, Assets.font14);
-    }
-
-    public ArrayList<ChatOption> getChatOptions() {
-        return chatOptions;
-    }
-
-    public void setChatOptions(ArrayList<ChatOption> chatOptions) {
-        this.chatOptions = chatOptions;
-    }
-
-    public ChatOption getChosenOption() {
-        return chosenOption;
-    }
-
-    public void setChosenOption(ChatOption chosenOption) {
-        this.chosenOption = chosenOption;
-    }
-
-    public String[] getMenuOptions() {
-        return menuOptions;
-    }
-
-    public void setMenuOptions(String[] menuOptions) {
-        this.menuOptions = menuOptions;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
     }
 
 }

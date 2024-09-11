@@ -12,9 +12,6 @@ import java.awt.*;
 public class AngryFlower extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 917078714756242679L;
 
     //Attack timer

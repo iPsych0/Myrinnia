@@ -1,5 +1,8 @@
 package dev.ipsych0.myrinnia.skills.ui;
 
+import lombok.Getter;
+
+@Getter
 public enum SkillCategory {
 
     // Bounty hunter
@@ -30,19 +33,10 @@ public enum SkillCategory {
     BushPlants("Bush/Plants"),
     FarmingTrees("Fruit Trees");
 
-    private String name;
+    private final String name;
 
     SkillCategory(String name) {
         this.name = name;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
 }

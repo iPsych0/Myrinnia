@@ -63,9 +63,6 @@ import java.util.Iterator;
 public class Player extends Creature {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7176335479649325606L;
 
     public static boolean hasInteracted = false;
@@ -344,7 +341,7 @@ public class Player extends Creature {
         // If the player is pressing the attack button
         if (Handler.get().getMouseManager().isLeftPressed() || Handler.get().getMouseManager().isLeftPressed() && Handler.get().getMouseManager().isDragged()) {
             if (movementAllowed) {
-                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack() != null) {
+                if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack() != null) {
                     if (MouseManager.justClosedUI) {
                         return;
                     }
@@ -355,15 +352,15 @@ public class Player extends Creature {
                         }
                     }
                     //Check melee auto attack
-                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MELEE_WEAPON))
+                    if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack().getItem().isType(ItemType.MELEE_WEAPON))
                         checkMelee(mouse);
                         // Check magic auto attack
-                    else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
+                    else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack().getItem().isType(ItemType.MAGIC_WEAPON)) {
                         checkMagic(mouse);
-                    } else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().isType(ItemType.RANGED_WEAPON)) {
+                    } else if (Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack().getItem().isType(ItemType.RANGED_WEAPON)) {
                         checkRanged(mouse);
                     } else {
-                        log.error("Item: '{}' does not have a melee/magic/ranged weapon type assigned to it.", Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack().getItem().getName());
+                        log.error("Item: '{}' does not have a melee/magic/ranged weapon type assigned to it.", Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack().getItem().getName());
                     }
                 }
             }
@@ -572,16 +569,16 @@ public class Player extends Creature {
             return;
         }
 
-        if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
+        if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack() != null) {
 
             // Sets the new stats
-            attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
-            vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
-            strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
-            dexterity += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
-            intelligence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
-            defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
-            speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+            attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed();
+            vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality();
+            strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength();
+            dexterity += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity();
+            intelligence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence();
+            defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence();
+            speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed();
             attackCooldown = (long) (600 / attackSpeed);
             magicCooldown = (long) (600 / attackSpeed);
             int previousMaxHP = maxHealth;
@@ -593,13 +590,13 @@ public class Player extends Creature {
     }
 
     public Item getMainHandWeapon() {
-        ItemStack is = Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getEquipmentStack();
+        ItemStack is = Handler.get().getEquipment().getEquipmentSlots().get(EquipSlot.Mainhand.getSlotId()).getItemStack();
         return is == null ? null : is.getItem();
     }
 
     public void setWeaponAnimations(int equipSlot) {
         // Change weapon animations based on equipped weapon
-        Item equipped = Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem();
+        Item equipped = Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem();
         if (equipped.isType(ItemType.MELEE_WEAPON)) {
             attDown.setFrames(Assets.player_melee_down);
             attUp.setFrames(Assets.player_melee_up);
@@ -625,48 +622,48 @@ public class Player extends Creature {
         if (equipSlot == EquipSlot.None.getSlotId()) {
             return;
         }
-        if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack() != null) {
+        if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack() != null) {
 
-            if (getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed() < 0) {
+            if (getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed() < 0) {
                 setAttackSpeed(0);
             } else {
-                attackSpeed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getAttackSpeed();
+                attackSpeed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed();
             }
 
-            if (getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality() < 0) {
+            if (getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality() < 0) {
                 setVitality(0);
             } else {
-                vitality -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getVitality();
+                vitality -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality();
             }
 
-            if (getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength() < 0) {
+            if (getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength() < 0) {
                 setStrength(0);
             } else {
-                strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getStrength();
+                strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength();
             }
 
-            if (getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity() < 0) {
+            if (getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity() < 0) {
                 setDexterity(0);
             } else {
-                dexterity -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDexterity();
+                dexterity -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity();
             }
 
-            if (getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence() < 0) {
+            if (getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence() < 0) {
                 setIntelligence(0);
             } else {
-                intelligence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getIntelligence();
+                intelligence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence();
             }
 
-            if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence() < 0) {
+            if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence() < 0) {
                 setDefence(0);
             } else {
-                defence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getDefence();
+                defence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence();
             }
 
-            if (speed - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed() < 1.0f) {
+            if (speed - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed() < 1.0f) {
                 speed = 1.0f;
             } else {
-                speed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getEquipmentStack().getItem().getMovementSpeed();
+                speed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed();
             }
 
             attackCooldown = (long) (600 / attackSpeed);
@@ -1078,7 +1075,7 @@ public class Player extends Creature {
         if (xMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
                 return getAnimationByLastFaced();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null)
                 return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
@@ -1091,7 +1088,7 @@ public class Player extends Creature {
         } else if (xMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
                 return getAnimationByLastFaced();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null)
                 return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
@@ -1104,7 +1101,7 @@ public class Player extends Creature {
         } else if (yMove < 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
                 return getAnimationByLastFaced();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null)
                 return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
@@ -1117,7 +1114,7 @@ public class Player extends Creature {
         } else if (yMove > 0 && Handler.get().getMouseManager().isLeftPressed()) {
             if (hasLeftClickedUI(mouse))
                 return getAnimationByLastFaced();
-            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null)
+            if (Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null)
                 return getAnimationByLastFaced();
             else if (lastFaced == Direction.UP)
                 return attUp.getCurrentFrame();
@@ -1176,22 +1173,22 @@ public class Player extends Creature {
          */
 
         if (lastFaced == Direction.LEFT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null) {
                 return aLeft.getDefaultFrame();
             }
             return attLeft.getCurrentFrame();
         } else if (lastFaced == Direction.RIGHT && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null) {
                 return aRight.getDefaultFrame();
             }
             return attRight.getCurrentFrame();
         } else if (lastFaced == Direction.UP && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null) {
                 return aUp.getDefaultFrame();
             }
             return attUp.getCurrentFrame();
         } else if (lastFaced == Direction.DOWN && Handler.get().getMouseManager().isLeftPressed()) {
-            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getEquipmentStack() == null) {
+            if (hasLeftClickedUI(mouse) || Handler.get().getEquipment().getEquipmentSlots().get(1).getItemStack() == null) {
                 return aDown.getDefaultFrame();
             }
             return attDown.getCurrentFrame();

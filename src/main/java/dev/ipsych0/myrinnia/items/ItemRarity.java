@@ -6,7 +6,7 @@ import java.io.Serializable;
 public enum ItemRarity implements Serializable {
     Common, Uncommon, Rare, Exquisite, Unique;
 
-    private static Color exquisite = new Color(27, 171, 12);
+    private static final Color exquisite = new Color(27, 171, 12);
 
     public static Color getColor(Item item) {
         if (item.getItemRarity() == Common) {
