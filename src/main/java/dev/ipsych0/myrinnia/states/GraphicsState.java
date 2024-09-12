@@ -21,14 +21,24 @@ public class GraphicsState extends State {
             renderQualityDropDown,
             textQualityDropDown;
     private static final String[] displayOptions = {"Fullscreen", "Windowed"},
-            resolutionOptions = {"1920x1080", "1600x900", "1366x768", "1280x720"},
             antiAliasingOptions = {"Quality", "None", "Default"},
             renderQualityOptions = {"Quality", "Speed", "Default"},
             textQualityOptions = {"Quality", "Speed", "Default"};
     public static boolean hasBeenPressed;
 
+    private final DisplayMode[] resolutionOptions;
+
     public GraphicsState() {
         this.uiManager = new UIManager();
+
+        // Request the best 4 resolutions & refresh rates
+        resolutionOptions = Handler.get().getGame().getDisplay().getAvailableResolutions();
+        String[] resolutions = new String[resolutionOptions.length];
+        for (int i = 0; i < resolutionOptions.length; i++) {
+            resolutions[i] = resolutionOptions[i].getWidth() + "x" +
+                    resolutionOptions[i].getHeight() + "@" +
+                    resolutionOptions[i].getRefreshRate();
+        }
 
         overlay = new Rectangle(Handler.get().getWidth() / 2 - 320, 160, 640, 417);
 
@@ -41,7 +51,7 @@ public class GraphicsState extends State {
         }
 
         resolutionDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 96,
-                128, 20, Arrays.asList(resolutionOptions), 2);
+                128, 20, Arrays.asList(resolutions), 0);
         antiAliasingDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 224,
                 128, 20, Arrays.asList(antiAliasingOptions), 0);
         renderQualityDropDown = new DropDownBox(overlay.x + overlay.width / 4 + 16, overlay.y + 256,
@@ -62,10 +72,9 @@ public class GraphicsState extends State {
 
         for (UIObject o : uiManager.getObjects()) {
             if (o instanceof DropDownBox box) {
-                DropDownBox ddb =box;
-                if (ddb.isItemChanged()) {
-                    changeGraphics(ddb);
-                    ddb.setItemChanged(false);
+                if (box.isItemChanged()) {
+                    changeGraphics(box);
+                    box.setItemChanged(false);
                 }
             }
         }
@@ -100,9 +109,9 @@ public class GraphicsState extends State {
             }
             Handler.get().getMouseManager().setLeftPressed(false);
         } else if (ddb.equals(resolutionDropDown)) {
-            if (index == 0) {
-                // TODO: CHANGE SCREEN RESOLUTION
-            }
+            DisplayMode newMode = resolutionOptions[index];
+            // Call the method to change the screen resolution
+            Handler.get().getGame().getDisplay().changeResolution(newMode);
         } else if (ddb.equals(antiAliasingDropDown)) {
             if (index == 0) {
                 Handler.get().getGame().setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

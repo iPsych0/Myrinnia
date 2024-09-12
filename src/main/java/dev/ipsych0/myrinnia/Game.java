@@ -22,6 +22,8 @@ import dev.ipsych0.myrinnia.utils.TimerHandler;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,15 +75,20 @@ public class Game implements Runnable, Serializable {
 
     public static Game get() {
         if (game == null) {
-            game = new Game(TITLE_BAR, MIN_RES_WIDTH, MIN_RES_HEIGHT);
+            game = new Game();
         }
         return game;
     }
 
-    private Game(String title, int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.title = title;
+    private Game() {
+        DisplayMode[] resolutions = fetchBestAvailableResolutions();
+        if (resolutions.length > 0) {
+            this.width = resolutions[0].getWidth();
+            this.height = resolutions[0].getHeight();
+        } else {
+            this.width = MIN_RES_WIDTH;
+            this.height = MIN_RES_HEIGHT;
+        }
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
         renderHintMap = new HashMap<>();
@@ -96,11 +103,48 @@ public class Game implements Runnable, Serializable {
 //                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
     }
 
+    private DisplayMode[] fetchBestAvailableResolutions() {
+        // Target resolutions (width x height) for the desired aspect ratios (16:9)
+        int[][] targetResolutions = {
+//                {3840, 2160}, // 4K
+//                {2560, 1440}, // 2K (1440p)d
+//                {1920, 1080}, // 1080p
+                {1366, 768}   // 768p
+        };
+
+        // Map to store the best (highest refresh rate) display mode for each resolution
+        Map<String, DisplayMode> bestModes = new HashMap<>();
+        DisplayMode[] available = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .getDisplayModes();
+        // Iterate over all available display modes from the graphics card
+        for (DisplayMode mode : available) {
+            int width = mode.getWidth();
+            int height = mode.getHeight();
+            int refreshRate = mode.getRefreshRate();
+
+            // Check if the mode matches one of our target resolutions
+            for (int[] resolution : targetResolutions) {
+                if (width == resolution[0] && height == resolution[1]) {
+                    String resKey = width + "x" + height;
+
+                    // If no mode for this resolution is stored or this mode has a higher refresh rate, store it
+                    if (!bestModes.containsKey(resKey) || refreshRate > bestModes.get(resKey).getRefreshRate()) {
+                        bestModes.put(resKey, mode);
+                    }
+                }
+            }
+        }
+        DisplayMode[] bestResolutions = bestModes.values().toArray(new DisplayMode[0]);
+        Arrays.sort(bestResolutions, Comparator.comparingInt(DisplayMode::getHeight).reversed());
+        return bestResolutions;
+    }
+
     private void init() {
-        EventQueue.invokeLater(() -> {
-            display = new Display(title, width, height);
+//        EventQueue.invokeLater(() -> {
+            display = new Display(fetchBestAvailableResolutions(), width, height);
             addListeners();
-        });
+//        });
 
         handler = Handler.get();
         loadSettings();
@@ -125,8 +169,6 @@ public class Game implements Runnable, Serializable {
 
         // Set the initial state to the menu state
         State.setState(menuState);
-
-        display.setInitialized(true);
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         normalCursor = toolkit.createCustomCursor(Assets.normalCursor, new Point(1, 1), "normal");

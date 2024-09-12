@@ -1,8 +1,10 @@
 package dev.ipsych0.myrinnia.display;
 
+import dev.ipsych0.myrinnia.Game;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.audio.AudioManager;
 import dev.ipsych0.myrinnia.states.GraphicsState;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -14,7 +16,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class Display implements Serializable {
@@ -29,20 +33,44 @@ public class Display implements Serializable {
     private boolean fullScreenSupported;
     private GraphicsDevice gfxCard;
 
-    private String title;
     private int width, height;
     public static double scaleX, scaleY;
-    private boolean initialized;
 
-    public Display(String title, int width, int height) {
-        this.title = title;
+    @Getter
+    private DisplayMode[] availableResolutions;
+
+    public Display(DisplayMode[] availableResolutions, int width, int height) {
+        this.availableResolutions = availableResolutions;
         this.width = width;
         this.height = height;
         createDisplay();
     }
 
+    public void changeResolution(DisplayMode newMode) {
+        // Set new resolution width and height
+        this.width = newMode.getWidth();
+        this.height = newMode.getHeight();
+
+        // Update canvas size
+        canvas.setPreferredSize(new Dimension(width, height));
+        canvas.setSize(new Dimension(width, height));
+        frame.pack();
+
+        // Update scale factors
+        scaleX = 1.0;
+        scaleY = 1.0;
+
+        // Optionally center the window if in windowed mode
+        if (!fullScreen) {
+            frame.setLocationRelativeTo(null);
+//            gfxCard.setFullScreenWindow(null);
+        }
+
+        log.info("Resolution changed to: {}x{}", width, height);
+    }
+
     private void createDisplay() {
-        frame = new JFrame(title);
+        frame = new JFrame(Game.TITLE_BAR);
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         gfxCard = env.getDefaultScreenDevice();
@@ -180,7 +208,7 @@ public class Display implements Serializable {
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentMoved(ComponentEvent e) {
-                if (!fullScreen && initialized) {
+                if (!fullScreen) {
                     windowedX = frame.getX();
                     windowedY = frame.getY();
                 }
@@ -188,13 +216,13 @@ public class Display implements Serializable {
 
             @Override
             public void componentResized(ComponentEvent e) {
-                if (!fullScreen && initialized) {
+                if (!fullScreen) {
                     windowedWidth = canvas.getWidth();
                     windowedHeight = canvas.getHeight();
 
                     // Rescale dimension relative to original width/height
-                    scaleX = (double) windowedWidth / (double) width;
-                    scaleY = (double) windowedHeight / (double) height;
+                    scaleX = (double) canvas.getWidth() / (double) width;
+                    scaleY = (double) canvas.getHeight() / (double) height;
                 }
             }
         });
@@ -202,16 +230,13 @@ public class Display implements Serializable {
         frame.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent e) {
                 // Maximize window
-                if (initialized && (e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
+                if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
                     setFullScreen();
                 }
             }
         });
     }
 
-    public void setInitialized(boolean initialized) {
-        this.initialized = initialized;
-    }
 
     public Canvas getCanvas() {
         return canvas;
