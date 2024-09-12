@@ -103,11 +103,8 @@ public class TutorialHistoryUI implements Window, KeyInput, MouseInput, Serializ
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!hasFocus()) {
-            return;
-        }
         if (exitButton.contains(getMouse()) && e.getButton() == MouseEvent.BUTTON1) {
-            Handler.get().getWindowManager().popWindow();
+            close();
         }
     }
 

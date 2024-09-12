@@ -61,12 +61,10 @@ public class InputHandler {
     }
 
     public void mouseMoved(MouseEvent e) {
-        if (!focus) return;
         mouse.setLocation(e.getX(), e.getY());
     }
 
     public void keyPressed(KeyEvent e) {
-        if (!focus) return;
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Handler.get().getWindowManager().popWindow();
         }

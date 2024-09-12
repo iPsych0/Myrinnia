@@ -138,10 +138,6 @@ public class CelebrationUI implements Window, KeyInput, MouseInput, Serializable
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!hasFocus()) {
-            return;
-        }
-
         // Press next/close
         if (nextButton.contains(getMouse())) {
             events.removeFirst();
@@ -151,17 +147,14 @@ public class CelebrationUI implements Window, KeyInput, MouseInput, Serializable
         if (closeAllButton.contains(getMouse())) {
             events.clear();
             MouseManager.justClosedUI = true;
-            Handler.get().getWindowManager().popWindow();
+            close();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!hasFocus()) {
-            return;
-        }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Handler.get().getWindowManager().popWindow();
+            close();
         }
     }
 }
