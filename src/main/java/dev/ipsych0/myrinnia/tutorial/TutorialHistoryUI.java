@@ -6,9 +6,13 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.ui.UIImageButton;
 import dev.ipsych0.myrinnia.ui.UIManager;
-import dev.ipsych0.myrinnia.ui.Window;
+import dev.ipsych0.myrinnia.ui.windows.KeyInput;
+import dev.ipsych0.myrinnia.ui.windows.MouseInput;
+import dev.ipsych0.myrinnia.ui.windows.Window;
+import dev.ipsych0.myrinnia.ui.windows.InputHandler;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -21,13 +25,12 @@ import java.util.ListIterator;
 import java.util.stream.Stream;
 
 @Slf4j
-public class TutorialHistoryUI implements Window, Serializable {
+public class TutorialHistoryUI implements Window, KeyInput, MouseInput, Serializable {
     private final Rectangle box;
     private final UIManager uiManager;
-    private boolean open;
     private final UIImageButton exitButton;
-    private final Point mouse = new Point();
-    private boolean focus;
+    @Getter
+    private final InputHandler inputHandler;
 
     public TutorialHistoryUI() {
         int width = 460;
@@ -38,11 +41,12 @@ public class TutorialHistoryUI implements Window, Serializable {
         exitButton = new UIImageButton(x + width - 40, y + 8, 32, 32, Assets.genericButton);
         uiManager = new UIManager();
         uiManager.addObject(exitButton);
+        inputHandler = new InputHandler(this);
     }
 
     @Override
     public void tick() {
-        if (!open) {
+        if (!inputHandler.isOpen()) {
             return;
         }
 
@@ -51,7 +55,7 @@ public class TutorialHistoryUI implements Window, Serializable {
 
     @Override
     public void render(Graphics2D g) {
-        if (!open) {
+        if (!inputHandler.isOpen()) {
             return;
         }
 
@@ -84,68 +88,31 @@ public class TutorialHistoryUI implements Window, Serializable {
 
     @Override
     public void open() {
-        open = true;
-        focus = true;
-        addListeners();
+        this.inputHandler.open();
     }
 
     @Override
     public void close() {
-        open = false;
-        focus = false;
-        MouseManager.justClosedUI = true;
-        removeListeners();
-    }
-
-    @Override
-    public void addListeners() {
-        Handler.get().getGame().getDisplay().getCanvas().addMouseListener(this);
-        Handler.get().getGame().getDisplay().getCanvas().addMouseMotionListener(this);
-        Handler.get().getGame().getDisplay().getCanvas().addKeyListener(this);
-    }
-
-    @Override
-    public void removeListeners() {
-        Handler.get().getGame().getDisplay().getCanvas().removeMouseListener(this);
-        Handler.get().getGame().getDisplay().getCanvas().removeMouseMotionListener(this);
-        Handler.get().getGame().getDisplay().getCanvas().removeKeyListener(this);
-    }
-
-    @Override
-    public boolean isOpen() {
-        return open;
-    }
-
-    @Override
-    public void setFocus(boolean focus) {
-        this.focus = focus;
+        this.inputHandler.close();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!focus) {
-            return;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Handler.get().getWindowManager().popWindow();
-        }
+        this.inputHandler.keyPressed(e);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!focus) {
+        if (!hasFocus()) {
             return;
         }
-        if (exitButton.contains(mouse) && e.getButton() == MouseEvent.BUTTON1) {
+        if (exitButton.contains(getMouse()) && e.getButton() == MouseEvent.BUTTON1) {
             Handler.get().getWindowManager().popWindow();
         }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!focus) {
-            return;
-        }
-        mouse.setLocation(e.getX(), e.getY());
+        inputHandler.mouseMoved(e);
     }
 }

@@ -134,7 +134,6 @@ public class KeyManager implements KeyListener, Serializable {
                 CharacterUI.escapePressed = true;
                 AbilityOverviewUI.escapePressed = true;
                 BountyBoardUI.escapePressed = true;
-                CelebrationUI.escapePressed = true;
                 FarmingUI.escapePressed = true;
                 escape = true;
             }

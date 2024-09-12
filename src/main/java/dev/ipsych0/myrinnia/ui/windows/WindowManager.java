@@ -1,4 +1,4 @@
-package dev.ipsych0.myrinnia.ui;
+package dev.ipsych0.myrinnia.ui.windows;
 
 import java.awt.*;
 import java.io.Serializable;

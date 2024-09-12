@@ -88,7 +88,6 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
             AbilityShopWindow.hasBeenPressed = true;
             AbilityOverviewUI.hasBeenPressed = true;
             DialogueBox.hasBeenPressed = true;
-            CelebrationUI.hasBeenPressed = true;
             FarmingUI.hasBeenPressed = true;
             BookUI.hasPressed = true;
             PotionSort.hasBeenPressed = true;

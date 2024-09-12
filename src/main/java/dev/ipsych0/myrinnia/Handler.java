@@ -48,7 +48,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialHistoryUI;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
-import dev.ipsych0.myrinnia.ui.WindowManager;
+import dev.ipsych0.myrinnia.ui.windows.WindowManager;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.WorldHandler;

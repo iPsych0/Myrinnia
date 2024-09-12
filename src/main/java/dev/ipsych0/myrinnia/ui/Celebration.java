@@ -21,7 +21,6 @@ public class Celebration implements Serializable {
     private Ability ability;
     private CraftingRecipe recipe;
     private String description;
-    private boolean nextPressed;
 
     public Celebration(Quest quest, String description) {
         this.quest = quest;

@@ -6,17 +6,23 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.MouseManager;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.items.ui.ItemTooltip;
+import dev.ipsych0.myrinnia.ui.windows.InputHandler;
+import dev.ipsych0.myrinnia.ui.windows.KeyInput;
+import dev.ipsych0.myrinnia.ui.windows.MouseInput;
+import dev.ipsych0.myrinnia.ui.windows.Window;
 import dev.ipsych0.myrinnia.utils.Text;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.LinkedList;
 
 @Getter
 @Setter
-public class CelebrationUI implements Serializable {
+public class CelebrationUI implements Window, KeyInput, MouseInput, Serializable {
 
     private static final long serialVersionUID = -8053693452272349138L;
     private int x, y;
@@ -25,11 +31,10 @@ public class CelebrationUI implements Serializable {
     private UIImageButton nextButton;
     private UIImageButton closeAllButton;
     private UIManager uiManager;
-    public static boolean hasBeenPressed;
     private Rectangle bounds;
-    public static boolean escapePressed;
     private AbilityTooltip abilityTooltip;
     private ItemTooltip itemTooltip;
+    private final InputHandler inputHandler;
 
     public CelebrationUI() {
         width = 384;
@@ -49,45 +54,32 @@ public class CelebrationUI implements Serializable {
         uiManager.addObject(nextButton);
 
         bounds = new Rectangle(x, y, width, height);
+        inputHandler = new InputHandler(this);
     }
 
     public void addEvent(Celebration celebration) {
         events.addLast(celebration);
-    }
-
-    public void tick() {
-        if (!events.isEmpty()) {
-            uiManager.tick();
-            Celebration currentEvent = events.getFirst();
-
-            // Press next/close
-            if (nextButton.contains(Handler.get().getMouse()) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                currentEvent.setNextPressed(true);
-                hasBeenPressed = false;
-                MouseManager.justClosedUI = true;
-            }
-
-            // Remove first element in the queue of events
-            if (currentEvent.isNextPressed()) {
-                events.removeFirst();
-                hasBeenPressed = false;
-            }
-
-            if (closeAllButton.contains(Handler.get().getMouse()) && Handler.get().getMouseManager().isLeftPressed() && hasBeenPressed) {
-                events.clear();
-                hasBeenPressed = false;
-                MouseManager.justClosedUI = true;
-            }
-
-//            if (escapePressed) {
-//                events.clear();
-//                hasBeenPressed = false;
-//                escapePressed = false;
-//            }
+        if (!isOpen()) {
+            Handler.get().getWindowManager().pushWindow(this);
         }
     }
 
+    public void tick() {
+        if (!isOpen()) {
+            return;
+        }
+        if (events.isEmpty()) {
+            Handler.get().getWindowManager().popWindow();
+            return;
+        }
+
+        uiManager.tick();
+    }
+
     public void render(Graphics2D g) {
+        if (!isOpen()) {
+            return;
+        }
         if (!events.isEmpty()) {
             g.drawImage(Assets.uiWindow, x, y, width, height, null);
             uiManager.render(g);
@@ -126,6 +118,50 @@ public class CelebrationUI implements Serializable {
                 Text.drawString(g, text[i], x + width / 2, y + 120 + (i * 22), true, Color.YELLOW, Assets.font20);
             }
 
+        }
+    }
+
+    @Override
+    public void open() {
+        inputHandler.open();
+    }
+
+    @Override
+    public void close() {
+        inputHandler.close();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        inputHandler.mouseMoved(e);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (!hasFocus()) {
+            return;
+        }
+
+        // Press next/close
+        if (nextButton.contains(getMouse())) {
+            events.removeFirst();
+            MouseManager.justClosedUI = true;
+        }
+
+        if (closeAllButton.contains(getMouse())) {
+            events.clear();
+            MouseManager.justClosedUI = true;
+            Handler.get().getWindowManager().popWindow();
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (!hasFocus()) {
+            return;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Handler.get().getWindowManager().popWindow();
         }
     }
 }
