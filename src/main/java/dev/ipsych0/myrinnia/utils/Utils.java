@@ -61,7 +61,7 @@ public class Utils {
         return gson;
     }
 
-    private static <T> T loadObjectFromJsonFile(String path, final Class<?> clazz) {
+    public static <T> T loadObjectFromJsonFile(String path, final Class<?> clazz) {
         if (path == null) {
             throw new IllegalArgumentException("JSON file cannot be null/empty.");
         }

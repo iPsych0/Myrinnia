@@ -22,6 +22,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -123,7 +126,7 @@ public class DropTableTool extends JFrame {
                         amount = Integer.parseInt(amountInput.getText());
                         weight = Integer.parseInt(weightInput.getText());
                         String itemName = getItemName(id);
-                        entries.add(new DropTableEntry(id, itemName, amount, weight));
+                        entries.add(new DropTableEntry(itemName, id, amount, weight));
                     } catch (NumberFormatException exc) {
                         log.error("Could not parse ID, amount or weight to number.");
                     }
@@ -147,7 +150,7 @@ public class DropTableTool extends JFrame {
         if(id == -1)
             return "Nothing";
 
-        File itemsDir = new File("src/dev/ipsych0/myrinnia/items/json/");
+        File itemsDir = new File("./res/config/items/");
 
         for (File f : itemsDir.listFiles()) {
             if (f.getName().endsWith(".json")) {
@@ -155,7 +158,7 @@ public class DropTableTool extends JFrame {
                 String fileId = tokens[0];
                 // If we match the ID
                 if (fileId.equalsIgnoreCase(String.valueOf(id))) {
-                    JSONItem jsonItem = loadItem(f.getName());
+                    JSONItem jsonItem = Utils.loadObjectFromJsonFile(f.getName(), JSONItem.class);
                     if (jsonItem != null) {
                         return jsonItem.getName();
                     }
@@ -163,26 +166,6 @@ public class DropTableTool extends JFrame {
             }
         }
         return "UNDEFINED";
-    }
-
-    private JSONItem loadItem(String jsonFile) {
-        jsonFile = "dev/ipsych0/myrinnia/" + "items/json/" + jsonFile.toLowerCase();
-        InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(jsonFile);
-        if (inputStream == null) {
-            throw new IllegalArgumentException(jsonFile + " could not be found.");
-        }
-        try {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            JSONItem t = gson.fromJson(reader, JSONItem.class);
-            reader.close();
-            inputStream.close();
-            return t;
-        } catch (final Exception e) {
-            log.error("Exception", e);
-            log.error("Json file could not be loaded.");
-            System.exit(1);
-        }
-        return null;
     }
 
     private void addNumbersOnlyInput() {
@@ -307,7 +290,7 @@ public class DropTableTool extends JFrame {
     public class OpenL implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JFileChooser c = new JFileChooser();
-            c.setCurrentDirectory(new File("src/dev/ipsych0/myrinnia/entities/droptables"));
+            c.setCurrentDirectory(new File("./res/config/droptables"));
             // Demonstrate "Open" dialog:
             int rVal = c.showOpenDialog(DropTableTool.this);
             if (rVal == JFileChooser.APPROVE_OPTION) {
@@ -346,12 +329,12 @@ public class DropTableTool extends JFrame {
     public class SaveL implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JFileChooser c = new JFileChooser();
-            c.setCurrentDirectory(new File("src/dev/ipsych0/myrinnia/entities/droptables"));
+            c.setCurrentDirectory(new File("./res/config/droptables"));
             // Demonstrate "Save" dialog:
             int rVal = c.showSaveDialog(DropTableTool.this);
             if (rVal == JFileChooser.APPROVE_OPTION) {
                 // Write the JSON file
-                try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/entities/droptables/" + c.getSelectedFile().getName())) {
+                try (FileWriter fileWriter = new FileWriter("./res/config/droptables" + c.getSelectedFile().getName())) {
                     fileWriter.write(previewText.getText());
                 } catch (IOException exc) {
                     exc.printStackTrace();

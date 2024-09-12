@@ -1,7 +1,7 @@
 package dev.ipsych0.questmakertool;
 
 import com.google.gson.Gson;
-import dev.ipsych0.myrinnia.quests.QuestVO;
+import dev.ipsych0.myrinnia.quests.QuestDTO;
 import dev.ipsych0.myrinnia.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +22,7 @@ public class QuestMakerTool extends JFrame {
     private JTextArea jsonText;
     private JPanel mainPanel;
 
-    private QuestVO questVO;
+    private QuestDTO questVO;
     private String questName;
     private String questStart;
     private List<String> objectives = new ArrayList<>();
@@ -55,7 +55,7 @@ public class QuestMakerTool extends JFrame {
                 objectives.add(objectivesText.getText());
                 objectivesText.setText("");
 
-                questVO = new QuestVO(questName, questStart, objectives);
+                questVO = new QuestDTO(questName, questStart, objectives);
 
                 jsonText.setText(Utils.getGson().toJson(questVO));
             } else {
@@ -67,14 +67,14 @@ public class QuestMakerTool extends JFrame {
             if (!jsonText.getText().isEmpty()) {
                 try {
                     Gson gson = Utils.getGson();
-                    QuestVO questVO = gson.fromJson(jsonText.getText(), QuestVO.class);
-                    Files.write(Path.of("src/dev/ipsych0/myrinnia/quests/json/" + questVO.getQuestName().replaceAll(" ", "").toLowerCase() + ".json"), jsonText.getText().getBytes());
+                    QuestDTO questVO = gson.fromJson(jsonText.getText(), QuestDTO.class);
+                    Files.write(Path.of("./res/config/quests/" + questVO.getQuestName().replaceAll(" ", "").toLowerCase() + ".json"), jsonText.getText().getBytes());
 
                     questStartText.setText("");
                     questNameText.setText("");
                     objectivesText.setText("");
                     objectives.clear();
-                    questVO = new QuestVO();
+                    questVO = new QuestDTO();
                 } catch (Exception e) {
                     log.error("JSON parsing error:\n", e);
                 }

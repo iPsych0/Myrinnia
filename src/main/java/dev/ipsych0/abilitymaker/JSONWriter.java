@@ -38,7 +38,7 @@ public class JSONWriter {
         String json = gson.toJson(ability);
 
         // Write the JSON file
-        try (FileWriter fileWriter = new FileWriter("src/dev/ipsych0/myrinnia/abilities/json/" + name.toLowerCase() + ".json")) {
+        try (FileWriter fileWriter = new FileWriter("./res/config/abilities/" + name.toLowerCase() + ".json")) {
             fileWriter.write(json);
         } catch (IOException e) {
             log.error("Exception", e);
