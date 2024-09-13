@@ -6,7 +6,8 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,19 +22,16 @@ public class SpriteSheet {
 
 
     private BufferedImage sheet;
-    public static int[] firstGids = MapLoader.getTiledFirstGid();
+    public static List<Integer> firstGids;
     private int imageIndex;
     private int columns;
     private String path;
+    private MapLoader mapLoader;
 
-    public SpriteSheet(String path, boolean isTileSet) {
-        this.sheet = ImageLoader.loadImage(path);
-        this.path = path;
-
-        if (isTileSet) {
-            imageIndex = MapLoader.getImageIndex(Handler.initialWorldPath, path);
-            columns = MapLoader.getTileColumns(Handler.initialWorldPath);
-        }
+    public SpriteSheet(String path, MapLoader mapLoader) {
+        this(path);
+        imageIndex = mapLoader.getImageIndex(path);
+        columns = mapLoader.getTileColumns();
     }
 
     public SpriteSheet(String path) {
@@ -68,21 +66,21 @@ public class SpriteSheet {
         else
             tileId = (y / 32) * columns + (x / 32);
 
-        tileId = tileId + firstGids[imageIndex];
+        tileId = tileId + firstGids.get(imageIndex);
 
         SplashScreen.addLoadedElement();
 
-        if (MapLoader.polygonTiles.get(tileId) != null) {
-            int size = MapLoader.polygonTiles.get(tileId).size();
-            List<Point> points = MapLoader.polygonTiles.get(tileId);
+        if (Tile.polygonTiles.get(tileId) != null) {
+            int size = Tile.polygonTiles.get(tileId).size();
+            List<Point> points = Tile.polygonTiles.get(tileId);
             int[] xCoords = new int[size];
             int[] yCoords = new int[size];
             for (int i = 0; i < size; i++) {
                 xCoords[i] = (int) points.get(i).getX();
                 yCoords[i] = (int) points.get(i).getY();
             }
-            if (MapLoader.animationMap.get(tileId) != null) {
-                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, MapLoader.animationMap.get(tileId));
+            if (Tile.animationMap.get(tileId) != null) {
+                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, Tile.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
                 if (isTransparent(img)) {
@@ -91,14 +89,14 @@ public class SpriteSheet {
                 Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
             }
         } else {
-            if (MapLoader.animationMap.get(tileId) != null) {
-                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId), MapLoader.animationMap.get(tileId));
+            if (Tile.animationMap.get(tileId) != null) {
+                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, Tile.solidTiles.get(tileId), Tile.postRenderTiles.get(tileId), Tile.animationMap.get(tileId));
             } else {
                 BufferedImage img = sheet.getSubimage(x, y, width, height);
                 if (isTransparent(img)) {
                     return null;
                 }
-                Tile.tiles[tileId] = new Tile(img, tileId, MapLoader.solidTiles.get(tileId), MapLoader.postRenderTiles.get(tileId));
+                Tile.tiles[tileId] = new Tile(img, tileId, Tile.solidTiles.get(tileId), Tile.postRenderTiles.get(tileId));
             }
         }
 

@@ -1,9 +1,10 @@
-package dev.ipsych0.myrinnia.utils;
+package dev.ipsych0.myrinnia.utils.tiled;
 
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
+import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
@@ -27,6 +28,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,22 +36,19 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-public class MapLoader implements Serializable {
+public class TmxMapLoader implements MapLoader, Serializable {
 
     /**
-     * Util class to parse TMX maps
+     * Util class to parse TMX maps (XML)
      */
     private static final long serialVersionUID = 5948158902228537298L;
     private static SAXParser saxParser;
     private static DocumentBuilder builder;
-    public static Map<Integer, Boolean> solidTiles = new HashMap<>();
-    public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
-    public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
-    public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
     private static Map<String, Document> tsxMap = new HashMap<>();
     private static Set<String> readFiles = new HashSet<>();
     private static Document doc, tsxDoc;
-    private static int tileCount, lastId;
+    private int tileCount, lastId;
+    private String worldPath;
 
     static {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -62,15 +61,16 @@ public class MapLoader implements Serializable {
         }
     }
 
-    private MapLoader() {
+    public TmxMapLoader() {
     }
 
-    public static void setWorldDoc(String path) {
+    public void setWorldDoc(String worldPath) {
         // Creates new DocumentBuilder on the file
+        this.worldPath = worldPath;
         InputStream input;
 
         try {
-            input = new FileInputStream(path);
+            input = new FileInputStream(worldPath);
             doc = builder.parse(input);
             doc.normalize();
             input.close();
@@ -79,7 +79,7 @@ public class MapLoader implements Serializable {
         }
     }
 
-    public static void setTsxDoc(String path) {
+    public void setTsxDoc(String path) {
         // Creates new DocumentBuilder on the file
         InputStream input;
 
@@ -98,7 +98,7 @@ public class MapLoader implements Serializable {
      * Returns the width of the map from Tiled
      * @params: String path in OS
      */
-    public static void loadTiles(String path) {
+    public void loadTiles(String path) {
         // If we've already loaded the tile properties for this tsx file, return
         if (readFiles.contains(path)) {
             return;
@@ -171,7 +171,7 @@ public class MapLoader implements Serializable {
                                 // Coords go right-left, so subtract from 32 (x = -12, y = -12)
                                 polylines.add(new Point((int) (startX + Double.parseDouble(coords[0])), (int) (startY + Double.parseDouble(coords[1]))));
                             }
-                            polygonTiles.put(currentId, polylines);
+                            Tile.polygonTiles.put(currentId, polylines);
                         }
                     }
 
@@ -179,15 +179,15 @@ public class MapLoader implements Serializable {
 
                 public void characters(char ch[], int start, int length) {
                     if (solidPropertyFound) {
-                        solidTiles.put(currentId, solid);
+                        Tile.solidTiles.put(currentId, solid);
                         solidPropertyFound = false;
                     }
                     if (postRenderedPropertyFound) {
-                        postRenderTiles.put(currentId, postRender);
+                        Tile.postRenderTiles.put(currentId, postRender);
                         postRenderedPropertyFound = false;
                     }
                     if (animationPropertyFound) {
-                        animationMap.put(currentId, animationIds);
+                        Tile.animationMap.put(currentId, animationIds);
                         animationPropertyFound = false;
                     }
 
@@ -197,8 +197,8 @@ public class MapLoader implements Serializable {
 
             saxParser.parse(is, handler);
 
-            solidTiles.put(0, false);
-            postRenderTiles.put(0, false);
+            Tile.solidTiles.put(0, false);
+            Tile.postRenderTiles.put(0, false);
 
             is.close();
 
@@ -211,7 +211,7 @@ public class MapLoader implements Serializable {
      * Returns the width of the map from Tiled
      * @params: String path in OS
      */
-    public static int getMapWidth() {
+    public int getWidth() {
         int mapWidth = 0;
 
         if (doc != null) {
@@ -229,7 +229,7 @@ public class MapLoader implements Serializable {
      * Returns the height of the map from Tiled
      * @params: String path in OS
      */
-    public static int getMapHeight() {
+    public int getHeight() {
         int mapHeight = 0;
 
         if (doc != null) {
@@ -243,53 +243,61 @@ public class MapLoader implements Serializable {
 
         return mapHeight;
     }
-
     /*
      * Returns all the tile IDs from the map
      * @param: path - input path from OS to read in the .tmx file
      * @returns: String[] mapValues - all Tile IDs per layer
      */
-    public static String[] getMapTiles(World world) {
+    public List<TiledLayer> getMapTiles(World world) {
 
         if (doc != null) {
             // Get all tags
-            NodeList maps = doc.getElementsByTagName("layer");
+            NodeList layers = doc.getElementsByTagName("layer");
 
             // Check for permissions layer (MUST be named 'Permissions')
             int layer = 0;
-            while (layer < maps.getLength()) {
-                if ("Permissions".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
-                    world.setHasPermissionsLayer(true);
+            while (layer < layers.getLength()) {
+                if ("Permissions".equalsIgnoreCase(layers.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
+                    world.hasPermissionsLayer(true);
                     break;
                 }
-                if ("Shadows".equalsIgnoreCase(maps.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
-                    world.setHasShadowsLayer(true);
+                if ("Shadows".equalsIgnoreCase(layers.item(layer).getAttributes().getNamedItem("name").getTextContent())) {
+                    world.hasShadowsLayer(true);
                     break;
                 }
                 layer++;
             }
 
             // Index the String[] at the size of the number of layers
-            String[] mapValues;
-            mapValues = new String[maps.getLength()];
+            List<TiledLayer> tileLayers = new ArrayList<>();
 
             // Set variables to iterate over the maps
             layer = 0;
 
             // Fill the layers in the String[] (The entire String with all Tile IDs per layer)
-            while (layer < mapValues.length) {
-                Node csvData = maps.item(layer);
-                mapValues[layer] = csvData.getTextContent();
+            while (layer < layers.getLength()) {
+                Node csvData = layers.item(layer);
+                String rawCsv = csvData.getTextContent();
+                // Splits worlds files by spaces and puts them all in an array
+                rawCsv = rawCsv.replace("\n", "").replace("\r", "").trim();
+                String[] tokens = rawCsv.split(",");
+                List<Integer> ids = Arrays.stream(tokens).map(Integer::parseInt).toList();
+                TiledLayer tiledLayer = new TiledLayer();
+                tiledLayer.setData(ids);
+                tiledLayer.setName(layers.item(layer).getAttributes().getNamedItem("name").getTextContent());
+                tiledLayer.setWidth(getWidth());
+                tiledLayer.setWidth(getHeight());
+                tileLayers.add(tiledLayer);
                 layer++;
             }
 
-            return mapValues;
+            return tileLayers;
         }
 
         return null;
     }
 
-    public static void initEnemiesItemsAndZoneTiles(String path, World world) {
+    public void initEnemiesItemsAndZoneTiles(String path, World world) {
         try {
             InputStream is = new FileInputStream(path);
 
@@ -519,18 +527,18 @@ public class MapLoader implements Serializable {
         }
     }
 
-    public static int[] getTiledFirstGid() {
+    public List<Integer> getTiledFirstGid() {
 
         if (doc != null) {
             // Get all tileset objects
             NodeList tilesets = doc.getElementsByTagName("tileset");
 
-            int[] firstGids = new int[tilesets.getLength()];
+            List<Integer> firstGids = new ArrayList<>();
 
             for (int i = 0; i < tilesets.getLength(); i++) {
                 Node n = tilesets.item(i);
                 Node inner = n.getAttributes().getNamedItem("firstgid");
-                firstGids[i] = Integer.parseInt(inner.getNodeValue());
+                firstGids.add(Integer.parseInt(inner.getNodeValue()));
             }
             return firstGids;
         }
@@ -539,11 +547,12 @@ public class MapLoader implements Serializable {
         return null;
     }
 
-    public static void clearTsxCache() {
+    public void clearTsxCache() {
         tsxMap.clear();
     }
 
-    public static int getImageIndex(String worldPath, String imagePath) {
+
+    public int getImageIndex(String imagePath) {
         String imageSource = null;
 
         if (doc != null) {
@@ -558,16 +567,13 @@ public class MapLoader implements Serializable {
                 String tsxFile = tilesetObject.getAttributes().item(1).getNodeValue();
 
                 // Get the source path and remove the first two dots
-                tsxFile = "/worlds/" + tsxFile;
-
-
-                String fixedDoc = FileUtils.getResourcePath(tsxFile);
+                tsxFile = "./res/worlds/" + tsxFile;
 
                 // Only reload the document if we don't have a reference anymore.
-                if (tsxMap.get(fixedDoc) == null) {
-                    setTsxDoc(fixedDoc);
+                if (tsxMap.get(tsxFile) == null) {
+                    setTsxDoc(tsxFile);
                 } else {
-                    tsxDoc = tsxMap.get(fixedDoc);
+                    tsxDoc = tsxMap.get(tsxFile);
                 }
 
                 NodeList tileset = tsxDoc.getElementsByTagName("tileset");
@@ -576,27 +582,25 @@ public class MapLoader implements Serializable {
                 imageSource = tileset.item(0).getAttributes().item(1).getNodeValue();
 
                 // Get the source path and remove the first two dots
-                imageSource = "/textures/tiles/" + imageSource + ".png";
+                imageSource = "./res/textures/tiles/" + imageSource + ".png";
 
-                String fixedImg = FileUtils.getResourcePath(imageSource);
-
-                if (fixedImg.contains(imagePath)) {
-                    loadTiles(fixedDoc);
+                if (imageSource.contains(imagePath)) {
+                    loadTiles(tsxFile);
                     return i;
                 }
             }
         }
 
-        log.info("Couldn't find the index of the image resourcePath for world: {} - in: MapLoader::getImageIndex", worldPath);
+        log.info("Couldn't find the index of the image resourcePath for world: {} - in: MapLoader::getImageIndex", this.worldPath);
         log.info("{} - is not a tileset used in Tiled Map Editor.", imagePath);
         return -1;
     }
 
-    public static int getTileCount() {
+    public int getTileCount() {
         return 1 + tileCount;
     }
 
-    public static int getTileColumns(String worldPath) {
+    public int getTileColumns() {
 
         int columns = -1;
 
@@ -612,7 +616,7 @@ public class MapLoader implements Serializable {
             return columns;
         }
 
-        log.info("Artifact 'columns' not found for resourcePath: {} in: MapLoader::getTileColumns", worldPath);
+        log.info("Artifact 'columns' not found for resourcePath: {} in: MapLoader::getTileColumns", this.worldPath);
         return columns;
     }
 }

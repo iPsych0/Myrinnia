@@ -58,7 +58,7 @@ public class AStarMap implements Serializable {
 
                 if (Handler.get().getWorld().hasPermissionsLayer()) {
                     Player player = Handler.get().getPlayer();
-                    int topLayer = Handler.get().getWorld().getLayers().length - 1;
+                    int topLayer = Handler.get().getWorld().getLayers().size() - 1;
 
                     if (!on3CTile) {
                         // Check if player is not on C or 0 tile, he is on a higher layer 3C, which means we cannot navigate

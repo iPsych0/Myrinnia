@@ -6,10 +6,17 @@ import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 public class Tile {
+    public static Map<Integer, Boolean> solidTiles = new HashMap<>();
+    public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
+    public static Map<Integer, List<Point>> polygonTiles = new HashMap<>();
+    public static Map<Integer, Map<Integer, Integer>> animationMap = new HashMap<>();
 
     // In-game Tiles
     public static Tile[] tiles;

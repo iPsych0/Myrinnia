@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.gfx;
 
 import dev.ipsych0.myrinnia.SplashScreen;
-import dev.ipsych0.myrinnia.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -17,8 +16,7 @@ public class FontLoader {
             SplashScreen.addLoadedElement();
             InputStream input;
 
-            String fixedFile = FileUtils.getResourcePath(path);
-            input = new FileInputStream(fixedFile);
+            input = new FileInputStream(path);
             Font f = Font.createFont(Font.TRUETYPE_FONT, input).deriveFont(Font.BOLD, size);
             input.close();
             return f;

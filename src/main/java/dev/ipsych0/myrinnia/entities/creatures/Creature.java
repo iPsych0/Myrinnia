@@ -370,7 +370,7 @@ public abstract class Creature extends Entity {
 
     private void setupInitialPermission(int x, int y) {
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().size() - 1, x, y);
             if (currentTile != Tile.tiles[0]) {
                 if (currentTile.getPermission().equalsIgnoreCase("C")) {
                     verticality = 0;
@@ -390,7 +390,7 @@ public abstract class Creature extends Entity {
     private void checkPermissionTiles(int x, int y) {
         if (Handler.get().getWorld().hasPermissionsLayer()) {
             Tile oldTile = currentTile;
-            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().size() - 1, x, y);
             if (currentTile != Tile.tiles[0]) {
                 if (currentTile != oldTile) {
                     hasSwitchedTile = true;
@@ -489,20 +489,20 @@ public abstract class Creature extends Entity {
 
         int topLayer;
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            topLayer = Handler.get().getWorld().getLayers().size() - 1;
             boolean allowed = isAllowedToMove(topLayer, x, y);
             if (!allowed) {
                 return true;
             }
         } else {
-            topLayer = Handler.get().getWorld().getLayers().length;
+            topLayer = Handler.get().getWorld().getLayers().size();
         }
 
         if (Handler.get().getWorld().hasShadowsLayer()) {
             if (Handler.get().getWorld().hasPermissionsLayer()) {
-                topLayer = Handler.get().getWorld().getLayers().length - 2;
+                topLayer = Handler.get().getWorld().getLayers().size() - 2;
             } else {
-                topLayer = Handler.get().getWorld().getLayers().length - 1;
+                topLayer = Handler.get().getWorld().getLayers().size() - 1;
             }
         }
 
@@ -561,20 +561,20 @@ public abstract class Creature extends Entity {
 
         int topLayer;
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            topLayer = Handler.get().getWorld().getLayers().size() - 1;
             boolean allowed = isAllowedToMove(topLayer, x, y);
             if (!allowed) {
                 return true;
             }
         } else {
-            topLayer = Handler.get().getWorld().getLayers().length;
+            topLayer = Handler.get().getWorld().getLayers().size();
         }
 
         if (Handler.get().getWorld().hasShadowsLayer()) {
             if (Handler.get().getWorld().hasPermissionsLayer()) {
-                topLayer = Handler.get().getWorld().getLayers().length - 2;
+                topLayer = Handler.get().getWorld().getLayers().size() - 2;
             } else {
-                topLayer = Handler.get().getWorld().getLayers().length - 1;
+                topLayer = Handler.get().getWorld().getLayers().size() - 1;
             }
         }
 //

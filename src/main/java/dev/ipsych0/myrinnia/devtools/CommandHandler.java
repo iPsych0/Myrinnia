@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
@@ -104,7 +104,7 @@ public class CommandHandler implements Serializable {
                         int level = Integer.parseInt(commands[2]);
                         int x = Integer.parseInt(commands[3]) * 32;
                         int y = Integer.parseInt(commands[4]) * 32;
-                        Entity e = MapLoader.loadEntity(Handler.get().getWorld(), className, x, y, 32, 32, className, level, null, null, "malachiteThug1", null, null);
+                        Entity e = TmxMapLoader.loadEntity(Handler.get().getWorld(), className, x, y, 32, 32, className, level, null, null, "malachiteThug1", null, null);
                         if (e != null) {
                             Handler.get().getWorld().getEntityManager().addRuntimeEntity(e, false);
                         }

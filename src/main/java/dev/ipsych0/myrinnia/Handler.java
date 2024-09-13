@@ -364,7 +364,7 @@ public class Handler implements Serializable {
         w.init();
 
         if (getWorld().hasPermissionsLayer()) {
-            Tile t = getWorld().getTile(getWorld().getLayers().length - 1, x, y);
+            Tile t = getWorld().getTile(getWorld().getLayers().size() - 1, x, y);
             if (t == null) {
                 player.setVerticality(0);
                 player.setCurrentTile(Tile.tiles[23780]);

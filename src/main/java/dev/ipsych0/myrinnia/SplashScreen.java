@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia;
 
 import dev.ipsych0.myrinnia.gfx.Assets;
-import dev.ipsych0.myrinnia.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -152,13 +151,11 @@ public class SplashScreen {
      */
     static {
         BufferedImage animSheet = null;
-        String fixedFile;
         InputStream input;
-        String path = "/textures/animations/ability_animations.png";
+        String path = "./res/textures/animations/ability_animations.png";
 
         try {
-            fixedFile = FileUtils.getResourcePath(path);
-            input = new FileInputStream(fixedFile);
+            input = new FileInputStream(path);
 
             animSheet = ImageIO.read(input);
             animSheet.setAccelerationPriority(1);
