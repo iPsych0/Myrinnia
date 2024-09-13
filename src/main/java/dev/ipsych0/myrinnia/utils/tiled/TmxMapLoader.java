@@ -527,7 +527,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
         }
     }
 
-    public List<Integer> getTiledFirstGid() {
+    public List<Integer> getTiledFirstGids() {
 
         if (doc != null) {
             // Get all tileset objects

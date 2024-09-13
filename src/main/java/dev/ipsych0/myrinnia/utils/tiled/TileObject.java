@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.utils.tiled;
 
+import dev.ipsych0.myrinnia.utils.tiled.tilesets.Polypoint;
 import lombok.Data;
 
 import java.awt.*;
@@ -11,11 +12,11 @@ public class TileObject {
     private int id;
     private String name;
     private String type;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private int width;
     private int height;
     private boolean visible;
-    public List<Point> polygon = new ArrayList<>();
+    public List<Polypoint> polygon = new ArrayList<>();
     private List<Property> properties = new ArrayList<>();
 }

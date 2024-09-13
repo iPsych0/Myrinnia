@@ -3,6 +3,7 @@ package dev.ipsych0.myrinnia.utils.tiled;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
+import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
@@ -46,7 +47,7 @@ public class TmjMapLoader implements MapLoader {
     private TsjTileset tsjTileset;
     private final Map<String, TsjTileset> tsjCache = new HashMap<>();
     private final Set<String> readFiles = new HashSet<>();
-    private int tileCount, lastId;
+    private int tileCount, lastId, firstGid, currentId;
 
 
     public void setWorldDoc(String worldPath) {
@@ -60,7 +61,7 @@ public class TmjMapLoader implements MapLoader {
         });
     }
 
-    public List<Integer> getTiledFirstGid() {
+    public List<Integer> getTiledFirstGids() {
         return map.getTilesets().stream()
                 .map(Tileset::getFirstGid)
                 .toList();
@@ -135,32 +136,40 @@ public class TmjMapLoader implements MapLoader {
         }
         readFiles.add(path);
 
+        firstGid = 1 + lastId;
+
         // Check all tile properties
         tsjTileset.getTiles().forEach(tile -> {
+            currentId = firstGid + tile.getId();
+            SplashScreen.addLoadedElement();
+
             Map<String, String> props = getProperties(tile);
             if (props.containsKey("solid")) {
-                Tile.solidTiles.put(tile.getId(), Boolean.parseBoolean(props.get("solid")));
+                Tile.solidTiles.put(currentId, Boolean.parseBoolean(props.get("solid")));
             }
             if (props.containsKey("postRendered")) {
-                Tile.postRenderTiles.put(tile.getId(), Boolean.parseBoolean(props.get("postRendered")));
+                Tile.postRenderTiles.put(currentId, Boolean.parseBoolean(props.get("postRendered")));
             }
             if (tile.getObjectgroup() != null) {
                 List<Point> polyLines = new ArrayList<>();
                 tile.getObjectgroup().getObjects().forEach(obj -> {
                     if (!obj.getPolygon().isEmpty()) {
-                        polyLines.addAll(obj.getPolygon());
+                        obj.getPolygon().forEach(poly -> {
+                            Point p = new Point();
+                            p.setLocation(poly.getX(), poly.getY());
+                            polyLines.add(p);
+                        });
                     }
                 });
-                Tile.polygonTiles.put(tile.getId(), polyLines);
+                Tile.polygonTiles.put(currentId, polyLines);
             }
             if (!tile.getAnimation().isEmpty()) {
                 Map<Integer, Integer> animationIds = tile.getAnimation().stream()
-                        .collect(Collectors.toMap(
-                                        AnimationFrame::getTileId, AnimationFrame::getDuration
-                                )
-                        );
-                Tile.animationMap.put(tile.getId(), animationIds);
+                        .collect(Collectors.toMap(anim -> firstGid + anim.getTileId(), AnimationFrame::getDuration));
+                Tile.animationMap.put(currentId, animationIds);
             }
+
+            lastId++;
         });
 
         Tile.solidTiles.put(0, false);
@@ -250,7 +259,7 @@ public class TmjMapLoader implements MapLoader {
             int amount = Integer.parseInt(props.get("amount"));
 
             Item orig = Item.items[itemId];
-            Item i = Item.items[itemId].createItem(obj.getX(), obj.getY(), amount);
+            Item i = Item.items[itemId].createItem((int) obj.getX(), (int) obj.getY(), amount);
             if (orig.getUse() != null) {
                 i.setUse(orig.getUse());
                 i.setUseCooldown(orig.getUseCooldown());
@@ -275,7 +284,7 @@ public class TmjMapLoader implements MapLoader {
             direction = Creature.Direction.valueOf(directionProp);
         }
 
-        return new ZoneTile(zone, obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);
+        return new ZoneTile(zone, (int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);
     }
 
     private Map<String, String> getProperties(TileObject obj) {

@@ -11,7 +11,7 @@ public interface MapLoader {
     int getHeight();
     List<TiledLayer> getMapTiles(World world);
     void initEnemiesItemsAndZoneTiles(String path, World world);
-    List<Integer> getTiledFirstGid();
+    List<Integer> getTiledFirstGids();
     int getImageIndex(String imagePath);
     int getTileColumns();
     int getTileCount();

@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.tiled.MapLoader;
 import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
-import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -311,7 +310,7 @@ public class Assets {
 
         MapLoader mapLoader = new TmjMapLoader();
         mapLoader.setWorldDoc(Handler.initialWorldPath);
-        SpriteSheet.firstGids = mapLoader.getTiledFirstGid();
+        SpriteSheet.firstGids = mapLoader.getTiledFirstGids();
 
         long now = (System.currentTimeMillis() - before);
         log.info("Loading time of world doc: {}", ((double) now / 1000d));
