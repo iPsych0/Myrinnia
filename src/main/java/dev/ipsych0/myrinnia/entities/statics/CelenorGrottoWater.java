@@ -4,6 +4,7 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
+import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
 import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
@@ -75,11 +76,11 @@ public class CelenorGrottoWater extends GenericObject {
         String celenorCavesPath = "./res/worlds/celenor_caves.tmx";
 
         // Reset the water to normal state
-        new TmxMapLoader().setWorldDoc(aemirRiverflankPath);
+        new TmjMapLoader().setWorldDoc(aemirRiverflankPath);
         Handler.get().getWorldHandler().getWorldsMap().get(Zone.AemirRiverflank).loadWorldTiles();
-        new TmxMapLoader().setWorldDoc(celewynnPath);
+        new TmjMapLoader().setWorldDoc(celewynnPath);
         Handler.get().getWorldHandler().getWorldsMap().get(Zone.Celewynn).loadWorldTiles();
-        new TmxMapLoader().setWorldDoc(celenorCavesPath);
+        new TmjMapLoader().setWorldDoc(celenorCavesPath);
         Handler.get().getWorldHandler().getWorldsMap().get(Zone.CelenorCaves).loadWorldTiles();
     }
 }

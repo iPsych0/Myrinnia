@@ -143,7 +143,7 @@ public class TmjMapLoader implements MapLoader {
             currentId = firstGid + tile.getId();
             SplashScreen.addLoadedElement();
 
-            Map<String, String> props = getProperties(tile);
+            Map<String, String> props = toMap(tile.getProperties());
             if (props.containsKey("solid")) {
                 Tile.solidTiles.put(currentId, Boolean.parseBoolean(props.get("solid")));
             }
@@ -188,7 +188,7 @@ public class TmjMapLoader implements MapLoader {
     public Entity loadEntity(TileObject obj) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
-        Map<String, String> props = getProperties(obj);
+        Map<String, String> props = toMap(obj.getProperties());
         try {
             String className = props.get("npcClass");
             String npcName = props.get("name");
@@ -253,7 +253,7 @@ public class TmjMapLoader implements MapLoader {
 
     private Item loadItem(TileObject obj) {
         try {
-            Map<String, String> props = getProperties(obj);
+            Map<String, String> props = toMap(obj.getProperties());
 
             int itemId = Integer.parseInt(props.get("itemId"));
             int amount = Integer.parseInt(props.get("amount"));
@@ -272,12 +272,12 @@ public class TmjMapLoader implements MapLoader {
     }
 
     private ZoneTile loadZoneTile(TileObject obj) {
-        Map<String, String> props = getProperties(obj);
+        Map<String, String> props = toMap(obj.getProperties());
         int goToX = Integer.parseInt(props.get("goToX"));
         int goToY = Integer.parseInt(props.get("goToY"));
         Zone zone = Zone.valueOf(props.get("zone"));
         String customZoneName = props.get("customZoneName");
-        String customZoneMusic = props.get("customZoneName");
+        String customZoneMusic = props.get("customZoneMusic");
         Creature.Direction direction = null;
         String directionProp = props.get("direction");
         if (directionProp != null) {
@@ -287,13 +287,8 @@ public class TmjMapLoader implements MapLoader {
         return new ZoneTile(zone, (int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);
     }
 
-    private Map<String, String> getProperties(TileObject obj) {
-        return obj.getProperties().stream()
-                .collect(Collectors.toMap(Property::getName, Property::getValue));
-    }
-
-    private Map<String, String> getProperties(dev.ipsych0.myrinnia.utils.tiled.tilesets.Tile obj) {
-        return obj.getProperties().stream()
+    private Map<String, String> toMap(List<Property> properties) {
+        return properties.stream()
                 .collect(Collectors.toMap(Property::getName, Property::getValue));
     }
 

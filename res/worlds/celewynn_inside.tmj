@@ -706,123 +706,123 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"castle.tsx"
+         "source":"castle.tsj"
         }, 
         {
          "firstgid":579,
-         "source":"desert.tsx"
+         "source":"desert.tsj"
         }, 
         {
          "firstgid":993,
-         "source":"dungeon.tsx"
+         "source":"dungeon.tsj"
         }, 
         {
          "firstgid":2472,
-         "source":"house.tsx"
+         "source":"house.tsj"
         }, 
         {
          "firstgid":5094,
-         "source":"inside.tsx"
+         "source":"inside.tsj"
         }, 
         {
          "firstgid":6774,
-         "source":"outside.tsx"
+         "source":"outside.tsj"
         }, 
         {
          "firstgid":8022,
-         "source":"terrain.tsx"
+         "source":"terrain.tsj"
         }, 
         {
          "firstgid":9972,
-         "source":"water.tsx"
+         "source":"water.tsj"
         }, 
         {
          "firstgid":12777,
-         "source":"beach.tsx"
+         "source":"beach.tsj"
         }, 
         {
          "firstgid":13713,
-         "source":"dark_dimension.tsx"
+         "source":"dark_dimension.tsj"
         }, 
         {
          "firstgid":14322,
-         "source":"farm_fort.tsx"
+         "source":"farm_fort.tsj"
         }, 
         {
          "firstgid":16454,
-         "source":"inside2.tsx"
+         "source":"inside2.tsj"
         }, 
         {
          "firstgid":17079,
-         "source":"inside3.tsx"
+         "source":"inside3.tsj"
         }, 
         {
          "firstgid":17655,
-         "source":"outside2.tsx"
+         "source":"outside2.tsj"
         }, 
         {
          "firstgid":18231,
-         "source":"outside3.tsx"
+         "source":"outside3.tsj"
         }, 
         {
          "firstgid":18856,
-         "source":"outside4.tsx"
+         "source":"outside4.tsj"
         }, 
         {
          "firstgid":19720,
-         "source":"ruindungeons_sheet_full.tsx"
+         "source":"ruindungeons_sheet_full.tsj"
         }, 
         {
          "firstgid":22268,
-         "source":"ship_tileset.tsx"
+         "source":"ship_tileset.tsj"
         }, 
         {
          "firstgid":23780,
-         "source":"z_tile_marker.tsx"
+         "source":"z_tile_marker.tsj"
         }, 
         {
          "firstgid":23812,
-         "source":"underwater.tsx"
+         "source":"underwater.tsj"
         }, 
         {
          "firstgid":25002,
-         "source":"giant_tree.tsx"
+         "source":"giant_tree.tsj"
         }, 
         {
          "firstgid":26226,
-         "source":"eastern.tsx"
+         "source":"eastern.tsj"
         }, 
         {
          "firstgid":29642,
-         "source":"sewer.tsx"
+         "source":"sewer.tsj"
         }, 
         {
          "firstgid":30650,
-         "source":"winter1.tsx"
+         "source":"winter1.tsj"
         }, 
         {
          "firstgid":31530,
-         "source":"winter2.tsx"
+         "source":"winter2.tsj"
         }, 
         {
          "firstgid":31786,
-         "source":"winter3.tsx"
+         "source":"winter3.tsj"
         }, 
         {
          "firstgid":32042,
-         "source":"winter4.tsx"
+         "source":"winter4.tsj"
         }, 
         {
          "firstgid":32724,
-         "source":"beach2.tsx"
+         "source":"beach2.tsj"
         }, 
         {
          "firstgid":33192,
-         "source":"steampunk.tsx"
+         "source":"steampunk.tsj"
         }, 
         {
          "firstgid":37962,
-         "source":"fairy_forest.tsx"
+         "source":"fairy_forest.tsj"
         }],
  "tilewidth":32,
  "type":"map",

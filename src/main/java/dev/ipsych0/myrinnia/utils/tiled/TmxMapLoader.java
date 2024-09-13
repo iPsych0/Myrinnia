@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
+@Deprecated
 public class TmxMapLoader implements MapLoader, Serializable {
 
     /**
