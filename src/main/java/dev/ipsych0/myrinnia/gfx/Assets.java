@@ -308,9 +308,8 @@ public class Assets {
         long before = System.currentTimeMillis();
         log.info("Loading world doc:");
 
-        MapLoader mapLoader = new TmjMapLoader();
+        TmjMapLoader mapLoader = new TmjMapLoader();
         mapLoader.setWorldDoc(Handler.initialWorldPath);
-        SpriteSheet.firstGids = mapLoader.getTiledFirstGids();
 
         long now = (System.currentTimeMillis() - before);
         log.info("Loading time of world doc: {}", ((double) now / 1000d));

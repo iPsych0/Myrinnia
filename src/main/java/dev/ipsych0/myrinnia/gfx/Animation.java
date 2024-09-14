@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,7 +23,7 @@ public class Animation implements Serializable {
     private static final long serialVersionUID = 6957117142545976181L;
     private int speed, index;
     private long lastTime, timer;
-    private transient BufferedImage[] frames;
+    private transient List<BufferedImage> frames;
     private boolean tickOnce;
     private boolean tickDone;
     private boolean reversed;
@@ -36,6 +38,26 @@ public class Animation implements Serializable {
      * @param reversed
      */
     public Animation(int speed, BufferedImage[] frames, boolean tickOnce, boolean reversed) {
+        this(speed, List.of(frames), tickOnce, reversed);
+    }
+
+    public Animation(int speed, BufferedImage[] frames, boolean tickOnce) {
+        this(speed, List.of(frames), tickOnce, false);
+    }
+
+    public Animation(int speed, BufferedImage[] frames) {
+        this(speed, List.of(frames), false, false);
+    }
+
+    public Animation(int speed, List<BufferedImage> frames) {
+        this(speed, frames, false, false);
+    }
+
+    public Animation(int speed, List<BufferedImage> frames, boolean tickOnce) {
+        this(speed, frames, tickOnce, false);
+    }
+
+    public Animation(int speed, List<BufferedImage> frames, boolean tickOnce, boolean reversed) {
         this.speed = speed;
         this.frames = frames;
         this.tickOnce = tickOnce;
@@ -51,14 +73,6 @@ public class Animation implements Serializable {
         lastTime = System.currentTimeMillis();
     }
 
-    public Animation(int speed, BufferedImage[] frames, boolean tickOnce) {
-        this(speed, frames, tickOnce, false);
-    }
-
-    public Animation(int speed, BufferedImage[] frames) {
-        this(speed, frames, false, false);
-    }
-
     public void tick() {
         if (reversed) {
             tickOnceAndReverse();
@@ -71,7 +85,7 @@ public class Animation implements Serializable {
             if (timer > speed) {
                 index++;
                 timer = 0;
-                if (index >= frames.length)
+                if (index >= frames.size())
                     index = 0;
             }
         }
@@ -85,8 +99,8 @@ public class Animation implements Serializable {
             if (timer > speed) {
                 index++;
                 timer = 0;
-                if (index >= frames.length) {
-                    index = frames.length - 1;
+                if (index >= frames.size()) {
+                    index = frames.size() - 1;
                     tickDone = true;
                 }
             }
@@ -108,8 +122,8 @@ public class Animation implements Serializable {
                 }
 
                 timer = 0;
-                if (index >= frames.length && !reverseStarted) {
-                    index = frames.length - 1;
+                if (index >= frames.size() && !reverseStarted) {
+                    index = frames.size() - 1;
                     reverseStarted = true;
                 }
                 if (reverseStarted && index == 0) {
@@ -120,28 +134,36 @@ public class Animation implements Serializable {
     }
 
     public BufferedImage getCurrentFrame() {
-        return frames[index];
+        return frames.get(index);
     }
 
     public int getLength() {
-        return frames.length;
+        return frames.size();
     }
 
     public BufferedImage getDefaultFrame() {
-        return frames[1];
+        return frames.get(1);
     }
 
     public BufferedImage getSingleFrame(int index) {
-        if(index < 0)
+        if (index < 0)
             index = 0;
-        if(index >= frames.length)
-            index = frames.length - 1;
-        return frames[index];
+        if (index >= frames.size())
+            index = frames.size() - 1;
+        return frames.get(index);
+    }
+
+    public void setFrames(BufferedImage[] frames) {
+        this.setFrames(List.of(frames));
+    }
+
+    public void setFrames(List<BufferedImage> frames) {
+        this.frames = frames;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-        out.writeInt(frames.length); // how many images are serialized?
+        out.writeInt(frames.size()); // how many images are serialized?
 
         for (BufferedImage eachImage : frames) {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -157,7 +179,7 @@ public class Animation implements Serializable {
         in.defaultReadObject();
 
         int imageCount = in.readInt();
-        this.frames = new BufferedImage[imageCount];
+        this.frames = new ArrayList<>();
         for (int i = 0; i < imageCount; i++) {
             int size = in.readInt(); // Read byte count
 
@@ -165,7 +187,7 @@ public class Animation implements Serializable {
             in.readFully(buffer); // Make sure you read all bytes of the image
 
             InputStream is = new ByteArrayInputStream(buffer);
-            this.frames[i] = ImageIO.read(is);
+            this.frames.add(ImageIO.read(is));
             is.close();
         }
     }

@@ -74,7 +74,7 @@ import java.util.Random;
 public class Handler implements Serializable {
 
     private Properties prop = new Properties();
-    public static String initialWorldPath = "./res/worlds/port_azure.tmx";
+    public static String initialWorldPath = "./res/worlds/port_azure.tmj";
 
     private static final long serialVersionUID = -4768616559126746790L;
     private static Game game;
@@ -300,11 +300,10 @@ public class Handler implements Serializable {
     public Rectangle getMouse() {
         if (getMouseManager().getMouseCoords() != null) {
             getMouseManager().getMouseCoords().setLocation(getMouseManager().getMouseX(), getMouseManager().getMouseY());
-            return getMouseManager().getMouseCoords();
         } else {
             getMouseManager().setMouseCoords(new Rectangle(getMouseManager().getMouseX(), getMouseManager().getMouseY(), 1, 1));
-            return getMouseManager().getMouseCoords();
         }
+        return getMouseManager().getMouseCoords();
     }
 
     public void goToWorld(Zone zone, int x, int y) {
@@ -328,8 +327,7 @@ public class Handler implements Serializable {
 
         // Reset all NPCs to their spawn location and let them face the original way
         for (Entity e : world.getEntityManager().getEntities()) {
-            if (e instanceof Creature creature) {
-                Creature c =creature;
+            if (e instanceof Creature c) {
                 if (e.isAttackable() && !e.equals(player)) {
 
                     // Reset A* aggro

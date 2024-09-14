@@ -5,7 +5,6 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
-import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
@@ -71,9 +70,9 @@ public class CelenorGrottoWater extends GenericObject {
 
     public static void cleanse() {
         // Get the right paths
-        String aemirRiverflankPath = "./res/worlds/aemir_riverflank.tmx";
-        String celewynnPath = "./res/worlds/celewynn.tmx";
-        String celenorCavesPath = "./res/worlds/celenor_caves.tmx";
+        String aemirRiverflankPath = "./res/worlds/aemir_riverflank.tmj";
+        String celewynnPath = "./res/worlds/celewynn.tmj";
+        String celenorCavesPath = "./res/worlds/celenor_caves.tmj";
 
         // Reset the water to normal state
         new TmjMapLoader().setWorldDoc(aemirRiverflankPath);

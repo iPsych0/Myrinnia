@@ -39,11 +39,13 @@ public class TmjMapLoader implements MapLoader {
             .setStrictness(Strictness.LENIENT)
             .create();
 
+    @Getter
     private TiledMap map;
     @Getter
     private int width, height;
     private String worldPath;
 
+    @Getter
     private TsjTileset tsjTileset;
     private final Map<String, TsjTileset> tsjCache = new HashMap<>();
     private final Set<String> readFiles = new HashSet<>();
@@ -52,8 +54,6 @@ public class TmjMapLoader implements MapLoader {
 
     public void setWorldDoc(String worldPath) {
         this.worldPath = worldPath;
-        // TODO: Remove and make world files use .json instead of .tmx
-        worldPath = worldPath.replace(".tmx", ".tmj");
         loadMap(worldPath).ifPresent(map -> {
             this.map = map;
             this.width = map.getWidth();
@@ -74,8 +74,6 @@ public class TmjMapLoader implements MapLoader {
         for (int i = 0; i < tilesets.size(); i++) {
             Tileset tileset = tilesets.get(i);
             String source = "./res/worlds/" + tileset.getSource();
-            // TODO: REMOVE!!!
-            source = source.replace(".tsx", ".tsj");
             // Check if we've cached the tsx file already
             if (!tsjCache.containsKey(source)) {
                 setTsxDoc(source);

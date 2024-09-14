@@ -35,7 +35,6 @@ import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Timer;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
 import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
-import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.Rain;
 import dev.ipsych0.myrinnia.worlds.weather.Sunny;

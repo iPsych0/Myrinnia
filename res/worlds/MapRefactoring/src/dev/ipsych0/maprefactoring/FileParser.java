@@ -52,7 +52,7 @@ public class FileParser {
         BufferedReader reader = null;
         StringBuilder sb = new StringBuilder();
         try {
-            // Open stream to the world tmx file
+            // Open stream to the world tmj file
             is = new FileInputStream(file);
             reader = new BufferedReader(new InputStreamReader(is));
 

@@ -1,13 +1,10 @@
 package dev.ipsych0.myrinnia.gfx;
 
-import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.creatures.Creature;
-import dev.ipsych0.myrinnia.tiles.AnimatedTile;
 import dev.ipsych0.myrinnia.tiles.MovePermission;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.tiled.MapLoader;
-import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +19,7 @@ public class SpriteSheet {
 
 
     private BufferedImage sheet;
-    public static List<Integer> firstGids;
+    private int firstGid;
     private int imageIndex;
     private int columns;
     private String path;
@@ -30,8 +27,9 @@ public class SpriteSheet {
 
     public SpriteSheet(String path, MapLoader mapLoader) {
         this(path);
-        imageIndex = mapLoader.getImageIndex(path);
-        columns = mapLoader.getTileColumns();
+        this.imageIndex = mapLoader.getImageIndex(path);
+        this.firstGid = mapLoader.getTiledFirstGids().get(imageIndex);
+        this.columns = mapLoader.getTileColumns();
     }
 
     public SpriteSheet(String path) {
@@ -66,46 +64,56 @@ public class SpriteSheet {
         else
             tileId = (y / 32) * columns + (x / 32);
 
-        tileId = tileId + firstGids.get(imageIndex);
+        tileId += firstGid;
 
         SplashScreen.addLoadedElement();
 
-        if (Tile.polygonTiles.get(tileId) != null) {
-            int size = Tile.polygonTiles.get(tileId).size();
-            List<Point> points = Tile.polygonTiles.get(tileId);
-            int[] xCoords = new int[size];
-            int[] yCoords = new int[size];
-            for (int i = 0; i < size; i++) {
-                xCoords[i] = (int) points.get(i).getX();
-                yCoords[i] = (int) points.get(i).getY();
-            }
-            if (Tile.animationMap.get(tileId) != null) {
-                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords, Tile.animationMap.get(tileId));
-            } else {
-                BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if (isTransparent(img)) {
-                    return null;
-                }
-                Tile.tiles[tileId] = new Tile(sheet.getSubimage(x, y, width, height), tileId, xCoords, yCoords);
-            }
-        } else {
-            if (Tile.animationMap.get(tileId) != null) {
-                Tile.tiles[tileId] = new AnimatedTile(sheet.getSubimage(x, y, width, height), tileId, Tile.solidTiles.get(tileId), Tile.postRenderTiles.get(tileId), Tile.animationMap.get(tileId));
-            } else {
-                BufferedImage img = sheet.getSubimage(x, y, width, height);
-                if (isTransparent(img)) {
-                    return null;
-                }
-                Tile.tiles[tileId] = new Tile(img, tileId, Tile.solidTiles.get(tileId), Tile.postRenderTiles.get(tileId));
-            }
+        // Build a partial Tile with basic settings
+        Tile.TileBuilder builder = Tile.builder()
+                .id(tileId)
+                .texture(sheet.getSubimage(x, y, width, height))
+                .solid(Tile.solidTiles.get(tileId))
+                .postRendered(Tile.postRenderTiles.get(tileId));
+
+        Tile.tiles[tileId] = builder.build();
+        Tile tile = Tile.tiles[tileId];
+
+        // Don't parse transparent tiles
+        if (isTransparent(tile.getTexture())) {
+            return null;
         }
 
-        // If we're loading a movement permission tile, set the right permission
+        // Set animationTiles (initialized in Tile class, as post-init)
+        builder.animationTiles(Tile.animationMap.get(tileId));
+
+        setPolyTiles(tileId, builder);
+
+        Tile.tiles[tileId] = builder.build();
+
+        // Set permissions
         if (MovePermission.map.get(tileId) != null) {
+            // Important to re-reference the Tile.tiles[tileId] explicitly instead of re-using 'tile'
             Tile.tiles[tileId].setPermission(MovePermission.map.get(tileId));
         }
 
         return sheet.getSubimage(x, y, width, height);
+    }
+
+    private void setPolyTiles(int tileId, Tile.TileBuilder builder) {
+        List<Point> polyTiles = Tile.polygonTiles.get(tileId);
+        if (polyTiles == null) {
+            return;
+        }
+
+        int size = polyTiles.size();
+        int[] xCoords = new int[size];
+        int[] yCoords = new int[size];
+        for (int i = 0; i < size; i++) {
+            xCoords[i] = (int) polyTiles.get(i).getX();
+            yCoords[i] = (int) polyTiles.get(i).getY();
+        }
+        builder.xPoints(xCoords);
+        builder.yPoints(yCoords);
     }
 
     private boolean isTransparent(BufferedImage img) {
@@ -182,7 +190,7 @@ public class SpriteSheet {
     }
 
     /**
-     * Crop out an array of NPC animations with custom x/y & width/height
+     * Horizontally crop out an array of NPC animations with custom x/y & width/height
      *
      * @param x      absolute xPos
      * @param y      absolute yPos

@@ -1,17 +1,22 @@
 package dev.ipsych0.myrinnia.tiles;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.gfx.Animation;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Builder
 public class Tile {
     public static Map<Integer, Boolean> solidTiles = new HashMap<>();
     public static Map<Integer, Boolean> postRenderTiles = new HashMap<>();
@@ -25,47 +30,46 @@ public class Tile {
 
     private BufferedImage texture;
     private final int id;
-    private int x, y;
     private boolean solid, postRendered;
     private int[] xPoints, yPoints;
     private Polygon polyBounds;
     private boolean initialized, reset;
     private int lastX = -1, lastY = -1;
     private String permission;
+    private Animation animation;
+    private Map<Integer, Integer> animationTiles;
+    private static final Integer DEFAULT_ANIMATION_SPEED = 500;
 
-    public Tile(BufferedImage texture, int id, boolean solid) {
-        this.texture = texture;
-        this.id = id;
-        this.solid = solid;
-    }
-
-    public Tile(BufferedImage texture, int id, int[] x, int[] y) {
-        this.texture = texture;
-        this.id = id;
-        this.solid = true;
-        this.xPoints = x;
-        this.yPoints = y;
-        this.polyBounds = new Polygon(x, y, (x.length + y.length) / 2);
-    }
-
-    public Tile(BufferedImage texture, int id, boolean solid, boolean postRendered) {
-        this.texture = texture;
-        this.id = id;
-        // Always false, because there is no point in post-render if an Entity can't walk behind this Tile
-        if (postRendered && solid) {
-            this.solid = true;
-            this.postRendered = false;
+    public void tick() {
+        if (animation != null) {
+            animation.tick();
         } else {
-            this.solid = solid;
-            this.postRendered = postRendered;
+            loadAnimation();
         }
     }
 
-    public void tick() {
+    private void loadAnimation() {
+        if (animationTiles == null || animationTiles.isEmpty()) {
+            return;
+        }
+        List<BufferedImage> tiles = animationTiles.keySet()
+                .stream()
+                .map(key -> Tile.tiles[key].getTexture())
+                .collect(Collectors.toList());
 
+        int speed = animationTiles.values().stream()
+                .findFirst()
+                .orElse(DEFAULT_ANIMATION_SPEED);
+
+        animation = new Animation(speed, tiles);
     }
 
     public void render(Graphics2D g, int x, int y) {
+        if (animation != null) {
+            g.drawImage(animation.getCurrentFrame(), x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
+            return;
+        }
+
         g.drawImage(texture, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
         if (Handler.debugCollision && polyBounds != null) {
             int[] xArr, yArr;
@@ -118,5 +122,51 @@ public class Tile {
             lastY = yPos;
         }
         return polyBounds;
+    }
+
+    /*
+     * Make sure that we validate setter logic for solid/postrender changes
+     */
+    public void setSolid(boolean solid) {
+        setSolidAndPostRendered(solid, postRendered);
+    }
+
+    public void setPostRendered(boolean postRendered) {
+        setSolidAndPostRendered(solid, postRendered);
+    }
+
+    public void setSolidAndPostRendered(boolean solid, boolean postRendered) {
+        if (this.postRendered && solid) {
+            this.solid = true;
+            this.postRendered = false;
+        } else {
+            this.solid = solid;
+            this.postRendered = postRendered;
+        }
+    }
+
+    public static class TileBuilder {
+        private boolean solid;
+        private boolean postRendered;
+
+        public TileBuilder solid(boolean solid) {
+            setSolidAndPostRendered(solid, postRendered);
+            return this;
+        }
+
+        public TileBuilder postRendered(boolean postRendered) {
+            setSolidAndPostRendered(solid, postRendered);
+            return this;
+        }
+
+        public void setSolidAndPostRendered(boolean solid, boolean postRendered) {
+            if (this.postRendered && solid) {
+                this.solid = true;
+                this.postRendered = false;
+            } else {
+                this.solid = solid;
+                this.postRendered = postRendered;
+            }
+        }
     }
 }
