@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class MeleeDummy extends Creature {
+public class MeleeDummy extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -18,8 +18,8 @@ public class MeleeDummy extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
-    public MeleeDummy(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public MeleeDummy(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 

@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -11,16 +10,16 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 
-public class CelenorElias extends Creature {
+public class CelenorElias extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorElias(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorElias() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
-        speed = 1.0;
+        this.stats.setMovementSpeed(1.0);
     }
 
     @Override

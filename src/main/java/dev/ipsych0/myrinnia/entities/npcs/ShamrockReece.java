@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.skills.ui.Bounty;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 import dev.ipsych0.myrinnia.worlds.Zone;
@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class ShamrockReece extends Creature {
+public class ShamrockReece extends Entity {
 
     private static final long serialVersionUID = 101550362959052644L;
 
-    public ShamrockReece(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockReece() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

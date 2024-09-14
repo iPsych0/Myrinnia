@@ -46,6 +46,8 @@ import dev.ipsych0.myrinnia.ui.custom.BookUI;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -60,7 +62,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 @Slf4j
-public class Player extends Creature {
+@Getter
+@Setter
+public class Player extends Entity {
 
 
     private static final long serialVersionUID = -7176335479649325606L;
@@ -75,16 +79,16 @@ public class Player extends Creature {
     private Animation combatUpFront, combatUpBack;
 
     // Melee timer
-    private long lastAttackTimer, attackCooldown = (long) (600 / getAttackSpeed()), attackTimer = attackCooldown;
+    private long lastAttackTimer, attackCooldown = (long) (600 / this.stats.getAttackSpeed()), attackTimer = attackCooldown;
 
     // Magic timer
-    private long lastMagicTimer, magicCooldown = (long) (600 / getAttackSpeed()), magicTimer = magicCooldown;
+    private long lastMagicTimer, magicCooldown = (long) (600 / this.stats.getAttackSpeed()), magicTimer = magicCooldown;
 
     // Ranged timer
-    private long lastRangedTimer, rangedCooldown = (long) (600 / getAttackSpeed()), rangedTimer = rangedCooldown;
+    private long lastRangedTimer, rangedCooldown = (long) (600 / this.stats.getAttackSpeed()), rangedTimer = rangedCooldown;
 
     private double levelExponent = 1.1;
-    private int baseHP = 100;
+    private int baseHP = DEFAULT_HEALTH * 2;
     public static boolean isLevelUp;
     public static boolean isXpGained;
     public static Skill leveledSkill;
@@ -112,22 +116,20 @@ public class Player extends Creature {
     private int abilityPoints;
 
     public Player(double x, double y) {
-        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
-
         xSpawn = x;
         ySpawn = y;
         attackable = true;
 
-        waterLevel = 0;
-        fireLevel = 0;
-        airLevel = 0;
-        earthLevel = 0;
+        this.stats.setWaterLevel(0);
+        this.stats.setFireLevel(0);
+        this.stats.setAirLevel(0);
+        this.stats.setEarthLevel(0);
 
         // Player combat/movement settings:
 
-        maxHealth = baseHP + vitality * 4;
+        maxHealth = baseHP + this.stats.getVitality() * 4;
         health = maxHealth;
-        speed = DEFAULT_SPEED + 1.0;
+        this.stats.setMovementSpeed(DEFAULT_SPEED + 1.0);
 
         // Set collision boundaries on sprite
         bounds.x = 10;
@@ -240,6 +242,9 @@ public class Player extends Creature {
 
                     if (closestEntity.getChatDialogue() == null) {
                         closestEntity.interact();
+                        if (!closestEntity.isStaticNpc() && closestEntity.isNpc()) {
+                            closestEntity.lookAtPlayer();
+                        }
                         hasInteracted = true;
                         Handler.get().playEffect("ui/ui_button_click.ogg");
 
@@ -408,7 +413,7 @@ public class Player extends Creature {
                         p.setActive(false);
                     }
                     if (e.isAttackable()) {
-                        if (!p.getHitCreatures().contains((Creature) e)) {
+                        if (!p.getHitCreatures().contains(e)) {
                             if (p.getDamageType() != null) {
                                 if (p.getAbility() != null) {
                                     e.damage(p.getDamageType(), this, p.getAbility());
@@ -422,7 +427,7 @@ public class Player extends Creature {
                             }
                         }
 
-                        p.setHitCreature((Creature) e);
+                        p.setHitCreature(e);
 
                         // Apply special effect if has one
                         if (p.getOnImpact() != null) {
@@ -436,7 +441,7 @@ public class Player extends Creature {
                             break;
                         }
 
-                        p.getHitCreatures().add((Creature) e);
+                        p.getHitCreatures().add(e);
                     }
                 }
             }
@@ -541,7 +546,7 @@ public class Player extends Creature {
         // Change base damage and restore to full health
         baseDamage = (int) Math.ceil(baseDamage * levelExponent) + 1;
         baseHP = getNewBaseHP();
-        maxHealth = baseHP + vitality * 4;
+        maxHealth = baseHP + this.stats.getVitality() * 4;
 
         health = maxHealth;
     }
@@ -572,17 +577,17 @@ public class Player extends Creature {
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack() != null) {
 
             // Sets the new stats
-            attackSpeed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed();
-            vitality += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality();
-            strength += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength();
-            dexterity += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity();
-            intelligence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence();
-            defence += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence();
-            speed += Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed();
-            attackCooldown = (long) (600 / attackSpeed);
-            magicCooldown = (long) (600 / attackSpeed);
+            this.stats.addAttackSpeed(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed());
+            this.stats.addVitality(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality());
+            this.stats.addStrength(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength());
+            this.stats.addDexterity(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity());
+            this.stats.addIntelligence(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence());
+            this.stats.addDefence(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence());
+            this.stats.addMovementSpeed(Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed());
+            attackCooldown = (long) (600 / this.stats.getAttackSpeed());
+            magicCooldown = (long) (600 / this.stats.getAttackSpeed());
             int previousMaxHP = maxHealth;
-            maxHealth = baseHP + vitality * 4;
+            maxHealth = baseHP + this.stats.getVitality() * 4;
             if (health == previousMaxHP) {
                 health = maxHealth;
             }
@@ -624,51 +629,51 @@ public class Player extends Creature {
         }
         if (Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack() != null) {
 
-            if (getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed() < 0) {
-                setAttackSpeed(0);
+            if (this.stats.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed() < 0) {
+                this.stats.setAttackSpeed(0);
             } else {
-                attackSpeed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed();
+                this.stats.setAttackSpeed(this.stats.getAttackSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getAttackSpeed());
             }
 
-            if (getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality() < 0) {
+            if (this.stats.getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality() < 0) {
                 setVitality(0);
             } else {
-                vitality -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality();
+                this.stats.setVitality(this.stats.getVitality() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getVitality());
             }
 
-            if (getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength() < 0) {
-                setStrength(0);
+            if (this.stats.getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength() < 0) {
+                this.stats.setStrength(0);
             } else {
-                strength -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength();
+                this.stats.setStrength(this.stats.getStrength() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getStrength());
             }
 
-            if (getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity() < 0) {
-                setDexterity(0);
+            if (this.stats.getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity() < 0) {
+                this.stats.setDexterity(0);
             } else {
-                dexterity -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity();
+                this.stats.setDexterity(this.stats.getDexterity() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDexterity());
             }
 
-            if (getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence() < 0) {
-                setIntelligence(0);
+            if (this.stats.getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence() < 0) {
+                this.stats.setIntelligence(0);
             } else {
-                intelligence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence();
+                this.stats.setIntelligence(this.stats.getIntelligence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getIntelligence());
             }
 
-            if (getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence() < 0) {
-                setDefence(0);
+            if (this.stats.getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence() < 0) {
+                this.stats.setDefence(0);
             } else {
-                defence -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence();
+                this.stats.setDefence(this.stats.getDefence() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getDefence());
             }
 
-            if (speed - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed() < 1.0f) {
-                speed = 1.0f;
+            if (this.stats.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed() < 1.0f) {
+                this.stats.setMovementSpeed(1.0f);
             } else {
-                speed -= Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed();
+                this.stats.setMovementSpeed(this.stats.getMovementSpeed() - Handler.get().getEquipment().getEquipmentSlots().get(equipSlot).getItemStack().getItem().getMovementSpeed());
             }
 
-            attackCooldown = (long) (600 / attackSpeed);
-            magicCooldown = (long) (600 / attackSpeed);
-            maxHealth = baseHP + vitality * 4;
+            attackCooldown = (long) (600 / this.stats.getAttackSpeed());
+            magicCooldown = (long) (600 / this.stats.getAttackSpeed());
+            maxHealth = baseHP + this.stats.getVitality() * 4;
             if (health >= maxHealth) {
                 health = maxHealth;
             }
@@ -952,25 +957,25 @@ public class Player extends Creature {
         yMove = 0;
 
         if (Handler.get().getKeyManager().up) {
-            yMove = -speed;
+            yMove = -this.stats.getMovementSpeed();
             direction = Direction.UP;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().down) {
-            yMove = speed;
+            yMove = this.stats.getMovementSpeed();
             direction = Direction.DOWN;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().left) {
-            xMove = -speed;
+            xMove = -this.stats.getMovementSpeed();
             direction = Direction.LEFT;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
         }
         if (Handler.get().getKeyManager().right) {
-            xMove = speed;
+            xMove = this.stats.getMovementSpeed();
             direction = Direction.RIGHT;
             setMouseAngle(x, y, (int) (Handler.get().getMouseManager().getMouseX() + Handler.get().getGameCamera().getxOffset()),
                     (int) (Handler.get().getMouseManager().getMouseY() + Handler.get().getGameCamera().getyOffset()));
@@ -1246,106 +1251,18 @@ public class Player extends Creature {
         this.lastFaced = lastFaced;
     }
 
-    public ShopKeeper getShopKeeper() {
-        return shopKeeper;
-    }
-
-    public Banker getBankEntity() {
-        return bankEntity;
-    }
-
-    public void setBankEntity(Banker bankEntity) {
-        this.bankEntity = bankEntity;
-    }
-
     public Rectangle itemPickupRadius() {
         itemPickupRadius.setLocation((int) (x + bounds.x - 24), (int) (y + bounds.y - 24));
         return itemPickupRadius;
-    }
-
-    public Zone getZone() {
-        return zone;
-    }
-
-    public void setZone(Zone zone) {
-        this.zone = zone;
-    }
-
-    public AbilityTrainer getAbilityTrainer() {
-        return abilityTrainer;
-    }
-
-    public void setAbilityTrainer(AbilityTrainer abilityTrainer) {
-        this.abilityTrainer = abilityTrainer;
-    }
-
-    public BountyBoard getBountyBoard() {
-        return bountyBoard;
-    }
-
-    public void setBountyBoard(BountyBoard bountyBoard) {
-        this.bountyBoard = bountyBoard;
-    }
-
-    public int getAbilityPoints() {
-        return abilityPoints;
-    }
-
-    public void setAbilityPoints(int abilityPoints) {
-        this.abilityPoints = abilityPoints;
     }
 
     public void addAbilityPoints() {
         this.abilityPoints++;
     }
 
-    public int getBaseHP() {
-        return baseHP;
-    }
-
-    public void setBaseHP(int baseHP) {
-        this.baseHP = baseHP;
-    }
-
-    public void setClosestEntity(Entity closestEntity) {
-        this.closestEntity = closestEntity;
-    }
-
-    public double getLevelExponent() {
-        return levelExponent;
-    }
-
-    public void setLevelExponent(double levelExponent) {
-        this.levelExponent = levelExponent;
-    }
-
-    public Zone getLastSpawnPoint() {
-        return lastSpawnPoint;
-    }
-
-    public void setLastSpawnPoint(Zone lastSpawnPoint) {
-        this.lastSpawnPoint = lastSpawnPoint;
-    }
-
-    public double getLastXSpawn() {
-        return lastXSpawn;
-    }
-
-    public void setLastXSpawn(double lastXSpawn) {
-        this.lastXSpawn = lastXSpawn;
-    }
-
-    public double getLastYSpawn() {
-        return lastYSpawn;
-    }
-
-    public void setLastYSpawn(double lastYSpawn) {
-        this.lastYSpawn = lastYSpawn;
-    }
-
     @Override
     public void setVitality(int vitality) {
-        this.vitality = vitality;
+        this.stats.setVitality(vitality);
 
         // Change max HP as well
         int previousMaxHP = maxHealth;
@@ -1353,6 +1270,13 @@ public class Player extends Creature {
         if (health >= previousMaxHP) {
             health = maxHealth;
         }
+    }
+
+    public void setAttackSpeed(double attackSpeed) {
+        this.stats.setAttackSpeed(attackSpeed);
+        attackCooldown = (long) (600 / attackSpeed);
+        magicCooldown = (long) (600 / attackSpeed);
+        rangedCooldown = (long) (600 / attackSpeed);
     }
 
     private void writeObject(ObjectOutputStream stream)
@@ -1369,13 +1293,5 @@ public class Player extends Creature {
         Handler.get().getGameCamera().setFocusedEntity(this);
         this.postRenderTiles = new HashMap<>();
         this.initialTileSetup = false;
-    }
-
-    @Override
-    public void setAttackSpeed(double attackSpeed) {
-        super.setAttackSpeed(attackSpeed);
-        attackCooldown = (long) (600 / attackSpeed);
-        magicCooldown = (long) (600 / attackSpeed);
-        rangedCooldown = (long) (600 / attackSpeed);
     }
 }

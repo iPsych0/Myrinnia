@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -9,7 +10,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class AlchemicalExperiment extends Creature {
+public class AlchemicalExperiment extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -19,21 +20,21 @@ public class AlchemicalExperiment extends Creature {
     private Animation meleeAnimation;
     private Animation bluntImpact;
 
-    public AlchemicalExperiment(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AlchemicalExperiment() {
+        
         isNpc = false;
         attackable = true;
         aggressive = true;
 
         // Creature stats
-        strength = 20;
-        dexterity = 0;
-        intelligence = 0;
-        vitality = 70;
-        defence = 55;
-        speed = 1.0f;
+        stats.setStrength(20);
+        stats.setDexterity(0);
+        stats.setIntelligence(0);
+        stats.setVitality(70);
+        stats.setDexterity(55);
+        stats.setMovementSpeed(1.0f);
 
-        maxHealth = DEFAULT_HEALTH + vitality * 4;
+        maxHealth = DEFAULT_HEALTH + stats.getVitality() * 4;
         health = maxHealth;
 
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
@@ -107,7 +108,7 @@ public class AlchemicalExperiment extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AlchemicalExperiment(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new AlchemicalExperiment(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

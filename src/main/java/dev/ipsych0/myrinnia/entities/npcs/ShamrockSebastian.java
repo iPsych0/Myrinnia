@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class ShamrockSebastian extends Creature {
+public class ShamrockSebastian extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.WeDelvedTooDeep);
     private static final long serialVersionUID = 101550362959052644L;
 
-    public ShamrockSebastian(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockSebastian() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

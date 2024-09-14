@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -10,15 +10,15 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
-public class CelenorWarden extends Creature {
+public class CelenorWarden extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private Animation teleportAnim;
     private Player player;
     private float alpha = 1.0f;
 
-    public CelenorWarden(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorWarden() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

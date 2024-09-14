@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public class FishingSpot extends StaticEntity {
+public class FishingSpot extends Entity {
 
 
     private static final long serialVersionUID = -4511991258183891329L;
@@ -62,8 +63,8 @@ public class FishingSpot extends StaticEntity {
     );
     private Rectangle progressBar, totalBar;
 
-    public FishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public FishingSpot() {
+        
 
         isNpc = true;
         attackable = false;
@@ -248,7 +249,10 @@ public class FishingSpot extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new FishingSpot(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        FishingSpot fishingSpot = new FishingSpot();
+        fishingSpot.setX(xSpawn);
+        fishingSpot.setY(ySpawn);
+        Handler.get().getWorld().getEntityManager().addEntity(fishingSpot);
     }
 
     @Override

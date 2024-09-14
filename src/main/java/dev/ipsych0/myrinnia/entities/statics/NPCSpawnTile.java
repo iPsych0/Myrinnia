@@ -1,8 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.worlds.World;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
-public class NPCSpawnTile extends Creature {
+public class NPCSpawnTile extends Entity {
 
     private List<Entity> entitiesToSpawn = new ArrayList<>();
     private long timeAllKilled;
@@ -31,8 +30,8 @@ public class NPCSpawnTile extends Creature {
     private String itemsShop;
     private Rectangle spawnBounds;
 
-    public NPCSpawnTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public NPCSpawnTile() {
+        
         solid = false;
         attackable = false;
         isNpc = false;
@@ -64,7 +63,7 @@ public class NPCSpawnTile extends Creature {
         }
 
         // If we entered only 1 anim, but more sets of coordinates, we can assume that we should duplicate the anims
-        String[] anims = animation.split(",");
+        String[] anims = animationTag.split(",");
         animations.addAll(Arrays.asList(anims));
         for (int i = animations.size(); i < coords.size(); i++) {
             animations.add(animations.get(0));
@@ -122,7 +121,7 @@ public class NPCSpawnTile extends Creature {
 
         // Use default constructor if no custom properties
         int constructorArguments = 10;
-        if (Creature.class.isAssignableFrom(c)) {
+        if (Entity.class.isAssignableFrom(c)) {
             // For creatures, call
             constructorArguments++;
         }

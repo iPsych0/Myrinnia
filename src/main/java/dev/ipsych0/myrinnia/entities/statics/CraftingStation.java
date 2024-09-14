@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.crafting.ui.CraftingUI;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class CraftingStation extends StaticEntity {
+public class CraftingStation extends Entity {
 
     private static final long serialVersionUID = -8804679431303966524L;
 
-    public CraftingStation(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CraftingStation() {
+        
 
         attackable = false;
         isNpc = true;

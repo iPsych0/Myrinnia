@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class PoisonSpider extends Creature {
+public class PoisonSpider extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -17,8 +17,8 @@ public class PoisonSpider extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 
-    public PoisonSpider(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PoisonSpider(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -98,7 +98,7 @@ public class PoisonSpider extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PoisonSpider(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new PoisonSpider(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

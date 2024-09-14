@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.cutscenes.Cutscene;
 import dev.ipsych0.myrinnia.cutscenes.MoveCameraEvent;
 import dev.ipsych0.myrinnia.entities.Entity;
@@ -17,15 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class ShamrockSinkhole extends StaticEntity {
+public class ShamrockSinkhole extends Entity {
 
     private boolean cutsceneStarted;
     private boolean hasSpawnedTrolls;
     private Entity robert, albert, aaron;
 
     public ShamrockSinkhole(double x, double y, int width, int height) {
-        super(x, y, width, height, null, 1, null, null, null, null);
-
         solid = true;
         attackable = false;
         isNpc = true;

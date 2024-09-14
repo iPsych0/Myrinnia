@@ -14,8 +14,8 @@ public class CelenorGrottoWater extends GenericObject {
     public static boolean potionUsed;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorGrottoWater(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorGrottoWater() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -43,7 +43,10 @@ public class CelenorGrottoWater extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorGrottoWater(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        CelenorGrottoWater respawn = new CelenorGrottoWater();
+        respawn.setX(x);
+        respawn.setY(y);
+        Handler.get().getWorld().getEntityManager().addEntity(respawn);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.chatwindow.ChatDialogue;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemStack;
@@ -9,13 +9,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericItemObject extends StaticEntity {
+public class GenericItemObject extends Entity {
 
     private List<ItemStack> items = new ArrayList<>();
     private boolean hasGivenItems;
 
-    public GenericItemObject(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public GenericItemObject() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -59,7 +59,6 @@ public class GenericItemObject extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new GenericItemObject(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

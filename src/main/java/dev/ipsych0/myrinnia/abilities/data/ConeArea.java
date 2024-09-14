@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.abilities.data;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

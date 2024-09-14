@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public class Rock extends StaticEntity {
+public class Rock extends Entity {
 
 
     private static final long serialVersionUID = -8123420086619425263L;
@@ -78,8 +78,8 @@ public class Rock extends StaticEntity {
             entry(Item.primordialPickaxe.getId(), 0.65)
     );
 
-    public Rock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public Rock() {
+        
 
         isNpc = true;
         attackable = false;
@@ -321,7 +321,7 @@ public class Rock extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new Rock(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, itemsShop));
     }
 
     @Override

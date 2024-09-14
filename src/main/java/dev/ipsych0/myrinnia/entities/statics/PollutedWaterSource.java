@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -13,8 +13,8 @@ public class PollutedWaterSource extends GenericObject {
     private final Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private boolean questProgressed;
 
-    public PollutedWaterSource(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public PollutedWaterSource() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -42,7 +42,6 @@ public class PollutedWaterSource extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new GenericObject(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

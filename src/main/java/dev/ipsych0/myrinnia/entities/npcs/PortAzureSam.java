@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.tiles.Tile;
@@ -10,15 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class PortAzureSam extends Creature {
+public class PortAzureSam extends Entity {
 
     private boolean firstAccess = true;
     private boolean hasSteppedAside;
     private boolean moveSpeedSet;
-    private float startX;
+    private double startX;
 
-    public PortAzureSam(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PortAzureSam() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -30,7 +30,7 @@ public class PortAzureSam extends Creature {
         super.tick();
         if (!hasSteppedAside && walker) {
             if (!moveSpeedSet && x > (startX - Tile.TILEWIDTH)) {
-                xMove -= speed;
+                xMove -= this.stats.getMovementSpeed();
                 moveSpeedSet = true;
             } else if (xMove <= (startX - Tile.TILEWIDTH)) {
                 hasSteppedAside = true;
@@ -68,7 +68,6 @@ public class PortAzureSam extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureSam(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
     }
 
     @Override

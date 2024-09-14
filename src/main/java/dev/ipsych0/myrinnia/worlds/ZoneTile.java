@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.worlds;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -15,9 +15,9 @@ public class ZoneTile extends Rectangle {
     private String customZoneName;
     private String customZoneMusic;
     private int goToX, goToY;
-    private Creature.Direction direction;
+    private Entity.Direction direction;
 
-    public ZoneTile(Zone zone, int fromX, int fromY, int width, int height, int goToX, int goToY, String customZoneName, String customZoneMusic, Creature.Direction direction) {
+    public ZoneTile(Zone zone, int fromX, int fromY, int width, int height, int goToX, int goToY, String customZoneName, String customZoneMusic, Entity.Direction direction) {
         super(fromX, fromY, width, height);
 
         this.goToX = goToX;

@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -36,8 +36,8 @@ public class ExtrememistBeliefsBook extends GenericObject {
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private BookUI bookUI;
 
-    public ExtrememistBeliefsBook(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public ExtrememistBeliefsBook() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -81,7 +81,6 @@ public class ExtrememistBeliefsBook extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ExtrememistBeliefsBook(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

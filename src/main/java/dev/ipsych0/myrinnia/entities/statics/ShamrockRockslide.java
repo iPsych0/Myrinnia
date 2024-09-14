@@ -1,8 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -14,17 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class ShamrockRockslide extends StaticEntity {
+public class ShamrockRockslide extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.WeDelvedTooDeep);
     private Animation explosion = new Animation(250, Assets.eruption1, true);
     private boolean westDynamitePlaced, eastDynamitePlaced, northDynamitePlaced;
-    private Creature.Direction locationToRockslide;
+    private Entity.Direction locationToRockslide;
     private int dynamitePlaced = 0;
     public static boolean hasDetonated;
 
-    public ShamrockRockslide(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public ShamrockRockslide() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -103,14 +102,14 @@ public class ShamrockRockslide extends StaticEntity {
                 if (quest.getQuestSteps().get(0).isFinished() && !quest.getQuestSteps().get(1).isFinished()) {
                     if (Handler.get().playerHasItem(Item.dynamite, 1)) {
                         if (Handler.get().getPlayer().getX() <= this.x) {
-                            locationToRockslide = Creature.Direction.LEFT;
+                            locationToRockslide = Entity.Direction.LEFT;
                         } else if (Handler.get().getPlayer().getX() >= (this.x + this.width)) {
-                            locationToRockslide = Creature.Direction.RIGHT;
+                            locationToRockslide = Entity.Direction.RIGHT;
                         } else if (Handler.get().getPlayer().getY() <= this.y) {
-                            locationToRockslide = Creature.Direction.UP;
+                            locationToRockslide = Entity.Direction.UP;
                         }
 
-                        if (locationToRockslide == Creature.Direction.LEFT && !westDynamitePlaced || locationToRockslide == Creature.Direction.RIGHT && !eastDynamitePlaced || locationToRockslide == Creature.Direction.UP && !northDynamitePlaced) {
+                        if (locationToRockslide == Entity.Direction.LEFT && !westDynamitePlaced || locationToRockslide == Entity.Direction.RIGHT && !eastDynamitePlaced || locationToRockslide == Entity.Direction.UP && !northDynamitePlaced) {
                             speakingTurn = 10;
                             speakingCheckpoint = 10;
                             interact();
@@ -130,11 +129,11 @@ public class ShamrockRockslide extends StaticEntity {
                 if (quest.getQuestSteps().get(0).isFinished() && !quest.getQuestSteps().get(1).isFinished()) {
                     if (Handler.get().playerHasItem(Item.dynamite, 1)) {
                         if (Handler.get().getPlayer().getX() <= this.x) {
-                            locationToRockslide = Creature.Direction.LEFT;
+                            locationToRockslide = Entity.Direction.LEFT;
                         } else if (Handler.get().getPlayer().getX() >= (this.x + this.width)) {
-                            locationToRockslide = Creature.Direction.RIGHT;
+                            locationToRockslide = Entity.Direction.RIGHT;
                         } else if (Handler.get().getPlayer().getY() <= this.y) {
-                            locationToRockslide = Creature.Direction.UP;
+                            locationToRockslide = Entity.Direction.UP;
                         }
                     }
                 }
@@ -146,7 +145,7 @@ public class ShamrockRockslide extends StaticEntity {
                     break;
                 }
                 if (Handler.get().playerHasItem(Item.dynamite, 1)) {
-                    if (locationToRockslide == Creature.Direction.LEFT) {
+                    if (locationToRockslide == Entity.Direction.LEFT) {
                         if (!westDynamitePlaced) {
                             westDynamitePlaced = true;
                             Handler.get().removeItem(Item.dynamite, 1);
@@ -160,7 +159,7 @@ public class ShamrockRockslide extends StaticEntity {
                         } else {
                             Handler.get().sendMsg("You have already placed some dynamite west of the rock slide.");
                         }
-                    } else if (locationToRockslide == Creature.Direction.RIGHT) {
+                    } else if (locationToRockslide == Entity.Direction.RIGHT) {
                         if (!eastDynamitePlaced) {
                             eastDynamitePlaced = true;
                             Handler.get().removeItem(Item.dynamite, 1);
@@ -174,7 +173,7 @@ public class ShamrockRockslide extends StaticEntity {
                         } else {
                             Handler.get().sendMsg("You have already placed some dynamite east of the rock slide.");
                         }
-                    } else if (locationToRockslide == Creature.Direction.UP) {
+                    } else if (locationToRockslide == Entity.Direction.UP) {
                         if (!northDynamitePlaced) {
                             northDynamitePlaced = true;
                             Handler.get().removeItem(Item.dynamite, 1);

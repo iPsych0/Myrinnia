@@ -3,25 +3,25 @@ package dev.ipsych0.myrinnia.entities.npcs;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.BurningHasteAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 
 import java.awt.*;
 
-public class StozarPhyrrus extends Creature {
+public class StozarPhyrrus extends Entity {
 
     private Player player;
     public static boolean hasLitTorches;
     public static boolean hasSpoken;
 
-    public StozarPhyrrus(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public StozarPhyrrus() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
-        speed = 1.0;
+        this.stats.setMovementSpeed(1.0);
 
         player = Handler.get().getPlayer();
     }

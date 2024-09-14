@@ -1,18 +1,18 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 
-public class GenericNPC extends Creature {
+public class GenericNPC extends Entity {
 
-    public GenericNPC(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public GenericNPC() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
-        speed = 1.0;
+        this.stats.setMovementSpeed(1.0);
     }
 
     @Override

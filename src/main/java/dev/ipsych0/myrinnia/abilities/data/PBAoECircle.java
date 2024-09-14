@@ -1,7 +1,5 @@
 package dev.ipsych0.myrinnia.abilities.data;
 
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
-
 import java.awt.geom.Ellipse2D;
 
 public class PBAoECircle extends Ellipse2D.Float {

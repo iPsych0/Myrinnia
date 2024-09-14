@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 
 import java.awt.*;
 
-public class CaptainNeil extends Creature {
+public class CaptainNeil extends Entity {
 
-    public CaptainNeil(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CaptainNeil() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

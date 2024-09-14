@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class Goat extends Creature {
+public class Goat extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -19,8 +19,8 @@ public class Goat extends Creature {
     private Animation meleeAnimation;
     private Animation bluntImpact;
 
-    public Goat(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Goat(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
         aggressive = false;
@@ -107,7 +107,7 @@ public class Goat extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Goat(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Goat(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

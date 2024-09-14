@@ -1,6 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import lombok.extern.slf4j.Slf4j;
@@ -8,15 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class CelenorEarthCrystal extends StaticEntity {
+public class CelenorEarthCrystal extends Entity {
 
     public static boolean puzzleCompleted;
     private boolean abilitiesReceived;
     private Animation chargeAnim;
     private boolean animShown;
 
-    public CelenorEarthCrystal(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorEarthCrystal() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -60,7 +61,10 @@ public class CelenorEarthCrystal extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorEarthCrystal(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        CelenorEarthCrystal respawn = new CelenorEarthCrystal();
+        respawn.setX(x);
+        respawn.setY(y);
+        Handler.get().getWorld().getEntityManager().addEntity(respawn);
     }
 
     @Override

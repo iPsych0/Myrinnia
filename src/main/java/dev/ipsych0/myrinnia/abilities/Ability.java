@@ -6,7 +6,6 @@ import dev.ipsych0.myrinnia.abilities.data.MeleeDirection;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipSlot;
 import dev.ipsych0.myrinnia.ui.Celebration;
@@ -24,7 +23,7 @@ public abstract class Ability implements Serializable {
 
 
     private static final long serialVersionUID = 6105053373876560350L;
-    Creature caster;
+    Entity caster;
     double cooldownTime;
     private double castingTime;
     private double overcastTime;
@@ -234,8 +233,8 @@ public abstract class Ability implements Serializable {
         return entities;
     }
 
-    public void setCaster(Creature c) {
-        this.caster = c;
+    public void setCaster(Entity e) {
+        this.caster = e;
         this.setActivated(true);
         this.setOnCooldown(true);
         if (this.getCastingTime() > 0) {

@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class WhiteWolf extends Creature {
+public class WhiteWolf extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -18,8 +18,8 @@ public class WhiteWolf extends Creature {
     private long lastAttackTimer, attackCooldown = 1000, attackTimer = attackCooldown;
     private Animation biteImpact;
 
-    public WhiteWolf(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public WhiteWolf(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -133,7 +133,7 @@ public class WhiteWolf extends Creature {
             bounds.width = 24;
             bounds.height = 24;
         }
-        Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, lastFaced));
     }
 
     @Override

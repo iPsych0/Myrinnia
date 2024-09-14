@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.ui.custom.BookUI;
 
 import java.awt.*;
@@ -16,8 +16,8 @@ public class CelenorShrineBook extends GenericObject {
 
     private final BookUI bookUI;
 
-    public CelenorShrineBook(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorShrineBook() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -51,7 +51,6 @@ public class CelenorShrineBook extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorShrineBook(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

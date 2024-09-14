@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
@@ -12,7 +11,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CelenorElenthir extends Creature {
+public class CelenorElenthir extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private Map<Integer, Boolean> questionsAskedMap = new HashMap<>();
@@ -22,8 +21,8 @@ public class CelenorElenthir extends Creature {
     private static boolean questionsAsked2;
     private static boolean questionsAsked3;
 
-    public CelenorElenthir(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorElenthir() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 
-public abstract class Banker extends Creature {
+public abstract class Banker extends Entity {
 
 
     private static final long serialVersionUID = -6734284480542153325L;
 
-    Banker(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    Banker() {
+        
         attackable = false;
         isNpc = true;
     }

@@ -1,22 +1,22 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
-public class CelenorAyla extends Creature {
+public class CelenorAyla extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorAyla(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorAyla() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
-        speed = 1.0;
+        this.stats.setMovementSpeed(1.0);
     }
 
     @Override

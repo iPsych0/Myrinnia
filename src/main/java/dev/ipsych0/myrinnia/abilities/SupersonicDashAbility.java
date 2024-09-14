@@ -75,8 +75,8 @@ public class SupersonicDashAbility extends Ability implements Serializable {
             animation = null;
         }
 
-        caster.setxMove(xVelocity);
-        caster.setyMove(yVelocity);
+        caster.setXMove(xVelocity);
+        caster.setYMove(yVelocity);
 
         caster.move();
 

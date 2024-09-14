@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class Hedgehog extends Creature {
+public class Hedgehog extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -33,8 +33,8 @@ public class Hedgehog extends Creature {
     private static final int RADIUS = 256;
     private double angle, rotation;
 
-    public Hedgehog(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Hedgehog(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -229,7 +229,7 @@ public class Hedgehog extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Hedgehog(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Hedgehog(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

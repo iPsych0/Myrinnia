@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class MalachiteThugM extends Creature {
+public class MalachiteThugM extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -18,8 +18,8 @@ public class MalachiteThugM extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
-    public MalachiteThugM(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public MalachiteThugM(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -98,7 +98,7 @@ public class MalachiteThugM extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugM(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new MalachiteThugM(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

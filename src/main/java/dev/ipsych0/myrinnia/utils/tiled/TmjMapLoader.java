@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.tiled.tilesets.AnimationFrame;
@@ -200,9 +199,9 @@ public class TmjMapLoader implements MapLoader {
             String animation = props.get("animation");
             String itemsShop = props.get("itemsShop");
             String directionProp = props.get("direction");
-            Creature.Direction direction = null;
+            Entity.Direction direction = null;
             if (directionProp != null) {
-                direction = Creature.Direction.valueOf(directionProp.toUpperCase());
+                direction = Entity.Direction.valueOf(directionProp.toUpperCase());
             }
             Class<?> c = null;
             for (int i = 0; i < packages.length; i++) {
@@ -276,10 +275,10 @@ public class TmjMapLoader implements MapLoader {
         Zone zone = Zone.valueOf(props.get("zone"));
         String customZoneName = props.get("customZoneName");
         String customZoneMusic = props.get("customZoneMusic");
-        Creature.Direction direction = null;
+        Entity.Direction direction = null;
         String directionProp = props.get("direction");
         if (directionProp != null) {
-            direction = Creature.Direction.valueOf(directionProp);
+            direction = Entity.Direction.valueOf(directionProp);
         }
 
         return new ZoneTile(zone, (int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight(), goToX, goToY, customZoneName, customZoneMusic, direction);

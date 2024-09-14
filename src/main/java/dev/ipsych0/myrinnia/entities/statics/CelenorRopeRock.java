@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -12,14 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class CelenorRopeRock extends StaticEntity {
+public class CelenorRopeRock extends Entity {
 
     private Player player;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private boolean ropeUsed;
 
-    public CelenorRopeRock(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorRopeRock() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -79,9 +79,14 @@ public class CelenorRopeRock extends StaticEntity {
                 if (!ropeUsed) {
                     ropeUsed = true;
                     Handler.get().removeItem(Item.rope, 1);
-                    Handler.get().getWorld().getEntityManager().addRuntimeEntity(new CelenorRopeUp(
-                            x + Tile.TILEWIDTH * 2.0, y, Tile.TILEWIDTH, Tile.TILEHEIGHT * 2, "Rope",
-                            1, null, "celenor_rope_rock.json", null, null));
+                    CelenorRopeUp updated = new CelenorRopeUp();
+                    updated.setX(x + Tile.TILEWIDTH * 2.0);
+                    updated.setY(y);
+                    updated.setWidth(Tile.TILEWIDTH);
+                    updated.setHeight(Tile.TILEHEIGHT * 2);
+                    updated.setName("Rope");
+                    updated.setJsonFile("celenor_rope_rock.json");
+                    Handler.get().getWorld().getEntityManager().addRuntimeEntity(updated);
                 }
                 player.setX(58 * Tile.TILEWIDTH);
                 player.setY(6 * Tile.TILEHEIGHT);

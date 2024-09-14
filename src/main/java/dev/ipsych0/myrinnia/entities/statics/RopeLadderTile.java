@@ -1,14 +1,14 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 
 import java.awt.*;
 
-public class RopeLadderTile extends StaticEntity {
+public class RopeLadderTile extends Entity {
 
-    public RopeLadderTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public RopeLadderTile() {
+        
         solid = false;
         attackable = false;
         isNpc = false;

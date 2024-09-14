@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class ChatDialogue implements Serializable {
 
     private static final long serialVersionUID = -8130149340424276218L;
     private int x, y, width, height;
-    private ArrayList<ChatOption> chatOptions;
+    private List<ChatOption> chatOptions;
     public static boolean hasBeenPressed = false;
     private String[] menuOptions;
     private ChatOption chosenOption;

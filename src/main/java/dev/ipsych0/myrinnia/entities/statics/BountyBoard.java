@@ -1,12 +1,12 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 
-public abstract class BountyBoard extends StaticEntity {
+public abstract class BountyBoard extends Entity {
 
-    protected BountyBoard(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    protected BountyBoard() {
 
         BountyManager.get().addBoard(this);
     }

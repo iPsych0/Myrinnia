@@ -10,7 +10,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 
-public class Venovine extends Creature {
+public class Venovine extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -19,8 +19,8 @@ public class Venovine extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private PoisonDartAbility poisonDartAbility = Utils.loadAbility("poisondart.json", PoisonDartAbility.class);
 
-    public Venovine(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Venovine(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -97,7 +97,7 @@ public class Venovine extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Venovine(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Venovine(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

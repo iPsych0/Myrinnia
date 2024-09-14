@@ -7,7 +7,7 @@ import dev.ipsych0.myrinnia.abilities.HealingSpringAbility;
 import dev.ipsych0.myrinnia.abilities.MendWoundsAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 import dev.ipsych0.myrinnia.abilities.ui.abilityhud.AbilitySlot;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 @Slf4j
-public class ElderSelwyn extends Creature {
+public class ElderSelwyn extends Entity {
 
 
     private static final long serialVersionUID = 101550362959052644L;
@@ -27,8 +27,8 @@ public class ElderSelwyn extends Creature {
     private boolean tipShown;
     private Ability learntAbility;
 
-    public ElderSelwyn(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ElderSelwyn() {
+        
         walker = false;
         solid = true;
         attackable = false;

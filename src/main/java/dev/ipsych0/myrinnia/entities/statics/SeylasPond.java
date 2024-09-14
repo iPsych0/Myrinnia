@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.FrostJabAbility;
 import dev.ipsych0.myrinnia.abilities.GlacialShotAbility;
 import dev.ipsych0.myrinnia.abilities.IceBallAbility;
@@ -23,8 +23,8 @@ public class SeylasPond extends GenericObject {
     private boolean cutsceneShown;
     private Rectangle cutsceneTrigger = new Rectangle(1440, 4224, 320, 192);
 
-    public SeylasPond(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public SeylasPond() {
+        
         solid = false;
         attackable = false;
         isNpc = true;

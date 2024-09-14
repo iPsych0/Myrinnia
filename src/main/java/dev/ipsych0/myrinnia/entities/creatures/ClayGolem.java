@@ -11,7 +11,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class ClayGolem extends Creature {
+public class ClayGolem extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -22,8 +22,8 @@ public class ClayGolem extends Creature {
     private Animation bluntImpact;
     private BarrierAbility barrierAbility = Utils.loadAbility("barrier.json", BarrierAbility.class);
 
-    public ClayGolem(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ClayGolem(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 
@@ -120,7 +120,7 @@ public class ClayGolem extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ClayGolem(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new ClayGolem(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

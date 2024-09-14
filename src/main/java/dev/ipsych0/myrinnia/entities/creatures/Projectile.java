@@ -3,8 +3,11 @@ package dev.ipsych0.myrinnia.entities.creatures;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.data.OnImpact;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -13,10 +16,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Projectile extends Creature implements Serializable {
+@Getter
+@Setter
+public class Projectile extends Entity implements Serializable {
 
     public static class Builder implements Serializable {
-        private Creature caster;
+        private Entity caster;
         private double x, y;
         private int targetX, targetY;
         private Animation animation;
@@ -29,7 +34,7 @@ public class Projectile extends Creature implements Serializable {
         private OnImpact onImpact;
         private BufferedImage[] frames;
 
-        public Builder(DamageType damageType, Animation animation, Creature caster, int targetX, int targetY) {
+        public Builder(DamageType damageType, Animation animation, Entity caster, int targetX, int targetY) {
             this.damageType = damageType;
             this.animation = animation;
             this.caster = caster;
@@ -50,7 +55,7 @@ public class Projectile extends Creature implements Serializable {
             }
         }
 
-        public Builder(DamageType damageType, BufferedImage[] frames, Creature caster, int targetX, int targetY) {
+        public Builder(DamageType damageType, BufferedImage[] frames, Entity caster, int targetX, int targetY) {
             this.damageType = damageType;
             this.frames = frames;
             this.caster = caster;
@@ -130,18 +135,20 @@ public class Projectile extends Creature implements Serializable {
     private Animation animation;
     private DamageType damageType;
     private Ability ability;
-    private Creature caster;
-    private Creature hitCreature;
+    private Entity caster;
+    private Entity hitCreature;
     private double rotation;
     private String impactSound;
     private float impactVolume;
     private OnImpact onImpact;
     private boolean piercing;
-    private Set<Creature> hitCreatures = new HashSet<>();
+    private Set<Entity> hitCreatures = new HashSet<>();
 
-    private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact, boolean piercing) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
-
+    private Projectile(Entity caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact, boolean piercing) {
+        this.x = x;
+        this.y = y;
+        this.width = DEFAULT_CREATURE_WIDTH;
+        this.height = DEFAULT_CREATURE_HEIGHT;
         this.caster = caster;
         this.impactSound = impactSound;
         this.impactVolume = impactVolume;
@@ -233,69 +240,5 @@ public class Projectile extends Creature implements Serializable {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    public DamageType getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(DamageType damageType) {
-        this.damageType = damageType;
-    }
-
-    public Ability getAbility() {
-        return ability;
-    }
-
-    public void setAbility(Ability ability) {
-        this.ability = ability;
-    }
-
-    public Creature getHitCreature() {
-        return hitCreature;
-    }
-
-    public void setHitCreature(Creature hitCreature) {
-        this.hitCreature = hitCreature;
-    }
-
-    public String getImpactSound() {
-        return impactSound;
-    }
-
-    public void setImpactSound(String impactSound) {
-        this.impactSound = impactSound;
-    }
-
-    public OnImpact getOnImpact() {
-        return onImpact;
-    }
-
-    public void setOnImpact(OnImpact onImpact) {
-        this.onImpact = onImpact;
-    }
-
-    public float getImpactVolume() {
-        return impactVolume;
-    }
-
-    public void setImpactVolume(float impactVolume) {
-        this.impactVolume = impactVolume;
-    }
-
-    public boolean isPiercing() {
-        return piercing;
-    }
-
-    public void setPiercing(boolean piercing) {
-        this.piercing = piercing;
-    }
-
-    public Set<Creature> getHitCreatures() {
-        return hitCreatures;
-    }
-
-    public void setHitCreatures(Set<Creature> hitCreatures) {
-        this.hitCreatures = hitCreatures;
     }
 }

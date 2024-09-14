@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.worlds.World;
@@ -15,8 +15,8 @@ public class BountyBoardShamrock extends BountyBoard {
     private BountyBoardUI bountyBoardUI;
     private static boolean hasRemovedShadyFigure;
 
-    public BountyBoardShamrock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public BountyBoardShamrock() {
+        
 
         bounds.x = 0;
         bounds.y = height / 2;

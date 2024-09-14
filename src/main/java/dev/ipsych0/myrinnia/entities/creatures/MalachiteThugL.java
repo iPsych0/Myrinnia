@@ -13,7 +13,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class MalachiteThugL extends Creature {
+public class MalachiteThugL extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -25,8 +25,8 @@ public class MalachiteThugL extends Creature {
     private int firstTextTimer, secondTextTimer;
     private Ability debilitatingStrike = Utils.loadAbility("debilitatingstrike.json");
 
-    public MalachiteThugL(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public MalachiteThugL(, Direction direction) {
+        
         isNpc = false;
         attackable = true;
 

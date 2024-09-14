@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.utils.Timer;
@@ -15,17 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class GraniteWallAbilityObj extends StaticEntity {
+public class GraniteWallAbilityObj extends Entity {
 
     private double degrees;
     private Shape transformedShape;
     private Animation animation;
-    private Creature caster;
+    private Entity caster;
 
-    public GraniteWallAbilityObj(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public GraniteWallAbilityObj() {
+        
         solid = true;
-        hasPolyBounds = true;
         setOverlayDrawn(false);
         this.animation = new Animation(64, Assets.graniteWall, true);
     }
@@ -119,11 +118,11 @@ public class GraniteWallAbilityObj extends StaticEntity {
         TimerHandler.get().addTimer(new Timer(milliseconds, TimeUnit.MILLISECONDS, () -> this.active = false));
     }
 
-    public Creature getCaster() {
+    public Entity getCaster() {
         return caster;
     }
 
-    public void setCaster(Creature caster) {
+    public void setCaster(Entity caster) {
         this.caster = caster;
     }
 }

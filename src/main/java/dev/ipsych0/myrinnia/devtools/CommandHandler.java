@@ -193,7 +193,7 @@ public class CommandHandler implements Serializable {
                         } else if (commands[1].equalsIgnoreCase("def")) {
                             Handler.get().getPlayer().setDefence(Integer.parseInt(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("movspd")) {
-                            Handler.get().getPlayer().setSpeed(Double.parseDouble(commands[2]));
+                            Handler.get().getPlayer().setMovementSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("atkspd")) {
                             Handler.get().getPlayer().setAttackSpeed(Double.parseDouble(commands[2]));
                         } else if (commands[1].equalsIgnoreCase("hp")) {

@@ -2,13 +2,13 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.io.Serializable;
 
-public abstract class AbilityTrainer extends Creature implements Serializable {
+public abstract class AbilityTrainer extends Entity implements Serializable {
 
     private static final long serialVersionUID = -7162393727931954900L;
 
@@ -16,9 +16,7 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     protected AbilityShopWindow abilityShopWindow;
 
-    AbilityTrainer(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
-
+    AbilityTrainer() {
         attackable = false;
         isNpc = true;
     }

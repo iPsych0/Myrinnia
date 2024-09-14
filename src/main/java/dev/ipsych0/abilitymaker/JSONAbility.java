@@ -2,7 +2,6 @@ package dev.ipsych0.abilitymaker;
 
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 
 public class JSONAbility {
 

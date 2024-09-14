@@ -1,13 +1,13 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 
 import java.awt.*;
 
-public class CollisionTile extends StaticEntity {
+public class CollisionTile extends Entity {
 
-    public CollisionTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CollisionTile() {
+        
         solid = true;
         attackable = false;
         isNpc = false;
@@ -38,7 +38,6 @@ public class CollisionTile extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CollisionTile(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

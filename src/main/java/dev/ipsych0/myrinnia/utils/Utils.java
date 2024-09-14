@@ -61,6 +61,10 @@ public class Utils {
         return gson;
     }
 
+    public static <T> T deepCopy(T object) {
+        return gson.fromJson(gson.toJson(object), (Type) object.getClass());
+    }
+
     public static <T> T loadObjectFromJsonFile(String path, final Class<?> clazz) {
         if (path == null) {
             throw new IllegalArgumentException("JSON file cannot be null/empty.");

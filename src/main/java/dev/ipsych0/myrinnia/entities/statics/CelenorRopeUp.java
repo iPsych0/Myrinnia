@@ -1,18 +1,18 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.npcs.Choice;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class CelenorRopeUp extends StaticEntity {
+public class CelenorRopeUp extends Entity {
 
     private Player player;
 
-    public CelenorRopeUp(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorRopeUp() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -44,7 +44,6 @@ public class CelenorRopeUp extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorRopeUp(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

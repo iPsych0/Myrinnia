@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.statics.CelenorEarthCrystal;
 import dev.ipsych0.myrinnia.gfx.Animation;
@@ -11,7 +10,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class CelenorFloatingRock extends Creature {
+public class CelenorFloatingRock extends Entity {
 
     private Animation floatAnim;
     private Player player;
@@ -23,13 +22,13 @@ public class CelenorFloatingRock extends Creature {
             rightPatch = new Rectangle(31 * 32, 28 * 32, 32, 32);
     private static boolean leftPatchDone, middlePatchDone, rightPatchDone;
 
-    public CelenorFloatingRock(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorFloatingRock(, Direction direction) {
+        
         solid = false;
         attackable = false;
         walker = false;
         isNpc = true;
-        speed = 1.0;
+        this.stats.setMovementSpeed(1.0);
 
         floatAnim = new Animation(250, Assets.floatingRock);
         player = Handler.get().getPlayer();
@@ -101,7 +100,6 @@ public class CelenorFloatingRock extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorFloatingRock(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile, direction));
     }
 
     @Override
@@ -150,19 +148,19 @@ public class CelenorFloatingRock extends Creature {
     private void setMovement(double xPos, double yPos) {
         if (yPos >= (y + height - 24) && xPos > (x - 12) && xPos < (x + width + 12)) {
             // If down the rock, and between the left/right bound, move up
-            yMove = -speed;
+            yMove = -this.stats.getMovementSpeed();
             moving = true;
         } else if (yPos <= y && xPos > (x - 12) && xPos < (x + width + 12)) {
             // If above the rock, and between the left/right bound, move down
-            yMove = speed;
+            yMove = this.stats.getMovementSpeed();
             moving = true;
         } else if (xPos <= x + 8 && yPos > y - 8 && yPos < (y + height - 24)) {
             // If left of the rock, and between the top/bottom bound, move right
-            xMove = +speed;
+            xMove = +this.stats.getMovementSpeed();
             moving = true;
         } else if (xPos >= (x + width - 24) && yPos > y - 8 && yPos < (y + height - 24)) {
             // If right of the rock, and between the top/bottom bound, move left
-            xMove = -speed;
+            xMove = -this.stats.getMovementSpeed();
             moving = true;
         }
         speakingTurn = -1;

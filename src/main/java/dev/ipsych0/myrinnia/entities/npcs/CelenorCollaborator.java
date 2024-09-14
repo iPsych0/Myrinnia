@@ -1,7 +1,7 @@
 package dev.ipsych0.myrinnia.entities.npcs;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.quests.Quest;
@@ -9,15 +9,15 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
-public class CelenorCollaborator extends Creature {
+public class CelenorCollaborator extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
     private Animation teleportAnim = new Animation(1000 / (Assets.warpTeleport.length * 2), Assets.warpTeleport, true, true);
     private float alpha = 1.0f;
     public static boolean isTeleporting;
 
-    public CelenorCollaborator(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorCollaborator() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

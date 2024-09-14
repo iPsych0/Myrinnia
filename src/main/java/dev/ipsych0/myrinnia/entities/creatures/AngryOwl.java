@@ -9,7 +9,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class AngryOwl extends Creature {
+public class AngryOwl extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -17,8 +17,8 @@ public class AngryOwl extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 
-    public AngryOwl(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AngryOwl() {
+        
         isNpc = false;
         attackable = true;
 
@@ -93,7 +93,7 @@ public class AngryOwl extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AngryOwl(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new AngryOwl(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

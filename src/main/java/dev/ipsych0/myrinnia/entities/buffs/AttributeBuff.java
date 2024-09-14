@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.entities.buffs;
 
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -69,7 +68,7 @@ public class AttributeBuff extends Buff {
 
     @Override
     public void apply() {
-        Creature r = ((Creature) receiver);
+        Entity r = receiver;
         // If we already have a buff, first remove the current stat buff then apply the new one
         if (getTimesStacked() >= 1) {
             removeStat(r, statBuff);
@@ -128,11 +127,10 @@ public class AttributeBuff extends Buff {
 
     @Override
     public void clear() {
-        Creature r = ((Creature) receiver);
-        removeStat(r, statBuff);
+        removeStat(receiver, statBuff);
     }
 
-    private void addStat(Creature r, double statBuff) {
+    private void addStat(Entity r, double statBuff) {
         // Get percentage increase
         double percentage = statBuff / 100d;
         int statIncreaseInt;
@@ -140,127 +138,127 @@ public class AttributeBuff extends Buff {
 
         switch (attribute) {
             case STR:
-                double newStr = r.getStrength() * (1d + percentage);
-                statIncreaseInt = (int) Math.ceil(newStr) - r.getStrength();
+                double newStr = r.getStats().getStrength() * (1d + percentage);
+                statIncreaseInt = (int) Math.ceil(newStr) - r.getStats().getStrength();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
-                    r.setStrength(r.getStrength() + statIncreaseInt);
+                    r.getStats().setStrength(r.getStats().getStrength() + statIncreaseInt);
                 } else {
-                    r.setStrength(r.getStrength() + (int) statBuff);
+                    r.getStats().setStrength(r.getStats().getStrength() + (int) statBuff);
                 }
                 break;
             case DEF:
-                double newDef = r.getDefence() * (1d + percentage);
-                statIncreaseInt = (int) Math.ceil(newDef) - r.getDefence();
+                double newDef = r.getStats().getDefence() * (1d + percentage);
+                statIncreaseInt = (int) Math.ceil(newDef) - r.getStats().getDefence();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
-                    r.setDefence(r.getDefence() + statIncreaseInt);
+                    r.getStats().setDefence(r.getStats().getDefence() + statIncreaseInt);
                 } else {
-                    r.setDefence(r.getDefence() + (int) statBuff);
+                    r.getStats().setDefence(r.getStats().getDefence() + (int) statBuff);
                 }
                 break;
             case DEX:
-                double newDex = r.getDexterity() * (1d + percentage);
-                statIncreaseInt = (int) Math.ceil(newDex) - r.getDexterity();
+                double newDex = r.getStats().getDexterity() * (1d + percentage);
+                statIncreaseInt = (int) Math.ceil(newDex) - r.getStats().getDexterity();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
-                    r.setDexterity(r.getDexterity() + statIncreaseInt);
+                    r.getStats().setDexterity(r.getStats().getDexterity() + statIncreaseInt);
                 } else {
-                    r.setDexterity(r.getDexterity() + (int) statBuff);
+                    r.getStats().setDexterity(r.getStats().getDexterity() + (int) statBuff);
                 }
                 break;
             case INT:
-                double newInt = r.getIntelligence() * (1d + percentage);
-                statIncreaseInt = (int) Math.ceil(newInt) - r.getIntelligence();
+                double newInt = r.getStats().getIntelligence() * (1d + percentage);
+                statIncreaseInt = (int) Math.ceil(newInt) - r.getStats().getIntelligence();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
-                    r.setIntelligence(r.getIntelligence() + statIncreaseInt);
+                    r.getStats().setIntelligence(r.getStats().getIntelligence() + statIncreaseInt);
                 } else {
-                    r.setIntelligence(r.getIntelligence() + (int) statBuff);
+                    r.getStats().setIntelligence(r.getStats().getIntelligence() + (int) statBuff);
                 }
                 break;
             case VIT:
-                double newVit = r.getVitality() * (1d + percentage);
-                statIncreaseInt = (int) Math.ceil(newVit) - r.getVitality();
+                double newVit = r.getStats().getVitality() * (1d + percentage);
+                statIncreaseInt = (int) Math.ceil(newVit) - r.getStats().getVitality();
                 totalIncrease += statIncreaseInt;
                 if (percentageIncrease) {
-                    r.setVitality(r.getVitality() + statIncreaseInt);
+                    r.setVitality(r.getStats().getVitality() + statIncreaseInt);
                 } else {
-                    r.setVitality(r.getVitality() + (int) statBuff);
+                    r.setVitality(r.getStats().getVitality() + (int) statBuff);
                 }
                 break;
             case ATKSPD:
-                double newAtkSpd = r.getAttackSpeed() * (1d + percentage);
-                statIncreaseDouble = (int) Math.ceil(newAtkSpd) - r.getAttackSpeed();
+                double newAtkSpd = r.getStats().getAttackSpeed() * (1d + percentage);
+                statIncreaseDouble = (int) Math.ceil(newAtkSpd) - r.getStats().getAttackSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setAttackSpeed((r.getAttackSpeed() + statIncreaseDouble));
+                    r.getStats().setAttackSpeed((r.getStats().getAttackSpeed() + statIncreaseDouble));
                 } else {
-                    r.setAttackSpeed((r.getAttackSpeed() + statBuff));
+                    r.getStats().setAttackSpeed((r.getStats().getAttackSpeed() + statBuff));
                 }
                 break;
             case MOVSPD:
-                double newMovSpd = r.getSpeed() * (1d + percentage);
-                statIncreaseDouble = (int) Math.ceil(newMovSpd) - r.getSpeed();
+                double newMovSpd = r.getStats().getMovementSpeed() * (1d + percentage);
+                statIncreaseDouble = (int) Math.ceil(newMovSpd) - r.getStats().getMovementSpeed();
                 totalIncreaseDecimal += statIncreaseDouble;
                 if (percentageIncrease) {
-                    r.setSpeed((r.getSpeed() + statIncreaseDouble));
+                    r.getStats().setMovementSpeed((r.getStats().getMovementSpeed() + statIncreaseDouble));
                 } else {
-                    r.setSpeed((r.getSpeed() + statBuff));
+                    r.getStats().setMovementSpeed((r.getStats().getMovementSpeed() + statBuff));
                 }
                 break;
         }
     }
 
-    private void removeStat(Creature r, double statBuff) {
+    private void removeStat(Entity r, double statBuff) {
         switch (attribute) {
             case MOVSPD:
                 if (percentageIncrease) {
-                    r.setSpeed((r.getSpeed() - totalIncreaseDecimal));
+                    r.getStats().setMovementSpeed((r.getStats().getMovementSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setSpeed(r.getSpeed() - statBuff);
+                    r.getStats().setMovementSpeed(r.getStats().getMovementSpeed() - statBuff);
                 }
                 break;
             case ATKSPD:
                 if (percentageIncrease) {
-                    r.setAttackSpeed((r.getAttackSpeed() - totalIncreaseDecimal));
+                    r.getStats().setAttackSpeed((r.getStats().getAttackSpeed() - totalIncreaseDecimal));
                 } else {
-                    r.setAttackSpeed(r.getAttackSpeed() - statBuff);
+                    r.getStats().setAttackSpeed(r.getStats().getAttackSpeed() - statBuff);
                 }
                 break;
             case VIT:
                 if (percentageIncrease) {
-                    r.setVitality(r.getVitality() - totalIncrease);
+                    r.setVitality(r.getStats().getVitality() - totalIncrease);
                 } else {
-                    r.setVitality(r.getVitality() - (int) statBuff);
+                    r.setVitality(r.getStats().getVitality() - (int) statBuff);
                 }
                 break;
             case INT:
                 if (percentageIncrease) {
-                    r.setIntelligence(r.getIntelligence() - totalIncrease);
+                    r.getStats().setIntelligence(r.getStats().getIntelligence() - totalIncrease);
                 } else {
-                    r.setIntelligence(r.getIntelligence() - (int) statBuff);
+                    r.getStats().setIntelligence(r.getStats().getIntelligence() - (int) statBuff);
                 }
                 break;
             case DEX:
                 if (percentageIncrease) {
-                    r.setDexterity(r.getDexterity() - totalIncrease);
+                    r.getStats().setDexterity(r.getStats().getDexterity() - totalIncrease);
                 } else {
-                    r.setDexterity(r.getDexterity() - (int) statBuff);
+                    r.getStats().setDexterity(r.getStats().getDexterity() - (int) statBuff);
                 }
                 break;
             case DEF:
                 if (percentageIncrease) {
-                    r.setDefence(r.getDefence() - totalIncrease);
+                    r.getStats().setDefence(r.getStats().getDefence() - totalIncrease);
                 } else {
-                    r.setDefence(r.getDefence() - (int) statBuff);
+                    r.getStats().setDefence(r.getStats().getDefence() - (int) statBuff);
                 }
                 break;
             case STR:
                 if (percentageIncrease) {
-                    r.setStrength(r.getStrength() - totalIncrease);
+                    r.getStats().setStrength(r.getStats().getStrength() - totalIncrease);
                 } else {
-                    r.setStrength(r.getStrength() - (int) statBuff);
+                    r.getStats().setStrength(r.getStats().getStrength() - (int) statBuff);
                 }
                 break;
         }

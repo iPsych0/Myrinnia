@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClamFishingSpot extends StaticEntity {
+public class ClamFishingSpot extends Entity {
 
 
     private static final long serialVersionUID = -4511991258183891329L;
@@ -32,9 +32,7 @@ public class ClamFishingSpot extends StaticEntity {
     private int chanceOfRareMaterial;
     private int experience;
 
-    public ClamFishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-
+    public ClamFishingSpot() {
         isNpc = true;
         attackable = false;
         spinning = new Animation(125, Assets.whirlpool);
@@ -162,7 +160,13 @@ public class ClamFishingSpot extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ClamFishingSpot(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        ClamFishingSpot clamFishingSpot = new ClamFishingSpot();
+        clamFishingSpot.setX(xSpawn);
+        clamFishingSpot.setY(ySpawn);
+        clamFishingSpot.setName(name);
+        clamFishingSpot.setJsonFile(jsonFile);
+        clamFishingSpot.setAnimationTag(animationTag);
+        Handler.get().getWorld().getEntityManager().addEntity(clamFishingSpot);
     }
 
     @Override

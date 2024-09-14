@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.utils.tiled;
 
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.worlds.World;
@@ -319,7 +318,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
                 private String animation;
                 private String jsonFile;
                 private String itemsShop;
-                private Creature.Direction direction;
+                private Entity.Direction direction;
 
                 public void startElement(String uri, String localName, String qName,
                                          Attributes attributes) {
@@ -388,7 +387,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
                             }
                         } else if (TiledObjectType.NPC == objectType && attributes.getValue("name").equalsIgnoreCase("direction")) {
                             try {
-                                direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
+                                direction = Entity.Direction.valueOf(attributes.getValue("value").toUpperCase());
                             } catch (Exception e) {
                                 log.error("Could not convert {} to NPC Direction Enum.", attributes.getValue("value"));
                             }
@@ -425,7 +424,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
                             // Get the direction to interact with
                         } else if (TiledObjectType.ZONE_TILE == objectType && attributes.getValue("name").equalsIgnoreCase("direction")) {
                             try {
-                                direction = Creature.Direction.valueOf(attributes.getValue("value").toUpperCase());
+                                direction = Entity.Direction.valueOf(attributes.getValue("value").toUpperCase());
                             } catch (Exception e) {
                                 log.error("Could not convert {} to NPC Direction Enum.", attributes.getValue("value"));
                             }
@@ -455,7 +454,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
         }
     }
 
-    public static Entity loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
+    public static Entity loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Entity.Direction direction) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {

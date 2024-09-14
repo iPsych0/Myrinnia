@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.npcs.StozarPhyrrus;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -12,15 +12,15 @@ import dev.ipsych0.myrinnia.utils.TimerHandler;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-public class Torch extends StaticEntity {
+public class Torch extends Entity {
 
     private final Animation flameAnimation;
     private boolean lit;
     private static int numTorchesLit;
     private static final int NUM_TORCHES = 8;
 
-    public Torch(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public Torch() {
+        
         solid = false;
         attackable = false;
         isNpc = true;
@@ -64,7 +64,7 @@ public class Torch extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Torch(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new Torch(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, itemsShop));
     }
 
     @Override

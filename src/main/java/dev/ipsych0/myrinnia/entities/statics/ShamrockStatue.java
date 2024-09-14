@@ -1,11 +1,11 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import java.awt.*;
+import dev.ipsych0.myrinnia.entities.Entity;import java.awt.*;
 
-public class ShamrockStatue extends StaticEntity {
+public class ShamrockStatue extends Entity {
 
-    public ShamrockStatue(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public ShamrockStatue() {
+        
         solid = true;
         attackable = false;
         isNpc = true;

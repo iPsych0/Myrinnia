@@ -1,5 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.Item;
@@ -8,12 +9,12 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
 
-public class CelenorMushroom extends StaticEntity {
+public class CelenorMushroom extends Entity {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorMushroom(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorMushroom() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -43,7 +44,6 @@ public class CelenorMushroom extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorMushroom(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
     }
 
     @Override

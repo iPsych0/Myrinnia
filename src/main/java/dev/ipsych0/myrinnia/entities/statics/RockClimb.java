@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
@@ -9,14 +8,14 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
 
-public class RockClimb extends StaticEntity {
+public class RockClimb extends Entity {
 
-    private Creature.Direction direction;
+    private Entity.Direction direction;
     private Player player;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public RockClimb(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public RockClimb() {
+        
         solid = true;
         attackable = false;
         isNpc = true;
@@ -27,7 +26,7 @@ public class RockClimb extends StaticEntity {
     public void tick() {
         if (direction != null) {
             player.setX(this.x);
-            if (direction == Creature.Direction.UP) {
+            if (direction == Entity.Direction.UP) {
                 player.setY(player.getY() - 1);
                 if (player.getY() <= this.y - Tile.TILEHEIGHT - 8) {
                     direction = null;
@@ -73,9 +72,9 @@ public class RockClimb extends StaticEntity {
                 break;
             case 2:
                 if (player.getY() <= this.y) {
-                    direction = Creature.Direction.DOWN;
+                    direction = Entity.Direction.DOWN;
                 } else if (player.getY() >= (this.y + this.height / 2d)) {
-                    direction = Creature.Direction.UP;
+                    direction = Entity.Direction.UP;
                 }
                 speakingTurn = -1;
                 player.setMovementAllowed(false);

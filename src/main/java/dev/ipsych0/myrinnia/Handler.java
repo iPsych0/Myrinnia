@@ -14,7 +14,6 @@ import dev.ipsych0.myrinnia.devtools.DevToolUI;
 import dev.ipsych0.myrinnia.entities.Condition;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.HitSplat;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.DamageType;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentWindow;
@@ -338,8 +337,8 @@ public class Handler implements Serializable {
                     c.clearConditions();
                     c.setHealth(c.getMaxHealth());
                     // Reset position
-                    e.setX(c.getxSpawn());
-                    e.setY(c.getySpawn());
+                    e.setX(c.getXSpawn());
+                    e.setY(c.getYSpawn());
                 }
                 if (c.getOriginalDirection() != null && !e.equals(player)) {
                     c.setLastFaced(c.getOriginalDirection());

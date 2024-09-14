@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.cutscenes;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.utils.Colors;
 
@@ -41,16 +40,16 @@ public class MoveEntityEvent implements CutsceneEvent {
         // Init A* map for creature
         if (creature != null) {
             // Temporarily set movement speed to 1.0 for even movement across the map
-            originalMovSpd = creature.getSpeed();
-            creature.setSpeed(1.0d);
-            movSpd = creature.getSpeed();
+            originalMovSpd = creature.getMovementSpeed();
+            creature.setMovementSpeed(1.0d);
+            movSpd = creature.getMovementSpeed();
 
             creature.getMap().init();
             nodes = creature.getMap().findPath(
-                    (int) ((startX + creature.getWidth() / 4) / 32) - (creature.getxSpawn() - creature.getPathFindRadiusX()) / 32,
-                    (int) ((startY + creature.getHeight() / 4) / 32) - (creature.getySpawn() - creature.getPathFindRadiusY()) / 32,
-                    (int) (goalX / 32d) - (int) ((creature.getxSpawn() - creature.getPathFindRadiusX()) / 32d),
-                    (int) (goalY / 32d) - (int) ((creature.getySpawn() - creature.getPathFindRadiusY()) / 32d));
+                    (int) ((startX + creature.getWidth() / 4) / 32) - (creature.getXSpawn() - creature.getPathFindRadiusX()) / 32,
+                    (int) ((startY + creature.getHeight() / 4) / 32) - (creature.getYSpawn() - creature.getPathFindRadiusY()) / 32,
+                    (int) (goalX / 32d) - (int) ((creature.getXSpawn() - creature.getPathFindRadiusX()) / 32d),
+                    (int) (goalY / 32d) - (int) ((creature.getYSpawn() - creature.getPathFindRadiusY()) / 32d));
         }
 
         lastX = (int) entity.getX();
@@ -72,7 +71,7 @@ public class MoveEntityEvent implements CutsceneEvent {
                 followAStar();
                 creature.tickAnimation();
                 if (nodes.isEmpty()) {
-                    creature.setSpeed(originalMovSpd);
+                    creature.setMovementSpeed(originalMovSpd);
                     finished = true;
                 }
             } else {
@@ -105,7 +104,7 @@ public class MoveEntityEvent implements CutsceneEvent {
     public void followAStar() {
         double x = creature.getX();
         double y = creature.getY();
-        double speed = creature.getSpeed();
+        double speed = creature.getMovementSpeed();
 
         if (nodes == null) {
             return;
@@ -129,8 +128,8 @@ public class MoveEntityEvent implements CutsceneEvent {
         if (stuckTimer >= 10) {
             creature.setX(nextX);
             creature.setY(nextY);
-            creature.setxMove(0);
-            creature.setyMove(0);
+            creature.setXMove(0);
+            creature.setYMove(0);
             if (!nodes.isEmpty())
                 nodes.remove(0);
             stuckTimer = 0;
@@ -139,42 +138,42 @@ public class MoveEntityEvent implements CutsceneEvent {
 
         if (x < nextX) {
             // Move right
-            creature.setxMove(speed);
-            creature.setyMove(0);
+            creature.setXMove(speed);
+            creature.setYMove(0);
         } else if (x > nextX) {
             // Move right
-            creature.setxMove(-speed);
-            creature.setyMove(0);
+            creature.setXMove(-speed);
+            creature.setYMove(0);
         } else {
             // Stop moving, remove current node later to redetermine direction
-            creature.setxMove(0);
+            creature.setXMove(0);
             if (y == nextY) {
-                creature.setyMove(0);
+                creature.setYMove(0);
             }
         }
 
         if (y < nextY) {
             // Move down
-            creature.setyMove(speed);
-            creature.setxMove(0);
+            creature.setYMove(speed);
+            creature.setXMove(0);
         } else if (y > nextY) {
             // Move up
-            creature.setyMove(-speed);
-            creature.setxMove(0);
+            creature.setYMove(-speed);
+            creature.setXMove(0);
         } else {
             // Stop moving, remove current node later to redetermine direction
             if (x == nextX) {
-                creature.setxMove(0);
+                creature.setXMove(0);
             }
-            creature.setyMove(0);
+            creature.setYMove(0);
         }
 
-        if (creature.getxMove() == 0 && creature.getyMove() == 0) {
+        if (creature.getXMove() == 0 && creature.getYMove() == 0) {
             if (!nodes.isEmpty())
                 nodes.remove(0);
         }
 
-        if (creature.getxMove() != 0 || creature.getyMove() != 0) {
+        if (creature.getXMove() != 0 || creature.getYMove() != 0) {
             creature.move();
         }
     }

@@ -1,7 +1,6 @@
 package dev.ipsych0.myrinnia.entities;
 
 import dev.ipsych0.myrinnia.Handler;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.utils.Text;
@@ -84,16 +83,16 @@ public class Condition implements Serializable {
         Creature r = ((Creature) receiver);
         switch (type) {
             case CHILL:
-                double currMovSpd = r.getSpeed();
-                double newMovSpd = (r.getSpeed() * CHILL_MOVSPD);
+                double currMovSpd = r.getMovementSpeed();
+                double newMovSpd = (r.getMovementSpeed() * CHILL_MOVSPD);
                 initialSpeedDecrease = currMovSpd - newMovSpd;
-                r.setSpeed(newMovSpd);
+                r.setMovementSpeed(newMovSpd);
                 break;
             case CRIPPLED:
-                double currMovSpd2 = r.getSpeed();
-                double newMovSpd2 = (r.getSpeed() * CRIPPLE_MOVSPD);
+                double currMovSpd2 = r.getMovementSpeed();
+                double newMovSpd2 = (r.getMovementSpeed() * CRIPPLE_MOVSPD);
                 initialSpeedDecrease = currMovSpd2 - newMovSpd2;
-                r.setSpeed(newMovSpd2);
+                r.setMovementSpeed(newMovSpd2);
                 break;
         }
     }
@@ -109,7 +108,7 @@ public class Condition implements Serializable {
 
         if (type == Type.CHILL || type == Type.CRIPPLED) {
             Creature r = ((Creature) receiver);
-            r.setSpeed(r.getSpeed() + initialSpeedDecrease);
+            r.setMovementSpeed(r.getMovementSpeed() + initialSpeedDecrease);
         }
     }
 

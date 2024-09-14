@@ -2,7 +2,6 @@ package dev.ipsych0.myrinnia.pathfinding;
 
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.Entity;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
@@ -21,21 +20,20 @@ import java.util.List;
 @Setter
 public class AStarMap implements Serializable {
 
-
     private static final long serialVersionUID = -2351067336940681663L;
     private int x, y, width, height, xSpawn, ySpawn;
     private Node[][] nodes;
     private Rectangle mapBounds;
-    private Creature creature;
+    private Entity entity;
 
-    public AStarMap(Creature creature, int x, int y, int width, int height) {
-        this.creature = creature;
+    public AStarMap(Entity entity, int x, int y, int width, int height) {
+        this.entity = entity;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.xSpawn = creature.getxSpawn();
-        this.ySpawn = creature.getySpawn();
+        this.xSpawn = entity.getXSpawn();
+        this.ySpawn = entity.getYSpawn();
 
         nodes = new Node[(int) (Math.floor(width / 32f)) + 1][(int) (Math.floor(height / 32f)) + 1];
         mapBounds = new Rectangle(x, y, width, height);
@@ -52,7 +50,7 @@ public class AStarMap implements Serializable {
         boolean on3CTile = false;
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes.length; j++) {
-                if (creature.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
+                if (entity.collisionWithTile(((int) Math.floor((i * 32) + x) / 32), (int) Math.floor((j * 32) + y) / 32)) {
                     nodes[i][j].setWalkable(false);
                 }
 
@@ -62,7 +60,7 @@ public class AStarMap implements Serializable {
 
                     if (!on3CTile) {
                         // Check if player is not on C or 0 tile, he is on a higher layer 3C, which means we cannot navigate
-                        if (creature.getCurrentTile().getPermission().equalsIgnoreCase("C") || creature.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
+                        if (entity.getCurrentTile().getPermission().equalsIgnoreCase("C") || entity.getPreviousTile().getPermission().equalsIgnoreCase("C") &&
                                 !player.getCurrentTile().getPermission().equalsIgnoreCase("C") || !player.getCurrentTile().getPermission().equalsIgnoreCase("0")) {
                             on3CTile = true;
                         }
@@ -71,7 +69,7 @@ public class AStarMap implements Serializable {
                     if (on3CTile) {
                         Tile permissionsTile = Handler.get().getWorld().getTile(topLayer, nodes[i][j].getX(), nodes[i][j].getY());
                         // If we are on a 3C tile, and we're not on the same vertical level, we can't navigate
-                        if (permissionsTile != Tile.tiles[0] && creature.getVerticality() != player.getVerticality() && permissionsTile.getPermission().equalsIgnoreCase("3C")) {
+                        if (permissionsTile != Tile.tiles[0] && entity.getVerticality() != player.getVerticality() && permissionsTile.getPermission().equalsIgnoreCase("3C")) {
                             nodes[i][j].setWalkable(false);
                         }
                     }
@@ -82,7 +80,7 @@ public class AStarMap implements Serializable {
 
         // Cannot move through enemies, so mark those tiles as unavailable to avoid getting stuck
         for (Entity e : Handler.get().getWorld().getEntityManager().getEntities()) {
-            if (e.equals(Handler.get().getPlayer()) || e.equals(creature))
+            if (e.equals(Handler.get().getPlayer()) || e.equals(entity))
                 continue;
             if (mapBounds.contains(e.getX(), e.getY()) && e.isSolid()) {
                 nodes[Math.round((((int) e.getX()) / 32)) - x / 32][Math.round((((int) e.getY()) / 32)) - y / 32].setWalkable(false);
@@ -127,21 +125,21 @@ public class AStarMap implements Serializable {
 //		System.out.println(nodes.length);
 
         if (startX <= -1) {
-            creature.setxMove(creature.getSpeed());
-            creature.move();
+            entity.setXMove(entity.getMovementSpeed());
+            entity.move();
             return null;
         } else if (startX >= nodes.length) {
-            creature.setxMove(-creature.getSpeed());
-            creature.move();
+            entity.setXMove(-entity.getMovementSpeed());
+            entity.move();
             return null;
         }
         if (startY <= -1) {
-            creature.setyMove(creature.getSpeed());
-            creature.move();
+            entity.setYMove(entity.getMovementSpeed());
+            entity.move();
             return null;
         } else if (startY >= nodes.length) {
-            creature.setyMove(-creature.getSpeed());
-            creature.move();
+            entity.setYMove(-entity.getMovementSpeed());
+            entity.move();
             return null;
         }
 
@@ -152,7 +150,7 @@ public class AStarMap implements Serializable {
 
         // If the goal node is standing on a non-walkable tile
         if (!nodes[goalX][goalY].isWalkable()) {
-            creature.setState(CombatState.BACKTRACK);
+            entity.setState(CombatState.BACKTRACK);
             goalX = (xSpawn / 32 - x / 32);
             goalY = (ySpawn / 32 - y / 32);
         }
@@ -160,7 +158,7 @@ public class AStarMap implements Serializable {
 
         // If our start pause is the same as our goal pause ...
         if (startX == goalX && startY == goalY) {
-            creature.setState(CombatState.IDLE);
+            entity.setState(CombatState.IDLE);
             // Return an empty path, because we don't need to move at all.
             return null;
         }

@@ -1,6 +1,6 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
-import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.Entity;import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.equipment.EquipmentSlot;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.items.ItemType;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.utils.Colors;
+import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public class Tree extends StaticEntity {
+public class Tree extends Entity {
 
 
     private static final long serialVersionUID = -524381157898161854L;
@@ -73,8 +74,8 @@ public class Tree extends StaticEntity {
     );
     private Rectangle progressBar, totalBar;
 
-    public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public Tree() {
+        
 
         isNpc = true;
         attackable = false;
@@ -307,7 +308,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(Utils.deepCopy(this));
     }
 
     @Override

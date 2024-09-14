@@ -15,7 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class Sheep extends Creature {
+public class Sheep extends Entity {
 
 
     private static final long serialVersionUID = 917078714756242679L;
@@ -27,8 +27,8 @@ public class Sheep extends Creature {
     private Animation bluntImpact;
     private boolean sheared;
 
-    public Sheep(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Sheep(, Direction direction) {
+        
         isNpc = true;
         attackable = true;
         aggressive = false;
@@ -122,7 +122,7 @@ public class Sheep extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Sheep(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Sheep(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, itemsShop, direction));
     }
 
     @Override

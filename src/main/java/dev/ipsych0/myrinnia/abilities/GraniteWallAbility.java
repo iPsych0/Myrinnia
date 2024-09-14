@@ -3,7 +3,7 @@ package dev.ipsych0.myrinnia.abilities;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.abilities.data.AbilityType;
 import dev.ipsych0.myrinnia.character.CharacterStats;
-import dev.ipsych0.myrinnia.entities.creatures.Creature;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.creatures.Player;
 import dev.ipsych0.myrinnia.entities.statics.GraniteWallAbilityObj;
 import dev.ipsych0.myrinnia.gfx.Assets;
@@ -31,7 +31,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
     }
 
     @Override
-    public void setCaster(Creature c) {
+    public void setCaster(Entity c) {
         this.caster = c;
         this.setActivated(true);
     }
@@ -88,7 +88,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
         wallBounds.x += Handler.get().getGameCamera().getxOffset();
         wallBounds.y += Handler.get().getGameCamera().getyOffset();
 
-        int earthLevel = caster.getEarthLevel();
+        int earthLevel = caster.getStats().getEarthLevel();
         int despawnTimer = 3000 + (earthLevel * 120);
 
         GraniteWallAbilityObj wall = new GraniteWallAbilityObj(wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, "", 1, null, null, null, null);
