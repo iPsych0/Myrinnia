@@ -14,6 +14,7 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class PortAzureRyan extends Creature {
@@ -22,8 +23,8 @@ public class PortAzureRyan extends Creature {
     private boolean hasGivenAxe;
     private boolean completedBounty;
 
-    public PortAzureRyan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PortAzureRyan(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -70,7 +71,7 @@ public class PortAzureRyan extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureRyan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureRyan(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

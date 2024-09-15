@@ -338,8 +338,8 @@ public class Handler implements Serializable {
                     c.clearConditions();
                     c.setHealth(c.getMaxHealth());
                     // Reset position
-                    e.setX(c.getxSpawn());
-                    e.setY(c.getySpawn());
+                    e.setX(c.getXSpawn());
+                    e.setY(c.getYSpawn());
                 }
                 if (c.getOriginalDirection() != null && !e.equals(player)) {
                     c.setLastFaced(c.getOriginalDirection());

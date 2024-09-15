@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class Hornetta extends Creature {
 
@@ -19,8 +20,8 @@ public class Hornetta extends Creature {
     private long lastAttackTimer, attackCooldown = 450, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
-    public Hornetta(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Hornetta(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -116,7 +117,7 @@ public class Hornetta extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Hornetta(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Hornetta(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

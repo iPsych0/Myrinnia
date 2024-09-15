@@ -3,10 +3,12 @@ package dev.ipsych0.myrinnia.entities.statics;
 import dev.ipsych0.myrinnia.skills.ui.BountyBoardUI;
 import dev.ipsych0.myrinnia.skills.ui.BountyManager;
 
+import java.util.Map;
+
 public abstract class BountyBoard extends StaticEntity {
 
-    protected BountyBoard(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    protected BountyBoard(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         BountyManager.get().addBoard(this);
     }

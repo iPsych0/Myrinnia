@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.Map;
 
 public class BurrowingBeetle extends Creature {
 
@@ -32,8 +33,8 @@ public class BurrowingBeetle extends Creature {
     private boolean lastResortDigging;
     private static boolean hasDroppedDynamite;
 
-    public BurrowingBeetle(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public BurrowingBeetle(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -48,11 +49,11 @@ public class BurrowingBeetle extends Creature {
         strength = 8;
         dexterity = 0;
         intelligence = 0;
-        if (level == 6) {
+        if (combatLevel == 6) {
             strength = 10;
             vitality = 35;
             defence = 45;
-        } else if (level == 7) {
+        } else if (combatLevel == 7) {
             strength = 14;
             vitality = 45;
             defence = 50;
@@ -239,7 +240,7 @@ public class BurrowingBeetle extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new BurrowingBeetle(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new BurrowingBeetle(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

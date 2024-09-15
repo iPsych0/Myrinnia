@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
 
 public class PoisonSpider extends Creature {
 
@@ -17,8 +18,8 @@ public class PoisonSpider extends Creature {
     //Attack timer
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 
-    public PoisonSpider(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PoisonSpider(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -26,10 +27,10 @@ public class PoisonSpider extends Creature {
 
         // Creature stats
         strength = 0;
-        dexterity = 24 + (3 * (level - 10));
+        dexterity = 24 + (3 * (combatLevel - 10));
         intelligence = 0;
-        vitality = 64 + (4 * (level - 10));
-        defence = 14 + (3 * (level - 10));
+        vitality = 64 + (4 * (combatLevel - 10));
+        defence = 14 + (3 * (combatLevel - 10));
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
         attackRange = Tile.TILEWIDTH * 5;
@@ -98,7 +99,7 @@ public class PoisonSpider extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PoisonSpider(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new PoisonSpider(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorWarden extends Creature {
 
@@ -17,8 +18,8 @@ public class CelenorWarden extends Creature {
     private Player player;
     private float alpha = 1.0f;
 
-    public CelenorWarden(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorWarden(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class ShamrockSinkhole extends StaticEntity {
@@ -23,8 +24,8 @@ public class ShamrockSinkhole extends StaticEntity {
     private boolean hasSpawnedTrolls;
     private Entity robert, albert, aaron;
 
-    public ShamrockSinkhole(double x, double y, int width, int height) {
-        super(x, y, width, height, null, 1, null, null, null, null);
+    public ShamrockSinkhole(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
 
         solid = true;
         attackable = false;
@@ -110,7 +111,12 @@ public class ShamrockSinkhole extends StaticEntity {
 
     private void addTroll(double x, double y) {
         World basin = Handler.get().getWorldHandler().getWorldsMap().get(Zone.ShamrockMinesBasin);
-        basin.getEntityManager().addRuntimeEntity(new CaveTroll(x, y, 64, 96, "Cave Troll", 9, null, null, "caveTroll", null, null));
+        Map<String, String> props = Map.of(
+                "name", "Cave Troll",
+                "level", "9",
+                "animation", "caveTroll"
+        );
+        basin.getEntityManager().addRuntimeEntity(new CaveTroll(x, y, 64, 96, props));
     }
 
     @Override
@@ -125,7 +131,7 @@ public class ShamrockSinkhole extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockSinkhole(x, y, width, height));
+        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockSinkhole(x, y, width, height, props));
     }
 
     @Override

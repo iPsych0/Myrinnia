@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class ShamrockSebastian extends Creature {
@@ -16,8 +17,8 @@ public class ShamrockSebastian extends Creature {
     private Quest quest = Handler.get().getQuest(QuestList.WeDelvedTooDeep);
     private static final long serialVersionUID = 101550362959052644L;
 
-    public ShamrockSebastian(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockSebastian(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
 
 public class RockClimb extends StaticEntity {
 
@@ -15,8 +16,8 @@ public class RockClimb extends StaticEntity {
     private Player player;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public RockClimb(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public RockClimb(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

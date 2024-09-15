@@ -5,12 +5,13 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class AemirPond extends StaticEntity {
 
-    public AemirPond(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public AemirPond(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = true;
@@ -49,7 +50,7 @@ public class AemirPond extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AemirPond(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new AemirPond(x, y, width, height, props));
     }
 
     @Override

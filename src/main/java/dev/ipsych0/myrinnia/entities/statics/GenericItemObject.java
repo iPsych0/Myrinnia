@@ -8,24 +8,25 @@ import dev.ipsych0.myrinnia.items.ui.ItemStack;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GenericItemObject extends StaticEntity {
 
     private List<ItemStack> items = new ArrayList<>();
     private boolean hasGivenItems;
 
-    public GenericItemObject(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public GenericItemObject(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = true;
         collision = new Rectangle();
 
-        if (itemsShop == null) {
+        if (shopItemsFile == null) {
             throw new IllegalArgumentException("Provide item IDs and quantities in comma-separated K,V pairs.");
         }
 
-        String[] items = itemsShop.replaceAll(" ", "").trim().split(",");
+        String[] items = shopItemsFile.replaceAll(" ", "").trim().split(",");
         if (items.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of arguments. Make sure you have matching K,V pairs.");
         }
@@ -59,7 +60,7 @@ public class GenericItemObject extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new GenericItemObject(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new GenericItemObject(x, y, width, height, props));
     }
 
     @Override

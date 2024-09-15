@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class FarmingPatch extends GenericObject {
@@ -31,8 +32,8 @@ public class FarmingPatch extends GenericObject {
     private Rectangle progressBar;
     private Rectangle totalBar;
 
-    public FarmingPatch(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public FarmingPatch(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
 
         totalBar = new Rectangle((int) (x + (width / 2d)) - 32, (int) (y - 16), 64, 16);

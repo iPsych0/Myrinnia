@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
+import java.util.Map;
 
 public class Venovine extends Creature {
 
@@ -19,8 +20,8 @@ public class Venovine extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private PoisonDartAbility poisonDartAbility = Utils.loadAbility("poisondart.json", PoisonDartAbility.class);
 
-    public Venovine(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public Venovine(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -97,7 +98,7 @@ public class Venovine extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Venovine(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new Venovine(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class PortAzureDouglas extends Creature {
@@ -21,8 +22,8 @@ public class PortAzureDouglas extends Creature {
     private boolean tipDisplayed = false;
     private boolean scriptChanged;
 
-    public PortAzureDouglas(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PortAzureDouglas(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -73,7 +74,7 @@ public class PortAzureDouglas extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDouglas(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDouglas(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

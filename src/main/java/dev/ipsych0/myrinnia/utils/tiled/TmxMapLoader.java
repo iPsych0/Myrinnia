@@ -457,6 +457,14 @@ public class TmxMapLoader implements MapLoader, Serializable {
 
     public static Entity loadEntity(World world, String className, int x, int y, int width, int height, String name, Integer level, String dropTable, String jsonFile, String animation, String itemsShop, Creature.Direction direction) {
         // Define the possible packages the class may be in
+        Map<String, String> props = new HashMap<>();
+        props.put("name", name);
+        props.put("level", String.valueOf(level));
+        props.put("animation", animation);
+        props.put("itemsShop", itemsShop);
+        props.put("direction", String.valueOf(direction));
+        props.put("dropTable", dropTable);
+        props.put("jsonFile", jsonFile);
         String[] packages = {"npcs.", "creatures.", "statics."};
         try {
             Class<?> c = null;
@@ -476,15 +484,8 @@ public class TmxMapLoader implements MapLoader, Serializable {
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
 
-            // Use default constructor if no custom properties
-            int constructorArguments = 10;
-            if (Creature.class.isAssignableFrom(c)) {
-                // For creatures, call
-                constructorArguments++;
-            }
-
             for (Constructor t : cstr) {
-                if (t.getParameterCount() == constructorArguments) {
+                if (t.getParameterCount() == 5) {
                     cst = t;
                     break;
                 }
@@ -493,15 +494,7 @@ public class TmxMapLoader implements MapLoader, Serializable {
             if (level == null) {
                 level = 1;
             }
-
-            // Invoke the right constructor based on arguments
-            Entity e;
-            if (constructorArguments == 10) {
-                e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-            } else {
-                e = (Entity) cst.newInstance(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
-            }
-            return e;
+            return (Entity) cst.newInstance(x, y, width, height, props);
         } catch (Exception e) {
             log.error("Exception", e);
             log.error("Could not create Entity '{}' in world: {}", className, world.getWorldPath());

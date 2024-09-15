@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorCollaborator extends Creature {
 
@@ -16,8 +17,8 @@ public class CelenorCollaborator extends Creature {
     private float alpha = 1.0f;
     public static boolean isTeleporting;
 
-    public CelenorCollaborator(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorCollaborator(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

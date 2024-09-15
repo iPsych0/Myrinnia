@@ -5,11 +5,12 @@ import dev.ipsych0.myrinnia.abilities.GraniteWallAbility;
 import dev.ipsych0.myrinnia.abilities.data.AbilityManager;
 
 import java.awt.*;
+import java.util.Map;
 
 public class StozarAncientRocks extends GenericObject {
 
-    public StozarAncientRocks(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public StozarAncientRocks(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class StozarAncientRocks extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new StozarAncientRocks(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new StozarAncientRocks(x, y, width, height, props));
     }
 
     @Override

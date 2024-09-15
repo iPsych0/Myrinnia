@@ -5,6 +5,7 @@ import dev.ipsych0.myrinnia.shops.ShopWindow;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class GenericShopkeeper extends ShopKeeper {
@@ -14,8 +15,8 @@ public class GenericShopkeeper extends ShopKeeper {
     private int xSpawn = (int) getX();
     private int ySpawn = (int) getY();
 
-    public GenericShopkeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public GenericShopkeeper(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class GenericShopkeeper extends ShopKeeper {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new GenericShopkeeper(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new GenericShopkeeper(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @Slf4j
 public class Player extends Creature {
@@ -112,7 +113,7 @@ public class Player extends Creature {
     private int abilityPoints;
 
     public Player(double x, double y) {
-        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, Direction.DOWN);
+        super(x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, Map.of("level", "1"));
 
         xSpawn = x;
         ySpawn = y;

@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.utils.Timer;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Torch extends StaticEntity {
@@ -19,8 +20,8 @@ public class Torch extends StaticEntity {
     private static int numTorchesLit;
     private static final int NUM_TORCHES = 8;
 
-    public Torch(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public Torch(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = true;
@@ -64,7 +65,7 @@ public class Torch extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Torch(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new Torch(x, y, width, height, props));
     }
 
     @Override

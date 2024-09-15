@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
 
 public class AngryFlower extends Creature {
 
@@ -18,8 +19,8 @@ public class AngryFlower extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
 //    private Ability ability = Utils.loadAbility("healingspring.json");
 
-    public AngryFlower(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AngryFlower(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -99,7 +100,7 @@ public class AngryFlower extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AngryFlower(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new AngryFlower(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

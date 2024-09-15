@@ -34,7 +34,7 @@ public class Fog implements Weather, Serializable {
     public void tick() {
         xOffset += 1;
 
-        if (Handler.get().getPlayer().getxMove() > 0) {
+        if (Handler.get().getPlayer().getXMove() > 0) {
             xOffset += Handler.get().getPlayer().getSpeed();
         }
 

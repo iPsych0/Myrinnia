@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Map;
 
 @Slf4j
 public class CelenorPotionCabinet extends StaticEntity {
@@ -24,8 +25,8 @@ public class CelenorPotionCabinet extends StaticEntity {
     private int hintMsgWalkTimer = 0;
     private boolean showHint = true;
 
-    public CelenorPotionCabinet(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorPotionCabinet(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -106,7 +107,7 @@ public class CelenorPotionCabinet extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorPotionCabinet(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new CelenorPotionCabinet(x, y, width, height, props));
     }
 
     @Override

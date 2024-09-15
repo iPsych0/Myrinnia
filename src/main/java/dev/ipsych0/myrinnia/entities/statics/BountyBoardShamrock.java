@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.worlds.World;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.util.Map;
 
 public class BountyBoardShamrock extends BountyBoard {
 
@@ -15,8 +16,8 @@ public class BountyBoardShamrock extends BountyBoard {
     private BountyBoardUI bountyBoardUI;
     private static boolean hasRemovedShadyFigure;
 
-    public BountyBoardShamrock(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public BountyBoardShamrock(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         bounds.x = 0;
         bounds.y = height / 2;

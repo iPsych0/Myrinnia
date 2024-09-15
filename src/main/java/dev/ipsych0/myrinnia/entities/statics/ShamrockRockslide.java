@@ -12,6 +12,8 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 public class ShamrockRockslide extends StaticEntity {
@@ -23,8 +25,8 @@ public class ShamrockRockslide extends StaticEntity {
     private int dynamitePlaced = 0;
     public static boolean hasDetonated;
 
-    public ShamrockRockslide(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public ShamrockRockslide(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -53,7 +55,7 @@ public class ShamrockRockslide extends StaticEntity {
             if (explosion.isTickDone()) {
                 active = false;
                 die();
-                Handler.get().getWorld().getEntityManager().addRuntimeEntity(new ShamrockSinkhole(1248, 1248, 5 * 32, 3 * 32));
+                Handler.get().getWorld().getEntityManager().addRuntimeEntity(new ShamrockSinkhole(1248, 1248, 5 * 32, 3 * 32, new HashMap<>()));
                 remove("Miner Aaron");
                 remove("Miner Robert");
                 remove("Miner Albert");

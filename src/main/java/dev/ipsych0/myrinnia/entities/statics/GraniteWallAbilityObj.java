@@ -13,6 +13,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GraniteWallAbilityObj extends StaticEntity {
@@ -22,8 +23,8 @@ public class GraniteWallAbilityObj extends StaticEntity {
     private Animation animation;
     private Creature caster;
 
-    public GraniteWallAbilityObj(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public GraniteWallAbilityObj(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = true;
         hasPolyBounds = true;
         setOverlayDrawn(false);

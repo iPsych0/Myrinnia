@@ -22,7 +22,9 @@ import lombok.Getter;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BountyBoardUI implements Serializable {
 
@@ -122,7 +124,11 @@ public class BountyBoardUI implements Serializable {
                     if (Handler.get().questInProgress(QuestList.GettingStarted) && !bounty.isAccepted()) {
                         Handler.get().getQuest(QuestList.GettingStarted).nextStep();
                         Handler.get().addTip(new TutorialTip("Right-click on items in your inventory to 'use' them. Click on the contract to open it."));
-                        Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, "King Azure Crab", 3, null, null, null, null, Creature.Direction.DOWN));
+                        Map<String, String> props = Map.of(
+                                "name", "King Azure Crab",
+                                "level", "3"
+                        );
+                        Handler.get().getWorldHandler().getWorldsMap().get(Zone.SunsetCove).getEntityManager().addEntity(new AzureCrab(672, 416, 64, 64, props));
                     }
                     // Only get the bounty contract if we haven't accepted it yet or if we lost the contract (death/dropping)
                     if (!bounty.isAccepted() && !bounty.isCompleted() || !Handler.get().playerHasItem(Item.bountyContract, 1) && bounty.isAccepted() && !bounty.isCompleted()) {

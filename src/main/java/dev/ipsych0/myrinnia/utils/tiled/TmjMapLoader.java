@@ -189,21 +189,6 @@ public class TmjMapLoader implements MapLoader {
         Map<String, String> props = toMap(obj.getProperties());
         try {
             String className = props.get("npcClass");
-            String npcName = props.get("name");
-            String levelProp = props.get("level");
-            int level = 1;
-            if (levelProp != null) {
-                level = Integer.parseInt(levelProp);
-            }
-            String dropTable = props.get("dropTable");
-            String jsonFile = props.get("jsonFile");
-            String animation = props.get("animation");
-            String itemsShop = props.get("itemsShop");
-            String directionProp = props.get("direction");
-            Creature.Direction direction = null;
-            if (directionProp != null) {
-                direction = Creature.Direction.valueOf(directionProp.toUpperCase());
-            }
             Class<?> c = null;
             for (int i = 0; i < packages.length; i++) {
                 try {
@@ -221,28 +206,15 @@ public class TmjMapLoader implements MapLoader {
             Constructor[] cstr = c.getDeclaredConstructors();
             Constructor cst = null;
 
-            // Use default constructor if no custom properties
-            int constructorArguments = 10;
-            if (Creature.class.isAssignableFrom(c)) {
-                // For creatures, call
-                constructorArguments++;
-            }
-
             for (Constructor t : cstr) {
-                if (t.getParameterCount() == constructorArguments) {
+                if (t.getParameterCount() == 5) {
                     cst = t;
                     break;
                 }
             }
 
             // Invoke the right constructor based on arguments
-            Entity e;
-            if (constructorArguments == 10) {
-                e = (Entity) cst.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), npcName, level, dropTable, jsonFile, animation, itemsShop);
-            } else {
-                e = (Entity) cst.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), npcName, level, dropTable, jsonFile, animation, itemsShop, direction);
-            }
-            return e;
+            return (Entity) cst.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), props);
         } catch (Exception e) {
             log.error("Could not create Entity '%s' in world: %s".formatted(props.get("npcClass"), this.worldPath), e);
         }

@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorNevarth extends Creature {
 
@@ -15,8 +16,8 @@ public class CelenorNevarth extends Creature {
     private Rectangle caveEntrance = new Rectangle(3456, 2016, 32, 48);
     private Player player;
 
-    public CelenorNevarth(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorNevarth(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

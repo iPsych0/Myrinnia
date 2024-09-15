@@ -4,14 +4,15 @@ import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.input.KeyManager;
 
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 public abstract class StaticEntity extends Entity {
 
 
     private static final long serialVersionUID = -2206779374852046145L;
 
-    protected StaticEntity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    protected StaticEntity(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         staticNpc = true;
         solid = true;
