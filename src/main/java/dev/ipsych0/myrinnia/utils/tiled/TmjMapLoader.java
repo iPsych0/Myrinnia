@@ -183,10 +183,9 @@ public class TmjMapLoader implements MapLoader {
         }
     }
 
-    public Entity loadEntity(TileObject obj) {
+    public Entity loadEntity(float x, float y, int width, int height, Map<String, String> props) {
         // Define the possible packages the class may be in
         String[] packages = {"npcs.", "creatures.", "statics."};
-        Map<String, String> props = toMap(obj.getProperties());
         try {
             String className = props.get("npcClass");
             Class<?> c = null;
@@ -206,7 +205,7 @@ public class TmjMapLoader implements MapLoader {
             for (Constructor t : c.getDeclaredConstructors()) {
                 if (t.getParameterCount() == 5) {
                     // Invoke the right constructor based on arguments
-                    return (Entity) t.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), props);
+                    return (Entity) t.newInstance(x, y, width, height, props);
                 }
             }
         } catch (Exception e) {
@@ -276,11 +275,11 @@ public class TmjMapLoader implements MapLoader {
         objects.forEach(obj -> {
             TiledObjectType type = TiledObjectType.valueOf(obj.getType().toUpperCase());
             switch (type) {
-                case NPC -> world.getEntityManager().addEntity(loadEntity(obj));
+                case NPC -> world.getEntityManager().addEntity(loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties())));
                 case ITEM -> world.getItemManager().addItem(loadItem(obj), true);
                 case COLLISION -> {
                     setClassName(obj, "CollisionTile");
-                    world.getEntityManager().addEntity(loadEntity(obj));
+                    world.getEntityManager().addEntity(loadEntity(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), toMap(obj.getProperties())));
                 }
                 case ZONE_TILE -> world.getZoneTiles().add(loadZoneTile(obj));
                 default -> log.error("New object type '%s' not implemented!".formatted(obj.getType()));

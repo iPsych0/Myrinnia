@@ -11,15 +11,17 @@ import dev.ipsych0.myrinnia.quests.QuestState;
 import dev.ipsych0.myrinnia.skills.Skill;
 import dev.ipsych0.myrinnia.skills.SkillsList;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.tiled.TmxMapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class CommandHandler implements Serializable {
 
 
     private static final long serialVersionUID = 1908102828227319857L;
+    private TmjMapLoader tmjMapLoader = new TmjMapLoader();
 
     public void handle(Commands firstCommand, String... commands) {
         switch (firstCommand) {
@@ -101,10 +103,16 @@ public class CommandHandler implements Serializable {
 
                     if (commands.length == 5) {
                         String className = commands[1];
-                        int level = Integer.parseInt(commands[2]);
+                        String level = commands[2];
                         int x = Integer.parseInt(commands[3]) * 32;
                         int y = Integer.parseInt(commands[4]) * 32;
-                        Entity e = TmxMapLoader.loadEntity(Handler.get().getWorld(), className, x, y, 32, 32, className, level, null, null, "malachiteThug1", null, null);
+                        Map<String, String> props = Map.of(
+                                "npcClass", className,
+                                "name", className,
+                                "level", level,
+                                "animation", "malachiteThug1"
+                        );
+                        Entity e = tmjMapLoader.loadEntity(x, y, 32, 32, props);
                         if (e != null) {
                             Handler.get().getWorld().getEntityManager().addRuntimeEntity(e, false);
                         }
