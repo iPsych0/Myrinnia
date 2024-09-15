@@ -1,6 +1,8 @@
 package dev.ipsych0.myrinnia.entities.creatures;
 
 import dev.ipsych0.myrinnia.Handler;
+import dev.ipsych0.myrinnia.entities.CombatStats;
+import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
@@ -23,14 +25,16 @@ public class AngryOwl extends Entity {
         attackable = true;
 
         // Creature stats
-        strength = 0;
-        dexterity = 0;
-        intelligence = 5;
-        vitality = 8;
-        defence = 5;
-        maxHealth = DEFAULT_HEALTH + vitality * 4;
+        this.stats = CombatStats.builder()
+                .strength(0)
+                .dexterity(0)
+                .intelligence(5)
+                .vitality(8)
+                .defence(5)
+                .build();
+        maxHealth = DEFAULT_HEALTH + this.stats.getVitality() * 4;
         health = maxHealth;
-        attackRange = Tile.TILEWIDTH * 5;
+        setAttackRange(Tile.TILEWIDTH * 5);
 
         bounds.x = 2;
         bounds.y = 2;

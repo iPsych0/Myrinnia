@@ -2011,6 +2011,22 @@ public abstract class Entity implements Serializable {
             health = maxHealth;
         }
     }
+    public void setDefence(int defence) {
+        this.getStats().setDefence(defence);
+    }
+
+    public void setStrength(int strength) {
+        this.getStats().setStrength(strength);
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.getStats().setIntelligence(intelligence);
+    }
+
+    public void setDexterity(int dexterity) {
+        this.getStats().setDexterity(dexterity);
+    }
+
 
     public void setLastFaced(Direction lastFaced) {
         this.lastFaced = lastFaced;
