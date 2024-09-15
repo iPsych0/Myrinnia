@@ -124,11 +124,8 @@ public class NPCSpawnTile extends Creature {
         props.put("animation", animation);
         props.put("dropTable", this.props.get("dropTable"));
 
-        Constructor[] cstr = c.getDeclaredConstructors();
-        Constructor cst = null;
-
         Entity e = null;
-        for (Constructor t : cstr) {
+        for (Constructor t : c.getDeclaredConstructors()) {
             if (t.getParameterCount() == 5) {
                 e = (Entity) t.newInstance(coords.x, coords.y, coords.width, coords.height, props);
                 break;

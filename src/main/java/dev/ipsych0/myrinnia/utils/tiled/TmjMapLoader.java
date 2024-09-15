@@ -203,18 +203,12 @@ public class TmjMapLoader implements MapLoader {
                 }
             }
             // Get all constructors
-            Constructor[] cstr = c.getDeclaredConstructors();
-            Constructor cst = null;
-
-            for (Constructor t : cstr) {
+            for (Constructor t : c.getDeclaredConstructors()) {
                 if (t.getParameterCount() == 5) {
-                    cst = t;
-                    break;
+                    // Invoke the right constructor based on arguments
+                    return (Entity) t.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), props);
                 }
             }
-
-            // Invoke the right constructor based on arguments
-            return (Entity) cst.newInstance(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), props);
         } catch (Exception e) {
             log.error("Could not create Entity '%s' in world: %s".formatted(props.get("npcClass"), this.worldPath), e);
         }

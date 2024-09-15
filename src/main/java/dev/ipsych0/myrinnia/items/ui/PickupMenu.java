@@ -37,14 +37,16 @@ public class PickupMenu {
                     // If we contain the real bounds of an entry and left-press, pick up item
                     if (entry.getBounds().contains(mouse) && Handler.get().getMouseManager().isLeftPressed()) {
                         Item i = entry.getItem();
-                        if (isStillInWorld(i)) {
-                            if (i.pickUpItem(i)) {
-                                if (i.isPickedUp()) {
-                                    if (!ItemManager.soundPlayed) {
-                                        Handler.get().playEffect("ui/pickup.ogg");
-                                        ItemManager.soundPlayed = true;
+                        if (Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
+                            if (isStillInWorld(i)) {
+                                if (i.pickUpItem(i)) {
+                                    if (i.isPickedUp()) {
+                                        if (!ItemManager.soundPlayed) {
+                                            Handler.get().playEffect("ui/pickup.ogg");
+                                            ItemManager.soundPlayed = true;
+                                        }
+                                        Handler.get().getWorld().getItemManager().getDeleted().add(i);
                                     }
-                                    Handler.get().getWorld().getItemManager().getDeleted().add(i);
                                 }
                             }
                         }

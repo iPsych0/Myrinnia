@@ -45,7 +45,7 @@ public class ItemManager implements Serializable {
             // Check if we're hovering over the item
             i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
 
-            // Checks player's positoin and loot all
+            // Checks player's position and loot all
             if (pickUpPressed && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
                 if (i.pickUpItem(i)) {
                     if (i.isPickedUp()) {

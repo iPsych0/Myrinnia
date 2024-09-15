@@ -480,21 +480,12 @@ public class TmxMapLoader implements MapLoader, Serializable {
                     }
                 }
             }
-            // Get all constructors
-            Constructor[] cstr = c.getDeclaredConstructors();
-            Constructor cst = null;
 
-            for (Constructor t : cstr) {
+            for (Constructor t : c.getDeclaredConstructors()) {
                 if (t.getParameterCount() == 5) {
-                    cst = t;
-                    break;
+                    return (Entity) t.newInstance(x, y, width, height, props);
                 }
             }
-
-            if (level == null) {
-                level = 1;
-            }
-            return (Entity) cst.newInstance(x, y, width, height, props);
         } catch (Exception e) {
             log.error("Exception", e);
             log.error("Could not create Entity '{}' in world: {}", className, world.getWorldPath());
