@@ -185,13 +185,15 @@ public class TmjMapLoader implements MapLoader {
 
     public Entity loadEntity(float x, float y, int width, int height, Map<String, String> props) {
         // Define the possible packages the class may be in
-        String[] packages = {"npcs.", "creatures.", "statics."};
+        String[] packages = {"npcs", "creatures", "statics"};
+        String pkg = null;
         try {
             String className = props.get("npcClass");
             Class<?> c = null;
             for (int i = 0; i < packages.length; i++) {
                 try {
-                    c = Class.forName("dev.ipsych0.myrinnia.entities." + packages[i] + className);
+                    c = Class.forName("dev.ipsych0.myrinnia.entities.%s.%s".formatted(packages[i], className));
+                    pkg = packages[i];
                     break;
                 } catch (Exception e) {
                     // Only use exception when the class is in none of the 3 packages mentioned above
@@ -205,7 +207,13 @@ public class TmjMapLoader implements MapLoader {
             for (Constructor t : c.getDeclaredConstructors()) {
                 if (t.getParameterCount() == 5) {
                     // Invoke the right constructor based on arguments
-                    return (Entity) t.newInstance(x, y, width, height, props);
+                    Entity e = (Entity) t.newInstance(x, y, width, height, props);
+                    if ("npcs".equalsIgnoreCase(pkg)) {
+                        e.setNpc(true);
+                    } else if ("statics".equalsIgnoreCase(pkg)) {
+                        e.setStaticNpc(true);
+                    }
+                    return e;
                 }
             }
         } catch (Exception e) {

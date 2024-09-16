@@ -133,6 +133,19 @@ public class NPCSpawnTile extends Creature {
             }
         }
 
+        if (e == null) {
+            log.error("Entity could not be spawned in NPCSpawnTile!");
+            return;
+        }
+
+        String[] packages = c.getPackageName().split("\\.");
+        String pkg = packages[packages.length - 1];
+        if ("npcs".equalsIgnoreCase(pkg)) {
+            e.setNpc(true);
+        } else if ("statics".equalsIgnoreCase(pkg)) {
+            e.setStaticNpc(true);
+        }
+
         props.putIfAbsent("level", "1");
 
         entitiesToSpawn.add(e);
@@ -151,11 +164,11 @@ public class NPCSpawnTile extends Creature {
     private List<Class<?>> getClazzes(String[] classNames) {
         List<Class<?>> classes = new ArrayList<>();
         for (String className : classNames) {
-            String[] packages = {"npcs.", "creatures.", "statics."};
+            String[] packages = {"npcs", "creatures", "statics"};
             Class<?> c = null;
             for (int i = 0; i < packages.length; i++) {
                 try {
-                    c = Class.forName("dev.ipsych0.myrinnia.entities." + packages[i] + className);
+                    c = Class.forName("dev.ipsych0.myrinnia.entities.%s.%s".formatted(packages[i], className));
                     break;
                 } catch (Exception e) {
                     // Only use exception when the class is in none of the 3 packages mentioned above
