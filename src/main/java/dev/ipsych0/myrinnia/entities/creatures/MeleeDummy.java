@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class MeleeDummy extends Creature {
 
@@ -18,17 +19,17 @@ public class MeleeDummy extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private Animation meleeAnimation;
 
-    public MeleeDummy(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public MeleeDummy(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
         // Creature stats
-        strength = 14 + (5 * level);
+        strength = 14 + (5 * combatLevel);
         dexterity = 0;
         intelligence = 0;
-        vitality = 30 + (5 * level);
-        defence = 30 + (5 * level);
+        vitality = 30 + (5 * combatLevel);
+        defence = 30 + (5 * combatLevel);
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
 

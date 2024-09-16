@@ -73,8 +73,8 @@ public class Tree extends StaticEntity {
     );
     private Rectangle progressBar, totalBar;
 
-    public Tree(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public Tree(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         isNpc = true;
         attackable = false;
@@ -307,7 +307,7 @@ public class Tree extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new Tree(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

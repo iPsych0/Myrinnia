@@ -7,6 +7,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.shops.AbilityShopWindow;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public abstract class AbilityTrainer extends Creature implements Serializable {
 
@@ -16,8 +17,8 @@ public abstract class AbilityTrainer extends Creature implements Serializable {
 
     protected AbilityShopWindow abilityShopWindow;
 
-    AbilityTrainer(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    AbilityTrainer(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
 
         attackable = false;
         isNpc = true;

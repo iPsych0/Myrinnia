@@ -52,7 +52,7 @@ public class FileParser {
         BufferedReader reader = null;
         StringBuilder sb = new StringBuilder();
         try {
-            // Open stream to the world tmx file
+            // Open stream to the world tmj file
             is = new FileInputStream(file);
             reader = new BufferedReader(new InputStreamReader(is));
 
@@ -68,7 +68,7 @@ public class FileParser {
             reader.close();
 
             // Regex matching for any tileset tag in the world tmx file
-            Pattern p = Pattern.compile("(\\s<tileset firstgid=\"\\d+\"\\ssource=\"[a-zA-Z_0-9\\-]+.tsx\"/>)\n");
+            Pattern p = Pattern.compile("(\\s<tileset firstgid=\"\\d+\"\\ssource=\"[a-zA-Z_0-9\\-]+.tsj\"/>)\n");
             Matcher m = p.matcher(inputString);
 
             // For every match found by the regex, append the tag to create a body of incorrect values

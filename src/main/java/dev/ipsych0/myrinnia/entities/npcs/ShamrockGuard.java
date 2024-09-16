@@ -5,12 +5,13 @@ import dev.ipsych0.myrinnia.entities.creatures.Creature;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class ShamrockGuard extends Creature {
 
-    public ShamrockGuard(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockGuard(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -47,7 +48,7 @@ public class ShamrockGuard extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockGuard(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockGuard(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class MalachiteThugL extends Creature {
 
@@ -25,8 +26,8 @@ public class MalachiteThugL extends Creature {
     private int firstTextTimer, secondTextTimer;
     private Ability debilitatingStrike = Utils.loadAbility("debilitatingstrike.json");
 
-    public MalachiteThugL(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public MalachiteThugL(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -55,11 +56,21 @@ public class MalachiteThugL extends Creature {
 
         // If below 75% HP, spawn first ally
         if (health <= (maxHealth * 0.75d) && !hasSpawnedFirstAlly) {
-            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(53 * 32, 17 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
+            Map<String, String> props = Map.of(
+                    "name", "Devon's associate",
+                    "level", "3",
+                    "animation", "malachiteThug2"
+            );
+            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(53 * 32, 17 * 32, width, height, props));
             hasSpawnedFirstAlly = true;
             // If below 40% health, spawn second ally
         } else if (health <= (maxHealth * 0.40d) && !hasSpawnedSecondAlly) {
-            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(48 * 32, 23 * 32, width, height, "Devon's associate", 3, null, null, "malachiteThug2", null, null));
+            Map<String, String> props = Map.of(
+                    "name", "Devon's associate",
+                    "level", "3",
+                    "animation", "malachiteThug2"
+            );
+            Handler.get().getWorld().getEntityManager().addRuntimeEntity(new MalachiteThugR(48 * 32, 23 * 32, width, height, props));
             hasSpawnedSecondAlly = true;
         }
     }

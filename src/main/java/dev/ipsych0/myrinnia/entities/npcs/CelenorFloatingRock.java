@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorFloatingRock extends Creature {
 
@@ -23,8 +24,8 @@ public class CelenorFloatingRock extends Creature {
             rightPatch = new Rectangle(31 * 32, 28 * 32, 32, 32);
     private static boolean leftPatchDone, middlePatchDone, rightPatchDone;
 
-    public CelenorFloatingRock(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorFloatingRock(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         walker = false;
@@ -101,7 +102,7 @@ public class CelenorFloatingRock extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorFloatingRock(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new CelenorFloatingRock(x, y, width, height, props));
     }
 
     @Override

@@ -12,8 +12,10 @@ import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class NPCSpawnTile extends Creature {
@@ -26,13 +28,12 @@ public class NPCSpawnTile extends Creature {
     private List<String> names;
     private List<Class<?>> clazzez;
     private List<Rectangle> coords;
-    private List<Integer> levels;
+    private List<String> levels;
     private List<String> animations;
-    private String itemsShop;
     private Rectangle spawnBounds;
 
-    public NPCSpawnTile(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public NPCSpawnTile(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = false;
@@ -63,27 +64,27 @@ public class NPCSpawnTile extends Creature {
             ));
         }
 
+        if (animationTag == null) {
+            log.error("Please provide the (animation) sprites for the NPC!");
+        }
+
         // If we entered only 1 anim, but more sets of coordinates, we can assume that we should duplicate the anims
-        String[] anims = animation.split(",");
+        String[] anims = animationTag.split(",");
         animations.addAll(Arrays.asList(anims));
         for (int i = animations.size(); i < coords.size(); i++) {
             animations.add(animations.get(0));
         }
 
-        if (itemsShop == null) {
+        if (shopItemsFile == null) {
             log.error("Please enter the combat levels in the itemsShop field, comma separated: [11,12,13,14].");
             return;
         }
 
-        this.itemsShop = itemsShop;
-        String[] levelSplit = itemsShop.split(",");
-        for (String lvl : levelSplit) {
-            levels.add(Integer.parseInt(lvl));
-        }
+        levels.addAll(Arrays.asList(shopItemsFile.split(",")));
 
         // If we entered only 1 level, but more sets of coordinates, we can assume that we should duplicate the levels
         for (int i = levels.size(); i < coords.size(); i++) {
-            levels.add(levels.get(0));
+            levels.add(levels.getFirst());
         }
 
         // Get the names & classes
@@ -96,8 +97,8 @@ public class NPCSpawnTile extends Creature {
 
         // If we entered only 1 name, but more sets of coordinates, we can assume that we should duplicate the type of monster
         for (int i = names.size(); i < coords.size(); i++) {
-            names.add(names.get(0));
-            clazzez.add(clazzez.get(0));
+            names.add(names.getFirst());
+            clazzez.add(clazzez.getFirst());
         }
 
         player = Handler.get().getPlayer();
@@ -115,36 +116,23 @@ public class NPCSpawnTile extends Creature {
         return super.getCollisionBounds(-10000, -10000);
     }
 
-    private void initEnemy(String name, Class<?> c, Rectangle coords, Integer level, String animation, String itemsShop, String direction) throws Exception {
+    private void initEnemy(String name, Class<?> c, Rectangle coords, String level, String animation, String itemsShop, String direction) throws Exception {
         // Get all constructors
-        Constructor[] cstr = c.getDeclaredConstructors();
-        Constructor cst = null;
+        Map<String, String> props = new HashMap<>();
+        props.put("name", name);
+        props.put("level", level);
+        props.put("animation", animation);
+        props.put("dropTable", this.props.get("dropTable"));
 
-        // Use default constructor if no custom properties
-        int constructorArguments = 10;
-        if (Creature.class.isAssignableFrom(c)) {
-            // For creatures, call
-            constructorArguments++;
-        }
-
-        for (Constructor t : cstr) {
-            if (t.getParameterCount() == constructorArguments) {
-                cst = t;
+        Entity e = null;
+        for (Constructor t : c.getDeclaredConstructors()) {
+            if (t.getParameterCount() == 5) {
+                e = (Entity) t.newInstance(coords.x, coords.y, coords.width, coords.height, props);
                 break;
             }
         }
 
-        if (level == null) {
-            level = 1;
-        }
-
-        // Invoke the right constructor based on arguments
-        Entity e;
-        if (constructorArguments == 10) {
-            e = (Entity) cst.newInstance(coords.x, coords.y, coords.width, coords.height, name, level, dropTable, jsonFile, animation, itemsShop);
-        } else {
-            e = (Entity) cst.newInstance(coords.x, coords.y, coords.width, coords.height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
-        }
+        props.putIfAbsent("level", "1");
 
         entitiesToSpawn.add(e);
 
@@ -225,7 +213,7 @@ public class NPCSpawnTile extends Creature {
         try {
             // Init a new instance of all enemies
             for (int i = 0; i < coords.size(); i++) {
-                initEnemy(names.get(i), clazzez.get(i), coords.get(i), levels.get(i), animations.get(i), itemsShop, null);
+                initEnemy(names.get(i), clazzez.get(i), coords.get(i), levels.get(i), animations.get(i), shopItemsFile, null);
                 w.getEntityManager().addRuntimeEntity(entitiesToSpawn.get(i), false);
             }
         } catch (Exception exc) {

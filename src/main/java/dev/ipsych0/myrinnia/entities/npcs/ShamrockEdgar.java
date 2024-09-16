@@ -10,14 +10,15 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class ShamrockEdgar extends Creature {
 
     private Bounty bounty = BountyManager.get().getBountyByZoneAndTask(Zone.ShamrockTown, "It's mine");
 
-    public ShamrockEdgar(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockEdgar(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -57,7 +58,7 @@ public class ShamrockEdgar extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockEdgar(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new ShamrockEdgar(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -7,13 +7,14 @@ import dev.ipsych0.myrinnia.quests.QuestList;
 import dev.ipsych0.myrinnia.quests.QuestState;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorElwyn extends Creature {
 
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorElwyn(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CelenorElwyn(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

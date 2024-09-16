@@ -4,18 +4,19 @@ import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.quests.Quest;
 import dev.ipsych0.myrinnia.quests.QuestList;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.util.Map;
 
 public class CelenorGrottoWater extends GenericObject {
 
     public static boolean potionUsed;
     private Quest quest = Handler.get().getQuest(QuestList.ExtrememistBeliefs);
 
-    public CelenorGrottoWater(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorGrottoWater(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = true;
@@ -43,7 +44,7 @@ public class CelenorGrottoWater extends GenericObject {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorGrottoWater(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new CelenorGrottoWater(x, y, width, height, props));
     }
 
     @Override
@@ -70,16 +71,16 @@ public class CelenorGrottoWater extends GenericObject {
 
     public static void cleanse() {
         // Get the right paths
-        String aemirRiverflankPath = "./res/worlds/aemir_riverflank.tmx";
-        String celewynnPath = "./res/worlds/celewynn.tmx";
-        String celenorCavesPath = "./res/worlds/celenor_caves.tmx";
+        String aemirRiverflankPath = "./res/worlds/aemir_riverflank.tmj";
+        String celewynnPath = "./res/worlds/celewynn.tmj";
+        String celenorCavesPath = "./res/worlds/celenor_caves.tmj";
 
         // Reset the water to normal state
-        MapLoader.setWorldDoc(aemirRiverflankPath);
-        Handler.get().getWorldHandler().getWorldsMap().get(Zone.AemirRiverflank).loadWorld();
-        MapLoader.setWorldDoc(celewynnPath);
-        Handler.get().getWorldHandler().getWorldsMap().get(Zone.Celewynn).loadWorld();
-        MapLoader.setWorldDoc(celenorCavesPath);
-        Handler.get().getWorldHandler().getWorldsMap().get(Zone.CelenorCaves).loadWorld();
+        new TmjMapLoader().setWorldDoc(aemirRiverflankPath);
+        Handler.get().getWorldHandler().getWorldsMap().get(Zone.AemirRiverflank).loadWorldTiles();
+        new TmjMapLoader().setWorldDoc(celewynnPath);
+        Handler.get().getWorldHandler().getWorldsMap().get(Zone.Celewynn).loadWorldTiles();
+        new TmjMapLoader().setWorldDoc(celenorCavesPath);
+        Handler.get().getWorldHandler().getWorldsMap().get(Zone.CelenorCaves).loadWorldTiles();
     }
 }

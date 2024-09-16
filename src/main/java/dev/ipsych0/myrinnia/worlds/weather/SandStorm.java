@@ -33,7 +33,7 @@ public class SandStorm implements Weather, Serializable {
     public void tick() {
         xOffset += 2;
         if (!Handler.get().getGameCamera().isAtAnyBound()) {
-            if (Handler.get().getPlayer().getxMove() > 0) {
+            if (Handler.get().getPlayer().getXMove() > 0) {
                 xOffset += (Handler.get().getPlayer().getSpeed());
             }
         }

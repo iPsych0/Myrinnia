@@ -5,20 +5,19 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.character.CharacterStats;
 import dev.ipsych0.myrinnia.entities.Buff;
 import dev.ipsych0.myrinnia.entities.Condition;
-import dev.ipsych0.myrinnia.entities.DropTableEntry;
 import dev.ipsych0.myrinnia.entities.Entity;
 import dev.ipsych0.myrinnia.entities.Resistance;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.gfx.Assets;
 import dev.ipsych0.myrinnia.input.KeyManager;
-import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ui.ItemSlot;
 import dev.ipsych0.myrinnia.pathfinding.AStarMap;
 import dev.ipsych0.myrinnia.pathfinding.CombatState;
 import dev.ipsych0.myrinnia.pathfinding.Node;
 import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.utils.Colors;
-import dev.ipsych0.myrinnia.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -35,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Getter
+@Setter
 public abstract class Creature extends Entity {
 
     private static final long serialVersionUID = -2545797921368819194L;
@@ -62,7 +63,7 @@ public abstract class Creature extends Entity {
     protected int vitality;
     protected double attackSpeed;
     protected int waterLevel = 1, fireLevel = 1, airLevel = 1, earthLevel = 1;
-    protected int combatLevel;
+    protected int combatLevel = 1;
     protected static final double LEVEL_EXPONENT = 0.998;
     protected int attackRange = Tile.TILEWIDTH + 16;
     protected List<Projectile> projectiles = new ArrayList<>();
@@ -120,16 +121,17 @@ public abstract class Creature extends Entity {
     protected double xMove;
     protected double yMove;
 
-    protected List<DropTableEntry> dropTableEntries;
-    protected int maxDropTableWeight;
-    protected int emptyWeight;
+    public Creature(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
 
-    public Creature(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
-        this.combatLevel = level <= 1 ? 1 : level; // Level 1 is minimum level
+        String level = props.get("level");
+        if (level != null) {
+            // Minimum level of 1
+            this.combatLevel = Math.max(1, Integer.parseInt(level));
+        }
 
-        if (animation != null) {
-            BufferedImage[][] anims = Assets.getAnimationByTag(animation);
+        if (animationTag != null) {
+            BufferedImage[][] anims = Assets.getAnimationByTag(animationTag);
             aDown = new Animation(250, anims[0]);
             aLeft = new Animation(250, anims[1]);
             aRight = new Animation(250, anims[2]);
@@ -137,23 +139,14 @@ public abstract class Creature extends Entity {
             aDefault = aDown;
         }
 
-        if (direction != null) {
-            lastFaced = direction;
+        String directionProp = props.get("direction");
+        if (directionProp != null) {
+            Direction direction = Direction.valueOf(directionProp.toUpperCase());
+            this.lastFaced = direction;
             this.direction = direction;
             this.originalDirection = direction;
-            walker = false;
-        }
-
-        if (dropTable != null) {
-            dropTableEntries = Utils.loadDropTable(dropTable);
-            for (DropTableEntry entry : dropTableEntries) {
-                // ItemID -1 for empty drop
-                if (entry.getItemId() == -1) {
-                    emptyWeight = entry.getWeight();
-                } else {
-                    maxDropTableWeight += entry.getWeight();
-                }
-            }
+            // If we provide an explicit direction to face, the NPC does not randomly walk around
+            this.walker = false;
         }
 
         state = CombatState.IDLE;
@@ -167,7 +160,7 @@ public abstract class Creature extends Entity {
         attackSpeed = (DEFAULT_ATTACKSPEED);
         maxHealth = DEFAULT_HEALTH + vitality * 4;
         health = maxHealth;
-        setCombatLevel();
+        updateCombatLevel();
 
         xMove = 0;
         yMove = 0;
@@ -175,38 +168,12 @@ public abstract class Creature extends Entity {
         radius = new Rectangle((int) x - xRadius, (int) y - yRadius, xRadius * 2, yRadius * 2);
     }
 
-    protected void setCombatLevel() {
+    public void updateCombatLevel() {
         for (int i = 1; i < combatLevel; i++) {
             baseDamage = (int) Math.ceil((baseDamage * baseDmgExponent) + 1);
             baseDmgExponent *= LEVEL_EXPONENT;
             health = maxHealth;
         }
-    }
-
-    protected void getDroptableItem() {
-        if (maxDropTableWeight == 0) {
-            // The drop table must be empty
-            Handler.get().sendMsg(getName() + " has an empty drop table.");
-            log.error("Drop table for {} is empty in {}. Please check 'dropTable' property in Tiled.", getName(), Handler.get().getWorld().getZone().getName());
-            return;
-        }
-
-        // Roll number between 1 and sum of all weights
-        int roll = Handler.get().getRandomNumber(1, maxDropTableWeight + emptyWeight);
-        int index = 0;
-        for (DropTableEntry entry : dropTableEntries) {
-            index += entry.getWeight();
-            if (roll <= index && roll > (index - entry.getWeight())) {
-                // Don't drop anything if we rolled the empty table
-                if (entry.getItemId() == -1)
-                    return;
-
-                Handler.get().dropItem(Item.items[entry.getItemId()], entry.getAmount(), (int) x, (int) y);
-                return;
-            }
-        }
-        // The drop table must be empty
-        Handler.get().sendMsg("Drop table for " + getName() + " is empty.");
     }
 
     /*
@@ -370,7 +337,7 @@ public abstract class Creature extends Entity {
 
     private void setupInitialPermission(int x, int y) {
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().size() - 1, x, y);
             if (currentTile != Tile.tiles[0]) {
                 if (currentTile.getPermission().equalsIgnoreCase("C")) {
                     verticality = 0;
@@ -390,7 +357,7 @@ public abstract class Creature extends Entity {
     private void checkPermissionTiles(int x, int y) {
         if (Handler.get().getWorld().hasPermissionsLayer()) {
             Tile oldTile = currentTile;
-            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().length - 1, x, y);
+            currentTile = Handler.get().getWorld().getTile(Handler.get().getWorld().getLayers().size() - 1, x, y);
             if (currentTile != Tile.tiles[0]) {
                 if (currentTile != oldTile) {
                     hasSwitchedTile = true;
@@ -489,20 +456,20 @@ public abstract class Creature extends Entity {
 
         int topLayer;
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            topLayer = Handler.get().getWorld().getLayers().size() - 1;
             boolean allowed = isAllowedToMove(topLayer, x, y);
             if (!allowed) {
                 return true;
             }
         } else {
-            topLayer = Handler.get().getWorld().getLayers().length;
+            topLayer = Handler.get().getWorld().getLayers().size();
         }
 
         if (Handler.get().getWorld().hasShadowsLayer()) {
             if (Handler.get().getWorld().hasPermissionsLayer()) {
-                topLayer = Handler.get().getWorld().getLayers().length - 2;
+                topLayer = Handler.get().getWorld().getLayers().size() - 2;
             } else {
-                topLayer = Handler.get().getWorld().getLayers().length - 1;
+                topLayer = Handler.get().getWorld().getLayers().size() - 1;
             }
         }
 
@@ -561,20 +528,20 @@ public abstract class Creature extends Entity {
 
         int topLayer;
         if (Handler.get().getWorld().hasPermissionsLayer()) {
-            topLayer = Handler.get().getWorld().getLayers().length - 1;
+            topLayer = Handler.get().getWorld().getLayers().size() - 1;
             boolean allowed = isAllowedToMove(topLayer, x, y);
             if (!allowed) {
                 return true;
             }
         } else {
-            topLayer = Handler.get().getWorld().getLayers().length;
+            topLayer = Handler.get().getWorld().getLayers().size();
         }
 
         if (Handler.get().getWorld().hasShadowsLayer()) {
             if (Handler.get().getWorld().hasPermissionsLayer()) {
-                topLayer = Handler.get().getWorld().getLayers().length - 2;
+                topLayer = Handler.get().getWorld().getLayers().size() - 2;
             } else {
-                topLayer = Handler.get().getWorld().getLayers().length - 1;
+                topLayer = Handler.get().getWorld().getLayers().size() - 1;
             }
         }
 //
@@ -1276,68 +1243,10 @@ public abstract class Creature extends Entity {
         return damaged || inCombat || state != CombatState.IDLE;
     }
 
-    // GETTERS + SETTERS
-
-    public double getxMove() {
-        return xMove;
-    }
-
-    public void setxMove(double xMove) {
-        this.xMove = xMove;
-    }
-
-    public double getyMove() {
-        return yMove;
-    }
-
-    public void setyMove(double yMove) {
-        this.yMove = yMove;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
     public void setSpeed(double speed) {
         if (speed < 0.0)
             speed = 0.0;
         this.speed = speed;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getDexterity() {
-        return dexterity;
-    }
-
-    public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
-
-    public int getDefence() {
-        return defence;
-    }
-
-    public void setDefence(int defence) {
-        this.defence = defence;
-    }
-
-    public int getVitality() {
-        return vitality;
     }
 
     public void setVitality(int vitality) {
@@ -1351,169 +1260,27 @@ public abstract class Creature extends Entity {
         }
     }
 
-    public double getAttackSpeed() {
-        return attackSpeed;
-    }
-
-    public void setAttackSpeed(double attackSpeed) {
-        this.attackSpeed = attackSpeed;
-
-    }
-
-    public int getBaseDamage() {
-        return baseDamage;
-    }
-
-    public void setBaseDamage(int baseDamage) {
-        this.baseDamage = baseDamage;
-    }
-
-    public int getCombatLevel() {
-        return combatLevel;
-    }
-
-    public void setCombatLevel(int combatLevel) {
-        this.combatLevel = combatLevel;
-    }
-
-    public CombatState getState() {
-        return state;
-    }
-
-    public void setState(CombatState state) {
-        this.state = state;
-    }
-
-    protected Rectangle getRadius() {
-        return radius;
-    }
-
-    public void setRadius(Rectangle radius) {
-        this.radius = radius;
-    }
-
-    public List<Projectile> getProjectiles() {
-        return projectiles;
-    }
-
-    public void setProjectiles(List<Projectile> projectiles) {
-        this.projectiles = projectiles;
-    }
-
-    public AStarMap getMap() {
-        return map;
-    }
-
-    public void setMap(AStarMap map) {
-        this.map = map;
-    }
-
-    public Direction getLastFaced() {
-        return lastFaced;
-    }
-
     public void setLastFaced(Direction lastFaced) {
         this.lastFaced = lastFaced;
         this.direction = lastFaced;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
-    }
-
-    public List<Buff> getBuffs() {
-        return buffs;
-    }
-
-    public void setBuffs(List<Buff> buffs) {
-        this.buffs = buffs;
-    }
-
-    public List<Resistance> getImmunities() {
-        return immunities;
-    }
-
-    public void setImmunities(List<Resistance> immunities) {
-        this.immunities = immunities;
-    }
-
-    public int getPathFindRadiusX() {
-        return pathFindRadiusX;
-    }
-
-    public void setPathFindRadiusX(int pathFindRadiusX) {
-        this.pathFindRadiusX = pathFindRadiusX;
-    }
-
-    public int getPathFindRadiusY() {
-        return pathFindRadiusY;
-    }
-
-    public void setPathFindRadiusY(int pathFindRadiusY) {
-        this.pathFindRadiusY = pathFindRadiusY;
-    }
-
-    public int getxSpawn() {
+    public int getXSpawn() {
         return xSpawn;
     }
 
-    public int getySpawn() {
+    public int getYSpawn() {
         return ySpawn;
     }
 
     public int getLevelByElement(CharacterStats element) {
-        switch (element) {
-            case Water:
-                return waterLevel;
-            case Air:
-                return airLevel;
-            case Fire:
-                return fireLevel;
-            case Earth:
-                return earthLevel;
-            default:
-                throw new IllegalArgumentException("Enter an element, not a combat style.");
-        }
-    }
-
-    public int getWaterLevel() {
-        return waterLevel;
-    }
-
-    public void setWaterLevel(int waterLevel) {
-        this.waterLevel = waterLevel;
-    }
-
-    public int getFireLevel() {
-        return fireLevel;
-    }
-
-    public void setFireLevel(int fireLevel) {
-        this.fireLevel = fireLevel;
-    }
-
-    public int getAirLevel() {
-        return airLevel;
-    }
-
-    public void setAirLevel(int airLevel) {
-        this.airLevel = airLevel;
-    }
-
-    public int getEarthLevel() {
-        return earthLevel;
-    }
-
-    public void setEarthLevel(int earthLevel) {
-        this.earthLevel = earthLevel;
-    }
-
-    public boolean isMovementAllowed() {
-        return movementAllowed;
+        return switch (element) {
+            case Water -> waterLevel;
+            case Air -> airLevel;
+            case Fire -> fireLevel;
+            case Earth -> earthLevel;
+            default -> throw new IllegalArgumentException("Enter an element, not a combat style.");
+        };
     }
 
     public void setMovementAllowed(boolean movementAllowed) {
@@ -1521,38 +1288,6 @@ public abstract class Creature extends Entity {
             Player.isMoving = false;
         }
         this.movementAllowed = movementAllowed;
-    }
-
-    public Tile getCurrentTile() {
-        return currentTile;
-    }
-
-    public void setCurrentTile(Tile currentTile) {
-        this.currentTile = currentTile;
-    }
-
-    public Tile getPreviousTile() {
-        return previousTile;
-    }
-
-    public void setPreviousTile(Tile previousTile) {
-        this.previousTile = previousTile;
-    }
-
-    public Map<Tile, Point> getPostRenderTiles() {
-        return postRenderTiles;
-    }
-
-    public void setPostRenderTiles(Map<Tile, Point> postRenderTiles) {
-        this.postRenderTiles = postRenderTiles;
-    }
-
-    public Direction getOriginalDirection() {
-        return originalDirection;
-    }
-
-    public void setOriginalDirection(Direction originalDirection) {
-        this.originalDirection = originalDirection;
     }
 
     private void writeObject(ObjectOutputStream stream)

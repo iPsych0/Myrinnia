@@ -6,6 +6,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class CelenorEarthCrystal extends StaticEntity {
@@ -15,8 +16,8 @@ public class CelenorEarthCrystal extends StaticEntity {
     private Animation chargeAnim;
     private boolean animShown;
 
-    public CelenorEarthCrystal(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public CelenorEarthCrystal(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -60,7 +61,7 @@ public class CelenorEarthCrystal extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new CelenorEarthCrystal(x, y, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new CelenorEarthCrystal(x, y, width, height, props));
     }
 
     @Override

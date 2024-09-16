@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class AbilityMaster extends AbilityTrainer implements Serializable {
@@ -22,13 +23,13 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
     private int ySpawn = (int) getY();
     private List<Ability> abilities;
 
-    public AbilityMaster(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AbilityMaster(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         abilities = new ArrayList<>();
 
         // Load abilities from files
-        if (itemsShop != null && !itemsShop.isEmpty()) {
-            String[] jsonFiles = itemsShop.replaceAll(" ", "").split(",");
+        if (shopItemsFile != null && !shopItemsFile.isEmpty()) {
+            String[] jsonFiles = shopItemsFile.replaceAll(" ", "").split(",");
             for (String file : jsonFiles) {
                 abilities.add(Utils.loadAbility(file));
             }
@@ -61,7 +62,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new AbilityMaster(xSpawn, ySpawn, width, height, props));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class AbilityMaster extends AbilityTrainer implements Serializable {
                     // Change the cost of resetting in the text
                     Dialogue infoMsg = script.getDialogues().get(1);
                     infoMsg.setText(infoMsg.getText().replaceAll("\\d+", String.valueOf(resetCost)));
-                    Choice confirm = script.getDialogues().get(2).getOptions().get(0);
+                    Choice confirm = script.getDialogues().get(2).getOptions().getFirst();
                     confirm.setText(confirm.getText().replaceAll("\\d+", String.valueOf(resetCost)));
                     return true;
                 }

@@ -26,12 +26,12 @@ public class Snow implements Weather, Serializable {
         yOffset += 1;
 
         if (!Handler.get().getGameCamera().isAtAnyBound()) {
-            if (Handler.get().getPlayer().getxMove() > 0) {
+            if (Handler.get().getPlayer().getXMove() > 0) {
                 xOffset += (Handler.get().getPlayer().getSpeed());
             }
         }
         if (!Handler.get().getGameCamera().isAtAnyBound()) {
-            if (Handler.get().getPlayer().getyMove() < 0) {
+            if (Handler.get().getPlayer().getYMove() < 0) {
                 yOffset += (Handler.get().getPlayer().getSpeed());
             }
         }

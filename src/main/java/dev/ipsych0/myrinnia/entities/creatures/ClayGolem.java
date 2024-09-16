@@ -10,6 +10,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class ClayGolem extends Creature {
 
@@ -22,8 +23,8 @@ public class ClayGolem extends Creature {
     private Animation bluntImpact;
     private BarrierAbility barrierAbility = Utils.loadAbility("barrier.json", BarrierAbility.class);
 
-    public ClayGolem(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ClayGolem(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -120,7 +121,7 @@ public class ClayGolem extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ClayGolem(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new ClayGolem(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

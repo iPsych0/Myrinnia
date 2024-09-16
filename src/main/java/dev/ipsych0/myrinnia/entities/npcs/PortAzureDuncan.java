@@ -15,6 +15,7 @@ import dev.ipsych0.myrinnia.subscribers.CraftingSubscriber;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class PortAzureDuncan extends Creature {
@@ -22,8 +23,8 @@ public class PortAzureDuncan extends Creature {
     private Quest quest = Handler.get().getQuest(QuestList.PreparingYourJourney);
     private static boolean hasDiscoveredRecipes;
 
-    public PortAzureDuncan(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PortAzureDuncan(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -103,7 +104,7 @@ public class PortAzureDuncan extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDuncan(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureDuncan(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -8,6 +8,7 @@ import dev.ipsych0.myrinnia.skills.SkillsList;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class WhiteWolf extends Creature {
 
@@ -18,8 +19,8 @@ public class WhiteWolf extends Creature {
     private long lastAttackTimer, attackCooldown = 1000, attackTimer = attackCooldown;
     private Animation biteImpact;
 
-    public WhiteWolf(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public WhiteWolf(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -121,19 +122,12 @@ public class WhiteWolf extends Creature {
     public void respawn() {
         // When we've killed the alpha wolf, respawn a normal white wolf in its place.
         if (name.equalsIgnoreCase("Alpha Wolf")) {
-            name = "White Wolf";
+            props.put("name", "White Wolf");
+            props.put("level", "13");
             width = 64;
             height = 64;
-            combatLevel = 13;
-            strength = 42;
-            vitality = 88;
-            defence = 15;
-            bounds.x = 24;
-            bounds.y = 24;
-            bounds.width = 24;
-            bounds.height = 24;
         }
-        Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new WhiteWolf(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

@@ -5,14 +5,19 @@ import dev.ipsych0.myrinnia.abilities.Ability;
 import dev.ipsych0.myrinnia.abilities.data.OnImpact;
 import dev.ipsych0.myrinnia.gfx.Animation;
 import dev.ipsych0.myrinnia.tiles.Tile;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 public class Projectile extends Creature implements Serializable {
 
     public static class Builder implements Serializable {
@@ -140,7 +145,7 @@ public class Projectile extends Creature implements Serializable {
     private Set<Creature> hitCreatures = new HashSet<>();
 
     private Projectile(Creature caster, double x, double y, int targetX, int targetY, float velocity, String impactSound, float impactVolume, DamageType damageType, Ability ability, Animation animation, BufferedImage[] frames, OnImpact onImpact, boolean piercing) {
-        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, null, 1, null, null, null, null, null);
+        super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, new HashMap<>());
 
         this.caster = caster;
         this.impactSound = impactSound;
@@ -233,69 +238,5 @@ public class Projectile extends Creature implements Serializable {
     @Override
     protected void updateDialogue() {
 
-    }
-
-    public DamageType getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(DamageType damageType) {
-        this.damageType = damageType;
-    }
-
-    public Ability getAbility() {
-        return ability;
-    }
-
-    public void setAbility(Ability ability) {
-        this.ability = ability;
-    }
-
-    public Creature getHitCreature() {
-        return hitCreature;
-    }
-
-    public void setHitCreature(Creature hitCreature) {
-        this.hitCreature = hitCreature;
-    }
-
-    public String getImpactSound() {
-        return impactSound;
-    }
-
-    public void setImpactSound(String impactSound) {
-        this.impactSound = impactSound;
-    }
-
-    public OnImpact getOnImpact() {
-        return onImpact;
-    }
-
-    public void setOnImpact(OnImpact onImpact) {
-        this.onImpact = onImpact;
-    }
-
-    public float getImpactVolume() {
-        return impactVolume;
-    }
-
-    public void setImpactVolume(float impactVolume) {
-        this.impactVolume = impactVolume;
-    }
-
-    public boolean isPiercing() {
-        return piercing;
-    }
-
-    public void setPiercing(boolean piercing) {
-        this.piercing = piercing;
-    }
-
-    public Set<Creature> getHitCreatures() {
-        return hitCreatures;
-    }
-
-    public void setHitCreatures(Set<Creature> hitCreatures) {
-        this.hitCreatures = hitCreatures;
     }
 }

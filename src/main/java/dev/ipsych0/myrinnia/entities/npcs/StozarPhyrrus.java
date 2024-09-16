@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.items.ItemType;
 
 import java.awt.*;
+import java.util.Map;
 
 public class StozarPhyrrus extends Creature {
 
@@ -16,8 +17,8 @@ public class StozarPhyrrus extends Creature {
     public static boolean hasLitTorches;
     public static boolean hasSpoken;
 
-    public StozarPhyrrus(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public StozarPhyrrus(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;

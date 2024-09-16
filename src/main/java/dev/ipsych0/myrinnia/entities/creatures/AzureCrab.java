@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
+import java.util.Map;
 
 public class AzureCrab extends Creature {
 
@@ -21,8 +22,8 @@ public class AzureCrab extends Creature {
     private static boolean firstKill = true;
     private static boolean hasFoughtBefore;
 
-    public AzureCrab(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AzureCrab(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
 
         isNpc = false;
         attackable = true;
@@ -114,15 +115,16 @@ public class AzureCrab extends Creature {
 
     @Override
     public void respawn() {
+        AzureCrab crab = new AzureCrab(xSpawn, ySpawn, width, height, props);
         if (name.equalsIgnoreCase("King Azure Crab")) {
-            name = "Crabling";
-            width = 32;
-            height = 32;
-            combatLevel = 2;
-            dropTable = "azure_crab.json";
-            setCombatLevel();
+            crab.setName("Crabling");
+            crab.setWidth(32);
+            crab.setHeight(32);
+            crab.setCombatLevel(2);
+            crab.updateCombatLevel();
+            crab.setDropTable("azure_crab.json");
         }
-        Handler.get().getWorld().getEntityManager().addEntity(new AzureCrab(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(crab);
     }
 
     @Override

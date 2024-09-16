@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class PortAzureShopkeeper extends ShopKeeper {
@@ -22,8 +23,8 @@ public class PortAzureShopkeeper extends ShopKeeper {
     private int ySpawn = (int) getY();
     private Quest quest = Handler.get().getQuest(QuestList.GettingStarted);
 
-    public PortAzureShopkeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public PortAzureShopkeeper(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         shopName = "Port Azure's General Store";
     }
 
@@ -71,7 +72,7 @@ public class PortAzureShopkeeper extends ShopKeeper {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+        Handler.get().getWorld().getEntityManager().addEntity(new PortAzureShopkeeper(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

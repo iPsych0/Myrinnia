@@ -12,6 +12,7 @@ import dev.ipsych0.myrinnia.utils.Text;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ClamFishingSpot extends StaticEntity {
 
@@ -32,8 +33,8 @@ public class ClamFishingSpot extends StaticEntity {
     private int chanceOfRareMaterial;
     private int experience;
 
-    public ClamFishingSpot(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public ClamFishingSpot(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         isNpc = true;
         attackable = false;
@@ -162,7 +163,7 @@ public class ClamFishingSpot extends StaticEntity {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new ClamFishingSpot(xSpawn, ySpawn, width, height, name, 1, dropTable, jsonFile, animationTag, shopItemsFile));
+        Handler.get().getWorld().getEntityManager().addEntity(new ClamFishingSpot(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

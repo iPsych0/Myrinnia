@@ -12,7 +12,7 @@ public class Main {
             // Go over all files in the worlds directory
             for (File f : worldsDirectory.listFiles()) {
                 // Check if it ends with .tmx extension and skip the dummy map
-                if(f.getAbsolutePath().endsWith(".tmx") && !f.getAbsolutePath().endsWith("myrinnia_DUMMY_MAP.tmx")) {
+                if(f.getAbsolutePath().endsWith(".tmj") && !f.getAbsolutePath().endsWith("myrinnia_DUMMY_MAP.tmx")) {
                     new FileParser(f);
                 }
             }

@@ -45,7 +45,7 @@ public class ItemManager implements Serializable {
             // Check if we're hovering over the item
             i.setHovering(i.itemPosition(-Handler.get().getGameCamera().getxOffset(), -Handler.get().getGameCamera().getyOffset()).contains(Handler.get().getMouse()));
 
-            // Checks player's positoin and loot all
+            // Checks player's position and loot all
             if (pickUpPressed && Handler.get().getPlayer().itemPickupRadius().intersects(i.itemPosition(0, 0))) {
                 if (i.pickUpItem(i)) {
                     if (i.isPickedUp()) {
@@ -157,7 +157,7 @@ public class ItemManager implements Serializable {
 
         for (Item item : items) {
             // If we're not hovering, check if Item is behind postRender tile and draw the overlay anyway
-            int layers = Handler.get().getWorld().getLayers().length;
+            int layers = Handler.get().getWorld().getLayers().size();
             boolean shouldRender = false;
             for (int i = 0; i < layers; i++) {
                 Tile currentTile = Handler.get().getWorld().getTile(i, (item.getX() + Item.ITEMWIDTH / 2) / 32, (item.getY() + Item.ITEMHEIGHT / 2) / 32);

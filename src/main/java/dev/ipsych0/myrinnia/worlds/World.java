@@ -29,16 +29,19 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTipManager;
 import dev.ipsych0.myrinnia.ui.CelebrationUI;
 import dev.ipsych0.myrinnia.utils.Colors;
-import dev.ipsych0.myrinnia.utils.FileUtils;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TiledLayer;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Timer;
 import dev.ipsych0.myrinnia.utils.TimerHandler;
-import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
 import dev.ipsych0.myrinnia.worlds.weather.Climate;
 import dev.ipsych0.myrinnia.worlds.weather.Rain;
 import dev.ipsych0.myrinnia.worlds.weather.Sunny;
 import dev.ipsych0.myrinnia.worlds.weather.Weather;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -50,6 +53,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Getter
+@Setter
 public class World implements Serializable {
 
     private static final long serialVersionUID = 2377316128534163815L;
@@ -57,11 +62,12 @@ public class World implements Serializable {
     private int width;
     private int height;
     private int[][][] tiles;
-    private String[] layers;
+    private List<TiledLayer> layers;
     private String worldPath;
     private static boolean nightTime = false;
     private static int timeChecker = 60 * 60;
     private boolean initialized;
+    @Accessors(fluent = true)
     private boolean hasPermissionsLayer, hasShadowsLayer;
     private int renderLayers;
     private boolean town;
@@ -107,14 +113,10 @@ public class World implements Serializable {
             getHeight() / 2f, radius, fractions, colors);
 
     private World backgroundWorld;
+    private MapLoader mapLoader;
 
     private World(Zone zone, Climate climate, boolean dayNightCycle, boolean isTown, String path, World backgroundWorld) {
-        // First world path is already corrected per IDE/JAR
-        if (!path.equalsIgnoreCase(Handler.initialWorldPath)) {
-            this.worldPath = FileUtils.getResourcePath(path);
-        } else {
-            this.worldPath = path;
-        }
+        this.worldPath = path;
         this.zone = zone;
         this.dayNightCycle = dayNightCycle;
         this.town = isTown;
@@ -147,6 +149,7 @@ public class World implements Serializable {
         itemManager = new ItemManager();
         zoneTiles = new ArrayList<>();
         toBeAddedZoneTiles = new ArrayList<>();
+        mapLoader = new TmjMapLoader();
 
     }
 
@@ -220,23 +223,23 @@ public class World implements Serializable {
         }
 
         // Else return default, Sunny (no) weather
-        return climate.getWeathers().get(0);
+        return climate.getWeathers().getFirst();
     }
 
     public void init() {
         if (!initialized) {
-            MapLoader.setWorldDoc(worldPath);
+            mapLoader.setWorldDoc(worldPath);
 
-            width = MapLoader.getMapWidth();
-            height = MapLoader.getMapHeight();
+            width = mapLoader.getWidth();
+            height = mapLoader.getHeight();
 
-            loadWorld();
+            loadWorldTiles();
 
             // Render all but the top layer if we have a permissionsLayer
-            renderLayers = hasPermissionsLayer ? (layers.length - 1) : (layers.length);
+            renderLayers = hasPermissionsLayer ? (layers.size() - 1) : (layers.size());
 
             // Load in the enemies, items and zone tiles from Tiled editor
-            MapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
+            mapLoader.initEnemiesItemsAndZoneTiles(worldPath, this);
 
             initialized = true;
 
@@ -550,19 +553,15 @@ public class World implements Serializable {
         g.setPaint(originalPaint);
     }
 
-    public void loadWorld() {
-        layers = MapLoader.getMapTiles(this);
-        tiles = new int[layers.length][width][height];
+    public void loadWorldTiles() {
+        layers = mapLoader.getMapTiles(this);
+        tiles = new int[layers.size()][width][height];
 
-        for (int i = 0; i < layers.length; i++) {
-            // Splits worlds files by spaces and puts them all in an array
-            layers[i] = layers[i].replace("\n", "").replace("\r", "").trim();
-            String[] tokens = layers[i].split(",");
-
+        for (int i = 0; i < layers.size(); i++) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     // Loads in the actual tiles to the tiles[][][]
-                    tiles[i][x][y] = Utils.parseInt(tokens[(x + y * width)]);
+                    tiles[i][x][y] = layers.get(i).getData().get(x + y * width);
                 }
             }
         }
@@ -583,146 +582,6 @@ public class World implements Serializable {
 
     public void addRuntimeZoneTile(ZoneTile zoneTile) {
         toBeAddedZoneTiles.add(zoneTile);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
-
-    public void setItemManager(ItemManager itemManager) {
-        this.itemManager = itemManager;
-    }
-
-    public String[] getLayers() {
-        return layers;
-    }
-
-    public void setLayers(String[] layers) {
-        this.layers = layers;
-    }
-
-    public InventoryWindow getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(InventoryWindow inventory) {
-        this.inventory = inventory;
-    }
-
-    public EquipmentWindow getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(EquipmentWindow equipment) {
-        this.equipment = equipment;
-    }
-
-    public CraftingUI getCraftingUI() {
-        return craftingUI;
-    }
-
-    public void setCraftingUI(CraftingUI craftingUI) {
-        this.craftingUI = craftingUI;
-    }
-
-    public ChatWindow getChatWindow() {
-        return chatWindow;
-    }
-
-    public void setChatWindow(ChatWindow chatWindow) {
-        this.chatWindow = chatWindow;
-    }
-
-    public QuestManager getQuestManager() {
-        return questManager;
-    }
-
-    public void setQuestManager(QuestManager questManager) {
-        this.questManager = questManager;
-    }
-
-    public String getWorldPath() {
-        return worldPath;
-    }
-
-    public void setWorldPath(String worldPath) {
-        this.worldPath = worldPath;
-    }
-
-    public List<ZoneTile> getZoneTiles() {
-        return zoneTiles;
-    }
-
-    public void setZoneTiles(List<ZoneTile> zoneTiles) {
-        this.zoneTiles = zoneTiles;
-    }
-
-    public Zone getZone() {
-        return zone;
-    }
-
-    public void setZone(Zone zone) {
-        this.zone = zone;
-    }
-
-    public List<Weather> getWeatherEffects() {
-        return weatherEffects;
-    }
-
-    public void setWeatherEffects(List<Weather> weatherEffects) {
-        this.weatherEffects = weatherEffects;
-    }
-
-    public boolean isDayNightCycle() {
-        return dayNightCycle;
-    }
-
-    public void setDayNightCycle(boolean dayNightCycle) {
-        this.dayNightCycle = dayNightCycle;
-    }
-
-    public boolean hasPermissionsLayer() {
-        return hasPermissionsLayer;
-    }
-
-    public void setHasPermissionsLayer(boolean hasPermissionsLayer) {
-        this.hasPermissionsLayer = hasPermissionsLayer;
-    }
-
-    public boolean hasShadowsLayer() {
-        return hasShadowsLayer;
-    }
-
-    public void setHasShadowsLayer(boolean hasShadowsLayer) {
-        this.hasShadowsLayer = hasShadowsLayer;
-    }
-
-    public boolean isInitialized() {
-        return initialized;
-    }
-
-    public boolean isTown() {
-        return town;
-    }
-
-    public void setTown(boolean town) {
-        this.town = town;
     }
 
     public static class Builder implements Serializable {

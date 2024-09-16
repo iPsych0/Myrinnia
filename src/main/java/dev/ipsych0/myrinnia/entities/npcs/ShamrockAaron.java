@@ -10,13 +10,15 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 import dev.ipsych0.myrinnia.worlds.ZoneTile;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShamrockAaron extends Creature {
 
     private boolean ropeAdded;
 
-    public ShamrockAaron(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ShamrockAaron(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         solid = true;
         attackable = false;
         isNpc = true;
@@ -66,7 +68,7 @@ public class ShamrockAaron extends Creature {
                 if (!ropeAdded) {
                     ZoneTile level3Rope = new ZoneTile(Zone.ShamrockMines3, 84 * 32, 19 * 32, 32, 32, 41, 38, null, null, Direction.UP);
                     Handler.get().getWorld().addRuntimeZoneTile(level3Rope);
-                    Handler.get().getWorld().getEntityManager().addRuntimeEntity(new RopeLadderTile(2688, 544, 32, 96, null, 0, null, null, null, null));
+                    Handler.get().getWorld().getEntityManager().addRuntimeEntity(new RopeLadderTile(2688, 544, 32, 96, new HashMap<>()));
                     ropeAdded = true;
                     speakingCheckpoint = 4;
                     active = false;

@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class ShopKeeper extends Creature {
 
@@ -18,10 +19,10 @@ public abstract class ShopKeeper extends Creature {
     protected String shopName;
     protected List<Stock> itemStacks;
 
-    ShopKeeper(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
-        if (itemsShop != null) {
-            itemStacks = Utils.loadStocks(itemsShop);
+    ShopKeeper(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
+        if (shopItemsFile != null) {
+            itemStacks = Utils.loadStocks(shopItemsFile);
         }
 
         attackable = false;

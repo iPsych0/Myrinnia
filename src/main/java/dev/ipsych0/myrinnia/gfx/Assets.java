@@ -3,7 +3,8 @@ package dev.ipsych0.myrinnia.gfx;
 import dev.ipsych0.myrinnia.Handler;
 import dev.ipsych0.myrinnia.SplashScreen;
 import dev.ipsych0.myrinnia.tiles.Tile;
-import dev.ipsych0.myrinnia.utils.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.MapLoader;
+import dev.ipsych0.myrinnia.utils.tiled.TmjMapLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -307,7 +308,8 @@ public class Assets {
         long before = System.currentTimeMillis();
         log.info("Loading world doc:");
 
-        MapLoader.setWorldDoc(Handler.initialWorldPath);
+        TmjMapLoader mapLoader = new TmjMapLoader();
+        mapLoader.setWorldDoc(Handler.initialWorldPath);
 
         long now = (System.currentTimeMillis() - before);
         log.info("Loading time of world doc: {}", ((double) now / 1000d));
@@ -315,13 +317,13 @@ public class Assets {
          * Fonts
          */
         SplashScreen.setMessage("Loading fonts...");
-        font14 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 14);
-        font20 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 20);
-        font24 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 24);
-        font32 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 32);
-        font40 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 40);
-        font48 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 48);
-        font64 = FontLoader.loadFont("/fonts/IBMPlexSans-Regular.otf", 64);
+        font14 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 14);
+        font20 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 20);
+        font24 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 24);
+        font32 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 32);
+        font40 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 40);
+        font48 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 48);
+        font64 = FontLoader.loadFont("./res/fonts/IBMPlexSans-Regular.otf", 64);
 
 
         SplashScreen.setMessage("Loading spritesheets...");
@@ -332,80 +334,80 @@ public class Assets {
         /*
          * Sprite Sheets
          */
-        SpriteSheet main_background = new SpriteSheet("/textures/pixel_art_example.png");
+        SpriteSheet main_background = new SpriteSheet("./res/textures/pixel_art_example.png");
         mainBackground = main_background.imageCrop(0, 0, 1366, 768);
 
-        SpriteSheet ui_sheet = new SpriteSheet("/textures/ui-items-new.png");
-        SpriteSheet book_sheet = new SpriteSheet("/textures/custom_ui/book.png");
-        SpriteSheet celenor_potion_cabinet_sheet = new SpriteSheet("/textures/custom_ui/potion_cabinet.png");
-        SpriteSheet bounty_ui_sheet = new SpriteSheet("/textures/custom_ui/bounty_bg.png");
-        SpriteSheet projectiles = new SpriteSheet("/textures/projectiles.png");
-        SpriteSheet equipSlots = new SpriteSheet("/textures/equipment_placeholders.png");
+        SpriteSheet ui_sheet = new SpriteSheet("./res/textures/ui-items-new.png");
+        SpriteSheet book_sheet = new SpriteSheet("./res/textures/custom_ui/book.png");
+        SpriteSheet celenor_potion_cabinet_sheet = new SpriteSheet("./res/textures/custom_ui/potion_cabinet.png");
+        SpriteSheet bounty_ui_sheet = new SpriteSheet("./res/textures/custom_ui/bounty_bg.png");
+        SpriteSheet projectiles = new SpriteSheet("./res/textures/projectiles.png");
+        SpriteSheet equipSlots = new SpriteSheet("./res/textures/equipment_placeholders.png");
         /*
          * Make skilling sheet for this
          */
-        SpriteSheet whirlPool = new SpriteSheet("/textures/whirlpool.png");
-        SpriteSheet mining_rocks = new SpriteSheet("/textures/mining_rocks.png");
-        SpriteSheet woodcutting_trees = new SpriteSheet("/textures/woodcutting_trees.png");
-        SpriteSheet farming_sheet = new SpriteSheet("/textures/farming_sheet.png");
+        SpriteSheet whirlPool = new SpriteSheet("./res/textures/whirlpool.png");
+        SpriteSheet mining_rocks = new SpriteSheet("./res/textures/mining_rocks.png");
+        SpriteSheet woodcutting_trees = new SpriteSheet("./res/textures/woodcutting_trees.png");
+        SpriteSheet farming_sheet = new SpriteSheet("./res/textures/farming_sheet.png");
 
         /*
          * World objects
          */
-        SpriteSheet world_objects = new SpriteSheet("/textures/world_objects/world_objects.png");
-        SpriteSheet charge_animations = new SpriteSheet("/textures/animations/element_charge.png");
+        SpriteSheet world_objects = new SpriteSheet("./res/textures/world_objects/world_objects.png");
+        SpriteSheet charge_animations = new SpriteSheet("./res/textures/animations/element_charge.png");
 
         /*
          * Weather sprites
          */
-        SpriteSheet rain_sheet = new SpriteSheet("/textures/weather/wsheet_rain1_1.png");
+        SpriteSheet rain_sheet = new SpriteSheet("./res/textures/weather/wsheet_rain1_1.png");
         rain = rain_sheet.imageCrop(0, 0, 128, 32);
-        SpriteSheet snow_sheet = new SpriteSheet("/textures/weather/wsheet_snow_1.png");
+        SpriteSheet snow_sheet = new SpriteSheet("./res/textures/weather/wsheet_snow_1.png");
         snow = snow_sheet.imageCrop(0, 0, 128, 32);
-        SpriteSheet sand_sheet = new SpriteSheet("/textures/weather/wsheet_sand_1.png");
+        SpriteSheet sand_sheet = new SpriteSheet("./res/textures/weather/wsheet_sand_1.png");
         sandStorm = sand_sheet.imageCrop(0, 0, 128, 32);
-        SpriteSheet fog_sheet = new SpriteSheet("/textures/weather/wsheet_fog_1.png");
+        SpriteSheet fog_sheet = new SpriteSheet("./res/textures/weather/wsheet_fog_1.png");
         fogNormal = fog_sheet.imageCrop(0, 0, 128, 32);
-        SpriteSheet fog_sheet2 = new SpriteSheet("/textures/weather/wsheet_fog_2.png");
+        SpriteSheet fog_sheet2 = new SpriteSheet("./res/textures/weather/wsheet_fog_2.png");
         fogHeavy = fog_sheet2.imageCrop(0, 0, 128, 32);
 
         /*
          * Player/NPCs
          */
-        SpriteSheet level_up = new SpriteSheet("/textures/animations/level_up.png");
-        SpriteSheet player_sheet = new SpriteSheet("/textures/npc_sprites/player.png");
-        SpriteSheet azureal_island_npcs = new SpriteSheet("/textures/npc_sprites/azureal_island_npcs.png");
-        SpriteSheet shamrock_npcs = new SpriteSheet("/textures/npc_sprites/shamrock_npcs.png");
-        SpriteSheet malachite_npcs = new SpriteSheet("/textures/npc_sprites/malachite_npcs.png");
-        SpriteSheet celenor_npcs = new SpriteSheet("/textures/npc_sprites/celenor_npcs.png");
-        SpriteSheet stozar_npcs = new SpriteSheet("/textures/npc_sprites/stozar_npcs.png");
-        SpriteSheet generic_males1 = new SpriteSheet("/textures/npc_sprites/generic_males1.png");
-        SpriteSheet generic_females1 = new SpriteSheet("/textures/npc_sprites/generic_females1.png");
-        SpriteSheet generic_elves1 = new SpriteSheet("/textures/npc_sprites/generic_elves1.png");
-        SpriteSheet generic_util_npcs = new SpriteSheet("/textures/npc_sprites/generic_util_npcs.png");
-        SpriteSheet animals_sheet = new SpriteSheet("/textures/npc_sprites/animals.png");
+        SpriteSheet level_up = new SpriteSheet("./res/textures/animations/level_up.png");
+        SpriteSheet player_sheet = new SpriteSheet("./res/textures/npc_sprites/player.png");
+        SpriteSheet azureal_island_npcs = new SpriteSheet("./res/textures/npc_sprites/azureal_island_npcs.png");
+        SpriteSheet shamrock_npcs = new SpriteSheet("./res/textures/npc_sprites/shamrock_npcs.png");
+        SpriteSheet malachite_npcs = new SpriteSheet("./res/textures/npc_sprites/malachite_npcs.png");
+        SpriteSheet celenor_npcs = new SpriteSheet("./res/textures/npc_sprites/celenor_npcs.png");
+        SpriteSheet stozar_npcs = new SpriteSheet("./res/textures/npc_sprites/stozar_npcs.png");
+        SpriteSheet generic_males1 = new SpriteSheet("./res/textures/npc_sprites/generic_males1.png");
+        SpriteSheet generic_females1 = new SpriteSheet("./res/textures/npc_sprites/generic_females1.png");
+        SpriteSheet generic_elves1 = new SpriteSheet("./res/textures/npc_sprites/generic_elves1.png");
+        SpriteSheet generic_util_npcs = new SpriteSheet("./res/textures/npc_sprites/generic_util_npcs.png");
+        SpriteSheet animals_sheet = new SpriteSheet("./res/textures/npc_sprites/animals.png");
 
         /*
          * Add items to this
          */
-        SpriteSheet item_sheet = new SpriteSheet("/textures/itemsprites.png");
+        SpriteSheet item_sheet = new SpriteSheet("./res/textures/itemsprites.png");
 
-        SpriteSheet enemy_sheet1 = new SpriteSheet("/textures/enemy_sprites/monster1.png");
-        SpriteSheet enemy_sheet2 = new SpriteSheet("/textures/enemy_sprites/monster2.png");
-        SpriteSheet enemy_sheet3 = new SpriteSheet("/textures/enemy_sprites/monster3.png");
-        SpriteSheet enemy_sheet4 = new SpriteSheet("/textures/enemy_sprites/monster4.png");
+        SpriteSheet enemy_sheet1 = new SpriteSheet("./res/textures/enemy_sprites/monster1.png");
+        SpriteSheet enemy_sheet2 = new SpriteSheet("./res/textures/enemy_sprites/monster2.png");
+        SpriteSheet enemy_sheet3 = new SpriteSheet("./res/textures/enemy_sprites/monster3.png");
+        SpriteSheet enemy_sheet4 = new SpriteSheet("./res/textures/enemy_sprites/monster4.png");
 
-        SpriteSheet enemy_sheet5 = new SpriteSheet("/textures/enemy_sprites/monsters2x2_1.png");
+        SpriteSheet enemy_sheet5 = new SpriteSheet("./res/textures/enemy_sprites/monsters2x2_1.png");
 
-        SpriteSheet boss_sheet1 = new SpriteSheet("/textures/enemy_sprites/bosses1.png");
+        SpriteSheet boss_sheet1 = new SpriteSheet("./res/textures/enemy_sprites/bosses1.png");
 
         /*
          * Ability Animations
          */
-        SpriteSheet ability_icons = new SpriteSheet("/textures/animations/abilitysheet.png");
-        SpriteSheet ability_animations = new SpriteSheet("/textures/animations/ability_animations.png");
-        SpriteSheet regular_attacks = new SpriteSheet("/textures/animations/regular_attacks.png");
-        SpriteSheet npc_attacks = new SpriteSheet("/textures/animations/npc_attacks.png");
+        SpriteSheet ability_icons = new SpriteSheet("./res/textures/animations/abilitysheet.png");
+        SpriteSheet ability_animations = new SpriteSheet("./res/textures/animations/ability_animations.png");
+        SpriteSheet regular_attacks = new SpriteSheet("./res/textures/animations/regular_attacks.png");
+        SpriteSheet npc_attacks = new SpriteSheet("./res/textures/animations/npc_attacks.png");
 
         now = (System.currentTimeMillis() - before);
         log.info("Loading time of normal spritesheets: {}", ((double) now / 1000d));
@@ -417,43 +419,43 @@ public class Assets {
          * All Tiled Sprites
          */
         tileSheets = new ArrayList<>();
-        tileSheets.add(new SpriteSheet("/textures/tiles/castle.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/desert.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/dungeon.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/house.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/inside.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/outside.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/terrain.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/water.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/beach.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/dark_dimension.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/farm_fort.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/inside2.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/inside3.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/outside2.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/outside3.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/outside4.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/ruindungeons_sheet_full.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/ship_tileset.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/z_tile_marker.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/underwater.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/giant_tree.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/eastern.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/sewer.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/winter1.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/winter2.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/winter3.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/winter4.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/beach2.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/steampunk.png", true));
-        tileSheets.add(new SpriteSheet("/textures/tiles/fairy_forest.png", true));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/castle.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/desert.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/dungeon.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/house.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/inside.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/outside.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/terrain.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/water.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/beach.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/dark_dimension.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/farm_fort.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/inside2.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/inside3.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/outside2.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/outside3.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/outside4.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/ruindungeons_sheet_full.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/ship_tileset.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/z_tile_marker.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/underwater.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/giant_tree.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/eastern.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/sewer.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/winter1.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/winter2.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/winter3.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/winter4.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/beach2.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/steampunk.png", mapLoader));
+        tileSheets.add(new SpriteSheet("./res/textures/tiles/fairy_forest.png", mapLoader));
 
-        MapLoader.clearTsxCache();
+        mapLoader.clearTsxCache();
 
         now = (System.currentTimeMillis() - before);
         log.info("Loading time of tiled spritesheets: {}", ((double) now / 1000d));
 
-        Tile.tiles = new Tile[MapLoader.getTileCount()];
+        Tile.tiles = new Tile[mapLoader.getTileCount()];
 
         SplashScreen.setMessage("Loading tiles...");
 
@@ -1831,10 +1833,10 @@ public class Assets {
         septicBlast[8] = ability_animations.imageCrop(26, 0, WIDTH * 2, HEIGHT * 2);
         septicBlast[9] = ability_animations.imageCrop(28, 0, WIDTH * 2, HEIGHT * 2);
 
-        SpriteSheet dragonsBreathSheet = new SpriteSheet("/textures/animations/dragonsbreath.png");
-        SpriteSheet wildfireSheet = new SpriteSheet("/textures/animations/wildfire.png");
-        SpriteSheet nimbleFingersSheet = new SpriteSheet("/textures/animations/nimble_fingers.png");
-        SpriteSheet healingBreezeSheet = new SpriteSheet("/textures/animations/healing_breeze.png");
+        SpriteSheet dragonsBreathSheet = new SpriteSheet("./res/textures/animations/dragonsbreath.png");
+        SpriteSheet wildfireSheet = new SpriteSheet("./res/textures/animations/wildfire.png");
+        SpriteSheet nimbleFingersSheet = new SpriteSheet("./res/textures/animations/nimble_fingers.png");
+        SpriteSheet healingBreezeSheet = new SpriteSheet("./res/textures/animations/healing_breeze.png");
         dragonsBreath = dragonsBreathSheet.animationCrop(80, 100);
         wildfire = wildfireSheet.animationCrop(100, 100);
         nimbleFingers = nimbleFingersSheet.animationCrop(81, 93);
@@ -1980,7 +1982,7 @@ public class Assets {
     }
 
     private static SpriteSheet getSheetByFilename(String fileName) {
-        String prefix = "/textures/tiles/";
+        String prefix = "./res/textures/tiles/";
         for (SpriteSheet sheet : tileSheets) {
             if (sheet.getPath().equalsIgnoreCase(prefix + fileName)) {
                 return sheet;

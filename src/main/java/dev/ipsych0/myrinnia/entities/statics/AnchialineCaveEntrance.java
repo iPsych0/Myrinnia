@@ -1,11 +1,12 @@
 package dev.ipsych0.myrinnia.entities.statics;
 
 import java.awt.*;
+import java.util.Map;
 
 public class AnchialineCaveEntrance extends GenericObject {
 
-    public AnchialineCaveEntrance(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public AnchialineCaveEntrance(double x, double y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
         solid = false;
         attackable = false;
         isNpc = true;

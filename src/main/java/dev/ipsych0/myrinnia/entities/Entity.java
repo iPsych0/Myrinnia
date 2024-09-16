@@ -11,10 +11,12 @@ import dev.ipsych0.myrinnia.entities.npcs.ChoiceCondition;
 import dev.ipsych0.myrinnia.entities.npcs.Dialogue;
 import dev.ipsych0.myrinnia.entities.npcs.Script;
 import dev.ipsych0.myrinnia.gfx.Assets;
+import dev.ipsych0.myrinnia.items.Item;
 import dev.ipsych0.myrinnia.publishers.KillPublisher;
 import dev.ipsych0.myrinnia.utils.Colors;
 import dev.ipsych0.myrinnia.utils.Text;
 import dev.ipsych0.myrinnia.utils.Utils;
+import dev.ipsych0.myrinnia.utils.tiled.TileObject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Getter
@@ -72,37 +75,33 @@ public abstract class Entity implements Serializable {
     protected String jsonFile;
     protected String animationTag;
     protected String shopItemsFile;
+    protected List<DropTableEntry> dropTableEntries;
     private static final double DIVISION_QUOTIENT = 150.0d;
     protected int verticality = 0;
+    protected Map<String, String> props;
+    protected int maxDropTableWeight;
+    protected int emptyWeight;
 
-    protected Entity(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
+
+    protected Entity(double x, double y, int width, int height, Map<String, String> props) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.shopItemsFile = itemsShop;
-        this.name = name;
-        this.dropTable = dropTable;
-        this.jsonFile = jsonFile;
-        this.animationTag = animation;
+        this.props = props;
+        this.shopItemsFile = props.get("itemsShop");
+        this.name = props.get("name");
+        this.dropTable = props.get("dropTable");
+        this.jsonFile = props.get("jsonFile");
+        this.animationTag = props.get("animation");
         health = DEFAULT_HEALTH;
 
         if (jsonFile != null) {
-            if (jsonFile.endsWith(".json")) {
-                script = Utils.loadScript(jsonFile);
-            } else {
-                // When we provide comma-separated dialogue without any conditionals or choices
-                // create a flow ourselves without the need of reading from file
-                String[] split = jsonFile.split("~");
-                List<Dialogue> dialogues = new ArrayList<>();
-                for (int i = 0; i < split.length; i++) {
-                    String text = split[i];
-                    // Automatically go to the next ID, unless we're at the last index, then go to -1
-                    int nextId = (i == split.length - 1) ? -1 : (i + 1);
-                    dialogues.add(new Dialogue(i, nextId, text.trim(), null, null));
-                }
-                script = new Script(dialogues);
-            }
+            loadScript();
+        }
+
+        if (dropTable != null) {
+            loadDropTable();
         }
 
         bounds = new Rectangle(0, 0, width, height);
@@ -129,6 +128,37 @@ public abstract class Entity implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public void loadDropTable() {
+        dropTableEntries = Utils.loadDropTable(dropTable);
+        for (DropTableEntry entry : dropTableEntries) {
+            // ItemID -1 for empty drop
+            if (entry.getItemId() == -1) {
+                emptyWeight = entry.getWeight();
+            } else {
+                maxDropTableWeight += entry.getWeight();
+            }
+        }
+    }
+
+    public void loadScript() {
+        if (jsonFile.endsWith(".json")) {
+            script = Utils.loadScript(jsonFile);
+        } else {
+            // When we provide comma-separated dialogue without any conditionals or choices
+            // create a flow ourselves without the need of reading from file
+            String[] split = jsonFile.split("~");
+            List<Dialogue> dialogues = new ArrayList<>();
+            for (int i = 0; i < split.length; i++) {
+                String text = split[i];
+                // Automatically go to the next ID, unless we're at the last index, then go to -1
+                int nextId = (i == split.length - 1) ? -1 : (i + 1);
+                dialogues.add(new Dialogue(i, nextId, text.trim(), null, null));
+            }
+            script = new Script(dialogues);
+        }
+
     }
 
     /*
@@ -750,6 +780,32 @@ public abstract class Entity implements Serializable {
         }
     }
 
+    protected void getDroptableItem() {
+        if (maxDropTableWeight == 0) {
+            // The drop table must be empty
+            Handler.get().sendMsg(getName() + " has an empty drop table.");
+            log.error("Drop table for {} is empty in {}. Please check 'dropTable' property in Tiled.", getName(), Handler.get().getWorld().getZone().getName());
+            return;
+        }
+
+        // Roll number between 1 and sum of all weights
+        int roll = Handler.get().getRandomNumber(1, maxDropTableWeight + emptyWeight);
+        int index = 0;
+        for (DropTableEntry entry : dropTableEntries) {
+            index += entry.getWeight();
+            if (roll <= index && roll > (index - entry.getWeight())) {
+                // Don't drop anything if we rolled the empty table
+                if (entry.getItemId() == -1)
+                    return;
+
+                Handler.get().dropItem(Item.items[entry.getItemId()], entry.getAmount(), (int) x, (int) y);
+                return;
+            }
+        }
+        // The drop table must be empty
+        Handler.get().sendMsg("Drop table for " + getName() + " is empty.");
+    }
+
     /**
      * MUST be overriden in the sub-class for specific behaviour!
      *
@@ -763,5 +819,10 @@ public abstract class Entity implements Serializable {
 
     public int getHealth() {
         return (int) health;
+    }
+
+    public void setDropTable(String dropTable) {
+        this.dropTable = dropTable;
+        loadDropTable();
     }
 }

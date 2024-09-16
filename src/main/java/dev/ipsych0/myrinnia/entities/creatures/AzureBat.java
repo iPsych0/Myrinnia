@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.tiles.Tile;
 import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 
 import java.awt.*;
+import java.util.Map;
 
 public class AzureBat extends Creature {
 
@@ -16,8 +17,8 @@ public class AzureBat extends Creature {
     private long lastAttackTimer, attackCooldown = 1200, attackTimer = attackCooldown;
     private static boolean tipShown = false;
 
-    public AzureBat(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public AzureBat(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
 
         isNpc = false;
         attackable = true;
@@ -92,7 +93,7 @@ public class AzureBat extends Creature {
 
     @Override
     public void respawn() {
-        Handler.get().getWorld().getEntityManager().addEntity(new AzureBat(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, direction));
+        Handler.get().getWorld().getEntityManager().addEntity(new AzureBat(xSpawn, ySpawn, width, height, props));
     }
 
     @Override

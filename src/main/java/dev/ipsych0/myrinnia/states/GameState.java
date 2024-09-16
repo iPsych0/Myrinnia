@@ -23,7 +23,8 @@ public class GameState extends State {
         try {
             Handler.get().getWorldHandler().tick();
         } catch (Exception e) {
-            System.err.printf("Something went wrong updating the world!\n%s", e);
+            log.error("Something went wrong updating the world!");
+            e.printStackTrace();
         }
     }
 
@@ -32,7 +33,8 @@ public class GameState extends State {
         try {
             Handler.get().getWorldHandler().render(g);
         } catch (Exception e) {
-            System.err.printf("Something went wrong rendering the world!\n%s", e);
+            log.error("Something went wrong rendering the world!");
+            e.printStackTrace();
         }
     }
 }

@@ -9,6 +9,7 @@ import dev.ipsych0.myrinnia.worlds.Zone;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public class BountyBoardAzure extends BountyBoard {
 
@@ -16,8 +17,8 @@ public class BountyBoardAzure extends BountyBoard {
 
     private BountyBoardUI bountyBoardUI;
 
-    public BountyBoardAzure(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop);
+    public BountyBoardAzure(float x, float y, int width, int height, Map<String,String> props) {
+        super(x, y, width, height, props);
 
         bounds.x = 0;
         bounds.y = height / 2;

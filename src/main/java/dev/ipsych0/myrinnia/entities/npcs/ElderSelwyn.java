@@ -17,6 +17,7 @@ import dev.ipsych0.myrinnia.tutorial.TutorialTip;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.Map;
 
 @Slf4j
 public class ElderSelwyn extends Creature {
@@ -27,8 +28,8 @@ public class ElderSelwyn extends Creature {
     private boolean tipShown;
     private Ability learntAbility;
 
-    public ElderSelwyn(float x, float y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public ElderSelwyn(float x, float y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         walker = false;
         solid = true;
         attackable = false;

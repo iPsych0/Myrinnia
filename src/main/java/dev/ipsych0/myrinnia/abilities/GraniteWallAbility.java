@@ -11,6 +11,7 @@ import dev.ipsych0.myrinnia.gfx.Assets;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.Serializable;
+import java.util.HashMap;
 
 
 public class GraniteWallAbility extends Ability implements Serializable {
@@ -91,7 +92,7 @@ public class GraniteWallAbility extends Ability implements Serializable {
         int earthLevel = caster.getEarthLevel();
         int despawnTimer = 3000 + (earthLevel * 120);
 
-        GraniteWallAbilityObj wall = new GraniteWallAbilityObj(wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, "", 1, null, null, null, null);
+        GraniteWallAbilityObj wall = new GraniteWallAbilityObj(wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, new HashMap<>());
         wall.setDegrees(getTheta());
         wall.setTransformedShape(transformedShape);
         wall.addDespawnTimer(despawnTimer);

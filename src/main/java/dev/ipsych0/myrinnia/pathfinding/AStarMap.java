@@ -34,8 +34,8 @@ public class AStarMap implements Serializable {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.xSpawn = creature.getxSpawn();
-        this.ySpawn = creature.getySpawn();
+        this.xSpawn = creature.getXSpawn();
+        this.ySpawn = creature.getYSpawn();
 
         nodes = new Node[(int) (Math.floor(width / 32f)) + 1][(int) (Math.floor(height / 32f)) + 1];
         mapBounds = new Rectangle(x, y, width, height);
@@ -58,7 +58,7 @@ public class AStarMap implements Serializable {
 
                 if (Handler.get().getWorld().hasPermissionsLayer()) {
                     Player player = Handler.get().getPlayer();
-                    int topLayer = Handler.get().getWorld().getLayers().length - 1;
+                    int topLayer = Handler.get().getWorld().getLayers().size() - 1;
 
                     if (!on3CTile) {
                         // Check if player is not on C or 0 tile, he is on a higher layer 3C, which means we cannot navigate
@@ -127,20 +127,20 @@ public class AStarMap implements Serializable {
 //		System.out.println(nodes.length);
 
         if (startX <= -1) {
-            creature.setxMove(creature.getSpeed());
+            creature.setXMove(creature.getSpeed());
             creature.move();
             return null;
         } else if (startX >= nodes.length) {
-            creature.setxMove(-creature.getSpeed());
+            creature.setXMove(-creature.getSpeed());
             creature.move();
             return null;
         }
         if (startY <= -1) {
-            creature.setyMove(creature.getSpeed());
+            creature.setYMove(creature.getSpeed());
             creature.move();
             return null;
         } else if (startY >= nodes.length) {
-            creature.setyMove(-creature.getSpeed());
+            creature.setYMove(-creature.getSpeed());
             creature.move();
             return null;
         }

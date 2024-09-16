@@ -13,6 +13,7 @@ import dev.ipsych0.myrinnia.states.State;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Map;
 
 public class CaveTroll extends Creature {
 
@@ -26,8 +27,8 @@ public class CaveTroll extends Creature {
     private static boolean cutsceneShown;
     private Rectangle cutsceneTrigger = new Rectangle(77 * 32, 17 * 32, 32, 384);
 
-    public CaveTroll(double x, double y, int width, int height, String name, int level, String dropTable, String jsonFile, String animation, String itemsShop, Direction direction) {
-        super(x, y, width, height, name, level, dropTable, jsonFile, animation, itemsShop, direction);
+    public CaveTroll(double x, double y, int width, int height, Map<String, String> props) {
+        super(x, y, width, height, props);
         isNpc = false;
         attackable = true;
 
@@ -38,7 +39,7 @@ public class CaveTroll extends Creature {
         vitality = 75;
         defence = 60;
 
-        if (level == 9) {
+        if (combatLevel == 9) {
             strength = 20;
             vitality = 55;
             defence = 50;
@@ -144,7 +145,7 @@ public class CaveTroll extends Creature {
     @Override
     public void respawn() {
         if (combatLevel == 9) {
-            Handler.get().getWorld().getEntityManager().addEntity(new CaveTroll(xSpawn, ySpawn, width, height, name, combatLevel, dropTable, jsonFile, animationTag, shopItemsFile, lastFaced));
+            Handler.get().getWorld().getEntityManager().addEntity(new CaveTroll(xSpawn, ySpawn, width, height, props));
         }
     }
 
